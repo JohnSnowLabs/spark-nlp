@@ -4,30 +4,31 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>sparknlp_jsl.annotator.SentenceEntityResolverModel &#8212; Spark NLP 3.3.0 documentation</title>
     
-  <link href="../../static/css/theme.css" rel="stylesheet" />
-  <link href="../../static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
-
+    <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  
     
-  <link rel="stylesheet"
-    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
+    <link rel="stylesheet"
+      href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
     
       
-
+  
     
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
     
-  <link rel="preload" as="script" href="../../static/js/index.1c5a1a01449ed65a7b51.js">
-
+    <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
     <script src="../../static/underscore.js"></script>
@@ -39,7 +40,10 @@
     <link rel="next" title="sparknlp_jsl.annotator.SentenceResolverParams" href="sparknlp_jsl.annotator.SentenceResolverParams.html" />
     <link rel="prev" title="sparknlp_jsl.annotator.SentenceEntityResolverApproach" href="sparknlp_jsl.annotator.SentenceEntityResolverApproach.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
@@ -107,7 +111,8 @@
           
             
             <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+            <div class="col-12 col-md-3 bd-sidebar">
+              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -249,6 +254,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.EntityChunkEmbeddings.html">
+     sparknlp_jsl.annotator.EntityChunkEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.GenericClassifierApproach.html">
      sparknlp_jsl.annotator.GenericClassifierApproach
     </a>
@@ -264,8 +274,18 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.MedicalBertForSequenceClassification.html">
+     sparknlp_jsl.annotator.MedicalBertForSequenceClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.MedicalBertForTokenClassifier.html">
      sparknlp_jsl.annotator.MedicalBertForTokenClassifier
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.MedicalDistilBertForSequenceClassification.html">
+     sparknlp_jsl.annotator.MedicalDistilBertForSequenceClassification
     </a>
    </li>
    <li class="toctree-l2">
@@ -502,6 +522,9 @@
 
   </div>
 </nav>
+              </div>
+              <div class="sidebar-end-items">
+              </div>
             </div>
             
           
@@ -534,11 +557,11 @@
               
               <div>
                 
-  <div class="section" id="sparknlp-jsl-annotator-sentenceentityresolvermodel">
+  <section id="sparknlp-jsl-annotator-sentenceentityresolvermodel">
 <h1>sparknlp_jsl.annotator.SentenceEntityResolverModel<a class="headerlink" href="#sparknlp-jsl-annotator-sentenceentityresolvermodel" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.SentenceEntityResolverModel">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp_jsl.annotator.</span></span><span class="sig-name descname"><span class="pre">SentenceEntityResolverModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#SentenceEntityResolverModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sparknlp_jsl.annotator.</span></span><span class="sig-name descname"><span class="pre">SentenceEntityResolverModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#SentenceEntityResolverModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorModel</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.HasEmbeddingsProperties</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.HasStorageModel</span></code>, <a class="reference internal" href="sparknlp_jsl.annotator.SentenceResolverParams.html#sparknlp_jsl.annotator.SentenceResolverParams" title="sparknlp_jsl.annotator.SentenceResolverParams"><code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.SentenceResolverParams</span></code></a></p>
 <p>Thius class contains all the parameters and methods to train a SentenceEntityResolverModel.
 The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.
@@ -546,10 +569,6 @@ The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, c
 and returns the normalized entity for a particular trained ontology / curated dataset.
 (e.g. ICD-10, RxNorm, SNOMED etc.)</p>
 <table class="table">
-<colgroup>
-<col style="width: 65%" />
-<col style="width: 35%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
 <th class="head"><p>Output Annotation type</p></th>
@@ -562,7 +581,7 @@ and returns the normalized entity for a particular trained ontology / curated da
 </tbody>
 </table>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>returnCosineDistances</strong></dt><dd><p>Extract Cosine Distances. TRUE or False</p>
 </dd>
@@ -618,10 +637,6 @@ and returns the normalized entity for a particular trained ontology / curated da
 </div>
 <p class="rubric">Methods</p>
 <table class="longtable table autosummary">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>([classname, java_model])</p></td>
 <td><p>Initialize this instance with a Java model object.</p></td>
@@ -768,10 +783,6 @@ and returns the normalized entity for a particular trained ontology / curated da
 </table>
 <p class="rubric">Attributes</p>
 <table class="longtable table autosummary">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">aux_label_col</span></code></p></td>
 <td><p></p></td>
@@ -847,17 +858,11 @@ then make a copy of the companion Java pipeline component with
 extra params. So both the Python wrapper and the Java pipeline
 component get copied.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>extra</strong><span class="classifier">dict, optional</span></dt><dd><p>Extra parameters to copy to the new instance</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>extra</strong> – Extra parameters to copy to the new instance</p>
 </dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">JavaParams</span></code></dt><dd><p>Copy of this instance</p>
-</dd>
-</dl>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Copy of this instance</p>
 </dd>
 </dl>
 </dd></dl>
@@ -885,17 +890,11 @@ a flat param map, where the latter value is used if there exist
 conflicts, i.e., with ordering: default param values &lt;
 user-supplied values &lt; extra.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>extra</strong><span class="classifier">dict, optional</span></dt><dd><p>extra param values</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>extra</strong> – extra param values</p>
 </dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt>dict</dt><dd><p>merged param map</p>
-</dd>
-</dl>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>merged param map</p>
 </dd>
 </dl>
 </dd></dl>
@@ -905,7 +904,7 @@ user-supplied values &lt; extra.</p>
 <span class="sig-name descname"><span class="pre">getCaseSensitive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.getCaseSensitive" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets whether to ignore case in tokens for embeddings matching.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt>bool</dt><dd><p>Whether to ignore case in tokens for embeddings matching</p>
 </dd>
@@ -925,7 +924,7 @@ user-supplied values &lt; extra.</p>
 <span class="sig-name descname"><span class="pre">getIncludeStorage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.getIncludeStorage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets whether to include indexed storage in trained model.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt>bool</dt><dd><p>Whether to include indexed storage in trained model</p>
 </dd>
@@ -971,7 +970,7 @@ default value. Raises an error if neither is set.</p>
 <span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.getParamValue" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the value of a parameter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
 </dd>
@@ -985,7 +984,7 @@ default value. Raises an error if neither is set.</p>
 <span class="sig-name descname"><span class="pre">getStorageRef</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.getStorageRef" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets unique reference name for identification.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt>str</dt><dd><p>Unique reference name for identification</p>
 </dd>
@@ -1022,13 +1021,13 @@ a default value.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.SentenceEntityResolverModel.load">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.load" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.SentenceEntityResolverModel.params">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.params" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns all params ordered by name. The default implementation
 uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
 <code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
@@ -1036,7 +1035,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.SentenceEntityResolverModel.read">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.read" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns an MLReader instance for this class.</p>
 </dd></dl>
 
@@ -1051,7 +1050,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <span class="sig-name descname"><span class="pre">saveStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.saveStorage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves the current model to storage.</p>
 <dl class="field-list">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
 <dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Path for saving the model.</p>
 </dd>
@@ -1073,7 +1072,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <span class="sig-name descname"><span class="pre">setAuxLabelCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#SentenceEntityResolverModel.setAuxLabelCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.setAuxLabelCol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets auxiliary label which maps resolved entities to additional labels</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>Auxiliary label which maps resolved entities to additional labels</p>
 </dd>
@@ -1087,7 +1086,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <span class="sig-name descname"><span class="pre">setCaseSensitive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.setCaseSensitive" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets whether to ignore case in tokens for embeddings matching.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to ignore case in tokens for embeddings matching</p>
 </dd>
@@ -1101,7 +1100,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <span class="sig-name descname"><span class="pre">setConfidenceFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.setConfidenceFunction" title="Permalink to this definition">¶</a></dt>
 <dd><p>What function to use to calculate confidence: INVERSE or SOFTMAX.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>s</strong><span class="classifier">str</span></dt><dd><p>What function to use to calculate confidence: INVERSE or SOFTMAX.</p>
 </dd>
@@ -1115,7 +1114,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <span class="sig-name descname"><span class="pre">setDimension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.setDimension" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets embeddings dimension.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Embeddings dimension</p>
 </dd>
@@ -1129,7 +1128,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <span class="sig-name descname"><span class="pre">setDistanceFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dist</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.setDistanceFunction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets distance function to use for WMD: ‘EUCLIDEAN’ or ‘COSINE’.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>dist</strong><span class="classifier">str</span></dt><dd><p>Value that selects what distance function to use for WMD: ‘EUCLIDEAN’ or ‘COSINE’.</p>
 </dd>
@@ -1143,7 +1142,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <span class="sig-name descname"><span class="pre">setIncludeStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.setIncludeStorage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets whether to include indexed storage in trained model.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to include indexed storage in trained model</p>
 </dd>
@@ -1157,7 +1156,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.setInputCols" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets column names of input annotations.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
 </dd>
@@ -1172,7 +1171,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dd><p>Sets whether Annotator should be evaluated lazily in a
 RecursivePipeline.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
 RecursivePipeline</p>
@@ -1187,7 +1186,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setMissAsEmpty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.setMissAsEmpty" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets whether or not to return an empty annotation on unmatched chunks.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>whether or not to return an empty annotation on unmatched chunks.</p>
 </dd>
@@ -1201,7 +1200,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setNeighbours</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.setNeighbours" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets number of neighbours to consider in the KNN query to calculate WMD.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>k</strong><span class="classifier">int</span></dt><dd><p>Number of neighbours to consider in the KNN query to calculate WMD.</p>
 </dd>
@@ -1215,7 +1214,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.setOutputCol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of output column</p>
 </dd>
@@ -1229,7 +1228,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.setParamValue" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the value of a parameter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
 </dd>
@@ -1243,7 +1242,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setSearchTree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#SentenceEntityResolverModel.setSearchTree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.setSearchTree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets auxiliary label which maps resolved entities to additional labels</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>Auxiliary label which maps resolved entities to additional labels</p>
 </dd>
@@ -1257,7 +1256,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setStorageRef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.setStorageRef" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets unique reference name for identification.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Unique reference name for identification</p>
 </dd>
@@ -1271,7 +1270,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setThreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">thres</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.setThreshold" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets Threshold value for the last distance calculated.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>thres</strong><span class="classifier">float</span></dt><dd><p>Threshold value for the last distance calculated.</p>
 </dd>
@@ -1285,7 +1284,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setUseAuxLabel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#SentenceEntityResolverModel.setUseAuxLabel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.setUseAuxLabel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets Use AuxLabel Col or not.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>name</strong><span class="classifier">bool</span></dt><dd><p>Use AuxLabel Col or not.</p>
 </dd>
@@ -1298,25 +1297,20 @@ RecursivePipeline</p>
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.SentenceEntityResolverModel.transform">
 <span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.SentenceEntityResolverModel.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transforms the input dataset with optional parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></p></li>
+<li><p><strong>params</strong> – an optional param map that overrides embedded params.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>transformed dataset</p>
+</dd>
+</dl>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.3.0.</span></p>
 </div>
-<dl class="field-list">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl>
-<dt><strong>dataset</strong><span class="classifier"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></span></dt><dd><p>input dataset</p>
-</dd>
-<dt><strong>params</strong><span class="classifier">dict, optional</span></dt><dd><p>an optional param map that overrides embedded params.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></dt><dd><p>transformed dataset</p>
-</dd>
-</dl>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
@@ -1333,18 +1327,29 @@ RecursivePipeline</p>
 
 </dd></dl>
 
+</section>
+
+
+              </div>
+              
+              
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="sparknlp_jsl.annotator.SentenceEntityResolverApproach.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">sparknlp_jsl.annotator.SentenceEntityResolverApproach</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="sparknlp_jsl.annotator.SentenceResolverParams.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">sparknlp_jsl.annotator.SentenceResolverParams</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
-
-
-              </div>
-              
-              
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="sparknlp_jsl.annotator.SentenceEntityResolverApproach.html" title="previous page">sparknlp_jsl.annotator.SentenceEntityResolverApproach</a>
-    <a class='right-next' id="next-link" href="sparknlp_jsl.annotator.SentenceResolverParams.html" title="next page">sparknlp_jsl.annotator.SentenceResolverParams</a>
-
-              </div>
               
           </main>
           
@@ -1352,20 +1357,19 @@ RecursivePipeline</p>
       </div>
     </div>
   
-  <script src="../../static/js/index.1c5a1a01449ed65a7b51.js"></script>
-
+    <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
   <footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, John Snow Labs.<br/>
+    &copy; Copyright 2021, John Snow Labs.<br>
 </p>
     </div>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
 </p>
     </div>
     
