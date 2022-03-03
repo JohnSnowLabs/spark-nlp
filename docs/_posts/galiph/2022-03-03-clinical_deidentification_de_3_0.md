@@ -20,8 +20,8 @@ use_language_switcher: "Python-Scala-Java"
 This pipeline can be used to deidentify PHI information from **German** medical texts. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask and obfuscate `PATIENT`, `HOSPITAL`, `DATE`, `ORGANIZATION`, `CITY`, `STREET`, `USERNAME`, `PROFESSION`, `PHONE`, `COUNTRY`, `DOCTOR`, `AGE`, `CONTACT`, `ID`, `PHONE`, `ZIP`, `ACCOUNT`, `SSN`, `DLN`, `PLATE` entities.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_DE/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/clinical_deidentification_de_3.4.1_3.0_1646330183939.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -147,18 +147,6 @@ Adresse : Klingelhöferring 31206
 - MedicalNerModel
 - NerConverter
 - ContextualParserModel
-- ContextualParserModel
-- ContextualParserModel
-- ContextualParserModel
-- ContextualParserModel
-- ContextualParserModel
-- ContextualParserModel
-- ContextualParserModel
-- ContextualParserModel
 - ChunkMergeModel
-- ChunkMergeModel
-- DeIdentificationModel
-- DeIdentificationModel
-- DeIdentificationModel
 - DeIdentificationModel
 - Finisher
