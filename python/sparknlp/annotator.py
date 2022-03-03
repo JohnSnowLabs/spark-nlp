@@ -15194,7 +15194,7 @@ class BertForSequenceClassification(AnnotatorModel,
         return ResourceDownloader.downloadModel(BertForSequenceClassification, name, lang, remote_loc)
 
 
-class Doc2VecApproach(AnnotatorApproach, HasStorageRef):
+class Doc2VecApproach(AnnotatorApproach, HasStorageRef, HasEnableCachingProperties):
     """Trains a Word2Vec model that creates vector representations of words in a
     text corpus.
 
@@ -16999,7 +16999,7 @@ class GPT2Transformer(AnnotatorModel, HasBatchedAnnotate):
         return ResourceDownloader.downloadModel(GPT2Transformer, name, lang, remote_loc)
 
 
-class Word2VecApproach(AnnotatorApproach, HasStorageRef):
+class Word2VecApproach(AnnotatorApproach, HasStorageRef, HasEnableCachingProperties):
     """Trains a Word2Vec model that creates vector representations of words in a
     text corpus.
 
