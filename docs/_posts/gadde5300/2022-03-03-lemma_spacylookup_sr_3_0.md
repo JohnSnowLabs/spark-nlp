@@ -63,7 +63,7 @@ val lemmatizer = LemmatizerModel.pretrained("lemma_spacylookup","a")
     .setOutputCol("lemma")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, lemmatizer))
-val data = Seq("i am f").toDF("text")
+val data = Seq("No ets millor que jo).toDF("text")
 val results = pipeline.fit(data).transform(data)
 ```
 </div>
