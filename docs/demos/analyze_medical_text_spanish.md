@@ -74,4 +74,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_SNOMED_ES.ipynb
+        - title: Deidentify Spanish texts
+          id: deidentify_spanish_texts   
+          image: 
+              src: /assets/images/Detect_Tumor_Characteristics_in_Spanish_medical_texts.svg
+          image2: 
+              src: /assets/images/Detect_Tumor_Characteristics_in_Spanish_medical_texts_f.svg
+          excerpt: This demo shows how to deidentify protected health information in Spanish medical texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_ES/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.2.Clinical_Deidentification_in_Spanish.ipynb
 ---
