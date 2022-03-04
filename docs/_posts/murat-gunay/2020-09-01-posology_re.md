@@ -16,7 +16,7 @@ use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
-This model extracts relations between posology-related terminologies.
+This model extracts relations between posology-related terminology.
 
 ## Predicted Entities
 `DRUG-DOSAGE`, `DRUG-FREQUENCY`, `DRUG-ADE`, `DRUG-FORM`, `ENDED_BY`, `DRUG-ROUTE`, `DRUG-DURATION`, `DRUG-REASON`, `DRUG-STRENGTH`
