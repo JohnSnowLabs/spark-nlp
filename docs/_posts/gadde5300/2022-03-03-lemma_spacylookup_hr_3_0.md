@@ -50,11 +50,11 @@ example = spark.createDataFrame([["Nisi bolji od mene"]], ["text"])
 results = pipeline.fit(example).transform(example)
 ```
 ```scala
-val documentAssembler = DocumentAssembler() 
+val documentAssembler = new DocumentAssembler() 
             .setInputCol("text") 
             .setOutputCol("document")
 
-val tokenizer = Tokenizer() 
+val tokenizer = new Tokenizer() 
     .setInputCols(Array("sentence")) 
     .setOutputCol("token")
 
