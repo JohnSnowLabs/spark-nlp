@@ -499,5 +499,5 @@ class _XlnetSequenceClassifierLoader(ExtendedJavaWrapper):
 class _DeBERTaLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_DeBERTaLoader, self).__init__(
-            "com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings.loadSavedModel", path,
+            "com.johnsnowlabs.nlp.embeddings.DeBertaEmbeddings.loadSavedModel", path,
             jspark)
