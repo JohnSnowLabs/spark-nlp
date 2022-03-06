@@ -50,12 +50,12 @@ example = spark.createDataFrame([["Du är inte bättre än jag"]], ["text"])
 results = pipeline.fit(example).transform(example)
 ```
 ```scala
-val documentAssembler = DocumentAssembler() 
+val documentAssembler = new DocumentAssembler() 
             .setInputCol("text") 
             .setOutputCol("document")
 
-val tokenizer = Tokenizer() 
-    .setInputCols(Array("sentence")) 
+val tokenizer = new Tokenizer() 
+    .setInputCols(Array("document")) 
     .setOutputCol("token")
 
 val lemmatizer = LemmatizerModel.pretrained("lemma_spacylookup","sv") 
