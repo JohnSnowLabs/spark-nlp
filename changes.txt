@@ -1,2 +1,2 @@
-docs/en/ocr_release_notes.md
-docs/en/ocr_release_notes.md
+docs/_posts/luca-martial/2022-02-03-w2v_cc_300d_fr.md
+docs/_posts/luca-martial/2022-02-03-w2v_cc_300d_fr.md
