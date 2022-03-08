@@ -5,7 +5,7 @@ author: John Snow Labs
 name: stopwords_iso
 date: 2022-03-07
 tags: [stopwords, af, open_source]
-task: Lemmatization
+task: Stop Words Removal
 language: af
 edition: Spark NLP 3.4.1
 spark_version: 3.0
@@ -17,12 +17,12 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This is an scalable, production-ready Stopwords Remover model trained using the corpus available [stopwords-iso](https://github.com/stopwords-iso/).
+This is a scalable, production-ready Stopwords Remover model trained using the corpus available at [stopwords-iso](https://github.com/stopwords-iso/).
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/stopwords_iso_af_3.4.1_3.0_1646665593071.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/stopwords_iso_af_3.4.1_3.0_1646672335208.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
