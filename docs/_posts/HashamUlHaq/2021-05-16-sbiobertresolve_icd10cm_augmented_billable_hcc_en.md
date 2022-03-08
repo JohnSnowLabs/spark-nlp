@@ -27,7 +27,7 @@ Outputs 7-digit billable ICD codes. In the result, look for `aux_label` paramete
 {:.btn-box}
 [Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_icd10cm_augmented_billable_hcc_en_3.0.4_3.0_1621189647111.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_icd10cm_augmented_billable_hcc_en_3.0.4_2.4_1621189647111.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -39,7 +39,7 @@ Outputs 7-digit billable ICD codes. In the result, look for `aux_label` paramete
 document_assembler = DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
-  
+
 sbert_embedder = BertSentenceEmbeddings\
      .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
      .setInputCols(["document"])\
@@ -50,7 +50,7 @@ icd10_resolver = SentenceEntityResolverModel\
      .setInputCols(["document", "sbert_embeddings"]) \
      .setOutputCol("icd10cm_code")\
      .setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
-     
+
 bert_pipeline_icd = Pipeline(stages = [document_assembler, sbert_embedder, icd10_resolver])
 
 data = spark.createDataFrame([["metastatic lung cancer"]]).toDF("text")
@@ -68,8 +68,8 @@ val sbert_embedder = BertSentenceEmbeddings
      .setOutputCol("sbert_embeddings")
 
 val icd10_resolver = SentenceEntityResolverModel
-     .pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") 
-     .setInputCols(Array("document", "sbert_embeddings")) 
+     .pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models")
+     .setInputCols(Array("document", "sbert_embeddings"))
      .setOutputCol("icd10cm_code")
      .setDistanceFunction("EUCLIDEAN")
      .setReturnCosineDistances(True)
