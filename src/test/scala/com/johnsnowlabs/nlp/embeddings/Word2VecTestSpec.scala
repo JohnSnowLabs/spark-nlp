@@ -68,6 +68,7 @@ class Word2VecTestSpec extends AnyFlatSpec {
       .setOutputCol("embeddings")
       .setMaxSentenceLength(512)
       .setStorageRef("my_awesome_word2vec")
+      .setEnableCaching(true)
 
     val pipeline = new Pipeline().setStages(Array(
       document,

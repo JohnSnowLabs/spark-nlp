@@ -68,6 +68,7 @@ class Doc2VecTestSpec extends AnyFlatSpec {
       .setOutputCol("sentence_embeddings")
       .setMaxSentenceLength(512)
       .setStorageRef("my_awesome_doc2vec")
+      .setEnableCaching(true)
 
     val pipeline = new Pipeline().setStages(Array(
       document,
