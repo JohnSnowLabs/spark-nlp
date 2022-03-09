@@ -43,7 +43,7 @@ lemmatizer = LemmatizerModel.pretrained("lemma_spacylookup","de") \
     .setInputCols(["token"]) \
     .setOutputCol("lemma")
 
-pipeline = Pipeline(stages=[document_assembler, tokenizer, lemmatizer]) 
+pipeline = Pipeline(stages=[documentAssembler, tokenizer, lemmatizer]) 
 
 example = spark.createDataFrame([["Du bist nicht besser als ich"]], ["text"]) 
 

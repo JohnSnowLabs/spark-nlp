@@ -43,7 +43,7 @@ stop_words = StopWordsCleaner.pretrained("stopwords_iso","ta") \
     .setInputCols(["token"]) \
     .setOutputCol("cleanTokens")
 
-pipeline = Pipeline(stages=[document_assembler, tokenizer, stop_words]) 
+pipeline = Pipeline(stages=[documentAssembler, tokenizer, stop_words]) 
 
 example = spark.createDataFrame([["நீங்கள் என்னை விட நன்றாக இல்லை"]], ["text"]) 
 
