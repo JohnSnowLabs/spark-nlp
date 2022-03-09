@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,17 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorType.NODE
-import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations}
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.nlp.annotator.SentenceDetector
+import com.johnsnowlabs.nlp.annotators.ner.NerConverter
+import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
+import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
+import com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
+import com.johnsnowlabs.nlp.base.LightPipeline
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
+import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations, GraphFinisher}
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.collection.mutable
@@ -319,7 +328,7 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
     AssertAnnotations.assertFields(expectedGraph, actualGraph)
   }
 
-  it should "output paths when Typed Dependency Parser cannot label relations" ignore {
+  it should "output paths when Typed Dependency Parser cannot label relations" taggedAs SlowTest in {
     //Ignored because it requires to download pretrained models which takes a considerable time
     val testDataSet = getEntitiesWithNoTypeParserOutput(spark, tokenizerWithSentencePipeline)
     val graphExtractor = new GraphExtraction()
@@ -342,6 +351,73 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
 
     val actualGraph = AssertAnnotations.getActualResult(graphDataSet, "graph")
     AssertAnnotations.assertFields(expectedGraph, actualGraph)
+  }
+
+  "Graph Extraction with LightPipeline" should "return dependency graphs between all entities" taggedAs SlowTest in {
+    val sentence = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols("sentence")
+      .setOutputCol("token")
+
+    val embeddings = WordEmbeddingsModel.pretrained()
+      .setInputCols("sentence", "token")
+      .setOutputCol("embeddings")
+
+    val nerSmall = NerDLModel.pretrained()
+      .setInputCols(Array("sentence", "token", "embeddings"))
+      .setOutputCol("ner")
+
+    val nerConverter = new NerConverter()
+      .setInputCols("document", "token", "ner")
+      .setOutputCol("entities")
+
+    val pos = PerceptronModel.pretrained()
+      .setInputCols("document", "token")
+      .setOutputCol("pos")
+
+    val dependencyParser = DependencyParserModel.pretrained()
+      .setInputCols("sentence", "pos", "token")
+      .setOutputCol("dependency")
+
+    val typedDependencyParser = TypedDependencyParserModel.pretrained()
+      .setInputCols("dependency", "pos", "token")
+      .setOutputCol("dependency_type")
+
+    val graphExtractor = new GraphExtraction()
+      .setInputCols("document", "token", "ner")
+      .setOutputCol("graph")
+      .setRelationshipTypes(Array("lad-PER", "lad-LOC"))
+
+    val graphFinisher = new GraphFinisher()
+      .setInputCol("graph")
+      .setOutputCol("graph_finished")
+      .setOutputAsArray(false)
+
+    val graphPipeline = new Pipeline().setStages(Array(
+      documentAssembler,
+      sentence,
+      tokenizer,
+      embeddings,
+      nerSmall,
+      nerConverter,
+      pos,
+      dependencyParser,
+      typedDependencyParser,
+      graphExtractor,
+      graphFinisher
+    ))
+
+    val expectedResult = Seq(Annotation(NODE, 0, 0, "[(lad,flat,York),(York,flat,New)],[(lad,flat,York)]", Map()))
+
+    val graphPipelineModel = graphPipeline.fit(emptyDataSet)
+    val lightPipeline = new LightPipeline(graphPipelineModel)
+    val result = lightPipeline.fullAnnotate("Peter Parker is a nice lad and lives in New York")
+
+    assert(result("graph_finished") == expectedResult)
+
   }
 
 }

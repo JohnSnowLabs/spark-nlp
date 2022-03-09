@@ -252,6 +252,10 @@ instance/
 docs/_build/
 docs/vendor/
 
+# Frontend
+docs/_frontend/node_modules
+docs/_frontend/static
+
 # PyBuilder
 target/
 

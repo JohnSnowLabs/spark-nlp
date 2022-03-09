@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -121,7 +121,7 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
         val sequenceLengthTensor = tensors.createTensor(sequenceLengthArrays)
         val lrTensor = tensors.createTensor(learningRate.toFloat)
 
-        val calculated = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
+        val calculated = tensorflow.getTFSession(configProtoBytes = configProtoBytes).runner
           .feed(inputKey, inputTensor)
           .feed(labelKey, labelTensor)
           .feed(sequenceLengthKey, sequenceLengthTensor)
@@ -170,7 +170,7 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
     val inputsReshaped = reshapeInputFeatures(inputs)
 
     val calculated = tensorflow
-      .getSession(configProtoBytes = configProtoBytes)
+      .getTFSession(configProtoBytes = configProtoBytes)
       .runner
       .feed(inputKey, tensors.createTensor(inputsReshaped))
       .feed(sequenceLengthKey, tensors.createTensor(sequenceLengthArrays))
@@ -207,7 +207,7 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
     val inputsReshaped = reshapeInputFeatures(inputs)
 
     val calculated = tensorflow
-      .getSession(configProtoBytes = configProtoBytes)
+      .getTFSession(configProtoBytes = configProtoBytes)
       .runner
       .feed(inputKey, tensors.createTensor(inputsReshaped))
       .feed(labelKey, tensors.createTensor(labels))

@@ -9,6 +9,7 @@ supported: true
 task: Summarization
 language: en
 edition: Spark NLP 2.7.4
+spark_version: 2.4
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

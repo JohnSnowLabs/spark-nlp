@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.util.io.ReadAs
 import com.johnsnowlabs.tags.FastTest
-import org.apache.spark.ml.PipelineModel
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -98,7 +98,7 @@ class BigTextMatcherTestSpec extends AnyFlatSpec with BigTextMatcherBehaviors {
       .setAnnotationSplitSymbol("@")
       .setValueSplitSymbol("#")
 
-    val recursivePipeline = new RecursivePipeline()
+    val recursivePipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentenceDetector,

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
-
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -29,13 +28,30 @@ import org.scalatest.flatspec.AnyFlatSpec
 class MarianTransformerTestSpec extends AnyFlatSpec {
 
   "MarianTransformer" should "ignore bad token ids" taggedAs SlowTest in {
-    import ResourceHelper.spark.implicits._
 
-    val smallCorpus = Seq(
-      "Това е български език.",
-      "Y esto al español.",
-      "Isto deve ir para o português."
-    ).toDF("text")
+    val smallCorpus = ResourceHelper.spark.createDataFrame(Seq(
+      (1, "Le principal facteur de réchauffement est l'émission de gaz à effet de serre, dont plus de 90 % sont le dioxyde de " +
+        "carbone (CO2) et le méthane. La combustion de combustibles fossiles comme le charbon, le pétrole et le gaz naturel pour " +
+        "la consommation d'énergie est la principale source de ces émissions, avec des contributions supplémentaires de l'agriculture, " +
+        "de la déforestation et de la production industrielle. La cause humaine du changement climatique n'est contestée par aucun organisme " +
+        "scientifique de renommée nationale ou internationale. L'augmentation de la température est accélérée ou tempérée par les rétroactions " +
+        "climatiques, telles que la perte de couverture de neige et de glace réfléchissant la lumière du soleil, l'augmentation de la vapeur " +
+        "d'eau (un gaz à effet de serre lui-même) et les modifications des puits de carbone terrestres et océaniques."),
+      (1, "Donald John Trump (pronunciación en inglés: /ˈdɒnəld d͡ʒɒn trʌmp/ ( escuchar); Nueva York, 14 de junio de 1946) " +
+        "es un empresario, director ejecutivo, inversor en bienes inmuebles, personalidad televisiva y político estadounidense " +
+        "que ejerció como el 45.º presidente de los Estados Unidos de América desde el 20 de enero de 2017 hasta el 20 de enero de 2021.2 " +
+        "Nacido y criado en un barrio del distrito neoyorquino de Queens llamado «Jamaica», Trump obtuvo el título de bachiller en economía en " +
+        "la Wharton School de la Universidad de Pensilvania en 1968. En 1971, se hizo cargo de la empresa familiar de bienes inmuebles y construcción " +
+        "Elizabeth Trump & Son, que más tarde sería renombrada como Trump Organization. Durante su carrera empresarial, Trump construyó, renovó y " +
+        "gestionó numerosas torres de oficinas, hoteles, casinos y campos de golf. Fue accionista principal de los concursos de belleza Miss USA y " +
+        "Miss Universo desde 1996 hasta 2015, y prestó el uso de su nombre en la marca de varios productos. De 2004 a 2015, participó en The Apprentice, " +
+        "un reality show de la NBC. En 2016, la revista Forbes lo enumeró como la 324.ª persona más rica del mundo (la 113.ª de los Estados Unidos), con un " +
+        "valor neto de 4500 millones de dólares. Según las estimaciones de Forbes en febrero de 2018, Trump se encuentra entre las personas más ricas" +
+        " del mundo en el puesto 766, con un valor neto de 3100 millones de dólares."),
+      (2, "Това е български език."),
+      (3, "Y esto al español."),
+      (4, "Isto deve ir para o português.")
+    )).toDF("id", "text").repartition(1)
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -48,8 +64,9 @@ class MarianTransformerTestSpec extends AnyFlatSpec {
     val marian = MarianTransformer.pretrained("opus_mt_mul_en", "xx")
       .setInputCols("sentence")
       .setOutputCol("translation")
+      .setBatchSize(1)
       .setMaxInputLength(50)
-    //      .setIgnoreTokenIds(Array(64171))
+      .setIgnoreTokenIds(Array(64171))
 
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -59,6 +76,15 @@ class MarianTransformerTestSpec extends AnyFlatSpec {
       ))
 
     val pipelineModel = pipeline.fit(smallCorpus)
+    val results = pipelineModel.transform(smallCorpus)
+
+    Benchmark.time("Time to save pipeline the first time") {
+      results.select("translation.result").write.mode("overwrite").save("./tmp_t5_pipeline")
+    }
+
+    Benchmark.time("Time to save pipeline the second time") {
+      results.select("translation.result").write.mode("overwrite").save("./tmp_t5_pipeline")
+    }
 
     Benchmark.time("Time to show") {
       val results = pipelineModel
@@ -69,7 +95,6 @@ class MarianTransformerTestSpec extends AnyFlatSpec {
       assert(results.count() > 0, "Should return non-empty translations")
       results.show(truncate = false)
     }
-
   }
 
   "MarianTransformer" should "correctly load pretrained model" taggedAs SlowTest in {

@@ -1,4 +1,4 @@
-#  Copyright 2017-2021 John Snow Labs
+#  Copyright 2017-2022 John Snow Labs
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ from test.pretrained import *
 unittest.TextTestRunner().run(BasicAnnotatorsTestSpec())
 unittest.TextTestRunner().run(RegexMatcherTestSpec())
 unittest.TextTestRunner().run(TokenizerTestSpec())
+unittest.TextTestRunner().run(TokenizerWithExceptionsTestSpec())
 unittest.TextTestRunner().run(NormalizerTestSpec())
 unittest.TextTestRunner().run(ChunkTokenizerTestSpec())
 unittest.TextTestRunner().run(LemmatizerTestSpec())
@@ -29,6 +30,7 @@ unittest.TextTestRunner().run(LemmatizerWithTrainingDataSetTestSpec())
 unittest.TextTestRunner().run(DateMatcherTestSpec())
 unittest.TextTestRunner().run(TextMatcherTestSpec())
 unittest.TextTestRunner().run(DocumentNormalizerSpec())
+unittest.TextTestRunner().run(RegexTokenizerTestSpec())
 
 unittest.TextTestRunner().run(PerceptronApproachTestSpec())
 unittest.TextTestRunner().run(ChunkerTestSpec())
@@ -60,6 +62,8 @@ unittest.TextTestRunner().run(LanguageDetectorDLTestSpec())
 unittest.TextTestRunner().run(GraphExtractionTestSpec())
 unittest.TextTestRunner().run(EntityRulerTestSpec())
 unittest.TextTestRunner().run(Doc2VecTestSpec())
+unittest.TextTestRunner().run(AlbertForTokenClassificationTestSpec())
+unittest.TextTestRunner().run(Word2VecTestSpec())
 
 # Should be locally tested
 # print("Running ElmoEmbeddingsTestSpec")
@@ -96,13 +100,15 @@ unittest.TextTestRunner().run(Doc2VecTestSpec())
 # unittest.TextTestRunner().run(RoBertaSentenceEmbeddingsTestSpec())
 # unittest.TextTestRunner().run(RoBertaForTokenClassificationTestSpec())
 # unittest.TextTestRunner().run(XlmRoBertaForTokenClassificationTestSpec())
-# unittest.TextTestRunner().run(AlbertForTokenClassificationTestSpec())
 # unittest.TextTestRunner().run(XlnetForTokenClassificationTestSpec())
 # unittest.TextTestRunner().run(LongformerForTokenClassificationTestSpec())
 # unittest.TextTestRunner().run(DistilBertForSequenceClassificationTestSpec())
+# unittest.TextTestRunner().run(RoBertaForSequenceClassificationTestSpec())
+# unittest.TextTestRunner().run(XlmRoBertaForSequenceClassificationTestSpec())
+# unittest.TextTestRunner().run(GetClassesTestSpec())
+# unittest.TextTestRunner().run(GPT2TransformerTextGenerationTestSpec())
 
 # Misc tests
-
 unittest.TextTestRunner().run(UtilitiesTestSpec())
 unittest.TextTestRunner().run(SerializersTestSpec())
 unittest.TextTestRunner().run(ResourceDownloaderShowTestSpec())

@@ -9,6 +9,7 @@ repository: clinical/models
 date: 2020-09-24
 task: Relation Extraction
 edition: Spark NLP for Healthcare 2.5.5
+spark_version: 2.4
 tags: [clinical,licensed,relation extraction,en]
 supported: true
 article_header:
@@ -119,9 +120,6 @@ The model has been validated against the posology dataset described in "Magge, S
         TrAP       0.81    0.92      0.86
         TrCP       0.56    0.55      0.55
         TeCP       0.57    0.49      0.53
-        TrWP       0.29    0.02      0.03
-       TrNAP       0.47    0.31      0.37
-        TrIP       0.46    0.28      0.35
 
     accuracy                         0.88
    macro avg       0.65    0.59      0.60

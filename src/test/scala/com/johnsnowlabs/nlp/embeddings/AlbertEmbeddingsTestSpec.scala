@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,10 +47,7 @@ class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
-    val embeddings = AlbertEmbeddings.
-      loadSavedModel(
-        "/Users/maziyar/Downloads/albert-base-v2",
-        ResourceHelper.spark)
+    val embeddings = AlbertEmbeddings.pretrained()
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
 

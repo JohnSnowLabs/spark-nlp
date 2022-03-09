@@ -7,6 +7,7 @@ date: 2021-01-03
 task: [Translation, Pipeline Public]
 language: xx
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [open_source, seq2seq, translation, pipeline, gv, en, xx]
 supported: true
 article_header:

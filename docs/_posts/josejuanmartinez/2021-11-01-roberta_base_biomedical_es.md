@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Biomedical pretrained language model for Spanish, imported from Hugging Face (https://huggingface.co/PlanTL-GOB-ES/roberta-base-biomedical-es) to be used in SparkNLP using RobertaEmbeddings() transfformer class.
+Biomedical pretrained language model for Spanish with a `768 embeddings dimension`, imported from Hugging Face (https://huggingface.co/PlanTL-GOB-ES/roberta-base-biomedical-es) to be used in SparkNLP using RobertaEmbeddings() transfformer class.
 
 This model is a RoBERTa-based model trained on a biomedical corpus in Spanish collected from several sources (see dataset section). The training corpus has been tokenized using a byte version of Byte-Pair Encoding (BPE) used in the original RoBERTA model with a vocabulary size of 52,000 tokens. The pretraining consists of a masked language model training at the subword level following the approach employed for the RoBERTa base model with the same hyperparameters as in the original work. The training lasted a total of 48 hours with 16 NVIDIA V100 GPUs of 16GB DDRAM, using Adam optimizer with a peak learning rate of 0.0005 and an effective batch size of 2,048 sentences.
 
@@ -57,11 +57,11 @@ pipeline = Pipeline(stages = [
     roberta_embeddings])
 ```
 ```scala
-val documentAssembler = DocumentAssembler()
+val documentAssembler = new DocumentAssembler()
     .setInputCol("term")
     .setOutputCol("document")
 
-val tokenizer = Tokenizer()
+val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -217,7 +217,9 @@ class NerDLSpec extends AnyFlatSpec {
       .setRandomSeed(0)
       .setVerbose(0)
       .setEvaluationLogExtended(true)
+      .setEnableOutputLogs(true)
       .setGraphFolder("src/test/resources/graph/")
+      .setUseBestModel(true)
       .fit(trainData)
 
     ner.write.overwrite() save ("./tmp_ner_dl_tf115")
@@ -271,13 +273,14 @@ class NerDLSpec extends AnyFlatSpec {
       .setMaxEpochs(5)
       .setRandomSeed(0)
       .setVerbose(0)
-      .setBatchSize(32)
+      .setBatchSize(8)
       .setEvaluationLogExtended(true)
-//      .setGraphFolder("src/test/resources/graph/")
+      .setGraphFolder("src/test/resources/graph/")
       .setTestDataset("./tmp_test_coll")
+      .setUseBestModel(true)
+      .fit(trainDF)
 
-    nerModel.fit(trainDF)
-
+    nerModel.write.overwrite() save ("./tmp_ner_dl_glove_conll03_100d")
   }
 
   "NerDLModel" should "benchmark test" taggedAs SlowTest in {

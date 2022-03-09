@@ -102,4 +102,60 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url : https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_FewNERD.ipynb
+        - title: Detect Entities in tweets 
+          id: detect_entities_tweets  
+          image: 
+              src: /assets/images/Detect_Entities_in_tweets.svg
+          image2: 
+              src: /assets/images/Detect_Entities_in_tweets_f.svg
+          excerpt: This demo shows how to extract Named Entities, as PER, ORG or LOC, from tweets.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_BTC/ 
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_BTC.ipynb
+        - title: Recognize Restaurant Terminology 
+          id: recognize_restaurant_terminology  
+          image: 
+              src: /assets/images/Recognize_restaurant_terminology.svg
+          image2: 
+              src: /assets/images/Recognize_restaurant_terminology_f.svg
+          excerpt: This demo shows how to extract restaurant-related terminology from texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_RESTAURANT/ 
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_RESTAURANT.ipynb
+        - title: Recognize Time-related Terminology  
+          id: recognize_time-related_terminology 
+          image: 
+              src: /assets/images/Recognize_time-related_terminology.svg
+          image2: 
+              src: /assets/images/Recognize_time-related_terminology_f.svg
+          excerpt: This demo shows how to extract time-related terminology from texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_TIMEX_SEMEVAL/ 
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title: Recognize Ticker Alias in Financial texts
+          id: recognize_ticker_alias_in_financial_texts 
+          image: 
+              src: /assets/images/Recognize_ticker_alias_in_financial_texts.svg
+          image2: 
+              src: /assets/images/Recognize_ticker_alias_in_financial_texts_f.svg
+          excerpt: This demo shows how to extract ticker alias from financial texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_TICKER/ 
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
 ---

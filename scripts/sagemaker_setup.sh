@@ -7,7 +7,7 @@ JAVA_8=$(alternatives --display java | grep 'jre-1.8.0-openjdk.x86_64/bin/java' 
 sudo alternatives --set java $JAVA_8
 
 # Default values for pyspark, spark-nlp, and SPARK_HOME
-SPARKNLP="3.3.4"
+SPARKNLP="3.4.1"
 PYSPARK="3.1.2"
 
 SPARK_FOLDER_NAME="spark-$PYSPARK-bin-hadoop2.7"

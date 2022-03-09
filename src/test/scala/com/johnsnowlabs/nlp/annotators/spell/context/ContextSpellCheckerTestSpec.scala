@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,12 +21,13 @@ import com.johnsnowlabs.nlp.annotator.RecursiveTokenizer
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{PrefixedToken, SuffixedToken}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
 import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, LightPipeline, SparkAccessor}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
-
 import org.apache.commons.io.FileUtils
 import org.apache.spark.ml.Pipeline
+import org.junit.Assert.assertEquals
 import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io._
@@ -83,6 +84,32 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
     assert(results(0) < results(1))
 
   }
+  "ContextSpellchker" should "return correct order" taggedAs SlowTest in new distFile {
+    val data = Seq("It was a cold. The country was white withh snow .").toDF("text")
+    val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
+    val sentenceDetector = new SentenceDetector().setInputCols("document").setOutputCol("sentences")
+    val tokenizer = new Tokenizer().setInputCols("sentences").setOutputCol("tokens")
+    val spell_checker = ContextSpellCheckerModel.pretrained().setInputCols("tokens").setOutputCol("corrected_tokens")
+    val pipeline = new Pipeline().setStages(Array(documentAssembler,sentenceDetector,tokenizer,spell_checker)).fit(data)
+
+
+    val output_df = pipeline.transform(data)
+
+    val annotation = Annotation.collect(output_df,"corrected_tokens").flatten
+    assertEquals("It",annotation.head.result)
+    assertEquals("was",annotation(1).result)
+    assertEquals("a",annotation(2).result)
+    assertEquals("cold",annotation(3).result)
+    assertEquals(".",annotation(4).result)
+    assertEquals("The",annotation(5).result)
+    assertEquals("country",annotation(6).result)
+    assertEquals("was",annotation(7).result)
+    assertEquals("white",annotation(8).result)
+    assertEquals("with",annotation(9).result)
+    assertEquals("snow",annotation(10).result)
+
+  }
+
   // This test fails in GitHub Actions
   "Special classes" should "serialize/deserialize properly during model save" taggedAs SlowTest in {
     import SparkAccessor.spark
@@ -213,7 +240,6 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
     assert(classes.size == 23, "")
 
   }
-
 
   "a Spell Checker" should "work in a pipeline with Tokenizer" taggedAs SlowTest in {
     val data = Seq("It was a cold , dreary day and the country was white with smow .",

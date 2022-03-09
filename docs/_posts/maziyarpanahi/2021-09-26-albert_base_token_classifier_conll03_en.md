@@ -25,6 +25,7 @@ We used [TFAlbertForTokenClassification](https://huggingface.co/transformers/mod
 
 ## Predicted Entities
 
+`LOC`, `ORG`, `PER`, `MISC`
 
 
 {:.btn-box}

@@ -91,7 +91,7 @@ transformer = PdfToText() \
   .setInputCol("content") \
   .setOutputCol("text") \
   .setPageNumCol("pagenum") \
-  .setSplitPage(true)
+  .setSplitPage(True)
 
 data = transformer.transform(df)
 
@@ -194,7 +194,7 @@ pdfToImage = PdfToImage() \
  .setInputCol("content") \
  .setOutputCol("text") \
  .setPageNumCol("pagenum") \
- .setSplitPage(true)
+ .setSplitPage(True)
 
 data =  pdfToImage.transform(df)
 
@@ -1976,23 +1976,36 @@ data.storeImage("corrected_image")
 ```
 
 ```python
+from pyspark.ml import PipelineModel
 from sparkocr.transformers import *
+from sparkocr.utils import display_images
 
-val imagePath = "path to image"
+imagePath = "path to image"
 
-// Read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
+# Read image file as binary file
+df = spark.read \
+    .format("binaryFile") \
+    .load(imagePath) 
 
-val transformer = new ImageSkewCorrector()
-  .setInputCol("image")
-  .setOutputCol("corrected_image")
-  .setAutomaticSkewCorrection(true)
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
 
-val data = transformer.transform(df)
-data.show()
+skew_corrector = ImageSkewCorrector() \
+    .setInputCol("image") \
+    .setOutputCol("corrected_image") \
+    .setAutomaticSkewCorrection(True)
+
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    skew_corrector
+])
+
+data = pipeline.transform(df)
+
+display_images(data, "corrected_image")
 ```
 
 </div>
@@ -2509,6 +2522,7 @@ data.show()
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | explodeCols | Array[string] | |Columns which need to explode |
+| rotated | boolean | False | Support rotated regions |
 
 #### Output Columns
 
@@ -2741,6 +2755,7 @@ result = pipeline.transform(df)
 | --- | --- | --- | --- |
 | lineWidth | Int | 4 | Line width for draw rectangles |
 | fontSize | Int | 12 | Font size for render labels and score |
+| rotated | boolean | False | Support rotated regions |
 
 #### Output Columns
 
@@ -2864,6 +2879,8 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 | modelType | [ModelType](ocr_structures#modeltype) | ModelType.BASE | Model type|
 | downloadModelData | bool | false | Download model data from JSL S3 |
 | withSpaces | bool | false | Include spaces to output positions.|
+| keepLayout | bool | false | Keep layout of text at result.|
+| outputSpaceCharacterWidth | int | 8 | Output space character width in pts for layout keeper.|
 
 #### Output Columns
 
@@ -2946,6 +2963,117 @@ industries. They create ideas and use them in their designs, they stimu-
 late ideas in other designers, and they borrow and adapt ideas from
 others. One could almost say they feed on and grow on ideas.
 ```
+
+### ImageToTextV2
+
+`ImageToTextV2` is based on the transformers architecture, and combines CV and NLP
+ in one model. It is a visual encoder-decoder model. The Encoder is based on ViT, 
+ and the decoder on RoBERTa model.
+
+`ImageToTextV2` can work on CPU, but GPU is preferred in order to achieve acceptable performance.
+
+`ImageToTextV2` can receive regions representing single line texts, or regions coming from a text detection model.
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCols | Array[string] | [image] | Can use as input image struct ([Image schema](ocr_structures#image-schema))  and regions. |
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| lineTolerance | integer | 15 | Line tolerance in pixels. It's used for grouping text regions by lines. |
+| borderWidth | integer | 5 | A value of more than 0 enables to border text regions with width equal to the value of the parameter. |
+| spaceWidth | integer | 10 | A value of more than 0 enables to add white spaces between words on the image. |
+
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | text | Recognized text |
+
+**Example:**
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+not implemented
+```
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+text_detector = ImageTextDetectorV2 \
+    .pretrained("image_text_detector_v2", "en", "clinical/ocr") \
+    .setInputCol("image") \
+    .setOutputCol("text_regions") \
+    .setWithRefiner(True) \
+    .setSizeThreshold(20)
+
+ocr = ImageToTextV2.pretrained("ocr_base_printed", "en", "clinical/ocr") \
+    .setInputCols(["image", "text_regions"]) \
+    .setOutputCol("text")
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    text_detector,
+    ocr
+])
+
+data = pipeline.transform(df)
+data.show()
+```
+
+</div>
+
+
+**Image:**
+
+![image](/assets/images/ocr/text_detection1.png)
+
+**Output:**
+
+```
+STARBUCKS STORE #10208
+11302 EUCLID AVENUE
+CLEVELAND, OH (216) 229-0749
+CHK 664290
+12/07/2014 06:43 PM
+1912003 DRAWER: 2. REG: 2
+VT PEP MOCHA 4.95
+SBUX CARD 4.95
+XXXXXXXXXXXX3228
+SUBTOTAL $4.95
+TOTAL $4.95
+CHANGE DUE $0.00
+---- CHECK CLOSED
+12/07/2014 06:43 PM
+SBUX CARD X3228 NEW BALANCE: 37.45
+CARD IS REGISTERED
+```
+
+
 
 ### ImageToTextPdf
 

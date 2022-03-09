@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,12 +19,13 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.SparkSession
 import org.scalatest.flatspec.AnyFlatSpec
 
 class SentimentDLTestSpec extends AnyFlatSpec {
-  val spark = ResourceHelper.spark
+  val spark: SparkSession = ResourceHelper.spark
 
   "SentimentDL" should "correctly train on a test dataset" taggedAs SlowTest in {
 
@@ -35,7 +36,7 @@ class SentimentDLTestSpec extends AnyFlatSpec {
       .setInputCol("text")
       .setOutputCol("document")
 
-    val useEmbeddings = UniversalSentenceEncoder.pretrained()
+    val sentenceEmbeddings = BertSentenceEmbeddings.pretrained("sent_small_bert_L2_128")
       .setInputCols("document")
       .setOutputCol("sentence_embeddings")
 
@@ -53,7 +54,7 @@ class SentimentDLTestSpec extends AnyFlatSpec {
       .setStages(
         Array(
           documentAssembler,
-          useEmbeddings,
+          sentenceEmbeddings,
           docClassifier
         )
       )
@@ -95,7 +96,7 @@ class SentimentDLTestSpec extends AnyFlatSpec {
       .setThresholdLabel("neutral")
       .setOutputCol("sentiment")
 
-    val pipeline = new RecursivePipeline()
+    val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentence,

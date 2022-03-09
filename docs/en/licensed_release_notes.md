@@ -11,6 +11,1268 @@ sidebar:
     nav: sparknlp-healthcare
 ---
 
+## 3.4.1
+
+We are glad to announce that Spark NLP Healthcare 3.4.1 has been released!
+
+#### Highlights
+
++ Brand new Spanish deidentification NER models
++ Brand new Spanish deidentification pretrained pipeline
++ New clinical NER model to detect supplements
++ New RxNorm sentence entity resolver model
++ New `EntityChunkEmbeddings` annotator
++ New `MedicalBertForSequenceClassification` annotator
++ New `MedicalDistilBertForSequenceClassification` annotator
++ New `MedicalDistilBertForSequenceClassification` and `MedicalBertForSequenceClassification` models
++ Redesign of the `ContextualParserApproach` annotator
++ `getClasses` method in `RelationExtractionModel` and `RelationExtractionDLModel` annotators
++ Label customization feature for `RelationExtractionModel` and `RelationExtractionDL` models
++ `useBestModel` parameter in `MedicalNerApproach` annotator
++ Early stopping feature in `MedicalNerApproach` annotator
++ Multi-Language support for faker and regex lists of `Deidentification` annotator
++ Spark 3.2.0 compatibility for the entire library
++ Saving visualization feature in `spark-nlp-display` library
++ Deploying a custom Spark NLP image (for opensource, healthcare, and Spark OCR) to an enterprise version of Kubernetes: OpenShift
++ New speed benchmarks table on databricks
++ New & Updated Notebooks
++ List of recently updated or added models
+
+#### Brand New Spanish Deidentification NER Models
+
+We trained two new NER models to find PHI data (protected health information) that may need to be deidentified in **Spanish**. `ner_deid_generic` and `ner_deid_subentity` models are trained with in-house annotations. Both also are available for using Roberta Spanish Clinical Embeddings and sciwiki 300d.
+
++ `ner_deid_generic` : Detects 7 PHI entities in Spanish (`DATE`, `NAME`, `LOCATION`, `PROFESSION`, `CONTACT`, `AGE`, `ID`).
+
++ `ner_deid_subentity` : Detects 13 PHI sub-entities in Spanish (`PATIENT`, `HOSPITAL`, `DATE`, `ORGANIZATION`, `E-MAIL`, `USERNAME`, `LOCATION`, `ZIP`, `MEDICALRECORD`, `PROFESSION`, `PHONE`, `DOCTOR`, `AGE`).
+
+*Example* :
+
+```bash
+...
+embeddings = WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")\
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("embeddings")
+
+deid_ner = MedicalNerModel.pretrained("ner_deid_generic", "es", "clinical/models")\
+    .setInputCols(["sentence", "token", "embeddings"])\
+    .setOutputCol("ner")
+
+deid_sub_entity_ner = MedicalNerModel.pretrained("ner_deid_subentity", "es", "clinical/models")\
+    .setInputCols(["sentence", "token", "embeddings"])\
+    .setOutputCol("ner_sub_entity")
+...
+
+text = """Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14/03/2020
+y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos.."""
+result = model.transform(spark.createDataFrame([[text]], ["text"]))
+```
+
+*Results* :
+
+```bash
+| chunk              | ner_deid_generic_chunk | ner_deid_subentity_chunk |
+|--------------------|------------------------|--------------------------|
+| Antonio Pérez Juan | NAME                   | PATIENT                  |
+| Cádiz              | LOCATION               | LOCATION                 |
+| España             | LOCATION               | LOCATION                 |
+| 14/03/2022         | DATE                   | DATE                     |
+| Clínica San Carlos | LOCATION               | HOSPITAL                 |
+```
+
+#### Brand New Spanish Deidentification Pretrained Pipeline
+
+We developed a clinical deidentification pretrained pipeline that can be used to deidentify PHI information from **Spanish** medical texts. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask, fake or obfuscate the following entities: `AGE`, `DATE`, `PROFESSION`, `E-MAIL`, `USERNAME`, `LOCATION`, `DOCTOR`, `HOSPITAL`, `PATIENT`, `URL`, `IP`, `MEDICALRECORD`, `IDNUM`, `ORGANIZATION`, `PHONE`, `ZIP`, `ACCOUNT`, `SSN`, `PLATE`, `SEX` and `IPADDR`.
+
+```bash
+from sparknlp.pretrained import PretrainedPipeline
+deid_pipeline = PretrainedPipeline("clinical_deidentification", "es", "clinical/models")
+
+sample_text = """Datos del paciente. Nombre:  Jose . Apellidos: Aranda Martinez. NHC: 2748903. NASS: 26 37482910."""
+
+result = deid_pipe.annotate(text)
+
+print("\n".join(result['masked']))
+print("\n".join(result['masked_with_chars']))
+print("\n".join(result['masked_fixed_length_chars']))
+print("\n".join(result['obfuscated']))
+```
+*Results*:
+
+```bash
+Masked with entity labels
+------------------------------
+Datos del paciente. Nombre:  <PATIENT> . Apellidos: <PATIENT>. NHC: <SSN>. NASS: <SSN> <SSN>
+
+Masked with chars
+------------------------------
+Datos del paciente. Nombre:  [**] . Apellidos: [*************]. NHC: [*****]. NASS: [**] [******]
+
+Masked with fixed length chars
+------------------------------
+Datos del paciente. Nombre:  **** . Apellidos: ****. NHC: ****. NASS: **** ****
+
+Obfuscated
+------------------------------
+Datos del paciente. Nombre:  Sr. Lerma . Apellidos: Aristides Gonzalez Gelabert. NHC: BBBBBBBBQR648597. NASS: 041010000011 RZRM020101906017 04.
+```
+
+#### New Clinical NER Model to Detect Supplements
+
+We are releasing `ner_supplement_clinical` model that can extract benefits of using drugs for certain conditions. It can label detected entities as `CONDITION` and `BENEFIT`. Also this model is trained on the dataset that is released by Spacy in their HealthSea product. Here is the benchmark comparison of both versions:
+
+|Entity|Spark NLP| Spacy-HealthSea|
+|-|-|-|
+|BENEFIT|0.8729641|0.8330684|
+|CONDITION|0.8339274|0.8333333|
+
+*Example* :
+
+```bash
+...
+clinical_ner = MedicalNerModel.pretrained("ner_supplement_clinical", "en", "clinical/models") \
+      .setInputCols(["sentence", "token", "embeddings"]) \
+      .setOutputCol("ner_tags")
+...
+
+results = ner_model.transform(spark.createDataFrame([["Excellent!. The state of health improves, nervousness disappears, and night sleep improves. It also promotes hair and nail growth."]], ["text"]))
+```
+
+*Results* :
+
+```bash
++------------------------+---------------+
+| chunk                  | ner_label     |
++------------------------+---------------+
+| nervousness            | CONDITION     |
+| night sleep improves   | BENEFIT       |
+| hair                   | BENEFIT       |
+| nail                   | BENEFIT       |
++------------------------+---------------+
+```
+
+#### New RxNorm Sentence Entity Resolver Model
+
+`sbiobertresolve_rxnorm_augmented_re` : This model maps clinical entities and concepts (like drugs/ingredients) to RxNorm codes without specifying the relations between the entities (relations are calculated on the fly inside the annotator) using sbiobert_base_cased_mli Sentence Bert Embeddings (EntityChunkEmbeddings).
+
+*Example* :
+
+```python
+...
+rxnorm_resolver = SentenceEntityResolverModel\
+      .pretrained("sbiobertresolve_rxnorm_augmented_re", "en", "clinical/models")\
+      .setInputCols(["entity_chunk_embeddings"])\
+      .setOutputCol("rxnorm_code")\
+      .setDistanceFunction("EUCLIDEAN")
+...
+```
+
+#### New `EntityChunkEmbeddings` Annotator
+
+We have a new `EntityChunkEmbeddings` annotator to compute a weighted average vector representing entity-related vectors. The model's input usually consists of chunks of recognized named entities produced by MedicalNerModel. We can specify relations between the entities by the `setTargetEntities()` parameter, and the internal Relation Extraction model finds related entities and creates a chunk. Embedding for the chunk is calculated according to the weights specified in the `setEntityWeights()` parameter.
+
+For instance, the chunk `warfarin sodium 5 MG Oral Tablet` has `DRUG`, `STRENGTH`, `ROUTE`, and `FORM` entity types. Since DRUG label is the most prominent label for resolver models, now we can assign weight to prioritize DRUG label (i.e `{"DRUG": 0.8, "STRENGTH": 0.2, "ROUTE": 0.2, "FORM": 0.2}` as shown below). In other words, embeddings of these labels are multipled by the assigned weights such as `DRUG` by `0.8`.
+
+For more details and examples, please check [Sentence Entity Resolvers with EntityChunkEmbeddings Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.2.Sentence_Entity_Resolvers_with_EntityChunkEmbeddings.ipynb) in the Spark NLP workshop repo.
+
+*Example* :
+
+```python
+...
+
+drug_chunk_embeddings = EntityChunkEmbeddings()\
+    .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+    .setInputCols(["ner_chunks", "dependencies"])\
+    .setOutputCol("drug_chunk_embeddings")\
+    .setMaxSyntacticDistance(3)\
+    .setTargetEntities({"DRUG": ["STRENGTH", "ROUTE", "FORM"]})\
+    .setEntityWeights({"DRUG": 0.8, "STRENGTH": 0.2, "ROUTE": 0.2, "FORM": 0.2})
+
+rxnorm_resolver = SentenceEntityResolverModel\
+    .pretrained("sbiobertresolve_rxnorm_augmented_re", "en", "clinical/models")\
+    .setInputCols(["drug_chunk_embeddings"])\
+    .setOutputCol("rxnorm_code")\
+    .setDistanceFunction("EUCLIDEAN")
+
+rxnorm_weighted_pipeline_re = Pipeline(
+    stages = [
+        documenter,
+        sentence_detector,
+        tokenizer,
+        embeddings,
+        posology_ner_model,
+        ner_converter,
+        pos_tager,
+        dependency_parser,
+        drug_chunk_embeddings,
+        rxnorm_resolver])
+
+sampleText = ["The patient was given metformin 500 mg, 2.5 mg of coumadin and then ibuprofen.",
+              "The patient was given metformin 400 mg, coumadin 5 mg, coumadin, amlodipine 10 MG"]
+
+data_df = spark.createDataFrame(sample_df)
+results = rxnorm_weighted_pipeline_re.fit(data_df).transform(data_df)
+```
+
+The internal relation extraction creates the chunks here, and the embedding is computed according to the weights.
+
+*Results* :
+```bash
++-----+----------------+--------------------------+--------------------------------------------------+
+|index|           chunk|rxnorm_code_weighted_08_re|                                      Concept_Name|
++-----+----------------+--------------------------+--------------------------------------------------+
+|    0|metformin 500 mg|                    860974|metformin hydrochloride 500 MG:::metformin 500 ...|
+|    0| 2.5 mg coumadin|                    855313|warfarin sodium 2.5 MG [Coumadin]:::warfarin so...|
+|    0|       ibuprofen|                   1747293|ibuprofen Injection:::ibuprofen Pill:::ibuprofe...|
+|    1|metformin 400 mg|                    332809|metformin 400 MG:::metformin 250 MG Oral Tablet...|
+|    1|   coumadin 5 mg|                    855333|warfarin sodium 5 MG [Coumadin]:::warfarin sodi...|
+|    1|        coumadin|                    202421|Coumadin:::warfarin sodium 2 MG/ML Injectable S...|
+|    1|amlodipine 10 MG|                    308135|amlodipine 10 MG Oral Tablet:::amlodipine 10 MG...|
++-----+----------------+--------------------------+--------------------------------------------------+
+```
+
+#### New `MedicalBertForSequenceClassification` Annotator
+
+We developed a new annotator called `MedicalBertForSequenceClassification`. It can load BERT Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
+
+#### New `MedicalDistilBertForSequenceClassification` Annotator
+
+We developed a new annotator called `MedicalDistilBertForSequenceClassification`. It can load DistilBERT Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
+
+#### New `MedicalDistilBertForSequenceClassification` and `MedicalBertForSequenceClassification` Models
+
+We are releasing a new `MedicalDistilBertForSequenceClassification` model and three new `MedicalBertForSequenceClassification` models.
+
+- `bert_sequence_classifier_ade_biobert`: a classifier for detecting if a sentence is talking about a possible ADE (`TRUE`, `FALSE`)
+
+- `bert_sequence_classifier_gender_biobert`: a classifier for detecting the gender of the main subject of the sentence (`MALE`, `FEMALE`, `UNKNOWN`)
+
+- `bert_sequence_classifier_pico_biobert`: a classifier for detecting the class of a sentence according to PICO framework (`CONCLUSIONS`, `DESIGN_SETTING`,`INTERVENTION`, `PARTICIPANTS`, `FINDINGS`, `MEASUREMENTS`, `AIMS`)
+
+*Example* :
+
+```python
+...
+sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_pico", "en", "clinical/models")\
+    .setInputCols(["document","token"])\
+    .setOutputCol("class")
+...
+
+sample_text = "To compare the results of recording enamel opacities using the TF and modified DDE indices."
+
+result = sequence_clf_model.transform(spark.createDataFrame([[sample_text]]).toDF("text"))
+```
+
+*Results* :
+
+```
++-------------------------------------------------------------------------------------------+-----+
+|text                                                                                       |label|
++-------------------------------------------------------------------------------------------+-----+
+|To compare the results of recording enamel opacities using the TF and modified DDE indices.|AIMS |
++-------------------------------------------------------------------------------------------+-----+
+```
+
+
++ `distilbert_sequence_classifier_ade` : This model is a DistilBertForSequenceClassification model for classifying clinical texts whether they contain ADE (`TRUE`, `FALSE`).
+
+*Example* :
+
+```python
+...
+sequenceClassifier = MedicalDistilBertForSequenceClassification\
+      .pretrained('distilbert_sequence_classifier_ade', 'en', 'clinical/models') \
+      .setInputCols(['token', 'document']) \
+      .setOutputCol('class')
+...
+
+sample_text = "I felt a bit drowsy and had blurred vision after taking Aspirin."
+
+result = sequence_clf_model.transform(spark.createDataFrame([[sample_text]]).toDF("text"))
+```
+
+*Results* :
+
+```
++----------------------------------------------------------------+-----+
+|text                                                            |label|
++----------------------------------------------------------------+-----+
+|I felt a bit drowsy and had blurred vision after taking Aspirin.| True|
++----------------------------------------------------------------+-----+
+```
+
+
+#### Redesign of the `ContextualParserApproach` Annotator
+
+- We've dropped the annotator's `contextMatch` parameter and removed the need for a `context` field when feeding a JSON configuration file to the annotator. Context information can now be fully defined using the `prefix`, `suffix` and `contextLength` fields in the JSON configuration file.
+- We've also fixed issues with the `contextException` field in the JSON configuration file - it was mismatching values in documents with several sentences and ignoring exceptions situated to the right of a word/token.
+- The `ruleScope` field in the JSON configuration file can now be set to `document` instead of `sentence`. This allows you to match multi-word entities like "New York" or "Salt Lake City". You can do this by setting `"ruleScope" : "document"` in the JSON configuration file and feeding a dictionary (csv or tsv) to the annotator with its `setDictionary` parameter. These changes also mean that we've dropped the `updateTokenizer` parameter since the new capabilities of `ruleScope` improve the user experience for matching multi-word entities.
+- You can now feed in a dictionary in your chosen format - either vertical or horizontal. You can set that with the following parameter: `setDictionary("dictionary.csv", options={"orientation":"vertical"})`
+- Lastly, there was an improvement made to the confidence value calculation process to better measure successful hits.
+
+For more explanation and examples, please check this [Contextual Parser medium article](https://medium.com/spark-nlp/contextual-parser-increased-flexibility-extracting-entities-in-spark-nlp-123ed58672f0) and [Contextual Parser Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.2.Contextual_Parser_Rule_Based_NER.ipynb).
+
+#### `getClasses` Method in `RelationExtractionModel` and `RelationExtractionDLModel` Annotators
+
+Now you can use `getClasses()` method for checking the relation labels of RE models (RelationExtractionModel and RelationExtractionDLModel) like MedicalNerModel().
+
+*Example* :
+```python
+clinical_re_Model = RelationExtractionModel()\
+    .pretrained("re_temporal_events_clinical", "en", 'clinical/models')\
+    .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
+    .setOutputCol("relations")\
+
+clinical_re_Model.getClasses()
+```
+
+*Output* :
+```output
+['OVERLAP', 'BEFORE', 'AFTER']
+```
+
+####  Label Customization Feature for `RelationExtractionModel` and `RelationExtractionDL` Models
+
+We are releasing label customization feature for Relation Extraction and Relation Extraction DL models by using `.setCustomLabels()` parameter.
+
+*Example* :
+
+```python
+...
+reModel = RelationExtractionModel.pretrained("re_ade_clinical", "en", 'clinical/models')\
+    .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
+    .setOutputCol("relations")\
+    .setMaxSyntacticDistance(10)\
+    .setRelationPairs(["drug-ade, ade-drug"])\
+    .setCustomLabels({"1": "is_related", "0": "not_related"})
+
+redl_model = RelationExtractionDLModel.pretrained('redl_ade_biobert', 'en', "clinical/models") \
+    .setPredictionThreshold(0.5)\
+    .setInputCols(["re_ner_chunks", "sentences"]) \
+    .setOutputCol("relations")\
+    .setCustomLabels({"1": "is_related", "0": "not_related"})
+...
+
+sample_text = "I experienced fatigue and muscle cramps after taking Lipitor but no more adverse after passing Zocor."
+result = model.transform(spark.createDataFrame([[sample_text]]).toDF('text'))
+```
+
+*Results* :
+
+```
++-----------+-------+-------------+-------+-------+----------+
+|   relation|entity1|       chunk1|entity2| chunk2|confidence|
++-----------+-------+-------------+-------+-------+----------+
+| is_related|    ADE|      fatigue|   DRUG|Lipitor| 0.9999825|
+|not_related|    ADE|      fatigue|   DRUG|  Zocor| 0.9960077|
+| is_related|    ADE|muscle cramps|   DRUG|Lipitor|       1.0|
+|not_related|    ADE|muscle cramps|   DRUG|  Zocor|   0.94971|
++-----------+-------+-------------+-------+-------+----------+
+```
+
+
+#### `useBestModel` Parameter in `MedicalNerApproach` Annotator
+
+Introducing `useBestModel` param in MedicalNerApproach annotator. This param preserves and restores the model that has achieved the best performance at the end of the training. The priority is metrics from testDataset (micro F1), metrics from validationSplit (micro F1), and if none is set it will keep track of loss during the training.
+
+*Example* :
+```python
+med_ner = MedicalNerApproach()\
+    .setInputCols(["sentence", "token", "embeddings"])\
+    .setLabelColumn("label")\
+    .setOutputCol("ner")\
+    ...
+    ...
+    .setUseBestModel(True)\
+```
+
+#### Early Stopping Feature in `MedicalNerApproach` Annotator
+
+Introducing `earlyStopping` feature for MedicalNerApproach(). You can stop training at the point when the perforfmance on test/validation dataset starts to degrage. Two params are added to MedicalNerApproach() in order to use this feature:
+
++ `earlyStoppingCriterion` : (float) This is used set the minimal improvement of the test metric to terminate training. The metric monitored is the same as the metrics used in `useBestModel` (macro F1 when using test/validation set, loss otherwise). Default is 0 which means no early stopping is applied.
+
++ `earlyStoppingPatience`: (int), the number of epoch without improvement which will be tolerated. Default is 0, which means that early stopping will occur at the first time when performance in the current epoch is no better than in the previous epoch.
+
+*Example* :
+
+```python
+med_ner = MedicalNerApproach()\
+    .setInputCols(["sentence", "token", "embeddings"])\
+    .setLabelColumn("label")\
+    .setOutputCol("ner")\
+    ...
+    ...
+    .setTestDataset(test_data_parquet_path)\
+    .setEarlyStoppingCriterion(0.01)\
+    .setEarlyStoppingPatience(3)\
+```
+
+#### Multi-Language Support for Faker and Regex Lists of `Deidentification` Annotator
+
+We have a new `.setLanguage()` parameter in order to use internal Faker and Regex list for multi-language texts. When you are working with German and Spanish texts for a Deidentification, you can set this parameter to `de` for German and `es` for Spanish. Default value of this parameter is `en`.
+
+*Example* :
+
+```python
+deid_obfuscated = DeIdentification()\
+      .setInputCols(["sentence", "token", "ner_chunk"]) \
+      .setOutputCol("obfuscated") \
+      .setMode("obfuscate")\
+      .setLanguage('de')\
+      .setObfuscateRefSource("faker")\
+```
+
+#### Spark 3.2.0 Compatibility for the Entire Library
+
+Now we can use the [Spark 3.2.0](https://spark.apache.org/docs/3.2.0/) version for Spark NLP for Healthcare by setting `spark32=True` in `sparknlp_jsl.start()` function.
+
+```bash
+! pip install --ignore-installed -q pyspark==3.2.0
+```
+
+```bash
+import sparknlp_jsl
+
+spark = sparknlp_jsl.start(SECRET, spark32=True)
+```
+
+#### Saving Visualization Feature in `spark-nlp-display` Library
+
+We have a new `save_path` parameter in `spark-nlp-display` library for saving any visualization results in Spark NLP.
+
+*Example* :
+
+```bash
+from sparknlp_display import NerVisualizer
+
+visualiser = NerVisualizer()
+
+visualiser.display(light_result[0], label_col='ner_chunk', document_col='document', save_path="display_result.html")
+```
+
+#### Deploying a Custom Spark NLP Image (for opensource, healthcare, and Spark OCR) to an Enterprise Version of Kubernetes: OpenShift
+
+Spark NLP for opensource, healthcare, and SPARK OCR is now available for Openshift - enterprise version of Kubernetes. For deployment, please refer to:
+
+Github Link: https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/platforms/openshift
+
+Youtube: https://www.youtube.com/watch?v=FBes-6ylFrM&ab_channel=JohnSnowLabs
+
+#### New Speed Benchmarks Table on Databricks
+
+We prepared a speed benchmark table by running a clinical BERT For Token Classification model pipeline on various number of repartitioning and writing the results to parquet or delta formats. You can find the details here : [Clinical Bert For Token Classification Benchmark Experiment](https://nlp.johnsnowlabs.com/docs/en/benchmark#clinical-bert-for-token-classification-benchmark-experiment).
+
+#### New & Updated Notebooks
+
++ We have updated our existing workshop notebooks with v3.4.0 by adding new features and functionalities.
++ You can find the workshop notebooks updated with previous versions in the branches named with the relevant version.
++ We have updated the [ContextualParser Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.2.Contextual_Parser_Rule_Based_NER.ipynb) with the new updates in this version.
++ We have a new [Sentence Entity Resolvers with EntityChunkEmbeddings Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.2.Sentence_Entity_Resolvers_with_EntityChunkEmbeddings.ipynb) for the new `EntityChunkEmbeddings` annotator.
+
+**To see more, please check : [Spark NLP Healthcare Workshop Repo](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Healthcare)**
+
+#### List of Recently Updated or Added Models
+
+- `bert_sequence_classifier_ade_en`
+- `bert_sequence_classifier_gender_biobert_en`
+- `bert_sequence_classifier_pico_biobert_en`
+- `distilbert_sequence_classifier_ade_en`
+- `bert_token_classifier_ner_supplement_en`
+- `deid_pipeline_es`
+- `ner_deid_generic_es`
+- `ner_deid_generic_roberta_es`
+- `ner_deid_subentity_es`
+- `ner_deid_subentity_roberta_es`
+- `ner_nature_nero_clinical_en`
+- `ner_supplement_clinical_en`
+- `sbiobertresolve_clinical_abbreviation_acronym_en`
+- `sbiobertresolve_rxnorm_augmented_re`
+
+**For all Spark NLP for healthcare models, please check : [Models Hub Page](https://nlp.johnsnowlabs.com/models?edition=Spark+NLP+for+Healthcare)**
+
+## 3.4.0
+
+We are glad to announce that Spark NLP Healthcare 3.4.0 has been released!
+This is a massive release: new features, new models, academic papers, and more!
+
+#### Highlights
+
++ New German Deidentification NER Models
++ New German Deidentification Pretrained Pipeline
++ New Clinical NER Models
++ New AnnotationMerger Annotator
++ New MedicalBertForTokenClassifier Annotator
++ New BERT-Based Clinical NER Models
++ New Clinical Relation Extraction Models
++ New LOINC, SNOMED, UMLS and Clinical Abbreviation Entity Resolver Models
++ New ICD10 to ICD9 Code Mapping Pretrained Pipeline
++ New Clinical Sentence Embedding Models
++ Printing Validation and Test Logs for MedicalNerApproach and AssertionDLApproach
++ Filter Only the Regex Entities Feature in Deidentification Annotator
++ Add `.setMaskingPolicy` Parameter in Deidentification Annotator
++ Add `.cache_folder` Parameter in `UpdateModels.updateCacheModels()`
++ S3 Access Credentials No Longer Shipped Along Licenses
++ Enhanced Security for the Library and log4shell Update
++ New Peer-Reviewed Conference Paper on Clinical Relation Extraction
++ New Peer-Reviewed Conference Paper on Adverse Drug Events Extraction
++ New and Updated Notebooks
+
+#### New German Deidentification NER Models
+
+We trained two new NER models to find PHI data (protected health information) that may need to be deidentified in **German**.
+`ner_deid_generic` and `ner_deid_subentity` models are trained with in-house annotations.
+
++ `ner_deid_generic` : Detects 7 PHI entities in German (`DATE`, `NAME`, `LOCATION`, `PROFESSION`, `CONTACT`, `AGE`, `ID`).
+
++ `ner_deid_subentity` : Detects 12 PHI sub-entities in German (`PATIENT`, `HOSPITAL`, `DATE`, `ORGANIZATION`, `CITY`, `STREET`, `USERNAME`, `PROFESSION`, `PHONE`, `COUNTRY`, `DOCTOR`, `AGE`).
+
+*Example* :
+
+```bash
+...
+
+embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","de","clinical/models")\
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("embeddings")
+
+deid_ner = MedicalNerModel.pretrained("ner_deid_generic", "de", "clinical/models")\
+  .setInputCols(["sentence", "token", "embeddings"])\
+  .setOutputCol("ner")
+
+deid_sub_entity_ner = MedicalNerModel.pretrained("ner_deid_subentity", "de", "clinical/models")\
+  .setInputCols(["sentence", "token", "embeddings"])\
+  .setOutputCol("ner_sub_entity")
+...
+
+text = """Michael Berger wird am Morgen des 12 Dezember 2018 ins St. Elisabeth-Krankenhaus
+in Bad Kissingen eingeliefert. Herr Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen."""
+
+result = model.transform(spark.createDataFrame([[text]], ["text"]))
+```
+
+*Results* :
+
+```bash
++-------------------------+----------------------+-------------------------+
+|chunk                    |ner_deid_generic_chunk|ner_deid_subentity_chunk |
++-------------------------+----------------------+-------------------------+
+|Michael Berger           |NAME                  |PATIENT                  |
+|12 Dezember 2018         |DATE                  |DATE                     |
+|St. Elisabeth-Krankenhaus|LOCATION              |HOSPITAL                 |
+|Bad Kissingen            |LOCATION              |CITY                     |
+|Berger                   |NAME                  |PATIENT                  |
+|76                       |AGE                   |AGE                      |
++-------------------------+----------------------+-------------------------+
+```
+#### New German Deidentification Pretrained Pipeline
+
+We developed a clinical deidentification pretrained pipeline that can be used to deidentify PHI information from **German** medical texts. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask and obfuscate `PATIENT`, `HOSPITAL`, `DATE`, `ORGANIZATION`, `CITY`, `STREET`, `USERNAME`, `PROFESSION`, `PHONE`, `COUNTRY`, `DOCTOR`, `AGE`, `CONTACT`, `ID`, `PHONE`, `ZIP`, `ACCOUNT`, `SSN`, `DLN`, `PLATE` entities.
+
+*Example* :
+
+```bash
+...
+from sparknlp.pretrained import PretrainedPipeline
+
+deid_pipeline = PretrainedPipeline("clinical_deidentification", "de", "clinical/models")
+
+text = """Zusammenfassung : Michael Berger wird am Morgen des 12 Dezember 2018 ins St.Elisabeth Krankenhaus in Bad Kissingen eingeliefert. 
+Herr Michael Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen.
+
+Persönliche Daten :
+ID-Nummer: T0110053F
+Platte A-BC124
+Kontonummer: DE89370400440532013000
+SSN : 13110587M565
+Lizenznummer: B072RRE2I55
+Adresse : St.Johann-Straße 13 19300"""
+
+result = deid_pipe.annotate(text)
+
+print("\n".join(result['masked']))
+print("\n".join(result['obfuscated']))
+print("\n".join(result['masked_with_chars']))
+print("\n".join(result['masked_fixed_length_chars']))
+
+```
+*Results* :
+
+```bash
+Zusammenfassung : <PATIENT> wird am Morgen des <DATE> ins <HOSPITAL> eingeliefert.
+Herr <PATIENT> ist <AGE> Jahre alt und hat zu viel Wasser in den Beinen.
+Persönliche Daten :
+ID-Nummer: <ID>
+Platte <PLATE>
+Kontonummer: <ACCOUNT>
+SSN : <SSN>
+Lizenznummer: <DLN>
+Adresse : <STREET> <ZIP>
+
+Zusammenfassung : Herrmann Kallert wird am Morgen des 11-26-1977 ins International Neuroscience eingeliefert.
+Herr Herrmann Kallert ist 79 Jahre alt und hat zu viel Wasser in den Beinen.
+Persönliche Daten :
+ID-Nummer: 136704D357
+Platte QA348G
+Kontonummer: 192837465738
+SSN : 1310011981M454
+Lizenznummer: XX123456
+Adresse : Klingelhöferring 31206
+
+Zusammenfassung : **** wird am Morgen des **** ins **** eingeliefert.
+Herr **** ist **** Jahre alt und hat zu viel Wasser in den Beinen.
+Persönliche Daten :
+ID-Nummer: ****
+Platte ****
+Kontonummer: ****
+SSN : ****
+Lizenznummer: ****
+Adresse : **** ****
+
+Zusammenfassung : [************] wird am Morgen des [**************] ins [**********************] eingeliefert.
+Herr [************] ist ** Jahre alt und hat zu viel Wasser in den Beinen.
+Persönliche Daten :
+ID-Nummer: [*******]
+Platte [*****]
+Kontonummer: [********************]
+SSN : [**********]
+Lizenznummer: [*********]
+Adresse : [*****************] [***]
+```
+
+#### New Clinical NER Models
+
+We have two new clinical NER models.
+
++ `ner_abbreviation_clinical` : This model is trained to extract clinical abbreviations and acronyms in texts and labels these entities as `ABBR`.
+
+*Example* :
+
+```bash
+...
+clinical_ner = MedicalNerModel.pretrained("ner_abbreviation_clinical", "en", "clinical/models")\
+  .setInputCols(["sentence", "token", "embeddings"])\
+  .setOutputCol("ner")
+...
+
+results = ner_model.transform(spark.createDataFrame([["Gravid with estimated fetal weight of 6-6/12 pounds. LOWER EXTREMITIES: No edema. LABORATORY DATA: Laboratory tests include a CBC which is normal. Blood Type: AB positive. Rubella: Immune. VDRL: Nonreactive. Hepatitis C surface antigen: Negative. HIV: Negative. One-Hour Glucose: 117. Group B strep has not been done as yet."]], ["text"]))
+```
+
+*Results* :
+
+```bash
++-----+---------+
+|chunk|ner_label|
++-----+---------+
+|CBC  |ABBR     |
+|AB   |ABBR     |
+|VDRL |ABBR     |
+|HIV  |ABBR     |
++-----+---------+
+```
+
++ `ner_drugprot_clinical` : This model detects chemical compounds/drugs and genes/proteins in medical text and research articles. Here are the labels it can detect : `GENE`, `CHEMICAL`, `GENE_AND_CHEMICAL`.
+
+*Example* :
+
+```bash
+...
+clinical_ner = MedicalNerModel.pretrained("ner_drugprot_clinical", "en", "clinical/models")\
+  .setInputCols(["sentence", "token", "embeddings"])\
+  .setOutputCol("ner")
+...
+
+results = ner_model.transform(spark.createDataFrame([["Anabolic effects of clenbuterol on skeletal muscle are mediated by beta 2-adrenoceptor activation"]], ["text"]))
+```
+
+*Results* :
+
+```bash
+|    | chunk                | ner_label         |
+|---:|:---------------------|:------------------|
+|  0 | clenbuterol          | CHEMICAL          |
+|  1 | beta 2-adrenoceptor  | GENE              |
+
+```
+
+#### New AnnotationMerger Annotator
+
+A new annotator: `AnnotationMerger`. Besides NERs, now we will be able to merge results of **Relation Extraction models** and **Assertion models** as well. Therefore, it can merge results of Relation Extraction models, NER models, and Assertion Status models.
+
+*Example-1* :
+
+```bash
+...
+annotation_merger = AnnotationMerger()\
+    .setInputCols("ade_relations", "pos_relations", "events_relations")\
+    .setInputType("category")\
+    .setOutputCol("all_relations")
+...
+
+results = ann_merger_model.transform(spark.createDataFrame([["The patient was prescribed 1 unit of naproxen for 5 days after meals for chronic low back pain. The patient was also given 1 unit of oxaprozin daily for rheumatoid arthritis presented with tense bullae and cutaneous fragility on the face and the back of the hands."]], ["text"]))
+```
+
+*Results-1* :
+
+```bash
+|    | all_relations   | all_relations_entity1   | all_relations_chunk1   | all_relations_entity2   | all_relations_chunk2                                      |
+|---:|:----------------|:------------------------|:-----------------------|:------------------------|:----------------------------------------------------------|
+|  0 | 1               | DRUG                    | oxaprozin              | ADE                     | tense bullae                                              |
+|  1 | 1               | DRUG                    | oxaprozin              | ADE                     | cutaneous fragility on the face and the back of the hands |
+|  2 | DOSAGE-DRUG     | DOSAGE                  | 1 unit                 | DRUG                    | naproxen                                                  |
+|  3 | DRUG-DURATION   | DRUG                    | naproxen               | DURATION                | for 5 days                                                |
+|  4 | DOSAGE-DRUG     | DOSAGE                  | 1 unit                 | DRUG                    | oxaprozin                                                 |
+|  5 | DRUG-FREQUENCY  | DRUG                    | oxaprozin              | FREQUENCY               | daily                                                     |
+|  6 | OVERLAP         | TREATMENT               | naproxen               | DURATION                | 5 days                                                    |
+|  7 | OVERLAP         | TREATMENT               | oxaprozin              | FREQUENCY               | daily                                                     |
+|  8 | BEFORE          | TREATMENT               | oxaprozin              | PROBLEM                 | rheumatoid arthritis                                      |
+|  9 | AFTER           | TREATMENT               | oxaprozin              | OCCURRENCE              | presented                                                 |
+| 10 | OVERLAP         | FREQUENCY               | daily                  | PROBLEM                 | rheumatoid arthritis                                      |
+| 11 | OVERLAP         | FREQUENCY               | daily                  | PROBLEM                 | tense bullae                                              |
+| 12 | OVERLAP         | FREQUENCY               | daily                  | PROBLEM                 | cutaneous fragility on the face                           |
+| 13 | BEFORE          | PROBLEM                 | rheumatoid arthritis   | OCCURRENCE              | presented                                                 |
+| 14 | OVERLAP         | PROBLEM                 | rheumatoid arthritis   | PROBLEM                 | tense bullae                                              |
+| 15 | OVERLAP         | PROBLEM                 | rheumatoid arthritis   | PROBLEM                 | cutaneous fragility on the face                           |
+| 16 | BEFORE          | OCCURRENCE              | presented              | PROBLEM                 | tense bullae                                              |
+| 17 | BEFORE          | OCCURRENCE              | presented              | PROBLEM                 | cutaneous fragility on the face                           |
+| 18 | OVERLAP         | PROBLEM                 | tense bullae           | PROBLEM                 | cutaneous fragility on the face                           |
+```
+
+*Example-2* :
+
+```bash
+...
+ner_annotation_merger = AnnotationMerger()\
+    .setInputCols("ner_chunk", "radiology_ner_chunk", "jsl_ner_chunk")\
+    .setInputType("chunk")\
+    .setOutputCol("all_ners")
+
+assertion_annotation_merger = AnnotationMerger()\
+    .setInputCols("clinical_assertion", "radiology_assertion", "jsl_assertion")\
+    .setInputType("assertion")\
+    .setOutputCol("all_assertions")
+...
+
+results = ann_merger_model.transform(spark.createDataFrame([["The patient was prescribed 1 unit of naproxen for 5 days after meals for chronic low back pain. The patient was also given 1 unit of oxaprozin daily for rheumatoid arthritis presented with tense bullae and cutaneous fragility on the face and the back of the hands."]], ["text"]))
+```
+
+*Results-2* :
+
+```bash
+|    | ners                            | all_assertions   |
+|---:|:--------------------------------|:-----------------|
+|  0 | naproxen                        | present          |
+|  1 | chronic low back pain           | present          |
+|  2 | oxaprozin                       | present          |
+|  3 | rheumatoid arthritis            | present          |
+|  4 | tense bullae                    | present          |
+|  5 | cutaneous fragility on the face | present          |
+|  6 | low back                        | Confirmed        |
+|  7 | pain                            | Confirmed        |
+|  8 | rheumatoid arthritis            | Confirmed        |
+|  9 | tense bullae                    | Confirmed        |
+| 10 | cutaneous                       | Confirmed        |
+| 11 | fragility                       | Confirmed        |
+| 12 | face                            | Confirmed        |
+| 13 | back                            | Confirmed        |
+| 14 | hands                           | Confirmed        |
+| 15 | 1 unit                          | Present          |
+| 16 | naproxen                        | Past             |
+| 17 | for 5 days                      | Past             |
+| 18 | chronic                         | Someoneelse      |
+| 19 | low                             | Past             |
+| 20 | back pain                       | Present          |
+| 21 | 1 unit                          | Past             |
+| 22 | oxaprozin                       | Past             |
+| 23 | daily                           | Past             |
+| 24 | rheumatoid arthritis            | Present          |
+| 25 | tense                           | Present          |
+| 26 | bullae                          | Present          |
+| 27 | cutaneous fragility             | Present          |
+| 28 | face                            | Someoneelse      |
+| 29 | back of the hands               | Present          |
+```
+
+#### New MedicalBertForTokenClassifier Annotator
+
+We developed a new annotator called MedicalBertForTokenClassifier that can load BERT-Based clinical token classifier models head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks.
+
+
+#### New BERT-Based Clinical NER Models
+
+Here are the MedicalBertForTokenClassifier Models we have in the library at the moment:
+
++ `bert_token_classifier_ner_ade`
++ `bert_token_classifier_ner_anatomy`
++ `bert_token_classifier_ner_bionlp`
++ `bert_token_classifier_ner_cellular`
++ `bert_token_classifier_ner_chemprot`
++ `bert_token_classifier_ner_chemicals`
++ `bert_token_classifier_ner_jsl_slim`
++ `bert_token_classifier_ner_jsl`
++ `bert_token_classifier_ner_deid`
++ `bert_token_classifier_ner_drugs`
++ `bert_token_classifier_ner_clinical`
++ `bert_token_classifier_ner_bacteria`
+
+In addition, we are releasing a new BERT-Based clinical NER model named `bert_token_classifier_drug_development_trials`. It is a `MedicalBertForTokenClassification` NER model to identify concepts related to drug development including `Trial Groups` , `End Points` , `Hazard Ratio`, and other entities in free text. It can detect the following entities: `Patient_Count`, `Duration`, `End_Point`, `Value`, `Trial_Group`, `Hazard_Ratio`, `Total_Patients`
+
+*Example* :
+
+```bash
+...
+tokenClassifier= MedicalBertForTokenClassifier.pretrained("bert_token_classifier_drug_development_trials", "en", "clinical/models")\
+  .setInputCols("token", "document")\
+  .setOutputCol("ner")\
+  .setCaseSensitive(True)
+...
+
+results = ner_model.transform(spark.createDataFrame([["In June 2003, the median overall survival with and without topotecan were 4.0 and 3.6 months, respectively. The best complete response ( CR ) , partial response ( PR ) , stable disease and progressive disease were observed in 23, 63, 55 and 33 patients, respectively, with topotecan, and 11, 61, 66 and 32 patients, respectively, without topotecan."]], ["text"]))
+
+```
+
+*Results* :
+
+```bash
+|    | chunk             | entity        |
+|---:|:------------------|:--------------|
+|  0 | median            | Duration      |
+|  1 | overall survival  | End_Point     |
+|  2 | with              | Trial_Group   |
+|  3 | without topotecan | Trial_Group   |
+|  4 | 4.0               | Value         |
+|  5 | 3.6 months        | Value         |
+|  6 | 23                | Patient_Count |
+|  7 | 63                | Patient_Count |
+|  8 | 55                | Patient_Count |
+|  9 | 33 patients       | Patient_Count |
+| 10 | topotecan         | Trial_Group   |
+| 11 | 11                | Patient_Count |
+| 12 | 61                | Patient_Count |
+| 13 | 66                | Patient_Count |
+| 14 | 32 patients       | Patient_Count |
+| 15 | without topotecan | Trial_Group   |
+```
+
+#### New Clinical Relation Extraction Models
+
+We have two new clinical Relation Extraction models for detecting interactions between drugs and proteins. These models work hand-in-hand with the new `ner_drugprot_clinical` NER model and detect following relations between entities: `INHIBITOR`, `DIRECT-REGULATOR`, `SUBSTRATE`, `ACTIVATOR`, `INDIRECT-UPREGULATOR`, `INDIRECT-DOWNREGULATOR`, `ANTAGONIST`, `PRODUCT-OF`, `PART-OF`, `AGONIST`.
+
++ `redl_drugprot_biobert` : This model was trained using BERT and performs with higher accuracy.
+
++ `re_drugprot_clinical` : This model was trained using `RelationExtractionApproach()`.
+
+*Example* :
+
+```bash
+...
+drugprot_ner_tagger = MedicalNerModel.pretrained("ner_drugprot_clinical", "en", "clinical/models")\
+    .setInputCols("sentences", "tokens", "embeddings")\
+    .setOutputCol("ner_tags")   
+...
+
+drugprot_re_biobert = RelationExtractionDLModel()\
+    .pretrained('redl_drugprot_biobert', "en", "clinical/models")\
+    .setPredictionThreshold(0.9)\
+    .setInputCols(["re_ner_chunks", "sentences"])\
+    .setOutputCol("relations")
+
+drugprot_re_clinical = RelationExtractionModel()\
+    .pretrained("re_drugprot_clinical", "en", 'clinical/models')\
+    .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
+    .setOutputCol("relations")\
+    .setMaxSyntacticDistance(4)\
+    .setPredictionThreshold(0.9)\
+    .setRelationPairs(['CHEMICAL-GENE'])
+...
+
+sample_text = "Lipid specific activation of the murine P4-ATPase Atp8a1 (ATPase II). The asymmetric transbilayer distribution of phosphatidylserine (PS) in the mammalian plasma membrane and secretory vesicles is maintained, in part, by an ATP-dependent transporter. This aminophospholipid "flippase" selectively transports PS to the cytosolic leaflet of the bilayer and is sensitive to vanadate, Ca(2+), and modification by sulfhydryl reagents. Although the flippase has not been positively identified, a subfamily of P-type ATPases has been proposed to function as transporters of amphipaths, including PS and other phospholipids. A candidate PS flippase ATP8A1 (ATPase II), originally isolated from bovine secretory vesicles, is a member of this subfamily based on sequence homology to the founding member of the subfamily, the yeast protein Drs2, which has been linked to ribosomal assembly, the formation of Golgi-coated vesicles, and the maintenance of PS asymmetry."
+result = re_model.transform(spark.createDataFrame([[sample_text]]).toDF("text"))
+```
+
+*Results* :
+
+```bash
++---------+--------+-------------+-----------+--------------------+-------+-------------+-----------+--------------------+----------+
+| relation| entity1|entity1_begin|entity1_end|              chunk1|entity2|entity2_begin|entity2_end|              chunk2|confidence|
++---------+--------+-------------+-----------+--------------------+-------+-------------+-----------+--------------------+----------+
+|SUBSTRATE|CHEMICAL|          308|        310|                  PS|   GENE|          275|        283|            flippase|  0.998399|
+|ACTIVATOR|CHEMICAL|         1563|       1578|     sn-1,2-glycerol|   GENE|         1479|       1509|plasma membrane P...|  0.999304|
+|ACTIVATOR|CHEMICAL|         1563|       1578|     sn-1,2-glycerol|   GENE|         1511|       1517|              Atp8a1|  0.979057|
++---------+--------+-------------+-----------+--------------------+-------+-------------+-----------+--------------------+----------+
+```
+
+#### New LOINC, SNOMED, UMLS and Clinical Abbreviation Entity Resolver Models
+
+We have five new Sentence Entity Resolver models.
+
++ `sbiobertresolve_clinical_abbreviation_acronym` : This model maps clinical abbreviations and acronyms to their meanings using `sbiobert_base_cased_mli` Sentence Bert Embeddings. It is a part of ongoing research we have been running in-house, and trained with a limited dataset. We’ll be updating & enriching the model in the upcoming releases.
+
+*Example* :
+
+```bash
+...
+abbr_resolver = SentenceEntityResolverModel.pretraind("sbiobertresolve_clinical_abbreviation_acronym", "en", "clinical/models")\
+  .setInputCols(["merged_chunk", "sentence_embeddings"])\
+  .setOutputCol("abbr_meaning")\
+  .setDistanceFunction("EUCLIDEAN")
+...
+
+sample_text = "HISTORY OF PRESENT ILLNESS: The patient three weeks ago was seen at another clinic for upper respiratory infection-type symptoms. She was diagnosed with a viral infection and had used OTC medications including Tylenol, Sudafed, and Nyquil."
+results = abb_model.transform(spark.createDataFrame([[sample_text]]).toDF('text'))
+```
+
+*Results* :
+
+```bash
+|   sent_id | ner_chunk   | entity   | abbr_meaning     | all_k_results                                                                      | all_k_resolutions          |
+|----------:|:------------|:---------|:-----------------|:-----------------------------------------------------------------------------------|:---------------------------|
+|         0 | OTC         | ABBR     | over the counter | ['over the counter', 'ornithine transcarbamoylase', 'enteric-coated', 'thyroxine'] | ['OTC', 'OTC', 'EC', 'T4'] |
+
+```
+
++ `sbiobertresolve_umls_drug_substance` : This model maps clinical entities to UMLS CUI codes. It is trained on `2021AB` UMLS dataset. The complete dataset has 127 different categories, and this model is trained on the `Clinical Drug`, `Pharmacologic Substance`, `Antibiotic`, `Hazardous or Poisonous Substance` categories using `sbiobert_base_cased_mli` embeddings.
+
+*Example* :
+
+```bash
+...
+umls_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_umls_drug_substance","en", "clinical/models")\
+  .setInputCols(["ner_chunk", "sbert_embeddings"])\
+  .setOutputCol("resolution")\
+  .setDistanceFunction("EUCLIDEAN")
+...
+
+results = model.fullAnnotate(['Dilaudid', 'Hydromorphone', 'Exalgo', 'Palladone', 'Hydrogen peroxide 30 mg', 'Neosporin Cream', 'Magnesium hydroxide 100mg/1ml', 'Metformin 1000 mg'])
+```
+
+*Results* :
+
+```bash
+|    | chunk                         | code     | code_description           | all_k_code_desc                                              | all_k_codes                                                                                                                                                                             |
+|---:|:------------------------------|:---------|:---------------------------|:-------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|  0 | Dilaudid                      | C0728755 | dilaudid                   | ['C0728755', 'C0719907', 'C1448344', 'C0305924', 'C1569295'] | ['dilaudid', 'Dilaudid HP', 'Disthelm', 'Dilaudid Injection', 'Distaph']                                                                                                                |
+|  1 | Hydromorphone                 | C0012306 | HYDROMORPHONE              | ['C0012306', 'C0700533', 'C1646274', 'C1170495', 'C0498841'] | ['HYDROMORPHONE', 'Hydromorphone HCl', 'Phl-HYDROmorphone', 'PMS HYDROmorphone', 'Hydromorphone injection']                                                                             |
+|  2 | Exalgo                        | C2746500 | Exalgo                     | ['C2746500', 'C0604734', 'C1707065', 'C0070591', 'C3660437'] | ['Exalgo', 'exaltolide', 'Exelgyn', 'Extacol', 'exserohilone']                                                                                                                          |
+|  3 | Palladone                     | C0730726 | palladone                  | ['C0730726', 'C0594402', 'C1655349', 'C0069952', 'C2742475'] | ['palladone', 'Palladone-SR', 'Palladone IR', 'palladiazo', 'palladia']                                                                                                                 |
+|  4 | Hydrogen peroxide 30 mg       | C1126248 | hydrogen peroxide 30 MG/ML | ['C1126248', 'C0304655', 'C1605252', 'C0304656', 'C1154260'] | ['hydrogen peroxide 30 MG/ML', 'Hydrogen peroxide solution 30%', 'hydrogen peroxide 30 MG/ML [Proxacol]', 'Hydrogen peroxide 30 mg/mL cutaneous solution', 'benzoyl peroxide 30 MG/ML'] |
+|  5 | Neosporin Cream               | C0132149 | Neosporin Cream            | ['C0132149', 'C0306959', 'C4722788', 'C0704071', 'C0698988'] | ['Neosporin Cream', 'Neosporin Ointment', 'Neomycin Sulfate Cream', 'Neosporin Topical Ointment', 'Naseptin cream']                                                                     |
+|  6 | Magnesium hydroxide 100mg/1ml | C1134402 | magnesium hydroxide 100 MG | ['C1134402', 'C1126785', 'C4317023', 'C4051486', 'C4047137'] | ['magnesium hydroxide 100 MG', 'magnesium hydroxide 100 MG/ML', 'Magnesium sulphate 100mg/mL injection', 'magnesium sulfate 100 MG', 'magnesium sulfate 100 MG/ML']                     |
+|  7 | Metformin 1000 mg             | C0987664 | metformin 1000 MG          | ['C0987664', 'C2719784', 'C0978482', 'C2719786', 'C4282269'] | ['metformin 1000 MG', 'metFORMIN hydrochloride 1000 MG', 'METFORMIN HCL 1000MG TAB', 'metFORMIN hydrochloride 1000 MG [Fortamet]', 'METFORMIN HCL 1000MG SA TAB']                       |
+
+```
+
++ `sbiobertresolve_loinc_cased` : This model maps extracted clinical NER entities to LOINC codes using `sbiobert_base_cased_mli` Sentence Bert Embeddings. It is trained with augmented **cased** concept names since sbiobert model is cased.
+
+*Example* :
+
+```bash
+...
+loinc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_cased", "en", "clinical/models")\
+  .setInputCols(["ner_chunk", "sbert_embeddings"])\
+  .setOutputCol("resolution")\
+  .setDistanceFunction("EUCLIDEAN")
+...
+
+sample_text= """The patient is a 22-year-old female with a history of obesity. She has a BMI of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hemoglobin is 8.2%."""
+result = model.transform(spark.createDataFrame([[sample_text]], ["text"]))
+```
+
+*Results* :
+
+```bash
++-------------------------------------+------+-----------+----------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                            ner_chunk|entity| resolution|                                           all_codes|                                                                                                                                                                                             resolutions|
++-------------------------------------+------+-----------+----------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                                  BMI|  Test|  LP35925-4|[LP35925-4, 59574-4, BDYCRC, 73964-9, 59574-4,...   |[Body mass index (BMI), Body mass index, Body circumference, Body muscle mass, Body mass index (BMI) [Percentile], ...                                                                                  |
+|           aspartate aminotransferase|  Test|    14409-7|[14409-7, 1916-6, 16325-3, 16324-6, 43822-6, 308... |[Aspartate aminotransferase, Aspartate aminotransferase/Alanine aminotransferase, Alanine aminotransferase/Aspartate aminotransferase, Alanine aminotransferase, Aspartate aminotransferase [Prese...   |
+|             alanine aminotransferase|  Test|    16324-6|[16324-6, 16325-3, 14409-7, 1916-6, 59245-1, 30...  |[Alanine aminotransferase, Alanine aminotransferase/Aspartate aminotransferase, Aspartate aminotransferase, Aspartate aminotransferase/Alanine aminotransferase, Alanine glyoxylate aminotransfer,...   |
+|                           hemoglobin|  Test|    14775-1|[14775-1, 16931-8, 12710-0, 29220-1, 15082-1, 72... |[Hemoglobin, Hematocrit/Hemoglobin, Hemoglobin pattern, Haptoglobin, Methemoglobin, Oxyhemoglobin, Hemoglobin test status, Verdohemoglobin, Hemoglobin A, Hemoglobin distribution width, Myoglobin,...  |
++-------------------------------------+------+-----------+----------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+```
+
++ `sbluebertresolve_loinc_uncased` : This model maps extracted clinical NER entities to LOINC codes using `sbluebert_base_uncased_mli` Sentence Bert Embeddings. It trained on the augmented version of the **uncased (lowercased)** dataset which is used in previous LOINC resolver models.
+
+*Example* :
+
+```bash
+...
+loinc_resolver = SentenceEntityResolverModel.pretrained("sbluebertresolve_loinc_uncased", "en", "clinical/models")\
+  .setInputCols(["jsl_ner_chunk", "sbert_embeddings"])\
+  .setOutputCol("resolution")\
+  .setDistanceFunction("EUCLIDEAN")
+...
+
+sample_text= """The patient is a 22-year-old female with a history of obesity. She has a BMI of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hgba1c is 8.2%."""
+result = model.transform(spark.createDataFrame([[sample_text]], ["text"]))
+```
+*Results* :
+
+```bash
++-------------------------------------+------+-----------+----------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                            ner_chunk|entity| resolution|                                           all_codes|                                                                                                                                                                                             resolutions|
++-------------------------------------+------+-----------+----------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                                  BMI|  Test|    39156-5|[39156-5, LP35925-4, BDYCRC, 73964-9, 59574-4,...]  |[Body mass index, Body mass index (BMI), Body circumference, Body muscle mass, Body mass index (BMI) [Percentile], ...]                                                                                 |
+|           aspartate aminotransferase|  Test|    14409-7|['14409-7', '16325-3', '1916-6', '16324-6',...]     |['Aspartate aminotransferase', 'Alanine aminotransferase/Aspartate aminotransferase', 'Aspartate aminotransferase/Alanine aminotransferase', 'Alanine aminotransferase', ...]                           |
+|             alanine aminotransferase|  Test|    16324-6|['16324-6', '1916-6', '16325-3', '59245-1',...]     |['Alanine aminotransferase', 'Aspartate aminotransferase/Alanine aminotransferase', 'Alanine aminotransferase/Aspartate aminotransferase', 'Alanine glyoxylate aminotransferase',...]                   |
+|                               hgba1c|  Test|    41995-2|['41995-2', 'LP35944-5', 'LP19717-5', '43150-2',...]|['Hemoglobin A1c', 'HbA1c measurement device', 'HBA1 gene', 'HbA1c measurement device panel', ...]                                                                                                      |
++-------------------------------------+------+-----------+------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+```
+
++ `sbiobertresolve_snomed_drug` : This model maps detected drug entities to SNOMED codes using `sbiobert_base_cased_mli` Sentence Bert Embeddings.
+
+*Example* :
+
+```bash
+...
+snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_drug", "en", "clinical/models") \
+    .setInputCols(["ner_chunk", "sentence_embeddings"]) \
+    .setOutputCol("snomed_code")\
+    .setDistanceFunction("EUCLIDEAN")
+...
+
+sample_text = "She is given Fragmin 5000 units subcutaneously daily, OxyContin 30 mg p.o. q.12 h., folic acid 1 mg daily, levothyroxine 0.1 mg p.o. daily, Avandia 4 mg daily, aspirin 81 mg daily, Neurontin 400 mg p.o. t.i.d., magnesium citrate 1 bottle p.o. p.r.n., sliding scale coverage insulin."
+results = model.transform(spark.createDataFrame([[sample_text]]).toDF('text'))
+```
+
+*Results* :
+
+```bash
++-----------------+------+-----------------+-----------------+------------------------------------------------------------+------------------------------------------------------------+
+|        ner_chunk|entity|      snomed_code|    resolved_text|                                               all_k_results|                                           all_k_resolutions|
++-----------------+------+-----------------+-----------------+------------------------------------------------------------+------------------------------------------------------------+
+|          Fragmin|  DRUG| 9487801000001106|          Fragmin|9487801000001106:::130752006:::28999000:::953500100000110...|Fragmin:::Fragilysin:::Fusarin:::Femulen:::Fumonisin:::Fr...|
+|        OxyContin|  DRUG| 9296001000001100|        OxyCONTIN|9296001000001100:::373470001:::230091000001108:::55452001...|OxyCONTIN:::Oxychlorosene:::Oxyargin:::oxyCODONE:::Oxymor...|
+|       folic acid|  DRUG|         63718003|       Folic acid|63718003:::6247001:::226316008:::432165000:::438451000124...|Folic acid:::Folic acid-containing product:::Folic acid s...|
+|    levothyroxine|  DRUG|10071011000001106|    Levothyroxine|10071011000001106:::710809001:::768532006:::126202002:::7...|Levothyroxine:::Levothyroxine (substance):::Levothyroxine...|
+|          Avandia|  DRUG| 9217601000001109|          avandia|9217601000001109:::9217501000001105:::12226401000001108::...|avandia:::avandamet:::Anatera:::Intanza:::Avamys:::Aragam...|
+|          aspirin|  DRUG|        387458008|          Aspirin|387458008:::7947003:::5145711000001107:::426365001:::4125...|Aspirin:::Aspirin-containing product:::Aspirin powder:::A...|
+|        Neurontin|  DRUG| 9461401000001102|        neurontin|9461401000001102:::130694004:::86822004:::952840100000110...|neurontin:::Neurolysin:::Neurine (substance):::Nebilet:::...|
+|magnesium citrate|  DRUG|         12495006|Magnesium citrate|12495006:::387401007:::21691008:::15531411000001106:::408...|Magnesium citrate:::Magnesium carbonate:::Magnesium trisi...|
+|          insulin|  DRUG|         67866001|          Insulin|67866001:::325072002:::414515005:::39487003:::411530000::...|Insulin:::Insulin aspart:::Insulin detemir:::Insulin-cont...|
++-----------------+------+-----------------+-----------------+------------------------------------------------------------+------------------------------------------------------------+
+
+```
+
+#### New ICD10 to ICD9 Code Mapping Pretrained Pipeline
+
+We are releasing new `icd10_icd9_mapping` pretrained pipeline. This pretrained pipeline maps ICD10 codes to ICD9 codes without using any text data. You’ll just feed a comma or white space-delimited ICD10 codes and it will return the corresponding ICD9 codes as a list.
+
+*Example* :
+
+```bash
+from sparknlp.pretrained import PretrainedPipeline
+pipeline = PretrainedPipeline("icd10_icd9_mapping", "en", "clinical/models")
+pipeline.annotate('E669 R630 J988')
+```
+*Results* :
+
+```bash
+{'document': ['E669 R630 J988'],
+'icd10': ['E669', 'R630', 'J988'],
+'icd9': ['27800', '7830', '5198']}
+
+Code Descriptions:
+
+|    | ICD10                | Details                               |
+|---:|:---------------------|:--------------------------------------|
+|  0 | E669                 | Obesity                               |
+|  1 | R630                 | Anorexia                              |
+|  2 | J988                 | Other specified respiratory disorders |
+
+|    | ICD9                 | Details                               |
+|---:|:---------------------|:--------------------------------------|
+|  0 | 27800                | Obesity                               |
+|  1 | 7830                 | Anorexia                              |
+|  2 | 5198                 | Other diseases of respiratory system  |
+
+```
+
+#### New Clinical Sentence Embedding Models
+
+We have two new clinical Sentence Embedding models.
+
++ `sbiobert_jsl_rxnorm_cased` : This model maps sentences & documents to a 768 dimensional dense vector space by using average pooling on top of BioBert model. It's also fine-tuned on RxNorm dataset to help generalization over medication-related datasets.
+
+*Example* :
+
+```bash
+...
+sentence_embeddings = BertSentenceEmbeddings.pretrained("sbiobert_jsl_rxnorm_cased", "en", "clinical/models")\
+  .setInputCols(["sentence"])\
+  .setOutputCol("sbioert_embeddings")
+...
+```
+
++ `sbert_jsl_medium_rxnorm_uncased` : This model maps sentences & documents to a 512-dimensional dense vector space by using average pooling on top of BERT model. It's also fine-tuned on the RxNorm dataset to help generalization over medication-related datasets.
+
+*Example* :
+
+```bash
+...
+sentence_embeddings = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_rxnorm_uncased", "en", "clinical/models")\
+  .setInputCols(["sentence"])\
+  .setOutputCol("sbert_embeddings")
+...
+```
+
+#### Printing Validation and Test Logs in MedicalNerApproach and AssertionDLApproach
+
+Now we can check validation loss and test loss for each epoch in the logs created during trainings of MedicalNerApproach and AssertionDLApproach.
+
+
+```bash
+Epoch 15/15 started, lr: 9.345794E-4, dataset size: 1330
+
+
+Epoch 15/15 - 56.65s - loss: 37.58828 - avg training loss: 1.7899181 - batches: 21
+Quality on validation dataset (20.0%), validation examples = 266
+time to finish evaluation: 8.11s
+Total validation loss: 15.1930	Avg validation loss: 2.5322
+label	 tp	 fp	 fn	 prec	 rec	 f1
+I-Disease	 707	 72	 121	 0.9075738	 0.8538647	 0.8799004
+B-Disease	 657	 81	 60	 0.8902439	 0.916318	 0.90309274
+tp: 1364 fp: 153 fn: 181 labels: 2
+Macro-average	 prec: 0.89890885, rec: 0.88509136, f1: 0.8919466
+Micro-average	 prec: 0.89914304, rec: 0.8828479, f1: 0.89092094
+Quality on test dataset: 
+time to finish evaluation: 9.11s
+Total test loss: 17.7705	Avg test loss: 1.6155
+label	 tp	 fp	 fn	 prec	 rec	 f1
+I-Disease	 663	 113	 126	 0.85438144	 0.8403042	 0.8472843
+B-Disease	 631	 122	 77	 0.8379814	 0.8912429	 0.86379194
+tp: 1294 fp: 235 fn: 203 labels: 2
+Macro-average	 prec: 0.8461814, rec: 0.86577356, f1: 0.85586536
+Micro-average	 prec: 0.8463048, rec: 0.86439544, f1: 0.8552544
+```
+
+#### Filter Only the Regex Entities Feature in Deidentification Annotator
+
+The `setBlackList()` method will be able to filter just the detected Regex Entities. Before this change we filtered the chunks and the regex entities.
+
+#### Add `.setMaskingPolicy` Parameter in Deidentification Annotator
+
+Now we can have three modes to mask the entities in the Deidentification annotator.
+You can select the modes using the `.setMaskingPolicy("entity_labels")`.
+
+The methods are the followings:
+  1. "entity_labels": Mask with the entity type of that chunk. (default)
+  2. "same_length_chars": Mask the deid entities with same length of asterix (`*`) with brackets (`[`,`]`) on both end.
+  3. "fixed_length_chars": Mask the deid entities with a fixed length of asterix (`*`). The length is setting up using the `setFixedMaskLength(4)` method.
+
+
+Given the following sentence `John Snow is a good guy.` the result will be:
+
+  1. "entity_labels": `<NAME> is a good guy.`
+  2. "same_length_chars": `[*******] is a good guy.`
+  3. "fixed_length_chars": `**** is a good guy.`
+
+*Example*
+```bash
+Masked with entity labels
+------------------------------
+DATE <DATE>, <DOCTOR>,  The driver's license <DLN>.
+
+Masked with chars
+------------------------------
+DATE [**********], [***********],  The driver's license [*********].
+
+Masked with fixed length chars
+------------------------------
+DATE ****, ****,  The driver's license ****.
+
+Obfuscated
+------------------------------
+DATE 07-04-1981, Dr Vivian Irving,  The driver's license K272344712994.
+```
+
+#### Add `.cache_folder` Parameter in `UpdateModels.updateCacheModels()`
+
+This parameter lets user to define custom local paths for the folder on which pretrained models are saved (rather than using default cached_pretrained folder).
+
+This cache_folder must be a path ("hdfs:..","file:...").
+
+```bash
+UpdateModels.updateCacheModels("file:/home/jsl/cache_pretrained_2")
+```
+
+```bash
+UpdateModels.updateModels("12/01/2021","file:/home/jsl/cache_pretrained_2")
+```
+
+The cache folder used by default is the folder loaded in the spark configuration ` spark.jsl.settings.pretrained.cache_folder`.The default value for that property is `~/cache_pretrained`
+
+
+#### S3 Access Credentials No Longer Shipped Along Licenses
+
+S3 access credentials are no longer being shipped with licenses. Going forward, we'll use temporal S3 access credentials which will be periodically refreshed. All this will happen automatically and will be transparent to the user.
+Still, for those users who would need to perform manual tasks involving access to S3, there's a mechanism to get access to the set of credentials being used by the library at any given time.
+
+```bash
+from sparknlp_jsl import get_credentials
+get_credentials(spark)
+```
+
+#### Enhanced Security for the Library and log4shell Update
+
+On top of periodical security checks on the library code, 3rd party dependencies were analyzed, and some dependencies reported as containing vulnerabilities were replaced by more secure options.
+Also, the library was analyzed in the context of the recently discovered threat(CVE-2021-45105) on the log4j library. Spark NLP for Healthcare does not depend on the log4j library by itself, but the library gets loaded through some of its dependencies.
+It's worth noting that the version of log4j dependency that will be in the classpath when running Spark NLP for Healthcare is 1.x, which would make the system vulnerable to CVE-2021-4104, instead of CVE-2021-45105. CVE-2021-4104 is related to the JMSAppender.
+Spark NLP for Healthcare does not provide any log4j configuration, so it's up to the user to follow the recommendation of avoiding the use of the JMSAppender.
+
+
+#### New Peer-Reviewed Conference Paper on Clinical Relation Extraction
+
+We publish a new peer-reviewed conference paper titled [Deeper Clinical Document Understanding Using Relation Extraction](https://arxiv.org/pdf/2112.13259.pdf) explaining the applications of Relation Extraction in a text mining framework comprising of Named Entity Recognition (NER) and Relation Extraction (RE) models. The paper is accepted to SDU (Scientific Document Understanding) workshop at AAAI-2022 conference and claims new SOTA scores on 5 out of 7 Biomedical & Clinical Relation Extraction (RE) tasks.
+
+|Dataset|FCNN|BioBERT|Curr-SOTA|
+|-|-|-|-|
+|i2b2-Temporal|68.7|**73.6**|72.41|
+|i2b2-Clinical|60.4|**69.1**|67.97|
+|DDI|69.2|72.1|**84.1**|
+|CPI|65.8|74.3|**88.9**|
+|PGR|81.2|**87.9**|79.4|
+|ADE Corpus|89.2|**90.0**|83.7|
+|Posology|87.8|**96.7**|96.1|
+
+*Macro-averaged F1 scores of both RE models on public datasets. FCNN refers to the Speed-Optimized FCNN architecture, while BioBERT refers to the AccuracyOptimized BioBERT architecture. The SOTA metrics are obtained from (Guan et al. 2020), (Ningthoujam et al. 2019), (Asada, Miwa, and Sasaki 2020), (Phan et al. 2021), (Sousa
+and Couto 2020), (Crone 2020), and (Yang et al. 2021) respectively.*
+
+
+#### New Peer-Reviewed Conference Paper on Adverse Drug Events Extraction
+
+We publish a new peer-reviewed conference paper titled [Mining Adverse Drug Reactions from Unstructured Mediums at Scale](https://arxiv.org/pdf/2201.01405.pdf) proposing an end-to-end Adverse Drug Event mining solution using Classification, NER, and Relation Extraction Models. The paper is accepted to W3PHIAI (INTERNATIONAL WORKSHOP ON HEALTH INTELLIGENCE) workshop at AAAI-2022 conference, and claims new SOTA scores on 1 benchmark dataset for Classification, 3 benchmark datasets for NER, and 1 benchmark dataset for Relation Extraction.
+
+|Task | Dataset | Spark NLP | Curr-SOTA |
+|-|-|-|-|
+|Classification|ADE|85.96|**87.0**|
+|Classification|CADEC|**86.69**|81.5|
+|Entity Recognition|ADE|**91.75**|91.3|
+|Entity Recognition|CADEC|**78.36**|71.9|
+|Entity Recognition|SMM4H|**76.73**|67.81|
+|Relation Extraction|ADE|**90.0**|83.7|
+
+*All F1 scores are Macro-averaged*
+
+#### New and Updated Notebooks
+
++ We have two new Notebooks:
+  - [Chunk Sentence Splitter Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/18.Chunk_Sentence_Splitter.ipynb) that involves usage of `ChunkSentenceSplitter` annotator.
+  - [Clinical Relation Extraction Spark NLP Paper Reproduce Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.3.Clinical_RE_SparkNLP_Paper_Reproduce.ipynb) that can be used for reproducing the results in  [Deeper Clinical Document Understanding Using Relation Extraction](https://arxiv.org/pdf/2112.13259.pdf) paper.
+
++ We have updated our existing notebooks by adding new features and functionalities. Here are updated notebooks:
+  - [Clinical Named Entity Recognition Model](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb)
+  - [Clinical Entity Resolver Models](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb)
+  - [Clinical DeIdentification](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.Clinical_DeIdentification.ipynb)
+  - [Clinical NER Chunk Merger](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/7.Clinical_NER_Chunk_Merger.ipynb)
+  - [Pretrained Clinical Pipelines](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb)
+  - [Healthcare Code Mapping](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.1.Healthcare_Code_Mapping.ipynb)
+  - [Improved Entity Resolvers in Spark NLP with sBert](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb)
+
+
+**To see more, please check : [Spark NLP Healthcare Workshop Repo](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Healthcare)**
+
+
 
 ## 3.3.4
 We are glad to announce that Spark NLP Healthcare 3.3.4 has been released!
@@ -36,7 +1298,7 @@ We are glad to announce that Spark NLP Healthcare 3.3.4 has been released!
 
 We have three new clinical NER models.
 
-+ `ner_deid_subentity_augmented_i2b2` : This model annotates text to find protected health information(PHI) that may need to be removed. It is trained with an augmented version of 2014 i2b2 Deid dataset and can detect `MEDICALRECORD`, `ORGANIZATION`, `DOCTOR`, `USERNAME`, `PROFESSION`, `HEALTHPLAN`, `URL`, `CITY`, `DATE`, `LOCATION-OTHER`, `STATE`, `PATIENT`, `DEVICE`, `COUNTRY`, `ZIP`, `PHONE`, `HOSPITAL`, `EMAIL`, `IDNUM`, `SREET`, `BIOID`, `FAX`, `AGE` entities.
++ `ner_deid_subentity_augmented_i2b2` : This model annotates text to find protected health information(PHI) that may need to be removed. It is trained with 2014 i2b2 dataset (no augmentation applied) and can detect `MEDICALRECORD`, `ORGANIZATION`, `DOCTOR`, `USERNAME`, `PROFESSION`, `HEALTHPLAN`, `URL`, `CITY`, `DATE`, `LOCATION-OTHER`, `STATE`, `PATIENT`, `DEVICE`, `COUNTRY`, `ZIP`, `PHONE`, `HOSPITAL`, `EMAIL`, `IDNUM`, `SREET`, `BIOID`, `FAX`, `AGE` entities.
 
 *Example* : 
 
@@ -923,7 +2185,7 @@ chunk_embeddings = SentenceEmbeddings() \
     .setOutputCol("chunk_embeddings") \
     .setPoolingStrategy("AVERAGE")
     
-er = SentenceEntityResolverModel.pretrained("roberta_base_biomedical_snomed", "es", "clinical/models")\
+er = SentenceEntityResolverModel.pretrained("robertaresolve_snomed", "es", "clinical/models")\
     .setInputCols(["ner_chunk_doc", "chunk_embeddings"]) \
     .setOutputCol("snomed_code") \
     .setDistanceFunction("EUCLIDEAN")

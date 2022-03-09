@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ import scala.collection.immutable.Map
  *   1. Setting `setMergeEntities` to `true` will download the default pretrained models for those two Annotators
  *      automatically. The specific models can also be set with `setDependencyParserModel` and
  *      `setTypedDependencyParserModel`:
- *      {{{
+ * {{{
  *            val graph_extraction = new GraphExtraction()
  *              .setInputCols("document", "token", "ner")
  *              .setOutputCol("graph")
@@ -57,7 +57,7 @@ import scala.collection.immutable.Map
  *              .setMergeEntities(true)
  *            //.setDependencyParserModel(Array("dependency_conllu", "en",  "public/models"))
  *            //.setTypedDependencyParserModel(Array("dependency_typed_conllu", "en",  "public/models"))
- *      }}}
+ * }}}
  *
  * To transform the resulting graph into a more generic form such as RDF, see the
  * [[com.johnsnowlabs.nlp.GraphFinisher GraphFinisher]].
@@ -159,6 +159,7 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
 
   /**
    * Find paths between a pair of token and entity (Default: `Array()`)
+   *
    * @group param
    */
   val relationshipTypes = new StringArrayParam(this, "relationshipTypes",
@@ -166,6 +167,7 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
 
   /**
    * Find paths between a pair of entities (Default: `Array()`)
+   *
    * @group param
    */
   val entityTypes = new StringArrayParam(this, "entityTypes",
@@ -173,6 +175,7 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
 
   /**
    * When set to true find paths between entities (Default: `false`)
+   *
    * @group param
    */
   val explodeEntities = new BooleanParam(this, "explodeEntities",
@@ -180,6 +183,7 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
 
   /**
    * Tokens to be consider as root to start traversing the paths (Default: `Array()`). Use it along with `explodeEntities`
+   *
    * @group param
    */
   val rootTokens = new StringArrayParam(this, "rootTokens",
@@ -187,6 +191,7 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
 
   /**
    * Maximum sentence size that the annotator will process (Default: `1000`). Above this, the sentence is skipped
+   *
    * @group param
    */
   val maxSentenceSize = new IntParam(this, "maxSentenceSize",
@@ -194,6 +199,7 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
 
   /**
    * Minimum sentence size that the annotator will process (Default: `2`). Below this, the sentence is skipped
+   *
    * @group param
    */
   val minSentenceSize = new IntParam(this, "minSentenceSize",
@@ -201,6 +207,7 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
 
   /**
    * Merge same neighboring entities as a single token (Default: `false`)
+   *
    * @group param
    */
   val mergeEntities = new BooleanParam(this, "mergeEntities",
@@ -208,12 +215,14 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
 
   /**
    * IOB format to apply when merging entities
+   *
    * @group param
    */
   val mergeEntitiesIOBFormat = new Param[String](this, "mergeEntitiesIOBFormat", "IOB format to apply when merging entities. Values: IOB or IOB2")
 
   /**
    * Whether to include edges when building paths (Default: `true`)
+   *
    * @group param
    */
   val includeEdges = new BooleanParam(this, "includeEdges",
@@ -221,6 +230,7 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
 
   /**
    * Delimiter symbol used for path output (Default: `","`)
+   *
    * @group param
    */
   val delimiter = new Param[String](this, "delimiter",
@@ -228,6 +238,7 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
 
   /**
    * Coordinates (name, lang, remoteLoc) to a pretrained POS model (Default: `Array()`)
+   *
    * @group param
    */
   val posModel = new StringArrayParam(this, "posModel",
@@ -235,6 +246,7 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
 
   /**
    * Coordinates (name, lang, remoteLoc) to a pretrained Dependency Parser model (Default: `Array()`)
+   *
    * @group param
    */
   val dependencyParserModel = new StringArrayParam(this, "dependencyParserModel",
@@ -242,6 +254,7 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
 
   /**
    * Coordinates (name, lang, remoteLoc) to a pretrained Typed Dependency Parser model (Default: `Array()`)
+   *
    * @group param
    */
   val typedDependencyParserModel = new StringArrayParam(this, "typedDependencyParserModel",
@@ -333,8 +346,9 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
       .filter(annotation => annotation.result.length > $(maxSentenceSize) || annotation.result.length < $(minSentenceSize))
       .map(annotation => annotation.metadata("sentence")).toList.distinct
 
-    val annotationsToProcess = annotations.filter(annotation =>
-      !sentenceIndexesToSkip.contains(annotation.metadata("sentence")))
+    val annotationsToProcess = annotations.filter(annotation => {
+      !sentenceIndexesToSkip.contains(annotation.metadata.getOrElse("sentence", "0"))
+    })
 
     if (annotationsToProcess.isEmpty) {
       Seq(Annotation(NODE, 0, 0, "", Map()))
@@ -344,7 +358,7 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
   }
 
   private def computeAnnotatePaths(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val annotationsBySentence = annotations.groupBy(token => token.metadata("sentence").toInt)
+    val annotationsBySentence = annotations.groupBy(token => token.metadata.getOrElse("sentence", "0").toInt)
       .toSeq.sortBy(_._1)
       .map(annotationBySentence => annotationBySentence._2)
 
@@ -564,13 +578,16 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
 
   /**
    * Output annotator types: NODE
+   *
    * @group anno
    */
   override val outputAnnotatorType: AnnotatorType = NODE
+
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
 
   /**
    * Input annotator types: DOCUMENT, TOKEN, NAMED_ENTITY
+   *
    * @group anno
    */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN, NAMED_ENTITY)

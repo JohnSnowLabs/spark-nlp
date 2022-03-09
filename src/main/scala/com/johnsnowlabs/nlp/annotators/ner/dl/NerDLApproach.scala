@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSentence}
-import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
+import com.johnsnowlabs.nlp.annotators.ner.{ModelMetrics, NerApproach, Verbose}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
@@ -159,58 +159,71 @@ class NerDLApproach(override val uid: String)
    * @group param
    * */
   val lr = new FloatParam(this, "lr", "Learning Rate")
+
   /** Learning rate decay coefficient (Default: `0.005f`). Real Learning Rate calculates to `lr / (1 + po * epoch)`
    *
    * @group param
    * */
   val po = new FloatParam(this, "po", "Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)")
+
   /** Batch size (Default: `8`)
    *
    * @group param
    * */
   val batchSize = new IntParam(this, "batchSize", "Batch size")
+
   /** Dropout coefficient (Default: `0.5f`)
    *
    * @group param
    * */
   val dropout = new FloatParam(this, "dropout", "Dropout coefficient")
+
   /** Folder path that contain external graph files
    *
    * @group param
    * */
   val graphFolder = new Param[String](this, "graphFolder", "Folder path that contain external graph files")
+
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
    *
    * @group param
    * */
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+
   /** Whether to use contrib LSTM Cells (Default: `true`). Not compatible with Windows. Might slightly improve accuracy.
+   * This param is deprecated and only exists for backward compatibility
    *
    * @group param
    * */
-  val useContrib = new BooleanParam(this, "useContrib", "Whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.")
+  val useContrib = new BooleanParam(this, "useContrib", "deprecated param - the value won't have any effect")
+
+
   /** Choose the proportion of training dataset to be validated against the model on each Epoch (Default: `0.0f`).
    * The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
    *
    * @group param
    * */
   val validationSplit = new FloatParam(this, "validationSplit", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
+
   /** Whether logs for validation to be extended (Default: `false`): it displays time and evaluation of each label
    *
    * @group param
    * */
   val evaluationLogExtended = new BooleanParam(this, "evaluationLogExtended", "Whether logs for validation to be extended: it displays time and evaluation of each label. Default is false.")
+
   /** Whether to output to annotators log folder (Default: `false`)
    *
    * @group param
    * */
   val enableOutputLogs = new BooleanParam(this, "enableOutputLogs", "Whether to output to annotators log folder")
 
+
   /** Path to test dataset. If set, it is used to calculate statistics on it during training.
    *
    * @group param
    * */
   val testDataset = new ExternalResourceParam(this, "testDataset", "Path to test dataset. If set, it is used to calculate statistics on it during training.")
+
   /** Whether to include confidence scores in annotation metadata (Default: `false`)
    *
    * @group param
@@ -234,6 +247,19 @@ class NerDLApproach(override val uid: String)
    * @group param
    */
   val enableMemoryOptimizer = new BooleanParam(this, "enableMemoryOptimizer", "Whether to optimize for large datasets or not. Enabling this option can slow down training.")
+
+  /** Whether to restore and use the model that has achieved the best performance at the end of the training.
+   * The metric that is being monitored is F1 for testDataset and if it's not set it will be validationSplit, and if it's not set finally looks for loss.
+   *
+   * @group param
+   */
+  val useBestModel = new BooleanParam(this, "useBestModel", "Whether to restore and use the model that has achieved the best performance at the end of the training.")
+
+  /** Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model
+   *
+   * @group param
+   */
+  val bestModelMetric = new Param[String](this, "bestModelMetric", "Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model")
 
   /** Learning Rate
    *
@@ -300,6 +326,18 @@ class NerDLApproach(override val uid: String)
    * @group getParam
    * */
   def getEnableMemoryOptimizer: Boolean = $(this.enableMemoryOptimizer)
+
+  /** useBestModel
+   *
+   * @group getParam
+   * */
+  def getUseBestModel: Boolean = $(this.useBestModel)
+
+  /**
+   *
+   * @group getParam
+   */
+  def getBestModelMetric: String = $(bestModelMetric)
 
   /** Learning Rate
    *
@@ -400,6 +438,25 @@ class NerDLApproach(override val uid: String)
    * */
   def setIncludeAllConfidenceScores(value: Boolean): this.type = set(this.includeAllConfidenceScores, value)
 
+  /**
+   *
+   * @group setParam
+   * */
+  def setUseBestModel(value: Boolean): NerDLApproach.this.type = set(this.useBestModel, value)
+
+  /**
+   *
+   * @group setParam
+   */
+  def setBestModelMetric(value: String): NerDLApproach.this.type = {
+
+    if (value == ModelMetrics.macroF1)
+      set(bestModelMetric, value)
+    else
+      set(bestModelMetric, ModelMetrics.microF1)
+    this
+  }
+
   setDefault(
     minEpochs -> 0,
     maxEpochs -> 70,
@@ -415,7 +472,9 @@ class NerDLApproach(override val uid: String)
     includeAllConfidenceScores -> false,
     enableOutputLogs -> false,
     outputLogsPath -> "",
-    enableMemoryOptimizer -> false
+    enableMemoryOptimizer -> false,
+    useBestModel -> false,
+    bestModelMetric -> ModelMetrics.microF1
   )
 
   override val verboseLevel: Verbose.Level = Verbose($(verbose))
@@ -462,8 +521,7 @@ class NerDLApproach(override val uid: String)
       settings
     )
 
-    val graphFile = NerDLApproach.searchForSuitableGraph(labels.size, embeddingsDim, chars.size + 1,
-      get(graphFolder))
+    val graphFile = NerDLApproach.searchForSuitableGraph(labels.size, embeddingsDim, chars.size + 1, get(graphFolder))
 
     val graph = new Graph()
     val graphStream = ResourceHelper.getResourceStream(graphFile)
@@ -472,14 +530,14 @@ class NerDLApproach(override val uid: String)
 
     val tf = new TensorflowWrapper(Variables(Array.empty[Array[Byte]], Array.empty[Byte]), graph.toGraphDef.toByteArray)
 
-    val ner = try {
+    val (ner, trainedTf) = try {
       val model = new TensorflowNer(tf, encoder, Verbose($(verbose)))
       if (isDefined(randomSeed)) {
         Random.setSeed($(randomSeed))
       }
 
       // start the iterator here once again
-      model.train(trainIteratorFunc(),
+      val trainedTf = model.train(trainIteratorFunc(),
         dsLen,
         validIteratorFunc(),
         (dsLen * $(validationSplit)).toLong,
@@ -487,18 +545,20 @@ class NerDLApproach(override val uid: String)
         $(po),
         $(dropout),
         $(batchSize),
+        $(useBestModel),
+        $(bestModelMetric),
         graphFileName = graphFile,
         test = testIteratorFunc(),
+        startEpoch = 0,
         endEpoch = $(maxEpochs),
         configProtoBytes = getConfigProtoBytes,
         validationSplit = $(validationSplit),
         evaluationLogExtended = $(evaluationLogExtended),
-        includeConfidence = $(includeConfidence),
         enableOutputLogs = $(enableOutputLogs),
         outputLogsPath = $(outputLogsPath),
         uuid = this.uid
       )
-      model
+      (model, trainedTf)
     }
 
     catch {
@@ -507,10 +567,7 @@ class NerDLApproach(override val uid: String)
         throw e
     }
 
-    val newWrapper =
-      new TensorflowWrapper(
-        TensorflowWrapper.extractVariablesSavedModel(tf.getSession(configProtoBytes = getConfigProtoBytes)),
-        tf.graph)
+    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariablesSavedModel(trainedTf), tf.graph)
 
     val model = new NerDLModel()
       .setDatasetParams(ner.encoder.params)
@@ -641,7 +698,6 @@ trait WithGraphResolver {
     if (localGraphPath.isDefined && localGraphPath.get.startsWith("s3://")) {
 
       val bucketName = localGraphPath.get.substring("s3://".length).split("/").head
-
 
       require(bucketName != "", "S3 bucket name is not define. Please define it with parameter setS3BucketName")
 

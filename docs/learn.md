@@ -103,7 +103,7 @@ modify_date: "2019-05-16"
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/478640529" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">John Snow Labs NLU: Become a Data Science Superhero with One Line of Python code. Christian Kasim Loan - November, 2020</div></div></div>
 
-<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='bl64A0nXujg' -%}<div class="video-descr">Making State of the Art Natural Language Processing Easier to Apply. David Talby - 3 Nov 2020</div></div></div>
+<!--<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='bl64A0nXujg' -%}<div class="video-descr">Making State of the Art Natural Language Processing Easier to Apply. David Talby - 3 Nov 2020</div></div></div>-->
 
 </div></div>
 
@@ -338,11 +338,23 @@ modify_date: "2019-05-16"
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='dSKMNyo8fKw' -%}<div class="video-descr">Advancing the State of the Art in Applied Natural Language Processing | Healthcare NLP Summit 2021. David Talby - 21 Apr 2021</div></div></div>
 
-<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='mUpNZ6fbzkA' -%}<div class="video-descr">Connecting the Dots in Clinical Document Understanding &amp; Information Extraction I Health NLP Summit. Veysel Kocaman - 15 Apr 2021</div></div></div>
+<!--<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='mUpNZ6fbzkA' -%}<div class="video-descr">Connecting the Dots in Clinical Document Understanding &amp; Information Extraction I Health NLP Summit. Veysel Kocaman - 15 Apr 2021</div></div></div>-->
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='WMafm6hF1mE' -%}<div class="video-descr">How to Apply State-of-the-Art Natural Language Processing in Healthcare. David Talby - 15 Sep 2020</div></div></div>
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='iHjdqF6iCnU' -%}<div class="video-descr">Advanced Natural Language Processing with Apache Spark NLP. David Talby - 20 Aug 2020</div></div></div>
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/413744566" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">Applying State-of-the-art Natural Language Processing for Personalized Healthcare. David Talby - April 13, 2020</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/412399242" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">State-of-the-art Natural Language Processing at Scale. David Talby - April 13, 2020</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/414853790" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">Apache SPARK NLP: Extending SPARK ML to Deliver Fast, Scalable & Unified Natural Language Processing. David Talby - June 04, 2018</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/414861725" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">State of the Art Natural Language Processing at Scale. David Talby - June 04, 2018</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/413701101" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">Spark NLP in Action: Learning to read Life Science research. Saif Addin Ellafi - May 28, 2018</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/414847878" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">Natural Language Understanding at Scale with Spark-Native NLP, Spark ML, and TensorFlow. Alexander Thomas - October 14, 2018</div></div></div>
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='rpmbKLxFMWY' -%}<div class="video-descr">Apache Spark NLP for Healthcare: Lessons Learned Building Real-World Healthcare AI Systems. Veysel Kocaman - 9 Jul 2020</div></div></div>
 
@@ -362,6 +374,10 @@ modify_date: "2019-05-16"
 #### Articles
 
 <div class="grid--container container-aside article-wrapper"><div class="grid">
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[Contextual Parser: Increased Flexibility Extracting Entities in Spark NLP](https://medium.com/spark-nlp/contextual-parser-increased-flexibility-extracting-entities-in-spark-nlp-123ed58672f0)</span><span class="video-descr">Luca Martial - Feb 09 2022</span>
+</div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
 <span class="article-inner">![News](/assets/images/Article_8.jpg)[Named Entity Recognition for Healthcare with SparkNLP NerDL and NerCRF](https://medium.com/spark-nlp/named-entity-recognition-for-healthcare-with-sparknlp-nerdl-and-nercrf-a7751b6ad571)</span><span class="video-descr">Maggie Yilmaz - Jul 20 2020</span>

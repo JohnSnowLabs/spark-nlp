@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -129,8 +129,8 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
   it should "get content from SourceStream" taggedAs FastTest in {
     val sourceStream =  ResourceHelper.SourceStream("src/test/resources/entity-ruler/patterns.jsonl")
     val expectedContent = Array(
-      "{\"id\": \"names-with-j\", \"label\": \"PERSON\", \"patterns\": [\"Jon\", \"John\", \"John Snow\"]}",
-      "{\"id\": \"names-with-s\", \"label\": \"PERSON\", \"patterns\": [\"Stark\", \"Snow\"]}",
+      "{\"id\": \"names-with-j\", \"label\": \"PERSON\", \"patterns\": [\"Jon\", \"John\", \"John Snow\", \"Jon Snow\"]}",
+      "{\"id\": \"names-with-s\", \"label\": \"PERSON\", \"patterns\": [\"Stark\"]}",
       "{\"id\": \"names-with-e\", \"label\": \"PERSON\", \"patterns\": [\"Eddard\", \"Eddard Stark\"]}",
       "{\"id\": \"locations\", \"label\": \"LOCATION\", \"patterns\": [\"Winterfell\"]}"
     )

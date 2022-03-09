@@ -21,12 +21,10 @@ NER model that detects professions and occupations in Spanish texts. Trained wit
 
 ## Predicted Entities
 
-- `ACTIVIDAD` (occupation)
-- `PROFESION` (profession)
-- `SITUACION_LABORAL` (labor situation)
+`ACTIVIDAD`, `PROFESION`, `SITUACION_LABORAL`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_PROFESSIONS_ES/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/meddroprof_scielowiki_es_3.1.3_3.0_1627328955264.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

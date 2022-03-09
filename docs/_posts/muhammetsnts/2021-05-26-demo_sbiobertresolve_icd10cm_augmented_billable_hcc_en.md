@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP for Healthcare 3.0.3
 spark_version: 3.0
 supported: true
+deprecated: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -21,11 +22,11 @@ This model runs on Spark NLP for Heathcare v3.1.0 and after. The model maps extr
 
 ## Predicted Entities
 
-Outputs 7-digit billable ICD codes. In the result, look for ` aux_label ` parameter in the metadata to get HCC status. The HCC status can be divided to get further information: `billable status`, ` hcc status`, and `hcc score`.`For example, in the example shared below the `billable status ` is 1, ` hcc status ` is 1, and `hcc score ` is 8.
+Outputs 7-digit billable ICD codes. In the result, look for `aux_label` parameter in the metadata to get HCC status. The HCC status can be divided to get further information: `billable status`, `hcc status`, and `hcc score`.`For example, in the example shared below the `billable status` is 1, `hcc status` is 1, and `hcc score` is 8.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/demo_sbiobertresolve_icd10cm_augmented_billable_hcc_en_3.0.3_3.0_1622041004614.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -38,33 +39,46 @@ Outputs 7-digit billable ICD codes. In the result, look for ` aux_label ` parame
 document_assembler = DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
+
 sbert_embedder = BertSentenceEmbeddings\
      .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
      .setInputCols(["document"])\
      .setOutputCol("sbert_embeddings")
-icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
+
+icd10_resolver = SentenceEntityResolverModel.pretrained("demo_sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
      .setInputCols(["document", "sbert_embeddings"]) \
      .setOutputCol("icd10cm_code")\
-     .setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
+     .setDistanceFunction("EUCLIDEAN")\
+     .setReturnCosineDistances(True)
+
 bert_pipeline_icd = PipelineModel(stages = [document_assembler, sbert_embedder, icd10_resolver])
 
-model = bert_pipeline_icd.fit(spark.createDataFrame([["metastatic lung cancer"]]).toDF("text"))
-results = model.transform(data)
+data = spark.createDataFrame([["metastatic lung cancer"]]).toDF("text")
+
+results = bert_pipeline_icd.fit.(data).transform(data)
 ```
 ```scala
-val document_assembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
-val sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-     .setInputCols(["document"])\
+val document_assembler = DocumentAssembler()
+     .setInputCol("text")
+     .setOutputCol("document")
+
+val sbert_embedder = BertSentenceEmbeddings
+     .pretrained("sbiobert_base_cased_mli","en","clinical/models")
+     .setInputCols(Array("document"))
      .setOutputCol("sbert_embeddings")
-val icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
-     .setInputCols(["document", "sbert_embeddings"]) \
-     .setOutputCol("icd10cm_code")\
-     .setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
+
+val icd10_resolver = SentenceEntityResolverModel
+     .pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models")
+     .setInputCols(Array("document", "sbert_embeddings"))
+     .setOutputCol("icd10cm_code")
+     .setDistanceFunction("EUCLIDEAN")
+     .setReturnCosineDistances(True)
+
 val bert_pipeline_icd = new Pipeline().setStages(Array(document_assembler, sbert_embedder, icd10_resolver))
-val result = bert_pipeline_icd.fit(Seq.empty["metastatic lung cancer"].toDS.toDF("text")).transform(data)
+
+val data = Seq.empty["metastatic lung cancer"].toDS.toDF("text")
+
+val result = bert_pipeline_icd.fit(data).transform(data)
 ```
 </div>
 

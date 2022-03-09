@@ -1,4 +1,4 @@
-#  Copyright 2017-2021 John Snow Labs
+#  Copyright 2017-2022 John Snow Labs
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -156,6 +156,33 @@ class TokenizerTestSpec(unittest.TestCase):
         self.assertEqual(len(finished.first()['token_out']), 4)
 
 
+class TokenizerWithExceptionsTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.session = SparkContextForTest.spark
+
+    def runTest(self):
+        data = self.session.createDataFrame(
+            [("My friend moved to New York. She likes it. Frank visited New York, and didn't like it.",)], ["text"])
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
+            .setOutputCol("token") \
+            .setExceptionsPath(path="file:///" + os.getcwd() + "/../src/test/resources/token_exception_list.txt")
+        finisher = Finisher() \
+            .setInputCols(["token"]) \
+            .setOutputCols(["token_out"]) \
+            .setOutputAsArray(True)
+        assembled = document_assembler.transform(data)
+        tokenized = tokenizer.fit(assembled).transform(assembled)
+        finished = finisher.transform(tokenized)
+        # print(finished.first()['token_out'])
+        self.assertEqual((finished.first()['token_out']).index("New York."), 4)
+        self.assertEqual((finished.first()['token_out']).index("New York,"), 11)
+
+
 class ChunkTokenizerTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -224,7 +251,7 @@ class DateMatcherTestSpec(unittest.TestCase):
         date_matcher = DateMatcher() \
             .setInputCols(['document']) \
             .setOutputCol("date") \
-            .setFormat("yyyyMM") \
+            .setOutputFormat("yyyyMM") \
             .setSourceLanguage("en")
 
         assembled = document_assembler.transform(self.data)
@@ -310,6 +337,41 @@ class DocumentNormalizerSpec(unittest.TestCase):
         ds = doc_normalizer_pipeline.fit(df).transform(df)
 
         ds.select("normalizedDocument").show()
+
+
+class RegexTokenizerTestSpec(unittest.TestCase):
+    def setUp(self) -> None:
+        self.data = SparkSessionForTest.spark.createDataFrame(
+            [["AL 123456!, TX 54321-4444, AL :55555-4444, 12345-4444, 12345"]]
+        ).toDF("text")
+
+    def runTest(self) -> None:
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+
+        pattern = "^(\\s+)|(?=[\\s+\"\'\|:;<=>!?~{}*+,$)\(&%\\[\\]])|(?<=[\\s+\"\'\|:;<=>!?~{}*+,$)\(&%\\[\\]])|(?=\.$)"
+
+        regex_tok = RegexTokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("regex_token") \
+            .setPattern(pattern) \
+            .setTrimWhitespace(False) \
+            .setPreservePosition(True)
+
+        pipeline = Pipeline().setStages([document_assembler, sentence_detector, regex_tok])
+
+        pipeline_model = pipeline.fit(self.data)
+
+        pipe_path = "file:///" + os.getcwd() + "/tmp_regextok_pipeline"
+        pipeline_model.write().overwrite().save(pipe_path)
+
+        loaded_pipeline: PipelineModel = PipelineModel.read().load(pipe_path)
+        loaded_pipeline.transform(self.data).show()
 
 
 class PerceptronApproachTestSpec(unittest.TestCase):
@@ -1933,6 +1995,8 @@ class AlbertForTokenClassificationTestSpec(unittest.TestCase):
 
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
+        print(token_classifier.getClasses())
+        print(token_classifier.getBatchSize())
 
 
 class XlnetForTokenClassificationTestSpec(unittest.TestCase):
@@ -2055,15 +2119,150 @@ class DistilBertForSequenceClassificationTestSpec(unittest.TestCase):
 
         tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
 
-        token_classifier = DistilBertForSequenceClassification.pretrained() \
+        doc_classifier = DistilBertForSequenceClassification.pretrained() \
             .setInputCols(["document", "token"]) \
-            .setOutputCol("ner")
+            .setOutputCol("class")
 
         pipeline = Pipeline(stages=[
             document_assembler,
             tokenizer,
-            token_classifier
+            doc_classifier
         ])
 
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
+
+
+class RoBertaForSequenceClassificationTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        doc_classifier = RoBertaForSequenceClassification.pretrained() \
+            .setInputCols(["document", "token"]) \
+            .setOutputCol("class")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            doc_classifier
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
+
+
+class XlmRoBertaForSequenceClassificationTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        doc_classifier = XlmRoBertaForSequenceClassification \
+            .pretrained() \
+            .setInputCols(["document", "token"]) \
+            .setOutputCol("class")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            doc_classifier
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
+
+
+class GetClassesTestSpec(unittest.TestCase):
+
+    def runTest(self):
+        print(AlbertForTokenClassification.pretrained().getClasses())
+        print(XlnetForTokenClassification.pretrained().getClasses())
+        print(BertForTokenClassification.pretrained().getClasses())
+        print(DistilBertForTokenClassification.pretrained().getClasses())
+        print(RoBertaForTokenClassification.pretrained().getClasses())
+        print(XlmRoBertaForTokenClassification.pretrained().getClasses())
+        print(LongformerForTokenClassification.pretrained().getClasses())
+
+        print(AlbertForSequenceClassification.pretrained().getClasses())
+        print(XlnetForSequenceClassification.pretrained().getClasses())
+        print(BertForSequenceClassification.pretrained().getClasses())
+        print(DistilBertForSequenceClassification.pretrained().getClasses())
+        print(RoBertaForSequenceClassification.pretrained().getClasses())
+        print(XlmRoBertaForSequenceClassification.pretrained().getClasses())
+        print(LongformerForSequenceClassification.pretrained().getClasses())
+
+
+class GPT2TransformerTextGenerationTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        data = self.spark.createDataFrame([
+            [1, """Leonardo Da Vinci invented the microscope?""".strip().replace("\n", " ")]]).toDF("id", "text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        gpt2 = GPT2Transformer \
+            .pretrained() \
+            .setTask("is it true that") \
+            .setMaxOutputLength(50) \
+            .setDoSample(True) \
+            .setInputCols(["documents"]) \
+            .setOutputCol("generation")
+
+        pipeline = Pipeline().setStages([document_assembler, gpt2])
+        results = pipeline.fit(data).transform(data)
+
+        results.select("generation.result").show(truncate=False)
+
+
+class Word2VecTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.spark.createDataFrame([
+            ["Rare Hendrix song draft sells for almost $17,000. This is my second sentenece! The third one here!"],
+            ["EU rejects German call to boycott British lamb ."],
+            ["TORONTO 1996-08-21"],
+            [" carbon emissions have come down without impinging on our growth . . ."],
+            ["carbon emissions have come down without impinging on our growth .\\u2009.\\u2009."],
+            ["the "],
+            ["  "],
+            [" "]
+        ]).toDF("text")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+        doc2vec = Word2VecApproach() \
+            .setInputCols(["token"]) \
+            .setOutputCol("sentence_embeddings") \
+            .setMaxSentenceLength(512) \
+            .setStepSize(0.025) \
+            .setMinCount(5) \
+            .setVectorSize(300) \
+            .setNumPartitions(1) \
+            .setMaxIter(2) \
+            .setSeed(42) \
+            .setStorageRef("doc2vec_aclImdb")
+
+        pipeline = Pipeline(stages=[document_assembler, tokenizer, doc2vec])
+        model = pipeline.fit(self.data)
+        model.write().overwrite().save("./tmp_model")
+        loaded_model = model.load("./tmp_model")
+        loaded_model.transform(self.data).show()

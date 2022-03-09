@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +22,9 @@ import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach
 import com.johnsnowlabs.nlp.base._
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.{Benchmark, PipelineModels}
+import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 //ResourceHelper.spark
@@ -32,16 +32,16 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
 
 class SpellCheckersPerfTest extends AnyFlatSpec {
 
-  val documentAssembler = new DocumentAssembler().
-    setInputCol("text").
-    setOutputCol("document")
+  val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
 
-  val tokenizer = new Tokenizer().
-    setInputCols(Array("document")).
-    setOutputCol("token")
+  val tokenizer = new Tokenizer()
+    .setInputCols(Array("document"))
+    .setOutputCol("token")
 
-  val finisher = new Finisher().
-    setInputCols("token", "spell")
+  val finisher = new Finisher()
+    .setInputCols("token", "spell")
 
   val emptyDataSet = PipelineModels.dummyDataset
   val corpusDataSetInit = AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
@@ -49,13 +49,13 @@ class SpellCheckersPerfTest extends AnyFlatSpec {
 
   "Norvig pipeline" should "be fast" taggedAs SlowTest in {
 
-    val spell = NorvigSweetingModel.pretrained().
-      setInputCols("token").
-      setOutputCol("spell").
-      setDoubleVariants(true)
+    val spell = NorvigSweetingModel.pretrained()
+      .setInputCols("token")
+      .setOutputCol("spell")
+      .setDoubleVariants(true)
 
-    val recursivePipeline = new RecursivePipeline().
-      setStages(Array(
+    val recursivePipeline = new Pipeline()
+      .setStages(Array(
         documentAssembler,
         tokenizer,
         spell,
@@ -77,8 +77,8 @@ class SpellCheckersPerfTest extends AnyFlatSpec {
       .setInputCols("token")
       .setOutputCol("spell")
 
-    val recursivePipeline = new RecursivePipeline().
-      setStages(Array(
+    val recursivePipeline = new Pipeline()
+      .setStages(Array(
         documentAssembler,
         tokenizer,
         spell,
@@ -103,8 +103,8 @@ class SpellCheckersPerfTest extends AnyFlatSpec {
       .setInputCols("token")
       .setOutputCol("spell")
 
-    val recursivePipeline = new RecursivePipeline().
-      setStages(Array(
+    val recursivePipeline = new Pipeline()
+      .setStages(Array(
         documentAssembler,
         tokenizer,
         spell,

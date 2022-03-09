@@ -18,7 +18,22 @@ data:
           activemenu: recognize_clinical_entities
       source: yes
       source: 
+        - title: Detect clinical entities in text
+          id: detect_clinical_entities_in_text
+          image: 
+              src: /assets/images/Detect_risk_factors.svg
+          image2: 
+              src: /assets/images/Detect_risk_factors_f.svg
+          excerpt: Automatically detect more than 50 clinical entities using our NER deep learning model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
         - title: Detect signs and symptoms
+          hide: yes
           id: detect_signs_and_symptoms
           image: 
               src: /assets/images/Detect_signs_and_symptoms.svg
@@ -60,6 +75,20 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_POSOLOGY.ipynb
+        - title: Identify diagnosis and symptoms assertion status
+          id: identify_diagnosis_and_symptoms_assertion_status
+          image: 
+              src: /assets/images/Identify_diagnosis_and_symptoms_assertion_status.svg
+          image2: 
+              src: /assets/images/Identify_diagnosis_and_symptoms_assertion_status_f.svg
+          excerpt: Automatically detect if a diagnosis or a symptom is present, absent, uncertain or associated to other persons (e.g. family members).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ASSERTION/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb
         - title: Adverse drug events tagger
           id: adverse_drug_events_tagger
           image: 
@@ -115,35 +144,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_LAB/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LAB.ipynb
-        - title: Detect biological concepts
-          id: detect_tumor_characteristics
-          image: 
-              src: /assets/images/Detect_tumor_characteristics.svg
-          image2: 
-              src: /assets/images/Detect_tumor_characteristics_f.svg
-          excerpt: Automatically identify <b>biological</b> entities such as <b>Amino_acids, Anatomical systems, Cancer, Cells or Cellular components</b> using our pertained Spark NLP model.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_TUMOR
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_TUMOR.ipynb
-        - title: Detect clinical entities in text
-          id: detect_clinical_entities_in_text
-          image: 
-              src: /assets/images/Detect_risk_factors.svg
-          image2: 
-              src: /assets/images/Detect_risk_factors_f.svg
-          excerpt: Automatically detect more than 50 clinical entities using our NER deep learning model.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LAB.ipynb 
         - title: Detect risk factors
           id: detect_risk_factors
           image: 
@@ -157,35 +158,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_RISK_FACTORS/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_RISK_FACTORS.ipynb        
-        - title: Detect Clinical Entities in Radiology Reports
-          id: detect_clinical_entities_in_radiology_reports
-          image: 
-              src: /assets/images/Detect_Clinical_Entities_in_Radiology_Reports.svg
-          image2: 
-              src: /assets/images/Detect_Clinical_Entities_in_Radiology_Reports_f.svg
-          excerpt: Automatically identify entities such as body parts, imaging tests, imaging results and diseases using a pre-trained Spark NLP model.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_RADIOLOGY
-          - text: Colab Netbook
-            type: blue_btn
-            url:  
-        - title: Identify diagnosis and symptoms assertion status
-          id: identify_diagnosis_and_symptoms_assertion_status
-          image: 
-              src: /assets/images/Identify_diagnosis_and_symptoms_assertion_status.svg
-          image2: 
-              src: /assets/images/Identify_diagnosis_and_symptoms_assertion_status_f.svg
-          excerpt: Automatically detect if a diagnosis or a symptom is present, absent, uncertain or associated to other persons (e.g. family members).
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ASSERTION/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_RISK_FACTORS.ipynb 
         - title: Detect Drug Chemicals (Bert For Token Classification) 
           hide: yes
           id: detect_drug_chemicals
@@ -230,19 +203,89 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_BERT_TOKEN_CLASSIFIER/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb        
-        - title: Detect Anatomical and Observation Entities in Chest Radiology Reports
-          id: detect_anatomical_observation_entities_chest_radiology_reports 
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb  
+        - title: Detect Covid-related clinical terminology 
+          id: detect_covid_related_clinical_terminology
           image: 
-              src: /assets/images/Detect_Anatomical_and_Observation_Entities_in_Chest_Radiology_Reports.svg
+              src: /assets/images/Detect_Covid-related_clinical_terminology.svg
           image2: 
-              src: /assets/images/Detect_Anatomical_and_Observation_Entities_in_Chest_Radiology_Reports_f.svg
-          excerpt: This demo shows how Anatomical and Observation entities can be extracted from Chest Radiology Reports.
+              src: /assets/images/Detect_Covid-related_clinical_terminology_f.svg
+          excerpt: This demo shows how Covid-related clinical terminology can be detected using a Spark NLP Healthcare NER model.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_RADIOLOGY/
+            url: https://demo.johnsnowlabs.com/healthcare/NER_COVID/
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+        - title: Find available models for your clinical entities 
+          id: ner_model_finder
+          image: 
+              src: /assets/images/NER_Model_Finder.svg
+          image2: 
+              src: /assets/images/NER_Model_Finder_f.svg
+          excerpt: This demo shows how to use a pretrained pipeline to find the best NER model given an entity name.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_MODEL_FINDER/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb
+        - title: Extract Drugs and Chemicals
+          id: extract_names_of_drugs_chemicals 
+          image: 
+              src: /assets/images/Extract_the_Names_of_Drugs_Chemicals.svg
+          image2: 
+              src: /assets/images/Extract_the_Names_of_Drugs_Chemicals_f.svg
+          excerpt: This demo shows how Names of Drugs & Chemicals can be detected using a Spark NLP Healthcare NER model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_CHEMD/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+        - title: Extract neurologic deficits related to NIH Stroke Scale (NIHSS)
+          id: extract_neurologic_deficits_relatedNIH_stroke_scale 
+          image: 
+              src: /assets/images/Extract_neurologic_deficits_related_NIH_Stroke_Scale.svg
+          image2: 
+              src: /assets/images/Extract_neurologic_deficits_related_NIH_Stroke_Scale_f.svg
+          excerpt: This demo shows how neurologic deficits can be extracted in accordance with their NIH Stroke Scale using a Spark NLP Healthcare NER model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_NIHSS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+        - title: Recognize Clinical Abbreviations and Acronyms
+          id: recognize_clinical_abbreviations_and_acronyms
+          image: 
+              src: /assets/images/Recognize_clinical_abbreviations_and_acronyms.svg
+          image2: 
+              src: /assets/images/Recognize_clinical_abbreviations_and_acronyms_f.svg
+          excerpt: This demo shows how to extract clinical abbreviations and acronyms from medical texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_ABBREVIATION/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+        - title: Recognize Concepts in Drug Development Trials
+          id: recognize_concepts_in_drug_development_trials
+          image: 
+              src: /assets/images/Recognize_concepts_in_drug_development_trials.svg
+          image2: 
+              src: /assets/images/Recognize_concepts_in_drug_development_trials_f.svg
+          excerpt: This demo shows how to extract concepts related to drug development including Trial Groups, End Points and Hazard Ratio.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_DRUGS_DEVELOPMENT_TRIALS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
 ---

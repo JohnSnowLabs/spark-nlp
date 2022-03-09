@@ -7,6 +7,7 @@ date: 2020-09-28
 task: Relation Extraction
 language: en
 edition: Spark NLP for Healthcare 2.6.0
+spark_version: 2.4
 tags: [re, en, clinical, licensed]
 supported: true
 article_header:
@@ -107,3 +108,4 @@ https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
 | OVERLAP  |  0.81   |  0.73     | 0.77 |
 | BEFORE   |  0.85   |  0.88     | 0.86 |
 | AFTER    |  0.38   |  0.46     | 0.43 |
+```

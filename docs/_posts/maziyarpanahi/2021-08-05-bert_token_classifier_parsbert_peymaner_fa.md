@@ -67,21 +67,21 @@ Please cite the following paper in your publication if you are using [ParsBERT](
 
 ## Predicted Entities
 
-`B_DAT`
-`B_LOC`
-`B_MON`
-`B_ORG`
-`B_PCT`
-`B_PER`
-`B_TIM`
-`I_DAT`
-`I_LOC`
-`I_MON`
-`I_ORG`
-`I_PCT`
-`I_PER`
-`I_TIM`
-`O`
+- B_DAT
+- B_LOC
+- B_MON
+- B_ORG
+- B_PCT
+- B_PER
+- B_TIM
+- I_DAT
+- I_LOC
+- I_MON
+- I_ORG
+- I_PCT
+- I_PER
+- I_TIM
+- O
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

@@ -4,3 +4,9 @@ gem "github-pages", "220"
 gem "nokogiri", ">= 1.12.5"
 
 gem "elasticsearch", "~> 7.10"
+
+gem 'wdm', '~> 0.1.0'
+
+gem "webrick"
+
+gem "jekyll", "~> 3.9"

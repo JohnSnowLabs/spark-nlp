@@ -24,7 +24,7 @@ Find relations between diagnosis, tests and imaging findings in radiology report
 `0`, `1`
 
 {:.btn-box}
-[Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_RADIOLOGY/){:.button.button-orange}
 [Open in Colab](https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_test_problem_finding_en_2.7.1_2.4_1618830922197.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

@@ -2,6 +2,7 @@ require 'set'
 require 'uri'
 require 'net/http'
 require 'json'
+require 'date'
 require 'elasticsearch'
 require 'nokogiri'
 
@@ -74,6 +75,14 @@ class Extractor
     m ? m[1] : nil
   end
 
+  def doc_type
+    m = /\|Type:\|(.*?)\|/.match(@content)
+    if m
+      return m[1] == 'pipeline' ? 'pipeline': 'model'
+    end
+    nil
+  end
+
   def predicted_entities
     m = /## Predicted Entities(.*?)(##|{:\.btn-box\})/m.match(@content)
     if m
@@ -99,12 +108,12 @@ class Extractor
     has_apostrophe = buf.include?('`')
     buf = buf.gsub("\n", ' ')
     return nil unless has_comma || (has_apostrophe && buf.match?(/\A\S+\z/))
-    buf.scan(/`[^`]+`/).map { |v| v.gsub(/["`]/, '') }.select { |v| !v.empty? && !v.include?(',') }
+    buf.scan(/`[^`]+`/).map { |v| v.gsub(/["`]/, '') }.select { |v| !v.empty? && !v.include?(',') && !v.include?('|') }
   end
 
   def newline_separated_predicted_entities(buf)
     return nil unless buf.include? "\n"
-    return nil if buf.strip.start_with? '-'
+    return nil unless buf.strip.start_with? '-'
     buf.split("\n").collect { |v| v.gsub(/^-\s?/, '').gsub('`', '').strip }.select { |v| !v.empty? }
   end
 end
@@ -132,9 +141,16 @@ end
 editions = Set.new
 uniq_to_models_mapping = {}
 uniq_for_indexing = Set.new
+name_language_editions_sparkversion_to_models_mapping = {}
 models_json = {}
 
 changed_filenames = []
+
+def is_latest?(group, model)
+  models = group[model[:id]]
+  Date.parse(model[:date]) == models.map { |m| Date.parse(m[:date])}.max
+end
+
 if File.exist?("./changes.txt")
   changed_filenames = File.open("./changes.txt") \
     .each_line \
@@ -147,6 +163,10 @@ end
 
 Jekyll::Hooks.register :posts, :pre_render do |post|
   extractor = Extractor.new(post.content)
+  doc_type = extractor.doc_type
+  if doc_type.nil?
+    doc_type = post.data['tags'].include?('pipeline') ? 'pipeline' : 'model'
+  end
 
   models_json[post.url] = {
     title: post.data['title'],
@@ -161,6 +181,7 @@ Jekyll::Hooks.register :posts, :pre_render do |post|
     tags: post.data['tags'],
     download_link: extractor.download_link,
     predicted_entities: extractor.predicted_entities || [],
+    type: doc_type,
   }
 end
 
@@ -180,19 +201,24 @@ Jekyll::Hooks.register :posts, :post_render do |post|
     end
   end
 
+  supported = !!post.data['supported']
+  deprecated = !!post.data['deprecated']
   model = {
-    id: post.url,
+    id: "#{post.data['name']}_#{post.data['language']}_#{post.data['edition']}_#{post.data["spark_version"]}",
     name: post.data['name'],
     title: post.data['title'],
     tags_glued: post.data['tags'].join(' '),
+    tags: post.data['tags'],
     task: post.data['task'],
     language: language,
     languages: languages,
     edition: post.data['edition'],
     edition_short: edition_short,
     date: post.data['date'].strftime('%F'),
-    supported: !!post.data['supported'],
-    body: body
+    supported: supported && !deprecated,
+    deprecated: deprecated,
+    body: body,
+    url: post.url
   }
 
   uniq = "#{post.data['name']}_#{post.data['language']}"
@@ -201,6 +227,10 @@ Jekyll::Hooks.register :posts, :post_render do |post|
   editions.add(edition_short) unless edition_short.empty?
   uniq_for_indexing << uniq if changed_filenames.include?(post.basename)
   changed_filenames.delete(post.basename)
+
+  key = model[:id]
+  name_language_editions_sparkversion_to_models_mapping[key] = [] unless name_language_editions_sparkversion_to_models_mapping.has_key? key
+  name_language_editions_sparkversion_to_models_mapping[key] << model
 end
 
 client = nil
@@ -218,6 +248,77 @@ unless ENV['ELASTICSEARCH_URL'].to_s.empty?
       },
     },
   )
+  exists =  client.indices.exists index: 'models'
+  puts "Index already exists: #{exists}"
+  unless exists
+    client.indices.create index: 'models', body: {
+       "mappings": {
+        "properties": {
+            "body": {
+                "type": "text",
+                "analyzer": "english"
+            },
+            "date": {
+                "type": "date",
+                "format": "yyyy-MM-dd"
+            },
+            "edition": {
+                "type": "keyword"
+            },
+            "edition_short": {
+                "type": "keyword"
+            },
+            "language": {
+                "type": "keyword"
+            },
+            "languages": {
+                "type": "keyword"
+            },
+            "supported": {
+                "type": "boolean"
+            },
+            "deprecated": {
+                "type": "boolean"
+            },
+            "tags": {
+                "type": "keyword"
+            },
+            "tags_glued": {
+                "type": "text"
+            },
+            "predicted_entities": {
+              "type": "keyword"
+            },
+            "type": {
+              "type": "keyword"
+            },
+            "task": {
+                "type": "keyword"
+            },
+            "name": {
+                "type": "text",
+                "analyzer": "simple"
+            },
+            "title": {
+                "type": "text",
+                "analyzer": "english"
+            },
+            "url": {
+              "type": "keyword"
+            },
+            "download_link": {
+              "type": "keyword"
+            },
+            "views": {
+              "type": "integer"
+            },
+            "downloads": {
+              "type": "integer"
+            }
+        }
+      }
+    }
+  end
 end
 
 Jekyll::Hooks.register :site, :post_render do |site|
@@ -245,12 +346,20 @@ Jekyll::Hooks.register :site, :post_render do |site|
         end
       end
 
-      models_json[model[:id]][:compatible_editions] = next_edition_short.empty? ? [] : Array(next_edition_short)
+      models_json[model[:url]][:compatible_editions] = next_edition_short.empty? ? [] : Array(next_edition_short)
+      # Add model_type to search models
+      model[:type] = models_json[model[:url]][:type]
+      # Add predicted entities to search models
+      model[:predicted_entities] = models_json[model[:url]][:predicted_entities]
+      # Add download_link to search models
+      model[:download_link] = models_json[model[:url]][:download_link]
 
       if client
         if force_reindex || uniq_for_indexing.include?(uniq)
-          id = model.delete(:id)
-          bulk_indexer.index(id, model)
+          if is_latest?(name_language_editions_sparkversion_to_models_mapping, model)
+            id = model.delete(:id)
+            bulk_indexer.index(id, model)
+          end
         end
       end
     end
@@ -261,9 +370,9 @@ Jekyll::Hooks.register :site, :post_render do |site|
   if client
     changed_filenames.map do |filename|
       filename.gsub! /\A(\d{4})-(\d{2})-(\d{2})-(\w+)\.md\z/, '/\1/\2/\3/\4.html'
-    end.compact.each do |id|
-      puts "Removing #{id}..."
-      client.delete index: 'models', id: id, ignore: [404]
+    end.compact.each do |url|
+      puts "Removing #{url}..."
+      client.delete_by_query index: 'models', body: {query: {term: {url: url}}}
     end
   end
 end

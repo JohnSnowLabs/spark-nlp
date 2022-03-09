@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
       .setInputCols("sentence")
       .setOutputCol("sentence_embeddings")
 
-    val pipeline = new RecursivePipeline()
+    val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentence,
@@ -152,7 +152,7 @@ class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
       .setInputCols("document")
       .setOutputCol("sentence_embeddings")
 
-    val pipeline = new RecursivePipeline()
+    val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentence,
@@ -185,7 +185,7 @@ class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
       .setInputCols("sentence")
       .setOutputCol("sentence_embeddings")
 
-    val pipeline = new RecursivePipeline()
+    val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentence,

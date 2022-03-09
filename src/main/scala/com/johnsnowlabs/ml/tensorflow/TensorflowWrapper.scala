@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,10 +56,11 @@ class TensorflowWrapper(var variables: Variables,
     this(null, null)
   }
 
+  // Important for serialization on none-kyro serializers
   @transient private var m_session: Session = _
   @transient private val logger = LoggerFactory.getLogger("TensorflowWrapper")
 
-  def getSession(configProtoBytes: Option[Array[Byte]] = None): Session = {
+  def getTFSession(configProtoBytes: Option[Array[Byte]] = None): Session = this.synchronized {
 
     if (m_session == null) {
       val t = new TensorResources()
@@ -99,10 +100,10 @@ class TensorflowWrapper(var variables: Variables,
     m_session
   }
 
-  def getTFHubSession(configProtoBytes: Option[Array[Byte]] = None,
-                      initAllTables: Boolean = true,
-                      loadSP: Boolean = false,
-                      savedSignatures: Option[Map[String, String]] = None): Session = {
+  def getTFSessionWithSignature(configProtoBytes: Option[Array[Byte]] = None,
+                                initAllTables: Boolean = true,
+                                loadSP: Boolean = false,
+                                savedSignatures: Option[Map[String, String]] = None): Session = this.synchronized {
 
     if (m_session == null) {
       val t = new TensorResources()
@@ -144,7 +145,6 @@ class TensorflowWrapper(var variables: Variables,
   def createSession(configProtoBytes: Option[Array[Byte]] = None): Session = {
 
     if (m_session == null) {
-
       val config = configProtoBytes.getOrElse(TensorflowWrapper.TFSessionConfig)
 
       LoadsContrib.loadContribToTensorflow()
@@ -171,7 +171,7 @@ class TensorflowWrapper(var variables: Variables,
     val variablesFile = Paths.get(folder, TensorflowWrapper.VariablesKey).toString
 
     // 2. Save variables
-    getSession(configProtoBytes).runner.addTarget(TensorflowWrapper.SaveControlDependenciesOP)
+    getTFSession(configProtoBytes).runner.addTarget(TensorflowWrapper.SaveControlDependenciesOP)
       .feed(TensorflowWrapper.SaveConstOP, t.createTensor(variablesFile))
       .run()
 
@@ -203,7 +203,7 @@ class TensorflowWrapper(var variables: Variables,
 
     // 2. Save variables
     def runSessionLegacy = {
-      getSession(configProtoBytes).runner.addTarget(TensorflowWrapper.SaveControlDependenciesOP)
+      getTFSession(configProtoBytes).runner.addTarget(TensorflowWrapper.SaveControlDependenciesOP)
         .feed(TensorflowWrapper.SaveConstOP, t.createTensor(variablesFile))
         .run()
     }
@@ -215,7 +215,7 @@ class TensorflowWrapper(var variables: Variables,
      * @return List[Tensor]
      */
     def runSessionNew = {
-      getSession(configProtoBytes).runner
+      getTFSession(configProtoBytes).runner
         .addTarget(_tfSignatures.getOrElse("saveTensorName_", "StatefulPartitionedCall_1"))
         .feed(_tfSignatures.getOrElse("filenameTensorName_", "saver_filename"), t.createTensor(variablesFile))
         .run()

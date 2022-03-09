@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -91,7 +91,7 @@ class LemmatizerTestSpec extends AnyFlatSpec with LemmatizerBehaviors {
         finisher
       ))
 
-    val recursivePipeline = new RecursivePipeline()
+    val recursivePipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentenceDetector,

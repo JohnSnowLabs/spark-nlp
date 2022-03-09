@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import com.johnsnowlabs.nlp.annotators.ner.{NerConverter, Verbose}
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import org.apache.spark.ml.PipelineModel
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 
 
 object NerDLCoNLL2003 extends App {
@@ -80,7 +80,7 @@ object NerDLCoNLL2003 extends App {
 
     val stages = createPipeline()
 
-    val pipeline = new RecursivePipeline()
+    val pipeline = new Pipeline()
       .setStages(stages)
 
     pipeline.fit(dataset)
