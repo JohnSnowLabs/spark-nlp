@@ -120,7 +120,7 @@ def start(gpu=False,
         The initiated Spark session.
 
     """
-    current_version = "3.4.1"
+    current_version = "3.4.2"
 
     class SparkNLPConfig:
 
@@ -282,4 +282,4 @@ def version():
     str
         The current Spark NLP version.
     """
-    return '3.4.1'
+    return '3.4.2'
