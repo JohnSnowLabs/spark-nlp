@@ -1,2 +1,2 @@
-docs/_posts/HashamUlHaq/2021-05-21-sbertresolve_icd10cm_slim_billable_hcc_med_en.md
-docs/_posts/HashamUlHaq/2021-05-21-sbertresolve_icd10cm_slim_billable_hcc_med_en.md
+docs/_posts/murat-gunay/2020-09-01-posology_re.md
+docs/_posts/murat-gunay/2020-09-01-posology_re.md

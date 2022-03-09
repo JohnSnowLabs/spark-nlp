@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Relation Extraction Model Clinical- Spark NLP Model</title><meta name="description" content="DescriptionRelation Extraction model based on syntactic features using deep learning. This model can be used to identify drug-drug interactions relationships...">
-<link rel="canonical" href="/2020/09/03/re_drug_drug_interaction_clinical_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Relation Extraction between Posologic entities- Spark NLP Model</title><meta name="description" content="DescriptionThis model extracts relations between posology-related terminology.Predicted EntitiesDRUG-DOSAGE, DRUG-FREQUENCY, DRUG-ADE, DRUG-FORM, ENDED_BY, D...">
+<link rel="canonical" href="/2020/09/01/posology_re.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -404,126 +404,153 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 03, 2020</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2020-09-03T00:00:00+00:00"></div><header class="main-docs"><h1>Relation Extraction Model Clinical</h1></header></div><meta itemprop="headline" content="Relation Extraction Model Clinical"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>clinical</li><li>licensed</li><li>relation extraction</li><li>en</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2020-09-03T00:00:00+00:00">
-    <meta itemprop="keywords" content="clinical,licensed,relation extraction,en"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 01, 2020</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2020-09-01T00:00:00+00:00"></div><header class="main-docs"><h1>Relation Extraction between Posologic entities</h1></header></div><meta itemprop="headline" content="Relation Extraction between Posologic entities"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>re</li><li>en</li><li>clinical</li><li>licensed</li><li>relation extraction</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2020-09-01T00:00:00+00:00">
+    <meta itemprop="keywords" content="re,en,clinical,licensed,relation extraction"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 class="h2_title" id="description">Description</h2>
-<p>Relation Extraction model based on syntactic features using deep learning. This model can be used to identify drug-drug interactions relationships among drug entities.</p>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
+<p>This model extracts relations between posology-related terminology.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
-<p><code class="language-plaintext highlighter-rouge">DDI-advise</code>, <code class="language-plaintext highlighter-rouge">DDI-effect</code>, <code class="language-plaintext highlighter-rouge">DDI-mechanism</code>, <code class="language-plaintext highlighter-rouge">DDI-int</code>, <code class="language-plaintext highlighter-rouge">DDI-false</code></p>
+<p><code class="language-plaintext highlighter-rouge">DRUG-DOSAGE</code>, <code class="language-plaintext highlighter-rouge">DRUG-FREQUENCY</code>, <code class="language-plaintext highlighter-rouge">DRUG-ADE</code>, <code class="language-plaintext highlighter-rouge">DRUG-FORM</code>, <code class="language-plaintext highlighter-rouge">ENDED_BY</code>, <code class="language-plaintext highlighter-rouge">DRUG-ROUTE</code>, <code class="language-plaintext highlighter-rouge">DRUG-DURATION</code>, <code class="language-plaintext highlighter-rouge">DRUG-REASON</code>, <code class="language-plaintext highlighter-rouge">DRUG-STRENGTH</code></p>
 
-<p class="btn-box h2_title"><button class="button button-orange" disabled="">Live Demo</button>
-<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_drug_drug_interaction_clinical_en_2.5.5_2.4_1599156924424.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/RE_POSOLOGY/" class="button button-orange button-orange-trans co button-icon">Live Demo</a>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<button class="button button-orange" disabled="">Download</button></p>
+
 <h2 id="how-to-use">How to use</h2>
-<div class="tabs-box">
 
+<div class="tabs-box">
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
 </div>
 
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
-<span class="n">ddi_re_model</span> <span class="o">=</span> <span class="n">RelationExtractionModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"re_drug_drug_interaction_clinical"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
-	<span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"word_embeddings"</span><span class="p">,</span><span class="s">"chunk"</span><span class="p">,</span><span class="s">"pos"</span><span class="p">,</span><span class="s">"dependency"</span><span class="p">)</span>\
-	<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"category"</span><span class="p">)</span>
-<span class="n">nlp_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documenter</span><span class="p">,</span> <span class="n">sentencer</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">words_embedder</span><span class="p">,</span> <span class="n">pos_tagger</span><span class="p">,</span> <span class="n">ner_tagger</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">,</span> <span class="n">dependency_parser</span><span class="p">,</span> <span class="n">ddi_re_model</span><span class="p">])</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="p">...</span>
 
-<span class="n">light_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">nlp_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)))</span>
-<span class="n">annotations</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">"""When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced. If additional adrenergic drugs are to be administered by any route, they should be used with caution because the pharmacologically predictable sympathetic effects of Metformin may be potentiated"""</span><span class="p">)</span>
+<span class="n">words_embedder</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+
+<span class="n">pos_tagger</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"pos_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos_tags"</span><span class="p">)</span>
+
+<span class="n">ner_tagger</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_posology"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_tags"</span><span class="p">)</span>    
+
+<span class="n">ner_chunker</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"ner_tags"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunks"</span><span class="p">)</span>
+
+<span class="n">dependency_parser</span> <span class="o">=</span> <span class="n">DependencyParserModel</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"dependency_conllu"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"pos_tags"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"dependencies"</span><span class="p">)</span>
+
+<span class="n">reModel</span> <span class="o">=</span> <span class="n">RelationExtractionModel</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"posology_re"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"embeddings"</span><span class="p">,</span> <span class="s">"pos_tags"</span><span class="p">,</span> <span class="s">"ner_chunks"</span><span class="p">,</span> <span class="s">"dependencies"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setMaxSyntacticDistance</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">words_embedder</span><span class="p">,</span> <span class="n">pos_tagger</span><span class="p">,</span> <span class="n">ner_tagger</span><span class="p">,</span> <span class="n">ner_chunker</span><span class="p">,</span> <span class="n">dependency_parser</span><span class="p">,</span> <span class="n">reModel</span><span class="p">])</span>
+
+<span class="n">empty_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
+
+<span class="n">light_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">"The patient was prescribed 1 unit of Advil for 5 days after meals. The patient was also given 1 unit of Metformin daily. He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals, and metformin 1000 mg two times a day."</span><span class="p">)</span>
+
 </code></pre></div>  </div>
 
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
 
-<span class="k">val</span> <span class="nv">ddi_re_model</span> <span class="k">=</span> <span class="nv">RelationExtractionModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"re_drug_drug_interaction_clinical"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
-	<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"word_embeddings"</span><span class="o">,</span><span class="s">"chunk"</span><span class="o">,</span><span class="s">"pos"</span><span class="o">,</span><span class="s">"dependency"</span><span class="o">)</span>
-	<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"category"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">words_embedder</span> <span class="k">=</span> <span class="nc">WordEmbeddingsModel</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documenter</span><span class="o">,</span> <span class="n">sentencer</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">words_embedder</span><span class="o">,</span> <span class="n">pos_tagger</span><span class="o">,</span> <span class="n">ner_tagger</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">,</span> <span class="n">dependency_parser</span><span class="o">,</span> <span class="n">ddi_re_model</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">pos_tagger</span> <span class="k">=</span> <span class="nc">PerceptronModel</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"pos_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pos_tags"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced. If additional adrenergic drugs are to be administered by any route, they should be used with caution because the pharmacologically predictable sympathetic effects of Metformin may be potentiated"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">ner_tagger</span> <span class="k">=</span> <span class="nc">MedicalNerModel</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_posology"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_tags"</span><span class="o">)</span>    
+
+<span class="k">val</span> <span class="nv">ner_chunker</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverterInternal</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">,</span> <span class="s">"ner_tags"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunks"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">dependency_parser</span> <span class="k">=</span> <span class="nc">DependencyParserModel</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"dependency_conllu"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"pos_tags"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"dependencies"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">re_Model</span> <span class="k">=</span> <span class="nc">RelationExtractionModel</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"posology_re"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">,</span> <span class="s">"pos_tags"</span><span class="o">,</span> <span class="s">"ner_chunks"</span><span class="o">,</span> <span class="s">"dependencies"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"relations"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setMaxSyntacticDistance</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">words_embedder</span><span class="o">,</span> <span class="n">pos_tagger</span><span class="o">,</span> <span class="n">ner_tagger</span><span class="o">,</span> <span class="n">ner_chunker</span><span class="o">,</span> <span class="n">dependecy_parser</span><span class="o">,</span> <span class="n">re_Model</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"The patient was prescribed 1 unit of Advil for 5 days after meals. The patient was also given 1 unit of Metformin daily. He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals, and metformin 1000 mg two times a day."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
-
 </code></pre></div>  </div>
 </div>
 
 <h2 class="h2_title" id="results">Results</h2>
 
-<div class="language-bash model-param highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-|relation   | entity1 | entity1_begin | entity1_end | chunk1         | entity2  |entity2_begin | entity2_end | chunk2        |
-|DDI-advise | DRUG    |      5        |      17     | carbamazepine  |  DRUG    |     62             73      | aripiprazole  |
-
+<div class="language-bash model-param highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| relation       | entity1  | entity1_begin | entity1_end | chunk1           | entity2   | entity2_begin | entity2_end | chunk2           | confidence |
+|----------------|----------|---------------|-------------|------------------|-----------|---------------|-------------|------------------|------------|
+| DURATION-DRUG  | DURATION | 493           | 500         | five-day         | DRUG      | 512           | 522         | amoxicillin      | 1.0        |
+| DRUG-DURATION  | DRUG     | 681           | 693         | dapagliflozin    | DURATION  | 695           | 708         | <span class="k">for </span>six months   | 1.0        |
+| DRUG-ROUTE     | DRUG     | 1940          | 1946        | insulin          | ROUTE     | 1948          | 1951        | drip             | 1.0        |
+| DOSAGE-DRUG    | DOSAGE   | 2255          | 2262        | 40 units         | DRUG      | 2267          | 2282        | insulin glargine | 1.0        |
+| DRUG-FREQUENCY | DRUG     | 2267          | 2282        | insulin glargine | FREQUENCY | 2284          | 2291        | at night         | 1.0        |
+| DOSAGE-DRUG    | DOSAGE   | 2295          | 2302        | 12 units         | DRUG      | 2307          | 2320        | insulin lispro   | 1.0        |
+| DRUG-FREQUENCY | DRUG     | 2307          | 2320        | insulin lispro   | FREQUENCY | 2322          | 2331        | with meals       | 1.0        |
+| DRUG-STRENGTH  | DRUG     | 2339          | 2347        | metformin        | STRENGTH  | 2349          | 2355        | 1000 mg          | 1.0        |
+| DRUG-FREQUENCY | DRUG     | 2339          | 2347        | metformin        | FREQUENCY | 2357          | 2371        | two <span class="nb">times </span>a day  | 1.0        |
 </code></pre></div></div>
 <h2 id="model-information">Model Information</h2>
 
 <table class="table-model">
   <tbody>
     <tr>
-      <td>Name:</td>
-      <td>re_drug_drug_interaction_clinical</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>Type:</td>
-      <td>RelationExtractionModel</td>
-      <td> </td>
+      <td>Model Name:</td>
+      <td>posology_re</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 2.5.5+</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>License:</td>
-      <td>Licensed</td>
-      <td> </td>
+      <td>Spark NLP for Healthcare 2.5.5+</td>
     </tr>
     <tr>
       <td>Edition:</td>
       <td>Official</td>
-      <td> </td>
     </tr>
     <tr>
-      <td>Input labels:</td>
-      <td>[word_embeddings, chunk, pos, dependency]</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>Output labels:</td>
-      <td>[category]</td>
-      <td> </td>
+      <td>License:</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>en</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>False</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>Dependencies:</td>
-      <td>embeddings_clinical</td>
-      <td> </td>
+      <td>[en]</td>
     </tr>
   </tbody>
 </table>
-
-<h2 class="h2_title" id="data-source">Data Source</h2>
-<p>Trained on data gathered and manually annotated by John Snow Labs.</p>
-
-<h2 class="h2_title" id="benchmarking">Benchmarking</h2>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------------+------+------+------+
-|     relation|recall| prec |   f1 |
-+-------------+------+------+------+
-|   DDI-effect|  0.76| 0.38 | 0.51 |
-|    DDI-false|  0.72| 0.97 | 0.83 |
-|   DDI-advise|  0.74| 0.39 | 0.51 |
-+-------------+------+------+------+
-</code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2020-09-03T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2020-09-01T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -648,7 +675,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2020/09/01/posology_re.html">Relation Extraction between Posologic entities</a></div><div class="next nav_link"><span>NEXT</span><a href="/2020/09/06/chunkresolve_ICD10GM_de.html">ICD10GM ChunkResolver</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2020/09/01/finnish_ner_840B_300_fi.html">Named Entity Recognition (NER) Model in Finnish (GloVe 840B 300)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2020/09/03/re_drug_drug_interaction_clinical_en.html">Relation Extraction Model Clinical</a></div></div></div>
 
 </div>
 </div>
