@@ -1,2 +1,2 @@
-docs/_posts/murat-gunay/2020-09-01-posology_re.md
-docs/_posts/murat-gunay/2020-09-01-posology_re.md
+docs/demos/analyze_medical_text_spanish.md
+docs/demos/analyze_medical_text_spanish.md
