@@ -1,2 +1,2 @@
-docs/demos/analyze_medical_text_spanish.md
-docs/demos/analyze_medical_text_spanish.md
+docs/_posts/HashamUlHaq/2021-04-01-ner_clinical_icdem_en.md
+docs/_posts/HashamUlHaq/2021-04-01-ner_clinical_icdem_en.md
