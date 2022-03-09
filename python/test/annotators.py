@@ -2098,6 +2098,7 @@ class Doc2VecTestSpec(unittest.TestCase):
             .setNumPartitions(1) \
             .setMaxIter(2) \
             .setSeed(42) \
+            .setEnableCaching(True) \
             .setStorageRef("doc2vec_aclImdb")
 
         pipeline = Pipeline(stages=[document_assembler, tokenizer, doc2vec])
@@ -2259,6 +2260,7 @@ class Word2VecTestSpec(unittest.TestCase):
             .setNumPartitions(1) \
             .setMaxIter(2) \
             .setSeed(42) \
+            .setEnableCaching(True) \
             .setStorageRef("doc2vec_aclImdb")
 
         pipeline = Pipeline(stages=[document_assembler, tokenizer, doc2vec])

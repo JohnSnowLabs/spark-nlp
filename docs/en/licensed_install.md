@@ -245,6 +245,8 @@ This will allow you to start a 30-day free trial with no limit on the amount of 
     ```bash
     SPARK_NLP_LICENSE=zzz
     ```
+Note: Spark-NLP for Healthcare also support reading the license from the Databricks DFS, on the fixed location, dbfs:/FileStore/johnsnowlabs/license.key. 
+The precedence for that location is the highest, so make sure that file is not containing any outdated license key.
 
       -   (OPTIONAL) If the environment variables used to setup the AWS Access/Secret keys are conflicting with the credential provider chain in Databricks, you may not be able to access to other s3 buckets. To access both JSL repos with JSL AWS keys as well as your own s3 bucket with your own AWS keys), you need to use the following script, copy that to dbfs folder, then go to the Databricks console (init scripts menu) to add the init script for your cluster as follows:
 

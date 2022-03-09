@@ -1,4 +1,22 @@
 ========
+3.4.2
+========
+----------------
+New Features
+----------------
+* Introducing DeBertaEmbeddings annotator. DeBERTa (Decoding-enhanced BERT with disentangled attention) improves the BERT and RoBERTa models using two novel techniques. Compared to RoBERTa-Large, a DeBERTa model trained on half of the training data performs consistently better on a wide range of NLP tasks, achieving improvements on MNLI by +0.9% (90.2% vs. 91.1%), on SQuAD v2.0 by +2.3% (88.4% vs. 90.7%) and RACE by +3.6% (83.2% vs. 86.8%).
+This annotator is compatible with all the models trained/fine-tuned by using `DebertaV2Model` for **PyTorch** or `TFDebertaV2Model` for **TensorFlow** models (DeBERTa-v2 & DeBERTa-v3) in HuggingFace
+* Introducing a new param enableCaching in Doc2VecApproach and Word2VecApproach which if enabled speeds up the training
+* Support Databricks runtime 10.3, 10.3 ML, and 10.3 ML & GPU
+* Support EMR emr-5.34.0 and emr-6.5.0
+
+----------------
+Bug Fixes
+----------------
+* Fix bestModelMetric param when the set value was ignored https://github.com/JohnSnowLabs/spark-nlp/pull/6978
+
+
+========
 3.4.1
 ========
 ----------------
