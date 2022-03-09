@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator &#8212; Spark NLP 3.4.1 documentation</title>
+    <title>sparknlp.annotator &#8212; Spark NLP 3.4.2 documentation</title>
     
     <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -15347,7 +15347,7 @@
         <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">BertForSequenceClassification</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="Doc2VecApproach"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.Doc2VecApproach.html#sparknlp.annotator.Doc2VecApproach">[docs]</a><span class="k">class</span> <span class="nc">Doc2VecApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">HasStorageRef</span><span class="p">):</span>
+<div class="viewcode-block" id="Doc2VecApproach"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.Doc2VecApproach.html#sparknlp.annotator.Doc2VecApproach">[docs]</a><span class="k">class</span> <span class="nc">Doc2VecApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">HasStorageRef</span><span class="p">,</span> <span class="n">HasEnableCachingProperties</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Trains a Word2Vec model that creates vector representations of words in a</span>
 <span class="sd">    text corpus.</span>
 
@@ -17152,7 +17152,7 @@
         <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">GPT2Transformer</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="Word2VecApproach"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.Word2VecApproach.html#sparknlp.annotator.Word2VecApproach">[docs]</a><span class="k">class</span> <span class="nc">Word2VecApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">HasStorageRef</span><span class="p">):</span>
+<div class="viewcode-block" id="Word2VecApproach"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.Word2VecApproach.html#sparknlp.annotator.Word2VecApproach">[docs]</a><span class="k">class</span> <span class="nc">Word2VecApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">HasStorageRef</span><span class="p">,</span> <span class="n">HasEnableCachingProperties</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Trains a Word2Vec model that creates vector representations of words in a</span>
 <span class="sd">    text corpus.</span>
 
@@ -17472,6 +17472,204 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
         <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">Word2VecModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DeBertaEmbeddings"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DeBertaEmbeddings.html#sparknlp.annotator.DeBertaEmbeddings">[docs]</a><span class="k">class</span> <span class="nc">DeBertaEmbeddings</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
+                        <span class="n">HasEmbeddingsProperties</span><span class="p">,</span>
+                        <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
+                        <span class="n">HasStorageRef</span><span class="p">,</span>
+                        <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The DeBERTa model was proposed in DeBERTa: Decoding-enhanced BERT with Disentangled Attention  by Pengcheng</span>
+<span class="sd">    He, Xiaodong Liu, Jianfeng Gao, Weizhu Chen It is based on Google’s BERT model released in 2018 and Facebook’s</span>
+<span class="sd">    RoBERTa model released in 2019. This model requires input tokenization with SentencePiece model,</span>
+<span class="sd">    which is provided by Spark NLP (See tokenizers package). Pretrained models can be loaded with pretrained of the</span>
+<span class="sd">    companion object: val embeddings = DeBertaEmbeddings.pretrained() .setInputCols(&quot;sentence&quot;,</span>
+<span class="sd">    &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;)</span>
+
+<span class="sd">    The default model is &quot;deberta_v3_base&quot;, if no name is provided. Models from the HuggingFace 🤗 Transformers library</span>
+<span class="sd">    are also compatible with Spark NLP 🚀. The Spark NLP Workshop example shows how to import them</span>
+<span class="sd">    https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 . It builds on RoBERTa with disentangled attention and</span>
+<span class="sd">    enhanced mask decoder training with half of the data used in RoBERTa. Sources:</span>
+<span class="sd">    https://github.com/microsoft/DeBERTa https://www.microsoft.com/en-us/research/blog/microsoft-deberta-surpasses-human-performance-on-the-superglue-benchmark/</span>
+
+<span class="sd">    &gt;&gt;&gt; embeddings = DeBertaEmbeddings.pretrained() \\</span>
+<span class="sd">    ...    .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \\</span>
+<span class="sd">    ...    .setOutputCol(&quot;embeddings&quot;)</span>
+
+
+<span class="sd">    The default model is ``&quot;deberta_v3_base&quot;``, if no name is provided.</span>
+
+<span class="sd">    For extended examples of usage, see the `Spark NLP Workshop</span>
+<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_albert.ipynb&gt;`__.</span>
+<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
+<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    `Import Transformers into Spark NLP 🚀</span>
+<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``DOCUMENT, TOKEN``    ``WORD_EMBEDDINGS``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    batchSize</span>
+<span class="sd">        Size of every batch, by default 8</span>
+<span class="sd">    dimension</span>
+<span class="sd">        Number of embedding dimensions, by default 768</span>
+<span class="sd">    caseSensitive</span>
+<span class="sd">        Whether to ignore case in tokens for embeddings matching, by default</span>
+<span class="sd">        False</span>
+<span class="sd">    configProtoBytes</span>
+<span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
+<span class="sd">    maxSentenceLength</span>
+<span class="sd">        Max sentence length to process, by default 128</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    https://github.com/microsoft/DeBERTa https://www.microsoft.com/en-us/research/blog/microsoft-deberta-surpasses-human-performance-on-the-superglue-benchmark/</span>
+
+<span class="sd">    **Paper abstract:**</span>
+
+<span class="sd">    *Paper abstract: Recent progress in pre-trained neural language models has significantly improved the performance</span>
+<span class="sd">    of many natural language processing (NLP) tasks. In this paper we propose a new model architecture DeBERTa (</span>
+<span class="sd">    Decoding-enhanced BERT with disentangled attention) that improves the BERT and RoBERTa models using two novel</span>
+<span class="sd">    techniques. The first is the disentangled attention mechanism, where each word is represented using two vectors</span>
+<span class="sd">    that encode its content and position, respectively, and the attention weights among words are computed using</span>
+<span class="sd">    disentangled matrices on their contents and relative positions. Second, an enhanced mask decoder is used to</span>
+<span class="sd">    replace the output softmax layer to predict the masked tokens for model pretraining. We show that these two</span>
+<span class="sd">    techniques significantly improve the efficiency of model pretraining and performance of downstream tasks.</span>
+<span class="sd">    Compared to RoBERTa-Large, a DeBERTa model trained on half of the training data performs consistently better on a</span>
+<span class="sd">    wide range of NLP tasks, achieving improvements on MNLI by +0.9% (90.2% vs. 91.1%), on SQuAD v2.0 by +2.3% (88.4%</span>
+<span class="sd">    vs. 90.7%) and RACE by +3.6% (83.2% vs. 86.8%). The DeBERTa code and pre-trained models will be made publicly</span>
+<span class="sd">    available at https://github.com/microsoft/DeBERTa.*</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    &gt;&gt;&gt; embeddings = DeBertaEmbeddings.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;embeddings&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; embeddingsFinisher = EmbeddingsFinisher() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;embeddings&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCols(&quot;finished_embeddings&quot;) \\</span>
+<span class="sd">    ...     .setOutputAsVector(True) \\</span>
+<span class="sd">    ...     .setCleanAnnotations(False)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     embeddings,</span>
+<span class="sd">    ...     embeddingsFinisher</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;This is a sentence.&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.selectExpr(&quot;explode(finished_embeddings) as result&quot;).show(5, 80)</span>
+<span class="sd">    +--------------------------------------------------------------------------------+</span>
+<span class="sd">    |                                                                          result|</span>
+<span class="sd">    +--------------------------------------------------------------------------------+</span>
+<span class="sd">    |[1.1342473030090332,-1.3855540752410889,0.9818322062492371,-0.784737348556518...|</span>
+<span class="sd">    |[0.847029983997345,-1.047153353691101,-0.1520637571811676,-0.6245765686035156...|</span>
+<span class="sd">    |[-0.009860038757324219,-0.13450059294700623,2.707749128341675,1.2916892766952...|</span>
+<span class="sd">    |[-0.04192575812339783,-0.5764210224151611,-0.3196685314178467,-0.527840495109...|</span>
+<span class="sd">    |[0.15583214163780212,-0.1614152491092682,-0.28423872590065,-0.135491415858268...|</span>
+<span class="sd">    +--------------------------------------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DeBertaEmbeddings&quot;</span>
+
+    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
+
+    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DeBertaEmbeddings.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DeBertaEmbeddings.html#sparknlp.annotator.DeBertaEmbeddings.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : List[int]</span>
+<span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DeBertaEmbeddings.setMaxSentenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DeBertaEmbeddings.html#sparknlp.annotator.DeBertaEmbeddings.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets max sentence length to process.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Max sentence length to process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.embeddings.DeBertaEmbeddings&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DeBertaEmbeddings</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+            <span class="n">dimension</span><span class="o">=</span><span class="mi">768</span><span class="p">,</span>
+            <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+            <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="DeBertaEmbeddings.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DeBertaEmbeddings.html#sparknlp.annotator.DeBertaEmbeddings.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DeBertaEmbeddings</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">_DeBERTaLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_DeBERTaLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">DeBertaEmbeddings</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DeBertaEmbeddings.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DeBertaEmbeddings.html#sparknlp.annotator.DeBertaEmbeddings.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;deberta_v3_base&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default &quot;deberta_v3_base&quot;</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DeBertaEmbeddings</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">DeBertaEmbeddings</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
 </pre></div>
 
               </div>
