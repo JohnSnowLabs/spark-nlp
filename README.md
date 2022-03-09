@@ -19,7 +19,7 @@
 Spark NLP is a state-of-the-art Natural Language Processing library built on top of Apache Spark. It provides **simple**, **performant** & **accurate** NLP annotations for machine learning pipelines that **scale** easily in a distributed environment. Spark NLP comes with **4000+** pretrained **pipelines** and **models** in more than **200+** languages.
 It also offers tasks such as **Tokenization**, **Word Segmentation**, **Part-of-Speech Tagging**, Word and Sentence **Embeddings**, **Named Entity Recognition**, **Dependency Parsing**, **Spell Checking**, **Text Classification**, **Sentiment Analysis**, **Token Classification**, **Machine Translation** (+180 languages), **Summarization** & **Question Answering**, **Text Generation**, and many more [NLP tasks](#features).
 
-**Spark NLP** is the only open-source NLP library in **production** that offers state-of-the-art transformers such as **BERT**, **ALBERT**, **ELECTRA**, **XLNet**, **DistilBERT**, **RoBERTa**, **XLM-RoBERTa**, **Longformer**, **ELMO**, **Universal Sentence Encoder**, **Google T5**, **MarianMT**, and **GPT2** not only to **Python** and **R**, but also to **JVM** ecosystem (**Java**, **Scala**, and **Kotlin**) at **scale** by extending **Apache Spark** natively.
+**Spark NLP** is the only open-source NLP library in **production** that offers state-of-the-art transformers such as **BERT**, **ALBERT**, **ELECTRA**, **XLNet**, **DistilBERT**, **RoBERTa**, **DeBERTa**, **XLM-RoBERTa**, **Longformer**, **ELMO**, **Universal Sentence Encoder**, **Google T5**, **MarianMT**, and **GPT2** not only to **Python** and **R**, but also to **JVM** ecosystem (**Java**, **Scala**, and **Kotlin**) at **scale** by extending **Apache Spark** natively.
 
 ## Project's website
 
@@ -93,6 +93,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - BERT Embeddings (TF Hub & HuggingFace models)
 - DistilBERT Embeddings (HuggingFace models)
 - RoBERTa Embeddings (HuggingFace models)
+- DeBERTa Embeddings (HuggingFace v2 & v3 models)
 - XLM-RoBERTa Embeddings (HuggingFace models)
 - Longformer Embeddings (HuggingFace models)
 - ALBERT Embeddings (TF Hub & HuggingFace models)
@@ -277,6 +278,8 @@ Spark NLP 3.4.2 has been tested and is compatible with the following runtimes:
 - 10.1 ML
 - 10.2
 - 10.2 ML
+- 10.3
+- 10.3 ML
 
 **GPU:**
 
@@ -289,6 +292,7 @@ Spark NLP 3.4.2 has been tested and is compatible with the following runtimes:
 - 10.0 ML & GPU
 - 10.1 ML & GPU
 - 10.2 ML & GPU
+- 10.3 ML & GPU
 
 NOTE: Spark NLP 3.4.2 is based on TensorFlow 2.4.x which is compatible with CUDA11 and cuDNN 8.0.2. The only Databricks runtimes supporting CUDA 11 are 8.x and above as listed under GPU.
 
@@ -314,11 +318,13 @@ Spark NLP 3.4.2 has been tested and is compatible with the following EMR release
 - emr-5.32.0
 - emr-5.33.0
 - emr-5.33.1
+- emr-5.34.0
 - emr-6.1.0
 - emr-6.2.0
 - emr-6.3.0
 - emr-6.3.1
 - emr-6.4.0
+- emr-6.5.0
 
 Full list of [Amazon EMR 5.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-5x.html)
 Full list of [Amazon EMR 6.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-6x.html)
