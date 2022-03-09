@@ -256,10 +256,11 @@ class NerDLApproach(override val uid: String)
   val useBestModel = new BooleanParam(this, "useBestModel", "Whether to restore and use the model that has achieved the best performance at the end of the training.")
 
   /** Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model
+   * This will fall back to loss if there is no validation or test dataset
    *
    * @group param
    */
-  val bestModelMetric = new Param[String](this, "bestModelMetric", "Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model")
+  val bestModelMetric = new Param[String](this, "bestModelMetric", "Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model.")
 
   /** Learning Rate
    *

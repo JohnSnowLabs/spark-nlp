@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>sparknlp.annotator &#8212; Spark NLP 3.4.1 documentation</title>
+    <title>sparknlp.annotator &#8212; Spark NLP 3.4.2 documentation</title>
     
     <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -233,6 +233,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.DateMatcherUtils.html">
      sparknlp.annotator.DateMatcherUtils
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DeBertaEmbeddings.html">
+     sparknlp.annotator.DeBertaEmbeddings
     </a>
    </li>
    <li class="toctree-l2">
@@ -944,256 +949,259 @@ classes.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.DateMatcherUtils.html#sparknlp.annotator.DateMatcherUtils" title="sparknlp.annotator.DateMatcherUtils"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DateMatcherUtils</span></code></a></p></td>
 <td><p>Base class for DateMatcher Annotators</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.DependencyParserApproach.html#sparknlp.annotator.DependencyParserApproach" title="sparknlp.annotator.DependencyParserApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DependencyParserApproach</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.DeBertaEmbeddings.html#sparknlp.annotator.DeBertaEmbeddings" title="sparknlp.annotator.DeBertaEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DeBertaEmbeddings</span></code></a></p></td>
+<td><p>The DeBERTa model was proposed in DeBERTa: Decoding-enhanced BERT with Disentangled Attention  by Pengcheng He, Xiaodong Liu, Jianfeng Gao, Weizhu Chen It is based on Google’s BERT model released in 2018 and Facebook’s RoBERTa model released in 2019.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.DependencyParserApproach.html#sparknlp.annotator.DependencyParserApproach" title="sparknlp.annotator.DependencyParserApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DependencyParserApproach</span></code></a></p></td>
 <td><p>Trains an unlabeled parser that finds a grammatical relations between two words in a sentence.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.DependencyParserModel.html#sparknlp.annotator.DependencyParserModel" title="sparknlp.annotator.DependencyParserModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DependencyParserModel</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.DependencyParserModel.html#sparknlp.annotator.DependencyParserModel" title="sparknlp.annotator.DependencyParserModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DependencyParserModel</span></code></a></p></td>
 <td><p>Unlabeled parser that finds a grammatical relation between two words in a sentence.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.DistilBertEmbeddings.html#sparknlp.annotator.DistilBertEmbeddings" title="sparknlp.annotator.DistilBertEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DistilBertEmbeddings</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.DistilBertEmbeddings.html#sparknlp.annotator.DistilBertEmbeddings" title="sparknlp.annotator.DistilBertEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DistilBertEmbeddings</span></code></a></p></td>
 <td><p>DistilBERT is a small, fast, cheap and light Transformer model trained by distilling BERT base.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.DistilBertForSequenceClassification.html#sparknlp.annotator.DistilBertForSequenceClassification" title="sparknlp.annotator.DistilBertForSequenceClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DistilBertForSequenceClassification</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.DistilBertForSequenceClassification.html#sparknlp.annotator.DistilBertForSequenceClassification" title="sparknlp.annotator.DistilBertForSequenceClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DistilBertForSequenceClassification</span></code></a></p></td>
 <td><p>DistilBertForSequenceClassification can load DistilBERT Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.DistilBertForTokenClassification.html#sparknlp.annotator.DistilBertForTokenClassification" title="sparknlp.annotator.DistilBertForTokenClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DistilBertForTokenClassification</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.DistilBertForTokenClassification.html#sparknlp.annotator.DistilBertForTokenClassification" title="sparknlp.annotator.DistilBertForTokenClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DistilBertForTokenClassification</span></code></a></p></td>
 <td><p>DistilBertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.Doc2VecApproach.html#sparknlp.annotator.Doc2VecApproach" title="sparknlp.annotator.Doc2VecApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Doc2VecApproach</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.Doc2VecApproach.html#sparknlp.annotator.Doc2VecApproach" title="sparknlp.annotator.Doc2VecApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Doc2VecApproach</span></code></a></p></td>
 <td><p>Trains a Word2Vec model that creates vector representations of words in a text corpus.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.Doc2VecModel.html#sparknlp.annotator.Doc2VecModel" title="sparknlp.annotator.Doc2VecModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Doc2VecModel</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.Doc2VecModel.html#sparknlp.annotator.Doc2VecModel" title="sparknlp.annotator.Doc2VecModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Doc2VecModel</span></code></a></p></td>
 <td><p>Word2Vec model that creates vector representations of words in a text corpus.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.DocumentNormalizer.html#sparknlp.annotator.DocumentNormalizer" title="sparknlp.annotator.DocumentNormalizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DocumentNormalizer</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.DocumentNormalizer.html#sparknlp.annotator.DocumentNormalizer" title="sparknlp.annotator.DocumentNormalizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DocumentNormalizer</span></code></a></p></td>
 <td><p>Annotator which normalizes raw text from tagged text, e.g.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.ElmoEmbeddings.html#sparknlp.annotator.ElmoEmbeddings" title="sparknlp.annotator.ElmoEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ElmoEmbeddings</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.ElmoEmbeddings.html#sparknlp.annotator.ElmoEmbeddings" title="sparknlp.annotator.ElmoEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ElmoEmbeddings</span></code></a></p></td>
 <td><p>Word embeddings from ELMo (Embeddings from Language Models), a language model trained on the 1 Billion Word Benchmark.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.EntityRulerApproach.html#sparknlp.annotator.EntityRulerApproach" title="sparknlp.annotator.EntityRulerApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EntityRulerApproach</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.EntityRulerApproach.html#sparknlp.annotator.EntityRulerApproach" title="sparknlp.annotator.EntityRulerApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EntityRulerApproach</span></code></a></p></td>
 <td><p>Fits an Annotator to match exact strings or regex patterns provided in a file against a Document and assigns them an named entity.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.EntityRulerModel.html#sparknlp.annotator.EntityRulerModel" title="sparknlp.annotator.EntityRulerModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EntityRulerModel</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.EntityRulerModel.html#sparknlp.annotator.EntityRulerModel" title="sparknlp.annotator.EntityRulerModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EntityRulerModel</span></code></a></p></td>
 <td><p>Instantiated model of the EntityRulerApproach.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.GPT2Transformer.html#sparknlp.annotator.GPT2Transformer" title="sparknlp.annotator.GPT2Transformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GPT2Transformer</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.GPT2Transformer.html#sparknlp.annotator.GPT2Transformer" title="sparknlp.annotator.GPT2Transformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GPT2Transformer</span></code></a></p></td>
 <td><p>GPT2: the OpenAI Text-To-Text Transformer</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.GraphExtraction.html#sparknlp.annotator.GraphExtraction" title="sparknlp.annotator.GraphExtraction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GraphExtraction</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.GraphExtraction.html#sparknlp.annotator.GraphExtraction" title="sparknlp.annotator.GraphExtraction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GraphExtraction</span></code></a></p></td>
 <td><p>Extracts a dependency graph between entities.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.LanguageDetectorDL.html#sparknlp.annotator.LanguageDetectorDL" title="sparknlp.annotator.LanguageDetectorDL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LanguageDetectorDL</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.LanguageDetectorDL.html#sparknlp.annotator.LanguageDetectorDL" title="sparknlp.annotator.LanguageDetectorDL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LanguageDetectorDL</span></code></a></p></td>
 <td><p>Language Identification and Detection by using CNN and RNN architectures in TensorFlow.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.Lemmatizer.html#sparknlp.annotator.Lemmatizer" title="sparknlp.annotator.Lemmatizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Lemmatizer</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.Lemmatizer.html#sparknlp.annotator.Lemmatizer" title="sparknlp.annotator.Lemmatizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Lemmatizer</span></code></a></p></td>
 <td><p>Class to find lemmas out of words with the objective of returning a base dictionary word.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.LemmatizerModel.html#sparknlp.annotator.LemmatizerModel" title="sparknlp.annotator.LemmatizerModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LemmatizerModel</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.LemmatizerModel.html#sparknlp.annotator.LemmatizerModel" title="sparknlp.annotator.LemmatizerModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LemmatizerModel</span></code></a></p></td>
 <td><p>Instantiated Model of the Lemmatizer.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.LongformerEmbeddings.html#sparknlp.annotator.LongformerEmbeddings" title="sparknlp.annotator.LongformerEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LongformerEmbeddings</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.LongformerEmbeddings.html#sparknlp.annotator.LongformerEmbeddings" title="sparknlp.annotator.LongformerEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LongformerEmbeddings</span></code></a></p></td>
 <td><p>Longformer is a transformer model for long documents.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.LongformerForSequenceClassification.html#sparknlp.annotator.LongformerForSequenceClassification" title="sparknlp.annotator.LongformerForSequenceClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LongformerForSequenceClassification</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.LongformerForSequenceClassification.html#sparknlp.annotator.LongformerForSequenceClassification" title="sparknlp.annotator.LongformerForSequenceClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LongformerForSequenceClassification</span></code></a></p></td>
 <td><p>LongformerForSequenceClassification can load Longformer Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.LongformerForTokenClassification.html#sparknlp.annotator.LongformerForTokenClassification" title="sparknlp.annotator.LongformerForTokenClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LongformerForTokenClassification</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.LongformerForTokenClassification.html#sparknlp.annotator.LongformerForTokenClassification" title="sparknlp.annotator.LongformerForTokenClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LongformerForTokenClassification</span></code></a></p></td>
 <td><p>LongformerForTokenClassification can load Longformer Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.MarianTransformer.html#sparknlp.annotator.MarianTransformer" title="sparknlp.annotator.MarianTransformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MarianTransformer</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.MarianTransformer.html#sparknlp.annotator.MarianTransformer" title="sparknlp.annotator.MarianTransformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MarianTransformer</span></code></a></p></td>
 <td><p>MarianTransformer: Fast Neural Machine Translation</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.MultiClassifierDLApproach.html#sparknlp.annotator.MultiClassifierDLApproach" title="sparknlp.annotator.MultiClassifierDLApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiClassifierDLApproach</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.MultiClassifierDLApproach.html#sparknlp.annotator.MultiClassifierDLApproach" title="sparknlp.annotator.MultiClassifierDLApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiClassifierDLApproach</span></code></a></p></td>
 <td><p>Trains a MultiClassifierDL for Multi-label Text Classification.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.MultiClassifierDLModel.html#sparknlp.annotator.MultiClassifierDLModel" title="sparknlp.annotator.MultiClassifierDLModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiClassifierDLModel</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.MultiClassifierDLModel.html#sparknlp.annotator.MultiClassifierDLModel" title="sparknlp.annotator.MultiClassifierDLModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiClassifierDLModel</span></code></a></p></td>
 <td><p>MultiClassifierDL for Multi-label Text Classification.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.MultiDateMatcher.html#sparknlp.annotator.MultiDateMatcher" title="sparknlp.annotator.MultiDateMatcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiDateMatcher</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.MultiDateMatcher.html#sparknlp.annotator.MultiDateMatcher" title="sparknlp.annotator.MultiDateMatcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiDateMatcher</span></code></a></p></td>
 <td><p>Matches standard date formats into a provided format.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.NGramGenerator.html#sparknlp.annotator.NGramGenerator" title="sparknlp.annotator.NGramGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NGramGenerator</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.NGramGenerator.html#sparknlp.annotator.NGramGenerator" title="sparknlp.annotator.NGramGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NGramGenerator</span></code></a></p></td>
 <td><p>A feature transformer that converts the input array of strings (annotatorType <code class="docutils literal notranslate"><span class="pre">TOKEN</span></code>) into an array of n-grams (annotatorType <code class="docutils literal notranslate"><span class="pre">CHUNK</span></code>).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.NerApproach.html#sparknlp.annotator.NerApproach" title="sparknlp.annotator.NerApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerApproach</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.NerApproach.html#sparknlp.annotator.NerApproach" title="sparknlp.annotator.NerApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerApproach</span></code></a></p></td>
 <td><p>Base class for Ner*Approach Annotators</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.NerConverter.html#sparknlp.annotator.NerConverter" title="sparknlp.annotator.NerConverter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerConverter</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.NerConverter.html#sparknlp.annotator.NerConverter" title="sparknlp.annotator.NerConverter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerConverter</span></code></a></p></td>
 <td><p>Converts a IOB or IOB2 representation of NER to a user-friendly one, by associating the tokens of recognized entities and their label.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.NerCrfApproach.html#sparknlp.annotator.NerCrfApproach" title="sparknlp.annotator.NerCrfApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerCrfApproach</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.NerCrfApproach.html#sparknlp.annotator.NerCrfApproach" title="sparknlp.annotator.NerCrfApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerCrfApproach</span></code></a></p></td>
 <td><p>Algorithm for training a Named Entity Recognition Model</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.NerCrfModel.html#sparknlp.annotator.NerCrfModel" title="sparknlp.annotator.NerCrfModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerCrfModel</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.NerCrfModel.html#sparknlp.annotator.NerCrfModel" title="sparknlp.annotator.NerCrfModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerCrfModel</span></code></a></p></td>
 <td><p>Extracts Named Entities based on a CRF Model.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.NerDLApproach.html#sparknlp.annotator.NerDLApproach" title="sparknlp.annotator.NerDLApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerDLApproach</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.NerDLApproach.html#sparknlp.annotator.NerDLApproach" title="sparknlp.annotator.NerDLApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerDLApproach</span></code></a></p></td>
 <td><p>This Named Entity recognition annotator allows to train generic NER model based on Neural Networks.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.NerDLModel.html#sparknlp.annotator.NerDLModel" title="sparknlp.annotator.NerDLModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerDLModel</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.NerDLModel.html#sparknlp.annotator.NerDLModel" title="sparknlp.annotator.NerDLModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerDLModel</span></code></a></p></td>
 <td><p>This Named Entity recognition annotator is a generic NER model based on Neural Networks.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.NerOverwriter.html#sparknlp.annotator.NerOverwriter" title="sparknlp.annotator.NerOverwriter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerOverwriter</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.NerOverwriter.html#sparknlp.annotator.NerOverwriter" title="sparknlp.annotator.NerOverwriter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerOverwriter</span></code></a></p></td>
 <td><p>Overwrites entities of specified strings.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.Normalizer.html#sparknlp.annotator.Normalizer" title="sparknlp.annotator.Normalizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Normalizer</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.Normalizer.html#sparknlp.annotator.Normalizer" title="sparknlp.annotator.Normalizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Normalizer</span></code></a></p></td>
 <td><p>Annotator that cleans out tokens.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.NormalizerModel.html#sparknlp.annotator.NormalizerModel" title="sparknlp.annotator.NormalizerModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NormalizerModel</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.NormalizerModel.html#sparknlp.annotator.NormalizerModel" title="sparknlp.annotator.NormalizerModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NormalizerModel</span></code></a></p></td>
 <td><p>Instantiated Model of the Normalizer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.NorvigSweetingApproach.html#sparknlp.annotator.NorvigSweetingApproach" title="sparknlp.annotator.NorvigSweetingApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NorvigSweetingApproach</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.NorvigSweetingApproach.html#sparknlp.annotator.NorvigSweetingApproach" title="sparknlp.annotator.NorvigSweetingApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NorvigSweetingApproach</span></code></a></p></td>
 <td><p>Trains annotator, that retrieves tokens and makes corrections automatically if not found in an English dictionary.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.NorvigSweetingModel.html#sparknlp.annotator.NorvigSweetingModel" title="sparknlp.annotator.NorvigSweetingModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NorvigSweetingModel</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.NorvigSweetingModel.html#sparknlp.annotator.NorvigSweetingModel" title="sparknlp.annotator.NorvigSweetingModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NorvigSweetingModel</span></code></a></p></td>
 <td><p>This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.PerceptronApproach.html#sparknlp.annotator.PerceptronApproach" title="sparknlp.annotator.PerceptronApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PerceptronApproach</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.PerceptronApproach.html#sparknlp.annotator.PerceptronApproach" title="sparknlp.annotator.PerceptronApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PerceptronApproach</span></code></a></p></td>
 <td><p>Trains an averaged Perceptron model to tag words part-of-speech.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.PerceptronModel.html#sparknlp.annotator.PerceptronModel" title="sparknlp.annotator.PerceptronModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PerceptronModel</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.PerceptronModel.html#sparknlp.annotator.PerceptronModel" title="sparknlp.annotator.PerceptronModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PerceptronModel</span></code></a></p></td>
 <td><p>Averaged Perceptron model to tag words part-of-speech.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.RecursiveTokenizer.html#sparknlp.annotator.RecursiveTokenizer" title="sparknlp.annotator.RecursiveTokenizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RecursiveTokenizer</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.RecursiveTokenizer.html#sparknlp.annotator.RecursiveTokenizer" title="sparknlp.annotator.RecursiveTokenizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RecursiveTokenizer</span></code></a></p></td>
 <td><p>Tokenizes raw text recursively based on a handful of definable rules.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.RecursiveTokenizerModel.html#sparknlp.annotator.RecursiveTokenizerModel" title="sparknlp.annotator.RecursiveTokenizerModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RecursiveTokenizerModel</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.RecursiveTokenizerModel.html#sparknlp.annotator.RecursiveTokenizerModel" title="sparknlp.annotator.RecursiveTokenizerModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RecursiveTokenizerModel</span></code></a></p></td>
 <td><p>Instantiated model of the RecursiveTokenizer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.RegexMatcher.html#sparknlp.annotator.RegexMatcher" title="sparknlp.annotator.RegexMatcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RegexMatcher</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.RegexMatcher.html#sparknlp.annotator.RegexMatcher" title="sparknlp.annotator.RegexMatcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RegexMatcher</span></code></a></p></td>
 <td><p>Uses a reference file to match a set of regular expressions and associate them with a provided identifier.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.RegexMatcherModel.html#sparknlp.annotator.RegexMatcherModel" title="sparknlp.annotator.RegexMatcherModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RegexMatcherModel</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.RegexMatcherModel.html#sparknlp.annotator.RegexMatcherModel" title="sparknlp.annotator.RegexMatcherModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RegexMatcherModel</span></code></a></p></td>
 <td><p>Instantiated model of the RegexMatcher.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.RegexTokenizer.html#sparknlp.annotator.RegexTokenizer" title="sparknlp.annotator.RegexTokenizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RegexTokenizer</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.RegexTokenizer.html#sparknlp.annotator.RegexTokenizer" title="sparknlp.annotator.RegexTokenizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RegexTokenizer</span></code></a></p></td>
 <td><p>A tokenizer that splits text by a regex pattern.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.RoBertaEmbeddings.html#sparknlp.annotator.RoBertaEmbeddings" title="sparknlp.annotator.RoBertaEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RoBertaEmbeddings</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.RoBertaEmbeddings.html#sparknlp.annotator.RoBertaEmbeddings" title="sparknlp.annotator.RoBertaEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RoBertaEmbeddings</span></code></a></p></td>
 <td><p>Creates word embeddings using RoBERTa.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.RoBertaForSequenceClassification.html#sparknlp.annotator.RoBertaForSequenceClassification" title="sparknlp.annotator.RoBertaForSequenceClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RoBertaForSequenceClassification</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.RoBertaForSequenceClassification.html#sparknlp.annotator.RoBertaForSequenceClassification" title="sparknlp.annotator.RoBertaForSequenceClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RoBertaForSequenceClassification</span></code></a></p></td>
 <td><p>RoBertaForSequenceClassification can load RoBERTa Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.RoBertaForTokenClassification.html#sparknlp.annotator.RoBertaForTokenClassification" title="sparknlp.annotator.RoBertaForTokenClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RoBertaForTokenClassification</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.RoBertaForTokenClassification.html#sparknlp.annotator.RoBertaForTokenClassification" title="sparknlp.annotator.RoBertaForTokenClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RoBertaForTokenClassification</span></code></a></p></td>
 <td><p>RoBertaForTokenClassification can load RoBerta Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.RoBertaSentenceEmbeddings.html#sparknlp.annotator.RoBertaSentenceEmbeddings" title="sparknlp.annotator.RoBertaSentenceEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RoBertaSentenceEmbeddings</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.RoBertaSentenceEmbeddings.html#sparknlp.annotator.RoBertaSentenceEmbeddings" title="sparknlp.annotator.RoBertaSentenceEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RoBertaSentenceEmbeddings</span></code></a></p></td>
 <td><p>Sentence-level embeddings using RoBERTa.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.SentenceDetector.html#sparknlp.annotator.SentenceDetector" title="sparknlp.annotator.SentenceDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentenceDetector</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.SentenceDetector.html#sparknlp.annotator.SentenceDetector" title="sparknlp.annotator.SentenceDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentenceDetector</span></code></a></p></td>
 <td><p>Annotator that detects sentence boundaries using any provided approach.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.SentenceDetectorDLApproach.html#sparknlp.annotator.SentenceDetectorDLApproach" title="sparknlp.annotator.SentenceDetectorDLApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentenceDetectorDLApproach</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.SentenceDetectorDLApproach.html#sparknlp.annotator.SentenceDetectorDLApproach" title="sparknlp.annotator.SentenceDetectorDLApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentenceDetectorDLApproach</span></code></a></p></td>
 <td><p>Trains an annotator that detects sentence boundaries using a deep learning approach.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.SentenceDetectorDLModel.html#sparknlp.annotator.SentenceDetectorDLModel" title="sparknlp.annotator.SentenceDetectorDLModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentenceDetectorDLModel</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.SentenceDetectorDLModel.html#sparknlp.annotator.SentenceDetectorDLModel" title="sparknlp.annotator.SentenceDetectorDLModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentenceDetectorDLModel</span></code></a></p></td>
 <td><p>Annotator that detects sentence boundaries using a deep learning approach.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.SentenceDetectorParams.html#sparknlp.annotator.SentenceDetectorParams" title="sparknlp.annotator.SentenceDetectorParams"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentenceDetectorParams</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.SentenceDetectorParams.html#sparknlp.annotator.SentenceDetectorParams" title="sparknlp.annotator.SentenceDetectorParams"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentenceDetectorParams</span></code></a></p></td>
 <td><p>Base class for SentenceDetector parameters</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.SentenceEmbeddings.html#sparknlp.annotator.SentenceEmbeddings" title="sparknlp.annotator.SentenceEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentenceEmbeddings</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.SentenceEmbeddings.html#sparknlp.annotator.SentenceEmbeddings" title="sparknlp.annotator.SentenceEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentenceEmbeddings</span></code></a></p></td>
 <td><p>Converts the results from WordEmbeddings, BertEmbeddings, or other word embeddings into sentence or document embeddings by either summing up or averaging all the word embeddings in a sentence or a document (depending on the inputCols).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.SentimentDLApproach.html#sparknlp.annotator.SentimentDLApproach" title="sparknlp.annotator.SentimentDLApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentimentDLApproach</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.SentimentDLApproach.html#sparknlp.annotator.SentimentDLApproach" title="sparknlp.annotator.SentimentDLApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentimentDLApproach</span></code></a></p></td>
 <td><p>Trains a SentimentDL, an annotator for multi-class sentiment analysis.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.SentimentDLModel.html#sparknlp.annotator.SentimentDLModel" title="sparknlp.annotator.SentimentDLModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentimentDLModel</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.SentimentDLModel.html#sparknlp.annotator.SentimentDLModel" title="sparknlp.annotator.SentimentDLModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentimentDLModel</span></code></a></p></td>
 <td><p>SentimentDL, an annotator for multi-class sentiment analysis.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.SentimentDetector.html#sparknlp.annotator.SentimentDetector" title="sparknlp.annotator.SentimentDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentimentDetector</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.SentimentDetector.html#sparknlp.annotator.SentimentDetector" title="sparknlp.annotator.SentimentDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentimentDetector</span></code></a></p></td>
 <td><p>Trains a rule based sentiment detector, which calculates a score based on predefined keywords.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.SentimentDetectorModel.html#sparknlp.annotator.SentimentDetectorModel" title="sparknlp.annotator.SentimentDetectorModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentimentDetectorModel</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.SentimentDetectorModel.html#sparknlp.annotator.SentimentDetectorModel" title="sparknlp.annotator.SentimentDetectorModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentimentDetectorModel</span></code></a></p></td>
 <td><p>Rule based sentiment detector, which calculates a score based on predefined keywords.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.Stemmer.html#sparknlp.annotator.Stemmer" title="sparknlp.annotator.Stemmer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stemmer</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.Stemmer.html#sparknlp.annotator.Stemmer" title="sparknlp.annotator.Stemmer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stemmer</span></code></a></p></td>
 <td><p>Returns hard-stems out of words with the objective of retrieving the meaningful part of the word.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.StopWordsCleaner.html#sparknlp.annotator.StopWordsCleaner" title="sparknlp.annotator.StopWordsCleaner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StopWordsCleaner</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.StopWordsCleaner.html#sparknlp.annotator.StopWordsCleaner" title="sparknlp.annotator.StopWordsCleaner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StopWordsCleaner</span></code></a></p></td>
 <td><p>This annotator takes a sequence of strings (e.g.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.SymmetricDeleteApproach.html#sparknlp.annotator.SymmetricDeleteApproach" title="sparknlp.annotator.SymmetricDeleteApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SymmetricDeleteApproach</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.SymmetricDeleteApproach.html#sparknlp.annotator.SymmetricDeleteApproach" title="sparknlp.annotator.SymmetricDeleteApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SymmetricDeleteApproach</span></code></a></p></td>
 <td><p>Trains a Symmetric Delete spelling correction algorithm.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.SymmetricDeleteModel.html#sparknlp.annotator.SymmetricDeleteModel" title="sparknlp.annotator.SymmetricDeleteModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SymmetricDeleteModel</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.SymmetricDeleteModel.html#sparknlp.annotator.SymmetricDeleteModel" title="sparknlp.annotator.SymmetricDeleteModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SymmetricDeleteModel</span></code></a></p></td>
 <td><p>Symmetric Delete spelling correction algorithm.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.T5Transformer.html#sparknlp.annotator.T5Transformer" title="sparknlp.annotator.T5Transformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">T5Transformer</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.T5Transformer.html#sparknlp.annotator.T5Transformer" title="sparknlp.annotator.T5Transformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">T5Transformer</span></code></a></p></td>
 <td><p>T5: the Text-To-Text Transfer Transformer</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.TextMatcher.html#sparknlp.annotator.TextMatcher" title="sparknlp.annotator.TextMatcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TextMatcher</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.TextMatcher.html#sparknlp.annotator.TextMatcher" title="sparknlp.annotator.TextMatcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TextMatcher</span></code></a></p></td>
 <td><p>Annotator to match exact phrases (by token) provided in a file against a Document.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.TextMatcherModel.html#sparknlp.annotator.TextMatcherModel" title="sparknlp.annotator.TextMatcherModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TextMatcherModel</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.TextMatcherModel.html#sparknlp.annotator.TextMatcherModel" title="sparknlp.annotator.TextMatcherModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TextMatcherModel</span></code></a></p></td>
 <td><p>Instantiated model of the TextMatcher.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.Token2Chunk.html#sparknlp.annotator.Token2Chunk" title="sparknlp.annotator.Token2Chunk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Token2Chunk</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.Token2Chunk.html#sparknlp.annotator.Token2Chunk" title="sparknlp.annotator.Token2Chunk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Token2Chunk</span></code></a></p></td>
 <td><p>Converts <code class="docutils literal notranslate"><span class="pre">TOKEN</span></code> type Annotations to <code class="docutils literal notranslate"><span class="pre">CHUNK</span></code> type.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.Tokenizer.html#sparknlp.annotator.Tokenizer" title="sparknlp.annotator.Tokenizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tokenizer</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.Tokenizer.html#sparknlp.annotator.Tokenizer" title="sparknlp.annotator.Tokenizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tokenizer</span></code></a></p></td>
 <td><p>Tokenizes raw text in document type columns into TokenizedSentence .</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.TokenizerModel.html#sparknlp.annotator.TokenizerModel" title="sparknlp.annotator.TokenizerModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TokenizerModel</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.TokenizerModel.html#sparknlp.annotator.TokenizerModel" title="sparknlp.annotator.TokenizerModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TokenizerModel</span></code></a></p></td>
 <td><p>Tokenizes raw text into word pieces, tokens.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.TypedDependencyParserApproach.html#sparknlp.annotator.TypedDependencyParserApproach" title="sparknlp.annotator.TypedDependencyParserApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TypedDependencyParserApproach</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.TypedDependencyParserApproach.html#sparknlp.annotator.TypedDependencyParserApproach" title="sparknlp.annotator.TypedDependencyParserApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TypedDependencyParserApproach</span></code></a></p></td>
 <td><p>Labeled parser that finds a grammatical relation between two words in a sentence.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.TypedDependencyParserModel.html#sparknlp.annotator.TypedDependencyParserModel" title="sparknlp.annotator.TypedDependencyParserModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TypedDependencyParserModel</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.TypedDependencyParserModel.html#sparknlp.annotator.TypedDependencyParserModel" title="sparknlp.annotator.TypedDependencyParserModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TypedDependencyParserModel</span></code></a></p></td>
 <td><p>Labeled parser that finds a grammatical relation between two words in a sentence.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.UniversalSentenceEncoder.html#sparknlp.annotator.UniversalSentenceEncoder" title="sparknlp.annotator.UniversalSentenceEncoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UniversalSentenceEncoder</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.UniversalSentenceEncoder.html#sparknlp.annotator.UniversalSentenceEncoder" title="sparknlp.annotator.UniversalSentenceEncoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UniversalSentenceEncoder</span></code></a></p></td>
 <td><p>The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.ViveknSentimentApproach.html#sparknlp.annotator.ViveknSentimentApproach" title="sparknlp.annotator.ViveknSentimentApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ViveknSentimentApproach</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.ViveknSentimentApproach.html#sparknlp.annotator.ViveknSentimentApproach" title="sparknlp.annotator.ViveknSentimentApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ViveknSentimentApproach</span></code></a></p></td>
 <td><p>Trains a sentiment analyser inspired by the algorithm by Vivek Narayanan.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.ViveknSentimentModel.html#sparknlp.annotator.ViveknSentimentModel" title="sparknlp.annotator.ViveknSentimentModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ViveknSentimentModel</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.ViveknSentimentModel.html#sparknlp.annotator.ViveknSentimentModel" title="sparknlp.annotator.ViveknSentimentModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ViveknSentimentModel</span></code></a></p></td>
 <td><p>Sentiment analyser inspired by the algorithm by Vivek Narayanan.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.Word2VecApproach.html#sparknlp.annotator.Word2VecApproach" title="sparknlp.annotator.Word2VecApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Word2VecApproach</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.Word2VecApproach.html#sparknlp.annotator.Word2VecApproach" title="sparknlp.annotator.Word2VecApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Word2VecApproach</span></code></a></p></td>
 <td><p>Trains a Word2Vec model that creates vector representations of words in a text corpus.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.Word2VecModel.html#sparknlp.annotator.Word2VecModel" title="sparknlp.annotator.Word2VecModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Word2VecModel</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.Word2VecModel.html#sparknlp.annotator.Word2VecModel" title="sparknlp.annotator.Word2VecModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Word2VecModel</span></code></a></p></td>
 <td><p>Word2Vec model that creates vector representations of words in a text corpus.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.WordEmbeddings.html#sparknlp.annotator.WordEmbeddings" title="sparknlp.annotator.WordEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WordEmbeddings</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.WordEmbeddings.html#sparknlp.annotator.WordEmbeddings" title="sparknlp.annotator.WordEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WordEmbeddings</span></code></a></p></td>
 <td><p>Word Embeddings lookup annotator that maps tokens to vectors.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.WordEmbeddingsModel.html#sparknlp.annotator.WordEmbeddingsModel" title="sparknlp.annotator.WordEmbeddingsModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WordEmbeddingsModel</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.WordEmbeddingsModel.html#sparknlp.annotator.WordEmbeddingsModel" title="sparknlp.annotator.WordEmbeddingsModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WordEmbeddingsModel</span></code></a></p></td>
 <td><p>Word Embeddings lookup annotator that maps tokens to vectors</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.WordSegmenterApproach.html#sparknlp.annotator.WordSegmenterApproach" title="sparknlp.annotator.WordSegmenterApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WordSegmenterApproach</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.WordSegmenterApproach.html#sparknlp.annotator.WordSegmenterApproach" title="sparknlp.annotator.WordSegmenterApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WordSegmenterApproach</span></code></a></p></td>
 <td><p>Trains a WordSegmenter which tokenizes non-english or non-whitespace separated texts.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.WordSegmenterModel.html#sparknlp.annotator.WordSegmenterModel" title="sparknlp.annotator.WordSegmenterModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WordSegmenterModel</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.WordSegmenterModel.html#sparknlp.annotator.WordSegmenterModel" title="sparknlp.annotator.WordSegmenterModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WordSegmenterModel</span></code></a></p></td>
 <td><p>WordSegmenter which tokenizes non-english or non-whitespace separated texts.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.XlmRoBertaEmbeddings.html#sparknlp.annotator.XlmRoBertaEmbeddings" title="sparknlp.annotator.XlmRoBertaEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XlmRoBertaEmbeddings</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.XlmRoBertaEmbeddings.html#sparknlp.annotator.XlmRoBertaEmbeddings" title="sparknlp.annotator.XlmRoBertaEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XlmRoBertaEmbeddings</span></code></a></p></td>
 <td><p>The XLM-RoBERTa model was proposed in <cite>Unsupervised Cross-lingual Representation Learning at Scale</cite> by Alexis Conneau, Kartikay Khandelwal, Naman Goyal, Vishrav Chaudhary, Guillaume Wenzek, Francisco Guzman, Edouard Grave, Myle Ott, Luke Zettlemoyer and Veselin Stoyanov.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.XlmRoBertaForSequenceClassification.html#sparknlp.annotator.XlmRoBertaForSequenceClassification" title="sparknlp.annotator.XlmRoBertaForSequenceClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XlmRoBertaForSequenceClassification</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.XlmRoBertaForSequenceClassification.html#sparknlp.annotator.XlmRoBertaForSequenceClassification" title="sparknlp.annotator.XlmRoBertaForSequenceClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XlmRoBertaForSequenceClassification</span></code></a></p></td>
 <td><p>XlmRoBertaForSequenceClassification can load XLM-RoBERTa Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.XlmRoBertaForTokenClassification.html#sparknlp.annotator.XlmRoBertaForTokenClassification" title="sparknlp.annotator.XlmRoBertaForTokenClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XlmRoBertaForTokenClassification</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.XlmRoBertaForTokenClassification.html#sparknlp.annotator.XlmRoBertaForTokenClassification" title="sparknlp.annotator.XlmRoBertaForTokenClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XlmRoBertaForTokenClassification</span></code></a></p></td>
 <td><p>XlmRoBertaForTokenClassification can load XLM-RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.XlmRoBertaSentenceEmbeddings.html#sparknlp.annotator.XlmRoBertaSentenceEmbeddings" title="sparknlp.annotator.XlmRoBertaSentenceEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XlmRoBertaSentenceEmbeddings</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.XlmRoBertaSentenceEmbeddings.html#sparknlp.annotator.XlmRoBertaSentenceEmbeddings" title="sparknlp.annotator.XlmRoBertaSentenceEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XlmRoBertaSentenceEmbeddings</span></code></a></p></td>
 <td><p>Sentence-level embeddings using XLM-RoBERTa.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.XlnetEmbeddings.html#sparknlp.annotator.XlnetEmbeddings" title="sparknlp.annotator.XlnetEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XlnetEmbeddings</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.XlnetEmbeddings.html#sparknlp.annotator.XlnetEmbeddings" title="sparknlp.annotator.XlnetEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XlnetEmbeddings</span></code></a></p></td>
 <td><p>XlnetEmbeddings (XLNet): Generalized Autoregressive Pretraining for Language Understanding</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.XlnetForSequenceClassification.html#sparknlp.annotator.XlnetForSequenceClassification" title="sparknlp.annotator.XlnetForSequenceClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XlnetForSequenceClassification</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.XlnetForSequenceClassification.html#sparknlp.annotator.XlnetForSequenceClassification" title="sparknlp.annotator.XlnetForSequenceClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XlnetForSequenceClassification</span></code></a></p></td>
 <td><p>XlnetForSequenceClassification can load XLNet Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.XlnetForTokenClassification.html#sparknlp.annotator.XlnetForTokenClassification" title="sparknlp.annotator.XlnetForTokenClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XlnetForTokenClassification</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.XlnetForTokenClassification.html#sparknlp.annotator.XlnetForTokenClassification" title="sparknlp.annotator.XlnetForTokenClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XlnetForTokenClassification</span></code></a></p></td>
 <td><p>XlnetForTokenClassification can load XLNet Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.YakeKeywordExtraction.html#sparknlp.annotator.YakeKeywordExtraction" title="sparknlp.annotator.YakeKeywordExtraction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">YakeKeywordExtraction</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.YakeKeywordExtraction.html#sparknlp.annotator.YakeKeywordExtraction" title="sparknlp.annotator.YakeKeywordExtraction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">YakeKeywordExtraction</span></code></a></p></td>
 <td><p>Yake is an Unsupervised, Corpus-Independent, Domain and Language-Independent and Single-Document keyword extraction algorithm.</p></td>
 </tr>
 </tbody>
