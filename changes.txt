@@ -1,2 +1,10 @@
-docs/Gemfile.lock
-docs/Gemfile.lock
+docs/_posts/maziyarpanahi/2022-03-10-deberta_v3_base_en_3_0.md
+docs/_posts/maziyarpanahi/2022-03-10-deberta_v3_large_en_3_0.md
+docs/_posts/maziyarpanahi/2022-03-10-deberta_v3_small_en_3_0.md
+docs/_posts/maziyarpanahi/2022-03-10-deberta_v3_xsmall_en_3_0.md
+docs/_posts/maziyarpanahi/2022-03-10-mdeberta_v3_base_xx_3_0.md
+docs/_posts/maziyarpanahi/2022-03-10-deberta_v3_base_en_3_0.md
+docs/_posts/maziyarpanahi/2022-03-10-deberta_v3_large_en_3_0.md
+docs/_posts/maziyarpanahi/2022-03-10-deberta_v3_small_en_3_0.md
+docs/_posts/maziyarpanahi/2022-03-10-deberta_v3_xsmall_en_3_0.md
+docs/_posts/maziyarpanahi/2022-03-10-mdeberta_v3_base_xx_3_0.md
