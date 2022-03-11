@@ -46,6 +46,7 @@ import java.io.File
  * example shows how to import them [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
  *
  * It builds on RoBERTa with disentangled attention and enhanced mask decoder training with half of the data used in RoBERTa.
+ *
  * '''Sources:'''
  *
  * [[https://github.com/microsoft/DeBERTa]]
