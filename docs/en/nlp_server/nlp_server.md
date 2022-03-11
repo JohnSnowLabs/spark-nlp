@@ -48,8 +48,8 @@ Bellow is a quick overview of the provided endpoints. More details are provided 
  - Method : POST
  - Content-Type (Format) : multipart/form-data
  - Parameters:
-   - Spell* – the spell that you want to use for this analyze (if you want to run multiple spells you should join them with space character)
-   - Data* – The data to analyse that can be a single text or an array of strings or files.
+   - Spell – the spell that you want to use for this analyze (if you want to run multiple spells you should join them with space character)
+   - Data – The data to analyse that can be a single text or an array of strings or files.
    - Grouping – can be choosen from [“”,“document”,” sentence”,”entity”,”word”]. The default value is “” for automatic selection based on spell.
    - Format – The format of the provided input. The default value is “text”.
  - Response:
