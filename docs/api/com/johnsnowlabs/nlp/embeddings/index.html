@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.1 ScalaDoc  - com.johnsnowlabs.nlp.embeddings</title>
-          <meta name="description" content="Spark NLP 3.4.1 ScalaDoc - com.johnsnowlabs.nlp.embeddings" />
-          <meta name="keywords" content="Spark NLP 3.4.1 ScalaDoc com.johnsnowlabs.nlp.embeddings" />
+          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.embeddings</title>
+          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.embeddings" />
+          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.embeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -166,6 +166,10 @@
                         <a class="class" href="ChunkEmbeddings.html" title="This annotator utilizes WordEmbeddings, BertEmbeddings etc."></a>
                         <a href="ChunkEmbeddings.html" title="This annotator utilizes WordEmbeddings, BertEmbeddings etc.">ChunkEmbeddings</a>
                       </li><li class="current-entities indented4">
+                        <a class="object" href="DeBertaEmbeddings$.html" title="This is the companion object of DeBertaEmbeddings."></a>
+                        <a class="class" href="DeBertaEmbeddings.html" title="The DeBERTa model was proposed in DeBERTa: Decoding-enhanced BERT with Disentangled Attention by Pengcheng He, Xiaodong Liu, Jianfeng Gao, Weizhu Chen It is based on Google’s BERT model released in 2018 and Facebook’s RoBERTa model released in 2019."></a>
+                        <a href="DeBertaEmbeddings.html" title="The DeBERTa model was proposed in DeBERTa: Decoding-enhanced BERT with Disentangled Attention by Pengcheng He, Xiaodong Liu, Jianfeng Gao, Weizhu Chen It is based on Google’s BERT model released in 2018 and Facebook’s RoBERTa model released in 2019.">DeBertaEmbeddings</a>
+                      </li><li class="current-entities indented4">
                         <a class="object" href="DistilBertEmbeddings$.html" title="This is the companion object of DistilBertEmbeddings."></a>
                         <a class="class" href="DistilBertEmbeddings.html" title="DistilBERT is a small, fast, cheap and light Transformer model trained by distilling BERT base."></a>
                         <a href="DistilBertEmbeddings.html" title="DistilBERT is a small, fast, cheap and light Transformer model trained by distilling BERT base.">DistilBertEmbeddings</a>
@@ -209,6 +213,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadBertTensorflowModel.html" title=""></a>
                         <a href="ReadBertTensorflowModel.html" title="">ReadBertTensorflowModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadDeBertaTensorflowModel.html" title=""></a>
+                        <a href="ReadDeBertaTensorflowModel.html" title="">ReadDeBertaTensorflowModel</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="trait" href="ReadDistilBertTensorflowModel.html" title=""></a>
@@ -257,6 +265,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedBertSentenceModel.html" title=""></a>
                         <a href="ReadablePretrainedBertSentenceModel.html" title="">ReadablePretrainedBertSentenceModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedDeBertaModel.html" title=""></a>
+                        <a href="ReadablePretrainedDeBertaModel.html" title="">ReadablePretrainedDeBertaModel</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedDistilBertModel.html" title=""></a>
@@ -815,6 +827,71 @@ result.selectExpr(<span class="lit">"explode(chunk_embeddings) as result"</span>
 |word_embeddings|a sentence|[<span class="num">0.17417</span>, <span class="num">0.095253006</span>, -<span class="num">0.0530925</span>, -<span class="num">0.218465</span>, <span class="num">0.714395</span>, <span class="num">0.79860497</span>, <span class="num">0.0129999</span>...|
 |word_embeddings|sentence .|[<span class="num">0.139705</span>, <span class="num">0.177955</span>, <span class="num">0.1887775</span>, -<span class="num">0.45545</span>, <span class="num">0.20030999</span>, <span class="num">0.461557</span>, -<span class="num">0.07891501</span>, ...|
 +---------------+----------+--------------------------------------------------------------------------------+</pre></div></div>
+    </li><li name="com.johnsnowlabs.nlp.embeddings.DeBertaEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DeBertaEmbeddingsextendsAnnotatorModel[com.johnsnowlabs.nlp.embeddings.DeBertaEmbeddings]withHasBatchedAnnotate[com.johnsnowlabs.nlp.embeddings.DeBertaEmbeddings]withWriteTensorflowModelwithWriteSentencePieceModelwithHasEmbeddingsPropertieswithHasStorageRefwithHasCaseSensitiveProperties"></a><a id="DeBertaEmbeddings:DeBertaEmbeddings"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/embeddings/DeBertaEmbeddings.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="The DeBERTa model was proposed in DeBERTa: Decoding-enhanced BERT with Disentangled Attention by Pengcheng He, Xiaodong Liu, Jianfeng Gao, Weizhu Chen It is based on Google’s BERT model released in 2018 and Facebook’s RoBERTa model released in 2019." href="DeBertaEmbeddings.html"><span class="name">DeBertaEmbeddings</span></a><span class="result"> extends <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="DeBertaEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.DeBertaEmbeddings">DeBertaEmbeddings</a>] with <a href="../HasBatchedAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotate">HasBatchedAnnotate</a>[<a href="DeBertaEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.DeBertaEmbeddings">DeBertaEmbeddings</a>] with <a href="../../ml/tensorflow/WriteTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</a> with <a href="../../ml/tensorflow/sentencepiece/WriteSentencePieceModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.sentencepiece.WriteSentencePieceModel">WriteSentencePieceModel</a> with <a href="HasEmbeddingsProperties.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</a> with <a href="../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a> with <a href="../HasCaseSensitiveProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties">HasCaseSensitiveProperties</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">The DeBERTa model was proposed in <a href="https://arxiv.org/abs/2006.03654" target="_blank">DeBERTa: Decoding-enhanced BERT with Disentangled Attention</a> by Pengcheng He, Xiaodong Liu, Jianfeng Gao, Weizhu Chen It is based on Google’s BERT model released in 2018 and Facebook’s RoBERTa model released in 2019.</p><div class="fullcomment"><div class="comment cmt"><p>The DeBERTa model was proposed in <a href="https://arxiv.org/abs/2006.03654" target="_blank">DeBERTa: Decoding-enhanced BERT with Disentangled Attention</a> by Pengcheng He, Xiaodong Liu, Jianfeng Gao, Weizhu Chen It is based on Google’s BERT model released in 2018 and Facebook’s RoBERTa model released in 2019.</p><p>This model requires input tokenization with SentencePiece model, which is provided by Spark NLP (See tokenizers package).</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = DeBertaEmbeddings.pretrained()
+ .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
+ .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>The default model is <code>&quot;deberta_v3_base&quot;</code>, if no name is provided.</p><p>For extended examples see <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/DeBertaEmbeddingsTestSpec.scala" target="_blank">DeBertaEmbeddingsTestSpec</a>.
+Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
+example shows how to import them <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a>.</p><p>It builds on RoBERTa with disentangled attention and enhanced mask decoder training with half of the data used in RoBERTa.
+<b>Sources:</b></p><p><a href="https://github.com/microsoft/DeBERTa" target="_blank">https://github.com/microsoft/DeBERTa</a></p><p><a href="https://www.microsoft.com/en-us/research/blog/microsoft-deberta-surpasses-human-performance-on-the-superglue-benchmark/" target="_blank">https://www.microsoft.com/en-us/research/blog/microsoft-deberta-surpasses-human-performance-on-the-superglue-benchmark/</a></p><p><b>Paper abstract:</b></p><p><i>Recent progress in pre-trained neural language models has significantly improved the performance of many natural language processing (NLP) tasks. In this paper we propose a new model architecture DeBERTa (Decoding-enhanced BERT with disentangled attention) that improves the BERT and RoBERTa models using two novel techniques. The first is the disentangled attention mechanism, where each word is represented using two vectors that encode its content and position, respectively, and the attention weights among words are computed using disentangled matrices on their contents and relative positions. Second, an enhanced mask decoder is used to replace the output softmax layer to predict the masked tokens for model pretraining. We show that these two techniques significantly improve the efficiency of model pretraining and performance of downstream tasks. Compared to RoBERTa-Large, a DeBERTa model trained on half of the training data performs consistently better on a wide range of NLP tasks, achieving improvements on MNLI by +0.9% (90.2% vs. 91.1%), on SQuAD v2.0 by +2.3% (88.4% vs. 90.7%) and RACE by +3.6% (83.2% vs. 86.8%). The DeBERTa code and pre-trained models will be made publicly available at https://github.com/microsoft/DeBERTa.</i></p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
+<span class="kw">import</span> com.johnsnowlabs.nlp.embeddings.DeBertaEmbeddings
+<span class="kw">import</span> com.johnsnowlabs.nlp.EmbeddingsFinisher
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> embeddings = DeBertaEmbeddings.pretrained()
+  .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"embeddings"</span>)
+
+<span class="kw">val</span> embeddingsFinisher = <span class="kw">new</span> EmbeddingsFinisher()
+  .setInputCols(<span class="lit">"embeddings"</span>)
+  .setOutputCols(<span class="lit">"finished_embeddings"</span>)
+  .setOutputAsVector(<span class="kw">true</span>)
+  .setCleanAnnotations(<span class="kw">false</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  tokenizer,
+  embeddings,
+  embeddingsFinisher
+))
+
+<span class="kw">val</span> data = <span class="std">Seq</span>(<span class="lit">"This is a sentence."</span>).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
+
+result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</span>).show(<span class="num">5</span>, <span class="num">80</span>)
++--------------------------------------------------------------------------------+
+|                                                                          result|
++--------------------------------------------------------------------------------+
+|[<span class="num">1.1342473030090332</span>,-<span class="num">1.3855540752410889</span>,<span class="num">0.9818322062492371</span>,-<span class="num">0.784737348556518</span>...|
+|[<span class="num">0.847029983997345</span>,-<span class="num">1.047153353691101</span>,-<span class="num">0.1520637571811676</span>,-<span class="num">0.6245765686035156</span>...|
+|[-<span class="num">0.009860038757324219</span>,-<span class="num">0.13450059294700623</span>,<span class="num">2.707749128341675</span>,<span class="num">1.2916892766952</span>...|
+|[-<span class="num">0.04192575812339783</span>,-<span class="num">0.5764210224151611</span>,-<span class="num">0.3196685314178467</span>,-<span class="num">0.527840495109</span>...|
+|[<span class="num">0.15583214163780212</span>,-<span class="num">0.1614152491092682</span>,-<span class="num">0.28423872590065</span>,-<span class="num">0.135491415858268</span>...|
++--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer based embeddings</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DistilBertEmbeddingsextendsAnnotatorModel[com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings]withHasBatchedAnnotate[com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings]withWriteTensorflowModelwithHasEmbeddingsPropertieswithHasStorageRefwithHasCaseSensitiveProperties"></a><a id="DistilBertEmbeddings:DistilBertEmbeddings"></a>
       <span class="permalink">
@@ -900,7 +977,7 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
      for DistilBertEmbeddings with a token classification layer on top</p></span><span class="cmt"><p><a href="../annotators/classifier/dl/DistilBertForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForSequenceClassification">DistilBertForSequenceClassification</a>
      for DistilBertEmbeddings with a sequence classification layer on top</p></span><span class="cmt"><p><a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer based embeddings</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.Doc2VecApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="Doc2VecApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.embeddings.Doc2VecModel]withHasStorageRef"></a><a id="Doc2VecApproach:Doc2VecApproach"></a>
+      <a id="Doc2VecApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.embeddings.Doc2VecModel]withHasStorageRefwithHasEnableCachingProperties"></a><a id="Doc2VecApproach:Doc2VecApproach"></a>
       <span class="permalink">
       <a href="../../../../com/johnsnowlabs/nlp/embeddings/Doc2VecApproach.html" title="Permalink">
         <i class="material-icons"></i>
@@ -911,7 +988,7 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Trains a Word2Vec model that creates vector representations of words in a text corpus." href="Doc2VecApproach.html"><span class="name">Doc2VecApproach</span></a><span class="result"> extends <a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="Doc2VecModel.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.Doc2VecModel">Doc2VecModel</a>] with <a href="../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a></span>
+        <a title="Trains a Word2Vec model that creates vector representations of words in a text corpus." href="Doc2VecApproach.html"><span class="name">Doc2VecApproach</span></a><span class="result"> extends <a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="Doc2VecModel.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.Doc2VecModel">Doc2VecModel</a>] with <a href="../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a> with <a href="../HasEnableCachingProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasEnableCachingProperties">HasEnableCachingProperties</a></span>
       </span>
       
       <p class="shortcomment cmt">Trains a Word2Vec model that creates vector representations of words in a text corpus.</p><div class="fullcomment"><div class="comment cmt"><p>Trains a Word2Vec model that creates vector representations of words in a text corpus.</p><p>The algorithm first constructs a vocabulary from the corpus
@@ -1239,6 +1316,22 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.embeddings.ReadDeBertaTensorflowModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadDeBertaTensorflowModelextendsReadTensorflowModelwithReadSentencePieceModel"></a><a id="ReadDeBertaTensorflowModel:ReadDeBertaTensorflowModel"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/embeddings/ReadDeBertaTensorflowModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadDeBertaTensorflowModel.html"><span class="name">ReadDeBertaTensorflowModel</span></a><span class="result"> extends <a href="../../ml/tensorflow/ReadTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel">ReadTensorflowModel</a> with <a href="../../ml/tensorflow/sentencepiece/ReadSentencePieceModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel">ReadSentencePieceModel</a></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.embeddings.ReadDistilBertTensorflowModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="ReadDistilBertTensorflowModelextendsReadTensorflowModel"></a><a id="ReadDistilBertTensorflowModel:ReadDistilBertTensorflowModel"></a>
       <span class="permalink">
@@ -1428,6 +1521,22 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
       </span>
       <span class="symbol">
         <a title="" href="ReadablePretrainedBertSentenceModel.html"><span class="name">ReadablePretrainedBertSentenceModel</span></a><span class="result"> extends <a href="../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="BertSentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings">BertSentenceEmbeddings</a>] with <a href="../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="BertSentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings">BertSentenceEmbeddings</a>]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.embeddings.ReadablePretrainedDeBertaModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadablePretrainedDeBertaModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.embeddings.DeBertaEmbeddings]withHasPretrained[com.johnsnowlabs.nlp.embeddings.DeBertaEmbeddings]"></a><a id="ReadablePretrainedDeBertaModel:ReadablePretrainedDeBertaModel"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/embeddings/ReadablePretrainedDeBertaModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadablePretrainedDeBertaModel.html"><span class="name">ReadablePretrainedDeBertaModel</span></a><span class="result"> extends <a href="../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="DeBertaEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.DeBertaEmbeddings">DeBertaEmbeddings</a>] with <a href="../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="DeBertaEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.DeBertaEmbeddings">DeBertaEmbeddings</a>]</span>
       </span>
       
       
@@ -1937,7 +2046,7 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
 |[<span class="num">0.04616805538535118</span>,<span class="num">0.022307956591248512</span>,-<span class="num">0.044395286589860916</span>,-<span class="num">0.0016493503</span>...|
 +--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer based embeddings</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.Word2VecApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="Word2VecApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.embeddings.Word2VecModel]withHasStorageRef"></a><a id="Word2VecApproach:Word2VecApproach"></a>
+      <a id="Word2VecApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.embeddings.Word2VecModel]withHasStorageRefwithHasEnableCachingProperties"></a><a id="Word2VecApproach:Word2VecApproach"></a>
       <span class="permalink">
       <a href="../../../../com/johnsnowlabs/nlp/embeddings/Word2VecApproach.html" title="Permalink">
         <i class="material-icons"></i>
@@ -1948,7 +2057,7 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Trains a Word2Vec model that creates vector representations of words in a text corpus." href="Word2VecApproach.html"><span class="name">Word2VecApproach</span></a><span class="result"> extends <a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="Word2VecModel.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.Word2VecModel">Word2VecModel</a>] with <a href="../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a></span>
+        <a title="Trains a Word2Vec model that creates vector representations of words in a text corpus." href="Word2VecApproach.html"><span class="name">Word2VecApproach</span></a><span class="result"> extends <a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="Word2VecModel.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.Word2VecModel">Word2VecModel</a>] with <a href="../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a> with <a href="../HasEnableCachingProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasEnableCachingProperties">HasEnableCachingProperties</a></span>
       </span>
       
       <p class="shortcomment cmt">Trains a Word2Vec model that creates vector representations of words in a text corpus.</p><div class="fullcomment"><div class="comment cmt"><p>Trains a Word2Vec model that creates vector representations of words in a text corpus.</p><p>The algorithm first constructs a vocabulary from the corpus
@@ -2561,6 +2670,23 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
       </span>
       
       <p class="shortcomment cmt">This is the companion object of <a href="ChunkEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings">ChunkEmbeddings</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="ChunkEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings">ChunkEmbeddings</a>. Please refer to that class for the documentation.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.embeddings.DeBertaEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DeBertaEmbeddings"></a><a id="DeBertaEmbeddings:DeBertaEmbeddings"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/embeddings/DeBertaEmbeddings$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="This is the companion object of DeBertaEmbeddings." href="DeBertaEmbeddings$.html"><span class="name">DeBertaEmbeddings</span></a><span class="result"> extends <a href="ReadablePretrainedDeBertaModel.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ReadablePretrainedDeBertaModel">ReadablePretrainedDeBertaModel</a> with <a href="ReadDeBertaTensorflowModel.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ReadDeBertaTensorflowModel">ReadDeBertaTensorflowModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">This is the companion object of <a href="DeBertaEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.DeBertaEmbeddings">DeBertaEmbeddings</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="DeBertaEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.DeBertaEmbeddings">DeBertaEmbeddings</a>. Please refer to that class for the documentation.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DistilBertEmbeddings"></a><a id="DistilBertEmbeddings:DistilBertEmbeddings"></a>

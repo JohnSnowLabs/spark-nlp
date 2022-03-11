@@ -1,10 +1,12 @@
 source "https://rubygems.org"
 
-gem "github-pages", "220"
-gem "nokogiri", ">= 1.12.5"
+gem "github-pages", "225"
+gem "nokogiri", ">= 1.13.2"
 
 gem "elasticsearch", "~> 7.10"
 
 gem 'wdm', '~> 0.1.0'
 
 gem "webrick"
+
+gem "jekyll", "~> 3.9"
