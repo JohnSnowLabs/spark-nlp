@@ -130,4 +130,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url:  https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/Graph_RE.ipynb
+        - title: SQL Query Generation 
+          id: sql_query_generation  
+          image: 
+              src: /assets/images/Sql_query_generation.svg
+          image2: 
+              src: /assets/images/Sql_query_generation_f.svg
+          excerpt: This demo shows how to generate SQL code from natural language text.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/T5_SQL/ 
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_SQL.ipynb
 ---

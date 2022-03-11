@@ -22,7 +22,7 @@ This pretrained pipeline maps RxNorm codes to MeSH codes without using any text 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/rxnorm_mesh_mapping_en_3.0.2_3.0_1620134962818.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/rxnorm_mesh_mapping_en_3.0.2_2.4_1620134962818.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -31,7 +31,7 @@ This pretrained pipeline maps RxNorm codes to MeSH codes without using any text 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from sparknlp.pretrained import PretrainedPipeline 
+from sparknlp.pretrained import PretrainedPipeline
 pipeline = PretrainedPipeline("rxnorm_mesh_mapping","en","clinical/models")
 pipeline.annotate("1191 6809 47613")
 ```
@@ -49,9 +49,9 @@ val result = pipeline.annotate("1191 6809 47613")
 'mesh': ['D001241', 'D008687', 'D019355']}
 
 
-Note: 
+Note:
 
-| RxNorm     | Details             | 
+| RxNorm     | Details             |
 | ---------- | -------------------:|
 | 1191       |  aspirin            |
 | 6809       | metformin           |

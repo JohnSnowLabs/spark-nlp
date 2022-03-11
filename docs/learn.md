@@ -376,6 +376,10 @@ modify_date: "2019-05-16"
 <div class="grid--container container-aside article-wrapper"><div class="grid">
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[Contextual Parser: Increased Flexibility Extracting Entities in Spark NLP](https://medium.com/spark-nlp/contextual-parser-increased-flexibility-extracting-entities-in-spark-nlp-123ed58672f0)</span><span class="video-descr">Luca Martial - Feb 09 2022</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
 <span class="article-inner">![News](/assets/images/Article_8.jpg)[Named Entity Recognition for Healthcare with SparkNLP NerDL and NerCRF](https://medium.com/spark-nlp/named-entity-recognition-for-healthcare-with-sparknlp-nerdl-and-nercrf-a7751b6ad571)</span><span class="video-descr">Maggie Yilmaz - Jul 20 2020</span>
 </div></div>
 

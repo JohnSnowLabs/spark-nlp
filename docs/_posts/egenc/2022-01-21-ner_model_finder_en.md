@@ -20,7 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 This pretrained pipeline is trained with bert embeddings and can be used to find the most appropriate NER model given the entity name.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_MODEL_FINDER/){:.button.button-orange}
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_model_finder_en_3.3.2_2.4_1642758002888.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

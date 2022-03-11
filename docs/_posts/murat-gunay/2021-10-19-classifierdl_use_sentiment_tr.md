@@ -24,8 +24,8 @@ This model identifies the sentiments (positive or negative) in Turkish texts.
 `POSITIVE`, `NEGATIVE`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/SENTIMENT_TR/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_TR_SENTIMENT.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_sentiment_tr_3.3.0_2.4_1634634525008.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use

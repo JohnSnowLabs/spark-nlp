@@ -2,7 +2,7 @@
 layout: model
 title: Clinical Deidentification (Spanish)
 author: John Snow Labs
-name: deid_pipeline
+name: clinical_deidentification
 date: 2022-01-24
 tags: [deid, es, licensed]
 task: De-identification
@@ -22,7 +22,7 @@ This pipeline is trained with sciwiki_300d embeddings and can be used to deident
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/deid_pipeline_es_3.4.0_3.0_1643048677200.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/clinical_deidentification_es_3.3.4_3.0_1644832415526.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -33,7 +33,7 @@ This pipeline is trained with sciwiki_300d embeddings and can be used to deident
 ```python
 from sparknlp.pretrained import PretrainedPipeline
 
-deid_pipeline = PretrainedPipeline("deid_pipeline", "es", "clinical/models")
+deid_pipeline = PretrainedPipeline("clinical_deidentification", "es", "clinical/models")
 
 sample = """Datos del paciente.
 Nombre:  Jose .
@@ -61,7 +61,7 @@ result = deid_pipeline .annotate(sample)
 ```
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-val deid_pipeline = new PretrainedPipeline("deid_pipeline", "es", "clinical/models")
+val deid_pipeline = new PretrainedPipeline("clinical_deidentification", "es", "clinical/models")
 
 sample = "Datos del paciente.
 Nombre:  Jose .
@@ -270,7 +270,7 @@ Reinaldo Manjón Malo Barcelona Servicio de Endocrinología y Nutrición Valenci
 
 {:.table-model}
 |---|---|
-|Model Name:|deid_pipeline|
+|Model Name:|clinical_deidentification|
 |Type:|pipeline|
 |Compatibility:|Spark NLP for Healthcare 3.4.0+|
 |License:|Licensed|
