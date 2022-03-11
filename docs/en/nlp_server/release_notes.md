@@ -11,6 +11,18 @@ sidebar:
     nav: nlp-server
 ---
 
+## NLP Server 0.5.0
+
+### Highlights
+
+- Support for easy license import from my.johnsnowlabs.com.
+- Visualize annotation results with Spark NLP Display.
+- Examples of results obtained using popular spells on sample texts have been added to the UI.
+- Performance improvement when previewing the annotations.
+- Support for 22 new models for 23 languages including various African and Indian languages as well as Medical Spanish models powered by NLU 3.4.1
+- Various bug fixes
+
+
 ## NLP Server 0.4.0
 
 ### Highlights
