@@ -9,7 +9,7 @@ object Dependencies {
   val spark32Ver = "3.2.0"
 
   val is_gpu: String = System.getProperty("is_gpu", "false")
-  val is_opt: String = System.getProperty("is_opt", "false")
+  val is_m1: String = System.getProperty("is_m1", "false")
   val is_spark23: String = System.getProperty("is_spark23", "false")
   val is_spark24: String = System.getProperty("is_spark24", "false")
   val is_spark30: String = System.getProperty("is_spark30", "false")
@@ -21,7 +21,7 @@ object Dependencies {
 
 
   /** Package attributes */
-  def getPackageName(is_spark23: String, is_spark24: String, is_spark32: String, is_gpu: String): String = {
+  def getPackageName(is_spark23: String, is_spark24: String, is_spark32: String, is_gpu: String, is_m1: String): String = {
     if (is_gpu.equals("true") && is_spark23.equals("true")) {
       "spark-nlp-gpu-spark23"
     } else if (is_gpu.equals("true") && is_spark24.equals("true")) {
@@ -36,6 +36,8 @@ object Dependencies {
       "spark-nlp-spark24"
     } else if (is_gpu.equals("false") && is_spark32.equals("true")) {
       "spark-nlp-spark32"
+    } else if (is_m1.equals("true")) {
+      "spark-nlp-m1"
     } else {
       "spark-nlp"
     }
@@ -96,11 +98,11 @@ object Dependencies {
   val junitVersion = "4.13.2"
   val junit = "junit" % "junit" % junitVersion % Test
 
-  val tensorflowGPUVersion = "0.4.0"
-  val tensorflowGPU = "com.johnsnowlabs.nlp" %% "tensorflow-gpu" % tensorflowGPUVersion
+  val tensorflowVersion = "0.4.1-rc1"
 
-  val tensorflowCPUVersion = "0.4.0"
-  val tensorflowCPU = "com.johnsnowlabs.nlp" %% "tensorflow-cpu" % tensorflowCPUVersion
+  val tensorflowGPU = "com.johnsnowlabs.nlp" %% "tensorflow-gpu" % tensorflowVersion
+  val tensorflowCPU = "com.johnsnowlabs.nlp" %% "tensorflow-cpu" % tensorflowVersion
+  val tensorflowM1 = "com.johnsnowlabs.nlp" %% "tensorflow-m1" % tensorflowVersion
 
   /** ------- Dependencies end  ------- */
 }

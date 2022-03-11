@@ -2,7 +2,7 @@ import Dependencies._
 import Resolvers.m2Resolvers
 import sbtassembly.MergeStrategy
 
-name := getPackageName(is_spark23, is_spark24, is_spark32, is_gpu)
+name := getPackageName(is_spark23, is_spark24, is_spark32, is_gpu, is_m1)
 
 organization := "com.johnsnowlabs.nlp"
 
@@ -111,6 +111,8 @@ lazy val typedDependencyParserDependencies = Seq(
 val tensorflowDependencies: Seq[sbt.ModuleID] =
   if (is_gpu.equals("true"))
     Seq(tensorflowGPU)
+  else if (is_m1.equals("true"))
+    Seq(tensorflowM1)
   else
     Seq(tensorflowCPU)
 
