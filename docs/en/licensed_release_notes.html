@@ -528,11 +528,199 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP for Healthcare Release Notes"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="341">3.4.1</h2>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="342">3.4.2</h2>
+<p>We are glad to announce that Spark NLP Healthcare 3.4.2 has been released!</p>
+
+<h4 id="highlights">Highlights</h4>
+
+<ul>
+  <li>New RCT Classifier, NER models and pipeline (Deidentification)</li>
+  <li>Setting the scope window (target area) dynamically in Assertion Status detection models</li>
+  <li>Reading JSON files (exported from ALAB) from HDFS with <code class="language-plaintext highlighter-rouge">AnnotationJsonReader</code></li>
+  <li>Allow users to write Tensorflow graphs to HDFS</li>
+  <li>Serving Spark NLP on APIs</li>
+  <li>Updated documentation on installing Spark NLP for Healthcare in AWS EMR (Jupyter, Livy, Yarn, Hadoop)</li>
+  <li>New series of notebooks to reproduce the academic papers published by our colleagues</li>
+  <li>PySpark tutorial notebooks to let non-Spark users get started with Apache Spark ecosystem in Python</li>
+  <li>New &amp; updated notebooks</li>
+  <li>List of recently updated or added models</li>
+</ul>
+
+<h4 id="new-rct-classifier-ner-models-and-pipeline-deidentification">New RCT Classifier, NER Models and Pipeline (Deidentification)</h4>
+
+<p>We are releasing a new <code class="language-plaintext highlighter-rouge">bert_sequence_classifier_rct_biobert</code> model, four new Spanish deidentification NER models (<code class="language-plaintext highlighter-rouge">ner_deid_generic_augmented</code>, <code class="language-plaintext highlighter-rouge">ner_deid_subentity_augmented</code>, <code class="language-plaintext highlighter-rouge">ner_deid_generic_roberta_augmented</code>, <code class="language-plaintext highlighter-rouge">ner_deid_subentity_roberta_augmented</code>) and a pipeline (<code class="language-plaintext highlighter-rouge">clinical_deidentification_augmented</code>).</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">bert_sequence_classifier_rct_biobert</code>: This model can classify the sections within abstract of scientific articles regarding randomized clinical trials (RCT) (<code class="language-plaintext highlighter-rouge">BACKGROUND</code>, <code class="language-plaintext highlighter-rouge">CONCLUSIONS</code>, <code class="language-plaintext highlighter-rouge">METHODS</code>, <code class="language-plaintext highlighter-rouge">OBJECTIVE</code>, <code class="language-plaintext highlighter-rouge">RESULTS</code>).</li>
+</ul>
+
+<p><em>Example</em> :</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="n">sequenceClassifier_model</span> <span class="o">=</span> <span class="n">MedicalBertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_sequence_classifier_rct_biobert"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
+<span class="p">...</span>
+
+<span class="n">sample_text</span> <span class="o">=</span> <span class="s">"Previous attempts to prevent all the unwanted postoperative responses to major surgery with an epidural hydrophilic opioid , morphine , have not succeeded . The authors ' hypothesis was that the lipophilic opioid fentanyl , infused epidurally close to the spinal-cord opioid receptors corresponding to the dermatome of the surgical incision , gives equal pain relief but attenuates postoperative hormonal and metabolic responses more effectively than does systemic fentanyl ."</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">sequence_clf_model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">sample_text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
+
+<span class="o">&gt;&gt;</span> <span class="n">class</span><span class="p">:</span> <span class="s">'BACKGROUND'</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">ner_deid_generic_augmented</code>, <code class="language-plaintext highlighter-rouge">ner_deid_subentity_augmented</code>, <code class="language-plaintext highlighter-rouge">ner_deid_generic_roberta_augmented</code>, <code class="language-plaintext highlighter-rouge">ner_deid_subentity_roberta_augmented</code> models and <code class="language-plaintext highlighter-rouge">clinical_deidentification_augmented</code> pipeline : You can use either <code class="language-plaintext highlighter-rouge">sciwi-embeddings</code> (300 dimensions) or the Roberta Clinical Embeddings (infix <code class="language-plaintext highlighter-rouge">_roberta_</code>) with these NER models. These models and pipeline are different to their non-augmented versions in the following:</p>
+
+    <ul>
+      <li>They are trained with more data, now including an in-house annotated deidentification dataset;</li>
+      <li>New <code class="language-plaintext highlighter-rouge">SEX</code> tag is available for all of them. This tag is now included in the NER and has been improved with more rules in the ContextualParsers of the pipeline, resulting in having a bigger recall to detect the sex of the patient.</li>
+      <li>New <code class="language-plaintext highlighter-rouge">STREET</code>, <code class="language-plaintext highlighter-rouge">CITY</code> and <code class="language-plaintext highlighter-rouge">COUNTRY</code> entities are added to subentity versions.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>For more details and examples, please check <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.2.Clinical_Deidentification_in_Spanish.ipynb">Clinical Deidentification in Spanish notebook</a>.</p>
+
+<p><em>Example</em> :</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_sciwiki_300d"</span><span class="p">,</span><span class="s">"es"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+
+<span class="n">deid_ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_deid_generic_augmented"</span><span class="p">,</span> <span class="s">"es"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+
+<span class="n">deid_sub_entity_ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_deid_subentity_augmented"</span><span class="p">,</span> <span class="s">"es"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_sub_entity"</span><span class="p">)</span>
+<span class="p">...</span>
+</code></pre></div></div>
+
+<p><em>Results</em> :</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chunk                    entity_subentity    entity_generic
+<span class="nt">-----------------------</span>  <span class="nt">------------------</span>  <span class="nt">----------------</span>
+Antonio Miguel Martínez  PATIENT             NAME
+un varón                 SEX                 SEX
+35                       AGE                 AGE
+auxiliar de enfermería   PROFESSION          PROFESSION
+Cadiz                    CITY                LOCATION
+España                   COUNTRY             LOCATION
+Clinica San Carlos       HOSPITAL            LOCATION
+</code></pre></div></div>
+
+<h4 id="setting-the-scope-window-target-area-dynamically-in-assertion-status-detection-models">Setting the Scope Window (Target Area) Dynamically in Assertion Status Detection Models</h4>
+
+<p>This parameter allows you to train the Assertion Status Models to focus on specific context windows when resolving the status of a NER chunk. The window is in format <code class="language-plaintext highlighter-rouge">[X,Y]</code> being <code class="language-plaintext highlighter-rouge">X</code> the number of tokens to consider on the left of the chunk, and <code class="language-plaintext highlighter-rouge">Y</code> the max number of tokens to consider on the right. Let’s take a look at what different windows mean:</p>
+
+<ul>
+  <li>By default, the window is <code class="language-plaintext highlighter-rouge">[-1,-1]</code> which means that the Assertion Status will look at all of the tokens in the sentence/document (up to a maximum of tokens set in <code class="language-plaintext highlighter-rouge">setMaxSentLen()</code>).</li>
+  <li><code class="language-plaintext highlighter-rouge">[0,0]</code> means “don’t pay attention to any token except the ner_chunk”, what basically is not considering any context for the Assertion resolution.</li>
+  <li><code class="language-plaintext highlighter-rouge">[9,15]</code> is what empirically seems to be the best baseline, meaning that we look up to 9 tokens on the left and 15 on the right of the ner chunk to understand the context and resolve the status.</li>
+</ul>
+
+<p>Check this <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.1.Scope_window_tuning_assertion_status_detection.ipynb">scope window tuning assertion status detection notebook</a> that illustrates the effect of the different windows and how to properly <strong>fine-tune</strong> your AssertionDLModels to get the best of them.</p>
+
+<p><em>Example</em> :</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">assertion_status</span> <span class="o">=</span> <span class="n">AssertionDLApproach</span><span class="p">()</span> \
+          <span class="p">.</span><span class="n">setGraphFolder</span><span class="p">(</span><span class="s">"assertion_dl/"</span><span class="p">)</span> \
+          <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"chunk"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">)</span> \
+          <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"assertion"</span><span class="p">)</span> \
+          <span class="p">...</span>
+          <span class="p">...</span>
+          <span class="p">.</span><span class="n">setScopeWindow</span><span class="p">([</span><span class="mi">9</span><span class="p">,</span> <span class="mi">15</span><span class="p">])</span>     <span class="c1"># NEW! Scope Window!
+</span></code></pre></div></div>
+
+<h4 id="reading-json-files-exported-from-alab-from-hdfs-with-annotationjsonreader">Reading JSON Files (Exported from ALAB) From HDFS with <code class="language-plaintext highlighter-rouge">AnnotationJsonReader</code></h4>
+
+<p>Now we can read the dataframe from a HDFS that we read the files from in our cluster.</p>
+
+<p><em>Example</em> :</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">filename</span> <span class="o">=</span> <span class="s">"hdfs:///user/livy/import.json"</span>
+<span class="n">reader</span> <span class="o">=</span> <span class="n">AnnotationToolJsonReader</span><span class="p">(</span><span class="n">assertion_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s">'AsPresent'</span><span class="p">,</span> <span class="s">'AsAbsent'</span><span class="p">,</span> <span class="s">'AsConditional'</span><span class="p">,</span> <span class="s">'AsHypothetical'</span><span class="p">,</span> <span class="s">'Family'</span><span class="p">,</span> <span class="s">'AsPossible'</span><span class="p">,</span> <span class="s">'AsElse'</span><span class="p">])</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">reader</span><span class="p">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="allow-users-write-tensorflow-graphs-to-hdfs">Allow Users Write Tensorflow Graphs to HDFS</h4>
+
+<p>Now we can save custom Tensorflow graphs to the HDFS that mainly being used in a cluster environment.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tf_graph</span><span class="p">.</span><span class="n">build</span><span class="p">(</span><span class="s">"ner_dl"</span><span class="p">,</span> <span class="n">build_params</span><span class="o">=</span><span class="p">{</span><span class="s">"embeddings_dim"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="s">"nchars"</span><span class="p">:</span> <span class="mi">128</span><span class="p">,</span> <span class="s">"ntags"</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s">"is_medical"</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="n">model_location</span><span class="o">=</span><span class="s">"hdfs:///user/livy"</span><span class="p">,</span> <span class="n">model_filename</span><span class="o">=</span><span class="s">"auto"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="serving-spark-nlp-on-apis">Serving Spark NLP on APIs</h4>
+
+<p>Two new notebooks and a series of blog posts / Medium articles have been created to guide Spark NLP users to serve Spark NLP on a RestAPI.</p>
+
+<ul>
+  <li>The notebooks can be found <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/RestAPI">here</a>.</li>
+  <li>The articles can be found in the Technical Documentation of Spark NLP, available <a href="https://nlp.johnsnowlabs.com/docs/en/quickstart">here</a> and also in Medium:
+    <ul>
+      <li><a href="https://medium.com/@jjmcarrascosa/serving-spark-nlp-via-api-1-3-microsoft-synapse-ml-2c77a3f61f9d">Serving Spark NLP via API (1/3): Microsoft’s Synapse ML</a></li>
+      <li><a href="https://medium.com/@jjmcarrascosa/serving-spark-nlp-via-api-2-3-fastapi-and-lightpipelines-218d1980c9fc">Serving Spark NLP via API (2/3): FastAPI and LightPipelines</a></li>
+      <li><a href="https://medium.com/@jjmcarrascosa/serving-spark-nlp-via-api-3-3-databricks-and-mlflow-serve-apis-4ef113e7fac4">Serving Spark NLP via API (3/3): Databricks Jobs and MLFlow Serve APIs</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>The difference between both approaches are the following:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">SynapseML</code> is a Microsoft Azure Open Source library used to carry out ML at scale. In this case, we use the Spark Serving feature, that leverages Spark Streaming and adds a web server with a Load Balancer, allowing concurrent processing of Spark NLP calls. Best approach if you look for scalability with Load Balancing.</li>
+  <li><code class="language-plaintext highlighter-rouge">FastAPI</code> + <code class="language-plaintext highlighter-rouge">LightPipelines</code>: A solution to run Spark NLP using a FastAPI webserver. It uses LightPipelines, what means having a very good performance but not leveraging Spark Clusters. Also, no Load Balancer is available in the suggestion, but you can create your own. Best approach if you look for performance.</li>
+  <li><code class="language-plaintext highlighter-rouge">Databricks</code> and <code class="language-plaintext highlighter-rouge">MLFlow</code>: Using MLFlow Serve or Databricks Jobs APIs to serve for inference Spark NLP pipelines from within Databricks. Best approach if you look for scalability within Databricks.</li>
+</ul>
+
+<h4 id="updated-documentation-on-installing-spark-nlp-for-healthcare-in-aws-emr-jupyter-livy-yarn-hadoop">Updated Documentation on Installing Spark NLP For Healthcare in AWS EMR (Jupyter, Livy, Yarn, Hadoop)</h4>
+
+<p>Ready-to-go Spark NLP for Healthcare environment in AWS EMR. Full instructions are <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/platforms/emr">here</a>.</p>
+
+<h4 id="new-series-of-notebooks-to-reproduce-the-academic-papers-published-by-our-colleagues">New Series of Notebooks to Reproduce the Academic Papers Published by Our Colleagues</h4>
+
+<p>You can find all these notebooks <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/academic">here</a></p>
+
+<h4 id="pyspark-tutorial-notebooks-to-let-non-spark-users-to-get-started-with-apache-spark-ecosystem-in-python">PySpark Tutorial Notebooks to Let Non-Spark Users to Get Started with Apache Spark Ecosystem in Python</h4>
+
+<p>John Snow Labs has created a series of 8 notebooks to go over PySpark from zero to hero. Notebooks cover PySpark essentials, DataFrame creation, querying, importing data from different formats, functions / udfs, Spark MLLib examples (regression, classification, clustering) and Spark NLP best practises (usage of parquet, repartition, coalesce, custom annotators, etc).</p>
+
+<p>You can find all these notebooks <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/PySpark">here</a>.</p>
+
+<h4 id="new--updated-notebooks">New &amp; Updated Notebooks</h4>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Series of academic notebooks</code> : A new series of academic paper notebooks, available <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/academic">here</a></li>
+  <li><code class="language-plaintext highlighter-rouge">Clinical_Deidentification_in_Spanish.ipynb</code>: A notebook showcasing Clinical Deidentification in Spanish, available <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.2.Clinical_Deidentification_in_Spanish.ipynb">here</a>.</li>
+  <li><code class="language-plaintext highlighter-rouge">Clinical_Deidentification_Comparison.ipynb</code>: A new series of comparisons between different Deidentification libraries. So far, it contains Spark NLP for Healthcare and ScrubaDub with Spacy Transformers. Available <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.3.Clinical_Deidentification_Comparison.ipynb">here</a>.</li>
+  <li><code class="language-plaintext highlighter-rouge">Scope_window_tuning_assertion_status_detection.ipynb</code>: How to finetune Assertion Status using the Scope Window. Available <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.1.Scope_window_tuning_assertion_status_detection.ipynb">here</a></li>
+  <li><code class="language-plaintext highlighter-rouge">Clinical_Longformer_vs_BertSentence_&amp;_USE.ipynb</code>: A Comparison of how Clinical Longformer embeddings, averaged by the Sentence Embeddings annotator, performs compared to BioBert and UniversalSentenceEncoding. Link <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/clinical_text_classification/3.Clinical_Longformer_vs_BertSentence_%26_USE.ipynb">here</a>.</li>
+  <li><code class="language-plaintext highlighter-rouge">Serving_SparkNLP_with_Synapse.ipynb</code>: Serving SparkNLP for production purposes using Synapse ML. Available <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/RestAPI/Serving_SparkNLP_with_Synapse.ipynb">here</a></li>
+  <li><code class="language-plaintext highlighter-rouge">Serving_SparkNLP_with_FastAPI_and_LP.ipynb</code>: Serving SparkNLP for production purposes using FastAPI, RestAPI and LightPipelines. Available <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/RestAPI/Serving_SparkNLP_with_FastAPI_and_LP.ipynb">here</a></li>
+  <li><code class="language-plaintext highlighter-rouge">Series of PySpark tutorial notebooks</code>: Available <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/PySpark">here</a></li>
+</ul>
+
+<h4 id="list-of-recently-updated-or-added-models">List of Recently Updated or Added Models</h4>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sbiobertresolve_hcpcs</code></li>
+  <li><code class="language-plaintext highlighter-rouge">bert_sequence_classifier_rct_biobert</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ner_deid_generic_augmented_es</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ner_deid_subentity_augmented_es</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ner_deid_generic_roberta_augmented_es</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ner_deid_subentity_roberta_augmented_es</code></li>
+  <li><code class="language-plaintext highlighter-rouge">clinical_deidentification_augmented_es</code></li>
+</ul>
+
+<p><strong>For all Spark NLP for healthcare models, please check : <a href="https://nlp.johnsnowlabs.com/models?edition=Spark+NLP+for+Healthcare">Models Hub Page</a></strong></p>
+
+<h2 id="341">3.4.1</h2>
 
 <p>We are glad to announce that Spark NLP Healthcare 3.4.1 has been released!</p>
 
-<h4 id="highlights">Highlights</h4>
+<h4 id="highlights-1">Highlights</h4>
 
 <ul>
   <li>Brand new Spanish deidentification NER models</li>
@@ -993,7 +1181,7 @@ visualiser.display<span class="o">(</span>light_result[0], <span class="nv">labe
 
 <p>We prepared a speed benchmark table by running a clinical BERT For Token Classification model pipeline on various number of repartitioning and writing the results to parquet or delta formats. You can find the details here : <a href="https://nlp.johnsnowlabs.com/docs/en/benchmark#clinical-bert-for-token-classification-benchmark-experiment">Clinical Bert For Token Classification Benchmark Experiment</a>.</p>
 
-<h4 id="new--updated-notebooks">New &amp; Updated Notebooks</h4>
+<h4 id="new--updated-notebooks-1">New &amp; Updated Notebooks</h4>
 
 <ul>
   <li>We have updated our existing workshop notebooks with v3.4.0 by adding new features and functionalities.</li>
@@ -1004,7 +1192,7 @@ visualiser.display<span class="o">(</span>light_result[0], <span class="nv">labe
 
 <p><strong>To see more, please check : <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Healthcare">Spark NLP Healthcare Workshop Repo</a></strong></p>
 
-<h4 id="list-of-recently-updated-or-added-models">List of Recently Updated or Added Models</h4>
+<h4 id="list-of-recently-updated-or-added-models-1">List of Recently Updated or Added Models</h4>
 
 <ul>
   <li><code class="language-plaintext highlighter-rouge">bert_sequence_classifier_ade_en</code></li>
@@ -1030,7 +1218,7 @@ visualiser.display<span class="o">(</span>light_result[0], <span class="nv">labe
 <p>We are glad to announce that Spark NLP Healthcare 3.4.0 has been released!
 This is a massive release: new features, new models, academic papers, and more!</p>
 
-<h4 id="highlights-1">Highlights</h4>
+<h4 id="highlights-2">Highlights</h4>
 
 <ul>
   <li>New German Deidentification NER Models</li>
@@ -1895,7 +2083,7 @@ and Couto 2020), (Crone 2020), and (Yang et al. 2021) respectively.</em></p>
 <h2 id="334">3.3.4</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.3.4 has been released!</p>
 
-<h4 id="highlights-2">Highlights</h4>
+<h4 id="highlights-3">Highlights</h4>
 
 <ul>
   <li>New Clinical NER Models</li>
@@ -2427,7 +2615,7 @@ UpdateModels.updateModels<span class="o">(</span><span class="s2">"11/24/2021"</
 <h2 id="332">3.3.2</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.3.2 has been released!.</p>
 
-<h4 id="highlights-3">Highlights</h4>
+<h4 id="highlights-4">Highlights</h4>
 
 <ul>
   <li>New Clinical NER Models and Spanish NER Model</li>
@@ -3032,7 +3220,7 @@ PROCEDURE:  Right VATS pleurodesis and pleural biopsy."""</span><span class="p">
 <h2 id="331">3.3.1</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.3.1 has been released!.</p>
 
-<h4 id="highlights-4">Highlights</h4>
+<h4 id="highlights-5">Highlights</h4>
 <ul>
   <li>New ChunkKeyPhraseExtraction Annotator</li>
   <li>New BERT-Based NER Models</li>
@@ -3315,7 +3503,7 @@ results <span class="o">=</span> model.fit<span class="o">(</span>data<span clas
 <h2 id="330">3.3.0</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.3.0 has been released!.</p>
 
-<h4 id="highlights-5">Highlights</h4>
+<h4 id="highlights-6">Highlights</h4>
 <ul>
   <li>NER Finder Pretrained Pipelines to Run Run 48 different Clinical NER and 21 Different Biobert Models At Once Over the Input Text</li>
   <li>3 New Sentence Entity Resolver Models (3-char ICD10CM, RxNorm_NDC, HCPCS)</li>
@@ -4023,7 +4211,7 @@ To use this feature, you just need to make sure that you always call the start()
 <h2 id="323">3.2.3</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.2.3 has been released!.</p>
 
-<h4 id="highlights-6">Highlights</h4>
+<h4 id="highlights-7">Highlights</h4>
 <ul>
   <li>New BERT-Based Deidentification NER Model</li>
   <li>New Sentence Entity Resolver Models For German Language</li>
@@ -4305,7 +4493,7 @@ Here, you can see that as we have provided the same seed <span class="sb">`</spa
 <h2 id="322">3.2.2</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.2.2 has been released!.</p>
 
-<h4 id="highlights-7">Highlights</h4>
+<h4 id="highlights-8">Highlights</h4>
 <ul>
   <li>New NER Model For Detecting Drugs, Posology, and Administration Cycles</li>
   <li>New Sentence Entity Resolver Models</li>
@@ -4552,7 +4740,7 @@ results <span class="o">=</span> model.transform<span class="o">(</span>spark.cr
 <h2 id="321">3.2.1</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.2.1 has been released!.</p>
 
-<h4 id="highlights-8">Highlights</h4>
+<h4 id="highlights-9">Highlights</h4>
 
 <ul>
   <li>Deprecated ChunkEntityResolver.</li>
@@ -4934,7 +5122,7 @@ medicaid: If the patient is in Medicaid or not.
 <h2 id="320">3.2.0</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.2.0 has been released!.</p>
 
-<h4 id="highlights-9">Highlights</h4>
+<h4 id="highlights-10">Highlights</h4>
 
 <ul>
   <li>New Sentence Boundary Detection Model for Healthcare text</li>
@@ -5626,7 +5814,7 @@ results = model.transform(spark.createDataFrame([[text]], ["text"]))
 <p>We are glad to announce that Spark NLP for Healthcare 3.1.3 has been released!.
 This release comes with new features, new models, bug fixes, and examples.</p>
 
-<h4 id="highlights-10">Highlights</h4>
+<h4 id="highlights-11">Highlights</h4>
 <ul>
   <li>New Relation Extraction model and a Pretrained pipeline for extracting and linking ADEs</li>
   <li>New Entity Resolver model for SNOMED codes</li>
@@ -5739,7 +5927,7 @@ Relations:
 <p>We are glad to announce that Spark NLP for Healthcare 3.1.2 has been released!.
 This release comes with new features, new models, bug fixes, and examples.</p>
 
-<h4 id="highlights-11">Highlights</h4>
+<h4 id="highlights-12">Highlights</h4>
 <ul>
   <li>Support for Fine-tuning of Ner models.</li>
   <li>More builtin(pre-defined) graphs for MedicalNerApproach.</li>
@@ -5925,7 +6113,7 @@ print(compatibility.findVersion('sentence_detector_dl_healthcare'))
 <h2 id="311">3.1.1</h2>
 <p>We are glad to announce that Spark NLP for Healthcare 3.1.1 has been released!</p>
 
-<h4 id="highlights-12">Highlights</h4>
+<h4 id="highlights-13">Highlights</h4>
 <ul>
   <li>MedicalNerModel new parameter <code class="language-plaintext highlighter-rouge">includeAllConfidenceScores</code>.</li>
   <li>MedicalNerModel new parameter <code class="language-plaintext highlighter-rouge">inferenceBatchSize</code>.</li>
@@ -6025,7 +6213,7 @@ results = model.transform(spark.createDataFrame([["The patient is a very pleasan
 
 <h2 id="310">3.1.0</h2>
 <p>We are glad to announce that Spark NLP for Healthcare 3.1.0 has been released!</p>
-<h4 id="highlights-13">Highlights</h4>
+<h4 id="highlights-14">Highlights</h4>
 <ul>
   <li>Improved load time &amp; memory consumption for SentenceResolver models.</li>
   <li>New JSL Bert Models.</li>
@@ -6587,7 +6775,7 @@ Given the sentence <code class="language-plaintext highlighter-rouge">The patien
 
 <p>We are glad to announce that Spark NLP for Healthcare 3.0.3 has been released!</p>
 
-<h4 id="highlights-14">Highlights</h4>
+<h4 id="highlights-15">Highlights</h4>
 
 <ul>
   <li>Five new entity resolution models to cover UMLS, HPO and LIONC terminologies.</li>
@@ -6670,7 +6858,7 @@ Given the sentence <code class="language-plaintext highlighter-rouge">The patien
 
 <p>We are very excited to announce that <strong>Spark NLP for Healthcare 3.0.2</strong> has been released! This release includes bug fixes and some compatibility improvements.</p>
 
-<h4 id="highlights-15">Highlights</h4>
+<h4 id="highlights-16">Highlights</h4>
 
 <ul>
   <li>Dictionaries for Obfuscator were augmented with more than 10K names.</li>
@@ -6692,7 +6880,7 @@ Given the sentence <code class="language-plaintext highlighter-rouge">The patien
 
 <p>We are very excited to announce that <strong>Spark NLP for Healthcare 3.0.1</strong> has been released!</p>
 
-<h4 id="highlights-16">Highlights:</h4>
+<h4 id="highlights-17">Highlights:</h4>
 
 <ul>
   <li>Fixed problem in Assertion Status internal tokenization (reported in Spark-NLP #2470).</li>
@@ -6820,11 +7008,11 @@ Return obfuscated documents in a repeatable manner based on the same seed.</p>
 
 <p>We are very excited to announce that <strong>Spark NLP for Healthcare 3.0.0</strong> has been released! This has been one of the biggest releases we have ever done and we are so proud to share this with our customers.</p>
 
-<h4 id="highlights-17">Highlights:</h4>
+<h4 id="highlights-18">Highlights:</h4>
 
 <p>Spark NLP for Healthcare 3.0.0 extends the support for Apache Spark 3.0.x and 3.1.x major releases on Scala 2.12 with both Hadoop 2.7. and 3.2. We now support all 4 major Apache Spark and PySpark releases of 2.3.x, 2.4.x, 3.0.x, and 3.1.x helping the customers to migrate from earlier Apache Spark versions to newer releases without being worried about Spark NLP support.</p>
 
-<h4 id="highlights-18">Highlights:</h4>
+<h4 id="highlights-19">Highlights:</h4>
 <ul>
   <li>Support for Apache Spark and PySpark 3.0.x on Scala 2.12</li>
   <li>Support for Apache Spark and PySpark 3.1.x on Scala 2.12</li>
@@ -6932,7 +7120,7 @@ print(compatibility.findVersion("ner_deid"))
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.6 has been released!</p>
 
-<h4 id="highlights-19">Highlights:</h4>
+<h4 id="highlights-20">Highlights:</h4>
 
 <ul>
   <li>
@@ -7233,7 +7421,7 @@ text =''' Provider: David Hale, M.D.
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.5 has been released!</p>
 
-<h4 id="highlights-20">Highlights:</h4>
+<h4 id="highlights-21">Highlights:</h4>
 
 <ul>
   <li>New pretrained <strong>Relation Extraction</strong> model to link clinical tests to test results and dates to clinical entities: <code class="language-plaintext highlighter-rouge">re_test_result_date</code></li>
@@ -7423,7 +7611,7 @@ text =''' Provider: David Hale, M.D.
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.4 has been released!</p>
 
-<h4 id="highlights-21">Highlights:</h4>
+<h4 id="highlights-22">Highlights:</h4>
 
 <ul>
   <li>Introducing a new annotator to extract chunks with NER tags using regex-like patterns: <strong>NerChunker</strong>.</li>
@@ -7507,7 +7695,7 @@ text = 'Patient with severe fever and sore throat, but no stomach pain.'
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.3 has been released!</p>
 
-<h4 id="highlights-22">Highlights:</h4>
+<h4 id="highlights-23">Highlights:</h4>
 
 <ul>
   <li>Introducing a brand-new <strong>RelationExtractionDL Annotator</strong> – Achieving SOTA results in clinical relation extraction using <strong>BioBert</strong>.</li>

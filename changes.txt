@@ -1,2 +1,2 @@
-.github/workflows/stale.yaml
-.github/workflows/stale.yaml
+docs/en/licensed_release_notes.md
+docs/en/licensed_release_notes.md
