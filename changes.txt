@@ -1,8 +1,2 @@
-docs/en/annotators.md
-docs/en/transformer_entries/DeBertaEmbeddings.md
-python/sparknlp/annotator.py
-src/main/scala/com/johnsnowlabs/nlp/embeddings/DeBertaEmbeddings.scala
-docs/en/annotators.md
-docs/en/transformer_entries/DeBertaEmbeddings.md
-python/sparknlp/annotator.py
-src/main/scala/com/johnsnowlabs/nlp/embeddings/DeBertaEmbeddings.scala
+.github/workflows/stale.yaml
+.github/workflows/stale.yaml
