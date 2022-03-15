@@ -22,7 +22,6 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.storage.HasStorageRef
-
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
@@ -153,7 +152,7 @@ import java.io.File
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class AlbertEmbeddings(override val uid: String)
-  extends AnnotatorModel[AlbertEmbeddings]
+    extends AnnotatorModel[AlbertEmbeddings]
     with HasBatchedAnnotate[AlbertEmbeddings]
     with WriteTensorflowModel
     with WriteSentencePieceModel
@@ -164,13 +163,14 @@ class AlbertEmbeddings(override val uid: String)
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("ALBERT_EMBEDDINGS"))
 
-
   /**
    * Input Annotator Types: DOCUMENT, TOKEN
    *
    * @group anno
    */
-  override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+  override val inputAnnotatorTypes: Array[String] =
+    Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+
   /**
    * Output Annotator Types: WORD_EMBEDDINGS
    *
@@ -183,10 +183,14 @@ class AlbertEmbeddings(override val uid: String)
    *
    * @group param
    */
-  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  val configProtoBytes = new IntArrayParam(
+    this,
+    "configProtoBytes",
+    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): AlbertEmbeddings.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): AlbertEmbeddings.this.type =
+    set(this.configProtoBytes, bytes)
 
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
@@ -196,11 +200,14 @@ class AlbertEmbeddings(override val uid: String)
    *
    * @group param
    */
-  val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
+  val maxSentenceLength =
+    new IntParam(this, "maxSentenceLength", "Max sentence length to process")
 
   /** @group setParam */
   def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "ALBERT models do not support sequences longer than 512 because of trainable positional embeddings")
+    require(
+      value <= 512,
+      "ALBERT models do not support sequences longer than 512 because of trainable positional embeddings")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -236,7 +243,10 @@ class AlbertEmbeddings(override val uid: String)
   private var _model: Option[Broadcast[TensorflowAlbert]] = None
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper, spp: SentencePieceWrapper): AlbertEmbeddings = {
+  def setModelIfNotSet(
+      spark: SparkSession,
+      tensorflowWrapper: TensorflowWrapper,
+      spp: SentencePieceWrapper): AlbertEmbeddings = {
     if (_model.isEmpty) {
 
       _model = Some(
@@ -246,10 +256,7 @@ class AlbertEmbeddings(override val uid: String)
             spp,
             batchSize = $(batchSize),
             configProtoBytes = getConfigProtoBytes,
-            signatures = getSignatures
-          )
-        )
-      )
+            signatures = getSignatures)))
     }
 
     this
@@ -257,12 +264,7 @@ class AlbertEmbeddings(override val uid: String)
 
   def getModelIfNotSet: TensorflowAlbert = _model.get.value
 
-  setDefault(
-    batchSize -> 32,
-    dimension -> 768,
-    maxSentenceLength -> 128,
-    caseSensitive -> false
-  )
+  setDefault(batchSize -> 32, dimension -> 768, maxSentenceLength -> 128, caseSensitive -> false)
 
   /**
    * takes a document and annotations and produces new annotations of this annotator's annotation type
@@ -271,39 +273,51 @@ class AlbertEmbeddings(override val uid: String)
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations.map(annotations =>
-      TokenizedWithSentence.unpack(annotations).toArray
-    ).toArray
+    val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations
+      .map(annotations => TokenizedWithSentence.unpack(annotations).toArray)
+      .toArray
 
     /*Return empty if the real tokens are empty*/
     if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
 
-      val embeddings = getModelIfNotSet.predict(
-        tokenizedSentences,
-        $(batchSize),
-        $(maxSentenceLength),
-        $(caseSensitive)
-      )
+      val embeddings = getModelIfNotSet
+        .predict(tokenizedSentences, $(batchSize), $(maxSentenceLength), $(caseSensitive))
       WordpieceEmbeddingsSentence.pack(embeddings)
-    }) else {
+    })
+    else {
       Seq(Seq.empty[Annotation])
     }
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflow, "_albert", AlbertEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
-    writeSentencePieceModel(path, spark, getModelIfNotSet.spp, "_albert", AlbertEmbeddings.sppFile)
+    writeTensorflowModelV2(
+      path,
+      spark,
+      getModelIfNotSet.tensorflow,
+      "_albert",
+      AlbertEmbeddings.tfFile,
+      configProtoBytes = getConfigProtoBytes)
+    writeSentencePieceModel(
+      path,
+      spark,
+      getModelIfNotSet.spp,
+      "_albert",
+      AlbertEmbeddings.sppFile)
 
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
+    dataset.withColumn(
+      getOutputCol,
+      wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
   }
 
 }
 
-trait ReadablePretrainedAlbertModel extends ParamsAndFeaturesReadable[AlbertEmbeddings] with HasPretrained[AlbertEmbeddings] {
+trait ReadablePretrainedAlbertModel
+    extends ParamsAndFeaturesReadable[AlbertEmbeddings]
+    with HasPretrained[AlbertEmbeddings] {
   override val defaultModelName: Some[String] = Some("albert_base_uncased")
 
   /** Java compliant-overrides */
@@ -311,9 +325,11 @@ trait ReadablePretrainedAlbertModel extends ParamsAndFeaturesReadable[AlbertEmbe
 
   override def pretrained(name: String): AlbertEmbeddings = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): AlbertEmbeddings = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): AlbertEmbeddings =
+    super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): AlbertEmbeddings = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): AlbertEmbeddings =
+    super.pretrained(name, lang, remoteLoc)
 }
 
 trait ReadAlbertTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
@@ -338,13 +354,15 @@ trait ReadAlbertTensorflowModel extends ReadTensorflowModel with ReadSentencePie
     require(f.isDirectory, s"File $tfModelPath is not folder")
     require(
       savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath"
-    )
+      s"savedModel file saved_model.pb not found in folder $tfModelPath")
     val sppModelPath = tfModelPath + "/assets"
     val sppModel = new File(sppModelPath, "spiece.model")
-    require(sppModel.exists(), s"SentencePiece model spiece.model not found in folder $sppModelPath")
+    require(
+      sppModel.exists(),
+      s"SentencePiece model spiece.model not found in folder $sppModelPath")
 
-    val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
+    val (wrapper, signatures) =
+      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
     val spp = SentencePieceWrapper.read(sppModel.toString)
 
     val _signatures = signatures match {
@@ -358,7 +376,6 @@ trait ReadAlbertTensorflowModel extends ReadTensorflowModel with ReadSentencePie
       .setModelIfNotSet(spark, wrapper, spp)
   }
 }
-
 
 /**
  * This is the companion object of [[AlbertEmbeddings]]. Please refer to that class for the documentation.

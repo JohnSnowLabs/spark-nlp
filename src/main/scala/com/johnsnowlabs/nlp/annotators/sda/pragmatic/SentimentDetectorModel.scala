@@ -18,7 +18,12 @@ package com.johnsnowlabs.nlp.annotators.sda.pragmatic
 
 import com.johnsnowlabs.nlp.annotators.common.TokenizedWithSentence
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable, HasSimpleAnnotate}
+import com.johnsnowlabs.nlp.{
+  Annotation,
+  AnnotatorModel,
+  HasSimpleAnnotate,
+  ParamsAndFeaturesReadable
+}
 import org.apache.spark.ml.param.{BooleanParam, DoubleParam}
 import org.apache.spark.ml.util.Identifiable
 
@@ -55,7 +60,9 @@ import org.apache.spark.ml.util.Identifiable
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
-class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[SentimentDetectorModel] with HasSimpleAnnotate[SentimentDetectorModel] {
+class SentimentDetectorModel(override val uid: String)
+    extends AnnotatorModel[SentimentDetectorModel]
+    with HasSimpleAnnotate[SentimentDetectorModel] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
@@ -66,13 +73,20 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
   val sentimentDict = new MapFeature[String, String](this, "sentimentDict")
 
   /** @group param */
-  lazy val model: PragmaticScorer = new PragmaticScorer($$(sentimentDict), $(positiveMultiplier), $(negativeMultiplier), $(incrementMultiplier), $(decrementMultiplier), $(reverseMultiplier))
+  lazy val model: PragmaticScorer = new PragmaticScorer(
+    $$(sentimentDict),
+    $(positiveMultiplier),
+    $(negativeMultiplier),
+    $(incrementMultiplier),
+    $(decrementMultiplier),
+    $(reverseMultiplier))
 
   /** Output annotation type : SENTIMENT
    *
    * @group anno
    * */
   override val outputAnnotatorType: AnnotatorType = SENTIMENT
+
   /** Input annotation type : TOKEN, DOCUMENT
    *
    * @group anno
@@ -85,32 +99,53 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
    *
    * @group param
    * */
-  val positiveMultiplier = new DoubleParam(this, "positiveMultiplier", "Multiplier for positive sentiments. Defaults 1.0")
+  val positiveMultiplier = new DoubleParam(
+    this,
+    "positiveMultiplier",
+    "Multiplier for positive sentiments. Defaults 1.0")
+
   /** Multiplier for negative sentiments (Default: `-1.0`)
    *
    * @group param
    * */
-  val negativeMultiplier = new DoubleParam(this, "negativeMultiplier", "Multiplier for negative sentiments. Defaults -1.0")
+  val negativeMultiplier = new DoubleParam(
+    this,
+    "negativeMultiplier",
+    "Multiplier for negative sentiments. Defaults -1.0")
+
   /** Multiplier for increment sentiments (Default: `2.0`)
    *
    * @group param
    * */
-  val incrementMultiplier = new DoubleParam(this, "incrementMultiplier", "Multiplier for increment sentiments. Defaults 2.0")
+  val incrementMultiplier = new DoubleParam(
+    this,
+    "incrementMultiplier",
+    "Multiplier for increment sentiments. Defaults 2.0")
+
   /** Multiplier for decrement sentiments (Default: `-2.0`)
    *
    * @group param
    * */
-  val decrementMultiplier = new DoubleParam(this, "decrementMultiplier", "Multiplier for decrement sentiments. Defaults -2.0")
+  val decrementMultiplier = new DoubleParam(
+    this,
+    "decrementMultiplier",
+    "Multiplier for decrement sentiments. Defaults -2.0")
+
   /** Multiplier for revert sentiments (Default: `-1.0`)
    *
    * @group param
    * */
-  val reverseMultiplier = new DoubleParam(this, "reverseMultiplier", "Multiplier for revert sentiments. Defaults -1.0")
+  val reverseMultiplier =
+    new DoubleParam(this, "reverseMultiplier", "Multiplier for revert sentiments. Defaults -1.0")
+
   /** if true, score will show as a string type containing a double value, else will output string `"positive"` or `"negative"` (Default: `false`)
    *
    * @group param
    * */
-  val enableScore = new BooleanParam(this, "enableScore", "if true, score will show as a string type containing a double value, else will output string \"positive\" or \"negative\". Defaults false")
+  val enableScore = new BooleanParam(
+    this,
+    "enableScore",
+    "if true, score will show as a string type containing a double value, else will output string \"positive\" or \"negative\". Defaults false")
 
   /** Multiplier for positive sentiments (Default: `1.0`)
    *
@@ -168,15 +203,9 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
 
     val score = model.score(tokenizedSentences.toArray)
 
-    Seq(Annotation(
-      outputAnnotatorType,
-      0,
-      0,
-      {
-        if ($(enableScore)) score.toString else if (score >= 0) "positive" else "negative"
-      },
-      Map.empty[String, String]
-    ))
+    Seq(Annotation(outputAnnotatorType, 0, 0, {
+      if ($(enableScore)) score.toString else if (score >= 0) "positive" else "negative"
+    }, Map.empty[String, String]))
   }
 
 }

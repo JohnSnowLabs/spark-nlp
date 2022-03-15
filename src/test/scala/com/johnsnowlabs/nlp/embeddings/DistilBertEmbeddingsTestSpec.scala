@@ -22,19 +22,16 @@ import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
-
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
-
 import org.scalatest.flatspec.AnyFlatSpec
 
 class DistilBertEmbeddingsTestSpec extends AnyFlatSpec {
 
-
   "DistilBertEmbeddings" should "correctly work with empty tokens" taggedAs SlowTest in {
 
-    val smallCorpus = ResourceHelper
-      .spark.read.option("header", "true")
+    val smallCorpus = ResourceHelper.spark.read
+      .option("header", "true")
       .csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
     val documentAssembler = new DocumentAssembler()
@@ -48,21 +45,18 @@ class DistilBertEmbeddingsTestSpec extends AnyFlatSpec {
     val stopWordsCleaner = new StopWordsCleaner()
       .setInputCols("token")
       .setOutputCol("cleanTokens")
-      .setStopWords(Array("this", "is", "my", "document", "sentence", "second", "first", ",", "."))
+      .setStopWords(
+        Array("this", "is", "my", "document", "sentence", "second", "first", ",", "."))
       .setCaseSensitive(false)
 
-    val embeddings = DistilBertEmbeddings.pretrained()
+    val embeddings = DistilBertEmbeddings
+      .pretrained()
       .setInputCols("document", "cleanTokens")
       .setOutputCol("embeddings")
       .setCaseSensitive(true)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer,
-        stopWordsCleaner,
-        embeddings
-      ))
+      .setStages(Array(documentAssembler, tokenizer, stopWordsCleaner, embeddings))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
     Benchmark.time("Time to save BertEmbeddings results") {
@@ -74,10 +68,12 @@ class DistilBertEmbeddingsTestSpec extends AnyFlatSpec {
     import ResourceHelper.spark.implicits._
 
     val conll = CoNLL()
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+    val training_data =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
     println(training_data.count())
 
-    val embeddings = DistilBertEmbeddings.pretrained()
+    val embeddings = DistilBertEmbeddings
+      .pretrained()
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
@@ -85,9 +81,7 @@ class DistilBertEmbeddingsTestSpec extends AnyFlatSpec {
       .setBatchSize(16)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        embeddings
-      ))
+      .setStages(Array(embeddings))
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
     Benchmark.time("Time to save DistilBertEmbeddings results") {
@@ -95,7 +89,8 @@ class DistilBertEmbeddingsTestSpec extends AnyFlatSpec {
     }
 
     println("missing tokens/embeddings: ")
-    pipelineDF.withColumn("sentence_size", size(col("sentence")))
+    pipelineDF
+      .withColumn("sentence_size", size(col("sentence")))
       .withColumn("token_size", size(col("token")))
       .withColumn("embed_size", size(col("embeddings")))
       .where(col("token_size") =!= col("embed_size"))
@@ -116,9 +111,7 @@ class DistilBertEmbeddingsTestSpec extends AnyFlatSpec {
 
     import ResourceHelper.spark.implicits._
 
-    val ddd = Seq(
-      "This is just a simple sentence for the testing purposes!"
-    ).toDF("text")
+    val ddd = Seq("This is just a simple sentence for the testing purposes!").toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -128,7 +121,8 @@ class DistilBertEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val embeddings = DistilBertEmbeddings.pretrained()
+    val embeddings = DistilBertEmbeddings
+      .pretrained()
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
@@ -145,10 +139,10 @@ class DistilBertEmbeddingsTestSpec extends AnyFlatSpec {
     }
 
     Benchmark.time("Time to save DistilBertEmbeddings model") {
-      pipelineModel
-        .stages.last
+      pipelineModel.stages.last
         .asInstanceOf[DistilBertEmbeddings]
-        .write.overwrite()
+        .write
+        .overwrite()
         .save("./tmp_distilbert_model")
     }
 

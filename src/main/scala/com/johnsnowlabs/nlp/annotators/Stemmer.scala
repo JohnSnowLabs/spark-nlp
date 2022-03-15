@@ -78,7 +78,9 @@ import scala.language.postfixOps
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
-class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] with HasSimpleAnnotate[Stemmer] {
+class Stemmer(override val uid: String)
+    extends AnnotatorModel[Stemmer]
+    with HasSimpleAnnotate[Stemmer] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
@@ -96,6 +98,7 @@ class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] with Has
    * @group anno
    * */
   override val outputAnnotatorType: AnnotatorType = TOKEN
+
   /**
    * Input annotator type : TOKEN
    *
@@ -128,8 +131,7 @@ class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] with Has
         tokenAnnotation.begin,
         tokenAnnotation.end,
         stem,
-        tokenAnnotation.metadata
-      )
+        tokenAnnotation.metadata)
     }
 
 }
@@ -143,14 +145,10 @@ object EnglishStemmer {
 
   def stem(word: String): String = {
     // Deal with plurals and past participles
-    var stem = new Word(word).applyReplaces(
-      "sses" → "ss",
-      "ies" → "i",
-      "ss" → "ss",
-      "s" → "")
+    var stem = new Word(word).applyReplaces("sses" → "ss", "ies" → "i", "ss" → "ss", "s" → "")
 
     if ((stem matchedBy ((~v ~) + "ed")) ||
-      (stem matchedBy ((~v ~) + "ing"))) {
+        (stem matchedBy ((~v ~) + "ing"))) {
 
       stem = stem.applyReplaces(~v ~)("ed" → "", "ing" → "")
 
@@ -220,8 +218,8 @@ object EnglishStemmer {
       "ize" → "")
 
     // Tide up a little bit
-    stem = stem applyReplaces(((m > 1) + "e") → "",
-      (((m == 1) and not(~o)) + "e") → "")
+    stem = stem applyReplaces (((m > 1) + "e") → "",
+    (((m == 1) and not(~o)) + "e") → "")
 
     stem = stem applyReplaces ((m > 1 and ~d and ~L) → singleLetter)
 
@@ -246,9 +244,11 @@ object EnglishStemmer {
 
     def ~ = this
 
-    def and(condition: Condition): Condition = Condition((word) ⇒ predicate(word) && condition.predicate(word))
+    def and(condition: Condition): Condition =
+      Condition((word) ⇒ predicate(word) && condition.predicate(word))
 
-    def or(condition: Condition): Condition = Condition((word) ⇒ predicate(word) || condition.predicate(word))
+    def or(condition: Condition): Condition =
+      Condition((word) ⇒ predicate(word) || condition.predicate(word))
   }
 
   private def not: Condition ⇒ Condition = {
@@ -288,7 +288,7 @@ object EnglishStemmer {
   private class Word(string: String) {
     val word = string.toLowerCase
 
-    def trimSuffix(suffixLength: Int) = new Word(word substring(0, word.length - suffixLength))
+    def trimSuffix(suffixLength: Int) = new Word(word substring (0, word.length - suffixLength))
 
     def endsWith = word endsWith _
 
@@ -347,8 +347,8 @@ object EnglishStemmer {
   }
 
   ////////////////////CLASS ENDS/////////////////////////////////
-  private implicit def pimpMyRule[P <% Pattern, SB <% StemBuilder]
-  (rule: (P, SB)): (Pattern, StemBuilder) = (rule._1, rule._2)
+  private implicit def pimpMyRule[P <% Pattern, SB <% StemBuilder](
+      rule: (P, SB)): (Pattern, StemBuilder) = (rule._1, rule._2)
 
   private implicit def emptyConditionPattern: String ⇒ Pattern = Pattern(emptyCondition, _)
 

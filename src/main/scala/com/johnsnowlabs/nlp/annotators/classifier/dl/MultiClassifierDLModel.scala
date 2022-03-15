@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-import com.johnsnowlabs.ml.tensorflow.{ClassifierDatasetEncoder, ClassifierDatasetEncoderParams, ReadTensorflowModel, TensorflowMultiClassifier, TensorflowWrapper, WriteTensorflowModel}
+import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
@@ -27,7 +27,6 @@ import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{FloatParam, IntArrayParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
-
 
 /**
  * MultiClassifierDL for Multi-label Text Classification.
@@ -125,7 +124,8 @@ import org.apache.spark.sql.{Dataset, SparkSession}
  *
  * */
 class MultiClassifierDLModel(override val uid: String)
-  extends AnnotatorModel[MultiClassifierDLModel] with HasSimpleAnnotate[MultiClassifierDLModel]
+    extends AnnotatorModel[MultiClassifierDLModel]
+    with HasSimpleAnnotate[MultiClassifierDLModel]
     with WriteTensorflowModel
     with HasStorageRef
     with ParamsAndFeaturesWritable {
@@ -136,6 +136,7 @@ class MultiClassifierDLModel(override val uid: String)
    * @group anno
    * */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(SENTENCE_EMBEDDINGS)
+
   /** Output annotator type : CATEGORY
    *
    * @group anno
@@ -146,21 +147,26 @@ class MultiClassifierDLModel(override val uid: String)
    *
    * @group param
    * */
-  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  val configProtoBytes = new IntArrayParam(
+    this,
+    "configProtoBytes",
+    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** The minimum threshold for each label to be accepted (Default: `0.5f`)
    *
    * @group param
    * */
-  val threshold = new FloatParam(this, "threshold", "The minimum threshold for each label to be accepted. Default is 0.5")
+  val threshold = new FloatParam(
+    this,
+    "threshold",
+    "The minimum threshold for each label to be accepted. Default is 0.5")
 
   /** Tensorflow config Protobytes passed to the TF session
    *
    * @group setParam
    * */
-  def setConfigProtoBytes(
-                           bytes: Array[Int]
-                         ): MultiClassifierDLModel.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): MultiClassifierDLModel.this.type =
+    set(this.configProtoBytes, bytes)
 
   /** Tensorflow config Protobytes passed to the TF session
    *
@@ -175,7 +181,8 @@ class MultiClassifierDLModel(override val uid: String)
    * */
   val datasetParams = new StructFeature[ClassifierDatasetEncoderParams](this, "datasetParams")
 
-  val classes = new StringArrayParam(this, "classes", "keep an internal copy of classes for Python")
+  val classes =
+    new StringArrayParam(this, "classes", "keep an internal copy of classes for Python")
 
   /** Dataset params
    *
@@ -194,7 +201,8 @@ class MultiClassifierDLModel(override val uid: String)
    *
    * @group setParam
    * */
-  def setThreshold(threshold: Float): MultiClassifierDLModel.this.type = set(this.threshold, threshold)
+  def setThreshold(threshold: Float): MultiClassifierDLModel.this.type =
+    set(this.threshold, threshold)
 
   private var _model: Option[Broadcast[TensorflowMultiClassifier]] = None
 
@@ -206,14 +214,7 @@ class MultiClassifierDLModel(override val uid: String)
       val encoder = new ClassifierDatasetEncoder(datasetParams.get.get)
 
       _model = Some(
-        spark.sparkContext.broadcast(
-          new TensorflowMultiClassifier(
-            tf,
-            encoder,
-            Verbose.Silent
-          )
-        )
-      )
+        spark.sparkContext.broadcast(new TensorflowMultiClassifier(tf, encoder, Verbose.Silent)))
     }
     this
   }
@@ -226,9 +227,7 @@ class MultiClassifierDLModel(override val uid: String)
    * */
   def getThreshold: Float = $(this.threshold)
 
-  setDefault(
-    threshold -> 0.5f
-  )
+  setDefault(threshold -> 0.5f)
 
   override protected def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
     validateStorageRef(dataset, $(inputCols), SENTENCE_EMBEDDINGS)
@@ -265,27 +264,32 @@ class MultiClassifierDLModel(override val uid: String)
       getModelIfNotSet.tensorflow,
       "_multiclassifierdl",
       MultiClassifierDLModel.tfFile,
-      configProtoBytes = getConfigProtoBytes
-    )
+      configProtoBytes = getConfigProtoBytes)
 
   }
 }
 
 trait ReadablePretrainedMultiClassifierDL
-  extends ParamsAndFeaturesReadable[MultiClassifierDLModel]
+    extends ParamsAndFeaturesReadable[MultiClassifierDLModel]
     with HasPretrained[MultiClassifierDLModel] {
   override val defaultModelName: Some[String] = Some("multiclassifierdl_use_toxic")
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): MultiClassifierDLModel = {
+  override def pretrained(
+      name: String,
+      lang: String,
+      remoteLoc: String): MultiClassifierDLModel = {
     ResourceDownloader.downloadModel(MultiClassifierDLModel, name, Option(lang), remoteLoc)
   }
 
   /** Java compliant-overrides */
-  override def pretrained(): MultiClassifierDLModel = pretrained(defaultModelName.get, defaultLang, defaultLoc)
+  override def pretrained(): MultiClassifierDLModel =
+    pretrained(defaultModelName.get, defaultLang, defaultLoc)
 
-  override def pretrained(name: String): MultiClassifierDLModel = pretrained(name, defaultLang, defaultLoc)
+  override def pretrained(name: String): MultiClassifierDLModel =
+    pretrained(name, defaultLang, defaultLoc)
 
-  override def pretrained(name: String, lang: String): MultiClassifierDLModel = pretrained(name, lang, defaultLoc)
+  override def pretrained(name: String, lang: String): MultiClassifierDLModel =
+    pretrained(name, lang, defaultLoc)
 }
 
 trait ReadMultiClassifierDLTensorflowModel extends ReadTensorflowModel {
@@ -293,7 +297,10 @@ trait ReadMultiClassifierDLTensorflowModel extends ReadTensorflowModel {
 
   override val tfFile: String = "multiclassifierdl_tensorflow"
 
-  def readTensorflow(instance: MultiClassifierDLModel, path: String, spark: SparkSession): Unit = {
+  def readTensorflow(
+      instance: MultiClassifierDLModel,
+      path: String,
+      spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_multiclassifierdl_tf", initAllTables = true)
     instance.setModelIfNotSet(spark, tf)
@@ -308,4 +315,6 @@ trait ReadMultiClassifierDLTensorflowModel extends ReadTensorflowModel {
 /**
  * This is the companion object of [[MultiClassifierDLModel]]. Please refer to that class for the documentation.
  */
-object MultiClassifierDLModel extends ReadablePretrainedMultiClassifierDL with ReadMultiClassifierDLTensorflowModel
+object MultiClassifierDLModel
+    extends ReadablePretrainedMultiClassifierDL
+    with ReadMultiClassifierDLTensorflowModel

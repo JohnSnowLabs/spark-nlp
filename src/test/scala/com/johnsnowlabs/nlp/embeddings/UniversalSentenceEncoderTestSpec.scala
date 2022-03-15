@@ -22,18 +22,22 @@ import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
-
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.ml.feature.{BucketedRandomProjectionLSH, BucketedRandomProjectionLSHModel, Normalizer, SQLTransformer}
+import org.apache.spark.ml.feature.{
+  BucketedRandomProjectionLSH,
+  BucketedRandomProjectionLSHModel,
+  Normalizer,
+  SQLTransformer
+}
 import org.apache.spark.sql.functions._
-
 import org.scalatest.flatspec.AnyFlatSpec
 
 class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
 
   "UniversalSentenceEncoder" should "correctly calculate sentence embeddings for a sentence" taggedAs SlowTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header","true")
+    val smallCorpus = ResourceHelper.spark.read
+      .option("header", "true")
       .csv("src/test/resources/embeddings/sentence_embeddings_use.csv")
 
     val documentAssembler = new DocumentAssembler()
@@ -44,16 +48,13 @@ class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
       .setInputCols("document")
       .setOutputCol("sentence")
 
-    val useEmbeddings = UniversalSentenceEncoder.pretrained()
+    val useEmbeddings = UniversalSentenceEncoder
+      .pretrained()
       .setInputCols("sentence")
       .setOutputCol("sentence_embeddings")
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentence,
-        useEmbeddings
-      ))
+      .setStages(Array(documentAssembler, sentence, useEmbeddings))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
     println(pipelineDF.count())
@@ -67,14 +68,16 @@ class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
 
     import ResourceHelper.spark.implicits._
 
-    val smallCorpus = ResourceHelper.spark.read.option("header","true")
+    val smallCorpus = ResourceHelper.spark.read
+      .option("header", "true")
       .csv("src/test/resources/embeddings/sentence_embeddings_use.csv")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
 
-    val useEmbeddings = UniversalSentenceEncoder.pretrained("tfhub_use_lg", "en")
+    val useEmbeddings = UniversalSentenceEncoder
+      .pretrained("tfhub_use_lg", "en")
       .setInputCols("document")
       .setOutputCol("sentence_embeddings")
 
@@ -84,8 +87,8 @@ class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
       .setCleanAnnotations(false)
       .setOutputAsVector(true)
 
-    val explodeVectors = new SQLTransformer().setStatement(
-      "SELECT EXPLODE(sentence_embeddings_vectors) AS features, * FROM __THIS__")
+    val explodeVectors = new SQLTransformer()
+      .setStatement("SELECT EXPLODE(sentence_embeddings_vectors) AS features, * FROM __THIS__")
 
     val vectorNormalizer = new Normalizer()
       .setInputCol("features")
@@ -99,17 +102,18 @@ class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
       .setOutputCol("hashes")
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        useEmbeddings,
-        sentenceFinisher,
-        explodeVectors,
-        vectorNormalizer,
-        brp
-      ))
+      .setStages(
+        Array(
+          documentAssembler,
+          useEmbeddings,
+          sentenceFinisher,
+          explodeVectors,
+          vectorNormalizer,
+          brp))
 
     val pipelineModel = pipeline.fit(smallCorpus)
-    val pipelineDF = pipelineModel.transform(smallCorpus)
+    val pipelineDF = pipelineModel
+      .transform(smallCorpus)
       .withColumn("id", monotonically_increasing_id)
 
     pipelineDF.show()
@@ -118,15 +122,13 @@ class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
     pipelineDF.select("id", "text").show(false)
 
     val brpModel = pipelineModel.stages.last.asInstanceOf[BucketedRandomProjectionLSHModel]
-    brpModel.approxSimilarityJoin(
-      pipelineDF.select("normFeatures", "hashes", "id"),
-      pipelineDF.select("normFeatures", "hashes", "id"),
-      1.0,
-      "EuclideanDistance")
-      .select(
-        $"datasetA.id".alias("idA"),
-        $"datasetB.id".alias("idB"),
-        $"EuclideanDistance")
+    brpModel
+      .approxSimilarityJoin(
+        pipelineDF.select("normFeatures", "hashes", "id"),
+        pipelineDF.select("normFeatures", "hashes", "id"),
+        1.0,
+        "EuclideanDistance")
+      .select($"datasetA.id".alias("idA"), $"datasetB.id".alias("idB"), $"EuclideanDistance")
       .filter("idA != idB") // not interested in self evaluation!
       .orderBy($"EuclideanDistance".asc)
       .show()
@@ -134,11 +136,13 @@ class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
 
   "UniversalSentenceEncoder" should "not fail on empty inputs" taggedAs SlowTest in {
 
-    val testData = ResourceHelper.spark.createDataFrame(Seq(
-      (1, "This is my first sentence. This is my second."),
-      (2, "This is my third sentence. . . . .... ..."),
-      (3, "")
-    )).toDF("id", "text")
+    val testData = ResourceHelper.spark
+      .createDataFrame(
+        Seq(
+          (1, "This is my first sentence. This is my second."),
+          (2, "This is my third sentence. . . . .... ..."),
+          (3, "")))
+      .toDF("id", "text")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -148,16 +152,13 @@ class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
       .setInputCols("document")
       .setOutputCol("sentence")
 
-    val useEmbeddings = UniversalSentenceEncoder.pretrained()
+    val useEmbeddings = UniversalSentenceEncoder
+      .pretrained()
       .setInputCols("document")
       .setOutputCol("sentence_embeddings")
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentence,
-        useEmbeddings
-      ))
+      .setStages(Array(documentAssembler, sentence, useEmbeddings))
 
     val pipelineDF = pipeline.fit(testData).transform(testData)
     pipelineDF.select("sentence.result").show(false)
@@ -166,10 +167,10 @@ class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
 
   }
 
-
   "UniversalSentenceEncoder" should "correctly calculate sentence embeddings for multi-lingual" taggedAs SlowTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header","true")
+    val smallCorpus = ResourceHelper.spark.read
+      .option("header", "true")
       .csv("src/test/resources/embeddings/sentence_embeddings_use.csv")
 
     val documentAssembler = new DocumentAssembler()
@@ -186,18 +187,18 @@ class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
       .setOutputCol("sentence_embeddings")
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentence,
-        useEmbeddings
-      ))
+      .setStages(Array(documentAssembler, sentence, useEmbeddings))
 
     val pipelineModel = pipeline.fit(smallCorpus)
     val pipelineDF = pipelineModel.transform(smallCorpus)
     println(pipelineDF.count())
     pipelineDF.show
 
-    pipelineModel.stages.last.asInstanceOf[UniversalSentenceEncoder].write.overwrite().save("./tmp_tfhub_use_multi")
+    pipelineModel.stages.last
+      .asInstanceOf[UniversalSentenceEncoder]
+      .write
+      .overwrite()
+      .save("./tmp_tfhub_use_multi")
     UniversalSentenceEncoder.load("./tmp_tfhub_use_multi")
 
   }

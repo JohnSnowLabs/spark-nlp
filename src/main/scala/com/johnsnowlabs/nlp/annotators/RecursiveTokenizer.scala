@@ -21,7 +21,6 @@ import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.StringArrayParam
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.Dataset
-import org.apache.spark.ml.param.StringArrayParam
 
 /** Tokenizes raw text recursively based on a handful of definable rules.
  *
@@ -81,8 +80,8 @@ import org.apache.spark.ml.param.StringArrayParam
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class RecursiveTokenizer(override val uid: String)
-  extends AnnotatorApproach[RecursiveTokenizerModel] with ParamsAndFeaturesWritable {
-
+    extends AnnotatorApproach[RecursiveTokenizerModel]
+    with ParamsAndFeaturesWritable {
 
   def this() = this(Identifiable.randomUID("SILLY_TOKENIZER"))
 
@@ -90,7 +89,10 @@ class RecursiveTokenizer(override val uid: String)
    *
    * @group param
    * */
-  val prefixes = new StringArrayParam(this, "prefixes", "Strings that will be split when found at the beginning of token.")
+  val prefixes = new StringArrayParam(
+    this,
+    "prefixes",
+    "Strings that will be split when found at the beginning of token.")
 
   /** Strings that will be split when found at the beginning of token.
    *
@@ -102,7 +104,10 @@ class RecursiveTokenizer(override val uid: String)
    *
    * @group param
    * */
-  val suffixes = new StringArrayParam(this, "suffixes", "Strings that will be split when found at the end of token.")
+  val suffixes = new StringArrayParam(
+    this,
+    "suffixes",
+    "Strings that will be split when found at the end of token.")
 
   /** Strings that will be split when found at the end of token.
    *
@@ -114,7 +119,10 @@ class RecursiveTokenizer(override val uid: String)
    *
    * @group param
    * */
-  val infixes = new StringArrayParam(this, "infixes", "Strings that will be split when found at the middle of token.")
+  val infixes = new StringArrayParam(
+    this,
+    "infixes",
+    "Strings that will be split when found at the middle of token.")
 
   /** Strings that will be split when found at the middle of token.
    *
@@ -137,27 +145,48 @@ class RecursiveTokenizer(override val uid: String)
   setDefault(infixes, Array("\n", "(", ")"))
   setDefault(prefixes, Array("'", "\"", "(", "[", "\n"))
   setDefault(suffixes, Array(".", ":", "%", ",", ";", "?", "'", "\"", ")", "]", "\n", "!", "'s"))
-  setDefault(whitelist, Array("it's", "that's", "there's", "he's", "she's", "what's", "let's", "who's",
-    "It's", "That's", "There's", "He's", "She's", "What's", "Let's", "Who's"))
+  setDefault(
+    whitelist,
+    Array(
+      "it's",
+      "that's",
+      "there's",
+      "he's",
+      "she's",
+      "what's",
+      "let's",
+      "who's",
+      "It's",
+      "That's",
+      "There's",
+      "He's",
+      "She's",
+      "What's",
+      "Let's",
+      "Who's"))
 
   /** Output Annotator Type : TOKEN
    *
    * @group anno
    * */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.TOKEN
+
   /** Input Annotator Type : DOCUMENT
    *
    * @group anno
    * */
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT)
+
   /** Simplest possible tokenizer */
   override val description: String = "Simplest possible tokenizer"
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): RecursiveTokenizerModel = {
-    new RecursiveTokenizerModel().
-      setPrefixes(getOrDefault(prefixes)).
-      setSuffixes(getOrDefault(suffixes)).
-      setInfixes(getOrDefault(infixes)).
-      setWhitelist(getOrDefault(whitelist).toSet)
+  override def train(
+      dataset: Dataset[_],
+      recursivePipeline: Option[PipelineModel]): RecursiveTokenizerModel = {
+    new RecursiveTokenizerModel()
+      .setPrefixes(getOrDefault(prefixes))
+      .setSuffixes(getOrDefault(suffixes))
+      .setInfixes(getOrDefault(infixes))
+      .setWhitelist(getOrDefault(whitelist).toSet)
   }
 }

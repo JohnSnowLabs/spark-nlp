@@ -43,16 +43,18 @@ object SparkNLP {
    * @param cluster_tmp_dir The location to use on a cluster for temporarily files such as unpacking indexes for WordEmbeddings
    * @return SparkSession
    */
-  def start(gpu: Boolean = false,
-            spark23: Boolean = false,
-            spark24: Boolean = false,
-            spark32: Boolean = false,
-            memory: String = "16G",
-            cache_folder: String = "",
-            log_folder: String = "",
-            cluster_tmp_dir: String = ""): SparkSession = {
+  def start(
+      gpu: Boolean = false,
+      spark23: Boolean = false,
+      spark24: Boolean = false,
+      spark32: Boolean = false,
+      memory: String = "16G",
+      cache_folder: String = "",
+      log_folder: String = "",
+      cluster_tmp_dir: String = ""): SparkSession = {
 
-    val build = SparkSession.builder()
+    val build = SparkSession
+      .builder()
       .appName("Spark NLP")
       .master("local[*]")
       .config("spark.driver.memory", memory)
@@ -86,7 +88,6 @@ object SparkNLP {
 
     if (cluster_tmp_dir.nonEmpty)
       build.config("spark.jsl.settings.storage.cluster_tmp_dir", cluster_tmp_dir)
-
 
     build.getOrCreate()
   }

@@ -18,9 +18,9 @@ package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.spark.sql.functions.{col, udf}
-import org.apache.spark.sql.types.{ArrayType, MetadataBuilder, StringType, StructType}
+import org.apache.spark.sql.types.{ArrayType, StringType, StructType}
+import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.slf4j.LoggerFactory
 
 /**
@@ -101,49 +101,60 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk] {
    *
    * @group param
    */
-  val chunkCol = new Param[String](this, "chunkCol", "Column that contains string. Must be part of DOCUMENT")
+  val chunkCol =
+    new Param[String](this, "chunkCol", "Column that contains string. Must be part of DOCUMENT")
 
   /**
    * Column that has a reference of where the chunk begins
    *
    * @group param
    */
-  val startCol = new Param[String](this, "startCol", "Column that has a reference of where the chunk begins")
+  val startCol =
+    new Param[String](this, "startCol", "Column that has a reference of where the chunk begins")
 
   /**
    * Whether start col is by whitespace tokens (Default: `false`)
    *
    * @group param
    */
-  val startColByTokenIndex = new BooleanParam(this, "startColByTokenIndex", "Whether start col is by whitespace tokens (Default: `false`)")
+  val startColByTokenIndex = new BooleanParam(
+    this,
+    "startColByTokenIndex",
+    "Whether start col is by whitespace tokens (Default: `false`)")
 
   /**
    * Whether the chunkCol is an array of strings (Default: `false`)
    *
    * @group param
    */
-  val isArray = new BooleanParam(this, "isArray", "Whether the chunkCol is an array of strings (Default: `false")
+  val isArray = new BooleanParam(
+    this,
+    "isArray",
+    "Whether the chunkCol is an array of strings (Default: `false")
 
   /**
    * Whether to fail the job if a chunk is not found within document, return empty otherwise (Default: `false`)
    *
    * @group param
    */
-  val failOnMissing = new BooleanParam(this, "failOnMissing", "Whether to fail the job if a chunk is not found within document, return empty otherwise (Default: `false`)")
+  val failOnMissing = new BooleanParam(
+    this,
+    "failOnMissing",
+    "Whether to fail the job if a chunk is not found within document, return empty otherwise (Default: `false`)")
 
   /**
    * Whether to lower case for matching case (Default: `true`)
    *
    * @group param
    */
-  val lowerCase = new BooleanParam(this, "lowerCase", "Whether to lower case for matching case (Default: `true")
+  val lowerCase =
+    new BooleanParam(this, "lowerCase", "Whether to lower case for matching case (Default: `true")
 
   setDefault(
     startColByTokenIndex -> false,
     isArray -> false,
     failOnMissing -> false,
-    lowerCase -> true
-  )
+    lowerCase -> true)
 
   /**
    * Column that contains string. Must be part of DOCUMENT
@@ -235,7 +246,9 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk] {
     if (get(chunkCol).isEmpty)
       true
     else if ($(isArray))
-      structType.fields.find(_.name == $(chunkCol)).exists(_.dataType == ArrayType(StringType, containsNull = true))
+      structType.fields
+        .find(_.name == $(chunkCol))
+        .exists(_.dataType == ArrayType(StringType, containsNull = true))
     else
       structType.fields.find(_.name == $(chunkCol)).exists(_.dataType == StringType)
   }
@@ -244,7 +257,12 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk] {
     if ($(isArray)) s"${$(chunkCol)} must be ArrayType(StringType)"
     else s"${$(chunkCol)} must be StringType"
 
-  private def buildFromChunk(annotation: Annotation, chunk: String, startIndex: Int, chunkIdx: Int) = {
+  private def buildFromChunk(
+      annotation: Annotation,
+      chunk: String,
+      startIndex: Int,
+      chunkIdx: Int) = {
+
     /** This will break if there are two identical chunks */
     val beginning = get(lowerCase) match {
       case Some(true) => annotation.result.toLowerCase.indexOf(chunk, startIndex)
@@ -252,60 +270,63 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk] {
     }
     val ending = beginning + chunk.length - 1
     if (chunk.trim.isEmpty || beginning == -1) {
-      val message = s"Cannot proceed to assemble CHUNK, because could not find: `$chunk` within: `${annotation.result}`"
+      val message =
+        s"Cannot proceed to assemble CHUNK, because could not find: `$chunk` within: `${annotation.result}`"
       if ($(failOnMissing))
         throw new Exception(message)
       else
         logger.warn(message)
       None
     } else {
-      Some(Annotation(
-        outputAnnotatorType,
-        beginning,
-        ending,
-        chunk,
-        annotation.metadata ++ Map("chunk" -> chunkIdx.toString)
-      ))
+      Some(
+        Annotation(
+          outputAnnotatorType,
+          beginning,
+          ending,
+          chunk,
+          annotation.metadata ++ Map("chunk" -> chunkIdx.toString)))
     }
   }
 
   def tokenIndexToCharIndex(text: String, tokenIndex: Int): Int = {
     var i = 0
-    text.split(" ").map(token => {
-      val o = (token, i)
-      i += token.length + 1
-      o
-    }).apply(tokenIndex)._2
+    text
+      .split(" ")
+      .map(token => {
+        val o = (token, i)
+        i += token.length + 1
+        o
+      })
+      .apply(tokenIndex)
+      ._2
   }
 
-  private def convertDocumentToChunk = udf {
-    document: Seq[Row] =>
-      val annotations = document.map(Annotation(_))
-      annotations.map { annotation =>
-        Annotation(
-          AnnotatorType.CHUNK,
-          annotation.begin,
-          annotation.end,
-          annotation.result,
-          annotation.metadata ++ Map("chunk" -> "0")
-        )
+  private def convertDocumentToChunk = udf { document: Seq[Row] =>
+    val annotations = document.map(Annotation(_))
+    annotations.map { annotation =>
+      Annotation(
+        AnnotatorType.CHUNK,
+        annotation.begin,
+        annotation.end,
+        annotation.result,
+        annotation.metadata ++ Map("chunk" -> "0"))
+    }
+  }
+
+  private def assembleChunks = udf { (annotationProperties: Seq[Row], chunks: Seq[String]) =>
+    val annotations = annotationProperties.map(Annotation(_))
+    annotations.flatMap(annotation => {
+      chunks.zipWithIndex.flatMap {
+        case (chunk, idx) => buildFromChunk(annotation, chunk, 0, idx)
       }
+    })
   }
 
-  private def assembleChunks = udf {
-    (annotationProperties: Seq[Row], chunks: Seq[String]) =>
-      val annotations = annotationProperties.map(Annotation(_))
-      annotations.flatMap(annotation => {
-        chunks.zipWithIndex.flatMap { case (chunk, idx) => buildFromChunk(annotation, chunk, 0, idx) }
-      })
-  }
-
-  private def assembleChunk = udf {
-    (annotationProperties: Seq[Row], chunk: String) =>
-      val annotations = annotationProperties.map(Annotation(_))
-      annotations.flatMap(annotation => {
-        buildFromChunk(annotation, chunk, 0, 0)
-      })
+  private def assembleChunk = udf { (annotationProperties: Seq[Row], chunk: String) =>
+    val annotations = annotationProperties.map(Annotation(_))
+    annotations.flatMap(annotation => {
+      buildFromChunk(annotation, chunk, 0, 0)
+    })
   }
 
   private def assembleChunkWithStart = udf {
@@ -321,17 +342,22 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk] {
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     if (get(chunkCol).isEmpty)
-      dataset.withColumn($(outputCol), wrapColumnMetadata(convertDocumentToChunk(col(getInputCols.head))))
+      dataset.withColumn(
+        $(outputCol),
+        wrapColumnMetadata(convertDocumentToChunk(col(getInputCols.head))))
     else if ($(isArray))
-      dataset.withColumn($(outputCol), wrapColumnMetadata(assembleChunks(col(getInputCols.head), col($(chunkCol)))))
+      dataset.withColumn(
+        $(outputCol),
+        wrapColumnMetadata(assembleChunks(col(getInputCols.head), col($(chunkCol)))))
     else if (get(startCol).isDefined)
-      dataset.withColumn($(outputCol), wrapColumnMetadata(assembleChunkWithStart(
-        col($(inputCols).head),
-        col($(chunkCol)),
-        col($(startCol))
-      )))
+      dataset.withColumn(
+        $(outputCol),
+        wrapColumnMetadata(
+          assembleChunkWithStart(col($(inputCols).head), col($(chunkCol)), col($(startCol)))))
     else
-      dataset.withColumn($(outputCol), wrapColumnMetadata(assembleChunk(col(getInputCols.head), col($(chunkCol)))))
+      dataset.withColumn(
+        $(outputCol),
+        wrapColumnMetadata(assembleChunk(col(getInputCols.head), col($(chunkCol)))))
   }
 
 }

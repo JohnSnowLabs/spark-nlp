@@ -17,11 +17,14 @@
 package com.johnsnowlabs.nlp.annotators.ws
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN}
-import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, Sentence, SentenceSplit, TaggedSentence, TokenizedWithSentence}
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.{AveragedPerceptron, PerceptronPredictionUtils}
+import com.johnsnowlabs.nlp.annotators.common._
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.{
+  AveragedPerceptron,
+  PerceptronPredictionUtils
+}
 import com.johnsnowlabs.nlp.annotators.ws.TagsType.{LEFT_BOUNDARY, MIDDLE, RIGHT_BOUNDARY}
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, HasSimpleAnnotate, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp._
 import org.apache.spark.ml.util.Identifiable
 
 /** WordSegmenter which tokenizes non-english or non-whitespace separated texts.
@@ -92,7 +95,7 @@ import org.apache.spark.ml.util.Identifiable
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class WordSegmenterModel(override val uid: String)
-  extends AnnotatorModel[WordSegmenterModel]
+    extends AnnotatorModel[WordSegmenterModel]
     with HasSimpleAnnotate[WordSegmenterModel]
     with PerceptronPredictionUtils {
 
@@ -103,7 +106,8 @@ class WordSegmenterModel(override val uid: String)
    *
    * @group param
    * */
-  val model: StructFeature[AveragedPerceptron] = new StructFeature[AveragedPerceptron](this, "POS Model")
+  val model: StructFeature[AveragedPerceptron] =
+    new StructFeature[AveragedPerceptron](this, "POS Model")
 
   /** @group getParam */
   def getModel: AveragedPerceptron = $$(model)
@@ -128,63 +132,101 @@ class WordSegmenterModel(override val uid: String)
   private def getTokenAnnotations(annotation: Seq[Sentence]): Seq[Annotation] = {
     val tokens = annotation.flatMap { sentence =>
       val chars = sentence.content.split("")
-      chars.zipWithIndex.map { case (char, index) =>
-        val tokenIndex = index + sentence.start
-        Annotation(TOKEN, tokenIndex, tokenIndex, char, Map("sentence" -> sentence.index.toString))
-      }.filter(annotation => annotation.result != " ")
+      chars.zipWithIndex
+        .map {
+          case (char, index) =>
+            val tokenIndex = index + sentence.start
+            Annotation(
+              TOKEN,
+              tokenIndex,
+              tokenIndex,
+              char,
+              Map("sentence" -> sentence.index.toString))
+        }
+        .filter(annotation => annotation.result != " ")
     }
     tokens
   }
 
   def buildWordSegments(taggedSentences: Array[TaggedSentence]): Seq[Annotation] = {
-    taggedSentences.zipWithIndex.flatMap { case (taggedSentence, index) =>
-      val tagsSentence = taggedSentence.tags.mkString("")
-      val wordIndexesByMatchedGroups = getWordIndexesByMatchedGroups(tagsSentence)
-      if (wordIndexesByMatchedGroups.isEmpty) {
-        taggedSentence.indexedTaggedWords.map(indexedTaggedWord =>
-          Annotation(TOKEN, indexedTaggedWord.begin, indexedTaggedWord.end, indexedTaggedWord.word,
-            Map("sentence" -> index.toString)))
-      } else {
-        annotateSegmentWords(wordIndexesByMatchedGroups, taggedSentence, index)
-      }
+    taggedSentences.zipWithIndex.flatMap {
+      case (taggedSentence, index) =>
+        val tagsSentence = taggedSentence.tags.mkString("")
+        val wordIndexesByMatchedGroups = getWordIndexesByMatchedGroups(tagsSentence)
+        if (wordIndexesByMatchedGroups.isEmpty) {
+          taggedSentence.indexedTaggedWords.map(
+            indexedTaggedWord =>
+              Annotation(
+                TOKEN,
+                indexedTaggedWord.begin,
+                indexedTaggedWord.end,
+                indexedTaggedWord.word,
+                Map("sentence" -> index.toString)))
+        } else {
+          annotateSegmentWords(wordIndexesByMatchedGroups, taggedSentence, index)
+        }
     }
   }
 
   private def getWordIndexesByMatchedGroups(tagsSentence: String): List[List[RegexTagsInfo]] = {
     val regexPattern = s"($LEFT_BOUNDARY)($MIDDLE*)*($RIGHT_BOUNDARY+)".r
-    regexPattern.findAllMatchIn(tagsSentence).map(matchedResult => {
-      val groups = (1 to matchedResult.groupCount).toList
-      groups.map(g => RegexTagsInfo(matchedResult.group(g), matchedResult.start(g),
-        matchedResult.end(g), (matchedResult.end(g) / 2) - 1))
-        .filter(regexTagsInfo => regexTagsInfo.estimatedIndex != -1)
-    }).toList
+    regexPattern
+      .findAllMatchIn(tagsSentence)
+      .map(matchedResult => {
+        val groups = (1 to matchedResult.groupCount).toList
+        groups
+          .map(
+            g =>
+              RegexTagsInfo(
+                matchedResult.group(g),
+                matchedResult.start(g),
+                matchedResult.end(g),
+                (matchedResult.end(g) / 2) - 1))
+          .filter(regexTagsInfo => regexTagsInfo.estimatedIndex != -1)
+      })
+      .toList
   }
 
-  private def annotateSegmentWords(wordIndexesByMatchedGroups: List[List[RegexTagsInfo]],
-                                   taggedSentence: TaggedSentence, sentenceIndex: Int): Seq[Annotation] = {
-    val singleTaggedWords = getSingleIndexedTaggedWords(wordIndexesByMatchedGroups, taggedSentence)
+  private def annotateSegmentWords(
+      wordIndexesByMatchedGroups: List[List[RegexTagsInfo]],
+      taggedSentence: TaggedSentence,
+      sentenceIndex: Int): Seq[Annotation] = {
+    val singleTaggedWords =
+      getSingleIndexedTaggedWords(wordIndexesByMatchedGroups, taggedSentence)
     val multipleTaggedWords = getMultipleTaggedWords(wordIndexesByMatchedGroups, taggedSentence)
     val segmentedTaggedWords = (singleTaggedWords ++ multipleTaggedWords)
-      .sortWith(_.metadata.getOrElse("index", "-1").toInt < _.metadata.getOrElse("index", "-1").toInt)
-    segmentedTaggedWords.map(segmentedTaggedWord =>
-      Annotation(TOKEN, segmentedTaggedWord.begin, segmentedTaggedWord.end, segmentedTaggedWord.word,
-        Map("sentence" -> sentenceIndex.toString)))
+      .sortWith(
+        _.metadata.getOrElse("index", "-1").toInt < _.metadata.getOrElse("index", "-1").toInt)
+    segmentedTaggedWords.map(
+      segmentedTaggedWord =>
+        Annotation(
+          TOKEN,
+          segmentedTaggedWord.begin,
+          segmentedTaggedWord.end,
+          segmentedTaggedWord.word,
+          Map("sentence" -> sentenceIndex.toString)))
   }
 
-  private def getSingleIndexedTaggedWords(wordIndexesByMatchedGroups: List[List[RegexTagsInfo]],
-                                          taggedSentence: TaggedSentence): List[IndexedTaggedWord] = {
+  private def getSingleIndexedTaggedWords(
+      wordIndexesByMatchedGroups: List[List[RegexTagsInfo]],
+      taggedSentence: TaggedSentence): List[IndexedTaggedWord] = {
     val flattenWordIndexes = wordIndexesByMatchedGroups.flatMap(wordIndexGroup =>
       wordIndexGroup.map(wi => wi.estimatedIndex))
-    val unmatchedTaggedWordsCandidates = taggedSentence.indexedTaggedWords.zipWithIndex.filter { case (_, index) =>
-      !flattenWordIndexes.contains(index)
-    }.map(_._1)
-    val unmatchedTaggedWords = unmatchedTaggedWordsCandidates.filter(unmatchedTaggedWordCandidate =>
-      !isMatchedWord(unmatchedTaggedWordCandidate, wordIndexesByMatchedGroups))
+    val unmatchedTaggedWordsCandidates = taggedSentence.indexedTaggedWords.zipWithIndex
+      .filter {
+        case (_, index) =>
+          !flattenWordIndexes.contains(index)
+      }
+      .map(_._1)
+    val unmatchedTaggedWords =
+      unmatchedTaggedWordsCandidates.filter(unmatchedTaggedWordCandidate =>
+        !isMatchedWord(unmatchedTaggedWordCandidate, wordIndexesByMatchedGroups))
     unmatchedTaggedWords.toList
   }
 
-  private def isMatchedWord(indexedTaggedWord: IndexedTaggedWord, regexTagsInfoList: List[List[RegexTagsInfo]]):
-  Boolean = {
+  private def isMatchedWord(
+      indexedTaggedWord: IndexedTaggedWord,
+      regexTagsInfoList: List[List[RegexTagsInfo]]): Boolean = {
     val index = indexedTaggedWord.metadata.getOrElse("index", "-1").toInt
 
     val result = regexTagsInfoList.flatMap(regexTagsInfo => {
@@ -192,8 +234,10 @@ class WordSegmenterModel(override val uid: String)
       val rightBoundaryIndex = regexTagsInfo.last.estimatedIndex
       val isInRange = if (index > leftBoundaryIndex && index < rightBoundaryIndex) true else false
       val verifyMatches = regexTagsInfo.map(rti => {
-        if (indexedTaggedWord.tag != MIDDLE || !isInRange) "unmatched" else {
-          if (rti.tagsMatch.contains(MIDDLE) && rti.tagsMatch.length > 2) "matched" else "unmatched"
+        if (indexedTaggedWord.tag != MIDDLE || !isInRange) "unmatched"
+        else {
+          if (rti.tagsMatch.contains(MIDDLE) && rti.tagsMatch.length > 2) "matched"
+          else "unmatched"
         }
       })
       verifyMatches
@@ -201,14 +245,19 @@ class WordSegmenterModel(override val uid: String)
     result.contains("matched")
   }
 
-  private def getMultipleTaggedWords(wordIndexesByMatchedGroups: List[List[RegexTagsInfo]],
-                                     taggedSentence: TaggedSentence): List[IndexedTaggedWord] = {
+  private def getMultipleTaggedWords(
+      wordIndexesByMatchedGroups: List[List[RegexTagsInfo]],
+      taggedSentence: TaggedSentence): List[IndexedTaggedWord] = {
     wordIndexesByMatchedGroups.flatMap { wordIndexesGroup =>
       val wordIndexes = wordIndexesGroup.map(wi => wi.estimatedIndex)
       val taggedWords = taggedSentence.indexedTaggedWords.zipWithIndex
-        .filter { case (indexedTaggedWord, index) =>
-          wordIndexes.contains(index) || isMatchedWord(indexedTaggedWord, List(wordIndexesGroup))
-        }.map(_._1)
+        .filter {
+          case (indexedTaggedWord, index) =>
+            wordIndexes.contains(index) || isMatchedWord(
+              indexedTaggedWord,
+              List(wordIndexesGroup))
+        }
+        .map(_._1)
       if (taggedWords.nonEmpty) Some(taggedWords.reduceLeft(processTags)) else None
     }
   }
@@ -220,7 +269,8 @@ class WordSegmenterModel(override val uid: String)
     val end = begin + wordSegment.length - 1
     val currentIndexValue = current.metadata.getOrElse("index", "-1")
     val nextIndexValue = current.metadata.getOrElse("index", "-1")
-    val index = if (currentIndexValue.toInt <= nextIndexValue.toInt) currentIndexValue else nextIndexValue
+    val index =
+      if (currentIndexValue.toInt <= nextIndexValue.toInt) currentIndexValue else nextIndexValue
     IndexedTaggedWord(wordSegment, tagSegment, begin, end, None, Map("index" -> index))
   }
 
@@ -239,8 +289,9 @@ class WordSegmenterModel(override val uid: String)
 
 private case class RegexTagsInfo(tagsMatch: String, start: Int, end: Int, estimatedIndex: Int)
 
-trait ReadablePretrainedWordSegmenter extends ParamsAndFeaturesReadable[WordSegmenterModel]
-  with HasPretrained[WordSegmenterModel] {
+trait ReadablePretrainedWordSegmenter
+    extends ParamsAndFeaturesReadable[WordSegmenterModel]
+    with HasPretrained[WordSegmenterModel] {
   override val defaultModelName: Some[String] = Some("wordseg_pku")
   override val defaultLang: String = "zh"
 
@@ -249,7 +300,8 @@ trait ReadablePretrainedWordSegmenter extends ParamsAndFeaturesReadable[WordSegm
 
   override def pretrained(name: String): WordSegmenterModel = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): WordSegmenterModel = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): WordSegmenterModel =
+    super.pretrained(name, lang)
 
   override def pretrained(name: String, lang: String, remoteLoc: String): WordSegmenterModel =
     super.pretrained(name, lang, remoteLoc)

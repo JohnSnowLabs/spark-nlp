@@ -19,8 +19,8 @@ package com.johnsnowlabs.nlp.annotators.tokenizer.moses
 import scala.util.matching.Regex
 
 /**
-  * Scala Port of the Moses Tokenizer from [[https://github.com/alvations/sacremoses scaremoses]].
-  */
+ * Scala Port of the Moses Tokenizer from [[https://github.com/alvations/sacremoses scaremoses]].
+ */
 private[johnsnowlabs] class MosesTokenizer(lang: String) {
   require(lang == "en", "Only english is supported at the moment.")
   private val DEDUPLICATE_SPACE = (raw"""\s+""".r, " ")
@@ -40,17 +40,116 @@ private[johnsnowlabs] class MosesTokenizer(lang: String) {
   private val EN_SPECIFIC_3 = (raw"""([$IsAlpha])[']([^$IsAlpha])""".r, "$1 ' $2")
   private val EN_SPECIFIC_4 = (raw"""([$IsAlpha])[']([$IsAlpha])""".r, "$1 '$2")
   private val EN_SPECIFIC_5 = (raw"""([$IsN])[']([s])""".r, "$1 '$2")
-  private val ENGLISH_SPECIFIC_APOSTROPHE = Array(
-    EN_SPECIFIC_1,
-    EN_SPECIFIC_2,
-    EN_SPECIFIC_3,
-    EN_SPECIFIC_4,
-    EN_SPECIFIC_5
-  )
+  private val ENGLISH_SPECIFIC_APOSTROPHE =
+    Array(EN_SPECIFIC_1, EN_SPECIFIC_2, EN_SPECIFIC_3, EN_SPECIFIC_4, EN_SPECIFIC_5)
   private val NON_SPECIFIC_APOSTROPHE = (raw"""\'""".r, " ' ")
   private val TRAILING_DOT_APOSTROPHE = (raw"""\.' ?$$""".r, " . ' ")
   // TODO: Dynamic from file
-  private val NONBREAKING_PREFIXES = Array("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Adj", "Adm", "Adv", "Asst", "Bart", "Bldg", "Brig", "Bros", "Capt", "Cmdr", "Col", "Comdr", "Con", "Corp", "Cpl", "DR", "Dr", "Drs", "Ens", "Gen", "Gov", "Hon", "Hr", "Hosp", "Insp", "Lt", "MM", "MR", "MRS", "MS", "Maj", "Messrs", "Mlle", "Mme", "Mr", "Mrs", "Ms", "Msgr", "Op", "Ord", "Pfc", "Ph", "Prof", "Pvt", "Rep", "Reps", "Res", "Rev", "Rt", "Sen", "Sens", "Sfc", "Sgt", "Sr", "St", "Supt", "Surg", "v", "vs", "i.e", "rev", "e.g", "No #NUMERIC_ONLY#", "Nos", "Art #NUMERIC_ONLY#", "Nr", "pp #NUMERIC_ONLY#", "Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+  private val NONBREAKING_PREFIXES = Array(
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+    "Adj",
+    "Adm",
+    "Adv",
+    "Asst",
+    "Bart",
+    "Bldg",
+    "Brig",
+    "Bros",
+    "Capt",
+    "Cmdr",
+    "Col",
+    "Comdr",
+    "Con",
+    "Corp",
+    "Cpl",
+    "DR",
+    "Dr",
+    "Drs",
+    "Ens",
+    "Gen",
+    "Gov",
+    "Hon",
+    "Hr",
+    "Hosp",
+    "Insp",
+    "Lt",
+    "MM",
+    "MR",
+    "MRS",
+    "MS",
+    "Maj",
+    "Messrs",
+    "Mlle",
+    "Mme",
+    "Mr",
+    "Mrs",
+    "Ms",
+    "Msgr",
+    "Op",
+    "Ord",
+    "Pfc",
+    "Ph",
+    "Prof",
+    "Pvt",
+    "Rep",
+    "Reps",
+    "Res",
+    "Rev",
+    "Rt",
+    "Sen",
+    "Sens",
+    "Sfc",
+    "Sgt",
+    "Sr",
+    "St",
+    "Supt",
+    "Surg",
+    "v",
+    "vs",
+    "i.e",
+    "rev",
+    "e.g",
+    "No #NUMERIC_ONLY#",
+    "Nos",
+    "Art #NUMERIC_ONLY#",
+    "Nr",
+    "pp #NUMERIC_ONLY#",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec")
   private val NUMERIC_ONLY_PREFIXES = Array("No", "Art", "pp")
 
   def applySubstitution(text: String, patternReplacements: (Regex, String)*): String = {
@@ -109,24 +208,26 @@ private[johnsnowlabs] class MosesTokenizer(lang: String) {
           // No change to the token.
           // Checks if the prefix is in NUMERIC_ONLY_PREFIXES
           // and ensures that the next word is a digit.
-          def containsFullStopAndIsAlpha = ((prefix contains ".") && isAnyAlpha(prefix)) ||
-            (NONBREAKING_PREFIXES.contains(prefix) && !NUMERIC_ONLY_PREFIXES.contains(prefix)) ||
-            (
-              (i != numTokens - 1)
-                && tokens(i + 1).nonEmpty
-                && isLower(tokens(i + 1)(0).toString)
+          def containsFullStopAndIsAlpha =
+            ((prefix contains ".") && isAnyAlpha(prefix)) ||
+              (NONBREAKING_PREFIXES.contains(prefix) && !NUMERIC_ONLY_PREFIXES.contains(prefix)) ||
+              (
+                (i != numTokens - 1)
+                  && tokens(i + 1).nonEmpty
+                  && isLower(tokens(i + 1)(0).toString)
               )
 
           // No change to the token.
           def isNonBreakingAndNumericOnly = {
             (
               NONBREAKING_PREFIXES.contains(prefix)
-                && ((i + 1) < numTokens)
-                && IS_NUMERIC_ONLY.findFirstIn(tokens(i + 1)).isDefined
-              )
+              && ((i + 1) < numTokens)
+              && IS_NUMERIC_ONLY.findFirstIn(tokens(i + 1)).isDefined
+            )
           }
           // Otherwise, adds a space after the tokens before a dot.
-          if (!containsFullStopAndIsAlpha && !isNonBreakingAndNumericOnly) tokens(i) = prefix + " ."
+          if (!containsFullStopAndIsAlpha && !isNonBreakingAndNumericOnly)
+            tokens(i) = prefix + " ."
       }
     }
     tokens.mkString(" ") // Stitch the tokens back.

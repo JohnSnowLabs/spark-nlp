@@ -102,9 +102,11 @@ import org.slf4j.LoggerFactory
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
-class DependencyParserApproach(override val uid: String) extends AnnotatorApproach[DependencyParserModel] {
+class DependencyParserApproach(override val uid: String)
+    extends AnnotatorApproach[DependencyParserModel] {
 
-  override val description: String = "Dependency Parser is an unlabeled parser that finds a grammatical relation between two words in a sentence"
+  override val description: String =
+    "Dependency Parser is an unlabeled parser that finds a grammatical relation between two words in a sentence"
 
   private val logger = LoggerFactory.getLogger("DependencyParserApproach")
 
@@ -114,33 +116,42 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
    *
    * @group param
    * */
-  val dependencyTreeBank = new ExternalResourceParam(this, "dependencyTreeBank", "Dependency treebank source files")
+  val dependencyTreeBank =
+    new ExternalResourceParam(this, "dependencyTreeBank", "Dependency treebank source files")
+
   /** Universal Dependencies source files
    *
    * @group param
    * */
   val conllU = new ExternalResourceParam(this, "conllU", "Universal Dependencies source files")
+
   /** Number of iterations in training, converges to better accuracy (Default: `10`)
    *
    * @group param
    * */
-  val numberOfIterations = new IntParam(this, "numberOfIterations", "Number of iterations in training, converges to better accuracy")
-
+  val numberOfIterations = new IntParam(
+    this,
+    "numberOfIterations",
+    "Number of iterations in training, converges to better accuracy")
 
   /** Dependency treebank folder with files in [[http://www.nltk.org/nltk_data/ Penn Treebank format]]
    *
    * @group setParam
    * */
-  def setDependencyTreeBank(path: String, readAs: ReadAs.Format = ReadAs.TEXT,
-                            options: Map[String, String] = Map.empty[String, String]): this.type =
+  def setDependencyTreeBank(
+      path: String,
+      readAs: ReadAs.Format = ReadAs.TEXT,
+      options: Map[String, String] = Map.empty[String, String]): this.type =
     set(dependencyTreeBank, ExternalResource(path, readAs, options))
 
   /** Path to a file in [[https://universaldependencies.org/format.html CoNLL-U format]]
    *
    * @group setParam
    * */
-  def setConllU(path: String, readAs: ReadAs.Format = ReadAs.TEXT,
-                options: Map[String, String] = Map.empty[String, String]): this.type =
+  def setConllU(
+      path: String,
+      readAs: ReadAs.Format = ReadAs.TEXT,
+      options: Map[String, String] = Map.empty[String, String]): this.type =
     set(conllU, ExternalResource(path, readAs, options))
 
   /** Number of iterations in training, converges to better accuracy
@@ -164,6 +175,7 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
    * @group anno
    * */
   override val outputAnnotatorType: String = DEPENDENCY
+
   /** Input annotation type : DOCUMENT, POS, TOKEN
    *
    * @group anno
@@ -183,24 +195,24 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
     val wholeText = buffer.toString()
     val sections = wholeText.split(s"${System.lineSeparator()}${System.lineSeparator()}").toList
 
-    val sentences = sections.map(
-      s => {
-        val lines = s.split(s"${System.lineSeparator()}").toList
-        val body = lines.map(l => {
-          val arr = l.split("\\s+")
-          val (raw, pos, dep) = (arr(0), arr(1), arr(2).toInt)
-          // CONLL dependency layout assumes [root, word1, word2, ..., wordn]  (where n == lines.length)
-          // our   dependency layout assumes [word0, word1, ..., word(n-1)] { root }
-          val dep_ex = if (dep == 0) lines.length + 1 - 1 else dep - 1
-          WordData(raw, pos, dep_ex)
-        })
-        body // Don't pretty up the sentence itself
-      }
-    )
+    val sentences = sections.map(s => {
+      val lines = s.split(s"${System.lineSeparator()}").toList
+      val body = lines.map(l => {
+        val arr = l.split("\\s+")
+        val (raw, pos, dep) = (arr(0), arr(1), arr(2).toInt)
+        // CONLL dependency layout assumes [root, word1, word2, ..., wordn]  (where n == lines.length)
+        // our   dependency layout assumes [word0, word1, ..., word(n-1)] { root }
+        val dep_ex = if (dep == 0) lines.length + 1 - 1 else dep - 1
+        WordData(raw, pos, dep_ex)
+      })
+      body // Don't pretty up the sentence itself
+    })
     sentences
   }
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DependencyParserModel = {
+  override def train(
+      dataset: Dataset[_],
+      recursivePipeline: Option[PipelineModel]): DependencyParserModel = {
 
     validateTrainingFiles()
     val trainingSentences = getTrainingSentences
@@ -221,7 +233,8 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
 
   def validateTrainingFiles(): Unit = {
     if ($(dependencyTreeBank).path != "" && $(conllU).path != "") {
-      throw new IllegalArgumentException("Use either TreeBank or CoNLL-U format file both are not allowed.")
+      throw new IllegalArgumentException(
+        "Use either TreeBank or CoNLL-U format file both are not allowed.")
     }
     if ($(dependencyTreeBank).path == "" && $(conllU).path == "") {
       throw new IllegalArgumentException("Either TreeBank or CoNLL-U format file is required.")
@@ -239,18 +252,20 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
   }
 
   /** Gets a iterable TreeBank */
-  def getFilesContentTreeBank: Seq[Iterator[String]] = ResourceHelper.getFilesContentBuffer($(dependencyTreeBank))
+  def getFilesContentTreeBank: Seq[Iterator[String]] =
+    ResourceHelper.getFilesContentBuffer($(dependencyTreeBank))
 
   def getTrainingSentencesFromConllU(conllUAsArray: Array[String]): List[Sentence] = {
 
     val conllUSentences = conllUAsArray.filterNot(line => lineIsComment(line))
     val indexSentenceBoundaries = conllUSentences.zipWithIndex.filter(_._1 == "").map(_._2)
-    val cleanConllUSentences = indexSentenceBoundaries.zipWithIndex.map { case (indexSentenceBoundary, index) =>
-      if (index == 0) {
-        conllUSentences.slice(index, indexSentenceBoundary)
-      } else {
-        conllUSentences.slice(indexSentenceBoundaries(index - 1) + 1, indexSentenceBoundary)
-      }
+    val cleanConllUSentences = indexSentenceBoundaries.zipWithIndex.map {
+      case (indexSentenceBoundary, index) =>
+        if (index == 0) {
+          conllUSentences.slice(index, indexSentenceBoundary)
+        } else {
+          conllUSentences.slice(indexSentenceBoundaries(index - 1) + 1, indexSentenceBoundary)
+        }
     }
     val sentences = cleanConllUSentences.map { cleanConllUSentence =>
       transformToSentences(cleanConllUSentence)

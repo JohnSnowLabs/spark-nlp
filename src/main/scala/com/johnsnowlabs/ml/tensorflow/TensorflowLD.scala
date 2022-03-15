@@ -16,8 +16,8 @@
 
 package com.johnsnowlabs.ml.tensorflow
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.common._
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
 import scala.collection.JavaConverters._
 import scala.collection.immutable.ListMap
@@ -35,11 +35,12 @@ import scala.collection.mutable
  * @param orderedAlphabets ordered ListMap of alphabets to be used to encode the inputs
  *
  * */
-class TensorflowLD(val tensorflow: TensorflowWrapper,
-                   configProtoBytes: Option[Array[Byte]] = None,
-                   orderedLanguages: ListMap[String, Int],
-                   orderedAlphabets: ListMap[String, Int]
-                  ) extends Serializable {
+class TensorflowLD(
+    val tensorflow: TensorflowWrapper,
+    configProtoBytes: Option[Array[Byte]] = None,
+    orderedLanguages: ListMap[String, Int],
+    orderedAlphabets: ListMap[String, Int])
+    extends Serializable {
 
   private val inputKey = "inputs:0"
   private val outputKey = "output/Softmax:0"
@@ -75,9 +76,10 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
     val tokenBuffers = tensors.createFloatBuffer(inputs.length * inputSize)
     val shape = Array(inputs.length.toLong, inputSize)
 
-    inputs.zipWithIndex.foreach { case (sentence, idx) =>
-      val offset = idx * maxSentenceLength
-      tokenBuffers.offset(offset).write(sentence)
+    inputs.zipWithIndex.foreach {
+      case (sentence, idx) =>
+        val offset = idx * maxSentenceLength
+        tokenBuffers.offset(offset).write(sentence)
     }
 
     val runner = tensorflow.getTFSession(configProtoBytes = configProtoBytes).runner
@@ -98,12 +100,10 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
   }
 
   def predict(
-               documents: Seq[Sentence],
-               threshold: Float = 0.01f,
-               thresholdLabel: String = "unk",
-               coalesceSentences: Boolean = false
-             ): Array[Annotation] = {
-
+      documents: Seq[Sentence],
+      threshold: Float = 0.01f,
+      thresholdLabel: String = "unk",
+      coalesceSentences: Boolean = false): Array[Annotation] = {
 
     val sentences = encode(documents)
 
@@ -114,7 +114,8 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
     val outputs = scores.map(x => x.zip(langLabels))
 
     if (coalesceSentences) {
-      val avgScores = outputs.flatMap(x => x.toList).groupBy(_._2).mapValues(_.map(_._1).sum / outputs.length)
+      val avgScores =
+        outputs.flatMap(x => x.toList).groupBy(_._2).mapValues(_.map(_._1).sum / outputs.length)
       val maxResult = avgScores.maxBy(_._2)
       val finalLabel = if (maxResult._2 >= threshold) maxResult._1 else thresholdLabel
 
@@ -124,24 +125,23 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
           begin = documents.head.start,
           end = documents.last.end,
           result = finalLabel,
-          metadata = Map("sentence" -> documents.head.index.toString) ++ avgScores.flatMap(x => Map(x._1 -> x._2.toString))
-        )
-      )
+          metadata = Map("sentence" -> documents.head.index.toString) ++ avgScores.flatMap(x =>
+            Map(x._1 -> x._2.toString))))
 
     } else {
-      outputs.zip(documents).map { case (score, sentence) =>
-        val maxResult = score.maxBy(_._1)
-        val finalLabel = if (maxResult._1 >= threshold) maxResult._2 else thresholdLabel
+      outputs.zip(documents).map {
+        case (score, sentence) =>
+          val maxResult = score.maxBy(_._1)
+          val finalLabel = if (maxResult._1 >= threshold) maxResult._2 else thresholdLabel
 
-        Annotation(
-          annotatorType = AnnotatorType.LANGUAGE,
-          begin = sentence.start,
-          end = sentence.end,
-          result = finalLabel,
-          metadata = Map("sentence" -> sentence.index.toString) ++ score.flatMap(x => Map(x._2 -> x._1.toString))
-        )
+          Annotation(
+            annotatorType = AnnotatorType.LANGUAGE,
+            begin = sentence.start,
+            end = sentence.end,
+            result = finalLabel,
+            metadata = Map("sentence" -> sentence.index.toString) ++ score.flatMap(x =>
+              Map(x._2 -> x._1.toString)))
       }
     }
   }
 }
-

@@ -44,13 +44,16 @@ import org.apache.spark.ml.util.Identifiable
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  *
  */
-class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMatcherModel] with HasSimpleAnnotate[RegexMatcherModel] {
+class RegexMatcherModel(override val uid: String)
+    extends AnnotatorModel[RegexMatcherModel]
+    with HasSimpleAnnotate[RegexMatcherModel] {
 
   /** Input annotator type: CHUNK
    *
    * @group anno
    * */
   override val outputAnnotatorType: AnnotatorType = CHUNK
+
   /** Input annotator type: DOCUMENT
    *
    * @group anno
@@ -61,16 +64,17 @@ class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMa
    *
    * @group param
    * */
-  val externalRules: ArrayFeature[(String, String)] = new ArrayFeature[(String, String)](this, "rules")
+  val externalRules: ArrayFeature[(String, String)] =
+    new ArrayFeature[(String, String)](this, "rules")
 
   /** MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE
    *
    * @group param
    * */
-  val strategy: Param[String] = new Param(this, "strategy", "MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE")
+  val strategy: Param[String] =
+    new Param(this, "strategy", "MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE")
 
   def this() = this(Identifiable.randomUID("REGEX_MATCHER"))
-
 
   /** Can be any of MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE
    *
@@ -101,7 +105,9 @@ class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMa
     case "MATCH_ALL" => MatchStrategy.MATCH_ALL
     case "MATCH_FIRST" => MatchStrategy.MATCH_FIRST
     case "MATCH_COMPLETE" => MatchStrategy.MATCH_COMPLETE
-    case _ => throw new IllegalArgumentException("Invalid strategy. must be MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE")
+    case _ =>
+      throw new IllegalArgumentException(
+        "Invalid strategy. must be MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE")
   }
 
   lazy private val matchFactory = RuleFactory
@@ -110,20 +116,26 @@ class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMa
 
   /** one-to-many annotation that returns matches as annotations */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    annotations.zipWithIndex.flatMap { case (annotation, annotationIndex) =>
-      matchFactory
-        .findMatch(annotation.result).zipWithIndex.map { case (matched, idx) =>
-        val startingPos = annotation.begin
-        val chunkStartPos = matched.content.start + startingPos
-        val chunkEndPos = matched.content.end + startingPos - 1
-        Annotation(
-          outputAnnotatorType,
-          chunkStartPos,
-          chunkEndPos,
-          matched.content.matched,
-          Map("identifier" -> matched.identifier, "sentence" -> annotationIndex.toString, "chunk" -> idx.toString)
-        )
-      }
+    annotations.zipWithIndex.flatMap {
+      case (annotation, annotationIndex) =>
+        matchFactory
+          .findMatch(annotation.result)
+          .zipWithIndex
+          .map {
+            case (matched, idx) =>
+              val startingPos = annotation.begin
+              val chunkStartPos = matched.content.start + startingPos
+              val chunkEndPos = matched.content.end + startingPos - 1
+              Annotation(
+                outputAnnotatorType,
+                chunkStartPos,
+                chunkEndPos,
+                matched.content.matched,
+                Map(
+                  "identifier" -> matched.identifier,
+                  "sentence" -> annotationIndex.toString,
+                  "chunk" -> idx.toString))
+          }
     }
   }
 }

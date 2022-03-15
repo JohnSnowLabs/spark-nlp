@@ -95,7 +95,7 @@ object VectorMath {
     for (i <- 0 until a.length) {
       for (j <- 0 until b(0).length) {
         for (l <- 0 until b.length) {
-          result(i)(j) += a(i)(l)*b(l)(j)
+          result(i)(j) += a(i)(l) * b(l)(j)
         }
       }
     }
@@ -103,4 +103,3 @@ object VectorMath {
     result
   }
 }
-

@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, WordpieceEmbeddingsSentence}
+import com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -120,7 +120,9 @@ object PoolingStrategy {
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  **/
-class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmbeddings] with HasSimpleAnnotate[ChunkEmbeddings] {
+class ChunkEmbeddings(override val uid: String)
+    extends AnnotatorModel[ChunkEmbeddings]
+    with HasSimpleAnnotate[ChunkEmbeddings] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
@@ -129,22 +131,30 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
    * @group anno
    **/
   override val outputAnnotatorType: AnnotatorType = WORD_EMBEDDINGS
+
   /** Input annotator type : CHUNK, WORD_EMBEDDINGS
    *
    * @group anno
    **/
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(CHUNK, WORD_EMBEDDINGS)
+
   /** Choose how you would like to aggregate Word Embeddings to Chunk Embeddings: `"AVERAGE"` or `"SUM"` (Default: `"AVERAGE"`)
    *
    * @group param
    **/
-  val poolingStrategy = new Param[String](this, "poolingStrategy", "Choose how you would like to aggregate Word Embeddings to Chunk Embeddings: AVERAGE or SUM")
+  val poolingStrategy = new Param[String](
+    this,
+    "poolingStrategy",
+    "Choose how you would like to aggregate Word Embeddings to Chunk Embeddings: AVERAGE or SUM")
+
   /** Whether to discard default vectors for OOV words from the aggregation / pooling (Default: `true`)
    *
    * @group param
    **/
-  val skipOOV = new BooleanParam(this, "skipOOV", "Whether to discard default vectors for OOV words from the aggregation / pooling")
-
+  val skipOOV = new BooleanParam(
+    this,
+    "skipOOV",
+    "Whether to discard default vectors for OOV words from the aggregation / pooling")
 
   /** PoolingStrategy must be either AVERAGE or SUM
    *
@@ -180,22 +190,19 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
     inputCols -> Array(CHUNK, WORD_EMBEDDINGS),
     outputCol -> "chunk_embeddings",
     poolingStrategy -> "AVERAGE",
-    skipOOV -> true
-  )
+    skipOOV -> true)
 
   /** Internal constructor to submit a random UID */
   def this() = this(Identifiable.randomUID("CHUNK_EMBEDDINGS"))
 
-  private def calculateChunkEmbeddings(matrix : Array[Array[Float]]):Array[Float] = {
+  private def calculateChunkEmbeddings(matrix: Array[Array[Float]]): Array[Float] = {
     val res = Array.ofDim[Float](matrix(0).length)
-    matrix(0).indices.foreach {
-      j =>
-        matrix.indices.foreach {
-          i =>
-            res(j) += matrix(i)(j)
-        }
-        if($(poolingStrategy) == "AVERAGE")
-          res(j) /= matrix.length
+    matrix(0).indices.foreach { j =>
+      matrix.indices.foreach { i =>
+        res(j) += matrix(i)(j)
+      }
+      if ($(poolingStrategy) == "AVERAGE")
+        res(j) /= matrix.length
     }
     res
   }
@@ -219,18 +226,18 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
 
       if (sentenceIdx < embeddingsSentences.length) {
 
-        val tokensWithEmbeddings = embeddingsSentences(sentenceIdx).tokens.filter(
-          token => token.begin >= chunk.begin && token.end <= chunk.end
-        )
+        val tokensWithEmbeddings = embeddingsSentences(sentenceIdx).tokens.filter(token =>
+          token.begin >= chunk.begin && token.end <= chunk.end)
 
-        val allEmbeddings = tokensWithEmbeddings.flatMap(tokenEmbedding =>
-          if (!tokenEmbedding.isOOV || !$(skipOOV))
-            Some(tokenEmbedding.embeddings)
-          else
-            None
-        )
+        val allEmbeddings = tokensWithEmbeddings.flatMap(
+          tokenEmbedding =>
+            if (!tokenEmbedding.isOOV || ! $(skipOOV))
+              Some(tokenEmbedding.embeddings)
+            else
+            None)
 
-        val finalEmbeddings = if (allEmbeddings.length > 0) allEmbeddings else tokensWithEmbeddings.map(_.embeddings)
+        val finalEmbeddings =
+          if (allEmbeddings.length > 0) allEmbeddings else tokensWithEmbeddings.map(_.embeddings)
 
         /**
          * When we have more chunks than word embeddings
@@ -239,20 +246,19 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
         if (finalEmbeddings.isEmpty)
           None
         else
-          Some(Annotation(
-            annotatorType = outputAnnotatorType,
-            begin = chunk.begin,
-            end = chunk.end,
-            result = chunk.result,
-            metadata = Map(
-              "sentence" -> sentenceIdx.toString,
-              "chunk" -> chunkIdx.toString,
-              "token" -> chunk.result,
-              "pieceId" -> "-1",
-              "isWordStart" -> "true"
-            ),
-            embeddings = calculateChunkEmbeddings(finalEmbeddings)
-          ))
+          Some(
+            Annotation(
+              annotatorType = outputAnnotatorType,
+              begin = chunk.begin,
+              end = chunk.end,
+              result = chunk.result,
+              metadata = Map(
+                "sentence" -> sentenceIdx.toString,
+                "chunk" -> chunkIdx.toString,
+                "token" -> chunk.result,
+                "pieceId" -> "-1",
+                "isWordStart" -> "true"),
+              embeddings = calculateChunkEmbeddings(finalEmbeddings)))
       } else {
         None
       }
@@ -261,7 +267,9 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
     val embeddingsCol = Annotation.getColumnByType(dataset, $(inputCols), WORD_EMBEDDINGS)
-    dataset.withColumn(getOutputCol, dataset.col(getOutputCol).as(getOutputCol, embeddingsCol.metadata))
+    dataset.withColumn(
+      getOutputCol,
+      dataset.col(getOutputCol).as(getOutputCol, embeddingsCol.metadata))
   }
 
 }

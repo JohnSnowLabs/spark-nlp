@@ -35,10 +35,11 @@ import scala.collection.JavaConverters._
  *
  *                         [[https://tfhub.dev/google/universal-sentence-encoder/2]]
  */
-class TensorflowUSE(val tensorflow: TensorflowWrapper,
-                    configProtoBytes: Option[Array[Byte]] = None,
-                    loadSP: Boolean = false
-                   ) extends Serializable {
+class TensorflowUSE(
+    val tensorflow: TensorflowWrapper,
+    configProtoBytes: Option[Array[Byte]] = None,
+    loadSP: Boolean = false)
+    extends Serializable {
 
   private val inputKey = "input"
   private val outPutKey = "output"
@@ -54,7 +55,9 @@ class TensorflowUSE(val tensorflow: TensorflowWrapper,
 
     val sentenceTensors = tensors.createTensor(sentencesContent)
 
-    val runner = tensorflow.getTFSessionWithSignature(configProtoBytes = configProtoBytes, loadSP = loadSP).runner
+    val runner = tensorflow
+      .getTFSessionWithSignature(configProtoBytes = configProtoBytes, loadSP = loadSP)
+      .runner
 
     runner
       .feed(inputKey, sentenceTensors)
@@ -70,19 +73,19 @@ class TensorflowUSE(val tensorflow: TensorflowWrapper,
     val dim = allEmbeddings.length / batchSize
     val embeddings = allEmbeddings.grouped(dim).toArray
 
-    sentences.zip(embeddings).map { case (sentence, vectors) =>
-      Annotation(
-        annotatorType = AnnotatorType.SENTENCE_EMBEDDINGS,
-        begin = sentence.start,
-        end = sentence.end,
-        result = sentence.content,
-        metadata = Map("sentence" -> sentence.index.toString,
-          "token" -> sentence.content,
-          "pieceId" -> "-1",
-          "isWordStart" -> "true"
-        ),
-        embeddings = vectors
-      )
+    sentences.zip(embeddings).map {
+      case (sentence, vectors) =>
+        Annotation(
+          annotatorType = AnnotatorType.SENTENCE_EMBEDDINGS,
+          begin = sentence.start,
+          end = sentence.end,
+          result = sentence.content,
+          metadata = Map(
+            "sentence" -> sentence.index.toString,
+            "token" -> sentence.content,
+            "pieceId" -> "-1",
+            "isWordStart" -> "true"),
+          embeddings = vectors)
     }
   }
 

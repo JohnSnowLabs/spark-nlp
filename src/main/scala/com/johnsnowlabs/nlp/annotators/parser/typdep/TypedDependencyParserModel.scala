@@ -18,9 +18,13 @@ package com.johnsnowlabs.nlp.annotators.parser.typdep
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, LABELED_DEPENDENCY, POS, TOKEN}
 import com.johnsnowlabs.nlp.annotators.common.{ConllSentence, LabeledDependency}
-import com.johnsnowlabs.nlp.annotators.parser.typdep.util.{DependencyLabel, Dictionary, DictionarySet}
+import com.johnsnowlabs.nlp.annotators.parser.typdep.util.{
+  DependencyLabel,
+  Dictionary,
+  DictionarySet
+}
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable, HasSimpleAnnotate}
+import com.johnsnowlabs.nlp._
 import gnu.trove.map.hash.TObjectIntHashMap
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
@@ -127,7 +131,9 @@ import org.apache.spark.ml.util.Identifiable
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
-class TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[TypedDependencyParserModel] with HasSimpleAnnotate[TypedDependencyParserModel] {
+class TypedDependencyParserModel(override val uid: String)
+    extends AnnotatorModel[TypedDependencyParserModel]
+    with HasSimpleAnnotate[TypedDependencyParserModel] {
 
   def this() = this(Identifiable.randomUID("TYPED_DEPENDENCY"))
 
@@ -136,6 +142,7 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
    * @group anno
    * */
   override val outputAnnotatorType: String = LABELED_DEPENDENCY
+
   /** Input requires column types TOKEN, POS, DEPENDENCY
    *
    * @group anno
@@ -148,16 +155,21 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
    * @group param
    * */
   val trainOptions: StructFeature[Options] = new StructFeature[Options](this, "trainOptions")
+
   /** Parameters during training
    *
    * @group param
    * */
-  val trainParameters: StructFeature[Parameters] = new StructFeature[Parameters](this, "trainParameters")
+  val trainParameters: StructFeature[Parameters] =
+    new StructFeature[Parameters](this, "trainParameters")
+
   /** Dependency pipeline during training
    *
    * @group param
    * */
-  val trainDependencyPipe: StructFeature[DependencyPipe] = new StructFeature[DependencyPipe](this, "trainDependencyPipe")
+  val trainDependencyPipe: StructFeature[DependencyPipe] =
+    new StructFeature[DependencyPipe](this, "trainDependencyPipe")
+
   /** CoNLL training format of this model
    *
    * @group param
@@ -168,15 +180,18 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
   def setOptions(targetOptions: Options): this.type = set(trainOptions, targetOptions)
 
   /** @group setParam */
-  def setDependencyPipe(targetDependencyPipe: DependencyPipe): this.type = set(trainDependencyPipe, targetDependencyPipe)
+  def setDependencyPipe(targetDependencyPipe: DependencyPipe): this.type =
+    set(trainDependencyPipe, targetDependencyPipe)
 
   /** @group setParam */
   def setConllFormat(value: String): this.type = set(conllFormat, value)
 
   /** @group param */
   private lazy val options = $$(trainOptions)
+
   /** @group param */
   private lazy val dependencyPipe = $$(trainDependencyPipe)
+
   /** @group param */
   private lazy val parameters = new Parameters(dependencyPipe, options)
 
@@ -206,11 +221,13 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
 
     while (conllSentence.length > 0) {
 
-      val document = Array(conllSentence, Array(ConllSentence("end", "sentence", "ES", "ES", "ES", -2, 0, 0, 0)))
+      val document = Array(
+        conllSentence,
+        Array(ConllSentence("end", "sentence", "ES", "ES", "ES", -2, 0, 0, 0)))
       val documentData = transformToConllData(document)
       val dependencyLabels = typedDependencyParser.predictDependency(documentData, $(conllFormat))
 
-      val labeledSentences = dependencyLabels.map{dependencyLabel =>
+      val labeledSentences = dependencyLabels.map { dependencyLabel =>
         getDependencyLabelValues(dependencyLabel, sentenceId)
       }
 
@@ -223,12 +240,13 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
     labeledDependenciesDocument
   }
 
-
   private def getPredictionParametersInstance: PredictionParameters = {
     new PredictionParameters()
   }
 
-  private def getTroveMap(predictionParameters: PredictionParameters, dictionary: Dictionary): TObjectIntHashMap[_] = {
+  private def getTroveMap(
+      predictionParameters: PredictionParameters,
+      dictionary: Dictionary): TObjectIntHashMap[_] = {
     if (dictionary.getMapAsString != null) {
       predictionParameters.transformToTroveMap(dictionary.getMapAsString)
     } else {
@@ -236,15 +254,17 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
     }
   }
 
-  private def deserializeDictionaries(dictionariesValues: List[(TObjectIntHashMap[_], Int, Boolean)]): DictionarySet = {
+  private def deserializeDictionaries(
+      dictionariesValues: List[(TObjectIntHashMap[_], Int, Boolean)]): DictionarySet = {
 
     val dictionarySet = getDictionarySetInstance
 
-    dictionariesValues.zipWithIndex.foreach { case (dictionaryValue, index) =>
-      val dictionaries = dictionarySet.getDictionaries
-      dictionaries(index).setMap(dictionaryValue._1)
-      dictionaries(index).setNumEntries(dictionaryValue._2)
-      dictionaries(index).setGrowthStopped(dictionaryValue._3)
+    dictionariesValues.zipWithIndex.foreach {
+      case (dictionaryValue, index) =>
+        val dictionaries = dictionarySet.getDictionaries
+        dictionaries(index).setMap(dictionaryValue._1)
+        dictionaries(index).setNumEntries(dictionaryValue._2)
+        dictionaries(index).setGrowthStopped(dictionaryValue._3)
     }
 
     dictionarySet
@@ -258,18 +278,37 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
     new TypedDependencyParser
   }
 
-  private def transformToConllData(document: Array[Array[ConllSentence]]): Array[Array[ConllData]] = {
+  private def transformToConllData(
+      document: Array[Array[ConllSentence]]): Array[Array[ConllData]] = {
     document.map { sentence =>
       sentence.map { word =>
-        new ConllData(word.dependency, word.lemma, word.uPos, word.xPos, word.deprel, word.head, word.begin, word.end)
+        new ConllData(
+          word.dependency,
+          word.lemma,
+          word.uPos,
+          word.xPos,
+          word.deprel,
+          word.head,
+          word.begin,
+          word.end)
       }
     }
   }
 
-  private def getDependencyLabelValues(dependencyLabel: DependencyLabel, sentenceId: Int): ConllSentence = {
+  private def getDependencyLabelValues(
+      dependencyLabel: DependencyLabel,
+      sentenceId: Int): ConllSentence = {
     if (dependencyLabel != null) {
-      ConllSentence(dependencyLabel.getDependency, "", "", "", dependencyLabel.getLabel, dependencyLabel.getHead,
-        sentenceId, dependencyLabel.getBegin, dependencyLabel.getEnd)
+      ConllSentence(
+        dependencyLabel.getDependency,
+        "",
+        "",
+        "",
+        dependencyLabel.getLabel,
+        dependencyLabel.getHead,
+        sentenceId,
+        dependencyLabel.getBegin,
+        dependencyLabel.getEnd)
     } else {
       ConllSentence("ROOT", "root", "", "", "ROOT", -1, sentenceId, -1, 0)
     }
@@ -277,7 +316,9 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
 
 }
 
-trait ReadablePretrainedTypedDependency extends ParamsAndFeaturesReadable[TypedDependencyParserModel] with HasPretrained[TypedDependencyParserModel] {
+trait ReadablePretrainedTypedDependency
+    extends ParamsAndFeaturesReadable[TypedDependencyParserModel]
+    with HasPretrained[TypedDependencyParserModel] {
   override val defaultModelName = Some("dependency_typed_conllu")
 
   /** Java compliant-overrides */
@@ -285,9 +326,13 @@ trait ReadablePretrainedTypedDependency extends ParamsAndFeaturesReadable[TypedD
 
   override def pretrained(name: String): TypedDependencyParserModel = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): TypedDependencyParserModel = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): TypedDependencyParserModel =
+    super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): TypedDependencyParserModel = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(
+      name: String,
+      lang: String,
+      remoteLoc: String): TypedDependencyParserModel = super.pretrained(name, lang, remoteLoc)
 }
 
 /**

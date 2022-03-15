@@ -18,7 +18,6 @@ package com.johnsnowlabs.ml.tensorflow.sign
 
 import scala.util.matching.Regex
 
-
 /**
  * Based on BERT SavedModel reference, for instance:
  *
@@ -54,8 +53,6 @@ import scala.util.matching.Regex
  *
  * Method name is: tensorflow/serving/predict*
  */
-
-
 object ModelSignatureConstants {
 
   sealed trait TFInfoDescriptor {
@@ -176,6 +173,7 @@ object ModelSignatureConstants {
     override val key: String = "logits"
     override val value: String = "StatefulPartitionedCall:0"
   }
+
   /** Retrieve signature patterns for a given provider
    *
    * @param modelProvider : the provider library that built the model and the signatures
@@ -204,7 +202,8 @@ object ModelSignatureConstants {
           "(token_type)(.*)(ids)".r,
           "(last_hidden_state)".r)
 
-      case _ => throw new Exception("Unknown model provider! Please provide one in between TF1 or TF2.")
+      case _ =>
+        throw new Exception("Unknown model provider! Please provide one in between TF1 or TF2.")
     }
     referenceKeys
   }

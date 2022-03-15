@@ -115,8 +115,9 @@ import scala.collection.mutable.{Map => MMap}
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
-class PerceptronApproach(override val uid: String) extends AnnotatorApproach[PerceptronModel]
-  with PerceptronTrainingUtils {
+class PerceptronApproach(override val uid: String)
+    extends AnnotatorApproach[PerceptronModel]
+    with PerceptronTrainingUtils {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
@@ -128,18 +129,24 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
    * @group param
    * */
   val posCol = new Param[String](this, "posCol", "Column of Array of POS tags that match tokens")
+
   /** Number of iterations in training, converges to better accuracy (Default: `5`)
    *
    * @group param
    * */
-  val nIterations = new IntParam(this, "nIterations", "Number of iterations in training, converges to better accuracy")
+  val nIterations = new IntParam(
+    this,
+    "nIterations",
+    "Number of iterations in training, converges to better accuracy")
   setDefault(nIterations, 5)
 
   /** How many times at least a tag on a word to be marked as frequent (Default: `20`)
    *
    * @group param
    * */
-  val frequencyThreshold = new IntParam(this, "frequencyThreshold",
+  val frequencyThreshold = new IntParam(
+    this,
+    "frequencyThreshold",
     "How many times at least a tag on a word to be marked as frequent")
   setDefault(frequencyThreshold, 20)
 
@@ -147,7 +154,9 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
    *
    * @group param
    * */
-  val ambiguityThreshold = new DoubleParam(this, "ambiguityThreshold",
+  val ambiguityThreshold = new DoubleParam(
+    this,
+    "ambiguityThreshold",
     "How much percentage of total amount of words are covered to be marked as frequent")
   setDefault(ambiguityThreshold, 0.97)
 
@@ -190,26 +199,31 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
    * @group anno
    * */
   override val outputAnnotatorType: AnnotatorType = POS
+
   /** Input annotator type: TOKEN, DOCUMENT
    *
    * @group anno
    * */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
 
-
   /**
    * Trains a model based on a provided CORPUS
    *
    * @return A trained averaged model
    */
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): PerceptronModel = {
+  override def train(
+      dataset: Dataset[_],
+      recursivePipeline: Option[PipelineModel]): PerceptronModel = {
 
     val taggedSentences = generatesTagBook(dataset)
-    val taggedWordBook = buildTagBook(taggedSentences, $(frequencyThreshold), $(ambiguityThreshold))
+    val taggedWordBook =
+      buildTagBook(taggedSentences, $(frequencyThreshold), $(ambiguityThreshold))
+
     /** finds all distinct tags and stores them */
     val classes = taggedSentences.flatMap(_.tags).distinct
     val initialModel = new TrainingPerceptronLegacy(classes, taggedWordBook, MMap())
-    val finalModel = trainPerceptron($(nIterations), initialModel, taggedSentences, taggedWordBook)
+    val finalModel =
+      trainPerceptron($(nIterations), initialModel, taggedSentences, taggedWordBook)
     logger.debug("TRAINING: Finished all iterations")
 
     new PerceptronModel().setModel(finalModel)

@@ -54,7 +54,7 @@ public class TrainDependencies implements Serializable {
     }
 
     public TrainDependencies(TrainFile trainFile, DependencyPipe dependencyPipe,
-                             TypedDependencyParser typedDependencyParser, Options options){
+                             TypedDependencyParser typedDependencyParser, Options options) {
         this.trainFile = trainFile;
         this.dependencyPipe = dependencyPipe;
         this.typedDependencyParser = typedDependencyParser;

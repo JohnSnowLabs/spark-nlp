@@ -107,13 +107,16 @@ class ChunkTokenizer(override val uid: String) extends Tokenizer {
    * @group anno
    * */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array[AnnotatorType](CHUNK)
+
   /** Output Annotator Type : TOKEN
    *
    * @group anno
    * */
   override val outputAnnotatorType: AnnotatorType = TOKEN
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): TokenizerModel = {
+  override def train(
+      dataset: Dataset[_],
+      recursivePipeline: Option[PipelineModel]): TokenizerModel = {
     val ruleFactory = buildRuleFactory
 
     val processedExceptions = get(exceptionsPath)

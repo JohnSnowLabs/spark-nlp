@@ -24,7 +24,8 @@ trait HasCaseSensitiveProperties extends ParamsAndFeaturesWritable {
    *
    * @group param
    */
-  val caseSensitive = new BooleanParam(this, "caseSensitive", "Whether to ignore case in index lookups")
+  val caseSensitive =
+    new BooleanParam(this, "caseSensitive", "Whether to ignore case in index lookups")
 
   setDefault(caseSensitive, false)
 

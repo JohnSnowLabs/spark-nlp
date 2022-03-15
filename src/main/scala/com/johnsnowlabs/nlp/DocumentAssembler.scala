@@ -80,7 +80,7 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row}
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class DocumentAssembler(override val uid: String)
-  extends Transformer
+    extends Transformer
     with DefaultParamsWritable
     with HasOutputAnnotatorType
     with HasOutputAnnotationCol {
@@ -96,7 +96,8 @@ class DocumentAssembler(override val uid: String)
    *
    * @group param
    */
-  val inputCol: Param[String] = new Param[String](this, "inputCol", "input text column for processing")
+  val inputCol: Param[String] =
+    new Param[String](this, "inputCol", "input text column for processing")
 
   /**
    * Id column for row reference
@@ -110,7 +111,8 @@ class DocumentAssembler(override val uid: String)
    *
    * @group param
    */
-  val metadataCol: Param[String] = new Param[String](this, "metadataCol", "metadata for document column")
+  val metadataCol: Param[String] =
+    new Param[String](this, "metadataCol", "metadata for document column")
 
   /**
    * cleanupMode can take the following values:
@@ -125,13 +127,13 @@ class DocumentAssembler(override val uid: String)
    *
    * @group param
    */
-  val cleanupMode: Param[String] = new Param[String](this, "cleanupMode", "possible values: " +
-    "disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full")
+  val cleanupMode: Param[String] = new Param[String](
+    this,
+    "cleanupMode",
+    "possible values: " +
+      "disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full")
 
-  setDefault(
-    outputCol -> DOCUMENT,
-    cleanupMode -> "disabled"
-  )
+  setDefault(outputCol -> DOCUMENT, cleanupMode -> "disabled")
 
   /**
    * Output Annotator Type: DOCUMENT
@@ -197,8 +199,9 @@ class DocumentAssembler(override val uid: String)
       case "each" => set(cleanupMode, "each")
       case "each_full" => set(cleanupMode, "each_full")
       case "delete_full" => set(cleanupMode, "delete_full")
-      case b => throw new IllegalArgumentException(s"Special Character Cleanup supports only: " +
-        s"disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full. Received: $b")
+      case b =>
+        throw new IllegalArgumentException(s"Special Character Cleanup supports only: " +
+          s"disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full. Received: $b")
     }
   }
 
@@ -226,25 +229,28 @@ class DocumentAssembler(override val uid: String)
       case "each" => _text.replaceAll("\\s[\\n\\t]", " ")
       case "each_full" => _text.replaceAll("\\s(?:\\n|\\t|(?:\\\\r)?(?:\\\\n)|(?:\\\\t))", " ")
       case "delete_full" => _text.trim.replaceAll("(?:\\\\r)?(?:\\\\n)|(?:\\\\t)", "")
-      case b => throw new IllegalArgumentException(s"Special Character Cleanup supports only: " +
-        s"disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full. Received: $b")
+      case b =>
+        throw new IllegalArgumentException(s"Special Character Cleanup supports only: " +
+          s"disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full. Received: $b")
     }
     try {
-      Seq(Annotation(outputAnnotatorType, 0, possiblyCleaned.length - 1, possiblyCleaned, metadata))
+      Seq(
+        Annotation(outputAnnotatorType, 0, possiblyCleaned.length - 1, possiblyCleaned, metadata))
     } catch {
       case _: Exception =>
         /*
-        * when there is a null in the row
-        * it outputs an empty Annotation
-        * */
+         * when there is a null in the row
+         * it outputs an empty Annotation
+         * */
         Seq.empty[Annotation]
     }
 
   }
 
   private[nlp] def assembleFromArray(texts: Seq[String]): Seq[Annotation] = {
-    texts.zipWithIndex.flatMap { case (text, idx) =>
-      assemble(text, Map("sentence" -> idx.toString))
+    texts.zipWithIndex.flatMap {
+      case (text, idx) =>
+        assemble(text, Map("sentence" -> idx.toString))
     }
   }
 
@@ -253,9 +259,8 @@ class DocumentAssembler(override val uid: String)
       assemble(text, metadata ++ Map("id" -> id, "sentence" -> "0"))
   }
 
-  private def dfAssembleOnlyId: UserDefinedFunction = udf {
-    (text: String, id: String) =>
-      assemble(text, Map("id" -> id, "sentence" -> "0"))
+  private def dfAssembleOnlyId: UserDefinedFunction = udf { (text: String, id: String) =>
+    assemble(text, Map("id" -> id, "sentence" -> "0"))
   }
 
   private def dfAssembleNoId: UserDefinedFunction = udf {
@@ -263,13 +268,12 @@ class DocumentAssembler(override val uid: String)
       assemble(text, metadata ++ Map("sentence" -> "0"))
   }
 
-  private def dfAssembleNoExtras: UserDefinedFunction = udf {
-    text: String =>
-      assemble(text, Map("sentence" -> "0"))
+  private def dfAssembleNoExtras: UserDefinedFunction = udf { text: String =>
+    assemble(text, Map("sentence" -> "0"))
   }
 
-  private def dfAssemblyFromArray: UserDefinedFunction = udf {
-    texts: Seq[String] => assembleFromArray(texts)
+  private def dfAssemblyFromArray: UserDefinedFunction = udf { texts: Seq[String] =>
+    assembleFromArray(texts)
   }
 
   /** requirement for pipeline transformation validation. It is called on fit() */
@@ -277,7 +281,11 @@ class DocumentAssembler(override val uid: String)
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", outputAnnotatorType)
     val outputFields = schema.fields :+
-      StructField(getOutputCol, ArrayType(Annotation.dataType), nullable = false, metadataBuilder.build)
+      StructField(
+        getOutputCol,
+        ArrayType(Annotation.dataType),
+        nullable = false,
+        metadataBuilder.build)
     StructType(outputFields)
   }
 
@@ -285,36 +293,21 @@ class DocumentAssembler(override val uid: String)
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", outputAnnotatorType)
     val documentAnnotations =
-      if (dataset.schema.fields.find(_.name == getInputCol)
-        .getOrElse(throw new IllegalArgumentException(s"Dataset does not have any '$getInputCol' column"))
-        .dataType == ArrayType(StringType, containsNull = false))
-        dfAssemblyFromArray(
-          dataset.col(getInputCol)
-        )
+      if (dataset.schema.fields
+            .find(_.name == getInputCol)
+            .getOrElse(throw new IllegalArgumentException(
+              s"Dataset does not have any '$getInputCol' column"))
+            .dataType == ArrayType(StringType, containsNull = false))
+        dfAssemblyFromArray(dataset.col(getInputCol))
       else if (get(idCol).isDefined && get(metadataCol).isDefined)
-        dfAssemble(
-          dataset.col(getInputCol),
-          dataset.col(getIdCol),
-          dataset.col(getMetadataCol)
-        )
+        dfAssemble(dataset.col(getInputCol), dataset.col(getIdCol), dataset.col(getMetadataCol))
       else if (get(idCol).isDefined)
-        dfAssembleOnlyId(
-          dataset.col(getInputCol),
-          dataset.col(getIdCol)
-        )
+        dfAssembleOnlyId(dataset.col(getInputCol), dataset.col(getIdCol))
       else if (get(metadataCol).isDefined)
-        dfAssembleNoId(
-          dataset.col(getInputCol),
-          dataset.col(getMetadataCol)
-        )
+        dfAssembleNoId(dataset.col(getInputCol), dataset.col(getMetadataCol))
       else
-        dfAssembleNoExtras(
-          dataset.col(getInputCol)
-        )
-    dataset.withColumn(
-      getOutputCol,
-      documentAnnotations.as(getOutputCol, metadataBuilder.build)
-    )
+        dfAssembleNoExtras(dataset.col(getInputCol))
+    dataset.withColumn(getOutputCol, documentAnnotations.as(getOutputCol, metadataBuilder.build))
   }
 
 }
@@ -323,4 +316,3 @@ class DocumentAssembler(override val uid: String)
  * This is the companion object of [[DocumentAssembler]]. Please refer to that class for the documentation.
  */
 object DocumentAssembler extends DefaultParamsReadable[DocumentAssembler]
-

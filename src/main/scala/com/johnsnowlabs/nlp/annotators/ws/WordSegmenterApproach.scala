@@ -18,7 +18,10 @@ package com.johnsnowlabs.nlp.annotators.ws
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN}
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronTrainingUtils, TrainingPerceptronLegacy}
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.{
+  PerceptronTrainingUtils,
+  TrainingPerceptronLegacy
+}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{DoubleParam, IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -94,8 +97,9 @@ import scala.collection.mutable.{Map => MMap}
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
-class WordSegmenterApproach(override val uid: String) extends AnnotatorApproach[WordSegmenterModel]
-  with PerceptronTrainingUtils {
+class WordSegmenterApproach(override val uid: String)
+    extends AnnotatorApproach[WordSegmenterModel]
+    with PerceptronTrainingUtils {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("WORD_SEGMENTER"))
@@ -107,11 +111,14 @@ class WordSegmenterApproach(override val uid: String) extends AnnotatorApproach[
    * @group param
    * */
   val posCol = new Param[String](this, "posCol", "column of Array of POS tags that match tokens")
+
   /** Number of iterations in training, converges to better accuracy (Default: `5`)
    *
    * @group param
    * */
-  val nIterations = new IntParam(this, "nIterations",
+  val nIterations = new IntParam(
+    this,
+    "nIterations",
     "Number of iterations in training, converges to better accuracy")
   setDefault(nIterations, 5)
 
@@ -119,7 +126,9 @@ class WordSegmenterApproach(override val uid: String) extends AnnotatorApproach[
    *
    * @group param
    * */
-  val frequencyThreshold = new IntParam(this, "frequencyThreshold",
+  val frequencyThreshold = new IntParam(
+    this,
+    "frequencyThreshold",
     "How many times at least a tag on a word to be marked as frequent")
   setDefault(frequencyThreshold, 20)
 
@@ -127,7 +136,9 @@ class WordSegmenterApproach(override val uid: String) extends AnnotatorApproach[
    *
    * @group param
    * */
-  val ambiguityThreshold = new DoubleParam(this, "ambiguityThreshold",
+  val ambiguityThreshold = new DoubleParam(
+    this,
+    "ambiguityThreshold",
     "How much percentage of total amount of words are covered to be marked as frequent")
   setDefault(ambiguityThreshold, 0.97)
 
@@ -146,14 +157,18 @@ class WordSegmenterApproach(override val uid: String) extends AnnotatorApproach[
   /** @group getParam */
   def getNIterations: Int = $(nIterations)
 
-
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): WordSegmenterModel = {
+  override def train(
+      dataset: Dataset[_],
+      recursivePipeline: Option[PipelineModel]): WordSegmenterModel = {
     val taggedSentences = generatesTagBook(dataset)
-    val taggedWordBook = buildTagBook(taggedSentences, $(frequencyThreshold), $(ambiguityThreshold))
+    val taggedWordBook =
+      buildTagBook(taggedSentences, $(frequencyThreshold), $(ambiguityThreshold))
+
     /** Finds all distinct tags and stores them */
     val classes = taggedSentences.flatMap(_.tags).distinct
     val initialModel = new TrainingPerceptronLegacy(classes, taggedWordBook, MMap())
-    val finalModel = trainPerceptron($(nIterations), initialModel, taggedSentences, taggedWordBook)
+    val finalModel =
+      trainPerceptron($(nIterations), initialModel, taggedSentences, taggedWordBook)
 
     new WordSegmenterModel()
       .setModel(finalModel)
@@ -164,6 +179,7 @@ class WordSegmenterApproach(override val uid: String) extends AnnotatorApproach[
    * @group anno
    */
   override val outputAnnotatorType: AnnotatorType = TOKEN
+
   /** Input Annotator Types: DOCUMENT
    *
    * @group anno

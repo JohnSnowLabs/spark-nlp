@@ -29,7 +29,6 @@ import org.apache.spark.sql.Dataset
 
 import scala.collection.Map
 
-
 /**
  * Extracts Named Entities based on a CRF Model.
  *
@@ -128,7 +127,10 @@ import scala.collection.Map
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
-class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] with HasSimpleAnnotate[NerCrfModel] with HasStorageRef {
+class NerCrfModel(override val uid: String)
+    extends AnnotatorModel[NerCrfModel]
+    with HasSimpleAnnotate[NerCrfModel]
+    with HasStorageRef {
 
   def this() = this(Identifiable.randomUID("NER"))
 
@@ -137,27 +139,36 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
    * @group param
    * */
   val entities = new StringArrayParam(this, "entities", "List of Entities to recognize")
+
   /** The CRF model
    *
    * @group param
    * */
-  val model: StructFeature[LinearChainCrfModel] = new StructFeature[LinearChainCrfModel](this, "crfModel")
+  val model: StructFeature[LinearChainCrfModel] =
+    new StructFeature[LinearChainCrfModel](this, "crfModel")
+
   /** Additional dictionary to use as for features (Default: `Map.empty[String, String]`)
    *
    * @group param
    * */
-  val dictionaryFeatures: MapFeature[String, String] = new MapFeature[String, String](this, "dictionaryFeatures")
+  val dictionaryFeatures: MapFeature[String, String] =
+    new MapFeature[String, String](this, "dictionaryFeatures")
+
   /** Whether or not to calculate prediction confidence by token, included in metadata (Default: `false`)
    *
    * @group param
    * */
-  val includeConfidence = new BooleanParam(this, "includeConfidence", "whether or not to calculate prediction confidence by token, includes in metadata")
+  val includeConfidence = new BooleanParam(
+    this,
+    "includeConfidence",
+    "whether or not to calculate prediction confidence by token, includes in metadata")
 
   /** @group setParam */
   def setModel(crf: LinearChainCrfModel): NerCrfModel = set(model, crf)
 
   /** @group setParam */
-  def setDictionaryFeatures(dictFeatures: DictionaryFeatures): this.type = set(dictionaryFeatures, dictFeatures.dict)
+  def setDictionaryFeatures(dictFeatures: DictionaryFeatures): this.type =
+    set(dictionaryFeatures, dictFeatures.dict)
 
   /** @group setParam */
   def setEntities(toExtract: Array[String]): NerCrfModel = set(entities, toExtract)
@@ -177,44 +188,55 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
    * @param sentences POS tagged and WordpieceEmbeddings sentences
    * @return sentences with recognized Named Entities
    */
-  def tag(sentences: Seq[(PosTaggedSentence, WordpieceEmbeddingsSentence)]): Seq[NerTaggedSentence] = {
+  def tag(sentences: Seq[(PosTaggedSentence, WordpieceEmbeddingsSentence)])
+    : Seq[NerTaggedSentence] = {
     require(model.isSet, "model must be set before tagging")
 
     val crf = $$(model)
 
     val fg = FeatureGenerator(new DictionaryFeatures($$(dictionaryFeatures)))
-    sentences.map { case (sentence, withEmbeddings) =>
-      val instance = fg.generate(sentence, withEmbeddings, crf.metadata)
+    sentences.map {
+      case (sentence, withEmbeddings) =>
+        val instance = fg.generate(sentence, withEmbeddings, crf.metadata)
 
-      lazy val confidenceValues = {
-        val fb = new FbCalculator(instance.items.length, crf.metadata)
-        fb.calculate(instance, $$(model).weights, 1)
-        fb.alpha
-      }
-
-      val labelIds = crf.predict(instance)
-
-      val words = sentence.indexedTaggedWords
-        .zip(labelIds.labels)
-        .zipWithIndex
-        .flatMap { case ((word, labelId), idx) =>
-          val label = crf.metadata.labels(labelId)
-
-          val alpha = if ($(includeConfidence)) {
-            val scores = Some(confidenceValues.apply(idx))
-            Some(crf.metadata.labels
-              .zipWithIndex
-              .filter(x => x._2 != 0)
-              .map { case (t, i) => Map(t -> scores.getOrElse(Array.empty[String]).lift(i).getOrElse(0.0f).toString) })
-          } else None
-
-          if (!isDefined(entities) || $(entities).isEmpty || $(entities).contains(label))
-            Some(IndexedTaggedWord(word.word, label, word.begin, word.end, alpha))
-          else
-            None
+        lazy val confidenceValues = {
+          val fb = new FbCalculator(instance.items.length, crf.metadata)
+          fb.calculate(instance, $$(model).weights, 1)
+          fb.alpha
         }
 
-      TaggedSentence(words)
+        val labelIds = crf.predict(instance)
+
+        val words = sentence.indexedTaggedWords
+          .zip(labelIds.labels)
+          .zipWithIndex
+          .flatMap {
+            case ((word, labelId), idx) =>
+              val label = crf.metadata.labels(labelId)
+
+              val alpha = if ($(includeConfidence)) {
+                val scores = Some(confidenceValues.apply(idx))
+                Some(
+                  crf.metadata.labels.zipWithIndex
+                    .filter(x => x._2 != 0)
+                    .map {
+                      case (t, i) =>
+                        Map(
+                          t -> scores
+                            .getOrElse(Array.empty[String])
+                            .lift(i)
+                            .getOrElse(0.0f)
+                            .toString)
+                    })
+              } else None
+
+              if (!isDefined(entities) || $(entities).isEmpty || $(entities).contains(label))
+                Some(IndexedTaggedWord(word.word, label, word.begin, word.end, alpha))
+              else
+                None
+          }
+
+        TaggedSentence(words)
     }
   }
 
@@ -244,7 +266,9 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
 
 }
 
-trait ReadablePretrainedNerCrf extends ParamsAndFeaturesReadable[NerCrfModel] with HasPretrained[NerCrfModel] {
+trait ReadablePretrainedNerCrf
+    extends ParamsAndFeaturesReadable[NerCrfModel]
+    with HasPretrained[NerCrfModel] {
   override val defaultModelName: Option[String] = Some("ner_crf")
 
   /** Java compliant-overrides */
@@ -254,7 +278,8 @@ trait ReadablePretrainedNerCrf extends ParamsAndFeaturesReadable[NerCrfModel] wi
 
   override def pretrained(name: String, lang: String): NerCrfModel = super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): NerCrfModel = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): NerCrfModel =
+    super.pretrained(name, lang, remoteLoc)
 }
 
 /**

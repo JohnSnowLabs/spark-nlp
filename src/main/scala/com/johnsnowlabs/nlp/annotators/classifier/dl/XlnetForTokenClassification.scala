@@ -17,12 +17,15 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
@@ -103,7 +106,7 @@ import java.io.File
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
 class XlnetForTokenClassification(override val uid: String)
-  extends AnnotatorModel[XlnetForTokenClassification]
+    extends AnnotatorModel[XlnetForTokenClassification]
     with HasBatchedAnnotate[XlnetForTokenClassification]
     with WriteTensorflowModel
     with WriteSentencePieceModel
@@ -117,7 +120,8 @@ class XlnetForTokenClassification(override val uid: String)
    *
    * @group anno
    */
-  override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+  override val inputAnnotatorTypes: Array[String] =
+    Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
 
   /**
    * Output Annotator Types: WORD_EMBEDDINGS
@@ -147,10 +151,14 @@ class XlnetForTokenClassification(override val uid: String)
    *
    * @group param
    * */
-  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  val configProtoBytes = new IntArrayParam(
+    this,
+    "configProtoBytes",
+    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): XlnetForTokenClassification.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): XlnetForTokenClassification.this.type =
+    set(this.configProtoBytes, bytes)
 
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
@@ -159,11 +167,14 @@ class XlnetForTokenClassification(override val uid: String)
    *
    * @group param
    * */
-  val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
+  val maxSentenceLength =
+    new IntParam(this, "maxSentenceLength", "Max sentence length to process")
 
   /** @group setParam */
   def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "XLNet models do not support sequences longer than 512 because of trainable positional embeddings.")
+    require(
+      value <= 512,
+      "XLNet models do not support sequences longer than 512 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -192,7 +203,10 @@ class XlnetForTokenClassification(override val uid: String)
   private var _model: Option[Broadcast[TensorflowXlnetClassification]] = None
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper, spp: SentencePieceWrapper): XlnetForTokenClassification = {
+  def setModelIfNotSet(
+      spark: SparkSession,
+      tensorflowWrapper: TensorflowWrapper,
+      spp: SentencePieceWrapper): XlnetForTokenClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
@@ -201,10 +215,7 @@ class XlnetForTokenClassification(override val uid: String)
             spp,
             configProtoBytes = getConfigProtoBytes,
             tags = $$(labels),
-            signatures = getSignatures
-          )
-        )
-      )
+            signatures = getSignatures)))
     }
 
     this
@@ -212,7 +223,6 @@ class XlnetForTokenClassification(override val uid: String)
 
   /** @group getParam */
   def getModelIfNotSet: TensorflowXlnetClassification = _model.get.value
-
 
   /** Whether to lowercase tokens or not
    *
@@ -224,11 +234,7 @@ class XlnetForTokenClassification(override val uid: String)
     this
   }
 
-  setDefault(
-    batchSize -> 8,
-    maxSentenceLength -> 128,
-    caseSensitive -> true
-  )
+  setDefault(batchSize -> 8, maxSentenceLength -> 128, caseSensitive -> true)
 
   /**
    * takes a document and annotations and produces new annotations of this annotator's annotation type
@@ -237,9 +243,9 @@ class XlnetForTokenClassification(override val uid: String)
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations.map(annotations =>
-      TokenizedWithSentence.unpack(annotations).toArray
-    ).toArray
+    val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations
+      .map(annotations => TokenizedWithSentence.unpack(annotations).toArray)
+      .toArray
     /*Return empty if the real tokens are empty*/
     if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
 
@@ -248,23 +254,35 @@ class XlnetForTokenClassification(override val uid: String)
         $(batchSize),
         $(maxSentenceLength),
         $(caseSensitive),
-        $$(labels)
-      )
-    }) else {
+        $$(labels))
+    })
+    else {
       Seq(Seq.empty[Annotation])
     }
   }
 
-
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_xlnet_classification", XlnetForTokenClassification.tfFile, configProtoBytes = getConfigProtoBytes)
-    writeSentencePieceModel(path, spark, getModelIfNotSet.spp, "_xlnet", XlnetForTokenClassification.sppFile)
+    writeTensorflowModelV2(
+      path,
+      spark,
+      getModelIfNotSet.tensorflowWrapper,
+      "_xlnet_classification",
+      XlnetForTokenClassification.tfFile,
+      configProtoBytes = getConfigProtoBytes)
+    writeSentencePieceModel(
+      path,
+      spark,
+      getModelIfNotSet.spp,
+      "_xlnet",
+      XlnetForTokenClassification.sppFile)
   }
 
 }
 
-trait ReadablePretrainedXlnetForTokenModel extends ParamsAndFeaturesReadable[XlnetForTokenClassification] with HasPretrained[XlnetForTokenClassification] {
+trait ReadablePretrainedXlnetForTokenModel
+    extends ParamsAndFeaturesReadable[XlnetForTokenClassification]
+    with HasPretrained[XlnetForTokenClassification] {
   override val defaultModelName: Some[String] = Some("xlnet_base_token_classifier_conll03")
 
   /** Java compliant-overrides */
@@ -272,9 +290,13 @@ trait ReadablePretrainedXlnetForTokenModel extends ParamsAndFeaturesReadable[Xln
 
   override def pretrained(name: String): XlnetForTokenClassification = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): XlnetForTokenClassification = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): XlnetForTokenClassification =
+    super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): XlnetForTokenClassification = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(
+      name: String,
+      lang: String,
+      remoteLoc: String): XlnetForTokenClassification = super.pretrained(name, lang, remoteLoc)
 }
 
 trait ReadXlnetForTokenTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
@@ -283,7 +305,10 @@ trait ReadXlnetForTokenTensorflowModel extends ReadTensorflowModel with ReadSent
   override val tfFile: String = "xlnet_classification_tensorflow"
   override val sppFile: String = "xlnet_spp"
 
-  def readTensorflow(instance: XlnetForTokenClassification, path: String, spark: SparkSession): Unit = {
+  def readTensorflow(
+      instance: XlnetForTokenClassification,
+      path: String,
+      spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_xlnet_classification_tf", initAllTables = false)
     val spp = readSentencePieceModel(path, spark, "_xlnet_spp", sppFile)
@@ -299,19 +324,24 @@ trait ReadXlnetForTokenTensorflowModel extends ReadTensorflowModel with ReadSent
     require(f.isDirectory, s"File $tfModelPath is not folder")
     require(
       savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath"
-    )
+      s"savedModel file saved_model.pb not found in folder $tfModelPath")
     val sppModelPath = tfModelPath + "/assets"
     val sppModel = new File(sppModelPath, "spiece.model")
-    require(sppModel.exists(), s"SentencePiece model spiece.model not found in folder $sppModelPath")
+    require(
+      sppModel.exists(),
+      s"SentencePiece model spiece.model not found in folder $sppModelPath")
 
     val labelsPath = new File(tfModelPath + "/assets", "labels.txt")
-    require(labelsPath.exists(), s"Labels file labels.txt not found in folder $tfModelPath/assets/")
+    require(
+      labelsPath.exists(),
+      s"Labels file labels.txt not found in folder $tfModelPath/assets/")
 
-    val labelsResource = new ExternalResource(labelsPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val labelsResource =
+      new ExternalResource(labelsPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val labels = ResourceHelper.parseLines(labelsResource).zipWithIndex.toMap
 
-    val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
+    val (wrapper, signatures) =
+      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
     val spp = SentencePieceWrapper.read(sppModel.toString)
 
     val _signatures = signatures match {
@@ -330,4 +360,6 @@ trait ReadXlnetForTokenTensorflowModel extends ReadTensorflowModel with ReadSent
 /**
  * This is the companion object of [[XlnetForTokenClassification]]. Please refer to that class for the documentation.
  */
-object XlnetForTokenClassification extends ReadablePretrainedXlnetForTokenModel with ReadXlnetForTokenTensorflowModel
+object XlnetForTokenClassification
+    extends ReadablePretrainedXlnetForTokenModel
+    with ReadXlnetForTokenTensorflowModel

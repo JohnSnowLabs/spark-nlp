@@ -33,7 +33,8 @@ class AWSProfileCredentials extends Credentials {
         return Some(new ProfileCredentialsProvider(credentialParams.profile).getCredentials)
       } catch {
         case _: Exception =>
-          logger.info(s"Profile ${credentialParams.profile} is not working. Attempting to use credentials provider")
+          logger.info(
+            s"Profile ${credentialParams.profile} is not working. Attempting to use credentials provider")
           next.get.buildCredentials(credentialParams)
       }
     }

@@ -16,17 +16,16 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
-import java.io.File
-
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.storage.HasStorageRef
-
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
+
+import java.io.File
 
 /** Word embeddings from ELMo (Embeddings from Language Models), a language model trained on the 1 Billion Word Benchmark.
  *
@@ -137,7 +136,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class ElmoEmbeddings(override val uid: String)
-  extends AnnotatorModel[ElmoEmbeddings]
+    extends AnnotatorModel[ElmoEmbeddings]
     with HasSimpleAnnotate[ElmoEmbeddings]
     with WriteTensorflowModel
     with HasEmbeddingsProperties
@@ -148,22 +147,33 @@ class ElmoEmbeddings(override val uid: String)
    *
    * @group anno
    * */
-  override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+  override val inputAnnotatorTypes: Array[String] =
+    Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+
   /** Output annotator type : WORD_EMBEDDINGS
    *
    * @group anno
    * */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS
+
   /** Batch size (Default: `32`). Large values allows faster processing but requires more memory.
    *
    * @group param
    * */
-  val batchSize = new IntParam(this, "batchSize", "Batch size. Large values allows faster processing but requires more memory.")
+  val batchSize = new IntParam(
+    this,
+    "batchSize",
+    "Batch size. Large values allows faster processing but requires more memory.")
+
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
    *
    * @group param
    * */
-  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  val configProtoBytes = new IntArrayParam(
+    this,
+    "configProtoBytes",
+    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+
   /** Set ELMo pooling layer to: `"word_emb"`, `"lstm_outputs1"`, `"lstm_outputs2"`, or `"elmo"` (Default: `"word_emb"`).
    *
    * Possible values are:
@@ -174,13 +184,15 @@ class ElmoEmbeddings(override val uid: String)
    *
    * @group param
    * */
-  val poolingLayer = new Param[String](this, "poolingLayer", "Set ELMO pooling layer to: word_emb, lstm_outputs1, lstm_outputs2, or elmo")
+  val poolingLayer = new Param[String](
+    this,
+    "poolingLayer",
+    "Set ELMO pooling layer to: word_emb, lstm_outputs1, lstm_outputs2, or elmo")
 
   private var _model: Option[Broadcast[TensorflowElmo]] = None
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("ELMO_EMBEDDINGS"))
-
 
   /** Large values allows faster processing but requires more memory.
    *
@@ -207,7 +219,8 @@ class ElmoEmbeddings(override val uid: String)
    *
    * @group setParam
    * */
-  def setConfigProtoBytes(bytes: Array[Int]): ElmoEmbeddings.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): ElmoEmbeddings.this.type =
+    set(this.configProtoBytes, bytes)
 
   /** Function used to set the embedding output layer of the ELMO model
    *
@@ -221,10 +234,11 @@ class ElmoEmbeddings(override val uid: String)
       case "lstm_outputs2" => set(poolingLayer, "lstm_outputs2")
       case "elmo" => set(poolingLayer, "elmo")
 
-      case _ => throw new MatchError("poolingLayer must be either word_emb, lstm_outputs1, lstm_outputs2, or elmo")
+      case _ =>
+        throw new MatchError(
+          "poolingLayer must be either word_emb, lstm_outputs1, lstm_outputs2, or elmo")
     }
   }
-
 
   /** Function used to set the embedding output layer of the ELMO model
    *
@@ -232,11 +246,7 @@ class ElmoEmbeddings(override val uid: String)
    */
   def getPoolingLayer: String = $(poolingLayer)
 
-  setDefault(
-    batchSize -> 32,
-    poolingLayer -> "elmo",
-    dimension -> 512
-  )
+  setDefault(batchSize -> 32, poolingLayer -> "elmo", dimension -> 512)
 
   def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
     if (_model.isEmpty) {
@@ -246,10 +256,7 @@ class ElmoEmbeddings(override val uid: String)
           new TensorflowElmo(
             tensorflow,
             batchSize = $(batchSize),
-            configProtoBytes = getConfigProtoBytes
-          )
-        )
-      )
+            configProtoBytes = getConfigProtoBytes)))
     }
 
     this
@@ -276,18 +283,28 @@ class ElmoEmbeddings(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_elmo", ElmoEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModel(
+      path,
+      spark,
+      getModelIfNotSet.tensorflow,
+      "_elmo",
+      ElmoEmbeddings.tfFile,
+      configProtoBytes = getConfigProtoBytes)
   }
 
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
+    dataset.withColumn(
+      getOutputCol,
+      wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
   }
 
 }
 
-trait ReadablePretrainedElmoModel extends ParamsAndFeaturesReadable[ElmoEmbeddings] with HasPretrained[ElmoEmbeddings] {
+trait ReadablePretrainedElmoModel
+    extends ParamsAndFeaturesReadable[ElmoEmbeddings]
+    with HasPretrained[ElmoEmbeddings] {
   override val defaultModelName: Some[String] = Some("elmo")
 
   /** Java compliant-overrides */
@@ -295,9 +312,11 @@ trait ReadablePretrainedElmoModel extends ParamsAndFeaturesReadable[ElmoEmbeddin
 
   override def pretrained(name: String): ElmoEmbeddings = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): ElmoEmbeddings = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): ElmoEmbeddings =
+    super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): ElmoEmbeddings = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): ElmoEmbeddings =
+    super.pretrained(name, lang, remoteLoc)
 }
 
 trait ReadElmoTensorflowModel extends ReadTensorflowModel {
@@ -318,18 +337,19 @@ trait ReadElmoTensorflowModel extends ReadTensorflowModel {
     val savedModel = new File(folder, "saved_model.pb")
     require(f.exists, s"Folder $folder not found")
     require(f.isDirectory, s"File $folder is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $folder"
-    )
+    require(savedModel.exists(), s"savedModel file saved_model.pb not found in folder $folder")
 
-    val (wrapper, _) = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true)
+    val (wrapper, _) = TensorflowWrapper.read(
+      folder,
+      zipped = false,
+      useBundle = true,
+      tags = Array("serve"),
+      initAllTables = true)
 
     new ElmoEmbeddings()
       .setModelIfNotSet(spark, wrapper)
   }
 }
-
 
 /**
  * This is the companion object of [[ElmoEmbeddings]]. Please refer to that class for the documentation.

@@ -20,8 +20,8 @@ import com.johnsnowlabs.nlp.util.FinisherUtil
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
-import org.apache.spark.sql.{Dataset, Row}
 import org.apache.spark.sql.types._
+import org.apache.spark.sql.{Dataset, Row}
 
 /**
  * Converts annotation results into a format that easier to use. It is useful to extract the results from Spark NLP
@@ -76,9 +76,7 @@ import org.apache.spark.sql.types._
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
-class Finisher(override val uid: String)
-  extends Transformer
-    with DefaultParamsWritable {
+class Finisher(override val uid: String) extends Transformer with DefaultParamsWritable {
 
   /**
    * Name of input annotation cols
@@ -118,7 +116,10 @@ class Finisher(override val uid: String)
    * @group param
    */
   val cleanAnnotations: BooleanParam =
-    new BooleanParam(this, "cleanAnnotations", "Whether to remove annotation columns (Default: `true`)")
+    new BooleanParam(
+      this,
+      "cleanAnnotations",
+      "Whether to remove annotation columns (Default: `true`)")
 
   /**
    * Annotation metadata format (Default: `false`)
@@ -134,7 +135,10 @@ class Finisher(override val uid: String)
    * @group param
    */
   val outputAsArray: BooleanParam =
-    new BooleanParam(this, "outputAsArray", "Finisher generates an Array with the results instead of string (Default: `true`)")
+    new BooleanParam(
+      this,
+      "outputAsArray",
+      "Finisher generates an Array with the results instead of string (Default: `true`)")
 
   /**
    * Whether to include embeddings vectors in the process (Default: `false`)
@@ -142,8 +146,10 @@ class Finisher(override val uid: String)
    * @group param
    */
   val parseEmbeddingsVectors: BooleanParam =
-    new BooleanParam(this, "parseEmbeddingsVectors", "Whether to include embeddings vectors in the process (Default: `false`)")
-
+    new BooleanParam(
+      this,
+      "parseEmbeddingsVectors",
+      "Whether to include embeddings vectors in the process (Default: `false`)")
 
   /**
    * Name of input annotation cols
@@ -263,22 +269,24 @@ class Finisher(override val uid: String)
     outputAsArray -> true,
     parseEmbeddingsVectors -> false,
     valueSplitSymbol -> "#",
-    annotationSplitSymbol -> "@"
-  )
+    annotationSplitSymbol -> "@")
 
   def this() = this(Identifiable.randomUID("finisher"))
 
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)
 
   override def transformSchema(schema: StructType): StructType = {
-    require(getInputCols.length == getOutputCols.length, "inputCols and outputCols length must match")
-    getInputCols.foreach {
-      annotationColumn =>
-        FinisherUtil.checkIfInputColsExist(getInputCols, schema)
-        FinisherUtil.checkIfAnnotationColumnIsSparkNLPAnnotation(schema, annotationColumn)
+    require(
+      getInputCols.length == getOutputCols.length,
+      "inputCols and outputCols length must match")
+    getInputCols.foreach { annotationColumn =>
+      FinisherUtil.checkIfInputColsExist(getInputCols, schema)
+      FinisherUtil.checkIfAnnotationColumnIsSparkNLPAnnotation(schema, annotationColumn)
     }
     val metadataFields = FinisherUtil.getMetadataFields(getOutputCols, $(outputAsArray))
-    val outputFields = schema.fields ++ FinisherUtil.getOutputFields(getOutputCols, $(outputAsArray)) ++ metadataFields
+    val outputFields = schema.fields ++ FinisherUtil.getOutputFields(
+      getOutputCols,
+      $(outputAsArray)) ++ metadataFields
     val cleanFields = FinisherUtil.getCleanFields($(cleanAnnotations), outputFields)
 
     StructType(cleanFields)
@@ -289,30 +297,38 @@ class Finisher(override val uid: String)
     val flattened = getInputCols.foldRight(dataset)((inputCol, data) =>
       data.withColumn(inputCol, Annotation.flatten(data.col(inputCol))).toDF()
     )
-    */
-    require(getInputCols.length == getOutputCols.length, "inputCols and outputCols length must match")
+     */
+    require(
+      getInputCols.length == getOutputCols.length,
+      "inputCols and outputCols length must match")
     val cols = getInputCols.zip(getOutputCols)
     var flattened = dataset
-    cols.foreach { case (inputCol, outputCol) =>
-      flattened = {
-        flattened.withColumn(
-          outputCol, {
-            if ($(outputAsArray))
-              Annotation.flattenArray($(parseEmbeddingsVectors))(flattened.col(inputCol))
-            else if (!$(includeMetadata))
-              Annotation.flatten($(valueSplitSymbol), $(annotationSplitSymbol), $(parseEmbeddingsVectors))(flattened.col(inputCol))
-            else
-              Annotation.flattenDetail($(valueSplitSymbol), $(annotationSplitSymbol), $(parseEmbeddingsVectors))(flattened.col(inputCol))
-          }
-        )
-      }
+    cols.foreach {
+      case (inputCol, outputCol) =>
+        flattened = {
+          flattened.withColumn(
+            outputCol, {
+              if ($(outputAsArray))
+                Annotation.flattenArray($(parseEmbeddingsVectors))(flattened.col(inputCol))
+              else if (! $(includeMetadata))
+                Annotation.flatten(
+                  $(valueSplitSymbol),
+                  $(annotationSplitSymbol),
+                  $(parseEmbeddingsVectors))(flattened.col(inputCol))
+              else
+                Annotation.flattenDetail(
+                  $(valueSplitSymbol),
+                  $(annotationSplitSymbol),
+                  $(parseEmbeddingsVectors))(flattened.col(inputCol))
+            })
+        }
     }
     if ($(outputAsArray) && $(includeMetadata))
-      cols.foreach { case (inputCol, outputCol) =>
-        flattened = flattened.withColumn(
-          outputCol + "_metadata",
-          Annotation.flattenArrayMetadata(flattened.col(inputCol))
-        )
+      cols.foreach {
+        case (inputCol, outputCol) =>
+          flattened = flattened.withColumn(
+            outputCol + "_metadata",
+            Annotation.flattenArrayMetadata(flattened.col(inputCol)))
       }
 
     FinisherUtil.cleaningAnnotations($(cleanAnnotations), flattened.toDF())

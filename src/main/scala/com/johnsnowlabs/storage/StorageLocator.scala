@@ -42,11 +42,14 @@ case class StorageLocator(database: String, storageRef: String, sparkSession: Sp
 
   val clusterFilePath: Path = {
     if (!getTmpLocation.startsWith("s3:/")) {
-      Path.mergePaths(new Path(fileSystem.getUri.toString + clusterTmpLocation), new Path("/" + clusterFileName))
+      Path.mergePaths(
+        new Path(fileSystem.getUri.toString + clusterTmpLocation),
+        new Path("/" + clusterFileName))
     } else new Path(clusterTmpLocation + "/" + clusterFileName)
   }
 
-  val destinationScheme: String = if (getTmpLocation.startsWith("s3:/")) "s3" else fileSystem.getScheme
+  val destinationScheme: String =
+    if (getTmpLocation.startsWith("s3:/")) "s3" else fileSystem.getScheme
 
   private def getTmpLocation: String = {
     ConfigLoader.getConfigStringValue(ConfigHelper.storageTmpDir)

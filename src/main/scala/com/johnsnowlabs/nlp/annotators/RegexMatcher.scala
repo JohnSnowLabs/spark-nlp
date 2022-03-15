@@ -20,12 +20,10 @@ import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
-
 
 /**
  * Uses a reference file to match a set of regular expressions and associate them with a provided identifier.
@@ -97,13 +95,15 @@ import org.apache.spark.sql.Dataset
 class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatcherModel] {
 
   /** Matches described regex rules that come in tuples in a text file */
-  override val description: String = "Matches described regex rules that come in tuples in a text file"
+  override val description: String =
+    "Matches described regex rules that come in tuples in a text file"
 
   /** Input annotator type: CHUNK
    *
    * @group anno
    * */
   override val outputAnnotatorType: AnnotatorType = CHUNK
+
   /** Input annotator type: DOCUMENT
    *
    * @group anno
@@ -115,7 +115,11 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
    *
    * @group param
    * */
-  val externalRules: ExternalResourceParam = new ExternalResourceParam(this, "externalRules", "external resource to rules, needs 'delimiter' in options")
+  val externalRules: ExternalResourceParam = new ExternalResourceParam(
+    this,
+    "externalRules",
+    "external resource to rules, needs 'delimiter' in options")
+
   /**
    * Strategy for which to match the expressions (Default: `"MATCH_ALL"`).
    * Possible values are:
@@ -125,12 +129,12 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
    *
    * @group param
    * */
-  val strategy: Param[String] = new Param(this, "strategy", "Strategy for which to match the expressions (MATCH_ALL, MATCH_FIRST, MATCH_COMPLETE")
+  val strategy: Param[String] = new Param(
+    this,
+    "strategy",
+    "Strategy for which to match the expressions (MATCH_ALL, MATCH_FIRST, MATCH_COMPLETE")
 
-  setDefault(
-    inputCols -> Array(DOCUMENT),
-    strategy -> "MATCH_ALL"
-  )
+  setDefault(inputCols -> Array(DOCUMENT), strategy -> "MATCH_ALL")
 
   def this() = this(Identifiable.randomUID("REGEX_MATCHER"))
 
@@ -153,10 +157,11 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
    * @group setParam
    * */
   def setExternalRules(value: ExternalResource): this.type = {
-    require(value.options.contains("delimiter"), "RegexMatcher requires 'delimiter' option to be set in ExternalResource")
+    require(
+      value.options.contains("delimiter"),
+      "RegexMatcher requires 'delimiter' option to be set in ExternalResource")
     set(externalRules, value)
   }
-
 
   /**
    * External dictionary to be used by the lemmatizer, which needs `delimiter` set for parsing
@@ -164,12 +169,12 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
    *
    * @group setParam
    * */
-  def setExternalRules(path: String,
-                       delimiter: String,
-                       readAs: ReadAs.Format = ReadAs.TEXT,
-                       options: Map[String, String] = Map("format" -> "text")): this.type =
+  def setExternalRules(
+      path: String,
+      delimiter: String,
+      readAs: ReadAs.Format = ReadAs.TEXT,
+      options: Map[String, String] = Map("format" -> "text")): this.type =
     set(externalRules, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
-
 
   /**
    * Strategy for which to match the expressions (Default: `"MATCH_ALL"`)
@@ -177,7 +182,9 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
    * @group setParam
    * */
   def setStrategy(value: String): this.type = {
-    require(Seq("MATCH_ALL", "MATCH_FIRST", "MATCH_COMPLETE").contains(value.toUpperCase), "Must be MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE")
+    require(
+      Seq("MATCH_ALL", "MATCH_FIRST", "MATCH_COMPLETE").contains(value.toUpperCase),
+      "Must be MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE")
     set(strategy, value.toUpperCase)
   }
 
@@ -188,7 +195,9 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
    * */
   def getStrategy: String = $(strategy).toString
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): RegexMatcherModel = {
+  override def train(
+      dataset: Dataset[_],
+      recursivePipeline: Option[PipelineModel]): RegexMatcherModel = {
     val processedRules = ResourceHelper.parseTupleText($(externalRules))
     new RegexMatcherModel()
       .setExternalRules(processedRules)

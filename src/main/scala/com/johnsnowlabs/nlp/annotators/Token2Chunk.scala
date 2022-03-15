@@ -78,14 +78,16 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
-class Token2Chunk(override val uid: String) extends AnnotatorModel[Token2Chunk] with HasSimpleAnnotate[Token2Chunk] {
-
+class Token2Chunk(override val uid: String)
+    extends AnnotatorModel[Token2Chunk]
+    with HasSimpleAnnotate[Token2Chunk] {
 
   /** Output Annotator Type : CHUNK
    *
    * @group anno
    * */
   override val outputAnnotatorType: AnnotatorType = CHUNK
+
   /** Input Annotator Type : TOKEN
    *
    * @group anno
@@ -96,13 +98,7 @@ class Token2Chunk(override val uid: String) extends AnnotatorModel[Token2Chunk] 
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.map { token =>
-      Annotation(
-        CHUNK,
-        token.begin,
-        token.end,
-        token.result,
-        token.metadata
-      )
+      Annotation(CHUNK, token.begin, token.end, token.result, token.metadata)
     }
   }
 

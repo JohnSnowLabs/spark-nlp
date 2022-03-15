@@ -122,7 +122,7 @@ import org.apache.spark.sql.Dataset
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class NerCrfApproach(override val uid: String)
-  extends AnnotatorApproach[NerCrfModel]
+    extends AnnotatorApproach[NerCrfModel]
     with NerApproach[NerCrfApproach] {
 
   def this() = this(Identifiable.randomUID("NER"))
@@ -135,6 +135,7 @@ class NerCrfApproach(override val uid: String)
    * @group anno
    * */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS)
+
   /** Output annotator types : NAMED_ENTITY
    *
    * @group anno
@@ -146,31 +147,48 @@ class NerCrfApproach(override val uid: String)
    * @group param
    * */
   val l2 = new DoubleParam(this, "l2", "L2 regularization coefficient")
+
   /** c0 params defining decay speed for gradient (Default: `2250000`)
    *
    * @group param
    * */
   val c0 = new IntParam(this, "c0", "c0 params defining decay speed for gradient")
+
   /** If Epoch relative improvement is less than `lossEps` then training is stopped (Default: `1e-3f`)
    *
    * @group param
    * */
-  val lossEps = new DoubleParam(this, "lossEps", "If Epoch relative improvement less than eps then training is stopped")
+  val lossEps = new DoubleParam(
+    this,
+    "lossEps",
+    "If Epoch relative improvement less than eps then training is stopped")
+
   /** Features with less weights then this param value will be filtered
    *
    * @group param
    * */
-  val minW = new DoubleParam(this, "minW", "Features with less weights then this param value will be filtered")
+  val minW = new DoubleParam(
+    this,
+    "minW",
+    "Features with less weights then this param value will be filtered")
+
   /** Whether or not to calculate prediction confidence by token, included in metadata (Default: `false`)
    *
    * @group param
    * */
-  val includeConfidence = new BooleanParam(this, "includeConfidence", "whether or not to calculate prediction confidence by token, includes in metadata")
+  val includeConfidence = new BooleanParam(
+    this,
+    "includeConfidence",
+    "whether or not to calculate prediction confidence by token, includes in metadata")
+
   /** Additional dictionary to use for features
    *
    * @group param
    * */
-  val externalFeatures = new ExternalResourceParam(this, "externalFeatures", "Additional dictionary to use for features")
+  val externalFeatures = new ExternalResourceParam(
+    this,
+    "externalFeatures",
+    "Additional dictionary to use for features")
 
   /** L2 regularization coefficient
    *
@@ -237,7 +255,9 @@ class NerCrfApproach(override val uid: String)
    * @group setParam
    * */
   def setExternalFeatures(value: ExternalResource): this.type = {
-    require(value.options.contains("delimiter"), "external features is a delimited text. needs 'delimiter' in options")
+    require(
+      value.options.contains("delimiter"),
+      "external features is a delimited text. needs 'delimiter' in options")
     set(externalFeatures, value)
   }
 
@@ -245,11 +265,14 @@ class NerCrfApproach(override val uid: String)
    *
    * @group setParam
    * */
-  def setExternalFeatures(path: String,
-                          delimiter: String,
-                          readAs: ReadAs.Format = ReadAs.TEXT,
-                          options: Map[String, String] = Map("format" -> "text")): this.type =
-    set(externalFeatures, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
+  def setExternalFeatures(
+      path: String,
+      delimiter: String,
+      readAs: ReadAs.Format = ReadAs.TEXT,
+      options: Map[String, String] = Map("format" -> "text")): this.type =
+    set(
+      externalFeatures,
+      ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
 
   setDefault(
     minEpochs -> 0,
@@ -258,11 +281,11 @@ class NerCrfApproach(override val uid: String)
     c0 -> 2250000,
     lossEps -> 1e-3f,
     verbose -> Verbose.Silent.id,
-    includeConfidence -> false
-  )
+    includeConfidence -> false)
 
-
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NerCrfModel = {
+  override def train(
+      dataset: Dataset[_],
+      recursivePipeline: Option[PipelineModel]): NerCrfModel = {
 
     val rows = dataset.toDF()
 
@@ -277,16 +300,14 @@ class NerCrfApproach(override val uid: String)
     val params = CrfParams(
       minEpochs = getOrDefault(minEpochs),
       maxEpochs = getOrDefault(maxEpochs),
-
       l2 = getOrDefault(l2).toFloat,
       c0 = getOrDefault(c0),
       lossEps = getOrDefault(lossEps).toFloat,
-
       verbose = Verbose.Epochs,
-      randomSeed = get(randomSeed)
-    )
+      randomSeed = get(randomSeed))
 
-    val embeddingsRef = HasStorageRef.getStorageRefFromInput(dataset, $(inputCols), AnnotatorType.WORD_EMBEDDINGS)
+    val embeddingsRef =
+      HasStorageRef.getStorageRefFromInput(dataset, $(inputCols), AnnotatorType.WORD_EMBEDDINGS)
 
     val crf = new LinearChainCrf(params)
     val crfModel = crf.trainSGD(crfDataset)

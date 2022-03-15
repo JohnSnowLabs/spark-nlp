@@ -25,12 +25,12 @@ import java.io.{File, FileWriter, PrintWriter}
 import java.nio.charset.StandardCharsets
 import scala.language.existentials
 
-
 object OutputHelper {
 
   private lazy val fileSystem = ConfigHelper.getFileSystem
 
-  private def logsFolder: String = ConfigLoader.getConfigStringValue(ConfigHelper.annotatorLogFolder)
+  private def logsFolder: String =
+    ConfigLoader.getConfigStringValue(ConfigHelper.annotatorLogFolder)
 
   private lazy val isDBFS = fileSystem.getScheme.equals("dbfs")
 
@@ -77,28 +77,33 @@ object OutputHelper {
       if (isDBFS) {
         val charset = StandardCharsets.ISO_8859_1
         val outputStream = fileSystem.create(targetPath)
-        historyLog.
-          map(log => log + System.lineSeparator()).
-          foreach(log => outputStream.write(log.getBytes(charset)))
+        historyLog
+          .map(log => log + System.lineSeparator())
+          .foreach(log => outputStream.write(log.getBytes(charset)))
         outputStream.close()
         historyLog = Array()
       }
       if (logsFolder.startsWith("s3")) {
-        val awsGateway = new AWSGateway(ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalAccessKeyId),
+        val awsGateway = new AWSGateway(
+          ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalAccessKeyId),
           ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalSecretAccessKey),
           ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalSessionToken),
           ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalProfileName),
-          ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalRegion), "proprietary")
+          ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalRegion),
+          "proprietary")
 
         val bucket = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalS3BucketKey)
         val sourceFilePath = targetPath.toString
-        val s3FilePath = ConfigLoader.getConfigStringValue(ConfigHelper.annotatorLogFolder).substring("s3://".length) +
+        val s3FilePath = ConfigLoader
+          .getConfigStringValue(ConfigHelper.annotatorLogFolder)
+          .substring("s3://".length) +
           "/" + sourceFilePath.split("/").last
 
         awsGateway.copyInputStreamToS3(bucket, s3FilePath, sourceFilePath)
       }
     } catch {
-      case e: Exception => println(s"Warning couldn't export log on DBFS or S3 because of error: ${e.getMessage}")
+      case e: Exception =>
+        println(s"Warning couldn't export log on DBFS or S3 because of error: ${e.getMessage}")
     }
   }
 

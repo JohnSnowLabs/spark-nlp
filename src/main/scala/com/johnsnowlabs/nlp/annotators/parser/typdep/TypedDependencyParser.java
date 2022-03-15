@@ -28,8 +28,6 @@ import java.util.ArrayList;
 /**
  * Labeled parser that finds a grammatical relation between two words in a sentence. Its input is a CoNLL2009 or ConllU dataset.
  *
- * @see [[com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach TypedDependencyParserApproach]]
- * @see [[com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel TypedDependencyParserModel]]
  * @groupname anno Annotator types
  * @groupdesc anno Required input and expected output annotator types
  * @groupname Ungrouped Members
@@ -43,44 +41,64 @@ import java.util.ArrayList;
  * @groupprio setParam  4
  * @groupprio getParam  5
  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+ * @see [[com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach TypedDependencyParserApproach]]
+ * @see [[com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel TypedDependencyParserModel]]
  */
 public class TypedDependencyParser implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private transient Logger logger = LoggerFactory.getLogger("TypedDependencyParser");
-    /** @group param **/
+    /**
+     * @group param
+     **/
     private Options options;
-    /** @group param **/
+    /**
+     * @group param
+     **/
     private DependencyPipe dependencyPipe;
-    /** @group param **/
+    /**
+     * @group param
+     **/
     private Parameters parameters;
 
-    /** @group getParam **/
+    /**
+     * @group getParam
+     **/
     DependencyPipe getDependencyPipe() {
         return dependencyPipe;
     }
 
-    /** @group getParam **/
+    /**
+     * @group getParam
+     **/
     Parameters getParameters() {
         return parameters;
     }
 
-    /** @group getParam **/
+    /**
+     * @group getParam
+     **/
     public Options getOptions() {
         return options;
     }
 
-    /** @group setParam **/
+    /**
+     * @group setParam
+     **/
     void setDependencyPipe(DependencyPipe dependencyPipe) {
         this.dependencyPipe = dependencyPipe;
     }
 
-    /** @group setParam **/
+    /**
+     * @group setParam
+     **/
     void setParameters(Parameters parameters) {
         this.parameters = parameters;
     }
 
-    /** @group setParam **/
+    /**
+     * @group setParam
+     **/
     public void setOptions(Options options) {
         this.options = options;
     }
@@ -116,8 +134,8 @@ public class TypedDependencyParser implements Serializable {
             logger.debug("Init tensor ... ");
             int n = parameters.getNumberWordFeatures();
             int d = parameters.getDL();
-            LowRankTensor tensor = new LowRankTensor(new int[] {n, n, d}, options.rankFirstOrderTensor);
-            LowRankTensor tensor2 = new LowRankTensor(new int[] {n, n, n, d, d}, options.rankSecondOrderTensor);
+            LowRankTensor tensor = new LowRankTensor(new int[]{n, n, d}, options.rankFirstOrderTensor);
+            LowRankTensor tensor2 = new LowRankTensor(new int[]{n, n, n, d, d}, options.rankSecondOrderTensor);
             dependencyPipe.getSynFactory().fillParameters(tensor, tensor2, parameters);
 
             ArrayList<float[][]> param = new ArrayList<>();
@@ -136,7 +154,7 @@ public class TypedDependencyParser implements Serializable {
             parameters.printStat();
 
             end = System.currentTimeMillis();
-            if(logger.isDebugEnabled()) {
+            if (logger.isDebugEnabled()) {
                 logger.debug(String.format("Pre-training took %d ms.%n", end - start));
             }
 
@@ -154,15 +172,15 @@ public class TypedDependencyParser implements Serializable {
 
         end = System.currentTimeMillis();
 
-        if(logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled()) {
             logger.debug(String.format("Training took %d ms.%n", end - start));
         }
     }
 
     private void trainIterations(DependencyInstance[] dependencyInstances) {
-        int printPeriod = 10000 < dependencyInstances.length ? dependencyInstances.length/10 : 1000;
+        int printPeriod = 10000 < dependencyInstances.length ? dependencyInstances.length / 10 : 1000;
 
-        if(logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled()) {
             logger.debug(String.format("Number of Training Iterations: %d",
                     options.getNumberOfTrainingIterations()));
         }
@@ -178,35 +196,35 @@ public class TypedDependencyParser implements Serializable {
             for (int i = 0; i < dependencyInstances.length; ++i) {
 
                 if ((i + 1) % printPeriod == 0 && logger.isDebugEnabled()) {
-                    logger.debug(String.format("  %d (time=%ds)", (i+1),
-                            (System.currentTimeMillis()-start)/1000));
+                    logger.debug(String.format("  %d (time=%ds)", (i + 1),
+                            (System.currentTimeMillis() - start) / 1000));
                 }
 
                 DependencyInstance dependencyInstance = dependencyInstances[i];
                 LocalFeatureData localFeatureData = new LocalFeatureData(dependencyInstance, this);
                 int dependencyInstanceLength = dependencyInstance.getLength();
                 int[] predictedHeads = dependencyInstance.getHeads();
-                int[] predictedLabels = new int [dependencyInstanceLength];
+                int[] predictedLabels = new int[dependencyInstanceLength];
 
                 localFeatureData.predictLabels(predictedHeads, predictedLabels, true);
                 int numberCorrectMatches = getNumberCorrectMatches(dependencyInstance.getHeads(),
                         dependencyInstance.getDependencyLabelIds(),
                         predictedHeads, predictedLabels);
-                if (numberCorrectMatches != dependencyInstanceLength-1) {
+                if (numberCorrectMatches != dependencyInstanceLength - 1) {
                     loss += parameters.updateLabel(dependencyInstance, predictedHeads, predictedLabels,
                             localFeatureData, iIter * dependencyInstances.length + i + 1);
                 }
                 totalNUmberCorrectMatches += numberCorrectMatches;
-                tot += dependencyInstanceLength-1;
+                tot += dependencyInstanceLength - 1;
             }
 
             tot = tot == 0 ? 1 : tot;
 
-            if (logger.isDebugEnabled()){
+            if (logger.isDebugEnabled()) {
                 logger.debug(String.format("%n Iter %d loss=%.4f totalNUmberCorrectMatches=%.4f [%ds]%n",
-                        iIter+1, loss,
-                        totalNUmberCorrectMatches /(tot +0.0),
-                        (System.currentTimeMillis() - start)/1000));
+                        iIter + 1, loss,
+                        totalNUmberCorrectMatches / (tot + 0.0),
+                        (System.currentTimeMillis() - start) / 1000));
             }
 
             parameters.printStat();
@@ -224,7 +242,7 @@ public class TypedDependencyParser implements Serializable {
         return nCorrect;
     }
 
-    DependencyLabel[] predictDependency(ConllData[][] document, String conllFormat){
+    DependencyLabel[] predictDependency(ConllData[][] document, String conllFormat) {
 
         ConllWriter conllWriter = new ConllWriter(options, dependencyPipe);
 
@@ -238,7 +256,7 @@ public class TypedDependencyParser implements Serializable {
             LocalFeatureData localFeatureData = new LocalFeatureData(dependencyInstance, this);
             int numberOfTokensInSentence = dependencyInstance.getLength();
             int[] predictedHeads = dependencyInstance.getHeads();
-            int[] predictedLabels = new int [numberOfTokensInSentence];
+            int[] predictedLabels = new int[numberOfTokensInSentence];
             localFeatureData.predictLabels(predictedHeads, predictedLabels, true);
 
             dependencyLabels = conllWriter.getDependencyLabels(dependencyInstance, predictedHeads, predictedLabels);

@@ -17,7 +17,6 @@
 package com.johnsnowlabs.nlp.annotators.sda.pragmatic
 
 import com.johnsnowlabs.nlp.annotators.common.TokenizedSentence
-
 import org.slf4j.LoggerFactory
 
 /**
@@ -25,13 +24,13 @@ import org.slf4j.LoggerFactory
  * Its strategy is to tag words by a dictionary in a sentence context, and later identify such context to get amplifiers
  */
 class PragmaticScorer(
-                       sentimentDict: Map[String, String],
-                       POSITIVE_VALUE: Double = 1.0,
-                       NEGATIVE_VALUE: Double = -1.0,
-                       INCREMENT_MULTIPLIER: Double = 2.0,
-                       DECREMENT_MULTIPLIER: Double = -2.0,
-                       REVERT_MULTIPLIER: Double = -1.0
-                     ) extends Serializable {
+    sentimentDict: Map[String, String],
+    POSITIVE_VALUE: Double = 1.0,
+    NEGATIVE_VALUE: Double = -1.0,
+    INCREMENT_MULTIPLIER: Double = 2.0,
+    DECREMENT_MULTIPLIER: Double = -2.0,
+    REVERT_MULTIPLIER: Double = -1.0)
+    extends Serializable {
 
   private val logger = LoggerFactory.getLogger("PragmaticScorer")
 
@@ -43,7 +42,11 @@ class PragmaticScorer(
    * @param keyLength represents the amount of words in a phrase key
    * @param sentiment holds the tag for this phrase
    */
-  private case class ProcessedKey(fullKey: String, keyHead: String, keyLength: Int, sentiment: String)
+  private case class ProcessedKey(
+      fullKey: String,
+      keyHead: String,
+      keyLength: Int,
+      sentiment: String)
 
   /** Hardcoded tags for this implementation */
   private val POSITIVE = "positive"
@@ -54,9 +57,10 @@ class PragmaticScorer(
 
   /** reads the dictionary and processes it into useful information on a [[ProcessedKey]] */
   private val processedKeys: Array[ProcessedKey] = {
-    sentimentDict.map { case (key, sentiment) =>
-      val keySplits = key.split(" ").map(_.trim)
-      ProcessedKey(key, keySplits.head, keySplits.length, sentiment)
+    sentimentDict.map {
+      case (key, sentiment) =>
+        val keySplits = key.split(" ").map(_.trim)
+        ProcessedKey(key, keySplits.head, keySplits.length, sentiment)
     }.toArray
   }
 
@@ -71,41 +75,47 @@ class PragmaticScorer(
       tokenizedSentence.tokens.flatMap(token => {
         val targetWord = token.toLowerCase
         val targetWordPosition = tokenizedSentence.tokens.indexOf(token)
-        processedKeys.find(processedKey => {
-          /** takes the phrase based on the dictionary key phrase length to check if it matches the entire phrase */
-          targetWord == processedKey.keyHead &&
+        processedKeys
+          .find(processedKey => {
+
+            /** takes the phrase based on the dictionary key phrase length to check if it matches the entire phrase */
+            targetWord == processedKey.keyHead &&
             tokenizedSentence.tokens
               .slice(targetWordPosition, targetWordPosition + processedKey.keyLength)
               .mkString(" ") == processedKey.fullKey
-        }).map(processedKey => {
-          /** if it exists, put the appropiate tag of the full phrase */
-          logger.debug(s"matched sentiment ${processedKey.fullKey} as ${processedKey.sentiment}")
-          sentimentDict(processedKey.fullKey)
-        })
+          })
+          .map(processedKey => {
+
+            /** if it exists, put the appropiate tag of the full phrase */
+            logger.debug(
+              s"matched sentiment ${processedKey.fullKey} as ${processedKey.sentiment}")
+            sentimentDict(processedKey.fullKey)
+          })
       })
     })
+
     /** score is returned based on config tweaked parameters */
-    val sentimentBaseScore: Array[(Array[String], Double)] = sentenceSentiments.map(sentiment => (
-      sentiment,
-      sentiment.foldRight(0.0)((sentiment, score) => {
+    val sentimentBaseScore: Array[(Array[String], Double)] = sentenceSentiments.map(sentiment =>
+      (sentiment, sentiment.foldRight(0.0)((sentiment, score) => {
         sentiment match {
           case POSITIVE => score + POSITIVE_VALUE
           case NEGATIVE => score + NEGATIVE_VALUE
           case _ => score
         }
-      })
-    ))
+      })))
     logger.debug(s"sentiment positive/negative base score is ${sentimentBaseScore.map(_._2).sum}")
 
     /** amplifiers alter the base score of positive and negative tags. Sums the entire sentence score */
-    sentimentBaseScore.map { case (sentiments, baseScore) => sentiments.foldRight(baseScore)((sentiment, currentScore) => {
-      sentiment match {
-        case INCREMENT => currentScore * INCREMENT_MULTIPLIER
-        case DECREMENT => currentScore * DECREMENT_MULTIPLIER
-        case REVERT => currentScore * REVERT_MULTIPLIER
-        case _ => currentScore
-      }
-    })
+    sentimentBaseScore.map {
+      case (sentiments, baseScore) =>
+        sentiments.foldRight(baseScore)((sentiment, currentScore) => {
+          sentiment match {
+            case INCREMENT => currentScore * INCREMENT_MULTIPLIER
+            case DECREMENT => currentScore * DECREMENT_MULTIPLIER
+            case REVERT => currentScore * REVERT_MULTIPLIER
+            case _ => currentScore
+          }
+        })
     }.sum
   }
 }

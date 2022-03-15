@@ -16,7 +16,6 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -103,7 +102,7 @@ import java.io.File
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
 class BertForSequenceClassification(override val uid: String)
-  extends AnnotatorModel[BertForSequenceClassification]
+    extends AnnotatorModel[BertForSequenceClassification]
     with HasBatchedAnnotate[BertForSequenceClassification]
     with WriteTensorflowModel
     with HasCaseSensitiveProperties {
@@ -116,7 +115,8 @@ class BertForSequenceClassification(override val uid: String)
    *
    * @group anno
    */
-  override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+  override val inputAnnotatorTypes: Array[String] =
+    Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
 
   /**
    * Output Annotator Types: CATEGORY
@@ -145,7 +145,6 @@ class BertForSequenceClassification(override val uid: String)
   /** @group setParam */
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
 
-
   /**
    * Labels used to decode predicted IDs back to string tags
    *
@@ -169,7 +168,10 @@ class BertForSequenceClassification(override val uid: String)
    *
    * @group param
    * */
-  val coalesceSentences = new BooleanParam(this, "coalesceSentences", "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to true.")
+  val coalesceSentences = new BooleanParam(
+    this,
+    "coalesceSentences",
+    "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to true.")
 
   /** @group setParam */
   def setCoalesceSentences(value: Boolean): this.type = set(coalesceSentences, value)
@@ -181,10 +183,14 @@ class BertForSequenceClassification(override val uid: String)
    *
    * @group param
    * */
-  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  val configProtoBytes = new IntArrayParam(
+    this,
+    "configProtoBytes",
+    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): BertForSequenceClassification.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): BertForSequenceClassification.this.type =
+    set(this.configProtoBytes, bytes)
 
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
@@ -193,11 +199,14 @@ class BertForSequenceClassification(override val uid: String)
    *
    * @group param
    * */
-  val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
+  val maxSentenceLength =
+    new IntParam(this, "maxSentenceLength", "Max sentence length to process")
 
   /** @group setParam */
   def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "BERT models do not support sequences longer than 512 because of trainable positional embeddings.")
+    require(
+      value <= 512,
+      "BERT models do not support sequences longer than 512 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -226,21 +235,19 @@ class BertForSequenceClassification(override val uid: String)
   private var _model: Option[Broadcast[TensorflowBertClassification]] = None
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): BertForSequenceClassification = {
+  def setModelIfNotSet(
+      spark: SparkSession,
+      tensorflowWrapper: TensorflowWrapper): BertForSequenceClassification = {
     if (_model.isEmpty) {
       _model = Some(
-        spark.sparkContext.broadcast(
-          new TensorflowBertClassification(
-            tensorflowWrapper,
-            sentenceStartTokenId,
-            sentenceEndTokenId,
-            configProtoBytes = getConfigProtoBytes,
-            tags = $$(labels),
-            signatures = getSignatures,
-            $$(vocabulary)
-          )
-        )
-      )
+        spark.sparkContext.broadcast(new TensorflowBertClassification(
+          tensorflowWrapper,
+          sentenceStartTokenId,
+          sentenceEndTokenId,
+          configProtoBytes = getConfigProtoBytes,
+          tags = $$(labels),
+          signatures = getSignatures,
+          $$(vocabulary))))
     }
 
     this
@@ -248,7 +255,6 @@ class BertForSequenceClassification(override val uid: String)
 
   /** @group getParam */
   def getModelIfNotSet: TensorflowBertClassification = _model.get.value
-
 
   /** Whether to lowercase tokens or not
    *
@@ -264,8 +270,7 @@ class BertForSequenceClassification(override val uid: String)
     batchSize -> 8,
     maxSentenceLength -> 128,
     caseSensitive -> true,
-    coalesceSentences -> false
-  )
+    coalesceSentences -> false)
 
   /**
    * takes a document and annotations and produces new annotations of this annotator's annotation type
@@ -286,26 +291,29 @@ class BertForSequenceClassification(override val uid: String)
           $(maxSentenceLength),
           $(caseSensitive),
           $(coalesceSentences),
-          $$(labels)
-        )
-      }
-      else {
+          $$(labels))
+      } else {
         Seq.empty[Annotation]
       }
-    }
-
-    )
+    })
   }
-
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_bert_classification", BertForSequenceClassification.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(
+      path,
+      spark,
+      getModelIfNotSet.tensorflowWrapper,
+      "_bert_classification",
+      BertForSequenceClassification.tfFile,
+      configProtoBytes = getConfigProtoBytes)
   }
 
 }
 
-trait ReadablePretrainedBertForSequenceModel extends ParamsAndFeaturesReadable[BertForSequenceClassification] with HasPretrained[BertForSequenceClassification] {
+trait ReadablePretrainedBertForSequenceModel
+    extends ParamsAndFeaturesReadable[BertForSequenceClassification]
+    with HasPretrained[BertForSequenceClassification] {
   override val defaultModelName: Some[String] = Some("bert_base_sequence_classifier_imdb")
 
   /** Java compliant-overrides */
@@ -313,9 +321,13 @@ trait ReadablePretrainedBertForSequenceModel extends ParamsAndFeaturesReadable[B
 
   override def pretrained(name: String): BertForSequenceClassification = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): BertForSequenceClassification = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): BertForSequenceClassification =
+    super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): BertForSequenceClassification = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(
+      name: String,
+      lang: String,
+      remoteLoc: String): BertForSequenceClassification = super.pretrained(name, lang, remoteLoc)
 }
 
 trait ReadBertForSequenceTensorflowModel extends ReadTensorflowModel {
@@ -323,7 +335,10 @@ trait ReadBertForSequenceTensorflowModel extends ReadTensorflowModel {
 
   override val tfFile: String = "bert_classification_tensorflow"
 
-  def readTensorflow(instance: BertForSequenceClassification, path: String, spark: SparkSession): Unit = {
+  def readTensorflow(
+      instance: BertForSequenceClassification,
+      path: String,
+      spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_bert_classification_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
@@ -340,22 +355,28 @@ trait ReadBertForSequenceTensorflowModel extends ReadTensorflowModel {
     require(f.isDirectory, s"File $tfModelPath is not folder")
     require(
       savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath"
-    )
+      s"savedModel file saved_model.pb not found in folder $tfModelPath")
 
     val vocabPath = new File(tfModelPath + "/assets", "vocab.txt")
-    require(vocabPath.exists(), s"Vocabulary file vocab.txt not found in folder $tfModelPath/assets/")
+    require(
+      vocabPath.exists(),
+      s"Vocabulary file vocab.txt not found in folder $tfModelPath/assets/")
 
-    val vocabResource = new ExternalResource(vocabPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val vocabResource =
+      new ExternalResource(vocabPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
 
     val labelsPath = new File(tfModelPath + "/assets", "labels.txt")
-    require(labelsPath.exists(), s"Labels file labels.txt not found in folder $tfModelPath/assets/")
+    require(
+      labelsPath.exists(),
+      s"Labels file labels.txt not found in folder $tfModelPath/assets/")
 
-    val labelsResource = new ExternalResource(labelsPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val labelsResource =
+      new ExternalResource(labelsPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val labels = ResourceHelper.parseLines(labelsResource).zipWithIndex.toMap
 
-    val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
+    val (wrapper, signatures) =
+      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
 
     val _signatures = signatures match {
       case Some(s) => s
@@ -374,4 +395,6 @@ trait ReadBertForSequenceTensorflowModel extends ReadTensorflowModel {
 /**
  * This is the companion object of [[BertForSequenceClassification]]. Please refer to that class for the documentation.
  */
-object BertForSequenceClassification extends ReadablePretrainedBertForSequenceModel with ReadBertForSequenceTensorflowModel
+object BertForSequenceClassification
+    extends ReadablePretrainedBertForSequenceModel
+    with ReadBertForSequenceTensorflowModel

@@ -22,7 +22,6 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.storage.HasStorageRef
-
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
@@ -142,7 +141,7 @@ import java.io.File
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class XlmRoBertaEmbeddings(override val uid: String)
-  extends AnnotatorModel[XlmRoBertaEmbeddings]
+    extends AnnotatorModel[XlmRoBertaEmbeddings]
     with HasBatchedAnnotate[XlmRoBertaEmbeddings]
     with WriteTensorflowModel
     with WriteSentencePieceModel
@@ -157,10 +156,14 @@ class XlmRoBertaEmbeddings(override val uid: String)
    *
    * @group param
    * */
-  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  val configProtoBytes = new IntArrayParam(
+    this,
+    "configProtoBytes",
+    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): XlmRoBertaEmbeddings.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): XlmRoBertaEmbeddings.this.type =
+    set(this.configProtoBytes, bytes)
 
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
@@ -169,11 +172,14 @@ class XlmRoBertaEmbeddings(override val uid: String)
    *
    * @group param
    * */
-  val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
+  val maxSentenceLength =
+    new IntParam(this, "maxSentenceLength", "Max sentence length to process")
 
   /** @group setParam */
   def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "XLM-RoBERTa models do not support sequences longer than 512 because of trainable positional embeddings.")
+    require(
+      value <= 512,
+      "XLM-RoBERTa models do not support sequences longer than 512 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -202,7 +208,10 @@ class XlmRoBertaEmbeddings(override val uid: String)
   private var _model: Option[Broadcast[TensorflowXlmRoberta]] = None
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper, spp: SentencePieceWrapper): XlmRoBertaEmbeddings = {
+  def setModelIfNotSet(
+      spark: SparkSession,
+      tensorflowWrapper: TensorflowWrapper,
+      spp: SentencePieceWrapper): XlmRoBertaEmbeddings = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
@@ -211,10 +220,7 @@ class XlmRoBertaEmbeddings(override val uid: String)
             spp,
             $(caseSensitive),
             configProtoBytes = getConfigProtoBytes,
-            signatures = getSignatures
-          )
-        )
-      )
+            signatures = getSignatures)))
     }
 
     this
@@ -245,12 +251,7 @@ class XlmRoBertaEmbeddings(override val uid: String)
     this
   }
 
-  setDefault(
-    dimension -> 768,
-    batchSize -> 8,
-    maxSentenceLength -> 128,
-    caseSensitive -> true
-  )
+  setDefault(dimension -> 768, batchSize -> 8, maxSentenceLength -> 128, caseSensitive -> true)
 
   /**
    * takes a document and annotations and produces new annotations of this annotator's annotation type
@@ -259,33 +260,35 @@ class XlmRoBertaEmbeddings(override val uid: String)
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations.map(annotations =>
-      TokenizedWithSentence.unpack(annotations).toArray
-    ).toArray
+    val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations
+      .map(annotations => TokenizedWithSentence.unpack(annotations).toArray)
+      .toArray
 
     /*Return empty if the real tokens are empty*/
     if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
 
-      val embeddings = getModelIfNotSet.predict(
-        tokenizedSentences,
-        $(batchSize),
-        $(maxSentenceLength)
-      )
+      val embeddings =
+        getModelIfNotSet.predict(tokenizedSentences, $(batchSize), $(maxSentenceLength))
       WordpieceEmbeddingsSentence.pack(embeddings)
-    }) else {
+    })
+    else {
       Seq(Seq.empty[Annotation])
     }
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
+    dataset.withColumn(
+      getOutputCol,
+      wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
   }
 
   /** Input Annotator Types: DOCUMENT, TOKEN
    *
    * @group anno
    */
-  override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+  override val inputAnnotatorTypes: Array[String] =
+    Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+
   /** Output Annotator Types: WORD_EMBEDDINGS
    *
    * @group anno
@@ -294,13 +297,26 @@ class XlmRoBertaEmbeddings(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_xlmroberta", XlmRoBertaEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
-    writeSentencePieceModel(path, spark, getModelIfNotSet.spp, "_xlmroberta", XlmRoBertaEmbeddings.sppFile)
+    writeTensorflowModelV2(
+      path,
+      spark,
+      getModelIfNotSet.tensorflowWrapper,
+      "_xlmroberta",
+      XlmRoBertaEmbeddings.tfFile,
+      configProtoBytes = getConfigProtoBytes)
+    writeSentencePieceModel(
+      path,
+      spark,
+      getModelIfNotSet.spp,
+      "_xlmroberta",
+      XlmRoBertaEmbeddings.sppFile)
   }
 
 }
 
-trait ReadablePretrainedXlmRobertaModel extends ParamsAndFeaturesReadable[XlmRoBertaEmbeddings] with HasPretrained[XlmRoBertaEmbeddings] {
+trait ReadablePretrainedXlmRobertaModel
+    extends ParamsAndFeaturesReadable[XlmRoBertaEmbeddings]
+    with HasPretrained[XlmRoBertaEmbeddings] {
   override val defaultModelName: Some[String] = Some("xlm_roberta_base")
   override val defaultLang: String = "xx"
 
@@ -309,9 +325,11 @@ trait ReadablePretrainedXlmRobertaModel extends ParamsAndFeaturesReadable[XlmRoB
 
   override def pretrained(name: String): XlmRoBertaEmbeddings = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): XlmRoBertaEmbeddings = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): XlmRoBertaEmbeddings =
+    super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): XlmRoBertaEmbeddings = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): XlmRoBertaEmbeddings =
+    super.pretrained(name, lang, remoteLoc)
 }
 
 trait ReadXlmRobertaTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
@@ -337,14 +355,15 @@ trait ReadXlmRobertaTensorflowModel extends ReadTensorflowModel with ReadSentenc
     require(f.isDirectory, s"File $tfModelPath is not folder")
     require(
       savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath"
-    )
+      s"savedModel file saved_model.pb not found in folder $tfModelPath")
     val sppModelPath = tfModelPath + "/assets"
     val sppModel = new File(sppModelPath, "sentencepiece.bpe.model")
-    require(sppModel.exists(), s"SentencePiece model sentencepiece.bpe.model not found in folder $sppModelPath")
+    require(
+      sppModel.exists(),
+      s"SentencePiece model sentencepiece.bpe.model not found in folder $sppModelPath")
 
-
-    val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
+    val (wrapper, signatures) =
+      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
     val spp = SentencePieceWrapper.read(sppModel.toString)
 
     val _signatures = signatures match {
@@ -359,5 +378,6 @@ trait ReadXlmRobertaTensorflowModel extends ReadTensorflowModel with ReadSentenc
   }
 }
 
-
-object XlmRoBertaEmbeddings extends ReadablePretrainedXlmRobertaModel with ReadXlmRobertaTensorflowModel
+object XlmRoBertaEmbeddings
+    extends ReadablePretrainedXlmRobertaModel
+    with ReadXlmRobertaTensorflowModel

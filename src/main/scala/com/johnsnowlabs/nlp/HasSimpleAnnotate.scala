@@ -37,9 +37,8 @@ trait HasSimpleAnnotate[M <: Model[M]] {
    *
    * @return udf function to be applied to [[inputCols]] using this annotator's annotate function as part of ML transformation
    */
-  def dfAnnotate: UserDefinedFunction = udf {
-    annotationProperties: Seq[AnnotationContent] =>
-      annotate(annotationProperties.flatMap(_.map(Annotation(_))))
+  def dfAnnotate: UserDefinedFunction = udf { annotationProperties: Seq[AnnotationContent] =>
+    annotate(annotationProperties.flatMap(_.map(Annotation(_))))
   }
 
 }

@@ -104,7 +104,9 @@ import scala.collection.mutable.ArrayBuffer
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
-class TokenAssembler(override val uid: String) extends AnnotatorModel[TokenAssembler] with HasSimpleAnnotate[TokenAssembler] {
+class TokenAssembler(override val uid: String)
+    extends AnnotatorModel[TokenAssembler]
+    with HasSimpleAnnotate[TokenAssembler] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
@@ -127,7 +129,10 @@ class TokenAssembler(override val uid: String) extends AnnotatorModel[TokenAssem
    *
    * @group param
    */
-  val preservePosition: BooleanParam = new BooleanParam(this, "preservePosition", "Whether to preserve the actual position of the tokens or reduce them to one space")
+  val preservePosition: BooleanParam = new BooleanParam(
+    this,
+    "preservePosition",
+    "Whether to preserve the actual position of the tokens or reduce them to one space")
 
   /**
    * Whether to preserve the actual position of the tokens or reduce them to one space (Default: `false`)
@@ -136,9 +141,7 @@ class TokenAssembler(override val uid: String) extends AnnotatorModel[TokenAssem
    */
   def setPreservePosition(value: Boolean): this.type = set(preservePosition, value)
 
-  setDefault(
-    preservePosition -> false
-  )
+  setDefault(preservePosition -> false)
 
   def this() = this(Identifiable.randomUID("TOKEN_ASSEMBLER"))
 
@@ -148,49 +151,50 @@ class TokenAssembler(override val uid: String) extends AnnotatorModel[TokenAssem
 
     val sentences_init = annotations.filter(_.annotatorType == AnnotatorType.DOCUMENT)
 
+    sentences_init.zipWithIndex.foreach {
+      case (sentence, sentenceIndex) =>
+        val tokens = annotations.filter(
+          token =>
+            token.annotatorType == AnnotatorType.TOKEN &&
+              token.begin >= sentence.begin &&
+              token.end <= sentence.end)
 
-    sentences_init.zipWithIndex.foreach { case (sentence, sentenceIndex) =>
+        var fullSentence: String = ""
+        var lastEnding: Int = -1
 
-      val tokens = annotations.filter(token =>
-        token.annotatorType == AnnotatorType.TOKEN &&
-          token.begin >= sentence.begin &&
-          token.end <= sentence.end)
-
-      var fullSentence: String = ""
-      var lastEnding: Int = -1
-
-      tokens.foreach { case (token) =>
-        if (token.begin > lastEnding && token.begin - lastEnding != 1 && lastEnding != -1) {
-          if ($(preservePosition)) {
-            val tokenBreaks = sentence.result.substring(lastEnding + 1 - sentence.begin, token.begin - sentence.begin)
-            val matches = ("[\\r\\t\\f\\v\\n ]+".r).findAllIn(tokenBreaks).mkString
-            if (matches.length > 0) {
-              fullSentence = fullSentence ++ matches ++ token.result
+        tokens.foreach {
+          case (token) =>
+            if (token.begin > lastEnding && token.begin - lastEnding != 1 && lastEnding != -1) {
+              if ($(preservePosition)) {
+                val tokenBreaks = sentence.result
+                  .substring(lastEnding + 1 - sentence.begin, token.begin - sentence.begin)
+                val matches = ("[\\r\\t\\f\\v\\n ]+".r).findAllIn(tokenBreaks).mkString
+                if (matches.length > 0) {
+                  fullSentence = fullSentence ++ matches ++ token.result
+                } else {
+                  fullSentence = fullSentence ++ " " ++ token.result
+                }
+              } else {
+                fullSentence = fullSentence ++ " " ++ token.result
+              }
             } else {
-              fullSentence = fullSentence ++ " " ++ token.result
+              fullSentence = fullSentence ++ token.result
             }
-          } else {
-            fullSentence = fullSentence ++ " " ++ token.result
-          }
-        } else {
-          fullSentence = fullSentence ++ token.result
+            lastEnding = token.end
+            fullSentence
         }
-        lastEnding = token.end
-        fullSentence
-      }
 
-      val beginIndex = sentence.begin
-      val endIndex = fullSentence.length - 1
+        val beginIndex = sentence.begin
+        val endIndex = fullSentence.length - 1
 
-      val annotation = Annotation(
-        DOCUMENT,
-        beginIndex,
-        beginIndex + endIndex,
-        fullSentence,
-        Map("sentence" -> sentenceIndex.toString)
-      )
+        val annotation = Annotation(
+          DOCUMENT,
+          beginIndex,
+          beginIndex + endIndex,
+          fullSentence,
+          Map("sentence" -> sentenceIndex.toString))
 
-      result.append(annotation)
+        result.append(annotation)
     }
     result
   }

@@ -142,7 +142,6 @@ class PragmaticContentFormatter(text: String) {
    * ...
    * }(
    */
-
   /**
    * Find ellipsis BREAKING characters WITH REPLACEMENT
    * regex should match the ellipsis
@@ -211,19 +210,18 @@ class PragmaticContentFormatter(text: String) {
    *
    * @return
    */
-
   def finish: String = wip
 }
 
 object PragmaticContentFormatter {
 
   val formatListsFactory: RuleFactory = new RuleFactory(MATCH_ALL, BREAK_AND_PROTECT_FROM_BREAK)
-    // http://rubular.com/r/XcpaJKH0sz
-    //lower case dots
-    // ToDo: This rule requires more complex logic than just itself
-    //.addRule("(?<=^)[a-z]\\.|(?<=\\s)[a-z]\\.".r)
-    // http://rubular.com/r/Gu5rQapywf
-    //lower case parens
+  // http://rubular.com/r/XcpaJKH0sz
+  //lower case dots
+  // ToDo: This rule requires more complex logic than just itself
+  //.addRule("(?<=^)[a-z]\\.|(?<=\\s)[a-z]\\.".r)
+  // http://rubular.com/r/Gu5rQapywf
+  //lower case parens
     .addRule(new RegexRule("(\\()[a-z]+\\)|^[a-z]+\\)", "formatLists"))
     // http://rubular.com/r/wfmnFNotdt
     //numeric dots
@@ -234,9 +232,10 @@ object PragmaticContentFormatter {
       "formatLists-numerical"))
 
   val stdAbbrFactory: RuleFactory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
-    // http://rubular.com/r/yqa4Rit8EY
-    //possessive
-    .addRule(new RegexRule("\\.(?='s\\s)|\\.(?='s\\$)|\\.(?='s\\z)", "formatAbbreviations-possessive"))
+  // http://rubular.com/r/yqa4Rit8EY
+  //possessive
+    .addRule(
+      new RegexRule("\\.(?='s\\s)|\\.(?='s\\$)|\\.(?='s\\z)", "formatAbbreviations-possessive"))
     // http://rubular.com/r/NEv265G2X2
     //kommandit
     .addRule(new RegexRule("(?<=Co)\\.(?=\\sKG)", "formatAbbreviations-kommandit"))
@@ -248,10 +247,13 @@ object PragmaticContentFormatter {
     .addRule(new RegexRule("(?<=\\s[A-Z])\\.(?=\\s)", "formatAbbreviations-uppercaseAbb"))
 
   val specialAbbrFactory: RuleFactory = new RuleFactory(MATCH_ALL, PROTECT_FROM_BREAK)
-    // http://rubular.com/r/xDkpFZ0EgH
-    // http://rubular.com/r/ezFi9y2Q1t
-    //multiple period words
-    .addRule(new RegexRule("\\b[a-zA-Z](?:\\.[a-zA-Z])+(?:\\.(?!\\s[A-Z]))*", "protectAbbreviations-multiplePeriod"))
+  // http://rubular.com/r/xDkpFZ0EgH
+  // http://rubular.com/r/ezFi9y2Q1t
+  //multiple period words
+    .addRule(
+      new RegexRule(
+        "\\b[a-zA-Z](?:\\.[a-zA-Z])+(?:\\.(?!\\s[A-Z]))*",
+        "protectAbbreviations-multiplePeriod"))
     // http://rubular.com/r/Vnx3m4Spc8
     //AM PM Rules
     .addRule(new RegexRule("(?i)p\\.m\\.*", "protectAbbreviations-pm"))
@@ -261,7 +263,7 @@ object PragmaticContentFormatter {
   val nubb: String = "(?:" + NUMBER_ABBREVIATIONS.mkString("|") + ")"
   val abbr: String = "(?:" + ABBREVIATIONS.mkString("|") + ")"
   val dictAbbrFactory: RuleFactory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
-    /*
+  /*
     //prepositive
     .addRules(PREPOSITIVE_ABBREVIATIONS.map(abbr => new RegexRule(s"(?<=\\s(?i)$abbr)\\.(?=\\s)|(?<=^(?i)$abbr)\\.(?=\\s)", "formatAbbreviations-preposAbbr")))
     //tagged prepositive
@@ -278,25 +280,36 @@ object PragmaticContentFormatter {
     , "formatAbbreviations-generalAbbr")))
     //general comma abbreviation
     .addRules(ABBREVIATIONS.map(abbr => new RegexRule(s"(?<=\\s(?i)$abbr)\\.(?=,)|(?<=^(?i)$abbr)\\.(?=,)", "formatAbbreviations-otherAbbr")))
-    */
-    .addRule(new RegexRule(s"(?<=\\s(?i)$pabb)\\.(?=\\s)|(?<=^(?i)$pabb)\\.(?=\\s)", "formatAbbreviations-preposAbbr"))
+     */
+    .addRule(
+      new RegexRule(
+        s"(?<=\\s(?i)$pabb)\\.(?=\\s)|(?<=^(?i)$pabb)\\.(?=\\s)",
+        "formatAbbreviations-preposAbbr"))
     //tagged prepositive
-    .addRule(new RegexRule(s"(?<=\\s(?i)$pabb)\\.(?=:\\d+)|(?<=^(?i)$pabb)\\.(?=:\\d+)", "formatAbbreviations-preposAbbr"))
+    .addRule(new RegexRule(
+      s"(?<=\\s(?i)$pabb)\\.(?=:\\d+)|(?<=^(?i)$pabb)\\.(?=:\\d+)",
+      "formatAbbreviations-preposAbbr"))
     //number abbreviation
-    .addRule(new RegexRule(s"(?<=\\s(?i)$nubb)\\.(?=\\s\\d)|(?<=^(?i)$nubb)\\.(?=\\s\\d)", "formatAbbreviations-numberAbbr"))
+    .addRule(new RegexRule(
+      s"(?<=\\s(?i)$nubb)\\.(?=\\s\\d)|(?<=^(?i)$nubb)\\.(?=\\s\\d)",
+      "formatAbbreviations-numberAbbr"))
     //tagged number abbreviation
-    .addRule(new RegexRule(s"(?<=\\s(?i)$nubb)\\.(?=\\s+\\()|(?<=^(?i)$nubb)\\.(?=\\s+\\()", "formatAbbreviations-numberAbbr"))
+    .addRule(new RegexRule(
+      s"(?<=\\s(?i)$nubb)\\.(?=\\s+\\()|(?<=^(?i)$nubb)\\.(?=\\s+\\()",
+      "formatAbbreviations-numberAbbr"))
     //general abbreviation
     .addRule(new RegexRule(
       s"(?<=\\s(?i)$abbr)\\.(?=((\\.|\\:|-|\\?)|(\\s([a-z]|I\\s|I'm|I'll" +
         s"|\\d))))|(?<=^(?i)$abbr)\\.(?=((\\.|\\:|\\?)" +
-        s"|(\\s([a-z]|I\\s|I'm|I'll|\\d))))"
-      , "formatAbbreviations-generalAbbr"))
+        s"|(\\s([a-z]|I\\s|I'm|I'll|\\d))))",
+      "formatAbbreviations-generalAbbr"))
     //general comma abbreviation
-    .addRule(new RegexRule(s"(?<=\\s(?i)$abbr)\\.(?=,)|(?<=^(?i)$abbr)\\.(?=,)", "formatAbbreviations-otherAbbr"))
+    .addRule(new RegexRule(
+      s"(?<=\\s(?i)$abbr)\\.(?=,)|(?<=^(?i)$abbr)\\.(?=,)",
+      "formatAbbreviations-otherAbbr"))
 
   val formatNumbersFactory: RuleFactory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
-    //
+  //
     .addRule(new RegexRule("(?<=\\d)\\.(?=\\d)", "formatNumbers-numberAndDecimals"))
     // http://rubular.com/r/oNyxBOqbyy
     //period before
@@ -316,40 +329,45 @@ object PragmaticContentFormatter {
     .addRule(new RegexRule("(?<=^\\d\\d)\\.(?=(\\s\\S)|\\))", "formatNumbers-startLineTwoDigits"))
 
   val formatPunctuationsFactory: RuleFactory = new RuleFactory(MATCH_ALL, APPEND_WITH_SYMBOL)
-    // http://rubular.com/r/iVOnFrGK6H
-    //continuous punctuations
+  // http://rubular.com/r/iVOnFrGK6H
+  //continuous punctuations
     .addRule(new RegexRule("(?<=\\S)[!\\?]+(?=\\s|\\z|\\$)", "formatPunctuations-continuous"))
 
-  val formatMultiplePeriodsFactory: RuleFactory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
+  val formatMultiplePeriodsFactory: RuleFactory =
+    new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
     // http://rubular.com/r/EUbZCNfgei
     //periods
-    .addRule(new RegexRule("(?<=\\w)\\.(?=\\w)", "formatMultiplePeriods"))
+      .addRule(new RegexRule("(?<=\\w)\\.(?=\\w)", "formatMultiplePeriods"))
 
   val formatGeoLocationsFactory: RuleFactory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
-    // http://rubular.com/r/G2opjedIm9
-    //special periods
+  // http://rubular.com/r/G2opjedIm9
+  //special periods
     .addRule(new RegexRule("(?<=[a-zA-z]°)\\.(?=\\s*\\d+)", "formatGeo"))
 
-  val FormatEllipsisRulesFactory: RuleFactory = new RuleFactory(MATCH_ALL, REPLACE_WITH_SYMBOL_AND_BREAK)
+  val FormatEllipsisRulesFactory: RuleFactory =
+    new RuleFactory(MATCH_ALL, REPLACE_WITH_SYMBOL_AND_BREAK)
     // http://rubular.com/r/i60hCK81fz
     //three consecutive
-    .addRule(new RegexRule("\\.\\.\\.(?=\\s+[A-Z])", "formatEllipsis-threeConsec"))
-    // http://rubular.com/r/Hdqpd90owl
-    //four consecutve
-    .addRule(new RegexRule("(?<=\\S)\\.{3}(?=\\.\\s[A-Z])", "formatEllipsis-fourConsec"))
+      .addRule(new RegexRule("\\.\\.\\.(?=\\s+[A-Z])", "formatEllipsis-threeConsec"))
+      // http://rubular.com/r/Hdqpd90owl
+      //four consecutve
+      .addRule(new RegexRule("(?<=\\S)\\.{3}(?=\\.\\s[A-Z])", "formatEllipsis-fourConsec"))
   // http://rubular.com/r/2VvZ8wRbd8
   // ToDo: NOT ADDING THIS ONE FOR NOW...
   // http://rubular.com/r/2VvZ8wRbd8
   //three other rule
   //.addRule(new RegexRule("\\.\\.\\.".r, "formatEllipsis-threeOther"))
 
-  val formatBetweenPunctuationsFactory: RuleFactory = new RuleFactory(MATCH_ALL, PROTECT_FROM_BREAK)
-    // ToDo: NOT ADDING EXCLAMATION WORDS,
-    // https://github.com/diasks2/pragmatic_segmenter/blob/master/lib/pragmatic_segmenter/exclamation_words.rb
+  val formatBetweenPunctuationsFactory: RuleFactory = new RuleFactory(
+    MATCH_ALL,
+    PROTECT_FROM_BREAK)
+  // ToDo: NOT ADDING EXCLAMATION WORDS,
+  // https://github.com/diasks2/pragmatic_segmenter/blob/master/lib/pragmatic_segmenter/exclamation_words.rb
 
-    // http://rubular.com/r/2YFrKWQUYi
-    //between single quotes
-    .addRule(new RegexRule("(?<=\\s|^)'[\\w\\s?!\\.,|'\\w]+'(?:\\W)", "betweenPunctuations-singleQuot"))
+  // http://rubular.com/r/2YFrKWQUYi
+  //between single quotes
+    .addRule(
+      new RegexRule("(?<=\\s|^)'[\\w\\s?!\\.,|'\\w]+'(?:\\W)", "betweenPunctuations-singleQuot"))
     // http://rubular.com/r/3Pw1QlXOjd
     //between double quotes
     //numbers and decimals
@@ -361,23 +379,26 @@ object PragmaticContentFormatter {
     //between parens
     .addRule(new RegexRule("\\([\\w\\s?!\\.,]+\\)", "betweenPunctuations-parens"))
 
-  val formatQuotationMarkInQuotationFactory: RuleFactory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
+  val formatQuotationMarkInQuotationFactory: RuleFactory =
+    new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
     //http://rubular.com/r/aXPUGm6fQh
     //question mark in quotes
-    .addRule(new RegexRule("\\?(?=(\\'|\\\"))", "quotationMarkInQuot"))
+      .addRule(new RegexRule("\\?(?=(\\'|\\\"))", "quotationMarkInQuot"))
 
-  val formatExclamationPointFactory: RuleFactory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
+  val formatExclamationPointFactory: RuleFactory =
+    new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
     // http://rubular.com/r/XS1XXFRfM2
     //in quote
-    .addRule(new RegexRule("\\!(?=(\\'|\\\"))", "exclamationPoint-inQuot"))
-    // http://rubular.com/r/sl57YI8LkA
-    //before comma
-    .addRule(new RegexRule("\\!(?=\\,\\s[a-z])", "exclamationPoint-beforeComma"))
-    // http://rubular.com/r/f9zTjmkIPb
-    //mid sentence
-    .addRule(new RegexRule("\\!(?=\\s[a-z])", "exclamationPoint-midSentence"))
+      .addRule(new RegexRule("\\!(?=(\\'|\\\"))", "exclamationPoint-inQuot"))
+      // http://rubular.com/r/sl57YI8LkA
+      //before comma
+      .addRule(new RegexRule("\\!(?=\\,\\s[a-z])", "exclamationPoint-beforeComma"))
+      // http://rubular.com/r/f9zTjmkIPb
+      //mid sentence
+      .addRule(new RegexRule("\\!(?=\\s[a-z])", "exclamationPoint-midSentence"))
 
-  val formatBasicBreakersFactory: RuleFactory = new RuleFactory(MATCH_ALL, REPLACE_EACH_WITH_SYMBOL_AND_BREAK)
-    .addSymbolicRule(DOT, new RegexRule("\\.", "basicBreakers-dot"))
-    .addSymbolicRule(SEMICOLON, new RegexRule(";", "basicBreakers-semicolon"))
+  val formatBasicBreakersFactory: RuleFactory =
+    new RuleFactory(MATCH_ALL, REPLACE_EACH_WITH_SYMBOL_AND_BREAK)
+      .addSymbolicRule(DOT, new RegexRule("\\.", "basicBreakers-dot"))
+      .addSymbolicRule(SEMICOLON, new RegexRule(";", "basicBreakers-semicolon"))
 }

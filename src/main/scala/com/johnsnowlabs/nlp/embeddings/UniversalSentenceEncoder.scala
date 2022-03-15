@@ -16,12 +16,16 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowUSE, TensorflowWrapper, WriteTensorflowModel}
+import com.johnsnowlabs.ml.tensorflow.{
+  ReadTensorflowModel,
+  TensorflowUSE,
+  TensorflowWrapper,
+  WriteTensorflowModel
+}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable, HasSimpleAnnotate}
+import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.storage.HasStorageRef
-
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
@@ -125,7 +129,8 @@ import java.io.File
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class UniversalSentenceEncoder(override val uid: String)
-  extends AnnotatorModel[UniversalSentenceEncoder] with HasSimpleAnnotate[UniversalSentenceEncoder]
+    extends AnnotatorModel[UniversalSentenceEncoder]
+    with HasSimpleAnnotate[UniversalSentenceEncoder]
     with HasEmbeddingsProperties
     with HasStorageRef
     with WriteTensorflowModel {
@@ -138,29 +143,38 @@ class UniversalSentenceEncoder(override val uid: String)
    * @group anno
    * */
   override val outputAnnotatorType: AnnotatorType = SENTENCE_EMBEDDINGS
+
   /** Input annotator type : DOCUMENT
    *
    * @group anno
    * */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
+
   /** Number of embedding dimensions (Default: `512`)
    *
    * @group param
    * */
   override val dimension = new IntParam(this, "dimension", "Number of embedding dimensions")
+
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
    *
    * @group param
    * */
-  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  val configProtoBytes = new IntArrayParam(
+    this,
+    "configProtoBytes",
+    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** Whether to load SentencePiece ops file which is required only by multi-lingual models (Default: `false`).
    * This is not changeable after it's set with a pretrained model nor it is compatible with Windows.
    *
    * @group param
    */
-  val loadSP = new BooleanParam(this, "loadSP", "Whether to load SentencePiece ops file which is required only by multi-lingual models. " +
-    "This is not changeable after it's set with a pretrained model nor it is compatible with Windows.")
+  val loadSP = new BooleanParam(
+    this,
+    "loadSP",
+    "Whether to load SentencePiece ops file which is required only by multi-lingual models. " +
+      "This is not changeable after it's set with a pretrained model nor it is compatible with Windows.")
 
   /** Whether to load SentencePiece ops file which is required only by multi-lingual models.
    *
@@ -176,16 +190,14 @@ class UniversalSentenceEncoder(override val uid: String)
    *
    * @group getParam
    * */
-
   def getLoadSP: Boolean = $(loadSP)
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
    *
    * @group setParam
    * */
-  def setConfigProtoBytes(
-                           bytes: Array[Int]
-                         ): UniversalSentenceEncoder.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): UniversalSentenceEncoder.this.type =
+    set(this.configProtoBytes, bytes)
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
    *
@@ -205,18 +217,15 @@ class UniversalSentenceEncoder(override val uid: String)
 
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowUSE(tensorflow, configProtoBytes = getConfigProtoBytes, loadSP = getLoadSP)
-        )
-      )
+          new TensorflowUSE(
+            tensorflow,
+            configProtoBytes = getConfigProtoBytes,
+            loadSP = getLoadSP)))
     }
     this
   }
 
-  setDefault(
-    dimension -> 512,
-    storageRef -> "tfhub_use",
-    loadSP -> false
-  )
+  setDefault(dimension -> 512, storageRef -> "tfhub_use", loadSP -> false)
 
   /**
    * Takes a document and annotations and produces new annotations of this annotator's annotation type
@@ -236,8 +245,10 @@ class UniversalSentenceEncoder(override val uid: String)
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
     dataset.withColumn(
       getOutputCol,
-      wrapSentenceEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef)))
-    )
+      wrapSentenceEmbeddingsMetadata(
+        dataset.col(getOutputCol),
+        $(dimension),
+        Some($(storageRef))))
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
@@ -248,14 +259,13 @@ class UniversalSentenceEncoder(override val uid: String)
       getModelIfNotSet.tensorflow,
       "_use",
       UniversalSentenceEncoder.tfFile,
-      configProtoBytes = getConfigProtoBytes
-    )
+      configProtoBytes = getConfigProtoBytes)
   }
 
 }
 
 trait ReadablePretrainedUSEModel
-  extends ParamsAndFeaturesReadable[UniversalSentenceEncoder]
+    extends ParamsAndFeaturesReadable[UniversalSentenceEncoder]
     with HasPretrained[UniversalSentenceEncoder] {
   override val defaultModelName: Some[String] = Some("tfhub_use")
 
@@ -264,9 +274,13 @@ trait ReadablePretrainedUSEModel
 
   override def pretrained(name: String): UniversalSentenceEncoder = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): UniversalSentenceEncoder = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): UniversalSentenceEncoder =
+    super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): UniversalSentenceEncoder =
+  override def pretrained(
+      name: String,
+      lang: String,
+      remoteLoc: String): UniversalSentenceEncoder =
     super.pretrained(name, lang, remoteLoc)
 }
 
@@ -276,27 +290,37 @@ trait ReadUSETensorflowModel extends ReadTensorflowModel {
   /*Needs to point to an actual folder rather than a .pb file*/
   override val tfFile: String = "use_tensorflow"
 
-  def readTensorflow(instance: UniversalSentenceEncoder, path: String, spark: SparkSession): Unit = {
+  def readTensorflow(
+      instance: UniversalSentenceEncoder,
+      path: String,
+      spark: SparkSession): Unit = {
     val loadSP = instance.getLoadSP
-    val tf = readTensorflowWithSPModel(path, spark, "_use_tf", initAllTables = true, loadSP = loadSP)
+    val tf =
+      readTensorflowWithSPModel(path, spark, "_use_tf", initAllTables = true, loadSP = loadSP)
     instance.setModelIfNotSet(spark, tf)
   }
 
   addReader(readTensorflow)
 
-  def loadSavedModel(folder: String, spark: SparkSession, loadSP: Boolean = false): UniversalSentenceEncoder = {
+  def loadSavedModel(
+      folder: String,
+      spark: SparkSession,
+      loadSP: Boolean = false): UniversalSentenceEncoder = {
     val f = new File(folder)
     val savedModel = new File(folder, "saved_model.pb")
 
     require(f.exists, s"Folder $folder not found")
     require(f.isDirectory, s"File $folder is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $folder"
-    )
+    require(savedModel.exists(), s"savedModel file saved_model.pb not found in folder $folder")
 
     val wrapper =
-      TensorflowWrapper.readWithSP(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true, loadSP = loadSP)
+      TensorflowWrapper.readWithSP(
+        folder,
+        zipped = false,
+        useBundle = true,
+        tags = Array("serve"),
+        initAllTables = true,
+        loadSP = loadSP)
 
     new UniversalSentenceEncoder()
       .setLoadSP(loadSP)

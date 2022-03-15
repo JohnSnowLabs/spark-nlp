@@ -18,13 +18,13 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.AnnotatorType.{TOKEN, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, WordpieceEmbeddingsSentence}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasPretrained, HasSimpleAnnotate, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.MapFeature
+import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.param.{IntParam, ParamValidators}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.DataFrame
 
 /**
  * Word2Vec model that creates vector representations of words in a text corpus.
@@ -117,7 +117,8 @@ import org.apache.spark.sql.{DataFrame, Dataset}
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class Word2VecModel(override val uid: String)
-  extends AnnotatorModel[Word2VecModel] with HasSimpleAnnotate[Word2VecModel]
+    extends AnnotatorModel[Word2VecModel]
+    with HasSimpleAnnotate[Word2VecModel]
     with HasStorageRef
     with HasEmbeddingsProperties
     with ParamsAndFeaturesWritable {
@@ -142,7 +143,9 @@ class Word2VecModel(override val uid: String)
    * @group param
    */
   val vectorSize = new IntParam(
-    this, "vectorSize", "the dimension of codes after transforming from words (> 0)",
+    this,
+    "vectorSize",
+    "the dimension of codes after transforming from words (> 0)",
     ParamValidators.gt(0))
 
   /** @group getParam */
@@ -165,11 +168,7 @@ class Word2VecModel(override val uid: String)
   /** @group setParam */
   def setWordVectors(value: Map[String, Array[Float]]): this.type = set(wordVectors, value)
 
-  setDefault(
-    inputCols -> Array(TOKEN),
-    outputCol -> "word2vec",
-    vectorSize -> 100
-  )
+  setDefault(inputCols -> Array(TOKEN), outputCol -> "word2vec", vectorSize -> 100)
 
   /**
    * takes a document and annotations and produces new annotations of this annotator's annotation type
@@ -182,40 +181,42 @@ class Word2VecModel(override val uid: String)
     val sentences = annotations
       .filter(_.annotatorType == TOKEN)
       .groupBy(token => token.metadata("sentence").toInt)
-      .toSeq.sortBy(_._1)
+      .toSeq
+      .sortBy(_._1)
 
     if (sentences.nonEmpty) {
-      val sentenceWithEmbeddings = sentences.map { case (index, sentence) =>
-        val oovVector = Array.fill($(vectorSize))(0.0f)
-        val tokensWithEmbeddings = sentence.map { token =>
-          val embeddings = $$(wordVectors).getOrElse(token.result, oovVector)
-          val isOOV = embeddings.sameElements(oovVector)
+      val sentenceWithEmbeddings = sentences.map {
+        case (index, sentence) =>
+          val oovVector = Array.fill($(vectorSize))(0.0f)
+          val tokensWithEmbeddings = sentence.map { token =>
+            val embeddings = $$(wordVectors).getOrElse(token.result, oovVector)
+            val isOOV = embeddings.sameElements(oovVector)
 
-          TokenPieceEmbeddings(
-            wordpiece = token.result,
-            token = token.result,
-            pieceId = -1,
-            isWordStart = true,
-            begin = token.begin,
-            end = token.end,
-            embeddings = embeddings,
-            isOOV = isOOV
-          )
-        }.toArray
-        WordpieceEmbeddingsSentence(tokensWithEmbeddings, index)
+            TokenPieceEmbeddings(
+              wordpiece = token.result,
+              token = token.result,
+              pieceId = -1,
+              isWordStart = true,
+              begin = token.begin,
+              end = token.end,
+              embeddings = embeddings,
+              isOOV = isOOV)
+          }.toArray
+          WordpieceEmbeddingsSentence(tokensWithEmbeddings, index)
       }
       WordpieceEmbeddingsSentence.pack(sentenceWithEmbeddings)
-    }
-    else Seq.empty[Annotation]
+    } else Seq.empty[Annotation]
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(vectorSize), Some($(storageRef))))
+    dataset.withColumn(
+      getOutputCol,
+      wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(vectorSize), Some($(storageRef))))
   }
 }
 
 trait ReadablePretrainedWord2Vec
-  extends ParamsAndFeaturesReadable[Word2VecModel]
+    extends ParamsAndFeaturesReadable[Word2VecModel]
     with HasPretrained[Word2VecModel] {
   override val defaultModelName: Some[String] = Some("word2vec_gigaword_300")
 
@@ -224,16 +225,16 @@ trait ReadablePretrainedWord2Vec
   }
 
   /** Java compliant-overrides */
-  override def pretrained(): Word2VecModel = pretrained(defaultModelName.get, defaultLang, defaultLoc)
+  override def pretrained(): Word2VecModel =
+    pretrained(defaultModelName.get, defaultLang, defaultLoc)
 
   override def pretrained(name: String): Word2VecModel = pretrained(name, defaultLang, defaultLoc)
 
-  override def pretrained(name: String, lang: String): Word2VecModel = pretrained(name, lang, defaultLoc)
+  override def pretrained(name: String, lang: String): Word2VecModel =
+    pretrained(name, lang, defaultLoc)
 }
-
 
 /**
  * This is the companion object of [[Word2VecModel]]. Please refer to that class for the documentation.
  */
 object Word2VecModel extends ReadablePretrainedWord2Vec
-

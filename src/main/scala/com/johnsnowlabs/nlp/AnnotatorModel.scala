@@ -18,16 +18,15 @@ package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.{Model, PipelineModel}
 import org.apache.spark.sql.catalyst.encoders.{ExpressionEncoder, RowEncoder}
-import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
 /**
  * This trait implements logic that applies nlp using Spark ML Pipeline transformers
  * Should strongly change once UsedDefinedTypes are allowed
  * https://issues.apache.org/jira/browse/SPARK-7768
  */
-abstract class AnnotatorModel[M <: Model[M]]
-  extends RawAnnotator[M] with CanBeLazy {
+abstract class AnnotatorModel[M <: Model[M]] extends RawAnnotator[M] with CanBeLazy {
 
   /**
    * internal types to show Rows as a relevant StructType
@@ -39,12 +38,16 @@ abstract class AnnotatorModel[M <: Model[M]]
 
   protected def afterAnnotate(dataset: DataFrame): DataFrame = dataset
 
-  protected def _transform(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DataFrame = {
-    require(validate(dataset.schema), s"Wrong or missing inputCols annotators in $uid.\n" +
-      msgHelper(dataset.schema) +
-      s"\nMake sure such annotators exist in your pipeline, " +
-      s"with the right output names and that they have following annotator types: " +
-      s"${inputAnnotatorTypes.mkString(", ")}")
+  protected def _transform(
+      dataset: Dataset[_],
+      recursivePipeline: Option[PipelineModel]): DataFrame = {
+    require(
+      validate(dataset.schema),
+      s"Wrong or missing inputCols annotators in $uid.\n" +
+        msgHelper(dataset.schema) +
+        s"\nMake sure such annotators exist in your pipeline, " +
+        s"with the right output names and that they have following annotator types: " +
+        s"${inputAnnotatorTypes.mkString(", ")}")
 
     val inputDataset = beforeAnnotate(dataset)
 
@@ -57,25 +60,25 @@ abstract class AnnotatorModel[M <: Model[M]]
               this match {
                 case a: HasRecursiveTransform[M] =>
                   a.dfRecAnnotate(recursivePipeline.get)(
-                    array(getInputCols.map(c => dataset.col(c)): _*)
-                  )
+                    array(getInputCols.map(c => dataset.col(c)): _*))
                 case _ =>
-                  withAnnotate.dfAnnotate(
-                    array(getInputCols.map(c => dataset.col(c)): _*)
-                  )
+                  withAnnotate.dfAnnotate(array(getInputCols.map(c => dataset.col(c)): _*))
               }
-            })
-          )
+            }))
         case withBatchAnnotate: HasBatchedAnnotate[M] =>
           val newStructType = inputDataset.schema.add(getOutputCol, Annotation.arrayType)
           implicit val encoder: ExpressionEncoder[Row] = RowEncoder(newStructType)
           val processedDataFrame = inputDataset.mapPartitions(partition => {
             withBatchAnnotate.batchProcess(partition)
           })
+
           /** Put back column metadata from `inputDataset` after destructive mapPartitions */
-          val dfWithMetadata = inputDataset.schema.fields.foldLeft(processedDataFrame)((dataFrame, field) => {
-            dataFrame.withColumn(field.name, dataFrame.col(field.name).as(field.name, field.metadata))
-          }).withColumn(getOutputCol, wrapColumnMetadata(col(getOutputCol)))
+          val dfWithMetadata = inputDataset.schema.fields
+            .foldLeft(processedDataFrame)((dataFrame, field) => {
+              dataFrame
+                .withColumn(field.name, dataFrame.col(field.name).as(field.name, field.metadata))
+            })
+            .withColumn(getOutputCol, wrapColumnMetadata(col(getOutputCol)))
           dfWithMetadata
       }
     }

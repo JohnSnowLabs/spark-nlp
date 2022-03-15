@@ -16,14 +16,24 @@
 
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
-import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowT5, TensorflowWrapper, WriteTensorflowModel}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
+import com.johnsnowlabs.ml.tensorflow.{
+  ReadTensorflowModel,
+  TensorflowT5,
+  TensorflowWrapper,
+  WriteTensorflowModel
+}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasBatchedAnnotate, HasPretrained, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
+import com.johnsnowlabs.nlp._
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{BooleanParam, DoubleParam, IntArrayParam, IntParam, Param}
+import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
+
 import java.io.File
 
 /**
@@ -128,7 +138,7 @@ import java.io.File
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class T5Transformer(override val uid: String)
-  extends AnnotatorModel[T5Transformer]
+    extends AnnotatorModel[T5Transformer]
     with HasBatchedAnnotate[T5Transformer]
     with ParamsAndFeaturesWritable
     with WriteTensorflowModel
@@ -167,7 +177,8 @@ class T5Transformer(override val uid: String)
    *
    * @group param
    */
-  val minOutputLength = new IntParam(this, "minOutputLength", "Minimum length of the sequence to be generated")
+  val minOutputLength =
+    new IntParam(this, "minOutputLength", "Minimum length of the sequence to be generated")
 
   /** @group setParam */
   def setMinOutputLength(value: Int): T5Transformer.this.type = {
@@ -183,7 +194,8 @@ class T5Transformer(override val uid: String)
    *
    * @group param
    */
-  val maxOutputLength = new IntParam(this, "maxOutputLength", "Maximum length of the sequence to be generated")
+  val maxOutputLength =
+    new IntParam(this, "maxOutputLength", "Maximum length of the sequence to be generated")
 
   /** @group setParam */
   def setMaxOutputLength(value: Int): T5Transformer.this.type = {
@@ -199,7 +211,10 @@ class T5Transformer(override val uid: String)
    *
    * @group param
    */
-  val doSample = new BooleanParam(this, "doSample", "Whether or not to use sampling; use greedy decoding otherwise")
+  val doSample = new BooleanParam(
+    this,
+    "doSample",
+    "Whether or not to use sampling; use greedy decoding otherwise")
 
   /** @group setParam */
   def setDoSample(value: Boolean): T5Transformer.this.type = {
@@ -215,7 +230,8 @@ class T5Transformer(override val uid: String)
    *
    * @group param
    */
-  val temperature = new DoubleParam(this, "temperature", "The value used to module the next token probabilities")
+  val temperature =
+    new DoubleParam(this, "temperature", "The value used to module the next token probabilities")
 
   /** @group setParam */
   def setTemperature(value: Double): T5Transformer.this.type = {
@@ -231,7 +247,10 @@ class T5Transformer(override val uid: String)
    *
    * @group param
    */
-  val topK = new IntParam(this, "topK", "The number of highest probability vocabulary tokens to keep for top-k-filtering")
+  val topK = new IntParam(
+    this,
+    "topK",
+    "The number of highest probability vocabulary tokens to keep for top-k-filtering")
 
   /** @group setParam */
   def setTopK(value: Int): T5Transformer.this.type = {
@@ -248,7 +267,10 @@ class T5Transformer(override val uid: String)
    *
    * @group param
    */
-  val topP = new DoubleParam(this, "topP", "If set to float < 1, only the most probable tokens with probabilities that add up to ``top_p`` or higher are kept for generation")
+  val topP = new DoubleParam(
+    this,
+    "topP",
+    "If set to float < 1, only the most probable tokens with probabilities that add up to ``top_p`` or higher are kept for generation")
 
   /** @group setParam */
   def setTopP(value: Double): T5Transformer.this.type = {
@@ -265,7 +287,10 @@ class T5Transformer(override val uid: String)
    *
    * @group param
    */
-  val repetitionPenalty = new DoubleParam(this, "repetitionPenalty", "The parameter for repetition penalty. 1.0 means no penalty.")
+  val repetitionPenalty = new DoubleParam(
+    this,
+    "repetitionPenalty",
+    "The parameter for repetition penalty. 1.0 means no penalty.")
 
   /** @group setParam */
   def setRepetitionPenalty(value: Double): T5Transformer.this.type = {
@@ -281,7 +306,10 @@ class T5Transformer(override val uid: String)
    *
    * @group param
    */
-  val noRepeatNgramSize = new IntParam(this, "noRepeatNgramSize", "If set to int > 0, all ngrams of that size can only occur once")
+  val noRepeatNgramSize = new IntParam(
+    this,
+    "noRepeatNgramSize",
+    "If set to int > 0, all ngrams of that size can only occur once")
 
   /** @group setParam */
   def setNoRepeatNgramSize(value: Int): T5Transformer.this.type = {
@@ -315,7 +343,10 @@ class T5Transformer(override val uid: String)
    *
    * @group param
    * */
-  var ignoreTokenIds = new IntArrayParam(this, "ignoreTokenIds", "A list of token ids which are ignored in the decoder's output")
+  var ignoreTokenIds = new IntArrayParam(
+    this,
+    "ignoreTokenIds",
+    "A list of token ids which are ignored in the decoder's output")
 
   /** @group setParam */
   def setIgnoreTokenIds(tokenIds: Array[Int]): T5Transformer.this.type = {
@@ -330,10 +361,14 @@ class T5Transformer(override val uid: String)
    *
    * @group param
    */
-  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  val configProtoBytes = new IntArrayParam(
+    this,
+    "configProtoBytes",
+    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): T5Transformer.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): T5Transformer.this.type =
+    set(this.configProtoBytes, bytes)
 
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
@@ -341,13 +376,14 @@ class T5Transformer(override val uid: String)
   private var _tfModel: Option[Broadcast[TensorflowT5]] = None
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tfWrapper: TensorflowWrapper, spp: SentencePieceWrapper): this.type = {
+  def setModelIfNotSet(
+      spark: SparkSession,
+      tfWrapper: TensorflowWrapper,
+      spp: SentencePieceWrapper): this.type = {
     if (_tfModel.isEmpty) {
       _tfModel = Some(
         spark.sparkContext.broadcast(
-          new TensorflowT5(tfWrapper, spp, configProtoBytes = getConfigProtoBytes)
-        )
-      )
+          new TensorflowT5(tfWrapper, spp, configProtoBytes = getConfigProtoBytes)))
     }
     this
   }
@@ -366,12 +402,12 @@ class T5Transformer(override val uid: String)
     repetitionPenalty -> 1.0,
     noRepeatNgramSize -> 0,
     ignoreTokenIds -> Array(),
-    batchSize -> 1
-  )
+    batchSize -> 1)
 
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
 
-    val allAnnotations = batchedAnnotations.filter(_.nonEmpty)
+    val allAnnotations = batchedAnnotations
+      .filter(_.nonEmpty)
       .zipWithIndex
       .flatMap {
         case (annotations, i) => annotations.filter(_.result.nonEmpty).map(x => (x, i))
@@ -391,8 +427,7 @@ class T5Transformer(override val uid: String)
         noRepeatNgramSize = $(noRepeatNgramSize),
         task = $(task),
         randomSeed = this.randomSeed,
-        ignoreTokenIds = $(ignoreTokenIds)
-      )
+        ignoreTokenIds = $(ignoreTokenIds))
     } else {
       Seq()
     }
@@ -400,7 +435,7 @@ class T5Transformer(override val uid: String)
     //Group resulting annotations by rows. If there are not sentences in a given row, return empty sequence
     batchedAnnotations.indices.map(rowIndex => {
       val rowAnnotations = processedAnnotations
-        //zip each annotation with its corresponding row index
+      //zip each annotation with its corresponding row index
         .zip(allAnnotations)
         //select the sentences belonging to the current row
         .filter(_._2._2 == rowIndex)
@@ -416,13 +451,21 @@ class T5Transformer(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_t5", T5Transformer.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModel(
+      path,
+      spark,
+      getModelIfNotSet.tensorflow,
+      "_t5",
+      T5Transformer.tfFile,
+      configProtoBytes = getConfigProtoBytes)
     writeSentencePieceModel(path, spark, getModelIfNotSet.spp, "_t5", T5Transformer.sppFile)
 
   }
 }
 
-trait ReadablePretrainedT5TransformerModel extends ParamsAndFeaturesReadable[T5Transformer] with HasPretrained[T5Transformer] {
+trait ReadablePretrainedT5TransformerModel
+    extends ParamsAndFeaturesReadable[T5Transformer]
+    with HasPretrained[T5Transformer] {
   override val defaultModelName: Some[String] = Some("t5_small")
 
   /** Java compliant-overrides */
@@ -430,9 +473,11 @@ trait ReadablePretrainedT5TransformerModel extends ParamsAndFeaturesReadable[T5T
 
   override def pretrained(name: String): T5Transformer = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): T5Transformer = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): T5Transformer =
+    super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): T5Transformer = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): T5Transformer =
+    super.pretrained(name, lang, remoteLoc)
 }
 
 trait ReadT5TransformerTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
@@ -458,13 +503,11 @@ trait ReadT5TransformerTensorflowModel extends ReadTensorflowModel with ReadSent
 
     require(f.exists, s"Folder $folder not found")
     require(f.isDirectory, s"File $folder is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $folder"
-    )
+    require(savedModel.exists(), s"savedModel file saved_model.pb not found in folder $folder")
     require(sppModel.exists(), s"SentencePiece model not found in folder $sppModelPath")
 
-    val (wrapper, _) = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
+    val (wrapper, _) =
+      TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
     val spp = SentencePieceWrapper.read(sppModel.toString)
 
     val t5model = new T5Transformer().setModelIfNotSet(spark, wrapper, spp)
@@ -473,8 +516,10 @@ trait ReadT5TransformerTensorflowModel extends ReadTensorflowModel with ReadSent
   }
 }
 
-
 /**
  * This is the companion object of [[T5Transformer]]. Please refer to that class for the documentation.
  */
-object T5Transformer extends ReadablePretrainedT5TransformerModel with ReadT5TransformerTensorflowModel with ReadSentencePieceModel
+object T5Transformer
+    extends ReadablePretrainedT5TransformerModel
+    with ReadT5TransformerTensorflowModel
+    with ReadSentencePieceModel

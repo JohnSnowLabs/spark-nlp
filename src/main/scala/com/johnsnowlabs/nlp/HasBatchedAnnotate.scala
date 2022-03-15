@@ -48,17 +48,22 @@ trait HasBatchedAnnotate[M <: Model[M]] {
 
   def batchProcess(rows: Iterator[_]): Iterator[Row] = {
     // TODO remove the @unchecked annotation and create a type to handle different subtypes
-    rows.grouped(getBatchSize).flatMap { case batchedRows: Seq[Row@unchecked] =>
-      val inputAnnotations = batchedRows.map(row => {
-        getInputCols.flatMap(inputCol => {
-          row.getAs[Seq[Row]](inputCol).map(Annotation(_))
-        })
-      })
-      val outputAnnotations = batchAnnotate(inputAnnotations)
-      batchedRows.zip(outputAnnotations).map { case (row, annotations) =>
-        row.toSeq ++ Array(annotations.map(a => Row(a.productIterator.toSeq: _*)))
+    rows
+      .grouped(getBatchSize)
+      .flatMap {
+        case batchedRows: Seq[Row @unchecked] =>
+          val inputAnnotations = batchedRows.map(row => {
+            getInputCols.flatMap(inputCol => {
+              row.getAs[Seq[Row]](inputCol).map(Annotation(_))
+            })
+          })
+          val outputAnnotations = batchAnnotate(inputAnnotations)
+          batchedRows.zip(outputAnnotations).map {
+            case (row, annotations) =>
+              row.toSeq ++ Array(annotations.map(a => Row(a.productIterator.toSeq: _*)))
+          }
       }
-    }.map(Row.fromSeq)
+      .map(Row.fromSeq)
   }
 
   /**

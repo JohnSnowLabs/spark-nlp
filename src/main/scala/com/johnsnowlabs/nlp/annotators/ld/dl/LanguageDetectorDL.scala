@@ -16,19 +16,17 @@
 
 package com.johnsnowlabs.nlp.annotators.ld.dl
 
-import java.io.File
-
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, Param, StringArrayParam}
+import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
+import java.io.File
 import scala.collection.immutable.ListMap
 
 /**
@@ -106,7 +104,7 @@ import scala.collection.immutable.ListMap
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
 class LanguageDetectorDL(override val uid: String)
-  extends AnnotatorModel[LanguageDetectorDL]
+    extends AnnotatorModel[LanguageDetectorDL]
     with HasSimpleAnnotate[LanguageDetectorDL]
     with WriteTensorflowModel {
 
@@ -130,31 +128,44 @@ class LanguageDetectorDL(override val uid: String)
    *
    * @group param
    * */
-  val threshold = new FloatParam(this, "threshold", "The minimum threshold for the final result otherwise it will be either Unknown or the value set in thresholdLabel.")
+  val threshold = new FloatParam(
+    this,
+    "threshold",
+    "The minimum threshold for the final result otherwise it will be either Unknown or the value set in thresholdLabel.")
 
   /** Value for the classification, if confidence is less than `threshold` (Default: `"unk"`).
    *
    * @group param
    * */
-  val thresholdLabel = new Param[String](this, "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is Unknown.")
+  val thresholdLabel = new Param[String](
+    this,
+    "thresholdLabel",
+    "In case the score is less than threshold, what should be the label. Default is Unknown.")
 
   /** Output average of sentences instead of one output per sentence (Default: `true`).
    *
    * @group param
    * */
-  val coalesceSentences = new BooleanParam(this, "coalesceSentences", "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to true.")
+  val coalesceSentences = new BooleanParam(
+    this,
+    "coalesceSentences",
+    "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to true.")
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
    *
    * @group param
    * */
-  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  val configProtoBytes = new IntArrayParam(
+    this,
+    "configProtoBytes",
+    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** Languages the model was trained with.
    *
    * @group param
    */
-  val languages = new StringArrayParam(this, "languages", "keep an internal copy of languages for Python")
+  val languages =
+    new StringArrayParam(this, "languages", "keep an internal copy of languages for Python")
 
   /** @group setParam */
   def setLanguage(value: Map[String, Int]): this.type = {
@@ -180,7 +191,8 @@ class LanguageDetectorDL(override val uid: String)
   def setCoalesceSentences(value: Boolean): this.type = set(coalesceSentences, value)
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): LanguageDetectorDL.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): LanguageDetectorDL.this.type =
+    set(this.configProtoBytes, bytes)
 
   /** @group getParam */
   def getLanguage: Array[String] = {
@@ -206,8 +218,7 @@ class LanguageDetectorDL(override val uid: String)
     outputCol -> "language",
     threshold -> 0.1f,
     thresholdLabel -> "unk",
-    coalesceSentences -> true
-  )
+    coalesceSentences -> true)
 
   private var _model: Option[Broadcast[TensorflowLD]] = None
 
@@ -224,10 +235,7 @@ class LanguageDetectorDL(override val uid: String)
             tensorflow,
             configProtoBytes = getConfigProtoBytes,
             ListMap($$(language).toSeq.sortBy(_._2): _*),
-            ListMap($$(alphabet).toSeq.sortBy(_._2): _*)
-          )
-        )
-      )
+            ListMap($$(alphabet).toSeq.sortBy(_._2): _*))))
     }
 
     this
@@ -247,8 +255,7 @@ class LanguageDetectorDL(override val uid: String)
         nonEmptySentences,
         $(threshold),
         $(thresholdLabel),
-        $(coalesceSentences)
-      )
+        $(coalesceSentences))
     } else {
       Seq.empty[Annotation]
     }
@@ -260,12 +267,20 @@ class LanguageDetectorDL(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflow, "_ld", LanguageDetectorDL.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(
+      path,
+      spark,
+      getModelIfNotSet.tensorflow,
+      "_ld",
+      LanguageDetectorDL.tfFile,
+      configProtoBytes = getConfigProtoBytes)
   }
 
 }
 
-trait ReadablePretrainedLanguageDetectorDLModel extends ParamsAndFeaturesReadable[LanguageDetectorDL] with HasPretrained[LanguageDetectorDL] {
+trait ReadablePretrainedLanguageDetectorDLModel
+    extends ParamsAndFeaturesReadable[LanguageDetectorDL]
+    with HasPretrained[LanguageDetectorDL] {
   override val defaultModelName: Some[String] = Some("ld_wiki_tatoeba_cnn_21")
   override val defaultLang: String = "xx"
 
@@ -274,9 +289,11 @@ trait ReadablePretrainedLanguageDetectorDLModel extends ParamsAndFeaturesReadabl
 
   override def pretrained(name: String): LanguageDetectorDL = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): LanguageDetectorDL = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): LanguageDetectorDL =
+    super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): LanguageDetectorDL = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): LanguageDetectorDL =
+    super.pretrained(name, lang, remoteLoc)
 }
 
 trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
@@ -302,10 +319,7 @@ trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
     val savedModel = new File(folder, "saved_model.pb")
     require(f.exists, s"Folder $folder not found")
     require(f.isDirectory, s"File $folder is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $folder"
-    )
+    require(savedModel.exists(), s"savedModel file saved_model.pb not found in folder $folder")
 
     val alphabetPath = new File(folder + "/assets", "alphabet.txt")
     val languagePath = new File(folder + "/assets", "language.txt")
@@ -315,13 +329,16 @@ trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
     require(alphabetPath.exists(), s"Alphabet file alphabet.txt not found in folder $folder")
     require(languagePath.exists(), s"Language file language.txt not found in folder $folder")
 
-    val alphabetResource = new ExternalResource(alphabetPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val alphabetResource =
+      new ExternalResource(alphabetPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val alphabets = ResourceHelper.parseLines(alphabetResource).zipWithIndex.toMap
 
-    val languageResource = new ExternalResource(languagePath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val languageResource =
+      new ExternalResource(languagePath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val languages = ResourceHelper.parseLines(languageResource).zipWithIndex.toMap
 
-    val (wrapper, _) = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
+    val (wrapper, _) =
+      TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
 
     new LanguageDetectorDL()
       .setAlphabet(alphabets)
@@ -330,8 +347,9 @@ trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
   }
 }
 
-
 /**
  * This is the companion object of [[LanguageDetectorDL]]. Please refer to that class for the documentation.
  */
-object LanguageDetectorDL extends ReadablePretrainedLanguageDetectorDLModel with ReadLanguageDetectorDLTensorflowModel
+object LanguageDetectorDL
+    extends ReadablePretrainedLanguageDetectorDLModel
+    with ReadLanguageDetectorDLTensorflowModel

@@ -16,20 +16,23 @@
 
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasBatchedAnnotate, HasPretrained, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
-import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowGPT2, TensorflowWrapper, WriteTensorflowModel}
+import com.johnsnowlabs.ml.tensorflow.{
+  ReadTensorflowModel,
+  TensorflowGPT2,
+  TensorflowWrapper,
+  WriteTensorflowModel
+}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{BpeTokenizer, Gpt2Tokenizer}
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-
+import com.johnsnowlabs.nlp._
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{BooleanParam, DoubleParam, IntArrayParam, IntParam, Param}
+import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
 import java.io.File
-
 
 /**
  * GPT-2: the OpenAI Text-To-Text Transformer
@@ -133,9 +136,8 @@ import java.io.File
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
-
 class GPT2Transformer(override val uid: String)
-  extends AnnotatorModel[GPT2Transformer]
+    extends AnnotatorModel[GPT2Transformer]
     with HasBatchedAnnotate[GPT2Transformer]
     with ParamsAndFeaturesWritable
     with WriteTensorflowModel {
@@ -173,7 +175,8 @@ class GPT2Transformer(override val uid: String)
    *
    * @group param
    */
-  val minOutputLength = new IntParam(this, "minOutputLength", "Minimum length of the sequence to be generated")
+  val minOutputLength =
+    new IntParam(this, "minOutputLength", "Minimum length of the sequence to be generated")
 
   /** @group setParam */
   def setMinOutputLength(value: Int): GPT2Transformer.this.type = {
@@ -189,7 +192,8 @@ class GPT2Transformer(override val uid: String)
    *
    * @group param
    */
-  val maxOutputLength = new IntParam(this, "maxOutputLength", "Maximum length of the sequence to be generated")
+  val maxOutputLength =
+    new IntParam(this, "maxOutputLength", "Maximum length of the sequence to be generated")
 
   /** @group setParam */
   def setMaxOutputLength(value: Int): GPT2Transformer.this.type = {
@@ -205,7 +209,10 @@ class GPT2Transformer(override val uid: String)
    *
    * @group param
    */
-  val doSample = new BooleanParam(this, "doSample", "Whether or not to use sampling; use greedy decoding otherwise")
+  val doSample = new BooleanParam(
+    this,
+    "doSample",
+    "Whether or not to use sampling; use greedy decoding otherwise")
 
   /** @group setParam */
   def setDoSample(value: Boolean): GPT2Transformer.this.type = {
@@ -221,7 +228,8 @@ class GPT2Transformer(override val uid: String)
    *
    * @group param
    */
-  val temperature = new DoubleParam(this, "temperature", "The value used to module the next token probabilities")
+  val temperature =
+    new DoubleParam(this, "temperature", "The value used to module the next token probabilities")
 
   /** @group setParam */
   def setTemperature(value: Double): GPT2Transformer.this.type = {
@@ -237,7 +245,10 @@ class GPT2Transformer(override val uid: String)
    *
    * @group param
    */
-  val topK = new IntParam(this, "topK", "The number of highest probability vocabulary tokens to keep for top-k-filtering")
+  val topK = new IntParam(
+    this,
+    "topK",
+    "The number of highest probability vocabulary tokens to keep for top-k-filtering")
 
   /** @group setParam */
   def setTopK(value: Int): GPT2Transformer.this.type = {
@@ -254,7 +265,10 @@ class GPT2Transformer(override val uid: String)
    *
    * @group param
    */
-  val topP = new DoubleParam(this, "topP", "If set to float < 1, only the most probable tokens with probabilities that add up to ``top_p`` or higher are kept for generation")
+  val topP = new DoubleParam(
+    this,
+    "topP",
+    "If set to float < 1, only the most probable tokens with probabilities that add up to ``top_p`` or higher are kept for generation")
 
   /** @group setParam */
   def setTopP(value: Double): GPT2Transformer.this.type = {
@@ -271,7 +285,10 @@ class GPT2Transformer(override val uid: String)
    *
    * @group param
    */
-  val repetitionPenalty = new DoubleParam(this, "repetitionPenalty", "The parameter for repetition penalty. 1.0 means no penalty.")
+  val repetitionPenalty = new DoubleParam(
+    this,
+    "repetitionPenalty",
+    "The parameter for repetition penalty. 1.0 means no penalty.")
 
   /** @group setParam */
   def setRepetitionPenalty(value: Double): GPT2Transformer.this.type = {
@@ -287,7 +304,10 @@ class GPT2Transformer(override val uid: String)
    *
    * @group param
    */
-  val noRepeatNgramSize = new IntParam(this, "noRepeatNgramSize", "If set to int > 0, all ngrams of that size can only occur once")
+  val noRepeatNgramSize = new IntParam(
+    this,
+    "noRepeatNgramSize",
+    "If set to int > 0, all ngrams of that size can only occur once")
 
   /** @group setParam */
   def setNoRepeatNgramSize(value: Int): GPT2Transformer.this.type = {
@@ -321,7 +341,10 @@ class GPT2Transformer(override val uid: String)
    *
    * @group param
    * */
-  var ignoreTokenIds = new IntArrayParam(this, "ignoreTokenIds", "A list of token ids which are ignored in the decoder's output")
+  var ignoreTokenIds = new IntArrayParam(
+    this,
+    "ignoreTokenIds",
+    "A list of token ids which are ignored in the decoder's output")
 
   /** @group setParam */
   def setIgnoreTokenIds(tokenIds: Array[Int]): GPT2Transformer.this.type = {
@@ -336,16 +359,19 @@ class GPT2Transformer(override val uid: String)
    *
    * @group param
    */
-  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  val configProtoBytes = new IntArrayParam(
+    this,
+    "configProtoBytes",
+    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): GPT2Transformer.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): GPT2Transformer.this.type =
+    set(this.configProtoBytes, bytes)
 
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   private var _tfModel: Option[Broadcast[TensorflowGPT2]] = None
-
 
   /**
    * Vocabulary used to encode the words to ids with bpeTokenizer.encode
@@ -353,7 +379,6 @@ class GPT2Transformer(override val uid: String)
    * @group param
    * */
   val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
-
 
   /** @group setParam */
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
@@ -372,18 +397,17 @@ class GPT2Transformer(override val uid: String)
   def setModelIfNotSet(spark: SparkSession, tfWrapper: TensorflowWrapper): this.type = {
     if (_tfModel.isEmpty) {
 
-      val bpeTokenizer = BpeTokenizer.forModel(
-        "gpt2",
-        merges = $$(merges),
-        vocab = $$(vocabulary),
-        padWithSentenceTokens = false
-      ).asInstanceOf[Gpt2Tokenizer]
+      val bpeTokenizer = BpeTokenizer
+        .forModel(
+          "gpt2",
+          merges = $$(merges),
+          vocab = $$(vocabulary),
+          padWithSentenceTokens = false)
+        .asInstanceOf[Gpt2Tokenizer]
 
       _tfModel = Some(
         spark.sparkContext.broadcast(
-          new TensorflowGPT2(tfWrapper, bpeTokenizer, configProtoBytes = getConfigProtoBytes)
-        )
-      )
+          new TensorflowGPT2(tfWrapper, bpeTokenizer, configProtoBytes = getConfigProtoBytes)))
     }
     this
   }
@@ -402,8 +426,7 @@ class GPT2Transformer(override val uid: String)
     repetitionPenalty -> 1.0,
     noRepeatNgramSize -> 3,
     ignoreTokenIds -> Array(),
-    batchSize -> 4
-  )
+    batchSize -> 4)
 
   /**
    * takes a document and annotations and produces new annotations of this annotator's annotation type
@@ -413,7 +436,8 @@ class GPT2Transformer(override val uid: String)
    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
 
-    val allAnnotations = batchedAnnotations.filter(_.nonEmpty)
+    val allAnnotations = batchedAnnotations
+      .filter(_.nonEmpty)
       .zipWithIndex
       .flatMap {
         case (annotations, i) => annotations.filter(_.result.nonEmpty).map(x => (x, i))
@@ -432,8 +456,7 @@ class GPT2Transformer(override val uid: String)
         noRepeatNgramSize = $(noRepeatNgramSize),
         task = $(task),
         randomSeed = this.randomSeed,
-        ignoreTokenIds = $(ignoreTokenIds)
-      )
+        ignoreTokenIds = $(ignoreTokenIds))
     } else {
       Seq()
     }
@@ -441,7 +464,7 @@ class GPT2Transformer(override val uid: String)
     //Group resulting annotations by rows. If there are not sentences in a given row, return empty sequence
     batchedAnnotations.indices.map(rowIndex => {
       val rowAnnotations = processedAnnotations
-        //zip each annotation with its corresponding row index
+      //zip each annotation with its corresponding row index
         .zip(allAnnotations)
         //select the sentences belonging to the current row
         .filter(_._2._2 == rowIndex)
@@ -457,11 +480,19 @@ class GPT2Transformer(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflow, "_gpt2", GPT2Transformer.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(
+      path,
+      spark,
+      getModelIfNotSet.tensorflow,
+      "_gpt2",
+      GPT2Transformer.tfFile,
+      configProtoBytes = getConfigProtoBytes)
   }
 }
 
-trait ReadablePretrainedGPT2TransformerModel extends ParamsAndFeaturesReadable[GPT2Transformer] with HasPretrained[GPT2Transformer] {
+trait ReadablePretrainedGPT2TransformerModel
+    extends ParamsAndFeaturesReadable[GPT2Transformer]
+    with HasPretrained[GPT2Transformer] {
   override val defaultModelName: Some[String] = Some("gpt2")
 
   /** Java compliant-overrides */
@@ -469,9 +500,11 @@ trait ReadablePretrainedGPT2TransformerModel extends ParamsAndFeaturesReadable[G
 
   override def pretrained(name: String): GPT2Transformer = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): GPT2Transformer = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): GPT2Transformer =
+    super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): GPT2Transformer = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): GPT2Transformer =
+    super.pretrained(name, lang, remoteLoc)
 }
 
 trait ReadGPT2TransformerTensorflowModel extends ReadTensorflowModel {
@@ -498,25 +531,27 @@ trait ReadGPT2TransformerTensorflowModel extends ReadTensorflowModel {
 
     require(f.exists, s"Folder $folder not found")
     require(f.isDirectory, s"File $folder is not a folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $folder"
-    )
+    require(savedModel.exists(), s"savedModel file saved_model.pb not found in folder $folder")
     require(vocabFile.exists(), s"vocab.json not found in $bpeFolder")
     require(vocabFile.exists(), s"merges.txt not found in $bpeFolder")
 
-    val vocabResource = new ExternalResource(vocabFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val vocabResource =
+      new ExternalResource(vocabFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
 
-    val mergesResource = new ExternalResource(mergesFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val mergesResource =
+      new ExternalResource(mergesFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val merges = ResourceHelper.parseLines(mergesResource)
 
-    val bytePairs: Map[(String, String), Int] = merges.map(_.split(" "))
+    val bytePairs: Map[(String, String), Int] = merges
+      .map(_.split(" "))
       .filter(w => w.length == 2)
       .map { case Array(c1, c2) => (c1, c2) }
-      .zipWithIndex.toMap
+      .zipWithIndex
+      .toMap
 
-    val (wrapper, _) = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
+    val (wrapper, _) =
+      TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
 
     val gpt2model = new GPT2Transformer()
       .setMerges(bytePairs)
@@ -528,4 +563,6 @@ trait ReadGPT2TransformerTensorflowModel extends ReadTensorflowModel {
 
 }
 
-object GPT2Transformer extends ReadablePretrainedGPT2TransformerModel with ReadGPT2TransformerTensorflowModel
+object GPT2Transformer
+    extends ReadablePretrainedGPT2TransformerModel
+    with ReadGPT2TransformerTensorflowModel

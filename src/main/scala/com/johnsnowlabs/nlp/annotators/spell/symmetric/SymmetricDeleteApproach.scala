@@ -93,13 +93,15 @@ import scala.collection.mutable.ListBuffer
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
 class SymmetricDeleteApproach(override val uid: String)
-  extends AnnotatorApproach[SymmetricDeleteModel]
+    extends AnnotatorApproach[SymmetricDeleteModel]
     with SymmetricDeleteParams {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
   /** Spell checking algorithm inspired on Symmetric Delete algorithm */
-  override val description: String = "Spell checking algorithm inspired on Symmetric Delete algorithm"
+  override val description: String =
+    "Spell checking algorithm inspired on Symmetric Delete algorithm"
+
   /** Optional dictionary of properly written words. If provided, significantly boosts spell checking performance.
    *
    * Needs `"tokenPattern"` (Default: `\S+`) for parsing the resource.
@@ -116,14 +118,10 @@ class SymmetricDeleteApproach(override val uid: String)
    *
    * @group param
    * */
-  val dictionary = new ExternalResourceParam(this, "dictionary", "file with a list of correct words")
+  val dictionary =
+    new ExternalResourceParam(this, "dictionary", "file with a list of correct words")
 
-  setDefault(
-    frequencyThreshold -> 0,
-    deletesThreshold -> 0,
-    maxEditDistance -> 3,
-    dupsLimit -> 2
-  )
+  setDefault(frequencyThreshold -> 0, deletesThreshold -> 0, maxEditDistance -> 3, dupsLimit -> 2)
 
   /** External dictionary already in the form of [[ExternalResource]], for which the Map member `options`
    * has an entry defined for `"tokenPattern"`.
@@ -143,7 +141,9 @@ class SymmetricDeleteApproach(override val uid: String)
    * @group setParam
    * */
   def setDictionary(value: ExternalResource): this.type = {
-    require(value.options.contains("tokenPattern"), "dictionary needs 'tokenPattern' regex in dictionary for separating words")
+    require(
+      value.options.contains("tokenPattern"),
+      "dictionary needs 'tokenPattern' regex in dictionary for separating words")
     set(dictionary, value)
   }
 
@@ -153,12 +153,14 @@ class SymmetricDeleteApproach(override val uid: String)
    *
    * @group setParam
    * */
-  def setDictionary(path: String,
-                    tokenPattern: String = "\\S+",
-                    readAs: ReadAs.Format = ReadAs.TEXT,
-                    options: Map[String, String] = Map("format" -> "text")): this.type =
-    set(dictionary, ExternalResource(path, readAs, options ++ Map("tokenPattern" -> tokenPattern)))
-
+  def setDictionary(
+      path: String,
+      tokenPattern: String = "\\S+",
+      readAs: ReadAs.Format = ReadAs.TEXT,
+      options: Map[String, String] = Map("format" -> "text")): this.type =
+    set(
+      dictionary,
+      ExternalResource(path, readAs, options ++ Map("tokenPattern" -> tokenPattern)))
 
   /** Output annotator type : TOKEN
    *
@@ -172,7 +174,8 @@ class SymmetricDeleteApproach(override val uid: String)
    * */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
-  def this() = this(Identifiable.randomUID("SYMSPELL")) // constructor required for the annotator to work in python
+  def this() =
+    this(Identifiable.randomUID("SYMSPELL")) // constructor required for the annotator to work in python
 
   /**
    * Given a word, derive strings with up to maxEditDistance characters
@@ -200,10 +203,8 @@ class SymmetricDeleteApproach(override val uid: String)
           }) // End y.foreach
           queueList = tempQueue.toList
         }
-      }
-      ) //End queueList.foreach
-    }
-    ) //End x.foreach
+      }) //End queueList.foreach
+    }) //End x.foreach
 
     deletes.toList
   }
@@ -211,23 +212,27 @@ class SymmetricDeleteApproach(override val uid: String)
   /**
    * Computes derived words from a frequency of words
    * */
-  def derivedWordDistances(wordFrequencies: List[(String, Long)], maxEditDistance: Int): Map[String, (List[String], Long)] = {
+  def derivedWordDistances(
+      wordFrequencies: List[(String, Long)],
+      maxEditDistance: Int): Map[String, (List[String], Long)] = {
 
-    val derivedWords = scala.collection.mutable.Map(wordFrequencies.map { a => (a._1, (ListBuffer.empty[String], a._2)) }: _*)
+    val derivedWords = scala.collection.mutable.Map(wordFrequencies.map { a =>
+      (a._1, (ListBuffer.empty[String], a._2))
+    }: _*)
 
-    wordFrequencies.foreach { case (word, _) =>
+    wordFrequencies.foreach {
+      case (word, _) =>
+        val deletes = getDeletes(word, maxEditDistance)
 
-      val deletes = getDeletes(word, maxEditDistance)
-
-      deletes.foreach(deleteItem => {
-        if (derivedWords.contains(deleteItem)) {
-          // add (correct) word to delete's suggested correction list
-          derivedWords(deleteItem)._1 += word
-        } else {
-          // note frequency of word in corpus is not incremented
-          derivedWords(deleteItem) = (ListBuffer(word), 0L)
-        }
-      }) // End deletes.foreach
+        deletes.foreach(deleteItem => {
+          if (derivedWords.contains(deleteItem)) {
+            // add (correct) word to delete's suggested correction list
+            derivedWords(deleteItem)._1 += word
+          } else {
+            // note frequency of word in corpus is not incremented
+            derivedWords(deleteItem) = (ListBuffer(word), 0L)
+          }
+        }) // End deletes.foreach
     }
     derivedWords
       .filterKeys(a => derivedWords(a)._1.length >= $(deletesThreshold))
@@ -235,7 +240,9 @@ class SymmetricDeleteApproach(override val uid: String)
       .toMap
   }
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): SymmetricDeleteModel = {
+  override def train(
+      dataset: Dataset[_],
+      recursivePipeline: Option[PipelineModel]): SymmetricDeleteModel = {
 
     require(!dataset.rdd.isEmpty(), "Dataset for training is empty")
 
@@ -244,12 +251,19 @@ class SymmetricDeleteApproach(override val uid: String)
     val possibleDict = get(dictionary).map(d => ResourceHelper.getWordCount(d))
 
     val trainDataSet =
-      dataset.select(getInputCols.head).as[Array[Annotation]]
+      dataset
+        .select(getInputCols.head)
+        .as[Array[Annotation]]
         .flatMap(_.map(_.result))
 
     val wordFrequencies =
-      trainDataSet.groupBy("value").count()
-        .filter(s"count(value) >= ${$(frequencyThreshold)}").as[(String, Long)].collect.toList
+      trainDataSet
+        .groupBy("value")
+        .count()
+        .filter(s"count(value) >= ${$(frequencyThreshold)}")
+        .as[(String, Long)]
+        .collect
+        .toList
 
     val derivedWords =
       derivedWordDistances(wordFrequencies, $(maxEditDistance))
@@ -276,11 +290,11 @@ class SymmetricDeleteApproach(override val uid: String)
   private def validateDataSet(dataset: Dataset[_]): Unit = {
     try {
       dataset.select(getInputCols.head).as[Array[Annotation]]
-    }
-    catch {
+    } catch {
       case exception: AnalysisException =>
         if (exception.getMessage == "need an array field but got string;") {
-          throw new IllegalArgumentException("Train dataset must have an array annotation type column")
+          throw new IllegalArgumentException(
+            "Train dataset must have an array annotation type column")
         }
         throw exception
     }

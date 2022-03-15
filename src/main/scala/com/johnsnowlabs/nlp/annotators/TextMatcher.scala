@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.collections.SearchTrie
-import com.johnsnowlabs.nlp.AnnotatorType.{TOKEN, _}
+import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
@@ -26,7 +26,6 @@ import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
-
 
 /**
  * Annotator to match exact phrases (by token) provided in a file against a Document.
@@ -101,7 +100,9 @@ import org.apache.spark.sql.Dataset
  * @groupprio Ungrouped 5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
-class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatcherModel] with ParamsAndFeaturesWritable {
+class TextMatcher(override val uid: String)
+    extends AnnotatorApproach[TextMatcherModel]
+    with ParamsAndFeaturesWritable {
 
   def this() = this(Identifiable.randomUID("ENTITY_EXTRACTOR"))
 
@@ -110,6 +111,7 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
    * @group anno
    * */
   override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN)
+
   /** Output annotator type : CHUNK
    *
    * @group anno
@@ -118,32 +120,45 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
 
   /** Extracts entities from target dataset given in a text file */
   override val description: String = "Extracts entities from target dataset given in a text file"
+
   /**
    * External resource for the entities, e.g. a text file where each line is the string of an entity
    *
    * @group param
    * */
   val entities = new ExternalResourceParam(this, "entities", "External resource for the entities")
+
   /** Whether to match regardless of case (Default: `true`)
    *
    * @group param
    * */
-  val caseSensitive = new BooleanParam(this, "caseSensitive", "Whether to match regardless of case. Defaults true")
+  val caseSensitive =
+    new BooleanParam(this, "caseSensitive", "Whether to match regardless of case. Defaults true")
+
   /** Whether to merge overlapping matched chunks (Default: `false`)
    *
    * @group param
    * */
-  val mergeOverlapping = new BooleanParam(this, "mergeOverlapping", "Whether to merge overlapping matched chunks. Defaults false")
+  val mergeOverlapping = new BooleanParam(
+    this,
+    "mergeOverlapping",
+    "Whether to merge overlapping matched chunks. Defaults false")
+
   /** Value for the entity metadata field (Default: `"entity"`)
    *
    * @group param
    * */
   val entityValue = new Param[String](this, "entityValue", "Value for the entity metadata field")
+
   /** Whether the TextMatcher should take the CHUNK from TOKEN or not (Default: `false`)
    *
    * @group param
    * */
-  val buildFromTokens = new BooleanParam(this, "buildFromTokens", "Whether the TextMatcher should take the CHUNK from TOKEN or not")
+  val buildFromTokens = new BooleanParam(
+    this,
+    "buildFromTokens",
+    "Whether the TextMatcher should take the CHUNK from TOKEN or not")
+
   /** The [[Tokenizer]] to perform tokenization with
    *
    * @group param
@@ -155,7 +170,6 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
   setDefault(mergeOverlapping, false)
   setDefault(entityValue, "entity")
   setDefault(buildFromTokens, false)
-
 
   /** Provides a file with phrases to match (Default: Looks up path in configuration)
    *
@@ -173,7 +187,10 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
    * @return this
    * @group getParam
    */
-  def setEntities(path: String, readAs: ReadAs.Format, options: Map[String, String] = Map("format" -> "text")): this.type =
+  def setEntities(
+      path: String,
+      readAs: ReadAs.Format,
+      options: Map[String, String] = Map("format" -> "text")): this.type =
     set(entities, ExternalResource(path, readAs, options))
 
   /**
@@ -246,23 +263,23 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
     val parsedEntities: Array[Array[String]] = {
       get(tokenizer) match {
         case Some(tokenizerModel: TokenizerModel) =>
-          phrases.map {
-            line =>
-              val annotation = Seq(Annotation(line))
-              val tokens = tokenizerModel.annotate(annotation)
-              tokens.map(_.result).toArray
+          phrases.map { line =>
+            val annotation = Seq(Annotation(line))
+            val tokens = tokenizerModel.annotate(annotation)
+            tokens.map(_.result).toArray
           }
         case _ =>
-          phrases.map {
-            line =>
-              line.split(" ")
+          phrases.map { line =>
+            line.split(" ")
           }
       }
     }
     parsedEntities
   }
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): TextMatcherModel = {
+  override def train(
+      dataset: Dataset[_],
+      recursivePipeline: Option[PipelineModel]): TextMatcherModel = {
     new TextMatcherModel()
       .setSearchTrie(SearchTrie.apply(loadEntities(dataset), $(caseSensitive)))
       .setMergeOverlapping($(mergeOverlapping))

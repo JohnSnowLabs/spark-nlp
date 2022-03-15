@@ -125,7 +125,7 @@ import org.apache.spark.sql.{Dataset, Row}
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class EmbeddingsFinisher(override val uid: String)
-  extends Transformer
+    extends Transformer
     with DefaultParamsWritable {
 
   /**
@@ -150,7 +150,10 @@ class EmbeddingsFinisher(override val uid: String)
    * @group param
    */
   val cleanAnnotations: BooleanParam =
-    new BooleanParam(this, "cleanAnnotations", "Whether to remove all the existing annotation columns (Default: `true`)")
+    new BooleanParam(
+      this,
+      "cleanAnnotations",
+      "Whether to remove all the existing annotation columns (Default: `true`)")
 
   /**
    * If enabled it will output the embeddings as Vectors instead of arrays (Default: `false`)
@@ -158,7 +161,10 @@ class EmbeddingsFinisher(override val uid: String)
    * @group param
    */
   val outputAsVector: BooleanParam =
-    new BooleanParam(this, "outputAsVector", "If enabled it will output the embeddings as Vectors instead of arrays (Default: `false`)")
+    new BooleanParam(
+      this,
+      "outputAsVector",
+      "If enabled it will output the embeddings as Vectors instead of arrays (Default: `false`)")
 
   /**
    * Name of input annotation cols containing embeddings
@@ -230,10 +236,7 @@ class EmbeddingsFinisher(override val uid: String)
    */
   def getOutputAsVector: Boolean = $(outputAsVector)
 
-  setDefault(
-    cleanAnnotations -> true,
-    outputAsVector -> false
-  )
+  setDefault(cleanAnnotations -> true, outputAsVector -> false)
 
   def this() = this(Identifiable.randomUID("embeddings_finisher"))
 
@@ -241,25 +244,25 @@ class EmbeddingsFinisher(override val uid: String)
 
   override def transformSchema(schema: StructType): StructType = {
 
-    require(getInputCols.length == getOutputCols.length, "inputCols and outputCols length must match")
+    require(
+      getInputCols.length == getOutputCols.length,
+      "inputCols and outputCols length must match")
 
-    val embeddingsAnnotators = Seq(
-      AnnotatorType.WORD_EMBEDDINGS,
-      AnnotatorType.SENTENCE_EMBEDDINGS
-    )
+    val embeddingsAnnotators =
+      Seq(AnnotatorType.WORD_EMBEDDINGS, AnnotatorType.SENTENCE_EMBEDDINGS)
 
-    getInputCols.foreach {
-      annotationColumn =>
+    getInputCols.foreach { annotationColumn =>
+      FinisherUtil.checkIfInputColsExist(getInputCols, schema)
+      FinisherUtil.checkIfAnnotationColumnIsSparkNLPAnnotation(schema, annotationColumn)
 
-        FinisherUtil.checkIfInputColsExist(getInputCols, schema)
-        FinisherUtil.checkIfAnnotationColumnIsSparkNLPAnnotation(schema, annotationColumn)
-
-        /**
-         * Check if the annotationColumn has embeddings
-         * It must be at least of one these annotators: WordEmbeddings, BertEmbeddings, ChunkEmbeddings, or SentenceEmbeddings
-         */
-        require(embeddingsAnnotators.contains(schema(annotationColumn).metadata.getString("annotatorType")),
-          s"column [$annotationColumn] must be a type of either WordEmbeddings, BertEmbeddings, ChunkEmbeddings, or SentenceEmbeddings")
+      /**
+       * Check if the annotationColumn has embeddings
+       * It must be at least of one these annotators: WordEmbeddings, BertEmbeddings, ChunkEmbeddings, or SentenceEmbeddings
+       */
+      require(
+        embeddingsAnnotators.contains(
+          schema(annotationColumn).metadata.getString("annotatorType")),
+        s"column [$annotationColumn] must be a type of either WordEmbeddings, BertEmbeddings, ChunkEmbeddings, or SentenceEmbeddings")
 
     }
     val metadataFields = FinisherUtil.getMetadataFields(getOutputCols, $(outputAsVector))
@@ -282,27 +285,26 @@ class EmbeddingsFinisher(override val uid: String)
   }
 
   private def vectorsAsVectorType: UserDefinedFunction = udf { embeddings: Seq[Seq[Float]] =>
-    embeddings.map(embedding =>
-      Vectors.dense(embedding.toArray.map(_.toDouble))
-    )
+    embeddings.map(embedding => Vectors.dense(embedding.toArray.map(_.toDouble)))
   }
 
   override def transform(dataset: Dataset[_]): Dataset[Row] = {
-    require(getInputCols.length == getOutputCols.length, "inputCols and outputCols length must match")
+    require(
+      getInputCols.length == getOutputCols.length,
+      "inputCols and outputCols length must match")
 
     val cols = getInputCols.zip(getOutputCols)
     var flattened = dataset
-    cols.foreach { case (inputCol, outputCol) =>
-      flattened = {
-        flattened.withColumn(
-          outputCol, {
+    cols.foreach {
+      case (inputCol, outputCol) =>
+        flattened = {
+          flattened.withColumn(outputCol, {
             if ($(outputAsVector))
               vectorsAsVectorType(flattened.col(inputCol + ".embeddings"))
             else
               vectorsAsArray(flattened.col(inputCol + ".embeddings"))
-          }
-        )
-      }
+          })
+        }
     }
 
     FinisherUtil.cleaningAnnotations($(cleanAnnotations), flattened.toDF())

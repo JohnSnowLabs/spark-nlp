@@ -16,11 +16,11 @@
 
 package com.johnsnowlabs.nlp.annotators.parser.typdep.feature;
 
-import com.johnsnowlabs.nlp.annotators.parser.typdep.util.Collector;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.DependencyInstance;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.LowRankTensor;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.Parameters;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.Alphabet;
+import com.johnsnowlabs.nlp.annotators.parser.typdep.util.Collector;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.FeatureVector;
 import gnu.trove.set.hash.TIntHashSet;
 import gnu.trove.set.hash.TLongHashSet;
@@ -102,6 +102,7 @@ public class SyntacticFeatureFactory implements Serializable {
     public int getNumberWordFeatures() {
         return numberWordFeatures;
     }
+
     private boolean stoppedGrowth;
     private transient TLongHashSet featureHashSet;
     private Alphabet wordAlphabet;        // the alphabet of word features (e.g. \phi_h, \phi_m)
@@ -134,7 +135,7 @@ public class SyntacticFeatureFactory implements Serializable {
                 idhash.add(id);
         }
 
-        if(logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled()) {
             logger.debug(String.format("Hash collision: %.4f%% (%d / %d)%n",
                     ncols / (nfeats + 1e-30) * 100,
                     ncols,
@@ -181,7 +182,7 @@ public class SyntacticFeatureFactory implements Serializable {
         return h;
     }
 
-    private final int rotl32(int a, int b, int c){
+    private final int rotl32(int a, int b, int c) {
         return (a << b) | (a >>> c);
     }
 

@@ -32,35 +32,44 @@ import scala.collection.JavaConverters._
  * @param tags                 labels which model was trained with in order
  * @param signatures           TF v2 signatures in Spark NLP
  * */
-class TensorflowRoBertaClassification(val tensorflowWrapper: TensorflowWrapper,
-                                      val sentenceStartTokenId: Int,
-                                      val sentenceEndTokenId: Int,
-                                      val sentencePadTokenId: Int,
-                                      configProtoBytes: Option[Array[Byte]] = None,
-                                      tags: Map[String, Int],
-                                      signatures: Option[Map[String, String]] = None,
-                                      merges: Map[(String, String), Int],
-                                      vocabulary: Map[String, Int]
-                                     ) extends Serializable with TensorflowForClassification {
+class TensorflowRoBertaClassification(
+    val tensorflowWrapper: TensorflowWrapper,
+    val sentenceStartTokenId: Int,
+    val sentenceEndTokenId: Int,
+    val sentencePadTokenId: Int,
+    configProtoBytes: Option[Array[Byte]] = None,
+    tags: Map[String, Int],
+    signatures: Option[Map[String, String]] = None,
+    merges: Map[(String, String), Int],
+    vocabulary: Map[String, Int])
+    extends Serializable
+    with TensorflowForClassification {
 
-  val _tfRoBertaSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
+  val _tfRoBertaSignatures: Map[String, String] =
+    signatures.getOrElse(ModelSignatureManager.apply())
 
-  def tokenizeWithAlignment(sentences: Seq[TokenizedSentence], maxSeqLength: Int, caseSensitive: Boolean):
-  Seq[WordpieceTokenizedSentence] = {
+  def tokenizeWithAlignment(
+      sentences: Seq[TokenizedSentence],
+      maxSeqLength: Int,
+      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
 
     val bpeTokenizer = BpeTokenizer.forModel("roberta", merges, vocabulary)
 
     sentences.map { tokenIndex =>
       // filter empty and only whitespace tokens
-      val bertTokens = tokenIndex.indexedTokens.filter(x => x.token.nonEmpty && !x.token.equals(" ")).map { token =>
-        val content = if (caseSensitive) token.token else token.token.toLowerCase()
-        val sentenceBegin = token.begin
-        val sentenceEnd = token.end
-        val sentenceInedx = tokenIndex.sentenceIndex
-        val result = bpeTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
-        if (result.nonEmpty) result.head else IndexedToken("")
-      }
-      val wordpieceTokens = bertTokens.flatMap(token => bpeTokenizer.encode(token)).take(maxSeqLength)
+      val bertTokens =
+        tokenIndex.indexedTokens.filter(x => x.token.nonEmpty && !x.token.equals(" ")).map {
+          token =>
+            val content = if (caseSensitive) token.token else token.token.toLowerCase()
+            val sentenceBegin = token.begin
+            val sentenceEnd = token.end
+            val sentenceInedx = tokenIndex.sentenceIndex
+            val result =
+              bpeTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
+            if (result.nonEmpty) result.head else IndexedToken("")
+        }
+      val wordpieceTokens =
+        bertTokens.flatMap(token => bpeTokenizer.encode(token)).take(maxSeqLength)
       WordpieceTokenizedSentence(wordpieceTokens)
     }
   }
@@ -78,21 +87,33 @@ class TensorflowRoBertaClassification(val tensorflowWrapper: TensorflowWrapper,
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
     batch.zipWithIndex
-      .foreach { case (sentence, idx) =>
-        val offset = idx * maxSentenceLength
-        tokenBuffers.offset(offset).write(sentence)
-        maskBuffers.offset(offset).write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
+      .foreach {
+        case (sentence, idx) =>
+          val offset = idx * maxSentenceLength
+          tokenBuffers.offset(offset).write(sentence)
+          maskBuffers
+            .offset(offset)
+            .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
       }
 
-    val runner = tensorflowWrapper.getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false).runner
+    val runner = tensorflowWrapper
+      .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
+      .runner
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
 
     runner
-      .feed(_tfRoBertaSignatures.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"), tokenTensors)
-      .feed(_tfRoBertaSignatures.getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"), maskTensors)
-      .fetch(_tfRoBertaSignatures.getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
+      .feed(
+        _tfRoBertaSignatures
+          .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
+        tokenTensors)
+      .feed(
+        _tfRoBertaSignatures
+          .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
+        maskTensors)
+      .fetch(_tfRoBertaSignatures
+        .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
 
     val outs = runner.run().asScala
     val rawScores = TensorResources.extractFloats(outs.head)
@@ -102,8 +123,12 @@ class TensorflowRoBertaClassification(val tensorflowWrapper: TensorflowWrapper,
     tensors.clearTensors()
 
     val dim = rawScores.length / (batchLength * maxSentenceLength)
-    val batchScores: Array[Array[Array[Float]]] = rawScores.grouped(dim).map(scores =>
-      calculateSoftmax(scores)).toArray.grouped(maxSentenceLength).toArray
+    val batchScores: Array[Array[Array[Float]]] = rawScores
+      .grouped(dim)
+      .map(scores => calculateSoftmax(scores))
+      .toArray
+      .grouped(maxSentenceLength)
+      .toArray
 
     batchScores
   }
@@ -121,22 +146,35 @@ class TensorflowRoBertaClassification(val tensorflowWrapper: TensorflowWrapper,
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
     batch.zipWithIndex
-      .foreach { case (sentence, idx) =>
-        val offset = idx * maxSentenceLength
-        tokenBuffers.offset(offset).write(sentence)
-        maskBuffers.offset(offset).write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
+      .foreach {
+        case (sentence, idx) =>
+          val offset = idx * maxSentenceLength
+          tokenBuffers.offset(offset).write(sentence)
+          maskBuffers
+            .offset(offset)
+            .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
       }
 
-    val session = tensorflowWrapper.getTFSessionWithSignature(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false)
+    val session = tensorflowWrapper.getTFSessionWithSignature(
+      configProtoBytes = configProtoBytes,
+      savedSignatures = signatures,
+      initAllTables = false)
     val runner = session.runner
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
 
     runner
-      .feed(_tfRoBertaSignatures.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"), tokenTensors)
-      .feed(_tfRoBertaSignatures.getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"), maskTensors)
-      .fetch(_tfRoBertaSignatures.getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
+      .feed(
+        _tfRoBertaSignatures
+          .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
+        tokenTensors)
+      .feed(
+        _tfRoBertaSignatures
+          .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
+        maskTensors)
+      .fetch(_tfRoBertaSignatures
+        .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
 
     val outs = runner.run().asScala
     val rawScores = TensorResources.extractFloats(outs.head)
@@ -146,14 +184,16 @@ class TensorflowRoBertaClassification(val tensorflowWrapper: TensorflowWrapper,
     tensors.clearTensors()
 
     val dim = rawScores.length / batchLength
-    val batchScores: Array[Array[Float]] = rawScores.grouped(dim).map(scores =>
-      calculateSoftmax(scores)).toArray
+    val batchScores: Array[Array[Float]] =
+      rawScores.grouped(dim).map(scores => calculateSoftmax(scores)).toArray
 
     batchScores
   }
 
-  def findIndexedToken(tokenizedSentences: Seq[TokenizedSentence], sentence: (WordpieceTokenizedSentence, Int),
-                       tokenPiece: TokenPiece): Option[IndexedToken] = {
+  def findIndexedToken(
+      tokenizedSentences: Seq[TokenizedSentence],
+      sentence: (WordpieceTokenizedSentence, Int),
+      tokenPiece: TokenPiece): Option[IndexedToken] = {
     tokenizedSentences(sentence._2).indexedTokens.find(p => p.begin == tokenPiece.begin)
   }
 

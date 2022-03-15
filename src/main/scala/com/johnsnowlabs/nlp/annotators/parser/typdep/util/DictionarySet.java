@@ -25,8 +25,7 @@ public class DictionarySet implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public enum DictionaryTypes
-    {
+    public enum DictionaryTypes {
         POS,
         WORD,
         DEP_LABEL,
@@ -48,8 +47,7 @@ public class DictionarySet implements Serializable {
 
     private TIntIntMap[] counters;
 
-    public DictionarySet()
-    {
+    public DictionarySet() {
         isCounting = false;
         int indexDictionaryTypes = DictionaryTypes.TYPE_END.ordinal();
         dictionaries = new Dictionary[indexDictionaryTypes];
@@ -58,8 +56,7 @@ public class DictionarySet implements Serializable {
         }
     }
 
-    public int lookupIndex(DictionaryTypes tag, String item)
-    {
+    public int lookupIndex(DictionaryTypes tag, String item) {
         int id = dictionaries[tag.ordinal()].lookupIndex(item);
 
         if (isCounting && id > 0) {
@@ -70,32 +67,27 @@ public class DictionarySet implements Serializable {
         return id <= 0 ? 1 : id;
     }
 
-    public int getDictionarySize(DictionaryTypes tag)
-    {
+    public int getDictionarySize(DictionaryTypes tag) {
         int indexTag = tag.ordinal();
         return dictionaries[indexTag].dictionarySize();
     }
 
-    public void stopGrowth(DictionaryTypes tag)
-    {
+    public void stopGrowth(DictionaryTypes tag) {
         dictionaries[tag.ordinal()].stopGrowth();
     }
 
-    public Dictionary getDictionary(DictionaryTypes tag)
-    {
+    public Dictionary getDictionary(DictionaryTypes tag) {
         return dictionaries[tag.ordinal()];
     }
 
-    public void setCounters()
-    {
+    public void setCounters() {
         isCounting = true;
         counters = new TIntIntHashMap[dictionaries.length];
         for (int i = 0; i < dictionaries.length; ++i)
             counters[i] = new TIntIntHashMap();
     }
 
-    public void closeCounters()
-    {
+    public void closeCounters() {
         isCounting = false;
         counters = null;
     }
