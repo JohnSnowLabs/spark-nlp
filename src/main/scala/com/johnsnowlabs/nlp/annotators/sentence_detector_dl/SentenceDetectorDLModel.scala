@@ -22,7 +22,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasPretrained, HasSimpleAnnotate, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{BooleanParam, Param, StringArrayParam}
+import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.DataFrame
@@ -177,12 +177,83 @@ class SentenceDetectorDLModel(override val uid: String)
    * */
   val impossiblePenultimates = new StringArrayParam(this, "impossiblePenultimates", "Impossible penultimates")
 
-  /** whether to only utilize custom bounds for sentence detection */
+  /** Length at which sentences will be forcibly split (Ignored if not set)
+    *
+    * @group param
+    */
+
+  val splitLength: IntParam = new IntParam(this, "splitLength", "length at which sentences will be forcibly split.")
+  /** Set the minimum allowed length for each sentence (Default: `0`)
+    *
+    * @group param
+    */
+
+  val minLength = new IntParam(this, "minLength", "Set the minimum allowed length for each sentence")
+  /** Set the maximum allowed length for each sentence (Ignored if not set)
+    *
+    * @group param
+    */
+  val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed length for each sentence")
+
+  /** A flag indicating whether to split sentences into different Dataset rows. Useful for higher parallelism in
+    * fat rows (Default: `false`)
+    *
+    * @group getParam
+    * */
+  val explodeSentences = new BooleanParam(this, "explodeSentences", "Split sentences in separate rows")
+
+  /** Whether to only utilize custom bounds for sentence detection (Default: `false`)
+    *
+    * @group param
+    */
   val useCustomBoundsOnly = new BooleanParam(this, "useCustomBoundsOnly", "whether to only utilize custom bounds for sentence detection")
 
-
-  /** characters used to explicitly mark sentence bounds */
+  /** Characters used to explicitly mark sentence bounds (Default: None)
+    *
+    * @group param
+    */
   val customBounds: StringArrayParam = new StringArrayParam(this, "customBounds", "characters used to explicitly mark sentence bounds")
+
+  /** Length at which sentences will be forcibly split
+    * @group setParam
+    * */
+  def setSplitLength(value: Int): this.type = set(splitLength, value)
+
+  /** Length at which sentences will be forcibly split
+    * @group getParam
+    * */
+  def getSplitLength: Int = $(splitLength)
+
+
+  /** Set the minimum allowed length for each sentence
+    * @group setParam
+    * */
+  def setMinLength(value: Int): this.type = {
+    require(value >= 0, "minLength must be greater equal than 0")
+    require(value.isValidInt, "minLength must be Int")
+    set(minLength, value)
+  }
+
+  /** Get the minimum allowed length for each sentence
+    * @group getParam
+    * */
+  def getMinLength: Int = $(minLength)
+
+  /** Set the maximum allowed length for each sentence
+    * @group setParam
+    * */
+  def setMaxLength(value: Int): this.type = {
+    require(value >= ${
+      minLength
+    }, "maxLength must be greater equal than minLength")
+    require(value.isValidInt, "minLength must be Int")
+    set(maxLength, value)
+  }
+
+  /** Get the maximum allowed length for each sentence
+    * @group getParam
+    * */
+  def getMaxLength: Int = $(maxLength)
 
   /** Set impossible penultimates
    *
@@ -197,14 +268,6 @@ class SentenceDetectorDLModel(override val uid: String)
    * */
   def getImpossiblePenultimates: Array[String] = $(this.impossiblePenultimates)
 
-  /** A flag indicating whether to split sentences into different Dataset rows. Useful for higher parallelism in
-   * fat rows (Default: `false`)
-   *
-   * @group getParam
-   * */
-  def explodeSentences = new BooleanParam(this, "explodeSentences", "Split sentences in separate rows")
-
-
   /** Whether to split sentences into different Dataset rows. Useful for higher parallelism in fat rows. Defaults to false.
    *
    * @group setParam
@@ -218,10 +281,36 @@ class SentenceDetectorDLModel(override val uid: String)
    * */
   def getExplodeSentences: Boolean = $(this.explodeSentences)
 
+
+  /** Custom sentence separator text
+    * @group setParam
+    * */
+  def setCustomBounds(value: Array[String]): this.type = set(customBounds, value)
+
+  /** Custom sentence separator text
+    * @group getParam
+    * */
+  def getCustomBounds: Array[String] = $(customBounds)
+
+  /** Use only custom bounds without considering those of Pragmatic Segmenter. Defaults to false. Needs customBounds.
+    * @group setParam
+    * */
+  def setUseCustomBoundsOnly(value: Boolean): this.type = set(useCustomBoundsOnly, value)
+
+  /** Use only custom bounds without considering those of Pragmatic Segmenter. Defaults to false. Needs customBounds.
+    * @group getParam
+    * */
+  def getUseCustomBoundsOnly: Boolean = $(useCustomBoundsOnly)
+
   setDefault(
     modelArchitecture -> "cnn",
     impossiblePenultimates -> Array(),
-    explodeSentences -> false
+    explodeSentences -> false,
+    minLength -> 0,
+    maxLength -> Int.MaxValue,
+    splitLength -> Int.MaxValue,
+    useCustomBoundsOnly -> false,
+    customBounds -> Array.empty[String],
   )
 
   private var _tfClassifier: Option[Broadcast[TensorflowSentenceDetectorDL]] = None
@@ -319,7 +408,34 @@ class SentenceDetectorDLModel(override val uid: String)
     )
   }
 
-  def processText(text: String): Iterator[(Int, Int, String)] = {
+  def processText(text: String, processCustomBounds: Boolean = true): Iterator[(Int, Int, String)] = {
+
+    if (processCustomBounds){
+      var sentences = Array("")
+      var sentenceStarts = Array(0)
+      var currentPos = 0
+      text.zipWithIndex.foreach(x => {
+        val boundary = $(customBounds).find(b => sentences(currentPos).matches(".*" + b + "$"))
+        if (boundary.isDefined){
+//          sentences(currentPos) = sentences(currentPos).dropRight(boundary.get.length)
+          sentences = sentences ++ Array("")
+          sentenceStarts = sentenceStarts ++ Array(x._2)
+          currentPos += 1
+        }
+        if (!(sentences(currentPos).isEmpty && getEncoder.getSkipChars.contains(x._1)))
+          sentences(currentPos) = sentences(currentPos) + x._1
+        else
+          sentenceStarts(currentPos) = sentenceStarts(currentPos) + 1
+      })
+      return if ($(useCustomBoundsOnly)){
+        sentences.zip(sentenceStarts).map(x => (x._2, x._2 + x._1.length, x._1)).toIterator
+      } else{
+        sentences.zip(sentenceStarts).flatMap(x => {
+          processText(x._1, false).map(s => (s._1 + x._2, s._2 + x._2, s._3))
+        }).toIterator
+      }
+
+    }
 
     var startPos = 0
     val skipChars = getEncoder.getSkipChars
@@ -354,6 +470,33 @@ class SentenceDetectorDLModel(override val uid: String)
         Array().toIterator)
   }
 
+  private def truncateSentence(sentence: String, maxLength: Int): Array[String] = {
+    var currentLength = 0
+    val allSentences = ArrayBuffer.empty[String]
+    val currentSentence = ArrayBuffer.empty[String]
+
+    def addWordToSentence(word: String): Unit = {
+      /** Adds +1 because of the space joining words */
+      currentLength += word.length + 1
+      currentSentence.append(word)
+    }
+
+    sentence.split(" ").foreach(word => {
+      if (currentLength + word.length > maxLength) {
+        allSentences.append(currentSentence.mkString(" "))
+        currentSentence.clear()
+        currentLength = 0
+        addWordToSentence(word)
+      }
+      else {
+        addWordToSentence(word)
+      }
+    })
+    /** add leftovers */
+    allSentences.append(currentSentence.mkString(" "))
+    allSentences.toArray
+  }
+
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
     val documents = annotations.filter(_.annotatorType == DOCUMENT)
@@ -364,17 +507,23 @@ class SentenceDetectorDLModel(override val uid: String)
       processText(doc.result).foreach(posSentence => {
 
         if (posSentence._3.trim.nonEmpty) {
-          outputAnnotations.append(
-            new Annotation(
-              annotatorType = AnnotatorType.DOCUMENT,
-              begin = posSentence._1,
-              end = posSentence._2,
-              result = posSentence._3,
-              metadata = mutable.Map(
-                "sentence" -> sentenceNo.toString
-              ))
-          )
-          sentenceNo += 1
+          var sentenceBegin = posSentence._1
+
+          truncateSentence(posSentence._3, getSplitLength).foreach(splitSentence => {
+
+            outputAnnotations.append(
+              new Annotation(
+                annotatorType = AnnotatorType.DOCUMENT,
+                begin = sentenceBegin,
+                end = sentenceBegin + splitSentence.length - 1 ,
+                result = splitSentence,
+                metadata = mutable.Map(
+                  "sentence" -> sentenceNo.toString
+                ))
+            )
+            sentenceBegin += splitSentence.length
+            sentenceNo += 1
+          })
         }
       })
       if ((sentenceNo == 0) && (doc.end > doc.begin)) {
@@ -392,6 +541,7 @@ class SentenceDetectorDLModel(override val uid: String)
     })
 
     outputAnnotations
+      .filter(anno => anno.result.length >= getMinLength && anno.result.length <= getMaxLength)
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
