@@ -21,11 +21,12 @@ import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence}
 import java.text.Normalizer
 import scala.collection.mutable
 
-/**
- *
- * @param caseSensitive whether or not content should be case sensitive or not
- * @param hasBeginEnd   whether or not the input sentence has already been tokenized before like in BERT and DistilBERT
- */
+/** @param caseSensitive
+  *   whether or not content should be case sensitive or not
+  * @param hasBeginEnd
+  *   whether or not the input sentence has already been tokenized before like in BERT and
+  *   DistilBERT
+  */
 private[johnsnowlabs] class BasicTokenizer(
     caseSensitive: Boolean = false,
     hasBeginEnd: Boolean = true) {
@@ -49,7 +50,7 @@ private[johnsnowlabs] class BasicTokenizer(
   def isPunctuation(char: Char): Boolean = {
     val cp = char.toInt
     if ((cp >= 33 && cp <= 47) || (cp >= 58 && cp <= 64) ||
-        (cp >= 91 && cp <= 96) || (cp >= 123 && cp <= 126))
+      (cp >= 91 && cp <= 96) || (cp >= 123 && cp <= 126))
       return true
 
     try {
@@ -79,14 +80,14 @@ private[johnsnowlabs] class BasicTokenizer(
 
     val c = char.toInt
 
-    (c >= 0x4E00 && c <= 0x9FFF) ||
-    (c >= 0x3400 && c <= 0x4DBF) ||
-    (c >= 0x20000 && c <= 0x2A6DF) ||
-    (c >= 0x2A700 && c <= 0x2B73F) ||
-    (c >= 0x2B740 && c <= 0x2B81F) ||
-    (c >= 0x2B820 && c <= 0x2CEAF) ||
-    (c >= 0xF900 && c <= 0xFAFF) ||
-    (c >= 0x2F800 && c <= 0x2FA1F)
+    (c >= 0x4e00 && c <= 0x9fff) ||
+    (c >= 0x3400 && c <= 0x4dbf) ||
+    (c >= 0x20000 && c <= 0x2a6df) ||
+    (c >= 0x2a700 && c <= 0x2b73f) ||
+    (c >= 0x2b740 && c <= 0x2b81f) ||
+    (c >= 0x2b820 && c <= 0x2ceaf) ||
+    (c >= 0xf900 && c <= 0xfaff) ||
+    (c >= 0x2f800 && c <= 0x2fa1f)
   }
 
   def normalize(text: String): String = {
@@ -100,11 +101,10 @@ private[johnsnowlabs] class BasicTokenizer(
       result.toLowerCase
   }
 
-  /**
-   *
-   * @param sentence input Sentence which can be a full sentence or just a token in type of Sentence
-   * @return
-   */
+  /** @param sentence
+    *   input Sentence which can be a full sentence or just a token in type of Sentence
+    * @return
+    */
   def tokenize(sentence: Sentence): Array[IndexedToken] = {
 
     val tokens = mutable.ArrayBuffer[IndexedToken]()
@@ -134,7 +134,7 @@ private[johnsnowlabs] class BasicTokenizer(
       // 2. Find Next separator
       var end = i
       while (end < s.length && !isToFilter(s(end)) && !isPunctuation(s(end)) && !isChinese(s(end))
-             && !isWhitespace(s(end))) end += 1
+        && !isWhitespace(s(end))) end += 1
 
       // 3. Detect what tokens to add
       if (end > i)

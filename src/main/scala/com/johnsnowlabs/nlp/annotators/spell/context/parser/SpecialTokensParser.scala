@@ -44,14 +44,13 @@ class TransducerSeqFeature(model: HasFeatures, override val name: String)
       specialClasses: Seq[SpecialClassParser]): Unit = {
     val dataPath = getFieldPath(path, field)
 
-    specialClasses.foreach {
-      case specialClass =>
-        // hadoop won't see files starting with '_'
-        val label = specialClass.label.replaceAll("_", "-")
+    specialClasses.foreach { case specialClass =>
+      // hadoop won't see files starting with '_'
+      val label = specialClass.label.replaceAll("_", "-")
 
-        spark.sparkContext
-          .parallelize(Seq(specialClass))
-          .saveAsObjectFile(s"${dataPath.toString}/${label}")
+      spark.sparkContext
+        .parallelize(Seq(specialClass))
+        .saveAsObjectFile(s"${dataPath.toString}/${label}")
 
     }
   }
@@ -87,19 +86,18 @@ class TransducerSeqFeature(model: HasFeatures, override val name: String)
       specialClasses: Seq[SpecialClassParser]): Unit = {
     implicit val encoder: Encoder[SpecialClassParser] = Encoders.kryo[SpecialClassParser]
     val dataPath = getFieldPath(path, field)
-    specialClasses.foreach {
-      case specialClass =>
-        val serializer = new PlainTextSerializer
+    specialClasses.foreach { case specialClass =>
+      val serializer = new PlainTextSerializer
 
-        // hadoop won't see files starting with '_'
-        val label = specialClass.label.replaceAll("_", "-")
+      // hadoop won't see files starting with '_'
+      val label = specialClass.label.replaceAll("_", "-")
 
-        // the object per se
-        spark
-          .createDataset(Seq(specialClass))
-          .write
-          .mode("overwrite")
-          .parquet(s"${dataPath.toString}/${label}")
+      // the object per se
+      spark
+        .createDataset(Seq(specialClass))
+        .write
+        .mode("overwrite")
+        .parquet(s"${dataPath.toString}/${label}")
 
     }
   }

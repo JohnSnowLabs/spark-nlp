@@ -22,58 +22,63 @@ import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, ParamValidators
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /** A tokenizer that splits text by a regex pattern.
- *
- * The pattern needs to be set with `setPattern` and this sets the delimiting pattern or how the tokens should be split.
- * By default this pattern is `\s+` which means that tokens should be split by 1 or more whitespace characters.
- *
- * ==Example==
- * {{{
- * import spark.implicits._
- * import com.johnsnowlabs.nlp.base.DocumentAssembler
- * import com.johnsnowlabs.nlp.annotators.RegexTokenizer
- * import org.apache.spark.ml.Pipeline
- *
- * val documentAssembler = new DocumentAssembler()
- *   .setInputCol("text")
- *   .setOutputCol("document")
- *
- * val regexTokenizer = new RegexTokenizer()
- *   .setInputCols("document")
- *   .setOutputCol("regexToken")
- *   .setToLowercase(true)
- *   .setPattern("\\s+")
- *
- * val pipeline = new Pipeline().setStages(Array(
- *     documentAssembler,
- *     regexTokenizer
- *   ))
- *
- * val data = Seq("This is my first sentence.\nThis is my second.").toDF("text")
- * val result = pipeline.fit(data).transform(data)
- *
- * result.selectExpr("regexToken.result").show(false)
- * +-------------------------------------------------------+
- * |result                                                 |
- * +-------------------------------------------------------+
- * |[this, is, my, first, sentence., this, is, my, second.]|
- * +-------------------------------------------------------+
- * }}}
- *
- * @param uid required uid for storing annotator to disk
- * @groupname anno Annotator types
- * @groupdesc anno Required input and expected output annotator types
- * @groupname Ungrouped Members
- * @groupname param Parameters
- * @groupname setParam Parameter setters
- * @groupname getParam Parameter getters
- * @groupname Ungrouped Members
- * @groupprio param  1
- * @groupprio anno  2
- * @groupprio Ungrouped 3
- * @groupprio setParam  4
- * @groupprio getParam  5
- * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
- */
+  *
+  * The pattern needs to be set with `setPattern` and this sets the delimiting pattern or how the
+  * tokens should be split. By default this pattern is `\s+` which means that tokens should be
+  * split by 1 or more whitespace characters.
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotators.RegexTokenizer
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val regexTokenizer = new RegexTokenizer()
+  *   .setInputCols("document")
+  *   .setOutputCol("regexToken")
+  *   .setToLowercase(true)
+  *   .setPattern("\\s+")
+  *
+  * val pipeline = new Pipeline().setStages(Array(
+  *     documentAssembler,
+  *     regexTokenizer
+  *   ))
+  *
+  * val data = Seq("This is my first sentence.\nThis is my second.").toDF("text")
+  * val result = pipeline.fit(data).transform(data)
+  *
+  * result.selectExpr("regexToken.result").show(false)
+  * +-------------------------------------------------------+
+  * |result                                                 |
+  * +-------------------------------------------------------+
+  * |[this, is, my, first, sentence., this, is, my, second.]|
+  * +-------------------------------------------------------+
+  * }}}
+  *
+  * @param uid
+  *   required uid for storing annotator to disk
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 class RegexTokenizer(override val uid: String)
     extends AnnotatorModel[RegexTokenizer]
     with HasSimpleAnnotate[RegexTokenizer] {
@@ -81,24 +86,23 @@ class RegexTokenizer(override val uid: String)
   import com.johnsnowlabs.nlp.AnnotatorType._
 
   /** Output annotator type: TOKEN
-   *
-   * @group anno
-   * */
+    *
+    * @group anno
+    */
   override val outputAnnotatorType: AnnotatorType = TOKEN
 
   /** Input annotator type: DOCUMENT
-   *
-   * @group anno
-   * */
+    *
+    * @group anno
+    */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
   def this() = this(Identifiable.randomUID("RegexTokenizer"))
 
-  /**
-   * Regex pattern used to match delimiters (Default: `"\\s+"`)
-   *
-   * @group param
-   */
+  /** Regex pattern used to match delimiters (Default: `"\\s+"`)
+    *
+    * @group param
+    */
   val pattern: Param[String] = new Param(this, "pattern", "regex pattern used for tokenizing")
 
   /** @group setParam */
@@ -107,11 +111,11 @@ class RegexTokenizer(override val uid: String)
   /** @group getParam */
   def getPattern: String = $(pattern)
 
-  /**
-   * Indicates whether to convert all characters to lowercase before tokenizing (Default: `false`).
-   *
-   * @group param
-   * */
+  /** Indicates whether to convert all characters to lowercase before tokenizing (Default:
+    * `false`).
+    *
+    * @group param
+    */
   val toLowercase: BooleanParam = new BooleanParam(
     this,
     "toLowercase",
@@ -123,12 +127,11 @@ class RegexTokenizer(override val uid: String)
   /** @group getParam */
   def getToLowercase: Boolean = $(toLowercase)
 
-  /**
-   * Minimum token length, greater than or equal to 0 (Default: `1`).
-   * Default is 1, to avoid returning empty strings.
-   *
-   * @group param
-   */
+  /** Minimum token length, greater than or equal to 0 (Default: `1`). Default is 1, to avoid
+    * returning empty strings.
+    *
+    * @group param
+    */
   val minLength: IntParam =
     new IntParam(this, "minLength", "minimum token length (>= 0)", ParamValidators.gtEq(0))
 
@@ -138,11 +141,10 @@ class RegexTokenizer(override val uid: String)
   /** @group getParam */
   def getMinLength: Int = $(minLength)
 
-  /**
-   * Maximum token length, greater than or equal to 1.
-   *
-   * @group param
-   */
+  /** Maximum token length, greater than or equal to 1.
+    *
+    * @group param
+    */
   val maxLength: IntParam =
     new IntParam(this, "maxLength", "maximum token length (>= 1)", ParamValidators.gtEq(1))
 
@@ -152,12 +154,11 @@ class RegexTokenizer(override val uid: String)
   /** @group getParam */
   def getMaxLength: Int = $(maxLength)
 
-  /**
-   * Indicates whether to apply the regex tokenization using a positional mask to guarantee the incremental progression
-   * (Default: `false`).
-   *
-   * @group param
-   * */
+  /** Indicates whether to apply the regex tokenization using a positional mask to guarantee the
+    * incremental progression (Default: `false`).
+    *
+    * @group param
+    */
   val positionalMask: BooleanParam =
     new BooleanParam(
       this,
@@ -170,12 +171,11 @@ class RegexTokenizer(override val uid: String)
   /** @group getParam */
   def getPositionalMask: Boolean = $(positionalMask)
 
-  /**
-   * Indicates whether to use a trimWhitespace flag to remove whitespaces from identified tokens.
-   * (Default: `false`).
-   *
-   * @group param
-   * */
+  /** Indicates whether to use a trimWhitespace flag to remove whitespaces from identified tokens.
+    * (Default: `false`).
+    *
+    * @group param
+    */
   val trimWhitespace: BooleanParam =
     new BooleanParam(
       this,
@@ -188,12 +188,11 @@ class RegexTokenizer(override val uid: String)
   /** @group getParam */
   def getTrimWhitespace: Boolean = $(trimWhitespace)
 
-  /**
-   * Indicates whether to use a preserve initial indexes before eventual whitespaces removal in tokens.
-   * (Default: `false`).
-   *
-   * @group param
-   * */
+  /** Indicates whether to use a preserve initial indexes before eventual whitespaces removal in
+    * tokens. (Default: `false`).
+    *
+    * @group param
+    */
   val preservePosition: BooleanParam =
     new BooleanParam(
       this,
@@ -216,12 +215,14 @@ class RegexTokenizer(override val uid: String)
     trimWhitespace -> false,
     preservePosition -> true)
 
-  /**
-   * This func generates a Seq of TokenizedSentences from a Seq of Sentences preserving positional progression
-   *
-   * @param sentences to tag
-   * @return Seq of TokenizedSentence objects
-   */
+  /** This func generates a Seq of TokenizedSentences from a Seq of Sentences preserving
+    * positional progression
+    *
+    * @param sentences
+    *   to tag
+    * @return
+    *   Seq of TokenizedSentence objects
+    */
   def tagWithPositionalMask(sentences: Seq[Sentence]): Seq[TokenizedSentence] = {
 
     def calculateIndex(indexType: String, mask: Array[Int], text: String, token: String) = {
@@ -258,12 +259,13 @@ class RegexTokenizer(override val uid: String)
     }
   }
 
-  /**
-   * This func generates a Seq of TokenizedSentences from a Seq of Sentences.
-   *
-   * @param sentences to tag
-   * @return Seq of TokenizedSentence objects
-   */
+  /** This func generates a Seq of TokenizedSentences from a Seq of Sentences.
+    *
+    * @param sentences
+    *   to tag
+    * @return
+    *   Seq of TokenizedSentence objects
+    */
   def tag(sentences: Seq[Sentence]): Seq[TokenizedSentence] = {
     sentences.map { text =>
       var curPos = 0
@@ -285,14 +287,17 @@ class RegexTokenizer(override val uid: String)
     }
   }
 
-  /**
-   * This func applies policies for token trimming when activated.
-   *
-   * @param inputTokSentences input token sentences
-   * @param trimWhitespace policy to trim whitespaces in tokens
-   * @param preservePosition policy to preserve indexing in tokens
-   * @return Seq of TokenizedSentence objects after applied policies transformations
-   */
+  /** This func applies policies for token trimming when activated.
+    *
+    * @param inputTokSentences
+    *   input token sentences
+    * @param trimWhitespace
+    *   policy to trim whitespaces in tokens
+    * @param preservePosition
+    *   policy to preserve indexing in tokens
+    * @return
+    *   Seq of TokenizedSentence objects after applied policies transformations
+    */
   def applyTrimPolicies(
       inputTokSentences: Seq[TokenizedSentence],
       trimWhitespace: Boolean,
@@ -342,7 +347,7 @@ class RegexTokenizer(override val uid: String)
   }
 }
 
-/**
- * This is the companion object of [[RegexTokenizer]]. Please refer to that class for the documentation.
- */
+/** This is the companion object of [[RegexTokenizer]]. Please refer to that class for the
+  * documentation.
+  */
 object RegexTokenizer extends DefaultParamsReadable[RegexTokenizer]

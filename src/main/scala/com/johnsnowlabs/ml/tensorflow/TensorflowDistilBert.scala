@@ -23,39 +23,46 @@ import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
 
-/**
- * The DistilBERT model was proposed in the paper '''DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter'''
- * [[https://arxiv.org/abs/1910.01108]].
- * DistilBERT is a small, fast, cheap and light Transformer model trained by distilling BERT base. It has 40% less parameters than
- * `bert-base-uncased`, runs 60% faster while preserving over 95% of BERT's performances as measured on the GLUE language understanding benchmark.
- *
- * The abstract from the paper is the following:
- *
- * As Transfer Learning from large-scale pre-trained models becomes more prevalent in Natural Language Processing (NLP),
- * operating these large models in on-the-edge and/or under constrained computational training or inference budgets
- * remains challenging. In this work, we propose a method to pre-train a smaller general-purpose language representation
- * model, called DistilBERT, which can then be fine-tuned with good performances on a wide range of tasks like its larger
- * counterparts. While most prior work investigated the use of distillation for building task-specific models, we leverage
- * knowledge distillation during the pretraining phase and show that it is possible to reduce the size of a BERT model by
- * 40%, while retaining 97% of its language understanding capabilities and being 60% faster. To leverage the inductive
- * biases learned by larger models during pretraining, we introduce a triple loss combining language modeling,
- * distillation and cosine-distance losses. Our smaller, faster and lighter model is cheaper to pre-train and we
- * demonstrate its capabilities for on-device computations in a proof-of-concept experiment and a comparative on-device
- * study.
- *
- * Tips:
- *
- * - DistilBERT doesn't have :obj:`token_type_ids`, you don't need to indicate which token belongs to which segment. Just
- * separate your segments with the separation token :obj:`tokenizer.sep_token` (or :obj:`[SEP]`).
- *
- * - DistilBERT doesn't have options to select the input positions (:obj:`position_ids` input). This could be added if
- * necessary though, just let us know if you need this option.
- *
- * @param tensorflowWrapper    Bert Model wrapper with TensorFlow Wrapper
- * @param sentenceStartTokenId Id of sentence start Token
- * @param sentenceEndTokenId   Id of sentence end Token.
- * @param configProtoBytes     Configuration for TensorFlow session
- */
+/** The DistilBERT model was proposed in the paper '''DistilBERT, a distilled version of BERT:
+  * smaller, faster, cheaper and lighter''' [[https://arxiv.org/abs/1910.01108]]. DistilBERT is a
+  * small, fast, cheap and light Transformer model trained by distilling BERT base. It has 40%
+  * less parameters than `bert-base-uncased`, runs 60% faster while preserving over 95% of BERT's
+  * performances as measured on the GLUE language understanding benchmark.
+  *
+  * The abstract from the paper is the following:
+  *
+  * As Transfer Learning from large-scale pre-trained models becomes more prevalent in Natural
+  * Language Processing (NLP), operating these large models in on-the-edge and/or under
+  * constrained computational training or inference budgets remains challenging. In this work, we
+  * propose a method to pre-train a smaller general-purpose language representation model, called
+  * DistilBERT, which can then be fine-tuned with good performances on a wide range of tasks like
+  * its larger counterparts. While most prior work investigated the use of distillation for
+  * building task-specific models, we leverage knowledge distillation during the pretraining phase
+  * and show that it is possible to reduce the size of a BERT model by 40%, while retaining 97% of
+  * its language understanding capabilities and being 60% faster. To leverage the inductive biases
+  * learned by larger models during pretraining, we introduce a triple loss combining language
+  * modeling, distillation and cosine-distance losses. Our smaller, faster and lighter model is
+  * cheaper to pre-train and we demonstrate its capabilities for on-device computations in a
+  * proof-of-concept experiment and a comparative on-device study.
+  *
+  * Tips:
+  *
+  *   - DistilBERT doesn't have :obj:`token_type_ids`, you don't need to indicate which token
+  *     belongs to which segment. Just separate your segments with the separation token
+  *     :obj:`tokenizer.sep_token` (or :obj:`[SEP]`).
+  *
+  *   - DistilBERT doesn't have options to select the input positions (:obj:`position_ids` input).
+  *     This could be added if necessary though, just let us know if you need this option.
+  *
+  * @param tensorflowWrapper
+  *   Bert Model wrapper with TensorFlow Wrapper
+  * @param sentenceStartTokenId
+  *   Id of sentence start Token
+  * @param sentenceEndTokenId
+  *   Id of sentence end Token.
+  * @param configProtoBytes
+  *   Configuration for TensorFlow session
+  */
 class TensorflowDistilBert(
     val tensorflowWrapper: TensorflowWrapper,
     sentenceStartTokenId: Int,
@@ -71,18 +78,19 @@ class TensorflowDistilBert(
       sentences: Seq[(WordpieceTokenizedSentence, Int)],
       maxSequenceLength: Int): Seq[Array[Int]] = {
     val maxSentenceLength =
-      Array(maxSequenceLength - 2, sentences.map {
-        case (wpTokSentence, _) => wpTokSentence.tokens.length
-      }.max).min
+      Array(
+        maxSequenceLength - 2,
+        sentences.map { case (wpTokSentence, _) =>
+          wpTokSentence.tokens.length
+        }.max).min
 
     sentences
-      .map {
-        case (wpTokSentence, _) =>
-          val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
-          val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(0)
+      .map { case (wpTokSentence, _) =>
+        val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
+        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(0)
 
-          Array(sentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(
-            sentenceEndTokenId) ++ padding
+        Array(sentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(
+          sentenceEndTokenId) ++ padding
       }
   }
 
@@ -99,11 +107,10 @@ class TensorflowDistilBert(
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
     batch.zipWithIndex
-      .foreach {
-        case (sentence, idx) =>
-          val offset = idx * maxSentenceLength
-          tokenBuffers.offset(offset).write(sentence)
-          maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
+      .foreach { case (sentence, idx) =>
+        val offset = idx * maxSentenceLength
+        tokenBuffers.offset(offset).write(sentence)
+        maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
       }
 
     val runner = tensorflowWrapper
@@ -140,24 +147,23 @@ class TensorflowDistilBert(
 
     val emptyVector = Array.fill(dim)(0f)
 
-    batch.zip(shrinkedEmbeddings).map {
-      case (ids, embeddings) =>
-        if (ids.length > embeddings.length) {
-          embeddings.take(embeddings.length - 1) ++
-            Array.fill(embeddings.length - ids.length)(emptyVector) ++
-            Array(embeddings.last)
-        } else {
-          embeddings
-        }
+    batch.zip(shrinkedEmbeddings).map { case (ids, embeddings) =>
+      if (ids.length > embeddings.length) {
+        embeddings.take(embeddings.length - 1) ++
+          Array.fill(embeddings.length - ids.length)(emptyVector) ++
+          Array(embeddings.last)
+      } else {
+        embeddings
+      }
     }
 
   }
 
-  /**
-   *
-   * @param batch batches of sentences
-   * @return batches of vectors for each sentence
-   */
+  /** @param batch
+    *   batches of sentences
+    * @return
+    *   batches of vectors for each sentence
+    */
   def tagSequence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
     val tensors = new TensorResources()
     val tensorsMasks = new TensorResources()
@@ -170,12 +176,11 @@ class TensorflowDistilBert(
 
     val shape = Array(batchLength.toLong, maxSentenceLength)
 
-    batch.zipWithIndex.foreach {
-      case (sentence, idx) =>
-        val offset = idx * maxSentenceLength
+    batch.zipWithIndex.foreach { case (sentence, idx) =>
+      val offset = idx * maxSentenceLength
 
-        tokenBuffers.offset(offset).write(sentence)
-        maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
+      tokenBuffers.offset(offset).write(sentence)
+      maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
     }
 
     val runner = tensorflowWrapper
@@ -222,14 +227,13 @@ class TensorflowDistilBert(
         val vectors = tag(encoded)
 
         /*Combine tokens and calculated embeddings*/
-        batch.zip(vectors).map {
-          case (sentence, tokenVectors) =>
-            val tokenLength = sentence._1.tokens.length
+        batch.zip(vectors).map { case (sentence, tokenVectors) =>
+          val tokenLength = sentence._1.tokens.length
 
-            /*All wordpiece embeddings*/
-            val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
+          /*All wordpiece embeddings*/
+          val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
 
-            /*Word-level and span-level alignment with Tokenizer
+          /*Word-level and span-level alignment with Tokenizer
         https://github.com/google-research/bert#tokenization
 
         ### Input
@@ -239,28 +243,28 @@ class TensorflowDistilBert(
         # bert_tokens == ["[CLS]", "john", "johan", "##son", "'", "s", "house", "[SEP]"]
         # orig_to_tok_map == [1, 2, 4, 6]*/
 
-            val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap {
-              case (token, tokenEmbedding) =>
-                val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
-                val originalTokensWithEmbeddings =
-                  originalTokenSentences(sentence._2).indexedTokens
-                    .find(p => p.begin == tokenWithEmbeddings.begin)
-                    .map { token =>
-                      val originalTokenWithEmbedding = TokenPieceEmbeddings(
-                        TokenPiece(
-                          wordpiece = tokenWithEmbeddings.wordpiece,
-                          token = if (caseSensitive) token.token else token.token.toLowerCase(),
-                          pieceId = tokenWithEmbeddings.pieceId,
-                          isWordStart = tokenWithEmbeddings.isWordStart,
-                          begin = token.begin,
-                          end = token.end),
-                        tokenEmbedding)
-                      originalTokenWithEmbedding
-                    }
-                originalTokensWithEmbeddings
+          val tokensWithEmbeddings =
+            sentence._1.tokens.zip(tokenEmbeddings).flatMap { case (token, tokenEmbedding) =>
+              val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
+              val originalTokensWithEmbeddings =
+                originalTokenSentences(sentence._2).indexedTokens
+                  .find(p => p.begin == tokenWithEmbeddings.begin)
+                  .map { token =>
+                    val originalTokenWithEmbedding = TokenPieceEmbeddings(
+                      TokenPiece(
+                        wordpiece = tokenWithEmbeddings.wordpiece,
+                        token = if (caseSensitive) token.token else token.token.toLowerCase(),
+                        pieceId = tokenWithEmbeddings.pieceId,
+                        isWordStart = tokenWithEmbeddings.isWordStart,
+                        begin = token.begin,
+                        end = token.end),
+                      tokenEmbedding)
+                    originalTokenWithEmbedding
+                  }
+              originalTokensWithEmbeddings
             }
 
-            WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._2)
+          WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._2)
         }
       }
       .toSeq
@@ -283,19 +287,18 @@ class TensorflowDistilBert(
         val encoded = encode(tokensBatch, maxSentenceLength)
         val embeddings = tagSequence(encoded)
 
-        sentencesBatch.zip(embeddings).map {
-          case (sentence, vectors) =>
-            Annotation(
-              annotatorType = AnnotatorType.SENTENCE_EMBEDDINGS,
-              begin = sentence.start,
-              end = sentence.end,
-              result = sentence.content,
-              metadata = Map(
-                "sentence" -> sentence.index.toString,
-                "token" -> sentence.content,
-                "pieceId" -> "-1",
-                "isWordStart" -> "true"),
-              embeddings = vectors)
+        sentencesBatch.zip(embeddings).map { case (sentence, vectors) =>
+          Annotation(
+            annotatorType = AnnotatorType.SENTENCE_EMBEDDINGS,
+            begin = sentence.start,
+            end = sentence.end,
+            result = sentence.content,
+            metadata = Map(
+              "sentence" -> sentence.index.toString,
+              "token" -> sentence.content,
+              "pieceId" -> "-1",
+              "isWordStart" -> "true"),
+            embeddings = vectors)
         }
       }
       .toSeq

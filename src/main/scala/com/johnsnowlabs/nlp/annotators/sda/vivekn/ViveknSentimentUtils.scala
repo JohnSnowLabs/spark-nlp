@@ -57,7 +57,7 @@ trait ViveknSentimentUtils {
       f: List[String] => Set[String],
       left: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0),
       right: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0))
-    : (MMap[String, Long], MMap[String, Long]) = {
+      : (MMap[String, Long], MMap[String, Long]) = {
     val regex = er.options("tokenPattern").r
     val prefix = "not_"
     val sourceStream = SourceStream(er.path)

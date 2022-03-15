@@ -30,7 +30,7 @@ object TagDictionary { // Here, tag == Part-of-Speech
   def classesAndTagDictionary(
       trainingSentences: List[Sentence]): (Vector[ClassName], Map[Word, ClassNum]) = {
     def mutationalApproach()
-      : (mutable.Set[ClassName], mutable.Map[Word, mutable.Map[ClassName, Int]]) = {
+        : (mutable.Set[ClassName], mutable.Map[Word, mutable.Map[ClassName, Int]]) = {
       // takes 60ms on full training data !
       val classSet = mutable.Set[ClassName]()
       val fullMap = mutable.Map[Word, mutable.Map[ClassName, Int]]()

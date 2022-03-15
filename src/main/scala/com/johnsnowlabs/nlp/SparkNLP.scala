@@ -30,19 +30,29 @@ object SparkNLP {
   val MavenSpark23 = s"com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:$currentVersion"
   val MavenGpuSpark23 = s"com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:$currentVersion"
 
-  /**
-   * Start SparkSession with Spark NLP
-   *
-   * @param gpu             start Spark NLP with GPU
-   * @param spark23         start Spark NLP on Apache Spark 2.3.x
-   * @param spark24         start Spark NLP on Apache Spark 2.4.x
-   * @param spark32         start Spark NLP on Apache Spark 3.2.x
-   * @param memory          set driver memory for SparkSession
-   * @param cache_folder    The location to download and exctract pretrained Models and Pipelines
-   * @param log_folder      The location to save logs from annotators during training such as NerDLApproach, ClassifierDLApproach, SentimentDLApproach, MultiClassifierDLApproach, etc.
-   * @param cluster_tmp_dir The location to use on a cluster for temporarily files such as unpacking indexes for WordEmbeddings
-   * @return SparkSession
-   */
+  /** Start SparkSession with Spark NLP
+    *
+    * @param gpu
+    *   start Spark NLP with GPU
+    * @param spark23
+    *   start Spark NLP on Apache Spark 2.3.x
+    * @param spark24
+    *   start Spark NLP on Apache Spark 2.4.x
+    * @param spark32
+    *   start Spark NLP on Apache Spark 3.2.x
+    * @param memory
+    *   set driver memory for SparkSession
+    * @param cache_folder
+    *   The location to download and exctract pretrained Models and Pipelines
+    * @param log_folder
+    *   The location to save logs from annotators during training such as NerDLApproach,
+    *   ClassifierDLApproach, SentimentDLApproach, MultiClassifierDLApproach, etc.
+    * @param cluster_tmp_dir
+    *   The location to use on a cluster for temporarily files such as unpacking indexes for
+    *   WordEmbeddings
+    * @return
+    *   SparkSession
+    */
   def start(
       gpu: Boolean = false,
       spark23: Boolean = false,

@@ -111,7 +111,9 @@ object StorageHelper {
 
   private def copyIndexToLocal(source: Path, destination: Path, context: SparkContext): Unit = {
 
-    /** if we don't do a copy, and just move, it will all fail when re-saving utilized storage because of bad crc */
+    /** if we don't do a copy, and just move, it will all fail when re-saving utilized storage
+      * because of bad crc
+      */
     val fs = source.getFileSystem(context.hadoopConfiguration)
     if (!fs.exists(destination))
       fs.copyFromLocalFile(false, true, source, destination)

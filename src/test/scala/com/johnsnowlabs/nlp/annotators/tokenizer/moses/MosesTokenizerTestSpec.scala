@@ -20,9 +20,8 @@ import com.johnsnowlabs.tags.FastTest
 import org.scalatest.Assertion
 import org.scalatest.flatspec.AnyFlatSpec
 
-/**
- * Tests ported from sacremoses
- */
+/** Tests ported from sacremoses
+  */
 class MosesTokenizerTestSpec extends AnyFlatSpec {
   val moses = new MosesTokenizer("en")
 
@@ -34,7 +33,8 @@ class MosesTokenizerTestSpec extends AnyFlatSpec {
     var expected = "This , is a sentence with weird » symbols … appearing everywhere ¿".split(" ")
     assertTokenization(moses.tokenize(text), expected)
 
-    text = "This ain't funny. It's actually hillarious, yet double Ls. | [] < > [ ] & You're gonna shake it off? Don't?"
+    text =
+      "This ain't funny. It's actually hillarious, yet double Ls. | [] < > [ ] & You're gonna shake it off? Don't?"
     expected = Array(
       "This",
       "ain",
@@ -67,8 +67,7 @@ class MosesTokenizerTestSpec extends AnyFlatSpec {
       "?",
       "Don",
       "'t",
-      "?"
-    )
+      "?")
     assertTokenization(moses.tokenize(text), expected)
   }
 
@@ -86,8 +85,11 @@ class MosesTokenizerTestSpec extends AnyFlatSpec {
     expected = Array("this", "'", "is", "'", "the", "thing")
     assertTokenization(moses.tokenize(text), expected)
 
-    text = "By the mid 1990s a version of the game became a Latvian television series (with a parliamentary setting, and played by Latvian celebrities)."
-    expected = "By the mid 1990s a version of the game became a Latvian television series ( with a parliamentary setting , and played by Latvian celebrities ) .".split(" ")
+    text =
+      "By the mid 1990s a version of the game became a Latvian television series (with a parliamentary setting, and played by Latvian celebrities)."
+    expected =
+      "By the mid 1990s a version of the game became a Latvian television series ( with a parliamentary setting , and played by Latvian celebrities ) ."
+        .split(" ")
     assertTokenization(moses.tokenize(text), expected)
 
     text = "'Hello.'"

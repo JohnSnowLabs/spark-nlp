@@ -46,81 +46,93 @@ object CandidateStrategy {
   val ALL = 2
 }
 
-/** Trains a deep-learning based Noisy Channel Model Spell Algorithm.
- * Correction candidates are extracted combining context information and word information.
- *
- * For instantiated/pretrained models, see [[ContextSpellCheckerModel]].
- *
- * Spell Checking is a sequence to sequence mapping problem. Given an input sequence, potentially containing a
- * certain number of errors, `ContextSpellChecker` will rank correction sequences according to three things:
- *  1. Different correction candidates for each word — '''word level'''.
- *  1. The surrounding text of each word, i.e. it’s context — '''sentence level'''.
- *  1. The relative cost of different correction candidates according to the edit operations at the character level it requires — '''subword level'''.
- *
- * For an in-depth explanation of the module see the article [[https://medium.com/spark-nlp/applying-context-aware-spell-checking-in-spark-nlp-3c29c46963bc Applying Context Aware Spell Checking in Spark NLP]].
- *
- * For extended examples of usage, see the article [[https://towardsdatascience.com/training-a-contextual-spell-checker-for-italian-language-66dda528e4bf Training a Contextual Spell Checker for Italian Language]],
- * the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/5.TrainingContextSpellChecker.ipynb Spark NLP Workshop]]
- * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerTestSpec.scala ContextSpellCheckerTestSpec]].
- *
- * ==Example==
- * For this example, we use the first Sherlock Holmes book as the training dataset.
- * {{{
- * import spark.implicits._
- * import com.johnsnowlabs.nlp.base.DocumentAssembler
- * import com.johnsnowlabs.nlp.annotators.Tokenizer
- * import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach
- *
- * import org.apache.spark.ml.Pipeline
- *
- * val documentAssembler = new DocumentAssembler()
- *   .setInputCol("text")
- *   .setOutputCol("document")
- *
- *
- * val tokenizer = new Tokenizer()
- *   .setInputCols("document")
- *   .setOutputCol("token")
- *
- * val spellChecker = new ContextSpellCheckerApproach()
- *   .setInputCols("token")
- *   .setOutputCol("corrected")
- *   .setWordMaxDistance(3)
- *   .setBatchSize(24)
- *   .setEpochs(8)
- *   .setLanguageModelClasses(1650)  // dependant on vocabulary size
- *   // .addVocabClass("_NAME_", names) // Extra classes for correction could be added like this
- *
- * val pipeline = new Pipeline().setStages(Array(
- *   documentAssembler,
- *   tokenizer,
- *   spellChecker
- * ))
- *
- * val path = "src/test/resources/spell/sherlockholmes.txt"
- * val dataset = spark.sparkContext.textFile(path)
- *   .toDF("text")
- * val pipelineModel = pipeline.fit(dataset)
- * }}}
- *
- * @see [[com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach NorvigSweetingApproach]]
- *      and [[com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach SymmetricDeleteApproach]]
- *      for alternative approaches to spell checking
- * @param uid required uid for storing annotator to disk
- * @groupname anno Annotator types
- * @groupdesc anno Required input and expected output annotator types
- * @groupname Ungrouped Members
- * @groupname param Parameters
- * @groupname setParam Parameter setters
- * @groupname getParam Parameter getters
- * @groupname Ungrouped Members
- * @groupprio param  1
- * @groupprio anno  2
- * @groupprio Ungrouped 3
- * @groupprio setParam  4
- * @groupprio getParam  5
- * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
- */
+/** Trains a deep-learning based Noisy Channel Model Spell Algorithm. Correction candidates are
+  * extracted combining context information and word information.
+  *
+  * For instantiated/pretrained models, see [[ContextSpellCheckerModel]].
+  *
+  * Spell Checking is a sequence to sequence mapping problem. Given an input sequence, potentially
+  * containing a certain number of errors, `ContextSpellChecker` will rank correction sequences
+  * according to three things:
+  *   1. Different correction candidates for each word — '''word level'''.
+  *   1. The surrounding text of each word, i.e. it’s context — '''sentence level'''.
+  *   1. The relative cost of different correction candidates according to the edit operations at
+  *      the character level it requires — '''subword level'''.
+  *
+  * For an in-depth explanation of the module see the article
+  * [[https://medium.com/spark-nlp/applying-context-aware-spell-checking-in-spark-nlp-3c29c46963bc Applying Context Aware Spell Checking in Spark NLP]].
+  *
+  * For extended examples of usage, see the article
+  * [[https://towardsdatascience.com/training-a-contextual-spell-checker-for-italian-language-66dda528e4bf Training a Contextual Spell Checker for Italian Language]],
+  * the
+  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/5.TrainingContextSpellChecker.ipynb Spark NLP Workshop]]
+  * and the
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerTestSpec.scala ContextSpellCheckerTestSpec]].
+  *
+  * ==Example==
+  * For this example, we use the first Sherlock Holmes book as the training dataset.
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotators.Tokenizer
+  * import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach
+  *
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  *
+  * val tokenizer = new Tokenizer()
+  *   .setInputCols("document")
+  *   .setOutputCol("token")
+  *
+  * val spellChecker = new ContextSpellCheckerApproach()
+  *   .setInputCols("token")
+  *   .setOutputCol("corrected")
+  *   .setWordMaxDistance(3)
+  *   .setBatchSize(24)
+  *   .setEpochs(8)
+  *   .setLanguageModelClasses(1650)  // dependant on vocabulary size
+  *   // .addVocabClass("_NAME_", names) // Extra classes for correction could be added like this
+  *
+  * val pipeline = new Pipeline().setStages(Array(
+  *   documentAssembler,
+  *   tokenizer,
+  *   spellChecker
+  * ))
+  *
+  * val path = "src/test/resources/spell/sherlockholmes.txt"
+  * val dataset = spark.sparkContext.textFile(path)
+  *   .toDF("text")
+  * val pipelineModel = pipeline.fit(dataset)
+  * }}}
+  *
+  * @see
+  *   [[com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach NorvigSweetingApproach]]
+  *   and
+  *   [[com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach SymmetricDeleteApproach]]
+  *   for alternative approaches to spell checking
+  * @param uid
+  *   required uid for storing annotator to disk
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 class ContextSpellCheckerApproach(override val uid: String)
     extends AnnotatorApproach[ContextSpellCheckerModel]
     with HasFeatures
@@ -131,9 +143,9 @@ class ContextSpellCheckerApproach(override val uid: String)
   private val logger = LoggerFactory.getLogger("ContextSpellCheckerApproach")
 
   /** List of parsers for special classes (Default: `List(new DateToken, new NumberToken)`).
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val specialClasses = new Param[List[SpecialClassParser]](
     this,
     "specialClasses",
@@ -143,10 +155,11 @@ class ContextSpellCheckerApproach(override val uid: String)
   def setSpecialClasses(parsers: List[SpecialClassParser]): this.type =
     set(specialClasses, parsers)
 
-  /** Number of classes to use during factorization of the softmax output in the LM (Default: `2000`).
-   *
-   * @group param
-   */
+  /** Number of classes to use during factorization of the softmax output in the LM (Default:
+    * `2000`).
+    *
+    * @group param
+    */
   val languageModelClasses = new Param[Int](
     this,
     "languageModelClasses",
@@ -156,9 +169,9 @@ class ContextSpellCheckerApproach(override val uid: String)
   def setLanguageModelClasses(k: Int): this.type = set(languageModelClasses, k)
 
   /** Maximum distance for the generated candidates for every word (Default: `3`).
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val wordMaxDistance = new IntParam(
     this,
     "wordMaxDistance",
@@ -171,9 +184,9 @@ class ContextSpellCheckerApproach(override val uid: String)
   }
 
   /** Maximum number of candidates for every word (Default: `6`).
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val maxCandidates =
     new IntParam(this, "maxCandidates", "Maximum number of candidates for every word.")
 
@@ -181,9 +194,9 @@ class ContextSpellCheckerApproach(override val uid: String)
   def setMaxCandidates(k: Int): this.type = set(maxCandidates, k)
 
   /** What case combinations to try when generating candidates (Default: `CandidateStrategy.ALL`).
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val caseStrategy = new IntParam(
     this,
     "caseStrategy",
@@ -193,9 +206,9 @@ class ContextSpellCheckerApproach(override val uid: String)
   def setCaseStrategy(k: Int): this.type = set(caseStrategy, k)
 
   /** Threshold perplexity for a word to be considered as an error (Default: `10f`).
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val errorThreshold = new FloatParam(
     this,
     "errorThreshold",
@@ -205,45 +218,45 @@ class ContextSpellCheckerApproach(override val uid: String)
   def setErrorThreshold(t: Float): this.type = set(errorThreshold, t)
 
   /** Number of epochs to train the language model (Default: `2`).
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val epochs = new IntParam(this, "epochs", "Number of epochs to train the language model.")
 
   /** @group setParam */
   def setEpochs(k: Int): this.type = set(epochs, k)
 
   /** Batch size for the training in NLM (Default: `24`).
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val batchSize = new IntParam(this, "batchSize", "Batch size for the training in NLM.")
 
   /** @group setParam */
   def setBatchSize(k: Int): this.type = set(batchSize, k)
 
   /** Initial learning rate for the LM (Default: `.7f`).
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val initialRate = new FloatParam(this, "initialRate", "Initial learning rate for the LM.")
 
   /** @group setParam */
   def setInitialRate(r: Float): this.type = set(initialRate, r)
 
   /** Final learning rate for the LM (Default: `0.0005f`).
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val finalRate = new FloatParam(this, "finalRate", "Final learning rate for the LM.")
 
   /** @group setParam */
   def setFinalRate(r: Float): this.type = set(finalRate, r)
 
   /** Percentage of datapoints to use for validation (Default: `.1f`).
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val validationFraction =
     new FloatParam(this, "validationFraction", "percentage of datapoints to use for validation.")
 
@@ -251,9 +264,9 @@ class ContextSpellCheckerApproach(override val uid: String)
   def setValidationFraction(r: Float): this.type = set(validationFraction, r)
 
   /** Min number of times a token should appear to be included in vocab (Default: `3.0`).
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val minCount = new Param[Double](
     this,
     "minCount",
@@ -263,9 +276,9 @@ class ContextSpellCheckerApproach(override val uid: String)
   def setMinCount(threshold: Double): this.type = set(minCount, threshold)
 
   /** Min number of times a compound word should appear to be included in vocab (Default: `5`).
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val compoundCount = new Param[Int](
     this,
     "compoundCount",
@@ -274,10 +287,11 @@ class ContextSpellCheckerApproach(override val uid: String)
   /** @group setParam */
   def setCompoundCount(k: Int): this.type = set(compoundCount, k)
 
-  /** Tradeoff between the cost of a word error and a transition in the language model (Default: `18.0f`).
-   *
-   * @group param
-   */
+  /** Tradeoff between the cost of a word error and a transition in the language model (Default:
+    * `18.0f`).
+    *
+    * @group param
+    */
   val tradeoff = new Param[Float](
     this,
     "tradeoff",
@@ -286,10 +300,11 @@ class ContextSpellCheckerApproach(override val uid: String)
   /** @group setParam */
   def setTradeoff(alpha: Float): this.type = set(tradeoff, alpha)
 
-  /** Min number of times the word need to appear in corpus to not be considered of a special class (Default: `15.0`).
-   *
-   * @group param
-   */
+  /** Min number of times the word need to appear in corpus to not be considered of a special
+    * class (Default: `15.0`).
+    *
+    * @group param
+    */
   val classCount = new Param[Double](
     this,
     "classCount",
@@ -299,9 +314,9 @@ class ContextSpellCheckerApproach(override val uid: String)
   def setClassCount(t: Double): this.type = set(classCount, t)
 
   /** The path to the file containing the weights for the levenshtein distance.
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val weightedDistPath = new Param[String](
     this,
     "weightedDistPath",
@@ -310,10 +325,11 @@ class ContextSpellCheckerApproach(override val uid: String)
   /** @group setParam */
   def setWeightedDistPath(filePath: String): this.type = set(weightedDistPath, filePath)
 
-  /** Maximum size for the window used to remember history prior to every correction (Default: `5`).
-   *
-   * @group param
-   */
+  /** Maximum size for the window used to remember history prior to every correction (Default:
+    * `5`).
+    *
+    * @group param
+    */
   val maxWindowLen = new IntParam(
     this,
     "maxWindowLen",
@@ -322,10 +338,11 @@ class ContextSpellCheckerApproach(override val uid: String)
   /** @group setParam */
   def setMaxWindowLen(w: Int): this.type = set(maxWindowLen, w)
 
-  /** Configproto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
-   *
-   * @group param
-   */
+  /** Configproto from tensorflow, serialized into byte array. Get with
+    * config_proto.SerializeToString()
+    *
+    * @group param
+    */
   val configProtoBytes = new IntArrayParam(
     this,
     "configProtoBytes",
@@ -339,25 +356,25 @@ class ContextSpellCheckerApproach(override val uid: String)
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   /** Maximum length for a sentence - internal use during training (Default: `250`)
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val maxSentLen = new IntParam(
     this,
     "maxSentLen",
     "Maximum length for a sentence - internal use during training")
 
   /** Folder path that contain external graph files
-   *
-   * @group setParam
-   * */
+    *
+    * @group setParam
+    */
   val graphFolder =
     new Param[String](this, "graphFolder", "Folder path that contain external graph files")
 
   /** Folder path that contain external graph files
-   *
-   * @group setParam
-   * */
+    *
+    * @group setParam
+    */
   def setGraphFolder(path: String): this.type = set(this.graphFolder, path)
 
   setDefault(
@@ -383,12 +400,15 @@ class ContextSpellCheckerApproach(override val uid: String)
   private var broadcastGraph: Option[Broadcast[Array[Byte]]] = None
 
   /** Adds a new class of words to correct, based on a vocabulary.
-   *
-   * @param usrLabel  Name of the class
-   * @param vocabList Vocabulary as a list
-   * @param userDist  Maximal distance to the word
-   * @return
-   */
+    *
+    * @param usrLabel
+    *   Name of the class
+    * @param vocabList
+    *   Vocabulary as a list
+    * @param userDist
+    *   Maximal distance to the word
+    * @return
+    */
   def addVocabClass(
       usrLabel: String,
       vocabList: util.ArrayList[String],
@@ -400,12 +420,15 @@ class ContextSpellCheckerApproach(override val uid: String)
   }
 
   /** Adds a new class of words to correct, based on regex.
-   *
-   * @param usrLabel Name of the class
-   * @param usrRegex Regex to add
-   * @param userDist Maximal distance to the word
-   * @return
-   */
+    *
+    * @param usrLabel
+    *   Name of the class
+    * @param usrRegex
+    *   Regex to add
+    * @param userDist
+    *   Maximal distance to the word
+    * @return
+    */
   def addRegexClass(
       usrLabel: String,
       usrRegex: String,
@@ -533,31 +556,30 @@ class ContextSpellCheckerApproach(override val uid: String)
     vocab = vocab.filter(_._2 >= getOrDefault(minCount))
 
     // second pass: identify tokens that belong to special classes, and replace with a label
-    vocab.foreach {
-      case (word, count) =>
-        getOrDefault(specialClasses).foreach { specialClass =>
-          // check word is in vocabulary and the word is uncommon
-          if (specialClass.inVocabulary(word)) {
-            if (count < getOrDefault(classCount)) {
-              logger.debug(s"Recognized $word as ${specialClass.label}")
-              vocab
-                .get(word)
-                .map { count =>
-                  vocab.update(specialClass.label, count + 1.0)
-                }
-                .getOrElse(vocab.update(specialClass.label, 1.0))
-
-              // remove the token from global vocabulary, now it's covered by the class
-              vocab.remove(word)
-            } else {
-              specialClass match {
-                // remove the word from the class, it's already covered by the global vocabulary
-                case p: VocabParser => p.vocab.remove(word)
-                case _ =>
+    vocab.foreach { case (word, count) =>
+      getOrDefault(specialClasses).foreach { specialClass =>
+        // check word is in vocabulary and the word is uncommon
+        if (specialClass.inVocabulary(word)) {
+          if (count < getOrDefault(classCount)) {
+            logger.debug(s"Recognized $word as ${specialClass.label}")
+            vocab
+              .get(word)
+              .map { count =>
+                vocab.update(specialClass.label, count + 1.0)
               }
+              .getOrElse(vocab.update(specialClass.label, 1.0))
+
+            // remove the token from global vocabulary, now it's covered by the class
+            vocab.remove(word)
+          } else {
+            specialClass match {
+              // remove the word from the class, it's already covered by the global vocabulary
+              case p: VocabParser => p.vocab.remove(word)
+              case _ =>
             }
           }
         }
+      }
     }
 
     /* Blacklists {fwis, hyphen, slash} */
@@ -570,11 +592,10 @@ class ContextSpellCheckerApproach(override val uid: String)
 
     // Remove compound words for which components parts are in vocabulary, keep only the high frequent ones
     val compoundWords = Seq("-", "/").flatMap { separator =>
-      vocab.filter {
-        case (word, weight) =>
-          val splits = word.split(separator)
-          splits.length == 2 && vocab.contains(splits(0)) && vocab.contains(splits(1)) &&
-          weight < getOrDefault(compoundCount)
+      vocab.filter { case (word, weight) =>
+        val splits = word.split(separator)
+        splits.length == 2 && vocab.contains(splits(0)) && vocab.contains(splits(1)) &&
+        weight < getOrDefault(compoundCount)
       }.keys
     }
 
@@ -605,10 +626,9 @@ class ContextSpellCheckerApproach(override val uid: String)
     val vocabFile = new File(fileName)
     val bwVocab = new BufferedWriter(new FileWriter(vocabFile))
 
-    v.foreach {
-      case (word, freq) =>
-        bwVocab.write(s"""$word|$freq""")
-        bwVocab.newLine()
+    v.foreach { case (word, freq) =>
+      bwVocab.write(s"""$word|$freq""")
+      bwVocab.newLine()
     }
     bwVocab.close()
     v
@@ -739,19 +759,21 @@ class ContextSpellCheckerApproach(override val uid: String)
     graphFiles
   }
 
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
+    * type
+    */
   def this() = this(Identifiable.randomUID("SPELL"))
 
   /** Input Annotator Types: TOKEN
-   *
-   * @group anno
-   */
+    *
+    * @group anno
+    */
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.TOKEN)
 
   /** Output Annotator Types: TOKEN
-   *
-   * @group anno
-   */
+    *
+    * @group anno
+    */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.TOKEN
 
 }

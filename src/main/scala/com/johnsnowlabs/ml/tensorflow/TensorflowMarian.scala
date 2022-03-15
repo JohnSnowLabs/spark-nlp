@@ -24,23 +24,30 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import scala.collection.JavaConverters._
 
 /** MarianTransformer: Fast Neural Machine Translation
- *
- * MarianTransformer uses models trained by MarianNMT.
- *
- * Marian is an efficient, free Neural Machine Translation framework written in pure C++ with minimal dependencies.
- * It is mainly being developed by the Microsoft Translator team. Many academic (most notably the University of Edinburgh and in the past the Adam Mickiewicz University in Poznań) and commercial contributors help with its development.
- *
- * It is currently the engine behind the Microsoft Translator Neural Machine Translation services and being deployed by many companies, organizations and research projects (see below for an incomplete list).
- *
- * '''Sources''' :
- * MarianNMT [[https://marian-nmt.github.io/]]
- * Marian: Fast Neural Machine Translation in C++ [[https://www.aclweb.org/anthology/P18-4020/]]
- *
- * @param tensorflow       LanguageDetectorDL Model wrapper with TensorFlow Wrapper
- * @param configProtoBytes Configuration for TensorFlow session
- * @param sppSrc           Contains the vocabulary for the target language.
- * @param sppTrg           Contains the vocabulary for the source language
- */
+  *
+  * MarianTransformer uses models trained by MarianNMT.
+  *
+  * Marian is an efficient, free Neural Machine Translation framework written in pure C++ with
+  * minimal dependencies. It is mainly being developed by the Microsoft Translator team. Many
+  * academic (most notably the University of Edinburgh and in the past the Adam Mickiewicz
+  * University in Poznań) and commercial contributors help with its development.
+  *
+  * It is currently the engine behind the Microsoft Translator Neural Machine Translation services
+  * and being deployed by many companies, organizations and research projects (see below for an
+  * incomplete list).
+  *
+  * '''Sources''' : MarianNMT [[https://marian-nmt.github.io/]] Marian: Fast Neural Machine
+  * Translation in C++ [[https://www.aclweb.org/anthology/P18-4020/]]
+  *
+  * @param tensorflow
+  *   LanguageDetectorDL Model wrapper with TensorFlow Wrapper
+  * @param configProtoBytes
+  *   Configuration for TensorFlow session
+  * @param sppSrc
+  *   Contains the vocabulary for the target language.
+  * @param sppTrg
+  *   Contains the vocabulary for the source language
+  */
 class TensorflowMarian(
     val tensorflow: TensorflowWrapper,
     val sppSrc: SentencePieceWrapper,
@@ -73,7 +80,7 @@ class TensorflowMarian(
     val sequencesLength = batch.map(x => x.length).toArray
     val maxSentenceLength = sequencesLength.max
 
-    //Run encoder
+    // Run encoder
     val tensorEncoder = new TensorResources()
     val inputDim = batch.length * maxSentenceLength
 
@@ -85,17 +92,16 @@ class TensorflowMarian(
 
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
-    batch.zipWithIndex.foreach {
-      case (tokenIds, idx) =>
-        // this one marks the beginning of each sentence in the flatten structure
-        val offset = idx * maxSentenceLength
-        val diff = maxSentenceLength - tokenIds.length
+    batch.zipWithIndex.foreach { case (tokenIds, idx) =>
+      // this one marks the beginning of each sentence in the flatten structure
+      val offset = idx * maxSentenceLength
+      val diff = maxSentenceLength - tokenIds.length
 
-        val s = tokenIds.take(maxSentenceLength) ++ Array.fill[Int](diff)(paddingTokenId)
-        encoderInputIdsBuffers.offset(offset).write(s)
-        val mask = s.map(x => if (x != paddingTokenId) 1 else 0)
-        encoderAttentionMaskBuffers.offset(offset).write(mask)
-        decoderAttentionMaskBuffers.offset(offset).write(mask)
+      val s = tokenIds.take(maxSentenceLength) ++ Array.fill[Int](diff)(paddingTokenId)
+      encoderInputIdsBuffers.offset(offset).write(s)
+      val mask = s.map(x => if (x != paddingTokenId) 1 else 0)
+      encoderAttentionMaskBuffers.offset(offset).write(mask)
+      decoderAttentionMaskBuffers.offset(offset).write(mask)
     }
 
     val encoderInputIdsTensors =
@@ -136,13 +142,12 @@ class TensorflowMarian(
     // Run decoder
     val decoderEncoderStateBuffers =
       tensorEncoder.createFloatBuffer(batch.length * maxSentenceLength * dim)
-    batch.zipWithIndex.foreach {
-      case (_, index) =>
-        var offset = index * maxSentenceLength * dim
-        encoderOutsBatch(index).foreach(encoderOutput => {
-          decoderEncoderStateBuffers.offset(offset).write(encoderOutput)
-          offset += dim
-        })
+    batch.zipWithIndex.foreach { case (_, index) =>
+      var offset = index * maxSentenceLength * dim
+      encoderOutsBatch(index).foreach(encoderOutput => {
+        decoderEncoderStateBuffers.offset(offset).write(encoderOutput)
+        offset += dim
+      })
     }
 
     val decoderEncoderStateTensors = tensorEncoder.createFloatBufferTensor(
@@ -161,10 +166,9 @@ class TensorflowMarian(
 
       val decoderInputBuffers = tensorDecoder.createIntBuffer(batch.length * decoderInputLength)
 
-      decoderInputs.zipWithIndex.foreach {
-        case (pieceIds, idx) =>
-          val offset = idx * decoderInputLength
-          decoderInputBuffers.offset(offset).write(pieceIds)
+      decoderInputs.zipWithIndex.foreach { case (pieceIds, idx) =>
+        val offset = idx * decoderInputLength
+        decoderInputBuffers.offset(offset).write(pieceIds)
       }
 
       val decoderInputTensors = tensorDecoder.createIntBufferTensor(
@@ -199,21 +203,20 @@ class TensorflowMarian(
         .grouped(decoderInputLength)
         .toArray
 
-      val outputIds = decoderOutputs.map(
-        batch =>
-          batch
-            .map(input => {
-              var maxArg = -1
-              var maxValue = Float.MinValue
-              input.indices.foreach(i => {
-                if ((input(i) >= maxValue) && (!ignoreTokenIds.contains(i))) {
-                  maxArg = i
-                  maxValue = input(i)
-                }
-              })
-              maxArg
+      val outputIds = decoderOutputs.map(batch =>
+        batch
+          .map(input => {
+            var maxArg = -1
+            var maxValue = Float.MinValue
+            input.indices.foreach(i => {
+              if ((input(i) >= maxValue) && (!ignoreTokenIds.contains(i))) {
+                maxArg = i
+                maxValue = input(i)
+              }
             })
-            .last)
+            maxArg
+          })
+          .last)
       decoderInputs = decoderInputs.zip(outputIds).map(x => x._1 ++ Array(x._2))
       modelOutputs = modelOutputs
         .zip(outputIds)
@@ -288,17 +291,22 @@ class TensorflowMarian(
 
   }
 
-  /**
-   * generate seq2seq via encoding, generating, and decoding
-   *
-   * @param sentences       none empty Annotation
-   * @param batchSize       size of baches to be process at the same time
-   * @param maxInputLength  maximum length for input
-   * @param maxOutputLength maximum length for output
-   * @param vocabs          list of all vocabs
-   * @param langId          language id for multi-lingual models
-   * @return
-   */
+  /** generate seq2seq via encoding, generating, and decoding
+    *
+    * @param sentences
+    *   none empty Annotation
+    * @param batchSize
+    *   size of baches to be process at the same time
+    * @param maxInputLength
+    *   maximum length for input
+    * @param maxOutputLength
+    *   maximum length for output
+    * @param vocabs
+    *   list of all vocabs
+    * @param langId
+    *   language id for multi-lingual models
+    * @return
+    */
   def predict(
       sentences: Seq[Annotation],
       batchSize: Int = 1,
@@ -344,17 +352,16 @@ class TensorflowMarian(
     }
 
     var sentBegin, nextSentEnd = 0
-    batchDecoder.zip(sentences).map {
-      case (content, sent) =>
-        nextSentEnd += content.length - 1
-        val annots = new Annotation(
-          annotatorType = AnnotatorType.DOCUMENT,
-          begin = sentBegin,
-          end = nextSentEnd,
-          result = content,
-          metadata = sent.metadata)
-        sentBegin += nextSentEnd + 1
-        annots
+    batchDecoder.zip(sentences).map { case (content, sent) =>
+      nextSentEnd += content.length - 1
+      val annots = new Annotation(
+        annotatorType = AnnotatorType.DOCUMENT,
+        begin = sentBegin,
+        end = nextSentEnd,
+        result = content,
+        metadata = sent.metadata)
+      sentBegin += nextSentEnd + 1
+      annots
     }
   }
 

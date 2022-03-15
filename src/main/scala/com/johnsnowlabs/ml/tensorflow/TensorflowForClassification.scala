@@ -43,19 +43,18 @@ trait TensorflowForClassification {
         val logits = tag(encoded)
 
         /*Combine tokens and calculated logits*/
-        batch.zip(logits).flatMap {
-          case (sentence, tokenVectors) =>
-            val tokenLength = sentence._1.tokens.length
+        batch.zip(logits).flatMap { case (sentence, tokenVectors) =>
+          val tokenLength = sentence._1.tokens.length
 
-            /*All wordpiece logits*/
-            val tokenLogits: Array[Array[Float]] = tokenVectors.slice(1, tokenLength + 1)
+          /*All wordpiece logits*/
+          val tokenLogits: Array[Array[Float]] = tokenVectors.slice(1, tokenLength + 1)
 
-            val labelsWithScores = wordAndSpanLevelAlignmentWithTokenizer(
-              tokenLogits,
-              tokenizedSentences,
-              sentence,
-              tags)
-            labelsWithScores
+          val labelsWithScores = wordAndSpanLevelAlignmentWithTokenizer(
+            tokenLogits,
+            tokenizedSentences,
+            sentence,
+            tags)
+          labelsWithScores
         }
       }
       .toSeq
@@ -98,18 +97,17 @@ trait TensorflowForClassification {
               result = label,
               metadata = Map("sentence" -> sentences.head.index.toString) ++ meta))
         } else {
-          sentences.zip(logits).map {
-            case (sentence, scores) =>
-              val label =
-                tags.find(_._2 == scores.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
-              val meta = scores.zipWithIndex.flatMap(x =>
-                Map(tags.find(_._2 == x._2).map(_._1).toString -> x._1.toString))
-              Annotation(
-                annotatorType = AnnotatorType.CATEGORY,
-                begin = sentence.start,
-                end = sentence.end,
-                result = label,
-                metadata = Map("sentence" -> sentence.index.toString) ++ meta)
+          sentences.zip(logits).map { case (sentence, scores) =>
+            val label =
+              tags.find(_._2 == scores.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
+            val meta = scores.zipWithIndex.flatMap(x =>
+              Map(tags.find(_._2 == x._2).map(_._1).toString -> x._1.toString))
+            Annotation(
+              annotatorType = AnnotatorType.CATEGORY,
+              begin = sentence.start,
+              end = sentence.end,
+              result = label,
+              metadata = Map("sentence" -> sentence.index.toString) ++ meta)
           }
         }
       }
@@ -123,23 +121,24 @@ trait TensorflowForClassification {
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence]
 
   /** Encode the input sequence to indexes IDs adding padding where necessary
-   * */
+    */
   def encode(
       sentences: Seq[(WordpieceTokenizedSentence, Int)],
       maxSequenceLength: Int): Seq[Array[Int]] = {
     val maxSentenceLength =
-      Array(maxSequenceLength - 2, sentences.map {
-        case (wpTokSentence, _) => wpTokSentence.tokens.length
-      }.max).min
+      Array(
+        maxSequenceLength - 2,
+        sentences.map { case (wpTokSentence, _) =>
+          wpTokSentence.tokens.length
+        }.max).min
 
     sentences
-      .map {
-        case (wpTokSentence, _) =>
-          val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
-          val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(sentencePadTokenId)
+      .map { case (wpTokSentence, _) =>
+        val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
+        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(sentencePadTokenId)
 
-          Array(sentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(
-            sentenceEndTokenId) ++ padding
+        Array(sentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(
+          sentenceEndTokenId) ++ padding
       }
   }
 
@@ -153,23 +152,22 @@ trait TensorflowForClassification {
   }
 
   /** Word-level and span-level alignment with Tokenizer
-   * https://github.com/google-research/bert#tokenization
-   *
-   * ### Input
-   * orig_tokens = ["John", "Johanson", "'s",  "house"]
-   * labels      = ["NNP",  "NNP",      "POS", "NN"]
-   *
-   * # bert_tokens == ["[CLS]", "john", "johan", "##son", "'", "s", "house", "[SEP]"]
-   * # orig_to_tok_map == [1, 2, 4, 6]
-   */
+    * https://github.com/google-research/bert#tokenization
+    *
+    * ### Input orig_tokens = ["John", "Johanson", "'s", "house"] labels = ["NNP", "NNP", "POS",
+    * "NN"]
+    *
+    * # bert_tokens == ["[CLS]", "john", "johan", "##son", "'", "s", "house", "[SEP]"] #
+    * orig_to_tok_map == [1, 2, 4, 6]
+    */
   def wordAndSpanLevelAlignmentWithTokenizer(
       tokenLogits: Array[Array[Float]],
       tokenizedSentences: Seq[TokenizedSentence],
       sentence: (WordpieceTokenizedSentence, Int),
       tags: Map[String, Int]): Seq[Annotation] = {
 
-    val labelsWithScores = sentence._1.tokens.zip(tokenLogits).flatMap {
-      case (tokenPiece, scores) =>
+    val labelsWithScores =
+      sentence._1.tokens.zip(tokenLogits).flatMap { case (tokenPiece, scores) =>
         val indexedToken = findIndexedToken(tokenizedSentences, sentence, tokenPiece)
         indexedToken.map { token =>
           val label =
@@ -183,7 +181,7 @@ trait TensorflowForClassification {
             result = label,
             metadata = Map("sentence" -> sentence._2.toString, "word" -> token.token) ++ meta)
         }
-    }
+      }
     labelsWithScores.toSeq
   }
 

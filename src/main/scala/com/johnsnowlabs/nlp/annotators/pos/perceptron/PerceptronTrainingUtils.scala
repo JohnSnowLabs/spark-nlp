@@ -28,18 +28,16 @@ trait PerceptronTrainingUtils extends PerceptronUtils {
 
   private[perceptron] val logger: Logger = LoggerFactory.getLogger("PerceptronApproachUtils")
 
-  /**
-   * Generates TagBook, which holds all the word to tags mapping that are not ambiguous
-   */
+  /** Generates TagBook, which holds all the word to tags mapping that are not ambiguous
+    */
   def generatesTagBook(dataset: Dataset[_]): Array[TaggedSentence] = {
     val taggedSentences = {
       import ResourceHelper.spark.implicits._
 
       val datasetSchemaFields = dataset.schema.fields
-        .find(
-          f =>
-            f.metadata.contains("annotatorType") && f.metadata
-              .getString("annotatorType") == AnnotatorType.POS)
+        .find(f =>
+          f.metadata.contains("annotatorType") && f.metadata
+            .getString("annotatorType") == AnnotatorType.POS)
 
       require(
         datasetSchemaFields.map(_.name).isDefined,
@@ -66,14 +64,16 @@ trait PerceptronTrainingUtils extends PerceptronUtils {
     taggedSentences
   }
 
-  /**
-   * Finds very frequent tags on a word in training, and marks them as non ambiguous based on tune parameters
-   * ToDo: Move such parameters to configuration
-   *
-   * @param taggedSentences    Takes entire tagged sentences to find frequent tags
-   * @param frequencyThreshold How many times at least a tag on a word to be marked as frequent
-   * @param ambiguityThreshold How much percentage of total amount of words are covered to be marked as frequent
-   */
+  /** Finds very frequent tags on a word in training, and marks them as non ambiguous based on
+    * tune parameters ToDo: Move such parameters to configuration
+    *
+    * @param taggedSentences
+    *   Takes entire tagged sentences to find frequent tags
+    * @param frequencyThreshold
+    *   How many times at least a tag on a word to be marked as frequent
+    * @param ambiguityThreshold
+    *   How much percentage of total amount of words are covered to be marked as frequent
+    */
   def buildTagBook(
       taggedSentences: Array[TaggedSentence],
       frequencyThreshold: Int,
@@ -85,23 +85,20 @@ trait PerceptronTrainingUtils extends PerceptronUtils {
       .mapValues(_.groupBy(_.tag).mapValues(_.length))
 
     tagFrequenciesByWord
-      .filter {
-        case (_, tagFrequencies) =>
-          val (_, mode) = tagFrequencies.maxBy(_._2)
-          val n = tagFrequencies.values.sum
-          n >= frequencyThreshold && (mode / n.toDouble) >= ambiguityThreshold
+      .filter { case (_, tagFrequencies) =>
+        val (_, mode) = tagFrequencies.maxBy(_._2)
+        val n = tagFrequencies.values.sum
+        n >= frequencyThreshold && (mode / n.toDouble) >= ambiguityThreshold
       }
-      .map {
-        case (word, tagFrequencies) =>
-          val (tag, _) = tagFrequencies.maxBy(_._2)
-          logger.debug(s"TRAINING: Ambiguity discarded on: << $word >> set to: << $tag >>")
-          (word, tag)
+      .map { case (word, tagFrequencies) =>
+        val (tag, _) = tagFrequencies.maxBy(_._2)
+        logger.debug(s"TRAINING: Ambiguity discarded on: << $word >> set to: << $tag >>")
+        (word, tag)
       }
   }
 
-  /**
-   * Iterates for training
-   */
+  /** Iterates for training
+    */
   def trainPerceptron(
       nIterations: Int,
       initialModel: TrainingPerceptronLegacy,
@@ -111,45 +108,39 @@ trait PerceptronTrainingUtils extends PerceptronUtils {
       {
         logger.debug(s"TRAINING: Iteration n: $iteration")
 
-        /**
-         * In a shuffled sentences list, try to find tag of the word, hold the correct answer
-         */
+        /** In a shuffled sentences list, try to find tag of the word, hold the correct answer
+          */
         Random.shuffle(taggedSentences.toList).foldLeft(iteratedModel) {
           (model, taggedSentence) =>
-            /**
-             * Defines a sentence context, with room to for look back
-             */
+            /** Defines a sentence context, with room to for look back
+              */
             var prev = START(0)
             var prev2 = START(1)
             val context = START ++: taggedSentence.words.map(w => normalized(w)) ++: END
-            taggedSentence.words.zipWithIndex.foreach {
-              case (word, i) =>
-                val guess =
-                  taggedWordBook.getOrElse(
-                    word.toLowerCase, {
+            taggedSentence.words.zipWithIndex.foreach { case (word, i) =>
+              val guess =
+                taggedWordBook.getOrElse(
+                  word.toLowerCase, {
 
-                      /**
-                       * if word is not found, collect its features which are used for prediction and predict
-                       */
-                      val features = getFeatures(i, word, context, prev, prev2)
-                      val guess = model.predict(features)
+                    /** if word is not found, collect its features which are used for prediction
+                      * and predict
+                      */
+                    val features = getFeatures(i, word, context, prev, prev2)
+                    val guess = model.predict(features)
 
-                      /**
-                       * Update the model based on the prediction results
-                       */
-                      model.update(taggedSentence.tags(i), guess, features)
+                    /** Update the model based on the prediction results
+                      */
+                    model.update(taggedSentence.tags(i), guess, features)
 
-                      /**
-                       * return the guess
-                       */
-                      guess
-                    })
+                    /** return the guess
+                      */
+                    guess
+                  })
 
-                /**
-                 * shift the context
-                 */
-                prev2 = prev
-                prev = guess
+              /** shift the context
+                */
+              prev2 = prev
+              prev = guess
             }
             model
         }

@@ -32,105 +32,114 @@ case class CoNLLDocument(
     posTagged: Seq[PosTaggedSentence])
 
 /** Helper class to load a CoNLL type dataset for training.
- *
- * The dataset should be in the format of [[https://www.clips.uantwerpen.be/conll2003/ner/ CoNLL 2003]]
- * and needs to be specified with `readDataset`. Other CoNLL datasets are not supported.
- *
- * Two types of input paths are supported,
- *
- * Folder: this is a path ending in `*`, and representing a collection of CoNLL files within a directory. E.g.,
- * 'path/to/multiple/conlls&#47;*'
- * Using this pattern will result in all the files being read into a single Dataframe.
- * Some constraints apply on the schemas of the multiple files.
- *
- * File: this is a path to a single file. E.g.,
- * 'path/to/single_file.conll'
- *
- *
- * ==Example==
- * {{{
- * val trainingData = CoNLL().readDataset(spark, "src/test/resources/conll2003/eng.train")
- * trainingData.selectExpr("text", "token.result as tokens", "pos.result as pos", "label.result as label")
- *   .show(3, false)
- * +------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+
- * |text                                            |tokens                                                    |pos                                  |label                                    |
- * +------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+
- * |EU rejects German call to boycott British lamb .|[EU, rejects, German, call, to, boycott, British, lamb, .]|[NNP, VBZ, JJ, NN, TO, VB, JJ, NN, .]|[B-ORG, O, B-MISC, O, O, O, B-MISC, O, O]|
- * |Peter Blackburn                                 |[Peter, Blackburn]                                        |[NNP, NNP]                           |[B-PER, I-PER]                           |
- * |BRUSSELS 1996-08-22                             |[BRUSSELS, 1996-08-22]                                    |[NNP, CD]                            |[B-LOC, O]                               |
- * +------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+
- *
- * trainingData.printSchema
- * root
- *  |-- text: string (nullable = true)
- *  |-- document: array (nullable = false)
- *  |    |-- element: struct (containsNull = true)
- *  |    |    |-- annotatorType: string (nullable = true)
- *  |    |    |-- begin: integer (nullable = false)
- *  |    |    |-- end: integer (nullable = false)
- *  |    |    |-- result: string (nullable = true)
- *  |    |    |-- metadata: map (nullable = true)
- *  |    |    |    |-- key: string
- *  |    |    |    |-- value: string (valueContainsNull = true)
- *  |    |    |-- embeddings: array (nullable = true)
- *  |    |    |    |-- element: float (containsNull = false)
- *  |-- sentence: array (nullable = false)
- *  |    |-- element: struct (containsNull = true)
- *  |    |    |-- annotatorType: string (nullable = true)
- *  |    |    |-- begin: integer (nullable = false)
- *  |    |    |-- end: integer (nullable = false)
- *  |    |    |-- result: string (nullable = true)
- *  |    |    |-- metadata: map (nullable = true)
- *  |    |    |    |-- key: string
- *  |    |    |    |-- value: string (valueContainsNull = true)
- *  |    |    |-- embeddings: array (nullable = true)
- *  |    |    |    |-- element: float (containsNull = false)
- *  |-- token: array (nullable = false)
- *  |    |-- element: struct (containsNull = true)
- *  |    |    |-- annotatorType: string (nullable = true)
- *  |    |    |-- begin: integer (nullable = false)
- *  |    |    |-- end: integer (nullable = false)
- *  |    |    |-- result: string (nullable = true)
- *  |    |    |-- metadata: map (nullable = true)
- *  |    |    |    |-- key: string
- *  |    |    |    |-- value: string (valueContainsNull = true)
- *  |    |    |-- embeddings: array (nullable = true)
- *  |    |    |    |-- element: float (containsNull = false)
- *  |-- pos: array (nullable = false)
- *  |    |-- element: struct (containsNull = true)
- *  |    |    |-- annotatorType: string (nullable = true)
- *  |    |    |-- begin: integer (nullable = false)
- *  |    |    |-- end: integer (nullable = false)
- *  |    |    |-- result: string (nullable = true)
- *  |    |    |-- metadata: map (nullable = true)
- *  |    |    |    |-- key: string
- *  |    |    |    |-- value: string (valueContainsNull = true)
- *  |    |    |-- embeddings: array (nullable = true)
- *  |    |    |    |-- element: float (containsNull = false)
- *  |-- label: array (nullable = false)
- *  |    |-- element: struct (containsNull = true)
- *  |    |    |-- annotatorType: string (nullable = true)
- *  |    |    |-- begin: integer (nullable = false)
- *  |    |    |-- end: integer (nullable = false)
- *  |    |    |-- result: string (nullable = true)
- *  |    |    |-- metadata: map (nullable = true)
- *  |    |    |    |-- key: string
- *  |    |    |    |-- value: string (valueContainsNull = true)
- *  |    |    |-- embeddings: array (nullable = true)
- *  |    |    |    |-- element: float (containsNull = false)
- * }}}
- *
- * @param documentCol      Name of the `DOCUMENT` Annotator type column
- * @param sentenceCol      Name of the Sentences of `DOCUMENT` Annotator type column
- * @param tokenCol         Name of the `TOKEN` Annotator type column
- * @param posCol           Name of the `POS` Annotator type column
- * @param conllLabelIndex  Index of the column for NER Label in the dataset
- * @param conllPosIndex    Index of the column for the POS tags in the dataset
- * @param conllTextCol     Index of the column for the text in the dataset
- * @param labelCol         Name of the `NAMED_ENTITY` Annotator type column
- * @param explodeSentences Whether to explode each sentence to a separate row
- * @param delimiter        Delimiter used to separate columns inside CoNLL file
- */
+  *
+  * The dataset should be in the format of
+  * [[https://www.clips.uantwerpen.be/conll2003/ner/ CoNLL 2003]] and needs to be specified with
+  * `readDataset`. Other CoNLL datasets are not supported.
+  *
+  * Two types of input paths are supported,
+  *
+  * Folder: this is a path ending in `*`, and representing a collection of CoNLL files within a
+  * directory. E.g., 'path/to/multiple/conlls&#47;*' Using this pattern will result in all the
+  * files being read into a single Dataframe. Some constraints apply on the schemas of the
+  * multiple files.
+  *
+  * File: this is a path to a single file. E.g., 'path/to/single_file.conll'
+  *
+  * ==Example==
+  * {{{
+  * val trainingData = CoNLL().readDataset(spark, "src/test/resources/conll2003/eng.train")
+  * trainingData.selectExpr("text", "token.result as tokens", "pos.result as pos", "label.result as label")
+  *   .show(3, false)
+  * +------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+
+  * |text                                            |tokens                                                    |pos                                  |label                                    |
+  * +------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+
+  * |EU rejects German call to boycott British lamb .|[EU, rejects, German, call, to, boycott, British, lamb, .]|[NNP, VBZ, JJ, NN, TO, VB, JJ, NN, .]|[B-ORG, O, B-MISC, O, O, O, B-MISC, O, O]|
+  * |Peter Blackburn                                 |[Peter, Blackburn]                                        |[NNP, NNP]                           |[B-PER, I-PER]                           |
+  * |BRUSSELS 1996-08-22                             |[BRUSSELS, 1996-08-22]                                    |[NNP, CD]                            |[B-LOC, O]                               |
+  * +------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+
+  *
+  * trainingData.printSchema
+  * root
+  *  |-- text: string (nullable = true)
+  *  |-- document: array (nullable = false)
+  *  |    |-- element: struct (containsNull = true)
+  *  |    |    |-- annotatorType: string (nullable = true)
+  *  |    |    |-- begin: integer (nullable = false)
+  *  |    |    |-- end: integer (nullable = false)
+  *  |    |    |-- result: string (nullable = true)
+  *  |    |    |-- metadata: map (nullable = true)
+  *  |    |    |    |-- key: string
+  *  |    |    |    |-- value: string (valueContainsNull = true)
+  *  |    |    |-- embeddings: array (nullable = true)
+  *  |    |    |    |-- element: float (containsNull = false)
+  *  |-- sentence: array (nullable = false)
+  *  |    |-- element: struct (containsNull = true)
+  *  |    |    |-- annotatorType: string (nullable = true)
+  *  |    |    |-- begin: integer (nullable = false)
+  *  |    |    |-- end: integer (nullable = false)
+  *  |    |    |-- result: string (nullable = true)
+  *  |    |    |-- metadata: map (nullable = true)
+  *  |    |    |    |-- key: string
+  *  |    |    |    |-- value: string (valueContainsNull = true)
+  *  |    |    |-- embeddings: array (nullable = true)
+  *  |    |    |    |-- element: float (containsNull = false)
+  *  |-- token: array (nullable = false)
+  *  |    |-- element: struct (containsNull = true)
+  *  |    |    |-- annotatorType: string (nullable = true)
+  *  |    |    |-- begin: integer (nullable = false)
+  *  |    |    |-- end: integer (nullable = false)
+  *  |    |    |-- result: string (nullable = true)
+  *  |    |    |-- metadata: map (nullable = true)
+  *  |    |    |    |-- key: string
+  *  |    |    |    |-- value: string (valueContainsNull = true)
+  *  |    |    |-- embeddings: array (nullable = true)
+  *  |    |    |    |-- element: float (containsNull = false)
+  *  |-- pos: array (nullable = false)
+  *  |    |-- element: struct (containsNull = true)
+  *  |    |    |-- annotatorType: string (nullable = true)
+  *  |    |    |-- begin: integer (nullable = false)
+  *  |    |    |-- end: integer (nullable = false)
+  *  |    |    |-- result: string (nullable = true)
+  *  |    |    |-- metadata: map (nullable = true)
+  *  |    |    |    |-- key: string
+  *  |    |    |    |-- value: string (valueContainsNull = true)
+  *  |    |    |-- embeddings: array (nullable = true)
+  *  |    |    |    |-- element: float (containsNull = false)
+  *  |-- label: array (nullable = false)
+  *  |    |-- element: struct (containsNull = true)
+  *  |    |    |-- annotatorType: string (nullable = true)
+  *  |    |    |-- begin: integer (nullable = false)
+  *  |    |    |-- end: integer (nullable = false)
+  *  |    |    |-- result: string (nullable = true)
+  *  |    |    |-- metadata: map (nullable = true)
+  *  |    |    |    |-- key: string
+  *  |    |    |    |-- value: string (valueContainsNull = true)
+  *  |    |    |-- embeddings: array (nullable = true)
+  *  |    |    |    |-- element: float (containsNull = false)
+  * }}}
+  *
+  * @param documentCol
+  *   Name of the `DOCUMENT` Annotator type column
+  * @param sentenceCol
+  *   Name of the Sentences of `DOCUMENT` Annotator type column
+  * @param tokenCol
+  *   Name of the `TOKEN` Annotator type column
+  * @param posCol
+  *   Name of the `POS` Annotator type column
+  * @param conllLabelIndex
+  *   Index of the column for NER Label in the dataset
+  * @param conllPosIndex
+  *   Index of the column for the POS tags in the dataset
+  * @param conllTextCol
+  *   Index of the column for the text in the dataset
+  * @param labelCol
+  *   Name of the `NAMED_ENTITY` Annotator type column
+  * @param explodeSentences
+  *   Whether to explode each sentence to a separate row
+  * @param delimiter
+  *   Delimiter used to separate columns inside CoNLL file
+  */
 case class CoNLL(
     documentCol: String = "document",
     sentenceCol: String = "sentence",
@@ -195,7 +204,8 @@ case class CoNLL(
           addSentence()
           closeDocument
         } else if (items.length <= 1) {
-          if (!explodeSentences && (doc.nonEmpty && !doc.endsWith(System.lineSeparator) && lastSentence.nonEmpty)) {
+          if (!explodeSentences && (doc.nonEmpty && !doc.endsWith(
+              System.lineSeparator) && lastSentence.nonEmpty)) {
             doc.append(System.lineSeparator * 2)
           }
           addSentence()
@@ -225,10 +235,9 @@ case class CoNLL(
 
     val last = if (doc.nonEmpty) Seq((doc.toString, sentences.toList)) else Seq.empty
 
-    (docs ++ last).map {
-      case (text, textSentences) =>
-        val (ner, pos) = textSentences.unzip
-        CoNLLDocument(text, ner, pos)
+    (docs ++ last).map { case (text, textSentences) =>
+      val (ner, pos) = textSentences.unzip
+      CoNLLDocument(text, ner, pos)
     }
   }
 
@@ -242,22 +251,20 @@ case class CoNLL(
   }
 
   def packSentence(text: String, sentences: Seq[TaggedSentence]): Seq[Annotation] = {
-    val indexedSentences = sentences.zipWithIndex.map {
-      case (sentence, index) =>
-        val start = sentence.indexedTaggedWords.map(t => t.begin).min
-        val end = sentence.indexedTaggedWords.map(t => t.end).max
-        val sentenceText = text.substring(start, end + 1)
-        new Sentence(sentenceText, start, end, index)
+    val indexedSentences = sentences.zipWithIndex.map { case (sentence, index) =>
+      val start = sentence.indexedTaggedWords.map(t => t.begin).min
+      val end = sentence.indexedTaggedWords.map(t => t.end).max
+      val sentenceText = text.substring(start, end + 1)
+      new Sentence(sentenceText, start, end, index)
     }
 
     SentenceSplit.pack(indexedSentences)
   }
 
   def packTokenized(text: String, sentences: Seq[TaggedSentence]): Seq[Annotation] = {
-    val tokenizedSentences = sentences.zipWithIndex.map {
-      case (sentence, index) =>
-        val tokens = sentence.indexedTaggedWords.map(t => IndexedToken(t.word, t.begin, t.end))
-        TokenizedSentence(tokens, index)
+    val tokenizedSentences = sentences.zipWithIndex.map { case (sentence, index) =>
+      val tokens = sentence.indexedTaggedWords.map(t => IndexedToken(t.word, t.begin, t.end))
+      TokenizedSentence(tokens, index)
     }
 
     TokenizedWithSentence.pack(tokenizedSentences)
@@ -319,10 +326,9 @@ case class CoNLL(
     if (path.endsWith("*")) {
       val rdd = spark.sparkContext
         .wholeTextFiles(path, minPartitions = parallelism)
-        .flatMap {
-          case (_, content) =>
-            val lines = content.split(System.lineSeparator)
-            readLines(lines).map(doc => coreTransformation(doc))
+        .flatMap { case (_, content) =>
+          val lines = content.split(System.lineSeparator)
+          readLines(lines).map(doc => coreTransformation(doc))
         }
         .persist(storageLevel)
 

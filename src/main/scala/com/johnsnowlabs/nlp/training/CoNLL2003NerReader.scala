@@ -35,10 +35,9 @@ import com.johnsnowlabs.storage.RocksDBConnection
 
 import java.io.File
 
-/**
- * Helper class for to work with CoNLL 2003 dataset for NER task
- * Class is made for easy use from Java
- */
+/** Helper class for to work with CoNLL 2003 dataset for NER task Class is made for easy use from
+  * Java
+  */
 class CoNLL2003NerReader(
     wordEmbeddingsFile: String,
     wordEmbeddingsNDims: Int,
@@ -79,27 +78,26 @@ class CoNLL2003NerReader(
 
   private def resolveEmbeddings(
       sentences: Seq[PosTaggedSentence]): Seq[WordpieceEmbeddingsSentence] = {
-    sentences.zipWithIndex.map {
-      case (s, idx) =>
-        val tokens = s.indexedTaggedWords.map { token =>
-          val vectorOption = wordEmbeddings.lookup(token.word)
-          TokenPieceEmbeddings(
-            token.word,
-            token.word,
-            -1,
-            true,
-            vectorOption,
-            Array.fill[Float](wordEmbeddingsNDims)(0f),
-            token.begin,
-            token.end)
-        }
+    sentences.zipWithIndex.map { case (s, idx) =>
+      val tokens = s.indexedTaggedWords.map { token =>
+        val vectorOption = wordEmbeddings.lookup(token.word)
+        TokenPieceEmbeddings(
+          token.word,
+          token.word,
+          -1,
+          true,
+          vectorOption,
+          Array.fill[Float](wordEmbeddingsNDims)(0f),
+          token.begin,
+          token.end)
+      }
 
-        WordpieceEmbeddingsSentence(tokens, idx)
+      WordpieceEmbeddingsSentence(tokens, idx)
     }
   }
 
   private def readDataset(er: ExternalResource)
-    : Seq[(TextSentenceLabels, TaggedSentence, WordpieceEmbeddingsSentence)] = {
+      : Seq[(TextSentenceLabels, TaggedSentence, WordpieceEmbeddingsSentence)] = {
 
     val docs = nerReader.readDocs(er)
     val labels = docs

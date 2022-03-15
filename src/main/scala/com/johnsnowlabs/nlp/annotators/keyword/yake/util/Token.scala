@@ -51,7 +51,9 @@ class Token(
 
   def TRel(): Double = {
     1.0 + ((if (leftCO.isEmpty) 0.0 else (leftCO.size.toDouble / leftCO.values.sum.toDouble))
-      + (if (rightCO.isEmpty) 0.0 else (leftCO.size.toDouble / rightCO.values.sum.toDouble))) * (termFrequency.toDouble / maxTF.toDouble)
+      + (if (rightCO.isEmpty) 0.0
+         else
+           (leftCO.size.toDouble / rightCO.values.sum.toDouble))) * (termFrequency.toDouble / maxTF.toDouble)
   }
 
   def TScore(): Double = {

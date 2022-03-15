@@ -25,81 +25,88 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import scala.util.matching.Regex
 
-/**
- * Matches standard date formats into a provided format
- * Reads from different forms of date and time expressions and converts them to a provided date format.
- *
- * Extracts only '''one''' date per document. Use with sentence detector to find matches in each sentence.
- * To extract multiple dates from a document, please use the [[MultiDateMatcher]].
- *
- * Reads the following kind of dates:
- * {{{
- * "1978-01-28", "1984/04/02,1/02/1980", "2/28/79", "The 31st of April in the year 2008",
- * "Fri, 21 Nov 1997", "Jan 21, ‘97", "Sun", "Nov 21", "jan 1st", "next thursday",
- * "last wednesday", "today", "tomorrow", "yesterday", "next week", "next month",
- * "next year", "day after", "the day before", "0600h", "06:00 hours", "6pm", "5:30 a.m.",
- * "at 5", "12:59", "23:59", "1988/11/23 6pm", "next week at 7.30", "5 am tomorrow"
- * }}}
- *
- * For example `"The 31st of April in the year 2008"` will be converted into `2008/04/31`.
- *
- * Pretrained pipelines are available for this module, see [[https://nlp.johnsnowlabs.com/docs/en/pipelines Pipelines]].
- *
- * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb Spark NLP Workshop]]
- * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DateMatcherTestSpec.scala DateMatcherTestSpec]].
- *
- * ==Example==
- * {{{
- * import spark.implicits._
- * import com.johnsnowlabs.nlp.base.DocumentAssembler
- * import com.johnsnowlabs.nlp.annotators.DateMatcher
- * import org.apache.spark.ml.Pipeline
- *
- * val documentAssembler = new DocumentAssembler()
- *   .setInputCol("text")
- *   .setOutputCol("document")
- *
- * val date = new DateMatcher()
- *   .setInputCols("document")
- *   .setOutputCol("date")
- *   .setAnchorDateYear(2020)
- *   .setAnchorDateMonth(1)
- *   .setAnchorDateDay(11)
- *
- * val pipeline = new Pipeline().setStages(Array(
- *   documentAssembler,
- *   date
- * ))
- *
- * val data = Seq("Fri, 21 Nov 1997", "next week at 7.30", "see you a day after").toDF("text")
- * val result = pipeline.fit(data).transform(data)
- *
- * result.selectExpr("date").show(false)
- * +-------------------------------------------------+
- * |date                                             |
- * +-------------------------------------------------+
- * |[[date, 5, 15, 1997/11/21, [sentence -> 0], []]] |
- * |[[date, 0, 8, 2020/01/18, [sentence -> 0], []]]  |
- * |[[date, 10, 18, 2020/01/12, [sentence -> 0], []]]|
- * +-------------------------------------------------+
- * }}}
- *
- * @see [[MultiDateMatcher]] for matching multiple dates in a document
- * @param uid internal uid required to generate writable annotators
- * @groupname anno Annotator types
- * @groupdesc anno Required input and expected output annotator types
- * @groupname Ungrouped Members
- * @groupname param Parameters
- * @groupname setParam Parameter setters
- * @groupname getParam Parameter getters
- * @groupname Ungrouped Members
- * @groupprio param  1
- * @groupprio anno  2
- * @groupprio Ungrouped 3
- * @groupprio setParam  4
- * @groupprio getParam  5
- * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
- */
+/** Matches standard date formats into a provided format Reads from different forms of date and
+  * time expressions and converts them to a provided date format.
+  *
+  * Extracts only '''one''' date per document. Use with sentence detector to find matches in each
+  * sentence. To extract multiple dates from a document, please use the [[MultiDateMatcher]].
+  *
+  * Reads the following kind of dates:
+  * {{{
+  * "1978-01-28", "1984/04/02,1/02/1980", "2/28/79", "The 31st of April in the year 2008",
+  * "Fri, 21 Nov 1997", "Jan 21, ‘97", "Sun", "Nov 21", "jan 1st", "next thursday",
+  * "last wednesday", "today", "tomorrow", "yesterday", "next week", "next month",
+  * "next year", "day after", "the day before", "0600h", "06:00 hours", "6pm", "5:30 a.m.",
+  * "at 5", "12:59", "23:59", "1988/11/23 6pm", "next week at 7.30", "5 am tomorrow"
+  * }}}
+  *
+  * For example `"The 31st of April in the year 2008"` will be converted into `2008/04/31`.
+  *
+  * Pretrained pipelines are available for this module, see
+  * [[https://nlp.johnsnowlabs.com/docs/en/pipelines Pipelines]].
+  *
+  * For extended examples of usage, see the
+  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb Spark NLP Workshop]]
+  * and the
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DateMatcherTestSpec.scala DateMatcherTestSpec]].
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotators.DateMatcher
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val date = new DateMatcher()
+  *   .setInputCols("document")
+  *   .setOutputCol("date")
+  *   .setAnchorDateYear(2020)
+  *   .setAnchorDateMonth(1)
+  *   .setAnchorDateDay(11)
+  *
+  * val pipeline = new Pipeline().setStages(Array(
+  *   documentAssembler,
+  *   date
+  * ))
+  *
+  * val data = Seq("Fri, 21 Nov 1997", "next week at 7.30", "see you a day after").toDF("text")
+  * val result = pipeline.fit(data).transform(data)
+  *
+  * result.selectExpr("date").show(false)
+  * +-------------------------------------------------+
+  * |date                                             |
+  * +-------------------------------------------------+
+  * |[[date, 5, 15, 1997/11/21, [sentence -> 0], []]] |
+  * |[[date, 0, 8, 2020/01/18, [sentence -> 0], []]]  |
+  * |[[date, 10, 18, 2020/01/12, [sentence -> 0], []]]|
+  * +-------------------------------------------------+
+  * }}}
+  *
+  * @see
+  *   [[MultiDateMatcher]] for matching multiple dates in a document
+  * @param uid
+  *   internal uid required to generate writable annotators
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 class DateMatcher(override val uid: String)
     extends AnnotatorModel[DateMatcher]
     with HasSimpleAnnotate[DateMatcher]
@@ -108,15 +115,15 @@ class DateMatcher(override val uid: String)
   import com.johnsnowlabs.nlp.AnnotatorType._
 
   /** Output annotator type: DATE
-   *
-   * @group anno
-   * */
+    *
+    * @group anno
+    */
   override val outputAnnotatorType: AnnotatorType = DATE
 
   /** Input annotator type: DOCUMENT
-   *
-   * @group anno
-   * */
+    *
+    * @group anno
+    */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
   /** Internal constructor to submit a random UID */
@@ -142,12 +149,14 @@ class DateMatcher(override val uid: String)
     runFormalFactoryForInputFormats(text, formalFactoryInputFormats)
   }
 
-  /**
-   * Finds dates in a specific order, from formal to more relaxed. Add time of any, or stand-alone time
-   *
-   * @param text input text coming from target document
-   * @return a possible date-time match
-   */
+  /** Finds dates in a specific order, from formal to more relaxed. Add time of any, or
+    * stand-alone time
+    *
+    * @param text
+    *   input text coming from target document
+    * @return
+    *   a possible date-time match
+    */
   private[annotators] def extractDate(text: String): Option[MatchedDateTime] = {
 
     val _text: String = runTranslation(text)
@@ -227,8 +236,8 @@ class DateMatcher(override val uid: String)
 
       val yearCandidate = possibleDates.find(_.identifier == "relaxed year")
       if (yearCandidate.isDefined &&
-          yearCandidate.get.content.matched.exists(_.isDigit) &&
-          yearCandidate.get.content.matched.length > 2) {
+        yearCandidate.get.content.matched.exists(_.isDigit) &&
+        yearCandidate.get.content.matched.length > 2) {
         val year = yearCandidate.get.content.matched.filter(_.isDigit).toInt
         yearMatch = if (year > 999) year else year + 1900
       }
@@ -251,7 +260,7 @@ class DateMatcher(override val uid: String)
 
   private def extractRelativeDatePast(text: String): Option[MatchedDateTime] = {
     if (!"(.*)\\s+(in)\\s+[0-9]".r.findFirstMatchIn(text).isDefined && text.contains(
-          relativePastPattern))
+        relativePastPattern))
       relativePastFactory
         .findMatchFirstOnly(text.toLowerCase())
         .map(possibleDate => relativeDatePastContentParse(possibleDate))
@@ -294,11 +303,13 @@ class DateMatcher(override val uid: String)
         val times = possibleTime.content.subgroups
         val hour = {
 
-          /** assuming PM if 2 digits regex-subgroup hour is defined, is ot AM and is less than number 12 e.g. meet you at 5 */
+          /** assuming PM if 2 digits regex-subgroup hour is defined, is ot AM and is less than
+            * number 12 e.g. meet you at 5
+            */
           if (times.head != null && // hour is defined
-              amDefinition.findFirstIn(text).isDefined && // no explicit am
-              times.head.toInt < 12 // hour is within smaller than 12
-              ) times.head.toInt + 12
+            amDefinition.findFirstIn(text).isDefined && // no explicit am
+            times.head.toInt < 12 // hour is within smaller than 12
+          ) times.head.toInt + 12
           else if (times.head.toInt < 25) times.head.toInt
           else 0
         }
@@ -321,26 +332,25 @@ class DateMatcher(override val uid: String)
   }
 
   /** One to one relationship between content document and output annotation
-   *
-   * @return Any found date, empty if not. Final format is [[outputFormat]] or default yyyy/MM/dd
-   */
+    *
+    * @return
+    *   Any found date, empty if not. Final format is [[outputFormat]] or default yyyy/MM/dd
+    */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val simpleDateFormat = new SimpleDateFormat(getOutputFormat)
-    annotations.flatMap(
-      annotation =>
-        extractDate(annotation.result).map(
-          matchedDate =>
-            Annotation(
-              outputAnnotatorType,
-              matchedDate.start,
-              matchedDate.end - 1,
-              simpleDateFormat.format(matchedDate.calendar.getTime),
-              annotation.metadata)))
+    annotations.flatMap(annotation =>
+      extractDate(annotation.result).map(matchedDate =>
+        Annotation(
+          outputAnnotatorType,
+          matchedDate.start,
+          matchedDate.end - 1,
+          simpleDateFormat.format(matchedDate.calendar.getTime),
+          annotation.metadata)))
   }
 
 }
 
-/**
- * This is the companion object of [[DateMatcher]]. Please refer to that class for the documentation.
- */
+/** This is the companion object of [[DateMatcher]]. Please refer to that class for the
+  * documentation.
+  */
 object DateMatcher extends DefaultParamsReadable[DateMatcher]

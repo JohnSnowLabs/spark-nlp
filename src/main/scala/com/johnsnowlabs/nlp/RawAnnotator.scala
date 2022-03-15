@@ -37,12 +37,13 @@ trait RawAnnotator[M <: Model[M]]
     col.as(getOutputCol, metadataBuilder.build)
   }
 
-  /**
-   * takes a [[Dataset]] and checks to see if all the required annotation types are present.
-   *
-   * @param schema to be validated
-   * @return True if all the required types are present, else false
-   */
+  /** takes a [[Dataset]] and checks to see if all the required annotation types are present.
+    *
+    * @param schema
+    *   to be validated
+    * @return
+    *   True if all the required types are present, else false
+    */
   protected def validate(schema: StructType): Boolean = {
     inputAnnotatorTypes.forall { inputAnnotatorType =>
       checkSchema(schema, inputAnnotatorType)

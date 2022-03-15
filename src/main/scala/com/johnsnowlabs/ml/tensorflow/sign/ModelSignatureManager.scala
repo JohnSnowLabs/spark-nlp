@@ -38,7 +38,7 @@ object ModelSignatureManager {
       segmentIdsValue: String = ModelSignatureConstants.TokenTypeIdsV1.value,
       embeddingsValue: String = ModelSignatureConstants.LastHiddenStateV1.value,
       sentenceEmbeddingsValue: String = ModelSignatureConstants.PoolerOutputV1.value)
-    : Map[String, String] =
+      : Map[String, String] =
     tfSignatureType.toUpperCase match {
       case "TF1" =>
         Map[String, String](
@@ -79,10 +79,12 @@ object ModelSignatureManager {
   }
 
   /** Extract signatures from actual model
-   *
-   * @param model : a SavedModelBundle object
-   * @return a list of tuples of type (OperationType, key, TFInfoName)
-   * */
+    *
+    * @param model
+    *   : a SavedModelBundle object
+    * @return
+    *   a list of tuples of type (OperationType, key, TFInfoName)
+    */
   def getSignaturesFromModel(model: SavedModelBundle): Map[String, String] = {
     import collection.JavaConverters._
 
@@ -92,12 +94,13 @@ object ModelSignatureManager {
 
     val modelSignatures = scala.collection.mutable.Map.empty[String, String]
 
-    /**
-     * Loop imperatively over signature definition to extract them in a map
-     *
-     * @param prefix             : input or output attribute
-     * @param signDefinitionsMap : Java signature definition map
-     * */
+    /** Loop imperatively over signature definition to extract them in a map
+      *
+      * @param prefix
+      *   : input or output attribute
+      * @param signDefinitionsMap
+      *   : Java signature definition map
+      */
     def extractSignatureDefinitions(
         prefix: String,
         signDefinitionsMap: util.Map[String, TensorInfo]): Unit = {
@@ -148,13 +151,15 @@ object ModelSignatureManager {
       false
   }
 
-  /**
-   * Extract the model provider counting the signature pattern matches
-   *
-   * @param signDefNames  : the candidate signature definitions inputs and outputs
-   * @param modelProvider : the true model provider in between TF1 and TF2 to evaluate
-   * @return : the model provider name in between TF1 and TF2
-   * */
+  /** Extract the model provider counting the signature pattern matches
+    *
+    * @param signDefNames
+    *   : the candidate signature definitions inputs and outputs
+    * @param modelProvider
+    *   : the true model provider in between TF1 and TF2 to evaluate
+    * @return
+    *   : the model provider name in between TF1 and TF2
+    */
   def classifyProvider(
       signDefNames: Map[String, String],
       modelProvider: Option[String] = None): String = {
@@ -174,13 +179,15 @@ object ModelSignatureManager {
     topModelProvider
   }
 
-  /**
-   * Extract input and output signatures from TF saved models
-   *
-   * @param modelProvider model framework provider, i.e. TF1 or TF2, default TF1
-   * @param model         loaded SavedModelBundle
-   * @return the list ot matching signatures as tuples
-   * */
+  /** Extract input and output signatures from TF saved models
+    *
+    * @param modelProvider
+    *   model framework provider, i.e. TF1 or TF2, default TF1
+    * @param model
+    *   loaded SavedModelBundle
+    * @return
+    *   the list ot matching signatures as tuples
+    */
   def extractSignatures(
       model: SavedModelBundle,
       saverDef: SaverDef): Option[Map[String, String]] = {

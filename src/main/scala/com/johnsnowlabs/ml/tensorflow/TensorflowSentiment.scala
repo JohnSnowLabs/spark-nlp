@@ -165,7 +165,7 @@ class TensorflowSentiment(
 
     val tensors = new TensorResources()
 
-    //FixMe: implement batchSize
+    // FixMe: implement batchSize
 
     val inputs = encoder.extractSentenceEmbeddings(docs)
 
@@ -181,19 +181,18 @@ class TensorflowSentiment(
     tensors.clearTensors()
 
     docs.flatMap { sentence =>
-      sentence._2.zip(tagsName).map {
-        case (content, score) =>
-          val label = score.find(_._1 == score.maxBy(_._2)._1).map(_._1).getOrElse("NA")
-          val confidenceScore = score.find(_._1 == score.maxBy(_._2)._1).map(_._2).getOrElse(0.0f)
-          val finalLabel = if (confidenceScore >= threshold) label else thresholdLabel
+      sentence._2.zip(tagsName).map { case (content, score) =>
+        val label = score.find(_._1 == score.maxBy(_._2)._1).map(_._1).getOrElse("NA")
+        val confidenceScore = score.find(_._1 == score.maxBy(_._2)._1).map(_._2).getOrElse(0.0f)
+        val finalLabel = if (confidenceScore >= threshold) label else thresholdLabel
 
-          Annotation(
-            annotatorType = AnnotatorType.CATEGORY,
-            begin = content.begin,
-            end = content.end,
-            result = finalLabel,
-            metadata = Map("sentence" -> sentence._1.toString) ++ score.flatMap(x =>
-              Map(x._1 -> x._2.toString)))
+        Annotation(
+          annotatorType = AnnotatorType.CATEGORY,
+          begin = content.begin,
+          end = content.end,
+          result = finalLabel,
+          metadata = Map("sentence" -> sentence._1.toString) ++ score.flatMap(x =>
+            Map(x._1 -> x._2.toString)))
       }
     }
 
@@ -223,7 +222,7 @@ class TensorflowSentiment(
 
   def measure(labeled: Array[(Array[Float], Array[Int])], batchSize: Int = 100): Float = {
 
-    //ToDo: Add batch strategy
+    // ToDo: Add batch strategy
 
     val correctGuess = mutable.Map[Int, Int]()
     val predicted = mutable.Map[Int, Int]()

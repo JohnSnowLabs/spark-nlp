@@ -30,14 +30,13 @@ class Gpt2Tokenizer(
     prependString: String = "")
     extends BpeTokenizer(merges, vocab, specialTokens, padWithSentenceTokens) {
 
-  /**
-   * Mapping for bytes to a different set of unicode characters (especially white spaces).
-   * This improved model performance for gpt-2
-   */
+  /** Mapping for bytes to a different set of unicode characters (especially white spaces). This
+    * improved model performance for gpt-2
+    */
   private val bytesToUnicodeMapping: Map[Int, String] = {
-    val bytes
-      : ListBuffer[Int] = ListBuffer.range('!', '~' + 1) ++ ListBuffer.range('¡', '¬' + 1) ++ ListBuffer
-      .range('®', 'ÿ' + 1)
+    val bytes: ListBuffer[Int] =
+      ListBuffer.range('!', '~' + 1) ++ ListBuffer.range('¡', '¬' + 1) ++ ListBuffer
+        .range('®', 'ÿ' + 1)
     val characters: ListBuffer[Int] = bytes.clone
     var n = 0
     for (b <- 0 to 256) {
@@ -51,7 +50,7 @@ class Gpt2Tokenizer(
   }
 
   // Differs from Transformers, space is always prepended.
-  //FIX: Space should not be prepended to all tokens, but to the beginning of the text only. Otherwise token
+  // FIX: Space should not be prepended to all tokens, but to the beginning of the text only. Otherwise token
   // such as '.' get space prepended and they should not.
   override val prependForPieceId: Option[String] =
     if (prependString.nonEmpty) Some(prependString) else None
@@ -71,9 +70,8 @@ class Gpt2Tokenizer(
   override def tokenizeSubText(text: String, indexOffset: Int): Array[IndexedToken] = {
     // split pattern based on gpt2's bpe tokenizer
     splitPattern
-      .findAllMatchIn(
-        if (prependForPieceId.isDefined || text.startsWith(" ")) text
-        else " " + text) //Prepend space to the beginning of text
+      .findAllMatchIn(if (prependForPieceId.isDefined || text.startsWith(" ")) text
+      else " " + text) // Prepend space to the beginning of text
       .map(tok => IndexedToken(tok.matched, tok.start + indexOffset, tok.end + indexOffset - 1))
       .toArray
   }

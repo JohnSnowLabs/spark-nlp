@@ -119,12 +119,13 @@ class NerDatasetEncoder(val params: DatasetEncoderParams) extends Serializable {
       isWordStart)
   }
 
-  /**
-   * Converts Tag names to Identifiers
-   *
-   * @param tags batches of labels/classes for each sentence/document
-   * @return batches of tag ids for each sentence/document
-   */
+  /** Converts Tag names to Identifiers
+    *
+    * @param tags
+    *   batches of labels/classes for each sentence/document
+    * @return
+    *   batches of tag ids for each sentence/document
+    */
   def encodeTags(tags: Array[Array[String]]): Array[Array[Int]] = {
     val batchSize = tags.length
     val maxSentence = tags.map(t => t.length).max
@@ -137,31 +138,35 @@ class NerDatasetEncoder(val params: DatasetEncoderParams) extends Serializable {
     }.toArray
   }
 
-  /**
-   * Converts Tag Identifiers to Source Names
-   *
-   * @param tagIds Tag Ids encoded for Tensorflow Model.
-   * @return Tag names
-   */
+  /** Converts Tag Identifiers to Source Names
+    *
+    * @param tagIds
+    *   Tag Ids encoded for Tensorflow Model.
+    * @return
+    *   Tag names
+    */
   def decodeOutputData(tagIds: Array[Int]): Array[String] = {
     tagIds.map(id => getOrElse(tags, id, params.defaultTag))
   }
 
-  /**
-   * Converts Tensorflow tags output to 2-dimensional Array with shape: (Batch, Sentence Length).
-   *
-   * @param predictedTags  2-dimensional tensor in plain array
-   * @param allTags        All original tags
-   * @param sentenceLength Every sentence length (number of words).
-   * @return List of tags for each sentence
-   */
+  /** Converts Tensorflow tags output to 2-dimensional Array with shape: (Batch, Sentence Length).
+    *
+    * @param predictedTags
+    *   2-dimensional tensor in plain array
+    * @param allTags
+    *   All original tags
+    * @param sentenceLength
+    *   Every sentence length (number of words).
+    * @return
+    *   List of tags for each sentence
+    */
   def convertBatchTags(
       predictedTags: Array[String],
       allTags: Array[String],
       sentenceLength: Array[Int],
       prob: Option[Seq[Array[Float]]],
       includeAllConfidenceScores: Boolean)
-    : Array[Array[(String, Option[Array[Map[String, String]]])]] = {
+      : Array[Array[(String, Option[Array[Map[String, String]]])]] = {
 
     val sentences = sentenceLength.length
     val maxSentenceLength = predictedTags.length / sentences
@@ -174,15 +179,14 @@ class NerDatasetEncoder(val params: DatasetEncoderParams) extends Serializable {
             if (includeAllConfidenceScores) {
               Some(
                 allTags.zipWithIndex
-                  .map {
-                    case (t, i) =>
-                      Map(
-                        t -> prob
-                          .map(_(index))
-                          .getOrElse(Array.empty[String])
-                          .lift(i)
-                          .getOrElse(0.0f)
-                          .toString)
+                  .map { case (t, i) =>
+                    Map(
+                      t -> prob
+                        .map(_(index))
+                        .getOrElse(Array.empty[String])
+                        .lift(i)
+                        .getOrElse(0.0f)
+                        .toString)
                   })
             } else {
               Some(
@@ -204,16 +208,22 @@ class NerDatasetEncoder(val params: DatasetEncoderParams) extends Serializable {
   }
 }
 
-/**
- * Batch that contains data in Tensorflow input format.
- *
- * @param wordEmbeddings  Word vector representation. Shape: Batch x Max Sentence Length x Embeddings Dim
- * @param charIds         Char ids for every word in every sentence. Shape: Batch x Max Sentence Length x Max Word length
- * @param wordLengths     Word Length of every sentence. Shape: Batch x Max Sentence Length
- * @param sentenceLengths Length of every batch sentence. Shape: Batch
- * @param maxLength       Max length of sentence
- * @param isWordStart     Is current wordpiece is token start? Shape: Batch x Max Sentence Length
- */
+/** Batch that contains data in Tensorflow input format.
+  *
+  * @param wordEmbeddings
+  *   Word vector representation. Shape: Batch x Max Sentence Length x Embeddings Dim
+  * @param charIds
+  *   Char ids for every word in every sentence. Shape: Batch x Max Sentence Length x Max Word
+  *   length
+  * @param wordLengths
+  *   Word Length of every sentence. Shape: Batch x Max Sentence Length
+  * @param sentenceLengths
+  *   Length of every batch sentence. Shape: Batch
+  * @param maxLength
+  *   Max length of sentence
+  * @param isWordStart
+  *   Is current wordpiece is token start? Shape: Batch x Max Sentence Length
+  */
 class NerBatch(
     val wordEmbeddings: Array[Array[Array[Float]]],
     val charIds: Array[Array[Array[Int]]],
@@ -228,14 +238,17 @@ object NerBatch {
   def empty = new NerBatch(Array.empty, Array.empty, Array.empty, Array.empty, 0, Array.empty)
 }
 
-/**
- *
- * @param tags          list of unique tags
- * @param chars         list of unique characters
- * @param emptyVector   list of embeddings
- * @param embeddingsDim dimension of embeddings
- * @param defaultTag    the default tag
- */
+/** @param tags
+  *   list of unique tags
+  * @param chars
+  *   list of unique characters
+  * @param emptyVector
+  *   list of embeddings
+  * @param embeddingsDim
+  *   dimension of embeddings
+  * @param defaultTag
+  *   the default tag
+  */
 case class DatasetEncoderParams(
     tags: List[String],
     chars: List[Char],

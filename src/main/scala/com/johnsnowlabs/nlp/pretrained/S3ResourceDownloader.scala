@@ -70,12 +70,13 @@ class S3ResourceDownloader(
     ResourceMetadata.resolveResource(metadata, request)
   }
 
-  /**
-   * Download resource to local file
-   *
-   * @param request Resource request
-   * @return Downloaded file or None if resource is not found
-   */
+  /** Download resource to local file
+    *
+    * @param request
+    *   Resource request
+    * @return
+    *   Downloaded file or None if resource is not found
+    */
   override def download(request: ResourceRequest): Option[String] = {
     val link = resolveLink(request)
     link.flatMap { resource =>
@@ -115,7 +116,7 @@ class S3ResourceDownloader(
 
     // 5. Unzip if needs
     if (resource.isZipped) {
-      //if not already unzipped
+      // if not already unzipped
       if (!fileSystem.exists(new Path(splitPath))) {
         val zis = new ZipInputStream(fileSystem.open(destinationFile))
         val buf = Array.ofDim[Byte](1024)
@@ -139,7 +140,7 @@ class S3ResourceDownloader(
           entry = zis.getNextEntry
         }
         zis.close()
-        //delete the zip file
+        // delete the zip file
         fileSystem.delete(destinationFile, true)
       }
       Some(splitPath)

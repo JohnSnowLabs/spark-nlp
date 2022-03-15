@@ -24,9 +24,9 @@ import org.apache.spark.sql.types.MetadataBuilder
 trait HasEmbeddingsProperties extends Params {
 
   /** Number of embedding dimensions (Default depends on model)
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val dimension = new IntParam(this, "dimension", "Number of embedding dimensions")
 
   /** @group setParam */

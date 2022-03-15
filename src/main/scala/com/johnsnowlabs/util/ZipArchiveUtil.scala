@@ -66,7 +66,7 @@ object ZipArchiveUtil {
       zip.setLevel(0)
       filePaths.foreach((name: String) => {
         val zipEntry = addFileToZipEntry(name, parentPath, filePaths.size)
-        //add zip entry to output stream
+        // add zip entry to output stream
         zip.putNextEntry(new ZipEntry(zipEntry))
         val in = new BufferedInputStream(new FileInputStream(name), Buffer)
         var b = in.read(data, 0, Buffer)

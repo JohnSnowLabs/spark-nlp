@@ -51,12 +51,13 @@ import scala.util.{Failure, Success}
 
 trait ResourceDownloader {
 
-  /**
-   * Download resource to local file
-   *
-   * @param request Resource request
-   * @return downloaded file or None if resource is not found
-   */
+  /** Download resource to local file
+    *
+    * @param request
+    *   Resource request
+    * @return
+    *   downloaded file or None if resource is not found
+    */
   def download(request: ResourceRequest): Option[String]
 
   def getDownloadSize(request: ResourceRequest): Option[Long]
@@ -104,29 +105,30 @@ object ResourceDownloader {
   var communityDownloader: ResourceDownloader =
     new S3ResourceDownloader(s3BucketCommunity, s3Path, cacheFolder, "community")
 
-  /**
-   * Reset the cache and recreate ResourceDownloader S3 credentials
-   */
+  /** Reset the cache and recreate ResourceDownloader S3 credentials
+    */
   def resetResourceDownloader(): Unit = {
     cache.empty
     this.defaultDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "default")
   }
 
-  /**
-   * List all pretrained models in public name_lang
-   */
+  /** List all pretrained models in public name_lang
+    */
   def listPublicModels(): List[String] = {
     listPretrainedResources(folder = publicLoc, ResourceType.MODEL)
   }
 
-  /**
-   * Prints all pretrained models for a particular annotator model, that are compatible with a version of Spark NLP.
-   * If any of the optional arguments are not set, the filter is not considered.
-   *
-   * @param annotator Name of the model class, for example "NerDLModel"
-   * @param lang      Language of the pretrained models to display, for example "en"
-   * @param version   Version of Spark NLP that the model should be compatible with, for example "3.2.3"
-   */
+  /** Prints all pretrained models for a particular annotator model, that are compatible with a
+    * version of Spark NLP. If any of the optional arguments are not set, the filter is not
+    * considered.
+    *
+    * @param annotator
+    *   Name of the model class, for example "NerDLModel"
+    * @param lang
+    *   Language of the pretrained models to display, for example "en"
+    * @param version
+    *   Version of Spark NLP that the model should be compatible with, for example "3.2.3"
+    */
   def showPublicModels(
       annotator: Option[String] = None,
       lang: Option[String] = None,
@@ -139,46 +141,52 @@ object ResourceDownloader {
         resourceType = ResourceType.MODEL))
   }
 
-  /**
-   * Prints all pretrained models for a particular annotator model, that are compatible with this version of Spark NLP.
-   *
-   * @param annotator Name of the annotator class
-   */
+  /** Prints all pretrained models for a particular annotator model, that are compatible with this
+    * version of Spark NLP.
+    *
+    * @param annotator
+    *   Name of the annotator class
+    */
   def showPublicModels(annotator: String): Unit = showPublicModels(Some(annotator))
 
-  /**
-   * Prints all pretrained models for a particular annotator model, that are compatible with this version of Spark NLP.
-   *
-   * @param annotator Name of the annotator class
-   * @param lang      Language of the pretrained models to display
-   */
+  /** Prints all pretrained models for a particular annotator model, that are compatible with this
+    * version of Spark NLP.
+    *
+    * @param annotator
+    *   Name of the annotator class
+    * @param lang
+    *   Language of the pretrained models to display
+    */
   def showPublicModels(annotator: String, lang: String): Unit =
     showPublicModels(Some(annotator), Some(lang))
 
-  /**
-   * Prints all pretrained models for a particular annotator, that are compatible with a version of Spark NLP.
-   *
-   * @param annotator Name of the model class, for example "NerDLModel"
-   * @param lang      Language of the pretrained models to display, for example "en"
-   * @param version   Version of Spark NLP that the model should be compatible with, for example "3.2.3"
-   */
+  /** Prints all pretrained models for a particular annotator, that are compatible with a version
+    * of Spark NLP.
+    *
+    * @param annotator
+    *   Name of the model class, for example "NerDLModel"
+    * @param lang
+    *   Language of the pretrained models to display, for example "en"
+    * @param version
+    *   Version of Spark NLP that the model should be compatible with, for example "3.2.3"
+    */
   def showPublicModels(annotator: String, lang: String, version: String): Unit =
     showPublicModels(Some(annotator), Some(lang), Some(version))
 
-  /**
-   * List all pretrained pipelines in public
-   */
+  /** List all pretrained pipelines in public
+    */
   def listPublicPipelines(): List[String] = {
     listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE)
   }
 
-  /**
-   * Prints all Pipelines available for a language and a version of Spark NLP. By default shows all languages and uses
-   * the current version of Spark NLP.
-   *
-   * @param lang    Language of the Pipeline
-   * @param version Version of Spark NLP
-   */
+  /** Prints all Pipelines available for a language and a version of Spark NLP. By default shows
+    * all languages and uses the current version of Spark NLP.
+    *
+    * @param lang
+    *   Language of the Pipeline
+    * @param version
+    *   Version of Spark NLP
+    */
   def showPublicPipelines(
       lang: Option[String] = None,
       version: Option[String] = Some(Build.version)): Unit = {
@@ -190,27 +198,28 @@ object ResourceDownloader {
         resourceType = ResourceType.PIPELINE))
   }
 
-  /**
-   * Prints all Pipelines available for a language and this version of Spark NLP.
-   *
-   * @param lang Language of the Pipeline
-   */
+  /** Prints all Pipelines available for a language and this version of Spark NLP.
+    *
+    * @param lang
+    *   Language of the Pipeline
+    */
   def showPublicPipelines(lang: String): Unit = showPublicPipelines(Some(lang))
 
-  /**
-   * Prints all Pipelines available for a language and a version of Spark NLP.
-   *
-   * @param lang    Language of the Pipeline
-   * @param version Version of Spark NLP
-   */
+  /** Prints all Pipelines available for a language and a version of Spark NLP.
+    *
+    * @param lang
+    *   Language of the Pipeline
+    * @param version
+    *   Version of Spark NLP
+    */
   def showPublicPipelines(lang: String, version: String): Unit =
     showPublicPipelines(Some(lang), Some(version))
 
-  /**
-   * Returns models or pipelines in metadata json which has not been categorized yet.
-   *
-   * @return list of models or pipelines which are not categorized in metadata json
-   */
+  /** Returns models or pipelines in metadata json which has not been categorized yet.
+    *
+    * @return
+    *   list of models or pipelines which are not categorized in metadata json
+    */
   def listUnCategorizedResources(): List[String] = {
     listPretrainedResources(folder = publicLoc, ResourceType.NOT_DEFINED)
   }
@@ -238,7 +247,7 @@ object ResourceDownloader {
       max_length = scala.math.max(temp(0).length, max_length)
       max_length_version = scala.math.max(temp(2).length, max_length_version)
     }
-    //adding head
+    // adding head
     sb.append("+")
     sb.append("-" * (max_length + 2))
     sb.append("+")
@@ -269,7 +278,7 @@ object ResourceDownloader {
         "| " + temp(0) + (" " * (max_length - temp(0).length)) + " |  " + temp(1) + "  | " + temp(
           2) + " " * (max_length_version - temp(2).length) + " |\n")
     }
-    //adding bottom
+    // adding bottom
     sb.append("+")
     sb.append("-" * (max_length + 2))
     sb.append("+")
@@ -299,19 +308,24 @@ object ResourceDownloader {
       resourceType)
   }
 
-  /**
-   * Lists pretrained resource from metadata.json, depending on the set filters.
-   * The folder in the S3 location and the resourceType is necessary. The other filters are optional and will be ignored
-   * if not set.
-   *
-   * @param folder       Folder in the S3 location
-   * @param resourceType Type of the Resource. Can Either `ResourceType.MODEL`, `ResourceType.PIPELINE` or
-   *                     `ResourceType.NOT_DEFINED`
-   * @param annotator    Name of the model class
-   * @param lang         Language of the model
-   * @param version      Version that the model should be compatible with
-   * @return A list of the available resources
-   */
+  /** Lists pretrained resource from metadata.json, depending on the set filters. The folder in
+    * the S3 location and the resourceType is necessary. The other filters are optional and will
+    * be ignored if not set.
+    *
+    * @param folder
+    *   Folder in the S3 location
+    * @param resourceType
+    *   Type of the Resource. Can Either `ResourceType.MODEL`, `ResourceType.PIPELINE` or
+    *   `ResourceType.NOT_DEFINED`
+    * @param annotator
+    *   Name of the model class
+    * @param lang
+    *   Language of the model
+    * @param version
+    *   Version that the model should be compatible with
+    * @return
+    *   A list of the available resources
+    */
   def listPretrainedResources(
       folder: String,
       resourceType: ResourceType,
@@ -379,14 +393,17 @@ object ResourceDownloader {
     println(listAvailableAnnotators(folder).mkString("\n"))
   }
 
-  /**
-   * Loads resource to path
-   *
-   * @param name     Name of Resource
-   * @param folder   Subfolder in s3 where to search model (e.g. medicine)
-   * @param language Desired language of Resource
-   * @return path of downloaded resource
-   */
+  /** Loads resource to path
+    *
+    * @param name
+    *   Name of Resource
+    * @param folder
+    *   Subfolder in s3 where to search model (e.g. medicine)
+    * @param language
+    *   Desired language of Resource
+    * @return
+    *   path of downloaded resource
+    */
   def downloadResource(
       name: String,
       language: Option[String] = None,
@@ -394,12 +411,13 @@ object ResourceDownloader {
     downloadResource(ResourceRequest(name, language, folder))
   }
 
-  /**
-   * Loads resource to path
-   *
-   * @param request Request for resource
-   * @return path of downloaded resource
-   */
+  /** Loads resource to path
+    *
+    * @param request
+    *   Request for resource
+    * @return
+    *   path of downloaded resource
+    */
   def downloadResource(request: ResourceRequest): String = {
     val f = Future {
       if (request.folder.equals(publicLoc)) {

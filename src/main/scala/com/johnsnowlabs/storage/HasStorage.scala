@@ -34,10 +34,9 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
 
   protected val databases: Array[Database.Name]
 
-  /**
-   * Path to the external resource.
-   * @group param
-   */
+  /** Path to the external resource.
+    * @group param
+    */
   val storagePath = new ExternalResourceParam(this, "storagePath", "path to file")
 
   /** @group setParam */
@@ -78,16 +77,15 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
       .map { case (database, localFile) => (database, RocksDBConnection.getOrCreate(localFile)) }
 
     val writers = connections
-      .map {
-        case (db, conn) =>
-          (db, createWriter(db, conn))
+      .map { case (db, conn) =>
+        (db, createWriter(db, conn))
       }
       .toMap[Database.Name, StorageWriter[_]]
 
     val storageSourcePath = resource.map(r => importIfS3(r.path, spark).toUri.toString)
     if (resource.isDefined && new Path(resource.get.path)
-          .getFileSystem(spark.hadoopConfiguration)
-          .getScheme != "file") {
+        .getFileSystem(spark.hadoopConfiguration)
+        .getScheme != "file") {
       val uri = new java.net.URI(storageSourcePath.get.replaceAllLiterally("\\", "/"))
       val fs = FileSystem.get(uri, spark.hadoopConfiguration)
 
@@ -118,12 +116,11 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
     val sparkContext = spark.sparkContext
 
     val tmpLocalDestinations = {
-      databases.map(
-        _ =>
-          Files
-            .createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
-            .toAbsolutePath
-            .toString)
+      databases.map(_ =>
+        Files
+          .createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
+          .toAbsolutePath
+          .toString)
     }
 
     indexDatabases(databases, resource, tmpLocalDestinations, fitDataset, sparkContext)
@@ -131,16 +128,16 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
     val locators =
       databases.map(database => StorageLocator(database.toString, $(storageRef), spark))
 
-    tmpLocalDestinations.zip(locators).foreach {
-      case (tmpLocalDestination, locator) =>
-        /** tmpFiles indexed must be explicitly set to be local files */
-        val uri = "file://" + new java.net.URI(tmpLocalDestination.replaceAllLiterally("\\", "/")).getPath
-        StorageHelper.sendToCluster(
-          new Path(uri),
-          locator.clusterFilePath,
-          locator.clusterFileName,
-          locator.destinationScheme,
-          sparkContext)
+    tmpLocalDestinations.zip(locators).foreach { case (tmpLocalDestination, locator) =>
+      /** tmpFiles indexed must be explicitly set to be local files */
+      val uri =
+        "file://" + new java.net.URI(tmpLocalDestination.replaceAllLiterally("\\", "/")).getPath
+      StorageHelper.sendToCluster(
+        new Path(uri),
+        locator.clusterFilePath,
+        locator.clusterFileName,
+        locator.destinationScheme,
+        sparkContext)
     }
 
     // 3. Create Spark Embeddings
@@ -150,7 +147,7 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
   private def importIfS3(path: String, spark: SparkContext): Path = {
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     var src = new Path(path)
-    //if the path contains s3a download to local cache if not present
+    // if the path contains s3a download to local cache if not present
     if (uri.getScheme != null) {
       if (uri.getScheme.equals("s3a")) {
         var accessKeyId = ConfigLoader.getConfigStringValue(ConfigHelper.accessKeyId)
@@ -170,7 +167,7 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
         try {
           val dst = new Path(ResourceDownloader.cacheFolder, src.getName)
           if (!Files.exists(Paths.get(dst.toUri.getPath))) {
-            //download s3 resource locally using config keys
+            // download s3 resource locally using config keys
             spark.hadoopConfiguration.set("fs.s3a.access.key", accessKeyId)
             spark.hadoopConfiguration.set("fs.s3a.secret.key", secretAccessKey)
             val s3fs = FileSystem.get(uri, spark.hadoopConfiguration)
@@ -187,7 +184,7 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
           }
           src = new Path(dst.toUri.getPath)
         } finally {
-          //reset the keys
+          // reset the keys
           if (!old_key.equals("")) {
             spark.hadoopConfiguration.set("fs.s3a.access.key", old_key)
             spark.hadoopConfiguration.set("fs.s3a.secret.key", old_secret)

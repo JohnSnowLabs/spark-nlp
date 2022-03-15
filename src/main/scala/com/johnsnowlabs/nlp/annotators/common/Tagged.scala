@@ -42,23 +42,24 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
 
     tokenized.map { sentence =>
       val tokens = sentence.indexedTokens.map { token =>
-        while (tagAnnotations.hasNext && (annotation.isEmpty || annotation.get.begin < token.begin)) annotation =
-          Some(tagAnnotations.next)
+        while (tagAnnotations.hasNext && (annotation.isEmpty || annotation.get.begin < token.begin))
+          annotation = Some(tagAnnotations.next)
 
         val tag = if (annotation.isDefined && annotation.get.begin == token.begin) {
           annotation.get.result
         } else
           emptyTag
         // etract the confidence score belong to the tag
-        val metadata = try {
-          if (annotation.get.metadata.isDefinedAt("confidence"))
-            Map(tag -> annotation.get.metadata("confidence"))
-          else
-            Map(tag -> annotation.get.metadata(tag))
-        } catch {
-          case _: Exception =>
-            Map.empty[String, String]
-        }
+        val metadata =
+          try {
+            if (annotation.get.metadata.isDefinedAt("confidence"))
+              Map(tag -> annotation.get.metadata("confidence"))
+            else
+              Map(tag -> annotation.get.metadata(tag))
+          } catch {
+            case _: Exception =>
+              Map.empty[String, String]
+          }
 
         IndexedTaggedWord(token.token, tag, token.begin, token.end, metadata = metadata)
       }
@@ -68,31 +69,32 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
   }
 
   override def pack(items: Seq[T]): Seq[Annotation] = {
-    items.zipWithIndex.flatMap {
-      case (item, sentenceIndex) =>
-        item.indexedTaggedWords.map { tag =>
-          val metadata: Map[String, String] = if (tag.confidence.isDefined) {
-            Map("word" -> tag.word) ++ tag.confidence
-              .getOrElse(Array.empty[Map[String, String]])
-              .flatten ++
-              Map("sentence" -> sentenceIndex.toString)
-          } else {
-            Map("word" -> tag.word) ++ Map.empty[String, String] ++ Map(
-              "sentence" -> sentenceIndex.toString)
-          }
-          new Annotation(annotatorType, tag.begin, tag.end, tag.tag, metadata)
+    items.zipWithIndex.flatMap { case (item, sentenceIndex) =>
+      item.indexedTaggedWords.map { tag =>
+        val metadata: Map[String, String] = if (tag.confidence.isDefined) {
+          Map("word" -> tag.word) ++ tag.confidence
+            .getOrElse(Array.empty[Map[String, String]])
+            .flatten ++
+            Map("sentence" -> sentenceIndex.toString)
+        } else {
+          Map("word" -> tag.word) ++ Map.empty[String, String] ++ Map(
+            "sentence" -> sentenceIndex.toString)
         }
+        new Annotation(annotatorType, tag.begin, tag.end, tag.tag, metadata)
+      }
     }
   }
 
-  /**
-   * Method is usefull for testing.
-   *
-   * @param dataset     dataset row
-   * @param taggedCols  list of tagged columns
-   * @param labelColumn label column
-   * @return
-   */
+  /** Method is usefull for testing.
+    *
+    * @param dataset
+    *   dataset row
+    * @param taggedCols
+    *   list of tagged columns
+    * @param labelColumn
+    *   label column
+    * @return
+    */
   def collectLabeledInstances(
       dataset: Dataset[Row],
       taggedCols: Seq[String],
@@ -167,7 +169,7 @@ object NerTagged extends Tagged[NerTaggedSentence] {
       dataset: Dataset[Row],
       posTaggedCols: Seq[String],
       labelColumn: String)
-    : Array[(TextSentenceLabels, PosTaggedSentence, WordpieceEmbeddingsSentence)] = {
+      : Array[(TextSentenceLabels, PosTaggedSentence, WordpieceEmbeddingsSentence)] = {
 
     val annotations = dataset
       .select(labelColumn, posTaggedCols: _*)

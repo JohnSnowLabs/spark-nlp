@@ -21,9 +21,8 @@ import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, WordpieceEmbeddin
 
 import scala.collection.mutable
 
-/**
- * Generates features for CrfBasedNer
- */
+/** Generates features for CrfBasedNer
+  */
 case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
 
   val shapeEncoding = Map(
@@ -237,11 +236,10 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
 
     val wordFeatures = taggedSentence.words
       .zip(taggedSentence.tags)
-      .map {
-        case (word, tag) =>
-          val f = fillFeatures(word)
-          f("pos") = tag
-          f
+      .map { case (word, tag) =>
+        val f = fillFeatures(word)
+        f("pos") = tag
+        f
       }
 
     val words = wordFeatures.length
@@ -265,15 +263,14 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
             val value1 = wordFeatures(i + j).getOrElse(name, "")
             val value2 = wordFeatures(i + j + 1).getOrElse(name, "")
             (feature, value1 + "|" + value2)
-        })
+          })
         .toArray
 
       val unoAttrs = (-window to window)
         .filter(j => isInRange(i + j, words))
         .flatMap { j =>
-          wordFeatures(i + j).map {
-            case (name, value) =>
-              (getName(name, j), value)
+          wordFeatures(i + j).map { case (name, value) =>
+            (getName(name, j), value)
           }
         }
         .toArray
@@ -300,10 +297,9 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
     (TextSentenceLabels, TaggedSentence, WordpieceEmbeddingsSentence)]): CrfDataset = {
     val textDataset = sentences
       .filter(p => p._2.words.length > 0)
-      .map {
-        case (labels, sentence, withEmbeddings) =>
-          val textSentence = generate(sentence, withEmbeddings)
-          (labels, textSentence)
+      .map { case (labels, sentence, withEmbeddings) =>
+        val textSentence = generate(sentence, withEmbeddings)
+        (labels, textSentence)
       }
 
     DatasetReader.encodeDataset(textDataset)

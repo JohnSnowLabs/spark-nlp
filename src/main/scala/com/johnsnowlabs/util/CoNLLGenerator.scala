@@ -30,7 +30,7 @@ object CoNLLGenerator {
       filesPath: String,
       pipelineModel: PipelineModel,
       outputPath: String): Unit = {
-    import spark.implicits._ //for toDS and toDF
+    import spark.implicits._ // for toDS and toDF
     val data = spark.sparkContext.wholeTextFiles(filesPath).toDS.toDF("filename", "text")
     exportConllFiles(data, pipelineModel, outputPath)
   }
@@ -58,11 +58,11 @@ object CoNLLGenerator {
   }
 
   def exportConllFiles(data: DataFrame, outputPath: String): Unit = {
-    import data.sparkSession.implicits._ //for udf
+    import data.sparkSession.implicits._ // for udf
     var dfWithNER = data
-    //if data does not contain ner column, add "O" as default
+    // if data does not contain ner column, add "O" as default
     if (Try(data("finished_ner")).isFailure) {
-      def OArray = (len: Int) => { //create array of $len "O"s
+      def OArray = (len: Int) => { // create array of $len "O"s
         var z = new Array[String](len)
         for (i <- 0 until z.length) {
           z(i) = "O"
@@ -89,8 +89,8 @@ object CoNLLGenerator {
   def makeConLLFormat(
       newPOSDataset: Dataset[
         (Array[String], Array[String], Array[(String, String)], Array[String])])
-    : Dataset[(String, String, String, String)] = {
-    import newPOSDataset.sparkSession.implicits._ //for row casting
+      : Dataset[(String, String, String, String)] = {
+    import newPOSDataset.sparkSession.implicits._ // for row casting
     newPOSDataset.flatMap(row => {
       val newColumns: ArrayBuffer[(String, String, String, String)] = ArrayBuffer()
       val columns = ((row._1 zip row._2), row._3.map(_._2.toInt), row._4).zipped.map {

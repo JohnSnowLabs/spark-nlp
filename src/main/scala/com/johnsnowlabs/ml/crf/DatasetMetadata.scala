@@ -90,10 +90,10 @@ class DatasetMetadata(
       featuresStat.toList)
   }
 
-  /**
-   * Leaves only features that in featureIds list
-   * @param featureIds - feature ids to leave
-   */
+  /** Leaves only features that in featureIds list
+    * @param featureIds
+    *   \- feature ids to leave
+    */
   def filterFeatures(featureIds: Seq[Int]): DatasetMetadata = {
     val (attrFeaturesIds, transFeaturesIds) = featureIds.partition(id => id < attrFeatures.length)
     val filteredAttrFeatures = attrFeaturesIds

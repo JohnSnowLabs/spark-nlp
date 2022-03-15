@@ -85,7 +85,7 @@ class TensorflowWrapper(var variables: Variables, var graph: Array[Byte]) extend
         .feed(TensorflowWrapper.SaveConstOP, t.createTensor(variablesPath))
         .run()
 
-      //delete variable files
+      // delete variable files
       Files.delete(varData)
       Files.delete(varIdx)
 
@@ -135,7 +135,7 @@ class TensorflowWrapper(var variables: Variables, var graph: Array[Byte]) extend
           TensorflowWrapper.VariablesKey,
           savedSignatures = savedSignatures)
 
-      //delete variable files
+      // delete variable files
       Files.delete(varData)
       Files.delete(varIdx)
 
@@ -220,12 +220,12 @@ class TensorflowWrapper(var variables: Variables, var graph: Array[Byte]) extend
         .run()
     }
 
-    /**
-     * addTarget operation is the result of '''saverDef.getSaveTensorName()'''
-     * feed operation is the result of '''saverDef.getFilenameTensorName()'''
-     *
-     * @return List[Tensor]
-     */
+    /** addTarget operation is the result of '''saverDef.getSaveTensorName()''' feed operation is
+      * the result of '''saverDef.getFilenameTensorName()'''
+      *
+      * @return
+      *   List[Tensor]
+      */
     def runSessionNew = {
       getTFSession(configProtoBytes).runner
         .addTarget(_tfSignatures.getOrElse("saveTensorName_", "StatefulPartitionedCall_1"))
@@ -350,10 +350,9 @@ object TensorflowWrapper {
         SaveConstOP,
         tensorResources.createTensor(Paths.get(variablesDir, variablesKey).toString))
 
-    /**
-     * addTarget operation is the result of '''saverDef.getRestoreOpName()'''
-     * feed operation is the result of '''saverDef.getFilenameTensorName()'''
-     */
+    /** addTarget operation is the result of '''saverDef.getRestoreOpName()''' feed operation is
+      * the result of '''saverDef.getFilenameTensorName()'''
+      */
     lazy val newSessionRunner = session.runner
       .addTarget(_tfSignatures.getOrElse("restoreOpName_", "StatefulPartitionedCall_2"))
       .feed(
@@ -406,16 +405,21 @@ object TensorflowWrapper {
     graph
   }
 
-  /**
-   * Read method to create tmp folder, unpack archive and read file as SavedModelBundle
-   *
-   * @param file          : the file to read
-   * @param zipped        : boolean flag to know if compression is applied
-   * @param useBundle     : whether to use the SaveModelBundle object to parse the TF saved model
-   * @param tags          : tags to retrieve on the model bundle
-   * @param initAllTables : boolean flag whether to retrieve the TF init operation
-   * @return Returns a greeting based on the `name` field.
-   */
+  /** Read method to create tmp folder, unpack archive and read file as SavedModelBundle
+    *
+    * @param file
+    *   : the file to read
+    * @param zipped
+    *   : boolean flag to know if compression is applied
+    * @param useBundle
+    *   : whether to use the SaveModelBundle object to parse the TF saved model
+    * @param tags
+    *   : tags to retrieve on the model bundle
+    * @param initAllTables
+    *   : boolean flag whether to retrieve the TF init operation
+    * @return
+    *   Returns a greeting based on the `name` field.
+    */
   def read(
       file: String,
       zipped: Boolean = true,
@@ -423,7 +427,7 @@ object TensorflowWrapper {
       tags: Array[String] = Array.empty[String],
       initAllTables: Boolean = false,
       savedSignatures: Option[Map[String, String]] = None)
-    : (TensorflowWrapper, Option[Map[String, String]]) = {
+      : (TensorflowWrapper, Option[Map[String, String]]) = {
 
     val t = new TensorResources()
 

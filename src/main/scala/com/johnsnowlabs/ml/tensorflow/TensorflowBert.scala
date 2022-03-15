@@ -24,22 +24,27 @@ import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
 
-/**
- * BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture
- *
- *
- * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala]] for further reference on how to use this API.
- * Sources:
- *
- * @param tensorflowWrapper    Bert Model wrapper with TensorFlow Wrapper
- * @param sentenceStartTokenId Id of sentence start Token
- * @param sentenceEndTokenId   Id of sentence end Token.
- * @param configProtoBytes     Configuration for TensorFlow session
- *
- *                             Paper:  [[ https://arxiv.org/abs/1810.04805]]
- *
- *                             Source:  [[https://github.com/google-research/bert]]
- * */
+/** BERT (Bidirectional Encoder Representations from Transformers) provides dense vector
+  * representations for natural language by using a deep, pre-trained neural network with the
+  * Transformer architecture
+  *
+  * See
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala]]
+  * for further reference on how to use this API. Sources:
+  *
+  * @param tensorflowWrapper
+  *   Bert Model wrapper with TensorFlow Wrapper
+  * @param sentenceStartTokenId
+  *   Id of sentence start Token
+  * @param sentenceEndTokenId
+  *   Id of sentence end Token.
+  * @param configProtoBytes
+  *   Configuration for TensorFlow session
+  *
+  * Paper: [[https://arxiv.org/abs/1810.04805]]
+  *
+  * Source: [[https://github.com/google-research/bert]]
+  */
 class TensorflowBert(
     val tensorflowWrapper: TensorflowWrapper,
     sentenceStartTokenId: Int,
@@ -55,18 +60,19 @@ class TensorflowBert(
       sentences: Seq[(WordpieceTokenizedSentence, Int)],
       maxSequenceLength: Int): Seq[Array[Int]] = {
     val maxSentenceLength =
-      Array(maxSequenceLength - 2, sentences.map {
-        case (wpTokSentence, _) => wpTokSentence.tokens.length
-      }.max).min
+      Array(
+        maxSequenceLength - 2,
+        sentences.map { case (wpTokSentence, _) =>
+          wpTokSentence.tokens.length
+        }.max).min
 
     sentences
-      .map {
-        case (wpTokSentence, _) =>
-          val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
-          val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(0)
+      .map { case (wpTokSentence, _) =>
+        val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
+        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(0)
 
-          Array(sentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(
-            sentenceEndTokenId) ++ padding
+        Array(sentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(
+          sentenceEndTokenId) ++ padding
       }
   }
 
@@ -84,12 +90,11 @@ class TensorflowBert(
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
     batch.zipWithIndex
-      .foreach {
-        case (sentence, idx) =>
-          val offset = idx * maxSentenceLength
-          tokenBuffers.offset(offset).write(sentence)
-          maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
-          segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
+      .foreach { case (sentence, idx) =>
+        val offset = idx * maxSentenceLength
+        tokenBuffers.offset(offset).write(sentence)
+        maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
+        segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
       }
 
     val runner = tensorflowWrapper
@@ -132,15 +137,14 @@ class TensorflowBert(
 
     val emptyVector = Array.fill(dim)(0f)
 
-    batch.zip(shrinkedEmbeddings).map {
-      case (ids, embeddings) =>
-        if (ids.length > embeddings.length) {
-          embeddings.take(embeddings.length - 1) ++
-            Array.fill(embeddings.length - ids.length)(emptyVector) ++
-            Array(embeddings.last)
-        } else {
-          embeddings
-        }
+    batch.zip(shrinkedEmbeddings).map { case (ids, embeddings) =>
+      if (ids.length > embeddings.length) {
+        embeddings.take(embeddings.length - 1) ++
+          Array.fill(embeddings.length - ids.length)(emptyVector) ++
+          Array(embeddings.last)
+      } else {
+        embeddings
+      }
     }
 
   }
@@ -159,13 +163,12 @@ class TensorflowBert(
 
     val shape = Array(batchLength.toLong, maxSentenceLength)
 
-    batch.zipWithIndex.foreach {
-      case (sentence, idx) =>
-        val offset = idx * maxSentenceLength
+    batch.zipWithIndex.foreach { case (sentence, idx) =>
+      val offset = idx * maxSentenceLength
 
-        tokenBuffers.offset(offset).write(sentence)
-        maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
-        segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
+      tokenBuffers.offset(offset).write(sentence)
+      maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
+      segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
     }
 
     val runner = tensorflowWrapper
@@ -219,12 +222,11 @@ class TensorflowBert(
 
     val shape = Array(batchLength.toLong, maxSentenceLength)
 
-    batch.zipWithIndex.foreach {
-      case (sentence, idx) =>
-        val offset = idx * maxSentenceLength
-        tokenBuffers.offset(offset).write(sentence.map(_.toLong))
-        maskBuffers.offset(offset).write(sentence.map(x => if (x == 0L) 0L else 1L))
-        segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0L))
+    batch.zipWithIndex.foreach { case (sentence, idx) =>
+      val offset = idx * maxSentenceLength
+      tokenBuffers.offset(offset).write(sentence.map(_.toLong))
+      maskBuffers.offset(offset).write(sentence.map(x => if (x == 0L) 0L else 1L))
+      segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0L))
     }
 
     val runner = tensorflowWrapper
@@ -280,14 +282,13 @@ class TensorflowBert(
         val vectors = tag(encoded)
 
         /*Combine tokens and calculated embeddings*/
-        batch.zip(vectors).map {
-          case (sentence, tokenVectors) =>
-            val tokenLength = sentence._1.tokens.length
+        batch.zip(vectors).map { case (sentence, tokenVectors) =>
+          val tokenLength = sentence._1.tokens.length
 
-            /*All wordpiece embeddings*/
-            val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
-            val originalIndexedTokens = originalTokenSentences(sentence._2)
-            /*Word-level and span-level alignment with Tokenizer
+          /*All wordpiece embeddings*/
+          val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
+          val originalIndexedTokens = originalTokenSentences(sentence._2)
+          /*Word-level and span-level alignment with Tokenizer
         https://github.com/google-research/bert#tokenization
 
         ### Input
@@ -297,28 +298,28 @@ class TensorflowBert(
         # bert_tokens == ["[CLS]", "john", "johan", "##son", "'", "s", "house", "[SEP]"]
         # orig_to_tok_map == [1, 2, 4, 6]*/
 
-            val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap {
-              case (token, tokenEmbedding) =>
-                val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
-                val originalTokensWithEmbeddings = originalIndexedTokens.indexedTokens
-                  .find(p =>
-                    p.begin == tokenWithEmbeddings.begin && tokenWithEmbeddings.isWordStart)
-                  .map { token =>
-                    val originalTokenWithEmbedding = TokenPieceEmbeddings(
-                      TokenPiece(
-                        wordpiece = tokenWithEmbeddings.wordpiece,
-                        token = if (caseSensitive) token.token else token.token.toLowerCase(),
-                        pieceId = tokenWithEmbeddings.pieceId,
-                        isWordStart = tokenWithEmbeddings.isWordStart,
-                        begin = token.begin,
-                        end = token.end),
-                      tokenEmbedding)
-                    originalTokenWithEmbedding
-                  }
-                originalTokensWithEmbeddings
+          val tokensWithEmbeddings =
+            sentence._1.tokens.zip(tokenEmbeddings).flatMap { case (token, tokenEmbedding) =>
+              val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
+              val originalTokensWithEmbeddings = originalIndexedTokens.indexedTokens
+                .find(p =>
+                  p.begin == tokenWithEmbeddings.begin && tokenWithEmbeddings.isWordStart)
+                .map { token =>
+                  val originalTokenWithEmbedding = TokenPieceEmbeddings(
+                    TokenPiece(
+                      wordpiece = tokenWithEmbeddings.wordpiece,
+                      token = if (caseSensitive) token.token else token.token.toLowerCase(),
+                      pieceId = tokenWithEmbeddings.pieceId,
+                      isWordStart = tokenWithEmbeddings.isWordStart,
+                      begin = token.begin,
+                      end = token.end),
+                    tokenEmbedding)
+                  originalTokenWithEmbedding
+                }
+              originalTokensWithEmbeddings
             }
 
-            WordpieceEmbeddingsSentence(tokensWithEmbeddings, originalIndexedTokens.sentenceIndex)
+          WordpieceEmbeddingsSentence(tokensWithEmbeddings, originalIndexedTokens.sentenceIndex)
         }
       }
       .toSeq
@@ -346,25 +347,24 @@ class TensorflowBert(
           tagSequence(encoded)
         }
 
-        sentencesBatch.zip(embeddings).map {
-          case (sentence, vectors) =>
-            val metadata = Map(
-              "sentence" -> sentence.index.toString,
-              "token" -> sentence.content,
-              "pieceId" -> "-1",
-              "isWordStart" -> "true")
-            val finalMetadata = if (sentence.metadata.isDefined) {
-              sentence.metadata.getOrElse(Map.empty) ++ metadata
-            } else {
-              metadata
-            }
-            Annotation(
-              annotatorType = AnnotatorType.SENTENCE_EMBEDDINGS,
-              begin = sentence.start,
-              end = sentence.end,
-              result = sentence.content,
-              metadata = finalMetadata,
-              embeddings = vectors)
+        sentencesBatch.zip(embeddings).map { case (sentence, vectors) =>
+          val metadata = Map(
+            "sentence" -> sentence.index.toString,
+            "token" -> sentence.content,
+            "pieceId" -> "-1",
+            "isWordStart" -> "true")
+          val finalMetadata = if (sentence.metadata.isDefined) {
+            sentence.metadata.getOrElse(Map.empty) ++ metadata
+          } else {
+            metadata
+          }
+          Annotation(
+            annotatorType = AnnotatorType.SENTENCE_EMBEDDINGS,
+            begin = sentence.start,
+            end = sentence.end,
+            result = sentence.content,
+            metadata = finalMetadata,
+            embeddings = vectors)
         }
       }
       .toSeq

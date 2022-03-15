@@ -40,8 +40,8 @@ trait WeightedLevenshtein {
         if (s2(j - 1) == s1(i - 1)) dist(j - 1)(i - 1)
         else {
           minimum(
-            dist(j - 1)(i) + cost(s2_.substring(j - 1, j + 1), s1(i - 1) + "Ɛ"), //insert in s1
-            dist(j)(i - 1) + cost(s2(j - 1) + "Ɛ", s1_.substring(i - 1, i + 1)), //insert in s2
+            dist(j - 1)(i) + cost(s2_.substring(j - 1, j + 1), s1(i - 1) + "Ɛ"), // insert in s1
+            dist(j)(i - 1) + cost(s2(j - 1) + "Ɛ", s1_.substring(i - 1, i + 1)), // insert in s2
             dist(j - 1)(i - 1) + cost(s2(j - 1).toString, s1(i - 1).toString))
         }
 
@@ -58,13 +58,12 @@ trait WeightedLevenshtein {
 
     implicit val codec: Codec = Codec.UTF8
 
-    scala.io.Source.fromFile(filename).getLines.foreach {
-      case line =>
-        val lineFields = line.split("\\|")
-        val dist = vocabIdxs
-          .getOrElse(lineFields(0), mutable.Map[String, Float]())
-          .updated(lineFields(1), lineFields(2).toFloat)
-        vocabIdxs.update(lineFields(0), dist)
+    scala.io.Source.fromFile(filename).getLines.foreach { case line =>
+      val lineFields = line.split("\\|")
+      val dist = vocabIdxs
+        .getOrElse(lineFields(0), mutable.Map[String, Float]())
+        .updated(lineFields(1), lineFields(2).toFloat)
+      vocabIdxs.update(lineFields(0), dist)
     }
     vocabIdxs.toMap.mapValues(_.toMap)
   }

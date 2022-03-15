@@ -33,7 +33,7 @@ class AWSCredentialsProvider extends Credentials {
   override def buildCredentials(credentialParams: CredentialParams): Option[AWSCredentials] = {
     if (credentialParams.accessKeyId != "anonymous" && credentialParams.region != "") {
       try {
-        //check if default profile name works if not try
+        // check if default profile name works if not try
         logger.info("Connecting to AWS with AWS Credentials Provider...")
         return Some(new ProfileCredentialsProvider("spark_nlp").getCredentials)
       } catch {
@@ -42,7 +42,8 @@ class AWSCredentialsProvider extends Credentials {
             return Some(new DefaultAWSCredentialsProviderChain().getCredentials)
           } catch {
             case _: AmazonClientException =>
-              if (ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key") != null) {
+              if (ResourceHelper.spark.sparkContext.hadoopConfiguration.get(
+                  "fs.s3a.access.key") != null) {
                 val key =
                   ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key")
                 val secret =

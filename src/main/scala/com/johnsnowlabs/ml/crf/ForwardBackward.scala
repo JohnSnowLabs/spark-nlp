@@ -135,7 +135,8 @@ class FbCalculator(val maxLength: Int, val metadata: DatasetMetadata) {
     for (i <- 0 until length) {
       for ((attrId, value) <- sentence.items(i).values) {
         for (feature <- metadata.attr2Features(attrId)) {
-          weights(feature.id) += const * c(i) * alpha(i)(feature.label) * beta(i)(feature.label) * value
+          weights(feature.id) += const * c(i) * alpha(i)(feature.label) * beta(i)(
+            feature.label) * value
         }
       }
     }

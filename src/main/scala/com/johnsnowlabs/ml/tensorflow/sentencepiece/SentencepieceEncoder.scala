@@ -18,24 +18,26 @@ package com.johnsnowlabs.ml.tensorflow.sentencepiece
 
 import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence, TokenPiece}
 
-/**
- *
- * @param spp             StencePieceWrapper loaded from either from disk or a saved Spark NLP model
- * @param caseSensitive   whether it cares about uppercase or lowercases
- * @param delimiterId     what is the part prefix id
- * @param pieceIdFromZero whether or not pieceId should be as is or plus 1
- */
+/** @param spp
+  *   StencePieceWrapper loaded from either from disk or a saved Spark NLP model
+  * @param caseSensitive
+  *   whether it cares about uppercase or lowercases
+  * @param delimiterId
+  *   what is the part prefix id
+  * @param pieceIdFromZero
+  *   whether or not pieceId should be as is or plus 1
+  */
 private[ml] class SentencepieceEncoder(
     spp: SentencePieceWrapper,
     caseSensitive: Boolean,
     delimiterId: Int = 13,
     pieceIdFromZero: Boolean = false) {
 
-  /**
-   *
-   * @param token IndexedToken input that is used for encoding to piece tokens and piece ids
-   * @return Array of TokenPiece which are piece tokens with piece ids
-   */
+  /** @param token
+    *   IndexedToken input that is used for encoding to piece tokens and piece ids
+    * @return
+    *   Array of TokenPiece which are piece tokens with piece ids
+    */
   def encode(token: IndexedToken): Array[TokenPiece] = {
 
     val text = token.token

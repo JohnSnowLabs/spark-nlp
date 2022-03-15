@@ -28,80 +28,91 @@ import org.apache.spark.sql.Dataset
 import org.slf4j.LoggerFactory
 
 /** Trains an unlabeled parser that finds a grammatical relations between two words in a sentence.
- *
- * For instantiated/pretrained models, see [[DependencyParserModel]].
- *
- * Dependency parser provides information about word relationship. For example, dependency parsing can tell you what
- * the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help
- * you find precise answers to specific questions.
- *
- * The required training data can be set in two different ways (only one can be chosen for a particular model):
- *   - Dependency treebank in the [[http://www.nltk.org/nltk_data/ Penn Treebank format]] set with `setDependencyTreeBank`
- *   - Dataset in the [[https://universaldependencies.org/format.html CoNLL-U format]] set with `setConllU`
- *
- * Apart from that, no additional training data is needed.
- *
- * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserApproachTestSpec.scala DependencyParserApproachTestSpec]] for further reference on how to use this API.
- *
- * ==Example==
- * {{{
- * import spark.implicits._
- * import com.johnsnowlabs.nlp.base.DocumentAssembler
- * import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
- * import com.johnsnowlabs.nlp.annotators.Tokenizer
- * import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
- * import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach
- * import org.apache.spark.ml.Pipeline
- *
- * val documentAssembler = new DocumentAssembler()
- *   .setInputCol("text")
- *   .setOutputCol("document")
- *
- * val sentence = new SentenceDetector()
- *   .setInputCols("document")
- *   .setOutputCol("sentence")
- *
- * val tokenizer = new Tokenizer()
- *   .setInputCols("sentence")
- *   .setOutputCol("token")
- *
- * val posTagger = PerceptronModel.pretrained()
- *   .setInputCols("sentence", "token")
- *   .setOutputCol("pos")
- *
- * val dependencyParserApproach = new DependencyParserApproach()
- *   .setInputCols("sentence", "pos", "token")
- *   .setOutputCol("dependency")
- *   .setDependencyTreeBank("src/test/resources/parser/unlabeled/dependency_treebank")
- *
- * val pipeline = new Pipeline().setStages(Array(
- *   documentAssembler,
- *   sentence,
- *   tokenizer,
- *   posTagger,
- *   dependencyParserApproach
- * ))
- *
- * // Additional training data is not needed, the dependency parser relies on the dependency tree bank / CoNLL-U only.
- * val emptyDataSet = Seq.empty[String].toDF("text")
- * val pipelineModel = pipeline.fit(emptyDataSet)
- * }}}
- *
- * @see [[com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach TypedDependencyParserApproach]] to extract labels for the dependencies
- * @groupname anno Annotator types
- * @groupdesc anno Required input and expected output annotator types
- * @groupname Ungrouped Members
- * @groupname param Parameters
- * @groupname setParam Parameter setters
- * @groupname getParam Parameter getters
- * @groupname Ungrouped Members
- * @groupprio param  1
- * @groupprio anno  2
- * @groupprio Ungrouped 3
- * @groupprio setParam  4
- * @groupprio getParam  5
- * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
- * */
+  *
+  * For instantiated/pretrained models, see [[DependencyParserModel]].
+  *
+  * Dependency parser provides information about word relationship. For example, dependency
+  * parsing can tell you what the subjects and objects of a verb are, as well as which words are
+  * modifying (describing) the subject. This can help you find precise answers to specific
+  * questions.
+  *
+  * The required training data can be set in two different ways (only one can be chosen for a
+  * particular model):
+  *   - Dependency treebank in the [[http://www.nltk.org/nltk_data/ Penn Treebank format]] set
+  *     with `setDependencyTreeBank`
+  *   - Dataset in the [[https://universaldependencies.org/format.html CoNLL-U format]] set with
+  *     `setConllU`
+  *
+  * Apart from that, no additional training data is needed.
+  *
+  * See
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserApproachTestSpec.scala DependencyParserApproachTestSpec]]
+  * for further reference on how to use this API.
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+  * import com.johnsnowlabs.nlp.annotators.Tokenizer
+  * import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
+  * import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val sentence = new SentenceDetector()
+  *   .setInputCols("document")
+  *   .setOutputCol("sentence")
+  *
+  * val tokenizer = new Tokenizer()
+  *   .setInputCols("sentence")
+  *   .setOutputCol("token")
+  *
+  * val posTagger = PerceptronModel.pretrained()
+  *   .setInputCols("sentence", "token")
+  *   .setOutputCol("pos")
+  *
+  * val dependencyParserApproach = new DependencyParserApproach()
+  *   .setInputCols("sentence", "pos", "token")
+  *   .setOutputCol("dependency")
+  *   .setDependencyTreeBank("src/test/resources/parser/unlabeled/dependency_treebank")
+  *
+  * val pipeline = new Pipeline().setStages(Array(
+  *   documentAssembler,
+  *   sentence,
+  *   tokenizer,
+  *   posTagger,
+  *   dependencyParserApproach
+  * ))
+  *
+  * // Additional training data is not needed, the dependency parser relies on the dependency tree bank / CoNLL-U only.
+  * val emptyDataSet = Seq.empty[String].toDF("text")
+  * val pipelineModel = pipeline.fit(emptyDataSet)
+  * }}}
+  *
+  * @see
+  *   [[com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach TypedDependencyParserApproach]]
+  *   to extract labels for the dependencies
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 class DependencyParserApproach(override val uid: String)
     extends AnnotatorApproach[DependencyParserModel] {
 
@@ -113,31 +124,32 @@ class DependencyParserApproach(override val uid: String)
   def this() = this(Identifiable.randomUID(DEPENDENCY))
 
   /** Dependency treebank source files
-   *
-   * @group param
-   * */
+    *
+    * @group param
+    */
   val dependencyTreeBank =
     new ExternalResourceParam(this, "dependencyTreeBank", "Dependency treebank source files")
 
   /** Universal Dependencies source files
-   *
-   * @group param
-   * */
+    *
+    * @group param
+    */
   val conllU = new ExternalResourceParam(this, "conllU", "Universal Dependencies source files")
 
   /** Number of iterations in training, converges to better accuracy (Default: `10`)
-   *
-   * @group param
-   * */
+    *
+    * @group param
+    */
   val numberOfIterations = new IntParam(
     this,
     "numberOfIterations",
     "Number of iterations in training, converges to better accuracy")
 
-  /** Dependency treebank folder with files in [[http://www.nltk.org/nltk_data/ Penn Treebank format]]
-   *
-   * @group setParam
-   * */
+  /** Dependency treebank folder with files in
+    * [[http://www.nltk.org/nltk_data/ Penn Treebank format]]
+    *
+    * @group setParam
+    */
   def setDependencyTreeBank(
       path: String,
       readAs: ReadAs.Format = ReadAs.TEXT,
@@ -145,9 +157,9 @@ class DependencyParserApproach(override val uid: String)
     set(dependencyTreeBank, ExternalResource(path, readAs, options))
 
   /** Path to a file in [[https://universaldependencies.org/format.html CoNLL-U format]]
-   *
-   * @group setParam
-   * */
+    *
+    * @group setParam
+    */
   def setConllU(
       path: String,
       readAs: ReadAs.Format = ReadAs.TEXT,
@@ -155,9 +167,9 @@ class DependencyParserApproach(override val uid: String)
     set(conllU, ExternalResource(path, readAs, options))
 
   /** Number of iterations in training, converges to better accuracy
-   *
-   * @group setParam
-   * */
+    *
+    * @group setParam
+    */
   def setNumberOfIterations(value: Int): this.type = set(numberOfIterations, value)
 
   setDefault(dependencyTreeBank, ExternalResource("", ReadAs.TEXT, Map.empty[String, String]))
@@ -165,21 +177,21 @@ class DependencyParserApproach(override val uid: String)
   setDefault(numberOfIterations, 10)
 
   /** Number of iterations in training, converges to better accuracy
-   *
-   * @group getParam
-   * */
+    *
+    * @group getParam
+    */
   def getNumberOfIterations: Int = $(numberOfIterations)
 
   /** Output annotation type : DEPENDENCY
-   *
-   * @group anno
-   * */
+    *
+    * @group anno
+    */
   override val outputAnnotatorType: String = DEPENDENCY
 
   /** Input annotation type : DOCUMENT, POS, TOKEN
-   *
-   * @group anno
-   * */
+    *
+    * @group anno
+    */
   override val inputAnnotatorTypes = Array(DOCUMENT, POS, TOKEN)
 
   private lazy val conllUAsArray = ResourceHelper.parseLines($(conllU))
@@ -308,7 +320,7 @@ class DependencyParserApproach(override val uid: String)
 
 }
 
-/**
- * This is the companion object of [[DependencyParserApproach]]. Please refer to that class for the documentation.
- */
+/** This is the companion object of [[DependencyParserApproach]]. Please refer to that class for
+  * the documentation.
+  */
 object DependencyParserApproach extends DefaultParamsReadable[DependencyParserApproach]

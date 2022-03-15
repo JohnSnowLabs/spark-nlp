@@ -21,9 +21,9 @@ import org.apache.spark.ml.param.BooleanParam
 trait HasEnableCachingProperties extends ParamsAndFeaturesWritable {
 
   /** Whether to enable caching DataFrames or RDDs during the training
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val enableCaching = new BooleanParam(
     this,
     "enableCaching",

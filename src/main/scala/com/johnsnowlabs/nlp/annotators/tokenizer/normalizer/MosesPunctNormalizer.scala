@@ -109,12 +109,11 @@ private[johnsnowlabs] class MosesPunctNormalizer(language: String = "en") {
     var acc: String = text
 
     substitutions
-      .foreach {
-        case (pattern, replacement) =>
-          pattern match {
-            case pattern: Regex => acc = pattern.replaceAllIn(acc, replacement)
-            case pattern: String => acc = StringUtils.replace(acc, pattern, replacement)
-          }
+      .foreach { case (pattern, replacement) =>
+        pattern match {
+          case pattern: Regex => acc = pattern.replaceAllIn(acc, replacement)
+          case pattern: String => acc = StringUtils.replace(acc, pattern, replacement)
+        }
       }
     acc
   }

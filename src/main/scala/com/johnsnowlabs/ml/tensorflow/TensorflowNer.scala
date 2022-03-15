@@ -67,7 +67,8 @@ class TensorflowNer(
       if (batchInput.sentenceLengths.length == 0)
         for (_ <- batch) {
           result.append(Array.empty[(String, Option[Array[Map[String, String]]])])
-        } else {
+        }
+      else {
         val tensors = new TensorResources()
 
         val calculator = tensorflow
@@ -97,15 +98,14 @@ class TensorflowNer(
               val exp =
                 scores.map(s => math.exp(s.toDouble)).grouped(scores.length / tagIds.length).toSeq
               val probs = if (includeAllConfidenceScores) {
-                //Only include the score of the predicted tag
-                exp.map(
-                  d =>
-                    d.map(_ / d.sum)
-                      .map(p =>
-                        try {
-                          BigDecimal(p).setScale(4, BigDecimal.RoundingMode.HALF_UP).toFloat
-                        } catch {
-                          case _: Exception => 0.0f
+                // Only include the score of the predicted tag
+                exp.map(d =>
+                  d.map(_ / d.sum)
+                    .map(p =>
+                      try {
+                        BigDecimal(p).setScale(4, BigDecimal.RoundingMode.HALF_UP).toFloat
+                      } catch {
+                        case _: Exception => 0.0f
                       }))
               } else {
                 exp.map(d =>
@@ -116,7 +116,7 @@ class TensorflowNer(
                         .toFloat)
                   } catch {
                     case _: Exception => Array(0.0f)
-                })
+                  })
               }
               Some(probs)
             } else {
@@ -162,8 +162,8 @@ class TensorflowNer(
   def getPiecesTags(
       tokenTags: Array[TextSentenceLabels],
       sentences: Array[WordpieceEmbeddingsSentence]): Array[Array[String]] = {
-    tokenTags.zip(sentences).map {
-      case (tags, sentence) => getPiecesTags(tags, sentence)
+    tokenTags.zip(sentences).map { case (tags, sentence) =>
+      getPiecesTags(tags, sentence)
     }
   }
 
@@ -181,7 +181,8 @@ class TensorflowNer(
       startEpoch: Int = 0,
       endEpoch: Int,
       graphFileName: String = "",
-      test: => Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = Iterator.empty,
+      test: => Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] =
+        Iterator.empty,
       configProtoBytes: Option[Array[Byte]] = None,
       validationSplit: Float = 0.0f,
       evaluationLogExtended: Boolean = false,
@@ -367,20 +368,19 @@ class TensorflowNer(
   def tagsForTokens(
       labels: Array[(String, Option[Array[Map[String, String]]])],
       pieces: WordpieceEmbeddingsSentence)
-    : Array[(String, Option[Array[Map[String, String]]])] = {
-    labels.zip(pieces.tokens).flatMap {
-      case (l, p) =>
-        if (p.isWordStart)
-          Some(l)
-        else
-          None
+      : Array[(String, Option[Array[Map[String, String]]])] = {
+    labels.zip(pieces.tokens).flatMap { case (l, p) =>
+      if (p.isWordStart)
+        Some(l)
+      else
+        None
     }
   }
 
   def tagsForTokens(
       labels: Array[Array[(String, Option[Array[Map[String, String]]])]],
       pieces: Array[WordpieceEmbeddingsSentence])
-    : Array[Array[(String, Option[Array[Map[String, String]]])]] = {
+      : Array[Array[(String, Option[Array[Map[String, String]]])]] = {
 
     labels
       .zip(pieces)
@@ -416,11 +416,10 @@ class TensorflowNer(
       val sentenceTokenTags = tagsForTokens(sentencePredictedTags, batch.map(_._2))
 
       val sentenceTokens = batch
-        .map(
-          pair =>
-            pair._2.tokens
-              .filter(t => t.isWordStart)
-              .map(t => t.token))
+        .map(pair =>
+          pair._2.tokens
+            .filter(t => t.isWordStart)
+            .map(t => t.token))
         .toList
 
       val sentenceLabels = batch.map(pair => pair._1.labels.toArray).toList
@@ -435,7 +434,7 @@ class TensorflowNer(
             correct(label) = correct.getOrElse(label, 0) + 1
             predicted(tag._1) = predicted.getOrElse(tag._1, 0) + 1
 
-            //We don't really care about true negatives at the moment
+            // We don't really care about true negatives at the moment
             if (label == tag._1) {
               truePositives(label) = truePositives.getOrElse(label, 0) + 1
             } else if (label == "O" && tag._1 != "O") {

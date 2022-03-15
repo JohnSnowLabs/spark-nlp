@@ -74,10 +74,11 @@ class DependencyMaker(tagger: Tagger) extends Serializable {
 
     def getValidMoves: Set[Move] =
       List[Move]( // only depends on stack_depth (not parse itself)
-        if (i < parse.n) SHIFT else INVALID, // i.e. not yet at the last word in sentence  // was n-1
+        if (i < parse.n) SHIFT
+        else INVALID, // i.e. not yet at the last word in sentence  // was n-1
         if (stack.length >= 2) RIGHT else INVALID,
         if (stack.length >= 1) LEFT else INVALID // Original version
-        //if(stack.length>=1 && stack.head != parse.n)  LEFT  else INVALID // See page 405 for second condition
+        // if(stack.length>=1 && stack.head != parse.n)  LEFT  else INVALID // See page 405 for second condition
       ).filterNot(_ == INVALID).toSet
 
     def getGoldMoves(goldHeads: Vector[Int]): Set[Move] = {
@@ -89,33 +90,38 @@ class DependencyMaker(tagger: Tagger) extends Serializable {
       }
 
       val valid = getValidMoves
-      //println(s"GetGold valid moves = ${moves_str(valid)}")
+      // println(s"GetGold valid moves = ${moves_str(valid)}")
 
       if (stack.isEmpty || (valid.contains(SHIFT) && goldHeads(i) == stack.head)) {
-        //println(" gold move shortcut : {SHIFT}")
+        // println(" gold move shortcut : {SHIFT}")
         Set(SHIFT) // First condition obvious, second rather weird
       } else if (goldHeads(stack.head) == i) {
-        //println(" gold move shortcut : {LEFT}")
+        // println(" gold move shortcut : {LEFT}")
         Set(LEFT) // This move is a must, since the gold_heads tell us to do it
       } else {
         // Original Python logic has been flipped over by constructing a 'val non_gold' and return 'valid - non_gold'
-        //println(s" gold move logic required")
+        // println(s" gold move logic required")
 
         // If the word second in the stack is its gold head, Left is incorrect
         val leftIncorrect = stack.length >= 2 && goldHeads(stack.head) == stack.tail.head
 
         // If there are any dependencies between i and the stack, pushing i will lose them.
-        val dontPushI = valid.contains(SHIFT) && depsBetween(i, stack) // containing SHIFT protects us against running over end of words
+        val dontPushI =
+          valid.contains(SHIFT) && depsBetween(
+            i,
+            stack
+          ) // containing SHIFT protects us against running over end of words
 
         // If there are any dependencies between the stackhead and the remainder of the buffer, popping the stack will lose them.
-        val dontPopStack = depsBetween(stack.head, ((i + 1) until parse.n).toList) // UNTIL is EXCLUSIVE of top
+        val dontPopStack =
+          depsBetween(stack.head, ((i + 1) until parse.n).toList) // UNTIL is EXCLUSIVE of top
 
         val nonGold = List[Move](
           if (leftIncorrect) LEFT else INVALID,
           if (dontPushI) SHIFT else INVALID,
           if (dontPopStack) LEFT else INVALID,
           if (dontPopStack) RIGHT else INVALID).toSet
-        //println(s" gold move logic implies  : non_gold = ${moves_str(non_gold)}")
+        // println(s" gold move logic implies  : non_gold = ${moves_str(non_gold)}")
 
         // return the (remaining) moves, which are 'gold'
         valid -- nonGold
@@ -185,23 +191,27 @@ class DependencyMaker(tagger: Tagger) extends Serializable {
       //  String-distance :: Cap numeric features at 5? (NB: n0 always > s0, by construction)
       val dist = if (s0 >= 0) math.min(n0 - s0, 5) else 0 // WAS :: ds0n0
 
-      val bias = Feature("bias", "") // It's useful to have a constant feature, which acts sort of like a prior
+      val bias = Feature(
+        "bias",
+        ""
+      ) // It's useful to have a constant feature, which acts sort of like a prior
 
       val wordUnigrams =
         for (word <- List(wn0, wn1, wn2, ws0, ws1, ws2, wn0b1, wn0b2, ws0b1, ws0b2, ws0f1, ws0f2)
-             if (word != 0)) yield Feature("w", word)
+          if (word != 0)) yield Feature("w", word)
 
       val tagUnigrams =
         for (tag <- List(tn0, tn1, tn2, ts0, ts1, ts2, tn0b1, tn0b2, ts0b1, ts0b2, ts0f1, ts0f2)
-             if (tag != 0)) yield Feature("t", tag)
+          if (tag != 0)) yield Feature("t", tag)
 
-      val wordTagPairs = for (((word, tag), idx) <- List(
-                                (wn0, tn0),
-                                (wn1, tn1),
-                                (wn2, tn2),
-                                (ws0, ts0)).zipWithIndex
-                              if (word != 0 || tag != 0))
-        yield Feature(s"wt$idx", s"w=$word t=$tag")
+      val wordTagPairs =
+        for (((word, tag), idx) <- List(
+            (wn0, tn0),
+            (wn1, tn1),
+            (wn2, tn2),
+            (ws0, ts0)).zipWithIndex
+          if (word != 0 || tag != 0))
+          yield Feature(s"wt$idx", s"w=$word t=$tag")
 
       val bigrams = Set(
         Feature("w s0n0", s"$ws0 $wn0"),
@@ -216,35 +226,37 @@ class DependencyMaker(tagger: Tagger) extends Serializable {
 
       val quadgrams = Set(Feature("wtwt", s"$ws0/$ts0 $wn0/$tn0"))
 
-      val tagTrigrams = for (((t0, t1, t2), idx) <- List(
-                               (tn0, tn1, tn2),
-                               (ts0, tn0, tn1),
-                               (ts0, ts1, tn0),
-                               (ts0, ts1, ts1),
-                               (ts0, ts0f1, tn0),
-                               (ts0, ts0f1, tn0),
-                               (ts0, tn0, tn0b1),
-                               (ts0, ts0b1, ts0b2),
-                               (ts0, ts0f1, ts0f2),
-                               (tn0, tn0b1, tn0b2)).zipWithIndex
-                             if (t0 != 0 || t1 != 0 || t2 != 0))
-        yield Feature(s"ttt-$idx", s"$t0 $t1 $t2")
+      val tagTrigrams =
+        for (((t0, t1, t2), idx) <- List(
+            (tn0, tn1, tn2),
+            (ts0, tn0, tn1),
+            (ts0, ts1, tn0),
+            (ts0, ts1, ts1),
+            (ts0, ts0f1, tn0),
+            (ts0, ts0f1, tn0),
+            (ts0, tn0, tn0b1),
+            (ts0, ts0b1, ts0b2),
+            (ts0, ts0f1, ts0f2),
+            (tn0, tn0b1, tn0b2)).zipWithIndex
+          if (t0 != 0 || t1 != 0 || t2 != 0))
+          yield Feature(s"ttt-$idx", s"$t0 $t1 $t2")
 
-      val valencyAndDistance = for (((str, v), idx) <- List(
-                                      (ws0, vs0f),
-                                      (ws0, vs0b),
-                                      (wn0, vn0b),
-                                      (ts0, vs0f),
-                                      (ts0, vs0b),
-                                      (tn0, vn0b),
-                                      (ws0, dist),
-                                      (wn0, dist),
-                                      (ts0, dist),
-                                      (tn0, dist),
-                                      ("t" + tn0 + ts0, dist),
-                                      ("w" + wn0 + ws0, dist)).zipWithIndex
-                                    if str.length > 0 || v != 0)
-        yield Feature(s"val$idx", s"$str $v")
+      val valencyAndDistance =
+        for (((str, v), idx) <- List(
+            (ws0, vs0f),
+            (ws0, vs0b),
+            (wn0, vn0b),
+            (ts0, vs0f),
+            (ts0, vs0b),
+            (tn0, vn0b),
+            (ws0, dist),
+            (wn0, dist),
+            (ts0, dist),
+            (tn0, dist),
+            ("t" + tn0 + ts0, dist),
+            ("w" + wn0 + ws0, dist)).zipWithIndex
+          if str.length > 0 || v != 0)
+          yield Feature(s"val$idx", s"$str $v")
 
       val featureSetCombined = Set(bias) ++ bigrams ++ trigrams ++ quadgrams ++
         wordUnigrams.toSet ++ tagUnigrams.toSet ++ wordTagPairs.toSet ++
@@ -274,15 +286,15 @@ class DependencyMaker(tagger: Tagger) extends Serializable {
     val tags = tagger.tag(sentence).toVector
     val goldHeads = sentence.map(_.dep).toVector
 
-    //print "train_one(n=%d, %s)" % (n, words, )
-    //print " gold_heads = %s" % (gold_heads, )
+    // print "train_one(n=%d, %s)" % (n, words, )
+    // print " gold_heads = %s" % (gold_heads, )
 
     def moveThroughSentenceFrom(state: CurrentState): CurrentState = {
       val validMoves = state.getValidMoves
       if (validMoves.isEmpty) {
         state // This the answer!
       } else {
-        //println(s"  i/n=${state.i}/${state.parse.n} stack=${state.stack}")
+        // println(s"  i/n=${state.i}/${state.parse.n} stack=${state.stack}")
         val features = state.extractFeatures(words, tags)
 
         // This will produce scores for features that aren't valid too
@@ -293,7 +305,7 @@ class DependencyMaker(tagger: Tagger) extends Serializable {
         val guess = validMoves.map(m => (-score(m), m)).toList.minBy(_._1)._2
 
         if (train) { // Update the perceptron
-          //println(f"Training '${word_norm}%12s': ${classes(guessed)}%4s -> ${classes(truth(i))}%4s :: ")
+          // println(f"Training '${word_norm}%12s': ${classes(guessed)}%4s -> ${classes(truth(i))}%4s :: ")
           val goldMoves = state.getGoldMoves(goldHeads)
           if (goldMoves.isEmpty) {
             /*throw new Exception(s"No Gold Moves at ${state.i}/${state.parse.n}!")*/

@@ -16,10 +16,10 @@
 
 package com.johnsnowlabs.nlp.annotators.common
 
-/**
- * Structure to hold Sentences as list of words and POS-tags
- * @param taggedWords Word tag pairs
- */
+/** Structure to hold Sentences as list of words and POS-tags
+  * @param taggedWords
+  *   Word tag pairs
+  */
 case class TaggedSentence(
     taggedWords: Array[TaggedWord],
     indexedTaggedWords: Array[IndexedTaggedWord] = Array()) {

@@ -36,7 +36,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
   def fullAnnotate(
       target: String,
       startWith: Map[String, Seq[Annotation]] = Map.empty[String, Seq[Annotation]])
-    : Map[String, Seq[Annotation]] = {
+      : Map[String, Seq[Annotation]] = {
     getStages.foldLeft(startWith)((annotations, transformer) => {
       transformer match {
         case documentAssembler: DocumentAssembler =>
@@ -129,7 +129,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
   }
 
   def fullAnnotateJava(targets: java.util.ArrayList[String])
-    : java.util.List[java.util.Map[String, java.util.List[JavaAnnotation]]] = {
+      : java.util.List[java.util.Map[String, java.util.List[JavaAnnotation]]] = {
     targets.asScala.par
       .map(target => {
         fullAnnotateJava(target)
@@ -162,7 +162,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
   }
 
   def annotateJava(targets: java.util.ArrayList[String])
-    : java.util.List[java.util.Map[String, java.util.List[String]]] = {
+      : java.util.List[java.util.Map[String, java.util.List[String]]] = {
     targets.asScala.par
       .map(target => {
         annotateJava(target)

@@ -30,23 +30,22 @@ object LabeledDependency extends Annotated[ConllSentence] {
     val unlabeledDependencies =
       annotations.filter(_.annotatorType == AnnotatorType.DEPENDENCY).toArray
 
-    val conll = unlabeledDependencies.zipWithIndex.map {
-      case (unlabeledDependency, index) =>
-        val form = tokens(index).result
-        val lemma = tokens(index).result.toLowerCase
-        val pos = posTagged(index).result
-        val head = unlabeledDependency.metadata.getOrElse("head", "-1").toInt
-        val sentence = tokens(index).metadata.getOrElse("sentence", "0").toInt
-        ConllSentence(
-          form,
-          lemma,
-          pos,
-          pos,
-          "_",
-          head,
-          sentence,
-          unlabeledDependency.begin,
-          unlabeledDependency.end)
+    val conll = unlabeledDependencies.zipWithIndex.map { case (unlabeledDependency, index) =>
+      val form = tokens(index).result
+      val lemma = tokens(index).result.toLowerCase
+      val pos = posTagged(index).result
+      val head = unlabeledDependency.metadata.getOrElse("head", "-1").toInt
+      val sentence = tokens(index).metadata.getOrElse("sentence", "0").toInt
+      ConllSentence(
+        form,
+        lemma,
+        pos,
+        pos,
+        "_",
+        head,
+        sentence,
+        unlabeledDependency.begin,
+        unlabeledDependency.end)
     }
 
     conll
@@ -64,28 +63,27 @@ object LabeledDependency extends Annotated[ConllSentence] {
         "Dependency and Typed Dependency Parser have different length.")
     }
 
-    unlabeledDependencies.zipWithIndex.map {
-      case (unlabeledDependency, index) =>
-        val token = tokens(index)
-        val headIndex = unlabeledDependency.metadata("head").toInt
-        val headBegin = unlabeledDependency.metadata("head.begin").toInt
-        val headEnd = unlabeledDependency.metadata("head.end").toInt
-        val head =
-          if (headIndex == 0) "*" + unlabeledDependency.result + "*"
-          else unlabeledDependency.result
-        val relation =
-          if (headIndex == 0) "*" + labeledDependency(index).result + "*"
-          else labeledDependency(index).result
+    unlabeledDependencies.zipWithIndex.map { case (unlabeledDependency, index) =>
+      val token = tokens(index)
+      val headIndex = unlabeledDependency.metadata("head").toInt
+      val headBegin = unlabeledDependency.metadata("head.begin").toInt
+      val headEnd = unlabeledDependency.metadata("head.end").toInt
+      val head =
+        if (headIndex == 0) "*" + unlabeledDependency.result + "*"
+        else unlabeledDependency.result
+      val relation =
+        if (headIndex == 0) "*" + labeledDependency(index).result + "*"
+        else labeledDependency(index).result
 
-        DependencyInfo(
-          token.begin,
-          token.end,
-          token.result,
-          headBegin,
-          headEnd,
-          headIndex,
-          head,
-          relation)
+      DependencyInfo(
+        token.begin,
+        token.end,
+        token.result,
+        headBegin,
+        headEnd,
+        headIndex,
+        head,
+        relation)
     }
   }
 

@@ -66,7 +66,8 @@ object CoNLLHelper {
     }
 
     def processNewLine(): Option[(String, List[CoNLLSentenceCols])] = {
-      if (!explodeSentences && (doc.nonEmpty && !doc.endsWith(System.lineSeparator) && lastSentence.nonEmpty)) {
+      if (!explodeSentences && (doc.nonEmpty && !doc.endsWith(
+          System.lineSeparator) && lastSentence.nonEmpty)) {
         doc.append(System.lineSeparator * 2)
       }
       addSentence()
@@ -97,12 +98,11 @@ object CoNLLHelper {
 
     val last = if (doc.nonEmpty) Seq((doc.toString, sentences.toList)) else Seq.empty
 
-    (docs ++ last).map {
-      case (text, textSentence) =>
-        val uPos = textSentence.map(t => t.uPos)
-        val xPos = textSentence.map(t => t.xPos)
-        val lemma = textSentence.map(t => t.lemma)
-        CoNLLUDocument(text, uPos, xPos, lemma)
+    (docs ++ last).map { case (text, textSentence) =>
+      val uPos = textSentence.map(t => t.uPos)
+      val xPos = textSentence.map(t => t.xPos)
+      val lemma = textSentence.map(t => t.lemma)
+      CoNLLUDocument(text, uPos, xPos, lemma)
     }
   }
 

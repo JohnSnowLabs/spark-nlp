@@ -18,9 +18,8 @@ package com.johnsnowlabs.nlp.annotators.tokenizer.moses
 
 import scala.util.matching.Regex
 
-/**
- * Scala Port of the Moses Tokenizer from [[https://github.com/alvations/sacremoses scaremoses]].
- */
+/** Scala Port of the Moses Tokenizer from [[https://github.com/alvations/sacremoses scaremoses]].
+  */
 private[johnsnowlabs] class MosesTokenizer(lang: String) {
   require(lang == "en", "Only english is supported at the moment.")
   private val DEDUPLICATE_SPACE = (raw"""\s+""".r, " ")
@@ -28,7 +27,8 @@ private[johnsnowlabs] class MosesTokenizer(lang: String) {
 
   private val IsAlpha = raw"""\p{L}"""
   private val IsN = raw"""\p{N}"""
-  private val IsAlnum = IsAlpha + IsN // TODO: Lesser used languages like Tibetan, Khmer, Cham etc.
+  private val IsAlnum =
+    IsAlpha + IsN // TODO: Lesser used languages like Tibetan, Khmer, Cham etc.
   private val PAD_NOT_ISALNUM = (raw"""([^$IsAlnum\s\.'\`\,\-])""".r, " $1 ")
 
   private val COMMA_SEPARATE_1 = (raw"""([^$IsN])[,]""".r, "$1 , ")
@@ -210,7 +210,8 @@ private[johnsnowlabs] class MosesTokenizer(lang: String) {
           // and ensures that the next word is a digit.
           def containsFullStopAndIsAlpha =
             ((prefix contains ".") && isAnyAlpha(prefix)) ||
-              (NONBREAKING_PREFIXES.contains(prefix) && !NUMERIC_ONLY_PREFIXES.contains(prefix)) ||
+              (NONBREAKING_PREFIXES.contains(prefix) && !NUMERIC_ONLY_PREFIXES.contains(
+                prefix)) ||
               (
                 (i != numTokens - 1)
                   && tokens(i + 1).nonEmpty

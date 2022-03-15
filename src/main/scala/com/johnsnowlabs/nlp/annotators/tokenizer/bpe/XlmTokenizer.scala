@@ -20,15 +20,19 @@ import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, TokenPiece}
 import com.johnsnowlabs.nlp.annotators.tokenizer.moses.MosesTokenizer
 import com.johnsnowlabs.nlp.annotators.tokenizer.normalizer.MosesPunctNormalizer
 
-/**
- * XLM Tokenizer
- *
- * @param merges                     Combinations of byte pairs with ranking
- * @param vocab                      Mapping from byte pair to an id
- * @param lang                       Language of the text (Currently only english supported)
- * @param specialTokens              Special Tokens of the model to not split on
- * @param doLowercaseAndRemoveAccent True for current supported model (v1.2.0), False for XLM-17 & 100
- */
+/** XLM Tokenizer
+  *
+  * @param merges
+  *   Combinations of byte pairs with ranking
+  * @param vocab
+  *   Mapping from byte pair to an id
+  * @param lang
+  *   Language of the text (Currently only english supported)
+  * @param specialTokens
+  *   Special Tokens of the model to not split on
+  * @param doLowercaseAndRemoveAccent
+  *   True for current supported model (v1.2.0), False for XLM-17 & 100
+  */
 private[nlp] class XlmTokenizer(
     merges: Map[(String, String), Int],
     vocab: Map[String, Int],
@@ -39,10 +43,9 @@ private[nlp] class XlmTokenizer(
     extends BpeTokenizer(merges, vocab, specialTokens, padWithSentenceTokens) {
   require(lang == "en", "Only English is supported currently.")
 
-  /**
-   * Lowercase and strips accents from a piece of text based on
-   * https://github.com/facebookresearch/XLM/blob/master/tools/lowercase_and_remove_accent.py
-   */
+  /** Lowercase and strips accents from a piece of text based on
+    * https://github.com/facebookresearch/XLM/blob/master/tools/lowercase_and_remove_accent.py
+    */
   def lowercaseAndRemoveAccent(input: String): String = {
     var text = input
     text = text.toLowerCase()
@@ -79,7 +82,8 @@ private[nlp] class XlmTokenizer(
         IndexedToken(
           token,
           indexOffset + tokenTextIndex,
-          indexOffset + tokenTextIndex + token.length - 1) // TODO: What if special characters were removed?
+          indexOffset + tokenTextIndex + token.length - 1
+        ) // TODO: What if special characters were removed?
       })
     indexedTokens
   }

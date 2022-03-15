@@ -18,7 +18,10 @@ package com.johnsnowlabs.nlp.annotators.parser.typdep
 
 import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.Tokenizer
-import com.johnsnowlabs.nlp.annotators.parser.dep.{DependencyParserApproach, DependencyParserModel}
+import com.johnsnowlabs.nlp.annotators.parser.dep.{
+  DependencyParserApproach,
+  DependencyParserModel
+}
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
 import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
@@ -31,12 +34,12 @@ import org.scalatest.flatspec.AnyFlatSpec
 import java.io.FileNotFoundException
 import scala.language.existentials
 
-
 class TypedDependencyParserApproachTestSpec extends AnyFlatSpec {
 
   System.gc()
 
-  private val spark = SparkSession.builder()
+  private val spark = SparkSession
+    .builder()
     .appName("benchmark")
     .master("local[*]")
     .config("spark.driver.memory", "3G")
@@ -67,7 +70,11 @@ class TypedDependencyParserApproachTestSpec extends AnyFlatSpec {
 
   def getPerceptronModel: PerceptronModel = {
 
-    val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "|", "tags")
+    val trainingPerceptronDF = POS().readDataset(
+      ResourceHelper.spark,
+      "src/test/resources/anc-pos-corpus-small/",
+      "|",
+      "tags")
 
     val perceptronTagger = new PerceptronApproach()
       .setInputCols(Array("token", "sentence"))
@@ -102,22 +109,22 @@ class TypedDependencyParserApproachTestSpec extends AnyFlatSpec {
       .setConll2009("src/test/resources/parser/labeled/conll-u/example.train.conll2009")
       .setConllU("src/test/resources/parser/labeled/conll-u/train_small.conllu.txt")
       .setNumberOfIterations(10)
-    val expectedErrorMessage = "Use either CoNLL-2009 or CoNLL-U format file both are not allowed."
+    val expectedErrorMessage =
+      "Use either CoNLL-2009 or CoNLL-U format file both are not allowed."
 
-    val caught = intercept[IllegalArgumentException]{
+    val caught = intercept[IllegalArgumentException] {
       typedDependencyParserApproach.fit(emptyDataSet)
     }
 
     assert(caught.getMessage == expectedErrorMessage)
   }
 
-
   "A typed dependency parser that does not set TreeBank or CoNLL-U format files " should "raise an error" taggedAs FastTest in {
 
     val pipeline = new TypedDependencyParserApproach()
     val expectedErrorMessage = "Either CoNLL-2009 or CoNLL-U format file is required."
 
-    val caught = intercept[IllegalArgumentException]{
+    val caught = intercept[IllegalArgumentException] {
       pipeline.fit(emptyDataSet)
     }
 
@@ -127,24 +134,24 @@ class TypedDependencyParserApproachTestSpec extends AnyFlatSpec {
   "A typed dependency parser approach with an invalid file path or file name" should
     "raise FileNotFound exception" taggedAs FastTest in {
 
-    val typedDependencyParser = new TypedDependencyParserApproach()
-      .setInputCols(Array("token", "pos", "dependency"))
-      .setOutputCol("labdep")
-      .setConll2009("wrong/path")
+      val typedDependencyParser = new TypedDependencyParserApproach()
+        .setInputCols(Array("token", "pos", "dependency"))
+        .setOutputCol("labdep")
+        .setConll2009("wrong/path")
 
-    val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        posTagger,
-        dependencyParser,
-        typedDependencyParser
-      ))
+      val pipeline = new Pipeline()
+        .setStages(
+          Array(
+            documentAssembler,
+            sentenceDetector,
+            tokenizer,
+            posTagger,
+            dependencyParser,
+            typedDependencyParser))
 
-    assertThrows[FileNotFoundException]{
-      pipeline.fit(emptyDataSet)
+      assertThrows[FileNotFoundException] {
+        pipeline.fit(emptyDataSet)
+      }
+
     }
-
-  }
 }

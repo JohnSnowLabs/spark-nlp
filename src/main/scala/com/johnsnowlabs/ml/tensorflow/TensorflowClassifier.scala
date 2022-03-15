@@ -165,7 +165,7 @@ class TensorflowClassifier(
 
     val tensors = new TensorResources()
 
-    //FixMe: implement batchSize
+    // FixMe: implement batchSize
 
     val inputs = encoder.extractSentenceEmbeddings(docs)
 
@@ -181,17 +181,16 @@ class TensorflowClassifier(
     tensors.clearTensors()
 
     docs.flatMap { sentence =>
-      sentence._2.zip(tagsName).map {
-        case (content, score) =>
-          val label = score.find(_._1 == score.maxBy(_._2)._1).map(_._1).getOrElse("NA")
+      sentence._2.zip(tagsName).map { case (content, score) =>
+        val label = score.find(_._1 == score.maxBy(_._2)._1).map(_._1).getOrElse("NA")
 
-          Annotation(
-            annotatorType = AnnotatorType.CATEGORY,
-            begin = content.begin,
-            end = content.end,
-            result = label,
-            metadata = Map("sentence" -> sentence._1.toString) ++ score.flatMap(x =>
-              Map(x._1 -> x._2.toString)))
+        Annotation(
+          annotatorType = AnnotatorType.CATEGORY,
+          begin = content.begin,
+          end = content.end,
+          result = label,
+          metadata = Map("sentence" -> sentence._1.toString) ++ score.flatMap(x =>
+            Map(x._1 -> x._2.toString)))
       }
 
     }
@@ -212,10 +211,9 @@ class TensorflowClassifier(
       .run()
 
     val tagsId = TensorResources.extractFloats(calculated.get(0)).grouped(numClasses).toArray
-    val predictedLabels = tagsId.map {
-      case (score) =>
-        val labelId = score.zipWithIndex.maxBy(_._1)._2
-        labelId
+    val predictedLabels = tagsId.map { case (score) =>
+      val labelId = score.zipWithIndex.maxBy(_._1)._2
+      labelId
     }
     tensors.clearTensors()
     predictedLabels
@@ -227,7 +225,7 @@ class TensorflowClassifier(
       extended: Boolean = false,
       batchSize: Int = 100): Float = {
 
-    //ToDo: Add batch strategy
+    // ToDo: Add batch strategy
 
     val correctGuess = mutable.Map[Int, Int]()
     val predicted = mutable.Map[Int, Int]()

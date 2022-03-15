@@ -21,20 +21,24 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
 import scala.collection.JavaConverters._
 
-/**
- * The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.
- *
- * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoderTestSpec.scala]] for further reference on how to use this API.
- *
- * @param tensorflow       USE Model wrapper with TensorFlow Wrapper
- * @param configProtoBytes Configuration for TensorFlow session
- *
- *                         Sources :
- *
- *                         [[https://arxiv.org/abs/1803.11175]]
- *
- *                         [[https://tfhub.dev/google/universal-sentence-encoder/2]]
- */
+/** The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for
+  * text classification, semantic similarity, clustering and other natural language tasks.
+  *
+  * See
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoderTestSpec.scala]]
+  * for further reference on how to use this API.
+  *
+  * @param tensorflow
+  *   USE Model wrapper with TensorFlow Wrapper
+  * @param configProtoBytes
+  *   Configuration for TensorFlow session
+  *
+  * Sources :
+  *
+  * [[https://arxiv.org/abs/1803.11175]]
+  *
+  * [[https://tfhub.dev/google/universal-sentence-encoder/2]]
+  */
 class TensorflowUSE(
     val tensorflow: TensorflowWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
@@ -73,19 +77,18 @@ class TensorflowUSE(
     val dim = allEmbeddings.length / batchSize
     val embeddings = allEmbeddings.grouped(dim).toArray
 
-    sentences.zip(embeddings).map {
-      case (sentence, vectors) =>
-        Annotation(
-          annotatorType = AnnotatorType.SENTENCE_EMBEDDINGS,
-          begin = sentence.start,
-          end = sentence.end,
-          result = sentence.content,
-          metadata = Map(
-            "sentence" -> sentence.index.toString,
-            "token" -> sentence.content,
-            "pieceId" -> "-1",
-            "isWordStart" -> "true"),
-          embeddings = vectors)
+    sentences.zip(embeddings).map { case (sentence, vectors) =>
+      Annotation(
+        annotatorType = AnnotatorType.SENTENCE_EMBEDDINGS,
+        begin = sentence.start,
+        end = sentence.end,
+        result = sentence.content,
+        metadata = Map(
+          "sentence" -> sentence.index.toString,
+          "token" -> sentence.content,
+          "pieceId" -> "-1",
+          "isWordStart" -> "true"),
+        embeddings = vectors)
     }
   }
 

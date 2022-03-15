@@ -197,9 +197,9 @@ class Word2VecTestSpec extends AnyFlatSpec {
       .setOutputCol("ner")
       .setLabelColumn("label")
       .setOutputCol("ner")
-      .setLr(1e-3f) //0.001
-      .setPo(5e-3f) //0.005
-      .setDropout(5e-1f) //0.5
+      .setLr(1e-3f) // 0.001
+      .setPo(5e-3f) // 0.005
+      .setDropout(5e-1f) // 0.5
       .setMaxEpochs(5)
       .setRandomSeed(0)
       .setVerbose(0)

@@ -75,8 +75,9 @@ class AWSGateway(
           .withCredentials(new AWSStaticCredentialsProvider(credentials.get))
           .withClientConfiguration(config)
       } else {
-        val warning_message = "Unable to build AWS credential via AWSGateway chain, some parameter is missing or" +
-          " malformed. S3 integration may not work well."
+        val warning_message =
+          "Unable to build AWS credential via AWSGateway chain, some parameter is missing or" +
+            " malformed. S3 integration may not work well."
         logger.warn(warning_message)
         AmazonS3ClientBuilder
           .standard()
