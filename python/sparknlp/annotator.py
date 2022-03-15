@@ -10875,6 +10875,16 @@ class SentenceDetectorDLModel(AnnotatorModel):
     explodeSentences
         whether to explode each sentence into a different row, for better
         parallelization. Defaults to false.
+    customBounds
+        characters used to explicitly mark sentence bounds, by default []
+    useCustomBoundsOnly
+        Only utilize custom bounds in sentence detection, by default False
+    splitLength
+        length at which sentences will be forcibly split
+    minLength
+        Set the minimum allowed length for each sentence, by default 0
+    maxLength
+        Set the maximum allowed length for each sentence, by default 99999
 
     Examples
     --------
@@ -10934,6 +10944,31 @@ class SentenceDetectorDLModel(AnnotatorModel):
                              "whether to explode each sentence into a different row, for better parallelization. Defaults to false.",
                              TypeConverters.toBoolean)
 
+    customBounds = Param(Params._dummy(),
+                         "customBounds",
+                         "characters used to explicitly mark sentence bounds",
+                         typeConverter=TypeConverters.toListString)
+
+    useCustomBoundsOnly = Param(Params._dummy(),
+                                "useCustomBoundsOnly",
+                                "Only utilize custom bounds in sentence detection",
+                                typeConverter=TypeConverters.toBoolean)
+
+    splitLength = Param(Params._dummy(),
+                        "splitLength",
+                        "length at which sentences will be forcibly split.",
+                        typeConverter=TypeConverters.toInt)
+
+    minLength = Param(Params._dummy(),
+                      "minLength",
+                      "Set the minimum allowed length for each sentence.",
+                      typeConverter=TypeConverters.toInt)
+
+    maxLength = Param(Params._dummy(),
+                      "maxLength",
+                      "Set the maximum allowed length for each sentence",
+                      typeConverter=TypeConverters.toInt)
+
     def setModel(self, modelArchitecture):
         """Sets the Model architecture. Currently only ``"cnn"`` is available.
 
@@ -10955,11 +10990,71 @@ class SentenceDetectorDLModel(AnnotatorModel):
         """
         return self._set(explodeSentences=value)
 
+    def setCustomBounds(self, value):
+        """Sets characters used to explicitly mark sentence bounds, by default
+        [].
+
+        Parameters
+        ----------
+        value : List[str]
+            Characters used to explicitly mark sentence bounds
+        """
+        return self._set(customBounds=value)
+
+    def setUseCustomBoundsOnly(self, value):
+        """Sets whether to only utilize custom bounds in sentence detection, by
+        default False.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to only utilize custom bounds
+        """
+        return self._set(useCustomBoundsOnly=value)
+
+    def setSplitLength(self, value):
+        """Sets length at which sentences will be forcibly split.
+
+        Parameters
+        ----------
+        value : int
+            Length at which sentences will be forcibly split.
+        """
+        return self._set(splitLength=value)
+
+    def setMinLength(self, value):
+        """Sets minimum allowed length for each sentence, by default 0
+
+        Parameters
+        ----------
+        value : int
+            Minimum allowed length for each sentence
+        """
+        return self._set(minLength=value)
+
+    def setMaxLength(self, value):
+        """Sets the maximum allowed length for each sentence, by default
+        99999
+
+        Parameters
+        ----------
+        value : int
+            Maximum allowed length for each sentence
+        """
+        return self._set(maxLength=value)
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel",
                  java_model=None):
         super(SentenceDetectorDLModel, self).__init__(
             classname=classname,
             java_model=java_model
+        )
+        self._setDefault(
+            useCustomBoundsOnly=False,
+            customBounds=[],
+            explodeSentences=False,
+            minLength=0,
+            maxLength=99999
         )
 
     @staticmethod
