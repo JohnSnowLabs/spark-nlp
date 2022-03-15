@@ -4,30 +4,31 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>sparknlp_jsl.annotator.DocumentLogRegClassifierApproach &#8212; Spark NLP 3.3.0 documentation</title>
     
-  <link href="../../static/css/theme.css" rel="stylesheet" />
-  <link href="../../static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
-
+    <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  
     
-  <link rel="stylesheet"
-    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
+    <link rel="stylesheet"
+      href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
     
       
-
+  
     
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
     
-  <link rel="preload" as="script" href="../../static/js/index.1c5a1a01449ed65a7b51.js">
-
+    <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
     <script src="../../static/underscore.js"></script>
@@ -39,7 +40,10 @@
     <link rel="next" title="sparknlp_jsl.annotator.DocumentLogRegClassifierModel" href="sparknlp_jsl.annotator.DocumentLogRegClassifierModel.html" />
     <link rel="prev" title="sparknlp_jsl.annotator.DeIdentificationModel" href="sparknlp_jsl.annotator.DeIdentificationModel.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
@@ -107,7 +111,8 @@
           
             
             <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+            <div class="col-12 col-md-3 bd-sidebar">
+              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -249,6 +254,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.EntityChunkEmbeddings.html">
+     sparknlp_jsl.annotator.EntityChunkEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.GenericClassifierApproach.html">
      sparknlp_jsl.annotator.GenericClassifierApproach
     </a>
@@ -264,8 +274,18 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.MedicalBertForSequenceClassification.html">
+     sparknlp_jsl.annotator.MedicalBertForSequenceClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.MedicalBertForTokenClassifier.html">
      sparknlp_jsl.annotator.MedicalBertForTokenClassifier
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.MedicalDistilBertForSequenceClassification.html">
+     sparknlp_jsl.annotator.MedicalDistilBertForSequenceClassification
     </a>
    </li>
    <li class="toctree-l2">
@@ -502,6 +522,9 @@
 
   </div>
 </nav>
+              </div>
+              <div class="sidebar-end-items">
+              </div>
             </div>
             
           
@@ -534,19 +557,15 @@
               
               <div>
                 
-  <div class="section" id="sparknlp-jsl-annotator-documentlogregclassifierapproach">
+  <section id="sparknlp-jsl-annotator-documentlogregclassifierapproach">
 <h1>sparknlp_jsl.annotator.DocumentLogRegClassifierApproach<a class="headerlink" href="#sparknlp-jsl-annotator-documentlogregclassifierapproach" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DocumentLogRegClassifierApproach">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp_jsl.annotator.</span></span><span class="sig-name descname"><span class="pre">DocumentLogRegClassifierApproach</span></span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DocumentLogRegClassifierApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DocumentLogRegClassifierApproach" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sparknlp_jsl.annotator.</span></span><span class="sig-name descname"><span class="pre">DocumentLogRegClassifierApproach</span></span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DocumentLogRegClassifierApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DocumentLogRegClassifierApproach" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorApproach</span></code></p>
 <p>Trains a model to classify documents with a Logarithmic Regression algorithm. Training data requires columns for
 text and their label. The result is a trained GenericClassifierModel.</p>
 <table class="table">
-<colgroup>
-<col style="width: 65%" />
-<col style="width: 35%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
 <th class="head"><p>Output Annotation type</p></th>
@@ -559,7 +578,7 @@ text and their label. The result is a trained GenericClassifierModel.</p>
 </tbody>
 </table>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>labelCol</strong></dt><dd><p>Column with the value result we are trying to predict.</p>
 </dd>
@@ -625,10 +644,6 @@ text and their label. The result is a trained GenericClassifierModel.</p>
 </div>
 <p class="rubric">Methods</p>
 <table class="longtable table autosummary">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>()</p></td>
 <td><p></p></td>
@@ -736,10 +751,6 @@ text and their label. The result is a trained GenericClassifierModel.</p>
 </table>
 <p class="rubric">Attributes</p>
 <table class="longtable table autosummary">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">classificationModelPath</span></code></p></td>
 <td><p></p></td>
@@ -794,17 +805,11 @@ then make a copy of the companion Java pipeline component with
 extra params. So both the Python wrapper and the Java pipeline
 component get copied.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>extra</strong><span class="classifier">dict, optional</span></dt><dd><p>Extra parameters to copy to the new instance</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>extra</strong> – Extra parameters to copy to the new instance</p>
 </dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">JavaParams</span></code></dt><dd><p>Copy of this instance</p>
-</dd>
-</dl>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Copy of this instance</p>
 </dd>
 </dl>
 </dd></dl>
@@ -832,17 +837,11 @@ a flat param map, where the latter value is used if there exist
 conflicts, i.e., with ordering: default param values &lt;
 user-supplied values &lt; extra.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>extra</strong><span class="classifier">dict, optional</span></dt><dd><p>extra param values</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>extra</strong> – extra param values</p>
 </dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt>dict</dt><dd><p>merged param map</p>
-</dd>
-</dl>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>merged param map</p>
 </dd>
 </dl>
 </dd></dl>
@@ -851,54 +850,44 @@ user-supplied values &lt; extra.</p>
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fits a model to the input dataset with optional parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></p></li>
+<li><p><strong>params</strong> – an optional param map that overrides embedded params. If a list/tuple of
+param maps is given, this calls fit on each param map and returns a list of
+models.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>fitted model(s)</p>
+</dd>
+</dl>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.3.0.</span></p>
 </div>
-<dl class="field-list">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl>
-<dt><strong>dataset</strong><span class="classifier"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></span></dt><dd><p>input dataset.</p>
-</dd>
-<dt><strong>params</strong><span class="classifier">dict or list or tuple, optional</span></dt><dd><p>an optional param map that overrides embedded params. If a list/tuple of
-param maps is given, this calls fit on each param map and returns a list of
-models.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">Transformer</span></code> or a list of <code class="xref py py-class docutils literal notranslate"><span class="pre">Transformer</span></code></dt><dd><p>fitted model(s)</p>
-</dd>
-</dl>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.fitMultiple">
 <span class="sig-name descname"><span class="pre">fitMultiple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paramMaps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.fitMultiple" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fits a model to the input dataset for each param map in <cite>paramMaps</cite>.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 2.3.0.</span></p>
-</div>
-<dl class="field-list">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl>
-<dt><strong>dataset</strong><span class="classifier"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></span></dt><dd><p>input dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a>.</p></li>
+<li><p><strong>paramMaps</strong> – A Sequence of param maps.</p></li>
+</ul>
 </dd>
-<dt><strong>paramMaps</strong><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.Sequence</span></code></span></dt><dd><p>A Sequence of param maps.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">_FitMultipleIterator</span></code></dt><dd><p>A thread safe iterable which contains one model for each param map. Each
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A thread safe iterable which contains one model for each param map. Each
 call to <cite>next(modelIterator)</cite> will return <cite>(index, model)</cite> where model was fit
 using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequential.</p>
 </dd>
 </dl>
-</dd>
-</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -938,7 +927,7 @@ default value. Raises an error if neither is set.</p>
 <span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.getParamValue" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the value of a parameter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
 </dd>
@@ -975,13 +964,13 @@ a default value.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.load">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.load" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.params">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.params" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns all params ordered by name. The default implementation
 uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
 <code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
@@ -989,7 +978,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.read">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.read" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns an MLReader instance for this class.</p>
 </dd></dl>
 
@@ -1010,7 +999,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <span class="sig-name descname"><span class="pre">setClassificationModelPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DocumentLogRegClassifierApproach.setClassificationModelPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.setClassificationModelPath" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets a path to the the classification model if it has been already trained.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>label</strong><span class="classifier">str</span></dt><dd><p>Path to the the classification model if it has been already trained.</p>
 </dd>
@@ -1024,7 +1013,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <span class="sig-name descname"><span class="pre">setFitIntercept</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">merge</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DocumentLogRegClassifierApproach.setFitIntercept"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.setFitIntercept" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets whether to fit an intercept term, default is true.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>label</strong><span class="classifier">str</span></dt><dd><p>Whether to fit an intercept term, default is true.</p>
 </dd>
@@ -1038,7 +1027,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.setInputCols" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets column names of input annotations.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
 </dd>
@@ -1052,7 +1041,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <span class="sig-name descname"><span class="pre">setLabelColumn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DocumentLogRegClassifierApproach.setLabelColumn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.setLabelColumn" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets column with the value result we are trying to predict.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>label</strong><span class="classifier">str</span></dt><dd><p>Column with the value result we are trying to predict.</p>
 </dd>
@@ -1066,7 +1055,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <span class="sig-name descname"><span class="pre">setLabels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DocumentLogRegClassifierApproach.setLabels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.setLabels" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets array to output the label in the original form.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>label</strong><span class="classifier">list</span></dt><dd><p>array to output the label in the original form.</p>
 </dd>
@@ -1081,7 +1070,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dd><p>Sets whether Annotator should be evaluated lazily in a
 RecursivePipeline.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
 RecursivePipeline</p>
@@ -1096,7 +1085,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setMaxIter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DocumentLogRegClassifierApproach.setMaxIter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.setMaxIter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets maximum number of iterations.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>k</strong><span class="classifier">int</span></dt><dd><p>Maximum number of iterations.</p>
 </dd>
@@ -1110,7 +1099,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.setOutputCol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of output column</p>
 </dd>
@@ -1124,7 +1113,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.setParamValue" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the value of a parameter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
 </dd>
@@ -1138,7 +1127,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setTol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dist</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DocumentLogRegClassifierApproach.setTol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.setTol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets  convergence tolerance after each iteration.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>dist</strong><span class="classifier">float</span></dt><dd><p>Convergence tolerance after each iteration.</p>
 </dd>
@@ -1152,7 +1141,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setVectorizationModelPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DocumentLogRegClassifierApproach.setVectorizationModelPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DocumentLogRegClassifierApproach.setVectorizationModelPath" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets a path to the the classification model if it has been already trained.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>label</strong><span class="classifier">str</span></dt><dd><p>Path to the the classification model if it has been already trained.</p>
 </dd>
@@ -1175,18 +1164,29 @@ RecursivePipeline</p>
 
 </dd></dl>
 
+</section>
+
+
+              </div>
+              
+              
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="sparknlp_jsl.annotator.DeIdentificationModel.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">sparknlp_jsl.annotator.DeIdentificationModel</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="sparknlp_jsl.annotator.DocumentLogRegClassifierModel.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">sparknlp_jsl.annotator.DocumentLogRegClassifierModel</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
-
-
-              </div>
-              
-              
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="sparknlp_jsl.annotator.DeIdentificationModel.html" title="previous page">sparknlp_jsl.annotator.DeIdentificationModel</a>
-    <a class='right-next' id="next-link" href="sparknlp_jsl.annotator.DocumentLogRegClassifierModel.html" title="next page">sparknlp_jsl.annotator.DocumentLogRegClassifierModel</a>
-
-              </div>
               
           </main>
           
@@ -1194,20 +1194,19 @@ RecursivePipeline</p>
       </div>
     </div>
   
-  <script src="../../static/js/index.1c5a1a01449ed65a7b51.js"></script>
-
+    <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
   <footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, John Snow Labs.<br/>
+    &copy; Copyright 2021, John Snow Labs.<br>
 </p>
     </div>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
 </p>
     </div>
     

@@ -4,30 +4,31 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>sparknlp_jsl.annotator.MedicalNerApproach &#8212; Spark NLP 3.3.0 documentation</title>
     
-  <link href="../../static/css/theme.css" rel="stylesheet" />
-  <link href="../../static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
-
+    <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  
     
-  <link rel="stylesheet"
-    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
+    <link rel="stylesheet"
+      href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
     
       
-
+  
     
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
     
-  <link rel="preload" as="script" href="../../static/js/index.1c5a1a01449ed65a7b51.js">
-
+    <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
     <script src="../../static/underscore.js"></script>
@@ -37,9 +38,12 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="sparknlp_jsl.annotator.MedicalNerModel" href="sparknlp_jsl.annotator.MedicalNerModel.html" />
-    <link rel="prev" title="sparknlp_jsl.annotator.MedicalBertForTokenClassifier" href="sparknlp_jsl.annotator.MedicalBertForTokenClassifier.html" />
+    <link rel="prev" title="sparknlp_jsl.annotator.MedicalDistilBertForSequenceClassification" href="sparknlp_jsl.annotator.MedicalDistilBertForSequenceClassification.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
@@ -107,7 +111,8 @@
           
             
             <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+            <div class="col-12 col-md-3 bd-sidebar">
+              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -249,6 +254,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.EntityChunkEmbeddings.html">
+     sparknlp_jsl.annotator.EntityChunkEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.GenericClassifierApproach.html">
      sparknlp_jsl.annotator.GenericClassifierApproach
     </a>
@@ -264,8 +274,18 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.MedicalBertForSequenceClassification.html">
+     sparknlp_jsl.annotator.MedicalBertForSequenceClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.MedicalBertForTokenClassifier.html">
      sparknlp_jsl.annotator.MedicalBertForTokenClassifier
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.MedicalDistilBertForSequenceClassification.html">
+     sparknlp_jsl.annotator.MedicalDistilBertForSequenceClassification
     </a>
    </li>
    <li class="toctree-l2 current active">
@@ -502,6 +522,9 @@
 
   </div>
 </nav>
+              </div>
+              <div class="sidebar-end-items">
+              </div>
             </div>
             
           
@@ -534,11 +557,11 @@
               
               <div>
                 
-  <div class="section" id="sparknlp-jsl-annotator-medicalnerapproach">
+  <section id="sparknlp-jsl-annotator-medicalnerapproach">
 <h1>sparknlp_jsl.annotator.MedicalNerApproach<a class="headerlink" href="#sparknlp-jsl-annotator-medicalnerapproach" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.MedicalNerApproach">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp_jsl.annotator.</span></span><span class="sig-name descname"><span class="pre">MedicalNerApproach</span></span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#MedicalNerApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sparknlp_jsl.annotator.</span></span><span class="sig-name descname"><span class="pre">MedicalNerApproach</span></span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#MedicalNerApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorApproach</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.annotator.NerApproach</span></code></p>
 <p>This Named Entity recognition annotator allows to train generic NER model
 based on Neural Networks.</p>
@@ -558,10 +581,6 @@ for BERT based embeddings).</p></li>
 </ul>
 <p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/dl-ner">Spark NLP Workshop</a>.</p>
 <table class="table">
-<colgroup>
-<col style="width: 62%" />
-<col style="width: 38%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
 <th class="head"><p>Output Annotation type</p></th>
@@ -574,7 +593,7 @@ for BERT based embeddings).</p></li>
 </tbody>
 </table>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>labelColumn</strong></dt><dd><p>Column with label per each token</p>
 </dd>
@@ -678,10 +697,6 @@ slow down training, by default False</p>
 </div>
 <p class="rubric">Methods</p>
 <table class="longtable table autosummary">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>()</p></td>
 <td><p></p></td>
@@ -760,6 +775,12 @@ slow down training, by default False</p>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.MedicalNerApproach.setDropout" title="sparknlp_jsl.annotator.MedicalNerApproach.setDropout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDropout</span></code></a>(v)</p></td>
 <td><p>Sets dropout coefficient, by default 0.5.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.MedicalNerApproach.setEarlyStoppingCriterion" title="sparknlp_jsl.annotator.MedicalNerApproach.setEarlyStoppingCriterion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEarlyStoppingCriterion</span></code></a>(criterion)</p></td>
+<td><p>Sets early stopping criterion.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.MedicalNerApproach.setEarlyStoppingPatience" title="sparknlp_jsl.annotator.MedicalNerApproach.setEarlyStoppingPatience"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEarlyStoppingPatience</span></code></a>(patience)</p></td>
+<td><p>Sets the number of epochs with no performance improvement before training is terminated.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.MedicalNerApproach.setEnableMemoryOptimizer" title="sparknlp_jsl.annotator.MedicalNerApproach.setEnableMemoryOptimizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEnableMemoryOptimizer</span></code></a>(value)</p></td>
 <td><p>Sets Whether to optimize for large datasets or not, by default False.</p></td>
@@ -852,10 +873,6 @@ slow down training, by default False</p>
 </table>
 <p class="rubric">Attributes</p>
 <table class="longtable table autosummary">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">batchSize</span></code></p></td>
 <td><p></p></td>
@@ -864,6 +881,12 @@ slow down training, by default False</p>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dropout</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">earlyStoppingCriterion</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">earlyStoppingPatience</span></code></p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">enableMemoryOptimizer</span></code></p></td>
@@ -970,17 +993,11 @@ then make a copy of the companion Java pipeline component with
 extra params. So both the Python wrapper and the Java pipeline
 component get copied.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>extra</strong><span class="classifier">dict, optional</span></dt><dd><p>Extra parameters to copy to the new instance</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>extra</strong> – Extra parameters to copy to the new instance</p>
 </dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">JavaParams</span></code></dt><dd><p>Copy of this instance</p>
-</dd>
-</dl>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Copy of this instance</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1008,17 +1025,11 @@ a flat param map, where the latter value is used if there exist
 conflicts, i.e., with ordering: default param values &lt;
 user-supplied values &lt; extra.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>extra</strong><span class="classifier">dict, optional</span></dt><dd><p>extra param values</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>extra</strong> – extra param values</p>
 </dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt>dict</dt><dd><p>merged param map</p>
-</dd>
-</dl>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>merged param map</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1027,54 +1038,44 @@ user-supplied values &lt; extra.</p>
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.MedicalNerApproach.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fits a model to the input dataset with optional parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></p></li>
+<li><p><strong>params</strong> – an optional param map that overrides embedded params. If a list/tuple of
+param maps is given, this calls fit on each param map and returns a list of
+models.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>fitted model(s)</p>
+</dd>
+</dl>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.3.0.</span></p>
 </div>
-<dl class="field-list">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl>
-<dt><strong>dataset</strong><span class="classifier"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></span></dt><dd><p>input dataset.</p>
-</dd>
-<dt><strong>params</strong><span class="classifier">dict or list or tuple, optional</span></dt><dd><p>an optional param map that overrides embedded params. If a list/tuple of
-param maps is given, this calls fit on each param map and returns a list of
-models.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">Transformer</span></code> or a list of <code class="xref py py-class docutils literal notranslate"><span class="pre">Transformer</span></code></dt><dd><p>fitted model(s)</p>
-</dd>
-</dl>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.MedicalNerApproach.fitMultiple">
 <span class="sig-name descname"><span class="pre">fitMultiple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paramMaps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.fitMultiple" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fits a model to the input dataset for each param map in <cite>paramMaps</cite>.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 2.3.0.</span></p>
-</div>
-<dl class="field-list">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl>
-<dt><strong>dataset</strong><span class="classifier"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></span></dt><dd><p>input dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a>.</p></li>
+<li><p><strong>paramMaps</strong> – A Sequence of param maps.</p></li>
+</ul>
 </dd>
-<dt><strong>paramMaps</strong><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.Sequence</span></code></span></dt><dd><p>A Sequence of param maps.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">_FitMultipleIterator</span></code></dt><dd><p>A thread safe iterable which contains one model for each param map. Each
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A thread safe iterable which contains one model for each param map. Each
 call to <cite>next(modelIterator)</cite> will return <cite>(index, model)</cite> where model was fit
 using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequential.</p>
 </dd>
 </dl>
-</dd>
-</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -1088,7 +1089,7 @@ using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequen
 <span class="sig-name descname"><span class="pre">getLabelColumn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.getLabelColumn" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets column for label per each token.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt>str</dt><dd><p>Column with label per each token</p>
 </dd>
@@ -1128,7 +1129,7 @@ default value. Raises an error if neither is set.</p>
 <span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.getParamValue" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the value of a parameter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
 </dd>
@@ -1165,13 +1166,13 @@ a default value.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.MedicalNerApproach.load">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.load" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.MedicalNerApproach.params">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.params" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns all params ordered by name. The default implementation
 uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
 <code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
@@ -1179,7 +1180,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.MedicalNerApproach.read">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.read" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns an MLReader instance for this class.</p>
 </dd></dl>
 
@@ -1200,7 +1201,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <span class="sig-name descname"><span class="pre">setBatchSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#MedicalNerApproach.setBatchSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setBatchSize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets batch size, by default 64.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>v</strong><span class="classifier">int</span></dt><dd><p>Batch size</p>
 </dd>
@@ -1214,7 +1215,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#MedicalNerApproach.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setConfigProtoBytes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets configProto from tensorflow, serialized into byte array.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>b</strong><span class="classifier">List[str]</span></dt><dd><p>ConfigProto from tensorflow, serialized into byte array</p>
 </dd>
@@ -1228,9 +1229,37 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <span class="sig-name descname"><span class="pre">setDropout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#MedicalNerApproach.setDropout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setDropout" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets dropout coefficient, by default 0.5.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>v</strong><span class="classifier">float</span></dt><dd><p>Dropout coefficient</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.MedicalNerApproach.setEarlyStoppingCriterion">
+<span class="sig-name descname"><span class="pre">setEarlyStoppingCriterion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">criterion</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#MedicalNerApproach.setEarlyStoppingCriterion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setEarlyStoppingCriterion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets early stopping criterion. A value 0 means no early stopping.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>criterion</strong><span class="classifier">float</span></dt><dd><p>Early stopping criterion.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.MedicalNerApproach.setEarlyStoppingPatience">
+<span class="sig-name descname"><span class="pre">setEarlyStoppingPatience</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patience</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#MedicalNerApproach.setEarlyStoppingPatience"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setEarlyStoppingPatience" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the number of epochs with no performance improvement before training is terminated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>patience</strong><span class="classifier">int</span></dt><dd><p>Early stopping patience.</p>
 </dd>
 </dl>
 </dd>
@@ -1243,7 +1272,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dd><p>Sets Whether to optimize for large datasets or not, by default False.
 Enabling this option can slow down training.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to optimize for large datasets</p>
 </dd>
@@ -1258,7 +1287,7 @@ Enabling this option can slow down training.</p>
 <dd><p>Sets whether to use stdout in addition to Spark logs, by default
 False.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to use stdout in addition to Spark logs</p>
 </dd>
@@ -1272,7 +1301,7 @@ False.</p>
 <span class="sig-name descname"><span class="pre">setEntities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setEntities" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets entities to recognize.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>tags</strong><span class="classifier">List[str]</span></dt><dd><p>List of entities</p>
 </dd>
@@ -1287,7 +1316,7 @@ False.</p>
 <dd><p>Sets whether logs for validation to be extended, by default False.
 Displays time and evaluation of each label.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>v</strong><span class="classifier">bool</span></dt><dd><p>Whether logs for validation to be extended</p>
 </dd>
@@ -1301,7 +1330,7 @@ Displays time and evaluation of each label.</p>
 <span class="sig-name descname"><span class="pre">setGraphFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ff</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#MedicalNerApproach.setGraphFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setGraphFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets path that contains the external graph file. When specified, the provided file will be used, and no graph search will happen.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>p</strong><span class="classifier">str</span></dt><dd><p>Path that contains the external graph file. When specified, the provided file will be used, and no graph search will happen.</p>
 </dd>
@@ -1315,7 +1344,7 @@ Displays time and evaluation of each label.</p>
 <span class="sig-name descname"><span class="pre">setGraphFolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#MedicalNerApproach.setGraphFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setGraphFolder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets folder path that contain external graph files.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>p</strong><span class="classifier">str</span></dt><dd><p>Folder path that contain external graph files</p>
 </dd>
@@ -1330,7 +1359,7 @@ Displays time and evaluation of each label.</p>
 <dd><p>Sets whether to include all confidence scores in annotation metadata
 or just the score of the predicted tag, by default False.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to include all confidence scores in annotation metadata or
 just the score of the predicted tag</p>
@@ -1346,7 +1375,7 @@ just the score of the predicted tag</p>
 <dd><p>Sets whether to include confidence scores in annotation metadata, by
 default False.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to include the confidence value in the output.</p>
 </dd>
@@ -1360,7 +1389,7 @@ default False.</p>
 <span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setInputCols" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets column names of input annotations.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
 </dd>
@@ -1374,7 +1403,7 @@ default False.</p>
 <span class="sig-name descname"><span class="pre">setLabelColumn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setLabelColumn" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets name of column for data labels.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Column for data labels</p>
 </dd>
@@ -1389,7 +1418,7 @@ default False.</p>
 <dd><p>Sets whether Annotator should be evaluated lazily in a
 RecursivePipeline.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
 RecursivePipeline</p>
@@ -1404,7 +1433,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setLogPrefix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#MedicalNerApproach.setLogPrefix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setLogPrefix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets folder path to save training logs.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>p</strong><span class="classifier">str</span></dt><dd><p>Folder path to save training logs</p>
 </dd>
@@ -1418,7 +1447,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setLr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#MedicalNerApproach.setLr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setLr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets Learning Rate, by default 0.001.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>v</strong><span class="classifier">float</span></dt><dd><p>Learning Rate</p>
 </dd>
@@ -1432,7 +1461,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setMaxEpochs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epochs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setMaxEpochs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets maximum number of epochs to train.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>epochs</strong><span class="classifier">int</span></dt><dd><p>Maximum number of epochs to train</p>
 </dd>
@@ -1446,7 +1475,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setMinEpochs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epochs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setMinEpochs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets minimum number of epochs to train.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>epochs</strong><span class="classifier">int</span></dt><dd><p>Minimum number of epochs to train</p>
 </dd>
@@ -1460,7 +1489,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setOutputCol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of output column</p>
 </dd>
@@ -1474,7 +1503,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setOutputLogsPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#MedicalNerApproach.setOutputLogsPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setOutputLogsPath" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets folder path to save training logs.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>p</strong><span class="classifier">str</span></dt><dd><p>Folder path to save training logs</p>
 </dd>
@@ -1488,7 +1517,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setOverrideExistingTags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#MedicalNerApproach.setOverrideExistingTags"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setOverrideExistingTags" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets whether to override already learned tags when using a pretrained model to initialize the new model. Default is ‘true’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to override already learned tags when using a pretrained model to initialize the new model. Default is ‘true’</p>
 </dd>
@@ -1502,7 +1531,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setParamValue" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the value of a parameter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
 </dd>
@@ -1517,7 +1546,7 @@ RecursivePipeline</p>
 <dd><p>Sets Learning rate decay coefficient, by default 0.005.</p>
 <p>Real Learning Rage is lr / (1 + po * epoch).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>v</strong><span class="classifier">float</span></dt><dd><p>Learning rate decay coefficient</p>
 </dd>
@@ -1531,7 +1560,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setPretrainedModelPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#MedicalNerApproach.setPretrainedModelPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setPretrainedModelPath" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets folder path to save training logs.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Path to an already trained MedicalNerModel, which is used as a starting point for training the new model.</p>
 </dd>
@@ -1545,7 +1574,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setRandomSeed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setRandomSeed" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets random seed for shuffling.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>seed</strong><span class="classifier">int</span></dt><dd><p>Random seed for shuffling</p>
 </dd>
@@ -1559,7 +1588,7 @@ RecursivePipeline</p>
 <span class="sig-name descname"><span class="pre">setTagsMapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#MedicalNerApproach.setTagsMapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setTagsMapping" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets a map specifying how old tags are mapped to new ones. It only works if setOverrideExistingTags</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">list</span></dt><dd><p>A map specifying how old tags are mapped to new ones. It only works if setOverrideExistingTags</p>
 </dd>
@@ -1574,7 +1603,7 @@ RecursivePipeline</p>
 <dd><p>Sets Path to test dataset. If set used to calculate statistic on it
 during training.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Path to test dataset</p>
 </dd>
@@ -1591,9 +1620,9 @@ during training.</p>
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.MedicalNerApproach.setUseBestModel">
 <span class="sig-name descname"><span class="pre">setUseBestModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#MedicalNerApproach.setUseBestModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setUseBestModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets whether to restore and use the model that has achieved the best performance at the end of the training..
-The metric that is being monitored is F1 for testDataset and if it’s not set it will be validationSplit, and if it’s not set finally looks for loss.</p>
+The metric that is being monitored is macro F1 for the following cases(highest precendence first),</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to return the model that has achieved the best metrics across epochs.</p>
 </dd>
@@ -1608,13 +1637,13 @@ The metric that is being monitored is F1 for testDataset and if it’s not set i
 <dd><p>Sets whether to use contrib LSTM Cells. Not compatible with Windows.
 Might slightly improve accuracy.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>v</strong><span class="classifier">bool</span></dt><dd><p>Whether to use contrib LSTM Cells</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt>Exception</dt><dd><p>Windows not supported to use contrib</p>
 </dd>
@@ -1630,7 +1659,7 @@ Might slightly improve accuracy.</p>
 model on each Epoch, by default it is 0.0 and off. The value should be
 between 0.0 and 1.0.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>v</strong><span class="classifier">float</span></dt><dd><p>Proportion of training dataset to be validated</p>
 </dd>
@@ -1644,7 +1673,7 @@ between 0.0 and 1.0.</p>
 <span class="sig-name descname"><span class="pre">setVerbose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verboseValue</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.MedicalNerApproach.setVerbose" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets level of verbosity during training.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>verboseValue</strong><span class="classifier">int</span></dt><dd><p>Level of verbosity</p>
 </dd>
@@ -1667,18 +1696,29 @@ between 0.0 and 1.0.</p>
 
 </dd></dl>
 
+</section>
+
+
+              </div>
+              
+              
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="sparknlp_jsl.annotator.MedicalDistilBertForSequenceClassification.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">sparknlp_jsl.annotator.MedicalDistilBertForSequenceClassification</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="sparknlp_jsl.annotator.MedicalNerModel.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">sparknlp_jsl.annotator.MedicalNerModel</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
-
-
-              </div>
-              
-              
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="sparknlp_jsl.annotator.MedicalBertForTokenClassifier.html" title="previous page">sparknlp_jsl.annotator.MedicalBertForTokenClassifier</a>
-    <a class='right-next' id="next-link" href="sparknlp_jsl.annotator.MedicalNerModel.html" title="next page">sparknlp_jsl.annotator.MedicalNerModel</a>
-
-              </div>
               
           </main>
           
@@ -1686,20 +1726,19 @@ between 0.0 and 1.0.</p>
       </div>
     </div>
   
-  <script src="../../static/js/index.1c5a1a01449ed65a7b51.js"></script>
-
+    <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
   <footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, John Snow Labs.<br/>
+    &copy; Copyright 2021, John Snow Labs.<br>
 </p>
     </div>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
 </p>
     </div>
     
