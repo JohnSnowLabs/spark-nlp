@@ -24,8 +24,8 @@ This model was imported from `Hugging Face` and it's been trained on [Kaggle dat
 `TICKER`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/NER_TICKER/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_token_classifier_ticker_en_3.3.4_2.4_1640603190724.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use

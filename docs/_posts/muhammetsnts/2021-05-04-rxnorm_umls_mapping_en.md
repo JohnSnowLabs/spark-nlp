@@ -22,7 +22,7 @@ This pretrained pipeline maps RxNorm codes to UMLS codes without using any text 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/rxnorm_umls_mapping_en_3.0.2_3.0_1620133288585.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/rxnorm_umls_mapping_en_3.0.2_2.4_1620133288585.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -31,7 +31,7 @@ This pretrained pipeline maps RxNorm codes to UMLS codes without using any text 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from sparknlp.pretrained import PretrainedPipeline 
+from sparknlp.pretrained import PretrainedPipeline
 pipeline = PretrainedPipeline( "rxnorm_umls_mapping","en","clinical/models")
 pipeline.annotate("1161611 315677 343663")
 ```
@@ -51,7 +51,7 @@ val result = pipeline.annotate("1161611 315677 343663")
 
 Note:
 
-| RxNorm     | Details                  | 
+| RxNorm     | Details                  |
 | ---------- | ------------------------:|
 | 1161611    |  metformin Pill          |
 | 315677     | cimetidine 100 mg        |

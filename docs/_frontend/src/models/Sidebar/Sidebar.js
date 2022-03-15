@@ -58,8 +58,17 @@ const Sidebar = ({ meta, params, onSubmit }) => {
           }}
         >
           <label>Sort By:</label>
-          <Radio value="date">Date</Radio>
-          <Radio value="views">Views</Radio>
+          <div className={styles.radioContainers}>
+            <Radio value="date" className={styles.radio}>
+              Date
+            </Radio>
+            <Radio value="views" className={styles.radio}>
+              Views
+            </Radio>
+            <Radio value="downloads" className={styles.radio}>
+              Downloads
+            </Radio>
+          </div>
         </RadioGroup>
       </div>
     </div>

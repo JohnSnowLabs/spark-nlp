@@ -161,7 +161,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
             dropout: Float,
             batchSize: Int = 8,
             useBestModel: Boolean = false,
-            bestModelMetric: String = ModelMetrics.microF1,
+            bestModelMetricPreference: String = ModelMetrics.microF1,
             startEpoch: Int = 0,
             endEpoch: Int,
             graphFileName: String = "",
@@ -180,9 +180,9 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
     var lastLoss: Float = Float.MaxValue
 
     if (test.nonEmpty) {
-      bestModelMetric = ModelMetrics.testMicroF1
+      bestModelMetric = if (bestModelMetricPreference == ModelMetrics.microF1) ModelMetrics.testMicroF1 else ModelMetrics.testMacroF1
     } else if (validationSplit > 0.0) {
-      bestModelMetric = ModelMetrics.valMicroF1
+      bestModelMetric = if (bestModelMetricPreference == ModelMetrics.microF1) ModelMetrics.valMicroF1 else ModelMetrics.valMacroF1
     } else {
       bestModelMetric = ModelMetrics.loss
     }

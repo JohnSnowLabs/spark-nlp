@@ -24,8 +24,8 @@ This is a text-to-text model based on T5 fine-tuned to generate informal text fr
 
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/T5_LINGUISTIC/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_LINGUISTIC.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/t5_informal_to_formal_styletransfer_en_3.4.0_3.0_1641985760876.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use

@@ -26,9 +26,9 @@ Outputs 7-digit billable ICD codes. In the result, look for aux_label parameter 
 For example, in the example shared below the billable status is 1, hcc status is 1, and hcc score is 8.
 
 {:.btn-box}
-[Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_icd10cm_slim_billable_hcc_en_3.0.4_3.0_1621588560429.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_icd10cm_slim_billable_hcc_en_3.0.4_2.4_1621588560429.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -39,11 +39,11 @@ For example, in the example shared below the billable status is 1, hcc status is
 ```python
 document_assembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
 
-sbert_embedder = BertSentenceEmbeddings\ 
+sbert_embedder = BertSentenceEmbeddings\
     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
     .setInputCols(["document"])\
     .setOutputCol("sbert_embeddings")
-    
+
 icd10_resolver = SentenceEntityResolverModel\
     .pretrained("sbiobertresolve_icd10cm_slim_billable_hcc","en", "clinical/models")\
     .setInputCols(["document", "sbert_embeddings"])\
@@ -51,9 +51,9 @@ icd10_resolver = SentenceEntityResolverModel\
     .setDistanceFunction("EUCLIDEAN")\
     .setReturnCosineDistances(True)
 
-bert_pipeline_icd = Pipeline(stages = [document_assembler, sbert_embedder, icd10_resolver]) 
+bert_pipeline_icd = Pipeline(stages = [document_assembler, sbert_embedder, icd10_resolver])
 
-data = spark.createDataFrame([["metastatic lung cancer"]]).toDF("text") 
+data = spark.createDataFrame([["metastatic lung cancer"]]).toDF("text")
 
 results = bert_pipeline_icd.fit(data).transform(data)
 ```
@@ -68,8 +68,8 @@ val sbert_embedder = BertSentenceEmbeddings
     .setOutputCol("sbert_embeddings")
 
 val icd10_resolver = SentenceEntityResolverModel
-    .pretrained("sbiobertresolve_icd10cm_slim_billable_hcc","en", "clinical/models") 
-    .setInputCols(Array("document", "sbert_embeddings")) 
+    .pretrained("sbiobertresolve_icd10cm_slim_billable_hcc","en", "clinical/models")
+    .setInputCols(Array("document", "sbert_embeddings"))
     .setOutputCol("icd10cm_code")
     .setDistanceFunction("EUCLIDEAN")
     .setReturnCosineDistances(True)
