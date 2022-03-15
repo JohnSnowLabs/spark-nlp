@@ -262,6 +262,99 @@ class SentenceDetectorDLApproach(override val uid: String)
    * */
   def getExplodeSentences: Boolean = $(this.explodeSentences)
 
+
+  /** Length at which sentences will be forcibly split (Ignored if not set)
+    *
+    * @group param
+    */
+
+  val splitLength: IntParam = new IntParam(this, "splitLength", "length at which sentences will be forcibly split.")
+
+  /** Length at which sentences will be forcibly split
+    * @group setParam
+    * */
+  def setSplitLength(value: Int): this.type = set(splitLength, value)
+
+  /** Length at which sentences will be forcibly split
+    * @group getParam
+    * */
+  def getSplitLength: Int = $(splitLength)
+
+  /** Set the minimum allowed length for each sentence (Default: `0`)
+    *
+    * @group param
+    */
+
+  val minLength = new IntParam(this, "minLength", "Set the minimum allowed length for each sentence")
+
+  /** Set the minimum allowed length for each sentence
+    * @group setParam
+    * */
+  def setMinLength(value: Int): this.type = {
+    require(value >= 0, "minLength must be greater equal than 0")
+    require(value.isValidInt, "minLength must be Int")
+    set(minLength, value)
+  }
+
+  /** Get the minimum allowed length for each sentence
+    * @group getParam
+    * */
+  def getMinLength: Int = $(minLength)
+
+  /** Set the maximum allowed length for each sentence (Ignored if not set)
+    *
+    * @group param
+    */
+  val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed length for each sentence")
+
+  /** Set the maximum allowed length for each sentence
+    * @group setParam
+    * */
+  def setMaxLength(value: Int): this.type = {
+    require(value >= ${
+      minLength
+    }, "maxLength must be greater equal than minLength")
+    require(value.isValidInt, "minLength must be Int")
+    set(maxLength, value)
+  }
+
+  /** Get the maximum allowed length for each sentence
+    * @group getParam
+    * */
+  def getMaxLength: Int = $(maxLength)
+
+  /** Characters used to explicitly mark sentence bounds (Default: None)
+    *
+    * @group param
+    */
+  val customBounds: StringArrayParam = new StringArrayParam(this, "customBounds", "characters used to explicitly mark sentence bounds")
+
+  /** Custom sentence separator text
+    * @group setParam
+    * */
+  def setCustomBounds(value: Array[String]): this.type = set(customBounds, value)
+
+  /** Custom sentence separator text
+    * @group getParam
+    * */
+  def getCustomBounds: Array[String] = $(customBounds)
+
+  /** Whether to only utilize custom bounds for sentence detection (Default: `false`)
+    *
+    * @group param
+    */
+  val useCustomBoundsOnly = new BooleanParam(this, "useCustomBoundsOnly", "whether to only utilize custom bounds for sentence detection")
+
+  /** Use only custom bounds without considering those of Pragmatic Segmenter. Defaults to false. Needs customBounds.
+    * @group setParam
+    * */
+  def setUseCustomBoundsOnly(value: Boolean): this.type = set(useCustomBoundsOnly, value)
+
+  /** Use only custom bounds without considering those of Pragmatic Segmenter. Defaults to false. Needs customBounds.
+    * @group getParam
+    * */
+  def getUseCustomBoundsOnly: Boolean = $(useCustomBoundsOnly)
+
   setDefault(
     modelArchitecture -> "cnn",
     impossiblePenultimates -> Array(
@@ -275,7 +368,12 @@ class SentenceDetectorDLApproach(override val uid: String)
     epochsNumber -> 5,
     outputLogsPath -> "",
     validationSplit -> 0.0f,
-    explodeSentences -> false
+    explodeSentences -> false,
+    minLength -> 0,
+    maxLength -> Int.MaxValue,
+    splitLength -> Int.MaxValue,
+    useCustomBoundsOnly -> false,
+    customBounds -> Array.empty[String],
   )
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): SentenceDetectorDLModel = {
@@ -334,6 +432,12 @@ class SentenceDetectorDLApproach(override val uid: String)
     model.setModel(getModel)
     model.setEncoder(encoder)
     model.setImpossiblePenultimates(getImpossiblePenultimates)
+    model.setExplodeSentences(getExplodeSentences)
+    model.setMinLength(getMinLength)
+    model.setMaxLength(getMaxLength)
+    model.setSplitLength(getSplitLength)
+    model.setCustomBounds(getCustomBounds)
+    model.setUseCustomBoundsOnly(getUseCustomBoundsOnly)
     model.setupTFClassifier(dataset.sparkSession, tfModel.model)
 
     model
