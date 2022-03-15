@@ -536,7 +536,8 @@ object PythonResourceDownloader {
     "AlbertForSequenceClassification" -> AlbertForSequenceClassification,
     "XlnetForSequenceClassification" -> XlnetForSequenceClassification,
     "GPT2Transformer" -> GPT2Transformer,
-    "Word2VecModel" -> Word2VecModel
+    "Word2VecModel" -> Word2VecModel,
+    "DeBertaEmbeddings" -> DeBertaEmbeddings
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {

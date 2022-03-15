@@ -17,13 +17,12 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.AnnotatorType.{SENTENCE_EMBEDDINGS, TOKEN}
-import com.johnsnowlabs.nlp.AnnotatorApproach
+import com.johnsnowlabs.nlp.{AnnotatorApproach, HasEnableCachingProperties}
 import com.johnsnowlabs.storage.HasStorageRef
-
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.mllib.feature.Word2Vec
 import org.apache.spark.ml.param.{DoubleParam, IntParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.mllib.feature.Word2Vec
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 /**
@@ -95,7 +94,8 @@ import org.apache.spark.sql.{Dataset, SparkSession}
  */
 class Doc2VecApproach(override val uid: String)
   extends AnnotatorApproach[Doc2VecModel]
-    with HasStorageRef {
+    with HasStorageRef
+    with HasEnableCachingProperties {
 
   def this() = this(Identifiable.randomUID("Doc2VecApproach"))
 
@@ -266,7 +266,8 @@ class Doc2VecApproach(override val uid: String)
     maxSentenceLength -> 1000,
     stepSize -> 0.025,
     maxIter -> 1,
-    seed -> 44
+    seed -> 44,
+    enableCaching -> false
   )
 
   override def beforeTraining(spark: SparkSession): Unit = {}
@@ -288,7 +289,13 @@ class Doc2VecApproach(override val uid: String)
 
     val input = dataset.select(dataset.col(inputColumns)).rdd.map(r => r.getSeq[String](0))
 
+    if (getEnableCaching)
+      input.cache()
+
     val model = word2Vec.fit(input)
+
+    if (getEnableCaching)
+      input.unpersist()
 
     new Doc2VecModel()
       .setWordVectors(model.getVectors)

@@ -87,5 +87,19 @@ data:
             url: https://demo.johnsnowlabs.com/public/TEXT_PREPROCESSING/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TEXT_PREPROCESSING.ipynb        
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TEXT_PREPROCESSING.ipynb     
+        - title: Linguistic transformations on texts
+          id: linguistic_transformations_texts
+          image: 
+              src: /assets/images/Text_generation_for_linguistics.svg
+          image2: 
+              src: /assets/images/Text_generation_for_linguistics_f.svg
+          excerpt: This demo shows how to correct grammatical errors and how to implement formal-informal and active-passive sentence conversions.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/T5_LINGUISTIC/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_LINGUISTIC.ipynb  
 ---
