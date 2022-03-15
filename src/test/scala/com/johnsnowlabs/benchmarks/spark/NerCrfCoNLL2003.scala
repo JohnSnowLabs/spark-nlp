@@ -30,7 +30,6 @@ import org.apache.spark.sql.DataFrame
 
 import scala.collection.mutable
 
-
 object CoNLL2003PipelineTest extends App {
   val spark = SparkAccessor.benchmarkSpark
   val folder = "./"
@@ -64,7 +63,7 @@ object CoNLL2003PipelineTest extends App {
     System.out.println("Dataset Reading")
     val time = System.nanoTime()
     val dataset = nerReader.readDataset(SparkAccessor.benchmarkSpark, er.path)
-    System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
+    System.out.println(s"Done, ${(System.nanoTime() - time) / 1e9}\n")
 
     System.out.println("Start fitting")
 
@@ -86,19 +85,15 @@ object CoNLL2003PipelineTest extends App {
   }
 
   def collectNerLabeled(df: DataFrame): Seq[(TextSentenceLabels, NerTaggedSentence)] = {
-    NerTagged.collectLabeledInstances(
-      df,
-      Seq("sentence", "token", "ner"),
-      "label"
-    )
+    NerTagged.collectLabeledInstances(df, Seq("sentence", "token", "ner"), "label")
   }
 
-  def testDataset(er: ExternalResource,
-                  model: PipelineModel,
-                  predictedColumn: String = "ner",
-                  reader: CoNLL,
-                  collect: DataFrame => Seq[(TextSentenceLabels, TaggedSentence)]
-                 ): Unit = {
+  def testDataset(
+      er: ExternalResource,
+      model: PipelineModel,
+      predictedColumn: String = "ner",
+      reader: CoNLL,
+      collect: DataFrame => Seq[(TextSentenceLabels, TaggedSentence)]): Unit = {
     val started = System.nanoTime()
 
     val predictedCorrect = mutable.Map[String, Int]()
@@ -110,19 +105,17 @@ object CoNLL2003PipelineTest extends App {
 
     val sentences = collect(transformed)
 
-    sentences.foreach{
-      case (labels, taggedSentence) =>
-        labels.labels.zip(taggedSentence.tags).foreach {
-          case (label, tag) =>
-            correct(label) = correct.getOrElse(label, 0) + 1
-            predicted(tag) = predicted.getOrElse(tag, 0) + 1
+    sentences.foreach { case (labels, taggedSentence) =>
+      labels.labels.zip(taggedSentence.tags).foreach { case (label, tag) =>
+        correct(label) = correct.getOrElse(label, 0) + 1
+        predicted(tag) = predicted.getOrElse(tag, 0) + 1
 
-            if (label == tag)
-              predictedCorrect(tag) = predictedCorrect.getOrElse(tag, 0) + 1
-        }
+        if (label == tag)
+          predictedCorrect(tag) = predictedCorrect.getOrElse(tag, 0) + 1
+      }
     }
 
-    System.out.println(s"time: ${(System.nanoTime() - started)/1e9}")
+    System.out.println(s"time: ${(System.nanoTime() - started) / 1e9}")
 
     val labels = (correct.keys ++ predicted.keys).toSeq.distinct
 
@@ -130,7 +123,8 @@ object CoNLL2003PipelineTest extends App {
 
     val totalCorrect = correct.filterKeys(label => notEmptyLabels.contains(label)).values.sum
     val totalPredicted = predicted.filterKeys(label => notEmptyLabels.contains(label)).values.sum
-    val totalPredictedCorrect = predictedCorrect.filterKeys(label => notEmptyLabels.contains(label)).values.sum
+    val totalPredictedCorrect =
+      predictedCorrect.filterKeys(label => notEmptyLabels.contains(label)).values.sum
     val (prec, rec, f1) = calcStat(totalCorrect, totalPredicted, totalPredictedCorrect)
     System.out.println(s"Total stat, prec: $prec\t, rec: $rec\t, f1: $f1")
 
@@ -140,13 +134,11 @@ object CoNLL2003PipelineTest extends App {
       val (prec, rec, f1) = calcStat(
         correct.getOrElse(label, 0),
         predicted.getOrElse(label, 0),
-        predictedCorrect.getOrElse(label, 0)
-      )
+        predictedCorrect.getOrElse(label, 0))
 
       System.out.println(s"$label\t$prec\t$rec\t$f1")
     }
   }
-
 
   def measureNer(): PipelineModel = {
     val model = trainNerModel(trainFile)

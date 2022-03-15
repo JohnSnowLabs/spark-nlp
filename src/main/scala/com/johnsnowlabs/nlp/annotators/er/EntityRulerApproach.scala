@@ -34,121 +34,125 @@ import org.apache.spark.sql.{DataFrame, Dataset}
 
 import scala.io.Source
 
-/**
- * Fits an Annotator to match exact strings or regex patterns provided in a file against a Document and assigns them an
- * named entity. The definitions can contain any number of named entities.
- *
- * There are multiple ways and formats to set the extraction resource. It is possible to set it either as a "JSON",
- * "JSONL" or "CSV" file. A path to the file needs to be provided to `setPatternsResource`. The file format needs to be
- * set as the "format" field in the `option` parameter map and depending on the file type, additional parameters might
- * need to be set.
- *
- * To enable regex extraction, `setEnablePatternRegex(true)` needs to be called.
- *
- * If the file is in a JSON format, then the rule definitions need to be given in a list with the fields "id", "label"
- * and "patterns":
- * {{{
- *  [
- *   {
- *     "id": "person-regex",
- *     "label": "PERSON",
- *     "patterns": ["\\w+\\s\\w+", "\\w+-\\w+"]
- *   },
- *   {
- *     "id": "locations-words",
- *     "label": "LOCATION",
- *     "patterns": ["Winterfell"]
- *   }
- * ]
- * }}}
- *
- * The same fields also apply to a file in the JSONL format:
- * {{{
- * {"id": "names-with-j", "label": "PERSON", "patterns": ["Jon", "John", "John Snow"]}
- * {"id": "names-with-s", "label": "PERSON", "patterns": ["Stark", "Snow"]}
- * {"id": "names-with-e", "label": "PERSON", "patterns": ["Eddard", "Eddard Stark"]}
- * }}}
- *
- *
- * In order to use a CSV file, an additional parameter "delimiter" needs to be set. In this case, the delimiter might be
- * set by using `.setPatternsResource("patterns.csv", ReadAs.TEXT, Map("format"->"csv", "delimiter" -> "\\|"))`
- * {{{
- * PERSON|Jon
- * PERSON|John
- * PERSON|John Snow
- * LOCATION|Winterfell
- * }}}
- *
- * ==Example==
- * In this example, the entities file as the form of
- * {{{
- * PERSON|Jon
- * PERSON|John
- * PERSON|John Snow
- * LOCATION|Winterfell
- * }}}
- * where each line represents an entity and the associated string delimited by "|".
- *
- * {{{
- * import spark.implicits._
- * import com.johnsnowlabs.nlp.base.DocumentAssembler
- * import com.johnsnowlabs.nlp.annotators.Tokenizer
- * import com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach
- * import com.johnsnowlabs.nlp.util.io.ReadAs
- *
- * import org.apache.spark.ml.Pipeline
- *
- * val documentAssembler = new DocumentAssembler()
- *   .setInputCol("text")
- *   .setOutputCol("document")
- *
- * val tokenizer = new Tokenizer()
- *   .setInputCols("document")
- *   .setOutputCol("token")
- *
- * val entityRuler = new EntityRulerApproach()
- *   .setInputCols("document", "token")
- *   .setOutputCol("entities")
- *   .setPatternsResource(
- *     path = "src/test/resources/entity-ruler/patterns.csv",
- *     readAs = ReadAs.TEXT,
- *     options = Map("format" -> "csv", "delimiter" -> "\\|")
- *   )
- *   .setEnablePatternRegex(true)
- *
- * val pipeline = new Pipeline().setStages(Array(
- *   documentAssembler,
- *   tokenizer,
- *   entityRuler
- * ))
- *
- * val data = Seq("Jon Snow wants to be lord of Winterfell.").toDF("text")
- * val result = pipeline.fit(data).transform(data)
- *
- * result.selectExpr("explode(entities)").show(false)
- * +--------------------------------------------------------------------+
- * |col                                                                 |
- * +--------------------------------------------------------------------+
- * |[chunk, 0, 2, Jon, [entity -> PERSON, sentence -> 0], []]           |
- * |[chunk, 29, 38, Winterfell, [entity -> LOCATION, sentence -> 0], []]|
- * +--------------------------------------------------------------------+
- * }}}
- *
- * @param uid required uid for storing annotator to disk
- * @groupname anno Annotator types
- * @groupdesc anno Required input and expected output annotator types
- * @groupname Ungrouped Members
- * @groupname param Parameters
- * @groupname setParam Parameter setters
- * @groupname getParam Parameter getters
- * @groupname Ungrouped Members
- * @groupprio param  1
- * @groupprio anno  2
- * @groupprio Ungrouped 3
- * @groupprio setParam  4
- * @groupprio getParam  5
- * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
- */
+/** Fits an Annotator to match exact strings or regex patterns provided in a file against a
+  * Document and assigns them an named entity. The definitions can contain any number of named
+  * entities.
+  *
+  * There are multiple ways and formats to set the extraction resource. It is possible to set it
+  * either as a "JSON", "JSONL" or "CSV" file. A path to the file needs to be provided to
+  * `setPatternsResource`. The file format needs to be set as the "format" field in the `option`
+  * parameter map and depending on the file type, additional parameters might need to be set.
+  *
+  * To enable regex extraction, `setEnablePatternRegex(true)` needs to be called.
+  *
+  * If the file is in a JSON format, then the rule definitions need to be given in a list with the
+  * fields "id", "label" and "patterns":
+  * {{{
+  *  [
+  *   {
+  *     "id": "person-regex",
+  *     "label": "PERSON",
+  *     "patterns": ["\\w+\\s\\w+", "\\w+-\\w+"]
+  *   },
+  *   {
+  *     "id": "locations-words",
+  *     "label": "LOCATION",
+  *     "patterns": ["Winterfell"]
+  *   }
+  * ]
+  * }}}
+  *
+  * The same fields also apply to a file in the JSONL format:
+  * {{{
+  * {"id": "names-with-j", "label": "PERSON", "patterns": ["Jon", "John", "John Snow"]}
+  * {"id": "names-with-s", "label": "PERSON", "patterns": ["Stark", "Snow"]}
+  * {"id": "names-with-e", "label": "PERSON", "patterns": ["Eddard", "Eddard Stark"]}
+  * }}}
+  *
+  * In order to use a CSV file, an additional parameter "delimiter" needs to be set. In this case,
+  * the delimiter might be set by using `.setPatternsResource("patterns.csv", ReadAs.TEXT,
+  * Map("format"->"csv", "delimiter" -> "\\|"))`
+  * {{{
+  * PERSON|Jon
+  * PERSON|John
+  * PERSON|John Snow
+  * LOCATION|Winterfell
+  * }}}
+  *
+  * ==Example==
+  * In this example, the entities file as the form of
+  * {{{
+  * PERSON|Jon
+  * PERSON|John
+  * PERSON|John Snow
+  * LOCATION|Winterfell
+  * }}}
+  * where each line represents an entity and the associated string delimited by "|".
+  *
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotators.Tokenizer
+  * import com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach
+  * import com.johnsnowlabs.nlp.util.io.ReadAs
+  *
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val tokenizer = new Tokenizer()
+  *   .setInputCols("document")
+  *   .setOutputCol("token")
+  *
+  * val entityRuler = new EntityRulerApproach()
+  *   .setInputCols("document", "token")
+  *   .setOutputCol("entities")
+  *   .setPatternsResource(
+  *     path = "src/test/resources/entity-ruler/patterns.csv",
+  *     readAs = ReadAs.TEXT,
+  *     options = Map("format" -> "csv", "delimiter" -> "\\|")
+  *   )
+  *   .setEnablePatternRegex(true)
+  *
+  * val pipeline = new Pipeline().setStages(Array(
+  *   documentAssembler,
+  *   tokenizer,
+  *   entityRuler
+  * ))
+  *
+  * val data = Seq("Jon Snow wants to be lord of Winterfell.").toDF("text")
+  * val result = pipeline.fit(data).transform(data)
+  *
+  * result.selectExpr("explode(entities)").show(false)
+  * +--------------------------------------------------------------------+
+  * |col                                                                 |
+  * +--------------------------------------------------------------------+
+  * |[chunk, 0, 2, Jon, [entity -> PERSON, sentence -> 0], []]           |
+  * |[chunk, 29, 38, Winterfell, [entity -> LOCATION, sentence -> 0], []]|
+  * +--------------------------------------------------------------------+
+  * }}}
+  *
+  * @param uid
+  *   required uid for storing annotator to disk
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 class EntityRulerApproach(override val uid: String)
     extends AnnotatorApproach[EntityRulerModel]
     with HasStorage {
@@ -161,21 +165,19 @@ class EntityRulerApproach(override val uid: String)
   private var patterns: Map[String, String] = Map()
   private var regexPatterns: Map[String, Seq[String]] = Map()
 
-  /**
-   * Resource in JSON or CSV format to map entities to patterns (Default: `null`).
-   *
-   * @group param
-   */
+  /** Resource in JSON or CSV format to map entities to patterns (Default: `null`).
+    *
+    * @group param
+    */
   val patternsResource = new ExternalResourceParam(
     this,
     "patternsResource",
     "Resource in JSON or CSV format to map entities to patterns")
 
-  /**
-   * Enables regex pattern match (Default: `false`).
-   *
-   * @group param
-   */
+  /** Enables regex pattern match (Default: `false`).
+    *
+    * @group param
+    */
   val enablePatternRegex =
     new BooleanParam(this, "enablePatternRegex", "Enables regex pattern match")
 
@@ -184,11 +186,10 @@ class EntityRulerApproach(override val uid: String)
     "sentenceMatch",
     "Whether to find match at sentence level. True: sentence level. False: token level")
 
-  /**
-   * Whether to use RocksDB storage to serialize patterns (Default: `true`).
-   *
-   * @group param
-   */
+  /** Whether to use RocksDB storage to serialize patterns (Default: `true`).
+    *
+    * @group param
+    */
   val useStorage =
     new BooleanParam(this, "useStorage", "Whether to use RocksDB storage to serialize patterns")
 
@@ -253,18 +254,16 @@ class EntityRulerApproach(override val uid: String)
 
   }
 
-  /**
-   * Input annotator types: DOCUMENT, TOKEN
-   *
-   * @group anno
-   */
+  /** Input annotator types: DOCUMENT, TOKEN
+    *
+    * @group anno
+    */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
 
-  /**
-   * Output annotator types: CHUNK
-   *
-   * @group anno
-   */
+  /** Output annotator types: CHUNK
+    *
+    * @group anno
+    */
   override val outputAnnotatorType: AnnotatorType = CHUNK
   override protected val databases: Array[Name] = EntityRulerModel.databases
 
@@ -375,7 +374,7 @@ class EntityRulerApproach(override val uid: String)
             storeRegexPattern(entityPattern.patterns, entity, regexPatternsWriter)
           case None => computePatterns(entityPattern.patterns, entity)
         }
-    })
+      })
   }
 
   private def storePatternsFromCSV(storageReadWriter: StorageReadWriter[_]): Unit = {

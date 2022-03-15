@@ -39,8 +39,8 @@ class DistilBertForSequenceClassificationTestSpec extends AnyFlatSpec {
       "EU rejects German call to boycott British lamb .",
       "TORONTO 1996-08-21",
       " carbon emissions have come down without impinging on our growth. .  . .",
-      "\\u2009.carbon emissions have come down without impinging on our growth .\\u2009.\\u2009."
-    ).toDF("text")
+      "\\u2009.carbon emissions have come down without impinging on our growth .\\u2009.\\u2009.")
+      .toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -50,7 +50,8 @@ class DistilBertForSequenceClassificationTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val tokenClassifier = DistilBertForSequenceClassification.pretrained()
+    val tokenClassifier = DistilBertForSequenceClassification
+      .pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("label")
       .setCaseSensitive(false)
@@ -87,8 +88,7 @@ class DistilBertForSequenceClassificationTestSpec extends AnyFlatSpec {
       "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London",
       "Rare Hendrix song draft sells for almost $17,000.",
       "EU rejects German call to boycott British lamb .",
-      "TORONTO 1996-08-21"
-    ).toDF("text")
+      "TORONTO 1996-08-21").toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -98,7 +98,8 @@ class DistilBertForSequenceClassificationTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val tokenClassifier = DistilBertForSequenceClassification.pretrained()
+    val tokenClassifier = DistilBertForSequenceClassification
+      .pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("label")
       .setCaseSensitive(true)
@@ -115,13 +116,18 @@ class DistilBertForSequenceClassificationTestSpec extends AnyFlatSpec {
     }
 
     Benchmark.time("Time to save DistilBertForSequenceClassification model") {
-      pipelineModel.stages.last.asInstanceOf[DistilBertForSequenceClassification].write.overwrite().save("./tmp_distilbertforsequence_model")
+      pipelineModel.stages.last
+        .asInstanceOf[DistilBertForSequenceClassification]
+        .write
+        .overwrite()
+        .save("./tmp_distilbertforsequence_model")
     }
 
     val loadedPipelineModel = PipelineModel.load("./tmp_distilbertforsequence_pipeline")
     loadedPipelineModel.transform(ddd).select("label.result").show(false)
 
-    val loadedSequenceModel = DistilBertForSequenceClassification.load("./tmp_distilbertforsequence_model")
+    val loadedSequenceModel =
+      DistilBertForSequenceClassification.load("./tmp_distilbertforsequence_model")
     println(loadedSequenceModel.getClasses.mkString("Array(", ", ", ")"))
 
   }
@@ -129,17 +135,17 @@ class DistilBertForSequenceClassificationTestSpec extends AnyFlatSpec {
   "DistilBertForSequenceClassification" should "benchmark test" taggedAs SlowTest in {
 
     val conll = CoNLL()
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+    val training_data =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
-    val tokenClassifier = DistilBertForSequenceClassification.pretrained()
+    val tokenClassifier = DistilBertForSequenceClassification
+      .pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("class")
       .setCaseSensitive(true)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        tokenClassifier
-      ))
+      .setStages(Array(tokenClassifier))
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
     Benchmark.time("Time to save DistilBertForSequenceClassification results") {

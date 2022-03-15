@@ -21,13 +21,17 @@ import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition._
 import scala.collection.mutable
 
 class Tagger(classes: Vector[ClassName], tagDict: Map[Word, ClassNum]) extends Serializable {
-  private val getClassNum = classes.zipWithIndex.toMap.withDefaultValue(-1) // -1 => "CLASS-NOT-FOUND"
+  private val getClassNum =
+    classes.zipWithIndex.toMap.withDefaultValue(-1) // -1 => "CLASS-NOT-FOUND"
 
   private val perceptron = new Perceptron(classes.length)
 
   def getFeatures(word: List[Word], pos: List[ClassName], i: Int): Map[Feature, Score] = {
     val featureSet = Set(
-      Feature("bias", ""), // It's useful to have a constant feature, which acts sort of like a prior
+      Feature(
+        "bias",
+        ""
+      ), // It's useful to have a constant feature, which acts sort of like a prior
       Feature("word", word(i)),
       Feature("w suffix", word(i).takeRight(3)),
       Feature("w pref1", word(i).take(1)),
@@ -122,7 +126,9 @@ object Tagger { // Here, tag == Part-of-Speech
       case taggerTagDict(data) if data.nonEmpty => {
         tagDict ++= data
           .split('|')
-          .map(nc => { val arr = nc.split('='); (arr(0), arr(1).toInt) }) // println(s"Tagger pair : $nc");
+          .map(nc => {
+            val arr = nc.split('='); (arr(0), arr(1).toInt)
+          }) // println(s"Tagger pair : $nc");
         parse(lines)
       }
       case _ => () // line not understood : Finish

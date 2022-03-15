@@ -30,28 +30,34 @@ import org.apache.spark.util.LongAccumulator
 
 import scala.collection.mutable.{ListBuffer, Map => MMap}
 
-/**
- * Distributed Averaged Perceptron model to tag words part-of-speech.
- *
- * Sets a POS tag to each word within a sentence. Its train data (train_pos) is a spark dataset of POS format values with Annotation columns.
- *
- * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron/DistributedPos.scala]] for further reference on how to use this APIs.
- *
- * @param uid internal uid required to generate writable annotators
- * @groupname anno Annotator types
- * @groupdesc anno Required input and expected output annotator types
- * @groupname Ungrouped Members
- * @groupname param Parameters
- * @groupname setParam Parameter setters
- * @groupname getParam Parameter getters
- * @groupname Ungrouped Members
- * @groupprio param  1
- * @groupprio anno  2
- * @groupprio Ungrouped 3
- * @groupprio setParam  4
- * @groupprio getParam  5
- * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
-  **/
+/** Distributed Averaged Perceptron model to tag words part-of-speech.
+  *
+  * Sets a POS tag to each word within a sentence. Its train data (train_pos) is a spark dataset
+  * of POS format values with Annotation columns.
+  *
+  * See
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron/DistributedPos.scala]]
+  * for further reference on how to use this APIs.
+  *
+  * @param uid
+  *   internal uid required to generate writable annotators
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 class PerceptronApproachDistributed(override val uid: String)
     extends AnnotatorApproach[PerceptronModel]
     with PerceptronTrainingUtils {
@@ -62,24 +68,24 @@ class PerceptronApproachDistributed(override val uid: String)
   override val description: String = "Averaged Perceptron model to tag words part-of-speech"
 
   /** column of Array of POS tags that match tokens
-   *
-   * @group param
-    **/
+    *
+    * @group param
+    */
   val posCol = new Param[String](this, "posCol", "column of Array of POS tags that match tokens")
 
   /** POS tags delimited corpus. Needs 'delimiter' in options
-   *
-   * @group param
-    **/
+    *
+    * @group param
+    */
   val corpus = new ExternalResourceParam(
     this,
     "corpus",
     "POS tags delimited corpus. Needs 'delimiter' in options")
 
   /** Number of iterations in training, converges to better accuracy
-   *
-   * @group param
-    **/
+    *
+    * @group param
+    */
   val nIterations = new IntParam(
     this,
     "nIterations",
@@ -88,15 +94,15 @@ class PerceptronApproachDistributed(override val uid: String)
   setDefault(nIterations, 5)
 
   /** Column containing an array of POS Tags matching every token on the line.
-   *
-   * @group setParam
-    **/
+    *
+    * @group setParam
+    */
   def setPosColumn(value: String): this.type = set(posCol, value)
 
   /** POS tags delimited corpus. Needs 'delimiter' in options
-   *
-   * @group setParam
-    **/
+    *
+    * @group setParam
+    */
   def setCorpus(value: ExternalResource): this.type = {
     require(
       value.options.contains("delimiter"),
@@ -105,9 +111,9 @@ class PerceptronApproachDistributed(override val uid: String)
   }
 
   /** POS tags delimited corpus. Needs 'delimiter' in options
-   *
-   * @group setParam
-    **/
+    *
+    * @group setParam
+    */
   def setCorpus(
       path: String,
       delimiter: String,
@@ -116,33 +122,35 @@ class PerceptronApproachDistributed(override val uid: String)
     set(corpus, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
 
   /** Number of iterations for training. May improve accuracy but takes longer. Default 5.
-   *
-   * @group setParam
-    **/
+    *
+    * @group setParam
+    */
   def setNIterations(value: Int): this.type = set(nIterations, value)
 
   def this() = this(Identifiable.randomUID("POS"))
 
   /** Output annotator types : POS
-   *
-   * @group anno
-    **/
+    *
+    * @group anno
+    */
   override val outputAnnotatorType: AnnotatorType = POS
 
   /** Input annotator types : TOKEN, DOCUMENT
-   *
-   * @group anno
-    **/
+    *
+    * @group anno
+    */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
 
-  /**
-   * Finds very frequent tags on a word in training, and marks them as non ambiguous based on tune parameters
-   * ToDo: Move such parameters to configuration
-   *
-   * @param taggedSentences    Takes entire tagged sentences to find frequent tags
-   * @param frequencyThreshold How many times at least a tag on a word to be marked as frequent
-   * @param ambiguityThreshold How much percentage of total amount of words are covered to be marked as frequent
-   */
+  /** Finds very frequent tags on a word in training, and marks them as non ambiguous based on
+    * tune parameters ToDo: Move such parameters to configuration
+    *
+    * @param taggedSentences
+    *   Takes entire tagged sentences to find frequent tags
+    * @param frequencyThreshold
+    *   How many times at least a tag on a word to be marked as frequent
+    * @param ambiguityThreshold
+    *   How much percentage of total amount of words are covered to be marked as frequent
+    */
   def buildTagBook(
       taggedSentences: Dataset[TaggedSentence],
       frequencyThreshold: Int = 20,
@@ -159,11 +167,10 @@ class PerceptronApproachDistributed(override val uid: String)
       }
 
     tagFrequenciesByWord
-      .map {
-        case (word, tagFrequencies) =>
-          val (tag, _) = tagFrequencies.maxBy(_._2)
-          logger.debug(s"TRAINING: Ambiguity discarded on: << $word >> set to: << $tag >>")
-          (word, tag)
+      .map { case (word, tagFrequencies) =>
+        val (tag, _) = tagFrequencies.maxBy(_._2)
+        logger.debug(s"TRAINING: Ambiguity discarded on: << $word >> set to: << $tag >>")
+        (word, tag)
       }
       .collect
       .toMap
@@ -181,16 +188,16 @@ class PerceptronApproachDistributed(override val uid: String)
     featuresWeight.reset()
     updateIteration.reset()
     timetotals.reset()
-    val finalfw = fw.map {
-      case (feature, weights) =>
-        (feature, weights.map {
-          case (tag, weight) =>
-            val param = (feature, tag)
-            val total = totals
-              .get(param)
-              .map(_._2)
-              .getOrElse(0.0) + ((uiv - totals.get(param).map(_._1).getOrElse(0L)) * weight)
-            (tag, total / uiv.toDouble)
+    val finalfw = fw.map { case (feature, weights) =>
+      (
+        feature,
+        weights.map { case (tag, weight) =>
+          val param = (feature, tag)
+          val total = totals
+            .get(param)
+            .map(_._2)
+            .getOrElse(0.0) + ((uiv - totals.get(param).map(_._1).getOrElse(0L)) * weight)
+          (tag, total / uiv.toDouble)
         })
     }
     val apr = AveragedPerceptron(tags.value, taggedWordBook.value, finalfw)
@@ -199,11 +206,11 @@ class PerceptronApproachDistributed(override val uid: String)
     apr
   }
 
-  /**
-   * Trains a model based on a provided CORPUS
-   *
-   * @return A trained averaged model
-   */
+  /** Trains a model based on a provided CORPUS
+    *
+    * @return
+    *   A trained averaged model
+    */
   override def train(
       dataset: Dataset[_],
       recursivePipeline: Option[PipelineModel]): PerceptronModel = {
@@ -215,9 +222,8 @@ class PerceptronApproachDistributed(override val uid: String)
     dataset.sparkSession.sparkContext.register(timeTotalsAcc)
     dataset.sparkSession.sparkContext.register(updateIterationAcc)
 
-    /**
-     * Generates TagBook, which holds all the word to tags mapping that are not ambiguous
-     */
+    /** Generates TagBook, which holds all the word to tags mapping that are not ambiguous
+      */
     val taggedSentences: Dataset[TaggedSentence] = if (get(posCol).isDefined) {
       import ResourceHelper.spark.implicits._
       val tokenColumn = dataset.schema.fields
@@ -229,21 +235,19 @@ class PerceptronApproachDistributed(override val uid: String)
       dataset
         .select(tokenColumn, $(posCol))
         .as[(Array[Annotation], Array[String])]
-        .map {
-          case (annotations, posTags) =>
-            lazy val strTokens = annotations.map(_.result).mkString("#")
-            lazy val strPosTags = posTags.mkString("#")
-            require(
-              annotations.length == posTags.length,
-              s"Cannot train from $posCol since there" +
-                s" is a row with different amount of tags and tokens:\n$strTokens\n$strPosTags")
-            TaggedSentence(
-              annotations
-                .zip(posTags)
-                .map {
-                  case (annotation, posTag) =>
-                    IndexedTaggedWord(annotation.result, posTag, annotation.begin, annotation.end)
-                })
+        .map { case (annotations, posTags) =>
+          lazy val strTokens = annotations.map(_.result).mkString("#")
+          lazy val strPosTags = posTags.mkString("#")
+          require(
+            annotations.length == posTags.length,
+            s"Cannot train from $posCol since there" +
+              s" is a row with different amount of tags and tokens:\n$strTokens\n$strPosTags")
+          TaggedSentence(
+            annotations
+              .zip(posTags)
+              .map { case (annotation, posTag) =>
+                IndexedTaggedWord(annotation.result, posTag, annotation.begin, annotation.end)
+              })
         }
     } else {
       ResourceHelper.parseTupleSentencesDS($(corpus))
@@ -273,9 +277,8 @@ class PerceptronApproachDistributed(override val uid: String)
         .broadcast(taggedSentences.flatMap(_.tags).distinct.collect)
     }
 
-    /**
-     * Iterates for training
-     */
+    /** Iterates for training
+      */
     (1 to $(nIterations)).foreach { iteration =>
       {
         logger.debug(s"TRAINING: Iteration n: $iteration")
@@ -332,9 +335,8 @@ class PerceptronApproachDistributed(override val uid: String)
                 weight: Double,
                 value: Double): Unit = {
 
-              /**
-               * update totals and timestamps
-               */
+              /** update totals and timestamps
+                */
               val param = (feature, tag)
               val newTimestamp = partitionUpdateCount
               partitionTotals.update(
@@ -345,18 +347,17 @@ class PerceptronApproachDistributed(override val uid: String)
                   .getOrElse(partitionTimestamps.getOrElse(param, 0L))) * weight))
               newPartitionTimeTotals.update(param, (newTimestamp, partitionTotals(param)))
 
-              /**
-               * update weights
-               */
-              val newWeights = newPartitionWeights.getOrElse(feature, MMap()) ++ MMap(
-                tag -> (weight + value))
+              /** update weights
+                */
+              val newWeights =
+                newPartitionWeights.getOrElse(feature, MMap()) ++ MMap(tag -> (weight + value))
               newPartitionWeights.update(feature, newWeights)
             }
 
-            /**
-             * if prediction was wrong, take all features and for each feature get feature's current tags and their weights
-             * congratulate if success and punish for wrong in weight
-             */
+            /** if prediction was wrong, take all features and for each feature get feature's
+              * current tags and their weights congratulate if success and punish for wrong in
+              * weight
+              */
             if (truth != guess) {
               features.foreach { feature =>
                 val weights = newPartitionWeights
@@ -372,77 +373,67 @@ class PerceptronApproachDistributed(override val uid: String)
 
           def predict(features: Map[String, Int]): String = {
 
-            /**
-             * scores are used for feature scores, which are all by default 0
-             * if a feature has a relevant score, look for all its possible tags and their scores
-             * multiply their weights per the times they appear
-             * Return highest tag by score
-             *
-             */
+            /** scores are used for feature scores, which are all by default 0 if a feature has a
+              * relevant score, look for all its possible tags and their scores multiply their
+              * weights per the times they appear Return highest tag by score
+              */
             val scoresByTag = features
-              .filter {
-                case (feature, value) =>
-                  (partitionWeights.contains(feature) || newPartitionWeights
-                    .contains(feature)) && value != 0
+              .filter { case (feature, value) =>
+                (partitionWeights.contains(feature) || newPartitionWeights
+                  .contains(feature)) && value != 0
               }
-              .map {
-                case (feature, value) =>
-                  newPartitionWeights
-                    .get(feature)
-                    .map(pw => partitionWeights.getOrElse(feature, Map()) ++ pw)
-                    .getOrElse(partitionWeights(feature))
-                    .map {
-                      case (tag, weight) =>
-                        (tag, value * weight)
-                    }
+              .map { case (feature, value) =>
+                newPartitionWeights
+                  .get(feature)
+                  .map(pw => partitionWeights.getOrElse(feature, Map()) ++ pw)
+                  .getOrElse(partitionWeights(feature))
+                  .map { case (tag, weight) =>
+                    (tag, value * weight)
+                  }
               }
               .aggregate(Map[String, Double]())(
                 (tagsScores, tagScore) =>
-                  tagScore ++ tagsScores.map {
-                    case (tag, score) => (tag, tagScore.getOrElse(tag, 0.0) + score)
-                },
+                  tagScore ++ tagsScores.map { case (tag, score) =>
+                    (tag, tagScore.getOrElse(tag, 0.0) + score)
+                  },
                 (pTagScore, cTagScore) =>
-                  pTagScore.map {
-                    case (tag, score) => (tag, cTagScore.getOrElse(tag, 0.0) + score)
-                })
+                  pTagScore.map { case (tag, score) =>
+                    (tag, cTagScore.getOrElse(tag, 0.0) + score)
+                  })
 
-            /**
-             * ToDo: Watch it here. Because of missing training corpus, default values are made to make tests pass
-             * Secondary sort by tag simply made to match original python behavior
-             */
+            /** ToDo: Watch it here. Because of missing training corpus, default values are made
+              * to make tests pass Secondary sort by tag simply made to match original python
+              * behavior
+              */
             cls.maxBy { tag =>
               (scoresByTag.getOrElse(tag, 0.0), tag)
             }
           }
 
-          /**
-           * In a shuffled sentences list, try to find tag of the word, hold the correct answer
-           */
-          partition.foreach {
-            taggedSentence =>
-              /**
-               * Defines a sentence context, with room to for look back
-               */
-              var prev = START(0)
-              var prev2 = START(1)
-              val context = START ++: taggedSentence.words.map(w => normalized(w)) ++: END
-              taggedSentence.words.zipWithIndex.foreach {
-                case (word, i) =>
-                  val guess =
-                    twb.getOrElse(word.toLowerCase, {
-                      val features = getFeatures(i, word, context, prev, prev2)
-                      val guess = predict(features)
-                      partitionUpdateCount += 1L
-                      update(taggedSentence.tags(i), guess, features.keys)
-                      guess
-                    })
+          /** In a shuffled sentences list, try to find tag of the word, hold the correct answer
+            */
+          partition.foreach { taggedSentence =>
+            /** Defines a sentence context, with room to for look back
+              */
+            var prev = START(0)
+            var prev2 = START(1)
+            val context = START ++: taggedSentence.words.map(w => normalized(w)) ++: END
+            taggedSentence.words.zipWithIndex.foreach { case (word, i) =>
+              val guess =
+                twb.getOrElse(
+                  word.toLowerCase, {
+                    val features = getFeatures(i, word, context, prev, prev2)
+                    val guess = predict(features)
+                    partitionUpdateCount += 1L
+                    update(taggedSentence.tags(i), guess, features.keys)
+                    guess
+                  })
 
-                  /**
-                   * shift the context
-                   */
-                  prev2 = prev
-                  prev = guess
-              }
+              /** shift the context
+                */
+              prev2 = prev
+              prev = guess
+            }
 
           }
           featuresWeightAcc.addMany(newPartitionWeights)
@@ -466,7 +457,7 @@ class PerceptronApproachDistributed(override val uid: String)
   }
 }
 
-/**
- * This is the companion object of [[PerceptronApproachDistributed]]. Please refer to that class for the documentation.
- */
+/** This is the companion object of [[PerceptronApproachDistributed]]. Please refer to that class
+  * for the documentation.
+  */
 object PerceptronApproachDistributed extends DefaultParamsReadable[PerceptronApproachDistributed]

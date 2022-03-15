@@ -68,7 +68,7 @@ object TrainingHelper {
     try {
       FileUtils.deleteDirectory(new File(file))
     } catch {
-      case _: java.io.IOException => //file lock may prevent deletion, ignore and continue
+      case _: java.io.IOException => // file lock may prevent deletion, ignore and continue
     }
 
     // 7. Add to metadata.json info about resource

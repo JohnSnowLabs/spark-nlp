@@ -43,7 +43,8 @@ trait SparkSessionTest extends BeforeAndAfterAll { this: Suite =>
     sentenceDetector.setInputCols("document").setOutputCol("sentence")
     val tokenizerWithSentence = new Tokenizer()
     tokenizerWithSentence.setInputCols("sentence").setOutputCol("token")
-    tokenizerWithSentencePipeline.setStages(Array(documentAssembler, sentenceDetector, tokenizerWithSentence))
+    tokenizerWithSentencePipeline.setStages(
+      Array(documentAssembler, sentenceDetector, tokenizerWithSentence))
   }
 
 }

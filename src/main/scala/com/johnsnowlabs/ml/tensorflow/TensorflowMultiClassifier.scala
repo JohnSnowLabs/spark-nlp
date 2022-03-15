@@ -160,12 +160,12 @@ class TensorflowMultiClassifier(
         val endTime = (System.nanoTime() - time) / 1e9
         println(
           f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_loss: ${validationAccuracy(
-            0)} - val_acc: ${validationAccuracy(1)} - val_f1: ${validationAccuracy(2)} - val_tpr: ${validationAccuracy(
-            3)} - batches: $batches")
+              0)} - val_acc: ${validationAccuracy(1)} - val_f1: ${validationAccuracy(
+              2)} - val_tpr: ${validationAccuracy(3)} - batches: $batches")
         outputLog(
           f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_loss: ${validationAccuracy(
-            0)} - val_acc: ${validationAccuracy(1)} - val_f1: ${validationAccuracy(2)} - val_tpr: ${validationAccuracy(
-            3)} - batches: $batches",
+              0)} - val_acc: ${validationAccuracy(1)} - val_f1: ${validationAccuracy(
+              2)} - val_tpr: ${validationAccuracy(3)} - batches: $batches",
           uuid,
           enableOutputLogs,
           outputLogsPath)

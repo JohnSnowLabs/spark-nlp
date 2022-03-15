@@ -62,7 +62,7 @@ class LinearChainCrf(val params: CrfParams) {
     val decayStrategy = new L2DecayStrategy(dataset.instances.size, params.l2, params.c0)
 
     for (epoch <- 0 until params.maxEpochs
-         if notImprovedEpochs < 10 || epoch < params.minEpochs) {
+      if notImprovedEpochs < 10 || epoch < params.minEpochs) {
 
       var loss = 0f
 
@@ -191,17 +191,24 @@ class L2DecayStrategy(val instances: Int, val l2: Float, val c0: Float = 1000) {
   }
 }
 
-/**
- * Hyper Parameters and Setting for LinearChainCrf training
- * @param minEpochs - Minimum number of epochs to train
- * @param maxEpochs - Maximum number of epochs to train
- * @param l2 - l2 regularization coefficient
- * @param c0 - Initial number of steps in decay strategy
- * @param lossEps - If loss after a SGD epochs haven't improved (absolutely) more than lossEps, then training is stopped
- *
- * @param randomSeed - Seed for random
- * @param verbose - Level of verbosity during training procedure
- */
+/** Hyper Parameters and Setting for LinearChainCrf training
+  * @param minEpochs
+  *   \- Minimum number of epochs to train
+  * @param maxEpochs
+  *   \- Maximum number of epochs to train
+  * @param l2
+  *   \- l2 regularization coefficient
+  * @param c0
+  *   \- Initial number of steps in decay strategy
+  * @param lossEps
+  *   \- If loss after a SGD epochs haven't improved (absolutely) more than lossEps, then training
+  *   is stopped
+  *
+  * @param randomSeed
+  *   \- Seed for random
+  * @param verbose
+  *   \- Level of verbosity during training procedure
+  */
 case class CrfParams(
     minEpochs: Int = 10,
     maxEpochs: Int = 1000,

@@ -55,8 +55,10 @@ class GraphFinisherTest extends AnyFlatSpec with SparkSessionTest with GraphExtr
     val expectedGraph = List(
       Seq(Seq("sees", "nsubj", "John")),
       Seq(Seq("sees", "ccomp", "goes"), Seq("goes", "nsubj", "Bill")),
-      Seq(Seq("sees", "ccomp", "goes"), Seq("goes", "nsubj", "Bill"), Seq("Bill", "conj", "Mary"))
-    )
+      Seq(
+        Seq("sees", "ccomp", "goes"),
+        Seq("goes", "nsubj", "Bill"),
+        Seq("Bill", "conj", "Mary")))
 
     val graphDataSet = pipeline.fit(testDataSet).transform(testDataSet)
     val actualGraph = getFinisherAsArray(graphDataSet)
@@ -70,11 +72,13 @@ class GraphFinisherTest extends AnyFlatSpec with SparkSessionTest with GraphExtr
       .setInputCols("document", "token", "entities")
       .setOutputCol("graph")
       .setRelationshipTypes(Array("sees-PER"))
-    val finisher = new GraphFinisher().setInputCol("graph").setOutputCol("finisher").setOutputAsArray(false)
-    val expectedGraph = List(Seq(Seq("(sees,nsubj,John)"),
-      Seq("(sees,ccomp,goes)", "(goes,nsubj,Bill)"),
-      Seq("(sees,ccomp,goes)", "(goes,nsubj,Bill)", "(Bill,conj,Mary)")
-    ))
+    val finisher =
+      new GraphFinisher().setInputCol("graph").setOutputCol("finisher").setOutputAsArray(false)
+    val expectedGraph = List(
+      Seq(
+        Seq("(sees,nsubj,John)"),
+        Seq("(sees,ccomp,goes)", "(goes,nsubj,Bill)"),
+        Seq("(sees,ccomp,goes)", "(goes,nsubj,Bill)", "(Bill,conj,Mary)")))
 
     val pipeline = new Pipeline().setStages(Array(graphExtractor, finisher))
     val graphDataSet = pipeline.fit(testDataSet).transform(testDataSet)
@@ -95,10 +99,11 @@ class GraphFinisherTest extends AnyFlatSpec with SparkSessionTest with GraphExtr
       .setIncludeMetadata(true)
       .setOutputAsArray(false)
     val expectedMetadata = List(Seq("(sees,PER)"))
-    val expectedGraph = List(Seq(Seq("(sees,nsubj,John)"),
-      Seq("(sees,ccomp,goes)", "(goes,nsubj,Bill)"),
-      Seq("(sees,ccomp,goes)", "(goes,nsubj,Bill)", "(Bill,conj,Mary)")
-    ))
+    val expectedGraph = List(
+      Seq(
+        Seq("(sees,nsubj,John)"),
+        Seq("(sees,ccomp,goes)", "(goes,nsubj,Bill)"),
+        Seq("(sees,ccomp,goes)", "(goes,nsubj,Bill)", "(Bill,conj,Mary)")))
 
     val pipeline = new Pipeline().setStages(Array(graphExtractor, finisher))
     val graphDataSet = pipeline.fit(testDataSet).transform(testDataSet)
@@ -121,11 +126,14 @@ class GraphFinisherTest extends AnyFlatSpec with SparkSessionTest with GraphExtr
       .setOutputAsArray(false)
       .setIncludeMetadata(true)
     val expectedMetadata = List(Seq("(ORG,TIME)", "(ORG,LOC)", "(TIME,LOC)"))
-    val expectedGraph = List(Seq(
-      Seq("(canceled,nsubj,United)"), Seq("(canceled,obj,flights)", "(flights,compound,morning)"),
-      Seq("(canceled,nsubj,United)"), Seq("(canceled,obj,flights)", "(flights,nmod,Houston)"),
-      Seq("(canceled,obj,flights)", "(flights,compound,morning)"), Seq("(canceled,obj,flights)", "(flights,nmod,Houston)")
-    ))
+    val expectedGraph = List(
+      Seq(
+        Seq("(canceled,nsubj,United)"),
+        Seq("(canceled,obj,flights)", "(flights,compound,morning)"),
+        Seq("(canceled,nsubj,United)"),
+        Seq("(canceled,obj,flights)", "(flights,nmod,Houston)"),
+        Seq("(canceled,obj,flights)", "(flights,compound,morning)"),
+        Seq("(canceled,obj,flights)", "(flights,nmod,Houston)")))
 
     val pipeline = new Pipeline().setStages(Array(graphExtractor, finisher))
     val graphDataSet = pipeline.fit(testDataSet).transform(testDataSet)
@@ -137,12 +145,13 @@ class GraphFinisherTest extends AnyFlatSpec with SparkSessionTest with GraphExtr
   }
 
   it should "annotate output graph" in {
-    val metadata = Map("relationship" -> "sees, PER",
+    val metadata = Map(
+      "relationship" -> "sees, PER",
       "path1" -> "sees,nsubj,John",
       "path2" -> "sees,ccomp,goes,nsubj,Bill",
       "path3" -> "sees,ccomp,goes,nsubj,Bill,conj,Mary")
     val graphFinisher = new GraphFinisher()
-    val expectedResult= "[(sees,nsubj,John)],[(sees,ccomp,goes),(goes,nsubj,Bill)]," +
+    val expectedResult = "[(sees,nsubj,John)],[(sees,ccomp,goes),(goes,nsubj,Bill)]," +
       "[(sees,ccomp,goes),(goes,nsubj,Bill),(Bill,conj,Mary)]"
     val expectedAnnotated = Seq(Annotation(NODE, 0, 0, expectedResult, Map()))
 
@@ -152,18 +161,29 @@ class GraphFinisherTest extends AnyFlatSpec with SparkSessionTest with GraphExtr
   }
 
   private def getFinisherAsArray(dataSet: Dataset[_]) = {
-    val paths = dataSet.select("finisher").rdd.map{row =>
-      val result: Seq[Seq[String]] = row.get(0).asInstanceOf[mutable.WrappedArray[mutable.WrappedArray[String]]]
-      result
-    }.collect().toList
+    val paths = dataSet
+      .select("finisher")
+      .rdd
+      .map { row =>
+        val result: Seq[Seq[String]] =
+          row.get(0).asInstanceOf[mutable.WrappedArray[mutable.WrappedArray[String]]]
+        result
+      }
+      .collect()
+      .toList
     paths.flatten
   }
 
   private def getFinisher(dataSet: Dataset[_], column: String) = {
-    val paths = dataSet.select(column).rdd.map{row =>
-      val result: Seq[String] = row.get(0).asInstanceOf[mutable.WrappedArray[String]]
-      result
-    }.collect().toList
+    val paths = dataSet
+      .select(column)
+      .rdd
+      .map { row =>
+        val result: Seq[String] = row.get(0).asInstanceOf[mutable.WrappedArray[String]]
+        result
+      }
+      .collect()
+      .toList
     paths
   }
 

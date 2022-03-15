@@ -39,16 +39,16 @@ class TupleKeyLongDoubleMapAccumulator(
   }
 
   def updateMany(other: MMap[(String, String), (Long, Double)]): Unit = {
-    other.foreach {
-      case (k, v) =>
-        this.add((k, v))
+    other.foreach { case (k, v) =>
+      this.add((k, v))
     }
   }
 
   override def value: Map[(String, String), (Long, Double)] = mmap.toMap
 
-  override def copy()
-    : AccumulatorV2[((String, String), (Long, Double)), Map[(String, String), (Long, Double)]] = {
+  override def copy(): AccumulatorV2[
+    ((String, String), (Long, Double)),
+    Map[(String, String), (Long, Double)]] = {
     val m = ArrayBuffer.empty[((String, String), (Long, Double))]
     this.mmap.copyToBuffer(m)
     new TupleKeyLongDoubleMapAccumulator(MMap(m: _*))
@@ -77,11 +77,10 @@ class StringMapStringDoubleAccumulator(
   override def reset(): Unit = mmap.clear()
 
   override def add(v: (String, MMap[String, Double])): Unit = {
-    v._2.foreach {
-      case (kk, vv) =>
-        val loc = mmap.getOrElse(v._1, MMap.empty[String, Double])
-        val nv = if (loc.isDefinedAt(kk)) (loc.getOrElse(kk, 0.0) + vv) / 2.0 else vv
-        mmap.update(v._1, loc.updated(kk, nv))
+    v._2.foreach { case (kk, vv) =>
+      val loc = mmap.getOrElse(v._1, MMap.empty[String, Double])
+      val nv = if (loc.isDefinedAt(kk)) (loc.getOrElse(kk, 0.0) + vv) / 2.0 else vv
+      mmap.update(v._1, loc.updated(kk, nv))
     }
   }
 
@@ -89,7 +88,7 @@ class StringMapStringDoubleAccumulator(
     mmap.mapValues(_.toMap.filterNot(a => a._2 == 0)).toMap
 
   override def copy()
-    : AccumulatorV2[(String, MMap[String, Double]), Map[String, Map[String, Double]]] = {
+      : AccumulatorV2[(String, MMap[String, Double]), Map[String, Map[String, Double]]] = {
     val m = ArrayBuffer.empty[(String, MMap[String, Double])]
     this.mmap.copyToBuffer(m)
     new StringMapStringDoubleAccumulator(MMap(m: _*))
@@ -98,15 +97,14 @@ class StringMapStringDoubleAccumulator(
   override def isZero: Boolean = mmap.isEmpty
 
   def addMany(other: MMap[String, MMap[String, Double]]) = {
-    other.foreach {
-      case (k, v) =>
-        this.add((k, v))
+    other.foreach { case (k, v) =>
+      this.add((k, v))
     }
   }
 
   override def merge(
       other: AccumulatorV2[(String, MMap[String, Double]), Map[String, Map[String, Double]]])
-    : Unit = {
+      : Unit = {
     other match {
       case o: StringMapStringDoubleAccumulator =>
         addMany(o.mmap)

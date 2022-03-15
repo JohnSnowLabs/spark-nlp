@@ -158,7 +158,7 @@ class SentenceDetectorDLEncoder extends Serializable {
       } else {
 
         if (ch == '\n') {
-          //positive example
+          // positive example
 
           if (eosChar.isDefined) {
             examples.append((1.0f, leftContext + eosChar.get + rightContext))
@@ -170,7 +170,7 @@ class SentenceDetectorDLEncoder extends Serializable {
 
         } else if (!skipChars.contains(ch)) {
           if (eosChar.isDefined) {
-            //negative example
+            // negative example
             examples.append((0.0f, leftContext + eosChar.get + rightContext))
           } else if (scala.math.random < probNL) {
             examples.append((0.0f, getLeftContext(text, i) + '\n' + getRightContext(text, i - 1)))
@@ -197,7 +197,7 @@ class SentenceDetectorDLEncoder extends Serializable {
       .findAllMatchIn(text)
       .map(m => m.start)
       .map(pos => {
-        //get context and get rid of multiple spaces
+        // get context and get rid of multiple spaces
         val leftC = getLeftContext(text, pos)
         val rightC = getRightContext(text, pos)
 

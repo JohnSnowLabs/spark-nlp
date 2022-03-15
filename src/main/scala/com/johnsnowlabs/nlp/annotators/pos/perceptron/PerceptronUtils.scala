@@ -23,10 +23,9 @@ trait PerceptronUtils {
   private[perceptron] val START = Array("-START-", "-START2-")
   private[perceptron] val END = Array("-END-", "-END2-")
 
-  /**
-   * Specific normalization rules for this POS Tagger to avoid unnecessary tagging
-   * @return
-   */
+  /** Specific normalization rules for this POS Tagger to avoid unnecessary tagging
+    * @return
+    */
   private[perceptron] def normalized(word: String): String = {
     if (word.contains("-") && word.head != '-') {
       "!HYPEN"
@@ -39,15 +38,21 @@ trait PerceptronUtils {
     }
   }
 
-  /**
-   * Method used when a word tag is not  certain. the word context is explored and features collected
-   * @param init word position in a sentence
-   * @param word word itself
-   * @param context surrounding words of positions -2 and +2
-   * @param prev holds previous tag result
-   * @param prev2 holds pre previous tag result
-   * @return A list of scored features based on how frequently they appear in a context
-   */
+  /** Method used when a word tag is not certain. the word context is explored and features
+    * collected
+    * @param init
+    *   word position in a sentence
+    * @param word
+    *   word itself
+    * @param context
+    *   surrounding words of positions -2 and +2
+    * @param prev
+    *   holds previous tag result
+    * @param prev2
+    *   holds pre previous tag result
+    * @return
+    *   A list of scored features based on how frequently they appear in a context
+    */
   private[perceptron] def getFeatures(
       init: Int,
       word: String,

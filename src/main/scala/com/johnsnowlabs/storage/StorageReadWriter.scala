@@ -41,9 +41,8 @@ trait StorageReadWriter[A] extends StorageWriter[A] {
   }
 
   override def flush(batch: WriteBatch): Unit = {
-    readableWriteBuffer.foreach {
-      case (word, content) =>
-        put(batch, word, content)
+    readableWriteBuffer.foreach { case (word, content) =>
+      put(batch, word, content)
     }
     super.flush(batch)
     readableWriteBuffer.clear()

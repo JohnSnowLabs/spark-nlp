@@ -38,10 +38,9 @@ object Utilities {
     wordCount.getOrElse(word, 0)
   }
 
-  /** Computes Levenshtein distance :
-   * Metric of measuring difference between two sequences (edit distance)
-   * Source: https://rosettacode.org/wiki/Levenshtein_distance
-   * */
+  /** Computes Levenshtein distance : Metric of measuring difference between two sequences (edit
+    * distance) Source: https://rosettacode.org/wiki/Levenshtein_distance
+    */
   def levenshteinDistance(s1: String, s2: String): Int = {
     val dist = Array.tabulate(s2.length + 1, s1.length + 1) { (j, i) =>
       if (j == 0) i else if (i == 0) j else 0
@@ -63,21 +62,20 @@ object Utilities {
       overrideLimit: Option[Int] = None): String = {
     var duplicates = 0
     text.zipWithIndex
-      .collect {
-        case (w, i) =>
-          if (i == 0) {
+      .collect { case (w, i) =>
+        if (i == 0) {
+          w
+        } else if (w == text(i - 1)) {
+          if (duplicates < overrideLimit.getOrElse(duplicatesLimit)) {
+            duplicates += 1
             w
-          } else if (w == text(i - 1)) {
-            if (duplicates < overrideLimit.getOrElse(duplicatesLimit)) {
-              duplicates += 1
-              w
-            } else {
-              ""
-            }
           } else {
-            duplicates = 0
-            w
+            ""
           }
+        } else {
+          duplicates = 0
+          w
+        }
       }
       .mkString("")
   }
@@ -87,18 +85,17 @@ object Utilities {
 
     val splits = (0 to targetWord.length).map(i => (targetWord.take(i), targetWord.drop(i)))
     val vars = scala.collection.mutable.Set.empty[String]
-    splits.toIterator.foreach {
-      case (a, b) =>
-        if (b.nonEmpty) {
-          vars.add(a + b.tail)
-        }
-        if (b.length > 1) {
-          vars.add(a + b(1) + b(0) + b.drop(2))
-        }
-        if (b.nonEmpty) {
-          alphabet.foreach(c => vars.add(a + c + b.tail))
-        }
-        alphabet.foreach(c => vars.add(a + c + b))
+    splits.toIterator.foreach { case (a, b) =>
+      if (b.nonEmpty) {
+        vars.add(a + b.tail)
+      }
+      if (b.length > 1) {
+        vars.add(a + b(1) + b(0) + b.drop(2))
+      }
+      if (b.nonEmpty) {
+        alphabet.foreach(c => vars.add(a + c + b.tail))
+      }
+      alphabet.foreach(c => vars.add(a + c + b))
     }
     vars.toList
   }
@@ -134,13 +131,12 @@ object Utilities {
   /** flattens vowel possibilities */
   def getVowelSwaps(word: String, vowelSwapLimit: Int): List[String] = {
     if (word.length > vowelSwapLimit) return List.empty[String]
-    val flatWord: Iterator[Iterator[Char]] = word.toCharArray.toIterator.collect {
-      case c =>
-        if (vowels.contains(c)) {
-          vowels.toIterator
-        } else {
-          Iterator(c)
-        }
+    val flatWord: Iterator[Iterator[Char]] = word.toCharArray.toIterator.collect { case c =>
+      if (vowels.contains(c)) {
+        vowels.toIterator
+      } else {
+        Iterator(c)
+      }
     }
     val vowelSwaps = cartesianProduct(flatWord).map(_.mkString(""))
     logger.debug("vowel swaps: " + vowelSwaps.size)

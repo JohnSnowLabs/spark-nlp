@@ -18,10 +18,9 @@ package com.johnsnowlabs.collections
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-/**
- * Immutable Collection that used for fast substring search
- * Implementation of Aho-Corasick algorithm https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm
- */
+/** Immutable Collection that used for fast substring search Implementation of Aho-Corasick
+  * algorithm https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm
+  */
 case class SearchTrie(
     vocabulary: Map[String, Int],
     edges: Map[(Int, Int), Int],
@@ -38,11 +37,12 @@ case class SearchTrie(
     else
       (word: String) => vocabulary.getOrElse(word.toLowerCase, -1)
 
-  /**
-   * Searchs phrases in the text
-   * @param text test to search in
-   * @return Iterator with pairs of (begin, end)
-   */
+  /** Searchs phrases in the text
+    * @param text
+    *   test to search in
+    * @return
+    *   Iterator with pairs of (begin, end)
+    */
   def search(text: Seq[String]): Seq[(Int, Int)] = {
     var nodeId = 0
     val result = new ArrayBuffer[(Int, Int)]()

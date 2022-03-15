@@ -25,73 +25,76 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.mllib.feature.Word2Vec
 import org.apache.spark.sql.{Dataset, SparkSession}
 
-/**
- * Trains a Word2Vec model that creates vector representations of words in a text corpus.
- *
- * The algorithm first constructs a vocabulary from the corpus
- * and then learns vector representation of words in the vocabulary.
- * The vector representation can be used as features in
- * natural language processing and machine learning algorithms.
- *
- * We use Word2Vec implemented in Spark ML. It uses skip-gram model in our implementation and a hierarchical softmax
- * method to train the model. The variable names in the implementation match the original C implementation.
- *
- * For instantiated/pretrained models, see [[Word2VecModel]].
- *
- * '''Sources''' :
- *
- * For the original C implementation, see https://code.google.com/p/word2vec/
- *
- * For the research paper, see
- * [[https://arxiv.org/abs/1301.3781 Efficient Estimation of Word Representations in Vector Space]]
- * and [[https://arxiv.org/pdf/1310.4546v1.pdf Distributed Representations of Words and Phrases and their Compositionality]].
- *
- * ==Example==
- * {{{
- * import spark.implicits._
- * import com.johnsnowlabs.nlp.annotator.{Tokenizer, Word2VecApproach}
- * import com.johnsnowlabs.nlp.base.DocumentAssembler
- * import org.apache.spark.ml.Pipeline
- *
- * val documentAssembler = new DocumentAssembler()
- *   .setInputCol("text")
- *   .setOutputCol("document")
- *
- * val tokenizer = new Tokenizer()
- *   .setInputCols(Array("document"))
- *   .setOutputCol("token")
- *
- * val embeddings = new Word2VecApproach()
- *   .setInputCols("token")
- *   .setOutputCol("embeddings")
- *
- * val pipeline = new Pipeline()
- *   .setStages(Array(
- *     documentAssembler,
- *     tokenizer,
- *     embeddings
- *   ))
- *
- * val path = "src/test/resources/spell/sherlockholmes.txt"
- * val dataset = spark.sparkContext.textFile(path)
- *   .toDF("text")
- * val pipelineModel = pipeline.fit(dataset)
- * }}}
- *
- * @groupname anno Annotator types
- * @groupdesc anno Required input and expected output annotator types
- * @groupname Ungrouped Members
- * @groupname param Parameters
- * @groupname setParam Parameter setters
- * @groupname getParam Parameter getters
- * @groupname Ungrouped Members
- * @groupprio param  1
- * @groupprio anno  2
- * @groupprio Ungrouped 3
- * @groupprio setParam  4
- * @groupprio getParam  5
- * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
- */
+/** Trains a Word2Vec model that creates vector representations of words in a text corpus.
+  *
+  * The algorithm first constructs a vocabulary from the corpus and then learns vector
+  * representation of words in the vocabulary. The vector representation can be used as features
+  * in natural language processing and machine learning algorithms.
+  *
+  * We use Word2Vec implemented in Spark ML. It uses skip-gram model in our implementation and a
+  * hierarchical softmax method to train the model. The variable names in the implementation match
+  * the original C implementation.
+  *
+  * For instantiated/pretrained models, see [[Word2VecModel]].
+  *
+  * '''Sources''' :
+  *
+  * For the original C implementation, see https://code.google.com/p/word2vec/
+  *
+  * For the research paper, see
+  * [[https://arxiv.org/abs/1301.3781 Efficient Estimation of Word Representations in Vector Space]]
+  * and
+  * [[https://arxiv.org/pdf/1310.4546v1.pdf Distributed Representations of Words and Phrases and their Compositionality]].
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.annotator.{Tokenizer, Word2VecApproach}
+  * import com.johnsnowlabs.nlp.base.DocumentAssembler
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val tokenizer = new Tokenizer()
+  *   .setInputCols(Array("document"))
+  *   .setOutputCol("token")
+  *
+  * val embeddings = new Word2VecApproach()
+  *   .setInputCols("token")
+  *   .setOutputCol("embeddings")
+  *
+  * val pipeline = new Pipeline()
+  *   .setStages(Array(
+  *     documentAssembler,
+  *     tokenizer,
+  *     embeddings
+  *   ))
+  *
+  * val path = "src/test/resources/spell/sherlockholmes.txt"
+  * val dataset = spark.sparkContext.textFile(path)
+  *   .toDF("text")
+  * val pipelineModel = pipeline.fit(dataset)
+  * }}}
+  *
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 class Word2VecApproach(override val uid: String)
     extends AnnotatorApproach[Word2VecModel]
     with HasStorageRef
@@ -103,22 +106,21 @@ class Word2VecApproach(override val uid: String)
     "Distributed Representations of Words and Phrases and their Compositionality"
 
   /** Input Annotator Types: TOKEN
-   *
-   * @group anno
-   */
+    *
+    * @group anno
+    */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   /** Output Annotator Types: WORD_EMBEDDINGS
-   *
-   * @group anno
-   */
+    *
+    * @group anno
+    */
   override val outputAnnotatorType: String = WORD_EMBEDDINGS
 
-  /**
-   * The dimension of the code that you want to transform from words (Default: `100`).
-   *
-   * @group param
-   */
+  /** The dimension of the code that you want to transform from words (Default: `100`).
+    *
+    * @group param
+    */
   val vectorSize =
     new IntParam(this, "vectorSize", "the dimension of codes after transforming from words (> 0)")
 
@@ -132,11 +134,10 @@ class Word2VecApproach(override val uid: String)
   /** @group getParam */
   def getVectorSize: Int = $(vectorSize)
 
-  /**
-   * The window size (context words from [-window, window]) (Default: `5`)
-   *
-   * @group param
-   */
+  /** The window size (context words from [-window, window]) (Default: `5`)
+    *
+    * @group param
+    */
   val windowSize = new IntParam(
     this,
     "windowSize",
@@ -152,11 +153,10 @@ class Word2VecApproach(override val uid: String)
   /** @group getParam */
   def getWindowSize: Int = $(windowSize)
 
-  /**
-   * Number of partitions for sentences of words (Default: `1`).
-   *
-   * @group param
-   */
+  /** Number of partitions for sentences of words (Default: `1`).
+    *
+    * @group param
+    */
   val numPartitions =
     new IntParam(this, "numPartitions", "number of partitions for sentences of words (> 0)")
 
@@ -170,12 +170,11 @@ class Word2VecApproach(override val uid: String)
   /** @group getParam */
   def getNumPartitions: Int = $(numPartitions)
 
-  /**
-   * The minimum number of times a token must appear to be included in the word2vec model's
-   * vocabulary (Default: `5`).
-   *
-   * @group param
-   */
+  /** The minimum number of times a token must appear to be included in the word2vec model's
+    * vocabulary (Default: `5`).
+    *
+    * @group param
+    */
   val minCount = new IntParam(
     this,
     "minCount",
@@ -192,13 +191,12 @@ class Word2VecApproach(override val uid: String)
   /** @group getParam */
   def getMinCount: Int = $(minCount)
 
-  /**
-   * Sets the maximum length (in words) of each sentence in the input data (Default: `1000`).
-   * Any sentence longer than this threshold will be divided into chunks of
-   * up to `maxSentenceLength` size.
-   *
-   * @group param
-   */
+  /** Sets the maximum length (in words) of each sentence in the input data (Default: `1000`). Any
+    * sentence longer than this threshold will be divided into chunks of up to `maxSentenceLength`
+    * size.
+    *
+    * @group param
+    */
   val maxSentenceLength = new IntParam(
     this,
     "maxSentenceLength",
@@ -216,11 +214,11 @@ class Word2VecApproach(override val uid: String)
   /** @group getParam */
   def getMaxSentenceLength: Int = $(maxSentenceLength)
 
-  /**
-   * Param for Step size to be used for each iteration of optimization (&gt; 0) (Default: `0.025`).
-   *
-   * @group param
-   */
+  /** Param for Step size to be used for each iteration of optimization (&gt; 0) (Default:
+    * `0.025`).
+    *
+    * @group param
+    */
   val stepSize: DoubleParam = new DoubleParam(
     this,
     "stepSize",
@@ -236,11 +234,10 @@ class Word2VecApproach(override val uid: String)
   /** @group getParam */
   def getStepSize: Double = $(stepSize)
 
-  /**
-   * Param for maximum number of iterations (&gt;= 0) (Default: `1`)
-   *
-   * @group param
-   */
+  /** Param for maximum number of iterations (&gt;= 0) (Default: `1`)
+    *
+    * @group param
+    */
   val maxIter: IntParam = new IntParam(this, "maxIter", "maximum number of iterations (>= 0)")
 
   /** @group setParam */
@@ -254,9 +251,9 @@ class Word2VecApproach(override val uid: String)
   def getMaxIter: Int = $(maxIter)
 
   /** Random seed for shuffling the dataset (Default: `44`)
-   *
-   * @group param
-   * */
+    *
+    * @group param
+    */
   val seed = new IntParam(this, "seed", "Random seed")
 
   /** @group setParam */
@@ -318,7 +315,7 @@ class Word2VecApproach(override val uid: String)
 
 }
 
-/**
- * This is the companion object of [[Word2VecApproach]]. Please refer to that class for the documentation.
- */
+/** This is the companion object of [[Word2VecApproach]]. Please refer to that class for the
+  * documentation.
+  */
 object Word2VecApproach extends DefaultParamsReadable[Word2VecApproach]

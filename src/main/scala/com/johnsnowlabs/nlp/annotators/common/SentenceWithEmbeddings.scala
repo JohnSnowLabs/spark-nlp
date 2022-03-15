@@ -39,7 +39,8 @@ object TokenPieceEmbeddings {
       token = piece.token,
       pieceId = piece.pieceId,
       isWordStart = piece.isWordStart,
-      isOOV = false, // FIXME: I think BERT wont have OOV, this "constructor" is called from TensorFlowBert
+      isOOV =
+        false, // FIXME: I think BERT wont have OOV, this "constructor" is called from TensorFlowBert
       embeddings = embeddings,
       begin = piece.begin,
       end = piece.end)
@@ -77,21 +78,20 @@ object WordpieceEmbeddingsSentence extends Annotated[WordpieceEmbeddingsSentence
       .groupBy(_.metadata("sentence").toInt)
 
     tokens
-      .map {
-        case (idx: Int, sentenceTokens: Seq[Annotation]) =>
-          val tokensWithSentence = sentenceTokens.map { token =>
-            new TokenPieceEmbeddings(
-              wordpiece = token.result,
-              token = token.metadata("token"),
-              pieceId = token.metadata("pieceId").toInt,
-              isWordStart = token.metadata("isWordStart").toBoolean,
-              isOOV = token.metadata.getOrElse("isOOV", "false").toBoolean,
-              embeddings = token.embeddings,
-              begin = token.begin,
-              end = token.end)
-          }.toArray
+      .map { case (idx: Int, sentenceTokens: Seq[Annotation]) =>
+        val tokensWithSentence = sentenceTokens.map { token =>
+          new TokenPieceEmbeddings(
+            wordpiece = token.result,
+            token = token.metadata("token"),
+            pieceId = token.metadata("pieceId").toInt,
+            isWordStart = token.metadata("isWordStart").toBoolean,
+            isOOV = token.metadata.getOrElse("isOOV", "false").toBoolean,
+            embeddings = token.embeddings,
+            begin = token.begin,
+            end = token.end)
+        }.toArray
 
-          WordpieceEmbeddingsSentence(tokensWithSentence, idx)
+        WordpieceEmbeddingsSentence(tokensWithSentence, idx)
       }
       .toSeq
       .sortBy(_.sentenceId)

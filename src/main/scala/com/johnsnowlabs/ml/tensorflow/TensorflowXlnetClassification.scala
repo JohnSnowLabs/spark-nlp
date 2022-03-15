@@ -23,14 +23,17 @@ import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
 
-/**
- *
- * @param tensorflowWrapper XLNet Model wrapper with TensorFlow Wrapper
- * @param spp               XLNet SentencePiece model with SentencePieceWrapper
- * @param configProtoBytes  Configuration for TensorFlow session
- * @param tags              labels which model was trained with in order
- * @param signatures        TF v2 signatures in Spark NLP
- * */
+/** @param tensorflowWrapper
+  *   XLNet Model wrapper with TensorFlow Wrapper
+  * @param spp
+  *   XLNet SentencePiece model with SentencePieceWrapper
+  * @param configProtoBytes
+  *   Configuration for TensorFlow session
+  * @param tags
+  *   labels which model was trained with in order
+  * @param signatures
+  *   TF v2 signatures in Spark NLP
+  */
 class TensorflowXlnetClassification(
     val tensorflowWrapper: TensorflowWrapper,
     val spp: SentencePieceWrapper,
@@ -81,14 +84,13 @@ class TensorflowXlnetClassification(
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
     batch.zipWithIndex
-      .foreach {
-        case (sentence, idx) =>
-          val offset = idx * maxSentenceLength
-          tokenBuffers.offset(offset).write(sentence)
-          maskBuffers
-            .offset(offset)
-            .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
-          segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
+      .foreach { case (sentence, idx) =>
+        val offset = idx * maxSentenceLength
+        tokenBuffers.offset(offset).write(sentence)
+        maskBuffers
+          .offset(offset)
+          .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
+        segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
       }
 
     val runner = tensorflowWrapper
@@ -151,14 +153,13 @@ class TensorflowXlnetClassification(
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
     batch.zipWithIndex
-      .foreach {
-        case (sentence, idx) =>
-          val offset = idx * maxSentenceLength
-          tokenBuffers.offset(offset).write(sentence)
-          maskBuffers
-            .offset(offset)
-            .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
-          segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
+      .foreach { case (sentence, idx) =>
+        val offset = idx * maxSentenceLength
+        tokenBuffers.offset(offset).write(sentence)
+        maskBuffers
+          .offset(offset)
+          .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
+        segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
       }
 
     val runner = tensorflowWrapper

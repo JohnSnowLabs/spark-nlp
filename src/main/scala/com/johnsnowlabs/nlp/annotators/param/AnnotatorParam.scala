@@ -24,17 +24,22 @@ import org.json4s.jackson.Serialization.write
 
 import java.util.{Date, TimeZone}
 
-/**
- * Structure to guideline a writable non-standard PARAM for any annotator
- * Uses json4s jackson for serialization
- *
- * @param identifiable Required for uid generation and storage as ML Params
- * @param name         name of this Param, just like [[Param]]
- * @param description  description of this Param, just like [[Param]]
- * @param m            Implicit manifest constructor representation
- * @tparam A Any kind of Writable annotator component (usually a model approach)
- * @tparam B Any kind of serialized figure, of writable type
- */
+/** Structure to guideline a writable non-standard PARAM for any annotator Uses json4s jackson for
+  * serialization
+  *
+  * @param identifiable
+  *   Required for uid generation and storage as ML Params
+  * @param name
+  *   name of this Param, just like [[Param]]
+  * @param description
+  *   description of this Param, just like [[Param]]
+  * @param m
+  *   Implicit manifest constructor representation
+  * @tparam A
+  *   Any kind of Writable annotator component (usually a model approach)
+  * @tparam B
+  *   Any kind of serialized figure, of writable type
+  */
 class AnnotatorParam[A <: WritableAnnotatorComponent, B <: SerializedAnnotatorComponent[_ <: A]](
     identifiable: Identifiable,
     name: String,

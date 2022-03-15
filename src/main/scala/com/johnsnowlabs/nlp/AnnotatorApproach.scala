@@ -23,9 +23,9 @@ import org.apache.spark.ml.{Estimator, Model, PipelineModel}
 import org.apache.spark.sql.types.{ArrayType, MetadataBuilder, StructField, StructType}
 import org.apache.spark.sql.{Dataset, SparkSession}
 
-/** This class should grow once we start training on datasets and share params
- * For now it stands as a dummy placeholder for future reference
- */
+/** This class should grow once we start training on datasets and share params For now it stands
+  * as a dummy placeholder for future reference
+  */
 abstract class AnnotatorApproach[M <: Model[M]]
     extends Estimator[M]
     with HasInputAnnotationCols
@@ -42,12 +42,13 @@ abstract class AnnotatorApproach[M <: Model[M]]
 
   def onTrained(model: M, spark: SparkSession): Unit = {}
 
-  /**
-   * takes a [[Dataset]] and checks to see if all the required annotation types are present.
-   *
-   * @param schema to be validated
-   * @return True if all the required types are present, else false
-   */
+  /** takes a [[Dataset]] and checks to see if all the required annotation types are present.
+    *
+    * @param schema
+    *   to be validated
+    * @return
+    *   True if all the required types are present, else false
+    */
   protected def validate(schema: StructType): Boolean = {
     inputAnnotatorTypes.forall { inputAnnotatorType =>
       checkSchema(schema, inputAnnotatorType)

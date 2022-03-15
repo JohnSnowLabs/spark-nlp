@@ -16,9 +16,9 @@
 
 package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 
-/**
- * This is a dictionary that contains common english abbreviations that should be considered sentence bounds
- */
+/** This is a dictionary that contains common english abbreviations that should be considered
+  * sentence bounds
+  */
 object PragmaticDictionaries {
 
   val ABBREVIATIONS_LONG = Seq(

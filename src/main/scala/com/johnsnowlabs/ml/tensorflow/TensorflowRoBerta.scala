@@ -23,15 +23,19 @@ import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
 
-/**
- * TensorFlow backend for '''RoBERTa''' and '''Longformer'''
- *
- * @param tensorflowWrapper    tensorflowWrapper class
- * @param sentenceStartTokenId special token id for `<s>`
- * @param sentenceEndTokenId   special token id for `</s>`
- * @param configProtoBytes     ProtoBytes for TensorFlow session config
- * @param signatures           Model's inputs and output(s) signatures
- */
+/** TensorFlow backend for '''RoBERTa''' and '''Longformer'''
+  *
+  * @param tensorflowWrapper
+  *   tensorflowWrapper class
+  * @param sentenceStartTokenId
+  *   special token id for `<s>`
+  * @param sentenceEndTokenId
+  *   special token id for `</s>`
+  * @param configProtoBytes
+  *   ProtoBytes for TensorFlow session config
+  * @param signatures
+  *   Model's inputs and output(s) signatures
+  */
 class TensorflowRoBerta(
     val tensorflowWrapper: TensorflowWrapper,
     sentenceStartTokenId: Int,
@@ -49,18 +53,19 @@ class TensorflowRoBerta(
       sentences: Seq[(WordpieceTokenizedSentence, Int)],
       maxSequenceLength: Int): Seq[Array[Int]] = {
     val maxSentenceLength =
-      Array(maxSequenceLength - 2, sentences.map {
-        case (wpTokSentence, _) => wpTokSentence.tokens.length
-      }.max).min
+      Array(
+        maxSequenceLength - 2,
+        sentences.map { case (wpTokSentence, _) =>
+          wpTokSentence.tokens.length
+        }.max).min
 
     sentences
-      .map {
-        case (wpTokSentence, _) =>
-          val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
-          val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(padTokenId)
+      .map { case (wpTokSentence, _) =>
+        val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
+        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(padTokenId)
 
-          Array(sentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(
-            sentenceEndTokenId) ++ padding
+        Array(sentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(
+          sentenceEndTokenId) ++ padding
       }
   }
 
@@ -77,11 +82,10 @@ class TensorflowRoBerta(
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
     batch.zipWithIndex
-      .foreach {
-        case (sentence, idx) =>
-          val offset = idx * maxSentenceLength
-          tokenBuffers.offset(offset).write(sentence)
-          maskBuffers.offset(offset).write(sentence.map(x => if (x == padTokenId) 0 else 1))
+      .foreach { case (sentence, idx) =>
+        val offset = idx * maxSentenceLength
+        tokenBuffers.offset(offset).write(sentence)
+        maskBuffers.offset(offset).write(sentence.map(x => if (x == padTokenId) 0 else 1))
       }
 
     val runner = tensorflowWrapper
@@ -116,24 +120,23 @@ class TensorflowRoBerta(
 
     val emptyVector = Array.fill(dim)(0f)
 
-    batch.zip(shrinkedEmbeddings).map {
-      case (ids, embeddings) =>
-        if (ids.length > embeddings.length) {
-          embeddings.take(embeddings.length - 1) ++
-            Array.fill(embeddings.length - ids.length)(emptyVector) ++
-            Array(embeddings.last)
-        } else {
-          embeddings
-        }
+    batch.zip(shrinkedEmbeddings).map { case (ids, embeddings) =>
+      if (ids.length > embeddings.length) {
+        embeddings.take(embeddings.length - 1) ++
+          Array.fill(embeddings.length - ids.length)(emptyVector) ++
+          Array(embeddings.last)
+      } else {
+        embeddings
+      }
     }
 
   }
 
-  /**
-   *
-   * @param batch batches of sentences
-   * @return batches of vectors for each sentence
-   */
+  /** @param batch
+    *   batches of sentences
+    * @return
+    *   batches of vectors for each sentence
+    */
   def tagSequence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
     val tensors = new TensorResources()
     val tensorsMasks = new TensorResources()
@@ -146,12 +149,11 @@ class TensorflowRoBerta(
 
     val shape = Array(batchLength.toLong, maxSentenceLength)
 
-    batch.zipWithIndex.foreach {
-      case (sentence, idx) =>
-        val offset = idx * maxSentenceLength
+    batch.zipWithIndex.foreach { case (sentence, idx) =>
+      val offset = idx * maxSentenceLength
 
-        tokenBuffers.offset(offset).write(sentence)
-        maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
+      tokenBuffers.offset(offset).write(sentence)
+      maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
     }
 
     val runner = tensorflowWrapper
@@ -202,14 +204,13 @@ class TensorflowRoBerta(
         val vectors = tag(encoded)
 
         /*Combine tokens and calculated embeddings*/
-        batch.zip(vectors).map {
-          case (sentence, tokenVectors) =>
-            val tokenLength = sentence._1.tokens.length
+        batch.zip(vectors).map { case (sentence, tokenVectors) =>
+          val tokenLength = sentence._1.tokens.length
 
-            /*All wordpiece embeddings*/
-            val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
+          /*All wordpiece embeddings*/
+          val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
 
-            /*Word-level and span-level alignment with Tokenizer
+          /*Word-level and span-level alignment with Tokenizer
         https://github.com/google-research/bert#tokenization
 
         ### Input
@@ -219,28 +220,28 @@ class TensorflowRoBerta(
         # bert_tokens == ["[CLS]", "john", "johan", "##son", "'", "s", "house", "[SEP]"]
         # orig_to_tok_map == [1, 2, 4, 6]*/
 
-            val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap {
-              case (token, tokenEmbedding) =>
-                val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
-                val originalTokensWithEmbeddings =
-                  originalTokenSentences(sentence._2).indexedTokens
-                    .find(p => p.begin == tokenWithEmbeddings.begin)
-                    .map { token =>
-                      val originalTokenWithEmbedding = TokenPieceEmbeddings(
-                        TokenPiece(
-                          wordpiece = tokenWithEmbeddings.wordpiece,
-                          token = if (caseSensitive) token.token else token.token.toLowerCase(),
-                          pieceId = tokenWithEmbeddings.pieceId,
-                          isWordStart = tokenWithEmbeddings.isWordStart,
-                          begin = token.begin,
-                          end = token.end),
-                        tokenEmbedding)
-                      originalTokenWithEmbedding
-                    }
-                originalTokensWithEmbeddings
+          val tokensWithEmbeddings =
+            sentence._1.tokens.zip(tokenEmbeddings).flatMap { case (token, tokenEmbedding) =>
+              val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
+              val originalTokensWithEmbeddings =
+                originalTokenSentences(sentence._2).indexedTokens
+                  .find(p => p.begin == tokenWithEmbeddings.begin)
+                  .map { token =>
+                    val originalTokenWithEmbedding = TokenPieceEmbeddings(
+                      TokenPiece(
+                        wordpiece = tokenWithEmbeddings.wordpiece,
+                        token = if (caseSensitive) token.token else token.token.toLowerCase(),
+                        pieceId = tokenWithEmbeddings.pieceId,
+                        isWordStart = tokenWithEmbeddings.isWordStart,
+                        begin = token.begin,
+                        end = token.end),
+                      tokenEmbedding)
+                    originalTokenWithEmbedding
+                  }
+              originalTokensWithEmbeddings
             }
 
-            WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._2)
+          WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._2)
         }
       }
       .toSeq
@@ -263,19 +264,18 @@ class TensorflowRoBerta(
         val encoded = prepareBatchInputs(tokensBatch, maxSentenceLength)
         val embeddings = tagSequence(encoded)
 
-        sentencesBatch.zip(embeddings).map {
-          case (sentence, vectors) =>
-            Annotation(
-              annotatorType = AnnotatorType.SENTENCE_EMBEDDINGS,
-              begin = sentence.start,
-              end = sentence.end,
-              result = sentence.content,
-              metadata = Map(
-                "sentence" -> sentence.index.toString,
-                "token" -> sentence.content,
-                "pieceId" -> "-1",
-                "isWordStart" -> "true"),
-              embeddings = vectors)
+        sentencesBatch.zip(embeddings).map { case (sentence, vectors) =>
+          Annotation(
+            annotatorType = AnnotatorType.SENTENCE_EMBEDDINGS,
+            begin = sentence.start,
+            end = sentence.end,
+            result = sentence.content,
+            metadata = Map(
+              "sentence" -> sentence.index.toString,
+              "token" -> sentence.content,
+              "pieceId" -> "-1",
+              "isWordStart" -> "true"),
+            embeddings = vectors)
         }
       }
       .toSeq

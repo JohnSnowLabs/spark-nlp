@@ -124,7 +124,7 @@ class XlnetEmbeddingsTestSpec extends AnyFlatSpec {
 
       Time to finish checking counts in results: 1008.313457171sec
       (total sentences: ,14041)
-     * */
+       * */
     }
   }
 

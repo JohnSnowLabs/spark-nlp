@@ -30,19 +30,37 @@ trait TokenizerBehaviors { this: AnyFlatSpec =>
     val documents = df.select("document")
     val sentences = df.select("sentence")
     val tokens = df.select("token")
-    val sentencesAnnotations = sentences
-      .collect
+    val sentencesAnnotations = sentences.collect
       .flatMap { r => r.getSeq[Row](0) }
-      .map { a => Annotation(a.getString(0), a.getInt(1), a.getInt(2), a.getString(3), a.getMap[String, String](4)) }
-    val tokensAnnotations = tokens
-      .collect
-      .flatMap { r => r.getSeq[Row](0)}
-      .map { a => Annotation(a.getString(0), a.getInt(1), a.getInt(2), a.getString(3), a.getMap[String, String](4)) }
+      .map { a =>
+        Annotation(
+          a.getString(0),
+          a.getInt(1),
+          a.getInt(2),
+          a.getString(3),
+          a.getMap[String, String](4))
+      }
+    val tokensAnnotations = tokens.collect
+      .flatMap { r => r.getSeq[Row](0) }
+      .map { a =>
+        Annotation(
+          a.getString(0),
+          a.getInt(1),
+          a.getInt(2),
+          a.getString(3),
+          a.getMap[String, String](4))
+      }
 
-    val docAnnotations = documents
-      .collect
-      .flatMap { r => r.getSeq[Row](0)}
-      .map { a => Annotation(a.getString(0), a.getInt(1), a.getInt(2), a.getString(3), a.getMap[String, String](4)) }
+    val docAnnotations = documents.collect
+      .flatMap { r => r.getSeq[Row](0) }
+      .map { a =>
+        Annotation(
+          a.getString(0),
+          a.getInt(1),
+          a.getInt(2),
+          a.getString(3),
+          a.getMap[String, String](4))
+      }
 
     val corpus = docAnnotations
       .map(d => d.result)
@@ -59,7 +77,9 @@ trait TokenizerBehaviors { this: AnyFlatSpec =>
       val f = fixture(dataset)
       assert(f.tokensAnnotations.nonEmpty, "Tokenizer should add annotators")
       f.tokensAnnotations.foreach { a =>
-        assert(a.annotatorType == AnnotatorType.TOKEN, "Tokenizer annotations type should be equal to 'token'")
+        assert(
+          a.annotatorType == AnnotatorType.TOKEN,
+          "Tokenizer annotations type should be equal to 'token'")
       }
     }
 
@@ -68,7 +88,9 @@ trait TokenizerBehaviors { this: AnyFlatSpec =>
       f.tokensAnnotations.foreach { a =>
         val token = a.result
         val sentenceToken = f.corpus.slice(a.begin, a.end + 1)
-        assert(sentenceToken == token, s"Word ($sentenceToken) from sentence at (${a.begin},${a.end}) should be equal to token ($token) inside the corpus ${f.corpus}")
+        assert(
+          sentenceToken == token,
+          s"Word ($sentenceToken) from sentence at (${a.begin},${a.end}) should be equal to token ($token) inside the corpus ${f.corpus}")
       }
     }
   }

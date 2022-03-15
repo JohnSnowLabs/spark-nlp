@@ -22,11 +22,9 @@ import org.apache.commons.lang.StringUtils
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
-/**
- * A BPE Tokenizer based on GPT2's tokenization scheme.
- * The tokenization can then be used for models based on this scheme (e.g. GPT2, roBERTa, DeBERTa)
- * TODO: truncation assumed?
- */
+/** A BPE Tokenizer based on GPT2's tokenization scheme. The tokenization can then be used for
+  * models based on this scheme (e.g. GPT2, roBERTa, DeBERTa) TODO: truncation assumed?
+  */
 private[nlp] abstract class BpeTokenizer(
     val merges: Map[(String, String), Int],
     val vocab: Map[String, Int],
@@ -37,20 +35,17 @@ private[nlp] abstract class BpeTokenizer(
     merges
   }
 
-  /**
-   * Rankings for the byte pairs. Derived from merges.txt
-   */
+  /** Rankings for the byte pairs. Derived from merges.txt
+    */
   protected def getBpeRanking: ((String, String)) => Int =
     (bytePair: (String, String)) => bpeRanks.getOrElse(bytePair, Integer.MAX_VALUE)
 
-  /**
-   * cache for already encoded tokens
-   */
+  /** cache for already encoded tokens
+    */
   protected val cache: mutable.Map[String, Array[String]] = mutable.Map()
 
-  /**
-   * Create a sequence of byte-pairs of the word
-   */
+  /** Create a sequence of byte-pairs of the word
+    */
   protected def getBytePairs(word: Array[String]): Array[(String, String)] = {
     val createPairs = (i: Int) => (word(i), word(i + 1))
     (0 until (word.length - 1)).map(createPairs).toArray
@@ -118,38 +113,37 @@ private[nlp] abstract class BpeTokenizer(
     })
     val result = word
       .zip(wordIndexes)
-      .map {
-        case (subWord: String, indexes: (Int, Int)) =>
-          val isWordStart = indToken.begin == indexes._1
-          var processedSubWord = subWord
-          processedSubWord = prependForPieceId match {
-            case None => processedSubWord
-            case Some(prepend) =>
-              if (isWordStart && subWord.indexOf(prepend) < 0) prepend + processedSubWord
-              else processedSubWord
-          }
-          processedSubWord = appendForPieceId match {
-            case None => processedSubWord
-            case Some(append) =>
-              val isWordEnd = indToken.end == indexes._2
-              if (isWordEnd && subWord.indexOf(append) < 0) processedSubWord + append
-              else processedSubWord
-          }
-          // Set unknown id if not found
-          val subWordId: Int = vocab.getOrElse(processedSubWord, specialTokens.unk.id)
+      .map { case (subWord: String, indexes: (Int, Int)) =>
+        val isWordStart = indToken.begin == indexes._1
+        var processedSubWord = subWord
+        processedSubWord = prependForPieceId match {
+          case None => processedSubWord
+          case Some(prepend) =>
+            if (isWordStart && subWord.indexOf(prepend) < 0) prepend + processedSubWord
+            else processedSubWord
+        }
+        processedSubWord = appendForPieceId match {
+          case None => processedSubWord
+          case Some(append) =>
+            val isWordEnd = indToken.end == indexes._2
+            if (isWordEnd && subWord.indexOf(append) < 0) processedSubWord + append
+            else processedSubWord
+        }
+        // Set unknown id if not found
+        val subWordId: Int = vocab.getOrElse(processedSubWord, specialTokens.unk.id)
 
-          TokenPiece(subWord, processedToken, subWordId, isWordStart, indexes._1, indexes._2)
+        TokenPiece(subWord, processedToken, subWordId, isWordStart, indexes._1, indexes._2)
 
       }
     result
   }
 
-  /**
-   * Do the BPE algorithm. Goal is to find the token as the largest words in the known vocabulary.
-   * If not possible, the word is split into smaller subwords, until they are known.
-   *
-   * @return Array of TokenPieces, corresponding to encoded token
-   */
+  /** Do the BPE algorithm. Goal is to find the token as the largest words in the known
+    * vocabulary. If not possible, the word is split into smaller subwords, until they are known.
+    *
+    * @return
+    *   Array of TokenPieces, corresponding to encoded token
+    */
   protected def bpe(indToken: IndexedToken): Array[TokenPiece] = {
     var processedToken = ""
     try {
@@ -179,9 +173,8 @@ private[nlp] abstract class BpeTokenizer(
     }
   }
 
-  /**
-   * Split the the individual sub texts on special tokens, e.g. masking etc.
-   */
+  /** Split the the individual sub texts on special tokens, e.g. masking etc.
+    */
   protected def splitOnSpecialToken(
       specialToken: SpecialToken,
       text: String): ListBuffer[String] = {
@@ -208,7 +201,7 @@ private[nlp] abstract class BpeTokenizer(
       // Try to avoid splitting on token
       if (specialToken.singleWord) {
         if ((i < (splitText.length - 1)) && !isEndOfWord(subText) && !isStartOfWord(
-              splitText(i + 1))) fullWord += subText + tok
+            splitText(i + 1))) fullWord += subText + tok
         else if (fullWord.nonEmpty) {
           fullWord += subText
           result += fullWord
@@ -237,20 +230,17 @@ private[nlp] abstract class BpeTokenizer(
     result
   }
 
-  /**
-   * Needs to be implemented
-   */
+  /** Needs to be implemented
+    */
   def tokenizeSubText(text: String, indexOffset: Int): Array[IndexedToken]
 
-  /**
-   * Special tokens of the model for processing
-   */
+  /** Special tokens of the model for processing
+    */
   val sentencePadding: (String, String) =
     (specialTokens.sentenceStart.content, specialTokens.sentenceEnd.content)
 
-  /**
-   * Tokenize considering special tokens and split algorithm
-   */
+  /** Tokenize considering special tokens and split algorithm
+    */
   def tokenize(sentence: Sentence): Array[IndexedToken] = {
     var text = sentence.content
     if (text.trim.isEmpty) Array[IndexedToken]()

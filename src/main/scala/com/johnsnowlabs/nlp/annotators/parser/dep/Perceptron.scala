@@ -30,14 +30,17 @@ class Perceptron(nClasses: Int) extends Serializable {
     }
   }
 
-  type ClassToWeightLearner = mutable.Map[ClassNum, WeightLearner] // tells us the stats of each class (if present)
+  type ClassToWeightLearner =
+    mutable.Map[ClassNum, WeightLearner] // tells us the stats of each class (if present)
 
   // The following are keyed on feature (to keep tally of total numbers into each, and when)(for the TRAINING phase)
   val learning = mutable.Map.empty[
     String, // Corresponds to Feature.name
     mutable.Map[
       String, // Corresponds to Feature.data
-      ClassToWeightLearner]] // This is hairy and mutable...
+      ClassToWeightLearner
+    ]
+  ] // This is hairy and mutable...
 
   // Number of instances seen - used to measure how 'old' each total is
   var seen: TimeStamp = 0
@@ -62,8 +65,14 @@ class Perceptron(nClasses: Int) extends Serializable {
         .foldLeft(Vector.fill(nClasses)(0: Float)) {
           case (acc, (Feature(name, data), score)) => { // Start with a zero classnum->score vector
             learning
-              .getOrElse(name, Map[String, ClassToWeightLearner]()) // This is first level of feature access
-              .getOrElse(data, Map[ClassNum, WeightLearner]()) // This is second level of feature access and is a Map of ClassNums to Weights (or NOOP if not there)
+              .getOrElse(
+                name,
+                Map[String, ClassToWeightLearner]()
+              ) // This is first level of feature access
+              .getOrElse(
+                data,
+                Map[ClassNum, WeightLearner]()
+              ) // This is second level of feature access and is a Map of ClassNums to Weights (or NOOP if not there)
               .foldLeft(acc) { (accuracyForFeature, cnWL) =>
                 { // Add each of the class->weights onto our score vector
                   val classnum: ClassNum = cnWL._1
@@ -123,20 +132,19 @@ class Perceptron(nClasses: Int) extends Serializable {
         .map({
           case (featureName, m1) => {
             m1.map({
-                case (featureData, cnFeature) => {
-                  cnFeature
-                    .map({
-                      case (cn, feature) => {
-                        s"$cn:${feature.current},${feature.total},${feature.ts}"
-                      }
-                    })
-                    .mkString(s"${featureData}[", "|", "]" + System.lineSeparator())
-                }
-              })
-              .mkString(
-                s"${featureName}{" + System.lineSeparator(),
-                "",
-                "}" + System.lineSeparator())
+              case (featureData, cnFeature) => {
+                cnFeature
+                  .map({
+                    case (cn, feature) => {
+                      s"$cn:${feature.current},${feature.total},${feature.ts}"
+                    }
+                  })
+                  .mkString(s"${featureData}[", "|", "]" + System.lineSeparator())
+              }
+            }).mkString(
+              s"${featureName}{" + System.lineSeparator(),
+              "",
+              "}" + System.lineSeparator())
           }
         })
         .mkString(

@@ -92,7 +92,7 @@ class TensorflowSentenceDetectorDL(
 
     model.createSession(configProtoBytes).runner.addTarget(initKey).run()
 
-    val outputClassWeights = classWeights.padTo(_outputDim, 0.0F)
+    val outputClassWeights = classWeights.padTo(_outputDim, 0.0f)
 
     val zippedDataset = features
       .map(x => x.padTo(_inputDim, 0.0f))

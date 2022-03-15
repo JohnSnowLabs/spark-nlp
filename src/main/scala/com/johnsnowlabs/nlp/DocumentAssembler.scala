@@ -24,61 +24,65 @@ import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
-/**
- * Prepares data into a format that is processable by Spark NLP. This is the entry point for every Spark NLP pipeline.
- * The `DocumentAssembler` can read either a `String` column or an `Array[String]`. Additionally, [[setCleanupMode]]
- * can be used to pre-process the text (Default: `disabled`). For possible options please refer the parameters section.
- *
- * For more extended examples on document pre-processing see the
- * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb Spark NLP Workshop]].
- *
- * ==Example==
- * {{{
- * import spark.implicits._
- * import com.johnsnowlabs.nlp.DocumentAssembler
- *
- * val data = Seq("Spark NLP is an open-source text processing library.").toDF("text")
- * val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
- *
- * val result = documentAssembler.transform(data)
- *
- * result.select("document").show(false)
- * +----------------------------------------------------------------------------------------------+
- * |document                                                                                      |
- * +----------------------------------------------------------------------------------------------+
- * |[[document, 0, 51, Spark NLP is an open-source text processing library., [sentence -> 0], []]]|
- * +----------------------------------------------------------------------------------------------+
- *
- * result.select("document").printSchema
- * root
- *  |-- document: array (nullable = true)
- *  |    |-- element: struct (containsNull = true)
- *  |    |    |-- annotatorType: string (nullable = true)
- *  |    |    |-- begin: integer (nullable = false)
- *  |    |    |-- end: integer (nullable = false)
- *  |    |    |-- result: string (nullable = true)
- *  |    |    |-- metadata: map (nullable = true)
- *  |    |    |    |-- key: string
- *  |    |    |    |-- value: string (valueContainsNull = true)
- *  |    |    |-- embeddings: array (nullable = true)
- *  |    |    |    |-- element: float (containsNull = false)
- * }}}
- *
- * @param uid required uid for storing annotator to disk
- * @groupname anno Annotator types
- * @groupdesc anno Required input and expected output annotator types
- * @groupname Ungrouped Members
- * @groupname param Parameters
- * @groupname setParam Parameter setters
- * @groupname getParam Parameter getters
- * @groupname Ungrouped Members
- * @groupprio param  1
- * @groupprio anno  2
- * @groupprio Ungrouped 3
- * @groupprio setParam  4
- * @groupprio getParam  5
- * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
- */
+/** Prepares data into a format that is processable by Spark NLP. This is the entry point for
+  * every Spark NLP pipeline. The `DocumentAssembler` can read either a `String` column or an
+  * `Array[String]`. Additionally, [[setCleanupMode]] can be used to pre-process the text
+  * (Default: `disabled`). For possible options please refer the parameters section.
+  *
+  * For more extended examples on document pre-processing see the
+  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb Spark NLP Workshop]].
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.DocumentAssembler
+  *
+  * val data = Seq("Spark NLP is an open-source text processing library.").toDF("text")
+  * val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
+  *
+  * val result = documentAssembler.transform(data)
+  *
+  * result.select("document").show(false)
+  * +----------------------------------------------------------------------------------------------+
+  * |document                                                                                      |
+  * +----------------------------------------------------------------------------------------------+
+  * |[[document, 0, 51, Spark NLP is an open-source text processing library., [sentence -> 0], []]]|
+  * +----------------------------------------------------------------------------------------------+
+  *
+  * result.select("document").printSchema
+  * root
+  *  |-- document: array (nullable = true)
+  *  |    |-- element: struct (containsNull = true)
+  *  |    |    |-- annotatorType: string (nullable = true)
+  *  |    |    |-- begin: integer (nullable = false)
+  *  |    |    |-- end: integer (nullable = false)
+  *  |    |    |-- result: string (nullable = true)
+  *  |    |    |-- metadata: map (nullable = true)
+  *  |    |    |    |-- key: string
+  *  |    |    |    |-- value: string (valueContainsNull = true)
+  *  |    |    |-- embeddings: array (nullable = true)
+  *  |    |    |    |-- element: float (containsNull = false)
+  * }}}
+  *
+  * @param uid
+  *   required uid for storing annotator to disk
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 class DocumentAssembler(override val uid: String)
     extends Transformer
     with DefaultParamsWritable
@@ -91,42 +95,40 @@ class DocumentAssembler(override val uid: String)
 
   private type DocumentationContent = Row
 
-  /**
-   * Input text column for processing
-   *
-   * @group param
-   */
+  /** Input text column for processing
+    *
+    * @group param
+    */
   val inputCol: Param[String] =
     new Param[String](this, "inputCol", "input text column for processing")
 
-  /**
-   * Id column for row reference
-   *
-   * @group param
-   */
+  /** Id column for row reference
+    *
+    * @group param
+    */
   val idCol: Param[String] = new Param[String](this, "idCol", "id column for row reference")
 
-  /**
-   * Metadata for document column
-   *
-   * @group param
-   */
+  /** Metadata for document column
+    *
+    * @group param
+    */
   val metadataCol: Param[String] =
     new Param[String](this, "metadataCol", "metadata for document column")
 
-  /**
-   * cleanupMode can take the following values:
-   *   - `disabled`: keep original. Useful if need to head back to source later
-   *   - `inplace`: newlines and tabs into whitespaces, not stringified ones, don't trim
-   *   - `inplace_full`: newlines and tabs into whitespaces, including stringified, don't trim
-   *   - `shrink`: all whitespaces, newlines and tabs to a single whitespace, but not stringified, do trim
-   *   - `shrink_full`: all whitespaces, newlines and tabs to a single whitespace, stringified ones too, trim all
-   *   - `each`: newlines and tabs to one whitespace each
-   *   - `each_full`: newlines and tabs, stringified ones too, to one whitespace each
-   *   - `delete_full`: remove stringified newlines and tabs (replace with nothing)
-   *
-   * @group param
-   */
+  /** cleanupMode can take the following values:
+    *   - `disabled`: keep original. Useful if need to head back to source later
+    *   - `inplace`: newlines and tabs into whitespaces, not stringified ones, don't trim
+    *   - `inplace_full`: newlines and tabs into whitespaces, including stringified, don't trim
+    *   - `shrink`: all whitespaces, newlines and tabs to a single whitespace, but not
+    *     stringified, do trim
+    *   - `shrink_full`: all whitespaces, newlines and tabs to a single whitespace, stringified
+    *     ones too, trim all
+    *   - `each`: newlines and tabs to one whitespace each
+    *   - `each_full`: newlines and tabs, stringified ones too, to one whitespace each
+    *   - `delete_full`: remove stringified newlines and tabs (replace with nothing)
+    *
+    * @group param
+    */
   val cleanupMode: Param[String] = new Param[String](
     this,
     "cleanupMode",
@@ -135,60 +137,52 @@ class DocumentAssembler(override val uid: String)
 
   setDefault(outputCol -> DOCUMENT, cleanupMode -> "disabled")
 
-  /**
-   * Output Annotator Type: DOCUMENT
-   *
-   * @group anno
-   */
+  /** Output Annotator Type: DOCUMENT
+    *
+    * @group anno
+    */
   override val outputAnnotatorType: AnnotatorType = DOCUMENT
 
-  /**
-   * Input text column for processing
-   *
-   * @group setParam
-   */
+  /** Input text column for processing
+    *
+    * @group setParam
+    */
   def setInputCol(value: String): this.type = set(inputCol, value)
 
-  /**
-   * Input text column for processing
-   *
-   * @group getParam
-   */
+  /** Input text column for processing
+    *
+    * @group getParam
+    */
   def getInputCol: String = $(inputCol)
 
-  /**
-   * Id column for row reference
-   *
-   * @group setParam
-   */
+  /** Id column for row reference
+    *
+    * @group setParam
+    */
   def setIdCol(value: String): this.type = set(idCol, value)
 
-  /**
-   * Id column for row reference
-   *
-   * @group getParam
-   */
+  /** Id column for row reference
+    *
+    * @group getParam
+    */
   def getIdCol: String = $(idCol)
 
-  /**
-   * Metadata for document column
-   *
-   * @group setParam
-   */
+  /** Metadata for document column
+    *
+    * @group setParam
+    */
   def setMetadataCol(value: String): this.type = set(metadataCol, value)
 
-  /**
-   * Metadata for document column
-   *
-   * @group getParam
-   */
+  /** Metadata for document column
+    *
+    * @group getParam
+    */
   def getMetadataCol: String = $(metadataCol)
 
-  /**
-   * cleanupMode to pre-process text
-   *
-   * @group setParam
-   */
+  /** cleanupMode to pre-process text
+    *
+    * @group setParam
+    */
   def setCleanupMode(v: String): this.type = {
     v.trim.toLowerCase() match {
       case "disabled" => set(cleanupMode, "disabled")
@@ -205,11 +199,10 @@ class DocumentAssembler(override val uid: String)
     }
   }
 
-  /**
-   * cleanupMode to pre-process text
-   *
-   * @group getParam
-   */
+  /** cleanupMode to pre-process text
+    *
+    * @group getParam
+    */
   def getCleanupMode: String = $(cleanupMode)
 
   def this() = this(Identifiable.randomUID("document"))
@@ -248,9 +241,8 @@ class DocumentAssembler(override val uid: String)
   }
 
   private[nlp] def assembleFromArray(texts: Seq[String]): Seq[Annotation] = {
-    texts.zipWithIndex.flatMap {
-      case (text, idx) =>
-        assemble(text, Map("sentence" -> idx.toString))
+    texts.zipWithIndex.flatMap { case (text, idx) =>
+      assemble(text, Map("sentence" -> idx.toString))
     }
   }
 
@@ -294,10 +286,10 @@ class DocumentAssembler(override val uid: String)
     metadataBuilder.putString("annotatorType", outputAnnotatorType)
     val documentAnnotations =
       if (dataset.schema.fields
-            .find(_.name == getInputCol)
-            .getOrElse(throw new IllegalArgumentException(
-              s"Dataset does not have any '$getInputCol' column"))
-            .dataType == ArrayType(StringType, containsNull = false))
+          .find(_.name == getInputCol)
+          .getOrElse(throw new IllegalArgumentException(
+            s"Dataset does not have any '$getInputCol' column"))
+          .dataType == ArrayType(StringType, containsNull = false))
         dfAssemblyFromArray(dataset.col(getInputCol))
       else if (get(idCol).isDefined && get(metadataCol).isDefined)
         dfAssemble(dataset.col(getInputCol), dataset.col(getIdCol), dataset.col(getMetadataCol))
@@ -312,7 +304,7 @@ class DocumentAssembler(override val uid: String)
 
 }
 
-/**
- * This is the companion object of [[DocumentAssembler]]. Please refer to that class for the documentation.
- */
+/** This is the companion object of [[DocumentAssembler]]. Please refer to that class for the
+  * documentation.
+  */
 object DocumentAssembler extends DefaultParamsReadable[DocumentAssembler]

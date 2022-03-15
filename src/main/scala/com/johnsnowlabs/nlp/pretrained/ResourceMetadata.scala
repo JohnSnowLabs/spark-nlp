@@ -94,8 +94,8 @@ case class ResourceMetadata(
 }
 
 object ResourceMetadata {
-  implicit val formats: Formats = Serialization.formats(NoTypeHints) + new EnumNameSerializer(
-    ResourceType)
+  implicit val formats: Formats =
+    Serialization.formats(NoTypeHints) + new EnumNameSerializer(ResourceType)
 
   def toJson(meta: ResourceMetadata): String = {
     write(meta)
@@ -111,13 +111,12 @@ object ResourceMetadata {
       request: ResourceRequest): Option[ResourceMetadata] = {
 
     val compatibleCandidates = candidates
-      .filter(
-        item =>
-          item.readyToUse && item.libVersion.isDefined && item.sparkVersion.isDefined
-            && item.name == request.name
-            && (request.language.isEmpty || item.language.isEmpty || request.language.get == item.language.get)
-            && Version.isCompatible(request.libVersion, item.libVersion)
-            && Version.isCompatible(request.sparkVersion, item.sparkVersion))
+      .filter(item =>
+        item.readyToUse && item.libVersion.isDefined && item.sparkVersion.isDefined
+          && item.name == request.name
+          && (request.language.isEmpty || item.language.isEmpty || request.language.get == item.language.get)
+          && Version.isCompatible(request.libVersion, item.libVersion)
+          && Version.isCompatible(request.sparkVersion, item.sparkVersion))
 
     val sortedResult = compatibleCandidates.sorted
     sortedResult.lastOption

@@ -21,15 +21,16 @@ import org.apache.spark.sql.types.StructType
 
 trait HasInputAnnotationCols extends Params {
 
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
+    * type
+    */
   val inputAnnotatorTypes: Array[String]
 
   val optionalInputAnnotatorTypes: Array[String] = Array()
 
-  /**
-   * columns that contain annotations necessary to run this annotator
-   * AnnotatorType is used both as input and output columns if not specified
-   */
+  /** columns that contain annotations necessary to run this annotator AnnotatorType is used both
+    * as input and output columns if not specified
+    */
   protected final val inputCols: StringArrayParam =
     new StringArrayParam(this, "inputCols", "the input annotation columns")
 
@@ -45,11 +46,13 @@ trait HasInputAnnotationCols extends Params {
 
   protected def msgHelper(schema: StructType): String = {
     val schemaInfo = schema.map(sc =>
-      ("column_name=" + sc.name, "is_nlp_annotator=" + sc.metadata.contains("annotatorType") + {
-        if (sc.metadata.contains("annotatorType"))
-          ",type=" + sc.metadata.getString("annotatorType")
-        else ""
-      }))
+      (
+        "column_name=" + sc.name,
+        "is_nlp_annotator=" + sc.metadata.contains("annotatorType") + {
+          if (sc.metadata.contains("annotatorType"))
+            ",type=" + sc.metadata.getString("annotatorType")
+          else ""
+        }))
     s"\nCurrent inputCols: ${getInputCols.mkString(",")}. Dataset's columns:\n${schemaInfo.mkString("\n")}."
   }
 

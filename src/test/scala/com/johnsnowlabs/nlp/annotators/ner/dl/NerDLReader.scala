@@ -28,16 +28,11 @@ class NerDLReaderTestSpec extends AnyFlatSpec {
 
   "Tensorflow NerDLReader" should "correctly load and save a ner model" taggedAs SlowTest in {
 
-    val model = NerDLModelPythonReader.read(
-      "./source_model",
-      100,
-      ResourceHelper.spark
-    )
+    val model = NerDLModelPythonReader.read("./source_model", 100, ResourceHelper.spark)
     model.write.overwrite().save("./some_model")
 
     succeed
   }
-
 
   "NerDLModel" should "correctly read and use a tensorflow originated ner model" taggedAs SlowTest in {
     val spark = ResourceHelper.spark
@@ -47,7 +42,8 @@ class NerDLReaderTestSpec extends AnyFlatSpec {
 
     bp.model.stages(2).asInstanceOf[NormalizerModel]
 
-    val ner = NerDLModel.load("./some_model").setInputCols("document", "normal").setOutputCol("ner")
+    val ner =
+      NerDLModel.load("./some_model").setInputCols("document", "normal").setOutputCol("ner")
 
     val np = new Pipeline().setStages(Array(bp.model, ner))
 

@@ -21,17 +21,17 @@ import com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence
 
 import scala.collection.mutable.ArrayBuffer
 
-/**
- * Works with different NER representations as tags
- * Supports: IOB and IOB2 https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)
- */
+/** Works with different NER representations as tags Supports: IOB and IOB2
+  * https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)
+  */
 object NerTagsEncoding {
 
-  /**
-   * Converts from IOB or IOB2 to list of NamedEntity
-   * @param doc Source doc text
-   * @return Extracted Named Entities
-   */
+  /** Converts from IOB or IOB2 to list of NamedEntity
+    * @param doc
+    *   Source doc text
+    * @return
+    *   Extracted Named Entities
+    */
   def fromIOB(
       sentence: NerTaggedSentence,
       doc: Annotation,
@@ -60,14 +60,15 @@ object NerTagsEncoding {
         start <= end && end <= doc.result.length,
         s"Failed to flush entities in NerConverter. " +
           s"Chunk offsets $start - $end are not within tokens:\n${sentence.words
-            .mkString("||")}\nfor sentence:\n${doc.result}")
+              .mkString("||")}\nfor sentence:\n${doc.result}")
       val confidenceArray =
         sentence.indexedTaggedWords.slice(startIdx, endIdx + 1).flatMap(_.metadata.values)
-      val finalConfidenceArray = try {
-        confidenceArray.map(x => x.trim.toFloat)
-      } catch {
-        case _: Exception => Array.empty[Float]
-      }
+      val finalConfidenceArray =
+        try {
+          confidenceArray.map(x => x.trim.toFloat)
+        } catch {
+          case _: Exception => Array.empty[Float]
+        }
       val confidence =
         if (finalConfidenceArray.isEmpty) None
         else Some(finalConfidenceArray.sum / finalConfidenceArray.length)

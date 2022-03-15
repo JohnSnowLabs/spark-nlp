@@ -113,24 +113,23 @@ class TensorflowSpell(val tensorflow: TensorflowWrapper, val verboseLevel: Verbo
     val tensors = new TensorResources
     val paths = (dataset, cids, cwids).zipped.toList
 
-    paths.flatMap {
-      case (pathIds, pathCids, pathWids) =>
-        val lossWords = tensorflow
-          .getTFSession(configProtoBytes = configProtoBytes)
-          .runner
-          .feed(dropoutRate, tensors.createTensor(1.0f))
-          .feed(wordIds, tensors.createTensor(Array(pathIds)))
-          .feed(contextIds, tensors.createTensor(Array(pathCids.tail)))
-          .feed(contextWordIds, tensors.createTensor(Array(pathWids.tail)))
-          .feed(testCids, tensors.createTensor(Array(candCids)))
-          .feed(testWids, tensors.createTensor(Array(candWids)))
-          .feed(inputLens, tensors.createTensor(Array(pathIds.length)))
-          .fetch(losses)
-          .run()
+    paths.flatMap { case (pathIds, pathCids, pathWids) =>
+      val lossWords = tensorflow
+        .getTFSession(configProtoBytes = configProtoBytes)
+        .runner
+        .feed(dropoutRate, tensors.createTensor(1.0f))
+        .feed(wordIds, tensors.createTensor(Array(pathIds)))
+        .feed(contextIds, tensors.createTensor(Array(pathCids.tail)))
+        .feed(contextWordIds, tensors.createTensor(Array(pathWids.tail)))
+        .feed(testCids, tensors.createTensor(Array(candCids)))
+        .feed(testWids, tensors.createTensor(Array(candWids)))
+        .feed(inputLens, tensors.createTensor(Array(pathIds.length)))
+        .fetch(losses)
+        .run()
 
-        tensors.clearTensors()
-        val r = extractFloats(lossWords.get(0))
-        r
+      tensors.clearTensors()
+      val r = extractFloats(lossWords.get(0))
+      r
     }
   }
 

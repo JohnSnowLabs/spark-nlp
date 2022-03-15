@@ -23,14 +23,17 @@ import org.apache.spark.sql.{Dataset, Row}
 
 import scala.collection.Map
 
-/**
- * represents annotator's output parts and their details
- *
- * @param annotatorType the type of annotation
- * @param begin         the index of the first character under this annotation
- * @param end           the index after the last character under this annotation
- * @param metadata      associated metadata for this annotation
- */
+/** represents annotator's output parts and their details
+  *
+  * @param annotatorType
+  *   the type of annotation
+  * @param begin
+  *   the index of the first character under this annotation
+  * @param end
+  *   the index after the last character under this annotation
+  * @param metadata
+  *   associated metadata for this annotation
+  */
 case class Annotation(
     annotatorType: String,
     begin: Int,
@@ -42,11 +45,11 @@ case class Annotation(
     obj match {
       case annotation: Annotation =>
         this.annotatorType == annotation.annotatorType &&
-          this.begin == annotation.begin &&
-          this.end == annotation.end &&
-          this.result == annotation.result &&
-          this.metadata == annotation.metadata &&
-          this.embeddings.sameElements(annotation.embeddings)
+        this.begin == annotation.begin &&
+        this.end == annotation.end &&
+        this.result == annotation.result &&
+        this.metadata == annotation.metadata &&
+        this.embeddings.sameElements(annotation.embeddings)
       case _ => false
     }
   }
@@ -100,12 +103,13 @@ object Annotation {
 
   val arrayType = new ArrayType(dataType, true)
 
-  /**
-   * This method converts a [[org.apache.spark.sql.Row]] into an [[Annotation]]
-   *
-   * @param row spark row to be converted
-   * @return annotation
-   */
+  /** This method converts a [[org.apache.spark.sql.Row]] into an [[Annotation]]
+    *
+    * @param row
+    *   spark row to be converted
+    * @return
+    *   annotation
+    */
   def apply(row: Row): Annotation = {
     Annotation(
       row.getString(0),
@@ -182,7 +186,7 @@ object Annotation {
                 if (parseEmbeddings) =>
               r.getSeq[Float](5).mkString(vSep)
             case _ => r.getString(3)
-        })
+          })
         .mkString(aSep)
     }
   }
@@ -204,7 +208,7 @@ object Annotation {
               (r.getMap[String, String](4) ++ Map(RESULT -> r.getString(3)))
                 .mkString(vSep)
                 .replace(" -> ", "->")
-        })
+          })
         .mkString(aSep)
     }
   }
@@ -218,7 +222,7 @@ object Annotation {
               if (parseEmbeddings) =>
             r.getSeq[Float](5).mkString(" ")
           case _ => r.getString(3)
-      })
+        })
     }
   }
 
@@ -276,11 +280,10 @@ object Annotation {
       inputCols: Array[String],
       annotatorType: String): StructField = {
     dataset.schema.fields
-      .find(
-        field =>
-          inputCols.contains(field.name) &&
-            field.metadata.contains("annotatorType") &&
-            field.metadata.getString("annotatorType") == annotatorType)
+      .find(field =>
+        inputCols.contains(field.name) &&
+          field.metadata.contains("annotatorType") &&
+          field.metadata.getString("annotatorType") == annotatorType)
       .getOrElse(throw new IllegalArgumentException(
         s"Could not find a column of type $annotatorType in inputCols"))
   }

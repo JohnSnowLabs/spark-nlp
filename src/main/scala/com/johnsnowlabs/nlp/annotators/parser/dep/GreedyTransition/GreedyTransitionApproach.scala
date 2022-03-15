@@ -30,9 +30,8 @@ object GreedyTransitionApproach {
     val dependencies = dependencyMaker.parse(sentence)
     val words = posTagged.indexedTaggedWords
       .zip(dependencies)
-      .map {
-        case (word, dependency) =>
-          WordWithDependency(word.word, word.begin, word.end, dependency)
+      .map { case (word, dependency) =>
+        WordWithDependency(word.word, word.begin, word.end, dependency)
       }
 
     DependencyParsedSentence(words)

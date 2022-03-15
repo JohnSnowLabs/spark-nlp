@@ -32,9 +32,9 @@ import java.util.jar.JarFile
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.io.BufferedSource
 
-/**
- * Helper one-place for IO management. Streams, source and external input should be handled from here
- */
+/** Helper one-place for IO management. Streams, source and external input should be handled from
+  * here
+  */
 object ResourceHelper {
 
   def getActiveSparkSession: SparkSession =
@@ -158,7 +158,8 @@ object ResourceHelper {
 
     if (dirURL.getProtocol.equals("jar")) {
       /* A JAR path */
-      val jarPath = dirURL.getPath.substring(5, dirURL.getPath.indexOf("!")) //strip out only the JAR file
+      val jarPath =
+        dirURL.getPath.substring(5, dirURL.getPath.indexOf("!")) // strip out only the JAR file
       val jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"))
       val entries = jar.entries()
       val result = new ArrayBuffer[String]()
@@ -170,7 +171,7 @@ object ResourceHelper {
 
       while (entries.hasMoreElements) {
         val name = entries.nextElement().getName.stripPrefix(File.separator)
-        if (name.startsWith(pathToCheck)) { //filter according to the path
+        if (name.startsWith(pathToCheck)) { // filter according to the path
           var entry = name.substring(pathToCheck.length())
           val checkSubdir = entry.indexOf("/")
           if (checkSubdir >= 0) {
@@ -188,12 +189,10 @@ object ResourceHelper {
     throw new UnsupportedOperationException(s"Cannot list files for URL $dirURL")
   }
 
-  /**
-   * General purpose key value parser from source
-   * Currently read only text files
-   *
-   * @return
-   */
+  /** General purpose key value parser from source Currently read only text files
+    *
+    * @return
+    */
   def parseKeyValueText(er: ExternalResource): Map[String, String] = {
     er.readAs match {
       case TEXT =>
@@ -242,7 +241,7 @@ object ResourceHelper {
                 keyValueStore.update(key, storedValue.get ++ value)
               } else keyValueStore(key) = value
             }
-        })
+          })
         sourceStream.close()
         keyValueStore.toMap
     }
@@ -263,18 +262,16 @@ object ResourceHelper {
                 keyValueStore(key) = value
               }
             }
-        })
+          })
         sourceStream.close()
         keyValueStore.toMap
     }
   }
 
-  /**
-   * General purpose line parser from source
-   * Currently read only text files
-   *
-   * @return
-   */
+  /** General purpose line parser from source Currently read only text files
+    *
+    * @return
+    */
   def parseLines(er: ExternalResource): Array[String] = {
     er.readAs match {
       case TEXT =>
@@ -295,12 +292,10 @@ object ResourceHelper {
     }
   }
 
-  /**
-   * General purpose line parser from source
-   * Currently read only text files
-   *
-   * @return
-   */
+  /** General purpose line parser from source Currently read only text files
+    *
+    * @return
+    */
   def parseLinesIterator(er: ExternalResource): Seq[Iterator[String]] = {
     er.readAs match {
       case TEXT =>
@@ -311,24 +306,21 @@ object ResourceHelper {
     }
   }
 
-  /**
-   * General purpose tuple parser from source
-   * Currently read only text files
-   *
-   * @return
-   */
+  /** General purpose tuple parser from source Currently read only text files
+    *
+    * @return
+    */
   def parseTupleText(er: ExternalResource): Array[(String, String)] = {
     er.readAs match {
       case TEXT =>
         val sourceStream = SourceStream(er.path)
         val res = sourceStream.content
-          .flatMap(
-            c =>
-              c.filter(_.nonEmpty)
-                .map(line => {
-                  val kv = line.split(er.options("delimiter")).map(_.trim)
-                  (kv.head, kv.last)
-                }))
+          .flatMap(c =>
+            c.filter(_.nonEmpty)
+              .map(line => {
+                val kv = line.split(er.options("delimiter")).map(_.trim)
+                (kv.head, kv.last)
+              }))
           .toArray
         sourceStream.close()
         res
@@ -348,32 +340,29 @@ object ResourceHelper {
     }
   }
 
-  /**
-   * General purpose tuple parser from source
-   * Currently read only text files
-   *
-   * @return
-   */
+  /** General purpose tuple parser from source Currently read only text files
+    *
+    * @return
+    */
   def parseTupleSentences(er: ExternalResource): Array[TaggedSentence] = {
     er.readAs match {
       case TEXT =>
         val sourceStream = SourceStream(er.path)
         val result = sourceStream.content
-          .flatMap(
-            c =>
-              c.filter(_.nonEmpty)
-                .map(line => {
-                  line
-                    .split("\\s+")
-                    .filter(kv => {
-                      val s = kv.split(er.options("delimiter").head)
-                      s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
-                    })
-                    .map(kv => {
-                      val p = kv.split(er.options("delimiter").head)
-                      TaggedWord(p(0), p(1))
-                    })
-                }))
+          .flatMap(c =>
+            c.filter(_.nonEmpty)
+              .map(line => {
+                line
+                  .split("\\s+")
+                  .filter(kv => {
+                    val s = kv.split(er.options("delimiter").head)
+                    s.length == 2 && s(0).nonEmpty && s(1).nonEmpty
+                  })
+                  .map(kv => {
+                    val p = kv.split(er.options("delimiter").head)
+                    TaggedWord(p(0), p(1))
+                  })
+              }))
           .toArray
         sourceStream.close()
         result.map(TaggedSentence(_))
@@ -429,9 +418,9 @@ object ResourceHelper {
     }
   }
 
-  /**
-   * For multiple values per keys, this optimizer flattens all values for keys to have constant access
-   */
+  /** For multiple values per keys, this optimizer flattens all values for keys to have constant
+    * access
+    */
   def flattenRevertValuesAsKeys(er: ExternalResource): Map[String, String] = {
     er.readAs match {
       case TEXT =>
@@ -468,12 +457,10 @@ object ResourceHelper {
     }
   }
 
-  /**
-   * General purpose read saved Parquet
-   * Currently read only Parquet format
-   *
-   * @return
-   */
+  /** General purpose read saved Parquet Currently read only Parquet format
+    *
+    * @return
+    */
   def readParquetSparkDataFrame(er: ExternalResource): DataFrame = {
     er.readAs match {
       case SPARK =>
@@ -496,12 +483,11 @@ object ResourceHelper {
           c.foreach { line =>
             {
               val words: List[String] = regex.findAllMatchIn(line).map(_.matched).toList
-              words.foreach(
-                w =>
-                  // Creates a Map of frequency words: word -> frequency based on ExternalResource
-                  wordCount(w) += 1)
+              words.foreach(w =>
+                // Creates a Map of frequency words: word -> frequency based on ExternalResource
+                wordCount(w) += 1)
             }
-        })
+          })
         sourceStream.close()
         if (wordCount.isEmpty)
           throw new FileNotFoundException(
@@ -537,13 +523,12 @@ object ResourceHelper {
         transformation
           .select("finished")
           .as[String]
-          .foreach(
-            text =>
-              text
-                .split("--")
-                .foreach(t => {
-                  wordCount(t) += 1
-                }))
+          .foreach(text =>
+            text
+              .split("--")
+              .foreach(t => {
+                wordCount(t) += 1
+              }))
         wordCount
       case _ => throw new IllegalArgumentException("format not available for word count")
     }

@@ -41,9 +41,8 @@ object DependencyParsed extends Annotated[DependencyParsedSentence] {
 
       last += sorted.length
 
-      val words = sorted.zip(dependencies).map {
-        case (token, dependency) =>
-          WordWithDependency(token.token, token.begin, token.end, dependency)
+      val words = sorted.zip(dependencies).map { case (token, dependency) =>
+        WordWithDependency(token.token, token.begin, token.end, dependency)
       }
 
       DependencyParsedSentence(words)
@@ -51,22 +50,21 @@ object DependencyParsed extends Annotated[DependencyParsedSentence] {
   }
 
   override def pack(items: Seq[DependencyParsedSentence]): Seq[Annotation] = {
-    items.zipWithIndex.flatMap {
-      case (sentence, index) =>
-        sentence.tokens.map { token =>
-          val headData = getHeadData(token.head, sentence)
-          val realHead = if (token.head == sentence.tokens.length) 0 else token.head + 1
-          Annotation(
-            annotatorType,
-            token.begin,
-            token.end,
-            headData.word,
-            Map(
-              "head" -> realHead.toString,
-              "head.begin" -> headData.begin.toString,
-              "head.end" -> headData.end.toString,
-              "sentence" -> index.toString))
-        }
+    items.zipWithIndex.flatMap { case (sentence, index) =>
+      sentence.tokens.map { token =>
+        val headData = getHeadData(token.head, sentence)
+        val realHead = if (token.head == sentence.tokens.length) 0 else token.head + 1
+        Annotation(
+          annotatorType,
+          token.begin,
+          token.end,
+          headData.word,
+          Map(
+            "head" -> realHead.toString,
+            "head.begin" -> headData.begin.toString,
+            "head.end" -> headData.end.toString,
+            "sentence" -> index.toString))
+      }
     }
   }
 

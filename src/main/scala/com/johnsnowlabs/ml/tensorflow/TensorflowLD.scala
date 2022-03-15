@@ -23,18 +23,20 @@ import scala.collection.JavaConverters._
 import scala.collection.immutable.ListMap
 import scala.collection.mutable
 
-/**
- * Language Identification and Detection by using CNNs and RNNs architectures in TensowrFlow
- *
- * The models are trained on large datasets such as Wikipedia and Tatoeba
- * The output is a language code in Wiki Code style: https://en.wikipedia.org/wiki/List_of_Wikipedias
- *
- * @param tensorflow       LanguageDetectorDL Model wrapper with TensorFlow Wrapper
- * @param configProtoBytes Configuration for TensorFlow session
- * @param orderedLanguages ordered ListMap of language codes detectable by this trained model
- * @param orderedAlphabets ordered ListMap of alphabets to be used to encode the inputs
- *
- * */
+/** Language Identification and Detection by using CNNs and RNNs architectures in TensowrFlow
+  *
+  * The models are trained on large datasets such as Wikipedia and Tatoeba The output is a
+  * language code in Wiki Code style: https://en.wikipedia.org/wiki/List_of_Wikipedias
+  *
+  * @param tensorflow
+  *   LanguageDetectorDL Model wrapper with TensorFlow Wrapper
+  * @param configProtoBytes
+  *   Configuration for TensorFlow session
+  * @param orderedLanguages
+  *   ordered ListMap of language codes detectable by this trained model
+  * @param orderedAlphabets
+  *   ordered ListMap of alphabets to be used to encode the inputs
+  */
 class TensorflowLD(
     val tensorflow: TensorflowWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
@@ -76,10 +78,9 @@ class TensorflowLD(
     val tokenBuffers = tensors.createFloatBuffer(inputs.length * inputSize)
     val shape = Array(inputs.length.toLong, inputSize)
 
-    inputs.zipWithIndex.foreach {
-      case (sentence, idx) =>
-        val offset = idx * maxSentenceLength
-        tokenBuffers.offset(offset).write(sentence)
+    inputs.zipWithIndex.foreach { case (sentence, idx) =>
+      val offset = idx * maxSentenceLength
+      tokenBuffers.offset(offset).write(sentence)
     }
 
     val runner = tensorflow.getTFSession(configProtoBytes = configProtoBytes).runner
@@ -129,18 +130,17 @@ class TensorflowLD(
             Map(x._1 -> x._2.toString))))
 
     } else {
-      outputs.zip(documents).map {
-        case (score, sentence) =>
-          val maxResult = score.maxBy(_._1)
-          val finalLabel = if (maxResult._1 >= threshold) maxResult._2 else thresholdLabel
+      outputs.zip(documents).map { case (score, sentence) =>
+        val maxResult = score.maxBy(_._1)
+        val finalLabel = if (maxResult._1 >= threshold) maxResult._2 else thresholdLabel
 
-          Annotation(
-            annotatorType = AnnotatorType.LANGUAGE,
-            begin = sentence.start,
-            end = sentence.end,
-            result = finalLabel,
-            metadata = Map("sentence" -> sentence.index.toString) ++ score.flatMap(x =>
-              Map(x._2 -> x._1.toString)))
+        Annotation(
+          annotatorType = AnnotatorType.LANGUAGE,
+          begin = sentence.start,
+          end = sentence.end,
+          result = finalLabel,
+          metadata = Map("sentence" -> sentence.index.toString) ++ score.flatMap(x =>
+            Map(x._2 -> x._1.toString)))
       }
     }
   }

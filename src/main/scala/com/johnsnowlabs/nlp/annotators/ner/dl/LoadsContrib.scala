@@ -51,7 +51,7 @@ object LoadsContrib {
     "sparknlp_contrib" + new File(path).getName.take(5)
   }
 
-  /** NOT thread safe. Make sure this runs on DRIVER only*/
+  /** NOT thread safe. Make sure this runs on DRIVER only */
   private def copyResourceToTmp(path: String): File = {
     val stream = ResourceHelper.getResourceStream(path)
     val tmpFolder = System.getProperty("java.io.tmpdir")
@@ -72,7 +72,7 @@ object LoadsContrib {
 
   def loadContribToCluster(spark: SparkSession): Unit = {
 
-    /** NOT thread-safe. DRIVER only*/
+    /** NOT thread-safe. DRIVER only */
     if (!LoadsContrib.loadedToCluster && contribPaths.isDefined) {
       LoadsContrib.loadedToCluster = true
       spark.sparkContext.addFile(copyResourceToTmp(contribPaths.get._1).getPath)

@@ -39,7 +39,7 @@ private[nlp] class SpecialTokens(
   val mask: SpecialToken = SpecialToken(
     maskTokenString,
     vocab(maskTokenString),
-    lstrip = true //TODO: check if should be done for every model
+    lstrip = true // TODO: check if should be done for every model
   )
   val pad: SpecialToken = SpecialToken(padTokenString, vocab(padTokenString))
 
@@ -47,8 +47,8 @@ private[nlp] class SpecialTokens(
     additionalStrings.map((tok: String) => SpecialToken(tok, vocab(tok)))
 
   // Put mask first, in case all special tokens are identical (so the stripping can be done first)
-  val allTokens
-    : Set[SpecialToken] = Set(mask, sentenceStart, sentenceEnd, unk, pad) ++ additionalTokens
+  val allTokens: Set[SpecialToken] =
+    Set(mask, sentenceStart, sentenceEnd, unk, pad) ++ additionalTokens
 
   def contains(s: String): Boolean = allTokens.contains(SpecialToken(content = s, id = 0))
 }

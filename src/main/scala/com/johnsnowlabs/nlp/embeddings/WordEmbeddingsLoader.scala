@@ -81,9 +81,8 @@ object WordEmbeddingsBinaryIndexer {
     }
   }
 
-  /**
-   * Read a string from the binary model (System default should be UTF-8):
-   */
+  /** Read a string from the binary model (System default should be UTF-8):
+    */
   private def readString(ds: DataInputStream): String = {
     val byteBuffer = new ByteArrayOutputStream()
 
@@ -102,9 +101,8 @@ object WordEmbeddingsBinaryIndexer {
     word
   }
 
-  /**
-   * Read a Vector - Array of Floats from the binary model:
-   */
+  /** Read a Vector - Array of Floats from the binary model:
+    */
   private def readFloatVector(
       ds: DataInputStream,
       vectorSize: Int,

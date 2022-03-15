@@ -61,12 +61,13 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
   /** Return one policy in [single, multi] associated to this translator */
   def getPolicy() = policy
 
-  /**
-   * Load dictionary from supported language repository.
-   *
-   * @param language the language dictionary to load. Default is English.
-   * @return a map containing the language dictionary or throws an exception.
-   * */
+  /** Load dictionary from supported language repository.
+    *
+    * @param language
+    *   the language dictionary to load. Default is English.
+    * @return
+    *   a map containing the language dictionary or throws an exception.
+    */
   def loadDictionary(language: String = English) = {
     val DictionaryPath = s"$TranslationDataBaseDir$language$JsonSuffix"
 
@@ -90,12 +91,13 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
       case _ => List(any)
     }
 
-  /**
-   * Load available language keys to process further matches
-   *
-   * @param text : text to match language against.
-   * @return a map containing the matching languages.
-   * */
+  /** Load available language keys to process further matches
+    *
+    * @param text
+    *   : text to match language against.
+    * @return
+    *   a map containing the matching languages.
+    */
   def _processSourceLanguageInfo(text: String, sourceLanguage: String) = {
     val supportedLanguages =
       Source
@@ -136,13 +138,15 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
     res
   }
 
-  /**
-   * Search for language matches token by token.
-   *
-   * @param text           : the text to process for matching.
-   * @param sourceLanguage : the 2 characters string identifying a supported language.
-   * @return a tuple representing language matches information, i.e. (language, Set(matches))
-   * */
+  /** Search for language matches token by token.
+    *
+    * @param text
+    *   : the text to process for matching.
+    * @param sourceLanguage
+    *   : the 2 characters string identifying a supported language.
+    * @return
+    *   a tuple representing language matches information, i.e. (language, Set(matches))
+    */
   private def searchForLanguageMatches(text: String, sourceLanguage: String) = {
     val dictionary: Map[String, Any] = loadDictionary(sourceLanguage)
 
@@ -182,8 +186,8 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
 
     val sentenceMatches =
       for (regex <- regexes;
-           res = regex.findFirstMatchIn(text.toLowerCase)
-           if !res.isEmpty && res.size != 0) yield (text, regex)
+        res = regex.findFirstMatchIn(text.toLowerCase)
+        if !res.isEmpty && res.size != 0) yield (text, regex)
 
     sentenceMatches
   }
@@ -202,12 +206,13 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
     tokenMatches
   }
 
-  /**
-   * Process date matches with the source language.
-   *
-   * @param text : the text to detect.
-   * @return the detected language as tuple of matched languages with their frequency.
-   * */
+  /** Process date matches with the source language.
+    *
+    * @param text
+    *   : the text to detect.
+    * @return
+    *   the detected language as tuple of matched languages with their frequency.
+    */
   def processSourceLanguageInfo(
       text: String,
       sourceLanguage: String): Map[String, Set[String]] = {
@@ -231,12 +236,13 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
     text.replaceAll("\\.|,|!|\\?|:", EmptyStr)
   }
 
-  /**
-   * Matches the indexed text token against the passed dictionary.
-   *
-   * @param indexToken the indexed token to match.
-   * @param dictionary the dictionary to match token against.
-   * */
+  /** Matches the indexed text token against the passed dictionary.
+    *
+    * @param indexToken
+    *   the indexed token to match.
+    * @param dictionary
+    *   the dictionary to match token against.
+    */
   def matchIndexedToken: (DateMatcherIndexedToken, Map[String, Any]) => DateMatcherIndexedToken =
     (indexToken, dictionary) => {
       val (token, index) = indexToken
@@ -252,7 +258,7 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
 
       val translated: Set[(String, Int)] =
         for (k <- keys
-             if getListifiedValues(k).contains(token)) yield (k, index)
+          if getListifiedValues(k).contains(token)) yield (k, index)
 
       // only first match if any is returned
       if (!translated.isEmpty)
@@ -263,13 +269,16 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
       }
     }
 
-  /**
-   * Apply translation switching token where an index has been translated using the dictionary matching.
-   *
-   * @param translatedIndexedToken : the translated index token to replace in text.
-   * @param text                   : the original text where translation is applied.
-   * @return the text translated using token replacement.
-   * */
+  /** Apply translation switching token where an index has been translated using the dictionary
+    * matching.
+    *
+    * @param translatedIndexedToken
+    *   : the translated index token to replace in text.
+    * @param text
+    *   : the original text where translation is applied.
+    * @return
+    *   the text translated using token replacement.
+    */
   def applyTranslation(translatedIndexedToken: Array[(String, Int)], text: String) = {
     val tokens = text.split(SpaceChar)
     translatedIndexedToken.map(t => tokens(t._2) = t._1)
@@ -287,9 +296,9 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
 
     val res =
       for (c <- candidates
-           if c.contains(toBeReplaced) || c
-             .replaceAll(ValuePlaceholder, cardinality.toString)
-             .contains(toBeReplaced)) yield c
+        if c.contains(toBeReplaced) || c
+          .replaceAll(ValuePlaceholder, cardinality.toString)
+          .contains(toBeReplaced)) yield c
 
     if (!res.isEmpty)
       (k, res.head)
@@ -334,10 +343,11 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
     var acc = text.replaceAll("\\.|,", " ")
     val adjusted: String =
       if (res > 1) {
-        val matchingCandidates = for (c <- candidates
-                                      if text.contains(c)
-                                        && !text.contains(1 + " " + c)
-                                        && !text.contains(c + "s")) yield c
+        val matchingCandidates =
+          for (c <- candidates
+            if text.contains(c)
+              && !text.contains(1 + " " + c)
+              && !text.contains(c + "s")) yield c
         matchingCandidates.foreach(c => acc = acc.replaceAll(c, c + "s"))
         acc
       } else {
@@ -347,13 +357,15 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
     adjusted
   }
 
-  /**
-   * Translate sentence from source info.
-   *
-   * @param text               : sentence to translate.
-   * @param sourceLanguageInfo : the source info map.
-   * @return the translated sentence.
-   * */
+  /** Translate sentence from source info.
+    *
+    * @param text
+    *   : sentence to translate.
+    * @param sourceLanguageInfo
+    *   : the source info map.
+    * @return
+    *   the translated sentence.
+    */
   def translateBySentence(
       text: String,
       sourceLanguageInfo: Map[String, Set[String]],
@@ -378,7 +390,7 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
 
       val toBeReplaced =
         if (!matchingGroup.contains(ValuePlaceholder) || !matchingGroup.contains(
-              ValuePlaceholder))
+            ValuePlaceholder))
           Array(matchingGroup)
         else {
           val groupTokens = matchingGroup.split(SpaceChar)
@@ -393,11 +405,10 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
       var acc = EmptyStr
 
       if (cardinality != NotDetected) {
-        replacingKeys.foreach(
-          rk =>
-            acc = text.replaceAll(
-              rk._2.replace(ValuePlaceholder, cardinality),
-              rk._1.replace(KeyPlaceholder, cardinality)))
+        replacingKeys.foreach(rk =>
+          acc = text.replaceAll(
+            rk._2.replace(ValuePlaceholder, cardinality),
+            rk._1.replace(KeyPlaceholder, cardinality)))
 
         val adjusted = adjustPlurality(acc)
         adjusted
@@ -423,13 +434,15 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
     res
   }
 
-  /**
-   * Translate tokens from source info token by token.
-   *
-   * @param text               : sentence to translate.
-   * @param sourceLanguageInfo : the osurce info map.
-   * @return the translated sentence.
-   * */
+  /** Translate tokens from source info token by token.
+    *
+    * @param text
+    *   : sentence to translate.
+    * @param sourceLanguageInfo
+    *   : the osurce info map.
+    * @return
+    *   the translated sentence.
+    */
   private def translateTokens(text: String, sourceLanguageInfo: Map[String, Set[String]]) = {
 
     // tokens can have punctuation so we remove it
@@ -450,31 +463,33 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
       _text
   }
 
-  /**
-   * Return the longest match
-   *
-   * @param sortedMatches : the list of matches sorted by length
-   * @return a List containing the longest match found in the input list
-   * */
+  /** Return the longest match
+    *
+    * @param sortedMatches
+    *   : the list of matches sorted by length
+    * @return
+    *   a List containing the longest match found in the input list
+    */
   private def _regularizeSingleDateMatches(sortedMatches: List[String]) = {
     List(sortedMatches.head)
   }
 
-  /**
-   * Return the longest match
-   *
-   * @param sortedMatches : the list of matches sorted by length
-   * @param n             : the number of desire matches
-   * @return the n longest match found in the input list
-   * */
+  /** Return the longest match
+    *
+    * @param sortedMatches
+    *   : the list of matches sorted by length
+    * @param n
+    *   : the number of desire matches
+    * @return
+    *   the n longest match found in the input list
+    */
   private def _regularizeMultiDateMatches(sortedMatches: List[String], n: Int = 2) = {
     var acc = sortedMatches
 
     for (m <- sortedMatches) {
-      sortedMatches.map(
-        key =>
-          if (m.contains(key) && m.length > key.length)
-            acc = acc.filterNot(_ == key))
+      sortedMatches.map(key =>
+        if (m.contains(key) && m.length > key.length)
+          acc = acc.filterNot(_ == key))
     }
 
     acc
@@ -489,14 +504,17 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
     }
   }
 
-  /**
-   * Translate the text from source language to destination language.
-   *
-   * @param text               the text to translate.
-   * @param sourceLanguageInfo the source language.
-   * @param destination        the destination language.
-   * @return the translated text from source language to destination language.
-   * */
+  /** Translate the text from source language to destination language.
+    *
+    * @param text
+    *   the text to translate.
+    * @param sourceLanguageInfo
+    *   the source language.
+    * @param destination
+    *   the destination language.
+    * @return
+    *   the translated text from source language to destination language.
+    */
   private def _translate(
       text: String,
       sourceLanguageInfo: Map[String, Set[String]],
@@ -526,14 +544,17 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
     res
   }
 
-  /**
-   * Translate the text from source language to destination language.
-   *
-   * @param _text          the text to translate.
-   * @param sourceLanguage the source language.
-   * @param destination    the destination language.
-   * @return the translated text from source language to destination language.
-   * */
+  /** Translate the text from source language to destination language.
+    *
+    * @param _text
+    *   the text to translate.
+    * @param sourceLanguage
+    *   the source language.
+    * @param destination
+    *   the destination language.
+    * @return
+    *   the translated text from source language to destination language.
+    */
   def translate(text: String, sourceLanguage: String, destination: String = English): String = {
 
     // 0. normalize

@@ -20,13 +20,13 @@ import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks.{break, breakable}
 
-/**
- * Graph Builder that creates a graph representation as an Adjacency List
- *
- * Adjacency List: An array of lists is used. The size of the array is equal to the number of vertices.
- * Let the array be an array[]. An entry array[i] represents the list of vertices adjacent to the ith vertex.
- * @param numberOfVertices
- */
+/** Graph Builder that creates a graph representation as an Adjacency List
+  *
+  * Adjacency List: An array of lists is used. The size of the array is equal to the number of
+  * vertices. Let the array be an array[]. An entry array[i] represents the list of vertices
+  * adjacent to the ith vertex.
+  * @param numberOfVertices
+  */
 class GraphBuilder(numberOfVertices: Int) {
 
   if (numberOfVertices <= 0) {
@@ -67,11 +67,10 @@ class GraphBuilder(numberOfVertices: Int) {
     }
   }
 
-  /** Find a path using Depth-first search (DFS) algorithm
-   * DFS traverses a tree or graph data structures.
-   * The algorithm starts at a source node and explores as far as possible along each branch before backtracking
-   * It uses a stack to store the path of visited nodes
-   * */
+  /** Find a path using Depth-first search (DFS) algorithm DFS traverses a tree or graph data
+    * structures. The algorithm starts at a source node and explores as far as possible along each
+    * branch before backtracking It uses a stack to store the path of visited nodes
+    */
   def findPath(source: Int, destination: Int): List[Int] = {
 
     if (source > graph.size || destination > graph.size) {

@@ -24,91 +24,100 @@ import org.apache.spark.ml.param.{DoubleParam, IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
-/** Trains a sentiment analyser inspired by the algorithm by Vivek Narayanan [[https://github.com/vivekn/sentiment/]].
- *
- * The algorithm is based on the paper
- * [[https://arxiv.org/abs/1305.6143 "Fast and accurate sentiment classification using an enhanced Naive Bayes model"]].
- *
- * The analyzer requires sentence boundaries to give a score in context.
- * Tokenization is needed to make sure tokens are within bounds. Transitivity requirements are also required.
- *
- * The training data needs to consist of a column for normalized text and a label column (either `"positive"` or `"negative"`).
- *
- * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb Spark NLP Workshop]]
- * and the [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn ViveknSentimentTestSpec]].
- *
- * ==Example==
- * {{{
- * import spark.implicits._
- * import com.johnsnowlabs.nlp.base.DocumentAssembler
- * import com.johnsnowlabs.nlp.annotators.Tokenizer
- * import com.johnsnowlabs.nlp.annotators.Normalizer
- * import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
- * import com.johnsnowlabs.nlp.Finisher
- * import org.apache.spark.ml.Pipeline
- *
- * val document = new DocumentAssembler()
- *   .setInputCol("text")
- *   .setOutputCol("document")
- *
- * val token = new Tokenizer()
- *   .setInputCols("document")
- *   .setOutputCol("token")
- *
- * val normalizer = new Normalizer()
- *   .setInputCols("token")
- *   .setOutputCol("normal")
- *
- * val vivekn = new ViveknSentimentApproach()
- *   .setInputCols("document", "normal")
- *   .setSentimentCol("train_sentiment")
- *   .setOutputCol("result_sentiment")
- *
- * val finisher = new Finisher()
- *   .setInputCols("result_sentiment")
- *   .setOutputCols("final_sentiment")
- *
- * val pipeline = new Pipeline().setStages(Array(document, token, normalizer, vivekn, finisher))
- *
- * val training = Seq(
- *   ("I really liked this movie!", "positive"),
- *   ("The cast was horrible", "negative"),
- *   ("Never going to watch this again or recommend it to anyone", "negative"),
- *   ("It's a waste of time", "negative"),
- *   ("I loved the protagonist", "positive"),
- *   ("The music was really really good", "positive")
- * ).toDF("text", "train_sentiment")
- * val pipelineModel = pipeline.fit(training)
- *
- * val data = Seq(
- *   "I recommend this movie",
- *   "Dont waste your time!!!"
- * ).toDF("text")
- * val result = pipelineModel.transform(data)
- *
- * result.select("final_sentiment").show(false)
- * +---------------+
- * |final_sentiment|
- * +---------------+
- * |[positive]     |
- * |[negative]     |
- * +---------------+
- * }}}
- * @see [[com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector SentimentDetector]] for an alternative approach to sentiment detection
- * @groupname anno Annotator types
- * @groupdesc anno Required input and expected output annotator types
- * @groupname Ungrouped Members
- * @groupname param Parameters
- * @groupname setParam Parameter setters
- * @groupname getParam Parameter getters
- * @groupname Ungrouped Members
- * @groupprio param  1
- * @groupprio anno  2
- * @groupprio Ungrouped 3
- * @groupprio setParam  4
- * @groupprio getParam  5
- * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
- */
+/** Trains a sentiment analyser inspired by the algorithm by Vivek Narayanan
+  * [[https://github.com/vivekn/sentiment/]].
+  *
+  * The algorithm is based on the paper
+  * [[https://arxiv.org/abs/1305.6143 "Fast and accurate sentiment classification using an enhanced Naive Bayes model"]].
+  *
+  * The analyzer requires sentence boundaries to give a score in context. Tokenization is needed
+  * to make sure tokens are within bounds. Transitivity requirements are also required.
+  *
+  * The training data needs to consist of a column for normalized text and a label column (either
+  * `"positive"` or `"negative"`).
+  *
+  * For extended examples of usage, see the
+  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb Spark NLP Workshop]]
+  * and the
+  * [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn ViveknSentimentTestSpec]].
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotators.Tokenizer
+  * import com.johnsnowlabs.nlp.annotators.Normalizer
+  * import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
+  * import com.johnsnowlabs.nlp.Finisher
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val document = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val token = new Tokenizer()
+  *   .setInputCols("document")
+  *   .setOutputCol("token")
+  *
+  * val normalizer = new Normalizer()
+  *   .setInputCols("token")
+  *   .setOutputCol("normal")
+  *
+  * val vivekn = new ViveknSentimentApproach()
+  *   .setInputCols("document", "normal")
+  *   .setSentimentCol("train_sentiment")
+  *   .setOutputCol("result_sentiment")
+  *
+  * val finisher = new Finisher()
+  *   .setInputCols("result_sentiment")
+  *   .setOutputCols("final_sentiment")
+  *
+  * val pipeline = new Pipeline().setStages(Array(document, token, normalizer, vivekn, finisher))
+  *
+  * val training = Seq(
+  *   ("I really liked this movie!", "positive"),
+  *   ("The cast was horrible", "negative"),
+  *   ("Never going to watch this again or recommend it to anyone", "negative"),
+  *   ("It's a waste of time", "negative"),
+  *   ("I loved the protagonist", "positive"),
+  *   ("The music was really really good", "positive")
+  * ).toDF("text", "train_sentiment")
+  * val pipelineModel = pipeline.fit(training)
+  *
+  * val data = Seq(
+  *   "I recommend this movie",
+  *   "Dont waste your time!!!"
+  * ).toDF("text")
+  * val result = pipelineModel.transform(data)
+  *
+  * result.select("final_sentiment").show(false)
+  * +---------------+
+  * |final_sentiment|
+  * +---------------+
+  * |[positive]     |
+  * |[negative]     |
+  * +---------------+
+  * }}}
+  * @see
+  *   [[com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector SentimentDetector]] for an
+  *   alternative approach to sentiment detection
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 class ViveknSentimentApproach(override val uid: String)
     extends AnnotatorApproach[ViveknSentimentModel]
     with ViveknSentimentUtils {
@@ -119,84 +128,86 @@ class ViveknSentimentApproach(override val uid: String)
   override val description: String = "Vivekn inspired sentiment analysis model"
 
   /** Column with the sentiment result of every row. Must be `"positive"` or `"negative"`
-   *
-   * @group param
-    **/
+    *
+    * @group param
+    */
   val sentimentCol = new Param[String](
     this,
     "sentimentCol",
     "column with the sentiment result of every row. Must be 'positive' or 'negative'")
 
   /** Removes unfrequent scenarios from scope. The higher the better performance (Default: `1`)
-   *
-   * @group param
-    **/
+    *
+    * @group param
+    */
   val pruneCorpus = new IntParam(
     this,
     "pruneCorpus",
     "Removes unfrequent scenarios from scope. The higher the better performance. Defaults 1")
 
   /** Proportion of feature content to be considered relevant (Default: `0.5`)
-   *
-   * @group param
-    **/
+    *
+    * @group param
+    */
   val importantFeatureRatio = new DoubleParam(
     this,
     "importantFeatureRatio",
     "Proportion of feature content to be considered relevant. Defaults to 0.5")
 
   /** Proportion to lookahead in unimportant features (Default: `0.025`)
-   *
-   * @group param
-    **/
+    *
+    * @group param
+    */
   val unimportantFeatureStep = new DoubleParam(
     this,
     "unimportantFeatureStep",
     "Proportion to lookahead in unimportant features. Defaults to 0.025")
 
   /** content feature limit, to boost performance in very dirt text (Default: Disabled with `-1`)
-   *
-   * @group param
-    **/
+    *
+    * @group param
+    */
   val featureLimit = new IntParam(
     this,
     "featureLimit",
     "content feature limit, to boost performance in very dirt text. Default disabled with -1")
 
   /** Set Proportion of feature content to be considered relevant (Default: `0.5`)
-   *
-   * @group setParam
-    **/
+    *
+    * @group setParam
+    */
   def setImportantFeatureRatio(v: Double): this.type = set(importantFeatureRatio, v)
 
   /** Set Proportion to lookahead in unimportant features (Default: `0.025`)
-   *
-   * @group setParam
-    **/
+    *
+    * @group setParam
+    */
   def setUnimportantFeatureStep(v: Double): this.type = set(unimportantFeatureStep, v)
 
-  /** Set content feature limit, to boost performance in very dirt text (Default: Disabled with `-1`)
-   *
-   * @group setParam
-    **/
+  /** Set content feature limit, to boost performance in very dirt text (Default: Disabled with
+    * `-1`)
+    *
+    * @group setParam
+    */
   def setFeatureLimit(v: Int): this.type = set(featureLimit, v)
 
   /** Get Proportion of feature content to be considered relevant (Default: Disabled with `0.5`)
-   *
-   * @group getParam
-    **/
+    *
+    * @group getParam
+    */
   def getImportantFeatureRatio(v: Double): Double = $(importantFeatureRatio)
 
   /** Get Proportion to lookahead in unimportant features (Default: `0.025`)
-   *
-   * @group getParam
-    **/
+    *
+    * @group getParam
+    */
   def getUnimportantFeatureStep(v: Double): Double = $(unimportantFeatureStep)
 
-  /** Get content feature limit, to boost performance in very dirt text (Default: Disabled with `-1`)
-   *
-   * @group getParam
-    **/
+  /** Get content feature limit, to boost performance in very dirt text (Default: Disabled with
+    * `-1`)
+    *
+    * @group getParam
+    */
   def getFeatureLimit(v: Int): Int = $(featureLimit)
 
   setDefault(
@@ -208,27 +219,29 @@ class ViveknSentimentApproach(override val uid: String)
   def this() = this(Identifiable.randomUID("VIVEKN"))
 
   /** Output annotator type : SENTIMENT
-   *
-   * @group anno
-    **/
+    *
+    * @group anno
+    */
   override val outputAnnotatorType: AnnotatorType = SENTIMENT
 
   /** Input annotator type : TOKEN, DOCUMENT
-   *
-   * @group anno
-    **/
+    *
+    * @group anno
+    */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
 
-  /** Column with sentiment analysis row’s result for training. If not set, external sources need to be set instead. Column with the sentiment result of every row. Must be 'positive' or 'negative'
-   *
-   * @group setParam
-    **/
+  /** Column with sentiment analysis row’s result for training. If not set, external sources need
+    * to be set instead. Column with the sentiment result of every row. Must be 'positive' or
+    * 'negative'
+    *
+    * @group setParam
+    */
   def setSentimentCol(value: String): this.type = set(sentimentCol, value)
 
   /** when training on small data you may want to disable this to not cut off infrequent words
-   *
-   * @group setParam
-    **/
+    *
+    * @group setParam
+    */
   def setPruneCorpus(value: Int): this.type = set(pruneCorpus, value)
 
   override def train(
@@ -281,15 +294,15 @@ class ViveknSentimentApproach(override val uid: String)
         return 0
       }
       if (negative(word) > 0) {
-        val negativeDeltaScore
-          : Double = (negativeTotals - negative(word)) * T / (T - W) / negativeTotals
+        val negativeDeltaScore: Double =
+          (negativeTotals - negative(word)) * T / (T - W) / negativeTotals
         I += (negativeTotals - negative(word)) / T * scala.math.log(negativeDeltaScore)
         val negativeScore: Double = negative(word) * T / W / negativeTotals
         I += negative(word) / T * scala.math.log(negativeScore)
       }
       if (positive(word) > 0) {
-        val positiveDeltaScore
-          : Double = (positiveTotals - positive(word)) * T / (T - W) / positiveTotals
+        val positiveDeltaScore: Double =
+          (positiveTotals - positive(word)) * T / (T - W) / positiveTotals
         I += (positiveTotals - positive(word)) / T * scala.math.log(positiveDeltaScore)
         val positiveScore: Double = positive(word) * T / W / positiveTotals
         I += positive(word) / T * scala.math.log(positiveScore)

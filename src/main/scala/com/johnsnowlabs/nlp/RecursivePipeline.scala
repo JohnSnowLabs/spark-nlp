@@ -43,44 +43,44 @@ class RecursivePipeline(override val uid: String, baseStages: Array[PipelineStag
     new Pipeline(uid).setStages(transformers).fit(dataset)
   }
 
-  /** Code Duplication for Spark ML. This is not a good practice, but stages logic is tightly coupled on fit and PipelineModel is private[ml] */
+  /** Code Duplication for Spark ML. This is not a good practice, but stages logic is tightly
+    * coupled on fit and PipelineModel is private[ml]
+    */
   override def fit(dataset: Dataset[_]): PipelineModel = {
     transformSchema(dataset.schema, logging = true)
     val theStages = $(stages)
     var indexOfLastEstimator = -1
-    theStages.view.zipWithIndex.foreach {
-      case (stage, index) =>
-        stage match {
-          case _: Estimator[_] =>
-            indexOfLastEstimator = index
-          case _ =>
-        }
+    theStages.view.zipWithIndex.foreach { case (stage, index) =>
+      stage match {
+        case _: Estimator[_] =>
+          indexOfLastEstimator = index
+        case _ =>
+      }
     }
     var curDataset = dataset
     val transformers = ListBuffer.empty[Transformer]
-    theStages.view.zipWithIndex.foreach {
-      case (stage, index) =>
-        if (index <= indexOfLastEstimator) {
-          val transformer = stage match {
-            case estimator: HasRecursiveFit[_] =>
-              estimator.recursiveFit(
-                curDataset,
-                new Pipeline(uid).setStages(transformers.toArray).fit(dataset))
-            case estimator: Estimator[_] =>
-              estimator.fit(curDataset)
-            case t: Transformer =>
-              t
-            case _ =>
-              throw new IllegalArgumentException(
-                s"Does not support stage $stage of type ${stage.getClass}")
-          }
-          if (index < indexOfLastEstimator) {
-            curDataset = transformer.transform(curDataset)
-          }
-          transformers += transformer
-        } else {
-          transformers += stage.asInstanceOf[Transformer]
+    theStages.view.zipWithIndex.foreach { case (stage, index) =>
+      if (index <= indexOfLastEstimator) {
+        val transformer = stage match {
+          case estimator: HasRecursiveFit[_] =>
+            estimator.recursiveFit(
+              curDataset,
+              new Pipeline(uid).setStages(transformers.toArray).fit(dataset))
+          case estimator: Estimator[_] =>
+            estimator.fit(curDataset)
+          case t: Transformer =>
+            t
+          case _ =>
+            throw new IllegalArgumentException(
+              s"Does not support stage $stage of type ${stage.getClass}")
         }
+        if (index < indexOfLastEstimator) {
+          curDataset = transformer.transform(curDataset)
+        }
+        transformers += transformer
+      } else {
+        transformers += stage.asInstanceOf[Transformer]
+      }
     }
 
     createPipeline(dataset, transformers.toArray)
@@ -115,7 +115,7 @@ class RecursivePipelineModel(override val uid: String, innerPipeline: PipelineMo
           t.recursiveTransform(cur, createRecursiveAnnotators(dataset))
         case t: AnnotatorModel[_] if t.getLazyAnnotator => cur
         case t: Transformer => t.transform(cur)
-    })
+      })
   }
 
   override def transformSchema(schema: StructType): StructType = {
