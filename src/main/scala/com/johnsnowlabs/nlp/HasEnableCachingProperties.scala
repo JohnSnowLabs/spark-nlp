@@ -24,7 +24,10 @@ trait HasEnableCachingProperties extends ParamsAndFeaturesWritable {
    *
    * @group param
    */
-  val enableCaching = new BooleanParam(this, "enableCaching", "Whether to enable caching DataFrames or RDDs during the training")
+  val enableCaching = new BooleanParam(
+    this,
+    "enableCaching",
+    "Whether to enable caching DataFrames or RDDs during the training")
 
   setDefault(enableCaching, false)
 

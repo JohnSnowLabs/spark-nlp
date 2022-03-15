@@ -26,7 +26,6 @@ object PragmaticSymbols extends RuleSymbols {
    * BREAKING SYMBOLS
    * ====================
    */
-
   /**
    * Punctuation line breaker
    * alt 200
@@ -45,7 +44,6 @@ object PragmaticSymbols extends RuleSymbols {
    * NON BREAKING SYMBOLS
    * =====================
    */
-
   /**
    * Non separation dots for abbreviations
    * looks up -> .
@@ -85,14 +83,13 @@ object PragmaticSymbols extends RuleSymbols {
    */
   val EXCLAMATION_INDICATOR = "╥" // !
 
-
-  override def symbolRecovery: Map[String, String] = super.symbolRecovery ++ Map(
-    ABBREVIATOR -> ".",
-    NUM_INDICATOR -> ".",
-    MULT_PERIOD -> ".",
-    QUESTION_IN_QUOTE -> "?",
-    EXCLAMATION_INDICATOR -> "!",
-    ELLIPSIS_INDICATOR -> "..."
-  )
+  override def symbolRecovery: Map[String, String] =
+    super.symbolRecovery ++ Map(
+      ABBREVIATOR -> ".",
+      NUM_INDICATOR -> ".",
+      MULT_PERIOD -> ".",
+      QUESTION_IN_QUOTE -> "?",
+      EXCLAMATION_INDICATOR -> "!",
+      ELLIPSIS_INDICATOR -> "...")
 
 }

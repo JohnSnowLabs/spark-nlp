@@ -40,37 +40,58 @@ trait SymmetricDeleteParams extends Params {
    *
    * @group param
    * */
-  val maxEditDistance = new IntParam(this, "maxEditDistance", "max edit distance characters to derive strings from a word")
+  val maxEditDistance = new IntParam(
+    this,
+    "maxEditDistance",
+    "max edit distance characters to derive strings from a word")
+
   /** Minimum frequency of words to be considered from training. Increase if training set is LARGE (Default: `0`).
    *
    * @group param
    * */
-  val frequencyThreshold = new IntParam(this, "frequencyThreshold", "minimum frequency of words to be considered from training. Increase if training set is LARGE. Defaults to 0")
+  val frequencyThreshold = new IntParam(
+    this,
+    "frequencyThreshold",
+    "minimum frequency of words to be considered from training. Increase if training set is LARGE. Defaults to 0")
+
   /** Minimum frequency of corrections a word needs to have to be considered from training. Increase if training set is LARGE (Default: `0`).
    *
    * @group param
    * */
-  val deletesThreshold = new IntParam(this, "deletesThreshold", "minimum frequency of corrections a word needs to have to be considered from training. Increase if training set is LARGE. Defaults to 0")
+  val deletesThreshold = new IntParam(
+    this,
+    "deletesThreshold",
+    "minimum frequency of corrections a word needs to have to be considered from training. Increase if training set is LARGE. Defaults to 0")
+
   /** Maximum duplicate of characters in a word to consider (Default: `2`).
    *
    * @group param
    * */
-  val dupsLimit = new IntParam(this, "dupsLimit", "maximum duplicate of characters in a word to consider. Defaults to 2")
+  val dupsLimit = new IntParam(
+    this,
+    "dupsLimit",
+    "maximum duplicate of characters in a word to consider. Defaults to 2")
+
   /** Length of longest word in corpus
    *
    * @group param
    * */
-  val longestWordLength = new IntParam(this, "longestWordLength", "length of longest word in corpus")
+  val longestWordLength =
+    new IntParam(this, "longestWordLength", "length of longest word in corpus")
+
   /** Minimum frequency of a word in the corpus
    *
    * @group param
    * */
-  val minFrequency = new LongParam(this, "minFrequency", "minimum frequency of a word in the corpus")
+  val minFrequency =
+    new LongParam(this, "minFrequency", "minimum frequency of a word in the corpus")
+
   /** Maximum frequency of a word in the corpus
    *
    * @group param
    * */
-  val maxFrequency = new LongParam(this, "maxFrequency", "maximum frequency of a word in the corpus")
+  val maxFrequency =
+    new LongParam(this, "maxFrequency", "maximum frequency of a word in the corpus")
 
   /** Max edit distance characters to derive strings from a word
    *

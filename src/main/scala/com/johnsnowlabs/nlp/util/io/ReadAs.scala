@@ -22,7 +22,8 @@ object ReadAs extends Enumeration {
       case "SPARK" => SPARK
       case "TEXT" => TEXT
       case "BINARY" => BINARY
-      case _ => throw new MatchError(s"Invalid ReadAs. Must be either of ${this.values.mkString("|")}")
+      case _ =>
+        throw new MatchError(s"Invalid ReadAs. Must be either of ${this.values.mkString("|")}")
     }
   }
   type Format = Value

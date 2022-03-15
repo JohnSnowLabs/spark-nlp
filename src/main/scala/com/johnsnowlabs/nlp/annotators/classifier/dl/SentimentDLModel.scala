@@ -16,12 +16,12 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-import com.johnsnowlabs.ml.tensorflow.{ClassifierDatasetEncoder, ClassifierDatasetEncoderParams, ReadTensorflowModel, TensorflowSentiment, TensorflowWrapper, WriteTensorflowModel}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasPretrained, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable, HasSimpleAnnotate}
+import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
+import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{FloatParam, IntArrayParam, Param, StringArrayParam}
@@ -109,7 +109,8 @@ import org.apache.spark.sql.{Dataset, SparkSession}
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class SentimentDLModel(override val uid: String)
-  extends AnnotatorModel[SentimentDLModel] with HasSimpleAnnotate[SentimentDLModel]
+    extends AnnotatorModel[SentimentDLModel]
+    with HasSimpleAnnotate[SentimentDLModel]
     with WriteTensorflowModel
     with HasStorageRef
     with ParamsAndFeaturesWritable {
@@ -120,6 +121,7 @@ class SentimentDLModel(override val uid: String)
    * @group anno
    */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(SENTENCE_EMBEDDINGS)
+
   /** Output Annotator Types: CATEGORY
    *
    * @group anno
@@ -130,18 +132,26 @@ class SentimentDLModel(override val uid: String)
    *
    * @group param
    */
-  val threshold = new FloatParam(this, "threshold", "The minimum threshold for the final result otherwise it will be either neutral or the value set in thresholdLabel.s")
+  val threshold = new FloatParam(
+    this,
+    "threshold",
+    "The minimum threshold for the final result otherwise it will be either neutral or the value set in thresholdLabel.s")
+
   /** In case the score is less than threshold, what should be the label (Default: `"neutral"`)
    *
    * @group param
    */
-  val thresholdLabel = new Param[String](this, "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is neutral.")
+  val thresholdLabel = new Param[String](
+    this,
+    "thresholdLabel",
+    "In case the score is less than threshold, what should be the label. Default is neutral.")
 
   /** @group setParam */
   def setThreshold(threshold: Float): SentimentDLModel.this.type = set(this.threshold, threshold)
 
   /** @group setParam */
-  def setThresholdLabel(label: String): SentimentDLModel.this.type = set(this.thresholdLabel, label)
+  def setThresholdLabel(label: String): SentimentDLModel.this.type =
+    set(this.thresholdLabel, label)
 
   /** @group getParam */
   def getThreshold: Float = $(this.threshold)
@@ -156,13 +166,11 @@ class SentimentDLModel(override val uid: String)
   val configProtoBytes = new IntArrayParam(
     this,
     "configProtoBytes",
-    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()"
-  )
+    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(
-                           bytes: Array[Int]
-                         ): SentimentDLModel.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): SentimentDLModel.this.type =
+    set(this.configProtoBytes, bytes)
 
   def getConfigProtoBytes: Option[Array[Byte]] =
     get(this.configProtoBytes).map(_.map(_.toByte))
@@ -181,7 +189,8 @@ class SentimentDLModel(override val uid: String)
    *
    * @group param
    */
-  val classes = new StringArrayParam(this, "classes", "keep an internal copy of classes for Python")
+  val classes =
+    new StringArrayParam(this, "classes", "keep an internal copy of classes for Python")
 
   private var _model: Option[Broadcast[TensorflowSentiment]] = None
 
@@ -194,14 +203,7 @@ class SentimentDLModel(override val uid: String)
       val encoder = new ClassifierDatasetEncoder(datasetParams.get.get)
 
       _model = Some(
-        spark.sparkContext.broadcast(
-          new TensorflowSentiment(
-            tf,
-            encoder,
-            Verbose.Silent
-          )
-        )
-      )
+        spark.sparkContext.broadcast(new TensorflowSentiment(tf, encoder, Verbose.Silent)))
     }
     this
   }
@@ -219,10 +221,7 @@ class SentimentDLModel(override val uid: String)
     encoder.tags
   }
 
-  setDefault(
-    threshold -> 0.6f,
-    thresholdLabel -> "neutral"
-  )
+  setDefault(threshold -> 0.6f, thresholdLabel -> "neutral")
 
   override protected def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
     validateStorageRef(dataset, $(inputCols), AnnotatorType.SENTENCE_EMBEDDINGS)
@@ -256,14 +255,13 @@ class SentimentDLModel(override val uid: String)
       getModelIfNotSet.tensorflow,
       "_sentimentdl",
       SentimentDLModel.tfFile,
-      configProtoBytes = getConfigProtoBytes
-    )
+      configProtoBytes = getConfigProtoBytes)
 
   }
 }
 
 trait ReadablePretrainedSentimentDL
-  extends ParamsAndFeaturesReadable[SentimentDLModel]
+    extends ParamsAndFeaturesReadable[SentimentDLModel]
     with HasPretrained[SentimentDLModel] {
   override val defaultModelName: Some[String] = Some("sentimentdl_use_imdb")
 
@@ -272,11 +270,14 @@ trait ReadablePretrainedSentimentDL
   }
 
   /** Java compliant-overrides */
-  override def pretrained(): SentimentDLModel = pretrained(defaultModelName.get, defaultLang, defaultLoc)
+  override def pretrained(): SentimentDLModel =
+    pretrained(defaultModelName.get, defaultLang, defaultLoc)
 
-  override def pretrained(name: String): SentimentDLModel = pretrained(name, defaultLang, defaultLoc)
+  override def pretrained(name: String): SentimentDLModel =
+    pretrained(name, defaultLang, defaultLoc)
 
-  override def pretrained(name: String, lang: String): SentimentDLModel = pretrained(name, lang, defaultLoc)
+  override def pretrained(name: String, lang: String): SentimentDLModel =
+    pretrained(name, lang, defaultLoc)
 }
 
 trait ReadSentimentDLTensorflowModel extends ReadTensorflowModel {

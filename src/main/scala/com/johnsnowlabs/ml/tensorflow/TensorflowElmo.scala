@@ -47,11 +47,11 @@ import scala.collection.JavaConverters._
  *                         [[https://arxiv.org/abs/1802.05365]]
  *
  */
-
-class TensorflowElmo(val tensorflow: TensorflowWrapper,
-                     batchSize: Int,
-                     configProtoBytes: Option[Array[Byte]] = None
-                    ) extends Serializable {
+class TensorflowElmo(
+    val tensorflow: TensorflowWrapper,
+    batchSize: Int,
+    configProtoBytes: Option[Array[Byte]] = None)
+    extends Serializable {
 
   private val TokensKey = "tokens"
   private val SequenceKey = "sequence_len"
@@ -63,32 +63,40 @@ class TensorflowElmo(val tensorflow: TensorflowWrapper,
    * @param poolingLayer Define which output layer you want from the model word_emb, lstm_outputs1, lstm_outputs2, elmo. See https://tfhub.dev/google/elmo/3 for reference
    * @return A Seq of WordpieceEmbeddingsSentence, one element for each input sentence
    */
-  def predict(sentences: Seq[TokenizedSentence], poolingLayer: String): Seq[WordpieceEmbeddingsSentence] = {
+  def predict(
+      sentences: Seq[TokenizedSentence],
+      poolingLayer: String): Seq[WordpieceEmbeddingsSentence] = {
 
     /*Run embeddings calculation by batches*/
-    sentences.zipWithIndex.grouped(batchSize).flatMap { batch =>
-      val vectors = tag((sentences), poolingLayer, getDimensions(poolingLayer))
-      /*Combine tokens and sentences  and their calculated embeddings*/
-      batch.zip(vectors).map { case (sentence, tokenVectors) =>
-        val tokenLength = sentence._1.indexedTokens.length
-        //        val endRange =
-        val tokenEmbeddings = tokenVectors.slice(0, tokenLength)
+    sentences.zipWithIndex
+      .grouped(batchSize)
+      .flatMap { batch =>
+        val vectors = tag((sentences), poolingLayer, getDimensions(poolingLayer))
+        /*Combine tokens and sentences  and their calculated embeddings*/
+        batch.zip(vectors).map {
+          case (sentence, tokenVectors) =>
+            val tokenLength = sentence._1.indexedTokens.length
+            //        val endRange =
+            val tokenEmbeddings = tokenVectors.slice(0, tokenLength)
 
-        val tokensWithEmbeddings = sentence._1.indexedTokens.zip(tokenEmbeddings)
-          .map { case (token, tokenEmbeddings) =>
-            TokenPieceEmbeddings(
-              token.token,
-              token.token,
-              -1,
-              isWordStart = true,
-              isOOV = false,
-              tokenEmbeddings,
-              token.begin,
-              token.end)
-          }
-        WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._1.sentenceIndex)
+            val tokensWithEmbeddings = sentence._1.indexedTokens
+              .zip(tokenEmbeddings)
+              .map {
+                case (token, tokenEmbeddings) =>
+                  TokenPieceEmbeddings(
+                    token.token,
+                    token.token,
+                    -1,
+                    isWordStart = true,
+                    isOOV = false,
+                    tokenEmbeddings,
+                    token.begin,
+                    token.end)
+              }
+            WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._1.sentenceIndex)
+        }
       }
-    }.toSeq
+      .toSeq
 
   }
 
@@ -102,7 +110,10 @@ class TensorflowElmo(val tensorflow: TensorflowWrapper,
    *         For each Seq Element we have a Sentence, and for each sentence we have an Array for each of its words.
    *         Each of its words gets a float array to represent its Embeddings
    */
-  def tag(batch: Seq[TokenizedSentence], embeddingsKey: String, dimension: Int): Seq[Array[Array[Float]]] = {
+  def tag(
+      batch: Seq[TokenizedSentence],
+      embeddingsKey: String,
+      dimension: Int): Seq[Array[Array[Float]]] = {
 
     val tensors = new TensorResources()
 
@@ -111,7 +122,6 @@ class TensorflowElmo(val tensorflow: TensorflowWrapper,
     val maxSentenceLength = sequencesLength.max
 
     val sentencesBytes = batch.map { sentence =>
-
       val indexedToks = sentence.indexedTokens
       val diff = maxSentenceLength - indexedToks.length
 
@@ -144,11 +154,12 @@ class TensorflowElmo(val tensorflow: TensorflowWrapper,
     var allWordEmbeddings: Array[Array[Float]] = wordEmbeddings.grouped(dimension).toArray
 
     /* Group embeddings based on the length of the sentence */
-    val embeddingsBySentence = batch.map { case sentence =>
-      val embds = allWordEmbeddings.slice(0, sentence.indexedTokens.length)
-      /* Remove the already used vectors */
-      allWordEmbeddings = allWordEmbeddings.slice(0, sentence.indexedTokens.length * dimension)
-      embds
+    val embeddingsBySentence = batch.map {
+      case sentence =>
+        val embds = allWordEmbeddings.slice(0, sentence.indexedTokens.length)
+        /* Remove the already used vectors */
+        allWordEmbeddings = allWordEmbeddings.slice(0, sentence.indexedTokens.length * dimension)
+        embds
     }
 
     batch.zip(embeddingsBySentence).map { case (_, embeddings) => embeddings }

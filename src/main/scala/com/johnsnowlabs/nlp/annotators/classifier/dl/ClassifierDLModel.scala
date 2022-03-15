@@ -28,7 +28,6 @@ import org.apache.spark.ml.param.{IntArrayParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
 
-
 /**
  * ClassifierDL for generic Multi-class Text Classification.
  *
@@ -122,7 +121,8 @@ import org.apache.spark.sql.{Dataset, SparkSession}
  *
  * */
 class ClassifierDLModel(override val uid: String)
-  extends AnnotatorModel[ClassifierDLModel] with HasSimpleAnnotate[ClassifierDLModel]
+    extends AnnotatorModel[ClassifierDLModel]
+    with HasSimpleAnnotate[ClassifierDLModel]
     with WriteTensorflowModel
     with HasStorageRef
     with ParamsAndFeaturesWritable {
@@ -133,6 +133,7 @@ class ClassifierDLModel(override val uid: String)
    * @group anno
    * */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(SENTENCE_EMBEDDINGS)
+
   /** Output annotator type : CATEGORY
    *
    * @group anno
@@ -143,15 +144,17 @@ class ClassifierDLModel(override val uid: String)
    *
    * @group param
    * */
-  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  val configProtoBytes = new IntArrayParam(
+    this,
+    "configProtoBytes",
+    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** Tensorflow config Protobytes passed to the TF session
    *
    * @group setParam
    * */
-  def setConfigProtoBytes(
-                           bytes: Array[Int]
-                         ): ClassifierDLModel.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): ClassifierDLModel.this.type =
+    set(this.configProtoBytes, bytes)
 
   /** Tensorflow config Protobytes passed to the TF session
    *
@@ -189,14 +192,7 @@ class ClassifierDLModel(override val uid: String)
       val encoder = new ClassifierDatasetEncoder(datasetParams.get.get)
 
       _model = Some(
-        spark.sparkContext.broadcast(
-          new TensorflowClassifier(
-            tf,
-            encoder,
-            Verbose.Silent
-          )
-        )
-      )
+        spark.sparkContext.broadcast(new TensorflowClassifier(tf, encoder, Verbose.Silent)))
     }
     this
   }
@@ -245,14 +241,13 @@ class ClassifierDLModel(override val uid: String)
       getModelIfNotSet.tensorflow,
       "_classifierdl",
       ClassifierDLModel.tfFile,
-      configProtoBytes = getConfigProtoBytes
-    )
+      configProtoBytes = getConfigProtoBytes)
 
   }
 }
 
 trait ReadablePretrainedClassifierDL
-  extends ParamsAndFeaturesReadable[ClassifierDLModel]
+    extends ParamsAndFeaturesReadable[ClassifierDLModel]
     with HasPretrained[ClassifierDLModel] {
   override val defaultModelName: Some[String] = Some("classifierdl_use_trec6")
 
@@ -261,11 +256,14 @@ trait ReadablePretrainedClassifierDL
   }
 
   /** Java compliant-overrides */
-  override def pretrained(): ClassifierDLModel = pretrained(defaultModelName.get, defaultLang, defaultLoc)
+  override def pretrained(): ClassifierDLModel =
+    pretrained(defaultModelName.get, defaultLang, defaultLoc)
 
-  override def pretrained(name: String): ClassifierDLModel = pretrained(name, defaultLang, defaultLoc)
+  override def pretrained(name: String): ClassifierDLModel =
+    pretrained(name, defaultLang, defaultLoc)
 
-  override def pretrained(name: String, lang: String): ClassifierDLModel = pretrained(name, lang, defaultLoc)
+  override def pretrained(name: String, lang: String): ClassifierDLModel =
+    pretrained(name, lang, defaultLoc)
 }
 
 trait ReadClassifierDLTensorflowModel extends ReadTensorflowModel {
@@ -288,4 +286,6 @@ trait ReadClassifierDLTensorflowModel extends ReadTensorflowModel {
 /**
  * This is the companion object of [[ClassifierDLModel]]. Please refer to that class for the documentation.
  */
-object ClassifierDLModel extends ReadablePretrainedClassifierDL with ReadClassifierDLTensorflowModel
+object ClassifierDLModel
+    extends ReadablePretrainedClassifierDL
+    with ReadClassifierDLTensorflowModel

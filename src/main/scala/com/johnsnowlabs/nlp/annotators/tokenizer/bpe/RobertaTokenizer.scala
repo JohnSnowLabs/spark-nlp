@@ -17,8 +17,13 @@
 package com.johnsnowlabs.nlp.annotators.tokenizer.bpe
 
 class RobertaTokenizer(
-                        merges: Map[(String, String), Int],
-                        vocab: Map[String, Int],
-                        specialTokens: SpecialTokens,
-                        padWithSentenceTokens: Boolean = false
-                      ) extends Gpt2Tokenizer(merges, vocab, specialTokens, padWithSentenceTokens, prependString = "Ġ")
+    merges: Map[(String, String), Int],
+    vocab: Map[String, Int],
+    specialTokens: SpecialTokens,
+    padWithSentenceTokens: Boolean = false)
+    extends Gpt2Tokenizer(
+      merges,
+      vocab,
+      specialTokens,
+      padWithSentenceTokens,
+      prependString = "Ġ")

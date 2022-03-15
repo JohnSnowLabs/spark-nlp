@@ -102,7 +102,7 @@ import java.io.File
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
 class DistilBertForSequenceClassification(override val uid: String)
-  extends AnnotatorModel[DistilBertForSequenceClassification]
+    extends AnnotatorModel[DistilBertForSequenceClassification]
     with HasBatchedAnnotate[DistilBertForSequenceClassification]
     with WriteTensorflowModel
     with HasCaseSensitiveProperties {
@@ -115,7 +115,8 @@ class DistilBertForSequenceClassification(override val uid: String)
    *
    * @group anno
    */
-  override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+  override val inputAnnotatorTypes: Array[String] =
+    Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
 
   /**
    * Output Annotator Types: CATEGORY
@@ -144,7 +145,6 @@ class DistilBertForSequenceClassification(override val uid: String)
   /** @group setParam */
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
 
-
   /**
    * Labels used to decode predicted IDs back to string tags
    *
@@ -168,7 +168,10 @@ class DistilBertForSequenceClassification(override val uid: String)
    *
    * @group param
    * */
-  val coalesceSentences = new BooleanParam(this, "coalesceSentences", "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to true.")
+  val coalesceSentences = new BooleanParam(
+    this,
+    "coalesceSentences",
+    "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to true.")
 
   /** @group setParam */
   def setCoalesceSentences(value: Boolean): this.type = set(coalesceSentences, value)
@@ -180,10 +183,14 @@ class DistilBertForSequenceClassification(override val uid: String)
    *
    * @group param
    * */
-  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  val configProtoBytes = new IntArrayParam(
+    this,
+    "configProtoBytes",
+    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): DistilBertForSequenceClassification.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): DistilBertForSequenceClassification.this.type =
+    set(this.configProtoBytes, bytes)
 
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
@@ -192,11 +199,14 @@ class DistilBertForSequenceClassification(override val uid: String)
    *
    * @group param
    * */
-  val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
+  val maxSentenceLength =
+    new IntParam(this, "maxSentenceLength", "Max sentence length to process")
 
   /** @group setParam */
   def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "DistilBERT models do not support sequences longer than 512 because of trainable positional embeddings.")
+    require(
+      value <= 512,
+      "DistilBERT models do not support sequences longer than 512 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -225,21 +235,19 @@ class DistilBertForSequenceClassification(override val uid: String)
   private var _model: Option[Broadcast[TensorflowDistilBertClassification]] = None
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): DistilBertForSequenceClassification = {
+  def setModelIfNotSet(
+      spark: SparkSession,
+      tensorflowWrapper: TensorflowWrapper): DistilBertForSequenceClassification = {
     if (_model.isEmpty) {
       _model = Some(
-        spark.sparkContext.broadcast(
-          new TensorflowDistilBertClassification(
-            tensorflowWrapper,
-            sentenceStartTokenId,
-            sentenceEndTokenId,
-            configProtoBytes = getConfigProtoBytes,
-            tags = $$(labels),
-            signatures = getSignatures,
-            $$(vocabulary)
-          )
-        )
-      )
+        spark.sparkContext.broadcast(new TensorflowDistilBertClassification(
+          tensorflowWrapper,
+          sentenceStartTokenId,
+          sentenceEndTokenId,
+          configProtoBytes = getConfigProtoBytes,
+          tags = $$(labels),
+          signatures = getSignatures,
+          $$(vocabulary))))
     }
 
     this
@@ -247,7 +255,6 @@ class DistilBertForSequenceClassification(override val uid: String)
 
   /** @group getParam */
   def getModelIfNotSet: TensorflowDistilBertClassification = _model.get.value
-
 
   /** Whether to lowercase tokens or not
    *
@@ -263,8 +270,7 @@ class DistilBertForSequenceClassification(override val uid: String)
     batchSize -> 8,
     maxSentenceLength -> 128,
     caseSensitive -> true,
-    coalesceSentences -> false
-  )
+    coalesceSentences -> false)
 
   /**
    * takes a document and annotations and produces new annotations of this annotator's annotation type
@@ -285,36 +291,45 @@ class DistilBertForSequenceClassification(override val uid: String)
           $(maxSentenceLength),
           $(caseSensitive),
           $(coalesceSentences),
-          $$(labels)
-        )
-      }
-      else {
+          $$(labels))
+      } else {
         Seq.empty[Annotation]
       }
-    }
-
-    )
+    })
   }
-
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_distilbert_classification", DistilBertForSequenceClassification.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(
+      path,
+      spark,
+      getModelIfNotSet.tensorflowWrapper,
+      "_distilbert_classification",
+      DistilBertForSequenceClassification.tfFile,
+      configProtoBytes = getConfigProtoBytes)
   }
 
 }
 
-trait ReadablePretrainedDistilBertForSequenceModel extends ParamsAndFeaturesReadable[DistilBertForSequenceClassification] with HasPretrained[DistilBertForSequenceClassification] {
+trait ReadablePretrainedDistilBertForSequenceModel
+    extends ParamsAndFeaturesReadable[DistilBertForSequenceClassification]
+    with HasPretrained[DistilBertForSequenceClassification] {
   override val defaultModelName: Some[String] = Some("distilbert_base_sequence_classifier_imdb")
 
   /** Java compliant-overrides */
   override def pretrained(): DistilBertForSequenceClassification = super.pretrained()
 
-  override def pretrained(name: String): DistilBertForSequenceClassification = super.pretrained(name)
+  override def pretrained(name: String): DistilBertForSequenceClassification =
+    super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): DistilBertForSequenceClassification = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): DistilBertForSequenceClassification =
+    super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): DistilBertForSequenceClassification = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(
+      name: String,
+      lang: String,
+      remoteLoc: String): DistilBertForSequenceClassification =
+    super.pretrained(name, lang, remoteLoc)
 }
 
 trait ReadDistilBertForSequenceTensorflowModel extends ReadTensorflowModel {
@@ -322,15 +337,21 @@ trait ReadDistilBertForSequenceTensorflowModel extends ReadTensorflowModel {
 
   override val tfFile: String = "distilbert_classification_tensorflow"
 
-  def readTensorflow(instance: DistilBertForSequenceClassification, path: String, spark: SparkSession): Unit = {
+  def readTensorflow(
+      instance: DistilBertForSequenceClassification,
+      path: String,
+      spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_distilbert_classification_tf", initAllTables = false)
+    val tf =
+      readTensorflowModel(path, spark, "_distilbert_classification_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): DistilBertForSequenceClassification = {
+  def loadSavedModel(
+      tfModelPath: String,
+      spark: SparkSession): DistilBertForSequenceClassification = {
 
     val f = new File(tfModelPath)
     val savedModel = new File(tfModelPath, "saved_model.pb")
@@ -339,22 +360,28 @@ trait ReadDistilBertForSequenceTensorflowModel extends ReadTensorflowModel {
     require(f.isDirectory, s"File $tfModelPath is not folder")
     require(
       savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath"
-    )
+      s"savedModel file saved_model.pb not found in folder $tfModelPath")
 
     val vocabPath = new File(tfModelPath + "/assets", "vocab.txt")
-    require(vocabPath.exists(), s"Vocabulary file vocab.txt not found in folder $tfModelPath/assets/")
+    require(
+      vocabPath.exists(),
+      s"Vocabulary file vocab.txt not found in folder $tfModelPath/assets/")
 
-    val vocabResource = new ExternalResource(vocabPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val vocabResource =
+      new ExternalResource(vocabPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
 
     val labelsPath = new File(tfModelPath + "/assets", "labels.txt")
-    require(labelsPath.exists(), s"Labels file labels.txt not found in folder $tfModelPath/assets/")
+    require(
+      labelsPath.exists(),
+      s"Labels file labels.txt not found in folder $tfModelPath/assets/")
 
-    val labelsResource = new ExternalResource(labelsPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val labelsResource =
+      new ExternalResource(labelsPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val labels = ResourceHelper.parseLines(labelsResource).zipWithIndex.toMap
 
-    val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
+    val (wrapper, signatures) =
+      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
 
     val _signatures = signatures match {
       case Some(s) => s
@@ -373,4 +400,6 @@ trait ReadDistilBertForSequenceTensorflowModel extends ReadTensorflowModel {
 /**
  * This is the companion object of [[DistilBertForSequenceClassification]]. Please refer to that class for the documentation.
  */
-object DistilBertForSequenceClassification extends ReadablePretrainedDistilBertForSequenceModel with ReadDistilBertForSequenceTensorflowModel
+object DistilBertForSequenceClassification
+    extends ReadablePretrainedDistilBertForSequenceModel
+    with ReadDistilBertForSequenceTensorflowModel

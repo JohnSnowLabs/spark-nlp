@@ -29,9 +29,10 @@ class NativeLibLoader {
      * <p/>
      * The restrictions of {@link File#createTempFile(String, String)} apply to
      * {@code path}.
+     *
      * @param path Path to the resources in the jar
      * @return The created temp file.
-     * @throws IOException When the temp file could not be created
+     * @throws IOException              When the temp file could not be created
      * @throws IllegalArgumentException When the file name contains invalid letters
      */
     static String createTempFileFromResource(String path) throws IOException, IllegalArgumentException {

@@ -19,7 +19,8 @@ import com.johnsnowlabs.storage.{RocksDBConnection, StorageReader}
 
 import java.io.{ByteArrayInputStream, ObjectInputStream}
 
-class RegexPatternsReader(protected val connection: RocksDBConnection) extends StorageReader[Seq[String]] {
+class RegexPatternsReader(protected val connection: RocksDBConnection)
+    extends StorageReader[Seq[String]] {
 
   protected val caseSensitiveIndex: Boolean = false
 
@@ -33,6 +34,5 @@ class RegexPatternsReader(protected val connection: RocksDBConnection) extends S
     objectInputStream.close()
     value
   }
-
 
 }

@@ -45,8 +45,7 @@ object ChunkBytes {
         read = fis.read(chunkBuffer, 0, BufferSize)
         varBytesBuffer append chunkBuffer
         chunkBuffer = null
-      }
-      while (read > -1)
+      } while (read > -1)
 
       fis.close()
       varBytesBuffer.toArray
@@ -72,8 +71,7 @@ object ChunkBytes {
         count += 1
       }
       out.close()
-    }
-    catch {
+    } catch {
       case e: IOException =>
         e.printStackTrace()
     }

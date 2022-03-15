@@ -16,20 +16,20 @@
 
 package com.johnsnowlabs.nlp.training
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, DocumentAssembler}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import org.apache.spark.sql.{Dataset, SparkSession}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, DocumentAssembler}
 import org.apache.spark.sql.types._
+import org.apache.spark.sql.{Dataset, SparkSession}
 import org.apache.spark.storage.StorageLevel
 
 import scala.collection.mutable.ArrayBuffer
 
-case class CoNLLDocument(text: String,
-                         nerTagged: Seq[NerTaggedSentence],
-                         posTagged: Seq[PosTaggedSentence]
-                        )
+case class CoNLLDocument(
+    text: String,
+    nerTagged: Seq[NerTaggedSentence],
+    posTagged: Seq[PosTaggedSentence])
 
 /** Helper class to load a CoNLL type dataset for training.
  *
@@ -131,19 +131,17 @@ case class CoNLLDocument(text: String,
  * @param explodeSentences Whether to explode each sentence to a separate row
  * @param delimiter        Delimiter used to separate columns inside CoNLL file
  */
-
-
-case class CoNLL(documentCol: String = "document",
-                 sentenceCol: String = "sentence",
-                 tokenCol: String = "token",
-                 posCol: String = "pos",
-                 conllLabelIndex: Int = 3,
-                 conllPosIndex: Int = 1,
-                 conllTextCol: String = "text",
-                 labelCol: String = "label",
-                 explodeSentences: Boolean = true,
-                 delimiter: String = " "
-                ) {
+case class CoNLL(
+    documentCol: String = "document",
+    sentenceCol: String = "sentence",
+    tokenCol: String = "token",
+    posCol: String = "pos",
+    conllLabelIndex: Int = 3,
+    conllPosIndex: Int = 1,
+    conllTextCol: String = "text",
+    labelCol: String = "label",
+    explodeSentences: Boolean = true,
+    delimiter: String = " ") {
   /*
     Reads Dataset in CoNLL format and pack it into docs
    */
@@ -218,8 +216,7 @@ case class CoNLL(documentCol: String = "document",
           val pos = IndexedTaggedWord(items(0), posTag, begin, end)
           lastSentence.append((ner, pos))
           None
-        }
-        else {
+        } else {
           None
         }
       }
@@ -228,9 +225,10 @@ case class CoNLL(documentCol: String = "document",
 
     val last = if (doc.nonEmpty) Seq((doc.toString, sentences.toList)) else Seq.empty
 
-    (docs ++ last).map { case (text, textSentences) =>
-      val (ner, pos) = textSentences.unzip
-      CoNLLDocument(text, ner, pos)
+    (docs ++ last).map {
+      case (text, textSentences) =>
+        val (ner, pos) = textSentences.unzip
+        CoNLLDocument(text, ner, pos)
     }
   }
 
@@ -244,27 +242,26 @@ case class CoNLL(documentCol: String = "document",
   }
 
   def packSentence(text: String, sentences: Seq[TaggedSentence]): Seq[Annotation] = {
-    val indexedSentences = sentences.zipWithIndex.map { case (sentence, index) =>
-      val start = sentence.indexedTaggedWords.map(t => t.begin).min
-      val end = sentence.indexedTaggedWords.map(t => t.end).max
-      val sentenceText = text.substring(start, end + 1)
-      new Sentence(sentenceText, start, end, index)
+    val indexedSentences = sentences.zipWithIndex.map {
+      case (sentence, index) =>
+        val start = sentence.indexedTaggedWords.map(t => t.begin).min
+        val end = sentence.indexedTaggedWords.map(t => t.end).max
+        val sentenceText = text.substring(start, end + 1)
+        new Sentence(sentenceText, start, end, index)
     }
 
     SentenceSplit.pack(indexedSentences)
   }
 
   def packTokenized(text: String, sentences: Seq[TaggedSentence]): Seq[Annotation] = {
-    val tokenizedSentences = sentences.zipWithIndex.map { case (sentence, index) =>
-      val tokens = sentence.indexedTaggedWords.map(t =>
-        IndexedToken(t.word, t.begin, t.end)
-      )
-      TokenizedSentence(tokens, index)
+    val tokenizedSentences = sentences.zipWithIndex.map {
+      case (sentence, index) =>
+        val tokens = sentence.indexedTaggedWords.map(t => IndexedToken(t.word, t.begin, t.end))
+        TokenizedSentence(tokens, index)
     }
 
     TokenizedWithSentence.pack(tokenizedSentences)
   }
-
 
   def packPosTagged(sentences: Seq[TaggedSentence]): Seq[Annotation] = {
     PosTagged.pack(sentences)
@@ -272,7 +269,10 @@ case class CoNLL(documentCol: String = "document",
 
   val annotationType: ArrayType = ArrayType(Annotation.dataType)
 
-  def getAnnotationType(column: String, annotatorType: String, addMetadata: Boolean = true): StructField = {
+  def getAnnotationType(
+      column: String,
+      annotatorType: String,
+      addMetadata: Boolean = true): StructField = {
     if (!addMetadata)
       StructField(column, annotationType, nullable = false)
     else {
@@ -293,7 +293,7 @@ case class CoNLL(documentCol: String = "document",
     StructType(Seq(text, doc, sentence, token, pos, label))
   }
 
-  private def coreTransformation(doc:CoNLLDocument) = {
+  private def coreTransformation(doc: CoNLLDocument) = {
     val text = doc.text
     val labels = packNerTagged(doc.nerTagged)
     val docs = packAssembly(text)
@@ -311,21 +311,24 @@ case class CoNLL(documentCol: String = "document",
   }
 
   def readDataset(
-                   spark: SparkSession,
-                   path: String,
-                   readAs: String = ReadAs.TEXT.toString,
-                   parallelism:Int = 8,
-                   storageLevel:StorageLevel = StorageLevel.DISK_ONLY
-                 ): Dataset[_] = {
+      spark: SparkSession,
+      path: String,
+      readAs: String = ReadAs.TEXT.toString,
+      parallelism: Int = 8,
+      storageLevel: StorageLevel = StorageLevel.DISK_ONLY): Dataset[_] = {
     if (path.endsWith("*")) {
-      val rdd = spark.sparkContext.wholeTextFiles(path, minPartitions = parallelism).
-        flatMap{ case (_, content) =>
-          val lines = content.split(System.lineSeparator)
-          readLines(lines).map(doc => coreTransformation(doc))
-        }.persist(storageLevel)
+      val rdd = spark.sparkContext
+        .wholeTextFiles(path, minPartitions = parallelism)
+        .flatMap {
+          case (_, content) =>
+            val lines = content.split(System.lineSeparator)
+            readLines(lines).map(doc => coreTransformation(doc))
+        }
+        .persist(storageLevel)
 
-      val df = spark.createDataFrame(rdd).
-        toDF(conllTextCol, documentCol, sentenceCol, tokenCol, posCol, labelCol)
+      val df = spark
+        .createDataFrame(rdd)
+        .toDF(conllTextCol, documentCol, sentenceCol, tokenCol, posCol, labelCol)
 
       spark.createDataFrame(df.rdd, schema)
     } else {

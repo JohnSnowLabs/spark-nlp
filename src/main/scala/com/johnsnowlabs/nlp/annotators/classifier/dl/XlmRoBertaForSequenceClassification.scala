@@ -17,7 +17,11 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -103,7 +107,7 @@ import java.io.File
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
 class XlmRoBertaForSequenceClassification(override val uid: String)
-  extends AnnotatorModel[XlmRoBertaForSequenceClassification]
+    extends AnnotatorModel[XlmRoBertaForSequenceClassification]
     with HasBatchedAnnotate[XlmRoBertaForSequenceClassification]
     with WriteTensorflowModel
     with WriteSentencePieceModel
@@ -117,7 +121,8 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
    *
    * @group anno
    */
-  override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+  override val inputAnnotatorTypes: Array[String] =
+    Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
 
   /**
    * Output Annotator Types: CATEGORY
@@ -138,7 +143,6 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
     $$(vocabulary)("<pad>")
   }
 
-
   /**
    * Vocabulary used to encode the words to ids with WordPieceEncoder
    *
@@ -148,7 +152,6 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
 
   /** @group setParam */
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
-
 
   /**
    * Labels used to decode predicted IDs back to string tags
@@ -183,7 +186,10 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
    *
    * @group param
    * */
-  val coalesceSentences = new BooleanParam(this, "coalesceSentences", "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to true.")
+  val coalesceSentences = new BooleanParam(
+    this,
+    "coalesceSentences",
+    "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to true.")
 
   /** @group setParam */
   def setCoalesceSentences(value: Boolean): this.type = set(coalesceSentences, value)
@@ -195,10 +201,14 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
    *
    * @group param
    * */
-  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  val configProtoBytes = new IntArrayParam(
+    this,
+    "configProtoBytes",
+    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): XlmRoBertaForSequenceClassification.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): XlmRoBertaForSequenceClassification.this.type =
+    set(this.configProtoBytes, bytes)
 
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
@@ -207,11 +217,14 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
    *
    * @group param
    * */
-  val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
+  val maxSentenceLength =
+    new IntParam(this, "maxSentenceLength", "Max sentence length to process")
 
   /** @group setParam */
   def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "XLM-RoBERTa models do not support sequences longer than 512 because of trainable positional embeddings.")
+    require(
+      value <= 512,
+      "XLM-RoBERTa models do not support sequences longer than 512 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -240,7 +253,10 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
   private var _model: Option[Broadcast[TensorflowXlmRoBertaClassification]] = None
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper, spp: SentencePieceWrapper): XlmRoBertaForSequenceClassification = {
+  def setModelIfNotSet(
+      spark: SparkSession,
+      tensorflowWrapper: TensorflowWrapper,
+      spp: SentencePieceWrapper): XlmRoBertaForSequenceClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
@@ -249,10 +265,7 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
             spp,
             configProtoBytes = getConfigProtoBytes,
             tags = $$(labels),
-            signatures = getSignatures
-          )
-        )
-      )
+            signatures = getSignatures)))
     }
 
     this
@@ -260,7 +273,6 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
 
   /** @group getParam */
   def getModelIfNotSet: TensorflowXlmRoBertaClassification = _model.get.value
-
 
   /** Whether to lowercase tokens or not
    *
@@ -276,8 +288,7 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
     batchSize -> 8,
     maxSentenceLength -> 128,
     caseSensitive -> true,
-    coalesceSentences -> false
-  )
+    coalesceSentences -> false)
 
   /**
    * takes a document and annotations and produces new annotations of this annotator's annotation type
@@ -298,54 +309,76 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
           $(maxSentenceLength),
           $(caseSensitive),
           $(coalesceSentences),
-          $$(labels)
-        )
-      }
-      else {
+          $$(labels))
+      } else {
         Seq.empty[Annotation]
       }
-    }
-
-    )
+    })
   }
-
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_xlm_roberta_classification", XlmRoBertaForTokenClassification.tfFile, configProtoBytes = getConfigProtoBytes)
-    writeSentencePieceModel(path, spark, getModelIfNotSet.spp, "_xlmroberta", XlmRoBertaForTokenClassification.sppFile)
+    writeTensorflowModelV2(
+      path,
+      spark,
+      getModelIfNotSet.tensorflowWrapper,
+      "_xlm_roberta_classification",
+      XlmRoBertaForTokenClassification.tfFile,
+      configProtoBytes = getConfigProtoBytes)
+    writeSentencePieceModel(
+      path,
+      spark,
+      getModelIfNotSet.spp,
+      "_xlmroberta",
+      XlmRoBertaForTokenClassification.sppFile)
   }
 }
 
-trait ReadablePretrainedXlmRoBertaForSequenceModel extends ParamsAndFeaturesReadable[XlmRoBertaForSequenceClassification] with HasPretrained[XlmRoBertaForSequenceClassification] {
+trait ReadablePretrainedXlmRoBertaForSequenceModel
+    extends ParamsAndFeaturesReadable[XlmRoBertaForSequenceClassification]
+    with HasPretrained[XlmRoBertaForSequenceClassification] {
   override val defaultModelName: Some[String] = Some("xlm_roberta_base_sequence_classifier_imdb")
 
   /** Java compliant-overrides */
   override def pretrained(): XlmRoBertaForSequenceClassification = super.pretrained()
 
-  override def pretrained(name: String): XlmRoBertaForSequenceClassification = super.pretrained(name)
+  override def pretrained(name: String): XlmRoBertaForSequenceClassification =
+    super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): XlmRoBertaForSequenceClassification = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): XlmRoBertaForSequenceClassification =
+    super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): XlmRoBertaForSequenceClassification = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(
+      name: String,
+      lang: String,
+      remoteLoc: String): XlmRoBertaForSequenceClassification =
+    super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadXlmRoBertaForSequenceTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadXlmRoBertaForSequenceTensorflowModel
+    extends ReadTensorflowModel
+    with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[XlmRoBertaForSequenceClassification] =>
 
   override val tfFile: String = "xlm_roberta_classification_tensorflow"
   override val sppFile: String = "xlmroberta_spp"
 
-  def readTensorflow(instance: XlmRoBertaForSequenceClassification, path: String, spark: SparkSession): Unit = {
+  def readTensorflow(
+      instance: XlmRoBertaForSequenceClassification,
+      path: String,
+      spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_xlm_roberta_classification_tf", initAllTables = false)
+    val tf =
+      readTensorflowModel(path, spark, "_xlm_roberta_classification_tf", initAllTables = false)
     val spp = readSentencePieceModel(path, spark, "_xlmroberta_spp", sppFile)
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): XlmRoBertaForSequenceClassification = {
+  def loadSavedModel(
+      tfModelPath: String,
+      spark: SparkSession): XlmRoBertaForSequenceClassification = {
 
     val f = new File(tfModelPath)
     val savedModel = new File(tfModelPath, "saved_model.pb")
@@ -353,26 +386,30 @@ trait ReadXlmRoBertaForSequenceTensorflowModel extends ReadTensorflowModel with 
     require(f.isDirectory, s"File $tfModelPath is not folder")
     require(
       savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath"
-    )
+      s"savedModel file saved_model.pb not found in folder $tfModelPath")
     val sppModelPath = tfModelPath + "/assets"
     val sppModel = new File(sppModelPath, "sentencepiece.bpe.model")
-    require(sppModel.exists(), s"SentencePiece model sentencepiece.bpe.model not found in folder $sppModelPath")
+    require(
+      sppModel.exists(),
+      s"SentencePiece model sentencepiece.bpe.model not found in folder $sppModelPath")
 
     val labelsPath = new File(tfModelPath + "/assets", "labels.txt")
-    require(labelsPath.exists(), s"Labels file labels.txt not found in folder $tfModelPath/assets/")
+    require(
+      labelsPath.exists(),
+      s"Labels file labels.txt not found in folder $tfModelPath/assets/")
 
-    val labelsResource = new ExternalResource(labelsPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val labelsResource =
+      new ExternalResource(labelsPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val labels = ResourceHelper.parseLines(labelsResource).zipWithIndex.toMap
 
-    val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
+    val (wrapper, signatures) =
+      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
     val spp = SentencePieceWrapper.read(sppModel.toString)
 
     val _signatures = signatures match {
       case Some(s) => s
       case None => throw new Exception("Cannot load signature definitions from model!")
     }
-
 
     /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
     new XlmRoBertaForSequenceClassification()
@@ -385,4 +422,6 @@ trait ReadXlmRoBertaForSequenceTensorflowModel extends ReadTensorflowModel with 
 /**
  * This is the companion object of [[XlmRoBertaForSequenceClassification]]. Please refer to that class for the documentation.
  */
-object XlmRoBertaForSequenceClassification extends ReadablePretrainedXlmRoBertaForSequenceModel with ReadXlmRoBertaForSequenceTensorflowModel
+object XlmRoBertaForSequenceClassification
+    extends ReadablePretrainedXlmRoBertaForSequenceModel
+    with ReadXlmRoBertaForSequenceTensorflowModel

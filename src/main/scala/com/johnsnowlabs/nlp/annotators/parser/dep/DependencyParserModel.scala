@@ -18,10 +18,14 @@ package com.johnsnowlabs.nlp.annotators.parser.dep
 
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
-import com.johnsnowlabs.nlp.annotators.common.{DependencyParsed, DependencyParsedSentence, PosTagged}
+import com.johnsnowlabs.nlp.annotators.common.{
+  DependencyParsed,
+  DependencyParsedSentence,
+  PosTagged
+}
 import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition._
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable, HasSimpleAnnotate}
+import com.johnsnowlabs.nlp._
 import org.apache.spark.ml.util.Identifiable
 
 /** Unlabeled parser that finds a grammatical relation between two words in a sentence.
@@ -120,7 +124,9 @@ import org.apache.spark.ml.util.Identifiable
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
-class DependencyParserModel(override val uid: String) extends AnnotatorModel[DependencyParserModel] with HasSimpleAnnotate[DependencyParserModel] {
+class DependencyParserModel(override val uid: String)
+    extends AnnotatorModel[DependencyParserModel]
+    with HasSimpleAnnotate[DependencyParserModel] {
   def this() = this(Identifiable.randomUID(DEPENDENCY))
 
   /** Output annotation type : DEPENDENCY
@@ -135,12 +141,12 @@ class DependencyParserModel(override val uid: String) extends AnnotatorModel[Dep
    * */
   override val inputAnnotatorTypes: Array[String] = Array[String](DOCUMENT, POS, TOKEN)
 
-
   /** Model that was set during training
    *
    * @group param
    * */
-  val perceptron: StructFeature[DependencyMaker] = new StructFeature[DependencyMaker](this, "perceptron")
+  val perceptron: StructFeature[DependencyMaker] =
+    new StructFeature[DependencyMaker](this, "perceptron")
 
   /** @group setParam */
   def setPerceptron(value: DependencyMaker): this.type = set(perceptron, value)
@@ -153,13 +159,17 @@ class DependencyParserModel(override val uid: String) extends AnnotatorModel[Dep
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val posTaggedSentences = PosTagged.unpack(annotations)
-    val sentencesWithDependency = posTaggedSentences.map { sentence => getDependencyParsedSentence(sentence) }
+    val sentencesWithDependency = posTaggedSentences.map { sentence =>
+      getDependencyParsedSentence(sentence)
+    }
     val dependencyParser = DependencyParsed.pack(sentencesWithDependency)
     dependencyParser
   }
 }
 
-trait ReadablePretrainedDependency extends ParamsAndFeaturesReadable[DependencyParserModel] with HasPretrained[DependencyParserModel] {
+trait ReadablePretrainedDependency
+    extends ParamsAndFeaturesReadable[DependencyParserModel]
+    with HasPretrained[DependencyParserModel] {
   override val defaultModelName = Some("dependency_conllu")
 
   /** Java compliant-overrides */
@@ -167,9 +177,11 @@ trait ReadablePretrainedDependency extends ParamsAndFeaturesReadable[DependencyP
 
   override def pretrained(name: String): DependencyParserModel = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): DependencyParserModel = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): DependencyParserModel =
+    super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): DependencyParserModel = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): DependencyParserModel =
+    super.pretrained(name, lang, remoteLoc)
 }
 
 /**

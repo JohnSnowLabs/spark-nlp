@@ -21,7 +21,6 @@ import com.johnsnowlabs.nlp.annotators.common.ChunkSplit
 import com.johnsnowlabs.nlp.{Annotation, ParamsAndFeaturesReadable}
 import org.apache.spark.ml.util.Identifiable
 
-
 /**
  *
  * Instantiated model of the [[ChunkTokenizer]].
@@ -51,6 +50,7 @@ class ChunkTokenizerModel(override val uid: String) extends TokenizerModel {
    * @group anno
    * */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array[AnnotatorType](CHUNK)
+
   /** Output Annotator Type : TOKEN
    *
    * @group anno
@@ -62,11 +62,16 @@ class ChunkTokenizerModel(override val uid: String) extends TokenizerModel {
     val sentences = ChunkSplit.unpack(annotations)
     val tokenized = tag(sentences)
 
-    tokenized.zipWithIndex.flatMap { case (sentence, sentenceIndex) =>
-      sentence.indexedTokens.map { token =>
-        Annotation(outputAnnotatorType, token.begin, token.end, token.token,
-          Map("chunk" -> sentenceIndex.toString, "sentence" -> sentence.sentenceIndex.toString))
-      }
+    tokenized.zipWithIndex.flatMap {
+      case (sentence, sentenceIndex) =>
+        sentence.indexedTokens.map { token =>
+          Annotation(
+            outputAnnotatorType,
+            token.begin,
+            token.end,
+            token.token,
+            Map("chunk" -> sentenceIndex.toString, "sentence" -> sentence.sentenceIndex.toString))
+        }
     }
 
   }

@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable, HasSimpleAnnotate}
+import com.johnsnowlabs.nlp._
 import org.apache.spark.ml.util.Identifiable
 
 /**
@@ -103,7 +103,7 @@ import org.apache.spark.ml.util.Identifiable
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class PerceptronModel(override val uid: String)
-  extends AnnotatorModel[PerceptronModel]
+    extends AnnotatorModel[PerceptronModel]
     with HasSimpleAnnotate[PerceptronModel]
     with PerceptronPredictionUtils {
 
@@ -113,12 +113,15 @@ class PerceptronModel(override val uid: String)
    *
    * @group param
    * */
-  val model: StructFeature[AveragedPerceptron] = new StructFeature[AveragedPerceptron](this, "POS Model")
+  val model: StructFeature[AveragedPerceptron] =
+    new StructFeature[AveragedPerceptron](this, "POS Model")
+
   /** Output annotator types : POS
    *
    * @group anno
    * */
   override val outputAnnotatorType: AnnotatorType = POS
+
   /** Input annotator types : TOKEN, DOCUMENT
    *
    * @group anno
@@ -141,7 +144,9 @@ class PerceptronModel(override val uid: String)
   }
 }
 
-trait ReadablePretrainedPerceptron extends ParamsAndFeaturesReadable[PerceptronModel] with HasPretrained[PerceptronModel] {
+trait ReadablePretrainedPerceptron
+    extends ParamsAndFeaturesReadable[PerceptronModel]
+    with HasPretrained[PerceptronModel] {
   override val defaultModelName = Some("pos_anc")
 
   /** Java compliant-overrides */
@@ -149,9 +154,11 @@ trait ReadablePretrainedPerceptron extends ParamsAndFeaturesReadable[PerceptronM
 
   override def pretrained(name: String): PerceptronModel = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): PerceptronModel = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): PerceptronModel =
+    super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): PerceptronModel = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): PerceptronModel =
+    super.pretrained(name, lang, remoteLoc)
 }
 
 /**

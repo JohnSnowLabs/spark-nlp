@@ -95,7 +95,7 @@ import scala.util.matching.Regex
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class MultiDateMatcher(override val uid: String)
-  extends AnnotatorModel[MultiDateMatcher]
+    extends AnnotatorModel[MultiDateMatcher]
     with HasSimpleAnnotate[MultiDateMatcher]
     with DateMatcherUtils {
 
@@ -106,6 +106,7 @@ class MultiDateMatcher(override val uid: String)
    * @group anno
    * */
   override val outputAnnotatorType: AnnotatorType = DATE
+
   /** Input Annotator Type : DOCUMENT
    *
    * @group anno
@@ -126,10 +127,11 @@ class MultiDateMatcher(override val uid: String)
   }
 
   private def findByInputFormatsRules(text: String, factory: RuleFactory): Seq[MatchedDateTime] =
-    factory.findMatch(text)
+    factory
+      .findMatch(text)
       .map(formalDateContentParse(_))
       .groupBy(_.calendar)
-      .map{ case(_, group) => group.head}
+      .map { case (_, group) => group.head }
       .toSeq
 
   def runInputFormatsSearch(text: String): Seq[MatchedDateTime] = {
@@ -137,7 +139,7 @@ class MultiDateMatcher(override val uid: String)
       .filter(formalInputFormats.contains(_))
       .map(formalInputFormats(_))
 
-    for(r <- regexes){
+    for (r <- regexes) {
       formalFactoryInputFormats.addRule(r, "formal rule from input formats")
     }
 
@@ -152,24 +154,19 @@ class MultiDateMatcher(override val uid: String)
       () => extractRelaxedDate(_text),
       () => extractRelativeDate(_text),
       () => extractTomorrowYesterday(_text),
-      () => extractRelativeExactDay(_text)
-    )
+      () => extractRelativeExactDay(_text))
 
-    strategies.foldLeft(Seq.empty[MatchedDateTime])(
-      (previousResults, strategy) => {
-        // Always keep earliest match of each strategy by date found
-        val newResults = strategy()
-        newResults.foldLeft(previousResults)(
-          (previous, newResult) => {
-            // Prioritize previous results on this index, ignore new ones if overlapping previous results
-            if (previous.exists(_.start == newResult.start))
-              previous
-            else
-              previous :+ newResult
-          }
-        )
-      }
-    )
+    strategies.foldLeft(Seq.empty[MatchedDateTime])((previousResults, strategy) => {
+      // Always keep earliest match of each strategy by date found
+      val newResults = strategy()
+      newResults.foldLeft(previousResults)((previous, newResult) => {
+        // Prioritize previous results on this index, ignore new ones if overlapping previous results
+        if (previous.exists(_.start == newResult.start))
+          previous
+        else
+          previous :+ newResult
+      })
+    })
   }
 
   /**
@@ -195,17 +192,18 @@ class MultiDateMatcher(override val uid: String)
 
   private def extractRelativeDateFuture(text: String): Seq[MatchedDateTime] = {
     if ("(.*)\\s*in\\s*[0-9](.*)".r.findFirstMatchIn(text).isDefined)
-      relativeFutureFactory.findMatch(text.toLowerCase()).map(possibleDate =>
-        relativeDateFutureContentParse(possibleDate))
+      relativeFutureFactory
+        .findMatch(text.toLowerCase())
+        .map(possibleDate => relativeDateFutureContentParse(possibleDate))
     else
       Seq.empty
   }
 
   private def extractRelativeDatePast(text: String): Seq[MatchedDateTime] = {
     if ("(.*)\\s*[0-9]\\s*(.*)\\s*(ago)(.*)".r.findFirstMatchIn(text).isDefined)
-      relativePastFactory.findMatch(text.toLowerCase()).map(possibleDate =>
-        relativeDatePastContentParse(possibleDate)
-      )
+      relativePastFactory
+        .findMatch(text.toLowerCase())
+        .map(possibleDate => relativeDatePastContentParse(possibleDate))
     else
       Seq.empty
   }
@@ -218,27 +216,28 @@ class MultiDateMatcher(override val uid: String)
     regularizeFormalDateMatches(allFormalDateMatches)
   }
 
-  private def regularizeFormalDateMatches: Seq[MatchedDateTime] => Seq[MatchedDateTime] = allFormalDateMatches => {
-    def truncatedExists(e: Calendar, candidate: Calendar) = {
-      DateUtils.truncate(e, Calendar.MONTH).equals(candidate)
+  private def regularizeFormalDateMatches: Seq[MatchedDateTime] => Seq[MatchedDateTime] =
+    allFormalDateMatches => {
+      def truncatedExists(e: Calendar, candidate: Calendar) = {
+        DateUtils.truncate(e, Calendar.MONTH).equals(candidate)
+      }
+
+      val indexedMatches: Seq[(MatchedDateTime, Int)] = allFormalDateMatches.zipWithIndex
+      val indexesToRemove = new ListBuffer[Int]()
+
+      for (e <- indexedMatches) {
+        val candidates = indexedMatches.filterNot(_._2 == e._2)
+        val accTempIdx: Seq[Int] =
+          for (candidate <- candidates
+               // if true, the candidate is the truncated match of the existing match
+               if truncatedExists(e._1.calendar, candidate._1.calendar)) yield candidate._2
+        accTempIdx.foreach(indexesToRemove.append(_))
+      }
+
+      val regularized =
+        indexedMatches.filterNot { case (_, i) => indexesToRemove.contains(i) }.map(_._1)
+      regularized
     }
-
-    val indexedMatches: Seq[(MatchedDateTime, Int)] = allFormalDateMatches.zipWithIndex
-    val indexesToRemove = new ListBuffer[Int]()
-
-    for (e <- indexedMatches) {
-      val candidates = indexedMatches.filterNot(_._2 == e._2)
-      val accTempIdx: Seq[Int] =
-        for (candidate <- candidates
-             // if true, the candidate is the truncated match of the existing match
-             if truncatedExists(e._1.calendar, candidate._1.calendar)
-             ) yield candidate._2
-      accTempIdx.foreach(indexesToRemove.append(_))
-    }
-
-    val regularized = indexedMatches.filterNot { case (_, i) => indexesToRemove.contains(i) }.map(_._1)
-    regularized
-  }
 
   private def extractRelaxedDate(text: String): Seq[MatchedDateTime] = {
     val possibleDates = relaxedFactory.findMatch(text)
@@ -249,7 +248,8 @@ class MultiDateMatcher(override val uid: String)
 
     possibleDates.foreach(possibleDate => {
 
-      if (possibleDate.identifier == "relaxed days" && possibleDate.content.matched.exists(_.isDigit)) {
+      if (possibleDate.identifier == "relaxed days" && possibleDate.content.matched.exists(
+            _.isDigit)) {
         changes += 1
         dayMatch = possibleDate.content.matched.filter(_.isDigit).toInt
       }
@@ -262,8 +262,8 @@ class MultiDateMatcher(override val uid: String)
       }
 
       if (possibleDate.identifier == "relaxed year" &&
-        possibleDate.content.matched.exists(_.isDigit) &&
-        possibleDate.content.matched.length > 2) {
+          possibleDate.content.matched.exists(_.isDigit) &&
+          possibleDate.content.matched.length > 2) {
         changes += 1
         val year = possibleDate.content.matched.filter(_.isDigit).toInt
         yearMatch = if (year > 999) year else year + 1900
@@ -272,31 +272,28 @@ class MultiDateMatcher(override val uid: String)
     if (possibleDates.nonEmpty && changes > 1) {
       val calendar = new Calendar.Builder()
       calendar.setDate(yearMatch, monthMatch, dayMatch)
-      Seq(MatchedDateTime(
-        calendar.build(),
-        possibleDates.map(_.content.start).min,
-        possibleDates.map(_.content.end).max
-      ))
+      Seq(
+        MatchedDateTime(
+          calendar.build(),
+          possibleDates.map(_.content.start).min,
+          possibleDates.map(_.content.end).max))
     } else Seq.empty
   }
 
   private def extractRelativeDate(text: String): Seq[MatchedDateTime] = {
-    relativeFactory.findMatch(text).map(possibleDate =>
-      relativeDateContentParse(possibleDate)
-    )
+    relativeFactory.findMatch(text).map(possibleDate => relativeDateContentParse(possibleDate))
   }
 
   private def extractTomorrowYesterday(text: String): Seq[MatchedDateTime] = {
-    tyFactory.findMatch(text)
-      .map(possibleDate =>
-        tomorrowYesterdayContentParse(possibleDate)
-      )
+    tyFactory
+      .findMatch(text)
+      .map(possibleDate => tomorrowYesterdayContentParse(possibleDate))
   }
 
   private def extractRelativeExactDay(text: String): Seq[MatchedDateTime] = {
-    relativeExactFactory.findMatch(text.toLowerCase).map(possibleDate =>
-      relativeExactContentParse(possibleDate)
-    )
+    relativeExactFactory
+      .findMatch(text.toLowerCase)
+      .map(possibleDate => relativeExactContentParse(possibleDate))
   }
 
   /** One to one relationship between content document and output annotation
@@ -305,16 +302,17 @@ class MultiDateMatcher(override val uid: String)
    */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val simpleDateFormat = new SimpleDateFormat(getOutputFormat)
-    annotations.flatMap(annotation =>
-      extractDate(annotation.result)
-        .map(matchedDate => Annotation(
-          outputAnnotatorType,
-          matchedDate.start,
-          matchedDate.end - 1,
-          simpleDateFormat.format(matchedDate.calendar.getTime),
-          annotation.metadata
-        ))
-    )
+    annotations.flatMap(
+      annotation =>
+        extractDate(annotation.result)
+          .map(
+            matchedDate =>
+              Annotation(
+                outputAnnotatorType,
+                matchedDate.start,
+                matchedDate.end - 1,
+                simpleDateFormat.format(matchedDate.calendar.getTime),
+                annotation.metadata)))
   }
 
 }

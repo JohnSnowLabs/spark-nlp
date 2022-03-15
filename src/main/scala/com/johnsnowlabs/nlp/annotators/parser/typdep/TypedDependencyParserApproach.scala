@@ -25,7 +25,6 @@ import org.apache.spark.ml.param.IntParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
-
 /** Labeled parser that finds a grammatical relation between two words in a sentence.
  * Its input is either a CoNLL2009 or ConllU dataset.
  *
@@ -109,15 +108,19 @@ import org.apache.spark.sql.Dataset
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
-class TypedDependencyParserApproach(override val uid: String) extends AnnotatorApproach[TypedDependencyParserModel] {
+class TypedDependencyParserApproach(override val uid: String)
+    extends AnnotatorApproach[TypedDependencyParserModel] {
 
   /** Typed Dependency Parser is a labeled parser that finds a grammatical relation between two words in a sentence */
-  override val description: String = "Typed Dependency Parser is a labeled parser that finds a grammatical relation between two words in a sentence"
+  override val description: String =
+    "Typed Dependency Parser is a labeled parser that finds a grammatical relation between two words in a sentence"
+
   /** Input annotation type : LABELED_DEPENDENCY
    *
    * @group anno
    * */
   override val outputAnnotatorType: String = LABELED_DEPENDENCY
+
   /** Input annotation type : TOKEN, POS, DEPENDENCY
    *
    * @group anno
@@ -130,12 +133,18 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
    *
    * @group param
    * */
-  val numberOfIterations = new IntParam(this, "numberOfIterations", "Number of iterations in training, converges to better accuracy")
+  val numberOfIterations = new IntParam(
+    this,
+    "numberOfIterations",
+    "Number of iterations in training, converges to better accuracy")
+
   /** Path to file with CoNLL 2009 format
    *
    * @group param
    * */
-  val conll2009 = new ExternalResourceParam(this, "conll2009", "Path to file with CoNLL 2009 format")
+  val conll2009 =
+    new ExternalResourceParam(this, "conll2009", "Path to file with CoNLL 2009 format")
+
   /** Universal Dependencies source files
    *
    * @group param
@@ -148,8 +157,10 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
    *
    * @group setParam
    * */
-  def setConll2009(path: String, readAs: ReadAs.Format = ReadAs.TEXT,
-                   options: Map[String, String] = Map.empty[String, String]): this.type = {
+  def setConll2009(
+      path: String,
+      readAs: ReadAs.Format = ReadAs.TEXT,
+      options: Map[String, String] = Map.empty[String, String]): this.type = {
     set(conll2009, ExternalResource(path, readAs, options))
   }
 
@@ -157,8 +168,10 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
    *
    * @group setParam
    * */
-  def setConllU(path: String, readAs: ReadAs.Format = ReadAs.TEXT,
-                options: Map[String, String] = Map.empty[String, String]): this.type =
+  def setConllU(
+      path: String,
+      readAs: ReadAs.Format = ReadAs.TEXT,
+      options: Map[String, String] = Map.empty[String, String]): this.type =
     set(conllU, ExternalResource(path, readAs, options))
 
   /** Number of iterations in training, converges to better accuracy
@@ -171,12 +184,13 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
   setDefault(conllU, ExternalResource("", ReadAs.TEXT, Map.empty[String, String]))
   setDefault(numberOfIterations, 10)
 
-
   private lazy val trainFile = {
     getTrainingFile
   }
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): TypedDependencyParserModel = {
+  override def train(
+      dataset: Dataset[_],
+      recursivePipeline: Option[PipelineModel]): TypedDependencyParserModel = {
 
     validateTrainingFiles()
     val options = getOptionsInstance
@@ -188,7 +202,8 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
     typedDependencyParser.setDependencyPipe(dependencyPipe)
     dependencyPipe.createAlphabets(trainFile.path, trainFile.conllFormat)
 
-    val trainDependencies = getTrainDependenciesInstance(trainFile, dependencyPipe, typedDependencyParser, options)
+    val trainDependencies =
+      getTrainDependenciesInstance(trainFile, dependencyPipe, typedDependencyParser, options)
     trainDependencies.startTraining()
 
     val dictionaries = trainDependencies.getDependencyPipe.getDictionariesSet.getDictionaries
@@ -205,7 +220,8 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
 
   def validateTrainingFiles(): Unit = {
     if ($(conll2009).path != "" && $(conllU).path != "") {
-      throw new IllegalArgumentException("Use either CoNLL-2009 or CoNLL-U format file both are not allowed.")
+      throw new IllegalArgumentException(
+        "Use either CoNLL-2009 or CoNLL-U format file both are not allowed.")
     }
     if ($(conll2009).path == "" && $(conllU).path == "") {
       throw new IllegalArgumentException("Either CoNLL-2009 or CoNLL-U format file is required.")
@@ -233,9 +249,11 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
     new DependencyPipe(options)
   }
 
-  private def getTrainDependenciesInstance(trainFile: TrainFile, dependencyPipe: DependencyPipe,
-                                           typedDependencyParser: TypedDependencyParser,
-                                           options: Options): TrainDependencies = {
+  private def getTrainDependenciesInstance(
+      trainFile: TrainFile,
+      dependencyPipe: DependencyPipe,
+      typedDependencyParser: TypedDependencyParser,
+      options: Options): TrainDependencies = {
     new TrainDependencies(trainFile, dependencyPipe, typedDependencyParser, options)
   }
 

@@ -20,7 +20,6 @@ import org.apache.spark.ml.param.{FloatParam, IntParam, Params, StringArrayParam
 
 trait YakeParams extends Params {
 
-
   /** Window size for Co-Occurrence (Default: `3`).
    * Yake will construct a co-occurrence matrix. You can set the window size for the co-occurrence matrix construction
    * with this parameter.
@@ -61,7 +60,10 @@ trait YakeParams extends Params {
    * @group param
    */
   val stopWords: StringArrayParam = {
-    new StringArrayParam(this, "stopWords", "the words to be filtered out. by default it's english stop words from Spark ML")
+    new StringArrayParam(
+      this,
+      "stopWords",
+      "the words to be filtered out. by default it's english stop words from Spark ML")
   }
 
   /** @group setParam */

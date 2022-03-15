@@ -23,11 +23,11 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, DocumentAssembler}
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Dataset, SparkSession}
 
-case class CoNLLUDocument(text: String,
-                          uPosTagged: Seq[PosTaggedSentence],
-                          xPosTagged: Seq[PosTaggedSentence],
-                          lemma: Seq[PosTaggedSentence]
-                        )
+case class CoNLLUDocument(
+    text: String,
+    uPosTagged: Seq[PosTaggedSentence],
+    xPosTagged: Seq[PosTaggedSentence],
+    lemma: Seq[PosTaggedSentence])
 
 /** Instantiates the class to read a CoNLL-U dataset.
  *
@@ -59,7 +59,10 @@ case class CoNLLU(explodeSentences: Boolean = true) {
     packDocs(docs, spark)
   }
 
-  def readDataset(spark: SparkSession, path: String, readAs: String = ReadAs.TEXT.toString): Dataset[_] = {
+  def readDataset(
+      spark: SparkSession,
+      path: String,
+      readAs: String = ReadAs.TEXT.toString): Dataset[_] = {
     val er = ExternalResource(path, readAs, Map("format" -> "text"))
     val docs = readDocs(er)
     packDocs(docs, spark)
@@ -68,17 +71,20 @@ case class CoNLLU(explodeSentences: Boolean = true) {
   def packDocs(docs: Seq[CoNLLUDocument], spark: SparkSession): Dataset[_] = {
     import spark.implicits._
 
-    val rows = docs.map { doc =>
-      val text = doc.text
-      val docs = packAssembly(text)
-      val sentences = packSentence(text, doc.uPosTagged)
-      val tokenized = packTokenized(doc.uPosTagged)
-      val uPosTagged = packPosTagged(doc.uPosTagged)
-      val xPosTagged = packPosTagged(doc.xPosTagged)
-      val lemma = packTokenized(doc.lemma)
+    val rows = docs
+      .map { doc =>
+        val text = doc.text
+        val docs = packAssembly(text)
+        val sentences = packSentence(text, doc.uPosTagged)
+        val tokenized = packTokenized(doc.uPosTagged)
+        val uPosTagged = packPosTagged(doc.uPosTagged)
+        val xPosTagged = packPosTagged(doc.xPosTagged)
+        val lemma = packTokenized(doc.lemma)
 
-      (text, docs, sentences, tokenized, uPosTagged, xPosTagged, lemma)
-    }.toDF.rdd
+        (text, docs, sentences, tokenized, uPosTagged, xPosTagged, lemma)
+      }
+      .toDF
+      .rdd
 
     spark.createDataFrame(rows, schema)
   }
@@ -89,21 +95,22 @@ case class CoNLLU(explodeSentences: Boolean = true) {
   }
 
   def packSentence(text: String, sentences: Seq[TaggedSentence]): Seq[Annotation] = {
-    val indexedSentences = sentences.zipWithIndex.map{case (sentence, index) =>
-      val start = sentence.indexedTaggedWords.map(t => t.begin).min
-      val end = sentence.indexedTaggedWords.map(t => t.end).max
-      val sentenceText = text.substring(start, end + 1)
-      new Sentence(sentenceText, start, end, index)}
+    val indexedSentences = sentences.zipWithIndex.map {
+      case (sentence, index) =>
+        val start = sentence.indexedTaggedWords.map(t => t.begin).min
+        val end = sentence.indexedTaggedWords.map(t => t.end).max
+        val sentenceText = text.substring(start, end + 1)
+        new Sentence(sentenceText, start, end, index)
+    }
 
     SentenceSplit.pack(indexedSentences)
   }
 
   def packTokenized(sentences: Seq[TaggedSentence]): Seq[Annotation] = {
-    val tokenizedSentences = sentences.zipWithIndex.map{case (sentence, index) =>
-      val tokens = sentence.indexedTaggedWords.map(t =>
-        IndexedToken(t.word, t.begin, t.end)
-      )
-      TokenizedSentence(tokens, index)
+    val tokenizedSentences = sentences.zipWithIndex.map {
+      case (sentence, index) =>
+        val tokens = sentence.indexedTaggedWords.map(t => IndexedToken(t.word, t.begin, t.end))
+        TokenizedSentence(tokens, index)
     }
 
     TokenizedWithSentence.pack(tokenizedSentences)
@@ -130,7 +137,10 @@ case class CoNLLU(explodeSentences: Boolean = true) {
     StructType(Seq(text, doc, sentence, token, uPos, xPos, lemma))
   }
 
-  def getAnnotationType(column: String, annotatorType: String, addMetadata: Boolean = true): StructField = {
+  def getAnnotationType(
+      column: String,
+      annotatorType: String,
+      addMetadata: Boolean = true): StructField = {
     if (!addMetadata)
       StructField(column, annotationType, nullable = false)
     else {

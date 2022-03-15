@@ -36,10 +36,12 @@ class LfuCache[TKey, TValue](maxSize: Int) {
   }
 
   def get(itemId: TKey): Option[TValue] = {
-    entries.get(itemId).map { cachedItem => {
-      cachedItem.bump()
-      cachedItem.value
-    }}
+    entries.get(itemId).map { cachedItem =>
+      {
+        cachedItem.bump()
+        cachedItem.value
+      }
+    }
   }
 
   def removeLast(): Option[TValue] = {

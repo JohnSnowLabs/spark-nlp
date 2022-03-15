@@ -17,14 +17,13 @@
 package com.johnsnowlabs.nlp.annotators.btm
 
 import com.johnsnowlabs.collections.StorageSearchTrie
-import com.johnsnowlabs.nlp.AnnotatorType.{TOKEN, DOCUMENT, CHUNK}
+import com.johnsnowlabs.nlp.AnnotatorApproach
+import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.annotators.TokenizerModel
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.storage.Database.Name
 import com.johnsnowlabs.storage.{Database, HasStorage, RocksDBConnection, StorageWriter}
-
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.BooleanParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -100,7 +99,9 @@ import org.apache.spark.sql.Dataset
  * @groupprio Ungrouped 5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
-class BigTextMatcher(override val uid: String) extends AnnotatorApproach[BigTextMatcherModel] with HasStorage {
+class BigTextMatcher(override val uid: String)
+    extends AnnotatorApproach[BigTextMatcherModel]
+    with HasStorage {
 
   def this() = this(Identifiable.randomUID("ENTITY_EXTRACTOR"))
 
@@ -120,7 +121,10 @@ class BigTextMatcher(override val uid: String) extends AnnotatorApproach[BigText
    *
    * @group param
    * */
-  val mergeOverlapping = new BooleanParam(this, "mergeOverlapping", "whether to merge overlapping matched chunks. Defaults false")
+  val mergeOverlapping = new BooleanParam(
+    this,
+    "mergeOverlapping",
+    "whether to merge overlapping matched chunks. Defaults false")
 
   /** The Tokenizer to perform tokenization with
    *
@@ -128,7 +132,7 @@ class BigTextMatcher(override val uid: String) extends AnnotatorApproach[BigText
    * */
   val tokenizer = new StructFeature[TokenizerModel](this, "tokenizer")
 
-  setDefault(inputCols,Array(TOKEN))
+  setDefault(inputCols, Array(TOKEN))
   setDefault(caseSensitive, true)
   setDefault(mergeOverlapping, false)
 
@@ -145,17 +149,21 @@ class BigTextMatcher(override val uid: String) extends AnnotatorApproach[BigText
   def getMergeOverlapping: Boolean = $(mergeOverlapping)
 
   /**
-    * Loads entities from a provided source.
-    */
+   * Loads entities from a provided source.
+   */
   private def loadEntities(path: String, writers: Map[Database.Name, StorageWriter[_]]): Unit = {
     val inputFiles: Seq[Iterator[String]] =
       ResourceHelper.parseLinesIterator(ExternalResource(path, ReadAs.TEXT, Map()))
-    inputFiles.foreach { inputFile => {
-      StorageSearchTrie.load(inputFile, writers, get(tokenizer))
-    }}
+    inputFiles.foreach { inputFile =>
+      {
+        StorageSearchTrie.load(inputFile, writers, get(tokenizer))
+      }
+    }
   }
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): BigTextMatcherModel = {
+  override def train(
+      dataset: Dataset[_],
+      recursivePipeline: Option[PipelineModel]): BigTextMatcherModel = {
     new BigTextMatcherModel()
       .setInputCols($(inputCols))
       .setOutputCol($(outputCol))
@@ -164,7 +172,9 @@ class BigTextMatcher(override val uid: String) extends AnnotatorApproach[BigText
       .setMergeOverlapping($(mergeOverlapping))
   }
 
-  override protected def createWriter(database: Name, connection: RocksDBConnection): StorageWriter[_] = {
+  override protected def createWriter(
+      database: Name,
+      connection: RocksDBConnection): StorageWriter[_] = {
     database match {
       case Database.TMVOCAB => new TMVocabReadWriter(connection, $(caseSensitive))
       case Database.TMEDGES => new TMEdgesReadWriter(connection, $(caseSensitive))
@@ -173,13 +183,14 @@ class BigTextMatcher(override val uid: String) extends AnnotatorApproach[BigText
   }
 
   override protected def index(
-                                fitDataset: Dataset[_],
-                                storageSourcePath: Option[String],
-                                readAs: Option[ReadAs.Value],
-                                writers: Map[Database.Name, StorageWriter[_]],
-                                readOptions: Option[Map[String, String]]
-                              ): Unit = {
-    require(readAs.get == ReadAs.TEXT, "BigTextMatcher only supports TEXT input formats at the moment.")
+      fitDataset: Dataset[_],
+      storageSourcePath: Option[String],
+      readAs: Option[ReadAs.Value],
+      writers: Map[Database.Name, StorageWriter[_]],
+      readOptions: Option[Map[String, String]]): Unit = {
+    require(
+      readAs.get == ReadAs.TEXT,
+      "BigTextMatcher only supports TEXT input formats at the moment.")
     loadEntities(storageSourcePath.get, writers)
   }
 

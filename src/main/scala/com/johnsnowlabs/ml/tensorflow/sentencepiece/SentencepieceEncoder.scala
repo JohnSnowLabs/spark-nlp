@@ -25,13 +25,12 @@ import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence, TokenPiec
  * @param delimiterId     what is the part prefix id
  * @param pieceIdFromZero whether or not pieceId should be as is or plus 1
  */
-private[ml] class SentencepieceEncoder
-(
-  spp: SentencePieceWrapper,
-  caseSensitive: Boolean,
-  delimiterId: Int = 13,
-  pieceIdFromZero: Boolean = false
-) {
+private[ml] class SentencepieceEncoder(
+    spp: SentencePieceWrapper,
+    caseSensitive: Boolean,
+    delimiterId: Int = 13,
+    pieceIdFromZero: Boolean = false) {
+
   /**
    *
    * @param token IndexedToken input that is used for encoding to piece tokens and piece ids
@@ -49,7 +48,8 @@ private[ml] class SentencepieceEncoder
     val encodedIds = spp.getSppModel.encodeAsIds(tokenContent)
     val pieceIds = if (pieceIdFromZero) encodedIds.map(x => x + 1) else encodedIds
     wordPieces.zip(pieceIds).filter(id => id._2 != normalizedDelimiterId).map { piece =>
-      val tokenPiece = TokenPiece(piece._1, token.token, piece._2, start == 0, token.begin + start, token.end)
+      val tokenPiece =
+        TokenPiece(piece._1, token.token, piece._2, start == 0, token.begin + start, token.end)
       start = end
       end = text.length
       tokenPiece
@@ -68,7 +68,13 @@ private[ml] class SentencepieceEncoder
     val encodedIds = spp.getSppModel.encodeAsIds(sentContent)
     val pieceIds = if (pieceIdFromZero) encodedIds.map(x => x + 1) else encodedIds
     wordPieces.zip(pieceIds).filter(id => id._2 != normalizedDelimiterId).map { piece =>
-      val tokenPiece = TokenPiece(piece._1, sentContent, piece._2, start == 0, sentence.start + start, sentence.end)
+      val tokenPiece = TokenPiece(
+        piece._1,
+        sentContent,
+        piece._2,
+        start == 0,
+        sentence.start + start,
+        sentence.end)
       start = end
       end = text.length
       tokenPiece

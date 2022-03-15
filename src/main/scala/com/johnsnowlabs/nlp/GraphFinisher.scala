@@ -98,7 +98,10 @@ class GraphFinisher(override val uid: String) extends Transformer {
    * @group param
    */
   val cleanAnnotations: BooleanParam =
-    new BooleanParam(this, "cleanAnnotations", "Whether to remove annotation columns (Default: `true`)")
+    new BooleanParam(
+      this,
+      "cleanAnnotations",
+      "Whether to remove annotation columns (Default: `true`)")
 
   /**
    * Annotation metadata format (Default: `false`)
@@ -163,11 +166,14 @@ class GraphFinisher(override val uid: String) extends Transformer {
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     var flattenedDataSet = dataset.withColumn($(outputCol), {
-      if ($(outputAsArray)) flattenPathsAsArray(dataset.col($(inputCol))) else flattenPaths(dataset.col($(inputCol)))
+      if ($(outputAsArray)) flattenPathsAsArray(dataset.col($(inputCol)))
+      else flattenPaths(dataset.col($(inputCol)))
     })
 
     if ($(includeMetadata)) {
-      flattenedDataSet = flattenedDataSet.withColumn($(outputCol) + "_metadata", flattenMetadata(dataset.col($(inputCol))))
+      flattenedDataSet = flattenedDataSet.withColumn(
+        $(outputCol) + "_metadata",
+        flattenMetadata(dataset.col($(inputCol))))
     }
 
     FinisherUtil.cleaningAnnotations($(cleanAnnotations), flattenedDataSet)
@@ -199,8 +205,9 @@ class GraphFinisher(override val uid: String) extends Transformer {
   }
 
   private def extractPaths(metadata: Map[String, String]): List[Array[String]] = {
-    val paths = metadata.flatMap { case (key, value) =>
-      if (key.contains("path")) Some(value.split(",")) else None
+    val paths = metadata.flatMap {
+      case (key, value) =>
+        if (key.contains("path")) Some(value.split(",")) else None
     }.toList
 
     paths
@@ -225,8 +232,10 @@ class GraphFinisher(override val uid: String) extends Transformer {
   private def flattenMetadata: UserDefinedFunction = udf { annotations: Seq[Row] =>
     annotations.flatMap { row =>
       val metadata = row.getMap[String, String](4)
-      val relationships = metadata.flatMap { case (key, value) =>
-        if (key.contains("relationship") || key.contains("entities")) Some("(" + value + ")") else None
+      val relationships = metadata.flatMap {
+        case (key, value) =>
+          if (key.contains("relationship") || key.contains("entities")) Some("(" + value + ")")
+          else None
       }.toList
       relationships
     }
@@ -245,7 +254,8 @@ class GraphFinisher(override val uid: String) extends Transformer {
     FinisherUtil.checkIfInputColsExist(Array(getInputCol), schema)
     FinisherUtil.checkIfAnnotationColumnIsSparkNLPAnnotation(schema, getInputCol)
 
-    require(Seq(AnnotatorType.NODE).contains(schema(getInputCol).metadata.getString("annotatorType")),
+    require(
+      Seq(AnnotatorType.NODE).contains(schema(getInputCol).metadata.getString("annotatorType")),
       s"column [$getInputCol] must be a ${AnnotatorType.NODE} type")
 
     val metadataFields = FinisherUtil.getMetadataFields(Array(getOutputCol), $(outputAsArray))

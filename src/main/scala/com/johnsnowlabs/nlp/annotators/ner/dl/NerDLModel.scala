@@ -25,7 +25,6 @@ import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.storage.HasStorageRef
-
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
@@ -126,7 +125,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
 class NerDLModel(override val uid: String)
-  extends AnnotatorModel[NerDLModel]
+    extends AnnotatorModel[NerDLModel]
     with HasBatchedAnnotate[NerDLModel]
     with WriteTensorflowModel
     with HasStorageRef
@@ -139,6 +138,7 @@ class NerDLModel(override val uid: String)
    * @group anno
    * */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN, WORD_EMBEDDINGS)
+
   /** Output Annnotator type: NAMED_ENTITY
    *
    * @group anno
@@ -149,30 +149,46 @@ class NerDLModel(override val uid: String)
    *
    * @group param
    * */
-  val minProba = new FloatParam(this, "minProbe", "Minimum probability. Used only if there is no CRF on top of LSTM layer.")
+  val minProba = new FloatParam(
+    this,
+    "minProbe",
+    "Minimum probability. Used only if there is no CRF on top of LSTM layer.")
+
   /** datasetParams
    *
    * @group param
    * */
   val datasetParams = new StructFeature[DatasetEncoderParams](this, "datasetParams")
+
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
    *
    * @group param
    * */
-  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  val configProtoBytes = new IntArrayParam(
+    this,
+    "configProtoBytes",
+    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+
   /** Whether to include confidence scores in annotation metadata (Default: `false`)
    *
    * @group param
    * */
-  val includeConfidence = new BooleanParam(this, "includeConfidence", "Whether to include confidence scores in annotation metadata")
+  val includeConfidence = new BooleanParam(
+    this,
+    "includeConfidence",
+    "Whether to include confidence scores in annotation metadata")
 
   /** whether to include all confidence scores in annotation metadata or just score of the predicted tag
    *
    * @group param
    * */
-  val includeAllConfidenceScores = new BooleanParam(this, "includeAllConfidenceScores", "whether to include all confidence scores in annotation metadata")
+  val includeAllConfidenceScores = new BooleanParam(
+    this,
+    "includeAllConfidenceScores",
+    "whether to include all confidence scores in annotation metadata")
 
-  val classes = new StringArrayParam(this, "classes", "keep an internal copy of classes for Python")
+  val classes =
+    new StringArrayParam(this, "classes", "keep an internal copy of classes for Python")
 
   private var _model: Option[Broadcast[TensorflowNer]] = None
 
@@ -204,22 +220,15 @@ class NerDLModel(override val uid: String)
    *
    * @group setParam
    * */
-  def setIncludeAllConfidenceScores(value: Boolean): this.type = set(this.includeAllConfidenceScores, value)
+  def setIncludeAllConfidenceScores(value: Boolean): this.type =
+    set(this.includeAllConfidenceScores, value)
 
   def setModelIfNotSet(spark: SparkSession, tf: TensorflowWrapper): this.type = {
     if (_model.isEmpty) {
       require(datasetParams.isSet, "datasetParams must be set before usage")
 
       val encoder = new NerDatasetEncoder(datasetParams.get.get)
-      _model = Some(
-        spark.sparkContext.broadcast(
-          new TensorflowNer(
-            tf,
-            encoder,
-            Verbose.Silent
-          )
-        )
-      )
+      _model = Some(spark.sparkContext.broadcast(new TensorflowNer(tf, encoder, Verbose.Silent)))
     }
     this
   }
@@ -264,24 +273,23 @@ class NerDLModel(override val uid: String)
     encoder.tags
   }
 
-  setDefault(
-    includeConfidence -> false,
-    includeAllConfidenceScores -> false,
-    batchSize -> 32
-  )
+  setDefault(includeConfidence -> false, includeAllConfidenceScores -> false, batchSize -> 32)
 
-  private case class RowIdentifiedSentence(rowIndex: Int, rowSentence: WordpieceEmbeddingsSentence)
+  private case class RowIdentifiedSentence(
+      rowIndex: Int,
+      rowSentence: WordpieceEmbeddingsSentence)
 
   def tag(tokenized: Array[Array[WordpieceEmbeddingsSentence]]): Seq[Array[NerTaggedSentence]] = {
-    val batch = tokenized.zipWithIndex.flatMap { case (t, i) => t.map(RowIdentifiedSentence(i, _)) }
+    val batch = tokenized.zipWithIndex.flatMap {
+      case (t, i) => t.map(RowIdentifiedSentence(i, _))
+    }
     // Predict
     val labels = getModelIfNotSet.predict(
       batch.map(_.rowSentence),
       getConfigProtoBytes,
       includeConfidence = $(includeConfidence),
       includeAllConfidenceScores = $(includeAllConfidenceScores),
-      $(batchSize)
-    )
+      $(batchSize))
 
     val outputBatches = Array.fill[Array[NerTaggedSentence]](tokenized.length)(Array.empty)
 
@@ -294,13 +302,13 @@ class NerDLModel(override val uid: String)
         val label = labels(i)(j)
         if (token.isWordStart) {
           Some(IndexedTaggedWord(token.token, label._1, token.begin, token.end, label._2))
-        }
-        else {
+        } else {
           None
         }
       }.toArray
 
-      outputBatches(batch(i).rowIndex) = outputBatches(batch(i).rowIndex) :+ new TaggedSentence(tokens)
+      outputBatches(batch(i).rowIndex) = outputBatches(batch(i).rowIndex) :+ new TaggedSentence(
+        tokens)
     }
     outputBatches
   }
@@ -312,9 +320,9 @@ class NerDLModel(override val uid: String)
 
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
     // Parse
-    val tokenized = batchedAnnotations.map(annotations =>
-      WordpieceEmbeddingsSentence.unpack(annotations).toArray
-    ).toArray
+    val tokenized = batchedAnnotations
+      .map(annotations => WordpieceEmbeddingsSentence.unpack(annotations).toArray)
+      .toArray
 
     // Predict
     val tagged = tag(tokenized)
@@ -325,7 +333,13 @@ class NerDLModel(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_nerdl", NerDLModel.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModel(
+      path,
+      spark,
+      getModelIfNotSet.tensorflow,
+      "_nerdl",
+      NerDLModel.tfFile,
+      configProtoBytes = getConfigProtoBytes)
   }
 
 }
@@ -345,7 +359,9 @@ trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTenso
   addReader(readNerGraph)
 }
 
-trait ReadablePretrainedNerDL extends ParamsAndFeaturesReadable[NerDLModel] with HasPretrained[NerDLModel] {
+trait ReadablePretrainedNerDL
+    extends ParamsAndFeaturesReadable[NerDLModel]
+    with HasPretrained[NerDLModel] {
   override val defaultModelName: Some[String] = Some("ner_dl")
 
   override def pretrained(name: String, lang: String, remoteLoc: String): NerDLModel = {
@@ -353,13 +369,14 @@ trait ReadablePretrainedNerDL extends ParamsAndFeaturesReadable[NerDLModel] with
   }
 
   /** Java compliant-overrides */
-  override def pretrained(): NerDLModel = pretrained(defaultModelName.get, defaultLang, defaultLoc)
+  override def pretrained(): NerDLModel =
+    pretrained(defaultModelName.get, defaultLang, defaultLoc)
 
   override def pretrained(name: String): NerDLModel = pretrained(name, defaultLang, defaultLoc)
 
-  override def pretrained(name: String, lang: String): NerDLModel = pretrained(name, lang, defaultLoc)
+  override def pretrained(name: String, lang: String): NerDLModel =
+    pretrained(name, lang, defaultLoc)
 }
-
 
 /**
  * This is the companion object of [[NerDLModel]]. Please refer to that class for the documentation.

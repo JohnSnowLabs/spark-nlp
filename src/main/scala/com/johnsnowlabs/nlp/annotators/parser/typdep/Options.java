@@ -54,7 +54,7 @@ public class Options implements Serializable {
         this.rankSecondOrderTensor = options.rankSecondOrderTensor;
     }
 
-    static Options newInstance(Options options){
+    static Options newInstance(Options options) {
         //Copy factory
         return new Options(options);
     }

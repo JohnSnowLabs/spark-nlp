@@ -23,7 +23,6 @@ import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, Word
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.storage.HasStorageRef
-
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
@@ -143,7 +142,7 @@ import java.io.File
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class DistilBertEmbeddings(override val uid: String)
-  extends AnnotatorModel[DistilBertEmbeddings]
+    extends AnnotatorModel[DistilBertEmbeddings]
     with HasBatchedAnnotate[DistilBertEmbeddings]
     with WriteTensorflowModel
     with HasEmbeddingsProperties
@@ -175,10 +174,14 @@ class DistilBertEmbeddings(override val uid: String)
    *
    * @group param
    * */
-  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  val configProtoBytes = new IntArrayParam(
+    this,
+    "configProtoBytes",
+    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): DistilBertEmbeddings.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): DistilBertEmbeddings.this.type =
+    set(this.configProtoBytes, bytes)
 
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
@@ -187,11 +190,14 @@ class DistilBertEmbeddings(override val uid: String)
    *
    * @group param
    * */
-  val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
+  val maxSentenceLength =
+    new IntParam(this, "maxSentenceLength", "Max sentence length to process")
 
   /** @group setParam */
   def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "DistilBERT models do not support sequences longer than 512 because of trainable positional embeddings.")
+    require(
+      value <= 512,
+      "DistilBERT models do not support sequences longer than 512 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -220,7 +226,9 @@ class DistilBertEmbeddings(override val uid: String)
   private var _model: Option[Broadcast[TensorflowDistilBert]] = None
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): DistilBertEmbeddings = {
+  def setModelIfNotSet(
+      spark: SparkSession,
+      tensorflowWrapper: TensorflowWrapper): DistilBertEmbeddings = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
@@ -229,10 +237,7 @@ class DistilBertEmbeddings(override val uid: String)
             sentenceStartTokenId,
             sentenceEndTokenId,
             configProtoBytes = getConfigProtoBytes,
-            signatures = getSignatures
-          )
-        )
-      )
+            signatures = getSignatures)))
     }
 
     this
@@ -263,12 +268,7 @@ class DistilBertEmbeddings(override val uid: String)
     this
   }
 
-  setDefault(
-    dimension -> 768,
-    batchSize -> 8,
-    maxSentenceLength -> 128,
-    caseSensitive -> false
-  )
+  setDefault(dimension -> 768, batchSize -> 8, maxSentenceLength -> 128, caseSensitive -> false)
 
   def tokenizeWithAlignment(tokens: Seq[TokenizedSentence]): Seq[WordpieceTokenizedSentence] = {
     val basicTokenizer = new BasicTokenizer($(caseSensitive))
@@ -276,15 +276,19 @@ class DistilBertEmbeddings(override val uid: String)
 
     tokens.map { tokenIndex =>
       // filter empty and only whitespace tokens
-      val bertTokens = tokenIndex.indexedTokens.filter(x => x.token.nonEmpty && !x.token.equals(" ")).map { token =>
-        val content = if ($(caseSensitive)) token.token else token.token.toLowerCase()
-        val sentenceBegin = token.begin
-        val sentenceEnd = token.end
-        val sentenceInedx = tokenIndex.sentenceIndex
-        val result = basicTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
-        if (result.nonEmpty) result.head else IndexedToken("")
-      }
-      val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token)).take($(maxSentenceLength))
+      val bertTokens =
+        tokenIndex.indexedTokens.filter(x => x.token.nonEmpty && !x.token.equals(" ")).map {
+          token =>
+            val content = if ($(caseSensitive)) token.token else token.token.toLowerCase()
+            val sentenceBegin = token.begin
+            val sentenceEnd = token.end
+            val sentenceInedx = tokenIndex.sentenceIndex
+            val result = basicTokenizer.tokenize(
+              Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
+            if (result.nonEmpty) result.head else IndexedToken("")
+        }
+      val wordpieceTokens =
+        bertTokens.flatMap(token => encoder.encode(token)).take($(maxSentenceLength))
       WordpieceTokenizedSentence(wordpieceTokens)
     }
   }
@@ -296,9 +300,9 @@ class DistilBertEmbeddings(override val uid: String)
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations.map(annotations =>
-      TokenizedWithSentence.unpack(annotations).toArray
-    ).toArray
+    val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations
+      .map(annotations => TokenizedWithSentence.unpack(annotations).toArray)
+      .toArray
     /*Return empty if the real tokens are empty*/
     if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
       val tokenized = tokenizeWithAlignment(tokenizedSentences)
@@ -308,24 +312,26 @@ class DistilBertEmbeddings(override val uid: String)
         tokenizedSentences,
         $(batchSize),
         $(maxSentenceLength),
-        $(caseSensitive)
-      )
+        $(caseSensitive))
       WordpieceEmbeddingsSentence.pack(withEmbeddings)
-    }) else {
+    })
+    else {
       Seq(Seq.empty[Annotation])
     }
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
+    dataset.withColumn(
+      getOutputCol,
+      wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
   }
-
 
   /** Input Annotator Types: DOCUMENT. TOKEN
    *
    * @group param
    */
-  override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+  override val inputAnnotatorTypes: Array[String] =
+    Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
 
   /** Output Annotator Types: WORD_EMBEDDINGS
    *
@@ -335,12 +341,20 @@ class DistilBertEmbeddings(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_distilbert", DistilBertEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(
+      path,
+      spark,
+      getModelIfNotSet.tensorflowWrapper,
+      "_distilbert",
+      DistilBertEmbeddings.tfFile,
+      configProtoBytes = getConfigProtoBytes)
   }
 
 }
 
-trait ReadablePretrainedDistilBertModel extends ParamsAndFeaturesReadable[DistilBertEmbeddings] with HasPretrained[DistilBertEmbeddings] {
+trait ReadablePretrainedDistilBertModel
+    extends ParamsAndFeaturesReadable[DistilBertEmbeddings]
+    with HasPretrained[DistilBertEmbeddings] {
   override val defaultModelName: Some[String] = Some("distilbert_base_cased")
 
   /** Java compliant-overrides */
@@ -348,9 +362,11 @@ trait ReadablePretrainedDistilBertModel extends ParamsAndFeaturesReadable[Distil
 
   override def pretrained(name: String): DistilBertEmbeddings = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): DistilBertEmbeddings = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): DistilBertEmbeddings =
+    super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): DistilBertEmbeddings = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): DistilBertEmbeddings =
+    super.pretrained(name, lang, remoteLoc)
 }
 
 trait ReadDistilBertTensorflowModel extends ReadTensorflowModel {
@@ -374,18 +390,19 @@ trait ReadDistilBertTensorflowModel extends ReadTensorflowModel {
     require(f.isDirectory, s"File $tfModelPath is not folder")
     require(
       savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath"
-    )
+      s"savedModel file saved_model.pb not found in folder $tfModelPath")
 
     val vocab = new File(tfModelPath + "/assets", "vocab.txt")
     require(f.exists, s"Folder $tfModelPath not found")
     require(f.isDirectory, s"File $tfModelPath is not folder")
     require(vocab.exists(), s"Vocabulary file vocab.txt not found in folder $tfModelPath")
 
-    val vocabResource = new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val vocabResource =
+      new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
 
-    val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
+    val (wrapper, signatures) =
+      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
 
     val _signatures = signatures match {
       case Some(s) => s
@@ -400,8 +417,9 @@ trait ReadDistilBertTensorflowModel extends ReadTensorflowModel {
   }
 }
 
-
 /**
  * This is the companion object of [[DistilBertEmbeddings]]. Please refer to that class for the documentation.
  */
-object DistilBertEmbeddings extends ReadablePretrainedDistilBertModel with ReadDistilBertTensorflowModel
+object DistilBertEmbeddings
+    extends ReadablePretrainedDistilBertModel
+    with ReadDistilBertTensorflowModel

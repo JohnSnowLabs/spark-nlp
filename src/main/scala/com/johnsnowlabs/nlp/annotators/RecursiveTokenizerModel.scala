@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.annotators.common.{InfixToken, PrefixedToken, SuffixedToken}
 import com.johnsnowlabs.nlp.serialization.{ArrayFeature, SetFeature}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasSimpleAnnotate, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
+import com.johnsnowlabs.nlp._
 import org.apache.spark.ml.util.Identifiable
 
 /**
@@ -41,7 +41,7 @@ import org.apache.spark.ml.util.Identifiable
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
 class RecursiveTokenizerModel(override val uid: String)
-  extends AnnotatorModel[RecursiveTokenizerModel]
+    extends AnnotatorModel[RecursiveTokenizerModel]
     with HasSimpleAnnotate[RecursiveTokenizerModel]
     with ParamsAndFeaturesWritable {
 
@@ -53,6 +53,7 @@ class RecursiveTokenizerModel(override val uid: String)
    * @group anno
    */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.TOKEN
+
   /** Input Annotator types: DOCUMENT
    *
    * @group anno
@@ -115,43 +116,48 @@ class RecursiveTokenizerModel(override val uid: String)
    */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
     annotations.flatMap { annotation =>
-      tokenize(annotation.result).map(token => annotation.
-        copy(annotatorType = AnnotatorType.TOKEN, result = token, metadata = annotation.metadata.updated("sentence",
-          annotation.metadata.getOrElse("sentence", "0"))))
+      tokenize(annotation.result).map(
+        token =>
+          annotation.copy(
+            annotatorType = AnnotatorType.TOKEN,
+            result = token,
+            metadata = annotation.metadata
+              .updated("sentence", annotation.metadata.getOrElse("sentence", "0"))))
     }
 
   // hardcoded at this time
   @transient
   private lazy val firstPass = Seq(InfixToken($$(infixes)))
-
-
   @transient
-  private lazy val secondPass = Seq(SuffixedToken($$(suffixes)),
-    PrefixedToken($$(prefixes)))
+  private lazy val secondPass = Seq(SuffixedToken($$(suffixes)), PrefixedToken($$(prefixes)))
 
   private def tokenize(text: String): Seq[String] =
-    text.split(" ").filter(_ != " ").flatMap { token =>
-      var tmp = Seq(token)
+    text
+      .split(" ")
+      .filter(_ != " ")
+      .flatMap { token =>
+        var tmp = Seq(token)
 
-      firstPass.foreach { parser =>
-        tmp = tmp.flatMap { t =>
-          if (whitelist.getOrDefault.contains(t))
-            Seq(t)
-          else
-            parser.separate(t).split(" ")
+        firstPass.foreach { parser =>
+          tmp = tmp.flatMap { t =>
+            if (whitelist.getOrDefault.contains(t))
+              Seq(t)
+            else
+              parser.separate(t).split(" ")
+          }
         }
-      }
 
-      secondPass.foreach { parser =>
-        tmp = tmp.flatMap { t =>
-          if (whitelist.getOrDefault.contains(t))
-            Seq(t)
-          else
-            parser.separate(t).split(" ")
+        secondPass.foreach { parser =>
+          tmp = tmp.flatMap { t =>
+            if (whitelist.getOrDefault.contains(t))
+              Seq(t)
+            else
+              parser.separate(t).split(" ")
+          }
         }
+        tmp
       }
-      tmp
-    }.filter(!_.equals(""))
+      .filter(!_.equals(""))
 
 }
 

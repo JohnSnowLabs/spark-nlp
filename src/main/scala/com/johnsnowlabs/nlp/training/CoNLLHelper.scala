@@ -22,8 +22,11 @@ import scala.collection.mutable.ArrayBuffer
 
 object CoNLLHelper {
 
-  case class CoNLLTokenCols(uPosTokens: IndexedTaggedWord, xPosTokens: IndexedTaggedWord, lemma: IndexedTaggedWord,
-                            sentenceIndex: Int)
+  case class CoNLLTokenCols(
+      uPosTokens: IndexedTaggedWord,
+      xPosTokens: IndexedTaggedWord,
+      lemma: IndexedTaggedWord,
+      sentenceIndex: Int)
   case class CoNLLSentenceCols(uPos: TaggedSentence, xPos: TaggedSentence, lemma: TaggedSentence)
 
   def readLines(lines: Array[String], explodeSentences: Boolean): Seq[CoNLLUDocument] = {
@@ -77,9 +80,10 @@ object CoNLLHelper {
     }
 
     val docs = lines
-      .flatMap{ line =>
+      .flatMap { line =>
         val items = line.trim.split("\\t")
-        val id = if (items(CoNLLUCols.ID.id).isEmpty) "" else items(CoNLLUCols.ID.id).head.toString
+        val id =
+          if (items(CoNLLUCols.ID.id).isEmpty) "" else items(CoNLLUCols.ID.id).head.toString
 
         val coNLLRow = id match {
           case "#" => processComment(items)
@@ -87,17 +91,18 @@ object CoNLLHelper {
           case _ => processCoNLLRow(items)
         }
         coNLLRow
-     }
+      }
 
     addSentence()
 
     val last = if (doc.nonEmpty) Seq((doc.toString, sentences.toList)) else Seq.empty
 
-   (docs ++ last).map{ case(text, textSentence) =>
-      val uPos = textSentence.map(t => t.uPos)
-      val xPos = textSentence.map(t => t.xPos)
-      val lemma = textSentence.map(t => t.lemma)
-      CoNLLUDocument(text, uPos, xPos, lemma)
+    (docs ++ last).map {
+      case (text, textSentence) =>
+        val uPos = textSentence.map(t => t.uPos)
+        val xPos = textSentence.map(t => t.xPos)
+        val lemma = textSentence.map(t => t.lemma)
+        CoNLLUDocument(text, uPos, xPos, lemma)
     }
   }
 
@@ -105,7 +110,10 @@ object CoNLLHelper {
     tokens.filter(t => t.word.trim().nonEmpty)
   }
 
-  private def getIndexedTaggedCoNLL(items: Array[String], doc: StringBuilder, sentenceIndex: Int = 0): CoNLLTokenCols = {
+  private def getIndexedTaggedCoNLL(
+      items: Array[String],
+      doc: StringBuilder,
+      sentenceIndex: Int = 0): CoNLLTokenCols = {
     val begin = doc.length
     doc.append(items(CoNLLUCols.FORM.id))
     val end = doc.length - 1

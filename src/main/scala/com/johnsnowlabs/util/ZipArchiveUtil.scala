@@ -18,9 +18,9 @@ package com.johnsnowlabs.util
 
 import org.apache.commons.io.FileUtils
 
-import scala.collection.JavaConverters._
+import java.io._
 import java.util.zip.{ZipEntry, ZipFile, ZipOutputStream}
-import java.io.{BufferedInputStream, File, FileInputStream, FileOutputStream, IOException}
+import scala.collection.JavaConverters._
 
 object ZipArchiveUtil {
 
@@ -40,19 +40,23 @@ object ZipArchiveUtil {
     }
   }
 
-  private def addFileToZipEntry(filename: String, parentPath: String,
-                                filePathsCount: Int): ZipEntry = {
+  private def addFileToZipEntry(
+      filename: String,
+      parentPath: String,
+      filePathsCount: Int): ZipEntry = {
     if (filePathsCount <= 1)
       new ZipEntry(new File(filename).getName)
     else {
       // use relative path to avoid adding absolute path directories
-      val relative = new File(parentPath).toURI.
-        relativize(new File(filename).toURI).getPath
+      val relative = new File(parentPath).toURI.relativize(new File(filename).toURI).getPath
       new ZipEntry(relative)
     }
   }
 
-  private def createZip(filePaths: List[String], outputFilename: String, parentPath: String): Unit = {
+  private def createZip(
+      filePaths: List[String],
+      outputFilename: String,
+      parentPath: String): Unit = {
 
     val Buffer = 2 * 1024
     val data = new Array[Byte](Buffer)
@@ -99,8 +103,7 @@ object ZipArchiveUtil {
 
     val destDir = if (destDirPath.isEmpty) {
       new File(file.getParentFile, basename)
-    }
-    else {
+    } else {
       new File(destDirPath.get)
     }
 
@@ -132,8 +135,7 @@ object ZipArchiveUtil {
       }
 
       // write file to dest
-      FileUtils.copyInputStreamToFile(zip.getInputStream(entry),
-        new File(destDir, entryPath))
+      FileUtils.copyInputStreamToFile(zip.getInputStream(entry), new File(destDir, entryPath))
     }
 
     destDir.getPath

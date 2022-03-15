@@ -96,13 +96,14 @@ import org.apache.spark.sql.{AnalysisException, Dataset}
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
 class NorvigSweetingApproach(override val uid: String)
-  extends AnnotatorApproach[NorvigSweetingModel]
+    extends AnnotatorApproach[NorvigSweetingModel]
     with NorvigSweetingParams {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
   /** Spell checking algorithm inspired on Norvig model */
   override val description: String = "Spell checking algorithm inspired on Norvig model"
+
   /** External dictionary to be used, which needs `"tokenPattern"` (Default: `\S+`) for parsing the resource.
    * ==Example==
    * {{{
@@ -117,7 +118,8 @@ class NorvigSweetingApproach(override val uid: String)
    *
    * @group param
    * */
-  val dictionary = new ExternalResourceParam(this, "dictionary", "File with a list of correct words")
+  val dictionary =
+    new ExternalResourceParam(this, "dictionary", "File with a list of correct words")
 
   setDefault(
     caseSensitive -> true,
@@ -128,8 +130,7 @@ class NorvigSweetingApproach(override val uid: String)
     dupsLimit -> 2,
     reductLimit -> 3,
     intersections -> 10,
-    vowelSwapLimit -> 6
-  )
+    vowelSwapLimit -> 6)
 
   /** External dictionary already in the form of [[ExternalResource]], for which the Map member `options`
    * has an entry defined for `"tokenPattern"`.
@@ -148,7 +149,9 @@ class NorvigSweetingApproach(override val uid: String)
    * @group setParam
    * */
   def setDictionary(value: ExternalResource): this.type = {
-    require(value.options.contains("tokenPattern"), "dictionary needs 'tokenPattern' regex in dictionary for separating words")
+    require(
+      value.options.contains("tokenPattern"),
+      "dictionary needs 'tokenPattern' regex in dictionary for separating words")
     set(dictionary, value)
   }
 
@@ -158,17 +161,21 @@ class NorvigSweetingApproach(override val uid: String)
    *
    * @group setParam
    * */
-  def setDictionary(path: String,
-                    tokenPattern: String = "\\S+",
-                    readAs: ReadAs.Format = ReadAs.TEXT,
-                    options: Map[String, String] = Map("format" -> "text")): this.type =
-    set(dictionary, ExternalResource(path, readAs, options ++ Map("tokenPattern" -> tokenPattern)))
+  def setDictionary(
+      path: String,
+      tokenPattern: String = "\\S+",
+      readAs: ReadAs.Format = ReadAs.TEXT,
+      options: Map[String, String] = Map("format" -> "text")): this.type =
+    set(
+      dictionary,
+      ExternalResource(path, readAs, options ++ Map("tokenPattern" -> tokenPattern)))
 
   /** Output annotator type : TOKEN
    *
    * @group anno
    * */
   override val outputAnnotatorType: AnnotatorType = TOKEN
+
   /** Input annotator type : TOKEN
    *
    * @group anno
@@ -177,17 +184,23 @@ class NorvigSweetingApproach(override val uid: String)
 
   def this() = this(Identifiable.randomUID("SPELL"))
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NorvigSweetingModel = {
+  override def train(
+      dataset: Dataset[_],
+      recursivePipeline: Option[PipelineModel]): NorvigSweetingModel = {
 
     validateDataSet(dataset)
     val loadWords = ResourceHelper.getWordCount($(dictionary)).toMap
     val corpusWordCount: Map[String, Long] = {
 
-      dataset.select(getInputCols.head).as[Array[Annotation]]
+      dataset
+        .select(getInputCols.head)
+        .as[Array[Annotation]]
         .flatMap(_.map(_.result))
-        .groupBy("value").count
+        .groupBy("value")
+        .count
         .as[(String, Long)]
-        .collect.toMap
+        .collect
+        .toMap
     }
 
     new NorvigSweetingModel()
@@ -206,11 +219,11 @@ class NorvigSweetingApproach(override val uid: String)
   private def validateDataSet(dataset: Dataset[_]): Unit = {
     try {
       dataset.select(getInputCols.head).as[Array[Annotation]]
-    }
-    catch {
+    } catch {
       case exception: AnalysisException =>
         if (exception.getMessage == "need an array field but got string;") {
-          throw new IllegalArgumentException("Train dataset must have an array annotation type column")
+          throw new IllegalArgumentException(
+            "Train dataset must have an array annotation type column")
         }
         throw exception
     }

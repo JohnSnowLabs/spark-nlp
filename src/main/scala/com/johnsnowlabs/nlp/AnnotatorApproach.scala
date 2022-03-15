@@ -27,7 +27,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
  * For now it stands as a dummy placeholder for future reference
  */
 abstract class AnnotatorApproach[M <: Model[M]]
-  extends Estimator[M]
+    extends Estimator[M]
     with HasInputAnnotationCols
     with HasOutputAnnotationCol
     with HasOutputAnnotatorType
@@ -49,15 +49,15 @@ abstract class AnnotatorApproach[M <: Model[M]]
    * @return True if all the required types are present, else false
    */
   protected def validate(schema: StructType): Boolean = {
-    inputAnnotatorTypes.forall {
-      inputAnnotatorType =>
-        checkSchema(schema, inputAnnotatorType)
+    inputAnnotatorTypes.forall { inputAnnotatorType =>
+      checkSchema(schema, inputAnnotatorType)
     }
   }
 
   private def indexIfStorage(dataset: Dataset[_]): Unit = {
     this match {
-      case withStorage: HasStorage => withStorage.indexStorage(dataset, withStorage.getStoragePath)
+      case withStorage: HasStorage =>
+        withStorage.indexStorage(dataset, withStorage.getStoragePath)
       case _ =>
     }
   }
@@ -78,15 +78,21 @@ abstract class AnnotatorApproach[M <: Model[M]]
 
   /** requirement for pipeline transformation validation. It is called on fit() */
   override final def transformSchema(schema: StructType): StructType = {
-    require(validate(schema), s"Wrong or missing inputCols annotators in $uid.\n" +
-      msgHelper(schema) +
-      s"\nMake sure such annotators exist in your pipeline, " +
-      s"with the right output names and that they have following annotator types: " +
-      s"${inputAnnotatorTypes.mkString(", ")}")
+    require(
+      validate(schema),
+      s"Wrong or missing inputCols annotators in $uid.\n" +
+        msgHelper(schema) +
+        s"\nMake sure such annotators exist in your pipeline, " +
+        s"with the right output names and that they have following annotator types: " +
+        s"${inputAnnotatorTypes.mkString(", ")}")
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", outputAnnotatorType)
     val outputFields = schema.fields :+
-      StructField(getOutputCol, ArrayType(Annotation.dataType), nullable = false, metadataBuilder.build)
+      StructField(
+        getOutputCol,
+        ArrayType(Annotation.dataType),
+        nullable = false,
+        metadataBuilder.build)
     StructType(outputFields)
   }
 }

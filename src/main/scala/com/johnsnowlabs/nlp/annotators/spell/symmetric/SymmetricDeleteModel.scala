@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.spell.symmetric
 
 import com.johnsnowlabs.nlp.annotators.spell.util.Utilities
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable, HasSimpleAnnotate}
+import com.johnsnowlabs.nlp._
 import org.apache.spark.ml.util.Identifiable
 import org.slf4j.LoggerFactory
 
@@ -97,13 +97,14 @@ import scala.util.control.Breaks._
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
-class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[SymmetricDeleteModel] with HasSimpleAnnotate[SymmetricDeleteModel]
-  with SymmetricDeleteParams {
+class SymmetricDeleteModel(override val uid: String)
+    extends AnnotatorModel[SymmetricDeleteModel]
+    with HasSimpleAnnotate[SymmetricDeleteModel]
+    with SymmetricDeleteParams {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
   def this() = this(Identifiable.randomUID("SYMSPELL"))
-
 
   /** Output annotator type: TOKEN
    *
@@ -126,7 +127,8 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
   def setDictionary(value: Map[String, Long]): this.type = set(dictionary, value)
 
   /** @group setParam */
-  def setDerivedWords(value: Map[String, (List[String], Long)]): this.type = set(derivedWords, value)
+  def setDerivedWords(value: Map[String, (List[String], Long)]): this.type =
+    set(derivedWords, value)
 
   private val logger = LoggerFactory.getLogger("SymmetricDeleteApproach")
 
@@ -141,16 +143,16 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
   case class SuggestedWord(correction: String, frequency: Long, distance: Int, score: Double)
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    annotations.map { token => {
-      val verifiedWord = checkSpellWord(token.result)
-      Annotation(
-        outputAnnotatorType,
-        token.begin,
-        token.end,
-        verifiedWord._1,
-        Map("confidence" -> verifiedWord._2.toString)
-      )
-    }
+    annotations.map { token =>
+      {
+        val verifiedWord = checkSpellWord(token.result)
+        Annotation(
+          outputAnnotatorType,
+          token.begin,
+          token.end,
+          verifiedWord._1,
+          Map("confidence" -> verifiedWord._2.toString))
+      }
     }
   }
 
@@ -164,10 +166,12 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     val originalCaseType = getCaseWordType(originalWord)
     val suggestedWord = getSuggestedCorrections(originalWord)
     if (suggestedWord.isDefined) {
-      logger.debug(s"Received: $originalWord. Best correction is: $suggestedWord. " +
-        s"Because frequency was ${suggestedWord.get.frequency} " +
-        s"and edit distance was ${suggestedWord.get.distance}")
-      transformedWord = transformToOriginalCaseType(originalCaseType, suggestedWord.get.correction)
+      logger.debug(
+        s"Received: $originalWord. Best correction is: $suggestedWord. " +
+          s"Because frequency was ${suggestedWord.get.frequency} " +
+          s"and edit distance was ${suggestedWord.get.distance}")
+      transformedWord =
+        transformToOriginalCaseType(originalCaseType, suggestedWord.get.correction)
       score = suggestedWord.get.score
     }
 
@@ -221,13 +225,11 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
   /** Return list of suggested corrections for potentially incorrectly
    * spelled word
    * */
-
   def getSuggestedCorrections(word: String): Option[SuggestedWord] = {
     val cleanWord = Utilities.limitDuplicates($(dupsLimit), word)
     if (get(dictionary).isDefined) {
       getDictionarySuggestions(cleanWord)
-    }
-    else {
+    } else {
       getSymmetricSuggestions(cleanWord)
     }
   }
@@ -289,7 +291,8 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
       // process queue item
       if (allWords.contains(queueItem) && !suggestDict.contains(queueItem)) {
 
-        var suggestedWordsWeight: (List[String], Long) = $$(derivedWords).getOrElse(queueItem, (List(""), 0))
+        var suggestedWordsWeight: (List[String], Long) =
+          $$(derivedWords).getOrElse(queueItem, (List(""), 0))
 
         if (suggestedWordsWeight._2 > 0) {
           // word is in dictionary, and is a word from the corpus, and not already in suggestion list
@@ -297,8 +300,8 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
           // (frequency in corpus, edit distance)
           // note q_items that are not the input string are shorter than input string since only
           // deletes are added (unless manual dictionary corrections are added)
-          suggestDict(queueItem) = (suggestedWordsWeight._2,
-            lowercaseWordLength - queueItemLength)
+          suggestDict(queueItem) =
+            (suggestedWordsWeight._2, lowercaseWordLength - queueItemLength)
 
           breakable { //early exit
             if (lowercaseWordLength == queueItemLength) {
@@ -323,8 +326,7 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
             if (itemDist <= $(maxEditDistance)) {
               suggestedWordsWeight = $$(derivedWords).getOrElse(lowercaseScItem, (List(""), 0))
               if (suggestedWordsWeight._2 > 0) {
-                suggestDict(lowercaseScItem) = (suggestedWordsWeight._2,
-                  itemDist)
+                suggestDict(lowercaseScItem) = (suggestedWordsWeight._2, itemDist)
                 if (itemDist < minSuggestLen) {
                   minSuggestLen = itemDist
                 }
@@ -344,7 +346,8 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
         val y = 0 until queueItemLength
         y.foreach(c => { //character index
           //result of word minus c
-          val wordMinus = queueItem.substring(0, c).concat(queueItem.substring(c + 1, queueItemLength))
+          val wordMinus =
+            queueItem.substring(0, c).concat(queueItem.substring(c + 1, queueItemLength))
           if (!queueDictionary.contains(wordMinus)) {
             queueList ++= Iterator(wordMinus)
             queueDictionary(wordMinus) = "None" // arbitrary value, just to identify we checked this
@@ -360,14 +363,18 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     getSuggestedWord(suggestions.headOption.orElse(None), -1)
   }
 
-
-  private def getSuggestedWord(suggestion: Option[(String, (Long, Int))], score: Double):
-  Option[SuggestedWord] = {
+  private def getSuggestedWord(
+      suggestion: Option[(String, (Long, Int))],
+      score: Double): Option[SuggestedWord] = {
     if (suggestion.isDefined) {
-      val realScore = if (score == -1) suggestion.get._2._2.toDouble / $(maxEditDistance).toDouble else score
-      Some(SuggestedWord(correction = suggestion.get._1, frequency = suggestion.get._2._1,
-        distance = suggestion.get._2._2,
-        score = BigDecimal(realScore).setScale(4, BigDecimal.RoundingMode.HALF_UP).toDouble))
+      val realScore =
+        if (score == -1) suggestion.get._2._2.toDouble / $(maxEditDistance).toDouble else score
+      Some(
+        SuggestedWord(
+          correction = suggestion.get._1,
+          frequency = suggestion.get._2._1,
+          distance = suggestion.get._2._2,
+          score = BigDecimal(realScore).setScale(4, BigDecimal.RoundingMode.HALF_UP).toDouble))
     } else {
       None
     }
@@ -375,7 +382,9 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
 }
 
-trait ReadablePretrainedSymmetric extends ParamsAndFeaturesReadable[SymmetricDeleteModel] with HasPretrained[SymmetricDeleteModel] {
+trait ReadablePretrainedSymmetric
+    extends ParamsAndFeaturesReadable[SymmetricDeleteModel]
+    with HasPretrained[SymmetricDeleteModel] {
   override val defaultModelName = Some("spellcheck_sd")
 
   /** Java compliant-overrides */
@@ -383,9 +392,11 @@ trait ReadablePretrainedSymmetric extends ParamsAndFeaturesReadable[SymmetricDel
 
   override def pretrained(name: String): SymmetricDeleteModel = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): SymmetricDeleteModel = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): SymmetricDeleteModel =
+    super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): SymmetricDeleteModel = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): SymmetricDeleteModel =
+    super.pretrained(name, lang, remoteLoc)
 }
 
 /**

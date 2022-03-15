@@ -16,15 +16,13 @@
 
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RuleFactory}
+import com.johnsnowlabs.nlp.util.regex.RuleFactory
 import com.johnsnowlabs.nlp.util.regex.RuleFactory.RuleMatch
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import scala.collection.mutable
-import scala.collection.mutable.ListBuffer
 import scala.util.matching.Regex
 
 /**
@@ -102,7 +100,10 @@ import scala.util.matching.Regex
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
-class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] with HasSimpleAnnotate[DateMatcher] with DateMatcherUtils {
+class DateMatcher(override val uid: String)
+    extends AnnotatorModel[DateMatcher]
+    with HasSimpleAnnotate[DateMatcher]
+    with DateMatcherUtils {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
@@ -121,8 +122,12 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
   /** Internal constructor to submit a random UID */
   def this() = this(Identifiable.randomUID("DATE"))
 
-  private def runFormalFactoryForInputFormats(text: String, factory: RuleFactory): Option[MatchedDateTime] = {
-    factory.findMatchFirstOnly(text).map{ possibleDate => formalDateContentParse(possibleDate)}
+  private def runFormalFactoryForInputFormats(
+      text: String,
+      factory: RuleFactory): Option[MatchedDateTime] = {
+    factory.findMatchFirstOnly(text).map { possibleDate =>
+      formalDateContentParse(possibleDate)
+    }
   }
 
   def runInputFormatsSearch(text: String): Option[MatchedDateTime] = {
@@ -130,7 +135,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
       .filter(formalInputFormats.contains(_))
       .map(formalInputFormats(_))
 
-    for(r <- regexes){
+    for (r <- regexes) {
       formalFactoryInputFormats.addRule(r, "formal rule from input formats")
     }
 
@@ -188,7 +193,8 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
     val words = text.replaceAll("""([?.!:]|\b\p{IsLetter}{1,2}\b)\s*""", "").split(SPACE_CHAR)
     val notSubWordMatches = words
       .map(_.toLowerCase)
-      .filter( w => w.contains(d.content.matched.toLowerCase) && w.length <= d.content.matched.length)
+      .filter(w =>
+        w.contains(d.content.matched.toLowerCase) && w.length <= d.content.matched.length)
 
     notSubWordMatches.length match {
       case 1 => true
@@ -221,8 +227,8 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
 
       val yearCandidate = possibleDates.find(_.identifier == "relaxed year")
       if (yearCandidate.isDefined &&
-        yearCandidate.get.content.matched.exists(_.isDigit) &&
-        yearCandidate.get.content.matched.length > 2) {
+          yearCandidate.get.content.matched.exists(_.isDigit) &&
+          yearCandidate.get.content.matched.length > 2) {
         val year = yearCandidate.get.content.matched.filter(_.isDigit).toInt
         yearMatch = if (year > 999) year else year + 1900
       }
@@ -230,84 +236,87 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
       val calendar = new Calendar.Builder()
       calendar.setDate(yearMatch, monthMatch, dayMatch)
       val matches = possibleDates.map(p => (p.content.start, p.content.end))
-      Some(MatchedDateTime(
-        calendar.build(),
-        matches.minBy(_._1)._1,
-        matches.maxBy(_._2)._2
-      ))
+      Some(MatchedDateTime(calendar.build(), matches.minBy(_._1)._1, matches.maxBy(_._2)._2))
     } else None
   }
 
   private def extractRelativeDateFuture(text: String): Option[MatchedDateTime] = {
     if ("in\\s[0-9]".r.findFirstMatchIn(text).isDefined && !text.contains(relativePastPattern))
-      relativeFutureFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
-        relativeDateFutureContentParse(possibleDate))
+      relativeFutureFactory
+        .findMatchFirstOnly(text.toLowerCase())
+        .map(possibleDate => relativeDateFutureContentParse(possibleDate))
     else
       None
   }
 
   private def extractRelativeDatePast(text: String): Option[MatchedDateTime] = {
-    if (!"(.*)\\s+(in)\\s+[0-9]".r.findFirstMatchIn(text).isDefined && text.contains(relativePastPattern))
-      relativePastFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
-        relativeDatePastContentParse(possibleDate)
-      )
+    if (!"(.*)\\s+(in)\\s+[0-9]".r.findFirstMatchIn(text).isDefined && text.contains(
+          relativePastPattern))
+      relativePastFactory
+        .findMatchFirstOnly(text.toLowerCase())
+        .map(possibleDate => relativeDatePastContentParse(possibleDate))
     else
       None
   }
 
   private def extractRelativeDate(text: String): Option[MatchedDateTime] = {
     if (!"in\\s+[0-9]".r.findFirstMatchIn(text).isDefined && !text.contains(relativePastPattern))
-      relativeFactory.findMatchFirstOnly(text.toLowerCase)
-        .map(possibleDate => relativeDateContentParse(possibleDate)
-        )
+      relativeFactory
+        .findMatchFirstOnly(text.toLowerCase)
+        .map(possibleDate => relativeDateContentParse(possibleDate))
     else
       None
   }
 
   private def extractTomorrowYesterday(text: String): Option[MatchedDateTime] = {
-    tyFactory.findMatchFirstOnly(text.toLowerCase())
+    tyFactory
+      .findMatchFirstOnly(text.toLowerCase())
       .map(possibleDate => tomorrowYesterdayContentParse(possibleDate))
   }
 
   private def extractRelativeExactDay(text: String): Option[MatchedDateTime] = {
-    relativeExactFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
-      relativeExactContentParse(possibleDate)
-    )
+    relativeExactFactory
+      .findMatchFirstOnly(text.toLowerCase())
+      .map(possibleDate => relativeExactContentParse(possibleDate))
   }
 
-  private def setTimeIfAny(dateTime: Option[MatchedDateTime], text: String): Option[MatchedDateTime] = {
-    timeFactory.findMatchFirstOnly(text).map { possibleTime => {
-      val calendarBuild = new Calendar.Builder
-      val currentCalendar = dateTime.map(_.calendar).getOrElse(Calendar.getInstance)
-      calendarBuild.setDate(
-        currentCalendar.get(Calendar.YEAR),
-        currentCalendar.get(Calendar.MONTH),
-        currentCalendar.get(Calendar.DAY_OF_MONTH)
-      )
-      val times = possibleTime.content.subgroups
-      val hour = {
-        /** assuming PM if 2 digits regex-subgroup hour is defined, is ot AM and is less than number 12 e.g. meet you at 5 */
-        if (
-          times.head != null && // hour is defined
-            amDefinition.findFirstIn(text).isDefined && // no explicit am
-            times.head.toInt < 12 // hour is within smaller than 12
-        ) times.head.toInt + 12
-        else if (times.head.toInt < 25) times.head.toInt
-        else 0
+  private def setTimeIfAny(
+      dateTime: Option[MatchedDateTime],
+      text: String): Option[MatchedDateTime] = {
+    timeFactory.findMatchFirstOnly(text).map { possibleTime =>
+      {
+        val calendarBuild = new Calendar.Builder
+        val currentCalendar = dateTime.map(_.calendar).getOrElse(Calendar.getInstance)
+        calendarBuild.setDate(
+          currentCalendar.get(Calendar.YEAR),
+          currentCalendar.get(Calendar.MONTH),
+          currentCalendar.get(Calendar.DAY_OF_MONTH))
+        val times = possibleTime.content.subgroups
+        val hour = {
+
+          /** assuming PM if 2 digits regex-subgroup hour is defined, is ot AM and is less than number 12 e.g. meet you at 5 */
+          if (times.head != null && // hour is defined
+              amDefinition.findFirstIn(text).isDefined && // no explicit am
+              times.head.toInt < 12 // hour is within smaller than 12
+              ) times.head.toInt + 12
+          else if (times.head.toInt < 25) times.head.toInt
+          else 0
+        }
+
+        /** Minutes are valid if regex-subgroup matched and less than number 60 */
+        val minutes = {
+          if (times(1) != null && times(1).toInt < 60) times(1).toInt
+          else 0
+        }
+
+        /** Seconds are valid if regex-subgroup matched and less than number 60 */
+        val seconds = {
+          if (times(2) != null && times(2).toInt < 60) times(2).toInt
+          else 0
+        }
+        calendarBuild.setTimeOfDay(hour, minutes, seconds)
+        MatchedDateTime(calendarBuild.build, possibleTime.content.start, possibleTime.content.end)
       }
-      /** Minutes are valid if regex-subgroup matched and less than number 60 */
-      val minutes = {
-        if (times(1) != null && times(1).toInt < 60) times(1).toInt
-        else 0
-      }
-      /** Seconds are valid if regex-subgroup matched and less than number 60 */
-      val seconds = {
-        if (times(2) != null && times(2).toInt < 60) times(2).toInt
-        else 0
-      }
-      calendarBuild.setTimeOfDay(hour, minutes, seconds)
-      MatchedDateTime(calendarBuild.build, possibleTime.content.start, possibleTime.content.end)
-    }
     }
   }
 
@@ -317,15 +326,16 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
    */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val simpleDateFormat = new SimpleDateFormat(getOutputFormat)
-    annotations.flatMap(annotation =>
-      extractDate(annotation.result).map(matchedDate => Annotation(
-        outputAnnotatorType,
-        matchedDate.start,
-        matchedDate.end - 1,
-        simpleDateFormat.format(matchedDate.calendar.getTime),
-        annotation.metadata
-      ))
-    )
+    annotations.flatMap(
+      annotation =>
+        extractDate(annotation.result).map(
+          matchedDate =>
+            Annotation(
+              outputAnnotatorType,
+              matchedDate.start,
+              matchedDate.end - 1,
+              simpleDateFormat.format(matchedDate.calendar.getTime),
+              annotation.metadata)))
   }
 
 }

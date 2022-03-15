@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.training
 
 object CoNLLUCols extends Enumeration {
+
   /** CoNLL-U columns [[https://universaldependencies.org/format.html CoNLL-U format]]
    *
    **/

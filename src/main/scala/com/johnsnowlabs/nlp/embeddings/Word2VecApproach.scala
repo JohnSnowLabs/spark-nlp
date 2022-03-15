@@ -93,13 +93,14 @@ import org.apache.spark.sql.{Dataset, SparkSession}
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class Word2VecApproach(override val uid: String)
-  extends AnnotatorApproach[Word2VecModel]
+    extends AnnotatorApproach[Word2VecModel]
     with HasStorageRef
     with HasEnableCachingProperties {
 
   def this() = this(Identifiable.randomUID("Word2VecApproach"))
 
-  override val description = "Distributed Representations of Words and Phrases and their Compositionality"
+  override val description =
+    "Distributed Representations of Words and Phrases and their Compositionality"
 
   /** Input Annotator Types: TOKEN
    *
@@ -118,8 +119,8 @@ class Word2VecApproach(override val uid: String)
    *
    * @group param
    */
-  val vectorSize = new IntParam(
-    this, "vectorSize", "the dimension of codes after transforming from words (> 0)")
+  val vectorSize =
+    new IntParam(this, "vectorSize", "the dimension of codes after transforming from words (> 0)")
 
   /** @group setParam */
   def setVectorSize(value: Int): this.type = {
@@ -137,7 +138,9 @@ class Word2VecApproach(override val uid: String)
    * @group param
    */
   val windowSize = new IntParam(
-    this, "windowSize", "the window size (context words from [-window, window]) (> 0)")
+    this,
+    "windowSize",
+    "the window size (context words from [-window, window]) (> 0)")
 
   /** @group setParam */
   def setWindowSize(value: Int): this.type = {
@@ -154,8 +157,8 @@ class Word2VecApproach(override val uid: String)
    *
    * @group param
    */
-  val numPartitions = new IntParam(
-    this, "numPartitions", "number of partitions for sentences of words (> 0)")
+  val numPartitions =
+    new IntParam(this, "numPartitions", "number of partitions for sentences of words (> 0)")
 
   /** @group setParam */
   def setNumPartitions(value: Int): this.type = {
@@ -173,8 +176,11 @@ class Word2VecApproach(override val uid: String)
    *
    * @group param
    */
-  val minCount = new IntParam(this, "minCount", "the minimum number of times a token must " +
-    "appear to be included in the word2vec model's vocabulary (>= 0)")
+  val minCount = new IntParam(
+    this,
+    "minCount",
+    "the minimum number of times a token must " +
+      "appear to be included in the word2vec model's vocabulary (>= 0)")
 
   /** @group setParam */
   def setMinCount(value: Int): this.type = {
@@ -193,9 +199,12 @@ class Word2VecApproach(override val uid: String)
    *
    * @group param
    */
-  val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Maximum length " +
-    "(in words) of each sentence in the input data. Any sentence longer than this threshold will " +
-    "be divided into chunks up to the size (> 0)")
+  val maxSentenceLength = new IntParam(
+    this,
+    "maxSentenceLength",
+    "Maximum length " +
+      "(in words) of each sentence in the input data. Any sentence longer than this threshold will " +
+      "be divided into chunks up to the size (> 0)")
 
   /** @group setParam */
   def setMaxSentenceLength(value: Int): this.type = {
@@ -212,7 +221,10 @@ class Word2VecApproach(override val uid: String)
    *
    * @group param
    */
-  val stepSize: DoubleParam = new DoubleParam(this, "stepSize", "Step size (learning rate) to be used for each iteration of optimization (> 0)")
+  val stepSize: DoubleParam = new DoubleParam(
+    this,
+    "stepSize",
+    "Step size (learning rate) to be used for each iteration of optimization (> 0)")
 
   /** @group setParam */
   def setStepSize(value: Double): this.type = {
@@ -265,12 +277,13 @@ class Word2VecApproach(override val uid: String)
     maxSentenceLength -> 1000,
     stepSize -> 0.025,
     maxIter -> 1,
-    seed -> 44
-  )
+    seed -> 44)
 
   override def beforeTraining(spark: SparkSession): Unit = {}
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): Word2VecModel = {
+  override def train(
+      dataset: Dataset[_],
+      recursivePipeline: Option[PipelineModel]): Word2VecModel = {
 
     val tokenResult: String = ".result"
     val inputColumns = getInputCols(0) + tokenResult
@@ -309,4 +322,3 @@ class Word2VecApproach(override val uid: String)
  * This is the companion object of [[Word2VecApproach]]. Please refer to that class for the documentation.
  */
 object Word2VecApproach extends DefaultParamsReadable[Word2VecApproach]
-

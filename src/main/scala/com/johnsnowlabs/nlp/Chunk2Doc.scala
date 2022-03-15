@@ -68,7 +68,9 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
-class Chunk2Doc(override val uid: String) extends AnnotatorModel[Chunk2Doc] with HasSimpleAnnotate[Chunk2Doc] {
+class Chunk2Doc(override val uid: String)
+    extends AnnotatorModel[Chunk2Doc]
+    with HasSimpleAnnotate[Chunk2Doc] {
 
   def this() = this(Identifiable.randomUID("CHUNK2DOC"))
 
@@ -93,8 +95,7 @@ class Chunk2Doc(override val uid: String) extends AnnotatorModel[Chunk2Doc] with
         annotation.begin,
         annotation.end,
         annotation.result,
-        annotation.metadata
-      )
+        annotation.metadata)
     })
   }
 

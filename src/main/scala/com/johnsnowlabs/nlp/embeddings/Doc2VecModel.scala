@@ -17,9 +17,9 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.AnnotatorType.{SENTENCE_EMBEDDINGS, TOKEN}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, HasSimpleAnnotate, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.MapFeature
+import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.param.{IntParam, ParamValidators}
 import org.apache.spark.ml.util.Identifiable
@@ -116,7 +116,8 @@ import org.apache.spark.sql.DataFrame
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class Doc2VecModel(override val uid: String)
-  extends AnnotatorModel[Doc2VecModel] with HasSimpleAnnotate[Doc2VecModel]
+    extends AnnotatorModel[Doc2VecModel]
+    with HasSimpleAnnotate[Doc2VecModel]
     with HasStorageRef
     with HasEmbeddingsProperties
     with ParamsAndFeaturesWritable {
@@ -128,6 +129,7 @@ class Doc2VecModel(override val uid: String)
    * @group anno
    * */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
+
   /** Output annotator type : SENTENCE_EMBEDDINGS
    *
    * @group anno
@@ -140,7 +142,9 @@ class Doc2VecModel(override val uid: String)
    * @group param
    */
   val vectorSize = new IntParam(
-    this, "vectorSize", "the dimension of codes after transforming from words (> 0)",
+    this,
+    "vectorSize",
+    "the dimension of codes after transforming from words (> 0)",
     ParamValidators.gt(0))
 
   /** @group getParam */
@@ -163,22 +167,16 @@ class Doc2VecModel(override val uid: String)
   /** @group setParam */
   def setWordVectors(value: Map[String, Array[Float]]): this.type = set(wordVectors, value)
 
-  setDefault(
-    inputCols -> Array(TOKEN),
-    outputCol -> "doc2vec",
-    vectorSize -> 100
-  )
+  setDefault(inputCols -> Array(TOKEN), outputCol -> "doc2vec", vectorSize -> 100)
 
   private def calculateSentenceEmbeddings(matrix: Seq[Array[Float]]): Array[Float] = {
     val res = Array.ofDim[Float](matrix.head.length)
 
-    matrix.head.indices.foreach {
-      j =>
-        matrix.indices.foreach {
-          i =>
-            res(j) += matrix(i)(j)
-        }
-        res(j) /= matrix.length
+    matrix.head.indices.foreach { j =>
+      matrix.indices.foreach { i =>
+        res(j) += matrix(i)(j)
+      }
+      res(j) /= matrix.length
     }
     res
   }
@@ -194,52 +192,56 @@ class Doc2VecModel(override val uid: String)
     val sentences = annotations
       .filter(_.annotatorType == TOKEN)
       .groupBy(token => token.metadata("sentence").toInt)
-      .toSeq.sortBy(_._1)
+      .toSeq
+      .sortBy(_._1)
 
     if (sentences.nonEmpty) {
-      sentences.map { case (index, sentence) =>
+      sentences.map {
+        case (index, sentence) =>
+          val tokens = sentence
+            .map(x => x.result)
+            .filter(_.nonEmpty)
 
-        val tokens = sentence
-          .map(x => x.result)
-          .filter(_.nonEmpty)
+          val oovVector = Array.fill($(vectorSize))(0.0f)
+          val vectors = tokens.map { tokne =>
+            $$(wordVectors).getOrElse(tokne, oovVector)
+          }
 
-        val oovVector = Array.fill($(vectorSize))(0.0f)
-        val vectors = tokens.map { tokne =>
-          $$(wordVectors).getOrElse(tokne, oovVector)
-        }
+          val sentEmbeddings = calculateSentenceEmbeddings(vectors)
 
-        val sentEmbeddings = calculateSentenceEmbeddings(vectors)
-
-        /**
-         * begin: the begin index of the document/sentence should be taken from the first token
-         * end: the end index of the document/sentence should be taken from the last token
-         * result: we are just going to merge the tokens back together to make a document/sentence
-         */
-        Annotation(
-          annotatorType = outputAnnotatorType,
-          begin = sentence.head.begin,
-          end = sentence.last.end,
-          result = tokens.mkString(" "),
-          metadata = Map("sentence" -> index.toString,
-            "token" -> tokens.mkString(" "),
-            "pieceId" -> "-1",
-            "isWordStart" -> "true"
-          ),
-          embeddings = sentEmbeddings
-        )
+          /**
+           * begin: the begin index of the document/sentence should be taken from the first token
+           * end: the end index of the document/sentence should be taken from the last token
+           * result: we are just going to merge the tokens back together to make a document/sentence
+           */
+          Annotation(
+            annotatorType = outputAnnotatorType,
+            begin = sentence.head.begin,
+            end = sentence.last.end,
+            result = tokens.mkString(" "),
+            metadata = Map(
+              "sentence" -> index.toString,
+              "token" -> tokens.mkString(" "),
+              "pieceId" -> "-1",
+              "isWordStart" -> "true"),
+            embeddings = sentEmbeddings)
       }
 
-    }
-    else Seq.empty[Annotation]
+    } else Seq.empty[Annotation]
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    dataset.withColumn(getOutputCol, wrapSentenceEmbeddingsMetadata(dataset.col(getOutputCol), $(vectorSize), Some($(storageRef))))
+    dataset.withColumn(
+      getOutputCol,
+      wrapSentenceEmbeddingsMetadata(
+        dataset.col(getOutputCol),
+        $(vectorSize),
+        Some($(storageRef))))
   }
 }
 
 trait ReadablePretrainedDoc2Vec
-  extends ParamsAndFeaturesReadable[Doc2VecModel]
+    extends ParamsAndFeaturesReadable[Doc2VecModel]
     with HasPretrained[Doc2VecModel] {
   override val defaultModelName: Some[String] = Some("doc2vec_gigaword_300")
 
@@ -248,16 +250,16 @@ trait ReadablePretrainedDoc2Vec
   }
 
   /** Java compliant-overrides */
-  override def pretrained(): Doc2VecModel = pretrained(defaultModelName.get, defaultLang, defaultLoc)
+  override def pretrained(): Doc2VecModel =
+    pretrained(defaultModelName.get, defaultLang, defaultLoc)
 
   override def pretrained(name: String): Doc2VecModel = pretrained(name, defaultLang, defaultLoc)
 
-  override def pretrained(name: String, lang: String): Doc2VecModel = pretrained(name, lang, defaultLoc)
+  override def pretrained(name: String, lang: String): Doc2VecModel =
+    pretrained(name, lang, defaultLoc)
 }
-
 
 /**
  * This is the companion object of [[Doc2VecModel]]. Please refer to that class for the documentation.
  */
 object Doc2VecModel extends ReadablePretrainedDoc2Vec
-

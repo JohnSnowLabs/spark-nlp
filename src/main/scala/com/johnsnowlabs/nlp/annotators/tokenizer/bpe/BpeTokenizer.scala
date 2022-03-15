@@ -28,11 +28,10 @@ import scala.collection.mutable.ListBuffer
  * TODO: truncation assumed?
  */
 private[nlp] abstract class BpeTokenizer(
-                                          val merges: Map[(String, String), Int],
-                                          val vocab: Map[String, Int],
-                                          val specialTokens: SpecialTokens,
-                                          var padWithSentenceTokens: Boolean
-                                        ) {
+    val merges: Map[(String, String), Int],
+    val vocab: Map[String, Int],
+    val specialTokens: SpecialTokens,
+    var padWithSentenceTokens: Boolean) {
 
   protected val bpeRanks: Map[(String, String), Int] = {
     merges
@@ -61,7 +60,9 @@ private[nlp] abstract class BpeTokenizer(
   protected val prependForPieceId: Option[String] = None
   protected val appendForPieceId: Option[String] = None
 
-  protected def performMerges(wordChars: Array[String], charPairs: Array[(String, String)]): Array[String] = {
+  protected def performMerges(
+      wordChars: Array[String],
+      charPairs: Array[(String, String)]): Array[String] = {
     var word = wordChars
     var pairs = charPairs
     // get highest priority byte-pair first
@@ -82,9 +83,7 @@ private[nlp] abstract class BpeTokenizer(
           newWord ++= word.slice(i, j)
           i = j
           val bpIsAtIndex =
-            (word(i) == first) && (i < word.length - 1) && word(
-              i + 1
-            ) == second
+            (word(i) == first) && (i < word.length - 1) && word(i + 1) == second
           if (bpIsAtIndex) {
             newWord += (first + second)
             i += 2
@@ -107,9 +106,10 @@ private[nlp] abstract class BpeTokenizer(
     word
   }
 
-  protected def getTokenPieces(indToken: IndexedToken,
-                               word: Array[String],
-                               processedToken: String): Array[TokenPiece] = {
+  protected def getTokenPieces(
+      indToken: IndexedToken,
+      word: Array[String],
+      processedToken: String): Array[TokenPiece] = {
     var currentIndex = indToken.begin
     val wordIndexes = word.map((subWord: String) => {
       val startIndex = currentIndex
@@ -150,8 +150,7 @@ private[nlp] abstract class BpeTokenizer(
    *
    * @return Array of TokenPieces, corresponding to encoded token
    */
-  protected def bpe(indToken: IndexedToken
-                   ): Array[TokenPiece] = {
+  protected def bpe(indToken: IndexedToken): Array[TokenPiece] = {
     var processedToken = ""
     try {
       processedToken = preProcessTokenForBpe(indToken.token)
@@ -168,15 +167,15 @@ private[nlp] abstract class BpeTokenizer(
 
       getTokenPieces(indToken, word, processedToken)
     } catch {
-      case _: java.util.NoSuchElementException => Array(
-        TokenPiece(
-          indToken.token,
-          indToken.token,
-          specialTokens.unk.id,
-          isWordStart = true,
-          indToken.begin,
-          indToken.end)
-      )
+      case _: java.util.NoSuchElementException =>
+        Array(
+          TokenPiece(
+            indToken.token,
+            indToken.token,
+            specialTokens.unk.id,
+            isWordStart = true,
+            indToken.begin,
+            indToken.end))
     }
   }
 
@@ -184,9 +183,8 @@ private[nlp] abstract class BpeTokenizer(
    * Split the the individual sub texts on special tokens, e.g. masking etc.
    */
   protected def splitOnSpecialToken(
-                                     specialToken: SpecialToken,
-                                     text: String
-                                   ): ListBuffer[String] = {
+      specialToken: SpecialToken,
+      text: String): ListBuffer[String] = {
     val isControl = (c: Char) => {
       if (c == '\t' || c == '\n' || c == '\r') false // count as whitespace
       else c.isControl
@@ -209,11 +207,8 @@ private[nlp] abstract class BpeTokenizer(
       var done = false
       // Try to avoid splitting on token
       if (specialToken.singleWord) {
-        if (
-          (i < (splitText.length - 1)) && !isEndOfWord(
-            subText
-          ) && !isStartOfWord(splitText(i + 1))
-        ) fullWord += subText + tok
+        if ((i < (splitText.length - 1)) && !isEndOfWord(subText) && !isStartOfWord(
+              splitText(i + 1))) fullWord += subText + tok
         else if (fullWord.nonEmpty) {
           fullWord += subText
           result += fullWord
@@ -250,14 +245,13 @@ private[nlp] abstract class BpeTokenizer(
   /**
    * Special tokens of the model for processing
    */
-  val sentencePadding: (String, String) = (specialTokens.sentenceStart.content, specialTokens.sentenceEnd.content)
+  val sentencePadding: (String, String) =
+    (specialTokens.sentenceStart.content, specialTokens.sentenceEnd.content)
 
   /**
    * Tokenize considering special tokens and split algorithm
    */
-  def tokenize(
-                sentence: Sentence
-              ): Array[IndexedToken] = {
+  def tokenize(sentence: Sentence): Array[IndexedToken] = {
     var text = sentence.content
     if (text.trim.isEmpty) Array[IndexedToken]()
     else {
@@ -290,12 +284,7 @@ private[nlp] abstract class BpeTokenizer(
           result.append(splitSubText: _*)
         } else // subtext is just the special token
           result.append(
-            IndexedToken(
-              subText,
-              begin = subTextIndex,
-              end = subTextIndex + subText.length - 1
-            )
-          )
+            IndexedToken(subText, begin = subTextIndex, end = subTextIndex + subText.length - 1))
         currentIndex = subTextIndex + subText.length
       }
       result.toArray
@@ -315,9 +304,7 @@ private[nlp] abstract class BpeTokenizer(
           vocab(indToken.token),
           isWordStart = true,
           indToken.begin,
-          indToken.end
-        )
-      )
+          indToken.end))
   }
 
   def encode(indTokens: Array[IndexedToken]): Array[TokenPiece] = indTokens.flatMap(encode(_))
@@ -325,14 +312,15 @@ private[nlp] abstract class BpeTokenizer(
 
 object BpeTokenizer {
   def forModel(
-                modelType: String,
-                merges: Map[(String, String), Int],
-                vocab: Map[String, Int],
-                padWithSentenceTokens: Boolean = false,
-                specialTokens: Option[SpecialTokens] = None
-              ): BpeTokenizer = {
+      modelType: String,
+      merges: Map[(String, String), Int],
+      vocab: Map[String, Int],
+      padWithSentenceTokens: Boolean = false,
+      specialTokens: Option[SpecialTokens] = None): BpeTokenizer = {
     val availableModels = Array("roberta", "xlm", "gpt2")
-    require(availableModels.contains(modelType), "Model type \"" + modelType + "\" not supported yet.")
+    require(
+      availableModels.contains(modelType),
+      "Model type \"" + modelType + "\" not supported yet.")
 
     val modelSpecialTokens = specialTokens match {
       case Some(specialTok) => specialTok
@@ -340,7 +328,8 @@ object BpeTokenizer {
     }
 
     modelType match {
-      case "roberta" => new RobertaTokenizer(merges, vocab, modelSpecialTokens, padWithSentenceTokens)
+      case "roberta" =>
+        new RobertaTokenizer(merges, vocab, modelSpecialTokens, padWithSentenceTokens)
       case "xlm" => new XlmTokenizer(merges, vocab, modelSpecialTokens, padWithSentenceTokens)
       case "gpt2" => new Gpt2Tokenizer(merges, vocab, modelSpecialTokens, padWithSentenceTokens)
 

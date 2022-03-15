@@ -128,7 +128,9 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
-class NerOverwriter(override val uid: String) extends AnnotatorModel[NerOverwriter] with HasSimpleAnnotate[NerOverwriter] {
+class NerOverwriter(override val uid: String)
+    extends AnnotatorModel[NerOverwriter]
+    with HasSimpleAnnotate[NerOverwriter] {
 
   import com.johnsnowlabs.nlp.AnnotatorType.NAMED_ENTITY
 
@@ -137,6 +139,7 @@ class NerOverwriter(override val uid: String) extends AnnotatorModel[NerOverwrit
    * @group anno
    * */
   override val outputAnnotatorType: AnnotatorType = NAMED_ENTITY
+
   /** Input Annotator Type : NAMED_ENTITY
    *
    * @group anno
@@ -149,7 +152,8 @@ class NerOverwriter(override val uid: String) extends AnnotatorModel[NerOverwrit
    *
    * @group param
    * */
-  val stopWords: StringArrayParam = new StringArrayParam(this, "stopWords", "The words to be filtered out.")
+  val stopWords: StringArrayParam =
+    new StringArrayParam(this, "stopWords", "The words to be filtered out.")
 
   /** The words to be filtered out.
    *
@@ -183,9 +187,7 @@ class NerOverwriter(override val uid: String) extends AnnotatorModel[NerOverwrit
    * */
   def getNewResult: String = $(newResult)
 
-  setDefault(
-    newResult -> "I-OVERWRITE"
-  )
+  setDefault(newResult -> "I-OVERWRITE")
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
@@ -199,16 +201,14 @@ class NerOverwriter(override val uid: String) extends AnnotatorModel[NerOverwrit
           tokenAnnotation.begin,
           tokenAnnotation.end,
           $(newResult),
-          tokenAnnotation.metadata
-        )
+          tokenAnnotation.metadata)
       } else {
         Annotation(
           outputAnnotatorType,
           tokenAnnotation.begin,
           tokenAnnotation.end,
           tokenAnnotation.result,
-          tokenAnnotation.metadata
-        )
+          tokenAnnotation.metadata)
       }
 
     }

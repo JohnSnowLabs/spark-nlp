@@ -16,7 +16,6 @@
 
 package com.johnsnowlabs.util
 
-
 case class Version(parts: List[Int]) {
 
   override def toString: String = {
@@ -32,7 +31,9 @@ case class Version(parts: List[Int]) {
       case 1 => parts.head.toString
       case 2 => f"${parts.head.toString}.${parts(1).toString}"
       case 3 => f"${parts.head.toString}.${parts(1).toString}${parts(2).toString}"
-      case _ => throw new UnsupportedOperationException(f"Cannot cast to float version ${this.toString()}")
+      case _ =>
+        throw new UnsupportedOperationException(
+          f"Cannot cast to float version ${this.toString()}")
     }
     versionString.toFloat
   }
@@ -45,7 +46,9 @@ object Version {
   def isInteger(str: String): Boolean = str.nonEmpty && str.forall(c => Character.isDigit(c))
 
   def parse(str: String): Version = {
-    val parts = str.replaceAll("-rc\\d", "").split('.')
+    val parts = str
+      .replaceAll("-rc\\d", "")
+      .split('.')
       .takeWhile(p => isInteger(p))
       .map(p => p.toInt)
       .toList
@@ -78,17 +81,17 @@ object Version {
       else {
         // All first digits must be equals:
         var previousWasBigger: Option[Boolean] = None
-        cParts.zip(fParts).forall { case (c, t) =>
-          if (previousWasBigger.exists(v => v) || t == c)
-            true
-          else if (c > t && previousWasBigger.isEmpty) {
-            previousWasBigger = Some(true)
-            true
-          }
-          else {
-            previousWasBigger = Some(false)
-            false
-          }
+        cParts.zip(fParts).forall {
+          case (c, t) =>
+            if (previousWasBigger.exists(v => v) || t == c)
+              true
+            else if (c > t && previousWasBigger.isEmpty) {
+              previousWasBigger = Some(true)
+              true
+            } else {
+              previousWasBigger = Some(false)
+              false
+            }
         }
       }
     }

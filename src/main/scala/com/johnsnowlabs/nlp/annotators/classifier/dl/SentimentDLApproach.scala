@@ -17,14 +17,14 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
+import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam, Param}
+import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.types.{DoubleType, FloatType, IntegerType, LongType, StringType}
+import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.util.Random
@@ -109,30 +109,30 @@ import scala.util.Random
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class SentimentDLApproach(override val uid: String)
-  extends AnnotatorApproach[SentimentDLModel]
+    extends AnnotatorApproach[SentimentDLModel]
     with ParamsAndFeaturesWritable {
 
   def this() = this(Identifiable.randomUID("SentimentDL"))
 
   override val description = "Trains TensorFlow model for Sentiment Classification"
+
   /** Input Annotator Types: SENTENCE_EMBEDDINGS
    *
    * @group anno
    */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(SENTENCE_EMBEDDINGS)
+
   /** Output Annotator Types: CATEGORY
    *
    * @group anno
    */
   override val outputAnnotatorType: String = CATEGORY
 
-
   /** Random seed for shuffling the dataset
    *
    * @group param
    */
   val randomSeed = new IntParam(this, "randomSeed", "Random seed")
-
 
   /** Column with label per each document
    *
@@ -162,13 +162,19 @@ class SentimentDLApproach(override val uid: String)
    *
    * @group param
    */
-  val threshold = new FloatParam(this, "threshold", "The minimum threshold for the final result otherwise it will be either neutral or the value set in thresholdLabel.")
+  val threshold = new FloatParam(
+    this,
+    "threshold",
+    "The minimum threshold for the final result otherwise it will be either neutral or the value set in thresholdLabel.")
 
   /** In case the score is less than threshold, what should be the label (Default: `"neutral"`)
    *
    * @group param
    */
-  val thresholdLabel = new Param[String](this, "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is neutral.")
+  val thresholdLabel = new Param[String](
+    this,
+    "thresholdLabel",
+    "In case the score is less than threshold, what should be the label. Default is neutral.")
 
   /** Maximum number of epochs to train (Default: `10`)
    *
@@ -180,20 +186,25 @@ class SentimentDLApproach(override val uid: String)
    *
    * @group param
    */
-  val enableOutputLogs = new BooleanParam(this, "enableOutputLogs", "Whether to output to annotators log folder")
+  val enableOutputLogs =
+    new BooleanParam(this, "enableOutputLogs", "Whether to output to annotators log folder")
 
   /** Folder path to save training logs (Default: `""`)
    *
    * @group param
    */
-  val outputLogsPath = new Param[String](this, "outputLogsPath", "Folder path to save training logs")
+  val outputLogsPath =
+    new Param[String](this, "outputLogsPath", "Folder path to save training logs")
 
   /** Choose the proportion of training dataset to be validated against the model on each Epoch (Default: `0.0f`).
    * The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
    *
    * @group param
    */
-  val validationSplit = new FloatParam(this, "validationSplit", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
+  val validationSplit = new FloatParam(
+    this,
+    "validationSplit",
+    "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
 
   /** Level of verbosity during training (Default: `Verbose.Silent.id`)
    *
@@ -208,8 +219,7 @@ class SentimentDLApproach(override val uid: String)
   val configProtoBytes = new IntArrayParam(
     this,
     "configProtoBytes",
-    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()"
-  )
+    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
   def setLabelColumn(column: String): SentimentDLApproach.this.type = set(labelColumn, column)
@@ -224,31 +234,38 @@ class SentimentDLApproach(override val uid: String)
   def setDropout(dropout: Float): SentimentDLApproach.this.type = set(this.dropout, dropout)
 
   /** @group setParam */
-  def setThreshold(threshold: Float): SentimentDLApproach.this.type = set(this.threshold, threshold)
+  def setThreshold(threshold: Float): SentimentDLApproach.this.type =
+    set(this.threshold, threshold)
 
   /** @group setParam */
-  def setThresholdLabel(label: String): SentimentDLApproach.this.type = set(this.thresholdLabel, label)
+  def setThresholdLabel(label: String): SentimentDLApproach.this.type =
+    set(this.thresholdLabel, label)
 
   /** @group setParam */
   def setMaxEpochs(epochs: Int): SentimentDLApproach.this.type = set(maxEpochs, epochs)
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): SentimentDLApproach.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): SentimentDLApproach.this.type =
+    set(this.configProtoBytes, bytes)
 
   /** @group setParam */
-  def setEnableOutputLogs(enableOutputLogs: Boolean): SentimentDLApproach.this.type = set(this.enableOutputLogs, enableOutputLogs)
+  def setEnableOutputLogs(enableOutputLogs: Boolean): SentimentDLApproach.this.type =
+    set(this.enableOutputLogs, enableOutputLogs)
 
   /** @group setParam */
-  def setOutputLogsPath(path: String): SentimentDLApproach.this.type = set(this.outputLogsPath, path)
+  def setOutputLogsPath(path: String): SentimentDLApproach.this.type =
+    set(this.outputLogsPath, path)
 
   /** @group setParam */
-  def setValidationSplit(validationSplit: Float): SentimentDLApproach.this.type = set(this.validationSplit, validationSplit)
+  def setValidationSplit(validationSplit: Float): SentimentDLApproach.this.type =
+    set(this.validationSplit, validationSplit)
 
   /** @group setParam */
   def setVerbose(verbose: Int): SentimentDLApproach.this.type = set(this.verbose, verbose)
 
   /** @group setParam */
-  def setVerbose(verbose: Verbose.Level): SentimentDLApproach.this.type = set(this.verbose, verbose.id)
+  def setVerbose(verbose: Verbose.Level): SentimentDLApproach.this.type =
+    set(this.verbose, verbose.id)
 
   /** Random seed
    *
@@ -299,59 +316,53 @@ class SentimentDLApproach(override val uid: String)
     validationSplit -> 0.0f,
     outputLogsPath -> "",
     threshold -> 0.6f,
-    thresholdLabel -> "neutral"
-  )
+    thresholdLabel -> "neutral")
 
   override def beforeTraining(spark: SparkSession): Unit = {}
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): SentimentDLModel = {
+  override def train(
+      dataset: Dataset[_],
+      recursivePipeline: Option[PipelineModel]): SentimentDLModel = {
 
     val labelColType = dataset.schema($(labelColumn)).dataType
     require(
       labelColType == StringType | labelColType == IntegerType | labelColType == DoubleType | labelColType == FloatType | labelColType == LongType,
       s"The label column $labelColumn type is $labelColType and it's not compatible. " +
-        s"Compatible types are StringType, IntegerType, DoubleType, LongType, or FloatType. "
-    )
+        s"Compatible types are StringType, IntegerType, DoubleType, LongType, or FloatType. ")
 
-    val embeddingsRef = HasStorageRef.getStorageRefFromInput(dataset, $(inputCols), AnnotatorType.SENTENCE_EMBEDDINGS)
+    val embeddingsRef = HasStorageRef.getStorageRefFromInput(
+      dataset,
+      $(inputCols),
+      AnnotatorType.SENTENCE_EMBEDDINGS)
 
     val embeddingsField: String = ".embeddings"
     val inputColumns = getInputCols(0) + embeddingsField
-    val train = dataset.select(dataset.col($(labelColumn)).cast("string"), dataset.col(inputColumns))
+    val train =
+      dataset.select(dataset.col($(labelColumn)).cast("string"), dataset.col(inputColumns))
     val labels = train.select($(labelColumn)).distinct.collect.map(x => x(0).toString)
 
     require(
       labels.length == 2,
       s"The total unique number of classes must be 2. Currently is ${labels.length}. Please use ClassifierDLApproach" +
-        s" if you have more than 2 classes/labels."
-    )
+        s" if you have more than 2 classes/labels.")
 
     val tf = loadSavedModel()
 
-    val settings = ClassifierDatasetEncoderParams(
-      tags = labels
-    )
+    val settings = ClassifierDatasetEncoderParams(tags = labels)
 
-    val encoder = new ClassifierDatasetEncoder(
-      settings
-    )
+    val encoder = new ClassifierDatasetEncoder(settings)
 
     val embeddingsDim = encoder.calculateEmbeddingsDim(train)
     require(
       embeddingsDim <= 1024,
       s"The SentimentDL only accepts embeddings less than 1024 dimensions. Current dimension is ${embeddingsDim}. Please use embeddings" +
-        s" with less than "
-    )
+        s" with less than ")
     val trainDataset = encoder.collectTrainingInstances(train, getLabelColumn)
     val inputEmbeddings = encoder.extractSentenceEmbeddings(trainDataset)
     val inputLabels = encoder.extractLabels(trainDataset)
 
     val classifier = try {
-      val model = new TensorflowSentiment(
-        tensorflow = tf,
-        encoder,
-        Verbose($(verbose))
-      )
+      val model = new TensorflowSentiment(tensorflow = tf, encoder, Verbose($(verbose)))
       if (isDefined(randomSeed)) {
         Random.setSeed($(randomSeed))
       }
@@ -367,15 +378,17 @@ class SentimentDLApproach(override val uid: String)
         validationSplit = $(validationSplit),
         enableOutputLogs = $(enableOutputLogs),
         outputLogsPath = $(outputLogsPath),
-        uuid = this.uid
-      )
+        uuid = this.uid)
       model
     } catch {
       case e: Exception =>
         throw e
     }
 
-    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariablesSavedModel(tf.getTFSession(configProtoBytes = getConfigProtoBytes)), tf.graph)
+    val newWrapper = new TensorflowWrapper(
+      TensorflowWrapper.extractVariablesSavedModel(
+        tf.getTFSession(configProtoBytes = getConfigProtoBytes)),
+      tf.graph)
 
     val model = new SentimentDLModel()
       .setDatasetParams(classifier.encoder.params)
@@ -393,7 +406,10 @@ class SentimentDLApproach(override val uid: String)
   def loadSavedModel(): TensorflowWrapper = {
 
     val wrapper =
-      TensorflowWrapper.readZippedSavedModel("/sentiment-dl", tags = Array("serve"), initAllTables = true)
+      TensorflowWrapper.readZippedSavedModel(
+        "/sentiment-dl",
+        tags = Array("serve"),
+        initAllTables = true)
     wrapper.variables = Variables(Array.empty[Array[Byte]], Array.empty[Byte])
     wrapper
   }

@@ -16,18 +16,22 @@
 
 package com.johnsnowlabs.nlp.annotators.keyword.yake
 
+import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, TOKEN}
+import com.johnsnowlabs.nlp.annotators.keyword.yake.util.Token
 import com.johnsnowlabs.nlp.annotators.keyword.yake.util.Utilities.{getTag, medianCalculator}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp.{
+  Annotation,
+  AnnotatorModel,
+  HasSimpleAnnotate,
+  ParamsAndFeaturesReadable
+}
 import org.apache.spark.ml.feature.StopWordsRemover
 import org.apache.spark.ml.util.Identifiable
 import org.slf4j.LoggerFactory
 
 import scala.collection.immutable.ListMap
-import scala.collection.{immutable, mutable}
 import scala.collection.mutable.ListBuffer
-import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, TOKEN}
-import com.johnsnowlabs.nlp.annotators.keyword.yake.util.Token
-
+import scala.collection.{immutable, mutable}
 import scala.math.sqrt
 
 /**
@@ -140,7 +144,10 @@ import scala.math.sqrt
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
-class YakeKeywordExtraction(override val uid: String) extends AnnotatorModel[YakeKeywordExtraction] with HasSimpleAnnotate[YakeKeywordExtraction] with YakeParams {
+class YakeKeywordExtraction(override val uid: String)
+    extends AnnotatorModel[YakeKeywordExtraction]
+    with HasSimpleAnnotate[YakeKeywordExtraction]
+    with YakeParams {
 
   /**
    * Annotator reference id. Used to identify elements in metadata or to refer to this annotator type
@@ -154,6 +161,7 @@ class YakeKeywordExtraction(override val uid: String) extends AnnotatorModel[Yak
    * @group anno
    */
   override val outputAnnotatorType: AnnotatorType = CHUNK
+
   /** Input Annotator Types: TOKEN
    *
    * @group anno
@@ -166,8 +174,7 @@ class YakeKeywordExtraction(override val uid: String) extends AnnotatorModel[Yak
     nKeywords -> 30,
     windowSize -> 3,
     threshold -> -1,
-    stopWords -> StopWordsRemover.loadDefaultStopWords("english")
-  )
+    stopWords -> StopWordsRemover.loadDefaultStopWords("english"))
 
   /**
    * Calculates basic statistics like total Sentences in the document and assign a tag for each token
@@ -177,26 +184,29 @@ class YakeKeywordExtraction(override val uid: String) extends AnnotatorModel[Yak
    */
   def getBasicStats(result: Array[Annotation]): Array[(String, Int)] = {
     val resultFlatten = result.map(x => (x.result, x.metadata.head._2))
-    val resultFlattenIndexed = resultFlatten.map { row => (row._1, row._2.toInt) }
+    val resultFlattenIndexed = resultFlatten.map { row =>
+      (row._1, row._2.toInt)
+    }
     resultFlattenIndexed
   }
 
-  def assignTags(resultFlattenIndexed: Array[(String, Int)]): Array[(String, Int, Int, String)] = {
+  def assignTags(
+      resultFlattenIndexed: Array[(String, Int)]): Array[(String, Int, Int, String)] = {
     var sentenceID = 0
     var position = 0
-    val tags = resultFlattenIndexed.map { case (t, sID) =>
-      if (sID == sentenceID) {
-        val tag = getTag(t, position)
-        position += 1
-        (t, sentenceID, position, tag)
-      }
-      else {
-        sentenceID += 1
-        position = 0
-        val tag = getTag(t, position)
-        position += 1
-        (t, sentenceID, position, tag)
-      }
+    val tags = resultFlattenIndexed.map {
+      case (t, sID) =>
+        if (sID == sentenceID) {
+          val tag = getTag(t, position)
+          position += 1
+          (t, sentenceID, position, tag)
+        } else {
+          sentenceID += 1
+          position = 0
+          val tag = getTag(t, position)
+          position += 1
+          (t, sentenceID, position, tag)
+        }
     }
     tags
   }
@@ -207,24 +217,29 @@ class YakeKeywordExtraction(override val uid: String) extends AnnotatorModel[Yak
    * @param sentences DataFrame with tokens
    * @return Co Occurrence for token x from left to right as a Map
    */
-  def getCoOccurrence(sentences: ListBuffer[ListBuffer[String]], left: Boolean): mutable.Map[String, mutable.Map[String, Int]] = {
-    val coMap: mutable.Map[String, mutable.Map[String, Int]] = mutable.HashMap[String, mutable.Map[String, Int]]()
-    val ngrams = sentences.zipWithIndex.flatMap { case (row, _) =>
-      (for (i <- $(minNGrams) to $(maxNGrams)) yield row.sliding(i).map(p => p.toList)).flatten
+  def getCoOccurrence(
+      sentences: ListBuffer[ListBuffer[String]],
+      left: Boolean): mutable.Map[String, mutable.Map[String, Int]] = {
+    val coMap: mutable.Map[String, mutable.Map[String, Int]] =
+      mutable.HashMap[String, mutable.Map[String, Int]]()
+    val ngrams = sentences.zipWithIndex.flatMap {
+      case (row, _) =>
+        (for (i <- $(minNGrams) to $(maxNGrams)) yield row.sliding(i).map(p => p.toList)).flatten
     }
-    ngrams.foreach { elem => {
-      var head = elem.head.toLowerCase
-      if (!left) {
-        head = elem.last.toLowerCase
-      }
-      elem.foreach(x => {
-        if (x.toLowerCase != head) {
-          coMap.getOrElseUpdate(head, mutable.HashMap[String, Int]())
-          coMap(head).getOrElseUpdate(x.toLowerCase, 0)
-          coMap(head)(x.toLowerCase) += 1
+    ngrams.foreach { elem =>
+      {
+        var head = elem.head.toLowerCase
+        if (!left) {
+          head = elem.last.toLowerCase
         }
-      })
-    }
+        elem.foreach(x => {
+          if (x.toLowerCase != head) {
+            coMap.getOrElseUpdate(head, mutable.HashMap[String, Int]())
+            coMap(head).getOrElseUpdate(x.toLowerCase, 0)
+            coMap(head)(x.toLowerCase) += 1
+          }
+        })
+      }
     }
     coMap
   }
@@ -246,9 +261,11 @@ class YakeKeywordExtraction(override val uid: String) extends AnnotatorModel[Yak
    * @param coOccurRightAggregate Right Co Occurrence
    * @return
    */
-  def calculateTokenScores(basicStats: Array[(String, Int)],
-                           coOccurLeftAggregate: mutable.Map[String, mutable.Map[String, Int]],
-                           coOccurRightAggregate: mutable.Map[String, mutable.Map[String, Int]]): immutable.Iterable[Token] = {
+  def calculateTokenScores(
+      basicStats: Array[(String, Int)],
+      coOccurLeftAggregate: mutable.Map[String, mutable.Map[String, Int]],
+      coOccurRightAggregate: mutable.Map[String, mutable.Map[String, Int]])
+    : immutable.Iterable[Token] = {
     if (basicStats.isEmpty) {
       immutable.Iterable.empty[Token]
     } else {
@@ -256,34 +273,41 @@ class YakeKeywordExtraction(override val uid: String) extends AnnotatorModel[Yak
       val avg = basicStats
         .groupBy(x => x._1.toLowerCase)
         .mapValues(_.length)
-        .foldLeft(0)(_ + _._2).toDouble /
+        .foldLeft(0)(_ + _._2)
+        .toDouble /
         basicStats
           .groupBy(x => x._1.toLowerCase)
-          .mapValues(_.length).size.toDouble
-      val std = sqrt(basicStats
-        .groupBy(x => x._1.toLowerCase)
-        .mapValues(_.length)
-        .map(_._2.toDouble)
-        .map(a => math.pow(a - avg, 2)).sum /
+          .mapValues(_.length)
+          .size
+          .toDouble
+      val std = sqrt(
         basicStats
           .groupBy(x => x._1.toLowerCase)
-          .mapValues(_.length).size.toDouble)
-      val maxTF = basicStats.groupBy(x => x._1.toLowerCase).mapValues(_.length).map(_._2.toDouble).max
+          .mapValues(_.length)
+          .map(_._2.toDouble)
+          .map(a => math.pow(a - avg, 2))
+          .sum /
+          basicStats
+            .groupBy(x => x._1.toLowerCase)
+            .mapValues(_.length)
+            .size
+            .toDouble)
+      val maxTF =
+        basicStats.groupBy(x => x._1.toLowerCase).mapValues(_.length).map(_._2.toDouble).max
       val nsent = basicStats.map(_._2).max + 1
       val tokens = basicStats
         .groupBy(x => x._1.toLowerCase)
         .mapValues(_.length)
         .map(x =>
-          new Token(x._1.toLowerCase,
+          new Token(
+            x._1.toLowerCase,
             x._2,
             nsent,
             avg,
             std,
             maxTF,
             coOccurLeftAggregate.getOrElse(x._1.toLowerCase, mutable.HashMap[String, Int]()),
-            coOccurRightAggregate.getOrElse(x._1.toLowerCase, mutable.HashMap[String, Int]())
-          )
-        )
+            coOccurRightAggregate.getOrElse(x._1.toLowerCase, mutable.HashMap[String, Int]())))
       tags
         .filter(x => x._4 == "n")
         .groupBy(x => x._1.toLowerCase)
@@ -333,18 +357,24 @@ class YakeKeywordExtraction(override val uid: String) extends AnnotatorModel[Yak
    * @param sentences sentences as a list
    * @return candidate keywords
    */
-  def getCandidateKeywords(sentences: Array[(String, Int, Int, String)]): mutable.Map[String, Int] = {
+  def getCandidateKeywords(
+      sentences: Array[(String, Int, Int, String)]): mutable.Map[String, Int] = {
     val candidate = mutable.HashMap[String, Int]().withDefaultValue(0)
-    sentences.groupBy(_._2).map(row => {
-      val ngrams = (for (i <- $(minNGrams) to $(maxNGrams)) yield row._2.sliding(i).map(p => p.toList)).flatten
-      ngrams.filter(y => (!y.map(x => x._4).contains("u")) && (!y.map(x => x._4).contains("d"))).map(x => {
-        val firstWord = x.head._1.toLowerCase
-        val lastWord = x.last._1.toLowerCase
-        if (!$(stopWords).contains(firstWord) && !$(stopWords).contains(lastWord)) {
-          candidate(x.map(_._1).mkString(",").toLowerCase) += 1
-        }
+    sentences
+      .groupBy(_._2)
+      .map(row => {
+        val ngrams = (for (i <- $(minNGrams) to $(maxNGrams))
+          yield row._2.sliding(i).map(p => p.toList)).flatten
+        ngrams
+          .filter(y => (!y.map(x => x._4).contains("u")) && (!y.map(x => x._4).contains("d")))
+          .map(x => {
+            val firstWord = x.head._1.toLowerCase
+            val lastWord = x.last._1.toLowerCase
+            if (! $(stopWords).contains(firstWord) && ! $(stopWords).contains(lastWord)) {
+              candidate(x.map(_._1).mkString(",").toLowerCase) += 1
+            }
+          })
       })
-    })
     candidate
   }
 
@@ -355,39 +385,42 @@ class YakeKeywordExtraction(override val uid: String) extends AnnotatorModel[Yak
    * @param tokens    tokens with scores
    * @return keywords
    */
-  def getKeywords(candidate: mutable.Map[String, Int], tokens: immutable.Iterable[Token]): ListMap[String, Double] = {
-    val keywords = candidate.map { case (x, kf) =>
-      var prod_s: Double = 1
-      var sum_s: Double = 0
-      val xi = x.split(",")
-      xi.zipWithIndex.foreach { case (y, ind) =>
-        val word = tokens.filter(k => k.token == y)
-        if (!$(stopWords).contains(y) && word.nonEmpty) {
-          prod_s *= word.head.TScore
-          sum_s += word.head.TScore
+  def getKeywords(
+      candidate: mutable.Map[String, Int],
+      tokens: immutable.Iterable[Token]): ListMap[String, Double] = {
+    val keywords = candidate.map {
+      case (x, kf) =>
+        var prod_s: Double = 1
+        var sum_s: Double = 0
+        val xi = x.split(",")
+        xi.zipWithIndex.foreach {
+          case (y, ind) =>
+            val word = tokens.filter(k => k.token == y)
+            if (! $(stopWords).contains(y) && word.nonEmpty) {
+              prod_s *= word.head.TScore
+              sum_s += word.head.TScore
+            } else {
+              val prev_token = tokens.filter(k => k.token == xi(ind - 1))
+              var prev = 0.0
+              var prev_prob = 0.0
+              if (prev_token.nonEmpty) {
+                prev = prev_token.head.rightCO.getOrElse(y, 0).toDouble
+                prev_prob = prev / prev_token.head.termFrequency
+              }
+              val next_token = tokens.filter(k => k.token == y)
+              var next = 0.0
+              var next_prob = 0.0
+              if (next_token.nonEmpty) {
+                next = next_token.head.rightCO.getOrElse(xi(ind + 1), 0).toDouble
+                next_prob = next / next_token.head.termFrequency
+              }
+              val bi_probability = prev_prob * next_prob
+              prod_s = prod_s * (1 + (1 - bi_probability))
+              sum_s -= (1 - bi_probability)
+            }
         }
-        else {
-          val prev_token = tokens.filter(k => k.token == xi(ind - 1))
-          var prev = 0.0
-          var prev_prob = 0.0
-          if (prev_token.nonEmpty) {
-            prev = prev_token.head.rightCO.getOrElse(y, 0).toDouble
-            prev_prob = prev / prev_token.head.termFrequency
-          }
-          val next_token = tokens.filter(k => k.token == y)
-          var next = 0.0
-          var next_prob = 0.0
-          if (next_token.nonEmpty) {
-            next = next_token.head.rightCO.getOrElse(xi(ind + 1), 0).toDouble
-            next_prob = next / next_token.head.termFrequency
-          }
-          val bi_probability = prev_prob * next_prob
-          prod_s = prod_s * (1 + (1 - bi_probability))
-          sum_s -= (1 - bi_probability)
-        }
-      }
-      val S_kw = prod_s / (kf * (1 + sum_s))
-      (xi.mkString(" ").toLowerCase, S_kw)
+        val S_kw = prod_s / (kf * (1 + sum_s))
+        (xi.mkString(" ").toLowerCase, S_kw)
     }
     var topn = ListMap(keywords.toSeq.sortWith(_._2 < _._2): _*)
     topn = topn.slice(0, $(nKeywords))
@@ -413,21 +446,21 @@ class YakeKeywordExtraction(override val uid: String) extends AnnotatorModel[Yak
     val candidateKeywords = getCandidateKeywords(taggedSentence)
     val keywords = getKeywords(candidateKeywords, tokens)
     val annotatedKeywords: ListBuffer[Annotation] = new ListBuffer()
-    val annotationNGram = (for (i <- $(minNGrams) to $(maxNGrams)) yield annotations.sliding(i).map(p => p.toList)).flatten
-    annotationNGram.foreach(
-      annotation => {
-        val key: String = annotation.map(_.result.toLowerCase()).mkString(" ").toLowerCase
-        if (keywords.isDefinedAt(key)) {
-          annotatedKeywords += Annotation(
-            outputAnnotatorType,
-            annotation.head.begin,
-            annotation.last.end,
-            key,
-            Map("score" -> keywords.getOrElse(key, "").toString, "sentence" -> annotation.head.metadata.getOrElse("sentence", 0).toString)
-          )
-        }
+    val annotationNGram = (for (i <- $(minNGrams) to $(maxNGrams))
+      yield annotations.sliding(i).map(p => p.toList)).flatten
+    annotationNGram.foreach(annotation => {
+      val key: String = annotation.map(_.result.toLowerCase()).mkString(" ").toLowerCase
+      if (keywords.isDefinedAt(key)) {
+        annotatedKeywords += Annotation(
+          outputAnnotatorType,
+          annotation.head.begin,
+          annotation.last.end,
+          key,
+          Map(
+            "score" -> keywords.getOrElse(key, "").toString,
+            "sentence" -> annotation.head.metadata.getOrElse("sentence", 0).toString))
       }
-    )
+    })
     annotatedKeywords
   }
 

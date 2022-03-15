@@ -23,12 +23,10 @@ import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, Word
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.storage.HasStorageRef
-
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
-
 import org.slf4j.{Logger, LoggerFactory}
 
 import java.io.File
@@ -139,7 +137,7 @@ import java.io.File
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
 class BertEmbeddings(override val uid: String)
-  extends AnnotatorModel[BertEmbeddings]
+    extends AnnotatorModel[BertEmbeddings]
     with HasBatchedAnnotate[BertEmbeddings]
     with WriteTensorflowModel
     with HasEmbeddingsProperties
@@ -172,10 +170,14 @@ class BertEmbeddings(override val uid: String)
    *
    * @group param
    * */
-  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  val configProtoBytes = new IntArrayParam(
+    this,
+    "configProtoBytes",
+    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): BertEmbeddings.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): BertEmbeddings.this.type =
+    set(this.configProtoBytes, bytes)
 
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
@@ -184,11 +186,14 @@ class BertEmbeddings(override val uid: String)
    *
    * @group param
    * */
-  val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
+  val maxSentenceLength =
+    new IntParam(this, "maxSentenceLength", "Max sentence length to process")
 
   /** @group setParam */
   def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "BERT models do not support sequences longer than 512 because of trainable positional embeddings.")
+    require(
+      value <= 512,
+      "BERT models do not support sequences longer than 512 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -217,7 +222,9 @@ class BertEmbeddings(override val uid: String)
   private var _model: Option[Broadcast[TensorflowBert]] = None
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): BertEmbeddings = {
+  def setModelIfNotSet(
+      spark: SparkSession,
+      tensorflowWrapper: TensorflowWrapper): BertEmbeddings = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
@@ -226,10 +233,7 @@ class BertEmbeddings(override val uid: String)
             sentenceStartTokenId,
             sentenceEndTokenId,
             configProtoBytes = getConfigProtoBytes,
-            signatures = getSignatures
-          )
-        )
-      )
+            signatures = getSignatures)))
     }
 
     this
@@ -260,12 +264,7 @@ class BertEmbeddings(override val uid: String)
     this
   }
 
-  setDefault(
-    dimension -> 768,
-    batchSize -> 8,
-    maxSentenceLength -> 128,
-    caseSensitive -> false
-  )
+  setDefault(dimension -> 768, batchSize -> 8, maxSentenceLength -> 128, caseSensitive -> false)
 
   def tokenizeWithAlignment(tokens: Seq[TokenizedSentence]): Seq[WordpieceTokenizedSentence] = {
     val basicTokenizer = new BasicTokenizer($(caseSensitive))
@@ -273,15 +272,19 @@ class BertEmbeddings(override val uid: String)
 
     tokens.map { tokenIndex =>
       // filter empty and only whitespace tokens
-      val bertTokens = tokenIndex.indexedTokens.filter(x => x.token.nonEmpty && !x.token.equals(" ")).map { token =>
-        val content = if ($(caseSensitive)) token.token else token.token.toLowerCase()
-        val sentenceBegin = token.begin
-        val sentenceEnd = token.end
-        val sentenceInedx = tokenIndex.sentenceIndex
-        val result = basicTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
-        if (result.nonEmpty) result.head else IndexedToken("")
-      }
-      val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token)).take($(maxSentenceLength))
+      val bertTokens =
+        tokenIndex.indexedTokens.filter(x => x.token.nonEmpty && !x.token.equals(" ")).map {
+          token =>
+            val content = if ($(caseSensitive)) token.token else token.token.toLowerCase()
+            val sentenceBegin = token.begin
+            val sentenceEnd = token.end
+            val sentenceInedx = tokenIndex.sentenceIndex
+            val result = basicTokenizer.tokenize(
+              Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
+            if (result.nonEmpty) result.head else IndexedToken("")
+        }
+      val wordpieceTokens =
+        bertTokens.flatMap(token => encoder.encode(token)).take($(maxSentenceLength))
       WordpieceTokenizedSentence(wordpieceTokens)
     }
   }
@@ -295,9 +298,11 @@ class BertEmbeddings(override val uid: String)
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
 
     //Unpack annotations and zip each sentence to the index or the row it belongs to
-    val sentencesWithRow = batchedAnnotations
-      .zipWithIndex
-      .flatMap { case (annotations, i) => TokenizedWithSentence.unpack(annotations).toArray.map(x => (x, i)) }
+    val sentencesWithRow = batchedAnnotations.zipWithIndex
+      .flatMap {
+        case (annotations, i) =>
+          TokenizedWithSentence.unpack(annotations).toArray.map(x => (x, i))
+      }
 
     //Tokenize sentences
     val tokenizedSentences = tokenizeWithAlignment(sentencesWithRow.map(_._1))
@@ -308,13 +313,12 @@ class BertEmbeddings(override val uid: String)
       sentencesWithRow.map(_._1),
       $(batchSize),
       $(maxSentenceLength),
-      $(caseSensitive)
-    )
+      $(caseSensitive))
 
     //Group resulting annotations by rows. If there are not sentences in a given row, return empty sequence
     batchedAnnotations.indices.map(rowIndex => {
       val rowEmbeddings = sentenceWordEmbeddings
-        //zip each annotation with its corresponding row index
+      //zip each annotation with its corresponding row index
         .zip(sentencesWithRow)
         //select the sentences belonging to the current row
         .filter(_._2._2 == rowIndex)
@@ -330,21 +334,32 @@ class BertEmbeddings(override val uid: String)
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
+    dataset.withColumn(
+      getOutputCol,
+      wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
   }
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+  override val inputAnnotatorTypes: Array[String] =
+    Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_bert", BertEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(
+      path,
+      spark,
+      getModelIfNotSet.tensorflowWrapper,
+      "_bert",
+      BertEmbeddings.tfFile,
+      configProtoBytes = getConfigProtoBytes)
   }
 
 }
 
-trait ReadablePretrainedBertModel extends ParamsAndFeaturesReadable[BertEmbeddings] with HasPretrained[BertEmbeddings] {
+trait ReadablePretrainedBertModel
+    extends ParamsAndFeaturesReadable[BertEmbeddings]
+    with HasPretrained[BertEmbeddings] {
   override val defaultModelName: Some[String] = Some("small_bert_L2_768")
 
   /** Java compliant-overrides */
@@ -352,9 +367,11 @@ trait ReadablePretrainedBertModel extends ParamsAndFeaturesReadable[BertEmbeddin
 
   override def pretrained(name: String): BertEmbeddings = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): BertEmbeddings = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): BertEmbeddings =
+    super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): BertEmbeddings = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): BertEmbeddings =
+    super.pretrained(name, lang, remoteLoc)
 }
 
 trait ReadBertTensorflowModel extends ReadTensorflowModel {
@@ -379,8 +396,7 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
     require(f.isDirectory, s"File $tfModelPath is not folder")
     require(
       savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath"
-    )
+      s"savedModel file saved_model.pb not found in folder $tfModelPath")
 
     val vocab = new File(tfModelPath + "/assets", "vocab.txt")
 
@@ -388,10 +404,12 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
     require(f.isDirectory, s"File $tfModelPath is not folder")
     require(vocab.exists(), s"Vocabulary file vocab.txt not found in folder $tfModelPath")
 
-    val vocabResource = new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val vocabResource =
+      new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
 
-    val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
+    val (wrapper, signatures) =
+      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
 
     val _signatures = signatures match {
       case Some(s) => s
@@ -405,7 +423,6 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
       .setModelIfNotSet(spark, wrapper)
   }
 }
-
 
 /**
  * This is the companion object of [[BertEmbeddings]]. Please refer to that class for the documentation.

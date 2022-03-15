@@ -58,15 +58,16 @@ import scala.collection.JavaConverters._
  * @param batchSize        size of batch
  * @param configProtoBytes Configuration for TensorFlow session
  */
+class TensorflowAlbert(
+    val tensorflow: TensorflowWrapper,
+    val spp: SentencePieceWrapper,
+    batchSize: Int,
+    configProtoBytes: Option[Array[Byte]] = None,
+    signatures: Option[Map[String, String]] = None)
+    extends Serializable {
 
-class TensorflowAlbert(val tensorflow: TensorflowWrapper,
-                       val spp: SentencePieceWrapper,
-                       batchSize: Int,
-                       configProtoBytes: Option[Array[Byte]] = None,
-                       signatures: Option[Map[String, String]] = None
-                      ) extends Serializable {
-
-  val _tfAlbertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
+  val _tfAlbertSignatures: Map[String, String] =
+    signatures.getOrElse(ModelSignatureManager.apply())
 
   // keys representing the input and output tensors of the ALBERT model
   private val SentenceStartTokenId = spp.getSppModel.pieceToId("[CLS]")
@@ -74,18 +75,22 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
   private val SentencePadTokenId = spp.getSppModel.pieceToId("[pad]")
   private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
 
-  def prepareBatchInputs(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
+  def prepareBatchInputs(
+      sentences: Seq[(WordpieceTokenizedSentence, Int)],
+      maxSequenceLength: Int): Seq[Array[Int]] = {
     val maxSentenceLength =
-      Array(
-        maxSequenceLength - 2,
-        sentences.map { case (wpTokSentence, _) => wpTokSentence.tokens.length }.max).min
+      Array(maxSequenceLength - 2, sentences.map {
+        case (wpTokSentence, _) => wpTokSentence.tokens.length
+      }.max).min
 
     sentences
-      .map { case (wpTokSentence, _) =>
-        val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
-        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(SentencePadTokenId)
+      .map {
+        case (wpTokSentence, _) =>
+          val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
+          val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(SentencePadTokenId)
 
-        Array(SentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(SentenceEndTokenId) ++ padding
+          Array(SentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(
+            SentenceEndTokenId) ++ padding
       }
   }
 
@@ -105,30 +110,49 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
 
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
-    batch.zipWithIndex.foreach { case (tokenIds, idx) =>
-      // this one marks the beginning of each sentence in the flatten structure
-      val offset = idx * maxSentenceLength
-      val diff = maxSentenceLength - tokenIds.length
-      segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
+    batch.zipWithIndex.foreach {
+      case (tokenIds, idx) =>
+        // this one marks the beginning of each sentence in the flatten structure
+        val offset = idx * maxSentenceLength
+        val diff = maxSentenceLength - tokenIds.length
+        segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
 
-      val padding = Array.fill(diff)(SentencePadTokenId)
-      val newTokenIds = tokenIds ++ padding
+        val padding = Array.fill(diff)(SentencePadTokenId)
+        val newTokenIds = tokenIds ++ padding
 
-      tokenBuffers.offset(offset).write(newTokenIds)
-      maskBuffers.offset(offset).write(newTokenIds.map(x => if (x == SentencePadTokenId) 0 else 1))
+        tokenBuffers.offset(offset).write(newTokenIds)
+        maskBuffers
+          .offset(offset)
+          .write(newTokenIds.map(x => if (x == SentencePadTokenId) 0 else 1))
     }
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
     val segmentTensors = tensorsSegments.createIntBufferTensor(shape, segmentBuffers)
 
-    val runner = tensorflow.getTFSessionWithSignature(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
+    val runner = tensorflow
+      .getTFSessionWithSignature(
+        configProtoBytes = configProtoBytes,
+        savedSignatures = signatures,
+        initAllTables = false)
+      .runner
 
     runner
-      .feed(_tfAlbertSignatures.getOrElse(ModelSignatureConstants.InputIdsV1.key, "missing_input_id_key"), tokenTensors)
-      .feed(_tfAlbertSignatures.getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"), maskTensors)
-      .feed(_tfAlbertSignatures.getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"), segmentTensors)
-      .fetch(_tfAlbertSignatures.getOrElse(ModelSignatureConstants.LastHiddenStateV1.key, "missing_sequence_output_key"))
+      .feed(
+        _tfAlbertSignatures.getOrElse(
+          ModelSignatureConstants.InputIdsV1.key,
+          "missing_input_id_key"),
+        tokenTensors)
+      .feed(
+        _tfAlbertSignatures
+          .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
+        maskTensors)
+      .feed(
+        _tfAlbertSignatures
+          .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
+        segmentTensors)
+      .fetch(_tfAlbertSignatures
+        .getOrElse(ModelSignatureConstants.LastHiddenStateV1.key, "missing_sequence_output_key"))
 
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
@@ -139,70 +163,83 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
     val dim = embeddings.length / (batch.length * maxSentenceLength)
     val shrinkedEmbeddings: Array[Array[Array[Float]]] =
       embeddings
-        .grouped(dim).toArray
-        .grouped(maxSentenceLength).toArray
+        .grouped(dim)
+        .toArray
+        .grouped(maxSentenceLength)
+        .toArray
 
     val emptyVector = Array.fill(dim)(0f)
 
-    batch.zip(shrinkedEmbeddings).map { case (ids, embeddings) =>
-      if (ids.length > embeddings.length) {
-        embeddings.take(embeddings.length - 1) ++
-          Array.fill(embeddings.length - ids.length)(emptyVector) ++
-          Array(embeddings.last)
-      } else {
-        embeddings
-      }
+    batch.zip(shrinkedEmbeddings).map {
+      case (ids, embeddings) =>
+        if (ids.length > embeddings.length) {
+          embeddings.take(embeddings.length - 1) ++
+            Array.fill(embeddings.length - ids.length)(emptyVector) ++
+            Array(embeddings.last)
+        } else {
+          embeddings
+        }
     }
   }
 
-  def predict(tokenizedSentences: Seq[TokenizedSentence],
-              batchSize: Int,
-              maxSentenceLength: Int,
-              caseSensitive: Boolean
-             ): Seq[WordpieceEmbeddingsSentence] = {
+  def predict(
+      tokenizedSentences: Seq[TokenizedSentence],
+      batchSize: Int,
+      maxSentenceLength: Int,
+      caseSensitive: Boolean): Seq[WordpieceEmbeddingsSentence] = {
 
-    val wordPieceTokenizedSentences = tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
-    wordPieceTokenizedSentences.zipWithIndex.grouped(batchSize).flatMap { batch =>
-      val batchedInputsIds = prepareBatchInputs(batch, maxSentenceLength)
-      val vectors = tag(batchedInputsIds)
+    val wordPieceTokenizedSentences =
+      tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
+    wordPieceTokenizedSentences.zipWithIndex
+      .grouped(batchSize)
+      .flatMap { batch =>
+        val batchedInputsIds = prepareBatchInputs(batch, maxSentenceLength)
+        val vectors = tag(batchedInputsIds)
 
-      /*Combine tokens and calculated embeddings*/
-      batch.zip(vectors).map { case (sentence, tokenVectors) =>
-        val tokenLength = sentence._1.tokens.length
-        /*All wordpiece embeddings*/
-        val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
-        val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap {
-          case (token, tokenEmbedding) =>
-            val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
-            val originalTokensWithEmbeddings = tokenizedSentences(sentence._2).indexedTokens.find(
-              p => p.begin == tokenWithEmbeddings.begin && tokenWithEmbeddings.isWordStart).map {
-              token =>
-                val originalTokenWithEmbedding = TokenPieceEmbeddings(
-                  TokenPiece(wordpiece = tokenWithEmbeddings.wordpiece,
-                    token = if (caseSensitive) token.token else token.token.toLowerCase(),
-                    pieceId = tokenWithEmbeddings.pieceId,
-                    isWordStart = tokenWithEmbeddings.isWordStart,
-                    begin = token.begin,
-                    end = token.end
-                  ),
-                  tokenEmbedding
-                )
-                originalTokenWithEmbedding
+        /*Combine tokens and calculated embeddings*/
+        batch.zip(vectors).map {
+          case (sentence, tokenVectors) =>
+            val tokenLength = sentence._1.tokens.length
+            /*All wordpiece embeddings*/
+            val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
+            val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap {
+              case (token, tokenEmbedding) =>
+                val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
+                val originalTokensWithEmbeddings = tokenizedSentences(sentence._2).indexedTokens
+                  .find(p =>
+                    p.begin == tokenWithEmbeddings.begin && tokenWithEmbeddings.isWordStart)
+                  .map { token =>
+                    val originalTokenWithEmbedding = TokenPieceEmbeddings(
+                      TokenPiece(
+                        wordpiece = tokenWithEmbeddings.wordpiece,
+                        token = if (caseSensitive) token.token else token.token.toLowerCase(),
+                        pieceId = tokenWithEmbeddings.pieceId,
+                        isWordStart = tokenWithEmbeddings.isWordStart,
+                        begin = token.begin,
+                        end = token.end),
+                      tokenEmbedding)
+                    originalTokenWithEmbedding
+                  }
+                originalTokensWithEmbeddings
             }
-            originalTokensWithEmbeddings
-        }
 
-        WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._2)
+            WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._2)
+        }
       }
-    }.toSeq
+      .toSeq
   }
 
-  def tokenizeWithAlignment(sentences: Seq[TokenizedSentence], maxSeqLength: Int, caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
-    val encoder = new SentencepieceEncoder(spp, caseSensitive, delimiterId = SentencePieceDelimiterId)
+  def tokenizeWithAlignment(
+      sentences: Seq[TokenizedSentence],
+      maxSeqLength: Int,
+      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
+    val encoder =
+      new SentencepieceEncoder(spp, caseSensitive, delimiterId = SentencePieceDelimiterId)
 
     val sentenceTokenPieces = sentences.map { s =>
       val shrinkedSentence = s.indexedTokens.take(maxSeqLength - 2)
-      val wordpieceTokens = shrinkedSentence.flatMap(token => encoder.encode(token)).take(maxSeqLength)
+      val wordpieceTokens =
+        shrinkedSentence.flatMap(token => encoder.encode(token)).take(maxSeqLength)
       WordpieceTokenizedSentence(wordpieceTokens)
     }
     sentenceTokenPieces

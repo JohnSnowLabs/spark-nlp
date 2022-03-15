@@ -30,23 +30,20 @@ public class LowRankTensor {
     private int[] N;
     private ArrayList<MatEntry> list;
 
-    private static final int MAX_ITER=1000;
+    private static final int MAX_ITER = 1000;
 
-    LowRankTensor(int[] N, int rank)
-    {
+    LowRankTensor(int[] N, int rank) {
         this.N = N.clone();
         dim = N.length;
         this.rank = rank;
         list = new ArrayList<>();
     }
 
-    public void add(int[] x, float val)
-    {
+    public void add(int[] x, float val) {
         list.add(new MatEntry(x, val));
     }
 
-    void decompose(ArrayList<float[][]> param)
-    {
+    void decompose(ArrayList<float[][]> param) {
         ArrayList<float[][]> param2 = new ArrayList<>();
         for (float[][] x : param) {
             int n = x.length;
@@ -72,7 +69,7 @@ public class LowRankTensor {
                     for (MatEntry matentry : list) {
                         double s = matentry.val;
                         for (int l = 0; l < dim; ++l)
-                            if (l != k){
+                            if (l != k) {
                                 s *= aArrayVariable.get(l)[matentry.x[l]];
                             }
                         b[matentry.x[k]] += s;
@@ -83,16 +80,16 @@ public class LowRankTensor {
                             if (l != k)
                                 dot *= Utils.dot(aArrayVariable.get(l), param2.get(l)[j]);
                         for (int p = 0; p < N[k]; ++p)
-                            b[p] -= dot*param2.get(k)[j][p];
+                            b[p] -= dot * param2.get(k)[j][p];
                     }
 
-                    if (k < dim-1){
+                    if (k < dim - 1) {
                         Utils.normalize(b);
                     } else {
                         norm = Math.sqrt(Utils.squaredSum(b));
                     }
                 }
-                if (lastnorm != Double.POSITIVE_INFINITY && Math.abs(norm-lastnorm) < eps)
+                if (lastnorm != Double.POSITIVE_INFINITY && Math.abs(norm - lastnorm) < eps)
                     break;
                 lastnorm = norm;
             }
@@ -101,9 +98,9 @@ public class LowRankTensor {
                         "rankFirstOrderTensor=%d sigma=%f%n", i, norm);
             }
             if (Math.abs(norm) <= eps && logger.isDebugEnabled()) {
-                logger.warn(String.format("Power method has nearly-zero sigma. rankFirstOrderTensor=%d%n",i));
+                logger.warn(String.format("Power method has nearly-zero sigma. rankFirstOrderTensor=%d%n", i));
             }
-            if (logger.isDebugEnabled()){
+            if (logger.isDebugEnabled()) {
                 logger.debug(String.format("norm: %.2f", norm));
             }
             for (int k = 0; k < dim; ++k)
@@ -122,13 +119,11 @@ public class LowRankTensor {
 
 }
 
-class MatEntry
-{
+class MatEntry {
     int[] x;
     double val;
 
-    MatEntry(int[] x, double val)
-    {
+    MatEntry(int[] x, double val) {
         this.x = x.clone();
         this.val = val;
     }

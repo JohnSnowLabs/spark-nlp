@@ -23,7 +23,6 @@ import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.storage.HasStorageRef
-
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
@@ -138,7 +137,7 @@ import java.io.File
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class RoBertaSentenceEmbeddings(override val uid: String)
-  extends AnnotatorModel[RoBertaSentenceEmbeddings]
+    extends AnnotatorModel[RoBertaSentenceEmbeddings]
     with HasBatchedAnnotate[RoBertaSentenceEmbeddings]
     with WriteTensorflowModel
     with HasEmbeddingsProperties
@@ -167,7 +166,6 @@ class RoBertaSentenceEmbeddings(override val uid: String)
    * */
   val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
 
-
   /** @group setParam */
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
 
@@ -181,15 +179,18 @@ class RoBertaSentenceEmbeddings(override val uid: String)
   /** @group setParam */
   def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)
 
-
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
    *
    * @group param
    * */
-  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  val configProtoBytes = new IntArrayParam(
+    this,
+    "configProtoBytes",
+    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): RoBertaSentenceEmbeddings.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): RoBertaSentenceEmbeddings.this.type =
+    set(this.configProtoBytes, bytes)
 
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
@@ -198,11 +199,14 @@ class RoBertaSentenceEmbeddings(override val uid: String)
    *
    * @group param
    * */
-  val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
+  val maxSentenceLength =
+    new IntParam(this, "maxSentenceLength", "Max sentence length to process")
 
   /** @group setParam */
   def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "RoBERTa models do not support sequences longer than 512 because of trainable positional embeddings.")
+    require(
+      value <= 512,
+      "RoBERTa models do not support sequences longer than 512 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -231,7 +235,9 @@ class RoBertaSentenceEmbeddings(override val uid: String)
   private var _model: Option[Broadcast[TensorflowRoBerta]] = None
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): RoBertaSentenceEmbeddings = {
+  def setModelIfNotSet(
+      spark: SparkSession,
+      tensorflowWrapper: TensorflowWrapper): RoBertaSentenceEmbeddings = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
@@ -241,10 +247,7 @@ class RoBertaSentenceEmbeddings(override val uid: String)
             sentenceEndTokenId,
             padTokenId,
             configProtoBytes = getConfigProtoBytes,
-            signatures = getSignatures
-          )
-        )
-      )
+            signatures = getSignatures)))
     }
 
     this
@@ -275,12 +278,7 @@ class RoBertaSentenceEmbeddings(override val uid: String)
     this
   }
 
-  setDefault(
-    dimension -> 768,
-    batchSize -> 8,
-    maxSentenceLength -> 128,
-    caseSensitive -> true
-  )
+  setDefault(dimension -> 768, batchSize -> 8, maxSentenceLength -> 128, caseSensitive -> true)
 
   def tokenize(sentences: Seq[Sentence]): Seq[WordpieceTokenizedSentence] = {
 
@@ -288,8 +286,7 @@ class RoBertaSentenceEmbeddings(override val uid: String)
       "roberta",
       merges = $$(merges),
       vocab = $$(vocabulary),
-      padWithSentenceTokens = false
-    )
+      padWithSentenceTokens = false)
 
     sentences.map { s =>
       // filter empty and only whitespace tokens
@@ -297,8 +294,10 @@ class RoBertaSentenceEmbeddings(override val uid: String)
       val sentenceBegin = s.start
       val sentenceEnd = s.end
       val sentenceInedx = s.index
-      val tokens = bpeTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
-      val wordpieceTokens = tokens.flatMap(token => bpeTokenizer.encode(token)).take($(maxSentenceLength))
+      val tokens =
+        bpeTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
+      val wordpieceTokens =
+        tokens.flatMap(token => bpeTokenizer.encode(token)).take($(maxSentenceLength))
       WordpieceTokenizedSentence(wordpieceTokens)
     }
   }
@@ -317,12 +316,7 @@ class RoBertaSentenceEmbeddings(override val uid: String)
 
       if (sentences.nonEmpty) {
         val tokenized = tokenize(sentences)
-        getModelIfNotSet.predictSequence(
-          tokenized,
-          sentences,
-          $(batchSize),
-          $(maxSentenceLength)
-        )
+        getModelIfNotSet.predictSequence(tokenized, sentences, $(batchSize), $(maxSentenceLength))
       } else {
         Seq.empty[Annotation]
       }
@@ -332,8 +326,10 @@ class RoBertaSentenceEmbeddings(override val uid: String)
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
     dataset.withColumn(
       getOutputCol,
-      wrapSentenceEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef)))
-    )
+      wrapSentenceEmbeddingsMetadata(
+        dataset.col(getOutputCol),
+        $(dimension),
+        Some($(storageRef))))
   }
 
   /** Input Annotator Types: DOCUMENT, TOKEN
@@ -341,6 +337,7 @@ class RoBertaSentenceEmbeddings(override val uid: String)
    * @group anno
    */
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT)
+
   /** Output Annotator Types: WORD_EMBEDDINGS
    *
    * @group anno
@@ -349,12 +346,20 @@ class RoBertaSentenceEmbeddings(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_roberta", RoBertaSentenceEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(
+      path,
+      spark,
+      getModelIfNotSet.tensorflowWrapper,
+      "_roberta",
+      RoBertaSentenceEmbeddings.tfFile,
+      configProtoBytes = getConfigProtoBytes)
   }
 
 }
 
-trait ReadablePretrainedRobertaSentenceModel extends ParamsAndFeaturesReadable[RoBertaSentenceEmbeddings] with HasPretrained[RoBertaSentenceEmbeddings] {
+trait ReadablePretrainedRobertaSentenceModel
+    extends ParamsAndFeaturesReadable[RoBertaSentenceEmbeddings]
+    with HasPretrained[RoBertaSentenceEmbeddings] {
   override val defaultModelName: Some[String] = Some("sent_roberta_base")
 
   /** Java compliant-overrides */
@@ -362,9 +367,13 @@ trait ReadablePretrainedRobertaSentenceModel extends ParamsAndFeaturesReadable[R
 
   override def pretrained(name: String): RoBertaSentenceEmbeddings = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): RoBertaSentenceEmbeddings = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): RoBertaSentenceEmbeddings =
+    super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): RoBertaSentenceEmbeddings = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(
+      name: String,
+      lang: String,
+      remoteLoc: String): RoBertaSentenceEmbeddings = super.pretrained(name, lang, remoteLoc)
 }
 
 trait ReadRobertaSentenceTensorflowModel extends ReadTensorflowModel {
@@ -372,7 +381,10 @@ trait ReadRobertaSentenceTensorflowModel extends ReadTensorflowModel {
 
   override val tfFile: String = "roberta_tensorflow"
 
-  def readTensorflow(instance: RoBertaSentenceEmbeddings, path: String, spark: SparkSession): Unit = {
+  def readTensorflow(
+      instance: RoBertaSentenceEmbeddings,
+      path: String,
+      spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_roberta_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
@@ -388,8 +400,7 @@ trait ReadRobertaSentenceTensorflowModel extends ReadTensorflowModel {
     require(f.isDirectory, s"File $tfModelPath is not folder")
     require(
       savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfModelPath"
-    )
+      s"savedModel file saved_model.pb not found in folder $tfModelPath")
 
     val vocabFile = new File(tfModelPath + "/assets", "vocab.txt")
     require(f.exists, s"Folder $tfModelPath not found")
@@ -401,18 +412,23 @@ trait ReadRobertaSentenceTensorflowModel extends ReadTensorflowModel {
     require(f.isDirectory, s"File $tfModelPath is not folder")
     require(mergesFile.exists(), s"merges file merges.txt not found in folder $tfModelPath")
 
-    val vocabResource = new ExternalResource(vocabFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val vocabResource =
+      new ExternalResource(vocabFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
 
-    val mergesResource = new ExternalResource(mergesFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val mergesResource =
+      new ExternalResource(mergesFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val merges = ResourceHelper.parseLines(mergesResource)
 
-    val bytePairs: Map[(String, String), Int] = merges.map(_.split(" "))
+    val bytePairs: Map[(String, String), Int] = merges
+      .map(_.split(" "))
       .filter(w => w.length == 2)
       .map { case Array(c1, c2) => (c1, c2) }
-      .zipWithIndex.toMap
+      .zipWithIndex
+      .toMap
 
-    val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
+    val (wrapper, signatures) =
+      TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
 
     val _signatures = signatures match {
       case Some(s) => s
@@ -428,8 +444,9 @@ trait ReadRobertaSentenceTensorflowModel extends ReadTensorflowModel {
   }
 }
 
-
 /**
  * This is the companion object of [[RoBertaSentenceEmbeddings]]. Please refer to that class for the documentation.
  */
-object RoBertaSentenceEmbeddings extends ReadablePretrainedRobertaSentenceModel with ReadRobertaSentenceTensorflowModel
+object RoBertaSentenceEmbeddings
+    extends ReadablePretrainedRobertaSentenceModel
+    with ReadRobertaSentenceTensorflowModel
