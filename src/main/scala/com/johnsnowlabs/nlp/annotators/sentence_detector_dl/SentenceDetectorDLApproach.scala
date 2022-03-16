@@ -17,9 +17,9 @@
 package com.johnsnowlabs.nlp.annotators.sentence_detector_dl
 
 import com.johnsnowlabs.ml.tensorflow.{TensorflowSentenceDetectorDL, TensorflowWrapper, Variables}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach}
 import org.apache.commons.io.IOUtils
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param._
@@ -29,7 +29,7 @@ import org.apache.spark.sql.{Dataset, Row}
 import org.tensorflow.Graph
 import org.tensorflow.proto.framework.GraphDef
 
-import scala.collection.mutable.WrappedArray
+import scala.collection.mutable
 
 /** Trains an annotator that detects sentence boundaries using a deep learning approach.
   *
@@ -277,22 +277,22 @@ class SentenceDetectorDLApproach(override val uid: String)
     */
   def getExplodeSentences: Boolean = $(this.explodeSentences)
 
-
   /** Length at which sentences will be forcibly split (Ignored if not set)
     *
     * @group param
     */
 
-  val splitLength: IntParam = new IntParam(this, "splitLength", "length at which sentences will be forcibly split.")
+  val splitLength: IntParam =
+    new IntParam(this, "splitLength", "length at which sentences will be forcibly split.")
 
   /** Length at which sentences will be forcibly split
     * @group setParam
-    * */
+    */
   def setSplitLength(value: Int): this.type = set(splitLength, value)
 
   /** Length at which sentences will be forcibly split
     * @group getParam
-    * */
+    */
   def getSplitLength: Int = $(splitLength)
 
   /** Set the minimum allowed length for each sentence (Default: `0`)
@@ -300,11 +300,12 @@ class SentenceDetectorDLApproach(override val uid: String)
     * @group param
     */
 
-  val minLength = new IntParam(this, "minLength", "Set the minimum allowed length for each sentence")
+  val minLength =
+    new IntParam(this, "minLength", "Set the minimum allowed length for each sentence")
 
   /** Set the minimum allowed length for each sentence
     * @group setParam
-    * */
+    */
   def setMinLength(value: Int): this.type = {
     require(value >= 0, "minLength must be greater equal than 0")
     require(value.isValidInt, "minLength must be Int")
@@ -313,61 +314,72 @@ class SentenceDetectorDLApproach(override val uid: String)
 
   /** Get the minimum allowed length for each sentence
     * @group getParam
-    * */
+    */
   def getMinLength: Int = $(minLength)
 
   /** Set the maximum allowed length for each sentence (Ignored if not set)
     *
     * @group param
     */
-  val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed length for each sentence")
+  val maxLength =
+    new IntParam(this, "maxLength", "Set the maximum allowed length for each sentence")
 
   /** Set the maximum allowed length for each sentence
     * @group setParam
-    * */
+    */
   def setMaxLength(value: Int): this.type = {
-    require(value >= ${
-      minLength
-    }, "maxLength must be greater equal than minLength")
+    require(
+      value >= $ {
+        minLength
+      },
+      "maxLength must be greater equal than minLength")
     require(value.isValidInt, "minLength must be Int")
     set(maxLength, value)
   }
 
   /** Get the maximum allowed length for each sentence
     * @group getParam
-    * */
+    */
   def getMaxLength: Int = $(maxLength)
 
   /** Characters used to explicitly mark sentence bounds (Default: None)
     *
     * @group param
     */
-  val customBounds: StringArrayParam = new StringArrayParam(this, "customBounds", "characters used to explicitly mark sentence bounds")
+  val customBounds: StringArrayParam = new StringArrayParam(
+    this,
+    "customBounds",
+    "characters used to explicitly mark sentence bounds")
 
   /** Custom sentence separator text
     * @group setParam
-    * */
+    */
   def setCustomBounds(value: Array[String]): this.type = set(customBounds, value)
 
   /** Custom sentence separator text
     * @group getParam
-    * */
+    */
   def getCustomBounds: Array[String] = $(customBounds)
 
   /** Whether to only utilize custom bounds for sentence detection (Default: `false`)
     *
     * @group param
     */
-  val useCustomBoundsOnly = new BooleanParam(this, "useCustomBoundsOnly", "whether to only utilize custom bounds for sentence detection")
+  val useCustomBoundsOnly = new BooleanParam(
+    this,
+    "useCustomBoundsOnly",
+    "whether to only utilize custom bounds for sentence detection")
 
-  /** Use only custom bounds without considering those of Pragmatic Segmenter. Defaults to false. Needs customBounds.
+  /** Use only custom bounds without considering those of Pragmatic Segmenter. Defaults to false.
+    * Needs customBounds.
     * @group setParam
-    * */
+    */
   def setUseCustomBoundsOnly(value: Boolean): this.type = set(useCustomBoundsOnly, value)
 
-  /** Use only custom bounds without considering those of Pragmatic Segmenter. Defaults to false. Needs customBounds.
+  /** Use only custom bounds without considering those of Pragmatic Segmenter. Defaults to false.
+    * Needs customBounds.
     * @group getParam
-    * */
+    */
   def getUseCustomBoundsOnly: Boolean = $(useCustomBoundsOnly)
 
   setDefault(
@@ -427,22 +439,21 @@ class SentenceDetectorDLApproach(override val uid: String)
     maxLength -> Int.MaxValue,
     splitLength -> Int.MaxValue,
     useCustomBoundsOnly -> false,
-    customBounds -> Array.empty[String]
-  )
+    customBounds -> Array.empty[String])
 
   override def train(
       dataset: Dataset[_],
       recursivePipeline: Option[PipelineModel]): SentenceDetectorDLModel = {
 
-    var text = dataset
+    val text = dataset
       .select(getInputCols.map(col): _*)
       .collect()
       .map(row => {
-        (0 until getInputCols.length)
+        getInputCols.indices
           .map(i =>
             row
               .get(i)
-              .asInstanceOf[WrappedArray[Row]]
+              .asInstanceOf[mutable.WrappedArray[Row]]
               .map(s => Annotation(s).result)
               .mkString("\n"))
           .mkString("\n")
@@ -467,7 +478,7 @@ class SentenceDetectorDLApproach(override val uid: String)
 
     val tfModel = new TensorflowSentenceDetectorDL(
       tfWrapper,
-      outputLogsPath = if (getOutputLogsPath.length > 0) Some(getOutputLogsPath) else None)
+      outputLogsPath = if (getOutputLogsPath.nonEmpty) Some(getOutputLogsPath) else None)
 
     tfModel.train(
       data._2,
