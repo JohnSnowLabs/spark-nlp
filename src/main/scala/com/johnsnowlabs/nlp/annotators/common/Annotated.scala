@@ -30,4 +30,3 @@ object Annotated {
   type PosTaggedSentence = TaggedSentence
   type NerTaggedSentence = TaggedSentence
 }
-

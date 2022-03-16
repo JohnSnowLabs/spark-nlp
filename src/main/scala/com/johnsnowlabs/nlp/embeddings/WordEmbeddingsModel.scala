@@ -17,9 +17,13 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN, WORD_EMBEDDINGS}
-import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, TokenizedWithSentence, WordpieceEmbeddingsSentence}
+import com.johnsnowlabs.nlp.annotators.common.{
+  TokenPieceEmbeddings,
+  TokenizedWithSentence,
+  WordpieceEmbeddingsSentence
+}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesWritable, HasSimpleAnnotate}
+import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.storage.Database.Name
 import com.johnsnowlabs.storage.{Database, HasStorageModel, RocksDBConnection, StorageReadable}
 import org.apache.spark.ml.param.IntParam
@@ -37,13 +41,14 @@ import org.apache.spark.sql.{DataFrame, Row}
   *     .setInputCols("document", "token")
   *     .setOutputCol("embeddings")
   * }}}
-  * The default model is `"glove_100d"`, if no name is provided.
-  * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
+  * The default model is `"glove_100d"`, if no name is provided. For available pretrained models
+  * please see the [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
   *
-  * There are also two convenient functions to retrieve the embeddings coverage with respect to the transformed dataset:
-  *   - `withCoverageColumn(dataset, embeddingsCol, outputCol)`:
-  *     Adds a custom column with word coverage stats for the embedded field:
-  *     (`coveredWords`, `totalWords`, `coveragePercentage`). This creates a new column with statistics for each row.
+  * There are also two convenient functions to retrieve the embeddings coverage with respect to
+  * the transformed dataset:
+  *   - `withCoverageColumn(dataset, embeddingsCol, outputCol)`: Adds a custom column with word
+  *     coverage stats for the embedded field: (`coveredWords`, `totalWords`,
+  *     `coveragePercentage`). This creates a new column with statistics for each row.
   *     {{{
   *     val wordsCoverage = WordEmbeddingsModel.withCoverageColumn(resultDF, "embeddings", "cov_embeddings")
   *     wordsCoverage.select("text","cov_embeddings").show(false)
@@ -53,16 +58,18 @@ import org.apache.spark.sql.{DataFrame, Row}
   *     |This is a sentence.|[5, 5, 1.0]   |
   *     +-------------------+--------------+
   *     }}}
-  *   - `overallCoverage(dataset, embeddingsCol)`:
-  *     Calculates overall word coverage for the whole data in the embedded field.
-  *     This returns a single coverage object considering all rows in the field.
+  *   - `overallCoverage(dataset, embeddingsCol)`: Calculates overall word coverage for the whole
+  *     data in the embedded field. This returns a single coverage object considering all rows in
+  *     the field.
   *     {{{
   *     val wordsOverallCoverage = WordEmbeddingsModel.overallCoverage(wordsCoverage,"embeddings").percentage
   *     1.0
   *     }}}
   *
-  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb Spark NLP Workshop]]
-  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala WordEmbeddingsTestSpec]].
+  * For extended examples of usage, see the
+  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb Spark NLP Workshop]]
+  * and the
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala WordEmbeddingsTestSpec]].
   *
   * ==Example==
   * {{{
@@ -114,10 +121,14 @@ import org.apache.spark.sql.{DataFrame, Row}
   * +--------------------------------------------------------------------------------+
   * }}}
   *
-  * @see [[SentenceEmbeddings]] to combine embeddings into a sentence-level representation
-  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based embeddings
+  * @see
+  *   [[SentenceEmbeddings]] to combine embeddings into a sentence-level representation
+  * @see
+  *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
+  *   transformer based embeddings
   * @groupname anno Annotator types
-  * @groupdesc anno Required input and expected output annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
   * @groupname Ungrouped Members
   * @groupname param Parameters
   * @groupname setParam Parameter setters
@@ -128,49 +139,63 @@ import org.apache.spark.sql.{DataFrame, Row}
   * @groupprio Ungrouped 3
   * @groupprio setParam  4
   * @groupprio getParam  5
-  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
   */
 class WordEmbeddingsModel(override val uid: String)
-  extends AnnotatorModel[WordEmbeddingsModel] with HasSimpleAnnotate[WordEmbeddingsModel]
+    extends AnnotatorModel[WordEmbeddingsModel]
+    with HasSimpleAnnotate[WordEmbeddingsModel]
     with HasEmbeddingsProperties
     with HasStorageModel
     with ParamsAndFeaturesWritable {
 
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
+    * type
+    */
   def this() = this(Identifiable.randomUID("WORD_EMBEDDINGS_MODEL"))
 
   /** Output annotator type : WORD_EMBEDDINGS
     *
     * @group anno
-    **/
+    */
   override val outputAnnotatorType: AnnotatorType = WORD_EMBEDDINGS
+
   /** Input annotator type : DOCUMENT, TOKEN
     *
     * @group anno
-    **/
+    */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
 
-  /** Cache size for items retrieved from storage. Increase for performance but higher memory consumption
+  /** Cache size for items retrieved from storage. Increase for performance but higher memory
+    * consumption
     *
     * @group param
-    **/
-  val readCacheSize = new IntParam(this, "readCacheSize", "cache size for items retrieved from storage. Increase for performance but higher memory consumption")
+    */
+  val readCacheSize = new IntParam(
+    this,
+    "readCacheSize",
+    "cache size for items retrieved from storage. Increase for performance but higher memory consumption")
 
-  /** Set cache size for items retrieved from storage. Increase for performance but higher memory consumption
+  /** Set cache size for items retrieved from storage. Increase for performance but higher memory
+    * consumption
     *
     * @group setParam
-    **/
+    */
   def setReadCacheSize(value: Int): this.type = set(readCacheSize, value)
 
-  /**
-    * Takes a document and annotations and produces new annotations of this annotator's annotation type
+  /** Takes a document and annotations and produces new annotations of this annotator's annotation
+    * type
     *
-    * @param annotations Annotations that correspond to inputAnnotationCols generated by previous annotators if any
-    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
+    * @param annotations
+    *   Annotations that correspond to inputAnnotationCols generated by previous annotators if any
+    * @return
+    *   any number of annotations processed for every input annotation. Not necessary one to one
+    *   relationship
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = TokenizedWithSentence.unpack(annotations)
-    val withEmbeddings = sentences.map{ s =>
+    val withEmbeddings = sentences.map { s =>
       val tokens = s.indexedTokens.map { token =>
         val vectorOption = getReader(Database.EMBEDDINGS).lookup(token.token)
         TokenPieceEmbeddings(
@@ -181,8 +206,7 @@ class WordEmbeddingsModel(override val uid: String)
           vectorOption,
           getReader(Database.EMBEDDINGS).emptyValue,
           token.begin,
-          token.end
-        )
+          token.end)
       }
       WordpieceEmbeddingsSentence(tokens, s.sentenceIndex)
     }
@@ -191,46 +215,59 @@ class WordEmbeddingsModel(override val uid: String)
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
+    dataset.withColumn(
+      getOutputCol,
+      wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
   }
 
   private def bufferSizeFormula = {
-    scala.math.min( // LRU Cache Size, pick the smallest value up to 50k to reduce memory blue print as dimension grows
-      (100.0/$(dimension))*200000,
-      50000
-    ).toInt
+    scala.math
+      .min( // LRU Cache Size, pick the smallest value up to 50k to reduce memory blue print as dimension grows
+        (100.0 / $(dimension)) * 200000,
+        50000)
+      .toInt
   }
 
-  override protected def createReader(database: Database.Name, connection: RocksDBConnection): WordEmbeddingsReader = {
+  override protected def createReader(
+      database: Database.Name,
+      connection: RocksDBConnection): WordEmbeddingsReader = {
     new WordEmbeddingsReader(
       connection,
       $(caseSensitive),
       $(dimension),
-      get(readCacheSize).getOrElse(bufferSizeFormula)
-      )
+      get(readCacheSize).getOrElse(bufferSizeFormula))
   }
 
   override val databases: Array[Database.Name] = WordEmbeddingsModel.databases
 }
 
-trait ReadablePretrainedWordEmbeddings extends StorageReadable[WordEmbeddingsModel] with HasPretrained[WordEmbeddingsModel] {
+trait ReadablePretrainedWordEmbeddings
+    extends StorageReadable[WordEmbeddingsModel]
+    with HasPretrained[WordEmbeddingsModel] {
   override val databases: Array[Name] = Array(Database.EMBEDDINGS)
   override val defaultModelName: Option[String] = Some("glove_100d")
+
   /** Java compliant-overrides */
   override def pretrained(): WordEmbeddingsModel = super.pretrained()
   override def pretrained(name: String): WordEmbeddingsModel = super.pretrained(name)
-  override def pretrained(name: String, lang: String): WordEmbeddingsModel = super.pretrained(name, lang)
-  override def pretrained(name: String, lang: String, remoteLoc: String): WordEmbeddingsModel = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String): WordEmbeddingsModel =
+    super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String, remoteLoc: String): WordEmbeddingsModel =
+    super.pretrained(name, lang, remoteLoc)
 }
 
 trait EmbeddingsCoverage {
 
   case class CoverageResult(covered: Long, total: Long, percentage: Float)
 
-  def withCoverageColumn(dataset: DataFrame, embeddingsCol: String, outputCol: String = "coverage"): DataFrame = {
+  def withCoverageColumn(
+      dataset: DataFrame,
+      embeddingsCol: String,
+      outputCol: String = "coverage"): DataFrame = {
     val coverageFn = udf((annotatorProperties: Seq[Row]) => {
       val annotations = annotatorProperties.map(Annotation(_))
-      val oov = annotations.map(x => if (x.metadata.getOrElse("isOOV", "false") == "false") 1 else 0)
+      val oov =
+        annotations.map(x => if (x.metadata.getOrElse("isOOV", "false") == "false") 1 else 0)
       val covered = oov.sum
       val total = annotations.count(_ => true)
       val percentage = 1f * covered / total
@@ -240,12 +277,18 @@ trait EmbeddingsCoverage {
   }
 
   def overallCoverage(dataset: DataFrame, embeddingsCol: String): CoverageResult = {
-    val words = dataset.select(embeddingsCol).flatMap(row => {
-      val annotations = row.getAs[Seq[Row]](embeddingsCol)
-      annotations.map(annotation => Tuple2(
-        annotation.getAs[Map[String, String]]("metadata")("token"),
-        if (annotation.getAs[Map[String, String]]("metadata").getOrElse("isOOV", "false") == "false") 1 else 0))
-    })
+    val words = dataset
+      .select(embeddingsCol)
+      .flatMap(row => {
+        val annotations = row.getAs[Seq[Row]](embeddingsCol)
+        annotations.map(annotation =>
+          Tuple2(
+            annotation.getAs[Map[String, String]]("metadata")("token"),
+            if (annotation
+                .getAs[Map[String, String]]("metadata")
+                .getOrElse("isOOV", "false") == "false") 1
+            else 0))
+      })
     val oov = words.reduce((a, b) => Tuple2("Total", a._2 + b._2))
     val covered = oov._2
     val total = words.count()
@@ -254,8 +297,7 @@ trait EmbeddingsCoverage {
   }
 }
 
-/**
- * This is the companion object of [[WordEmbeddingsModel]]. Please refer to that class for the documentation.
- */
+/** This is the companion object of [[WordEmbeddingsModel]]. Please refer to that class for the
+  * documentation.
+  */
 object WordEmbeddingsModel extends ReadablePretrainedWordEmbeddings with EmbeddingsCoverage
-

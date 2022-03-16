@@ -25,7 +25,6 @@ import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 
-
 object NerDLCoNLL2003 extends App {
   val folder = "src/test/resources/conll2003/"
 
@@ -37,7 +36,8 @@ object NerDLCoNLL2003 extends App {
 
   def createPipeline() = {
 
-    val glove = WordEmbeddingsModel.pretrained()
+    val glove = WordEmbeddingsModel
+      .pretrained()
       .setInputCols("sentence", "token")
       .setOutputCol("glove")
 
@@ -62,19 +62,14 @@ object NerDLCoNLL2003 extends App {
       .setInputCols("document", "token", "label")
       .setOutputCol("label_span")
 
-    Array(
-      glove,
-      nerTagger,
-      converter,
-      labelConverter
-    )
+    Array(glove, nerTagger, converter, labelConverter)
   }
 
   def trainNerModel(er: ExternalResource): PipelineModel = {
     System.out.println("Dataset Reading")
     val time = System.nanoTime()
     val dataset = nerReader.readDataset(SparkAccessor.benchmarkSpark, er.path)
-    System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
+    System.out.println(s"Done, ${(System.nanoTime() - time) / 1e9}\n")
 
     System.out.println("Start fitting")
 
@@ -91,12 +86,21 @@ object NerDLCoNLL2003 extends App {
     Annotation.collect(df, "ner_span")
   }
 
-  def measure(model: PipelineModel, file: ExternalResource, extended: Boolean = true, errorsToPrint: Int = 0): Unit = {
-    val ner = model.stages.filter(s => s.isInstanceOf[NerDLModel]).head.asInstanceOf[NerDLModel].getModelIfNotSet
+  def measure(
+      model: PipelineModel,
+      file: ExternalResource,
+      extended: Boolean = true,
+      errorsToPrint: Int = 0): Unit = {
+    val ner = model.stages
+      .filter(s => s.isInstanceOf[NerDLModel])
+      .head
+      .asInstanceOf[NerDLModel]
+      .getModelIfNotSet
     val df = nerReader.readDataset(SparkAccessor.benchmarkSpark, file.path).toDF()
     val transformed = model.transform(df)
 
-    val labeled = NerTagged.iterateOnArray(transformed.collect(), Seq("sentence", "token", "glove"), 2)
+    val labeled =
+      NerTagged.iterateOnArray(transformed.collect(), Seq("sentence", "token", "glove"), 2)
 
     ner.measure(labeled, extended, outputLogsPath = "")
   }

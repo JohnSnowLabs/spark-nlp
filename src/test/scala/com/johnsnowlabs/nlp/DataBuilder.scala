@@ -21,13 +21,13 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.{BeforeAndAfterAll, Suite}
 
-
 object DataBuilder extends AnyFlatSpec with BeforeAndAfterAll {
   this: Suite =>
 
   import SparkAccessor.spark.implicits._
 
-  def basicDataBuild(content: String*)(implicit cleanupMode: String = "disabled"): Dataset[Row] = {
+  def basicDataBuild(content: String*)(implicit
+      cleanupMode: String = "disabled"): Dataset[Row] = {
     val data = SparkAccessor.spark.sparkContext.parallelize(content).toDS().toDF("text")
     AnnotatorBuilder.withDocumentAssembler(data, cleanupMode)
   }
@@ -40,7 +40,8 @@ object DataBuilder extends AnyFlatSpec with BeforeAndAfterAll {
   def buildNerDataset(datasetContent: String): Dataset[Row] = {
     val lines = datasetContent.split("\n")
     val data = CoNLL(conllLabelIndex = 1)
-      .readDatasetFromLines(lines, SparkAccessor.spark).toDF
+      .readDatasetFromLines(lines, SparkAccessor.spark)
+      .toDF
     AnnotatorBuilder.withDocumentAssembler(data)
   }
 

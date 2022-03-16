@@ -20,7 +20,8 @@ import com.johnsnowlabs.storage.{RocksDBConnection, StorageReadWriter}
 import java.io.{ByteArrayOutputStream, ObjectOutputStream}
 
 class RegexPatternsReadWriter(protected override val connection: RocksDBConnection)
-  extends RegexPatternsReader(connection) with StorageReadWriter[Seq[String]] {
+    extends RegexPatternsReader(connection)
+    with StorageReadWriter[Seq[String]] {
 
   protected def writeBufferSize: Int = 10000
 

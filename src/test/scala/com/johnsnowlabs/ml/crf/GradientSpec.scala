@@ -31,7 +31,6 @@ class GradientSpec extends AnyFlatSpec {
   val bruteForce = new BruteForceCalculator(metadata, fb)
   fb.calculate(instance, weights, 1f)
 
-
   "SGD" should "correctly calculates data estimation" taggedAs FastTest in {
     val instance = dataset.instances.head._2
     val labels = dataset.instances.head._1
@@ -43,18 +42,15 @@ class GradientSpec extends AnyFlatSpec {
     assert(weights.toSeq == Seq(0.2f, 0.2f, 0.3f, 0.2f, 0.3f, 0.4f, 0.2f, 0.2f))
   }
 
-
   "SGD" should "correctly calculates model estimation" taggedAs FastTest in {
 
     // 1. Calculate Model Expectation by Test BruteForce Algo
-    val attrExp = metadata.attrFeatures.map{f =>
+    val attrExp = metadata.attrFeatures.map { f =>
       val featureValues = instance.items.map(word => word.apply(f.attrId))
       bruteForce.calcExpectation(instance, f, featureValues)
     }
 
-    val transExp = metadata.transitions.map(t =>
-      bruteForce.calcExpectation(instance, t)
-    )
+    val transExp = metadata.transitions.map(t => bruteForce.calcExpectation(instance, t))
 
     val a = -0.1f
     val expectations = (attrExp ++ transExp).toList

@@ -23,8 +23,12 @@ import org.apache.spark.ml.util.Identifiable
 
 import scala.util.Random
 
-class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: ClassifierDatasetEncoder, override val verboseLevel: Verbose.Value)
-  extends Serializable with Logging {
+class TensorflowMultiClassifier(
+    val tensorflow: TensorflowWrapper,
+    val encoder: ClassifierDatasetEncoder,
+    override val verboseLevel: Verbose.Value)
+    extends Serializable
+    with Logging {
 
   private val inputKey = "inputs:0"
   private val labelKey = "labels:0"
@@ -59,24 +63,27 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
   }
 
   def train(
-             inputs: Array[Array[Array[Float]]],
-             labels: Array[Array[String]],
-             classNum: Int,
-             lr: Float = 5e-3f,
-             batchSize: Int = 64,
-             startEpoch: Int = 0,
-             endEpoch: Int = 10,
-             configProtoBytes: Option[Array[Byte]] = None,
-             validationSplit: Float = 0.0f,
-             shuffleEpoch: Boolean = false,
-             enableOutputLogs: Boolean = false,
-             outputLogsPath: String,
-             uuid: String = Identifiable.randomUID("multiclassifierdl")
-           ): Unit = {
+      inputs: Array[Array[Array[Float]]],
+      labels: Array[Array[String]],
+      classNum: Int,
+      lr: Float = 5e-3f,
+      batchSize: Int = 64,
+      startEpoch: Int = 0,
+      endEpoch: Int = 10,
+      configProtoBytes: Option[Array[Byte]] = None,
+      validationSplit: Float = 0.0f,
+      shuffleEpoch: Boolean = false,
+      enableOutputLogs: Boolean = false,
+      outputLogsPath: String,
+      uuid: String = Identifiable.randomUID("multiclassifierdl")): Unit = {
 
     // Initialize
     if (startEpoch == 0)
-      tensorflow.createSession(configProtoBytes = configProtoBytes).runner.addTarget(initKey).run()
+      tensorflow
+        .createSession(configProtoBytes = configProtoBytes)
+        .runner
+        .addTarget(initKey)
+        .run()
 
     val encodedLabels = encoder.encodeTagsMultiLabel(labels)
     val zippedInputsLabels = inputs.zip(encodedLabels).toSeq
@@ -93,9 +100,13 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
       (trainingDataset.toArray, emptyValid.toArray)
     }
 
-    println(s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainDatasetSeq.length} - classes: $classNum")
-    outputLog(s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainDatasetSeq.length} - classes: $classNum",
-      uuid, enableOutputLogs, outputLogsPath)
+    println(
+      s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainDatasetSeq.length} - classes: $classNum")
+    outputLog(
+      s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainDatasetSeq.length} - classes: $classNum",
+      uuid,
+      enableOutputLogs,
+      outputLogsPath)
 
     for (epoch <- startEpoch until endEpoch) {
 
@@ -121,7 +132,9 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
         val sequenceLengthTensor = tensors.createTensor(sequenceLengthArrays)
         val lrTensor = tensors.createTensor(learningRate.toFloat)
 
-        val calculated = tensorflow.getTFSession(configProtoBytes = configProtoBytes).runner
+        val calculated = tensorflow
+          .getTFSession(configProtoBytes = configProtoBytes)
+          .runner
           .feed(inputKey, inputTensor)
           .feed(labelKey, labelTensor)
           .feed(sequenceLengthKey, sequenceLengthTensor)
@@ -145,12 +158,25 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
       if (validationSplit > 0.0) {
         val validationAccuracy = measure(validateDatasetSample)
         val endTime = (System.nanoTime() - time) / 1e9
-        println(f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_loss: ${validationAccuracy(0)} - val_acc: ${validationAccuracy(1)} - val_f1: ${validationAccuracy(2)} - val_tpr: ${validationAccuracy(3)} - batches: $batches")
-        outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_loss: ${validationAccuracy(0)} - val_acc: ${validationAccuracy(1)} - val_f1: ${validationAccuracy(2)} - val_tpr: ${validationAccuracy(3)} - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
+        println(
+          f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_loss: ${validationAccuracy(
+              0)} - val_acc: ${validationAccuracy(1)} - val_f1: ${validationAccuracy(
+              2)} - val_tpr: ${validationAccuracy(3)} - batches: $batches")
+        outputLog(
+          f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_loss: ${validationAccuracy(
+              0)} - val_acc: ${validationAccuracy(1)} - val_f1: ${validationAccuracy(
+              2)} - val_tpr: ${validationAccuracy(3)} - batches: $batches",
+          uuid,
+          enableOutputLogs,
+          outputLogsPath)
       } else {
         val endTime = (System.nanoTime() - time) / 1e9
         println(f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - batches: $batches")
-        outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
+        outputLog(
+          f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - batches: $batches",
+          uuid,
+          enableOutputLogs,
+          outputLogsPath)
       }
 
     }
@@ -160,7 +186,10 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
     }
   }
 
-  def predict(docs: Seq[(Int, Seq[Annotation])], threshold: Float = 0.5f, configProtoBytes: Option[Array[Byte]] = None): Seq[Annotation] = {
+  def predict(
+      docs: Seq[(Int, Seq[Annotation])],
+      threshold: Float = 0.5f,
+      configProtoBytes: Option[Array[Byte]] = None): Seq[Annotation] = {
 
     val tensors = new TensorResources()
 
@@ -191,15 +220,15 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
           begin = documentBegin,
           end = documentEnd,
           result = label,
-          metadata = Map("sentence" -> "0") ++ score.flatMap(x => Map(x._1 -> x._2.toString))
-        )
+          metadata = Map("sentence" -> "0") ++ score.flatMap(x => Map(x._1 -> x._2.toString)))
       }
     }
   }
 
-  def internalPredict(inputs: Array[Array[Array[Float]]],
-                      labels: Array[Array[Float]],
-                      configProtoBytes: Option[Array[Byte]] = None): Array[Float] = {
+  def internalPredict(
+      inputs: Array[Array[Array[Float]]],
+      labels: Array[Array[Float]],
+      configProtoBytes: Option[Array[Byte]] = None): Array[Float] = {
 
     val tensors = new TensorResources()
 
@@ -228,9 +257,9 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
 
   }
 
-  def measure(labeled: Array[(Array[Array[Float]], Array[Float])],
-              batchSize: Int = 100
-             ): Array[Float] = {
+  def measure(
+      labeled: Array[(Array[Array[Float]], Array[Float])],
+      batchSize: Int = 100): Array[Float] = {
 
     var loss = 0f
     var acc = 0f

@@ -21,20 +21,20 @@ import com.johnsnowlabs.nlp.annotators.parser.typdep.DependencyInstance;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class ConllUReader extends DependencyReader{
+public class ConllUReader extends DependencyReader {
 
-     /**
-	     *  CoNLL Universal Dependency format:
-		    0 ID
-		    1 FORM
-		    2 LEMMA
-		    3 UPOS
-		    4 XPOS
-		    5 FEATS
-		    6 HEAD
-		    7 DEPREL
-		    8 MISC
-	   	*/
+    /**
+     * CoNLL Universal Dependency format:
+     * 0 ID
+     * 1 FORM
+     * 2 LEMMA
+     * 3 UPOS
+     * 4 XPOS
+     * 5 FEATS
+     * 6 HEAD
+     * 7 DEPREL
+     * 8 MISC
+     */
 
     @Override
     public DependencyInstance nextInstance() throws IOException {
@@ -64,7 +64,7 @@ public class ConllUReader extends DependencyReader{
         boolean hasLemma = false;
 
         for (int i = 1; i < length + 1; ++i) {
-            String[] parts = lstLines.get(i-1);
+            String[] parts = lstLines.get(i - 1);
             forms[i] = parts[1];
             if (!parts[2].equals("_")) {
                 lemmas[i] = parts[2];
@@ -80,7 +80,7 @@ public class ConllUReader extends DependencyReader{
 
             if (parts[6].equals("_")) {
                 System.out.println("Error in sentence:\n");
-                System.out.println(parts[0] + " " + parts[1] + " " +  parts[2] + " " + parts[3]);
+                System.out.println(parts[0] + " " + parts[1] + " " + parts[2] + " " + parts[3]);
             }
 
             heads[i] = Integer.parseInt(parts[6]);

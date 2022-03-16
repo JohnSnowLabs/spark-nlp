@@ -24,34 +24,25 @@ private[johnsnowlabs] class MosesPunctNormalizer(language: String = "en") {
 
   private val COMBINED_REPLACEMENT = List(
     (raw"""\r|\u00A0«\u00A0|«\u00A0|«|\u00A0»\u00A0|\u00A0»|»|“|」|「""".r, raw""""""),
-
     (raw""" ?\( ?""".r, raw"""("""),
-
     (raw""" ?\) ?""".r, raw""")"""),
-
     (raw""" :|\u00A0:|∶|：""".r, raw""":"""),
-
     (raw""" ;""|\u00A0;|；""".r, raw""";"""),
-
     (raw"""`|´|‘|‚|’|’""".r, raw"""'"""),
-
-    (raw"""''|„|“|”|''|´´""".r, raw""" " """)
-  )
+    (raw"""''|„|“|”|''|´´""".r, raw""" " """))
 
   private val EXTRA_WHITESPACE = List(
     (raw"""(""", raw""" ("""),
     (raw""")""", raw""") """),
     (raw"""\) ([.!:?;.r,])""".r, raw""")$$1"""),
-    (raw"""(\d) %""".r, raw"""$$1%""")
-  )
+    (raw"""(\d) %""".r, raw"""$$1%"""))
 
   private val NORMALIZE_UNICODE = List(
     (raw"""–|━""".r, raw"""-"""),
     (raw"""—""", raw""" - """),
     (raw"""([a-zA-Z])‘([a-zA-Z])""".r, raw"""$$1'$$2"""),
     (raw"""([a-zA-Z])’([a-zA-Z])""".r, raw"""$$1'$$2"""),
-    (raw"""…"""", raw"""...""")
-  )
+    (raw"""…"""", raw"""..."""))
 
   private val HANDLE_PSEUDO_SPACES = List(
     (raw"""\u00A0%""".r, raw"""%"""),
@@ -60,27 +51,19 @@ private[johnsnowlabs] class MosesPunctNormalizer(language: String = "en") {
     (raw"""\u00A0cm""".r, raw""" cm"""),
     (raw"""\u00A0\?""".r, raw"""?"""),
     (raw"""\u00A0\!""".r, raw"""!"""),
-    (raw""""".,\u00A0""".r, raw""""", """)
-  )
+    (raw""""".,\u00A0""".r, raw""""", """))
 
-  private val QUOTATION_FOLLOWED_BY_COMMA = if (language == "en")
-    List(
-      (raw""""([,.]+)""".r, raw"""$$1"""")
-    )
-  else if (Array("de", "es", "fr").contains(language))
-    List(
-      (raw""","""", raw"""","""),
-      (raw"""(\.+)"(\s*?[^<])""".r, raw""""$$1$$2""")
-    )
-  else List()
+  private val QUOTATION_FOLLOWED_BY_COMMA =
+    if (language == "en")
+      List((raw""""([,.]+)""".r, raw"""$$1""""))
+    else if (Array("de", "es", "fr").contains(language))
+      List((raw""","""", raw"""","""), (raw"""(\.+)"(\s*?[^<])""".r, raw""""$$1$$2"""))
+    else List()
 
-  private val NORM_NUMBERS = if (Array("de", "es", "cz", "cs", "fr").contains(language))
-    List(
-      (raw"""(\d)\u00A0(\d)""".r, raw"""$$1,$$2""")
-    )
-  else List(
-    (raw"""(\d)\u00A0(\d)""".r, raw"""$$1.$$2""")
-  )
+  private val NORM_NUMBERS =
+    if (Array("de", "es", "cz", "cs", "fr").contains(language))
+      List((raw"""(\d)\u00A0(\d)""".r, raw"""$$1,$$2"""))
+    else List((raw"""(\d)\u00A0(\d)""".r, raw"""$$1.$$2"""))
 
   private val REPLACE_UNICODE_PUNCTUATION = List(
     (raw"""，""", raw""","""),
@@ -108,8 +91,7 @@ private[johnsnowlabs] class MosesPunctNormalizer(language: String = "en") {
     (raw"""】""", raw"""]"""),
     (raw"""％""", raw"""%"""),
     (raw"""《""", "\""),
-    (raw"""》""", "\"")
-  )
+    (raw"""》""", "\""))
 
   private val DEDUPLICATE_SPACE = List((raw""" +""".r, raw""" """))
 
@@ -127,8 +109,8 @@ private[johnsnowlabs] class MosesPunctNormalizer(language: String = "en") {
     var acc: String = text
 
     substitutions
-      .foreach {
-        case (pattern, replacement) => pattern match {
+      .foreach { case (pattern, replacement) =>
+        pattern match {
           case pattern: Regex => acc = pattern.replaceAllIn(acc, replacement)
           case pattern: String => acc = StringUtils.replace(acc, pattern, replacement)
         }
@@ -136,19 +118,18 @@ private[johnsnowlabs] class MosesPunctNormalizer(language: String = "en") {
     acc
   }
 
-
   private val printingCharTypes = Set(
     Character.CONTROL,
     Character.DIRECTIONALITY_COMMON_NUMBER_SEPARATOR,
     Character.FORMAT,
     Character.PRIVATE_USE,
     Character.SURROGATE,
-    Character.UNASSIGNED
-  )
+    Character.UNASSIGNED)
 
   //  Port of https://github.com/moses-smt/mosesdecoder/blob/master/scripts/tokenizer/remove-non-printing-char.perl
   def removeNonPrintingChar(t: String): String = {
-    def isNonPrintingChar(c: Char): Boolean = !printingCharTypes.contains(Character.getType(c).toByte)
+    def isNonPrintingChar(c: Char): Boolean =
+      !printingCharTypes.contains(Character.getType(c).toByte)
 
     t.toCharArray.filter(isNonPrintingChar).mkString
   }

@@ -18,27 +18,25 @@ package com.johnsnowlabs.collections
 
 import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.annotators.TokenizerModel
-import com.johnsnowlabs.nlp.annotators.btm.{TMEdgesReadWriter, TMEdgesReader, TMNodesReader, TMNodesWriter, TMVocabReadWriter, TMVocabReader, TrieNode}
-import com.johnsnowlabs.storage.{Database, RocksDBConnection, StorageBatchWriter, StorageWriter}
+import com.johnsnowlabs.nlp.annotators.btm._
+import com.johnsnowlabs.storage.{Database, StorageWriter}
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-
-/**
-  * Immutable Collection that used for fast substring search
-  * Implementation of Aho-Corasick algorithm https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm
+/** Immutable Collection that used for fast substring search Implementation of Aho-Corasick
+  * algorithm https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm
   */
 class StorageSearchTrie(
-                         vocabReader: TMVocabReader,
-                         edgesReader: TMEdgesReader,
-                         nodesReader: TMNodesReader
-                       ) {
+    vocabReader: TMVocabReader,
+    edgesReader: TMEdgesReader,
+    nodesReader: TMNodesReader) {
 
-  /**
-    * Searchs phrases in the text
-    * @param text test to search in
-    * @return Iterator with pairs of (begin, end)
+  /** Searchs phrases in the text
+    * @param text
+    *   test to search in
+    * @return
+    *   Iterator with pairs of (begin, end)
     */
   def search(text: Seq[String]): Seq[(Int, Int)] = {
     var nodeId = 0
@@ -67,8 +65,7 @@ class StorageSearchTrie(
           val newId = edgesReader.lookup((nodeId, wordId)).getOrElse(edgesReader.emptyValue)
           if (newId < 0) {
             nodeId = nodesReader.lookup(nodeId).pi
-          }
-          else {
+          } else {
             nodeId = newId
             addResultIfNeed(nodeId, index)
             found = true
@@ -88,10 +85,9 @@ class StorageSearchTrie(
 
 object StorageSearchTrie {
   def load(
-            inputFileLines: Iterator[String],
-            writers: Map[Database.Name, StorageWriter[_]],
-            withTokenizer: Option[TokenizerModel]
-          ): Unit = {
+      inputFileLines: Iterator[String],
+      writers: Map[Database.Name, StorageWriter[_]],
+      withTokenizer: Option[TokenizerModel]): Unit = {
 
     // Have only root at the beginning
     val vocabrw = writers(Database.TMVOCAB).asInstanceOf[TMVocabReadWriter]
@@ -108,10 +104,12 @@ object StorageSearchTrie {
     val length = mutable.ArrayBuffer(0)
 
     def vocabUpdate(w: String): Int = {
-      val r = vocabrw.lookup(w).getOrElse({
-        vocabrw.add(w, vocabSize)
-        vocabSize
-      })
+      val r = vocabrw
+        .lookup(w)
+        .getOrElse({
+          vocabrw.add(w, vocabSize)
+          vocabSize
+        })
       vocabSize += 1
       r
     }
@@ -138,11 +136,13 @@ object StorageSearchTrie {
 
       for (word <- phrase) {
         val wordId = vocabUpdate(word)
-        nodeId = edgesrw.lookup((nodeId, wordId)).getOrElse({
-          val r = addNode(nodeId, wordId)
-          edgesrw.add((nodeId, wordId), r)
-          r
-        })
+        nodeId = edgesrw
+          .lookup((nodeId, wordId))
+          .getOrElse({
+            val r = addNode(nodeId, wordId)
+            edgesrw.add((nodeId, wordId), r)
+            r
+          })
       }
 
       if (nodeId > 0)
@@ -157,7 +157,7 @@ object StorageSearchTrie {
       if (piCalculated(v))
         return pi(v)
 
-      if (v == 0){
+      if (v == 0) {
         piCalculated(v) = true
         pi(v) = 0
         return 0
@@ -202,15 +202,16 @@ object StorageSearchTrie {
       lastLeaf(v)
     }
 
-
     for (i <- parents.indices) {
       calcPi(i)
       calcLastLeaf(i)
     }
 
-    pi.zip(isLeaf).zip(length).zip(lastLeaf)
+    pi.zip(isLeaf)
+      .zip(length)
+      .zip(lastLeaf)
       .zipWithIndex
-      .foreach{case ((((a,b),c),d), i) => nodesrw.add(i, TrieNode(a,b,c,d))}
+      .foreach { case ((((a, b), c), d), i) => nodesrw.add(i, TrieNode(a, b, c, d)) }
 
     vocabrw.close()
     edgesrw.close()
@@ -218,6 +219,3 @@ object StorageSearchTrie {
 
   }
 }
-
-
-

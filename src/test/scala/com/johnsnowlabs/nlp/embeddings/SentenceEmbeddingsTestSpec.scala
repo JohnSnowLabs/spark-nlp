@@ -31,7 +31,9 @@ class SentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
   "SentenceEmbeddings" should "correctly calculate sentence embeddings in WordEmbeddings" taggedAs FastTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
+    val smallCorpus = ResourceHelper.spark.read
+      .option("header", "true")
+      .csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -45,7 +47,8 @@ class SentenceEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(smallCorpus)
+    val embeddings = AnnotatorBuilder
+      .getGLoveEmbeddings(smallCorpus)
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
@@ -61,14 +64,14 @@ class SentenceEmbeddingsTestSpec extends AnyFlatSpec {
       .setCleanAnnotations(false)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentence,
-        tokenizer,
-        embeddings,
-        embeddingsSentence,
-        sentenceFinisher
-      ))
+      .setStages(
+        Array(
+          documentAssembler,
+          sentence,
+          tokenizer,
+          embeddings,
+          embeddingsSentence,
+          sentenceFinisher))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
     pipelineDF.select("embeddings.metadata").show(2)
@@ -77,17 +80,23 @@ class SentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
     pipelineDF.select("sentence_embeddings").show(2)
     pipelineDF.select("sentence_embeddings.embeddings").show(1)
-    pipelineDF.select(size(pipelineDF("sentence_embeddings.embeddings")).as("sentence_embeddings_size")).show
+    pipelineDF
+      .select(size(pipelineDF("sentence_embeddings.embeddings")).as("sentence_embeddings_size"))
+      .show
 
     pipelineDF.select("finished_sentence_embeddings").show(1)
-    pipelineDF.select(size(pipelineDF("finished_sentence_embeddings")).as("sentence_embeddings_size")).show
+    pipelineDF
+      .select(size(pipelineDF("finished_sentence_embeddings")).as("sentence_embeddings_size"))
+      .show
 
   }
 
   // too large for Travis
   "SentenceEmbeddings" should "correctly calculate sentence embeddings in BertEmbeddings" taggedAs SlowTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
+    val smallCorpus = ResourceHelper.spark.read
+      .option("header", "true")
+      .csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -101,7 +110,8 @@ class SentenceEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val embeddings = BertEmbeddings.pretrained()
+    val embeddings = BertEmbeddings
+      .pretrained()
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
 
@@ -115,14 +125,8 @@ class SentenceEmbeddingsTestSpec extends AnyFlatSpec {
       .setCleanAnnotations(false)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentence,
-        tokenizer,
-        embeddings,
-        embeddingsSentence,
-        finisher
-      ))
+      .setStages(
+        Array(documentAssembler, sentence, tokenizer, embeddings, embeddingsSentence, finisher))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
     pipelineDF.select("embeddings.metadata").show(1)
@@ -131,7 +135,9 @@ class SentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
     pipelineDF.select("sentence_embeddings").show(1)
     pipelineDF.select("sentence_embeddings.embeddings").show(1)
-    pipelineDF.select(size(pipelineDF("sentence_embeddings.embeddings")).as("sentence_embeddings_size")).show
+    pipelineDF
+      .select(size(pipelineDF("sentence_embeddings.embeddings")).as("sentence_embeddings_size"))
+      .show
 
     pipelineDF.select("finished_embeddings").show(1)
     pipelineDF.select(size(pipelineDF("finished_embeddings")).as("sentence_embeddings_size")).show
@@ -140,7 +146,9 @@ class SentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
   "SentenceEmbeddings" should "not crash on empty embeddings" taggedAs FastTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
+    val smallCorpus = ResourceHelper.spark.read
+      .option("header", "true")
+      .csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -157,10 +165,12 @@ class SentenceEmbeddingsTestSpec extends AnyFlatSpec {
     val stopWordsCleaner = new StopWordsCleaner()
       .setInputCols("token")
       .setOutputCol("cleanTokens")
-      .setStopWords(Array("this", "is", "my", "document", "sentence", "second", "first", ",", "."))
+      .setStopWords(
+        Array("this", "is", "my", "document", "sentence", "second", "first", ",", "."))
       .setCaseSensitive(false)
 
-    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(smallCorpus)
+    val embeddings = AnnotatorBuilder
+      .getGLoveEmbeddings(smallCorpus)
       .setInputCols("document", "cleanTokens")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
@@ -176,15 +186,15 @@ class SentenceEmbeddingsTestSpec extends AnyFlatSpec {
       .setCleanAnnotations(false)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentence,
-        tokenizer,
-        stopWordsCleaner,
-        embeddings,
-        embeddingsSentence,
-        sentenceFinisher
-      ))
+      .setStages(
+        Array(
+          documentAssembler,
+          sentence,
+          tokenizer,
+          stopWordsCleaner,
+          embeddings,
+          embeddingsSentence,
+          sentenceFinisher))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
     pipelineDF.show(2)
@@ -192,7 +202,9 @@ class SentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
   "SentenceEmbeddings" should "correctly pass storageRef down the pipeline" taggedAs SlowTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/classifier/sentiment.csv")
+    val smallCorpus = ResourceHelper.spark.read
+      .option("header", "true")
+      .csv("src/test/resources/classifier/sentiment.csv")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -206,7 +218,8 @@ class SentenceEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(smallCorpus)
+    val embeddings = AnnotatorBuilder
+      .getGLoveEmbeddings(smallCorpus)
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
@@ -226,14 +239,14 @@ class SentenceEmbeddingsTestSpec extends AnyFlatSpec {
       .setDropout(0.5f)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentence,
-        tokenizer,
-        embeddings,
-        embeddingsSentence,
-        docClassifier
-      ))
+      .setStages(
+        Array(
+          documentAssembler,
+          sentence,
+          tokenizer,
+          embeddings,
+          embeddingsSentence,
+          docClassifier))
 
     val pipelineModel = pipeline.fit(smallCorpus)
     val pipelineDF = pipelineModel.transform(smallCorpus)
@@ -241,8 +254,10 @@ class SentenceEmbeddingsTestSpec extends AnyFlatSpec {
     val embedStorageRef = embeddings.getStorageRef
 
     val setnEmbedRef = embeddingsSentence.getStorageRef
-    val setnEmbedRefPipeModel = pipelineModel.stages(4).asInstanceOf[SentenceEmbeddings].getStorageRef
-    val classifierStorageRef = pipelineModel.stages.last.asInstanceOf[ClassifierDLModel].getStorageRef
+    val setnEmbedRefPipeModel =
+      pipelineModel.stages(4).asInstanceOf[SentenceEmbeddings].getStorageRef
+    val classifierStorageRef =
+      pipelineModel.stages.last.asInstanceOf[ClassifierDLModel].getStorageRef
 
     assert(setnEmbedRef == embedStorageRef)
     assert(setnEmbedRefPipeModel == embedStorageRef)

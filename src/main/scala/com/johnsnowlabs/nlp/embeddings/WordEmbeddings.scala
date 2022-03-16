@@ -30,8 +30,9 @@ import org.apache.spark.sql.Dataset
   *
   * For instantiated/pretrained models, see [[WordEmbeddingsModel]].
   *
-  * A custom token lookup dictionary for embeddings can be set with `setStoragePath`.
-  * Each line of the provided file needs to have a token, followed by their vector representation, delimited by a spaces.
+  * A custom token lookup dictionary for embeddings can be set with `setStoragePath`. Each line of
+  * the provided file needs to have a token, followed by their vector representation, delimited by
+  * a spaces.
   * {{{
   * ...
   * are 0.39658191506190343 0.630968081620067 0.5393722253731201 0.8428180123359783
@@ -40,12 +41,15 @@ import org.apache.spark.sql.Dataset
   * induced 0.1535748762292387 0.33498936903209897 0.9235178224122094 0.1158772920395934
   * ...
   * }}}
-  * If a token is not found in the dictionary, then the result will be a zero vector of the same dimension.
-  * Statistics about the rate of converted tokens, can be retrieved with [[WordEmbeddingsModel WordEmbeddingsModel.withCoverageColumn]]
-  * and [[WordEmbeddingsModel WordEmbeddingsModel.overallCoverage]].
+  * If a token is not found in the dictionary, then the result will be a zero vector of the same
+  * dimension. Statistics about the rate of converted tokens, can be retrieved with
+  * [[WordEmbeddingsModel WordEmbeddingsModel.withCoverageColumn]] and
+  * [[WordEmbeddingsModel WordEmbeddingsModel.overallCoverage]].
   *
-  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb Spark NLP Workshop]]
-  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala WordEmbeddingsTestSpec]].
+  * For extended examples of usage, see the
+  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb Spark NLP Workshop]]
+  * and the
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala WordEmbeddingsTestSpec]].
   *
   * ==Example==
   * In this example, the file `random_embeddings_dim4.txt` has the form of the content above.
@@ -78,7 +82,7 @@ import org.apache.spark.sql.Dataset
   *   .setOutputCols("finished_embeddings")
   *   .setOutputAsVector(true)
   *   .setCleanAnnotations(false)
-
+  *
   * val pipeline = new Pipeline()
   *   .setStages(Array(
   *     documentAssembler,
@@ -104,11 +108,16 @@ import org.apache.spark.sql.Dataset
   * +----------------------------------------------------------------------------------+
   * }}}
   *
-  * @see [[SentenceEmbeddings]] to combine embeddings into a sentence-level representation
-  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based embeddings
-  * @param uid required uid for storing annotator to disk
+  * @see
+  *   [[SentenceEmbeddings]] to combine embeddings into a sentence-level representation
+  * @see
+  *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
+  *   transformer based embeddings
+  * @param uid
+  *   required uid for storing annotator to disk
   * @groupname anno Annotator types
-  * @groupdesc anno Required input and expected output annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
   * @groupname Ungrouped Members
   * @groupname param Parameters
   * @groupname setParam Parameter setters
@@ -119,60 +128,77 @@ import org.apache.spark.sql.Dataset
   * @groupprio Ungrouped 3
   * @groupprio setParam  4
   * @groupprio getParam  5
-  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
-  **/
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 class WordEmbeddings(override val uid: String)
-  extends AnnotatorApproach[WordEmbeddingsModel]
+    extends AnnotatorApproach[WordEmbeddingsModel]
     with HasStorage
     with HasEmbeddingsProperties {
 
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
+    * type
+    */
   def this() = this(Identifiable.randomUID("WORD_EMBEDDINGS"))
 
   /** Output annotation type : WORD_EMBEDDINGS
     *
     * @group anno
-    **/
+    */
   override val outputAnnotatorType: AnnotatorType = WORD_EMBEDDINGS
+
   /** Input annotation type : DOCUMENT, TOKEN
     *
     * @group anno
-    **/
+    */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
 
   /** Word Embeddings lookup annotator that maps tokens to vectors */
-  override val description: String = "Word Embeddings lookup annotator that maps tokens to vectors"
+  override val description: String =
+    "Word Embeddings lookup annotator that maps tokens to vectors"
 
   /** Error message */
-  override protected val missingRefMsg: String = s"Please set storageRef param in $this. This ref is useful for other annotators" +
-    " to require this particular set of embeddings. You can use any memorable name such as 'glove' or 'my_embeddings'."
+  override protected val missingRefMsg: String =
+    s"Please set storageRef param in $this. This ref is useful for other annotators" +
+      " to require this particular set of embeddings. You can use any memorable name such as 'glove' or 'my_embeddings'."
 
   /** Buffer size limit before dumping to disk storage while writing
     *
     * @group param
-    **/
-  val writeBufferSize = new IntParam(this, "writeBufferSize", "Buffer size limit before dumping to disk storage while writing")
+    */
+  val writeBufferSize = new IntParam(
+    this,
+    "writeBufferSize",
+    "Buffer size limit before dumping to disk storage while writing")
   setDefault(writeBufferSize, 10000)
 
   /** Buffer size limit before dumping to disk storage while writing.
     *
     * @group setParam
-    **/
+    */
   def setWriteBufferSize(value: Int): this.type = set(writeBufferSize, value)
 
-  /** Cache size for items retrieved from storage. Increase for performance but higher memory consumption
+  /** Cache size for items retrieved from storage. Increase for performance but higher memory
+    * consumption
     *
     * @group param
-    **/
-  val readCacheSize = new IntParam(this, "readCacheSize", "Cache size for items retrieved from storage. Increase for performance but higher memory consumption")
+    */
+  val readCacheSize = new IntParam(
+    this,
+    "readCacheSize",
+    "Cache size for items retrieved from storage. Increase for performance but higher memory consumption")
 
-  /** Cache size for items retrieved from storage. Increase for performance but higher memory consumption.
+  /** Cache size for items retrieved from storage. Increase for performance but higher memory
+    * consumption.
     *
     * @group setParam
-    **/
+    */
   def setReadCacheSize(value: Int): this.type = set(readCacheSize, value)
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): WordEmbeddingsModel = {
+  override def train(
+      dataset: Dataset[_],
+      recursivePipeline: Option[PipelineModel]): WordEmbeddingsModel = {
     val model = new WordEmbeddingsModel()
       .setInputCols($(inputCols))
       .setStorageRef($(storageRef))
@@ -186,34 +212,40 @@ class WordEmbeddings(override val uid: String)
   }
 
   override protected def index(
-                                fitDataset: Dataset[_],
-                                storageSourcePath: Option[String],
-                                readAs: Option[ReadAs.Value],
-                                writers: Map[Database.Name, StorageWriter[_]],
-                                readOptions: Option[Map[String, String]]
-                              ): Unit = {
+      fitDataset: Dataset[_],
+      storageSourcePath: Option[String],
+      readAs: Option[ReadAs.Value],
+      writers: Map[Database.Name, StorageWriter[_]],
+      readOptions: Option[Map[String, String]]): Unit = {
     val writer = writers.values.headOption
-      .getOrElse(throw new IllegalArgumentException("Received empty WordEmbeddingsWriter from locators"))
+      .getOrElse(
+        throw new IllegalArgumentException("Received empty WordEmbeddingsWriter from locators"))
       .asInstanceOf[WordEmbeddingsWriter]
 
     if (readAs.get == ReadAs.TEXT) {
       WordEmbeddingsTextIndexer.index(storageSourcePath.get, writer)
-    }
-    else if (readAs.get == ReadAs.BINARY) {
+    } else if (readAs.get == ReadAs.BINARY) {
       WordEmbeddingsBinaryIndexer.index(storageSourcePath.get, writer)
-    }
-    else
-      throw new IllegalArgumentException("Invalid WordEmbeddings read format. Must be either TEXT or BINARY")
+    } else
+      throw new IllegalArgumentException(
+        "Invalid WordEmbeddings read format. Must be either TEXT or BINARY")
   }
 
   override val databases: Array[Database.Name] = WordEmbeddingsModel.databases
 
-  override protected def createWriter(database: Name, connection: RocksDBConnection): StorageWriter[_] = {
-    new WordEmbeddingsWriter(connection, $(caseSensitive), $(dimension), get(readCacheSize).getOrElse(5000), $(writeBufferSize))
+  override protected def createWriter(
+      database: Name,
+      connection: RocksDBConnection): StorageWriter[_] = {
+    new WordEmbeddingsWriter(
+      connection,
+      $(caseSensitive),
+      $(dimension),
+      get(readCacheSize).getOrElse(5000),
+      $(writeBufferSize))
   }
 }
 
-/**
- * This is the companion object of [[WordEmbeddings]]. Please refer to that class for the documentation.
- */
+/** This is the companion object of [[WordEmbeddings]]. Please refer to that class for the
+  * documentation.
+  */
 object WordEmbeddings extends DefaultParamsReadable[WordEmbeddings]

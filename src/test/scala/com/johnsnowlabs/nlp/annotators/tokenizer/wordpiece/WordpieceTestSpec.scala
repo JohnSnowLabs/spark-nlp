@@ -25,7 +25,8 @@ class WordpieceTestSpec extends AnyFlatSpec {
   val basicTokenizer = new BasicTokenizer()
 
   // Test vocabulary
-  val pieces = Array("I", "un", "##am", "##bi", "##gouos", "##ly", "good", "!", "[UNK]", "[CLS]", "[SEP]")
+  val pieces =
+    Array("I", "un", "##am", "##bi", "##gouos", "##ly", "good", "!", "[UNK]", "[CLS]", "[SEP]")
   val vocabulary = pieces.zipWithIndex.toMap
 
   "isPunctuation" should "detect punctuation chars" taggedAs FastTest in {
@@ -55,8 +56,10 @@ class WordpieceTestSpec extends AnyFlatSpec {
   }
 
   "stripAccents" should "work correct" taggedAs FastTest in {
-    val test = "¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾ ¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓ ÔÕÖ×ØÙÚÛ ÜÝ Þßàáâãäåæçèéêëìíîïð ñòóôõö÷ø ùúûüýþÿ"
-    val result = "¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾ ¿AAAAAAÆCEEEEIIIIÐNOO OOO×ØUUU UY Þßaaaaaaæceeeeiiiið nooooo÷ø uuuuyþy"
+    val test =
+      "¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾ ¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓ ÔÕÖ×ØÙÚÛ ÜÝ Þßàáâãäåæçèéêëìíîïð ñòóôõö÷ø ùúûüýþÿ"
+    val result =
+      "¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾ ¿AAAAAAÆCEEEEIIIIÐNOO OOO×ØUUU UY Þßaaaaaaæceeeeiiiið nooooo÷ø uuuuyþy"
 
     assert(basicTokenizer.stripAccents(test) == result)
     assert(basicTokenizer.normalize(test) == result.toLowerCase)
@@ -80,11 +83,73 @@ class WordpieceTestSpec extends AnyFlatSpec {
       "Give me my horse! or $100\" +\n    \" bucks 'He said', I'll defeat markus-crassus. You understand. Goodbye George E. Bush. www.google.com."
 
     val sentence = Sentence(text, 10, text.length + 9, 0)
-    val result = Array("Hello", ",", "I", "won", "'", "t", "be", "from", "New", "York", "in", "the", "U", ".", "S", ".",
-      "A", ".", "(", "and", "you", "know", "it", "heroe", ")", ".", "Give", "me", "my", "horse", "!", "or",
-      "$", "100", "\"", "+", "\"", "bucks", "'", "He", "said", "'", ",", "I", "'", "ll", "defeat", "markus",
-      "-", "crassus", ".", "You", "understand", ".", "Goodbye", "George", "E", ".", "Bush", ".", "www", ".",
-      "google", ".", "com", ".")
+    val result = Array(
+      "Hello",
+      ",",
+      "I",
+      "won",
+      "'",
+      "t",
+      "be",
+      "from",
+      "New",
+      "York",
+      "in",
+      "the",
+      "U",
+      ".",
+      "S",
+      ".",
+      "A",
+      ".",
+      "(",
+      "and",
+      "you",
+      "know",
+      "it",
+      "heroe",
+      ")",
+      ".",
+      "Give",
+      "me",
+      "my",
+      "horse",
+      "!",
+      "or",
+      "$",
+      "100",
+      "\"",
+      "+",
+      "\"",
+      "bucks",
+      "'",
+      "He",
+      "said",
+      "'",
+      ",",
+      "I",
+      "'",
+      "ll",
+      "defeat",
+      "markus",
+      "-",
+      "crassus",
+      ".",
+      "You",
+      "understand",
+      ".",
+      "Goodbye",
+      "George",
+      "E",
+      ".",
+      "Bush",
+      ".",
+      "www",
+      ".",
+      "google",
+      ".",
+      "com",
+      ".")
 
     val tokenizer = new BasicTokenizer(caseSensitive = true, hasBeginEnd = false)
     val tokenizerLowercase = new BasicTokenizer(caseSensitive = false, hasBeginEnd = false)

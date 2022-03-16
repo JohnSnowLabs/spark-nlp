@@ -20,8 +20,7 @@ import gnu.trove.map.hash.TObjectIntHashMap;
 
 import java.io.Serializable;
 
-public class Dictionary implements Serializable
-{
+public class Dictionary implements Serializable {
 
     // Serialization
     private static final long serialVersionUID = 1;
@@ -64,22 +63,21 @@ public class Dictionary implements Serializable
         return mapAsString;
     }
 
-    private Dictionary (int capacity)
-    {
+    private Dictionary(int capacity) {
         this.map = new TObjectIntHashMap(capacity);
         numEntries = 0;
     }
 
-    Dictionary ()
-    {
-        this (10000);
+    Dictionary() {
+        this(10000);
     }
 
-    /** Return -1 (in old trove version) or 0 (in trove current verion) if entry isn't present. */
-    public int lookupIndex (Object entry)
-    {
+    /**
+     * Return -1 (in old trove version) or 0 (in trove current verion) if entry isn't present.
+     */
+    public int lookupIndex(Object entry) {
         if (entry == null)
-            throw new IllegalArgumentException ("Can't lookup \"null\" in an Alphabet.");
+            throw new IllegalArgumentException("Can't lookup \"null\" in an Alphabet.");
         int ret = map.get(entry);
         if (ret <= 0 && !growthStopped) {
             numEntries++;
@@ -89,17 +87,15 @@ public class Dictionary implements Serializable
         return ret;
     }
 
-    public Object[] toArray () {
+    public Object[] toArray() {
         return map.keys();
     }
 
-    public int dictionarySize()
-    {
+    public int dictionarySize() {
         return numEntries;
     }
 
-    void stopGrowth ()
-    {
+    void stopGrowth() {
         growthStopped = true;
     }
 

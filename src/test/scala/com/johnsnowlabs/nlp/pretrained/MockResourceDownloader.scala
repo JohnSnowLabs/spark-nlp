@@ -16,10 +16,9 @@
 
 package com.johnsnowlabs.nlp.pretrained
 
-/***
- * Mock class of the ResourceDownloader, that will use a local file instead of downloading the metadata.json from
- * S3.
- */
+/** * Mock class of the ResourceDownloader, that will use a local file instead of downloading the
+  * metadata.json from S3.
+  */
 class MockResourceDownloader(resourcePath: String) extends ResourceDownloader {
 
   def download(request: ResourceRequest): Option[String] = {

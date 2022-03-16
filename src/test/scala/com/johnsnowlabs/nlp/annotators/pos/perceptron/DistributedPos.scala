@@ -41,10 +41,15 @@ class DistributedPos extends AnyFlatSpec with PerceptronApproachBehaviors {
     val pos = new PerceptronApproachDistributed()
       .setInputCols("document", "token")
       .setOutputCol("pos")
-      .setCorpus("src/test/resources/anc-pos-corpus-small/*", "|", "SPARK", Map("format" -> "text"))
+      .setCorpus(
+        "src/test/resources/anc-pos-corpus-small/*",
+        "|",
+        "SPARK",
+        Map("format" -> "text"))
       .setNIterations(5)
 
-    val posLegacy = PerceptronModel.pretrained()
+    val posLegacy = PerceptronModel
+      .pretrained()
       .setInputCols("document", "token")
       .setOutputCol("pos")
 
@@ -52,53 +57,139 @@ class DistributedPos extends AnyFlatSpec with PerceptronApproachBehaviors {
       .setInputCols("pos")
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer,
-        pos,
-        finisher
-      ))
+      .setStages(Array(documentAssembler, tokenizer, pos, finisher))
 
     val pipelineLegacy = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer,
-        posLegacy,
-        finisher
-      ))
+      .setStages(Array(documentAssembler, tokenizer, posLegacy, finisher))
 
-    val m = Benchmark.time("Training time for distributed pos") {pipeline.fit(Seq.empty[String].toDF("text"))}
-    val ml = Benchmark.time("Training time for legacy pos") {pipelineLegacy.fit(Seq.empty[String].toDF("text"))}
+    val m = Benchmark.time("Training time for distributed pos") {
+      pipeline.fit(Seq.empty[String].toDF("text"))
+    }
+    val ml = Benchmark.time("Training time for legacy pos") {
+      pipelineLegacy.fit(Seq.empty[String].toDF("text"))
+    }
     val lp = new LightPipeline(m)
     val lpl = new LightPipeline(ml)
 
-    val result = lp.annotate("A form of asbestos once used to make Kent cigarette filters has caused a high percentage of cancer deaths among a group of workers exposed to it more than 30 years ago researchers reported")
-    val resultLegacy = lpl.annotate("A form of asbestos once used to make Kent cigarette filters has caused a high percentage of cancer deaths among a group of workers exposed to it more than 30 years ago researchers reported")
-    val correct = Array("pos -> DT", "NN", "IN", "NNS", "RB", "VBN", "TO", "VB", "NNP", "NN", "NNS", "VBZ", "VBN", "DT", "JJ", "NN", "IN", "NN", "NNS", "IN", "DT", "NN", "IN", "NNS", "VBN", "TO", "PRP", "JJR", "IN", "CD", "NNS", "RB", "NNS", "VBD")
+    val result = lp.annotate(
+      "A form of asbestos once used to make Kent cigarette filters has caused a high percentage of cancer deaths among a group of workers exposed to it more than 30 years ago researchers reported")
+    val resultLegacy = lpl.annotate(
+      "A form of asbestos once used to make Kent cigarette filters has caused a high percentage of cancer deaths among a group of workers exposed to it more than 30 years ago researchers reported")
+    val correct = Array(
+      "pos -> DT",
+      "NN",
+      "IN",
+      "NNS",
+      "RB",
+      "VBN",
+      "TO",
+      "VB",
+      "NNP",
+      "NN",
+      "NNS",
+      "VBZ",
+      "VBN",
+      "DT",
+      "JJ",
+      "NN",
+      "IN",
+      "NN",
+      "NNS",
+      "IN",
+      "DT",
+      "NN",
+      "IN",
+      "NNS",
+      "VBN",
+      "TO",
+      "PRP",
+      "JJR",
+      "IN",
+      "CD",
+      "NNS",
+      "RB",
+      "NNS",
+      "VBD")
 
     println(result.mapValues(_.mkString(",")).mkString(","))
     println(resultLegacy.mapValues(_.mkString(",")).mkString(","))
     println(correct.mkString(","))
 
     println("VS Legacy accuracy ratio: ")
-    println(result.values.head.zip(resultLegacy.values.head).count{case (a, b) => a == b} / result.values.head.length.toDouble)
+    println(result.values.head.zip(resultLegacy.values.head).count { case (a, b) =>
+      a == b
+    } / result.values.head.length.toDouble)
 
     println("VS Legacy accuracy ratio in paragraph: ")
     val result2 = lp.annotate(ContentProvider.sbdTestParagraph.replaceAll("@@", ""))
     val resultLegacy2 = lpl.annotate(ContentProvider.sbdTestParagraph.replaceAll("@@", ""))
-    println(result2.values.head.zip(resultLegacy2.values.head).count{case (a, b) => a == b} / result2.values.head.length.toDouble)
+    println(result2.values.head.zip(resultLegacy2.values.head).count { case (a, b) =>
+      a == b
+    } / result2.values.head.length.toDouble)
 
-    val result3 = lp.annotate("Available loan amounts ranges from US $100,000.00 to US $5,000,000.00 with repayment duration of 1 to 10 years.")
-    val resultLegacy3 = lpl.annotate("Available loan amounts ranges from US $100,000.00 to US $5,000,000.00 with repayment duration of 1 to 10 years.")
-    val correct3 = Array("pos -> NNP", "NN", "VBZ", "NNS", "IN", "NNP", "$", "CD", "TO", "NNP", "$", "CD", "IN", "NN", "NN", "IN", "CD", "TO", "CD", "NNS", ".")
+    val result3 = lp.annotate(
+      "Available loan amounts ranges from US $100,000.00 to US $5,000,000.00 with repayment duration of 1 to 10 years.")
+    val resultLegacy3 = lpl.annotate(
+      "Available loan amounts ranges from US $100,000.00 to US $5,000,000.00 with repayment duration of 1 to 10 years.")
+    val correct3 = Array(
+      "pos -> NNP",
+      "NN",
+      "VBZ",
+      "NNS",
+      "IN",
+      "NNP",
+      "$",
+      "CD",
+      "TO",
+      "NNP",
+      "$",
+      "CD",
+      "IN",
+      "NN",
+      "NN",
+      "IN",
+      "CD",
+      "TO",
+      "CD",
+      "NNS",
+      ".")
 
     println(result3.mapValues(_.mkString(",")).mkString(","))
     println(resultLegacy3.mapValues(_.mkString(",")).mkString(","))
     println(correct3.mkString(","))
 
-    val result4 = lp.annotate("Ever since I started on your herbal supplement, Sharon says sex is so much more pleasurable for her, and she comes much more easily.")
-    val resultLegacy4 = lpl.annotate("Ever since I started on your herbal supplement, Sharon says sex is so much more pleasurable for her, and she comes much more easily.")
-    val correct4 = Array("pos -> RB", "IN", "PRP", "VBD", "IN", "PRP$", "JJ", "NN", ",", "NNP", "VBZ", "NN", "VBZ", "RB", "RB", "RBR", "JJ", "IN", "PRP$", ",", "CC", "PRP", "VBZ", "RB", "RBR", "RB", ".")
+    val result4 = lp.annotate(
+      "Ever since I started on your herbal supplement, Sharon says sex is so much more pleasurable for her, and she comes much more easily.")
+    val resultLegacy4 = lpl.annotate(
+      "Ever since I started on your herbal supplement, Sharon says sex is so much more pleasurable for her, and she comes much more easily.")
+    val correct4 = Array(
+      "pos -> RB",
+      "IN",
+      "PRP",
+      "VBD",
+      "IN",
+      "PRP$",
+      "JJ",
+      "NN",
+      ",",
+      "NNP",
+      "VBZ",
+      "NN",
+      "VBZ",
+      "RB",
+      "RB",
+      "RBR",
+      "JJ",
+      "IN",
+      "PRP$",
+      ",",
+      "CC",
+      "PRP",
+      "VBZ",
+      "RB",
+      "RBR",
+      "RB",
+      ".")
 
     println(result4.mapValues(_.mkString(",")).mkString(","))
     println(resultLegacy4.mapValues(_.mkString(",")).mkString(","))

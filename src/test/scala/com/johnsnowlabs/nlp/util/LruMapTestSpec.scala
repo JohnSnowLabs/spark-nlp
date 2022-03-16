@@ -25,15 +25,9 @@ class LruMapTestSpec extends AnyFlatSpec {
 
     val lru = new LruMap[String, Double](5)
 
-    val iv = Seq(
-      ("a", 234.5),
-      ("b", 345.6),
-      ("c", 456.7),
-      ("d", 567.8),
-      ("e", 678.9)
-    )
+    val iv = Seq(("a", 234.5), ("b", 345.6), ("c", 456.7), ("d", 567.8), ("e", 678.9))
 
-    iv.foreach{case (i, v) => lru.getOrElseUpdate(i, v)}
+    iv.foreach { case (i, v) => lru.getOrElseUpdate(i, v) }
 
     assert(lru.getSize == 5, "Wrong initial size")
 
@@ -56,7 +50,9 @@ class LruMapTestSpec extends AnyFlatSpec {
     assert(lru.get("new").isDefined, "Recently added key is not in the LRU!")
 
     assert(lru.get("c").isEmpty, "value 'c' should not be in LRU since it was never used")
-    assert(lru.get("d").isEmpty, "value 'd' should not be in LRU since it was rarely queried (once)")
+    assert(
+      lru.get("d").isEmpty,
+      "value 'd' should not be in LRU since it was rarely queried (once)")
 
   }
 

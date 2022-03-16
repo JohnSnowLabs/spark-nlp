@@ -21,23 +21,24 @@ import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
 
-
 trait LemmatizerBehaviors { this: AnyFlatSpec =>
 
   def fullLemmatizerPipeline(dataset: => Dataset[Row]) {
     "a Lemmatizer Annotator" should "succesfully transform data" taggedAs FastTest in {
       dataset.show
-      AnnotatorBuilder.withFullLemmatizer(dataset)
-        .collect().foreach {
-        row =>
-          row.getSeq[Row](2)
+      AnnotatorBuilder
+        .withFullLemmatizer(dataset)
+        .collect()
+        .foreach { row =>
+          row
+            .getSeq[Row](2)
             .map(Annotation(_))
             .foreach {
               case lemma: Annotation if lemma.annotatorType == AnnotatorType.TOKEN =>
                 println(lemma, lemma.result)
               case _ => ()
             }
-      }
+        }
     }
   }
 }

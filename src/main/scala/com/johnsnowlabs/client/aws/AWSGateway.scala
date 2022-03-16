@@ -18,7 +18,12 @@ package com.johnsnowlabs.client.aws
 
 import com.amazonaws.auth.{AWSCredentials, AWSStaticCredentialsProvider}
 import com.amazonaws.services.pi.model.InvalidArgumentException
-import com.amazonaws.services.s3.model.{GetObjectRequest, ObjectMetadata, PutObjectResult, S3Object}
+import com.amazonaws.services.s3.model.{
+  GetObjectRequest,
+  ObjectMetadata,
+  PutObjectResult,
+  S3Object
+}
 import com.amazonaws.services.s3.transfer.{Transfer, TransferManagerBuilder}
 import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
 import com.amazonaws.{AmazonClientException, AmazonServiceException, ClientConfiguration}
@@ -31,16 +36,24 @@ import org.slf4j.{Logger, LoggerFactory}
 
 import java.io.File
 
-class AWSGateway(accessKeyId: String, secretAccessKey: String, sessionToken: String,
-                 awsProfile: String, region: String, credentialsType: String = "default") extends AutoCloseable {
+class AWSGateway(
+    accessKeyId: String,
+    secretAccessKey: String,
+    sessionToken: String,
+    awsProfile: String,
+    region: String,
+    credentialsType: String = "default")
+    extends AutoCloseable {
 
   protected val logger: Logger = LoggerFactory.getLogger(this.getClass.toString)
 
   lazy val client: AmazonS3 = {
     if (region == "" || region == null) {
-      throw new InvalidArgumentException("Region argument is mandatory to create Amazon S3 client.")
+      throw new InvalidArgumentException(
+        "Region argument is mandatory to create Amazon S3 client.")
     }
-    var credentialParams = CredentialParams(accessKeyId, secretAccessKey, sessionToken, awsProfile, region)
+    var credentialParams =
+      CredentialParams(accessKeyId, secretAccessKey, sessionToken, awsProfile, region)
     if (credentialsType == "public" || credentialsType == "community") {
       credentialParams = CredentialParams("anonymous", "", "", "", region)
     }
@@ -57,14 +70,17 @@ class AWSGateway(accessKeyId: String, secretAccessKey: String, sessionToken: Str
 
     val s3Client = {
       if (credentials.isDefined) {
-        AmazonS3ClientBuilder.standard()
+        AmazonS3ClientBuilder
+          .standard()
           .withCredentials(new AWSStaticCredentialsProvider(credentials.get))
           .withClientConfiguration(config)
       } else {
-        val warning_message = "Unable to build AWS credential via AWSGateway chain, some parameter is missing or" +
-          " malformed. S3 integration may not work well."
+        val warning_message =
+          "Unable to build AWS credential via AWSGateway chain, some parameter is missing or" +
+            " malformed. S3 integration may not work well."
         logger.warn(warning_message)
-        AmazonS3ClientBuilder.standard()
+        AmazonS3ClientBuilder
+          .standard()
           .withClientConfiguration(config)
       }
     }
@@ -86,7 +102,8 @@ class AWSGateway(accessKeyId: String, secretAccessKey: String, sessionToken: Str
       case _: AmazonClientException =>
         val anonymousCredentialParams = CredentialParams("anonymous", "", "", "", region)
         val awsCredentials = new AWSAnonymousCredentials
-        val credentials: Option[AWSCredentials] = awsCredentials.buildCredentials(anonymousCredentialParams)
+        val credentials: Option[AWSCredentials] =
+          awsCredentials.buildCredentials(anonymousCredentialParams)
         val client = getAmazonS3Client(credentials)
         client.getObject(bucket, key)
     }
@@ -113,7 +130,11 @@ class AWSGateway(accessKeyId: String, secretAccessKey: String, sessionToken: Str
     client.getObject(req, tmpFile)
   }
 
-  def getS3DownloadSize(s3Path: String, folder: String, fileName: String, bucket: String): Option[Long] = {
+  def getS3DownloadSize(
+      s3Path: String,
+      folder: String,
+      fileName: String,
+      bucket: String): Option[Long] = {
     try {
       val s3FilePath = getS3File(s3Path, folder, fileName)
       val meta = client.getObjectMetadata(bucket, s3FilePath)
@@ -123,27 +144,40 @@ class AWSGateway(accessKeyId: String, secretAccessKey: String, sessionToken: Str
     }
   }
 
-  def copyFileToS3(bucket: String, s3FilePath: String, sourceFilePath: String): PutObjectResult = {
+  def copyFileToS3(
+      bucket: String,
+      s3FilePath: String,
+      sourceFilePath: String): PutObjectResult = {
     val sourceFile = new File("file://" + sourceFilePath)
     client.putObject(bucket, s3FilePath, sourceFile)
   }
 
-  def copyInputStreamToS3(bucket: String, s3FilePath: String, sourceFilePath: String): PutObjectResult = {
+  def copyInputStreamToS3(
+      bucket: String,
+      s3FilePath: String,
+      sourceFilePath: String): PutObjectResult = {
     val fileSystem = FileSystem.get(ResourceHelper.spark.sparkContext.hadoopConfiguration)
     val inputStream = fileSystem.open(new Path(sourceFilePath))
     client.putObject(bucket, s3FilePath, inputStream, new ObjectMetadata())
   }
 
-  def downloadFilesFromDirectory(bucketName: String, keyPrefix: String, directoryPath: File): Unit = {
-    val transferManager = TransferManagerBuilder.standard()
-      .withS3Client(client).build()
+  def downloadFilesFromDirectory(
+      bucketName: String,
+      keyPrefix: String,
+      directoryPath: File): Unit = {
+    val transferManager = TransferManagerBuilder
+      .standard()
+      .withS3Client(client)
+      .build()
     try {
-      val multipleFileDownload = transferManager.downloadDirectory(bucketName, keyPrefix, directoryPath)
+      val multipleFileDownload =
+        transferManager.downloadDirectory(bucketName, keyPrefix, directoryPath)
       println(multipleFileDownload.getDescription)
       waitForCompletion(multipleFileDownload)
     } catch {
       case e: AmazonServiceException =>
-        throw new AmazonServiceException("Amazon service error when downloading files from S3 directory: " + e.getMessage)
+        throw new AmazonServiceException(
+          "Amazon service error when downloading files from S3 directory: " + e.getMessage)
     }
     transferManager.shutdownNow()
   }
@@ -151,9 +185,12 @@ class AWSGateway(accessKeyId: String, secretAccessKey: String, sessionToken: Str
   private def waitForCompletion(transfer: Transfer): Unit = {
     try transfer.waitForCompletion()
     catch {
-      case e: AmazonServiceException => throw new AmazonServiceException("Amazon service error: " + e.getMessage)
-      case e: AmazonClientException => throw new AmazonClientException("Amazon client error: " + e.getMessage)
-      case e: InterruptedException => throw new InterruptedException("Transfer interrupted: " + e.getMessage)
+      case e: AmazonServiceException =>
+        throw new AmazonServiceException("Amazon service error: " + e.getMessage)
+      case e: AmazonClientException =>
+        throw new AmazonClientException("Amazon client error: " + e.getMessage)
+      case e: InterruptedException =>
+        throw new InterruptedException("Transfer interrupted: " + e.getMessage)
     }
   }
 

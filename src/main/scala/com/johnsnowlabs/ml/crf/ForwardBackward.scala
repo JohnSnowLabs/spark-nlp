@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.ml.crf
 
-import VectorMath._
+import com.johnsnowlabs.ml.crf.VectorMath._
 
 // Class helps with Forward-Backward algorithm values precalculations
 class FbCalculator(val maxLength: Int, val metadata: DatasetMetadata) {
@@ -27,7 +27,6 @@ class FbCalculator(val maxLength: Int, val metadata: DatasetMetadata) {
   val alpha = Array.fill(maxLength)(Vector(labels))
   val beta = Array.fill(maxLength)(Vector(labels))
   val c = Array.fill(maxLength)(1f)
-
 
   def calculate(sentence: Instance, weights: Array[Float], scale: Float): Unit = {
     require(sentence.items.length <= maxLength)
@@ -100,10 +99,11 @@ class FbCalculator(val maxLength: Int, val metadata: DatasetMetadata) {
     }
   }
 
-  def addObservedExpectations(weights: Vector,
-                              instance: Instance,
-                              instanceLabels: InstanceLabels,
-                              c: Float): Unit = {
+  def addObservedExpectations(
+      weights: Vector,
+      instance: Instance,
+      instanceLabels: InstanceLabels,
+      c: Float): Unit = {
 
     val length = instance.items.length
 
@@ -127,9 +127,7 @@ class FbCalculator(val maxLength: Int, val metadata: DatasetMetadata) {
     }
   }
 
-  def addModelExpectations(weights: Vector,
-                           sentence: Instance,
-                           const: Float): Unit = {
+  def addModelExpectations(weights: Vector, sentence: Instance, const: Float): Unit = {
 
     val length = sentence.items.length
 
@@ -137,7 +135,8 @@ class FbCalculator(val maxLength: Int, val metadata: DatasetMetadata) {
     for (i <- 0 until length) {
       for ((attrId, value) <- sentence.items(i).values) {
         for (feature <- metadata.attr2Features(attrId)) {
-          weights(feature.id) += const * c(i) * alpha(i)(feature.label) * beta(i)(feature.label) * value
+          weights(feature.id) += const * c(i) * alpha(i)(feature.label) * beta(i)(
+            feature.label) * value
         }
       }
     }
@@ -160,13 +159,13 @@ class FbCalculator(val maxLength: Int, val metadata: DatasetMetadata) {
   }
 }
 
-object EdgeCalculator
-{
-  def fillLogEdges(values: Seq[(Int, Float)],
-                   weights: Array[Float],
-                   scale: Float,
-                   metadata: DatasetMetadata,
-                   matrix: Matrix): Unit = {
+object EdgeCalculator {
+  def fillLogEdges(
+      values: Seq[(Int, Float)],
+      weights: Array[Float],
+      scale: Float,
+      metadata: DatasetMetadata,
+      matrix: Matrix): Unit = {
 
     val labels = metadata.labels.size
 

@@ -18,33 +18,30 @@ package com.johnsnowlabs.collections
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-
-/**
-  * Immutable Collection that used for fast substring search
-  * Implementation of Aho-Corasick algorithm https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm
+/** Immutable Collection that used for fast substring search Implementation of Aho-Corasick
+  * algorithm https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm
   */
-case class SearchTrie
-(
-  vocabulary: Map[String, Int],
-  edges: Map[(Int, Int), Int],
+case class SearchTrie(
+    vocabulary: Map[String, Int],
+    edges: Map[(Int, Int), Int],
+    // In order to optimize 4 values are stored in the same Vector
+    // Pi - prefix function
+    // Is Leaf - whether node is leaf?
+    // Length - length from Root to node (in words)
+    // Previous Leaf - Link to leaf that suffix of current path from root
+    nodes: Vector[(Int, Boolean, Int, Int)],
+    caseSensitive: Boolean) {
+  val caseSearch =
+    if (caseSensitive)
+      (word: String) => vocabulary.getOrElse(word, -1)
+    else
+      (word: String) => vocabulary.getOrElse(word.toLowerCase, -1)
 
-  // In order to optimize 4 values are stored in the same Vector
-  // Pi - prefix function
-  // Is Leaf - whether node is leaf?
-  // Length - length from Root to node (in words)
-  // Previous Leaf - Link to leaf that suffix of current path from root
-  nodes: Vector[(Int, Boolean, Int, Int)],
-  caseSensitive: Boolean
-)
-{
-  val caseSearch = if (caseSensitive)
-    (word: String) => vocabulary.getOrElse(word, -1)
-  else
-    (word: String) => vocabulary.getOrElse(word.toLowerCase, -1)
-  /**
-    * Searchs phrases in the text
-    * @param text test to search in
-    * @return Iterator with pairs of (begin, end)
+  /** Searchs phrases in the text
+    * @param text
+    *   test to search in
+    * @return
+    *   Iterator with pairs of (begin, end)
     */
   def search(text: Seq[String]): Seq[(Int, Int)] = {
     var nodeId = 0
@@ -72,8 +69,7 @@ case class SearchTrie
           val newId = edges.getOrElse((nodeId, wordId), -1)
           if (newId < 0) {
             nodeId = pi(nodeId)
-          }
-          else {
+          } else {
             nodeId = newId
             addResultIfNeed(nodeId, index)
             found = true
@@ -99,7 +95,6 @@ case class SearchTrie
   def lastLeaf(nodeId: Int): Int = nodes(nodeId)._4
 }
 
-
 object SearchTrie {
   def apply(phrases: Array[Array[String]], caseSensitive: Boolean = false): SearchTrie = {
 
@@ -112,10 +107,11 @@ object SearchTrie {
     val isLeaf = mutable.ArrayBuffer(false)
     val length = mutable.ArrayBuffer(0)
 
-    val caseUpdate = if (caseSensitive)
-      (w: String) => vocab.getOrElseUpdate(w, vocab.size)
-    else
-      (w: String) => vocab.getOrElseUpdate(w.toLowerCase, vocab.size)
+    val caseUpdate =
+      if (caseSensitive)
+        (w: String) => vocab.getOrElseUpdate(w, vocab.size)
+      else
+        (w: String) => vocab.getOrElseUpdate(w.toLowerCase, vocab.size)
 
     def addNode(parentNodeId: Int, wordId: Int): Int = {
       parents.append(parentNodeId)
@@ -147,7 +143,7 @@ object SearchTrie {
       if (piCalculated(v))
         return pi(v)
 
-      if (v == 0){
+      if (v == 0) {
         piCalculated(v) = true
         pi(v) = 0
         return 0
@@ -192,14 +188,17 @@ object SearchTrie {
       lastLeaf(v)
     }
 
-
     for (i <- parents.indices) {
       calcPi(i)
       calcLastLeaf(i)
     }
 
-    val nodes = pi.zip(isLeaf).zip(length).zip(lastLeaf)
-      .map{case (((a,b),c),d) => (a,b,c,d)}.toVector
+    val nodes = pi
+      .zip(isLeaf)
+      .zip(length)
+      .zip(lastLeaf)
+      .map { case (((a, b), c), d) => (a, b, c, d) }
+      .toVector
 
     SearchTrie(vocab.toMap, edges.toMap, nodes, caseSensitive)
   }
