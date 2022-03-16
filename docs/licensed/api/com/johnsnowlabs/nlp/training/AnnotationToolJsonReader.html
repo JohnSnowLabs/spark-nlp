@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.1 ScalaDoc  - com.johnsnowlabs.nlp.training.AnnotationToolJsonReader</title>
-          <meta name="description" content="Spark NLP 3.4.1 ScalaDoc - com.johnsnowlabs.nlp.training.AnnotationToolJsonReader" />
-          <meta name="keywords" content="Spark NLP 3.4.1 ScalaDoc com.johnsnowlabs.nlp.training.AnnotationToolJsonReader" />
+          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.training.AnnotationToolJsonReader</title>
+          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.training.AnnotationToolJsonReader" />
+          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.training.AnnotationToolJsonReader" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -181,6 +181,14 @@
                         <span class="separator"></span>
                         <a class="class" href="TaskDefinition.html" title=""></a>
                         <a href="TaskDefinition.html" title="">TaskDefinition</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="TaskReader.html" title=""></a>
+                        <a href="TaskReader.html" title="">TaskReader</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="TokenRow.html" title=""></a>
+                        <a href="TokenRow.html" title="">TokenRow</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="object" href="UDFHelper$.html" title=""></a>
@@ -609,6 +617,22 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.training.AnnotationToolJsonReader#fs" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="fs:org.apache.hadoop.fs.FileSystem"></a><a id="fs:FileSystem"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/training/AnnotationToolJsonReader.html#fs:org.apache.hadoop.fs.FileSystem" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fs</span><span class="result">: <span class="extype" name="org.apache.hadoop.fs.FileSystem">FileSystem</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.training.AnnotationToolJsonReader#generateAssertionTrainSet" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="generateAssertionTrainSet(df:org.apache.spark.sql.DataFrame,sentenceCol:String,assertionCol:String):org.apache.spark.sql.DataFrame"></a><a id="generateAssertionTrainSet(DataFrame,String,String):DataFrame"></a>
       <span class="permalink">
@@ -622,6 +646,38 @@
       </span>
       <span class="symbol">
         <span class="name">generateAssertionTrainSet</span><span class="params">(<span name="df">df: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>, <span name="sentenceCol">sentenceCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;sentence&quot;</span></span>, <span name="assertionCol">assertionCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;assertion_label&quot;</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.training.AnnotationToolJsonReader#generateColln" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="generateColln(df:org.apache.spark.sql.DataFrame,path:String,taskColumn:String,tokenCol:String,nerLabel:String):Unit"></a><a id="generateColln(DataFrame,String,String,String,String):Unit"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/training/AnnotationToolJsonReader.html#generateColln(df:org.apache.spark.sql.DataFrame,path:String,taskColumn:String,tokenCol:String,nerLabel:String):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">generateColln</span><span class="params">(<span name="df">df: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>, <span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="taskColumn">taskColumn: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;task_id&quot;</span></span>, <span name="tokenCol">tokenCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;token&quot;</span></span>, <span name="nerLabel">nerLabel: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;ner_label&quot;</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.training.AnnotationToolJsonReader#generatePlainAssertionTrainSet" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="generatePlainAssertionTrainSet(df:org.apache.spark.sql.DataFrame,taskColumn:String,tokenCol:String,nerLabel:String,assertion_label:String):org.apache.spark.sql.DataFrame"></a><a id="generatePlainAssertionTrainSet(DataFrame,String,String,String,String):DataFrame"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/training/AnnotationToolJsonReader.html#generatePlainAssertionTrainSet(df:org.apache.spark.sql.DataFrame,taskColumn:String,tokenCol:String,nerLabel:String,assertion_label:String):org.apache.spark.sql.DataFrame" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">generatePlainAssertionTrainSet</span><span class="params">(<span name="df">df: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>, <span name="taskColumn">taskColumn: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;task_id&quot;</span></span>, <span name="tokenCol">tokenCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;token&quot;</span></span>, <span name="nerLabel">nerLabel: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;ner_label&quot;</span></span>, <span name="assertion_label">assertion_label: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;assertion_label&quot;</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
       </span>
       
       
@@ -644,22 +700,6 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.training.AnnotationToolJsonReader#getEntityDefinition" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getEntityDefinition(jsonContent:String):Option[Seq[com.johnsnowlabs.nlp.training.TaskDefinition]]"></a><a id="getEntityDefinition(String):Option[Seq[TaskDefinition]]"></a>
-      <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/nlp/training/AnnotationToolJsonReader.html#getEntityDefinition(jsonContent:String):Option[Seq[com.johnsnowlabs.nlp.training.TaskDefinition]]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getEntityDefinition</span><span class="params">(<span name="jsonContent">jsonContent: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Seq">Seq</span>[<a href="TaskDefinition.html" class="extype" name="com.johnsnowlabs.nlp.training.TaskDefinition">TaskDefinition</a>]]</span>
-      </span>
-      
-      
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <span class="permalink">
