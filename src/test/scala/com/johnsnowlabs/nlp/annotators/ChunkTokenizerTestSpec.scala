@@ -31,8 +31,8 @@ class ChunkTokenizerTestSpec extends AnyFlatSpec {
 
     val data = Seq(
       "Hello world, my name is Michael, I am an artist and I work at Benezar",
-      "Robert, an engineer from Farendell, graduated last year. The other one, Lucas, graduated last week."
-    ).toDS.toDF("text")
+      "Robert, an engineer from Farendell, graduated last year. The other one, Lucas, graduated last week.").toDS
+      .toDF("text")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -56,25 +56,29 @@ class ChunkTokenizerTestSpec extends AnyFlatSpec {
       .setOutputCol("chunk_token")
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        entityExtractor,
-        chunkTokenizer
-      ))
+      .setStages(
+        Array(documentAssembler, sentenceDetector, tokenizer, entityExtractor, chunkTokenizer))
 
     val result = pipeline.fit(data).transform(data)
 
-    result.select("entity", "chunk_token").as[(Array[Annotation], Array[Annotation])].foreach(column => {
-      val chunks = column._1
-      val chunkTokens = column._2
-      chunkTokens.foreach{chunkToken => {
-        val index = chunkToken.metadata("chunk").toInt
-        require(chunks.apply(index).result.contains(chunkToken.result), s"because ${chunks(index)} does not contain ${chunkToken.result}")
-      }}
-      require(chunkTokens.flatMap(_.metadata.values).distinct.length == chunks.length, s"because amount of chunks ${chunks.length} does not equal to amount of token belongers")
-    })
+    result
+      .select("entity", "chunk_token")
+      .as[(Array[Annotation], Array[Annotation])]
+      .foreach(column => {
+        val chunks = column._1
+        val chunkTokens = column._2
+        chunkTokens.foreach { chunkToken =>
+          {
+            val index = chunkToken.metadata("chunk").toInt
+            require(
+              chunks.apply(index).result.contains(chunkToken.result),
+              s"because ${chunks(index)} does not contain ${chunkToken.result}")
+          }
+        }
+        require(
+          chunkTokens.flatMap(_.metadata.values).distinct.length == chunks.length,
+          s"because amount of chunks ${chunks.length} does not equal to amount of token belongers")
+      })
 
     succeed
 

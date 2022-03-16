@@ -39,8 +39,8 @@ class BertForSequenceClassificationTestSpec extends AnyFlatSpec {
       "EU rejects German call to boycott British lamb .",
       "TORONTO 1996-08-21",
       " carbon emissions have come down without impinging on our growth. .  . .",
-      "\\u2009.carbon emissions have come down without impinging on our growth .\\u2009.\\u2009."
-    ).toDF("text")
+      "\\u2009.carbon emissions have come down without impinging on our growth .\\u2009.\\u2009.")
+      .toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -88,8 +88,7 @@ class BertForSequenceClassificationTestSpec extends AnyFlatSpec {
       "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London",
       "Rare Hendrix song draft sells for almost $17,000.",
       "EU rejects German call to boycott British lamb .",
-      "TORONTO 1996-08-21"
-    ).toDF("text")
+      "TORONTO 1996-08-21").toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -99,7 +98,8 @@ class BertForSequenceClassificationTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val tokenClassifier = BertForSequenceClassification.pretrained()
+    val tokenClassifier = BertForSequenceClassification
+      .pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("label")
       .setCaseSensitive(true)
@@ -116,7 +116,11 @@ class BertForSequenceClassificationTestSpec extends AnyFlatSpec {
     }
 
     Benchmark.time("Time to save BertForSequenceClassification model") {
-      pipelineModel.stages.last.asInstanceOf[BertForSequenceClassification].write.overwrite().save("./tmp_bertforsequence_model")
+      pipelineModel.stages.last
+        .asInstanceOf[BertForSequenceClassification]
+        .write
+        .overwrite()
+        .save("./tmp_bertforsequence_model")
     }
 
     val loadedPipelineModel = PipelineModel.load("./tmp_bertforsequence_pipeline")
@@ -130,7 +134,8 @@ class BertForSequenceClassificationTestSpec extends AnyFlatSpec {
   "BertForSequenceClassification" should "benchmark test" taggedAs SlowTest in {
 
     val conll = CoNLL()
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+    val training_data =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
     val tokenClassifier = BertForSequenceClassification
       .pretrained()
@@ -139,9 +144,7 @@ class BertForSequenceClassificationTestSpec extends AnyFlatSpec {
       .setCaseSensitive(true)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        tokenClassifier
-      ))
+      .setStages(Array(tokenClassifier))
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
     Benchmark.time("Time to save BertForSequenceClassification results") {

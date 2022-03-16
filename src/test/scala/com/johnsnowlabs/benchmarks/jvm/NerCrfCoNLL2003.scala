@@ -23,7 +23,6 @@ import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 
 import scala.collection.mutable
 
-
 /*
   Before running:
   1. Download CoNLLL2003 datasets
@@ -45,17 +44,21 @@ object NerCrfCoNLL2003 extends App {
   val reader = new CoNLL2003NerReader(
     embeddingsFile,
     embeddingsDims,
-    normalize=false, // Not normalize might give weight to People names due to upper case, although may overfit
+    normalize =
+      false, // Not normalize might give weight to People names due to upper case, although may overfit
     ReadAs.TEXT,
-    Some(ExternalResource("src/test/resources/ner-corpus/dict.txt", ReadAs.TEXT, Map.empty[String, String]))
-  )
+    Some(
+      ExternalResource(
+        "src/test/resources/ner-corpus/dict.txt",
+        ReadAs.TEXT,
+        Map.empty[String, String])))
 
   def trainModel(er: ExternalResource): LinearChainCrfModel = {
     System.out.println("Dataset Reading")
     val time = System.nanoTime()
     val dataset = reader.readNerDataset(er)
 
-    System.out.println(s"Done, ${(System.nanoTime() - time)/1e9}\n")
+    System.out.println(s"Done, ${(System.nanoTime() - time) / 1e9}\n")
 
     System.out.println("Start fitting")
 
@@ -64,8 +67,7 @@ object NerCrfCoNLL2003 extends App {
       l2 = 1f,
       verbose = Verbose.Epochs,
       randomSeed = Some(0),
-      c0 = 2250000
-    )
+      c0 = 2250000)
     val crf = new LinearChainCrf(params)
     crf.trainSGD(dataset)
   }
@@ -76,18 +78,19 @@ object NerCrfCoNLL2003 extends App {
     val started = System.nanoTime()
 
     val predictedCorrect = mutable.Map[String, Int]()
-    val predicted = mutable.    Map[String, Int]()
+    val predicted = mutable.Map[String, Int]()
     val correct = mutable.Map[String, Int]()
 
     val testDataset = reader.readNerDataset(er, Some(model.metadata))
 
     for ((labels, sentence) <- testDataset.instances) {
 
-      val predictedLabels = model.predict(sentence)
+      val predictedLabels = model
+        .predict(sentence)
         .labels
         .map(l => model.metadata.labels(l))
       val correctLabels =
-        labels.labels.map{l => if (l >= 0) model.metadata.labels(l) else "unknown"}
+        labels.labels.map { l => if (l >= 0) model.metadata.labels(l) else "unknown" }
 
       for ((lCorrect, lPredicted) <- correctLabels.zip(predictedLabels)) {
         correct(lCorrect) = correct.getOrElseUpdate(lCorrect, 0) + 1
@@ -98,7 +101,7 @@ object NerCrfCoNLL2003 extends App {
       }
     }
 
-    System.out.println(s"time: ${(System.nanoTime() - started)/1e9}")
+    System.out.println(s"time: ${(System.nanoTime() - started) / 1e9}")
     System.out.println("label\tprec\trec\tf1")
 
     val totalCorrect = correct.filterKeys(label => label != "O").values.sum

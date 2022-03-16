@@ -36,6 +36,7 @@ trait StorageWriter[A] extends HasConnection {
 
   def flush(batch: WriteBatch): Unit = {
     val writeOptions = new WriteOptions()
+
     /** Might have disconnected already */
     if (connection.isConnected) {
       connection.getDb.write(writeOptions, batch)

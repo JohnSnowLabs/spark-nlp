@@ -37,7 +37,7 @@ public class ScoreCollector implements Collector {
 
     @Override
     public void addEntry(int x, float va) {
-        score += weights[x]*va;
+        score += weights[x] * va;
     }
 
 }

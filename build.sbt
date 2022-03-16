@@ -27,6 +27,8 @@ scalacOptions ++= Seq(
   "-nowarn"
 )
 
+(ThisBuild / scalafmtOnCompile) := true
+
 Compile / doc / target := baseDirectory.value / "docs/api"
 
 // exclude memory-intensive modules from coverage

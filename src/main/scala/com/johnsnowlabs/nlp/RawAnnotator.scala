@@ -18,15 +18,15 @@ package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.Model
 import org.apache.spark.ml.param.ParamMap
-import org.apache.spark.sql.{Column, Dataset}
 import org.apache.spark.sql.types._
+import org.apache.spark.sql.{Column, Dataset}
 
-
-trait RawAnnotator[M <: Model[M]] extends Model[M]
-  with ParamsAndFeaturesWritable
-  with HasOutputAnnotatorType
-  with HasInputAnnotationCols
-  with HasOutputAnnotationCol {
+trait RawAnnotator[M <: Model[M]]
+    extends Model[M]
+    with ParamsAndFeaturesWritable
+    with HasOutputAnnotatorType
+    with HasInputAnnotationCols
+    with HasOutputAnnotationCol {
 
   /** Shape of annotations at output */
   private def outputDataType: DataType = ArrayType(Annotation.dataType)
@@ -37,16 +37,16 @@ trait RawAnnotator[M <: Model[M]] extends Model[M]
     col.as(getOutputCol, metadataBuilder.build)
   }
 
-  /**
-   * takes a [[Dataset]] and checks to see if all the required annotation types are present.
-   *
-   * @param schema to be validated
-   * @return True if all the required types are present, else false
-   */
+  /** takes a [[Dataset]] and checks to see if all the required annotation types are present.
+    *
+    * @param schema
+    *   to be validated
+    * @return
+    *   True if all the required types are present, else false
+    */
   protected def validate(schema: StructType): Boolean = {
-    inputAnnotatorTypes.forall {
-      inputAnnotatorType =>
-        checkSchema(schema, inputAnnotatorType)
+    inputAnnotatorTypes.forall { inputAnnotatorType =>
+      checkSchema(schema, inputAnnotatorType)
     }
   }
 
@@ -66,7 +66,6 @@ trait RawAnnotator[M <: Model[M]] extends Model[M]
       StructField(getOutputCol, outputDataType, nullable = false, metadataBuilder.build)
     StructType(outputFields)
   }
-
 
   /** requirement for annotators copies */
   override def copy(extra: ParamMap): M = defaultCopy(extra)

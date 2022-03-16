@@ -22,99 +22,101 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 import scala.language.postfixOps
 
-/**
- * Returns hard-stems out of words with the objective of retrieving the meaningful part of the word.
- * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb Spark NLP Workshop]].
- *
- * ==Example==
- * {{{
- * import spark.implicits._
- * import com.johnsnowlabs.nlp.DocumentAssembler
- * import com.johnsnowlabs.nlp.annotator.{Stemmer, Tokenizer}
- * import org.apache.spark.ml.Pipeline
- *
- * val documentAssembler = new DocumentAssembler()
- *   .setInputCol("text")
- *   .setOutputCol("document")
- *
- * val tokenizer = new Tokenizer()
- *   .setInputCols("document")
- *   .setOutputCol("token")
- *
- * val stemmer = new Stemmer()
- *   .setInputCols("token")
- *   .setOutputCol("stem")
- *
- * val pipeline = new Pipeline().setStages(Array(
- *   documentAssembler,
- *   tokenizer,
- *   stemmer
- * ))
- *
- * val data = Seq("Peter Pipers employees are picking pecks of pickled peppers.")
- *   .toDF("text")
- * val result = pipeline.fit(data).transform(data)
- *
- * result.selectExpr("stem.result").show(truncate = false)
- * +-------------------------------------------------------------+
- * |result                                                       |
- * +-------------------------------------------------------------+
- * |[peter, piper, employe, ar, pick, peck, of, pickl, pepper, .]|
- * +-------------------------------------------------------------+
- * }}}
- *
- * @param uid internal uid element for storing annotator into disk
- * @groupname anno Annotator types
- * @groupdesc anno Required input and expected output annotator types
- * @groupname Ungrouped Members
- * @groupname param Parameters
- * @groupname setParam Parameter setters
- * @groupname getParam Parameter getters
- * @groupname Ungrouped Members
- * @groupprio anno  1
- * @groupprio param  2
- * @groupprio Ungrouped 3
- * @groupprio setParam  4
- * @groupprio getParam  5
- * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
- */
-class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] with HasSimpleAnnotate[Stemmer] {
+/** Returns hard-stems out of words with the objective of retrieving the meaningful part of the
+  * word. For extended examples of usage, see the
+  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb Spark NLP Workshop]].
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotator.{Stemmer, Tokenizer}
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val tokenizer = new Tokenizer()
+  *   .setInputCols("document")
+  *   .setOutputCol("token")
+  *
+  * val stemmer = new Stemmer()
+  *   .setInputCols("token")
+  *   .setOutputCol("stem")
+  *
+  * val pipeline = new Pipeline().setStages(Array(
+  *   documentAssembler,
+  *   tokenizer,
+  *   stemmer
+  * ))
+  *
+  * val data = Seq("Peter Pipers employees are picking pecks of pickled peppers.")
+  *   .toDF("text")
+  * val result = pipeline.fit(data).transform(data)
+  *
+  * result.selectExpr("stem.result").show(truncate = false)
+  * +-------------------------------------------------------------+
+  * |result                                                       |
+  * +-------------------------------------------------------------+
+  * |[peter, piper, employe, ar, pick, peck, of, pickl, pepper, .]|
+  * +-------------------------------------------------------------+
+  * }}}
+  *
+  * @param uid
+  *   internal uid element for storing annotator into disk
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio anno  1
+  * @groupprio param  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
+class Stemmer(override val uid: String)
+    extends AnnotatorModel[Stemmer]
+    with HasSimpleAnnotate[Stemmer] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  /**
-   * Language of the text (Default: `"english"`)
-   *
-   * @group param
-   * */
+  /** Language of the text (Default: `"english"`)
+    *
+    * @group param
+    */
   val language: Param[String] = new Param(this, "language", "Language of the text")
   setDefault(language, "english")
 
-  /**
-   * Output annotator type : TOKEN
-   *
-   * @group anno
-   * */
+  /** Output annotator type : TOKEN
+    *
+    * @group anno
+    */
   override val outputAnnotatorType: AnnotatorType = TOKEN
-  /**
-   * Input annotator type : TOKEN
-   *
-   * @group anno
-   * */
+
+  /** Input annotator type : TOKEN
+    *
+    * @group anno
+    */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
-  /**
-   * Language of the text (Default: `"english"`)
-   *
-   * @group setParam
-   * */
+  /** Language of the text (Default: `"english"`)
+    *
+    * @group setParam
+    */
   def setLanguage(value: String): Stemmer = set(language, value)
 
-  /**
-   * Language of the text (Default: `"english"`)
-   *
-   * @group getParam
-   */
+  /** Language of the text (Default: `"english"`)
+    *
+    * @group getParam
+    */
   def getLanguage: String = $(language)
 
   def this() = this(Identifiable.randomUID("STEMMER"))
@@ -128,26 +130,20 @@ class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] with Has
         tokenAnnotation.begin,
         tokenAnnotation.end,
         stem,
-        tokenAnnotation.metadata
-      )
+        tokenAnnotation.metadata)
     }
 
 }
 
-/**
- * This is the companion object of [[Stemmer]]. Please refer to that class for the documentation.
- */
+/** This is the companion object of [[Stemmer]]. Please refer to that class for the documentation.
+  */
 object Stemmer extends DefaultParamsReadable[Stemmer]
 
 object EnglishStemmer {
 
   def stem(word: String): String = {
     // Deal with plurals and past participles
-    var stem = new Word(word).applyReplaces(
-      "sses" → "ss",
-      "ies" → "i",
-      "ss" → "ss",
-      "s" → "")
+    var stem = new Word(word).applyReplaces("sses" → "ss", "ies" → "i", "ss" → "ss", "s" → "")
 
     if ((stem matchedBy ((~v ~) + "ed")) ||
       (stem matchedBy ((~v ~) + "ing"))) {
@@ -220,25 +216,22 @@ object EnglishStemmer {
       "ize" → "")
 
     // Tide up a little bit
-    stem = stem applyReplaces(((m > 1) + "e") → "",
-      (((m == 1) and not(~o)) + "e") → "")
+    stem = stem applyReplaces (((m > 1) + "e") → "",
+    (((m == 1) and not(~o)) + "e") → "")
 
     stem = stem applyReplaces ((m > 1 and ~d and ~L) → singleLetter)
 
     stem.toString
   }
 
-  /**
-   * Pattern that is matched against the word.
-   * Usually, the end of the word is compared to suffix,
-   * and the beginning is checked to satisfy a condition.
-   */
+  /** Pattern that is matched against the word. Usually, the end of the word is compared to
+    * suffix, and the beginning is checked to satisfy a condition.
+    */
   private case class Pattern(condition: Condition, suffix: String)
 
-  /**
-   * Condition, that is checked against the beginning of the word
-   * Predicate to be applied to the word
-   */
+  /** Condition, that is checked against the beginning of the word Predicate to be applied to the
+    * word
+    */
   private case class Condition(predicate: Word ⇒ Boolean) {
     def + = new Pattern(this, _: String)
 
@@ -246,13 +239,15 @@ object EnglishStemmer {
 
     def ~ = this
 
-    def and(condition: Condition): Condition = Condition((word) ⇒ predicate(word) && condition.predicate(word))
+    def and(condition: Condition): Condition =
+      Condition((word) ⇒ predicate(word) && condition.predicate(word))
 
-    def or(condition: Condition): Condition = Condition((word) ⇒ predicate(word) || condition.predicate(word))
+    def or(condition: Condition): Condition =
+      Condition((word) ⇒ predicate(word) || condition.predicate(word))
   }
 
-  private def not: Condition ⇒ Condition = {
-    case Condition(predicate) ⇒ Condition(!predicate(_))
+  private def not: Condition ⇒ Condition = { case Condition(predicate) ⇒
+    Condition(!predicate(_))
   }
 
   private val emptyCondition = Condition(_ ⇒ true)
@@ -274,11 +269,11 @@ object EnglishStemmer {
 
   private val v = Condition(_.containsVowels)
 
-  /**
-   * Builder of the stem
-   *
-   * @param build Function to be called to build a stem
-   */
+  /** Builder of the stem
+    *
+    * @param build
+    *   Function to be called to build a stem
+    */
   private case class StemBuilder(build: Word ⇒ Word)
 
   private def suffixStemBuilder(suffix: String) = StemBuilder(_ + suffix)
@@ -288,7 +283,7 @@ object EnglishStemmer {
   private class Word(string: String) {
     val word = string.toLowerCase
 
-    def trimSuffix(suffixLength: Int) = new Word(word substring(0, word.length - suffixLength))
+    def trimSuffix(suffixLength: Int) = new Word(word substring (0, word.length - suffixLength))
 
     def endsWith = word endsWith _
 
@@ -319,16 +314,15 @@ object EnglishStemmer {
         hasConsonantAt(word.length - 3) &&
         !(Set('w', 'x', 'y') contains word(word.length - 2))
 
-    /**
-     * Measure of the word -- the number of VCs
-     *
-     * @return integer
-     */
+    /** Measure of the word -- the number of VCs
+      *
+      * @return
+      *   integer
+      */
     def measure = word.indices.filter(pos ⇒ hasVowelAt(pos) && hasConsonantAt(pos + 1)).length
 
-    def matchedBy: Pattern ⇒ Boolean = {
-      case Pattern(condition, suffix) ⇒
-        endsWith(suffix) && (trimSuffix(suffix.length) satisfies condition)
+    def matchedBy: Pattern ⇒ Boolean = { case Pattern(condition, suffix) ⇒
+      endsWith(suffix) && (trimSuffix(suffix.length) satisfies condition)
     }
 
     def applyReplaces(replaces: (Pattern, StemBuilder)*): Word = {
@@ -338,17 +332,16 @@ object EnglishStemmer {
     }
 
     def applyReplaces(commonCondition: Condition)(replaces: (Pattern, StemBuilder)*): Word =
-      applyReplaces(replaces map {
-        case (Pattern(condition, suffix), stemBuilder) ⇒
-          (Pattern(commonCondition and condition, suffix), stemBuilder)
+      applyReplaces(replaces map { case (Pattern(condition, suffix), stemBuilder) ⇒
+        (Pattern(commonCondition and condition, suffix), stemBuilder)
       }: _*)
 
     override def toString = word
   }
 
-  ////////////////////CLASS ENDS/////////////////////////////////
-  private implicit def pimpMyRule[P <% Pattern, SB <% StemBuilder]
-  (rule: (P, SB)): (Pattern, StemBuilder) = (rule._1, rule._2)
+  //////////////////// CLASS ENDS/////////////////////////////////
+  private implicit def pimpMyRule[P <% Pattern, SB <% StemBuilder](
+      rule: (P, SB)): (Pattern, StemBuilder) = (rule._1, rule._2)
 
   private implicit def emptyConditionPattern: String ⇒ Pattern = Pattern(emptyCondition, _)
 

@@ -47,10 +47,12 @@ class NGramGeneratorTestSpec extends AnyFlatSpec {
 
   "NGramGenerator" should "correctly generate n-grams from tokenizer's results" taggedAs FastTest in {
 
-    val testData = ResourceHelper.spark.createDataFrame(Seq(
-      (1, "This is my first sentence. This is my second."),
-      (2, "This is my third sentence. This is my fourth.")
-    )).toDF("id", "text")
+    val testData = ResourceHelper.spark
+      .createDataFrame(
+        Seq(
+          (1, "This is my first sentence. This is my second."),
+          (2, "This is my third sentence. This is my fourth.")))
+      .toDF("id", "text")
 
     val expectedNGrams = Seq(
       Annotation(CHUNK, 0, 6, "This is", Map("sentence" -> "0", "chunk" -> "0")),
@@ -70,8 +72,7 @@ class NGramGeneratorTestSpec extends AnyFlatSpec {
       Annotation(CHUNK, 27, 33, "This is", Map("sentence" -> "1", "chunk" -> "0")),
       Annotation(CHUNK, 32, 36, "is my", Map("sentence" -> "1", "chunk" -> "1")),
       Annotation(CHUNK, 35, 43, "my fourth", Map("sentence" -> "1", "chunk" -> "2")),
-      Annotation(CHUNK, 38, 44, "fourth .", Map("sentence" -> "1", "chunk" -> "3"))
-    )
+      Annotation(CHUNK, 38, 44, "fourth .", Map("sentence" -> "1", "chunk" -> "3")))
 
     val nGrams = new NGramGenerator()
       .setInputCols("token")
@@ -79,12 +80,7 @@ class NGramGeneratorTestSpec extends AnyFlatSpec {
       .setN(2)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentence,
-        tokenizer,
-        nGrams
-      ))
+      .setStages(Array(documentAssembler, sentence, tokenizer, nGrams))
 
     val pipelineDF = pipeline.fit(testData).transform(testData)
 
@@ -96,10 +92,12 @@ class NGramGeneratorTestSpec extends AnyFlatSpec {
 
   "NGramGenerator" should "correctly generate n-grams with enableCumulative" taggedAs FastTest in {
 
-    val testData = ResourceHelper.spark.createDataFrame(Seq(
-      (1, "This is my first sentence. This is my second."),
-      (2, "This is my third sentence. This is my fourth.")
-    )).toDF("id", "text")
+    val testData = ResourceHelper.spark
+      .createDataFrame(
+        Seq(
+          (1, "This is my first sentence. This is my second."),
+          (2, "This is my third sentence. This is my fourth.")))
+      .toDF("id", "text")
 
     val expectedNGrams = Seq(
       Annotation(CHUNK, 0, 3, "This", Map("sentence" -> "0", "chunk" -> "0")),
@@ -141,8 +139,7 @@ class NGramGeneratorTestSpec extends AnyFlatSpec {
       Annotation(CHUNK, 27, 33, "This is", Map("sentence" -> "1", "chunk" -> "5")),
       Annotation(CHUNK, 32, 36, "is my", Map("sentence" -> "1", "chunk" -> "6")),
       Annotation(CHUNK, 35, 43, "my fourth", Map("sentence" -> "1", "chunk" -> "7")),
-      Annotation(CHUNK, 38, 44, "fourth .", Map("sentence" -> "1", "chunk" -> "8"))
-    )
+      Annotation(CHUNK, 38, 44, "fourth .", Map("sentence" -> "1", "chunk" -> "8")))
 
     val nGrams = new NGramGenerator()
       .setInputCols("token")
@@ -151,12 +148,7 @@ class NGramGeneratorTestSpec extends AnyFlatSpec {
       .setEnableCumulative(true)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentence,
-        tokenizer,
-        nGrams
-      ))
+      .setStages(Array(documentAssembler, sentence, tokenizer, nGrams))
 
     val pipelineDF = pipeline.fit(testData).transform(testData)
 
@@ -170,10 +162,12 @@ class NGramGeneratorTestSpec extends AnyFlatSpec {
   "NGramGenerator" should "correctly generate n-grams with specified delimiter" taggedAs FastTest in {
     val delimiter = "_"
 
-    val testData = ResourceHelper.spark.createDataFrame(Seq(
-      (1, "This is my first sentence. This is my second."),
-      (2, "This is my third sentence. This is my fourth.")
-    )).toDF("id", "text")
+    val testData = ResourceHelper.spark
+      .createDataFrame(
+        Seq(
+          (1, "This is my first sentence. This is my second."),
+          (2, "This is my third sentence. This is my fourth.")))
+      .toDF("id", "text")
 
     val expectedNGrams = Seq(
       Annotation(CHUNK, 0, 3, "This", Map("sentence" -> "0", "chunk" -> "0")),
@@ -215,8 +209,7 @@ class NGramGeneratorTestSpec extends AnyFlatSpec {
       Annotation(CHUNK, 27, 33, "This_is", Map("sentence" -> "1", "chunk" -> "5")),
       Annotation(CHUNK, 32, 36, "is_my", Map("sentence" -> "1", "chunk" -> "6")),
       Annotation(CHUNK, 35, 43, "my_fourth", Map("sentence" -> "1", "chunk" -> "7")),
-      Annotation(CHUNK, 38, 44, "fourth_.", Map("sentence" -> "1", "chunk" -> "8"))
-    )
+      Annotation(CHUNK, 38, 44, "fourth_.", Map("sentence" -> "1", "chunk" -> "8")))
 
     val nGrams = new NGramGenerator()
       .setInputCols("token")
@@ -226,12 +219,7 @@ class NGramGeneratorTestSpec extends AnyFlatSpec {
       .setDelimiter(delimiter)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentence,
-        tokenizer,
-        nGrams
-      ))
+      .setStages(Array(documentAssembler, sentence, tokenizer, nGrams))
 
     val pipelineDF = pipeline.fit(testData).transform(testData)
 
@@ -243,10 +231,12 @@ class NGramGeneratorTestSpec extends AnyFlatSpec {
 
   "NGramGenerator" should "correctly works with empty tokens" taggedAs FastTest in {
 
-    val testData = ResourceHelper.spark.createDataFrame(Seq(
-      (1, "This is my first sentence. This is my second."),
-      (2, "This is my third sentence. This is my fourth.")
-    )).toDF("id", "text")
+    val testData = ResourceHelper.spark
+      .createDataFrame(
+        Seq(
+          (1, "This is my first sentence. This is my second."),
+          (2, "This is my third sentence. This is my fourth.")))
+      .toDF("id", "text")
 
     val nGrams = new NGramGenerator()
       .setInputCols("cleanTokens")
@@ -255,20 +245,10 @@ class NGramGeneratorTestSpec extends AnyFlatSpec {
       .setEnableCumulative(false)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentence,
-        tokenizer,
-        stopWords,
-        nGrams
-      ))
+      .setStages(Array(documentAssembler, sentence, tokenizer, stopWords, nGrams))
 
     val pipelineDF = pipeline.fit(testData).transform(testData)
     pipelineDF.select("ngrams").show(1)
 
   }
 }
-
-
-
-

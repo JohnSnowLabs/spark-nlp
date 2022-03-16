@@ -76,10 +76,7 @@ trait DocumentNormalizerBehaviors extends AnyFlatSpec {
 
     val annotated =
       AnnotatorBuilder
-        .withDocumentNormalizer(
-          dataset = dataset,
-          action = action,
-          patterns = patterns)
+        .withDocumentNormalizer(dataset = dataset, action = action, patterns = patterns)
 
     val normalizedDoc: Array[Annotation] = annotated
       .select("normalizedDocument")
@@ -107,10 +104,7 @@ trait DocumentNormalizerBehaviors extends AnyFlatSpec {
 
     val annotated =
       AnnotatorBuilder
-        .withDocumentNormalizer(
-          dataset = dataset,
-          action = action,
-          patterns = patterns)
+        .withDocumentNormalizer(dataset = dataset, action = action, patterns = patterns)
 
     val normalizedDoc: Array[Annotation] = annotated
       .select("normalizedDocument")

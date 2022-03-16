@@ -30,11 +30,11 @@ class NerConverterTest extends AnyFlatSpec {
   "NerConverter" should "correctly use any TOKEN type input" taggedAs SlowTest in {
 
     val conll = CoNLL()
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/ner-corpus/test_ner_dataset.txt")
+    val training_data = conll.readDataset(
+      ResourceHelper.spark,
+      "src/test/resources/ner-corpus/test_ner_dataset.txt")
 
-    val documentAssembler = new DocumentAssembler().
-      setInputCol("text").
-      setOutputCol("document")
+    val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
 
     val sentenceDetector = new SentenceDetector()
       .setInputCols("document")
@@ -50,12 +50,14 @@ class NerConverterTest extends AnyFlatSpec {
       .setOutputCol("cleaned")
       .setLowercase(true)
 
-    val embeddings = WordEmbeddingsModel.pretrained()
+    val embeddings = WordEmbeddingsModel
+      .pretrained()
       .setInputCols("document", "cleaned")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
 
-    val ner = NerDLModel.pretrained()
+    val ner = NerDLModel
+      .pretrained()
       .setInputCols("sentence", "cleaned", "embeddings")
       .setOutputCol("ner")
       .setIncludeConfidence(true)
@@ -66,15 +68,15 @@ class NerConverterTest extends AnyFlatSpec {
       .setPreservePosition(false)
 
     val recursivePipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        normalize,
-        embeddings,
-        ner,
-        converter
-      ))
+      .setStages(
+        Array(
+          documentAssembler,
+          sentenceDetector,
+          tokenizer,
+          normalize,
+          embeddings,
+          ner,
+          converter))
 
     val nermodel = recursivePipeline.fit(training_data).transform(training_data)
 
@@ -89,9 +91,9 @@ class NerConverterTest extends AnyFlatSpec {
   "NeConverter" should "correctly work in a pipeline with per-processing" taggedAs SlowTest in {
     import ResourceHelper.spark.implicits._
 
-    val testDF = Seq(
-      "word1 word2 word3 word4.word5 john,doe........... john.doe texas.floria, "
-    ).toDF("text")
+    val testDF =
+      Seq("word1 word2 word3 word4.word5 john,doe........... john.doe texas.floria, ").toDF(
+        "text")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -118,11 +120,13 @@ class NerConverterTest extends AnyFlatSpec {
       .setOutputCol("token_normalized")
       .setSlangMatchCase(true)
 
-    val embeddings = BertEmbeddings.pretrained("small_bert_L2_128")
+    val embeddings = BertEmbeddings
+      .pretrained("small_bert_L2_128")
       .setInputCols("sentence", "token_normalized")
       .setOutputCol("embeddings")
 
-    val ner = NerDLModel.pretrained("onto_small_bert_L2_128")
+    val ner = NerDLModel
+      .pretrained("onto_small_bert_L2_128")
       .setInputCols("sentence", "token_normalized", "embeddings")
       .setOutputCol("ner")
       .setIncludeConfidence(false)
@@ -135,16 +139,16 @@ class NerConverterTest extends AnyFlatSpec {
       .setWhiteList("O", "I-PER", "B-PER")
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        document_normalizer,
-        sentenceDetector,
-        tokenizer,
-        normalize,
-        embeddings,
-        ner,
-        converter
-      ))
+      .setStages(
+        Array(
+          documentAssembler,
+          document_normalizer,
+          sentenceDetector,
+          tokenizer,
+          normalize,
+          embeddings,
+          ner,
+          converter))
 
     val nermodel = pipeline.fit(testDF).transform(testDF)
 
@@ -155,10 +159,9 @@ class NerConverterTest extends AnyFlatSpec {
     nermodel.select("token.result").show(1)
     nermodel.select("token_normalized.result").show(1)
     nermodel.select("embeddings.result").show(1)
-    */
+     */
     nermodel.select("entities.result").show(1, truncate = false)
     nermodel.select("entities").show(1, truncate = false)
 
   }
 }
-

@@ -16,7 +16,6 @@
 
 package com.johnsnowlabs.nlp.annotators.sentence_detector_dl
 
-
 import com.johnsnowlabs.nlp.SparkAccessor.spark
 import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, LightPipeline}
 import com.johnsnowlabs.tags.FastTest
@@ -122,14 +121,11 @@ class SentenceDetectorDLSpec extends AnyFlatSpec {
     val sentenceDetectorDL = SentenceDetectorDLModel.load(savedModelPath)
     val metrics = sentenceDetectorDL.getMetrics(text, false)
 
-
     println("%1$15s %2$15s %3$15s %4$15s".format("Accuracy", "Recall", "Precision", "F1"))
 
-    println("%1$15.2f %2$15.2f %3$15.2f %4$15.2f".format(
-      metrics.accuracy,
-      metrics.recall,
-      metrics.precision,
-      metrics.f1))
+    println(
+      "%1$15.2f %2$15.2f %3$15.2f %4$15.2f"
+        .format(metrics.accuracy, metrics.recall, metrics.precision, metrics.f1))
   }
 
   "Sentence Detector DL" should "load and run pretrained model" taggedAs FastTest in {
@@ -150,20 +146,21 @@ class SentenceDetectorDLSpec extends AnyFlatSpec {
 
     case class textOnly(text: String)
 
-
     val emptyDataset = spark.emptyDataset[String]
 
     val lightModel = new LightPipeline(pipeline.fit(emptyDataset))
 
-    lightModel.fullAnnotate(text).foreach(anno => {
-      if (anno._1 == "sentences") {
-        anno._2.foreach(s => {
-          //          println(s.result)
-          //          println("\n")
-        })
-      }
+    lightModel
+      .fullAnnotate(text)
+      .foreach(anno => {
+        if (anno._1 == "sentences") {
+          anno._2.foreach(s => {
+            //          println(s.result)
+            //          println("\n")
+          })
+        }
 
-    })
+      })
   }
 
   "Sentence Detector DL" should "download and run pretrained model" taggedAs FastTest in {
@@ -174,7 +171,8 @@ class SentenceDetectorDLSpec extends AnyFlatSpec {
       .setInputCol("text")
       .setOutputCol("document")
 
-    val sentenceDetectorDL = SentenceDetectorDLModel.pretrained()
+    val sentenceDetectorDL = SentenceDetectorDLModel
+      .pretrained()
       .setInputCols(Array("document"))
       .setOutputCol("sentences")
 
@@ -189,15 +187,17 @@ class SentenceDetectorDLSpec extends AnyFlatSpec {
 
     val lightModel = new LightPipeline(pipeline.fit(emptyDataset))
 
-    lightModel.fullAnnotate(text).foreach(anno => {
-      if (anno._1 == "sentences") {
-        anno._2.foreach(s => {
-          //          println(s.result)
-          //          println("\n")
-        })
-      }
+    lightModel
+      .fullAnnotate(text)
+      .foreach(anno => {
+        if (anno._1 == "sentences") {
+          anno._2.foreach(s => {
+            //          println(s.result)
+            //          println("\n")
+          })
+        }
 
-    })
+      })
   }
 
 }

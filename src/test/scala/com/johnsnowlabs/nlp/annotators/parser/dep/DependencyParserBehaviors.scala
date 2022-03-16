@@ -24,9 +24,7 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
 import scala.language.reflectiveCalls
 
-
 trait DependencyParserBehaviors { this: AnyFlatSpec =>
-
 
   def initialAnnotations(testDataSet: Dataset[Row]): Unit = {
     val fixture = createFixture(testDataSet)
@@ -36,12 +34,16 @@ trait DependencyParserBehaviors { this: AnyFlatSpec =>
 
     it should "add annotations with the correct annotationType" taggedAs FastTest in {
       fixture.depAnnotations.foreach { a =>
-        assert(a.annotatorType == AnnotatorType.DEPENDENCY, s"Annotation type should ${AnnotatorType.DEPENDENCY}")
+        assert(
+          a.annotatorType == AnnotatorType.DEPENDENCY,
+          s"Annotation type should ${AnnotatorType.DEPENDENCY}")
       }
     }
 
     it should "annotate each token" taggedAs FastTest in {
-      assert(fixture.tokenAnnotations.size == fixture.depAnnotations.size, s"Every token should be annotated")
+      assert(
+        fixture.tokenAnnotations.size == fixture.depAnnotations.size,
+        s"Every token should be annotated")
     }
 
     it should "annotate each word with a head" taggedAs FastTest in {
@@ -53,24 +55,36 @@ trait DependencyParserBehaviors { this: AnyFlatSpec =>
     it should "annotate each word with the correct indexes" taggedAs FastTest in {
       fixture.depAnnotations
         .zip(fixture.tokenAnnotations)
-        .foreach { case (dep, token) => assert(dep.begin == token.begin && dep.end == token.end, s"Token and word should have equal indixes") }
+        .foreach { case (dep, token) =>
+          assert(
+            dep.begin == token.begin && dep.end == token.end,
+            s"Token and word should have equal indixes")
+        }
     }
   }
 
   private def createFixture(testDataSet: Dataset[Row]) = new {
     val dependencies: DataFrame = testDataSet.select("dependency")
-    val depAnnotations: Seq[Annotation] = dependencies
-      .collect
+    val depAnnotations: Seq[Annotation] = dependencies.collect
       .flatMap { r => r.getSeq[Row](0) }
       .map { r =>
-        Annotation(r.getString(0), r.getInt(1), r.getInt(2), r.getString(3), r.getMap[String, String](4))
+        Annotation(
+          r.getString(0),
+          r.getInt(1),
+          r.getInt(2),
+          r.getString(3),
+          r.getMap[String, String](4))
       }
     val tokens: DataFrame = testDataSet.select("token")
-    val tokenAnnotations: Seq[Annotation] = tokens
-      .collect
+    val tokenAnnotations: Seq[Annotation] = tokens.collect
       .flatMap { r => r.getSeq[Row](0) }
       .map { r =>
-        Annotation(r.getString(0), r.getInt(1), r.getInt(2), r.getString(3), r.getMap[String, String](4))
+        Annotation(
+          r.getString(0),
+          r.getInt(1),
+          r.getInt(2),
+          r.getString(3),
+          r.getMap[String, String](4))
       }
   }
 
@@ -86,8 +100,8 @@ trait DependencyParserBehaviors { this: AnyFlatSpec =>
     }
 
     val dependencyParserDataFrame = dependencyParserModel.transform(testDataSet)
-    //dependencyParserDataFrame.collect()
-    //dependencyParserDataFrame.select("dependency").show(false)
+    // dependencyParserDataFrame.collect()
+    // dependencyParserDataFrame.select("dependency").show(false)
 
     it should "predict relationships between words" taggedAs FastTest in {
       assert(dependencyParserDataFrame.isInstanceOf[DataFrame])

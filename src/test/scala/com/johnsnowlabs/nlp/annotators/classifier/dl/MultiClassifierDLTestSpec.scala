@@ -50,7 +50,8 @@ class MultiClassifierDLTestSpec extends AnyFlatSpec {
       .setOutputCol("document")
       .setCleanupMode("shrink")
 
-    val sentenceEmbeddings = BertSentenceEmbeddings.pretrained("sent_small_bert_L2_128")
+    val sentenceEmbeddings = BertSentenceEmbeddings
+      .pretrained("sent_small_bert_L2_128")
       .setInputCols("document")
       .setOutputCol("embeddings")
 
@@ -66,13 +67,7 @@ class MultiClassifierDLTestSpec extends AnyFlatSpec {
       .setRandomSeed(44)
 
     val pipeline = new Pipeline()
-      .setStages(
-        Array(
-          documentAssembler,
-          sentenceEmbeddings,
-          docClassifier
-        )
-      )
+      .setStages(Array(documentAssembler, sentenceEmbeddings, docClassifier))
 
     val pipelineModel = pipeline.fit(smallCorpus)
     pipelineModel.transform(smallCorpus).show(1)

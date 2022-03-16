@@ -22,13 +22,16 @@ import scala.collection.mutable.ArrayBuffer
 
 object ChunkBytes {
 
-  /**
-   * readFileInByteChunks will read a file by chuning the size of BufferSize and return array of arrays of Byte
-   *
-   * @param inputPath  the path to an input file
-   * @param BufferSize the size of bytes in each chunk
-   * @return Array of Arrays of Byte
-   */
+  /** readFileInByteChunks will read a file by chuning the size of BufferSize and return array of
+    * arrays of Byte
+    *
+    * @param inputPath
+    *   the path to an input file
+    * @param BufferSize
+    *   the size of bytes in each chunk
+    * @return
+    *   Array of Arrays of Byte
+    */
   def readFileInByteChunks(inputPath: Path, BufferSize: Int = 1024 * 1024): Array[Array[Byte]] = {
 
     val fis = new FileInputStream(inputPath.toString)
@@ -45,8 +48,7 @@ object ChunkBytes {
         read = fis.read(chunkBuffer, 0, BufferSize)
         varBytesBuffer append chunkBuffer
         chunkBuffer = null
-      }
-      while (read > -1)
+      } while (read > -1)
 
       fis.close()
       varBytesBuffer.toArray
@@ -54,12 +56,13 @@ object ChunkBytes {
 
   }
 
-  /**
-   * writeByteChunksInFile will write chunks of bytes into a file
-   *
-   * @param outputPath the path to an output file
-   * @param chunkBytes the array containing chunks of bytes
-   */
+  /** writeByteChunksInFile will write chunks of bytes into a file
+    *
+    * @param outputPath
+    *   the path to an output file
+    * @param chunkBytes
+    *   the array containing chunks of bytes
+    */
   def writeByteChunksInFile(outputPath: Path, chunkBytes: Array[Array[Byte]]): Unit = {
 
     try {
@@ -72,8 +75,7 @@ object ChunkBytes {
         count += 1
       }
       out.close()
-    }
-    catch {
+    } catch {
       case e: IOException =>
         e.printStackTrace()
     }

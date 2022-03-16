@@ -28,7 +28,8 @@ import scala.language.reflectiveCalls
 trait MultiDateMatcherBehaviors extends AnyFlatSpec {
   def fixture(dataset: Dataset[Row]) = new {
     val df = AnnotatorBuilder.withMultiDateMatcher(dataset)
-    val dateAnnotations = df.select("date")
+    val dateAnnotations = df
+      .select("date")
       .collect
       .flatMap {
         _.getSeq[Row](0)
