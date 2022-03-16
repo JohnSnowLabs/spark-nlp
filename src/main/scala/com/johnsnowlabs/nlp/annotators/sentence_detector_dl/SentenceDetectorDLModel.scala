@@ -310,7 +310,7 @@ class SentenceDetectorDLModel(override val uid: String)
     maxLength -> Int.MaxValue,
     splitLength -> Int.MaxValue,
     useCustomBoundsOnly -> false,
-    customBounds -> Array.empty[String],
+    customBounds -> Array.empty[String]
   )
 
   private var _tfClassifier: Option[Broadcast[TensorflowSentenceDetectorDL]] = None

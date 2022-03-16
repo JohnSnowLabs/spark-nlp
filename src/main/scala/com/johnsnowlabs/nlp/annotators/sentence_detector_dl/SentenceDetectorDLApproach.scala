@@ -373,7 +373,7 @@ class SentenceDetectorDLApproach(override val uid: String)
     maxLength -> Int.MaxValue,
     splitLength -> Int.MaxValue,
     useCustomBoundsOnly -> false,
-    customBounds -> Array.empty[String],
+    customBounds -> Array.empty[String]
   )
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): SentenceDetectorDLModel = {
