@@ -105,14 +105,14 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-+----------+-----------+-------+
-|chunk     |assertion  |entity |
-+----------+-----------+-------+
-|a headache|present    |PROBLEM|
-|anxious   |conditional|PROBLEM|
-|alopecia  |absent     |PROBLEM|
-|pain      |absent     |PROBLEM|
-+----------+-----------+-------+
++----------+-------+-----------+
+|chunk     |entity |assertion  |
++----------+-------+-----------+
+|a headache|PROBLEM|present    |
+|anxious   |PROBLEM|conditional|
+|alopecia  |PROBLEM|absent     |
+|pain      |PROBLEM|absent     |
++----------+-------+-----------+
 ```
 
 {:.model-param}
