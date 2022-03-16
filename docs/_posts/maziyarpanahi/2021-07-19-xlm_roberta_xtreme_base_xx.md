@@ -65,5 +65,4 @@ val embeddings = XlmRoBertaEmbeddings.pretrained("xlm_roberta_xtreme_base", "xx"
 
 ## Data Source
 
-- [https://github.com/google-research/xtreme](https://github.com/google-research/xtreme)
-- [https://huggingface.co/xlm-roberta-base](https://huggingface.co/xlm-roberta-base)
+[https://github.com/google-research/xtreme](https://github.com/google-research/xtreme)

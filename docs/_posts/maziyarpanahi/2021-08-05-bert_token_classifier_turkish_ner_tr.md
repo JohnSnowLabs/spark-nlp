@@ -118,7 +118,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/savasy/bert-base-turkish-ner-cased](https://huggingface.co/savasy/bert-base-turkish-ner-cased)
+[https://github.com/stefan-it/turkish-bert/](https://github.com/stefan-it/turkish-bert/)
 
 ## Benchmarking
 

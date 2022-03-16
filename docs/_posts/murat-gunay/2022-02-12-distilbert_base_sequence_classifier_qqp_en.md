@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from `Hugging Face` ([link](https://huggingface.co/assemblyai/distilbert-base-uncased-qqp)) and it's been trained on Quora Question Pairs dataset, leveraging `Distil-BERT` embeddings and `DistilBertForSequenceClassification` for text classification purposes. As an input, it requires two questions separated by a space.
+This model has been trained on Quora Question Pairs dataset, leveraging `Distil-BERT` embeddings and `DistilBertForSequenceClassification` for text classification purposes. As an input, it requires two questions separated by a space.
 
 ## Predicted Entities
 
@@ -99,6 +99,6 @@ val document_assembler = DocumentAssembler()
 |Case sensitive:|true|
 |Max sentence length:|256|
 
-## References
+## Data Source
 
 [https://quoradata.quora.com/First-Quora-Dataset-Release-Question-Pairs](https://quoradata.quora.com/First-Quora-Dataset-Release-Question-Pairs)

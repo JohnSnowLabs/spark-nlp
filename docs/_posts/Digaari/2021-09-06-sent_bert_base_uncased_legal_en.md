@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-LEGAL-BERT is a family of BERT models for the legal domain, intended to assist legal NLP research, computational law, and legal technology applications. To pre-train the different variations of LEGAL-BERT, we collected 12 GB of diverse English legal text from several fields (e.g., legislation, court cases, contracts) scraped from publicly available resources. Sub-domains variants (CONTRACTS-, EURLEX-, ECHR-) and/or general LEGAL-BERT perform better than using BERT out of the box for domain-specific tasks. A light-weight model (33% the size of BERT-BASE) pre-trained from scratch on legal data with competitive perfomance is also available.
+LEGAL-BERT is a family of BERT models for the legal domain, intended to assist legal NLP research, computational law, and legal technology applications. Sub-domains variants (CONTRACTS-, EURLEX-, ECHR-) and/or general LEGAL-BERT perform better than using BERT out of the box for domain-specific tasks. A light-weight model (33% the size of BERT-BASE) pre-trained from scratch on legal data with competitive perfomance is also available.
 
 ## Predicted Entities
 
@@ -66,4 +66,9 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 ## Data Source
 
-The model is imported from: https://huggingface.co/nlpaueb/legal-bert-base-uncased
+To pre-train the different variations of LEGAL-BERT, we collected 12 GB of diverse English legal text from several fields (e.g., legislation, court cases, contracts) scraped from publicly available resources:
+- [http://eur-lex.europa.eu](http://eur-lex.europa.eu)
+- [http://www.legislation.gov.uk](http://www.legislation.gov.uk)
+- [http://hudoc.echr.coe.int/eng](http://hudoc.echr.coe.int/eng)
+- [https://case.law](https://case.law)
+- [https://www.sec.gov/edgar.shtml](https://www.sec.gov/edgar.shtml)

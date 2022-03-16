@@ -109,4 +109,4 @@ result.select("transfer.result").show(false)
 
 The original model is from the transformers library:
 
-https://huggingface.co/prithivida/active_to_passive_styletransfer
+[https://github.com/PrithivirajDamodaran/Styleformer#dataset](https://github.com/PrithivirajDamodaran/Styleformer#dataset)

@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from `Hugging Face` ([link](https://huggingface.co/ml6team/distilbert-base-german-cased-toxic-comments)) and it's been trained on GermEval21 and IWG Hatespeech datasets for the German language, leveraging `Distil-BERT` embeddings and `DistilBertForSequenceClassification` for text classification purposes.
+This model has been trained on GermEval21 and IWG Hatespeech datasets for the German language, leveraging `Distil-BERT` embeddings and `DistilBertForSequenceClassification` for text classification purposes.
 
 ## Predicted Entities
 
@@ -96,7 +96,7 @@ val result = pipeline.fit(example).transform(example)
 |Case sensitive:|true|
 |Max sentence length:|256|
 
-## References
+## Data Source
 
 - [GermEval21](https://github.com/germeval2021toxic/SharedTask/tree/main/Data%20Sets)
 - [IWG Hatespeech](https://github.com/UCSM-DUE/IWG_hatespeech_public)

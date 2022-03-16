@@ -87,6 +87,4 @@ val embeddings = XlmRoBertaEmbeddings.pretrained("xlm_roberta_base_finetuned_wol
 
 ## Data Source
 
-Model is trained by [David Adelani](https://huggingface.co/Davlan)
-
-Improted from [https://huggingface.co/Davlan/xlm-roberta-base-finetuned-wolof](https://huggingface.co/Davlan/xlm-roberta-base-finetuned-wolof)
+This model has been fine-tuned on [Bible OT](http://biblewolof.com/) + [OPUS](https://opus.nlpl.eu/) + News Corpora (Lu Defu Waxu, Saabal, and Wolof Online)

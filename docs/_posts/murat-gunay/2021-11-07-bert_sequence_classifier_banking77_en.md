@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is imported from `Hugging Face-models` and it classifies texts into 77 banking-related classes.
+This model has been trained for classifies texts into 77 banking-related classes.
 
 ## Predicted Entities
 
@@ -100,7 +100,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/philschmid/BERT-Banking77](https://huggingface.co/philschmid/BERT-Banking77)
+[https://github.com/PolyAI-LDN/task-specific-datasets](https://github.com/PolyAI-LDN/task-specific-datasets)
 
 ## Benchmarking
 

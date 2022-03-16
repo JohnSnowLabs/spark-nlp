@@ -20,7 +20,6 @@ use_language_switcher: "Python-Scala-Java"
 BERTje is a Dutch pre-trained BERT model developed at the University of Groningen.
 
 For details, check out our paper on [arXiv](https://arxiv.org/abs/1912.09582), the code on [Github](https://github.com/wietsedv/bertje) and related work on [Semantic Scholar](https://www.semanticscholar.org/paper/BERTje%3A-A-Dutch-BERT-Model-Vries-Cranenburgh/a4d5e425cac0bf84c86c0c9f720b6339d6288ffa).
-The paper and Github page mention fine-tuned models that are available [here](https://huggingface.co/wietsedv).
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -63,7 +62,12 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 ## Data Source
 
-https://huggingface.co/dbmdz/bert-base-german-cased
+The source data for the model consists of: 
+- A recent Wikipedia dump
+- EU Bookshop corpus
+- Open Subtitles
+- CommonCrawl
+- ParaCrawl and News Crawl
 
 ## Benchmarking
 
@@ -73,18 +77,18 @@ More experimental results will be added to this page when they are finished. Tec
 All of the tested models are *base* sized (12) layers with cased tokenization.
 Headers in the tables below link to original data sources. Scores link to the model pages that correspond to that specific fine-tuned model. These tables will be updated when more simple fine-tuned models are made available.
 ### Named Entity Recognition
-| Model                                                                        | [CoNLL-2002](https://www.clips.uantwerpen.be/conll2002/ner/)                                  | [SoNaR-1](https://ivdnt.org/downloads/taalmaterialen/tstc-sonar-corpus)                   | spaCy UD LassySmall                                                                             |
-| ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| **BERTje**                                                                   | [**90.24**](https://huggingface.co/wietsedv/bert-base-dutch-cased-finetuned-conll2002-ner)    | [**84.93**](https://huggingface.co/wietsedv/bert-base-dutch-cased-finetuned-sonar-ner)    | [86.10](https://huggingface.co/wietsedv/bert-base-dutch-cased-finetuned-udlassy-ner)            |
-| [mBERT](https://github.com/google-research/bert/blob/master/multilingual.md) | [88.61](https://huggingface.co/wietsedv/bert-base-multilingual-cased-finetuned-conll2002-ner) | [84.19](https://huggingface.co/wietsedv/bert-base-multilingual-cased-finetuned-sonar-ner) | [**86.77**](https://huggingface.co/wietsedv/bert-base-multilingual-cased-finetuned-udlassy-ner) |
-| [BERT-NL](http://textdata.nl)                                                | 85.05                                                                                         | 80.45                                                                                     | 81.62                                                                                           |
-| [RobBERT](https://github.com/iPieter/RobBERT)                                | 84.72                                                                                         | 81.98                                                                                     | 79.84                                                                                           |
+| Model         | [CoNLL-2002](https://www.clips.uantwerpen.be/conll2002/ner/) | [SoNaR-1](https://ivdnt.org/downloads/taalmaterialen/tstc-sonar-corpus) | spaCy UD LassySmall  |
+| ------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------- | ------------------------------------------------------------ |
+| **BERTje**    | [**90.24**] | [**84.93**] | [86.10]     |
+| [mBERT]       | [88.61]     | [84.19]     | [**86.77**] |
+| [BERT-NL]     | 85.05       | 80.45       | 81.62       |
+| [RobBERT]     | 84.72       | 81.98       | 79.84       |
 ### Part-of-speech tagging
-| Model                                                                        | [UDv2.5 LassySmall](https://universaldependencies.org/treebanks/nl_lassysmall/index.html) |
-| ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| **BERTje**                                                                   | **96.48**                                                                                 |
-| [mBERT](https://github.com/google-research/bert/blob/master/multilingual.md) | 96.20                                                                                     |
-| [BERT-NL](http://textdata.nl)                                                | 96.10                                                                                     |
-| [RobBERT](https://github.com/iPieter/RobBERT)                                | 95.91                                                                                     |
+| Model         | [UDv2.5 LassySmall] |
+| ------------- | ------------------- |
+| **BERTje**    | **96.48**           |
+| [mBERT]       | 96.20               |
+| [BERT-NL]     | 96.10               |
+| [RobBERT]     | 95.91               |
 
 ```

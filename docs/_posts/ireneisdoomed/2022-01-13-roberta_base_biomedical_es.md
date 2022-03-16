@@ -17,9 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model has been pulled from the HF Hub - https://huggingface.co/PlanTL-GOB-ES/roberta-base-biomedical-clinical-es
-
-This is a result of reproducing the tutorial for bringing HF's models into Spark NLP - https://medium.com/spark-nlp/importing-huggingface-models-into-sparknlp-8c63bdea671d
+This model is a RoBERTa-based model trained on a biomedical corpus in Spanish.
 
 ## Predicted Entities
 
@@ -54,7 +52,6 @@ pipeline = Pipeline(stages = [
     tokenizer,
     roberta_embeddings])
 ```
-
 </div>
 
 {:.model-param}
@@ -70,3 +67,7 @@ pipeline = Pipeline(stages = [
 |Output Labels:|[embeddings]|
 |Language:|es|
 |Size:|301.7 MB|
+
+## Data Source
+
+[https://github.com/PlanTL-GOB-ES/lm-biomedical-clinical-es](https://github.com/PlanTL-GOB-ES/lm-biomedical-clinical-es)

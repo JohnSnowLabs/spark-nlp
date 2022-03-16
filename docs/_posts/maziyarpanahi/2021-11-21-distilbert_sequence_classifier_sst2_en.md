@@ -97,7 +97,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/distilbert-base-uncased-finetuned-sst-2-english](https://huggingface.co/distilbert-base-uncased-finetuned-sst-2-english)
+[https://www.kaggle.com/atulanandjha/stanford-sentiment-treebank-v2-sst2](https://www.kaggle.com/atulanandjha/stanford-sentiment-treebank-v2-sst2)
 
 ## Benchmarking
 

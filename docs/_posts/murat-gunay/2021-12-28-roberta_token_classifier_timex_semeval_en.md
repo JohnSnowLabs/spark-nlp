@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from `Hugging Face` and it's been trained to detect time-related terminology, leveraging `RoBERTa` embeddings and `RobertaForTokenClassification` for NER purposes.
+This model was imported from `Hugging Face` and it’s been trained to detect time-related terminology, leveraging `RoBERTa` embeddings and `RobertaForTokenClassification` for NER purposes.
 
 ## Predicted Entities
 

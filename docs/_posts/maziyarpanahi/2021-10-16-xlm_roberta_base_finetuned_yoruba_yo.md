@@ -87,6 +87,4 @@ val embeddings = XlmRoBertaEmbeddings.pretrained("xlm_roberta_base_finetuned_yor
 
 ## Data Source
 
-Model is trained by [David Adelani](https://huggingface.co/Davlan)
-
-Improted from [https://huggingface.co/Davlan/xlm-roberta-base-finetuned-yoruba](https://huggingface.co/Davlan/xlm-roberta-base-finetuned-yoruba)
+This model has been fine-tuned on Bible, JW300, [Menyo-20k](https://zenodo.org/record/4297448#.YjGlv3pBxhl), [Yoruba Embedding corpus](https://aclanthology.org/2020.lrec-1.335/) and [CC-Aligned](https://opus.nlpl.eu/), Wikipedia, news corpora (BBC Yoruba, VON Yoruba, Asejere, Alaroye), and other small datasets curated from friends.

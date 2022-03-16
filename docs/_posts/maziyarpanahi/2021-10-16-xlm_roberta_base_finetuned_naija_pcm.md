@@ -87,6 +87,4 @@ val embeddings = XlmRoBertaEmbeddings.pretrained("xlm_roberta_base_finetuned_nai
 
 ## Data Source
 
-Model is trained by [David Adelani](https://huggingface.co/Davlan)
-
-Improted from [https://huggingface.co/Davlan/xlm-roberta-base-finetuned-naija](https://huggingface.co/Davlan/xlm-roberta-base-finetuned-naija)
+[https://github.com/masakhane-io/masakhane-ner/tree/main/data](https://github.com/masakhane-io/masakhane-ner/tree/main/data)

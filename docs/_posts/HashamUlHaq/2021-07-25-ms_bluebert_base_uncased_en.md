@@ -17,8 +17,6 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is trained by taking BlueBert as the base model, and training on dataset contained approximately 75,000 clinical notes, for about 5000 patients, totaling to over 35.7 million words. These notes were collected from patients who visited St. Michael's Hospital MS Clinic between 2015 to 2019. The notes contained a variety of information pertaining to a neurological exam. For example, a note can contain information on the patient's condition, their progress over time and diagnosis.
-
 BERT is a transformers model pretrained on a large corpus of English data in a self-supervised fashion. This means it was pretrained on the raw texts only, with no humans labeling them in any way (which is why it can use lots of publicly available data) with an automatic process to generate inputs and labels from those texts. More precisely, it was pretrained with two objectives:
 
 Masked language modeling (MLM): taking a sentence, the model randomly masks 15% of the words in the input then runs the entire masked sentence through the model and has to predict the masked words. This is different from traditional recurrent neural networks (RNNs) that usually see the words one after the other, or from autoregressive models like GPT which internally mask the future tokens. It allows the model to learn a bidirectional representation of the sentence.
@@ -73,4 +71,4 @@ Generates 768 dimensional embeddings per token
 
 ## Data Source
 
-https://huggingface.co/NLP4H/ms_bert
+This model is trained by taking BlueBert as the base model, and training on dataset contained approximately 75,000 clinical notes, for about 5000 patients, totaling to over 35.7 million words. These notes were collected from patients who visited St. Michael's Hospital MS Clinic between 2015 to 2019. The notes contained a variety of information pertaining to a neurological exam. For example, a note can contain information on the patient's condition, their progress over time and diagnosis.

@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from `Hugging Face` and it's been fine-tuned for traditional Chinese language, leveraging `Bert` embeddings and `BertForTokenClassification` for NER purposes.
+This model has been fine-tuned for traditional Chinese language, leveraging `Bert` embeddings and `BertForTokenClassification` for NER purposes.
 
 ## Predicted Entities
 
@@ -122,7 +122,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/ckiplab/bert-base-chinese-ner](https://huggingface.co/ckiplab/bert-base-chinese-ner)
+[https://github.com/ckiplab/ckip-transformers#training-corpus](https://github.com/ckiplab/ckip-transformers#training-corpus)
 
 ## Benchmarking
 

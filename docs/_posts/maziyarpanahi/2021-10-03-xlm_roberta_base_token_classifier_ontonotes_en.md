@@ -22,7 +22,7 @@ use_language_switcher: "Python-Scala-Java"
 
 **xlm_roberta_base_token_classifier_ontonotes** is a fine-tuned XLM-RoBERTa model that is ready to use for **Named Entity Recognition** and achieves **state-of-the-art performance** for the NER task. This model has been trained to recognize four types of entities: CARDINAL, DATE, EVENT, FAC, GPE, LANGUAGE, LAW, LOC, MONEY, NORP, ORDINAL, ORG, PERCENT, PERSON, PRODUCT, QUANTITY, TIME, and WORK_OF_ART.
 
-We used [TFXLMRobertaForTokenClassification](https://huggingface.co/transformers/model_doc/xlmroberta.html#tfxlmrobertafortokenclassification) to train this model and used `RoBertaForTokenClassification` annotator in Spark NLP 🚀 for prediction at scale!
+We used `TFXLMRobertaForTokenClassification`to train this model and used `RoBertaForTokenClassification` annotator in Spark NLP 🚀 for prediction at scale!
 
 ## Predicted Entities
 

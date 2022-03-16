@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from `Hugging Face` and it's been fine-tuned for Italian language, leveraging `Bert` embeddings and `BertForSequenceClassification` for text classification purposes.
+This model has been fine-tuned for Italian language, leveraging `Bert` embeddings and `BertForSequenceClassification` for text classification purposes.
 
 ## Predicted Entities
 
@@ -98,7 +98,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/neuraly/bert-base-italian-cased-sentiment](https://huggingface.co/neuraly/bert-base-italian-cased-sentiment)
+[http://www.di.unito.it/~tutreeb/sentipolc-evalita16/data.html](http://www.di.unito.it/~tutreeb/sentipolc-evalita16/data.html)
 
 ## Benchmarking
 

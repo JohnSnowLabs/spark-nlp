@@ -88,4 +88,4 @@ translate_df
 
 ## Data Source
 
-[https://huggingface.co/Helsinki-NLP/opus-mt-fi-sl](https://huggingface.co/Helsinki-NLP/opus-mt-fi-sl)
+[https://github.com/Helsinki-NLP/](https://github.com/Helsinki-NLP/)

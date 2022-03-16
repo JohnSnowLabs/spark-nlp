@@ -23,7 +23,7 @@ Classify text/sentence in two categories:
 
 `False` : The sentences doesn’t have any information about an ADE.
 
-This model is a [DistilBERT](https://huggingface.co/distilbert-base-cased)-based classifier. Please note that there is no bio-version of DistilBERT so the performance may not be par with BioBERT-based classifiers.
+This model is a ```DistilBERT``` based classifier. Please note that there is no bio-version of DistilBERT so the performance may not be par with BioBERT-based classifiers.
 
 ## Predicted Entities
 
@@ -112,7 +112,7 @@ val result = pipeline.fit(data).transform(data)
 
 ## References
 
-This model is trained on a custom dataset comprising of CADEC, DRUG-AE and Twimed.
+This model has been trained on a custom dataset comprising of CADEC, DRUG-AE and Twimed.
 
 ## Benchmarking
 

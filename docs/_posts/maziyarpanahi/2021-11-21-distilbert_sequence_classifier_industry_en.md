@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-`distilbert_sequence_classifier_industry` Model to classify a business description into one of 62 industry tags. Trained on 7000 samples of Business Descriptions and associated labels of companies in India.
+`distilbert_sequence_classifier_industry` model to classify a business description into one of 62 industry tags.
 
 ## Predicted Entities
 
@@ -97,4 +97,4 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/sampathkethineedi/industry-classification](https://huggingface.co/sampathkethineedi/industry-classification)
+Trained on 7000 samples of Business Descriptions and associated labels of companies in India.

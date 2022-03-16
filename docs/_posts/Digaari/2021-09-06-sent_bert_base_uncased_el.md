@@ -19,12 +19,6 @@ use_language_switcher: "Python-Scala-Java"
 
 A Greek version of BERT pre-trained language model. 
 
-The pre-training corpora of bert-base-greek-uncased-v1 include:
-
-- The Greek part of Wikipedia,
-- The Greek part of European Parliament Proceedings Parallel Corpus, and
-- The Greek part of OSCAR, a cleansed version of Common Crawl.
-
 ## Predicted Entities
 
 
@@ -72,4 +66,7 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 ## Data Source
 
-The model is imported from: https://huggingface.co/nlpaueb/bert-base-greek-uncased-v1
+The pre-training corpora of bert-base-greek-uncased-v1 include:
+- The Greek part of Wikipedia,
+- The Greek part of European Parliament Proceedings Parallel Corpus, and
+- The Greek part of OSCAR, a cleansed version of Common Crawl.

@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is imported from `Hugging Face-models` and it is a simple base BERT model trained on the "trec" dataset.
+This model has been trained on the "trec" dataset. It is a simple base BERT model.
 
 ## Predicted Entities
 
@@ -100,7 +100,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/aychang/bert-base-cased-trec-coarse](https://huggingface.co/aychang/bert-base-cased-trec-coarse)
+[https://cogcomp.seas.upenn.edu/Data/QA/QC/](https://cogcomp.seas.upenn.edu/Data/QA/QC/)
 
 ## Benchmarking
 

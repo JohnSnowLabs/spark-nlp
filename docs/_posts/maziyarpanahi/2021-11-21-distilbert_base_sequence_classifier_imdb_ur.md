@@ -21,7 +21,7 @@ DistilBERT Model with sequence classification/regression head on top (a linear l
 
 `distilbert_base_sequence_classifier_imdb ` is a fine-tuned DistilBERT model that is ready to be used for Sequence Classification tasks such as sentiment analysis or multi-class text classification and it achieves state-of-the-art performance. 
 
-We used TFDistilBertForSequenceClassification to train this model and used BertForSequenceClassification annotator in Spark NLP 🚀 for prediction at scale!
+We used `TFDistilBertForSequenceClassification` to train this model and used `BertForSequenceClassification` annotator in Spark NLP 🚀 for prediction at scale!
 
 ## Predicted Entities
 
@@ -103,7 +103,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/datasets/imdb_urdu_reviews](https://huggingface.co/datasets/imdb_urdu_reviews)
+[https://github.com/mirfan899/Urdu](https://github.com/mirfan899/Urdu)
 
 ## Benchmarking
 

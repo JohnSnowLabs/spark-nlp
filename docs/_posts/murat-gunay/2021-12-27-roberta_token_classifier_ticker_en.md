@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from `Hugging Face` and it's been trained on [Kaggle dataset](https://www.kaggle.com/omermetinn/tweets-about-the-top-companies-from-2015-to-2020), leveraging `RoBERTa` embeddings and `RobertaForTokenClassification` for NER purposes.
+This model has been trained on [Kaggle dataset](https://www.kaggle.com/omermetinn/tweets-about-the-top-companies-from-2015-to-2020), leveraging `RoBERTa` embeddings and `RobertaForTokenClassification` for NER purposes.
 
 ## Predicted Entities
 
@@ -120,7 +120,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/Jean-Baptiste/roberta-ticker](https://huggingface.co/Jean-Baptiste/roberta-ticker)
+[Kaggle dataset](https://www.kaggle.com/omermetinn/tweets-about-the-top-companies-from-2015-to-2020)
 
 ## Benchmarking
 

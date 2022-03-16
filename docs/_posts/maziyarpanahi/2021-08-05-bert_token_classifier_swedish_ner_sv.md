@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 `BERT Model` with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks.
 
-[Recorded Future](https://www.recordedfuture.com/) together with [AI Sweden](https://www.ai.se/en) releases a Named Entity Recognition(NER) model for entety detection in Swedish. The model is based on [KB/bert-base-swedish-cased](https://huggingface.co/KB/bert-base-swedish-cased) and finetuned on data collected from various internet sources and forums.
+[Recorded Future](https://www.recordedfuture.com/) together with [AI Sweden](https://www.ai.se/en) releases a Named Entity Recognition(NER) model for entety detection in Swedish. 
 
 The model has been trained on Swedish data and only supports an inference of Swedish input texts. The model's inference metrics for all non-Swedish inputs are not defined, these inputs are considered as out of domain data.
 
@@ -118,7 +118,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/RecordedFuture/Swedish-NER](https://huggingface.co/RecordedFuture/Swedish-NER)
+The model has been trained on data collected from various internet sources and forums.
 
 ## Benchmarking
 

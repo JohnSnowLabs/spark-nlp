@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model, imported from Hugging Face, was fine-tuned on the MIM-GOLD-NER dataset for the Icelandic language, leveraging `Roberta` embeddings and using `RobertaForTokenClassification` for NER purposes.
+This model has been fine-tuned on the MIM-GOLD-NER dataset for the Icelandic language, leveraging `Roberta` embeddings and using `RobertaForTokenClassification` for NER purposes.
 
 ## Predicted Entities
 
@@ -123,7 +123,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/m3hrdadfi/icelandic-ner-roberta](https://huggingface.co/m3hrdadfi/icelandic-ner-roberta)
+This model was fine-tuned on the [MIM-GOLD-NER](https://repository.clarin.is/repository/xmlui/handle/20.500.12537/42) dataset for the Icelandic language.
 
 ## Benchmarking
 

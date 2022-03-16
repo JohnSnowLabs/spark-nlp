@@ -68,7 +68,8 @@ val embeddings = RoBertaSentenceEmbeddings.pretrained("sent_roberta_large", "en"
 
 ## Data Source
 
-[https://huggingface.co/roberta-base](https://huggingface.co/roberta-large)
+- [https://dumps.wikimedia.org/enwiki/](https://dumps.wikimedia.org/enwiki/)
+- [https://github.com/jackbandy/bookcorpus-datasheet/tree/main/data](https://github.com/jackbandy/bookcorpus-datasheet/tree/main/data)
 
 ## Benchmarking
 

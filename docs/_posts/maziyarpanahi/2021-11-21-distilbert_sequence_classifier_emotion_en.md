@@ -97,7 +97,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/bhadresh-savani/distilbert-base-uncased-emotion](https://huggingface.co/bhadresh-savani/distilbert-base-uncased-emotion)
+[https://github.com/dair-ai/emotion_dataset](https://github.com/dair-ai/emotion_dataset)
 
 ## Benchmarking
 

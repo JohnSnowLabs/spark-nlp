@@ -21,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 
 **xlnet_large_token_classifier_conll03** is a fine-tuned XLNet model that is ready to use for **Named Entity Recognition** and achieves **state-of-the-art performance** for the NER task. This model has been trained to recognize four types of entities: location (LOC), organizations (ORG), person (PER), and Miscellaneous (MISC). 
 
-We used [TFXLNetForTokenClassification](https://huggingface.co/transformers/model_doc/xlnet.html#tfxlnetfortokenclassification) to train this model and used `XlnetForTokenClassification` annotator in Spark NLP 🚀 for prediction at scale!
+We used `TFXLNetForTokenClassification` to train this model and used `XlnetForTokenClassification` annotator in Spark NLP 🚀 for prediction at scale!
 
 ## Predicted Entities
 

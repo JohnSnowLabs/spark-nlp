@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is imported from `Hugging Face-models`. It is a BERT-Tiny version of the `sms_spam` dataset. It identifies if the SMS is spam or not.
+This model is a BERT-Tiny version of the `sms_spam` dataset. It identifies if the SMS is spam or not.
 
 - `LABEL_0` : No Spam
 - `LABEL_1` : Spam
@@ -103,7 +103,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/mrm8488/bert-tiny-finetuned-sms-spam-detection](https://huggingface.co/mrm8488/bert-tiny-finetuned-sms-spam-detection)
+[http://archive.ics.uci.edu/ml/datasets/SMS+Spam+Collection](http://archive.ics.uci.edu/ml/datasets/SMS+Spam+Collection)
 
 ## Benchmarking
 

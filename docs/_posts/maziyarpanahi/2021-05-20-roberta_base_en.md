@@ -65,7 +65,8 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 ## Data Source
 
-[https://huggingface.co/roberta-base](https://huggingface.co/roberta-base)
+- [https://dumps.wikimedia.org/enwiki/](https://dumps.wikimedia.org/enwiki/)
+- [https://github.com/jackbandy/bookcorpus-datasheet/tree/main/data](https://github.com/jackbandy/bookcorpus-datasheet/tree/main/data)
 
 ## Benchmarking
 

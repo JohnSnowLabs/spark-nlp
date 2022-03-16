@@ -95,4 +95,4 @@ opus_df
 
 ## Data Source
 
-[https://huggingface.co/Helsinki-NLP/opus-mt-en-et](https://huggingface.co/Helsinki-NLP/opus-mt-en-et)
+[https://github.com/Helsinki-NLP/](https://github.com/Helsinki-NLP/)

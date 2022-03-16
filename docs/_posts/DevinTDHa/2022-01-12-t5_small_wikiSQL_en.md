@@ -98,5 +98,4 @@ result.select("sql.result").show(false)
 
 ## Data Source
 
-Model originally from the transformer model of Manuel Romero/mrm8488.
-https://huggingface.co/mrm8488/t5-small-finetuned-wikiSQL
+[https://github.com/salesforce/WikiSQL](https://github.com/salesforce/WikiSQL)

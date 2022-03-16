@@ -21,18 +21,6 @@ This a bert-base-multilingual-uncased model finetuned for sentiment analysis on 
 
 This model is intended for direct use as a sentiment analysis model for product reviews in any of the six languages above, or for further finetuning on related sentiment analysis tasks.
 
-## Training data
-
-Here is the number of product reviews we used for finetuning the model:
-
-| Language | Number of reviews |
-| -------- | ----------------- |
-| English  | 150k           |
-| Dutch    | 80k            |
-| German   | 137k           |
-| French   | 140k           |
-| Italian  | 72k            |
-| Spanish  | 50k            |
 
 ## Predicted Entities
 
@@ -114,7 +102,16 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/nlptown/bert-base-multilingual-uncased-sentiment](https://huggingface.co/nlptown/bert-base-multilingual-uncased-sentiment)
+Here is the number of product reviews we used for finetuning the model:
+
+| Language | Number of reviews |
+| -------- | ----------------- |
+| English  | 150k           |
+| Dutch    | 80k            |
+| German   | 137k           |
+| French   | 140k           |
+| Italian  | 72k            |
+| Spanish  | 50k            |
 
 ## Benchmarking
 

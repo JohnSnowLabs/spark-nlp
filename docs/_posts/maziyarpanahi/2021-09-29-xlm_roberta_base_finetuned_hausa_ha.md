@@ -64,16 +64,15 @@ val embeddings = XlmRoBertaEmbeddings.pretrained("xlm_roberta_base_finetuned_hau
 
 ## Data Source
 
-[https://huggingface.co/Davlan/xlm-roberta-base-finetuned-hausa](https://huggingface.co/Davlan/xlm-roberta-base-finetuned-hausa)
+This model was fine-tuned on [Hausa CC-100](http://data.statmt.org/cc-100/)
 
 ## Benchmarking
 
 ```bash
 ## Eval results on the Test set (F-score, average over 5 runs)
 
-Dataset| XLM-R F1 | ha_roberta F1
--|-|-
-[MasakhaNER](https://github.com/masakhane-io/masakhane-ner) | 86.10 | 91.47
-[VOA Hausa Textclass](https://huggingface.co/datasets/hausa_voa_topics) | | 
+Dataset             | XLM-R F1 | ha_roberta F1
+MasakhaNER          | 86.10    |   91.47
+VOA Hausa Textclass |          | 
 
 ```

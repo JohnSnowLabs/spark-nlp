@@ -72,4 +72,4 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 ## Data Source
 
-This model is imported from https://huggingface.co/dbmdz/bert-base-german-cased
+[https://github.com/stefan-it/fine-tuned-berts-seq](https://github.com/stefan-it/fine-tuned-berts-seq)

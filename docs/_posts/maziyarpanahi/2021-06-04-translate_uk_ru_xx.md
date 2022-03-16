@@ -71,7 +71,7 @@ translate_df
 
 ## Data Source
 
-[https://huggingface.co/Helsinki-NLP/opus-mt-uk-ru](https://huggingface.co/Helsinki-NLP/opus-mt-uk-ru)
+[https://github.com/Helsinki-NLP/](https://github.com/Helsinki-NLP/)
 
 ## Included Models
 

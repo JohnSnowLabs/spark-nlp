@@ -118,4 +118,4 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/finiteautomata/beto-sentiment-analysis](https://huggingface.co/finiteautomata/beto-sentiment-analysis)
+[https://github.com/pysentimiento/pysentimiento/blob/master/CLASSIFIERS.md](https://github.com/pysentimiento/pysentimiento/blob/master/CLASSIFIERS.md)

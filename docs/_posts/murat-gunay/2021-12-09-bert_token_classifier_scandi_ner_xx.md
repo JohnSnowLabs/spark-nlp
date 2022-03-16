@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from `Hugging Face` and it's been fine-tuned for 6 Scandinavian languages (Danish, Norwegian-Bokmål, Norwegian-Nynorsk, Swedish, Icelandic, Faroese), leveraging `Bert` embeddings and `BertForTokenClassification` for NER purposes.
+This model has been fine-tuned for 6 Scandinavian languages (Danish, Norwegian-Bokmål, Norwegian-Nynorsk, Swedish, Icelandic, Faroese), leveraging `Bert` embeddings and `BertForTokenClassification` for NER purposes.
 
 ## Predicted Entities
 
@@ -123,7 +123,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/saattrupdan/nbailab-base-ner-scandi](https://huggingface.co/saattrupdan/nbailab-base-ner-scandi)
+It has been fine-tuned on the concatenation of [DaNE](https://aclanthology.org/2020.lrec-1.565/), [NorNE](https://arxiv.org/abs/1911.12146), [SUC 3.0](https://spraakbanken.gu.se/en/resources/suc3) and the Icelandic and Faroese parts of the [WikiANN](https://aclanthology.org/P17-1178/) dataset.
 
 ## Benchmarking
 

@@ -17,8 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-BERTurk is a community-driven cased BERT model for Turkish. Some datasets used for pretraining and evaluation are contributed from the
-awesome Turkish NLP community, as well as the decision for the model name: BERTurk.
+BERTurk is a community-driven cased BERT model for Turkish. Some datasets used for pretraining and evaluation are contributed from the awesome Turkish NLP community, as well as the decision for the model name: BERTurk.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -62,7 +61,9 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 ## Data Source
 
-[https://huggingface.co/dbmdz/bert-base-turkish-cased](https://huggingface.co/dbmdz/bert-base-turkish-cased)
+The current version of the model is trained on a filtered and sentence segmented version of the Turkish [OSCAR corpus](https://oscar-corpus.com/), a recent Wikipedia dump, various [OPUS corpora](https://opus.nlpl.eu/) and a special corpus provided by [Kemal Oflazer](https://www.andrew.cmu.edu/user/ko/).
+
+The final training corpus has a size of 35GB and 44,04,976,662 tokens.
 
 ## Benchmarking
 

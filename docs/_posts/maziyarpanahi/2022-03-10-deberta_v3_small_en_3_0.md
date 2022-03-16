@@ -64,7 +64,7 @@ val embeddings = DeBertaEmbeddings.pretrained("deberta_v3_small", "en")
 
 ## References
 
-[https://huggingface.co/microsoft/deberta-v3-small](https://huggingface.co/microsoft/deberta-v3-small)
+[https://dumps.wikimedia.org/enwiki/](https://dumps.wikimedia.org/enwiki/)
 
 ## Benchmarking
 

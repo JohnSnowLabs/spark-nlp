@@ -64,7 +64,7 @@ val embeddings = DeBertaEmbeddings.pretrained("deberta_v3_large", "en")
 
 ## References
 
-[https://huggingface.co/microsoft/deberta-v3-large](https://huggingface.co/microsoft/deberta-v3-large)
+[https://dumps.wikimedia.org/enwiki/](https://dumps.wikimedia.org/enwiki/)
 
 ## Benchmarking
 
@@ -74,10 +74,10 @@ val embeddings = DeBertaEmbeddings.pretrained("deberta_v3_large", "en")
 dev results on SQuAD 2.0 and MNLI tasks.
 
 | Model             |Vocabulary(K)|Backbone #Params(M)| SQuAD 2.0(F1/EM) | MNLI-m/mm(ACC)|
-|-------------------|----------|-------------------|-----------|----------|
-| RoBERTa-large     |50     |304                | 89.4/86.5 | 90.2   |
-| XLNet-large       |32     |-                  | 90.6/87.9 | 90.8   |
-| DeBERTa-large     |50     |-                  | 90.7/88.0 | 91.3   |
-| **DeBERTa-v3-large**|128|304                  |  **91.5/89.0**| **91.8/91.9**|
+|-------------------|-------      |-------------------|-----------|----------|
+| RoBERTa-large     |50           |304                | 89.4/86.5 | 90.2     |
+| XLNet-large       |32           |-                  | 90.6/87.9 | 90.8     |
+| DeBERTa-large     |50           |-                  | 90.7/88.0 | 91.3     |
+| **DeBERTa-v3-large**|128|304                        |**91.5/89.0**| **91.8/91.9**|
 
 ```

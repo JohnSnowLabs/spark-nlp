@@ -22,7 +22,7 @@ use_language_switcher: "Python-Scala-Java"
 
 **bert_base_token_classifier_ontonote** is a fine-tuned BERT model that is ready to use for **Named Entity Recognition** and achieves **state-of-the-art performance** for the NER task. This model has been trained to recognize four types of entities: CARDINAL, DATE, EVENT, FAC, GPE, LANGUAGE, LAW, LOC, MONEY, NORP, ORDINAL, ORG, PERCENT, PERSON, PRODUCT, QUANTITY, TIME, and WORK_OF_ART.
 
-We used [TFBertForTokenClassification](https://huggingface.co/transformers/model_doc/bert.html#tfbertfortokenclassification) to train this model and used `BertForTokenClassification` annotator in Spark NLP 🚀 for prediction at scale!
+We used   `TFBertForTokenClassification` to train this model and used `BertForTokenClassification` annotator in Spark NLP 🚀 for prediction at scale!
 
 ## Predicted Entities
 

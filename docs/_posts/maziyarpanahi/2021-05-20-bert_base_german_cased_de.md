@@ -60,7 +60,7 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 ## Data Source
 
-https://huggingface.co/dbmdz/bert-base-german-cased
+[https://github.com/stefan-it/fine-tuned-berts-seq](https://github.com/stefan-it/fine-tuned-berts-seq)
 
 ## Benchmarking
 

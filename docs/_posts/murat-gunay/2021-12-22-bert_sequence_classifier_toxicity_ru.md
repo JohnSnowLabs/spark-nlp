@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from `Hugging Face` and it's been fine-tuned for the Russian language, leveraging `Bert` embeddings and `BertForSequenceClassification` for text classification purposes.
+This model has been fine-tuned for the Russian language, leveraging `Bert` embeddings and `BertForSequenceClassification` for text classification purposes.
 
 ## Predicted Entities
 
@@ -98,7 +98,8 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/SkolkovoInstitute/russian_toxicity_classifier](https://huggingface.co/SkolkovoInstitute/russian_toxicity_classifier)
+- [https://www.kaggle.com/blackmoon/russian-language-toxic-comments](https://www.kaggle.com/blackmoon/russian-language-toxic-comments)
+- [https://www.kaggle.com/alexandersemiletov/toxic-russian-comments](https://www.kaggle.com/alexandersemiletov/toxic-russian-comments)
 
 ## Benchmarking
 

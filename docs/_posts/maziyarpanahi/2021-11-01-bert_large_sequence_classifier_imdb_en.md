@@ -114,7 +114,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/datasets/imdb](https://huggingface.co/datasets/imdb)
+[http://ai.stanford.edu/~amaas/data/sentiment/](http://ai.stanford.edu/~amaas/data/sentiment/)
 
 ## Benchmarking
 

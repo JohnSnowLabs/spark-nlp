@@ -114,4 +114,4 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/finiteautomata/beto-emotion-analysis](https://huggingface.co/finiteautomata/beto-emotion-analysis)
+[https://github.com/fmplaza/EmoEvent](https://github.com/fmplaza/EmoEvent)

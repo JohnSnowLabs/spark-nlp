@@ -17,10 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-# RuBERT for Sentiment Analysis
-Short Russian texts sentiment classification
-
-This is a [DeepPavlov/rubert-base-cased-conversational](https://huggingface.co/DeepPavlov/rubert-base-cased-conversational) model trained on aggregated corpus of 351.797 texts.
+Short Russian texts sentiment classification. This is a RuBERT for Sentiment Analysis model trained on aggregated corpus of 351.797 texts.
 
 ## Predicted Entities
 
@@ -102,4 +99,8 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/blanchefort/rubert-base-cased-sentiment](https://huggingface.co/blanchefort/rubert-base-cased-sentiment)
+This model is trained on aggregated corpus:
+- [https://study.mokoron.com/](https://study.mokoron.com/)
+- [https://github.com/sismetanin/rureviews](https://github.com/sismetanin/rureviews)
+- [https://text-machine.cs.uml.edu/projects/rusentiment/](https://text-machine.cs.uml.edu/projects/rusentiment/)
+- [https://github.com/blanchefort/datasets/tree/master/medical_comments](https://github.com/blanchefort/datasets/tree/master/medical_comments)

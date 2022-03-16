@@ -63,4 +63,4 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 ## Data Source
 
-[https://huggingface.co/xlm-roberta-base](https://huggingface.co/xlm-roberta-base)
+[https://github.com/google-research/xtreme](https://github.com/google-research/xtreme)

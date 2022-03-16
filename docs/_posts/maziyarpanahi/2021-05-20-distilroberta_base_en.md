@@ -17,9 +17,8 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is a distilled version of the [RoBERTa-base model](https://huggingface.co/roberta-base). It follows the same training procedure as [DistilBERT](https://huggingface.co/distilbert-base-uncased).
-
-The code for the distillation process can be found [here](https://github.com/huggingface/transformers/tree/master/examples/research_projects/distillation). This model is case-sensitive: it makes a difference between english and English.
+This model is a distilled version of the `RoBERTa-base model`. It follows the same training procedure as `DistilBERT`. 
+This model is case-sensitive: it makes a difference between english and English.
 
 The model has 6 layers, 768 dimensions, and 12 heads, totalizing 82M parameters (compared to 125M parameters for RoBERTa-base).
 On average DistilRoBERTa is twice as fast as Roberta-base.
@@ -64,7 +63,7 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 ## Data Source
 
-[https://huggingface.co/distilroberta-base](https://huggingface.co/distilroberta-base)
+[https://skylion007.github.io/OpenWebTextCorpus/](https://skylion007.github.io/OpenWebTextCorpus/)
 
 ## Benchmarking
 

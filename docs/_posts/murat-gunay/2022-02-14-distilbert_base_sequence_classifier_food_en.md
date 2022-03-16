@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from `Hugging Face` ([link](https://huggingface.co/Tejas3/distillbert_base_uncased_amazon_food_review_300)) and it's been trained on Amazon Food Review dataset, leveraging `Distil-BERT` embeddings and `DistilBertForSequenceClassification` for text classification purposes. The model classifies `Positive` or `Negative` sentiments of texts related to food reviews.
+This model has been trained on Amazon Food Review dataset, leveraging `Distil-BERT` embeddings and `DistilBertForSequenceClassification` for text classification purposes. The model classifies `Positive` or `Negative` sentiments of texts related to food reviews.
 
 ## Predicted Entities
 
@@ -95,3 +95,7 @@ val result = pipeline.fit(example1).transform(example)
 |Size:|249.8 MB|
 |Case sensitive:|true|
 |Max sentence length:|256|
+
+## Data Source
+
+[https://www.kaggle.com/snap/amazon-fine-food-reviews](https://www.kaggle.com/snap/amazon-fine-food-reviews)

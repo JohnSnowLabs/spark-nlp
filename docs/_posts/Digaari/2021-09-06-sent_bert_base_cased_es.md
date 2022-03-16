@@ -35,7 +35,7 @@ BETO is a BERT model trained on a big Spanish corpus. BETO is of size similar to
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-sent_embeddings = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "es") \
+sent_embeddings = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "es")\
       .setInputCols("sentence") \
       .setOutputCol("bert_sentence")
 
@@ -66,4 +66,4 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 ## Data Source
 
-The model is imported from: https://huggingface.co/dccuchile/bert-base-spanish-wwm-cased
+[https://github.com/josecannete/spanish-corpora](https://github.com/josecannete/spanish-corpora)

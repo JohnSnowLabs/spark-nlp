@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is imported from `Hugging Face-models`and it is used for classifying a text as `Hate speech`, `Offensive`, or `Normal`. The model is trained using data from Gab and Twitter and Human Rationales were included as part of the training data to boost the performance.
+This model has been trained for classifying a text as `Hate speech`, `Offensive`, or `Normal`. The model is trained using data from Gab and Twitter and Human Rationales were included as part of the training data to boost the performance.
 
 - Citing :
 ```bash
@@ -110,7 +110,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/Hate-speech-CNERG/bert-base-uncased-hatexplain](https://huggingface.co/Hate-speech-CNERG/bert-base-uncased-hatexplain)
+[https://github.com/hate-alert/HateXplain](https://github.com/hate-alert/HateXplain)
 
 ## Benchmarking
 

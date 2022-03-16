@@ -21,7 +21,7 @@ Longformer Model with sequence classification/regression head on top (a linear l
 
 `longformer_base_sequence_classifier_ag_news ` is a fine-tuned Longformer model that is ready to be used for Sequence Classification tasks such as sentiment analysis or multi-class text classification and it achieves state-of-the-art performance. 
 
-We used TFLongformerForSequenceClassification to train this model and used LongformerForSequenceClassification annotator in Spark NLP 🚀 for prediction at scale!
+We used `TFLongformerForSequenceClassification` to train this model and used `LongformerForSequenceClassification` annotator in Spark NLP 🚀 for prediction at scale!
 
 ## Predicted Entities
 
@@ -105,7 +105,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/datasets/ag_news](https://huggingface.co/datasets/ag_news)
+[http://groups.di.unipi.it/~gulli/AG_corpus_of_news_articles.html](http://groups.di.unipi.it/~gulli/AG_corpus_of_news_articles.html)
 
 ## Benchmarking
 

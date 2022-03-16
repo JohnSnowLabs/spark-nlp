@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 # XLM-R + NER
 
-This model is a fine-tuned  [XLM-Roberta-base](https://arxiv.org/abs/1911.02116) over the 40 languages proposed in [XTREME](https://github.com/google-research/xtreme) from [Wikiann](https://aclweb.org/anthology/P17-1178). 
+This model is a fine-tuned  [XLM-Roberta-base](https://arxiv.org/abs/1911.02116) over the 40 languages proposed. 
 
 The covered labels are:
 
@@ -121,7 +121,8 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/jplu/tf-xlm-r-ner-40-lang](https://huggingface.co/jplu/tf-xlm-r-ner-40-lang)
+- [https://github.com/google-research/xtreme](https://github.com/google-research/xtreme)
+- [https://aclweb.org/anthology/P17-1178](https://aclweb.org/anthology/P17-1178)
 
 ## Benchmarking
 

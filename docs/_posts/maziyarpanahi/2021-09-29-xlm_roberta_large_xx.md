@@ -67,4 +67,4 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 ## Data Source
 
-[https://huggingface.co/xlm-roberta-large](https://huggingface.co/xlm-roberta-large)
+It is trained on 2.5T of data across 100 languages data filtered from Common Crawl.

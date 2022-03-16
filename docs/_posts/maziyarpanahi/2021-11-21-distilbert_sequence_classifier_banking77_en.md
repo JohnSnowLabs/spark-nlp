@@ -99,9 +99,8 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/philschmid/DistilBERT-Banking77](https://huggingface.co/philschmid/DistilBERT-Banking77)
+[https://github.com/PolyAI-LDN/task-specific-datasets](https://github.com/PolyAI-LDN/task-specific-datasets)
 
-[https://huggingface.co/datasets/banking77](https://huggingface.co/datasets/banking77)
 
 ## Benchmarking
 

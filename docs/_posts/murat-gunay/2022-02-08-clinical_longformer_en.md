@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This embeddings model was imported from `Hugging Face`([link](https://huggingface.co/yikuan8/Clinical-Longformer)). Clinical-Longformer is a clinical knowledge enriched version of `Longformer` that was further pretrained using MIMIC-III clinical notes. It allows up to 4,096 tokens as the model input. 
+Clinical-Longformer is a clinical knowledge enriched version of `Longformer` that was further pretrained using MIMIC-III clinical notes. It allows up to 4,096 tokens as the model input. 
 
 `Clinical-Longformer` consistently out-performs `ClinicalBERT` across 10 baseline dataset for at least 2 percent. Those downstream experiments broadly cover named entity recognition (NER), question answering (QA), natural language inference (NLI) and text classification tasks.
 

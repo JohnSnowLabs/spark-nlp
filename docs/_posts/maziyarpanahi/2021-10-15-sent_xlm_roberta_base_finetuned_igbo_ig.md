@@ -79,6 +79,4 @@ val senteceEmbeddings = XlmRoBertaSentenceEmbeddings.pretrained("sent_xlm_robert
 
 ## Data Source
 
-Model is trained by [David Adelani](https://huggingface.co/Davlan)
-
-Improted from [https://huggingface.co/Davlan/xlm-roberta-base-finetuned-igbo](https://huggingface.co/Davlan/xlm-roberta-base-finetuned-igbo)
+This model was fine-tuned on JW300 + OPUS CC-Align + [IGBO NLP Corpus](https://github.com/IgnatiusEzeani/IGBONLP) + [Igbo CC-100](https://data.statmt.org/cc-100/)

@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from `Hugging Face` ([link](https://huggingface.co/m3hrdadfi/typo-detector-distilbert-is)) and it's been trained on a Icelandic synthetic data to detect typos, leveraging `DistilBERT` embeddings and `DistilBertForTokenClassification` for NER purposes. It classifies typo tokens as `PO`.
+This model was imported from `Hugging Face` [(link)](https://huggingface.co/m3hrdadfi/typo-detector-distilbert-is) and it’s been trained on a Icelandic synthetic data to detect typos,, leveraging `DistilBERT` embeddings and `DistilBertForTokenClassification` for NER purposes. It classifies typo tokens as `PO`.
 
 ## Predicted Entities
 

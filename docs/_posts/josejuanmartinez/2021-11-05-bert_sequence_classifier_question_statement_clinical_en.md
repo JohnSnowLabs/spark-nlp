@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 Trained to add sentence classifying capabilities to distinguish between Question vs Statements in clinical domain.
 
-This model was imported from Hugging Face (https://huggingface.co/shahrukhx01/question-vs-statement-classifier), trained based on Haystack (https://github.com/deepset-ai/haystack/issues/611) and finetuned by John Snow Labs with in-house clinical annotations.
+This model has been trained based on Haystack (https://github.com/deepset-ai/haystack/issues/611) and finetuned by John Snow Labs with in-house clinical annotations.
 
 ## Predicted Entities
 
@@ -41,8 +41,8 @@ documentAssembler = DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
 
-sentenceDetector = SentenceDetectorDLModel.pretrained() \
-    .setInputCols(["document"]) \
+sentenceDetector = SentenceDetectorDLModel.pretrained()\
+    .setInputCols(["document"])\
     .setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
@@ -129,7 +129,7 @@ val result = pipeline.fit(example).transform(example)
 ## Data Source
 
 For generic domain training:
-https://github.com/deepset-ai/haystack/issues/611
+[https://github.com/deepset-ai/haystack/issues/611](https://github.com/deepset-ai/haystack/issues/611)
 
 For finetuning in clinical domain, in house JSL annotations based on clinical Q&A.
 

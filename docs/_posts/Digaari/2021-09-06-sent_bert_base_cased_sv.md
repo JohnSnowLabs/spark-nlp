@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-The National Library of Sweden / KBLab releases three pretrained language models based on BERT and ALBERT. The models are trained on aproximately 15-20GB of text (200M sentences, 3000M tokens) from various sources (books, news, government publications, swedish wikipedia and internet forums) aiming to provide a representative BERT model for Swedish text.
+The National Library of Sweden / KBLab releases three pretrained language models based on BERT and ALBERT. The models are trained to provide a representative BERT model for Swedish texts.
 
 ## Predicted Entities
 
@@ -66,4 +66,4 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 ## Data Source
 
-The model is imported from: https://huggingface.co/KB/bert-base-swedish-cased
+The models are trained on aproximately 15-20GB of text (200M sentences, 3000M tokens) from various sources (books, news, government publications, swedish wikipedia and internet forums).

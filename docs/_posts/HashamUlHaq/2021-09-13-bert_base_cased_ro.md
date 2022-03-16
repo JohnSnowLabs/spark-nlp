@@ -75,8 +75,9 @@ Generates 768 dimensional embeddings vectors per token
 |Language:|ro|
 |Case sensitive:|true|
 
-## Benchmarking
+## Data Source
+The BERT base, cased model for Romanian, trained on a 15GB corpus
+- [http://www.clungu.com/tutorial/Romanian-Wiki-Corpus/](http://www.clungu.com/tutorial/Romanian-Wiki-Corpus/)
+- [https://oscar-corpus.com/post/oscar-v22-01/](https://oscar-corpus.com/post/oscar-v22-01/)
+- [https://opus.nlpl.eu/](https://opus.nlpl.eu/)
 
-```bash
-This model is imported from https://huggingface.co/dumitrescustefan/bert-base-romanian-cased-v1
-```

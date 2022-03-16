@@ -114,7 +114,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/datasets/allocine](https://huggingface.co/datasets/allocine)
+[https://github.com/TheophileBlard/french-sentiment-analysis-with-bert/tree/master/allocine_dataset](https://github.com/TheophileBlard/french-sentiment-analysis-with-bert/tree/master/allocine_dataset)
 
 ## Benchmarking
 

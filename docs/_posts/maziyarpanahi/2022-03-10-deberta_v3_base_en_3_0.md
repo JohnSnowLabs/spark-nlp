@@ -64,7 +64,7 @@ val embeddings = DeBertaEmbeddings.pretrained("deberta_v3_base", "en")
 
 ## References
 
-[https://huggingface.co/microsoft/deberta-v3-base](https://huggingface.co/microsoft/deberta-v3-base)
+[https://dumps.wikimedia.org/enwiki/](https://dumps.wikimedia.org/enwiki/)
 
 ## Benchmarking
 
@@ -75,11 +75,11 @@ dev results on SQuAD 2.0 and MNLI tasks.
 
 | Model             |Vocabulary(K)|Backbone #Params(M)| SQuAD 2.0(F1/EM) | MNLI-m/mm(ACC)|
 |-------------------|----------|-------------------|-----------|----------|
-| RoBERTa-base      |50     |86                 | 83.7/80.5 | 87.6/-   |
-| XLNet-base        |32     |92                 | -/80.2    | 86.8/-   |
-| ELECTRA-base      |30    |86                  | -/80.5    | 88.8/    |
-| DeBERTa-base      |50     |100                |  86.2/83.1| 88.8/88.5|
-| DeBERTa-v3-base   |128|86                       | **88.4/85.4** | **90.6/90.7**|
-| DeBERTa-v3-base + SiFT |128|86                | -/- | 91.0/-|
+| RoBERTa-base      |50        |86                 | 83.7/80.5 | 87.6/-   |
+| XLNet-base        |32        |92                 | -/80.2    | 86.8/-   |
+| ELECTRA-base      |30        |86                 | -/80.5    | 88.8/    |
+| DeBERTa-base      |50        |100                |  86.2/83.1| 88.8/88.5|
+| DeBERTa-v3-base   |128       |86                 | **88.4/85.4**| **90.6/90.7**|
+| DeBERTa-v3-base + SiFT |128  |86                 | -/-       | 91.0/-   |
 
 ```

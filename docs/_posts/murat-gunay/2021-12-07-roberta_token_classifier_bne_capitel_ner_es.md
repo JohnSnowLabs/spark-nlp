@@ -17,9 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-- This model is imported from `Hugging Face`.
-
-- RoBERTa-base-bne is a transformer-based masked language model for the Spanish language. It is based on the RoBERTa base model and has been pretrained using the largest Spanish corpus known to date, with a total of 570GB of clean and deduplicated text processed for this work, compiled from the web crawlings performed by the National Library of Spain (Biblioteca Nacional de España) from 2009 to 2019.
+RoBERTa-base-bne is a transformer-based masked language model for the Spanish language. It is based on the RoBERTa base model and has been pretrained using the largest Spanish corpus known to date, with a total of 570GB of clean and deduplicated text processed for this work, compiled from the web crawlings performed by the National Library of Spain (Biblioteca Nacional de España) from 2009 to 2019.
 
 ## Predicted Entities
 
@@ -123,7 +121,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/PlanTL-GOB-ES/roberta-base-bne-capitel-ner-plus](https://huggingface.co/PlanTL-GOB-ES/roberta-base-bne-capitel-ner-plus)
+[https://sites.google.com/view/capitel2020](https://sites.google.com/view/capitel2020)
 
 ## Benchmarking
 

@@ -64,7 +64,7 @@ val embeddings = XlmRoBertaEmbeddings.pretrained("xlm_roberta_base_finetuned_kin
 
 ## Data Source
 
-[https://huggingface.co/Davlan/xlm-roberta-base-finetuned-kinyarwanda](https://huggingface.co/Davlan/xlm-roberta-base-finetuned-kinyarwanda)
+This model was fine-tuned on JW300 + [KIRNEWS](https://github.com/Andrews2017/KINNEWS-and-KIRNEWS-Corpus) + [BBC Gahuza](https://www.bbc.com/gahuza)
 
 ## Benchmarking
 

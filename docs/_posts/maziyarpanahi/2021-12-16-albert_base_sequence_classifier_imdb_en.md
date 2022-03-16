@@ -21,7 +21,7 @@ ALBERT Model with sequence classification/regression head on top (a linear layer
 
 `albert_base_sequence_classifier_imdb ` is a fine-tuned ALBERT model that is ready to be used for Sequence Classification tasks such as sentiment analysis or multi-class text classification and it achieves state-of-the-art performance. 
 
-We used TFAlbertForSequenceClassification to train this model and used AlbertForSequenceClassification annotator in Spark NLP 🚀 for prediction at scale!
+We used `TFAlbertForSequenceClassification` to train this model and used `AlbertForSequenceClassification` annotator in Spark NLP 🚀 for prediction at scale!
 
 ## Predicted Entities
 
@@ -115,7 +115,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/datasets/imdb](https://huggingface.co/datasets/imdb)
+[http://ai.stanford.edu/~amaas/data/sentiment/](http://ai.stanford.edu/~amaas/data/sentiment/)
 
 ## Benchmarking
 

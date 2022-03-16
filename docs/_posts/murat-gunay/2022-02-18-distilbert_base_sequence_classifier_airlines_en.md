@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from `Hugging Face` ([link](https://huggingface.co/tasosk/distilbert-base-uncased-airlines)) and it's been trained on tasosk/airlines dataset, leveraging `Distil-BERT` embeddings and `DistilBertForSequenceClassification` for text classification purposes. The model classifies texts into two categories: `YES` for positive comments, and `NO` for negative.
+This model was imported from Hugging Face [(link)](https://huggingface.co/tasosk/distilbert-base-uncased-airlines) and it’s been trained on tasosk/airlines dataset, leveraging Distil-BERT embeddings and DistilBertForSequenceClassification for text classification purposes. The model classifies texts into two categories: YES for positive comments, and NO for negative.
 
 ## Predicted Entities
 

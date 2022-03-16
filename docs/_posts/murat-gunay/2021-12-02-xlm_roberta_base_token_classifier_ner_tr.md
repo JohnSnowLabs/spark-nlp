@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is imported from `Hugging Face-models`. This model is the fine-tuned version of "xlm-roberta-base" (a multilingual version of RoBERTa) using a reviewed version of well known Turkish NER dataset (https://github.com/stefan-it/turkish-bert/files/4558187/nerdata.txt)
+This model has been fine-tuned version of "xlm-roberta-base" (a multilingual version of RoBERTa) using a reviewed version of well known Turkish NER dataset (https://github.com/stefan-it/turkish-bert/files/4558187/nerdata.txt)
 
 ## Predicted Entities
 
@@ -120,7 +120,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/akdeniz27/xlm-roberta-base-turkish-ner](https://huggingface.co/akdeniz27/xlm-roberta-base-turkish-ner)
+[Turkish NER dataset](https://github.com/stefan-it/turkish-bert/files/4558187/nerdata.txt)
 
 ## Benchmarking
 

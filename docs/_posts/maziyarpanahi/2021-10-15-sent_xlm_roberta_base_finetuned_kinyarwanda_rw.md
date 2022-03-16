@@ -79,6 +79,5 @@ val senteceEmbeddings = XlmRoBertaSentenceEmbeddings.pretrained("sent_xlm_robert
 
 ## Data Source
 
-Model is trained by [David Adelani](https://huggingface.co/Davlan)
+This model was fine-tuned on JW300 + [KIRNEWS](https://github.com/Andrews2017/KINNEWS-and-KIRNEWS-Corpus) + [BBC Gahuza](https://www.bbc.com/gahuza)
 
-Improted from [https://huggingface.co/Davlan/xlm-roberta-base-finetuned-kinyarwanda](https://huggingface.co/Davlan/xlm-roberta-base-finetuned-kinyarwanda)

@@ -17,9 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-- This model is imported from `Hugging Face`. 
-
-- It's been trained using `xlm_roberta_large` fine-tuned model on 10 African languages (Amharic, Hausa, Igbo, Kinyarwanda, Luganda, Nigerian, Pidgin, Swahilu, Wolof, and Yorùbá).
+This model has been trained using `xlm_roberta_large` fine-tuned model on 10 African languages (Amharic, Hausa, Igbo, Kinyarwanda, Luganda, Nigerian, Pidgin, Swahilu, Wolof, and Yorùbá).
 
 ## Predicted Entities
 
@@ -123,7 +121,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/Davlan/xlm-roberta-large-masakhaner](https://huggingface.co/Davlan/xlm-roberta-large-masakhaner)
+[https://github.com/masakhane-io/masakhane-ner](https://github.com/masakhane-io/masakhane-ner)
 
 ## Benchmarking
 

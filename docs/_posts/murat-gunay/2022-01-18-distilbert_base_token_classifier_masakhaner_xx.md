@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is imported from `Hugging Face` ([link](https://huggingface.co/Davlan/distilbert-base-multilingual-cased-masakhaner)) and it's been finetuned on MasakhaNER dataset for 9 African languages (Hausa, Igbo, Kinyarwanda, Luganda, Nigerian, Pidgin, Swahilu, Wolof, and Yorùbá) leveraging `DistilBert` embeddings and `DistilBertForTokenClassification` for NER purposes.
+This model has been finetuned on MasakhaNER dataset for 9 African languages (Hausa, Igbo, Kinyarwanda, Luganda, Nigerian, Pidgin, Swahilu, Wolof, and Yorùbá) leveraging `DistilBert` embeddings and `DistilBertForTokenClassification` for NER purposes.
 
 ## Predicted Entities
 

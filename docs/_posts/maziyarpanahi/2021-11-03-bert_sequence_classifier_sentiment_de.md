@@ -124,7 +124,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/oliverguhr/german-sentiment-bert](https://huggingface.co/oliverguhr/german-sentiment-bert)
+[https://github.com/oliverguhr/german-sentiment/tree/master/source-data](https://github.com/oliverguhr/german-sentiment/tree/master/source-data)
 
 ## Benchmarking
 

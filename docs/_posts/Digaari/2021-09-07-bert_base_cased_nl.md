@@ -66,4 +66,10 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 ## Data Source
 
-The model is imported from: https://huggingface.co/GroNLP/bert-base-dutch-cased
+For pre-training, we combined several corpora of high quality Dutch text, listed below. The sizes in
+parentheses are the uncompressed text sizes after cleaning.
+- Books: a collection of contemporary and historical fiction novels (4.4GB)
+- TwNC (Ordelman et al., 2007): a Multifaceted Dutch News Corpus (2.4GB)
+- SoNaR-500 (Oostdijk et al., 2013): a multi-genre reference corpus (2.2GB)
+- Web news: all articles of 4 Dutch news websites from January 1, 2015 to October 1, 2019 (1.6GB)
+- Wikipedia: the October 2019 dump (1.5GB)

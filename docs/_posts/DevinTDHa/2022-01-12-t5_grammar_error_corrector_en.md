@@ -98,5 +98,4 @@ result.select("corrections.result").show(false)
 
 ## Data Source
 
-Model originally from the transformers library:
-https://huggingface.co/prithivida/grammar_error_correcter_v1
+[https://github.com/PrithivirajDamodaran/Gramformer/#dataset](https://github.com/PrithivirajDamodaran/Gramformer/#dataset)

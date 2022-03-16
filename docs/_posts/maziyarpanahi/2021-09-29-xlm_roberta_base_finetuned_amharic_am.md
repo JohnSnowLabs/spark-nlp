@@ -64,7 +64,7 @@ val embeddings = XlmRoBertaEmbeddings.pretrained("xlm_roberta_base_finetuned_amh
 
 ## Data Source
 
-[https://huggingface.co/Davlan/xlm-roberta-base-finetuned-amharic](https://huggingface.co/Davlan/xlm-roberta-base-finetuned-amharic)
+This model was fine-tuned on [Amharic CC-100](http://data.statmt.org/cc-100/)
 
 ## Benchmarking
 

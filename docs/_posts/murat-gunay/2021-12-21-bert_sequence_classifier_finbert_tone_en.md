@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from `Hugging Face` and it's been fine-tuned on 10.000 manually annotated sentences from analyst reports, leveraging `FinBERT` embeddings. This model achieves superior performance on financial tone analysis task.
+This model has been fine-tuned on 10.000 manually annotated sentences from analyst reports, leveraging `FinBERT` embeddings. This model achieves superior performance on financial tone analysis task.
 
 ## Predicted Entities
 
@@ -99,4 +99,4 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/yiyanghkust/finbert-tone](https://huggingface.co/yiyanghkust/finbert-tone)
+[https://www.researchgate.net/publication/251231364_FinancialPhraseBank-v10](https://www.researchgate.net/publication/251231364_FinancialPhraseBank-v10)

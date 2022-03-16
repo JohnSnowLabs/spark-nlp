@@ -64,7 +64,7 @@ val embeddings = XlmRoBertaEmbeddings.pretrained("xlm_roberta_base_finetuned_lug
 
 ## Data Source
 
-[https://huggingface.co/Davlan/xlm-roberta-base-finetuned-luganda](https://huggingface.co/Davlan/xlm-roberta-base-finetuned-luganda)
+This model was fine-tuned on JW300 + [BUKKEDDE](https://github.com/masakhane-io/masakhane-ner/tree/main/text_by_language/luganda) + [Luganda CC-100](https://data.statmt.org/cc-100/)
 
 ## Benchmarking
 

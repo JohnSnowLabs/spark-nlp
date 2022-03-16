@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is imported from `Hugging Face-models`. It is a BERT-Mini fine-tuned version of the `age_news` dataset.
+This model is a BERT-Mini fine-tuned version of the `age_news` dataset.
 
 ## Predicted Entities
 
@@ -100,7 +100,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/mrm8488/bert-mini-finetuned-age_news-classification](https://huggingface.co/mrm8488/bert-mini-finetuned-age_news-classification)
+[http://groups.di.unipi.it/~gulli/AG_corpus_of_news_articles.html](http://groups.di.unipi.it/~gulli/AG_corpus_of_news_articles.html)
 
 ## Benchmarking
 

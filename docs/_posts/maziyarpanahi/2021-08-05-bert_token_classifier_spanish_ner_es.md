@@ -19,7 +19,6 @@ use_language_switcher: "Python-Scala-Java"
 
 `BERT Model` with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks.
 
-This model is a fine-tuned on [NER-C](https://www.kaggle.com/nltkdata/conll-corpora) version of the Spanish BERT cased [(BETO)](https://github.com/dccuchile/beto) for **NER** downstream task.
 
 ## Predicted Entities
 
@@ -120,24 +119,24 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/mrm8488/bert-spanish-cased-finetuned-ner](https://huggingface.co/mrm8488/bert-spanish-cased-finetuned-ner)
+This model is a fine-tuned on [NER-C](https://www.kaggle.com/nltkdata/conll-corpora) version of the Spanish BERT cased [(BETO)](https://github.com/dccuchile/beto) for **NER** downstream task.
 
 ## Benchmarking
 
 ```bash
-|                                                      Metric                                                       |  # score  |
-| :------------------------------------------------------------------------------------: | :-------: |
-| F1                                       | **90.17**  
-| Precision                                | **89.86** | 
-| Recall                                   | **90.47** |    
+|  Metric      |  Score  |
+| :-----------:| :-------: |
+| F1           | **90.17** | 
+| Precision    | **89.86** | 
+| Recall       | **90.47** |    
 
 ## Comparison:
 
-|                                                      Model                                                       |  # F1 score  |Size(MB)|
-| :--------------------------------------------------------------------------------------------------------------: | :-------: |:------|
-|                                        bert-base-spanish-wwm-cased (BETO)                                        |   88.43   | 421
-| [bert-spanish-cased-finetuned-ner (this one)](https://huggingface.co/mrm8488/bert-spanish-cased-finetuned-ner) | **90.17** | 420 |
-|                                              Best Multilingual BERT                                              |   87.38   | 681 |
-|[TinyBERT-spanish-uncased-finetuned-ner](https://huggingface.co/mrm8488/TinyBERT-spanish-uncased-finetuned-ner) | 70.00 | **55** |
+| Model                                          | F1 score  |Size(MB)|
+| :---------------------------------------------:|:---------:|:-------|
+| bert-base-spanish-wwm-cased (BETO)             |   88.43   | 421    |
+| bert-spanish-cased-finetuned-ner (this one)    | **90.17** | 420    |
+| Best Multilingual BERT                         |   87.38   | 681    |
+| TinyBERT-spanish-uncased-finetuned-ner         |   70.00   | **55** |
 
 ```

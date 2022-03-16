@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from `Hugging Face`, and has been fine-tuned on Universal Dependencies Lassy dataset for Dutch language, leveraging `Bert` embeddings and `BertForTokenClassification` for NER purposes.
+This model has been fine-tuned on Universal Dependencies Lassy dataset for Dutch language, leveraging `Bert` embeddings and `BertForTokenClassification` for NER purposes.
 
 ## Predicted Entities
 
@@ -123,4 +123,4 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/wietsedv/bert-base-dutch-cased-finetuned-udlassy-ner](https://huggingface.co/wietsedv/bert-base-dutch-cased-finetuned-udlassy-ner)
+[https://universaldependencies.org/treebanks/nl_lassysmall/index.html](https://universaldependencies.org/treebanks/nl_lassysmall/index.html)

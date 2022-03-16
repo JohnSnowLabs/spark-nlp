@@ -101,4 +101,4 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/ProsusAI/finbert](https://huggingface.co/ProsusAI/finbert)
+[https://www.researchgate.net/publication/251231364_FinancialPhraseBank-v10](https://www.researchgate.net/publication/251231364_FinancialPhraseBank-v10)

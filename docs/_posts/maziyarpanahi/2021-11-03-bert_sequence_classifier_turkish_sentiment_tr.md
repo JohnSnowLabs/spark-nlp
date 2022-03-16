@@ -17,45 +17,9 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-# Bert-base Turkish Sentiment Model
 
-This model is used for Sentiment Analysis, which is based on BERTurk for Turkish Language https://huggingface.co/dbmdz/bert-base-turkish-cased
+This model is Bert-base Turkish Sentiment Model, which is used for Sentiment Analysis
 
-## Dataset
-
-The dataset is taken from the studies [[2]](#paper-2) and [[3]](#paper-3), and merged.
-
-* The study [2] gathered movie and product reviews. The products are book, DVD, electronics, and kitchen.
-The movie dataset is taken from a cinema Web page ([Beyazperde](www.beyazperde.com)) with
-5331 positive and 5331 negative sentences. Reviews in the Web page are marked in
-scale from 0 to 5 by the users who made the reviews. The study considered a review
-sentiment positive if the rating is equal to or bigger than 4, and negative if it is less
-or equal to 2. They also built Turkish product review dataset from an online retailer
-Web page. They constructed benchmark dataset consisting of reviews regarding some
-products (book, DVD, etc.). Likewise, reviews are marked in the range from 1 to 5,
-and majority class of reviews are 5. Each category has 700 positive and 700 negative
-reviews in which average rating of negative reviews is 2.27 and of positive reviews
-is 4.5. This dataset is also used by the study [[1]](#paper-1).
-
-* The study [[3]](#paper-3) collected tweet dataset. They proposed a new approach for automatically classifying the sentiment of microblog messages. The proposed approach is based on utilizing robust feature representation and fusion.
-
-*Merged Dataset*
-
-| *size*   | *data* |
-|--------|----|
-|   8000 |dev.tsv|
-|   8262 |test.tsv|
-|  32000 |train.tsv|
-|  *48290* |*total*|
-
-### The dataset is used by following papers
-
-<a id="paper-1">[1]</a> Yildirim, SavasÌ§. (2020). Comparing Deep Neural Networks to Traditional Models for Sentiment Analysis in Turkish Language. 10.1007/978-981-15-1216-2_12.
-
-<a id="paper-2">[2]</a> Demirtas, Erkin and Mykola Pechenizkiy. 2013. Cross-lingual polarity detection with machine translation. In Proceedings of the Second International Workshop on Issues of Sentiment
-Discovery and Opinion Mining (WISDOM â€™13)
-
-<a id="paper-3">[3]</a> Hayran, A.,   Sert, M. (2017), "Sentiment Analysis on Microblog Data based on Word Embedding and Fusion Techniques", IEEE 25th Signal Processing and Communications Applications Conference (SIU 2017), Belek, Turkey
 
 ## Predicted Entities
 
@@ -137,4 +101,36 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/savasy/bert-base-turkish-sentiment-cased](https://huggingface.co/savasy/bert-base-turkish-sentiment-cased)
+The dataset is taken from the studies [[2]](#paper-2) and [[3]](#paper-3), and merged.
+
+* The study [2] gathered movie and product reviews. The products are book, DVD, electronics, and kitchen.
+The movie dataset is taken from a cinema Web page ([Beyazperde](www.beyazperde.com)) with
+5331 positive and 5331 negative sentences. Reviews in the Web page are marked in
+scale from 0 to 5 by the users who made the reviews. The study considered a review
+sentiment positive if the rating is equal to or bigger than 4, and negative if it is less
+or equal to 2. They also built Turkish product review dataset from an online retailer
+Web page. They constructed benchmark dataset consisting of reviews regarding some
+products (book, DVD, etc.). Likewise, reviews are marked in the range from 1 to 5,
+and majority class of reviews are 5. Each category has 700 positive and 700 negative
+reviews in which average rating of negative reviews is 2.27 and of positive reviews
+is 4.5. This dataset is also used by the study [[1]](#paper-1).
+
+* The study [[3]](#paper-3) collected tweet dataset. They proposed a new approach for automatically classifying the sentiment of microblog messages. The proposed approach is based on utilizing robust feature representation and fusion.
+
+Merged Dataset
+
+| **size**| **data** |
+|---------|----------|
+|   8000  |dev.tsv   |
+|   8262  |test.tsv  |
+|  32000  |train.tsv |
+|  48290  |total     |
+ 
+The dataset is used by following papers
+
+<a id="paper-1">[1]</a> Yildirim, SavasÌ§. (2020). Comparing Deep Neural Networks to Traditional Models for Sentiment Analysis in Turkish Language. 10.1007/978-981-15-1216-2_12.
+
+<a id="paper-2">[2]</a> Demirtas, Erkin and Mykola Pechenizkiy. 2013. Cross-lingual polarity detection with machine translation. In Proceedings of the Second International Workshop on Issues of Sentiment
+Discovery and Opinion Mining (WISDOM â€™13)
+
+<a id="paper-3">[3]</a> Hayran, A.,   Sert, M. (2017), "Sentiment Analysis on Microblog Data based on Word Embedding and Fusion Techniques", IEEE 25th Signal Processing and Communications Applications Conference (SIU 2017), Belek, Turkey

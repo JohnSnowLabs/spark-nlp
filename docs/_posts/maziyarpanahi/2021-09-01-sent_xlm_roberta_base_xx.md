@@ -66,4 +66,4 @@ val embeddings = XlmRoBertaSentenceEmbeddings.pretrained("sent_xlm_roberta_base"
 
 ## Data Source
 
-[https://huggingface.co/xlm-roberta-base](https://huggingface.co/xlm-roberta-base)
+This model is trained on 2.5T of data across 100 languages data filtered from Common Crawl.

@@ -67,4 +67,5 @@ embeddings_df
 
 ## Data Source
 
-[https://huggingface.co/xlnet-base-cased](https://huggingface.co/xlnet-base-cased)
+- [https://dumps.wikimedia.org/enwiki/](https://dumps.wikimedia.org/enwiki/)
+- [https://github.com/jackbandy/bookcorpus-datasheet/tree/main/data](https://github.com/jackbandy/bookcorpus-datasheet/tree/main/data)

@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from `Hugging Face` ([link](https://huggingface.co/mdraw/german-news-sentiment-bert)) and it's been finetuned on news texts about migration for German language, leveraging `Bert` embeddings and `BertForSequenceClassification` for text classification purposes.
+This model has been finetuned on news texts about migration for German language, leveraging `Bert` embeddings and `BertForSequenceClassification` for text classification purposes.
 
 ## Predicted Entities
 

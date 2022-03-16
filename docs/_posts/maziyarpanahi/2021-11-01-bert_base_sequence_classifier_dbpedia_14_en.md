@@ -103,7 +103,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/datasets/dbpedia_14](https://huggingface.co/datasets/dbpedia_14)
+[http://downloads.dbpedia.org/wiki-archive/](http://downloads.dbpedia.org/wiki-archive/)
 
 ## Benchmarking
 

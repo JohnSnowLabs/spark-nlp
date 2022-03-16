@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from `Hugging Face` and it's been fine-tuned on [indonlu's](https://hf.co/datasets/indonlu) POSP dataset for the Indonesian language, leveraging `RoBERTa` embeddings and `RobertaForTokenClassification` for POS tagging purposes.
+This model has been fine-tuned on POSP dataset for the Indonesian language, leveraging `RoBERTa` embeddings and `RobertaForTokenClassification` for POS tagging purposes.
 
 ## Predicted Entities
 
@@ -125,7 +125,7 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/w11wo/indonesian-roberta-base-posp-tagger](https://huggingface.co/w11wo/indonesian-roberta-base-posp-tagger)
+[https://www.indobenchmark.com/](https://www.indobenchmark.com/)
 
 ## Benchmarking
 

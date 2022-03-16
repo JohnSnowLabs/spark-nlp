@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from `Hugging Face` and it's been fine-tuned for the German language, leveraging `XLM-RoBERTa` embeddings and `XlmRobertaForTokenClassification` for NER purposes.
+This model has been fine-tuned for the German language, leveraging `XLM-RoBERTa` embeddings and `XlmRobertaForTokenClassification` for NER purposes.
 
 ## Predicted Entities
 
@@ -122,4 +122,4 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/xlm-roberta-large-finetuned-conll03-german](https://huggingface.co/xlm-roberta-large-finetuned-conll03-german)
+[https://www.clips.uantwerpen.be/conll2003/ner/](https://www.clips.uantwerpen.be/conll2003/ner/)

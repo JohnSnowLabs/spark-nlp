@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from `Hugging Face` and it's been fine-tuned for 10 high resourced languages (Arabic, German, English, Spanish, French, Italian, Latvian, Dutch, Portuguese and Chinese), leveraging `XLM-RoBERTa` embeddings and `XlmRobertaForTokenClassification` for NER purposes.
+This model has been fine-tuned for 10 high resourced languages (Arabic, German, English, Spanish, French, Italian, Latvian, Dutch, Portuguese and Chinese), leveraging `XLM-RoBERTa` embeddings and `XlmRobertaForTokenClassification` for NER purposes.
 
 ## Predicted Entities
 
@@ -122,4 +122,15 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/Davlan/xlm-roberta-large-ner-hrl](https://huggingface.co/Davlan/xlm-roberta-large-ner-hrl)
+|**Language**|**Dataset**                |
+|------------|---------------------------|
+| Arabic     | [ANERcorp](https://camel.abudhabi.nyu.edu/anercorp/)                                                  |
+| German     | [conll 2003](https://www.clips.uantwerpen.be/conll2003/ner/)                                          |
+| English    | [conll 2003](https://www.clips.uantwerpen.be/conll2003/ner/)                                          |
+| Spanish    | [conll 2002](https://www.clips.uantwerpen.be/conll2002/ner/)                                          |
+| French     | [Europeana Newspapers](https://github.com/EuropeanaNewspapers/ner-corpora/tree/master/enp_FR.bnf.bio) |
+| Italian    | [Italian I-CAB](https://ontotext.fbk.eu/icab.html)                                                    |
+| Latvian    | [Latvian NER](https://github.com/LUMII-AILab/FullStack/tree/master/NamedEntities)                     |
+| Dutch      | [conll 2002](https://www.clips.uantwerpen.be/conll2002/ner/)                                          |
+| Portuguese | [Paramopama + Second Harem](https://github.com/davidsbatista/NER-datasets/tree/master/Portuguese)     |
+| Chinese    | [MSRA](https://github.com/OYE93/Chinese-NLP-Corpus/tree/master/NER/MSRA)                              |

@@ -22,7 +22,7 @@ use_language_switcher: "Python-Scala-Java"
 
 **bert_large_token_classifier_conll03** is a fine-tuned BERT model that is ready to use for **Named Entity Recognition** and achieves **state-of-the-art performance** for the NER task. This model has been trained to recognize four types of entities: location (LOC), organizations (ORG), person (PER), and Miscellaneous (MISC). 
 
-We used [TFBertForTokenClassification](https://huggingface.co/transformers/model_doc/bert.html#tfbertfortokenclassification) to train this model and used `BertForTokenClassification` annotator in Spark NLP 🚀 for prediction at scale!
+We used `TFBertForTokenClassification` to train this model and used `BertForTokenClassification` annotator in Spark NLP 🚀 for prediction at scale!
 
 ## Predicted Entities
 

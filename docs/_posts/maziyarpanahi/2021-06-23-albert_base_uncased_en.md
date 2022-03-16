@@ -66,5 +66,4 @@ embeddings_df
 |Case sensitive:|false|
 
 ## Data Source
-
-[https://huggingface.co/albert-base-v2](https://huggingface.co/albert-base-v2)
+[https://www.clips.uantwerpen.be/conll2003/ner/](https://www.clips.uantwerpen.be/conll2003/ner/)

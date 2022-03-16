@@ -99,6 +99,4 @@ result.select("transfers.result").show(false)
 
 ## Data Source
 
-The original model is from the transformers library:
-
-https://huggingface.co/prithivida/formal_to_informal_styletransfer
+[https://github.com/PrithivirajDamodaran/Styleformer#dataset](https://github.com/PrithivirajDamodaran/Styleformer#dataset)

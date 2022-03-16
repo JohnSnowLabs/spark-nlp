@@ -21,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 
 **xlm_roberta_base_token_classifier_conll03** is a fine-tuned XLM-RoBERTa model that is ready to use for **Named Entity Recognition** and achieves **state-of-the-art performance** for the NER task. This model has been trained to recognize four types of entities: location (LOC), organizations (ORG), person (PER), and Miscellaneous (MISC). 
 
-We used [TFXLMRobertaForTokenClassification](https://huggingface.co/transformers/model_doc/xlmroberta.html#xlmrobertafortokenclassification) to train this model and used `XlmRoBertaForTokenClassification` annotator in Spark NLP 🚀 for prediction at scale!
+We used `TFXLMRobertaForTokenClassification` to train this model and used `XlmRoBertaForTokenClassification` annotator in Spark NLP 🚀 for prediction at scale!
 
 ## Predicted Entities
 

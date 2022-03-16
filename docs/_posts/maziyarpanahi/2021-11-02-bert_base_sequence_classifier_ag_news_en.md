@@ -102,7 +102,7 @@ val example = Seq("Disney Comics was a comic book publishing company operated by
 
 ## Data Source
 
-[https://huggingface.co/datasets/ag_news](https://huggingface.co/datasets/ag_news)
+[http://groups.di.unipi.it/~gulli/AG_corpus_of_news_articles.html](http://groups.di.unipi.it/~gulli/AG_corpus_of_news_articles.html)
 
 ## Benchmarking
 

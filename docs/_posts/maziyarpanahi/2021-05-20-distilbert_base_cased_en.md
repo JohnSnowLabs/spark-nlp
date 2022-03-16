@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is a distilled version of the [BERT base model](https://huggingface.co/bert-base-cased). It was introduced in [this paper](https://arxiv.org/abs/1910.01108). The code for the distillation process can be found [here](https://github.com/huggingface/transformers/tree/master/examples/research_projects/distillation). This model is cased: it does make a difference between english and English.
+This model is a distilled version of the `BERT` base model. It was introduced in [this paper](https://arxiv.org/abs/1910.01108). This model is cased: it does make a difference between english and English.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -60,7 +60,7 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 ## Data Source
 
-[https://huggingface.co/distilbert-base-cased](https://huggingface.co/distilbert-base-cased)
+DistilBERT pretrained on the same data as BERT, which is [BookCorpus](https://yknzhu.wixsite.com/mbweb), a dataset consisting of 11,038 unpublished books and [English Wikipedia](https://dumps.wikimedia.org/) (excluding lists, tables and headers).
 
 ## Benchmarking
 

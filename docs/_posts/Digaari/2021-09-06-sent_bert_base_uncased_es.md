@@ -66,4 +66,4 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 ## Data Source
 
-The model is imported from: https://huggingface.co/dccuchile/bert-base-spanish-wwm-uncased
+[https://github.com/josecannete/spanish-corpora](https://github.com/josecannete/spanish-corpora)

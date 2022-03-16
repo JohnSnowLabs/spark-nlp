@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from `Hugging Face` ([link](https://huggingface.co/DaNLP/da-bert-tone-sentiment-polarity)) and it's been finetuned for Danish language, leveraging Danish Bert embeddings and `BertForSequenceClassification` for text classification purposes.
+This model has been finetuned for Danish language, leveraging Danish Bert embeddings and `BertForSequenceClassification` for text classification purposes.
 
 ## Predicted Entities
 
@@ -98,4 +98,4 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/DaNLP/da-bert-tone-sentiment-polarity#training-data](https://huggingface.co/DaNLP/da-bert-tone-sentiment-polarity#training-data)
+The data used for training come from the [Twitter Sentiment](https://danlp-alexandra.readthedocs.io/en/latest/docs/datasets.html#twitsent) and [EuroParl Sentiment 2](https://danlp-alexandra.readthedocs.io/en/latest/docs/datasets.html#europarl-sentiment2) datasets.

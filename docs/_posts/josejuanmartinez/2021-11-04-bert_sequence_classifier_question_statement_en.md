@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 Trained to add sentence classifying capabilities to distinguish between Question vs Statements.
 
-This model was imported from Hugging Face (https://huggingface.co/shahrukhx01/question-vs-statement-classifier), and trained based on Haystack (https://github.com/deepset-ai/haystack/issues/611).
+This model has been trained based on Haystack (https://github.com/deepset-ai/haystack/issues/611) and finetuned by John Snow Labs.
 
 ## Predicted Entities
 

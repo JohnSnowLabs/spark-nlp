@@ -81,4 +81,5 @@ val embeddings = LongformerEmbeddings.pretrained("longformer_base_4096", "en")
 
 ## Data Source
 
-[https://huggingface.co/allenai/longformer-base-4096](https://huggingface.co/allenai/longformer-base-4096)
+- [https://s3.amazonaws.com/research.metamind.io/wikitext/wikitext-103-raw-v1.zip](https://s3.amazonaws.com/research.metamind.io/wikitext/wikitext-103-raw-v1.zip)
+- [https://github.com/allenai/longformer](https://github.com/allenai/longformer)

@@ -67,7 +67,7 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 ## Data Source
 
-[https://huggingface.co/hfl/chinese-bert-wwm](https://huggingface.co/hfl/chinese-bert-wwm)
+[https://dumps.wikimedia.org/zhwiki/latest](https://dumps.wikimedia.org/zhwiki/latest)
 
 ## Benchmarking
 

@@ -17,11 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-The model was pre-trained using T5's denoising objective on [C4](https://huggingface.co/datasets/c4), subsequently additionally pre-trained using REALM's salient span masking objective on Wikipedia, and finally fine-tuned on [Natural Questions (NQ)](https://huggingface.co/datasets/natural_questions).
-
-Note: The model was fine-tuned on 100% of the train splits of Natural Questions (NQ) for 10k steps.
-
-Other community Checkpoints: here
+The model was fine-tuned on 100% of the train splits of Natural Questions (NQ) for 10k steps.
 
 Paper: [How Much Knowledge Can You Pack Into the Parameters of a Language Model?](https://arxiv.org/abs/1910.10683.pdf)
 
@@ -93,4 +89,4 @@ results.select("answer.result").show(truncate = false)
 
 ## Data Source
 
-The model was pre-trained using T5's denoising objective on C4, subsequently additionally pre-trained using REALM's salient span masking objective on Wikipedia, and finally fine-tuned on Natural Questions (NQ).
+The model was pre-trained using T5's denoising objective on [C4](https://www.tensorflow.org/datasets/catalog/c4), subsequently additionally pre-trained using REALM's salient span masking objective on Wikipedia, and finally fine-tuned on [Natural Questions (NQ)](https://ai.google.com/research/NaturalQuestions/dataset).

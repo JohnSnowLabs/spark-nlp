@@ -113,4 +113,4 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/Hate-speech-CNERG/dehatebert-mono-english](https://huggingface.co/Hate-speech-CNERG/dehatebert-mono-english)
+[https://github.com/hate-alert/DE-LIMIT](https://github.com/hate-alert/DE-LIMIT)

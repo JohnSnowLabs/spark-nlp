@@ -197,8 +197,9 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/HooshvareLab/bert-base-parsbert-ner-uncased](https://huggingface.co/HooshvareLab/bert-base-parsbert-ner-uncased)
-
+ NER dataset collected from [ARMAN](https://github.com/HaniehP/PersianNER) and 
+ [PEYMA](http://nsurl.org/2019-2/tasks/task-7-named-entity-recognition-ner-for-farsi/).
+ 
 ## Benchmarking
 
 ```bash

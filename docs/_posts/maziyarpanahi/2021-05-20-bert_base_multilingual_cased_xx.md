@@ -67,4 +67,4 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 ## Data Source
 
-[https://huggingface.co/bert-base-multilingual-cased](https://huggingface.co/bert-base-multilingual-cased)
+[https://dumps.wikimedia.org/](https://dumps.wikimedia.org/)

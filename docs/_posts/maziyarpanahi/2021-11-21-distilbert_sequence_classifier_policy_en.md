@@ -19,11 +19,6 @@ use_language_switcher: "Python-Scala-Java"
 
 This model was trained on 129.669 manually annotated sentences to classify text into one of seven political categories: 'Economy', 'External Relations', 'Fabric of Society', 'Freedom and Democracy', 'Political System', 'Welfare and Quality of Life' or 'Social Groups'.
 
-### Training data
-
-Policy-DistilBERT-7d was trained on the English-speaking subset of the [Manifesto Project Dataset (MPDS2020a)](https://manifesto-project.wzb.eu/datasets). The model was trained on 129.669 sentences from 164 political manifestos from 55 political parties in 8 English-speaking countries (Australia, Canada, Ireland, Israel, New Zealand, South Africa, United Kingdom, United States). The manifestos were published between 1992 - 2019. 
-
-The Manifesto Project manually annotates individual sentences from political party manifestos in 7 main political domains: 'Economy', 'External Relations', 'Fabric of Society', 'Freedom and Democracy', 'Political System', 'Welfare and Quality of Life' or 'Social Groups' - see the [codebook](https://manifesto-project.wzb.eu/down/data/2020b/codebooks/codebook_MPDataset_MPDS2020b.pdf) for the exact definitions of each domain. 
 
 ### Limitations and bias
 
@@ -107,7 +102,9 @@ val result = pipeline.fit(example).transform(example)
 
 ## Data Source
 
-[https://huggingface.co/MoritzLaurer/policy-distilbert-7d](https://huggingface.co/MoritzLaurer/policy-distilbert-7d)
+Policy-DistilBERT-7d was trained on the English-speaking subset of the [Manifesto Project Dataset (MPDS2020a)](https://manifesto-project.wzb.eu/datasets). The model was trained on 129.669 sentences from 164 political manifestos from 55 political parties in 8 English-speaking countries (Australia, Canada, Ireland, Israel, New Zealand, South Africa, United Kingdom, United States). The manifestos were published between 1992 - 2019. 
+
+The Manifesto Project manually annotates individual sentences from political party manifestos in 7 main political domains: 'Economy', 'External Relations', 'Fabric of Society', 'Freedom and Democracy', 'Political System', 'Welfare and Quality of Life' or 'Social Groups' - see the [codebook](https://manifesto-project.wzb.eu/down/data/2020b/codebooks/codebook_MPDataset_MPDS2020b.pdf) for the exact definitions of each domain. 
 
 ## Benchmarking
 

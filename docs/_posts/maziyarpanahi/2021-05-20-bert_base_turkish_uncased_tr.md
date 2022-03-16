@@ -60,7 +60,7 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 ## Data Source
 
-[https://huggingface.co/dbmdz/bert-base-turkish-uncased](https://huggingface.co/dbmdz/bert-base-turkish-uncased)
+The current version of the model is trained on a filtered and sentence segmented version of the Turkish [OSCAR corpus](https://oscar-corpus.com/), a recent Wikipedia dump, various [OPUS corpora](https://opus.nlpl.eu/) and a special corpus provided by [Kemal Oflazer](https://www.andrew.cmu.edu/user/ko/).
 
 ## Benchmarking
 
