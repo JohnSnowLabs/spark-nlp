@@ -23,8 +23,8 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Row, SparkSession}
 import org.scalatest.flatspec.AnyFlatSpec
 
-import scala.io.Source
 import java.nio.file.{Files, Paths}
+import scala.io.Source
 
 class SentenceDetectorDLSpec extends AnyFlatSpec {
   implicit val session: SparkSession = spark
@@ -91,7 +91,7 @@ class SentenceDetectorDLSpec extends AnyFlatSpec {
       .map(_.get(0).asInstanceOf[Int])
 
     require(sentenceLengths.max <= 100, "setSplitLength should split sentences")
-    require(sentenceLengths.min >=50, "setMinLength should control the minimum sentence length")
+    require(sentenceLengths.min >= 50, "setMinLength should control the minimum sentence length")
   }
 
   "Sentence Detector DL" should "train a new model" taggedAs FastTest in {
