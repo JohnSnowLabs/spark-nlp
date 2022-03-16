@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect Assertion Status (assertion_dl_L10R10)
+title: Detect Assertion Status (assertion_dl_scope_L10R10)
 author: John Snow Labs
 name: assertion_dl_scope_L10R10
 date: 2022-03-16
@@ -68,7 +68,7 @@ nlpPipeline = Pipeline(stages=[document,sentenceDetector, token, word_embeddings
 
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-light_result = LightPipeline(model).fullAnnotate("INTERPRETATION: There has been interval development of a moderate left-sided pneumothorax with near complete collapse of the left upper lobe. The lower lobe appears aerated. There is stable, diffuse, bilateral interstitial thickening with no definite acute air space consolidation. The heart and pulmonary vascularity are within normal limits. Left-sided port is seen with Groshong tip at the SVC/RA junction. No evidence for acute fracture, malalignment, or dislocation.")[0]
+light_result = LightPipeline(model).fullAnnotate("She has no history of liver disease , hepatitis .")[0]
 
 ```
 ```scala
@@ -84,7 +84,7 @@ val tokenizer = new Tokenizer()
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
   .setInputCols(Array("sentence", "token"))
   .setOutputCol("embeddings")
-val clinical_ner = NerDLModel.pretrained("ner_clinical", "en", "clinical/models")
+val clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")
   .setInputCols(Array("sentence", "token", "embeddings")) 
   .setOutputCol("ner")
 val ner_converter = NerConverter()
@@ -97,7 +97,7 @@ val clinical_assertion = AssertionDLModel.pretrained("assertion_dl", "en", "clin
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, clinical_assertion))
 
-val data = Seq("INTERPRETATION: There has been interval development of a moderate left-sided pneumothorax with near complete collapse of the left upper lobe. The lower lobe appears aerated. There is stable, diffuse, bilateral interstitial thickening with no definite acute air space consolidation. The heart and pulmonary vascularity are within normal limits. Left-sided port is seen with Groshong tip at the SVC/RA junction. No evidence for acute fracture, malalignment, or dislocation.").toDF("text")
+val data = Seq("She has no history of liver disease , hepatitis .").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
 </div>
@@ -105,20 +105,12 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-+--------------------------------------------------+---------+---------+
-|chunk                                             |assertion|entity   |
-+--------------------------------------------------+---------+---------+
-|a moderate left-sided pneumothorax                |present  |PROBLEM  |
-|near complete collapse of the left upper lobe     |present  |PROBLEM  |
-|stable, diffuse, bilateral interstitial thickening|present  |PROBLEM  |
-|definite acute air space consolidation            |absent   |PROBLEM  |
-|The heart and pulmonary vascularity               |present  |TEST     |
-|Left-sided port                                   |present  |TREATMENT|
-|Groshong tip                                      |present  |TREATMENT|
-|acute fracture                                    |absent   |PROBLEM  |
-|malalignment                                      |absent   |PROBLEM  |
-|dislocation                                       |absent   |PROBLEM  |
-+--------------------------------------------------+---------+---------+
++-------------+---------+-------+
+|chunk        |assertion|entity |
++-------------+---------+-------+
+|liver disease|absent   |PROBLEM|
+|hepatitis    |absent   |PROBLEM|
++-------------+---------+-------+
 ```
 
 {:.model-param}
