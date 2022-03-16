@@ -68,7 +68,7 @@ nlpPipeline = Pipeline(stages=[document,sentenceDetector, token, word_embeddings
 
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-light_result = LightPipeline(model).fullAnnotate("She has no history of liver disease , hepatitis .")[0]
+light_result = LightPipeline(model).fullAnnotate("Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain")[0]
 
 ```
 ```scala
@@ -97,7 +97,7 @@ val clinical_assertion = AssertionDLModel.pretrained("assertion_dl", "en", "clin
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, clinical_assertion))
 
-val data = Seq("She has no history of liver disease , hepatitis .").toDF("text")
+val data = Seq("Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
 </div>
@@ -105,12 +105,14 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-+-------------+---------+-------+
-|chunk        |assertion|entity |
-+-------------+---------+-------+
-|liver disease|absent   |PROBLEM|
-|hepatitis    |absent   |PROBLEM|
-+-------------+---------+-------+
++----------+-----------+-------+
+|chunk     |assertion  |entity |
++----------+-----------+-------+
+|a headache|present    |PROBLEM|
+|anxious   |conditional|PROBLEM|
+|alopecia  |absent     |PROBLEM|
+|pain      |absent     |PROBLEM|
++----------+-----------+-------+
 ```
 
 {:.model-param}
