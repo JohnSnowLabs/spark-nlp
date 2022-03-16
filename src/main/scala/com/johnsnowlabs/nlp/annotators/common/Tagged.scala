@@ -26,7 +26,6 @@ import java.util
 import scala.collection.Map
 import scala.util.Random
 
-
 trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
   val emptyTag = "O"
 
@@ -51,15 +50,16 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
         } else
           emptyTag
         // etract the confidence score belong to the tag
-        val metadata = try {
-          if (annotation.get.metadata.isDefinedAt("confidence"))
-            Map(tag -> annotation.get.metadata("confidence"))
-          else
-            Map(tag -> annotation.get.metadata(tag))
-        } catch {
-          case _: Exception =>
-            Map.empty[String, String]
-        }
+        val metadata =
+          try {
+            if (annotation.get.metadata.isDefinedAt("confidence"))
+              Map(tag -> annotation.get.metadata("confidence"))
+            else
+              Map(tag -> annotation.get.metadata(tag))
+          } catch {
+            case _: Exception =>
+              Map.empty[String, String]
+          }
 
         IndexedTaggedWord(token.token, tag, token.begin, token.end, metadata = metadata)
       }
@@ -69,41 +69,44 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
   }
 
   override def pack(items: Seq[T]): Seq[Annotation] = {
-    items.zipWithIndex.flatMap{ case (item, sentenceIndex) => item.indexedTaggedWords.map{ tag =>
-      val metadata: Map[String, String] =  if (tag.confidence.isDefined) {
-        Map("word" -> tag.word) ++ tag.confidence.getOrElse(Array.empty[Map[String, String]]).flatten ++
-          Map("sentence" -> sentenceIndex.toString)
-      } else {
-        Map("word" -> tag.word) ++ Map.empty[String, String] ++ Map("sentence" -> sentenceIndex.toString)
+    items.zipWithIndex.flatMap { case (item, sentenceIndex) =>
+      item.indexedTaggedWords.map { tag =>
+        val metadata: Map[String, String] = if (tag.confidence.isDefined) {
+          Map("word" -> tag.word) ++ tag.confidence
+            .getOrElse(Array.empty[Map[String, String]])
+            .flatten ++
+            Map("sentence" -> sentenceIndex.toString)
+        } else {
+          Map("word" -> tag.word) ++ Map.empty[String, String] ++ Map(
+            "sentence" -> sentenceIndex.toString)
+        }
+        new Annotation(annotatorType, tag.begin, tag.end, tag.tag, metadata)
       }
-      new Annotation(
-        annotatorType,
-        tag.begin,
-        tag.end,
-        tag.tag,
-        metadata
-      )
-    }}
+    }
   }
 
-  /**
-   * Method is usefull for testing.
-   *
-   * @param dataset     dataset row
-   * @param taggedCols  list of tagged columns
-   * @param labelColumn label column
-   * @return
-   */
-  def collectLabeledInstances(dataset: Dataset[Row],
-                              taggedCols: Seq[String],
-                              labelColumn: String): Array[(TextSentenceLabels, T)] = {
+  /** Method is usefull for testing.
+    *
+    * @param dataset
+    *   dataset row
+    * @param taggedCols
+    *   list of tagged columns
+    * @param labelColumn
+    *   label column
+    * @return
+    */
+  def collectLabeledInstances(
+      dataset: Dataset[Row],
+      taggedCols: Seq[String],
+      labelColumn: String): Array[(TextSentenceLabels, T)] = {
 
     dataset
       .select(labelColumn, taggedCols: _*)
       .collect()
       .flatMap { row =>
         val labelAnnotations = getAnnotations(row, 0)
-        val sentenceAnnotations = (1 to taggedCols.length).flatMap(idx => getAnnotations(row, idx))
+        val sentenceAnnotations =
+          (1 to taggedCols.length).flatMap(idx => getAnnotations(row, idx))
         val sentences = unpack(sentenceAnnotations)
         val labels = getLabelsFromTaggedSentences(sentences, labelAnnotations)
         labels.zip(sentences)
@@ -114,15 +117,17 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
     row.getAs[Seq[Row]](colNum).map(obj => Annotation(obj))
   }
 
-  protected def getLabelsFromSentences(sentences: Seq[WordpieceEmbeddingsSentence],
-                                       labelAnnotations: Seq[Annotation]): Seq[TextSentenceLabels] = {
+  protected def getLabelsFromSentences(
+      sentences: Seq[WordpieceEmbeddingsSentence],
+      labelAnnotations: Seq[Annotation]): Seq[TextSentenceLabels] = {
     val sortedLabels = labelAnnotations.sortBy(a => a.begin).toArray
 
     sentences.map { sentence =>
       // Extract labels only for wordpiece that are at the begin of tokens
       val tokens = sentence.tokens.filter(t => t.isWordStart)
       val labels = tokens.map { w =>
-        val tag = Annotation.searchCoverage(sortedLabels, w.begin, w.end)
+        val tag = Annotation
+          .searchCoverage(sortedLabels, w.begin, w.end)
           .map(a => a.result)
           .headOption
           .getOrElse(emptyTag)
@@ -133,12 +138,15 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
     }
   }
 
-  protected def getLabelsFromTaggedSentences(sentences: Seq[TaggedSentence], labelAnnotations: Seq[Annotation]): Seq[TextSentenceLabels] = {
+  protected def getLabelsFromTaggedSentences(
+      sentences: Seq[TaggedSentence],
+      labelAnnotations: Seq[Annotation]): Seq[TextSentenceLabels] = {
     val sortedLabels = labelAnnotations.sortBy(a => a.begin).toArray
 
     sentences.map { sentence =>
       val labels = sentence.indexedTaggedWords.map { w =>
-        val tag = Annotation.searchCoverage(sortedLabels, w.begin, w.end)
+        val tag = Annotation
+          .searchCoverage(sortedLabels, w.begin, w.end)
           .map(a => a.result)
           .headOption
           .getOrElse(emptyTag)
@@ -157,10 +165,11 @@ object PosTagged extends Tagged[PosTaggedSentence] {
 object NerTagged extends Tagged[NerTaggedSentence] {
   override def annotatorType: String = NAMED_ENTITY
 
-  def collectTrainingInstancesWithPos(dataset: Dataset[Row],
-                                      posTaggedCols: Seq[String],
-                                      labelColumn: String):
-  Array[(TextSentenceLabels, PosTaggedSentence, WordpieceEmbeddingsSentence)] = {
+  def collectTrainingInstancesWithPos(
+      dataset: Dataset[Row],
+      posTaggedCols: Seq[String],
+      labelColumn: String)
+      : Array[(TextSentenceLabels, PosTaggedSentence, WordpieceEmbeddingsSentence)] = {
 
     val annotations = dataset
       .select(labelColumn, posTaggedCols: _*)
@@ -169,27 +178,31 @@ object NerTagged extends Tagged[NerTaggedSentence] {
     annotations
       .flatMap { row =>
         val labelAnnotations = this.getAnnotations(row, 0)
-        val sentenceAnnotations = (1 to posTaggedCols.length).flatMap(idx => getAnnotations(row, idx))
-        val sentences = PosTagged.unpack(sentenceAnnotations)
+        val sentenceAnnotations =
+          (1 to posTaggedCols.length).flatMap(idx => getAnnotations(row, idx))
+        val sentences = PosTagged
+          .unpack(sentenceAnnotations)
           .filter(s => s.indexedTaggedWords.nonEmpty)
           .sortBy(s => s.indexedTaggedWords.head.begin)
 
-        val withEmbeddings = WordpieceEmbeddingsSentence.unpack(sentenceAnnotations)
+        val withEmbeddings = WordpieceEmbeddingsSentence
+          .unpack(sentenceAnnotations)
           .filter(s => s.tokens.nonEmpty)
           .sortBy(s => s.tokens.head.begin)
 
         val labels = getLabelsFromTaggedSentences(sentences, labelAnnotations)
-        labels.zip(sentences zip withEmbeddings)
+        labels
+          .zip(sentences zip withEmbeddings)
           .map { case (l, (s, w)) => (l, s, w) }
       }
   }
 
   /** FIXME: ColNums not always in the given order */
-  def iterateOnDataframe(dataset: Dataset[Row],
-                         sentenceCols: Seq[String],
-                         labelColumn: String,
-                         batchSize: Int): Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
-
+  def iterateOnDataframe(
+      dataset: Dataset[Row],
+      sentenceCols: Seq[String],
+      labelColumn: String,
+      batchSize: Int): Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
 
     new Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] {
 
@@ -211,7 +224,8 @@ object NerTagged extends Tagged[NerTaggedSentence] {
           val nextRow = it.next
 
           val labelAnnotations = getAnnotations(nextRow, 0)
-          val sentenceAnnotations = (1 to sentenceCols.length).flatMap(idx => getAnnotations(nextRow, idx))
+          val sentenceAnnotations =
+            (1 to sentenceCols.length).flatMap(idx => getAnnotations(nextRow, idx))
           val sentences = WordpieceEmbeddingsSentence.unpack(sentenceAnnotations)
           val labels = getLabelsFromSentences(sentences, labelAnnotations)
           val thisOne = labels.zip(sentences)
@@ -227,18 +241,23 @@ object NerTagged extends Tagged[NerTaggedSentence] {
   }
 
   /** FIXME: ColNums not always in the given order */
-  def iterateOnArray(inputArray: Array[Row],
-                     sentenceCols: Seq[String],
-                     batchSize: Int): Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
+  def iterateOnArray(
+      inputArray: Array[Row],
+      sentenceCols: Seq[String],
+      batchSize: Int): Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
     import com.johnsnowlabs.nlp.annotators.common.DatasetHelpers._
 
-    slice(Random.shuffle(inputArray.toSeq)
-      .flatMap { row =>
-        val labelAnnotations = this.getAnnotations(row, 0)
-        val sentenceAnnotations = (1 to sentenceCols.length).flatMap(idx => getAnnotations(row, idx))
-        val sentences = WordpieceEmbeddingsSentence.unpack(sentenceAnnotations)
-        val labels = getLabelsFromSentences(sentences, labelAnnotations)
-        labels.zip(sentences)
-      }, batchSize)
+    slice(
+      Random
+        .shuffle(inputArray.toSeq)
+        .flatMap { row =>
+          val labelAnnotations = this.getAnnotations(row, 0)
+          val sentenceAnnotations =
+            (1 to sentenceCols.length).flatMap(idx => getAnnotations(row, idx))
+          val sentences = WordpieceEmbeddingsSentence.unpack(sentenceAnnotations)
+          val labels = getLabelsFromSentences(sentences, labelAnnotations)
+          labels.zip(sentences)
+        },
+      batchSize)
   }
 }

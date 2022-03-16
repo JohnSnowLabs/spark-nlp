@@ -41,10 +41,12 @@ class StopWordsCleanerTestSpec extends AnyFlatSpec {
 
   "StopWordsCleaner" should "correctly remove stop words from tokenizer's results" taggedAs FastTest in {
 
-    val testData = ResourceHelper.spark.createDataFrame(Seq(
-      (1, "This is my first sentence. This is my second."),
-      (2, "This is my third sentence. This is my forth.")
-    )).toDF("id", "text")
+    val testData = ResourceHelper.spark
+      .createDataFrame(
+        Seq(
+          (1, "This is my first sentence. This is my second."),
+          (2, "This is my third sentence. This is my forth.")))
+      .toDF("id", "text")
 
     // Let's remove "this" and "is" as stop words
     val expectedWithoutStopWords = Seq(
@@ -61,8 +63,7 @@ class StopWordsCleanerTestSpec extends AnyFlatSpec {
       Annotation(TOKEN, 25, 25, ".", Map("sentence" -> "0")),
       Annotation(TOKEN, 35, 36, "my", Map("sentence" -> "1")),
       Annotation(TOKEN, 38, 42, "forth", Map("sentence" -> "1")),
-      Annotation(TOKEN, 43, 43, ".", Map("sentence" -> "1"))
-    )
+      Annotation(TOKEN, 43, 43, ".", Map("sentence" -> "1")))
 
     val stopWords = new StopWordsCleaner()
       .setInputCols("token")
@@ -71,12 +72,7 @@ class StopWordsCleanerTestSpec extends AnyFlatSpec {
       .setCaseSensitive(false)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentence,
-        tokenizer,
-        stopWords
-      ))
+      .setStages(Array(documentAssembler, sentence, tokenizer, stopWords))
 
     val pipelineDF = pipeline.fit(testData).transform(testData)
 
@@ -91,12 +87,15 @@ class StopWordsCleanerTestSpec extends AnyFlatSpec {
 
   "StopWordsCleaner" should "successfully downloads pretrained models" taggedAs FastTest in {
 
-    val testData = ResourceHelper.spark.createDataFrame(Seq(
-      (1, "This is my first sentence. This is my second."),
-      (2, "This is my third sentence. This is my forth.")
-    )).toDF("id", "text")
+    val testData = ResourceHelper.spark
+      .createDataFrame(
+        Seq(
+          (1, "This is my first sentence. This is my second."),
+          (2, "This is my third sentence. This is my forth.")))
+      .toDF("id", "text")
 
-    val stopWords = StopWordsCleaner.pretrained("stopwords_en")
+    val stopWords = StopWordsCleaner
+      .pretrained("stopwords_en")
       .setInputCols("token")
       .setOutputCol("cleanTokens")
       .setCaseSensitive(false)
@@ -104,12 +103,7 @@ class StopWordsCleanerTestSpec extends AnyFlatSpec {
     //    stopWords.getStopWords.foreach(println)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentence,
-        tokenizer,
-        stopWords
-      ))
+      .setStages(Array(documentAssembler, sentence, tokenizer, stopWords))
 
     pipeline.fit(testData).transform(testData)
 

@@ -26,12 +26,12 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
-
 class DeBertaEmbeddingsTestSpec extends AnyFlatSpec {
 
   "DeBertaEmbeddings" should "correctly load pretrained model" taggedAs SlowTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header", "true")
+    val smallCorpus = ResourceHelper.spark.read
+      .option("header", "true")
       .csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
     val documentAssembler = new DocumentAssembler()
@@ -46,17 +46,13 @@ class DeBertaEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
-    val embeddings = DeBertaEmbeddings.pretrained()
+    val embeddings = DeBertaEmbeddings
+      .pretrained()
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentence,
-        tokenizer,
-        embeddings
-      ))
+      .setStages(Array(documentAssembler, sentence, tokenizer, embeddings))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
     pipelineDF.select("token.result").show(1, truncate = false)
@@ -73,17 +69,17 @@ class DeBertaEmbeddingsTestSpec extends AnyFlatSpec {
     import ResourceHelper.spark.implicits._
 
     val conll = CoNLL(explodeSentences = false)
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+    val training_data =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
-    val embeddings = DeBertaEmbeddings.pretrained()
+    val embeddings = DeBertaEmbeddings
+      .pretrained()
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .setMaxSentenceLength(512)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        embeddings
-      ))
+      .setStages(Array(embeddings))
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
     Benchmark.time("Time to save DeBertaEmbeddings results") {
@@ -92,7 +88,8 @@ class DeBertaEmbeddingsTestSpec extends AnyFlatSpec {
 
     Benchmark.time("Time to finish checking counts in results") {
       println("missing tokens/embeddings: ")
-      pipelineDF.withColumn("sentence_size", size(col("sentence")))
+      pipelineDF
+        .withColumn("sentence_size", size(col("sentence")))
         .withColumn("token_size", size(col("token")))
         .withColumn("embed_size", size(col("embeddings")))
         .where(col("token_size") =!= col("embed_size"))
@@ -124,8 +121,8 @@ class DeBertaEmbeddingsTestSpec extends AnyFlatSpec {
       "EU rejects German call to boycott British lamb .",
       "TORONTO 1996-08-21",
       " carbon emissions have come down without impinging on our growth . . .",
-      "carbon emissions have come down without impinging on our growth .\\u2009.\\u2009."
-    ).toDF("text")
+      "carbon emissions have come down without impinging on our growth .\\u2009.\\u2009.").toDF(
+      "text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -135,7 +132,8 @@ class DeBertaEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val embeddings = DeBertaEmbeddings.pretrained()
+    val embeddings = DeBertaEmbeddings
+      .pretrained()
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setMaxSentenceLength(128)

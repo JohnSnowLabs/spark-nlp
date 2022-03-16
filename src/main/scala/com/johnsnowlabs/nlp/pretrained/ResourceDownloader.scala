@@ -49,15 +49,15 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
-
 trait ResourceDownloader {
 
-  /**
-   * Download resource to local file
-   *
-   * @param request Resource request
-   * @return downloaded file or None if resource is not found
-   */
+  /** Download resource to local file
+    *
+    * @param request
+    *   Resource request
+    * @return
+    *   downloaded file or None if resource is not found
+    */
   def download(request: ResourceRequest): Option[String]
 
   def getDownloadSize(request: ResourceRequest): Option[Long]
@@ -76,7 +76,8 @@ object ResourceDownloader {
 
   def s3Bucket: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedS3BucketKey)
 
-  def s3BucketCommunity: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedCommunityS3BucketKey)
+  def s3BucketCommunity: String =
+    ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedCommunityS3BucketKey)
 
   def s3Path: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedS3PathKey)
 
@@ -87,7 +88,9 @@ object ResourceDownloader {
   private val cache = mutable.Map[ResourceRequest, PipelineStage]()
 
   lazy val sparkVersion: Version = {
-    val spark_version = if (ResourceHelper.spark.version.startsWith("2.3")) "2.4.4" else ResourceHelper.spark.version
+    val spark_version =
+      if (ResourceHelper.spark.version.startsWith("2.3")) "2.4.4"
+      else ResourceHelper.spark.version
     Version.parse(spark_version)
   }
 
@@ -95,115 +98,143 @@ object ResourceDownloader {
     Version.parse(Build.version)
   }
 
-  var defaultDownloader: ResourceDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "default")
-  var publicDownloader: ResourceDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "public")
-  var communityDownloader: ResourceDownloader = new S3ResourceDownloader(s3BucketCommunity, s3Path, cacheFolder, "community")
+  var defaultDownloader: ResourceDownloader =
+    new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "default")
+  var publicDownloader: ResourceDownloader =
+    new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "public")
+  var communityDownloader: ResourceDownloader =
+    new S3ResourceDownloader(s3BucketCommunity, s3Path, cacheFolder, "community")
 
-  /**
-   * Reset the cache and recreate ResourceDownloader S3 credentials
-   */
+  /** Reset the cache and recreate ResourceDownloader S3 credentials
+    */
   def resetResourceDownloader(): Unit = {
     cache.empty
     this.defaultDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "default")
   }
 
-  /**
-   * List all pretrained models in public name_lang
-   */
+  /** List all pretrained models in public name_lang
+    */
   def listPublicModels(): List[String] = {
     listPretrainedResources(folder = publicLoc, ResourceType.MODEL)
   }
 
-  /**
-   * Prints all pretrained models for a particular annotator model, that are compatible with a version of Spark NLP.
-   * If any of the optional arguments are not set, the filter is not considered.
-   *
-   * @param annotator Name of the model class, for example "NerDLModel"
-   * @param lang      Language of the pretrained models to display, for example "en"
-   * @param version   Version of Spark NLP that the model should be compatible with, for example "3.2.3"
-   */
-  def showPublicModels(annotator: Option[String] = None,
-                       lang: Option[String] = None,
-                       version: Option[String] = Some(Build.version)
-                      ): Unit = {
-    println(publicResourceString(annotator = annotator, lang = lang, version = version, resourceType = ResourceType.MODEL))
+  /** Prints all pretrained models for a particular annotator model, that are compatible with a
+    * version of Spark NLP. If any of the optional arguments are not set, the filter is not
+    * considered.
+    *
+    * @param annotator
+    *   Name of the model class, for example "NerDLModel"
+    * @param lang
+    *   Language of the pretrained models to display, for example "en"
+    * @param version
+    *   Version of Spark NLP that the model should be compatible with, for example "3.2.3"
+    */
+  def showPublicModels(
+      annotator: Option[String] = None,
+      lang: Option[String] = None,
+      version: Option[String] = Some(Build.version)): Unit = {
+    println(
+      publicResourceString(
+        annotator = annotator,
+        lang = lang,
+        version = version,
+        resourceType = ResourceType.MODEL))
   }
 
-  /**
-   * Prints all pretrained models for a particular annotator model, that are compatible with this version of Spark NLP.
-   *
-   * @param annotator Name of the annotator class
-   */
+  /** Prints all pretrained models for a particular annotator model, that are compatible with this
+    * version of Spark NLP.
+    *
+    * @param annotator
+    *   Name of the annotator class
+    */
   def showPublicModels(annotator: String): Unit = showPublicModels(Some(annotator))
 
-  /**
-   * Prints all pretrained models for a particular annotator model, that are compatible with this version of Spark NLP.
-   *
-   * @param annotator Name of the annotator class
-   * @param lang      Language of the pretrained models to display
-   */
-  def showPublicModels(annotator: String, lang: String): Unit = showPublicModels(Some(annotator), Some(lang))
+  /** Prints all pretrained models for a particular annotator model, that are compatible with this
+    * version of Spark NLP.
+    *
+    * @param annotator
+    *   Name of the annotator class
+    * @param lang
+    *   Language of the pretrained models to display
+    */
+  def showPublicModels(annotator: String, lang: String): Unit =
+    showPublicModels(Some(annotator), Some(lang))
 
-  /**
-   * Prints all pretrained models for a particular annotator, that are compatible with a version of Spark NLP.
-   *
-   * @param annotator Name of the model class, for example "NerDLModel"
-   * @param lang      Language of the pretrained models to display, for example "en"
-   * @param version   Version of Spark NLP that the model should be compatible with, for example "3.2.3"
-   */
+  /** Prints all pretrained models for a particular annotator, that are compatible with a version
+    * of Spark NLP.
+    *
+    * @param annotator
+    *   Name of the model class, for example "NerDLModel"
+    * @param lang
+    *   Language of the pretrained models to display, for example "en"
+    * @param version
+    *   Version of Spark NLP that the model should be compatible with, for example "3.2.3"
+    */
   def showPublicModels(annotator: String, lang: String, version: String): Unit =
     showPublicModels(Some(annotator), Some(lang), Some(version))
 
-
-  /**
-   * List all pretrained pipelines in public
-   */
+  /** List all pretrained pipelines in public
+    */
   def listPublicPipelines(): List[String] = {
     listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE)
   }
 
-  /**
-   * Prints all Pipelines available for a language and a version of Spark NLP. By default shows all languages and uses
-   * the current version of Spark NLP.
-   *
-   * @param lang    Language of the Pipeline
-   * @param version Version of Spark NLP
-   */
-  def showPublicPipelines(lang: Option[String] = None, version: Option[String] = Some(Build.version)): Unit = {
-    println(publicResourceString(annotator = None, lang = lang, version = version, resourceType = ResourceType.PIPELINE))
+  /** Prints all Pipelines available for a language and a version of Spark NLP. By default shows
+    * all languages and uses the current version of Spark NLP.
+    *
+    * @param lang
+    *   Language of the Pipeline
+    * @param version
+    *   Version of Spark NLP
+    */
+  def showPublicPipelines(
+      lang: Option[String] = None,
+      version: Option[String] = Some(Build.version)): Unit = {
+    println(
+      publicResourceString(
+        annotator = None,
+        lang = lang,
+        version = version,
+        resourceType = ResourceType.PIPELINE))
   }
 
-  /**
-   * Prints all Pipelines available for a language and this version of Spark NLP.
-   *
-   * @param lang Language of the Pipeline
-   */
+  /** Prints all Pipelines available for a language and this version of Spark NLP.
+    *
+    * @param lang
+    *   Language of the Pipeline
+    */
   def showPublicPipelines(lang: String): Unit = showPublicPipelines(Some(lang))
 
-  /**
-   * Prints all Pipelines available for a language and a version of Spark NLP.
-   *
-   * @param lang    Language of the Pipeline
-   * @param version Version of Spark NLP
-   */
-  def showPublicPipelines(lang: String, version: String): Unit = showPublicPipelines(Some(lang), Some(version))
+  /** Prints all Pipelines available for a language and a version of Spark NLP.
+    *
+    * @param lang
+    *   Language of the Pipeline
+    * @param version
+    *   Version of Spark NLP
+    */
+  def showPublicPipelines(lang: String, version: String): Unit =
+    showPublicPipelines(Some(lang), Some(version))
 
-  /**
-   * Returns models or pipelines in metadata json which has not been categorized yet.
-   *
-   * @return list of models or pipelines which are not categorized in metadata json
-   */
+  /** Returns models or pipelines in metadata json which has not been categorized yet.
+    *
+    * @return
+    *   list of models or pipelines which are not categorized in metadata json
+    */
   def listUnCategorizedResources(): List[String] = {
     listPretrainedResources(folder = publicLoc, ResourceType.NOT_DEFINED)
   }
-
 
   def showUnCategorizedResources(lang: String): Unit = {
     println(publicResourceString(None, Some(lang), None, resourceType = ResourceType.NOT_DEFINED))
   }
 
   def showUnCategorizedResources(lang: String, version: String): Unit = {
-    println(publicResourceString(None, Some(lang), Some(version), resourceType = ResourceType.NOT_DEFINED))
+    println(
+      publicResourceString(
+        None,
+        Some(lang),
+        Some(version),
+        resourceType = ResourceType.NOT_DEFINED))
 
   }
 
@@ -216,7 +247,7 @@ object ResourceDownloader {
       max_length = scala.math.max(temp(0).length, max_length)
       max_length_version = scala.math.max(temp(2).length, max_length_version)
     }
-    //adding head
+    // adding head
     sb.append("+")
     sb.append("-" * (max_length + 2))
     sb.append("+")
@@ -225,11 +256,14 @@ object ResourceDownloader {
     sb.append("-" * (max_length_version + 2))
     sb.append("+\n")
     if (resourceType.equals(ResourceType.PIPELINE))
-      sb.append("| " + "Pipeline" + (" " * (max_length - 8)) + " | " + "lang" + " | " + "version" + " " * (max_length_version - 7) + " |\n")
+      sb.append(
+        "| " + "Pipeline" + (" " * (max_length - 8)) + " | " + "lang" + " | " + "version" + " " * (max_length_version - 7) + " |\n")
     else if (resourceType.equals(ResourceType.MODEL))
-      sb.append("| " + "Model" + (" " * (max_length - 5)) + " | " + "lang" + " | " + "version" + " " * (max_length_version - 7) + " |\n")
+      sb.append(
+        "| " + "Model" + (" " * (max_length - 5)) + " | " + "lang" + " | " + "version" + " " * (max_length_version - 7) + " |\n")
     else
-      sb.append("| " + "Pipeline/Model" + (" " * (max_length - 14)) + " | " + "lang" + " | " + "version" + " " * (max_length_version - 7) + " |\n")
+      sb.append(
+        "| " + "Pipeline/Model" + (" " * (max_length - 14)) + " | " + "lang" + " | " + "version" + " " * (max_length_version - 7) + " |\n")
 
     sb.append("+")
     sb.append("-" * (max_length + 2))
@@ -240,9 +274,11 @@ object ResourceDownloader {
     sb.append("+\n")
     for (data <- list) {
       val temp = data.split(":")
-      sb.append("| " + temp(0) + (" " * (max_length - temp(0).length)) + " |  " + temp(1) + "  | " + temp(2) + " " * (max_length_version - temp(2).length) + " |\n")
+      sb.append(
+        "| " + temp(0) + (" " * (max_length - temp(0).length)) + " |  " + temp(1) + "  | " + temp(
+          2) + " " * (max_length_version - temp(2).length) + " |\n")
     }
-    //adding bottom
+    // adding bottom
     sb.append("+")
     sb.append("-" * (max_length + 2))
     sb.append("+")
@@ -254,46 +290,53 @@ object ResourceDownloader {
 
   }
 
-  def publicResourceString(annotator: Option[String] = None,
-                           lang: Option[String] = None,
-                           version: Option[String] = Some(Build.version),
-                           resourceType: ResourceType
-                          ): String = {
-    showString(listPretrainedResources(
-      folder = publicLoc,
-      resourceType,
-      annotator = annotator,
-      lang = lang,
-      version = version match {
-        case Some(ver) => Some(Version.parse(ver))
-        case None => None
-      }),
+  def publicResourceString(
+      annotator: Option[String] = None,
+      lang: Option[String] = None,
+      version: Option[String] = Some(Build.version),
+      resourceType: ResourceType): String = {
+    showString(
+      listPretrainedResources(
+        folder = publicLoc,
+        resourceType,
+        annotator = annotator,
+        lang = lang,
+        version = version match {
+          case Some(ver) => Some(Version.parse(ver))
+          case None => None
+        }),
       resourceType)
   }
 
-  /**
-   * Lists pretrained resource from metadata.json, depending on the set filters.
-   * The folder in the S3 location and the resourceType is necessary. The other filters are optional and will be ignored
-   * if not set.
-   *
-   * @param folder       Folder in the S3 location
-   * @param resourceType Type of the Resource. Can Either `ResourceType.MODEL`, `ResourceType.PIPELINE` or
-   *                     `ResourceType.NOT_DEFINED`
-   * @param annotator    Name of the model class
-   * @param lang         Language of the model
-   * @param version      Version that the model should be compatible with
-   * @return A list of the available resources
-   */
-  def listPretrainedResources(folder: String,
-                              resourceType: ResourceType,
-                              annotator: Option[String] = None,
-                              lang: Option[String] = None,
-                              version: Option[Version] = None
-                             ): List[String] = {
+  /** Lists pretrained resource from metadata.json, depending on the set filters. The folder in
+    * the S3 location and the resourceType is necessary. The other filters are optional and will
+    * be ignored if not set.
+    *
+    * @param folder
+    *   Folder in the S3 location
+    * @param resourceType
+    *   Type of the Resource. Can Either `ResourceType.MODEL`, `ResourceType.PIPELINE` or
+    *   `ResourceType.NOT_DEFINED`
+    * @param annotator
+    *   Name of the model class
+    * @param lang
+    *   Language of the model
+    * @param version
+    *   Version that the model should be compatible with
+    * @return
+    *   A list of the available resources
+    */
+  def listPretrainedResources(
+      folder: String,
+      resourceType: ResourceType,
+      annotator: Option[String] = None,
+      lang: Option[String] = None,
+      version: Option[Version] = None): List[String] = {
     val resourceList = new ListBuffer[String]()
     val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
     for (meta <- resourceMetaData) {
-      val isSameResourceType = meta.category.getOrElse(ResourceType.NOT_DEFINED).toString.equals(resourceType.toString)
+      val isSameResourceType =
+        meta.category.getOrElse(ResourceType.NOT_DEFINED).toString.equals(resourceType.toString)
       val isCompatibleWithVersion = version match {
         case Some(ver) => Version.isCompatible(ver, meta.libVersion)
         case None => true
@@ -308,57 +351,85 @@ object ResourceDownloader {
       }
 
       if (isSameResourceType & isCompatibleWithVersion & isSameAnnotator & isSameLanguage) {
-        resourceList += meta.name + ":" + meta.language.getOrElse("-") + ":" + meta.libVersion.getOrElse("-")
+        resourceList += meta.name + ":" + meta.language.getOrElse("-") + ":" + meta.libVersion
+          .getOrElse("-")
       }
     }
     resourceList.result()
   }
 
-  def listPretrainedResources(folder: String, resourceType: ResourceType, lang: String): List[String] =
+  def listPretrainedResources(
+      folder: String,
+      resourceType: ResourceType,
+      lang: String): List[String] =
     listPretrainedResources(folder, resourceType, lang = Some(lang))
 
-  def listPretrainedResources(folder: String, resourceType: ResourceType, version: Version): List[String] =
+  def listPretrainedResources(
+      folder: String,
+      resourceType: ResourceType,
+      version: Version): List[String] =
     listPretrainedResources(folder, resourceType, version = Some(version))
 
-  def listPretrainedResources(folder: String, resourceType: ResourceType, lang: String, version: Version): List[String] =
+  def listPretrainedResources(
+      folder: String,
+      resourceType: ResourceType,
+      lang: String,
+      version: Version): List[String] =
     listPretrainedResources(folder, resourceType, lang = Some(lang), version = Some(version))
 
   def listAvailableAnnotators(folder: String = publicLoc): List[String] = {
     val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
-    resourceMetaData.map(_.annotator.getOrElse(""))
-      .toSet.filter { a => !a.equals("") }
-      .toList.sorted
+    resourceMetaData
+      .map(_.annotator.getOrElse(""))
+      .toSet
+      .filter { a =>
+        !a.equals("")
+      }
+      .toList
+      .sorted
   }
 
   def showAvailableAnnotators(folder: String = publicLoc): Unit = {
     println(listAvailableAnnotators(folder).mkString("\n"))
   }
 
-  /**
-   * Loads resource to path
-   *
-   * @param name     Name of Resource
-   * @param folder   Subfolder in s3 where to search model (e.g. medicine)
-   * @param language Desired language of Resource
-   * @return path of downloaded resource
-   */
-  def downloadResource(name: String, language: Option[String] = None, folder: String = publicLoc): String = {
+  /** Loads resource to path
+    *
+    * @param name
+    *   Name of Resource
+    * @param folder
+    *   Subfolder in s3 where to search model (e.g. medicine)
+    * @param language
+    *   Desired language of Resource
+    * @return
+    *   path of downloaded resource
+    */
+  def downloadResource(
+      name: String,
+      language: Option[String] = None,
+      folder: String = publicLoc): String = {
     downloadResource(ResourceRequest(name, language, folder))
   }
 
-  /**
-   * Loads resource to path
-   *
-   * @param request Request for resource
-   * @return path of downloaded resource
-   */
+  /** Loads resource to path
+    *
+    * @param request
+    *   Request for resource
+    * @return
+    *   path of downloaded resource
+    */
   def downloadResource(request: ResourceRequest): String = {
     val f = Future {
       if (request.folder.equals(publicLoc)) {
         publicDownloader.download(request)
       } else if (request.folder.startsWith("@")) {
         val actualLoc = request.folder.replace("@", "")
-        val updatedRequest = ResourceRequest(request.name, request.language, folder = actualLoc, request.libVersion, request.sparkVersion)
+        val updatedRequest = ResourceRequest(
+          request.name,
+          request.language,
+          folder = actualLoc,
+          request.libVersion,
+          request.sparkVersion)
         communityDownloader.download(updatedRequest)
       } else {
         defaultDownloader.download(request)
@@ -368,7 +439,9 @@ object ResourceDownloader {
     var download_finished = false
     var path: Option[String] = None
     val file_size = getDownloadSize(request.name, request.language, request.folder)
-    require(!file_size.equals("-1"), s"Can not find ${request.name} inside ${request.folder} to download. Please make sure the name and location are correct!")
+    require(
+      !file_size.equals("-1"),
+      s"Can not find ${request.name} inside ${request.folder} to download. Please make sure the name and location are correct!")
     println(request.name + " download started this may take some time.")
     println("Approximate size to download " + file_size)
 
@@ -387,32 +460,38 @@ object ResourceDownloader {
 
     }
 
-    require(path.isDefined, s"Was not found appropriate resource to download for request: $request with downloader: $defaultDownloader")
+    require(
+      path.isDefined,
+      s"Was not found appropriate resource to download for request: $request with downloader: $defaultDownloader")
     println("Download done! Loading the resource.")
     path.get
   }
 
-  def downloadModel[TModel <: PipelineStage](reader: DefaultParamsReadable[TModel],
-                                             name: String,
-                                             language: Option[String] = None,
-                                             folder: String = publicLoc
-                                            ): TModel = {
+  def downloadModel[TModel <: PipelineStage](
+      reader: DefaultParamsReadable[TModel],
+      name: String,
+      language: Option[String] = None,
+      folder: String = publicLoc): TModel = {
     downloadModel(reader, ResourceRequest(name, language, folder))
   }
 
-  def downloadModel[TModel <: PipelineStage](reader: DefaultParamsReadable[TModel], request: ResourceRequest): TModel = {
+  def downloadModel[TModel <: PipelineStage](
+      reader: DefaultParamsReadable[TModel],
+      request: ResourceRequest): TModel = {
     if (!cache.contains(request)) {
       val path = downloadResource(request)
       val model = reader.read.load(path)
       cache(request) = model
       model
-    }
-    else {
+    } else {
       cache(request).asInstanceOf[TModel]
     }
   }
 
-  def downloadPipeline(name: String, language: Option[String] = None, folder: String = publicLoc): PipelineModel = {
+  def downloadPipeline(
+      name: String,
+      language: Option[String] = None,
+      folder: String = publicLoc): PipelineModel = {
     downloadPipeline(ResourceRequest(name, language, folder))
   }
 
@@ -422,13 +501,15 @@ object ResourceDownloader {
       val model = PipelineModel.read.load(path)
       cache(request) = model
       model
-    }
-    else {
+    } else {
       cache(request).asInstanceOf[PipelineModel]
     }
   }
 
-  def clearCache(name: String, language: Option[String] = None, folder: String = publicLoc): Unit = {
+  def clearCache(
+      name: String,
+      language: Option[String] = None,
+      folder: String = publicLoc): Unit = {
     clearCache(ResourceRequest(name, language, folder))
   }
 
@@ -439,7 +520,10 @@ object ResourceDownloader {
     cache.remove(request)
   }
 
-  def getDownloadSize(name: String, language: Option[String] = None, folder: String = publicLoc): String = {
+  def getDownloadSize(
+      name: String,
+      language: Option[String] = None,
+      folder: String = publicLoc): String = {
     var size: Option[Long] = None
     if (folder.equals(publicLoc)) {
       size = publicDownloader.getDownloadSize(ResourceRequest(name, language, folder))
@@ -453,7 +537,6 @@ object ResourceDownloader {
       case Some(downloadBytes) => FileHelper.getHumanReadableFileSize(downloadBytes)
       case None => "-1"
 
-
     }
   }
 }
@@ -465,14 +548,12 @@ object ResourceType extends Enumeration {
   val NOT_DEFINED: pretrained.ResourceType.Value = Value("nd")
 }
 
-case class ResourceRequest
-(
-  name: String,
-  language: Option[String] = None,
-  folder: String = ResourceDownloader.publicLoc,
-  libVersion: Version = ResourceDownloader.libVersion,
-  sparkVersion: Version = ResourceDownloader.sparkVersion
-)
+case class ResourceRequest(
+    name: String,
+    language: Option[String] = None,
+    folder: String = ResourceDownloader.publicLoc,
+    libVersion: Version = ResourceDownloader.libVersion,
+    sparkVersion: Version = ResourceDownloader.sparkVersion)
 
 /* convenience accessor for Py4J calls */
 object PythonResourceDownloader {
@@ -537,16 +618,28 @@ object PythonResourceDownloader {
     "XlnetForSequenceClassification" -> XlnetForSequenceClassification,
     "GPT2Transformer" -> GPT2Transformer,
     "Word2VecModel" -> Word2VecModel,
-    "DeBertaEmbeddings" -> DeBertaEmbeddings
-  )
+    "DeBertaEmbeddings" -> DeBertaEmbeddings)
 
-  def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {
-    val reader = keyToReader.getOrElse(readerStr, throw new RuntimeException(s"Unsupported Model: $readerStr"))
+  def downloadModel(
+      readerStr: String,
+      name: String,
+      language: String = null,
+      remoteLoc: String = null): PipelineStage = {
+    val reader = keyToReader.getOrElse(
+      readerStr,
+      throw new RuntimeException(s"Unsupported Model: $readerStr"))
     val correctedFolder = Option(remoteLoc).getOrElse(ResourceDownloader.publicLoc)
-    ResourceDownloader.downloadModel(reader.asInstanceOf[DefaultParamsReadable[PipelineStage]], name, Option(language), correctedFolder)
+    ResourceDownloader.downloadModel(
+      reader.asInstanceOf[DefaultParamsReadable[PipelineStage]],
+      name,
+      Option(language),
+      correctedFolder)
   }
 
-  def downloadPipeline(name: String, language: String = null, remoteLoc: String = null): PipelineModel = {
+  def downloadPipeline(
+      name: String,
+      language: String = null,
+      remoteLoc: String = null): PipelineModel = {
     val correctedFolder = Option(remoteLoc).getOrElse(ResourceDownloader.publicLoc)
     ResourceDownloader.downloadPipeline(name, Option(language), correctedFolder)
   }
@@ -557,7 +650,11 @@ object PythonResourceDownloader {
   }
 
   def showUnCategorizedResources(): String = {
-    ResourceDownloader.publicResourceString(annotator = None, lang = None, version = None, resourceType = ResourceType.NOT_DEFINED)
+    ResourceDownloader.publicResourceString(
+      annotator = None,
+      lang = None,
+      version = None,
+      resourceType = ResourceType.NOT_DEFINED)
   }
 
   def showPublicPipelines(lang: String, version: String): String = {
@@ -565,7 +662,11 @@ object PythonResourceDownloader {
       case null => Some(Build.version)
       case _ => Some(version)
     }
-    ResourceDownloader.publicResourceString(annotator = None, lang = Option(lang), version = ver, resourceType = ResourceType.PIPELINE)
+    ResourceDownloader.publicResourceString(
+      annotator = None,
+      lang = Option(lang),
+      version = ver,
+      resourceType = ResourceType.PIPELINE)
   }
 
   def showPublicModels(annotator: String, lang: String, version: String): String = {
@@ -573,7 +674,11 @@ object PythonResourceDownloader {
       case null => Some(Build.version)
       case _ => Some(version)
     }
-    ResourceDownloader.publicResourceString(annotator = Option(annotator), lang = Option(lang), version = ver, resourceType = ResourceType.MODEL)
+    ResourceDownloader.publicResourceString(
+      annotator = Option(annotator),
+      lang = Option(lang),
+      version = ver,
+      resourceType = ResourceType.MODEL)
   }
 
   def showAvailableAnnotators(): String = {
@@ -585,4 +690,3 @@ object PythonResourceDownloader {
     ResourceDownloader.getDownloadSize(name, Option(language), correctedFolder)
   }
 }
-

@@ -42,13 +42,16 @@ class NerDLSpec extends AnyFlatSpec {
           .readDatasetFromLines(
             Source.fromFile(smallCustomDataset).getLines.toArray,
             SparkAccessor.spark)
-          .toDF.limit(samples)
+          .toDF
+          .limit(samples)
       println(s"TRAIN DATASET COUNT: ${trainData.count}")
 
       val document = new DocumentAssembler().setInputCol("text").setOutputCol("document")
-      val sentence = new SentenceDetector().setInputCols(Array("document")).setOutputCol("sentence")
+      val sentence =
+        new SentenceDetector().setInputCols(Array("document")).setOutputCol("sentence")
       val token = new Tokenizer().setInputCols(Array("sentence")).setOutputCol("token")
-      val bert = BertEmbeddings.pretrained("bert_base_cased", "en")
+      val bert = BertEmbeddings
+        .pretrained("bert_base_cased", "en")
         .setInputCols(Array("sentence", "token"))
         .setOutputCol("bert")
 
@@ -76,13 +79,7 @@ class NerDLSpec extends AnyFlatSpec {
 
       val pipeline =
         new Pipeline()
-          .setStages(Array(
-            document,
-            sentence,
-            token,
-            bert,
-            nerTagger
-          ))
+          .setStages(Array(document, sentence, token, bert, nerTagger))
 
       val fitted =
         Benchmark.time(s"$samples fit ner dl time", forcePrint = true) {
@@ -94,11 +91,11 @@ class NerDLSpec extends AnyFlatSpec {
         }
 
       println(s"transformed.count: ${transformed.count}")
-      transformed.write.mode("overwrite")
+      transformed.write
+        .mode("overwrite")
         .parquet(s"src/test/resources/conll2003/out/transformedParquet${samples}")
     }
   }
-
 
   "NerDLApproach" should "correctly annotate" taggedAs SlowTest in {
     val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
@@ -167,7 +164,6 @@ class NerDLSpec extends AnyFlatSpec {
 
     val nerModel = AnnotatorBuilder.getNerDLModel(nerSentence)
 
-
     nerModel.write.overwrite.save("./test_ner_dl")
     val loadedNer = NerDLModel.read.load("./test_ner_dl")
     FileHelper.delete("./test_ner_dl")
@@ -199,7 +195,9 @@ class NerDLSpec extends AnyFlatSpec {
   "NerDLApproach" should "validate against part of the training dataset" taggedAs FastTest in {
 
     val conll = CoNLL()
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/ner-corpus/test_ner_dataset.txt")
+    val training_data = conll.readDataset(
+      ResourceHelper.spark,
+      "src/test/resources/ner-corpus/test_ner_dataset.txt")
 
     val embeddings = AnnotatorBuilder.getGLoveEmbeddings(training_data.toDF())
 
@@ -210,9 +208,9 @@ class NerDLSpec extends AnyFlatSpec {
       .setOutputCol("ner")
       .setLabelColumn("label")
       .setOutputCol("ner")
-      .setLr(1e-1f) //0.1
-      .setPo(5e-3f) //0.005
-      .setDropout(5e-1f) //0.5
+      .setLr(1e-1f) // 0.1
+      .setPo(5e-3f) // 0.005
+      .setDropout(5e-1f) // 0.5
       .setMaxEpochs(1)
       .setRandomSeed(0)
       .setVerbose(0)
@@ -228,13 +226,15 @@ class NerDLSpec extends AnyFlatSpec {
   "NerDLModel" should "successfully load saved model" taggedAs FastTest in {
 
     val conll = CoNLL()
-    val test_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testb")
+    val test_data =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testb")
 
     val embeddings = AnnotatorBuilder.getGLoveEmbeddings(test_data.toDF())
 
     val testData = embeddings.transform(test_data)
 
-    NerDLModel.load("./tmp_ner_dl_tf115")
+    NerDLModel
+      .load("./tmp_ner_dl_tf115")
       .setInputCols("sentence", "token", "embeddings")
       .setOutputCol("ner")
       .transform(testData)
@@ -243,7 +243,8 @@ class NerDLSpec extends AnyFlatSpec {
 
   "NerDLModel" should "successfully download a pretrained model" taggedAs FastTest in {
 
-    val nerModel = NerDLModel.pretrained()
+    val nerModel = NerDLModel
+      .pretrained()
       .setInputCols("sentence", "token", "embeddings")
       .setOutputCol("ner")
 
@@ -254,8 +255,10 @@ class NerDLSpec extends AnyFlatSpec {
   "NerDLApproach" should "benchmark test" taggedAs SlowTest in {
 
     val conll = CoNLL(explodeSentences = false)
-    val trainingData = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
-    val testingData = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testa")
+    val trainingData =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+    val testingData =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testa")
 
     val embeddings = WordEmbeddingsModel.pretrained()
 
@@ -267,9 +270,9 @@ class NerDLSpec extends AnyFlatSpec {
       .setOutputCol("ner")
       .setLabelColumn("label")
       .setOutputCol("ner")
-      .setLr(1e-3f) //0.001
-      .setPo(5e-3f) //0.005
-      .setDropout(5e-1f) //0.5
+      .setLr(1e-3f) // 0.001
+      .setPo(5e-3f) // 0.005
+      .setDropout(5e-1f) // 0.5
       .setMaxEpochs(5)
       .setRandomSeed(0)
       .setVerbose(0)
@@ -286,20 +289,19 @@ class NerDLSpec extends AnyFlatSpec {
   "NerDLModel" should "benchmark test" taggedAs SlowTest in {
 
     val conll = CoNLL(explodeSentences = false)
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+    val training_data =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
     val embeddings = WordEmbeddingsModel.pretrained()
 
-    val nerModel = NerDLModel.pretrained()
+    val nerModel = NerDLModel
+      .pretrained()
       .setInputCols("sentence", "token", "embeddings")
       .setOutputCol("ner")
       .setBatchSize(8)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        embeddings,
-        nerModel
-      ))
+      .setStages(Array(embeddings, nerModel))
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
 
@@ -311,24 +313,22 @@ class NerDLSpec extends AnyFlatSpec {
   "NerDLModel" should "work with confidence scores enabled" taggedAs SlowTest in {
 
     val conll = CoNLL(explodeSentences = false)
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+    val training_data =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
     val embeddings = WordEmbeddingsModel.pretrained()
 
-    val nerModel = NerDLModel.pretrained()
+    val nerModel = NerDLModel
+      .pretrained()
       .setInputCols("sentence", "token", "embeddings")
       .setOutputCol("ner")
       .setIncludeConfidence(true)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        embeddings,
-        nerModel
-      ))
+      .setStages(Array(embeddings, nerModel))
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
     pipelineDF.select("ner").show(1, truncate = false)
   }
 
 }
-

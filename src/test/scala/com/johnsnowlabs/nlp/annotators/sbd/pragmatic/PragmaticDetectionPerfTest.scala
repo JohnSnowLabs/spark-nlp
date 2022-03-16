@@ -31,9 +31,7 @@ class PragmaticDetectionPerfTest extends AnyFlatSpec {
     ResourceHelper.spark
     import ResourceHelper.spark.implicits._
 
-    val documentAssembler = new DocumentAssembler().
-      setInputCol("text").
-      setOutputCol("document")
+    val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
 
     val sentenceDetector = new SentenceDetector()
       .setInputCols("document")
@@ -41,10 +39,7 @@ class PragmaticDetectionPerfTest extends AnyFlatSpec {
       .setUseAbbreviations(true)
 
     val recursivePipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentenceDetector
-      ))
+      .setStages(Array(documentAssembler, sentenceDetector))
 
     val nermodel = recursivePipeline.fit(Seq.empty[String].toDF("text"))
     val nerlpmodel = new LightPipeline(nermodel)
@@ -54,7 +49,7 @@ class PragmaticDetectionPerfTest extends AnyFlatSpec {
 
     val subdata = data.select("text").as[String].take(n)
 
-    Benchmark.measure(s"annotate $n sentences") {nerlpmodel.annotate(subdata)}
+    Benchmark.measure(s"annotate $n sentences") { nerlpmodel.annotate(subdata) }
 
     val r = nerlpmodel.annotate("Hello Ms. Laura Goldman, you are always welcome here")
     println(r("sentence").mkString("##"))

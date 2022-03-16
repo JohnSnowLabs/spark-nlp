@@ -24,20 +24,21 @@ import org.tensorflow.proto.util.SaverDef
 import java.util
 import scala.util.matching.Regex
 
-
 object ModelSignatureManager {
 
   val KnownProviders: Array[String] = Array("TF1", "TF2")
 
-  private[ModelSignatureManager] val logger: Logger = LoggerFactory.getLogger("ModelSignatureManager")
+  private[ModelSignatureManager] val logger: Logger =
+    LoggerFactory.getLogger("ModelSignatureManager")
 
-  def apply(tfSignatureType: String = "TF1",
-            tokenIdsValue: String = ModelSignatureConstants.InputIdsV1.value,
-            maskIdsValue: String = ModelSignatureConstants.AttentionMaskV1.value,
-            segmentIdsValue: String = ModelSignatureConstants.TokenTypeIdsV1.value,
-            embeddingsValue: String = ModelSignatureConstants.LastHiddenStateV1.value,
-            sentenceEmbeddingsValue: String = ModelSignatureConstants.PoolerOutputV1.value): Map[String, String] =
-
+  def apply(
+      tfSignatureType: String = "TF1",
+      tokenIdsValue: String = ModelSignatureConstants.InputIdsV1.value,
+      maskIdsValue: String = ModelSignatureConstants.AttentionMaskV1.value,
+      segmentIdsValue: String = ModelSignatureConstants.TokenTypeIdsV1.value,
+      embeddingsValue: String = ModelSignatureConstants.LastHiddenStateV1.value,
+      sentenceEmbeddingsValue: String = ModelSignatureConstants.PoolerOutputV1.value)
+      : Map[String, String] =
     tfSignatureType.toUpperCase match {
       case "TF1" =>
         Map[String, String](
@@ -78,10 +79,12 @@ object ModelSignatureManager {
   }
 
   /** Extract signatures from actual model
-   *
-   * @param model : a SavedModelBundle object
-   * @return a list of tuples of type (OperationType, key, TFInfoName)
-   * */
+    *
+    * @param model
+    *   : a SavedModelBundle object
+    * @return
+    *   a list of tuples of type (OperationType, key, TFInfoName)
+    */
   def getSignaturesFromModel(model: SavedModelBundle): Map[String, String] = {
     import collection.JavaConverters._
 
@@ -91,14 +94,16 @@ object ModelSignatureManager {
 
     val modelSignatures = scala.collection.mutable.Map.empty[String, String]
 
-    /**
-     * Loop imperatively over signature definition to extract them in a map
-     *
-     * @param prefix             : input or output attribute
-     * @param signDefinitionsMap : Java signature definition map
-     * */
-
-    def extractSignatureDefinitions(prefix: String, signDefinitionsMap: util.Map[String, TensorInfo]): Unit = {
+    /** Loop imperatively over signature definition to extract them in a map
+      *
+      * @param prefix
+      *   : input or output attribute
+      * @param signDefinitionsMap
+      *   : Java signature definition map
+      */
+    def extractSignatureDefinitions(
+        prefix: String,
+        signDefinitionsMap: util.Map[String, TensorInfo]): Unit = {
       for (e <- signDefinitionsMap.entrySet.asScala) {
 
         val key: String = e.getKey
@@ -115,7 +120,9 @@ object ModelSignatureManager {
             tfInfo.getTensorShape.getDimCount.toString)
         modelSignatures +=
           (s"$prefix$Sep$key$Sep${ModelSignatureConstants.ShapeDimList.key}" ->
-            tfInfo.getTensorShape.getDimList.toString.replaceAll("\n", "").replaceAll("size:", ""))
+            tfInfo.getTensorShape.getDimList.toString
+              .replaceAll("\n", "")
+              .replaceAll("size:", ""))
         modelSignatures +=
           (s"$prefix$Sep$key$Sep${ModelSignatureConstants.SerializedSize.key}" ->
             tfInfo.getName)
@@ -144,20 +151,25 @@ object ModelSignatureManager {
       false
   }
 
-  /**
-   * Extract the model provider counting the signature pattern matches
-   *
-   * @param signDefNames  : the candidate signature definitions inputs and outputs
-   * @param modelProvider : the true model provider in between TF1 and TF2 to evaluate
-   * @return : the model provider name in between TF1 and TF2
-   * */
-  def classifyProvider(signDefNames: Map[String, String], modelProvider: Option[String] = None): String = {
+  /** Extract the model provider counting the signature pattern matches
+    *
+    * @param signDefNames
+    *   : the candidate signature definitions inputs and outputs
+    * @param modelProvider
+    *   : the true model provider in between TF1 and TF2 to evaluate
+    * @return
+    *   : the model provider name in between TF1 and TF2
+    */
+  def classifyProvider(
+      signDefNames: Map[String, String],
+      modelProvider: Option[String] = None): String = {
 
     val versionMatchesCount = KnownProviders.map { provider =>
       provider -> {
         signDefNames.map { signName =>
           val patterns: Array[Regex] = ModelSignatureConstants.getSignaturePatterns(provider)
-          val matches = (for (pattern <- patterns if findTFKeyMatch(signName._1, pattern)) yield 1).toList.sum
+          val matches =
+            (for (pattern <- patterns if findTFKeyMatch(signName._1, pattern)) yield 1).toList.sum
           matches
         }
       }.sum
@@ -167,17 +179,22 @@ object ModelSignatureManager {
     topModelProvider
   }
 
-  /**
-   * Extract input and output signatures from TF saved models
-   *
-   * @param modelProvider model framework provider, i.e. TF1 or TF2, default TF1
-   * @param model         loaded SavedModelBundle
-   * @return the list ot matching signatures as tuples
-   * */
-  def extractSignatures(model: SavedModelBundle, saverDef: SaverDef): Option[Map[String, String]] = {
+  /** Extract input and output signatures from TF saved models
+    *
+    * @param modelProvider
+    *   model framework provider, i.e. TF1 or TF2, default TF1
+    * @param model
+    *   loaded SavedModelBundle
+    * @return
+    *   the list ot matching signatures as tuples
+    */
+  def extractSignatures(
+      model: SavedModelBundle,
+      saverDef: SaverDef): Option[Map[String, String]] = {
 
     val signatureCandidates = getSignaturesFromModel(model)
-    val signDefNames: Map[String, String] = signatureCandidates.filterKeys(_.contains(ModelSignatureConstants.Name.key))
+    val signDefNames: Map[String, String] =
+      signatureCandidates.filterKeys(_.contains(ModelSignatureConstants.Name.key))
 
     val modelProvider = classifyProvider(signDefNames)
 

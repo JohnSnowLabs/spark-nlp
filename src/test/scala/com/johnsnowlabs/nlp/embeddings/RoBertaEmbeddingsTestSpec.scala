@@ -22,17 +22,17 @@ import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
-
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class RoBertaEmbeddingsTestSpec extends AnyFlatSpec {
 
-
   "RoBertaEmbeddings" should "correctly work with empty tokens" taggedAs SlowTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header", "true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
+    val smallCorpus = ResourceHelper.spark.read
+      .option("header", "true")
+      .csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -45,21 +45,18 @@ class RoBertaEmbeddingsTestSpec extends AnyFlatSpec {
     val stopWordsCleaner = new StopWordsCleaner()
       .setInputCols("token")
       .setOutputCol("cleanTokens")
-      .setStopWords(Array("this", "is", "my", "document", "sentence", "second", "first", ",", "."))
+      .setStopWords(
+        Array("this", "is", "my", "document", "sentence", "second", "first", ",", "."))
       .setCaseSensitive(false)
 
-    val embeddings = RoBertaEmbeddings.pretrained()
+    val embeddings = RoBertaEmbeddings
+      .pretrained()
       .setInputCols("document", "cleanTokens")
       .setOutputCol("embeddings")
       .setCaseSensitive(true)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer,
-        stopWordsCleaner,
-        embeddings
-      ))
+      .setStages(Array(documentAssembler, tokenizer, stopWordsCleaner, embeddings))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
     Benchmark.time("Time to save BertEmbeddings results") {
@@ -71,9 +68,11 @@ class RoBertaEmbeddingsTestSpec extends AnyFlatSpec {
     import ResourceHelper.spark.implicits._
 
     val conll = CoNLL()
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+    val training_data =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
-    val embeddings = RoBertaEmbeddings.pretrained()
+    val embeddings = RoBertaEmbeddings
+      .pretrained()
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(true)
@@ -81,9 +80,7 @@ class RoBertaEmbeddingsTestSpec extends AnyFlatSpec {
       .setBatchSize(12)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        embeddings
-      ))
+      .setStages(Array(embeddings))
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
     Benchmark.time("Time to save RoBertaEmbeddings results") {
@@ -91,7 +88,8 @@ class RoBertaEmbeddingsTestSpec extends AnyFlatSpec {
     }
 
     println("missing tokens/embeddings: ")
-    pipelineDF.withColumn("sentence_size", size(col("sentence")))
+    pipelineDF
+      .withColumn("sentence_size", size(col("sentence")))
       .withColumn("token_size", size(col("token")))
       .withColumn("embed_size", size(col("embeddings")))
       .where(col("token_size") =!= col("embed_size"))
@@ -112,9 +110,7 @@ class RoBertaEmbeddingsTestSpec extends AnyFlatSpec {
 
     import ResourceHelper.spark.implicits._
 
-    val ddd = Seq(
-      "This is just a simple sentence for the testing purposes!"
-    ).toDF("text")
+    val ddd = Seq("This is just a simple sentence for the testing purposes!").toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -124,7 +120,8 @@ class RoBertaEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val embeddings = RoBertaEmbeddings.pretrained()
+    val embeddings = RoBertaEmbeddings
+      .pretrained()
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(true)
@@ -141,7 +138,11 @@ class RoBertaEmbeddingsTestSpec extends AnyFlatSpec {
     }
 
     Benchmark.time("Time to save RoBertaEmbeddings model") {
-      pipelineModel.stages.last.asInstanceOf[RoBertaEmbeddings].write.overwrite().save("./tmp_roberta_model")
+      pipelineModel.stages.last
+        .asInstanceOf[RoBertaEmbeddings]
+        .write
+        .overwrite()
+        .save("./tmp_roberta_model")
     }
 
     val loadedPipelineModel = PipelineModel.load("./tmp_roberta_pipeline")
@@ -161,8 +162,8 @@ class RoBertaEmbeddingsTestSpec extends AnyFlatSpec {
       "EU rejects German call to boycott British lamb .",
       "TORONTO 1996-08-21",
       " carbon emissions have come down without impinging on our growth . . .",
-      "carbon emissions have come down without impinging on our growth .\\u2009.\\u2009."
-    ).toDF("text")
+      "carbon emissions have come down without impinging on our growth .\\u2009.\\u2009.").toDF(
+      "text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -172,7 +173,8 @@ class RoBertaEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val embeddings = RoBertaEmbeddings.pretrained()
+    val embeddings = RoBertaEmbeddings
+      .pretrained()
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(true)
@@ -198,7 +200,6 @@ class RoBertaEmbeddingsTestSpec extends AnyFlatSpec {
 
     println(s"total tokens: $totalTokens")
     println(s"total embeddings: $totalEmbeddings")
-
 
   }
 }

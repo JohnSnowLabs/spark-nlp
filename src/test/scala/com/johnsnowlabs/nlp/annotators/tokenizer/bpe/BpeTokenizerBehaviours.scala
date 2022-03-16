@@ -25,10 +25,11 @@ trait BpeTokenizerBehaviours {
 
   val replaceCharBeforeAssertion: Option[String] = None
 
-  protected def assertEncodedCorrectly(text: String,
-                                       encoded: Array[TokenPiece],
-                                       expected: Array[String],
-                                       expectedIds: Array[Int]): Unit = {
+  protected def assertEncodedCorrectly(
+      text: String,
+      encoded: Array[TokenPiece],
+      expected: Array[String],
+      expectedIds: Array[Int]): Unit = {
 
     assert(encoded.length == expected.length)
     for (i <- encoded.indices) {
@@ -38,13 +39,16 @@ trait BpeTokenizerBehaviours {
 
       replaceCharBeforeAssertion match {
         case Some(decodeChar) =>
-          assert(text.slice(piece.begin, piece.end + 1) == piece.wordpiece.replace(decodeChar, " "))
+          assert(
+            text.slice(piece.begin, piece.end + 1) == piece.wordpiece.replace(decodeChar, " "))
         case _ => assert(text.slice(piece.begin, piece.end + 1) == piece.wordpiece)
       }
     }
   }
 
-  protected def tokenizeAndEncode(tokenizer: BpeTokenizer, text: String): (Array[IndexedToken], Array[TokenPiece]) = {
+  protected def tokenizeAndEncode(
+      tokenizer: BpeTokenizer,
+      text: String): (Array[IndexedToken], Array[TokenPiece]) = {
     val sentence = Sentence(text, 0, text.length - 1, 0)
 
     val tokenized = tokenizer.tokenize(sentence)
@@ -52,11 +56,11 @@ trait BpeTokenizerBehaviours {
     (tokenized, encoded)
   }
 
-  def correctBpeTokenizer(tokenizer: BpeTokenizer,
-                          text: String,
-                          expected: Array[String],
-                          expectedIds: Array[Int]
-                         ): Unit = {
+  def correctBpeTokenizer(
+      tokenizer: BpeTokenizer,
+      text: String,
+      expected: Array[String],
+      expectedIds: Array[Int]): Unit = {
 
     it should "encode words correctly" taggedAs FastTest in {
       val (_, encoded: Array[TokenPiece]) = tokenizeAndEncode(tokenizer, text)
@@ -66,7 +70,8 @@ trait BpeTokenizerBehaviours {
     it should "add sentence padding correctly if requested" taggedAs FastTest in {
       tokenizer.padWithSentenceTokens = true
 
-      val (tokenized: Array[IndexedToken], encoded: Array[TokenPiece]) = tokenizeAndEncode(tokenizer, text)
+      val (tokenized: Array[IndexedToken], encoded: Array[TokenPiece]) =
+        tokenizeAndEncode(tokenizer, text)
 
       //      val textPadded = "<|endoftext|>I unambigouosly<|endoftext|>"
       //      assertEncodedCorrectly(textPadded, encoded, expected, expectedIds)
@@ -82,10 +87,13 @@ trait BpeTokenizerBehaviours {
 
   }
 
-  def correctBpeTokenizerInFringeSituations(tokenizer: BpeTokenizer, unknownTokenText: String = "???") {
+  def correctBpeTokenizerInFringeSituations(
+      tokenizer: BpeTokenizer,
+      unknownTokenText: String = "???") {
     it should "handle empty sentences" taggedAs FastTest in {
       val text = " \n"
-      val (tokenized: Array[IndexedToken], encoded: Array[TokenPiece]) = tokenizeAndEncode(tokenizer, text)
+      val (tokenized: Array[IndexedToken], encoded: Array[TokenPiece]) =
+        tokenizeAndEncode(tokenizer, text)
       assert(tokenized.isEmpty)
       assert(encoded.isEmpty)
     }
@@ -105,11 +113,11 @@ trait BpeTokenizerBehaviours {
     }
   }
 
-  def correctBpeTokenizerSpecialTokens(tokenizer: BpeTokenizer,
-                                       text: String,
-                                       expected: Array[String],
-                                       expectedIds: Array[Int]
-                                      ): Unit = {
+  def correctBpeTokenizerSpecialTokens(
+      tokenizer: BpeTokenizer,
+      text: String,
+      expected: Array[String],
+      expectedIds: Array[Int]): Unit = {
 
     it should "encode special tokens correctly" taggedAs FastTest in {
       val (_, encoded: Array[TokenPiece]) = tokenizeAndEncode(tokenizer, text)

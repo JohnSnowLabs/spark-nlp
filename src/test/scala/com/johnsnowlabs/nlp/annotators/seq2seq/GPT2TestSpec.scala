@@ -26,18 +26,20 @@ import org.scalatest.flatspec.AnyFlatSpec
 class GPT2TestSpec extends AnyFlatSpec {
 
   "gpt2" should "run SparkNLP pipeline with larger batch size" taggedAs SlowTest in {
-    val testData = ResourceHelper.spark.createDataFrame(Seq(
-      (1, "My name is Leonardo."),
-      (2, "My name is Leonardo and I come from Rome."),
-      (3, "My name is"),
-      (4, "What is my name?"),
-      (5, "Who is Ronaldo?"),
-      (6, "Who discovered the microscope?"),
-      (7, "Where does petrol come from?"),
-      (8, "What is the difference between diesel and petrol?"),
-      (9, "Where is Sofia?"),
-      (10, "The priest is convinced that")
-    )).toDF("id", "text").repartition(1)
+    val testData = ResourceHelper.spark
+      .createDataFrame(Seq(
+        (1, "My name is Leonardo."),
+        (2, "My name is Leonardo and I come from Rome."),
+        (3, "My name is"),
+        (4, "What is my name?"),
+        (5, "Who is Ronaldo?"),
+        (6, "Who discovered the microscope?"),
+        (7, "Where does petrol come from?"),
+        (8, "What is the difference between diesel and petrol?"),
+        (9, "Where is Sofia?"),
+        (10, "The priest is convinced that")))
+      .toDF("id", "text")
+      .repartition(1)
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -72,9 +74,9 @@ class GPT2TestSpec extends AnyFlatSpec {
   }
 
   "gpt2" should "run SparkNLP pipeline with doSample=true " taggedAs SlowTest in {
-    val testData = ResourceHelper.spark.createDataFrame(Seq(
-      (1, "Leonardo Da Vinci invented the wheel?")
-    )).toDF("id", "text")
+    val testData = ResourceHelper.spark
+      .createDataFrame(Seq((1, "Leonardo Da Vinci invented the wheel?")))
+      .toDF("id", "text")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -92,9 +94,23 @@ class GPT2TestSpec extends AnyFlatSpec {
 
     val model = pipeline.fit(testData)
 
-    val dataframe1 = model.transform(testData).select("generation.result").collect().toSeq.head.getAs[Seq[String]](0).head
+    val dataframe1 = model
+      .transform(testData)
+      .select("generation.result")
+      .collect()
+      .toSeq
+      .head
+      .getAs[Seq[String]](0)
+      .head
     println(dataframe1)
-    val dataframe2 = model.transform(testData).select("generation.result").collect().toSeq.head.getAs[Seq[String]](0).head
+    val dataframe2 = model
+      .transform(testData)
+      .select("generation.result")
+      .collect()
+      .toSeq
+      .head
+      .getAs[Seq[String]](0)
+      .head
     println(dataframe2)
 
     assert(!dataframe1.equals(dataframe2))
@@ -102,10 +118,8 @@ class GPT2TestSpec extends AnyFlatSpec {
   }
 
   "gpt2" should "run SparkNLP pipeline with doSample=true and fixed random seed " taggedAs SlowTest in {
-    val testData = ResourceHelper.spark.createDataFrame(Seq(
-
-      (1, "Preheat the oven to.")
-    )).toDF("id", "text")
+    val testData =
+      ResourceHelper.spark.createDataFrame(Seq((1, "Preheat the oven to."))).toDF("id", "text")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -123,13 +137,26 @@ class GPT2TestSpec extends AnyFlatSpec {
 
     val model = pipeline.fit(testData)
 
-    val dataframe1 = model.transform(testData).select("generation.result").collect().toSeq.head.getAs[Seq[String]](0).head
+    val dataframe1 = model
+      .transform(testData)
+      .select("generation.result")
+      .collect()
+      .toSeq
+      .head
+      .getAs[Seq[String]](0)
+      .head
     println(dataframe1)
-    val dataframe2 = model.transform(testData).select("generation.result").collect().toSeq.head.getAs[Seq[String]](0).head
+    val dataframe2 = model
+      .transform(testData)
+      .select("generation.result")
+      .collect()
+      .toSeq
+      .head
+      .getAs[Seq[String]](0)
+      .head
     println(dataframe2)
 
     assert(dataframe1.equals(dataframe2))
   }
-
 
 }

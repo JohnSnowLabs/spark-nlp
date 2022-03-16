@@ -39,12 +39,17 @@ class PragmaticSentimentBigTestSpec extends AnyFlatSpec {
 
     val sentimentDetector = new SentimentDetector()
 
-    val readyData = AnnotatorBuilder.withFullPOSTagger(AnnotatorBuilder.withFullLemmatizer(assembled))
-    
+    val readyData =
+      AnnotatorBuilder.withFullPOSTagger(AnnotatorBuilder.withFullLemmatizer(assembled))
+
     val result = sentimentDetector
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("my_sda_scores")
-      .setDictionary(ExternalResource("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ReadAs.TEXT, Map("delimiter" -> ",")))
+      .setDictionary(
+        ExternalResource(
+          "src/test/resources/sentiment-corpus/default-sentiment-dict.txt",
+          ReadAs.TEXT,
+          Map("delimiter" -> ",")))
       .setEnableScore(false)
       .fit(readyData)
       .transform(readyData)
@@ -53,11 +58,13 @@ class PragmaticSentimentBigTestSpec extends AnyFlatSpec {
 
     val date1 = new Date().getTime
     result.show(2)
-    info(s"20 show sample of disk based sentiment analysis took: ${(new Date().getTime - date1)/1000} seconds")
+    info(
+      s"20 show sample of disk based sentiment analysis took: ${(new Date().getTime - date1) / 1000} seconds")
 
     val date2 = new Date().getTime
     result.take("my_sda_scores", 5000)
-    info(s"5000 take sample of disk based sentiment analysis took: ${(new Date().getTime - date2)/1000} seconds")
+    info(
+      s"5000 take sample of disk based sentiment analysis took: ${(new Date().getTime - date2) / 1000} seconds")
 
     val dataFromMemory = readyData.persist(StorageLevel.MEMORY_AND_DISK)
     info(s"data in memory is of size: ${dataFromMemory.count}")
@@ -65,11 +72,13 @@ class PragmaticSentimentBigTestSpec extends AnyFlatSpec {
 
     val date3 = new Date().getTime
     resultFromMemory.show(2)
-    info(s"20 show sample of memory based sentiment analysis took: ${(new Date().getTime - date3)/1000} seconds")
+    info(
+      s"20 show sample of memory based sentiment analysis took: ${(new Date().getTime - date3) / 1000} seconds")
 
     val date4 = new Date().getTime
     resultFromMemory.take("my_sda_scores", 5000)
-    info(s"5000 take sample of memory based sentiment analysis took: ${(new Date().getTime - date4)/1000} seconds")
+    info(
+      s"5000 take sample of memory based sentiment analysis took: ${(new Date().getTime - date4) / 1000} seconds")
 
     succeed
   }
@@ -82,23 +91,35 @@ class PragmaticSentimentTestSpec extends AnyFlatSpec with PragmaticSentimentBeha
     "I recommend others to avoid because it is too expensive"
 
   val sentimentSentences = {
-    new Tokenizer().fit(ContentProvider.parquetData).tag(Sentence.fromTexts(sentimentSentenceTexts)).toArray
+    new Tokenizer()
+      .fit(ContentProvider.parquetData)
+      .tag(Sentence.fromTexts(sentimentSentenceTexts))
+      .toArray
   }
 
-  "an isolated sentiment detector" should behave like isolatedSentimentDetector(sentimentSentences, -4.0)
+  "an isolated sentiment detector" should behave like isolatedSentimentDetector(
+    sentimentSentences,
+    -4.0)
 
   "a spark based sentiment detector" should behave like sparkBasedSentimentDetector(
     DataBuilder.basicDataBuild("The staff of the restaurant is nice and the eggplant is bad." +
-      " I recommend others to avoid.")
-  )
+      " I recommend others to avoid."))
 
   "A SentimentDetector" should "be readable and writable" taggedAs FastTest in {
-    val sentimentDetector = new SentimentDetector().setDictionary(ExternalResource("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ReadAs.TEXT, Map("delimiter" -> ","))).fit(DataBuilder.basicDataBuild("dummy"))
+    val sentimentDetector = new SentimentDetector()
+      .setDictionary(
+        ExternalResource(
+          "src/test/resources/sentiment-corpus/default-sentiment-dict.txt",
+          ReadAs.TEXT,
+          Map("delimiter" -> ",")))
+      .fit(DataBuilder.basicDataBuild("dummy"))
     val path = "./test-output-tmp/sentimentdetector"
     try {
       sentimentDetector.write.overwrite.save(path)
       val sentimentDetectorRead = SentimentDetectorModel.read.load(path)
-      assert(sentimentDetector.model.score(sentimentSentences) == sentimentDetectorRead.model.score(sentimentSentences))
+      assert(
+        sentimentDetector.model.score(sentimentSentences) == sentimentDetectorRead.model.score(
+          sentimentSentences))
     } catch {
       case _: java.io.IOException => succeed
     }

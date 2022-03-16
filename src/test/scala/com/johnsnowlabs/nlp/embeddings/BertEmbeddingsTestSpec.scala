@@ -32,21 +32,19 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
 
     import ResourceHelper.spark.implicits._
 
-    val ddd = Seq(
-      "Something is weird on the notebooks, something is happening."
-    ).toDF("text")
+    val ddd = Seq("Something is weird on the notebooks, something is happening.").toDF("text")
 
     val data1 = Seq(
-      "In the Seven Kingdoms of Westeros, a soldier of the ancient Night's Watch order survives an attack by supernatural creatures known as the White Walkers, thought until now to be mythical."
-    ).toDF("text")
+      "In the Seven Kingdoms of Westeros, a soldier of the ancient Night's Watch order survives an attack by supernatural creatures known as the White Walkers, thought until now to be mythical.")
+      .toDF("text")
 
     val data2 = Seq(
-      "In King's Landing, the capital, Jon Arryn, the King's Hand, dies under mysterious circumstances."
-    ).toDF("text")
+      "In King's Landing, the capital, Jon Arryn, the King's Hand, dies under mysterious circumstances.")
+      .toDF("text")
 
     val data3 = Seq(
-      "Tyrion makes saddle modifications for Bran that will allow the paraplegic boy to ride."
-    ).toDF("text")
+      "Tyrion makes saddle modifications for Bran that will allow the paraplegic boy to ride.")
+      .toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -56,7 +54,8 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val embeddings = BertEmbeddings.pretrained("small_bert_L2_128", "en")
+    val embeddings = BertEmbeddings
+      .pretrained("small_bert_L2_128", "en")
       .setInputCols(Array("token", "document"))
       .setOutputCol("bert")
 
@@ -71,7 +70,9 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
 
   "Bert Embeddings" should "correctly work with empty tokens" taggedAs SlowTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header", "true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
+    val smallCorpus = ResourceHelper.spark.read
+      .option("header", "true")
+      .csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -84,21 +85,18 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
     val stopWordsCleaner = new StopWordsCleaner()
       .setInputCols("token")
       .setOutputCol("cleanTokens")
-      .setStopWords(Array("this", "is", "my", "document", "sentence", "second", "first", ",", "."))
+      .setStopWords(
+        Array("this", "is", "my", "document", "sentence", "second", "first", ",", "."))
       .setCaseSensitive(false)
 
-    val embeddings = BertEmbeddings.pretrained("small_bert_L2_128", "en")
+    val embeddings = BertEmbeddings
+      .pretrained("small_bert_L2_128", "en")
       .setInputCols("document", "cleanTokens")
       .setOutputCol("embeddings")
       .setCaseSensitive(true)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer,
-        stopWordsCleaner,
-        embeddings
-      ))
+      .setStages(Array(documentAssembler, tokenizer, stopWordsCleaner, embeddings))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
     Benchmark.time("Time to save BertEmbeddings results") {
@@ -110,9 +108,11 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
     import ResourceHelper.spark.implicits._
 
     val conll = CoNLL(explodeSentences = false)
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+    val training_data =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
-    val embeddings = BertEmbeddings.pretrained("small_bert_L2_128", "en")
+    val embeddings = BertEmbeddings
+      .pretrained("small_bert_L2_128", "en")
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
@@ -120,9 +120,7 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
       .setBatchSize(16)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        embeddings
-      ))
+      .setStages(Array(embeddings))
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
     Benchmark.time("Time to save BertEmbeddings results") {
@@ -130,7 +128,8 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
     }
 
     println("missing tokens/embeddings: ")
-    pipelineDF.withColumn("sentence_size", size(col("sentence")))
+    pipelineDF
+      .withColumn("sentence_size", size(col("sentence")))
       .withColumn("token_size", size(col("token")))
       .withColumn("embed_size", size(col("embeddings")))
       .where(col("token_size") =!= col("embed_size"))
@@ -151,9 +150,7 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
 
     import ResourceHelper.spark.implicits._
 
-    val ddd = Seq(
-      "Something is weird on the notebooks, something is happening."
-    ).toDF("text")
+    val ddd = Seq("Something is weird on the notebooks, something is happening.").toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -165,7 +162,8 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
 
     val tfModelPath = "src/test/resources/tf-hub-bert/model"
 
-    val embeddings = BertEmbeddings.loadSavedModel(tfModelPath, ResourceHelper.spark)
+    val embeddings = BertEmbeddings
+      .loadSavedModel(tfModelPath, ResourceHelper.spark)
       .setInputCols(Array("token", "document"))
       .setOutputCol("bert")
       .setStorageRef("tf_hub_bert_test")
@@ -187,9 +185,8 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
       "EU rejects German call to boycott British lamb .",
       "TORONTO 1996-08-21",
       " carbon emissions have come down without impinging on our growth. .  . .",
-      "\\u2009.carbon emissions have come down without impinging on our growth .\\u2009.\\u2009."
-
-    ).toDF("text")
+      "\\u2009.carbon emissions have come down without impinging on our growth .\\u2009.\\u2009.")
+      .toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -199,7 +196,8 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val embeddings = BertEmbeddings.pretrained("small_bert_L2_128")
+    val embeddings = BertEmbeddings
+      .pretrained("small_bert_L2_128")
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)

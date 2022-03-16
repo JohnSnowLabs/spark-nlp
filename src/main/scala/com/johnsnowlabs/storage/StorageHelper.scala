@@ -16,37 +16,49 @@
 
 package com.johnsnowlabs.storage
 
-import java.io.File
-
 import org.apache.hadoop.fs.{FileSystem, FileUtil, Path}
-import org.apache.spark.{SparkContext, SparkFiles}
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.{SparkContext, SparkFiles}
 
+import java.io.File
 
 object StorageHelper {
 
-  def resolveStorageName(database: String, storageRef: String): String = new Path(database + "_" + storageRef).toString
+  def resolveStorageName(database: String, storageRef: String): String =
+    new Path(database + "_" + storageRef).toString
 
   def load(
-            storageSourcePath: String,
-            spark: SparkSession,
-            database: String,
-            storageRef: String,
-            withinStorage: Boolean
-          ): RocksDBConnection = {
+      storageSourcePath: String,
+      spark: SparkSession,
+      database: String,
+      storageRef: String,
+      withinStorage: Boolean): RocksDBConnection = {
 
     val dbFolder = StorageHelper.resolveStorageName(database, storageRef)
-    val src = StorageLocator.getStorageSerializedPath(storageSourcePath.replaceAllLiterally("\\", "/"), dbFolder, withinStorage)
+    val src = StorageLocator.getStorageSerializedPath(
+      storageSourcePath.replaceAllLiterally("\\", "/"),
+      dbFolder,
+      withinStorage)
 
     val locator = StorageLocator(database, storageRef, spark)
 
-    sendToCluster(src, locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, spark.sparkContext)
+    sendToCluster(
+      src,
+      locator.clusterFilePath,
+      locator.clusterFileName,
+      locator.destinationScheme,
+      spark.sparkContext)
 
     RocksDBConnection.getOrCreate(locator.clusterFileName)
   }
 
-  def save(path: String, connection: RocksDBConnection, spark: SparkSession, withinStorage: Boolean): Unit = {
-    val indexUri = "file://" + (new java.net.URI(connection.findLocalIndex.replaceAllLiterally("\\", "/")).getPath)
+  def save(
+      path: String,
+      connection: RocksDBConnection,
+      spark: SparkSession,
+      withinStorage: Boolean): Unit = {
+    val indexUri = "file://" + (new java.net.URI(
+      connection.findLocalIndex.replaceAllLiterally("\\", "/")).getPath)
     val index = new Path(indexUri)
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
@@ -64,10 +76,18 @@ object StorageHelper {
     fs.copyFromLocalFile(false, true, index, dst)
   }
 
-  def sendToCluster(source: Path, clusterFilePath: Path, clusterFileName: String, destinationScheme: String,
-                    sparkContext: SparkContext): Unit = {
+  def sendToCluster(
+      source: Path,
+      clusterFilePath: Path,
+      clusterFileName: String,
+      destinationScheme: String,
+      sparkContext: SparkContext): Unit = {
     destinationScheme match {
-      case "file" => copyIndexToLocal(source, new Path(RocksDBConnection.getLocalPath(clusterFileName)), sparkContext)
+      case "file" =>
+        copyIndexToLocal(
+          source,
+          new Path(RocksDBConnection.getLocalPath(clusterFileName)),
+          sparkContext)
       case _ => copyIndexToCluster(source, clusterFilePath, sparkContext)
     }
   }
@@ -90,7 +110,10 @@ object StorageHelper {
   }
 
   private def copyIndexToLocal(source: Path, destination: Path, context: SparkContext): Unit = {
-    /** if we don't do a copy, and just move, it will all fail when re-saving utilized storage because of bad crc */
+
+    /** if we don't do a copy, and just move, it will all fail when re-saving utilized storage
+      * because of bad crc
+      */
     val fs = source.getFileSystem(context.hadoopConfiguration)
     if (!fs.exists(destination))
       fs.copyFromLocalFile(false, true, source, destination)

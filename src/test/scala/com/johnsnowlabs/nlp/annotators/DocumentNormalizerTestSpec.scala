@@ -20,7 +20,6 @@ import com.johnsnowlabs.nlp.AnnotatorType
 import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
 
-
 class DocumentNormalizerTestSpec extends AnyFlatSpec with DocumentNormalizerBehaviors {
   val documentNormalizer = new DocumentNormalizer()
 
