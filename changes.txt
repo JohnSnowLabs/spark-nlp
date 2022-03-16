@@ -1,2 +1,4 @@
-docs/en/licensed_release_notes.md
-docs/en/licensed_release_notes.md
+docs/en/licensed_version_compatibility.md
+docs/en/version_compatibility.md
+docs/en/licensed_version_compatibility.md
+docs/en/version_compatibility.md
