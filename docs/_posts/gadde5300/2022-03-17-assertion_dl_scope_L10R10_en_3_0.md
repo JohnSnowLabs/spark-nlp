@@ -81,7 +81,7 @@ val clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/mo
 val ner_converter = NerConverter()
   .setInputCols(Array("sentence", "token", "ner"))
   .setOutputCol("ner_chunk")
-val clinical_assertion = AssertionDLModel.pretrained("assertion_dl", "en", "clinical/models")
+val clinical_assertion = AssertionDLModel.pretrained("assertion_dl_scope_L10R10", "en", "clinical/models")
     .setInputCols(Array("sentence", "ner_chunk", "embeddings"))
     .setScopeWindow(Array(10,10))
     .setOutputCol("assertion")
