@@ -158,11 +158,16 @@ Figure above clearly shows us that GPU should be the first option of ours.
 
 In conclusion, please find the best specifications for your use case since these benchmarks might depend on dataset size, inference batch size, quickness, pricing and so on.
 
+Please refer to this video for further info: https://events.johnsnowlabs.com/webinar-speed-optimization-benchmarks-in-spark-nlp-3-making-the-most-of-modern-hardware?hsCtaTracking=a9bb6358-92bd-4cf3-b97c-e76cb1dfb6ef%7C4edba435-1adb-49fc-83fd-891a7506a417
+
 ### MultiGPU training
 Right now, we don't support multigpu training (1 model in different GPUs in parallel), but you can train different models in different GPU.
 
 </div>
 <div class="h3-box" markdown="1">
+
+### MultiGPU inferring
+Spark NLP can carry out MultiGPU inference if GPUs are in different cluster nodes. For example, if you have a Databricks cluster with different GPUs, you can repartition your data to match the number of GPU nodes and then coalesce to retrieve the results back to the master node. Currently, inference on multiple GPUs on the same machine is not supported.
 
 ### Where to look for more information about Training
 Please, take a look at the [Spark NLP](https://nlp.johnsnowlabs.com/docs/en/training) and [Spark NLP for Healthcare](https://nlp.johnsnowlabs.com/docs/en/licensed_training) Training sections, and feel free to reach us out in case you want to maximize the performance on your GPU.
