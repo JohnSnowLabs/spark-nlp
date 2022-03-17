@@ -56,7 +56,7 @@ case class CoNLLU(
     conllTextCol: String = "text",
     documentCol: String = "document",
     sentenceCol: String = "sentence",
-    tokenCol: String = CoNLLUCols.FORM.toString.toLowerCase,
+    formCol: String = CoNLLUCols.FORM.toString.toLowerCase,
     uposCol: String = CoNLLUCols.UPOS.toString.toLowerCase,
     xposCol: String = CoNLLUCols.XPOS.toString.toLowerCase,
     lemmaCol: String = CoNLLUCols.LEMMA.toString.toLowerCase,
@@ -137,10 +137,10 @@ case class CoNLLU(
     val text = StructField(conllTextCol, StringType)
     val doc = getAnnotationType(documentCol, AnnotatorType.DOCUMENT)
     val sentence = getAnnotationType(sentenceCol, AnnotatorType.DOCUMENT)
-    val token = getAnnotationType(CoNLLUCols.FORM.toString.toLowerCase, AnnotatorType.TOKEN)
-    val uPos = getAnnotationType(CoNLLUCols.UPOS.toString.toLowerCase, AnnotatorType.POS)
-    val xPos = getAnnotationType(CoNLLUCols.XPOS.toString.toLowerCase, AnnotatorType.POS)
-    val lemma = getAnnotationType(CoNLLUCols.LEMMA.toString.toLowerCase, AnnotatorType.TOKEN)
+    val token = getAnnotationType(formCol, AnnotatorType.TOKEN)
+    val uPos = getAnnotationType(uposCol, AnnotatorType.POS)
+    val xPos = getAnnotationType(xposCol, AnnotatorType.POS)
+    val lemma = getAnnotationType(lemmaCol, AnnotatorType.TOKEN)
 
     StructType(Seq(text, doc, sentence, token, uPos, xPos, lemma))
   }
