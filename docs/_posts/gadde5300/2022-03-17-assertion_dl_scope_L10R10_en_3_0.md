@@ -36,29 +36,37 @@ This model considers 10 tokens on the left and 10 tokens on the right side of th
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+   .setInputCol("text")\
+   .setOutputCol("document")
+   
 sentenceDetector = SentenceDetector()\
   .setInputCols(["document"])\
   .setOutputCol("sentence")
+  
 token = Tokenizer()\
-    .setInputCols(['sentence'])\
-    .setOutputCol('token')
+  .setInputCols(['sentence'])\
+  .setOutputCol('token')
+  
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
   .setInputCols(["sentence", "token"])\
   .setOutputCol("embeddings")
+  
 clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
+  
 ner_converter = NerConverter() \
   .setInputCols(["sentence", "token", "ner"]) \
   .setOutputCol("ner_chunk")
+  
 clinical_assertion = AssertionDLModel.pretrained("assertion_dl_scope_L10R10", "en", "clinical/models") \
-    .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
-    .setScopeWindow([10,10])\
-    .setOutputCol("assertion")
+  .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
+  .setScopeWindow([10,10])\
+  .setOutputCol("assertion")
+  
 nlpPipeline = Pipeline(stages=[document,sentenceDetector, token, word_embeddings,clinical_ner,ner_converter,  clinical_assertion])
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+
 light_result = LightPipeline(model).fullAnnotate("Patient with severe fever and sore throat. He shows no stomach pain and he maintained on an epidural and PCA for pain control. He also became short of breath with climbing a flight of stairs. After CT, lung tumor located at the right lower lobe. Father with Alzheimer.")[0]
 
 ```
@@ -66,27 +74,35 @@ light_result = LightPipeline(model).fullAnnotate("Patient with severe fever and 
 val documentAssembler = new DocumentAssembler() 
     .setInputCol("text") 
     .setOutputCol("document")
+    
 val sentenceDetector = new SentenceDetector()\
   .setInputCols(Array("document"))
   .setOutputCol("sentence")
+  
 val tokenizer = new Tokenizer()
-    .setInputCols("document")
-    .setOutputCol("token")
+  .setInputCols("document")
+  .setOutputCol("token")
+  
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
   .setInputCols(Array("sentence", "token"))
   .setOutputCol("embeddings")
+  
 val clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")
   .setInputCols(Array("sentence", "token", "embeddings")) 
   .setOutputCol("ner")
+  
 val ner_converter = NerConverter()
   .setInputCols(Array("sentence", "token", "ner"))
   .setOutputCol("ner_chunk")
+  
 val clinical_assertion = AssertionDLModel.pretrained("assertion_dl_scope_L10R10", "en", "clinical/models")
-    .setInputCols(Array("sentence", "ner_chunk", "embeddings"))
-    .setScopeWindow(Array(10,10))
-    .setOutputCol("assertion")
+  .setInputCols(Array("sentence", "ner_chunk", "embeddings"))
+  .setScopeWindow(Array(10,10))
+  .setOutputCol("assertion")
+  
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, clinical_assertion))
 val data = Seq("Patient with severe fever and sore throat. He shows no stomach pain and he maintained on an epidural and PCA for pain control. He also became short of breath with climbing a flight of stairs. After CT, lung tumor located at the right lower lobe. Father with Alzheimer.").toDF("text")
+
 val result = pipeline.fit(data).transform(data)
 ```
 </div>
