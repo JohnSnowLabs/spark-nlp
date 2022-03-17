@@ -161,6 +161,7 @@ Avg test loss: 0.2875
 |associated_with_someone_else|36  |7  |9  |0.8372093 |0.8      |0.8181818 |
 |hypothetical                |147 |31 |28 |0.8258427 |0.84     |0.8328612 |
 |possible                    |159 |87 |42 |0.64634144|0.7910448|0.71140933|
+
 Macro-average	 prec: 0.79545444, rec: 0.79469794, f1: 0.795076
 Micro-average	 prec: 0.91946477, rec: 0.91946477, f1: 0.91946477
 ```
