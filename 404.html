@@ -425,8 +425,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Multi-lingual DeBERTa base model- Spark NLP Model</title><meta name="description" content="DescriptionDeBERTa improves the BERT and RoBERTa models using disentangled attention and enhanced mask decoder. With those two improvements, DeBERTa out perf...">
-<link rel="canonical" href="/2022/03/10/mdeberta_v3_base_xx_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>fastText Word Embeddings in Zeelandic- Spark NLP Model</title><meta name="description" content="DescriptionWord Embeddings lookup annotator that maps tokens to vectors.Live DemoOpen in ColabDownloadHow to use         PythonScalaNLU  documentAssembler = ...">
+<link rel="canonical" href="/2022/03/16/w2v_cc_300d_zea_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -820,26 +820,17 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Mar 10, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-03-10T00:00:00+00:00"></div><header class="main-docs"><h1>Multi-lingual DeBERTa base model</h1></header></div><meta itemprop="headline" content="Multi-lingual DeBERTa base model"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>xx</li><li>multilingual</li><li>deberta</li><li>mdeberta</li><li>v3</li><li>base</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-03-10T00:00:00+00:00">
-    <meta itemprop="keywords" content="xx,multilingual,deberta,mdeberta,v3,base,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Mar 16, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-03-16T00:00:00+00:00"></div><header class="main-docs"><h1>fastText Word Embeddings in Zeelandic</h1></header></div><meta itemprop="headline" content="fastText Word Embeddings in Zeelandic"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>zea</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-03-16T00:00:00+00:00">
+    <meta itemprop="keywords" content="zea,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p><a href="https://arxiv.org/abs/2006.03654">DeBERTa</a> improves the BERT and RoBERTa models using disentangled attention and enhanced mask decoder. With those two improvements, DeBERTa out perform RoBERTa on a majority of NLU tasks with 80GB training data.</p>
-
-<p>In <a href="https://arxiv.org/abs/2111.09543">DeBERTa V3</a>, we further improved the efficiency of DeBERTa using ELECTRA-Style pre-training with Gradient Disentangled Embedding Sharing. Compared to DeBERTa,  our V3 version significantly improves the model performance on downstream tasks.  You can find more technique details about the new model from our <a href="https://arxiv.org/abs/2111.09543">paper</a>.</p>
-
-<p>Please check the <a href="https://github.com/microsoft/DeBERTa">official repository</a> for more implementation details and updates.</p>
-
-<p>mDeBERTa is multilingual version of DeBERTa which use the same structure as DeBERTa and was trained with CC100 multilingual data.
-The mDeBERTa V3 base model comes with 12 layers and a hidden size of 768. It has 86M backbone parameters  with a vocabulary containing 250K tokens which introduces 190M parameters in the Embedding layer.  This model was trained using the 2.5T CC100 data as XLM-R.</p>
-
-<h2 id="predicted-entities">Predicted Entities</h2>
+<p>Word Embeddings lookup annotator that maps tokens to vectors.</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/mdeberta_v3_base_xx_3.4.2_3.0_1646908683611.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/w2v_cc_300d_zea_3.4.1_3.0_1647467775728.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -847,15 +838,41 @@ The mDeBERTa V3 base model comes with 12 layers and a hidden size of 768. It has
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">embeddings</span> <span class="o">=</span> <span class="n">DeBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"mdeberta_v3_base"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+  
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"w2v_cc_300d"</span><span class="p">,</span><span class="s">"zea"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+    
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"I love Spark NLP"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">DeBertaEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"mdeberta_v3_base"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
+      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+ 
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"w2v_cc_300d"</span><span class="o">,</span><span class="s">"zea"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I love Spark NLP"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
@@ -865,11 +882,15 @@ The mDeBERTa V3 base model comes with 12 layers and a hidden size of 768. It has
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>mdeberta_v3_base</td>
+      <td>w2v_cc_300d</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>embeddings</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.4.2+</td>
+      <td>Spark NLP 3.4.1+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -881,7 +902,7 @@ The mDeBERTa V3 base model comes with 12 layers and a hidden size of 768. It has
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[token, sentence]</td>
+      <td>[document, token]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
@@ -889,41 +910,23 @@ The mDeBERTa V3 base model comes with 12 layers and a hidden size of 768. It has
     </tr>
     <tr>
       <td>Language:</td>
-      <td>xx</td>
+      <td>zea</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>661.7 MB</td>
+      <td>52.1 MB</td>
     </tr>
     <tr>
       <td>Case sensitive:</td>
-      <td>true</td>
+      <td>false</td>
     </tr>
     <tr>
-      <td>Max sentence length:</td>
-      <td>128</td>
+      <td>Dimension:</td>
+      <td>300</td>
     </tr>
   </tbody>
 </table>
-
-<h2 id="references">References</h2>
-
-<p><a href="https://huggingface.co/microsoft/mdeberta-v3-base">https://huggingface.co/microsoft/mdeberta-v3-base</a></p>
-
-<h2 id="benchmarking">Benchmarking</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#### Fine-tuning on NLU tasks</span>
-
-The dev results on XNLI with zero-shot cross-lingual transfer setting, i.e. training with English data only, <span class="nb">test </span>on other languages.
-
-| Model        |avg | en |  fr| es  | de  | el  | <span class="nb">bg</span>  | ru  |tr   |ar   |vi   | th  | zh | hi  | sw  | ur  | 
-|--------------| <span class="nt">----</span>|----|----|---- |--   |--   |--   | <span class="nt">--</span>  |--   |--   |--   | <span class="nt">--</span>  | <span class="nt">--</span> | <span class="nt">--</span>  | <span class="nt">--</span>  | <span class="nt">--</span>  |
-| XLM-R-base   |76.2 |85.8|79.7|80.7 |78.7 |77.5 |79.6 |78.1 |74.2 |73.8 |76.5 |74.6 |76.7| 72.4| 66.5| 68.3|
-| mDeBERTa-base|<span class="k">**</span>79.8<span class="k">**</span>+/-0.2|<span class="k">**</span>88.2<span class="k">**</span>|<span class="k">**</span>82.6<span class="k">**</span>|<span class="k">**</span>84.4<span class="k">**</span> |<span class="k">**</span>82.7<span class="k">**</span> |<span class="k">**</span>82.3<span class="k">**</span> |<span class="k">**</span>82.4<span class="k">**</span> |<span class="k">**</span>80.8<span class="k">**</span> |<span class="k">**</span>79.5<span class="k">**</span> |<span class="k">**</span>78.5<span class="k">**</span> |<span class="k">**</span>78.1<span class="k">**</span> |<span class="k">**</span>76.4<span class="k">**</span> |<span class="k">**</span>79.5<span class="k">**</span>| <span class="k">**</span>75.9<span class="k">**</span>| <span class="k">**</span>73.9<span class="k">**</span>| <span class="k">**</span>72.4<span class="k">**</span>|
-
-
-</code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-03-10T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-03-16T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -1048,7 +1051,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/03/10/deberta_v3_xsmall_en_3_0.html">DeBERTa xsmall model</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/03/16/w2v_cc_300d_yo_3_0.html">fastText Word Embeddings in Yoruba</a></div></div></div>
 
 </div>
 </div>
