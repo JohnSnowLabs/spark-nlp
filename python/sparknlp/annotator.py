@@ -1895,12 +1895,46 @@ class Lemmatizer(AnnotatorApproach):
                        " needs 'keyDelimiter' and 'valueDelimiter' in options for parsing target text",
                        typeConverter=TypeConverters.identity)
 
+    formCol = Param(Params._dummy(),
+                    "formCol",
+                    "Column that correspends to CoNLLU(formCol=) output",
+                    typeConverter=TypeConverters.toString)
+
+    lemmaCol = Param(Params._dummy(),
+                     "lemmaCol",
+                     "Column that correspends to CoNLLU(lemmaCol=) output",
+                     typeConverter=TypeConverters.toString)
+
     @keyword_only
     def __init__(self):
         super(Lemmatizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Lemmatizer")
+        self._setDefault(
+            formCol="form",
+            lemmaCol="lemma"
+        )
 
     def _create_model(self, java_model):
         return LemmatizerModel(java_model=java_model)
+
+    def setFormCol(self, value):
+        """Column that correspends to CoNLLU(formCol=) output
+
+        Parameters
+        ----------
+        value : str
+            Name of column for Array of Form tokens
+        """
+        return self._set(formCol=value)
+
+    def setLemmaCol(self, value):
+        """Column that correspends to CoNLLU(fromLemma=) output
+
+        Parameters
+        ----------
+        value : str
+            Name of column for Array of Lemma tokens
+        """
+        return self._set(lemmaCol=value)
 
     def setDictionary(self, path, key_delimiter, value_delimiter, read_as=ReadAs.TEXT,
                       options={"format": "text"}):
