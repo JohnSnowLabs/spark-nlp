@@ -61,7 +61,6 @@ ner_converter = NerConverter() \
   
 clinical_assertion = AssertionDLModel.pretrained("assertion_dl_scope_L10R10", "en", "clinical/models") \
   .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
-  .setScopeWindow([10,10])\
   .setOutputCol("assertion")
   
 nlpPipeline = Pipeline(stages=[document,sentenceDetector, token, word_embeddings,clinical_ner,ner_converter,  clinical_assertion])
@@ -101,7 +100,6 @@ val ner_converter = NerConverter()
   
 val clinical_assertion = AssertionDLModel.pretrained("assertion_dl_scope_L10R10", "en", "clinical/models")
   .setInputCols(Array("sentence", "ner_chunk", "embeddings"))
-  .setScopeWindow(Array(10,10))
   .setOutputCol("assertion")
   
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, clinical_assertion))
