@@ -65,9 +65,13 @@ clinical_assertion = AssertionDLModel.pretrained("assertion_dl_scope_L10R10", "e
   .setOutputCol("assertion")
   
 nlpPipeline = Pipeline(stages=[document,sentenceDetector, token, word_embeddings,clinical_ner,ner_converter,  clinical_assertion])
-model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-light_result = LightPipeline(model).fullAnnotate("Patient with severe fever and sore throat. He shows no stomach pain and he maintained on an epidural and PCA for pain control. He also became short of breath with climbing a flight of stairs. After CT, lung tumor located at the right lower lobe. Father with Alzheimer.")[0]
+data = "Patient with severe fever and sore throat. He shows no stomach pain and he maintained on an epidural and PCA for pain control. He also became short of breath with climbing a flight of stairs. After CT, lung tumor located at the right lower lobe. Father with Alzheimer."
+
+data = spark.createDataFrame([[text]]).toDF("text")
+result = nlpPipeline.fit(data).transform(data)
+
+
 
 ```
 ```scala
