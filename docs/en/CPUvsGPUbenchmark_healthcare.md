@@ -146,6 +146,18 @@ You will experiment big GPU improvements in the following cases:
 </div>
 <div class="h3-box" markdown="1">
 
+### MultiGPU Inference on Databricks
+In this part, we will give you an idea on how to choose appropriate hardware specifications for Databricks. Here is a few different hardwares, their prices, as well as their performance:
+![image](https://user-images.githubusercontent.com/25952802/158796429-78ec52b1-c036-4a9c-89c2-d3d1f395f71d.png)
+
+Apparently, GPU hardware is the second most expensive among them even if it performs the best. Let's see how overall performance looks like:
+
+![image](https://user-images.githubusercontent.com/25952802/158799106-8ee03a8b-8590-49ae-9657-b9663b915324.png)
+
+Figure above clearly shows us that GPU should be the first option of ours. 
+
+In conclusion, please find the best specifications for your use case since these benchmarks might depend on dataset size, inference batch size, quickness, pricing and so on.
+
 ### MultiGPU training
 Right now, we don't support multigpu training (1 model in different GPUs in parallel), but you can train different models in different GPU.
 
