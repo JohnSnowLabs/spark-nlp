@@ -22,14 +22,12 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.training.CoNLLU
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
-
-import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.ml.{PipelineModel, Pipeline}
 import org.apache.spark.sql.{Dataset, Row}
-
 import org.scalatest.Tag
 import org.scalatest.flatspec.AnyFlatSpec
 
-import java.nio.file.{Files, Paths}
+import java.nio.file.{Paths, Files}
 
 class LemmatizerTestSpec extends AnyFlatSpec with LemmatizerBehaviors {
 
@@ -124,9 +122,12 @@ class LemmatizerTestSpec extends AnyFlatSpec with LemmatizerBehaviors {
         Annotation(TOKEN, 13, 19, "stop", Map("sentence" -> "0")),
         Annotation(TOKEN, 20, 20, ".", Map("sentence" -> "0"))))
     val conlluFile = "src/test/resources/conllu/en.test.lemma.conllu"
-    val trainDataSet = CoNLLU().readDataset(ResourceHelper.spark, conlluFile)
+    val trainDataSet = CoNLLU(formCol = "form_training", lemmaCol = "lemma_training")
+      .readDataset(ResourceHelper.spark, conlluFile)
     val lemmatizer = new Lemmatizer()
       .setInputCols(Array("token"))
+      .setFormCol("form_training")
+      .setLemmaCol("lemma_training")
       .setOutputCol("lemma")
     val pipeline =
       new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, lemmatizer))

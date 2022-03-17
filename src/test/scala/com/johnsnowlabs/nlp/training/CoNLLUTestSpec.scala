@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.training
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations}
+import com.johnsnowlabs.nlp.{AssertAnnotations, Annotation}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.Dataset
 import org.scalatest.flatspec.AnyFlatSpec
@@ -212,7 +212,8 @@ class CoNLLUTestSpec extends AnyFlatSpec {
         Annotation(TOKEN, 66, 69, "else", Map("sentence" -> "1")),
         Annotation(TOKEN, 70, 70, "?", Map("sentence" -> "1"))))
 
-    val conllDataSet = CoNLLU(false).readDataset(ResourceHelper.spark, conlluFile)
+    val conllDataSet =
+      CoNLLU(explodeSentences = false).readDataset(ResourceHelper.spark, conlluFile)
 
     assertCoNLLDataSet(conllDataSet, expectedDocuments, "document")
     assertCoNLLDataSet(conllDataSet, expectedSentences, "sentence")
