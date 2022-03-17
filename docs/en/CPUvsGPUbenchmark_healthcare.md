@@ -150,7 +150,7 @@ You will experiment big GPU improvements in the following cases:
 In this part, we will give you an idea on how to choose appropriate hardware specifications for Databricks. Here is a few different hardwares, their prices, as well as their performance:
 ![image](https://user-images.githubusercontent.com/25952802/158796429-78ec52b1-c036-4a9c-89c2-d3d1f395f71d.png)
 
-Apparently, GPU hardware is the second most expensive among them even if it performs the best. Let's see how overall performance looks like:
+Apparently, GPU hardware is the cheapest among them although it performs the best. Let's see how overall performance looks like:
 
 ![image](https://user-images.githubusercontent.com/25952802/158799106-8ee03a8b-8590-49ae-9657-b9663b915324.png)
 
