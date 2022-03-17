@@ -78,7 +78,7 @@ val documentAssembler = new DocumentAssembler()
     .setInputCol("text") 
     .setOutputCol("document")
     
-val sentenceDetector = new SentenceDetector()\
+val sentenceDetector = new SentenceDetector()
   .setInputCols(Array("document"))
   .setOutputCol("sentence")
   
