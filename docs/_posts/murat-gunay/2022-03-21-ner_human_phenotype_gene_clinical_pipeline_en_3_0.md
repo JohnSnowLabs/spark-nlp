@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Pipeline to Detect Genes and Human Phenotypes
+title: Pipeline to Detect Normalized Genes and Human Phenotypes
 author: John Snow Labs
 name: ner_human_phenotype_gene_clinical_pipeline
 date: 2022-03-21
