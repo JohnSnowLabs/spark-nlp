@@ -21,8 +21,7 @@ package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
   */
 object PragmaticSymbols extends RuleSymbols {
 
-  /** \==================== BREAKING SYMBOLS
-    * \====================
+  /** \==================== BREAKING SYMBOLS \====================
     */
   /** Punctuation line breaker alt 200
     */
@@ -32,8 +31,7 @@ object PragmaticSymbols extends RuleSymbols {
     */
   val ELLIPSIS_INDICATOR = "╦"
 
-  /** \===================== NON BREAKING SYMBOLS
-    * \=====================
+  /** \===================== NON BREAKING SYMBOLS \=====================
     */
   /** Non separation dots for abbreviations looks up -> . alt 198
     */
