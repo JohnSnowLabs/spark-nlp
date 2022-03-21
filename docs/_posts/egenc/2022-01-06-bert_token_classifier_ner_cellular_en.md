@@ -82,18 +82,30 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-+-------------------+----------------------+
-|chunk              |ner_label             |
-+-------------------+----------------------+
-|erbA IRES          |Organism              |
-|erbA/myb virus     |Organism              |
-|erythroid cells    |Cell                  |
-|bone marrow        |Multi-tissue_structure|
-|blastoderm cultures|Cell                  |
-|erbA/myb IRES virus|Organism              |
-|erbA IRES virus    |Organism              |
-|blastoderm         |Cell                  |
-+-------------------+----------------------+
++-----------------------------------------------------------+---------+
+|chunk                                                      |ner_label|
++-----------------------------------------------------------+---------+
+|intracellular signaling proteins                           |protein  |
+|human T-cell leukemia virus type 1 promoter                |DNA      |
+|Tax                                                        |protein  |
+|Tax-responsive element 1                                   |DNA      |
+|cyclic AMP-responsive members                              |protein  |
+|CREB/ATF family                                            |protein  |
+|transcription factors                                      |protein  |
+|Tax                                                        |protein  |
+|human T-cell leukemia virus type 1 Tax-responsive element 1|DNA      |
+|TRE-1                                                      |DNA      |
+|lacZ gene                                                  |DNA      |
+|CYC1 promoter                                              |DNA      |
+|TRE-1                                                      |DNA      |
+|cyclic AMP response element-binding protein                |protein  |
+|CREB                                                       |protein  |
+|CREB                                                       |protein  |
+|GAL4 activation domain                                     |protein  |
+|GAD                                                        |protein  |
+|reporter gene                                              |DNA      |
+|Tax                                                        |protein  |
++-----------------------------------------------------------+---------+
 ```
 
 {:.model-param}
