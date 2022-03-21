@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Pipeline to Detect Chemical Compounds and Genes
+title: Pipeline to Detect Chemicals and Proteins in text
 author: John Snow Labs
 name: ner_chemprot_biobert_pipeline
 date: 2022-03-21
