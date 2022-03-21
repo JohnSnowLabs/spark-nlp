@@ -4,7 +4,7 @@ title: Pipeline to Detect Clinical Entities (Slim version)
 author: John Snow Labs
 name: bert_token_classifier_ner_jsl_slim_pipeline
 date: 2022-03-21
-tags: [licensed, ner, drugs, en]
+tags: [licensed, ner, slim, en]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Healthcare 3.4.1
