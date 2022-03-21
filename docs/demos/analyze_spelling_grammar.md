@@ -131,7 +131,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url:  https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_LINGUISTIC.ipynb
-        - title:  Evaluate sentence grammar
+        - title:  Evaluate Sentence Grammar
           id: evaluate_sentence_grammar
           image: 
               src: /assets/images/Find_in_Text.svg
