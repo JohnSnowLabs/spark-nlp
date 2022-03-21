@@ -1,2 +1,12 @@
-docs/_posts/egenc/2022-01-06-bert_token_classifier_ner_cellular_en.md
-docs/_posts/egenc/2022-01-06-bert_token_classifier_ner_cellular_en.md
+docs/_posts/Ahmetemintek/2021-12-24-sblubertresolve_loinc_uncased_en.md
+docs/_posts/muhammetsnts/2021-05-02-icd10cm_snomed_mapping_en.md
+docs/_posts/muhammetsnts/2021-05-26-demo_sbiobertresolve_cpt_en.md
+docs/_posts/muhammetsnts/2021-05-26-demo_sbiobertresolve_icd10cm_augmented_billable_hcc_en.md
+docs/_posts/muhammetsnts/2021-05-26-demo_sbiobertresolve_rxnorm_en.md
+docs/_posts/muhammetsnts/2022-01-11-sbiobertresolve_snomed_findings_aux_concepts_en.md
+docs/_posts/Ahmetemintek/2021-12-24-sblubertresolve_loinc_uncased_en.md
+docs/_posts/muhammetsnts/2021-05-02-icd10cm_snomed_mapping_en.md
+docs/_posts/muhammetsnts/2021-05-26-demo_sbiobertresolve_cpt_en.md
+docs/_posts/muhammetsnts/2021-05-26-demo_sbiobertresolve_icd10cm_augmented_billable_hcc_en.md
+docs/_posts/muhammetsnts/2021-05-26-demo_sbiobertresolve_rxnorm_en.md
+docs/_posts/muhammetsnts/2022-01-11-sbiobertresolve_snomed_findings_aux_concepts_en.md
