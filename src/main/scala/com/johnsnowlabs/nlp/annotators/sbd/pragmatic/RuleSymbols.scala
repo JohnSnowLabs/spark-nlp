@@ -44,8 +44,7 @@ trait RuleSymbols {
     */
   val EXCLAMATION = "\uF055"
 
-  /** \==================== PROTECTION SYMBOL
-    * \====================
+  /** \==================== PROTECTION SYMBOL \====================
     */
   /** Between punctuations marker
     */

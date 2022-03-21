@@ -114,7 +114,7 @@ class LemmatizerWithTrainingDataSetTestSpec(unittest.TestCase):
 
     def runTest(self):
         test_dataset = self.spark.createDataFrame([["So what happened?"]]).toDF("text")
-        train_dataset = CoNLLU().readDataset(self.spark, self.conllu_file)
+        train_dataset = CoNLLU(lemmaCol="lemma_train").readDataset(self.spark, self.conllu_file)
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
@@ -123,8 +123,11 @@ class LemmatizerWithTrainingDataSetTestSpec(unittest.TestCase):
             .setOutputCol("token")
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
+            .setFormCol("form") \
+            .setLemmaCol("lemma_train") \
             .setOutputCol("lemma")
 
+        train_dataset.show()
         pipeline = Pipeline(stages=[document_assembler, tokenizer, lemmatizer])
         pipeline.fit(train_dataset).transform(test_dataset).show()
 
@@ -1500,6 +1503,7 @@ class SentenceDetectorDLTestSpec(unittest.TestCase):
 
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
+
 
 class SentenceDetectorDLExtraParamsTestSpec(unittest.TestCase):
     def runTest(self):

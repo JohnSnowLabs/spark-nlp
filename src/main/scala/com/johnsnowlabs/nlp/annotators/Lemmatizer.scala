@@ -17,14 +17,15 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType}
+import com.johnsnowlabs.nlp.util.io.{ReadAs, ResourceHelper, ExternalResource}
+import com.johnsnowlabs.nlp.{AnnotatorType, AnnotatorApproach}
 import com.johnsnowlabs.util.TrainingHelper.hasColumn
 import org.apache.spark.ml.PipelineModel
+import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.expressions.UserDefinedFunction
-import org.apache.spark.sql.functions.{collect_set, explode, udf}
+import org.apache.spark.sql.functions.{explode, udf, collect_set}
 
 import scala.collection.mutable
 
@@ -124,6 +125,8 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
   /** Retrieves the significant part of a word */
   override val description: String = "Retrieves the significant part of a word"
 
+  def this() = this(Identifiable.randomUID("LEMMATIZER"))
+
   /** External dictionary to be used by the lemmatizer, which needs '`keyDelimiter`' and
     * '`valueDelimiter`' for parsing the resource
     * ==Example==
@@ -155,7 +158,35 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
     */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
-  def this() = this(Identifiable.randomUID("LEMMATIZER"))
+  /** Column that correspends to CoNLLU(formCol=) output
+    *
+    * @group param
+    */
+  val formCol =
+    new Param[String](this, "formCol", "Column that correspends to CoNLLU(formCol=) output")
+
+  /** @group setParam
+    */
+  def setFormCol(value: String): this.type = set(formCol, value)
+
+  /** @group getParam
+    */
+  def getFormCol: String = $(formCol)
+
+  /** Column that correspends to CoNLLU(lemmaCol=) output
+    *
+    * @group param
+    */
+  val lemmaCol =
+    new Param[String](this, "lemmaCol", "Column that correspends to CoNLLU(lemmaCol=) output")
+
+  /** @group setParam
+    */
+  def setLemmaCol(value: String): this.type = set(lemmaCol, value)
+
+  /** @group getParam
+    */
+  def getLemmaCol: String = $(lemmaCol)
 
   /** External dictionary to be used by the lemmatizer
     * @group getParam
@@ -202,7 +233,10 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
         readAs,
         options ++ Map("keyDelimiter" -> keyDelimiter, "valueDelimiter" -> valueDelimiter)))
 
-  setDefault(dictionary, ExternalResource("", ReadAs.TEXT, Map()))
+  setDefault(
+    dictionary -> ExternalResource("", ReadAs.TEXT, Map()),
+    formCol -> "form",
+    lemmaCol -> "lemma")
 
   override def train(
       dataset: Dataset[_],
@@ -211,8 +245,8 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
       new LemmatizerModel()
         .setLemmaDict(ResourceHelper.flattenRevertValuesAsKeys($(dictionary)))
     } else {
-      validateColumn(dataset, "form", AnnotatorType.TOKEN)
-      validateColumn(dataset, "lemma", AnnotatorType.TOKEN)
+      validateColumn(dataset, getFormCol, AnnotatorType.TOKEN)
+      validateColumn(dataset, getLemmaCol, AnnotatorType.TOKEN)
       val dictionary = computeDictionaryFromCoNLLUDataSet(dataset)
       new LemmatizerModel()
         .setLemmaDict(dictionary)
@@ -238,16 +272,19 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
 
     import dataset.sparkSession.implicits._
 
+    val formColumn = getFormCol + ".result"
+    val lemmaColumn = getLemmaCol + ".result"
+
     val lemmaDataSet = dataset
-      .select($"form.result".as("forms"), $"lemma.result".as("lemmas"))
+      .select(dataset.col(formColumn).as("forms"), dataset.col(lemmaColumn).as("lemmas"))
       .withColumn("forms_lemmas", explode(arraysZip($"forms", $"lemmas")))
-      .withColumn("token", $"forms_lemmas._1")
-      .withColumn("lemma", $"forms_lemmas._2")
-      .groupBy("lemma")
-      .agg(collect_set("token").as("tokens"))
+      .withColumn("token_training", $"forms_lemmas._1")
+      .withColumn("lemma_training", $"forms_lemmas._2")
+      .groupBy("lemma_training")
+      .agg(collect_set("token_training").as("tokens"))
 
     val dictionary = lemmaDataSet
-      .select("lemma", "tokens")
+      .select("lemma_training", "tokens")
       .rdd
       .flatMap { row =>
         val lemma: String = row.get(0).asInstanceOf[String]

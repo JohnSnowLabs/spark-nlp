@@ -52,7 +52,15 @@ case class CoNLLUDocument(
   * @param explodeSentences
   *   Whether to split each sentence into a separate row
   */
-case class CoNLLU(explodeSentences: Boolean = true) {
+case class CoNLLU(
+    conllTextCol: String = "text",
+    documentCol: String = "document",
+    sentenceCol: String = "sentence",
+    formCol: String = CoNLLUCols.FORM.toString.toLowerCase,
+    uposCol: String = CoNLLUCols.UPOS.toString.toLowerCase,
+    xposCol: String = CoNLLUCols.XPOS.toString.toLowerCase,
+    lemmaCol: String = CoNLLUCols.LEMMA.toString.toLowerCase,
+    explodeSentences: Boolean = true) {
 
   private val annotationType = ArrayType(Annotation.dataType)
 
@@ -126,13 +134,13 @@ case class CoNLLU(explodeSentences: Boolean = true) {
   }
 
   def schema: StructType = {
-    val text = StructField("text", StringType)
-    val doc = getAnnotationType("document", AnnotatorType.DOCUMENT)
-    val sentence = getAnnotationType("sentence", AnnotatorType.DOCUMENT)
-    val token = getAnnotationType(CoNLLUCols.FORM.toString.toLowerCase, AnnotatorType.TOKEN)
-    val uPos = getAnnotationType(CoNLLUCols.UPOS.toString.toLowerCase, AnnotatorType.POS)
-    val xPos = getAnnotationType(CoNLLUCols.XPOS.toString.toLowerCase, AnnotatorType.POS)
-    val lemma = getAnnotationType(CoNLLUCols.LEMMA.toString.toLowerCase, AnnotatorType.TOKEN)
+    val text = StructField(conllTextCol, StringType)
+    val doc = getAnnotationType(documentCol, AnnotatorType.DOCUMENT)
+    val sentence = getAnnotationType(sentenceCol, AnnotatorType.DOCUMENT)
+    val token = getAnnotationType(formCol, AnnotatorType.TOKEN)
+    val uPos = getAnnotationType(uposCol, AnnotatorType.POS)
+    val xPos = getAnnotationType(xposCol, AnnotatorType.POS)
+    val lemma = getAnnotationType(lemmaCol, AnnotatorType.TOKEN)
 
     StructType(Seq(text, doc, sentence, token, uPos, xPos, lemma))
   }
