@@ -1,2 +1,2 @@
-docs/_posts/HashamUlHaq/2021-07-12-re_ade_clinical_en.md
-docs/_posts/HashamUlHaq/2021-07-12-re_ade_clinical_en.md
+docs/_posts/murat-gunay/2021-11-29-ner_deid_subentity_augmented_i2b2_en.md
+docs/_posts/murat-gunay/2021-11-29-ner_deid_subentity_augmented_i2b2_en.md
