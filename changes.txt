@@ -1,6 +1,2 @@
-docs/demos/analyze_spelling_grammar.md
-docs/demos/extract_relationships.md
-docs/demos/recognize_entitie.md
-docs/demos/analyze_spelling_grammar.md
-docs/demos/extract_relationships.md
-docs/demos/recognize_entitie.md
+docs/_posts/HashamUlHaq/2021-07-12-re_ade_clinical_en.md
+docs/_posts/HashamUlHaq/2021-07-12-re_ade_clinical_en.md

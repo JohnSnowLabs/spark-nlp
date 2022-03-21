@@ -721,11 +721,30 @@
 </div>
 <div class="h3-box">
 
+  <h3 id="multigpu-inference-on-databricks">MultiGPU Inference on Databricks</h3>
+  <p>In this part, we will give you an idea on how to choose appropriate hardware specifications for Databricks. Here is a few different hardwares, their prices, as well as their performance:
+<img src="https://user-images.githubusercontent.com/25952802/158796429-78ec52b1-c036-4a9c-89c2-d3d1f395f71d.png" alt="image" /></p>
+
+  <p>Apparently, GPU hardware is the cheapest among them although it performs the best. Let’s see how overall performance looks like:</p>
+
+  <p><img src="https://user-images.githubusercontent.com/25952802/158799106-8ee03a8b-8590-49ae-9657-b9663b915324.png" alt="image" /></p>
+
+  <p>Figure above clearly shows us that GPU should be the first option of ours.</p>
+
+  <p>In conclusion, please find the best specifications for your use case since these benchmarks might depend on dataset size, inference batch size, quickness, pricing and so on.</p>
+
+  <p>Please refer to this video for further info: https://events.johnsnowlabs.com/webinar-speed-optimization-benchmarks-in-spark-nlp-3-making-the-most-of-modern-hardware?hsCtaTracking=a9bb6358-92bd-4cf3-b97c-e76cb1dfb6ef%7C4edba435-1adb-49fc-83fd-891a7506a417</p>
+
   <h3 id="multigpu-training">MultiGPU training</h3>
-  <p>Right now, we don’t support multigpu training (1 model in different GPUs in parallel), but you can train different models in different GPU.</p>
+  <p>Currently, we don’t support multiGPU training, meaning training 1 model in different GPUs in parallel. However, you can train different models in different GPUs.</p>
 
 </div>
 <div class="h3-box">
+
+  <h3 id="multigpu-inference">MultiGPU inference</h3>
+  <p>Spark NLP can carry out MultiGPU inference if GPUs are in different cluster nodes. For example, if you have a cluster with different GPUs, you can repartition your data to match the number of GPU nodes and then coalesce to retrieve the results back to the master node.</p>
+
+  <p>Currently, inference on multiple GPUs on the same machine is not supported.</p>
 
   <h3 id="where-to-look-for-more-information-about-training">Where to look for more information about Training</h3>
   <p>Please, take a look at the <a href="https://nlp.johnsnowlabs.com/docs/en/training">Spark NLP</a> and <a href="https://nlp.johnsnowlabs.com/docs/en/licensed_training">Spark NLP for Healthcare</a> Training sections, and feel free to reach us out in case you want to maximize the performance on your GPU.</p>
