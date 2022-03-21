@@ -171,3 +171,10 @@ Using the following Project Configuration
 
 we'll obtain the output illustrated below:
 <img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/scroll_and_filter.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+
+### Project Configuration Box
+
+Project Config XML window and Preview window used to cover 50/50 portion of the screen, which made it tough to edit larger XML configs. We have introduced a Full Screen Toggle Button which makes editing configs much easier.
+
+ ![improved_project_configuration_box](https://user-images.githubusercontent.com/26042994/158370541-0a99c9f7-d9c9-4002-8203-c3dc16ed0e16.gif)

@@ -12,7 +12,76 @@ show_nav: true
 sidebar:
     nav: annotation-lab
 ---
+
+## 2.8.0
+
+Release date: **19-03-2022**
+
+Annotation Lab 2.8.0 simplifies the annotation workflows, adds dynamic pagination features, supports cross-page NER annotation and relation definition for text projects, adds UI features for infrastructure configuration and backup, updates the way the analytics dashboards are processed, offers improved support for rules and support for model training in German and Spanish.
+
+### Highlights
+
+New features offered by Annotation Lab:
+- [Dynamic Task Pagination](/docs/en/alab/import#dynamic-task-pagination) replaced the `<pagebreak>` style pagination. 
+- [Cross Page Annotation](/docs/en/alab/annotation#cross-page-annotation) is now supported for NER and Relation annotations. 
+- [Simplified workflow](/docs/en/alab/annotation#simplified-workflow) are now supported for simpler projects. Furthermore, overall work progress has been added on the Labeling Page. 
+- [Infrastucture](/docs/en/alab/infrastructure) used for preannotation and training can now be configured from the Annotation Lab UI.
+- Support for [training German and Spanish models](/docs/en/alab/active_learning#train-german-and-spanish-models). 
+- Some [changes in Analytics Dashboard](/docs/en/alab/analytics#disabled-analytics) were implemented. By default, the Analytics dashboard page is now disabled. Users can request Admin to enable the Analytics page. The refresh of the charts is done manually.
+- [Import & Export Rules](/docs/en/alab/models_hub#import-and-export-rules) from the Model Hub page.
+- [Download model dependencies](/docs/em/alab/models_hub#download-of-model-dependencies) is now automatic. 
+- The [project configuration box](/docs/en/alab/settings#project-configuration-box) can now be edited in full screen mode. 
+- [Trim leading and ending spaces in annotated chunks](/docs/en/alab/annotation#trim-leading-and-ending-spaces-in-annotated-chunks).
+- [Reserved words](/docs/en/alab/project_setup#reserved-words-cannot-be-used-in-project-names) cannot be used in project names.
+- Task numbering now start from 1.
+- 'a' was removed as hotkey for VisualNER multi-chunk selection. Going forward only use 'shift' key for chunk selection. 
+- Only alphanumeric characters can be used as the Task Tag Names.
+- Allow the export of tasks without completions. 
+
+
+### Bug Fixes
+
+- On the Labeling Page, the following issues related to completions were identified and fixed:
+  - In the Visual NER Project, when an annotator clicks on the Next button to load the next available task, the PDF was not correctly loaded and the text selection doesn't work properly. 
+  - Shortcut keys were not working when creating new completions.
+  - It happened that completions were no longer visible after creating relations. 
+- Previously, after each project configuration edit, when validating the correctness of the configuration the cursor position was reset to the end of the config file. The user had to manually move the cursor back to its previous position to continue editing. Now, the cursor position is saved so that the editing can continue with ease.
+- Removing a user from the "UserAdmins" group was not possible. This has been fixed. Any user can be added or removed from the "UserAdmins". 
+- In previous versions, choosing an already existing name for the current project did not show any error messages. Now, an error message appears on the right side of the screen asking users to choose another name for the project.
+- In the previous version, when a user was deleted and a new user with the same name was created through Keycloak, on the next login the UI did not load. Now, this issue was fixed. 
+- Validations were added to Swagger API for completions data such that random values could not be added to completion data via API.
+- Previously, when a rule was edited, previously deployed preannotation pipelines using the edited rules were not updated to use the latest version of the rule. Now the user is notified about the edited rule via an alert message "Redeploy preannotation server to apply these changes" on the rule edit form so that the users can redeploy the preannotation model. 
+
+## 2.7.3
+
+Release date: **03-03-2022**
+
+This patch release fixes the content of COCO export format for Visual NER projects by adding text and pageNumbers for annotations. 
+
+
+## 2.7.2
+
+Release date: **28-02-2022**
+
+This patch release ensures that the "Select regions after creating" option cannot be turned off for visualNER project. This is necessary for a correct storage and export of region annotations. 
+
+
+## 2.7.1
+
+Release date: **22-02-2022**
+
+This version of Annotation Lab brings support for k3s upgrade and easy installation on Redhat system. Also it includes improvements and fixes for identified bugs.
+
+### Highlights
+- K3S v1.22. The new installation of Annotation Lab will use v1.22 of K3S by default. In near future we will provide similar support for existing installations. AWS market place also runs using the upgraded version.
+- Sometimes when changing Project Config, there was some delay before users were allowed to hit the save button. This happened because sometimes model/ocr server was not reachable. The issue was fixed by adding proper information along with loading icon.
+- Importing multiple images as a zip file was not working correctly in the case of Visual NER. This  issue was fixed.
+- Transfer learning issues encountered for some models were also fixed. 
+
 ## 2.7.0
+
+Release date: **17-02-2022**
+
 Annotation Lab 2.7.0 is here! This is another feature reach release from John Snow Labs - Annotation Lab Team. It is powered by the latest Spark NLP and Spark NLP for Healthcare libraries and offers improved support for Rule Base Annotation. With the upgrade of Spark NLP libraries, the Models Hub page inside the application gets more than 100 new models for English along with the introduction of Spanish and German models. In Visual NER projects it is now easier to annotate cross line chunks. As always, there are many security and stabilizations shipped.
 
 ### Highlights

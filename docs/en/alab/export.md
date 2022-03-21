@@ -119,3 +119,9 @@ insulin -X- _ O
 ```
 
 User can specify if only starred completions should be included in the output file by checking "Only ground truth" option before generating the export.
+
+## Allow the export of tasks without completions
+
+Previous versions of the Annotation Lab only allowed the export of tasks that contained completions. From version 2.8.0 on, the tasks without any completions can be exported as this can be necessary for cloning projects. In the case where only tasks with completions are required in the export, users can enable the “Exclude tasks without Completions” option on the export page. 
+
+ ![export-page](https://user-images.githubusercontent.com/26042994/154637982-55872de3-85e2-4aaf-be4d-7e8c1d59417d.png)

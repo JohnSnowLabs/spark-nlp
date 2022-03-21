@@ -34,3 +34,25 @@ Note: Only the Submitted and starred (Ground Truth) completions are used to rend
 - Shows the frequency of Chunk-Annotatory by one Label
 <img class="image image--xl" src="/assets/images/annotation_lab/2.0.0/chunks_extracted.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
+
+## Disabled Analytics 
+
+By default, the Analytics dashboards page is disabled. Users can request Admin to enable the Analytics page. The request can be seen by the Admin user’s account, on the Settings page. Once the Admin user approves the request, users can access the analytics page. 
+
+![analytics-permission](https://user-images.githubusercontent.com/10126570/159010289-edbc211c-b2e9-405f-82ba-6a26662fc661.gif)
+
+## Refresh Analytics 
+A refresh button is added to this analytics page. Changes made by the annotators (like creating tasks, adding new completion, etc.) will not be automatically reflected in the Analytics charts. The latter can be updated by pressing the refresh button. 
+
+
+## Download data used for charts
+
+CSV file for specific charts can be downloaded using the new download button which will call specific API endpoints: /api/projects/{project_name}/charts/{chart_type}/download_csv
+ 
+ ![Screen Recording 2022-03-08 at 3 47 49 PM](https://user-images.githubusercontent.com/17021686/158564836-691a2b79-f3ca-4317-ad31-51cfbc9d71df.gif)
+
+## IAA between manager and annotator
+
+Starting from version 2.8.0, Inter Annotator Agreement(IAA) charts allow the comparison between annotations produced by annotators, project managers, or reviewers.
+
+ ![Screen Recording 2022-03-14 at 1 45 03 PM](https://user-images.githubusercontent.com/17021686/158566408-ea39764f-5ceb-4dd3-b1df-09a3ca791b83.gif)
