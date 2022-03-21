@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect PHI for Deidentification (Sub Entity)
+title: Pipeline to Detect PHI for Deidentification (Sub Entity)
 author: John Snow Labs
 name: ner_deid_subentity_pipeline
 date: 2022-03-21
