@@ -29,7 +29,7 @@ New features offered by Annotation Lab:
 - Support for [training German and Spanish models](/docs/en/alab/active_learning#train-german-and-spanish-models). 
 - Some [changes in Analytics Dashboard](/docs/en/alab/analytics#disabled-analytics) were implemented. By default, the Analytics dashboard page is now disabled. Users can request Admin to enable the Analytics page. The refresh of the charts is done manually.
 - [Import & Export Rules](/docs/en/alab/models_hub#import-and-export-rules) from the Model Hub page.
-- [Download model dependencies](/docs/em/alab/models_hub#download-of-model-dependencies) is now automatic. 
+- [Download model dependencies](/docs/en/alab/models_hub#download-of-model-dependencies) is now automatic. 
 - The [project configuration box](/docs/en/alab/settings#project-configuration-box) can now be edited in full screen mode. 
 - [Trim leading and ending spaces in annotated chunks](/docs/en/alab/annotation#trim-leading-and-ending-spaces-in-annotated-chunks).
 - [Reserved words](/docs/en/alab/project_setup#reserved-words-cannot-be-used-in-project-names) cannot be used in project names.
