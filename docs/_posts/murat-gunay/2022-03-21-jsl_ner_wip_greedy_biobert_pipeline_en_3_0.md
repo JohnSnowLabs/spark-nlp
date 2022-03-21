@@ -4,7 +4,7 @@ title: Pipeline to Detect Clinical Entities (WIP Greedy)
 author: John Snow Labs
 name: jsl_ner_wip_greedy_biobert_pipeline
 date: 2022-03-21
-tags: [licensed, ner, wip, clinical, greedy, en]
+tags: [licensed, ner, wip, biobert, greedy, en]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Healthcare 3.4.1
