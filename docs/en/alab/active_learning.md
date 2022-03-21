@@ -171,3 +171,7 @@ If there is any mistake in the name of models, the validation error is displayed
 
 
 <img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/config_update.png" style="width:70%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+## Train German and Spanish Models
+
+In earlier versions of the Annotation Lab, users could download German/Spanish pretrained models from the NLP Models Hub and use them for preannotation. From this version, Annotation Lab also offers support for training/tuning German and Spanish models.

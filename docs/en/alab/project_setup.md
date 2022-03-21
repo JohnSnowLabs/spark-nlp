@@ -23,6 +23,12 @@ To create a new project, click on the **Create Project** button on the **Home Pa
 
 <img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/project_creation.png" style="width:100%; align:left; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
+### Reserved words cannot be used in project names
+
+The use of keywords like count, permission, or name as project names generated UI glitches. To avoid such issues, these keywords are no longer accepted as project names. 
+
+ ![create-project-reserved-words](https://user-images.githubusercontent.com/10126570/158376579-6102a8a1-bed6-4fdd-897c-cc16bd168a75.gif)
+
 
 ## Share your project with the annotation team
 

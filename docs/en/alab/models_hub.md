@@ -37,8 +37,19 @@ All the models available in the Annotation Lab are listed in this tab. The model
 
 <img class="image image--xl" src="/assets/images/annotation_lab/1.8.0/re_download.png" style="width:60%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
+Since release 2.8.0 users can view the full version specification and the language of the model/embeddings on the Models Hub page of the model.  Also to make searching of models/embeddings more efficient Annotation Lab offers a Language filter. This can be used to select models/embeddings on the Models Hub page according to their language.
+
+ ![untitled (2)](https://user-images.githubusercontent.com/73094423/158778100-d6620491-a411-42e4-87cf-2e81606011f3.png)
+
+## Download of model dependencies
+
+In previous versions of Annotation Lab, when a user downloaded a model from the Models Hub page, for example, ner_healthcare_de, and tried to reuse labels from this model into a new project, via the Predefined labels page, an error message was preventing the saving of the configuration. The error (e.g. "w2v_cc_300d is not present in the machine") appeared because the embeddings used to train the model were not available to the Annotation Lab server. Starting with version 2.8.0, Annotation Lab automatically downloads all necessary dependencies along with the model. So, the user does not have to manually handle this step – e.g. navigate to the Models Hub page and download the dependent embeddings.
+ 
+ ![Screen Recording 2022-03-16 at 9 58 12 PM](https://user-images.githubusercontent.com/17021686/158637378-9c01b3f3-6ba4-4bcb-8d34-8eb3141df484.gif)
+
 ## Available Embeddings Tab
 This tab lists all embeddings available to the Annotation Lab together with information on their source and date of upload/download. Like models, any compatible embeddings can be downloaded from NLP Models Hub. By default, glove_100d embeddings are included in the deployment.
+
 
 ## Available Rules Tab
 
@@ -59,6 +70,29 @@ There are two types of rules supported:
 After adding a rule on `Models Hub` page, the `Project Owner` or `Manager` can add the rule to the configuration of the project where he wants to use it. This can be done via the `Rules` tab from the `Project Setup` page under the `Project Configuration` tab. A valid Spark NLP for Healthcare license is required to deploy rules from project config.
 
 
+The user is notified when a rule was edited via an alert message "Redeploy preannotation server to apply these changes" on the rule edit form so that the users can redeploy the preannotation model. 
+ 
+ ![redeploy-rules](https://user-images.githubusercontent.com/17021686/158801947-9cd847b7-abdf-42e9-b621-b406ad62b826.png)
+
+
+
+## Import and Export Rules
+
+From this version, Annotationlab provides the feasibility of importing and exporting Contextual parser Rules from the Model Hub page.
+
+**Import Rules**
+ 
+This release provides user's with the functionality to import rules, now users can import these rules from the Models Hub page under the Rules tab. Users can import both dictionaries as well as regex rules. Rules can be imported in the following formats:-
+ 1. A single **JSON** file.
+ 2. A **ZIP** archive containing multiple individual rules.
+ 
+ ![RulesImport](https://user-images.githubusercontent.com/17021686/158798253-d2334cd2-96f5-440e-921b-bcd60cd3d709.gif)
+
+**Export Rules**
+
+To export any rule the user needs to navigate to the Models Hub page under the Rules tab, then select from the available rules and click on the Export button. Rules will be downloaded in ZIP format containing files in JSON format. Also, these exported rules can be imported into AnnotationLab.
+ 
+ ![RulesExport](https://user-images.githubusercontent.com/17021686/158798831-4138bd1c-82f1-4624-8f16-0c13833a981e.gif)
 
 ## Custom Models/Embeddings Upload
 
