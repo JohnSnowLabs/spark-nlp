@@ -77,11 +77,11 @@ val tokenizer = new Tokenizer()
     .setOutputCol("token")
 
 val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_drug_development_trials", "en", "clinical/models")
-    .setInputCols(Array("token", "document"))
+    .setInputCols(Array("token", "sentence"))
     .setOutputCol("ner")
 
 val ner_converter = NerConverter()
-    .setInputCols(Array("document","token","ner"))
+    .setInputCols(Array("sentence","token","ner"))
     .setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))
