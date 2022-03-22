@@ -7,7 +7,7 @@ date: 2022-03-22
 tags: [en, ner, clinical, licensed, bertfortokenclassification]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.3.2
+edition: Spark NLP for Healthcare 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
@@ -26,7 +26,7 @@ It is a `BertForTokenClassification` NER model to identify concepts related to d
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DRUGS_DEVELOPMENT_TRIALS/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_drug_development_trials_en_3.3.2_3.0_1647948437359.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_drug_development_trials_en_3.3.4_3.0_1647948437359.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -125,7 +125,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_drug_development_trials|
-|Compatibility:|Spark NLP for Healthcare 3.3.2+|
+|Compatibility:|Spark NLP for Healthcare 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
