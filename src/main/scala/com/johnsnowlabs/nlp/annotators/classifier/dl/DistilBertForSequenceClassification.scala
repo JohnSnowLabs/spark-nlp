@@ -114,7 +114,8 @@ class DistilBertForSequenceClassification(override val uid: String)
     extends AnnotatorModel[DistilBertForSequenceClassification]
     with HasBatchedAnnotate[DistilBertForSequenceClassification]
     with WriteTensorflowModel
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasClassifierActivationProperties {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -303,7 +304,8 @@ class DistilBertForSequenceClassification(override val uid: String)
           $(maxSentenceLength),
           $(caseSensitive),
           $(coalesceSentences),
-          $$(labels))
+          $$(labels),
+          $(activation))
       } else {
         Seq.empty[Annotation]
       }

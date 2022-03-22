@@ -114,7 +114,8 @@ class LongformerForSequenceClassification(override val uid: String)
     extends AnnotatorModel[LongformerForSequenceClassification]
     with HasBatchedAnnotate[LongformerForSequenceClassification]
     with WriteTensorflowModel
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasClassifierActivationProperties {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -316,7 +317,8 @@ class LongformerForSequenceClassification(override val uid: String)
           $(maxSentenceLength),
           $(caseSensitive),
           $(coalesceSentences),
-          $$(labels))
+          $$(labels),
+          $(activation))
       } else {
         Seq.empty[Annotation]
       }

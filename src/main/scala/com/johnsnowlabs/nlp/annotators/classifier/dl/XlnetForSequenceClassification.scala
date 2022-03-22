@@ -120,7 +120,8 @@ class XlnetForSequenceClassification(override val uid: String)
     with HasBatchedAnnotate[XlnetForSequenceClassification]
     with WriteTensorflowModel
     with WriteSentencePieceModel
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasClassifierActivationProperties {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -307,7 +308,8 @@ class XlnetForSequenceClassification(override val uid: String)
           $(maxSentenceLength),
           $(caseSensitive),
           $(coalesceSentences),
-          $$(labels))
+          $$(labels),
+          $(activation))
       } else {
         Seq.empty[Annotation]
       }

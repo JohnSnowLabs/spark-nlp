@@ -18,16 +18,16 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
-  ReadSentencePieceModel,
   SentencePieceWrapper,
+  ReadSentencePieceModel,
   WriteSentencePieceModel
 }
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.nlp.util.io.{ReadAs, ResourceHelper, ExternalResource}
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
+import org.apache.spark.ml.param.{IntParam, IntArrayParam, BooleanParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
@@ -120,7 +120,8 @@ class AlbertForSequenceClassification(override val uid: String)
     with HasBatchedAnnotate[AlbertForSequenceClassification]
     with WriteTensorflowModel
     with WriteSentencePieceModel
-    with HasCaseSensitiveProperties {
+    with HasCaseSensitiveProperties
+    with HasClassifierActivationProperties {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -307,7 +308,8 @@ class AlbertForSequenceClassification(override val uid: String)
           $(maxSentenceLength),
           $(caseSensitive),
           $(coalesceSentences),
-          $$(labels))
+          $$(labels),
+          $(activation))
       } else {
         Seq.empty[Annotation]
       }
