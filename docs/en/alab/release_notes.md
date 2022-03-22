@@ -38,7 +38,6 @@ New features offered by Annotation Lab:
 - Only alphanumeric characters can be used as the Task Tag Names.
 - Allow the export of tasks without completions. 
 
-
 ### Bug Fixes
 
 - On the Labeling Page, the following issues related to completions were identified and fixed:
@@ -52,31 +51,33 @@ New features offered by Annotation Lab:
 - Validations were added to Swagger API for completions data such that random values could not be added to completion data via API.
 - Previously, when a rule was edited, previously deployed preannotation pipelines using the edited rules were not updated to use the latest version of the rule. Now the user is notified about the edited rule via an alert message "Redeploy preannotation server to apply these changes" on the rule edit form so that the users can redeploy the preannotation model. 
 
-## 2.7.3
-
-Release date: **03-03-2022**
-
-This patch release fixes the content of COCO export format for Visual NER projects by adding text and pageNumbers for annotations. 
-
-
-## 2.7.2
+## 2.7.2 
 
 Release date: **28-02-2022**
 
-This patch release ensures that the "Select regions after creating" option cannot be turned off for visualNER project. This is necessary for a correct storage and export of region annotations. 
+Annotation Lab v2.7.2 includes Visual NER improvements 
 
+### Bug Fixes 
+- The text token in Visual NER project were missing in some cases when the labeling setting "Select regions after creating" was disabled. Now the setting is always enabled when labeling a Visual NER project. 
+- Previously, without any changes made by the user on the configuration page "unsaved changes" message used to pop up. Now, the message only pops up when there is an unsaved configuration change. 
 
 ## 2.7.1
 
 Release date: **22-02-2022**
+ 
+Annotation Lab v2.7.1 introduces an upgrade to K3s v1.22.4 and support for Redhat. It also includes improvements and fixes for identified bug. Below are the highlights of this release. 
 
-This version of Annotation Lab brings support for k3s upgrade and easy installation on Redhat system. Also it includes improvements and fixes for identified bugs.
+### Highlights 
+- For new installations, Annotation Lab is now installed on top of K3s v1.22.4. In near future we will provide similar support for existing installations. AWS market place also runs using the upgraded version. 
+- With this release Annotation lab can be installed on RedHat servers. 
+- Annotation lab 2.7.1 included release version of Spark NLP 3.4.1 and Spark NLP for Healthcare 
 
-### Highlights
-- K3S v1.22. The new installation of Annotation Lab will use v1.22 of K3S by default. In near future we will provide similar support for existing installations. AWS market place also runs using the upgraded version.
-- Sometimes when changing Project Config, there was some delay before users were allowed to hit the save button. This happened because sometimes model/ocr server was not reachable. The issue was fixed by adding proper information along with loading icon.
+### Bug Fixes 
+- In the previous release, saving Visual NER project configuration took a long time. With this release, the issue has been fixed and the Visual NER project can be created instantly. 
+- Due to a bug in Relation Constraint, all the relations we visible when the UI was refreshed. This issue has been resolved and only a valid list of relations is shown after the UI is refreshed. 
+- Previously, labels with spaces at the end were considered different. This has been fixed such that the label name with or without space at the end is treated as the same label. 
 - Importing multiple images as a zip file was not working correctly in the case of Visual NER. This  issue was fixed.
-- Transfer learning issues encountered for some models were also fixed. 
+- This version also fixes issues in Transfer Learning/Fine Tuning some NER models. 
 
 ## 2.7.0
 
