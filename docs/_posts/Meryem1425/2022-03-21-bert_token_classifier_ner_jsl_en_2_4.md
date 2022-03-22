@@ -7,8 +7,8 @@ date: 2022-03-21
 tags: [ner_jsl, ner, berfortokenclassification, en, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.4.1
-spark_version: 3.0
+edition: Spark NLP for Healthcare 3.3.4
+spark_version: 2.4
 supported: true
 article_header:
   type: cover
@@ -26,7 +26,7 @@ Pretrained named entity recognition deep learning model for clinical terminology
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_jsl_en_3.4.1_3.0_1647895738040.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_jsl_en_3.3.4_2.4_1647895738040.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -144,7 +144,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_ner_jsl|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Spark NLP for Healthcare 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
