@@ -17,8 +17,9 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.nlp.ActivationFunction
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
+import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{WordpieceEncoder, BasicTokenizer}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
@@ -141,7 +142,7 @@ class TensorflowBertClassification(
     batchScores
   }
 
-  def tagSequence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
+  def tagSequence(batch: Seq[Array[Int]], activation: String): Array[Array[Float]] = {
     val tensors = new TensorResources()
 
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
@@ -196,7 +197,15 @@ class TensorflowBertClassification(
 
     val dim = rawScores.length / batchLength
     val batchScores: Array[Array[Float]] =
-      rawScores.grouped(dim).map(scores => calculateSoftmax(scores)).toArray
+      rawScores
+        .grouped(dim)
+        .map(scores =>
+          activation match {
+            case ActivationFunction.softmax => calculateSoftmax(scores)
+            case ActivationFunction.sigmoid => calculateSigmoid(scores)
+            case _ => calculateSoftmax(scores)
+          })
+        .toArray
 
     batchScores
   }
