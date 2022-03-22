@@ -17,7 +17,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
+import com.johnsnowlabs.nlp.{AnnotatorType, ActivationFunction, Annotation}
 
 trait TensorflowForClassification {
 
@@ -68,7 +68,8 @@ trait TensorflowForClassification {
       maxSentenceLength: Int,
       caseSensitive: Boolean,
       coalesceSentences: Boolean = false,
-      tags: Map[String, Int]): Seq[Annotation] = {
+      tags: Map[String, Int],
+      activation: String = ActivationFunction.softmax): Seq[Annotation] = {
 
     val wordPieceTokenizedSentences =
       tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
@@ -81,7 +82,7 @@ trait TensorflowForClassification {
       .flatMap { batch =>
         val tokensBatch = batch.map(x => (x._1._1, x._2))
         val encoded = encode(tokensBatch, maxSentenceLength)
-        val logits = tagSequence(encoded)
+        val logits = tagSequence(encoded, activation)
 
         if (coalesceSentences) {
           val scores = logits.transpose.map(_.sum / logits.length)
@@ -144,11 +145,25 @@ trait TensorflowForClassification {
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]]
 
-  def tagSequence(batch: Seq[Array[Int]]): Array[Array[Float]]
+  def tagSequence(batch: Seq[Array[Int]], activation: String): Array[Array[Float]]
 
+  /** Calcuate softmax from retruned logits
+    * @param scores
+    *   logits output from output layer
+    * @return
+    */
   def calculateSoftmax(scores: Array[Float]): Array[Float] = {
     val exp = scores.map(x => math.exp(x))
     exp.map(x => x / exp.sum).map(_.toFloat)
+  }
+
+  /** Calcuate sigmoid from returned logits
+    * @param scores
+    *   logits output from output layer
+    * @return
+    */
+  def calculateSigmoid(scores: Array[Float]): Array[Float] = {
+    scores.map(x => 1 / (1 + Math.exp(-x)).toFloat)
   }
 
   /** Word-level and span-level alignment with Tokenizer
