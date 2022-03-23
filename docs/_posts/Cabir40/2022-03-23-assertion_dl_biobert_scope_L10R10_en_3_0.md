@@ -51,7 +51,7 @@ embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased")\
     .setInputCols(["sentence", "token"])\
     .setOutputCol("embeddings")
 
-clinical_ner = MedicalNerModel.pretrained("ner_jsl_biobert", "en", "clinical/models") \
+clinical_ner = MedicalNerModel.pretrained("ner_clinical_biobert", "en", "clinical/models") \
     .setInputCols(["sentence", "token", "embeddings"]) \
     .setOutputCol("ner")
 
@@ -79,11 +79,11 @@ result = nlpPipeline.fit(data).transform(data)
 
 ```
 ```scala
-val documentAssembler = DocumentAssembler()
+val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
 
-val sentenceDetector = SentenceDetectorDLModel.pretrained()
+val sentenceDetector = new SentenceDetectorDLModel.pretrained()
     .setInputCols("document") 
     .setOutputCol("sentence") 
 
@@ -95,11 +95,11 @@ val embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased")
     .setInputCols(Array("sentence", "token"))
     .setOutputCol("embeddings")
 
-clinical_ner = MedicalNerModel.pretrained("ner_jsl_biobert", "en", "clinical/models") 
+clinical_ner = MedicalNerModel.pretrained("ner_clinical_biobert", "en", "clinical/models") 
     .setInputCols(Array("sentence", "token", "embeddings")) 
     .setOutputCol("ner")
 
-val ner_converter = NerConverter()
+val ner_converter = new NerConverter()
     .setInputCols(Array("sentence","token","ner"))
     .setOutputCol("ner_chunk")
 
