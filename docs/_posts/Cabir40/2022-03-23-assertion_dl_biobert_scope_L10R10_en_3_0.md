@@ -83,7 +83,7 @@ val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
 
-val sentenceDetector = new SentenceDetectorDLModel.pretrained()
+val sentenceDetector = SentenceDetectorDLModel.pretrained()
     .setInputCols("document") 
     .setOutputCol("sentence") 
 
