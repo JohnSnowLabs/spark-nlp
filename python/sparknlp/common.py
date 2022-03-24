@@ -20,6 +20,7 @@ from pyspark.ml.wrapper import JavaModel, JavaEstimator
 from pyspark.ml.param.shared import Param, TypeConverters
 from pyspark.ml.param import Params
 from pyspark import keyword_only
+
 import sparknlp.internal as _internal
 
 
@@ -389,3 +390,30 @@ class HasEnableCachingProperties:
             Whether to enable caching DataFrames or RDDs during the training
         """
         return self.getOrDefault(self.enableCaching)
+
+
+class HasClassifierActivationProperties:
+    activation = Param(Params._dummy(),
+                       "activation",
+                       "Whether to calcuate logits via Softmax or Sigmoid. Default is Softmax",
+                       typeConverter=TypeConverters.toString)
+
+    def setActivation(self, value):
+        """Sets whether to calcuate logits via Softmax or Sigmoid. Default is Softmax
+
+        Parameters
+        ----------
+        value : bool
+            Whether to calcuate logits via Softmax or Sigmoid. Default is Softmax
+        """
+        return self._set(activation=value)
+
+    def getActivation(self):
+        """Gets whether to calcuate logits via Softmax or Sigmoid. Default is Softmax
+
+        Returns
+        -------
+        bool
+            Whether to calcuate logits via Softmax or Sigmoid. Default is Softmax
+        """
+        return self.getOrDefault(self.activation)
