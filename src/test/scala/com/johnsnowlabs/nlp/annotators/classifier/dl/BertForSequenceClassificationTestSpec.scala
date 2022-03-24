@@ -16,15 +16,14 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
-import org.apache.spark.ml.{Pipeline, PipelineModel}
-import org.apache.spark.sql.functions.{col, explode, size}
+import org.apache.spark.ml.{PipelineModel, Pipeline}
+import org.apache.spark.sql.functions.{col, size, explode}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class BertForSequenceClassificationTestSpec extends AnyFlatSpec {
@@ -146,25 +145,27 @@ class BertForSequenceClassificationTestSpec extends AnyFlatSpec {
     val pipeline = new Pipeline()
       .setStages(Array(tokenClassifier))
 
-    val pipelineDF = pipeline.fit(training_data).transform(training_data)
-    Benchmark.time("Time to save BertForSequenceClassification results") {
-      pipelineDF.write.mode("overwrite").parquet("./tmp_bert_sequence_classifier")
+    val pipelineDF = pipeline.fit(training_data).transform(training_data).cache()
+    Benchmark.time("Time to save pipeline results") {
+      pipelineDF.write.mode("overwrite").parquet("./tmp_sequence_classifier")
     }
 
-    pipelineDF.select("label").show(20, false)
-    pipelineDF.select("document.result", "label.result").show(20, false)
+    pipelineDF.select("label").show(2, false)
+    pipelineDF.select("document.result", "label.result").show(2, false)
+
+    // only works if it's softmax - one lable per row
     pipelineDF
       .withColumn("doc_size", size(col("document")))
-      .withColumn("label_size", size(col("label")))
+      .withColumn("label_size", size(col("class")))
       .where(col("doc_size") =!= col("label_size"))
-      .select("doc_size", "label_size", "document.result", "label.result")
+      .select("doc_size", "label_size", "document.result", "class.result")
       .show(20, false)
 
     val totalDocs = pipelineDF.select(explode($"document.result")).count.toInt
-    val totalLabels = pipelineDF.select(explode($"label.result")).count.toInt
+    val totalLabels = pipelineDF.select(explode($"class.result")).count.toInt
 
-    println(s"total tokens: $totalDocs")
-    println(s"total embeddings: $totalLabels")
+    println(s"total docs: $totalDocs")
+    println(s"total classes: $totalLabels")
 
     assert(totalDocs == totalLabels)
   }
