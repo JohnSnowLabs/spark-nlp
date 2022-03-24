@@ -28,8 +28,7 @@ trait PerceptronTrainingUtils extends PerceptronUtils {
 
   private[perceptron] val logger: Logger = LoggerFactory.getLogger("PerceptronApproachUtils")
 
-  /** Generates TagBook, which holds all the word to tags mapping that are not ambiguous
-    */
+  /** Generates TagBook, which holds all the word to tags mapping that are not ambiguous */
   def generatesTagBook(dataset: Dataset[_]): Array[TaggedSentence] = {
     val taggedSentences = {
       import ResourceHelper.spark.implicits._
@@ -97,8 +96,7 @@ trait PerceptronTrainingUtils extends PerceptronUtils {
       }
   }
 
-  /** Iterates for training
-    */
+  /** Iterates for training */
   def trainPerceptron(
       nIterations: Int,
       initialModel: TrainingPerceptronLegacy,
@@ -108,12 +106,10 @@ trait PerceptronTrainingUtils extends PerceptronUtils {
       {
         logger.debug(s"TRAINING: Iteration n: $iteration")
 
-        /** In a shuffled sentences list, try to find tag of the word, hold the correct answer
-          */
+        /** In a shuffled sentences list, try to find tag of the word, hold the correct answer */
         Random.shuffle(taggedSentences.toList).foldLeft(iteratedModel) {
           (model, taggedSentence) =>
-            /** Defines a sentence context, with room to for look back
-              */
+            /** Defines a sentence context, with room to for look back */
             var prev = START(0)
             var prev2 = START(1)
             val context = START ++: taggedSentence.words.map(w => normalized(w)) ++: END
@@ -128,17 +124,14 @@ trait PerceptronTrainingUtils extends PerceptronUtils {
                     val features = getFeatures(i, word, context, prev, prev2)
                     val guess = model.predict(features)
 
-                    /** Update the model based on the prediction results
-                      */
+                    /** Update the model based on the prediction results */
                     model.update(taggedSentence.tags(i), guess, features)
 
-                    /** return the guess
-                      */
+                    /** return the guess */
                     guess
                   })
 
-              /** shift the context
-                */
+              /** shift the context */
               prev2 = prev
               prev = guess
             }

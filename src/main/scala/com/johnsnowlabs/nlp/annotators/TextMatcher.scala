@@ -263,8 +263,7 @@ class TextMatcher(override val uid: String)
     */
   def getBuildFromTokens: Boolean = $(buildFromTokens)
 
-  /** Loads entities from a provided source.
-    */
+  /** Loads entities from a provided source. */
   private def loadEntities(dataset: Dataset[_]): Array[Array[String]] = {
     val phrases: Array[String] = ResourceHelper.parseLines($(entities))
     val parsedEntities: Array[Array[String]] = {

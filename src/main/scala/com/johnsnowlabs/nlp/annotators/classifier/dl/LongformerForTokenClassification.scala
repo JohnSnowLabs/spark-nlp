@@ -164,8 +164,7 @@ class LongformerForTokenClassification(override val uid: String)
   /** @group setParam */
   def setLabels(value: Map[String, Int]): this.type = set(labels, value)
 
-  /** Returns labels used to train this model
-    */
+  /** Returns labels used to train this model */
   def getClasses: Array[String] = {
     $$(labels).keys.toArray
   }

@@ -25,8 +25,7 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.Suite
 import org.scalatest.flatspec.AnyFlatSpec
 
-/** Generates different Annotator pipeline paths Place to add different annotator constructions
-  */
+/** Generates different Annotator pipeline paths Place to add different annotator constructions */
 object AnnotatorBuilder extends AnyFlatSpec {
   this: Suite =>
 

@@ -189,8 +189,7 @@ class SymmetricDeleteApproach(override val uid: String)
       Identifiable.randomUID("SYMSPELL")
     ) // constructor required for the annotator to work in python
 
-  /** Given a word, derive strings with up to maxEditDistance characters deleted
-    */
+  /** Given a word, derive strings with up to maxEditDistance characters deleted */
   def getDeletes(word: String, med: Int): List[String] = {
 
     var deletes = new ListBuffer[String]()
@@ -219,8 +218,7 @@ class SymmetricDeleteApproach(override val uid: String)
     deletes.toList
   }
 
-  /** Computes derived words from a frequency of words
-    */
+  /** Computes derived words from a frequency of words */
   def derivedWordDistances(
       wordFrequencies: List[(String, Long)],
       maxEditDistance: Int): Map[String, (List[String], Long)] = {

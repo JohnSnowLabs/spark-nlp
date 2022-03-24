@@ -20,9 +20,9 @@ import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.nlp.util.io.{ReadAs, ResourceHelper, ExternalResource}
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
+import org.apache.spark.ml.param.{IntParam, IntArrayParam, BooleanParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
@@ -163,8 +163,7 @@ class BertForSequenceClassification(override val uid: String)
   /** @group setParam */
   def setLabels(value: Map[String, Int]): this.type = set(labels, value)
 
-  /** Returns labels used to train this model
-    */
+  /** Returns labels used to train this model */
   def getClasses: Array[String] = {
     $$(labels).keys.toArray
   }

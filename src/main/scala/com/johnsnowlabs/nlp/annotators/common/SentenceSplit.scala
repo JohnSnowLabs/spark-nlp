@@ -20,8 +20,7 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
 import scala.collection.Map
 
-/** structure representing a sentence and its boundaries
-  */
+/** structure representing a sentence and its boundaries */
 case class Sentence(
     content: String,
     start: Int,
@@ -40,8 +39,7 @@ object Sentence {
   }
 }
 
-/** Helper object to work work with Sentence
-  */
+/** Helper object to work work with Sentence */
 object SentenceSplit extends Annotated[Sentence] {
   override def annotatorType: String = AnnotatorType.DOCUMENT
 
@@ -69,8 +67,7 @@ object SentenceSplit extends Annotated[Sentence] {
   }
 }
 
-/** Helper object to work work with Chunks
-  */
+/** Helper object to work work with Chunks */
 object ChunkSplit extends Annotated[Sentence] {
   override def annotatorType: String = AnnotatorType.CHUNK
 
