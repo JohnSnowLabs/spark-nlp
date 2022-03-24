@@ -222,8 +222,7 @@ class PerceptronApproachDistributed(override val uid: String)
     dataset.sparkSession.sparkContext.register(timeTotalsAcc)
     dataset.sparkSession.sparkContext.register(updateIterationAcc)
 
-    /** Generates TagBook, which holds all the word to tags mapping that are not ambiguous
-      */
+    /** Generates TagBook, which holds all the word to tags mapping that are not ambiguous */
     val taggedSentences: Dataset[TaggedSentence] = if (get(posCol).isDefined) {
       import ResourceHelper.spark.implicits._
       val tokenColumn = dataset.schema.fields
@@ -277,8 +276,7 @@ class PerceptronApproachDistributed(override val uid: String)
         .broadcast(taggedSentences.flatMap(_.tags).distinct.collect)
     }
 
-    /** Iterates for training
-      */
+    /** Iterates for training */
     (1 to $(nIterations)).foreach { iteration =>
       {
         logger.debug(s"TRAINING: Iteration n: $iteration")
@@ -335,8 +333,7 @@ class PerceptronApproachDistributed(override val uid: String)
                 weight: Double,
                 value: Double): Unit = {
 
-              /** update totals and timestamps
-                */
+              /** update totals and timestamps */
               val param = (feature, tag)
               val newTimestamp = partitionUpdateCount
               partitionTotals.update(
@@ -347,8 +344,7 @@ class PerceptronApproachDistributed(override val uid: String)
                   .getOrElse(partitionTimestamps.getOrElse(param, 0L))) * weight))
               newPartitionTimeTotals.update(param, (newTimestamp, partitionTotals(param)))
 
-              /** update weights
-                */
+              /** update weights */
               val newWeights =
                 newPartitionWeights.getOrElse(feature, MMap()) ++ MMap(tag -> (weight + value))
               newPartitionWeights.update(feature, newWeights)
@@ -413,8 +409,7 @@ class PerceptronApproachDistributed(override val uid: String)
           /** In a shuffled sentences list, try to find tag of the word, hold the correct answer
             */
           partition.foreach { taggedSentence =>
-            /** Defines a sentence context, with room to for look back
-              */
+            /** Defines a sentence context, with room to for look back */
             var prev = START(0)
             var prev2 = START(1)
             val context = START ++: taggedSentence.words.map(w => normalized(w)) ++: END
@@ -429,8 +424,7 @@ class PerceptronApproachDistributed(override val uid: String)
                     guess
                   })
 
-              /** shift the context
-                */
+              /** shift the context */
               prev2 = prev
               prev = guess
             }

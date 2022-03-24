@@ -21,8 +21,7 @@ import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, WordpieceEmbeddin
 
 import scala.collection.mutable
 
-/** Generates features for CrfBasedNer
-  */
+/** Generates features for CrfBasedNer */
 case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
 
   val shapeEncoding = Map(

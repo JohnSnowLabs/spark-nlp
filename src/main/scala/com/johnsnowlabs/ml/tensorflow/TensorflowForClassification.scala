@@ -154,8 +154,7 @@ trait TensorflowForClassification {
       maxSeqLength: Int,
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence]
 
-  /** Encode the input sequence to indexes IDs adding padding where necessary
-    */
+  /** Encode the input sequence to indexes IDs adding padding where necessary */
   def encode(
       sentences: Seq[(WordpieceTokenizedSentence, Int)],
       maxSequenceLength: Int): Seq[Array[Int]] = {

@@ -174,13 +174,11 @@ class TrainingPerceptronLegacy(
     def updateFeature(tag: String, feature: String, weight: Double, value: Double): Unit = {
       val param = (feature, tag)
 
-      /** update totals and timestamps
-        */
+      /** update totals and timestamps */
       totals(param) += ((updateIteration - timestamps(param)) * weight)
       timestamps(param) = updateIteration
 
-      /** update weights
-        */
+      /** update weights */
       featuresWeight(feature)(tag) = weight + value
     }
 

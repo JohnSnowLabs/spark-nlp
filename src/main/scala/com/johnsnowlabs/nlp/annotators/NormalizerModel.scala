@@ -84,12 +84,10 @@ class NormalizerModel(override val uid: String)
     "cleanupPatterns",
     "normalization regex patterns which match will be removed from token")
 
-  /** @group setParam
-    */
+  /** @group setParam */
   def setCleanupPatterns(value: Array[String]): this.type = set(cleanupPatterns, value)
 
-  /** @group setParam
-    */
+  /** @group setParam */
   def getCleanupPatterns: Array[String] = $(cleanupPatterns)
 
   /** whether to convert strings to lowercase
@@ -98,12 +96,10 @@ class NormalizerModel(override val uid: String)
     */
   val lowercase = new BooleanParam(this, "lowercase", "whether to convert strings to lowercase")
 
-  /** @group setParam
-    */
+  /** @group setParam */
   def setLowercase(value: Boolean): this.type = set(lowercase, value)
 
-  /** @group setParam
-    */
+  /** @group setParam */
   def getLowercase: Boolean = $(lowercase)
 
   /** slangDict
@@ -121,18 +117,15 @@ class NormalizerModel(override val uid: String)
     "slangMatchCase",
     "whether or not to be case sensitive to match slangs. Defaults to false.")
 
-  /** @group setParam
-    */
+  /** @group setParam */
   def setSlangMatchCase(value: Boolean): this.type = set(slangMatchCase, value)
 
-  /** @group getParam
-    */
+  /** @group getParam */
   def getSlangMatchCase: Boolean = $(slangMatchCase)
 
   def this() = this(Identifiable.randomUID("NORMALIZER"))
 
-  /** @group setParam
-    */
+  /** @group setParam */
   def setSlangDict(value: Map[String, String]): this.type = set(slangDict, value)
 
   /** Set the minimum allowed length for each token
@@ -141,16 +134,14 @@ class NormalizerModel(override val uid: String)
     */
   val minLength = new IntParam(this, "minLength", "Set the minimum allowed length for each token")
 
-  /** @group setParam
-    */
+  /** @group setParam */
   def setMinLength(value: Int): this.type = {
     require(value >= 0, "minLength must be greater equal than 0")
     require(value.isValidInt, "minLength must be Int")
     set(minLength, value)
   }
 
-  /** @group getParam
-    */
+  /** @group getParam */
   def getMinLength: Int = $(minLength)
 
   /** Set the maximum allowed length for each token
@@ -159,8 +150,7 @@ class NormalizerModel(override val uid: String)
     */
   val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed length for each token")
 
-  /** @group setParam
-    */
+  /** @group setParam */
   def setMaxLength(value: Int): this.type = {
     require(
       value >= $ {
@@ -171,8 +161,7 @@ class NormalizerModel(override val uid: String)
     set(maxLength, value)
   }
 
-  /** @group getParam
-    */
+  /** @group getParam */
   def getMaxLength: Int = $(maxLength)
 
   def applyRegexPatterns(word: String): String = {

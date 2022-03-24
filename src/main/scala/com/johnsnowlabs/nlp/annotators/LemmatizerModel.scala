@@ -70,8 +70,7 @@ class LemmatizerModel(override val uid: String)
     */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
-  /** lemmaDict
-    */
+  /** lemmaDict */
   val lemmaDict: MapFeature[String, String] = new MapFeature(this, "lemmaDict")
 
   def this() = this(Identifiable.randomUID("LEMMATIZER"))

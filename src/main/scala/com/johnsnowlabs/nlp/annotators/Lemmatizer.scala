@@ -165,12 +165,10 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
   val formCol =
     new Param[String](this, "formCol", "Column that correspends to CoNLLU(formCol=) output")
 
-  /** @group setParam
-    */
+  /** @group setParam */
   def setFormCol(value: String): this.type = set(formCol, value)
 
-  /** @group getParam
-    */
+  /** @group getParam */
   def getFormCol: String = $(formCol)
 
   /** Column that correspends to CoNLLU(lemmaCol=) output
@@ -180,12 +178,10 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
   val lemmaCol =
     new Param[String](this, "lemmaCol", "Column that correspends to CoNLLU(lemmaCol=) output")
 
-  /** @group setParam
-    */
+  /** @group setParam */
   def setLemmaCol(value: String): this.type = set(lemmaCol, value)
 
-  /** @group getParam
-    */
+  /** @group getParam */
   def getLemmaCol: String = $(lemmaCol)
 
   /** External dictionary to be used by the lemmatizer

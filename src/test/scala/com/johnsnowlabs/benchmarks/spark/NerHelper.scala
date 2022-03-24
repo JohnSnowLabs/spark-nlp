@@ -28,8 +28,7 @@ import scala.collection.mutable
 
 object NerHelper {
 
-  /** Print top n Named Entity annotations
-    */
+  /** Print top n Named Entity annotations */
   def print(annotations: Seq[Annotation], n: Int): Unit = {
     for (a <- annotations.take(n)) {
       System.out.println(s"${a.begin}, ${a.end}, ${a.result}, ${a.metadata("text")}")

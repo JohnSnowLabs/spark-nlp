@@ -237,8 +237,7 @@ object RuleFactory {
   case class RuleMatch(content: Regex.Match, identifier: String)
 }
 
-/** Allowed strategies for [[RuleFactory]] applications regarding replacement
-  */
+/** Allowed strategies for [[RuleFactory]] applications regarding replacement */
 object TransformStrategy extends Enumeration {
   type TransformStrategy = Value
   val NO_TRANSFORM, APPEND_WITH_SYMBOL, PREPEND_WITH_SYMBOL, REPLACE_ALL_WITH_SYMBOL,
@@ -246,8 +245,7 @@ object TransformStrategy extends Enumeration {
       REPLACE_EACH_WITH_SYMBOL, REPLACE_EACH_WITH_SYMBOL_AND_BREAK = Value
 }
 
-/** Allowed strategies for [[RuleFactory]] applications regarding matching
-  */
+/** Allowed strategies for [[RuleFactory]] applications regarding matching */
 object MatchStrategy extends Enumeration {
   type MatchStrategy = Value
   val MATCH_ALL, MATCH_FIRST, MATCH_COMPLETE = Value
