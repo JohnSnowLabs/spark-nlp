@@ -288,4 +288,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
+        - title: Extract conditions and benefits from drug reviews
+          id: extract_conditions_benefits_drug_reviews 
+          image: 
+              src: /assets/images/Detect_drugs_interactions.svg
+          image2: 
+              src: /assets/images/Detect_drugs_interactions_c.svg
+          excerpt: This model shows how to extract conditions and benefits from drug reviews.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_SUPPLEMENT_CLINICAL/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
 ---

@@ -73,5 +73,19 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_DEID_DE/
           - text: Colab Netbook
             type: blue_btn
-            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.1.Clinical_Deidentification_in_German.ipynb    
+            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.1.Clinical_Deidentification_in_German.ipynb  
+        - title: Deidentify German Medical texts
+          id: deidentify_german_medical_texts   
+          image: 
+              src: /assets/images/Detect_PHI_terminology_German_medical_text.svg
+          image2: 
+              src: /assets/images/Detect_PHI_terminology_German_medical_text_f.svg
+          excerpt: This demo shows how to deidentify protected health information in German medical texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_DE/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.1.Clinical_Deidentification_in_German.ipynb 
 ---
