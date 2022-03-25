@@ -34,13 +34,13 @@ This pretrained pipeline is built on the top of [bert_token_classifier_ner_chemi
 pipeline = PretrainedPipeline("bert_token_classifier_ner_chemicals_pipeline", "en", "clinical/models")
 
 
-pipeline.annotate("The results have shown that the product p - choloroaniline is not a significant factor in chlorhexidine - digluconate associated erosive cystitis. "A high percentage of kanamycin - colistin and povidone - iodine irrigations were associated with erosive cystitis.")
+pipeline.annotate("The results have shown that the product p - choloroaniline is not a significant factor in chlorhexidine - digluconate associated erosive cystitis. A high percentage of kanamycin - colistin and povidone - iodine irrigations were associated with erosive cystitis.")
 ```
 ```scala
 val pipeline = new PretrainedPipeline("bert_token_classifier_ner_chemicals_pipeline", "en", "clinical/models")
 
 
-pipeline.annotate("The results have shown that the product p - choloroaniline is not a significant factor in chlorhexidine - digluconate associated erosive cystitis. "A high percentage of kanamycin - colistin and povidone - iodine irrigations were associated with erosive cystitis.")
+pipeline.annotate("The results have shown that the product p - choloroaniline is not a significant factor in chlorhexidine - digluconate associated erosive cystitis. A high percentage of kanamycin - colistin and povidone - iodine irrigations were associated with erosive cystitis.")
 ```
 </div>
 
