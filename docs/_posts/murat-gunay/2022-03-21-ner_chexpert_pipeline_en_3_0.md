@@ -34,15 +34,13 @@ This pretrained pipeline is built on the top of [ner_chexpert](https://nlp.johns
 pipeline = PretrainedPipeline("ner_chexpert_pipeline", "en", "clinical/models")
 
 
-pipeline.annotate("FINAL REPORT HISTORY : Chest tube leak , to assess for pneumothorax . 
-FINDINGS : In comparison with study of ___ , the endotracheal tube and Swan - Ganz catheter have been removed . The left chest tube remains in place and there is no evidence of pneumothorax. Mild atelectatic changes are seen at the left base.")
+pipeline.annotate("FINAL REPORT HISTORY : Chest tube leak , to assess for pneumothorax . FINDINGS : In comparison with study of ___ , the endotracheal tube and Swan - Ganz catheter have been removed . The left chest tube remains in place and there is no evidence of pneumothorax. Mild atelectatic changes are seen at the left base.")
 ```
 ```scala
 val pipeline = new PretrainedPipeline("ner_chexpert_pipeline", "en", "clinical/models")
 
 
-pipeline.annotate("FINAL REPORT HISTORY : Chest tube leak , to assess for pneumothorax . 
-FINDINGS : In comparison with study of ___ , the endotracheal tube and Swan - Ganz catheter have been removed . The left chest tube remains in place and there is no evidence of pneumothorax. Mild atelectatic changes are seen at the left base.")
+pipeline.annotate("FINAL REPORT HISTORY : Chest tube leak , to assess for pneumothorax . FINDINGS : In comparison with study of ___ , the endotracheal tube and Swan - Ganz catheter have been removed . The left chest tube remains in place and there is no evidence of pneumothorax. Mild atelectatic changes are seen at the left base.")
 ```
 </div>
 
