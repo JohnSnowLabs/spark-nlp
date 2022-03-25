@@ -35,8 +35,18 @@ trait HasClassifierActivationProperties extends ParamsAndFeaturesWritable {
   def getActivation: String = $(activation)
 
   /** @group setParam */
-  def setActivation(value: String): this.type = set(this.activation, value)
+  def setActivation(value: String): this.type = {
 
+    value match {
+      case ActivationFunction.softmax =>
+        set(this.activation, ActivationFunction.softmax)
+      case ActivationFunction.sigmoid =>
+        set(this.activation, ActivationFunction.sigmoid)
+      case _ =>
+        set(this.activation, ActivationFunction.softmax)
+    }
+
+  }
 }
 
 object ActivationFunction {

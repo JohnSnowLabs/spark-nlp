@@ -403,7 +403,7 @@ class HasClassifierActivationProperties:
 
         Parameters
         ----------
-        value : bool
+        value : str
             Whether to calcuate logits via Softmax or Sigmoid. Default is Softmax
         """
         return self._set(activation=value)
@@ -413,7 +413,7 @@ class HasClassifierActivationProperties:
 
         Returns
         -------
-        bool
+        str
             Whether to calcuate logits via Softmax or Sigmoid. Default is Softmax
         """
         return self.getOrDefault(self.activation)
