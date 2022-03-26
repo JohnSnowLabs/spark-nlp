@@ -33,14 +33,25 @@ This pretrained pipeline is built on the top of [ner_human_phenotype_go_biobert]
 ```python
 pipeline = PretrainedPipeline("ner_human_phenotype_go_biobert_pipeline", "en", "clinical/models")
 
-pipeline.annotate("EXAMPLE MEDICAL TEXT")
+pipeline.annotate("Another disease that shares two of the tumor components of CT, namely GIST and tricarboxylic acid cycle is the Carney-Stratakis syndrome (CSS) or dyad.")
 ```
 ```scala
 val pipeline = new PretrainedPipeline("ner_human_phenotype_go_biobert_pipeline", "en", "clinical/models")
 
-pipeline.annotate("EXAMPLE MEDICAL TEXT")
+pipeline.annotate("Another disease that shares two of the tumor components of CT, namely GIST and tricarboxylic acid cycle is the Carney-Stratakis syndrome (CSS) or dyad.")
 ```
 </div>
+
+## Results
+
+```bash
++------------------------+--------+
+|chunks                  |entities|
++------------------------+--------+
+|tumor                   |HP      |
+|tricarboxylic acid cycle|GO      |
++------------------------+--------+
+```
 
 {:.model-param}
 ## Model Information
