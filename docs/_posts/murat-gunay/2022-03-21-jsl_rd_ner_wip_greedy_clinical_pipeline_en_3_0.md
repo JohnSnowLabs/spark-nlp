@@ -33,14 +33,36 @@ This pretrained pipeline is built on the top of [jsl_rd_ner_wip_greedy_clinical]
 ```python
 pipeline = PretrainedPipeline("jsl_rd_ner_wip_greedy_clinical_pipeline", "en", "clinical/models")
 
-pipeline.annotate("EXAMPLE TEXT")
+pipeline.annotate("Bilateral breast ultrasound was subsequently performed, which demonstrated an ovoid mass measuring approximately 0.5 x 0.5 x 0.4 cm in diameter located within the anteromedial aspect of the left shoulder. This mass demonstrates isoechoic echotexture to the adjacent muscle, with no evidence of internal color flow. This may represent benign fibrous tissue or a lipoma.")
 ```
 ```scala
 val pipeline = new PretrainedPipeline("jsl_rd_ner_wip_greedy_clinical_pipeline", "en", "clinical/models")
 
-pipeline.annotate("EXAMPLE TEXT")
+pipeline.annotate("Bilateral breast ultrasound was subsequently performed, which demonstrated an ovoid mass measuring approximately 0.5 x 0.5 x 0.4 cm in diameter located within the anteromedial aspect of the left shoulder. This mass demonstrates isoechoic echotexture to the adjacent muscle, with no evidence of internal color flow. This may represent benign fibrous tissue or a lipoma.")
 ```
 </div>
+
+## Results
+
+```bash
++---------------------+-------------------------+
+|chunks               |entities                 |
++---------------------+-------------------------+
+|Bilateral            |Direction                |
+|breast               |BodyPart                 |
+|ultrasound           |ImagingTest              |
+|ovoid mass           |Symptom                  |
+|anteromedial aspect  |Direction                |
+|left                 |Direction                |
+|shoulder             |BodyPart                 |
+|mass                 |Symptom                  |
+|isoechoic echotexture|ImagingFindings          |
+|adjacent muscle      |BodyPart                 |
+|internal color flow  |Symptom                  |
+|benign fibrous tissue|Symptom                  |
+|lipoma               |Disease_Syndrome_Disorder|
++---------------------+-------------------------+
+```
 
 {:.model-param}
 ## Model Information
