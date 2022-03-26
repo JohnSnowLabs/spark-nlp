@@ -34,15 +34,26 @@ This pretrained pipeline is built on the top of [ner_chemprot_biobert](https://n
 pipeline = PretrainedPipeline("ner_chemprot_biobert_pipeline", "en", "clinical/models")
 
 
-pipeline.annotate("EXAMPLE_TEXT")
+pipeline.annotate("Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium.")
 ```
 ```scala
 val pipeline = new PretrainedPipeline("ner_chemprot_biobert_pipeline", "en", "clinical/models")
 
 
-pipeline.annotate("EXAMPLE_TEXT")
+pipeline.annotate("Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium.")
 ```
 </div>
+
+## Results
+
+```bash
++-------------------------------+--------+
+|chunks                         |entities|
++-------------------------------+--------+
+|Keratinocyte growth factor     |GENE-Y  |
+|acidic fibroblast growth factor|GENE-Y  |
++-------------------------------+--------+
+```
 
 {:.model-param}
 ## Model Information
