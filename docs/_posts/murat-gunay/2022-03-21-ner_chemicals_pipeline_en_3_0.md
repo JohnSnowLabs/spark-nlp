@@ -34,15 +34,29 @@ This pretrained pipeline is built on the top of [ner_chemicals](https://nlp.john
 pipeline = PretrainedPipeline("ner_chemicals_pipeline", "en", "clinical/models")
 
 
-pipeline.annotate("EXAMPLE_TEXT")
+pipeline.annotate("The results have shown that the product p - choloroaniline is not a significant factor in chlorhexidine - digluconate associated erosive cystitis. A high percentage of kanamycin - colistin and povidone - iodine irrigations were associated with erosive cystitis.")
 ```
 ```scala
 val pipeline = new PretrainedPipeline("ner_chemicals_pipeline", "en", "clinical/models")
 
 
-pipeline.annotate("EXAMPLE_TEXT")
+pipeline.annotate("The results have shown that the product p - choloroaniline is not a significant factor in chlorhexidine - digluconate associated erosive cystitis. A high percentage of kanamycin - colistin and povidone - iodine irrigations were associated with erosive cystitis.")
 ```
 </div>
+
+## Results
+
+```bash
++---------------------------+--------+
+|chunks                     |entities|
++---------------------------+--------+
+|p - choloroaniline         |CHEM    |
+|chlorhexidine - digluconate|CHEM    |
+|kanamycin                  |CHEM    |
+|colistin                   |CHEM    |
+|povidone - iodine          |CHEM    |
++---------------------------+--------+
+```
 
 {:.model-param}
 ## Model Information
