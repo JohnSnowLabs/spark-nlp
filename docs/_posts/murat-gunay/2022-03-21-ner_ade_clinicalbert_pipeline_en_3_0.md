@@ -34,15 +34,25 @@ This pretrained pipeline is built on the top of [ner_ade_clinicalbert](https://n
 pipeline = PretrainedPipeline("ner_ade_clinicalbert_pipeline", "en", "clinical/models")
 
 
-pipeline.annotate("EXAMPLE_TEXT")
+pipeline.annotate("Both the erbA IRES and the erbA/myb virus constructs transformed erythroid cells after infection of bone marrow or blastoderm cultures. The erbA/myb IRES virus exhibited a 5-10-fold higher transformed colony forming efficiency than the erbA IRES virus in the blastoderm assay.")
 ```
 ```scala
 val pipeline = new PretrainedPipeline("ner_ade_clinicalbert_pipeline", "en", "clinical/models")
 
 
-pipeline.annotate("EXAMPLE_TEXT")
+pipeline.annotate("Both the erbA IRES and the erbA/myb virus constructs transformed erythroid cells after infection of bone marrow or blastoderm cultures. The erbA/myb IRES virus exhibited a 5-10-fold higher transformed colony forming efficiency than the erbA IRES virus in the blastoderm assay.")
 ```
 </div>
+
+## Results
+
+```bash
++---------+--------+
+|chunks   |entities|
++---------+--------+
+|erbA IRES|DRUG    |
++---------+--------+
+```
 
 {:.model-param}
 ## Model Information
