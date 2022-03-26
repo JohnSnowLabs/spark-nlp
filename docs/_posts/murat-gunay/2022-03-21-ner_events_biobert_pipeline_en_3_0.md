@@ -33,14 +33,25 @@ This pretrained pipeline is built on the top of [ner_events_biobert](https://nlp
 ```python
 pipeline = PretrainedPipeline("ner_events_biobert_pipeline", "en", "clinical/models")
 
-pipeline.annotate("EXAMPLE_TEXT")
+pipeline.annotate("The patient presented to the emergency room last evening")
 ```
 ```scala
 val pipeline = new PretrainedPipeline("ner_events_biobert_pipeline", "en", "clinical/models")
 
-pipeline.annotate("EXAMPLE_TEXT")
+pipeline.annotate("The patient presented to the emergency room last evening")
 ```
 </div>
+
+## Results
+
+```bash
++------------------+-------------+
+|chunks            |entities     |
++------------------+-------------+
+|presented         |OCCURRENCE   |
+|the emergency room|CLINICAL_DEPT|
++------------------+-------------+
+```
 
 {:.model-param}
 ## Model Information
