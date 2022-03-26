@@ -47,24 +47,23 @@ pipeline.annotate("The human KCNJ9 (Kir 3.3, GIRK3) is a member of the G-protein
 ## Results
 
 ```bash
-|    | chunk             | entity        |
-|---:|:------------------|:--------------|
-|  0 | median            | Duration      |
-|  1 | overall survival  | End_Point     |
-|  2 | with              | Trial_Group   |
-|  3 | without topotecan | Trial_Group   |
-|  4 | 4.0               | Value         |
-|  5 | 3.6 months        | Value         |
-|  6 | 23                | Patient_Count |
-|  7 | 63                | Patient_Count |
-|  8 | 55                | Patient_Count |
-|  9 | 33 patients       | Patient_Count |
-| 10 | topotecan         | Trial_Group   |
-| 11 | 11                | Patient_Count |
-| 12 | 61                | Patient_Count |
-| 13 | 66                | Patient_Count |
-| 14 | 32 patients       | Patient_Count |
-| 15 | without topotecan | Trial_Group   |
++-----------------------------------+--------------------+
+|chunks                             |entities            |
++-----------------------------------+--------------------+
+|human                              |Organism            |
+|KCNJ9                              |Gene_or_gene_product|
+|Kir 3.3                            |Gene_or_gene_product|
+|GIRK3                              |Gene_or_gene_product|
+|rectifying potassium (GIRK) channel|Gene_or_gene_product|
+|KCNJ9                              |Gene_or_gene_product|
+|chromosome 1q21-23                 |Cellular_component  |
+|humantissues                       |Organism            |
+|pancreas                           |Organ               |
+|tissues                            |Tissue              |
+|fat andskeletal muscle             |Tissue              |
+|KCNJ9                              |Gene_or_gene_product|
+|KCNJ9                              |Gene_or_gene_product|
++-----------------------------------+--------------------+
 ```
 
 {:.model-param}
