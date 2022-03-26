@@ -33,14 +33,34 @@ This pretrained pipeline is built on the top of [ner_deid_sd_large](https://nlp.
 ```python
 pipeline = PretrainedPipeline("ner_deid_sd_large_pipeline", "en", "clinical/models")
 
-pipeline.annotate("EXAMPLE_TEXT")
+pipeline.annotate("""A. Record date : 2093-01-13, David Hale, M.D., Name : Hendrickson, Ora MR. # 7194334 Date : 01/13/93 PCP : Oliveira, 25-year-old, Record date : 1-11-2000. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227. Patient's complaints first surfaced when he started working for Brothers Coal-Mine.""")
 ```
 ```scala
 val pipeline = new PretrainedPipeline("ner_deid_sd_large_pipeline", "en", "clinical/models")
 
-pipeline.annotate("EXAMPLE_TEXT")
+pipeline.annotate("A. Record date : 2093-01-13, David Hale, M.D., Name : Hendrickson, Ora MR. # 7194334 Date : 01/13/93 PCP : Oliveira, 25-year-old, Record date : 1-11-2000. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227. Patient's complaints first surfaced when he started working for Brothers Coal-Mine.")
 ```
 </div>
+
+## Results
+
+```bash
++-----------------------------+--------+
+|chunks                       |entities|
++-----------------------------+--------+
+|2093-01-13                   |DATE    |
+|David Hale                   |NAME    |
+|Hendrickson, Ora             |NAME    |
+|7194334                      |ID      |
+|01/13/93                     |DATE    |
+|Oliveira                     |NAME    |
+|1-11-2000                    |DATE    |
+|Cocke County Baptist Hospital|LOCATION|
+|0295 Keats Street            |LOCATION|
+|786-5227                     |CONTACT |
+|Brothers Coal-Mine           |LOCATION|
++-----------------------------+--------+
+```
 
 {:.model-param}
 ## Model Information
