@@ -33,14 +33,28 @@ This pretrained pipeline is built on the top of [ner_human_phenotype_gene_biober
 ```python
 pipeline = PretrainedPipeline("ner_human_phenotype_gene_biobert_pipeline", "en", "clinical/models")
 
-pipeline.annotate("EXAMPLE MEDICAL TEXT")
+pipeline.annotate("Here we presented a case (BS type) of a 17 years old female presented with polyhydramnios, polyuria, nephrocalcinosis and hypokalemia, which was alleviated after treatment with celecoxib and vitamin D(3).")
 ```
 ```scala
 val pipeline = new PretrainedPipeline("ner_human_phenotype_gene_biobert_pipeline", "en", "clinical/models")
 
-pipeline.annotate("EXAMPLE MEDICAL TEXT")
+pipeline.annotate("Here we presented a case (BS type) of a 17 years old female presented with polyhydramnios, polyuria, nephrocalcinosis and hypokalemia, which was alleviated after treatment with celecoxib and vitamin D(3).")
 ```
 </div>
+
+## Results
+
+```bash
++----------------+--------+
+|chunks          |entities|
++----------------+--------+
+|type            |GENE    |
+|polyhydramnios  |HP      |
+|polyuria        |HP      |
+|nephrocalcinosis|HP      |
+|hypokalemia     |HP      |
++----------------+--------+
+```
 
 {:.model-param}
 ## Model Information
