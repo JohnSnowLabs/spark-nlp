@@ -52,24 +52,22 @@ pipeline.annotate("Abdomen , soft , nontender . NIH stroke scale on presentation
 |  2 | one                | Measurement              |
 |  3 | consciousness      | 1a_LOC                   |
 |  4 | two                | Measurement              |
-|  5 | month and year and | 1b_LOCQuestions          |
+|  5 | month and year     | 1b_LOCQuestions          |
 |  6 | two                | Measurement              |
 |  7 | eye / grip         | 1c_LOCCommands           |
-|  8 | one to             | Measurement              |
+|  8 | one                | Measurement              |
 |  9 | two                | Measurement              |
 | 10 | gaze               | 2_BestGaze               |
 | 11 | two                | Measurement              |
 | 12 | face               | 4_FacialPalsy            |
 | 13 | eight              | Measurement              |
 | 14 | one                | Measurement              |
-| 15 | limited            | 7_LimbAtaxia             |
-| 16 | ataxia             | 7_LimbAtaxia             |
-| 17 | one to two         | Measurement              |
-| 18 | sensory            | 8_Sensory                |
-| 19 | three              | Measurement              |
-| 20 | best language      | 9_BestLanguage           |
-| 21 | two                | Measurement              |
-| 22 | attention          | 11_ExtinctionInattention |
+| 15 | limited ataxia     | 7_LimbAtaxia             |
+| 16 | one to two         | Measurement              |
+| 17 | sensory            | 8_Sensory                |
+| 18 | three              | Measurement              |
+| 19 | best language      | 9_BestLanguage           |
+| 20 | two                | Measurement              |
 ```
 
 {:.model-param}
