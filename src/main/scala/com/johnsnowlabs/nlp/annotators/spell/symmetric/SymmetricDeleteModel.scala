@@ -232,8 +232,7 @@ class SymmetricDeleteModel(override val uid: String)
     transformedWord
   }
 
-  /** Return list of suggested corrections for potentially incorrectly spelled word
-    */
+  /** Return list of suggested corrections for potentially incorrectly spelled word */
   def getSuggestedCorrections(word: String): Option[SuggestedWord] = {
     val cleanWord = Utilities.limitDuplicates($(dupsLimit), word)
     if (get(dictionary).isDefined) {

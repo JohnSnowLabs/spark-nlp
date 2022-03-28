@@ -30,12 +30,10 @@ class MultiColumnApproach(override val uid: String)
 
   override val description: String = "Example multiple columns"
 
-  /** Input annotator types: DOCUMEN
-    */
+  /** Input annotator types: DOCUMEN */
   override val outputAnnotatorType: AnnotatorType = DOCUMENT
 
-  /** Output annotator type:DOCUMENT
-    */
+  /** Output annotator type:DOCUMENT */
   override val inputAnnotatorType: AnnotatorType = DOCUMENT
 
   override def train(

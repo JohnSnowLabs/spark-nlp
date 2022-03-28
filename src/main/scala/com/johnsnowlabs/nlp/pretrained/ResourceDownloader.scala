@@ -105,15 +105,13 @@ object ResourceDownloader {
   var communityDownloader: ResourceDownloader =
     new S3ResourceDownloader(s3BucketCommunity, s3Path, cacheFolder, "community")
 
-  /** Reset the cache and recreate ResourceDownloader S3 credentials
-    */
+  /** Reset the cache and recreate ResourceDownloader S3 credentials */
   def resetResourceDownloader(): Unit = {
     cache.empty
     this.defaultDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "default")
   }
 
-  /** List all pretrained models in public name_lang
-    */
+  /** List all pretrained models in public name_lang */
   def listPublicModels(): List[String] = {
     listPretrainedResources(folder = publicLoc, ResourceType.MODEL)
   }
@@ -173,8 +171,7 @@ object ResourceDownloader {
   def showPublicModels(annotator: String, lang: String, version: String): Unit =
     showPublicModels(Some(annotator), Some(lang), Some(version))
 
-  /** List all pretrained pipelines in public
-    */
+  /** List all pretrained pipelines in public */
   def listPublicPipelines(): List[String] = {
     listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE)
   }

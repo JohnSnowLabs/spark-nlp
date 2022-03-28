@@ -35,17 +35,14 @@ private[nlp] abstract class BpeTokenizer(
     merges
   }
 
-  /** Rankings for the byte pairs. Derived from merges.txt
-    */
+  /** Rankings for the byte pairs. Derived from merges.txt */
   protected def getBpeRanking: ((String, String)) => Int =
     (bytePair: (String, String)) => bpeRanks.getOrElse(bytePair, Integer.MAX_VALUE)
 
-  /** cache for already encoded tokens
-    */
+  /** cache for already encoded tokens */
   protected val cache: mutable.Map[String, Array[String]] = mutable.Map()
 
-  /** Create a sequence of byte-pairs of the word
-    */
+  /** Create a sequence of byte-pairs of the word */
   protected def getBytePairs(word: Array[String]): Array[(String, String)] = {
     val createPairs = (i: Int) => (word(i), word(i + 1))
     (0 until (word.length - 1)).map(createPairs).toArray
@@ -173,8 +170,7 @@ private[nlp] abstract class BpeTokenizer(
     }
   }
 
-  /** Split the the individual sub texts on special tokens, e.g. masking etc.
-    */
+  /** Split the the individual sub texts on special tokens, e.g. masking etc. */
   protected def splitOnSpecialToken(
       specialToken: SpecialToken,
       text: String): ListBuffer[String] = {
@@ -230,17 +226,14 @@ private[nlp] abstract class BpeTokenizer(
     result
   }
 
-  /** Needs to be implemented
-    */
+  /** Needs to be implemented */
   def tokenizeSubText(text: String, indexOffset: Int): Array[IndexedToken]
 
-  /** Special tokens of the model for processing
-    */
+  /** Special tokens of the model for processing */
   val sentencePadding: (String, String) =
     (specialTokens.sentenceStart.content, specialTokens.sentenceEnd.content)
 
-  /** Tokenize considering special tokens and split algorithm
-    */
+  /** Tokenize considering special tokens and split algorithm */
   def tokenize(sentence: Sentence): Array[IndexedToken] = {
     var text = sentence.content
     if (text.trim.isEmpty) Array[IndexedToken]()

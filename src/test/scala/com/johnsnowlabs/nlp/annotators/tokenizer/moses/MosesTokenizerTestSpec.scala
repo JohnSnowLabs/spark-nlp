@@ -20,8 +20,7 @@ import com.johnsnowlabs.tags.FastTest
 import org.scalatest.Assertion
 import org.scalatest.flatspec.AnyFlatSpec
 
-/** Tests ported from sacremoses
-  */
+/** Tests ported from sacremoses */
 class MosesTokenizerTestSpec extends AnyFlatSpec {
   val moses = new MosesTokenizer("en")
 

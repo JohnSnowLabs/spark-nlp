@@ -16,8 +16,7 @@
 
 package com.johnsnowlabs.nlp
 
-/** Trait used to create annotators with input columns of variable length.
-  */
+/** Trait used to create annotators with input columns of variable length. */
 trait HasMultipleInputAnnotationCols extends HasInputAnnotationCols {
 
   /** Annotator reference id. The Annotator type is the same for any of the input columns */

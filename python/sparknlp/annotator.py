@@ -17,6 +17,7 @@ classes.
 """
 
 import sys
+
 from sparknlp.common import *
 
 # Do NOT delete. Looks redundant but this is key work around for python 2 support.
@@ -15136,7 +15137,8 @@ class EntityRulerModel(AnnotatorModel, HasStorageModel):
 
 class BertForSequenceClassification(AnnotatorModel,
                                     HasCaseSensitiveProperties,
-                                    HasBatchedAnnotate):
+                                    HasBatchedAnnotate,
+                                    HasClassifierActivationProperties):
     """BertForSequenceClassification can load Bert Models with sequence classification/regression head on top
     (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
 
@@ -15276,7 +15278,8 @@ class BertForSequenceClassification(AnnotatorModel,
             batchSize=8,
             maxSentenceLength=128,
             caseSensitive=True,
-            coalesceSentences=False
+            coalesceSentences=False,
+            activation="softmax"
         )
 
     @staticmethod
@@ -15647,7 +15650,8 @@ class Doc2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
 
 class DistilBertForSequenceClassification(AnnotatorModel,
                                           HasCaseSensitiveProperties,
-                                          HasBatchedAnnotate):
+                                          HasBatchedAnnotate,
+                                          HasClassifierActivationProperties):
     """DistilBertForSequenceClassification can load DistilBERT Models with sequence classification/regression head on
     top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
 
@@ -15788,7 +15792,8 @@ class DistilBertForSequenceClassification(AnnotatorModel,
             batchSize=8,
             maxSentenceLength=128,
             caseSensitive=True,
-            coalesceSentences=False
+            coalesceSentences=False,
+            activation="softmax"
         )
 
     @staticmethod
@@ -15837,7 +15842,8 @@ class DistilBertForSequenceClassification(AnnotatorModel,
 
 class RoBertaForSequenceClassification(AnnotatorModel,
                                        HasCaseSensitiveProperties,
-                                       HasBatchedAnnotate):
+                                       HasBatchedAnnotate,
+                                       HasClassifierActivationProperties):
     """RoBertaForSequenceClassification can load RoBERTa Models with sequence classification/regression head on
     top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
 
@@ -15978,7 +15984,8 @@ class RoBertaForSequenceClassification(AnnotatorModel,
             batchSize=8,
             maxSentenceLength=128,
             caseSensitive=True,
-            coalesceSentences=False
+            coalesceSentences=False,
+            activation="softmax"
         )
 
     @staticmethod
@@ -16027,7 +16034,8 @@ class RoBertaForSequenceClassification(AnnotatorModel,
 
 class XlmRoBertaForSequenceClassification(AnnotatorModel,
                                           HasCaseSensitiveProperties,
-                                          HasBatchedAnnotate):
+                                          HasBatchedAnnotate,
+                                          HasClassifierActivationProperties):
     """XlmRoBertaForSequenceClassification can load XLM-RoBERTa Models with sequence classification/regression head on
     top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
 
@@ -16168,7 +16176,8 @@ class XlmRoBertaForSequenceClassification(AnnotatorModel,
             batchSize=8,
             maxSentenceLength=128,
             caseSensitive=True,
-            coalesceSentences=False
+            coalesceSentences=False,
+            activation="softmax"
         )
 
     @staticmethod
@@ -16217,7 +16226,8 @@ class XlmRoBertaForSequenceClassification(AnnotatorModel,
 
 class LongformerForSequenceClassification(AnnotatorModel,
                                           HasCaseSensitiveProperties,
-                                          HasBatchedAnnotate):
+                                          HasBatchedAnnotate,
+                                          HasClassifierActivationProperties):
     """LongformerForSequenceClassification can load Longformer Models with sequence classification/regression head on
     top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
 
@@ -16358,7 +16368,8 @@ class LongformerForSequenceClassification(AnnotatorModel,
             batchSize=8,
             maxSentenceLength=4096,
             caseSensitive=True,
-            coalesceSentences=False
+            coalesceSentences=False,
+            activation="softmax"
         )
 
     @staticmethod
@@ -16407,7 +16418,8 @@ class LongformerForSequenceClassification(AnnotatorModel,
 
 class AlbertForSequenceClassification(AnnotatorModel,
                                       HasCaseSensitiveProperties,
-                                      HasBatchedAnnotate):
+                                      HasBatchedAnnotate,
+                                      HasClassifierActivationProperties):
     """AlbertForSequenceClassification can load Albert Models with sequence classification/regression head on
     top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
 
@@ -16548,7 +16560,8 @@ class AlbertForSequenceClassification(AnnotatorModel,
             batchSize=8,
             maxSentenceLength=128,
             caseSensitive=False,
-            coalesceSentences=False
+            coalesceSentences=False,
+            activation="softmax"
         )
 
     @staticmethod
@@ -16597,7 +16610,8 @@ class AlbertForSequenceClassification(AnnotatorModel,
 
 class XlnetForSequenceClassification(AnnotatorModel,
                                      HasCaseSensitiveProperties,
-                                     HasBatchedAnnotate):
+                                     HasBatchedAnnotate,
+                                     HasClassifierActivationProperties):
     """XlnetForSequenceClassification can load XLNet Models with sequence classification/regression head on
     top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
 
@@ -16738,7 +16752,8 @@ class XlnetForSequenceClassification(AnnotatorModel,
             batchSize=8,
             maxSentenceLength=128,
             caseSensitive=True,
-            coalesceSentences=False
+            coalesceSentences=False,
+            activation="softmax"
         )
 
     @staticmethod
