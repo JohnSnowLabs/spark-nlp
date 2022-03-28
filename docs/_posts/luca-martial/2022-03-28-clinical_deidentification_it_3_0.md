@@ -4,7 +4,7 @@ title: Clinical Deidentification (Italian)
 author: John Snow Labs
 name: clinical_deidentification
 date: 2022-03-28
-tags: [deid, it, licensed]
+tags: [deidentification, it, licensed, pipeline]
 task: De-identification
 language: it
 edition: Spark NLP for Healthcare 3.4.2
