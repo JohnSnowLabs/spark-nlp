@@ -151,8 +151,7 @@ class BigTextMatcher(override val uid: String)
   /** @group getParam */
   def getMergeOverlapping: Boolean = $(mergeOverlapping)
 
-  /** Loads entities from a provided source.
-    */
+  /** Loads entities from a provided source. */
   private def loadEntities(path: String, writers: Map[Database.Name, StorageWriter[_]]): Unit = {
     val inputFiles: Seq[Iterator[String]] =
       ResourceHelper.parseLinesIterator(ExternalResource(path, ReadAs.TEXT, Map()))

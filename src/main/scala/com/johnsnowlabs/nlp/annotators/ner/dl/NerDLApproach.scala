@@ -389,8 +389,7 @@ class NerDLApproach(override val uid: String)
     */
   def getUseBestModel: Boolean = $(this.useBestModel)
 
-  /** @group getParam
-    */
+  /** @group getParam */
   def getBestModelMetric: String = $(bestModelMetric)
 
   /** Learning Rate
@@ -507,12 +506,10 @@ class NerDLApproach(override val uid: String)
   def setIncludeAllConfidenceScores(value: Boolean): this.type =
     set(this.includeAllConfidenceScores, value)
 
-  /** @group setParam
-    */
+  /** @group setParam */
   def setUseBestModel(value: Boolean): NerDLApproach.this.type = set(this.useBestModel, value)
 
-  /** @group setParam
-    */
+  /** @group setParam */
   def setBestModelMetric(value: String): NerDLApproach.this.type = {
 
     if (value == ModelMetrics.macroF1)

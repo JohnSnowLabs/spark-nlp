@@ -17,7 +17,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
+import com.johnsnowlabs.nlp.{AnnotatorType, ActivationFunction, Annotation}
 
 trait TensorflowForClassification {
 
@@ -68,7 +68,8 @@ trait TensorflowForClassification {
       maxSentenceLength: Int,
       caseSensitive: Boolean,
       coalesceSentences: Boolean = false,
-      tags: Map[String, Int]): Seq[Annotation] = {
+      tags: Map[String, Int],
+      activation: String = ActivationFunction.softmax): Seq[Annotation] = {
 
     val wordPieceTokenizedSentences =
       tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
@@ -81,37 +82,70 @@ trait TensorflowForClassification {
       .flatMap { batch =>
         val tokensBatch = batch.map(x => (x._1._1, x._2))
         val encoded = encode(tokensBatch, maxSentenceLength)
-        val logits = tagSequence(encoded)
+        val logits = tagSequence(encoded, activation)
+        activation match {
+          case ActivationFunction.softmax =>
+            if (coalesceSentences) {
+              val scores = logits.transpose.map(_.sum / logits.length)
+              val label = scoresToLabelForSequenceClassifier(tags, scores)
+              val meta = constructMetaForSequenceClassifier(tags, scores)
+              Array(constructAnnotationForSequenceClassifier(sentences.head, label, meta))
+            } else {
+              sentences.zip(logits).map { case (sentence, scores) =>
+                val label = scoresToLabelForSequenceClassifier(tags, scores)
+                val meta = constructMetaForSequenceClassifier(tags, scores)
+                constructAnnotationForSequenceClassifier(sentence, label, meta)
+              }
+            }
 
-        if (coalesceSentences) {
-          val scores = logits.transpose.map(_.sum / logits.length)
-          val label =
-            tags.find(_._2 == scores.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
-          val meta = scores.zipWithIndex.flatMap(x =>
-            Map(tags.find(_._2 == x._2).map(_._1).toString -> x._1.toString))
-          Array(
-            Annotation(
-              annotatorType = AnnotatorType.CATEGORY,
-              begin = sentences.head.start,
-              end = sentences.head.end,
-              result = label,
-              metadata = Map("sentence" -> sentences.head.index.toString) ++ meta))
-        } else {
-          sentences.zip(logits).map { case (sentence, scores) =>
-            val label =
-              tags.find(_._2 == scores.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
-            val meta = scores.zipWithIndex.flatMap(x =>
-              Map(tags.find(_._2 == x._2).map(_._1).toString -> x._1.toString))
-            Annotation(
-              annotatorType = AnnotatorType.CATEGORY,
-              begin = sentence.start,
-              end = sentence.end,
-              result = label,
-              metadata = Map("sentence" -> sentence.index.toString) ++ meta)
-          }
+          case ActivationFunction.sigmoid =>
+            if (coalesceSentences) {
+              val scores = logits.transpose.map(_.sum / logits.length)
+              val labels = scores.zipWithIndex
+                .filter(x => x._1 > 0.5)
+                .flatMap(x => tags.filter(_._2 == x._2))
+              val meta = constructMetaForSequenceClassifier(tags, scores)
+              labels.map(label =>
+                constructAnnotationForSequenceClassifier(sentences.head, label._1, meta))
+            } else {
+              sentences.zip(logits).flatMap { case (sentence, scores) =>
+                val labels = scores.zipWithIndex
+                  .filter(x => x._1 > 0.5)
+                  .flatMap(x => tags.filter(_._2 == x._2))
+                val meta = constructMetaForSequenceClassifier(tags, scores)
+                labels.map(label =>
+                  constructAnnotationForSequenceClassifier(sentence, label._1, meta))
+              }
+            }
+
         }
       }
       .toSeq
+
+  }
+
+  def scoresToLabelForSequenceClassifier(tags: Map[String, Int], scores: Array[Float]): String = {
+    tags.find(_._2 == scores.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
+  }
+
+  def constructMetaForSequenceClassifier(
+      tags: Map[String, Int],
+      scores: Array[Float]): Array[(String, String)] = {
+    scores.zipWithIndex.flatMap(x =>
+      Map(tags.find(_._2 == x._2).map(_._1).toString -> x._1.toString))
+  }
+
+  def constructAnnotationForSequenceClassifier(
+      sentence: Sentence,
+      label: String,
+      meta: Array[(String, String)]): Annotation = {
+
+    Annotation(
+      annotatorType = AnnotatorType.CATEGORY,
+      begin = sentence.start,
+      end = sentence.end,
+      result = label,
+      metadata = Map("sentence" -> sentence.index.toString) ++ meta)
 
   }
 
@@ -120,8 +154,7 @@ trait TensorflowForClassification {
       maxSeqLength: Int,
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence]
 
-  /** Encode the input sequence to indexes IDs adding padding where necessary
-    */
+  /** Encode the input sequence to indexes IDs adding padding where necessary */
   def encode(
       sentences: Seq[(WordpieceTokenizedSentence, Int)],
       maxSequenceLength: Int): Seq[Array[Int]] = {
@@ -144,11 +177,25 @@ trait TensorflowForClassification {
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]]
 
-  def tagSequence(batch: Seq[Array[Int]]): Array[Array[Float]]
+  def tagSequence(batch: Seq[Array[Int]], activation: String): Array[Array[Float]]
 
+  /** Calcuate softmax from retruned logits
+    * @param scores
+    *   logits output from output layer
+    * @return
+    */
   def calculateSoftmax(scores: Array[Float]): Array[Float] = {
     val exp = scores.map(x => math.exp(x))
     exp.map(x => x / exp.sum).map(_.toFloat)
+  }
+
+  /** Calcuate sigmoid from returned logits
+    * @param scores
+    *   logits output from output layer
+    * @return
+    */
+  def calculateSigmoid(scores: Array[Float]): Array[Float] = {
+    scores.map(x => 1 / (1 + Math.exp(-x)).toFloat)
   }
 
   /** Word-level and span-level alignment with Tokenizer

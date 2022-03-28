@@ -18,6 +18,7 @@ package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.nlp.ActivationFunction
 import com.johnsnowlabs.nlp.annotators.common._
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
@@ -135,7 +136,7 @@ class TensorflowAlbertClassification(
     batchScores
   }
 
-  def tagSequence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
+  def tagSequence(batch: Seq[Array[Int]], activation: String): Array[Array[Float]] = {
     val tensors = new TensorResources()
 
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
@@ -192,7 +193,15 @@ class TensorflowAlbertClassification(
 
     val dim = rawScores.length / batchLength
     val batchScores: Array[Array[Float]] =
-      rawScores.grouped(dim).map(scores => calculateSoftmax(scores)).toArray
+      rawScores
+        .grouped(dim)
+        .map(scores =>
+          activation match {
+            case ActivationFunction.softmax => calculateSoftmax(scores)
+            case ActivationFunction.sigmoid => calculateSigmoid(scores)
+            case _ => calculateSoftmax(scores)
+          })
+        .toArray
 
     batchScores
   }

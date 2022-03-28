@@ -254,8 +254,7 @@ class DocumentNormalizer(override val uid: String)
     */
   def setEncoding(value: String): this.type = set(encoding, value)
 
-  /** Applying document normalization without pretty formatting (removing multiple spaces)
-    */
+  /** Applying document normalization without pretty formatting (removing multiple spaces) */
   private def withAllFormatter(
       text: String,
       action: String,
@@ -277,8 +276,7 @@ class DocumentNormalizer(override val uid: String)
     }
   }
 
-  /** pattern to grab from text as token candidates. Defaults \\S+
-    */
+  /** pattern to grab from text as token candidates. Defaults \\S+ */
   private def withPrettyAllFormatter(
       text: String,
       action: String,
@@ -314,8 +312,7 @@ class DocumentNormalizer(override val uid: String)
     }
   }
 
-  /** pattern to grab from text as token candidates. Defaults \\S+
-    */
+  /** pattern to grab from text as token candidates. Defaults \\S+ */
   private def withPrettyFirstFormatter(
       text: String,
       action: String,

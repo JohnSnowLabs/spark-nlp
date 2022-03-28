@@ -27,12 +27,10 @@ class MultiColumnsModel(override val uid: String)
 
   def this() = this(Identifiable.randomUID("MERGE"))
 
-  /** Input annotator types: DOCUMEN
-    */
+  /** Input annotator types: DOCUMEN */
   override val outputAnnotatorType: AnnotatorType = DOCUMENT
 
-  /** Output annotator type:DOCUMENT
-    */
+  /** Output annotator type:DOCUMENT */
   override val inputAnnotatorType: AnnotatorType = DOCUMENT
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
