@@ -52,6 +52,9 @@ pipeline.annotate("The human KCNJ9 (Kir 3.3, GIRK3) is a member of the G-protein
 |anthracyclines   |DrugChem |
 |taxanes          |DrugChem |
 |vinorelbine      |DrugChem |
+|vinorelbine      |DrugChem |
+|anthracyclines   |DrugChem |
+|taxanes          |DrugChem |
 +-----------------+---------+
 ```
 
