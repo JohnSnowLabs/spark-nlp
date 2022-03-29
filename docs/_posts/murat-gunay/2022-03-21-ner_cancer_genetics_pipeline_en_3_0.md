@@ -47,46 +47,22 @@ pipeline.annotate("The human KCNJ9 (Kir 3.3, GIRK3) is a member of the G-protein
 ## Results
 
 ```bash
-+-------------------+---------+
-|              token|ner_label|
-+-------------------+---------+
-|                The|        O|
-|              human|B-protein|
-|              KCNJ9|I-protein|
-|                  (|        O|
-|                Kir|B-protein|
-|                3.3|I-protein|
-|                  ,|        O|
-|              GIRK3|B-protein|
-|                  )|        O|
-|                 is|        O|
-|                  a|        O|
-|             member|        O|
-|                 of|        O|
-|                the|        O|
-|G-protein-activated|B-protein|
-|           inwardly|I-protein|
-|         rectifying|I-protein|
-|          potassium|I-protein|
-|                  (|I-protein|
-|               GIRK|I-protein|
-|                  )|I-protein|
-|            channel|I-protein|
-|             family|I-protein|
-|                  .|        O|
-|               Here|        O|
-|                 we|        O|
-|           describe|        O|
-|                the|        O|
-|genomicorganization|        O|
-|                 of|        O|
-|                the|        O|
-|              KCNJ9|    B-DNA|
-|              locus|    I-DNA|
-|                 on|        O|
-|         chromosome|    B-DNA|
-|            1q21-23|    I-DNA|
-+-------------------+---------+
++-----------------------------------------------------------------------+---------+
+|chunk                                                                  |ner_label|
++-----------------------------------------------------------------------+---------+
+|human KCNJ9                                                            |protein  |
+|Kir 3.3                                                                |protein  |
+|GIRK3                                                                  |protein  |
+|G-protein-activated inwardly rectifying potassium (GIRK) channel family|protein  |
+|KCNJ9 locus                                                            |DNA      |
+|chromosome 1q21-23                                                     |DNA      |
+|coding exons                                                           |DNA      |
+|identified14 single nucleotide polymorphisms                           |DNA      |
+|SNPs),                                                                 |DNA      |
+|KCNJ9 gene                                                             |DNA      |
+|KCNJ9 protein                                                          |protein  |
+|locus                                                                  |DNA      |
++-----------------------------------------------------------------------+---------+
 ```
 
 {:.model-param}
