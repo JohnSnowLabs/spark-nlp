@@ -47,32 +47,31 @@ pipeline.annotate("A 28-year-old female with a history of gestational diabetes m
 ## Results
 
 ```bash
-+------------+-------+
-|chunk       |label  |
-+------------+-------+
-|gestational |PROBLEM|
-|diabetes    |PROBLEM|
-|mellitus    |PROBLEM|
-|type        |PROBLEM|
-|two         |PROBLEM|
-|diabetes    |PROBLEM|
-|mellitus    |PROBLEM|
-|T2DM        |PROBLEM|
-|HTG-induced |PROBLEM|
-|pancreatitis|PROBLEM|
-|acute       |PROBLEM|
-|hepatitis   |PROBLEM|
-|obesity     |PROBLEM|
-|body        |TEST   |
-|mass        |TEST   |
-|index       |TEST   |
-|BMI         |TEST   |
-|polyuria    |PROBLEM|
-|polydipsia  |PROBLEM|
-|poor        |PROBLEM|
-|appetite    |PROBLEM|
-|vomiting    |PROBLEM|
-+------------+-------+
++-----------------------------+---------+
+|chunk                        |ner_label|
++-----------------------------+---------+
+|gestational diabetes mellitus|PROBLEM  |
+|type two diabetes mellitus   |PROBLEM  |
+|T2DM                         |PROBLEM  |
+|HTG-induced pancreatitis     |PROBLEM  |
+|an acute hepatitis           |PROBLEM  |
+|obesity                      |PROBLEM  |
+|a body mass index            |TEST     |
+|BMI                          |TEST     |
+|polyuria                     |PROBLEM  |
+|polydipsia                   |PROBLEM  |
+|poor appetite                |PROBLEM  |
+|vomiting                     |PROBLEM  |
+|amoxicillin                  |TREATMENT|
+|a respiratory tract infection|PROBLEM  |
+|metformin                    |TREATMENT|
+|glipizide                    |TREATMENT|
+|dapagliflozin                |TREATMENT|
+|T2DM                         |PROBLEM  |
+|atorvastatin                 |TREATMENT|
+|gemfibrozil                  |TREATMENT|
++-----------------------------+---------+
+only showing top 20 rows
 ```
 
 {:.model-param}
