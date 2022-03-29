@@ -33,24 +33,26 @@ This pretrained pipeline is built on the top of [ner_diseases_large](https://nlp
 ```python
 pipeline = PretrainedPipeline("ner_diseases_large_pipeline", "en", "clinical/models")
 
-pipeline.annotate('Detection of various other intracellular signaling proteins is also described. Genetic characterization of transactivation of the human T-cell leukemia virus type 1 promoter: Binding of Tax to Tax-responsive element 1 is mediated by the cyclic AMP-responsive members of the CREB/ATF family of transcription factors. To achieve a better understanding of the mechanism of transactivation by Tax of human T-cell leukemia virus type 1 Tax-responsive element 1 (TRE-1), we developed a genetic approach with Saccharomyces cerevisiae. We constructed a yeast reporter strain containing the lacZ gene under the control of the CYC1 promoter associated with three copies of TRE-1. Expression of either the cyclic AMP response element-binding protein (CREB) or CREB fused to the GAL4 activation domain (GAD) in this strain did not modify the expression of the reporter gene. Tax alone was also inactive.')
+pipeline.annotate("""Detection of various other intracellular signaling proteins is also described. Multiple autoimmune syndrome has been detected. Genetic characterization of transactivation of the human T-cell leukemia virus type 1 promoter: Binding of Tax to Tax-responsive element 1 is mediated by the cyclic AMP-responsive members of the CREB/ATF family of transcription factors. To achieve a better understanding of the mechanism of transactivation by Tax of human T-cell leukemia virus type 1 Tax-responsive element 1 (TRE-1), we developed a genetic approach with Saccharomyces cerevisiae. She has Chikungunya virus disease story also. We constructed a yeast reporter strain containing the lacZ gene under the control of the CYC1 promoter associated with three copies of TRE-1. Expression of either the cyclic AMP response element-binding protein (CREB) or CREB fused to the GAL4 activation domain (GAD) in this strain did not modify the expression of the reporter gene. Tax alone was also inactive.""")
 ```
 ```scala
 val pipeline = new PretrainedPipeline("ner_diseases_large_pipeline", "en", "clinical/models")
 
-pipeline.annotate("Detection of various other intracellular signaling proteins is also described. Genetic characterization of transactivation of the human T-cell leukemia virus type 1 promoter: Binding of Tax to Tax-responsive element 1 is mediated by the cyclic AMP-responsive members of the CREB/ATF family of transcription factors. To achieve a better understanding of the mechanism of transactivation by Tax of human T-cell leukemia virus type 1 Tax-responsive element 1 (TRE-1), we developed a genetic approach with Saccharomyces cerevisiae. We constructed a yeast reporter strain containing the lacZ gene under the control of the CYC1 promoter associated with three copies of TRE-1. Expression of either the cyclic AMP response element-binding protein (CREB) or CREB fused to the GAL4 activation domain (GAD) in this strain did not modify the expression of the reporter gene. Tax alone was also inactive.")
+pipeline.annotate("Detection of various other intracellular signaling proteins is also described. Multiple autoimmune syndrome has been detected. Genetic characterization of transactivation of the human T-cell leukemia virus type 1 promoter: Binding of Tax to Tax-responsive element 1 is mediated by the cyclic AMP-responsive members of the CREB/ATF family of transcription factors. To achieve a better understanding of the mechanism of transactivation by Tax of human T-cell leukemia virus type 1 Tax-responsive element 1 (TRE-1), we developed a genetic approach with Saccharomyces cerevisiae. She has Chikungunya virus disease story also. We constructed a yeast reporter strain containing the lacZ gene under the control of the CYC1 promoter associated with three copies of TRE-1. Expression of either the cyclic AMP response element-binding protein (CREB) or CREB fused to the GAL4 activation domain (GAD) in this strain did not modify the expression of the reporter gene. Tax alone was also inactive.")
 ```
 </div>
 
 ## Results
 
 ```bash
-+---------------+--------+
-|chunks         |entities|
-+---------------+--------+
-|T-cell leukemia|Disease |
-|T-cell leukemia|Disease |
-+---------------+--------+
++----------------------------+---------+
+|chunk                       |ner_label|
++----------------------------+---------+
+|Multiple autoimmune syndrome|Disease  |
+|T-cell leukemia             |Disease  |
+|T-cell leukemia             |Disease  |
+|Chikungunya virus disease   |Disease  |
++----------------------------+---------+
 ```
 
 {:.model-param}
