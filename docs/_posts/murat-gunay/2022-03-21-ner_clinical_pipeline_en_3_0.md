@@ -46,22 +46,22 @@ pipeline.annotate("The patient is a 21-day-old Caucasian male here for 2 days of
 
 ```bash
 +-------------------------------------+---------+
-|chunk                                |ner      |
+|chunk                                |ner_label|
 +-------------------------------------+---------+
 |congestion                           |PROBLEM  |
-|suctioning yellow discharge          |PROBLEM  |
+|suctioning yellow discharge          |TREATMENT|
 |some mild problems with his breathing|PROBLEM  |
 |any perioral cyanosis                |PROBLEM  |
 |retractions                          |PROBLEM  |
-|a tactile temperature                |TEST     |
+|a tactile temperature                |PROBLEM  |
 |Tylenol                              |TREATMENT|
 |his respiratory congestion           |PROBLEM  |
 |more tired                           |PROBLEM  |
-|fussy                                |PROBLEM  |
 |albuterol treatments                 |TREATMENT|
 |His urine output                     |TEST     |
-|dirty diapers                        |TREATMENT|
-|diarrhea                             |PROBLEM  |
+|5 dirty diapers                      |TREATMENT|
+|4 wet diapers                        |TREATMENT|
+|any diarrhea                         |PROBLEM  |
 |yellow colored                       |PROBLEM  |
 +-------------------------------------+---------+
 ```
