@@ -37,7 +37,7 @@ deid_pipeline = PretrainedPipeline("clinical_deidentification", "it", "clinical/
 
 sample = """RAPPORTO DI RICOVERO
 NOME: Lodovico Fibonacci
-NUMERO DI SICUREZZA SOCIALE: MVANSK92F09W408A
+CODICE FISCALE: MVANSK92F09W408A
 INDIRIZZO: Viale Burcardo 7
 CITTÀ : Napoli
 CODICE POSTALE: 80139
@@ -63,7 +63,7 @@ val deid_pipeline = new PretrainedPipeline("clinical_deidentification", "it", "c
 
 sample = "RAPPORTO DI RICOVERO
 NOME: Lodovico Fibonacci
-NUMERO DI SICUREZZA SOCIALE: MVANSK92F09W408A
+CODICE FISCALE: MVANSK92F09W408A
 INDIRIZZO: Viale Burcardo 7
 CITTÀ : Napoli
 CODICE POSTALE: 80139
@@ -93,7 +93,7 @@ Masked with entity labels
 ------------------------------
 RAPPORTO DI RICOVERO
 NOME: <PATIENT>
-NUMERO DI SICUREZZA SOCIALE: <SSN>
+CODICE FISCALE: <SSN>
 INDIRIZZO: <STREET>
 CITTÀ : <CITY>
 CODICE POSTALE: <ZIP>
@@ -118,7 +118,7 @@ Masked with chars
 ------------------------------
 RAPPORTO DI RICOVERO
 NOME: [****************]
-NUMERO DI SICUREZZA SOCIALE: [**************]
+CODICE FISCALE: [**************]
 INDIRIZZO: [**************]
 CITTÀ : [****]
 CODICE POSTALE: [***]DATA DI NASCITA: [********]
@@ -142,7 +142,7 @@ Masked with fixed length chars
 ------------------------------
 RAPPORTO DI RICOVERO
 NOME: ****
-NUMERO DI SICUREZZA SOCIALE: ****
+CODICE FISCALE: ****
 INDIRIZZO: ****
 CITTÀ : ****
 CODICE POSTALE: ****DATA DI NASCITA: ****
@@ -166,7 +166,7 @@ Obfuscated
 ------------------------------
 RAPPORTO DI RICOVERO
 NOME: Scotto-Polani
-NUMERO DI SICUREZZA SOCIALE: ECI-QLN77G15L455Y
+CODICE FISCALE: ECI-QLN77G15L455Y
 INDIRIZZO: Viale Orlando 808
 CITTÀ : Sesto Raimondo
 CODICE POSTALE: 53581DATA DI NASCITA: 09/03/1946
