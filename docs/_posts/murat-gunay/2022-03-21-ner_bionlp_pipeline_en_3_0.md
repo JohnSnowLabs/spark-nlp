@@ -47,28 +47,21 @@ pipeline.annotate("The human KCNJ9 (Kir 3.3, GIRK3) is a member of the G-protein
 ## Results
 
 ```bash
-|id |sentence_id|chunk                 |begin|end|ner_label           |
-+---+-----------+----------------------+-----+---+--------------------+
-|0  |0          |human                 |4    |8  |Organism            |
-|0  |0          |Kir 3.3               |17   |23 |Gene_or_gene_product|
-|0  |0          |GIRK3                 |26   |30 |Gene_or_gene_product|
-|0  |0          |potassium             |92   |100|Simple_chemical     |
-|0  |0          |GIRK                  |103  |106|Gene_or_gene_product|
-|0  |1          |chromosome 1q21-23    |188  |205|Cellular_component  |
-|0  |5          |pancreas              |697  |704|Organ               |
-|0  |5          |tissues               |740  |746|Tissue              |
-|0  |5          |fat andskeletal muscle|749  |770|Tissue              |
-|0  |6          |KCNJ9                 |801  |805|Gene_or_gene_product|
-|0  |6          |Type II               |940  |946|Gene_or_gene_product|
-|1  |0          |breast cancer         |84   |96 |Cancer              |
-|1  |0          |patients              |134  |141|Organism            |
-|1  |0          |anthracyclines        |167  |180|Simple_chemical     |
-|1  |0          |taxanes               |186  |192|Simple_chemical     |
-|1  |1          |vinorelbine           |246  |256|Simple_chemical     |
-|1  |1          |patients              |273  |280|Organism            |
-|1  |1          |breast                |309  |314|Cancer              |
-|1  |1          |vinorelbine inpatients|386  |407|Simple_chemical     |
-|1  |1          |anthracyclines        |433  |446|Simple_chemical     |
++----------------------+--------------------+
+|chunk                 |ner_label           |
++----------------------+--------------------+
+|human                 |Organism            |
+|Kir 3.3               |Gene_or_gene_product|
+|GIRK3                 |Gene_or_gene_product|
+|potassium             |Simple_chemical     |
+|GIRK                  |Gene_or_gene_product|
+|chromosome 1q21-23    |Cellular_component  |
+|pancreas              |Organ               |
+|tissues               |Tissue              |
+|fat andskeletal muscle|Tissue              |
+|KCNJ9                 |Gene_or_gene_product|
+|Type II               |Gene_or_gene_product|
++----------------------+--------------------+
 ```
 
 {:.model-param}
