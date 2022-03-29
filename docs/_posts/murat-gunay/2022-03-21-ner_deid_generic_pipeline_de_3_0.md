@@ -47,16 +47,15 @@ pipeline.annotate("Michael Berger wird am Morgen des 12 Dezember 2018 ins St. El
 ## Results
 
 ```bash
-+-------------------------+----------------------+
-|chunk                    |ner_deid_generic_chunk|
-+-------------------------+----------------------+
-|Michael Berger           |NAME                  |
-|12 Dezember 2018         |DATE                  |
-|St. Elisabeth-Krankenhaus|LOCATION              |
-|Bad Kissingen            |LOCATION              |
-|Berger                   |NAME                  |
-|76                       |AGE                   |
-+-------------------------+----------------------+
++-----------------------------------------+---------+
+|chunk                                    |ner_label|
++-----------------------------------------+---------+
+|Michael Berger                           |NAME     |
+|12 Dezember 2018                         |DATE     |
+|St. Elisabeth-Krankenhausin Bad Kissingen|LOCATION |
+|Berger                                   |NAME     |
+|76                                       |AGE      |
++-----------------------------------------+---------+
 ```
 
 {:.model-param}
