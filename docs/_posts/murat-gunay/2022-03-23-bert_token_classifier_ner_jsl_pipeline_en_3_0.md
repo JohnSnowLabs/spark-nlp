@@ -45,52 +45,31 @@ pipeline.annotate("The patient is a 21-day-old Caucasian male here for 2 days of
 ## Results
 
 ```bash
-+-----------------------------------------+----------------------------+
-|chunk                                    |ner_label                   |
-+-----------------------------------------+----------------------------+
-|21-day-old                               |Age                         |
-|Caucasian                                |Race_Ethnicity              |
-|male                                     |Gender                      |
-|2 days                                   |Duration                    |
-|congestion                               |Symptom                     |
-|mom                                      |Gender                      |
-|yellow discharge                         |Symptom                     |
-|nares                                    |External_body_part_or_region|
-|she                                      |Gender                      |
-|mild                                     |Modifier                    |
-|problems with his breathing while feeding|Symptom                     |
-|perioral cyanosis                        |Symptom                     |
-|retractions                              |Symptom                     |
-|One day ago                              |RelativeDate                |
-|mom                                      |Gender                      |
-|tactile temperature                      |Symptom                     |
-|Tylenol                                  |Drug_BrandName              |
-|Baby-girl                                |Gender                      |
-|decreased p.o. intake                    |Symptom                     |
-|His                                      |Gender                      |
-|breast-feeding                           |External_body_part_or_region|
-|20 minutes                               |Duration                    |
-|q.2h. to 5 to 10 minutes                 |Frequency                   |
-|his                                      |Gender                      |
-|respiratory congestion                   |Symptom                     |
-|He                                       |Gender                      |
-|tired                                    |Symptom                     |
-|fussy                                    |Symptom                     |
-|over the past 2 days                     |RelativeDate                |
-|albuterol                                |Drug_Ingredient             |
-|ER                                       |Clinical_Dept               |
-|His                                      |Gender                      |
-|urine output has                         |Symptom                     |
-|decreased                                |Symptom                     |
-|he                                       |Gender                      |
-|per 24 hours                             |Frequency                   |
-|he                                       |Gender                      |
-|per 24 hours                             |Frequency                   |
-|Mom                                      |Gender                      |
-|diarrhea                                 |Symptom                     |
-|His                                      |Gender                      |
-|bowel                                    |Internal_organ_or_component |
-+-----------------------------------------+----------------------------+
++--------------------------------+------------+
+|chunk                           |ner_label   |
++--------------------------------+------------+
+|21-day-old                      |Age         |
+|Caucasian male                  |Demographics|
+|congestion                      |Symptom     |
+|mom                             |Demographics|
+|yellow discharge                |Symptom     |
+|nares                           |Body_Part   |
+|she                             |Demographics|
+|mild problems with his breathing|Symptom     |
+|perioral cyanosis               |Symptom     |
+|retractions                     |Symptom     |
+|One day ago                     |Date_Time   |
+|mom                             |Demographics|
+|tactile temperature             |Symptom     |
+|Tylenol                         |Drug        |
+|Baby-girl                       |Age         |
+|decreased p.o. intake           |Symptom     |
+|His                             |Demographics|
+|breast-feeding                  |Body_Part   |
+|his                             |Demographics|
+|respiratory congestion          |Symptom     |
++--------------------------------+------------+
+only showing top 20 rows
 ```
 
 {:.model-param}
