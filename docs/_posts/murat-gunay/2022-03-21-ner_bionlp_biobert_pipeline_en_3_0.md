@@ -48,7 +48,7 @@ pipeline.annotate("The human KCNJ9 (Kir 3.3, GIRK3) is a member of the G-protein
 
 ```bash
 +-----------------------------------+--------------------+
-|chunks                             |entities            |
+|chunk                              |ner_label           |
 +-----------------------------------+--------------------+
 |human                              |Organism            |
 |KCNJ9                              |Gene_or_gene_product|
