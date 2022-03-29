@@ -48,18 +48,17 @@ pipeline.annotate("HISTORY OF PRESENT ILLNESS: Mr. Smith is a 60-year-old white 
 +---------------+---------+
 |chunk          |ner_label|
 +---------------+---------+
-|Smith          |PATIENT  |
-|Smith          |PATIENT  |
-|VA Hospital    |HOSPITAL |
-|Day Hospital   |HOSPITAL |
+|Smith          |NAME     |
+|VA Hospital    |LOCATION |
+|Day Hospital   |LOCATION |
 |02/04/2003     |DATE     |
-|Smith          |PATIENT  |
-|Day Hospital   |HOSPITAL |
-|Smith          |PATIENT  |
-|Smith          |PATIENT  |
-|7 Ardmore Tower|STREET   |
-|Hart           |DOCTOR   |
-|Smith          |PATIENT  |
+|Smith          |NAME     |
+|Day Hospital   |LOCATION |
+|Smith          |NAME     |
+|Smith          |NAME     |
+|7 Ardmore Tower|LOCATION |
+|Hart.          |NAME     |
+|Smith          |NAME     |
 |02/07/2003     |DATE     |
 +---------------+---------+
 ```
