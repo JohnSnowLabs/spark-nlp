@@ -45,21 +45,21 @@ pipeline.annotate("A. Record date : 2093-01-13, David Hale, M.D., Name : Hendric
 ## Results
 
 ```bash
-+-----------------------------+---------+
-|chunk                        |ner_label|
-+-----------------------------+---------+
-|2093-01-13                   |DATE     |
-|David Hale                   |NAME     |
-|Hendrickson, Ora             |NAME     |
-|7194334                      |ID       |
-|01/13/93                     |DATE     |
-|Oliveira                     |NAME     |
-|25                           |AGE      |
-|1-11-2000                    |DATE     |
-|Cocke County Baptist Hospital|LOCATION |
-|0295 Keats Street            |LOCATION |
-|(302) 786-5227               |CONTACT  |
-+-----------------------------+---------+
++-------------------------------------------------+---------+
+|chunk                                            |ner_label|
++-------------------------------------------------+---------+
+|2093-01-13                                       |DATE     |
+|David Hale                                       |NAME     |
+|Hendrickson                                      |NAME     |
+|Ora MR.                                          |LOCATION |
+|7194334                                          |ID       |
+|01/13/93                                         |DATE     |
+|Oliveira                                         |NAME     |
+|25                                               |AGE      |
+|1-11-2000                                        |DATE     |
+|Cocke County Baptist Hospital. 0295 Keats Street.|LOCATION |
+|(302) 786-5227                                   |CONTACT  |
++-------------------------------------------------+---------+
 ```
 
 {:.model-param}
