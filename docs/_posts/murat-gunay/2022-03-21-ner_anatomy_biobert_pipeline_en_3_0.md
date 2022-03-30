@@ -48,7 +48,7 @@ pipeline.annotate("This is an 11-year-old female who comes in for two different 
 
 ```bash
 +-------------------+----------------------+
-|chunks             |entities              |
+|chunk              |ner_label             |
 +-------------------+----------------------+
 |right              |Organism_subdivision  |
 |great              |Organism_subdivision  |
@@ -59,7 +59,6 @@ pipeline.annotate("This is an 11-year-old female who comes in for two different 
 |Nares              |Organ                 |
 |turbinates         |Multi-tissue_structure|
 |Mucous membranes   |Cell                  |
-|Neck               |Organism_subdivision  |
 |Abdomen            |Organism_subdivision  |
 |bowel              |Organism_subdivision  |
 |right              |Organism_subdivision  |
