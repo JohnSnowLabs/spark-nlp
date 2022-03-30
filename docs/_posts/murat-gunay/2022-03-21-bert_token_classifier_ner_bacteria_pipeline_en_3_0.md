@@ -45,18 +45,13 @@ pipeline.annotate("Based on these genetic and phenotypic properties, we propose 
 ## Results
 
 ```bash
-+-------------------+----------------------+
-|chunk              |ner_label             |
-+-------------------+----------------------+
-|erbA IRES          |Organism              |
-|erbA/myb virus     |Organism              |
-|erythroid cells    |Cell                  |
-|bone marrow        |Multi-tissue_structure|
-|blastoderm cultures|Cell                  |
-|erbA/myb IRES virus|Organism              |
-|erbA IRES virus    |Organism              |
-|blastoderm         |Cell                  |
-+-------------------+----------------------+
++-----------------------+---------+
+|chunk                  |ner_label|
++-----------------------+---------+
+|SMSP (T)               |SPECIES  |
+|Methanoregula formicica|SPECIES  |
+|SMSP (T)               |SPECIES  |
++-----------------------+---------+
 ```
 
 {:.model-param}
