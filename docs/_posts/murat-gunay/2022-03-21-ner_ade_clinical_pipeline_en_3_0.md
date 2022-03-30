@@ -34,15 +34,28 @@ This pretrained pipeline is built on the top of [ner_ade_clinical](https://nlp.j
 pipeline = PretrainedPipeline("ner_ade_clinical_pipeline", "en", "clinical/models")
 
 
-pipeline.annotate("EXAMPLE_TEXT")
+pipeline.annotate("Been taking Lipitor for 15 years, have experienced severe fatigue a lot!!!. Doctor moved me to voltaren 2 months ago, so far, have only experienced cramps")
 ```
 ```scala
 val pipeline = new PretrainedPipeline("ner_ade_clinical_pipeline", "en", "clinical/models")
 
 
-pipeline.annotate("EXAMPLE_TEXT")
+pipeline.annotate("Been taking Lipitor for 15 years, have experienced severe fatigue a lot!!!. Doctor moved me to voltaren 2 months ago, so far, have only experienced cramps")
 ```
 </div>
+
+## Results
+
+```bash
++--------------+---------+
+|chunk         |ner_label|
++--------------+---------+
+|Lipitor       |DRUG     |
+|severe fatigue|ADE      |
+|voltaren      |DRUG     |
+|cramps        |ADE      |
++--------------+---------+
+```
 
 {:.model-param}
 ## Model Information
