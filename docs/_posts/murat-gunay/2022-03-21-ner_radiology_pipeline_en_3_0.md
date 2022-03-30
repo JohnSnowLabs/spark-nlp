@@ -33,35 +33,34 @@ This pretrained pipeline is built on the top of [ner_radiology](https://nlp.john
 ```python
 pipeline = PretrainedPipeline("ner_radiology_pipeline", "en", "clinical/models")
 
-pipeline.annotate("Bilateral breast ultrasound was subsequently performed, which demonstrated an ovoid mass measuring approximately 0.5 x 0.5 x 0.4 cm in diameter located within the anteromedial aspect of the left shoulder. This mass demonstrates isoechoic echotexture to the adjacent muscle, with no evidence of internal color flow. This may represent benign fibrous tissue or a lipoma.")
+pipeline.annotate("Breast ultrasound was subsequently performed, which demonstrated an ovoid mass measuring approximately 0.5 x 0.5 x 0.4 cm in diameter located within the left shoulder. This mass demonstrates isoechoic echotexture to the adjacent muscle, with no evidence of internal color flow. This may represent benign fibrous tissue or a lipoma.")
 ```
 ```scala
 val pipeline = new PretrainedPipeline("ner_radiology_pipeline", "en", "clinical/models")
 
-pipeline.annotate("Bilateral breast ultrasound was subsequently performed, which demonstrated an ovoid mass measuring approximately 0.5 x 0.5 x 0.4 cm in diameter located within the anteromedial aspect of the left shoulder. This mass demonstrates isoechoic echotexture to the adjacent muscle, with no evidence of internal color flow. This may represent benign fibrous tissue or a lipoma.")
+pipeline.annotate("Breast ultrasound was subsequently performed, which demonstrated an ovoid mass measuring approximately 0.5 x 0.5 x 0.4 cm in diameter located within the left shoulder. This mass demonstrates isoechoic echotexture to the adjacent muscle, with no evidence of internal color flow. This may represent benign fibrous tissue or a lipoma.")
 ```
 </div>
 
 ## Results
 
 ```bash
-|    | chunks                | entities                  |
-|----|-----------------------|---------------------------|
-| 0  | Bilateral             | Direction                 |
-| 1  | breast                | BodyPart                  |
-| 2  | ultrasound            | ImagingTest               |
-| 3  | ovoid mass            | ImagingFindings           |
-| 4  | 0.5 x 0.5 x 0.4       | Measurements              |
-| 5  | cm                    | Units                     |
-| 6  | anteromedial aspect   | Direction                 |
-| 7  | left                  | Direction                 |
-| 8  | shoulder              | BodyPart                  |
-| 9  | mass                  | ImagingFindings           |
-| 10 | isoechoic echotexture | ImagingFindings           |
-| 11 | muscle                | BodyPart                  |
-| 12 | internal color flow   | ImagingFindings           |
-| 13 | benign fibrous tissue | ImagingFindings           |
-| 14 | lipoma                | Disease_Syndrome_Disorder |
++---------------------+-------------------------+
+|chunk                |ner_label                |
++---------------------+-------------------------+
+|Breast               |BodyPart                 |
+|ultrasound           |ImagingTest              |
+|ovoid mass           |ImagingFindings          |
+|0.5 x 0.5 x 0.4      |Measurements             |
+|cm                   |Units                    |
+|left shoulder        |BodyPart                 |
+|mass                 |ImagingFindings          |
+|isoechoic echotexture|ImagingFindings          |
+|muscle               |BodyPart                 |
+|internal color flow  |ImagingFindings          |
+|benign fibrous tissue|ImagingFindings          |
+|lipoma               |Disease_Syndrome_Disorder|
++---------------------+-------------------------+
 ```
 
 {:.model-param}
