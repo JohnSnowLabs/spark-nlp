@@ -1,2 +1,2 @@
-docs/en/alab/release_notes.md
-docs/en/alab/release_notes.md
+docs/en/licensed_training_entries/AssertionDLApproach.md
+docs/en/licensed_training_entries/AssertionDLApproach.md
