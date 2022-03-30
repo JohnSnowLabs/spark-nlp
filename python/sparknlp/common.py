@@ -14,7 +14,7 @@
 
 """Contains Properties for the Annotator classes.
 """
-
+import json
 from abc import ABCMeta, abstractmethod
 
 from pyspark import keyword_only
@@ -117,6 +117,39 @@ class AnnotatorModel(JavaModel, _internal.AnnotatorJavaMLReadable, JavaMLWritabl
         return self._java_obj
 
 
+class AnnotateJava:
+
+    def annotate(self, annotations, annotator):
+        json_annotations = self.annotationsToJson(annotations)
+        java_output_list = annotator.annotateJson(json_annotations)
+        processed_annotations = self.javaOutputToAnnotation(java_output_list)
+
+        return processed_annotations
+
+    def annotationsToJson(self, annotations):
+
+        json_annotations = []
+        for annotation in annotations:
+            json_annotation = json.dumps(annotation.__dict__)
+            embeddings = annotation.embeddings
+            json_annotations.append({json_annotation: embeddings})
+
+        return json_annotations
+
+    def javaOutputToAnnotation(self, java_output_list):
+        annotations = []
+        for java_output in java_output_list:
+            for annotation_str, embeddings in java_output.items():
+                annotation_dict = json.loads(annotation_str)
+                annotation = Annotation(annotation_dict['annotatorType'], int(annotation_dict['begin']),
+                                        int(annotation_dict['end']), annotation_dict['result'],
+                                        annotation_dict['metadata'], list(embeddings))
+
+                annotations.append(annotation)
+
+        return annotations
+
+
 class AnnotatorType(object):
     DOCUMENT = "document"
     TOKEN = "token"
@@ -138,13 +171,19 @@ class AnnotatorType(object):
     DUMMY = "dummy"
 
 
-# TODO: SparkNLPTransformer or Annotator??
 class SparkNLPTransformer(Transformer, HasInputCols, HasOutputCol, AnnotatorProperties, metaclass=ABCMeta):
 
-    def __init__(self):
+    def __init__(self, input_annotator_types=[AnnotatorType.DOCUMENT], output_annotator_type=AnnotatorType.DOCUMENT):
         super().__init__()
-        self.inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
-        self.outputAnnotatorType = AnnotatorType.DOCUMENT
+        self.input_annotator_types = input_annotator_types
+        self.output_annotator_type = output_annotator_type
+
+        if self.input_annotator_types is None or self.output_annotator_type is None:
+            error = "Error creating SparkNLPTransformer inputAnnotatorTypes and outputAnnotatorType must be defined"
+            raise Exception(error)
+
+        if (type(self.input_annotator_types)) is not list:
+            raise TypeError("inputAnnotatorTypes must be a 'list'")
 
     def _transform(self, dataset):
         processed_dataset = dataset
@@ -180,7 +219,7 @@ class SparkNLPTransformer(Transformer, HasInputCols, HasOutputCol, AnnotatorProp
         return processed_dataset
 
     def wrapColumnMetadata(self, column):
-        return column.alias(self.getOutputCol(), metadata={'annotatorType': self.outputAnnotatorType})
+        return column.alias(self.getOutputCol(), metadata={'annotatorType': self.output_annotator_type})
 
     @staticmethod
     @udf(returnType=Annotation.arrayType())

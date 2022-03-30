@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.custom.annotators
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.{Annotation, Annotator, AssertAnnotations, LightPipeline}
+import com.johnsnowlabs.nlp.{Annotation, SparkNLPTransformer, AssertAnnotations, LightPipeline}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -46,7 +46,7 @@ class CustomAnnotatorsTest extends AnyFlatSpec with SparkSessionTest {
   }
 
   private def buildUpperCasePipelineModel: PipelineModel = {
-    val upperCase = new UpperCaseAnnotator()
+    val upperCase = new UpperCaseSparkNLPTransformer()
       .setInputCols("document")
       .setOutputCol("upper")
     val sentenceDetector = new SentenceDetector()
@@ -92,7 +92,7 @@ class CustomAnnotatorsTest extends AnyFlatSpec with SparkSessionTest {
   }
 
   private def buildStopWordsPipelineModel: PipelineModel = {
-    val stopWords = new StopWordsAnnotator()
+    val stopWords = new StopWordsSparkNLPTransformer()
       .setInputCols("token")
       .setOutputCol("stop_words")
     val pipeline = new Pipeline()
@@ -104,7 +104,7 @@ class CustomAnnotatorsTest extends AnyFlatSpec with SparkSessionTest {
 
 }
 
-class UpperCaseAnnotator extends Annotator {
+class UpperCaseSparkNLPTransformer extends SparkNLPTransformer {
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.map(annotation =>
@@ -114,7 +114,7 @@ class UpperCaseAnnotator extends Annotator {
 
 }
 
-class StopWordsAnnotator extends Annotator {
+class StopWordsSparkNLPTransformer extends SparkNLPTransformer {
 
   override val inputAnnotatorTypes: Array[String] = Array(TOKEN)
 
@@ -122,9 +122,7 @@ class StopWordsAnnotator extends Annotator {
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
-    val tokens = annotations.filter(annotation => annotation.annotatorType == TOKEN)
-
-    tokens.flatMap{ token =>
+    annotations.flatMap{ token =>
         if (token.result.length <= 2) {
           Some(Annotation(TOKEN, token.begin, token.end, token.result, token.metadata))
         } else None

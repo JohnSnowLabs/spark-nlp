@@ -3,8 +3,7 @@ package com.johnsnowlabs.nlp
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import org.apache.spark.ml.util.Identifiable
 
-//TODO: Annotator or SparkNLPTransformer or CustomAnnotator or AnnotatorTransformer?
-abstract class Annotator(override val uid: String) extends HasSimpleAnnotate[Annotator]
+abstract class SparkNLPTransformer(override val uid: String) extends HasSimpleAnnotate[SparkNLPTransformer]
 {
 
   def this() = this(Identifiable.randomUID("ANNOTATOR"))

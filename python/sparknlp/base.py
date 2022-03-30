@@ -139,7 +139,7 @@ class LightPipeline(LightPipelineCommon):
         Annotation(named_entity, 30, 36, B-LOC, {'word': 'Baghdad'}),
         Annotation(named_entity, 37, 37, O, {'word': '.'})]
         """
-
+        self.validateTargetType(target)
         if self.has_custom_annotator:
             light_pipeline_py = _LightPipelinePython(self.pipeline_model, self.parse_embeddings)
             return light_pipeline_py.annotate(target, 'full_annotate')
@@ -172,7 +172,7 @@ class LightPipeline(LightPipelineCommon):
         >>> result["ner"]
         ['B-ORG', 'O', 'O', 'B-PER', 'O', 'O', 'B-LOC', 'O']
         """
-
+        self.validateTargetType(target)
         if self.has_custom_annotator:
             light_pipeline_py = _LightPipelinePython(self.pipeline_model, self.parse_embeddings)
             return light_pipeline_py.annotate(target, 'annotate')
@@ -180,12 +180,17 @@ class LightPipeline(LightPipelineCommon):
             light_pipeline = _LightPipelineJVM(self.pipeline_model, self.parse_embeddings)
             return light_pipeline.annotate(target)
 
+    @staticmethod
+    def validateTargetType(target):
+        if not isinstance(target, (str, list)):
+            raise TypeError("target for annotation must be 'str' or 'list'")
+
 
 class _LightPipelineJVM:
     # TODO: Python API(Shpinx) will change. How to know if _LightPipelineJVM will be visible?
-    def __init__(self, pipelineModel, parse_embeddings=False):
-        self.pipeline_model = pipelineModel
-        self._lightPipeline = _internal._LightPipeline(pipelineModel, parse_embeddings).apply()
+    def __init__(self, pipeline_model, parse_embeddings=False):
+        self.pipeline_model = pipeline_model
+        self._lightPipeline = _internal._LightPipeline(pipeline_model, parse_embeddings).apply()
 
     @staticmethod
     def _annotation_from_java(java_annotations):
@@ -262,13 +267,16 @@ class _LightPipelinePython:
         self.annotators_stages = []
         self.custom_annotators_stages = []
         self.input = None
-        self.output = {}
+        self.output = []
 
     def annotate(self, target, output_format):
         self.output.clear()
         stages_stack = list(range(len(self.stages)))
         former_stage = None
-        self.input = target
+        if type(target) is str:
+            self.input = [target]
+        else:
+            self.input = target
         while len(stages_stack) > 0:
             current_index_stage = stages_stack.pop(0)
             current_stage = self.stages[current_index_stage]
@@ -325,15 +333,16 @@ class _LightPipelinePython:
     def sendStagesToJVM(self):
         if self.input is not None:  # Process initial Document Assembler
             pipeline_model = PipelineModel(self.annotators_stages)
-            light_pipeline_jvm = LightPipeline(pipeline_model)
-            self.output = light_pipeline_jvm.fullAnnotate(self.input)[0]
+            light_pipeline_jvm = _LightPipelineJVM(pipeline_model)
+            self.output = light_pipeline_jvm.fullAnnotate(self.input)
             self.input = None
         else:
-            for annotator in self.annotators_stages:
-                input_cols = annotator.getInputCols()
-                output_col = annotator.getOutputCol()
-                annotations = self.unpackAnnotations(input_cols)
-                self.output[output_col] = annotator.annotate(annotations, annotator.apply())
+            for output in self.output:
+                for annotator in self.annotators_stages:
+                    input_cols = annotator.getInputCols()
+                    output_col = annotator.getOutputCol()
+                    annotations = self.unpackAnnotations(input_cols, output)
+                    output[output_col] = annotator.annotate(annotations, annotator.apply())
 
         self.annotators_stages = []
 
@@ -344,19 +353,21 @@ class _LightPipelinePython:
         first_custom_annotator = self.custom_annotators_stages[0]
         input_cols = first_custom_annotator.getInputCols()
         output_col = first_custom_annotator.getOutputCol()
-        annotations = list(map(lambda key: self.output[key], input_cols))[0]
-        self.output[output_col] = first_custom_annotator.annotate(annotations)
+        for output in self.output:
+            annotations = list(map(lambda key: output[key], input_cols))[0]
+            output[output_col] = first_custom_annotator.annotate(annotations)
 
         for custom_annotator in self.custom_annotators_stages[1:]:
-            input_cols = custom_annotator.getInputCols()
-            output_col = custom_annotator.getOutputCol()
-            annotations = self.unpackAnnotations(input_cols)
-            self.output[output_col] = custom_annotator.annotate(annotations)
+            for output in self.output:
+                input_cols = custom_annotator.getInputCols()
+                output_col = custom_annotator.getOutputCol()
+                annotations = self.unpackAnnotations(input_cols, output)
+                output[output_col] = custom_annotator.annotate(annotations)
 
         self.custom_annotators_stages = []
 
-    def unpackAnnotations(self, input_cols):
-        annotations = list(map(lambda key: self.output.get(key, []), input_cols))[0]
+    def unpackAnnotations(self, input_cols, output):
+        annotations = list(map(lambda key: output.get(key, []), input_cols))[0]
         return annotations
 
     def buildOutput(self, output_format):
@@ -369,10 +380,11 @@ class _LightPipelinePython:
                 return annotation.result
 
         if output_format == 'full_annotate':
-            return [self.output]
+            return self.output
         else:
-            for output_col, annotations in self.output.items():
-                self.output[output_col] = [unpackResult(annotation) for annotation in annotations]
+            for output in self.output:
+                for output_col, annotations in output.items():
+                    output[output_col] = [unpackResult(annotation) for annotation in annotations]
             return self.output
 
 

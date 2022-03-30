@@ -33,7 +33,8 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
 
   def transform(dataFrame: Dataset[_]): DataFrame = pipelineModel.transform(dataFrame)
 
-  def fullAnnotate(target: String, startWith: Map[String, Seq[Annotation]] = Map.empty[String, Seq[Annotation]]): Map[String, Seq[Annotation]] = {
+  def fullAnnotate(target: String, startWith: Map[String, Seq[Annotation]] = Map.empty[String, Seq[Annotation]]):
+  Map[String, Seq[Annotation]] = {
     getStages.foldLeft(startWith)((annotations, transformer) => {
       transformer match {
         case documentAssembler: DocumentAssembler =>
@@ -41,10 +42,12 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
         case lazyAnnotator: AnnotatorModel[_] if lazyAnnotator.getLazyAnnotator => annotations
         case recursiveAnnotator: HasRecursiveTransform[_] with AnnotatorModel[_] =>
           val combinedAnnotations =
-            recursiveAnnotator.getInputCols.foldLeft(Seq.empty[Annotation])((inputs, name) => inputs ++ annotations.getOrElse(name, Nil))
+            recursiveAnnotator.getInputCols.foldLeft(Seq.empty[Annotation])((inputs, name) =>
+              inputs ++ annotations.getOrElse(name, Nil))
           annotations.updated(recursiveAnnotator.getOutputCol, recursiveAnnotator.annotate(combinedAnnotations, pipelineModel))
         case batchedAnnotator: AnnotatorModel[_] with HasBatchedAnnotate[_] =>
-          val combinedAnnotations = batchedAnnotator.getInputCols.foldLeft(Array.empty[Annotation])((inputs, name) => inputs ++ annotations.getOrElse(name, Nil))
+          val combinedAnnotations = batchedAnnotator.getInputCols.foldLeft(Array.empty[Annotation])((inputs, name) =>
+            inputs ++ annotations.getOrElse(name, Nil))
           // Benchmarks proved that parallel execution in LightPipeline gains more speed than batching entries (which require non parallel collections)
           annotations.updated(batchedAnnotator.getOutputCol, batchedAnnotator.batchAnnotate(Seq(combinedAnnotations)).head)
         case annotator: AnnotatorModel[_] with HasSimpleAnnotate[_] =>
@@ -103,7 +106,8 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
       JavaAnnotation(aa.annotatorType, aa.begin, aa.end, aa.result, aa.metadata.asJava)).asJava).asJava
   }
 
-  def fullAnnotateJava(targets: java.util.ArrayList[String]): java.util.List[java.util.Map[String, java.util.List[JavaAnnotation]]] = {
+  def fullAnnotateJava(targets: java.util.ArrayList[String]):
+  java.util.List[java.util.Map[String, java.util.List[JavaAnnotation]]] = {
     targets.asScala.par.map(target => {
       fullAnnotateJava(target)
     }).toList.asJava

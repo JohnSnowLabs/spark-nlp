@@ -40,7 +40,7 @@ class Annotation:
         Embeddings vector where applicable
     """
 
-    def __init__(self, annotatorType, begin, end, result, metadata, embeddings):
+    def __init__(self, annotatorType, begin, end, result, metadata, embeddings=[]):
         self.annotatorType = annotatorType
         self.begin = begin
         self.end = end
