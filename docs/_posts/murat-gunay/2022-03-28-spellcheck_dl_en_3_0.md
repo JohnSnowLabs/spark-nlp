@@ -75,8 +75,8 @@ lp.annotate(text)
 
 val pipeline =  new Pipeline().setStages(Array(assembler, tokenizer, spellChecker))
 val empty_df = spark.createDataFrame([[""]]).toDF("text")
-val lp = LightPipeline(pipeline.fit(empty_df))
-val text = ["During the summer we have the best ueather.", "I have a black ueather jacket, so nice."]
+val lp = new LightPipeline(pipeline.fit(empty_df))
+val text = Array("During the summer we have the best ueather.", "I have a black ueather jacket, so nice.")
 lp.annotate(text)
 ```
 </div>
