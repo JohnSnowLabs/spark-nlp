@@ -425,8 +425,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Clinical Deidentification (Italian)- Spark NLP Model</title><meta name="description" content="DescriptionThis pipeline can be used to deidentify PHI information from medical texts in Italian. The pipeline can mask and obfuscate the following entities:...">
-<link rel="canonical" href="/2022/03/28/clinical_deidentification_it_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>RE Pipeline between Tests, Results, and Dates- Spark NLP Model</title><meta name="description" content="DescriptionThis pretrained pipeline is built on the top of re_test_result_date model.Live DemoOpen in ColabDownloadHow to use         PythonScalaNLU  pipelin...">
+<link rel="canonical" href="/2022/03/31/re_test_result_date_pipeline_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -820,17 +820,17 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Mar 28, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-03-28T00:00:00+00:00"></div><header class="main-docs"><h1>Clinical Deidentification (Italian)</h1></header></div><meta itemprop="headline" content="Clinical Deidentification (Italian)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>deidentification</li><li>it</li><li>licensed</li><li>pipeline</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-03-28T00:00:00+00:00">
-    <meta itemprop="keywords" content="deidentification,it,licensed,pipeline"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Mar 31, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-03-31T00:00:00+00:00"></div><header class="main-docs"><h1>RE Pipeline between Tests, Results, and Dates</h1></header></div><meta itemprop="headline" content="RE Pipeline between Tests, Results, and Dates"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>licensed</li><li>clinical</li><li>relation_extraction</li><li>tests</li><li>results</li><li>dates</li><li>en</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-03-31T00:00:00+00:00">
+    <meta itemprop="keywords" content="licensed,clinical,relation_extraction,tests,results,dates,en"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This pipeline can be used to deidentify PHI information from medical texts in Italian. The pipeline can mask and obfuscate the following entities: <code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">AGE</code>, <code class="language-plaintext highlighter-rouge">SEX</code>, <code class="language-plaintext highlighter-rouge">PROFESSION</code>, <code class="language-plaintext highlighter-rouge">ORGANIZATION</code>, <code class="language-plaintext highlighter-rouge">PHONE</code>, <code class="language-plaintext highlighter-rouge">E-MAIL</code>, <code class="language-plaintext highlighter-rouge">ZIP</code>, <code class="language-plaintext highlighter-rouge">STREET</code>, <code class="language-plaintext highlighter-rouge">CITY</code>, <code class="language-plaintext highlighter-rouge">COUNTRY</code>, <code class="language-plaintext highlighter-rouge">PATIENT</code>, <code class="language-plaintext highlighter-rouge">DOCTOR</code>, <code class="language-plaintext highlighter-rouge">HOSPITAL</code>, <code class="language-plaintext highlighter-rouge">MEDICALRECORD</code>, <code class="language-plaintext highlighter-rouge">SSN</code>, <code class="language-plaintext highlighter-rouge">IDNUM</code>, <code class="language-plaintext highlighter-rouge">ACCOUNT</code>, <code class="language-plaintext highlighter-rouge">PLATE</code>, <code class="language-plaintext highlighter-rouge">USERNAME</code>, <code class="language-plaintext highlighter-rouge">URL</code>, and <code class="language-plaintext highlighter-rouge">IPADDR</code>.</p>
+<p>This pretrained pipeline is built on the top of <a href="https://nlp.johnsnowlabs.com/2021/02/24/re_test_result_date_en.html">re_test_result_date</a> model.</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/clinical_deidentification_it_3.4.2_3.0_1648484125736.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_test_result_date_pipeline_en_3.4.1_3.0_1648734076557.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -838,157 +838,25 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"re_test_result_date_pipeline"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
 
-<span class="n">deid_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"clinical_deidentification"</span><span class="p">,</span> <span class="s">"it"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
 
-<span class="n">sample</span> <span class="o">=</span> <span class="s">"""RAPPORTO DI RICOVERO
-NOME: Lodovico Fibonacci
-CODICE FISCALE: MVANSK92F09W408A
-INDIRIZZO: Viale Burcardo 7
-CITTÀ : Napoli
-CODICE POSTALE: 80139
-DATA DI NASCITA: 03/03/1946
-ETÀ: 70 anni 
-SESSO: M
-EMAIL: lpizzo@tim.it
-DATA DI AMMISSIONE: 12/12/2016
-DOTTORE: Eva Viviani
-RAPPORTO CLINICO: 70 anni, pensionato, senza allergie farmacologiche note, che presenta la seguente storia: ex incidente sul lavoro con fratture vertebrali e costali; operato per la malattia di Dupuytren alla mano destra e un bypass ileo-femorale sinistro; diabete di tipo II, ipercolesterolemia e iperuricemia; alcolismo attivo, fuma 20 sigarette/giorno.
-È stato indirizzato a noi perché ha presentato un'ematuria macroscopica post-evacuazione in un'occasione e una microematuria persistente in seguito, con un'evacuazione normale.
-L'esame fisico ha mostrato buone condizioni generali, con addome e genitali normali; l'esame digitale rettale era coerente con un adenoma prostatico di grado I/IV.
-L'analisi delle urine ha mostrato 4 globuli rossi/campo e 0-5 leucociti/campo; il resto del sedimento era normale.
-L'emocromo è normale; la biochimica ha mostrato una glicemia di 169 mg/dl e trigliceridi 456 mg/dl; la funzione epatica e renale sono normali. PSA di 1,16 ng/ml.
-
-INDIRIZZATO A: Dott. Bruno Ferrabosco - ASL Napoli 1 Centro, Dipartimento di Endocrinologia e Nutrizione - Stretto Scamarcio 320, 80138 Napoli
-EMAIL: bferrabosco@poste.it"""</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">deid_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"He was advised chest X-ray or CT scan after checking his SpO2 which was &lt;= 93%"</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">deid_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"clinical_deidentification"</span><span class="o">,</span> <span class="s">"it"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"re_test_result_date_pipeline"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
 
-<span class="n">sample</span> <span class="k">=</span> <span class="s">"RAPPORTO DI RICOVERO
-NOME: Lodovico Fibonacci
-CODICE FISCALE: MVANSK92F09W408A
-INDIRIZZO: Viale Burcardo 7
-CITTÀ : Napoli
-CODICE POSTALE: 80139
-DATA DI NASCITA: 03/03/1946
-ETÀ: 70 anni 
-SESSO: M
-EMAIL: lpizzo@tim.it
-DATA DI AMMISSIONE: 12/12/2016
-DOTTORE: Eva Viviani
-RAPPORTO CLINICO: 70 anni, pensionato, senza allergie farmacologiche note, che presenta la seguente storia: ex incidente sul lavoro con fratture vertebrali e costali; operato per la malattia di Dupuytren alla mano destra e un bypass ileo-femorale sinistro; diabete di tipo II, ipercolesterolemia e iperuricemia; alcolismo attivo, fuma 20 sigarette/giorno.
-È stato indirizzato a noi perché ha presentato un'ematuria macroscopica post-evacuazione in un'occasione e una microematuria persistente in seguito, con un'evacuazione normale.
-L'esame fisico ha mostrato buone condizioni generali, con addome e genitali normali; l'esame digitale rettale era coerente con un adenoma prostatico di grado I/IV.
-L'analisi delle urine ha mostrato 4 globuli rossi/campo e 0-5 leucociti/campo; il resto del sedimento era normale.
-L'emocromo è normale; la biochimica ha mostrato una glicemia di 169 mg/dl e trigliceridi 456 mg/dl; la funzione epatica e renale sono normali. PSA di 1,16 ng/ml.
 
-INDIRIZZATO A: Dott. Bruno Ferrabosco - ASL Napoli 1 Centro, Dipartimento di Endocrinologia e Nutrizione - Stretto Scamarcio 320, 80138 Napoli
-EMAIL: bferrabosco@poste.it"</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">deid_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="n">sample</span><span class="o">)</span>
+<span class="nv">pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"He was advised chest X-ray or CT scan after checking his SpO2 which was &lt;= 93%"</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Masked with entity labels
-<span class="nt">------------------------------</span>
-RAPPORTO DI RICOVERO
-NOME: &lt;PATIENT&gt;
-CODICE FISCALE: &lt;SSN&gt;
-INDIRIZZO: &lt;STREET&gt;
-CITTÀ : &lt;CITY&gt;
-CODICE POSTALE: &lt;ZIP&gt;
-DATA DI NASCITA: &lt;DATE&gt;
-ETÀ: &lt;AGE&gt; anni 
-SESSO: &lt;SEX&gt;
-EMAIL: &lt;E-MAIL&gt;
-DATA DI AMMISSIONE: &lt;DATE&gt;
-DOTTORE: &lt;DOCTOR&gt;
-RAPPORTO CLINICO: &lt;AGE&gt; anni, pensionato, senza allergie farmacologiche note, che presenta la seguente storia: ex incidente sul lavoro con fratture vertebrali e costali<span class="p">;</span> operato per la malattia di Dupuytren alla mano destra e un bypass ileo-femorale sinistro<span class="p">;</span> diabete di tipo II, ipercolesterolemia e iperuricemia<span class="p">;</span> alcolismo attivo, fuma 20 sigarette/giorno.
-È stato indirizzato a noi perché ha presentato un<span class="s1">'ematuria macroscopica post-evacuazione in un'</span>occasione e una microematuria persistente <span class="k">in </span>seguito, con un<span class="s1">'evacuazione normale.
-L'</span>esame fisico ha mostrato buone condizioni generali, con addome e genitali normali<span class="p">;</span> l<span class="s1">'esame digitale rettale era coerente con un adenoma prostatico di grado I/IV.
-L'</span>analisi delle urine ha mostrato 4 globuli rossi/campo e 0-5 leucociti/campo<span class="p">;</span> il resto del sedimento era normale.
-L<span class="s1">'emocromo è normale; la biochimica ha mostrato una glicemia di 169 mg/dl e trigliceridi 456 mg/dl; la funzione epatica e renale sono normali.
-PSA di 1,16 ng/ml.
-INDIRIZZATO A: Dott.
-&lt;DOCTOR&gt; - &lt;HOSPITAL&gt;, Dipartimento di Endocrinologia e Nutrizione - &lt;STREET&gt;, &lt;ZIP&gt; &lt;CITY&gt;
-EMAIL: &lt;E-MAIL&gt;
-
-
-Masked with chars
-------------------------------
-RAPPORTO DI RICOVERO
-NOME: [****************]
-CODICE FISCALE: [**************]
-INDIRIZZO: [**************]
-CITTÀ : [****]
-CODICE POSTALE: [***]DATA DI NASCITA: [********]
-ETÀ: **anni 
-SESSO: *
-EMAIL: [***********]
-DATA DI AMMISSIONE: [********]
-DOTTORE: [*********]
-RAPPORTO CLINICO: **anni, pensionato, senza allergie farmacologiche note, che presenta la seguente storia: ex incidente sul lavoro con fratture vertebrali e costali; operato per la malattia di Dupuytren alla mano destra e un bypass ileo-femorale sinistro; diabete di tipo II, ipercolesterolemia e iperuricemia; alcolismo attivo, fuma 20 sigarette/giorno.
-È stato indirizzato a noi perché ha presentato un'</span>ematuria macroscopica post-evacuazione <span class="k">in </span>un<span class="s1">'occasione e una microematuria persistente in seguito, con un'</span>evacuazione normale.
-L<span class="s1">'esame fisico ha mostrato buone condizioni generali, con addome e genitali normali; l'</span>esame digitale rettale era coerente con un adenoma prostatico di grado I/IV.
-L<span class="s1">'analisi delle urine ha mostrato 4 globuli rossi/campo e 0-5 leucociti/campo; il resto del sedimento era normale.
-L'</span>emocromo è normale<span class="p">;</span> la biochimica ha mostrato una glicemia di 169 mg/dl e trigliceridi 456 mg/dl<span class="p">;</span> la funzione epatica e renale sono normali.
-PSA di 1,16 ng/ml.
-INDIRIZZATO A: Dott.
-<span class="o">[</span><span class="k">**************</span><span class="o">]</span> - <span class="o">[</span><span class="k">*****************</span><span class="o">]</span>, Dipartimento di Endocrinologia e Nutrizione - <span class="o">[</span><span class="k">*******************</span><span class="o">]</span>, <span class="o">[</span><span class="k">***</span><span class="o">]</span> <span class="o">[</span><span class="k">****</span><span class="o">]</span>
-EMAIL: <span class="o">[</span><span class="k">******************</span><span class="o">]</span>
-
-
-Masked with fixed length chars
-<span class="nt">------------------------------</span>
-RAPPORTO DI RICOVERO
-NOME: <span class="k">****</span>
-CODICE FISCALE: <span class="k">****</span>
-INDIRIZZO: <span class="k">****</span>
-CITTÀ : <span class="k">****</span>
-CODICE POSTALE: <span class="k">****</span>DATA DI NASCITA: <span class="k">****</span>
-ETÀ: <span class="k">****</span> anni 
-SESSO: <span class="k">****</span>
-EMAIL: <span class="k">****</span>
-DATA DI AMMISSIONE: <span class="k">****</span>
-DOTTORE: <span class="k">****</span>
-RAPPORTO CLINICO: <span class="k">****</span> anni, pensionato, senza allergie farmacologiche note, che presenta la seguente storia: ex incidente sul lavoro con fratture vertebrali e costali<span class="p">;</span> operato per la malattia di Dupuytren alla mano destra e un bypass ileo-femorale sinistro<span class="p">;</span> diabete di tipo II, ipercolesterolemia e iperuricemia<span class="p">;</span> alcolismo attivo, fuma 20 sigarette/giorno.
-È stato indirizzato a noi perché ha presentato un<span class="s1">'ematuria macroscopica post-evacuazione in un'</span>occasione e una microematuria persistente <span class="k">in </span>seguito, con un<span class="s1">'evacuazione normale.
-L'</span>esame fisico ha mostrato buone condizioni generali, con addome e genitali normali<span class="p">;</span> l<span class="s1">'esame digitale rettale era coerente con un adenoma prostatico di grado I/IV.
-L'</span>analisi delle urine ha mostrato 4 globuli rossi/campo e 0-5 leucociti/campo<span class="p">;</span> il resto del sedimento era normale.
-L<span class="s1">'emocromo è normale; la biochimica ha mostrato una glicemia di 169 mg/dl e trigliceridi 456 mg/dl; la funzione epatica e renale sono normali.
-PSA di 1,16 ng/ml.
-INDIRIZZATO A: Dott.
-**** - ****, Dipartimento di Endocrinologia e Nutrizione - ****, **** ****
-EMAIL: ****
-
-
-Obfuscated
-------------------------------
-RAPPORTO DI RICOVERO
-NOME: Scotto-Polani
-CODICE FISCALE: ECI-QLN77G15L455Y
-INDIRIZZO: Viale Orlando 808
-CITTÀ : Sesto Raimondo
-CODICE POSTALE: 53581DATA DI NASCITA: 09/03/1946
-ETÀ: 5 anni 
-SESSO: U
-EMAIL: HenryWatson@world.com
-DATA DI AMMISSIONE: 10/01/2017
-DOTTORE: Sig. Fredo Marangoni
-RAPPORTO CLINICO: 5 anni, pensionato, senza allergie farmacologiche note, che presenta la seguente storia: ex incidente sul lavoro con fratture vertebrali e costali; operato per la malattia di Dupuytren alla mano destra e un bypass ileo-femorale sinistro; diabete di tipo II, ipercolesterolemia e iperuricemia; alcolismo attivo, fuma 20 sigarette/giorno.
-È stato indirizzato a noi perché ha presentato un'</span>ematuria macroscopica post-evacuazione <span class="k">in </span>un<span class="s1">'occasione e una microematuria persistente in seguito, con un'</span>evacuazione normale.
-L<span class="s1">'esame fisico ha mostrato buone condizioni generali, con addome e genitali normali; l'</span>esame digitale rettale era coerente con un adenoma prostatico di grado I/IV.
-L<span class="s1">'analisi delle urine ha mostrato 4 globuli rossi/campo e 0-5 leucociti/campo; il resto del sedimento era normale.
-L'</span>emocromo è normale<span class="p">;</span> la biochimica ha mostrato una glicemia di 169 mg/dl e trigliceridi 456 mg/dl<span class="p">;</span> la funzione epatica e renale sono normali.
-PSA di 1,16 ng/ml.
-INDIRIZZATO A: Dott.
-Antonio Rusticucci - ASL 7 DI CARBONIA AZIENDA U.S.L. N. 7, Dipartimento di Endocrinologia e Nutrizione - Via Giorgio 0 Appartamento 26, 03461 Sesto Raimondo
-EMAIL: murat.g@jsl.com
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| index | relations    | entity1      | chunk1              | entity2      |  chunk2 |
+|-------|--------------|--------------|---------------------|--------------|---------|
+| 0     | O            | TEST         | chest X-ray         | MEASUREMENTS |  93%    | 
+| 1     | O            | TEST         | CT scan             | MEASUREMENTS |  93%    |
+| 2     | is_result_of | TEST         | SpO2                | MEASUREMENTS |  93%    |
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -997,7 +865,7 @@ EMAIL: murat.g@jsl.com
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>clinical_deidentification</td>
+      <td>re_test_result_date_pipeline</td>
     </tr>
     <tr>
       <td>Type:</td>
@@ -1005,7 +873,7 @@ EMAIL: murat.g@jsl.com
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 3.4.2+</td>
+      <td>Spark NLP for Healthcare 3.4.1+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -1017,11 +885,11 @@ EMAIL: murat.g@jsl.com
     </tr>
     <tr>
       <td>Language:</td>
-      <td>it</td>
+      <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>1.3 GB</td>
+      <td>1.7 GB</td>
     </tr>
   </tbody>
 </table>
@@ -1030,31 +898,16 @@ EMAIL: murat.g@jsl.com
 
 <ul>
   <li>DocumentAssembler</li>
-  <li>SentenceDetectorDLModel</li>
+  <li>SentenceDetector</li>
   <li>TokenizerModel</li>
+  <li>PerceptronModel</li>
   <li>WordEmbeddingsModel</li>
   <li>MedicalNerModel</li>
   <li>NerConverter</li>
-  <li>ContextualParserModel</li>
-  <li>ContextualParserModel</li>
-  <li>RegexMatcherModel</li>
-  <li>RegexMatcherModel</li>
-  <li>RegexMatcherModel</li>
-  <li>RegexMatcherModel</li>
-  <li>RegexMatcherModel</li>
-  <li>RegexMatcherModel</li>
-  <li>RegexMatcherModel</li>
-  <li>RegexMatcherModel</li>
-  <li>RegexMatcherModel</li>
-  <li>RegexMatcherModel</li>
-  <li>ChunkMergeModel</li>
-  <li>DeIdentificationModel</li>
-  <li>DeIdentificationModel</li>
-  <li>DeIdentificationModel</li>
-  <li>DeIdentificationModel</li>
-  <li>Finisher</li>
+  <li>DependencyParserModel</li>
+  <li>RelationExtractionModel</li>
 </ul>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-03-28T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-03-31T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -1179,7 +1032,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/03/28/clinical_deidentification_it_2_4.html">Clinical Deidentification (Italian)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/03/31/re_test_problem_finding_pipeline_en_3_0.html">RE Pipeline between Problem, Test, and Findings in Reports</a></div></div></div>
 
 </div>
 </div>
