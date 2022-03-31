@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-A pipeline for detecting radiology entities with the `ner_radiology` NER model, assigning their assertion status with `assertion_dl_radiology` model, and extracting relations between the diagnosis, test, and findings with `re_test_problem_finding`.
+A pipeline for detecting radiology entities with the `ner_radiology` NER model, assigning their assertion status with `assertion_dl_radiology` model, and extracting relations between the diagnosis, test, and findings with `re_test_problem_finding` relation extraction model.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
