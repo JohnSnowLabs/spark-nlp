@@ -57,7 +57,7 @@ import org.apache.spark.sql.{DataFrame, Dataset}
   * `explodeSentences` is set to `true`.
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb Spark NLP Workshop]].
+  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/sentence-detection/SentenceDetector_advanced_examples.ipynb]].
   *
   * ==Example==
   * {{{
