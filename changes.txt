@@ -1,4 +1,4 @@
-docs/_frontend/package.json
-docs/_frontend/yarn.lock
-docs/_frontend/package.json
-docs/_frontend/yarn.lock
+docs/en/licensed_release_notes.md
+docs/en/licensed_version_compatibility.md
+docs/en/licensed_release_notes.md
+docs/en/licensed_version_compatibility.md

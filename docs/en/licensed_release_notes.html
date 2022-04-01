@@ -528,10 +528,643 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP for Healthcare Release Notes"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="342">3.4.2</h2>
-<p>We are glad to announce that Spark NLP Healthcare 3.4.2 has been released!</p>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="350">3.5.0</h2>
+<p>We are glad to announce that Spark NLP Healthcare 3.5.0 has been released!</p>
 
 <h4 id="highlights">Highlights</h4>
+<ul>
+  <li><strong>Zero-shot Relation Extraction</strong> to extract relations between clinical entities with no training dataset</li>
+  <li><strong>Deidentification</strong>:
+    <ul>
+      <li>New <strong>French</strong> <strong>Deidentification</strong> NER models and pipeline</li>
+      <li>New <strong>Italian</strong> <strong>Deidentification</strong> NER models and pipeline</li>
+      <li>Check our reference table for <strong>French and Italian deidentification metrics</strong></li>
+      <li>Added <strong>French support to the “fake” generation of data</strong> (aka data obfuscation) in the Deidentification annotator</li>
+      <li><strong>Deidentification</strong> <strong>benchmark</strong>: Spark NLP vs Cloud Providers (AWS, Azure, GCP)</li>
+    </ul>
+  </li>
+  <li><strong>Graph generation</strong>:
+    <ul>
+      <li><strong>ChunkMapperApproach</strong> to augment NER chunks extracted by Spark NLP with a custom <strong>graph-like dictionary of relationships</strong></li>
+    </ul>
+  </li>
+  <li><strong>New Relation Extraction features</strong>:
+    <ul>
+      <li>Configuration of <strong>case sensitivity</strong> in the name of the <strong>relations</strong> in <strong>Relation Extraction Models</strong></li>
+    </ul>
+  </li>
+  <li><strong>Models and Demos</strong>:
+    <ul>
+      <li>We have reached <strong>600 clinical models and pipelines</strong>, what sums up to <strong>5000+ overall models</strong> in <a href="https://nlp.johnsnowlabs.com/models">Models Hub</a>!</li>
+      <li>Check our new <a href="https://nlp.johnsnowlabs.com/demos">live demos</a> including <a href="https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_MULTI/">multilanguage deidentification</a> to anonymize clinical notes in 5 different languages</li>
+    </ul>
+  </li>
+  <li>Generate Dataframes to <strong>train Assertion Status models</strong> using <strong>JSON Files</strong> exported <strong>from Annotation Lab</strong> (ALAB)</li>
+  <li>Guide about how to scale <strong>from PoC to Production</strong> using Spark NLP for Healthcare in our new Medium Article, available <a href="https://medium.com/spark-nlp/deploying-spark-nlp-for-healthcare-from-zero-to-hero-88949b0c866d">here</a></li>
+  <li><strong>Core improvements</strong>:
+    <ul>
+      <li><strong>Contextual Parser</strong> (our Rule-based NER annotator) is now <strong>much more performant</strong>!</li>
+      <li><strong>Bug fixing and compatibility additions</strong> affecting and improving some behaviours of <em>AssertionDL, BertSentenceChunkEmbeddings, AssertionFilterer and EntityRulerApproach</em></li>
+    </ul>
+  </li>
+  <li><strong>New notebooks: zero-shot relation extraction and Deidentification benchmark vs Cloud Providers</strong></li>
+</ul>
+
+<h4 id="zero-shot-relation-extraction-to-extract-relations-between-clinical-entities-with-no-training-dataset">Zero-shot Relation Extraction to extract relations between clinical entities with no training dataset</h4>
+<p>This release includes a zero-shot relation extraction model that leverages <code class="language-plaintext highlighter-rouge">BertForSequenceClassificaiton</code> to return, based on a predefined set of relation candidates (including no-relation / O), which one has the higher probability to be linking two entities.</p>
+
+<p>The dataset will be a csv which contains the following columns: <code class="language-plaintext highlighter-rouge">sentence</code>, <code class="language-plaintext highlighter-rouge">chunk1</code>, <code class="language-plaintext highlighter-rouge">firstCharEnt1</code>, <code class="language-plaintext highlighter-rouge">lastCharEnt1</code>, <code class="language-plaintext highlighter-rouge">label1</code>, <code class="language-plaintext highlighter-rouge">chunk2</code>, <code class="language-plaintext highlighter-rouge">firstCharEnt2</code>, <code class="language-plaintext highlighter-rouge">lastCharEnt2</code>, <code class="language-plaintext highlighter-rouge">label2</code>, <code class="language-plaintext highlighter-rouge">rel</code>.</p>
+
+<p>For example, let’s take a look at this dataset (columns <code class="language-plaintext highlighter-rouge">chunk1</code>, <code class="language-plaintext highlighter-rouge">rel</code>, <code class="language-plaintext highlighter-rouge">chunk2</code> and <code class="language-plaintext highlighter-rouge">sentence</code>):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------------------------------------+-------+-------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| chunk1                                       | rel   | chunk2                              | sentence                                                                                                                                                                       |
+|----------------------------------------------+-------+-------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| light-headedness                             | PIP   | diaphoresis                         | She states this light-headedness is often associated with shortness of breath and diaphoresis occasionally with nausea .                                                       |
+| respiratory rate                             | O     | saturation                          | VITAL SIGNS - Temp 98.8 , pulse 60 , BP 150/94 , respiratory rate 18 , and saturation 96% on room air .                                                                        |
+| lotions                                      | TrNAP | incisions                           | No lotions , creams or powders to incisions .                                                                                                                                  |
+| abdominal ultrasound                         | TeRP  | gallbladder sludge                  | Abdominal ultrasound on 2/23/00 - This study revealed gallbladder sludge but no cholelithiasis .                                                                               |
+| ir placement of a drainage catheter          | TrAP  | his abdominopelvic fluid collection | At that time he was made NPO with IVF , placed on Ampicillin / Levofloxacin / Flagyl and underwent IR placement of a drainage catheter for his abdominopelvic fluid collection |
++----------------------------------------------+-------+-------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+</code></pre></div></div>
+
+<p>The relation types (TeRP, TrAP, PIP, TrNAP, etc…) are described <a href="https://www.i2b2.org/NLP/Relations/assets/Relation%20Annotation%20Guideline.pdf">here</a></p>
+
+<p>Let’s take a look at the first sentence!</p>
+
+<p><code class="language-plaintext highlighter-rouge">She states this light-headedness is often associated with shortness of breath and diaphoresis occasionally with nausea</code></p>
+
+<p>As we see in the table, the sentences includes a <code class="language-plaintext highlighter-rouge">PIP</code> relationship (<code class="language-plaintext highlighter-rouge">Medical problem indicates medical problem</code>), meaning that in that sentence, chunk1 (<code class="language-plaintext highlighter-rouge">light-headedness</code>) <em>indicates</em> chunk2 (<code class="language-plaintext highlighter-rouge">diaphoresis</code>).</p>
+
+<p>We set a list of candidates tags (<code class="language-plaintext highlighter-rouge">[PIP, TrAP, TrNAP, TrWP, O]</code>) and candidate sentences (<code class="language-plaintext highlighter-rouge">[light-headedness caused diaphoresis, light-headedness was administered for diaphoresis, light-headedness was not given for diaphoresis, light-headedness worsened diaphoresis]</code>), meaning that:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">PIP</code> is expressed by <code class="language-plaintext highlighter-rouge">light-headedness caused diaphoresis</code></li>
+  <li><code class="language-plaintext highlighter-rouge">TrAP</code> is expressed by <code class="language-plaintext highlighter-rouge">light-headedness was administered for diaphoresis</code></li>
+  <li><code class="language-plaintext highlighter-rouge">TrNAP</code> is expressed by <code class="language-plaintext highlighter-rouge">light-headedness was not given for diaphoresis</code></li>
+  <li><code class="language-plaintext highlighter-rouge">TrWP</code> is expressed by <code class="language-plaintext highlighter-rouge">light-headedness worsened diaphoresis</code></li>
+  <li>or something generic, like <code class="language-plaintext highlighter-rouge">O</code> is expressed by <code class="language-plaintext highlighter-rouge">light-headedness and diaphoresis</code>…</li>
+</ul>
+
+<p>We will get that the biggest probability of is <code class="language-plaintext highlighter-rouge">PIP</code>, since it’s phrase <code class="language-plaintext highlighter-rouge">light-headedness caused diaphoresis</code> is the most similar relationship expressing the meaning in the original sentence (<code class="language-plaintext highlighter-rouge">light-headnedness is often associated with ... and diaphoresis</code>)</p>
+
+<p>The example code is the following:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+re_ner_chunk_filter = sparknlp_jsl.annotator.RENerChunksFilter() \
+    .setRelationPairs(["problem-test","problem-treatment"]) \
+    .setMaxSyntacticDistance(4)\
+    .setDocLevelRelations(False)\
+    .setInputCols(["ner_chunks", "dependencies"]) \
+    .setOutputCol("re_ner_chunks")
+
+# The relations are defined by a map- keys are relation label, values are lists of predicated statements. The variables in curly brackets are NER entities, there could be more than one, e.g. " improves "
+re_model = sparknlp_jsl.annotator.ZeroShotRelationExtractionModel \
+    .pretrained("re_zeroshot_biobert", "en", "clinical/models")\
+    .setRelationalCategories({
+        "CURE": [" cures ."],
+        "IMPROVE": [" improves .", " cures ."],
+        "REVEAL": [" reveals ."]})\
+    .setMultiLabel(False)\
+    .setInputCols(["re_ner_chunks", "sentences"]) \
+    .setOutputCol("relations")
+
+pipeline = sparknlp.base.Pipeline() \
+    .setStages([documenter, tokenizer, sentencer, words_embedder, pos_tagger, ner_tagger, ner_converter,
+                dependency_parser, re_ner_chunk_filter, re_model])
+		
+data = spark.createDataFrame(
+    [["Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer."]]
+).toDF("text")
+
+model = pipeline.fit(data)
+results = model.transform(data)
+
+results\
+    .selectExpr("explode(relations) as relation")\
+    .show(truncate=False)    
+</code></pre></div></div>
+
+<p>Results:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|relation                                                                                                                                                                                                                                                                                                                                                              |
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|{category, 534, 613, REVEAL, {entity1_begin -&gt; 48, relation -&gt; REVEAL, hypothesis -&gt; An MRI test reveals cancer., confidence -&gt; 0.9760039, nli_prediction -&gt; entail, entity1 -&gt; TEST, syntactic_distance -&gt; 4, chunk2 -&gt; cancer, entity2_end -&gt; 85, entity1_end -&gt; 58, entity2_begin -&gt; 80, entity2 -&gt; PROBLEM, chunk1 -&gt; An MRI test, sentence -&gt; 1}, []}            |
+|{category, 267, 357, IMPROVE, {entity1_begin -&gt; 0, relation -&gt; IMPROVE, hypothesis -&gt; Paracetamol improves sickness., confidence -&gt; 0.98819494, nli_prediction -&gt; entail, entity1 -&gt; TREATMENT, syntactic_distance -&gt; 3, chunk2 -&gt; sickness, entity2_end -&gt; 45, entity1_end -&gt; 10, entity2_begin -&gt; 38, entity2 -&gt; PROBLEM, chunk1 -&gt; Paracetamol, sentence -&gt; 0}, []}|
+|{category, 0, 90, IMPROVE, {entity1_begin -&gt; 0, relation -&gt; IMPROVE, hypothesis -&gt; Paracetamol improves headache., confidence -&gt; 0.9929625, nli_prediction -&gt; entail, entity1 -&gt; TREATMENT, syntactic_distance -&gt; 2, chunk2 -&gt; headache, entity2_end -&gt; 33, entity1_end -&gt; 10, entity2_begin -&gt; 26, entity2 -&gt; PROBLEM, chunk1 -&gt; Paracetamol, sentence -&gt; 0}, []}    |
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+</code></pre></div></div>
+
+<p>Take a look at the example notebook <a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.3.ZeroShot_Clinical_Relation_Extraction.ipynb">here</a>.</p>
+
+<p>Stay tuned for the <strong>few-shot</strong> Annotator to be release soon!</p>
+
+<h4 id="new-french-deidentification-ner-models-and-pipeline">New French Deidentification NER models and pipeline</h4>
+<p>We trained two new NER models to find PHI data (protected health information) that may need to be deidentified in <strong>French</strong>. <code class="language-plaintext highlighter-rouge">ner_deid_generic</code> and <code class="language-plaintext highlighter-rouge">ner_deid_subentity</code> models are trained with in-house annotations.</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ner_deid_generic</code> : Detects 7 PHI entities in French (<code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">NAME</code>, <code class="language-plaintext highlighter-rouge">LOCATION</code>, <code class="language-plaintext highlighter-rouge">PROFESSION</code>, <code class="language-plaintext highlighter-rouge">CONTACT</code>, <code class="language-plaintext highlighter-rouge">AGE</code>, <code class="language-plaintext highlighter-rouge">ID</code>).</li>
+  <li><code class="language-plaintext highlighter-rouge">ner_deid_subentity</code> : Detects 15 PHI sub-entities in French (<code class="language-plaintext highlighter-rouge">PATIENT</code>, <code class="language-plaintext highlighter-rouge">HOSPITAL</code>, <code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">ORGANIZATION</code>, <code class="language-plaintext highlighter-rouge">E-MAIL</code>, <code class="language-plaintext highlighter-rouge">USERNAME</code>, <code class="language-plaintext highlighter-rouge">ZIP</code>, <code class="language-plaintext highlighter-rouge">MEDICALRECORD</code>, <code class="language-plaintext highlighter-rouge">PROFESSION</code>, <code class="language-plaintext highlighter-rouge">PHONE</code>, <code class="language-plaintext highlighter-rouge">DOCTOR</code>, <code class="language-plaintext highlighter-rouge">AGE</code>, <code class="language-plaintext highlighter-rouge">STREET</code>, <code class="language-plaintext highlighter-rouge">CITY</code>, <code class="language-plaintext highlighter-rouge">COUNTRY</code>).
+<em>Example</em> :
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+embeddings <span class="o">=</span> WordEmbeddingsModel.pretrained<span class="o">(</span><span class="s2">"w2v_cc_300d"</span>, <span class="s2">"fr"</span><span class="o">)</span><span class="se">\</span>
+  .setInputCols<span class="o">([</span><span class="s2">"sentence"</span>, <span class="s2">"token"</span><span class="o">])</span><span class="se">\</span>
+     .setOutputCol<span class="o">(</span><span class="s2">"embeddings"</span><span class="o">)</span>
+deid_ner <span class="o">=</span> MedicalNerModel.pretrained<span class="o">(</span><span class="s2">"ner_deid_generic"</span>, <span class="s2">"fr"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span><span class="se">\</span>
+  .setInputCols<span class="o">([</span><span class="s2">"sentence"</span>, <span class="s2">"token"</span>, <span class="s2">"embeddings"</span><span class="o">])</span><span class="se">\</span>
+  .setOutputCol<span class="o">(</span><span class="s2">"ner"</span><span class="o">)</span>
+deid_sub_entity_ner <span class="o">=</span> MedicalNerModel.pretrained<span class="o">(</span><span class="s2">"ner_deid_subentity"</span>, <span class="s2">"fr"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span><span class="se">\</span>
+  .setInputCols<span class="o">([</span><span class="s2">"sentence"</span>, <span class="s2">"token"</span>, <span class="s2">"embeddings"</span><span class="o">])</span><span class="se">\</span>
+  .setOutputCol<span class="o">(</span><span class="s2">"ner_sub_entity"</span><span class="o">)</span>
+...
+text <span class="o">=</span> <span class="s2">"""J'ai vu en consultation Michel Martinez (49 ans) adressé au Centre Hospitalier De Plaisir pour un diabète mal contrôlé avec des symptômes datant de Mars 2015."""</span>
+result <span class="o">=</span> model.transform<span class="o">(</span>spark.createDataFrame<span class="o">([[</span>text]], <span class="o">[</span><span class="s2">"text"</span><span class="o">]))</span>
+</code></pre></div>    </div>
+    <p><em>Results</em> :</p>
+  </li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| chunk              		| ner_deid_generic_chunk | ner_deid_subentity_chunk |
+|-------------------------------|------------------------|--------------------------|
+| Michel Martinez    		| NAME                   | PATIENT                  |
+| 49 ans             		| AGE                    | AGE                      |
+| Centre Hospitalier De Plaisir | LOCATION        	 | HOSPITAL                 |
+| Mars 2015          		| DATE                   | DATE                     |
+</code></pre></div></div>
+
+<p>We also developed a clinical deidentification pretrained pipeline that can be used to deidentify PHI information from <strong>French</strong> medical texts. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask and obfuscate the following entities: <code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">AGE</code>, <code class="language-plaintext highlighter-rouge">SEX</code>, <code class="language-plaintext highlighter-rouge">PROFESSION</code>, <code class="language-plaintext highlighter-rouge">ORGANIZATION</code>, <code class="language-plaintext highlighter-rouge">PHONE</code>, <code class="language-plaintext highlighter-rouge">E-MAIL</code>, <code class="language-plaintext highlighter-rouge">ZIP</code>, <code class="language-plaintext highlighter-rouge">STREET</code>, <code class="language-plaintext highlighter-rouge">CITY</code>, <code class="language-plaintext highlighter-rouge">COUNTRY</code>, <code class="language-plaintext highlighter-rouge">PATIENT</code>, <code class="language-plaintext highlighter-rouge">DOCTOR</code>, <code class="language-plaintext highlighter-rouge">HOSPITAL</code>, <code class="language-plaintext highlighter-rouge">MEDICALRECORD</code>, <code class="language-plaintext highlighter-rouge">SSN</code>, <code class="language-plaintext highlighter-rouge">IDNUM</code>, <code class="language-plaintext highlighter-rouge">ACCOUNT</code>, <code class="language-plaintext highlighter-rouge">PLATE</code>, <code class="language-plaintext highlighter-rouge">USERNAME</code>, <code class="language-plaintext highlighter-rouge">URL</code>, and <code class="language-plaintext highlighter-rouge">IPADDR</code>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from sparknlp.pretrained import PretrainedPipeline
+deid_pipeline <span class="o">=</span> PretrainedPipeline<span class="o">(</span><span class="s2">"clinical_deidentification"</span>, <span class="s2">"fr"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span>
+text <span class="o">=</span> <span class="s2">"""PRENOM : Jean NOM : Dubois NUMÉRO DE SÉCURITÉ SOCIALE : 1780160471058 ADRESSE : 18 Avenue Matabiau VILLE : Grenoble CODE POSTAL : 38000"""</span>
+result <span class="o">=</span> deid_pipeline.annotate<span class="o">(</span>text<span class="o">)</span>
+</code></pre></div></div>
+<p><em>Results</em>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Masked with entity labels
+<span class="nt">------------------------------</span>
+PRENOM : &lt;PATIENT&gt; NOM : &lt;PATIENT&gt; NUMÉRO DE SÉCURITÉ SOCIALE : &lt;SSN&gt;  ADRESSE : &lt;STREET&gt; VILLE : &lt;CITY&gt; CODE POSTAL : &lt;ZIP&gt;
+Masked with chars
+<span class="nt">------------------------------</span>
+PRENOM : <span class="o">[</span><span class="k">**</span><span class="o">]</span> NOM : <span class="o">[</span><span class="k">****</span><span class="o">]</span> NUMÉRO DE SÉCURITÉ SOCIALE : <span class="o">[</span><span class="k">***********</span><span class="o">]</span>  ADRESSE : <span class="o">[</span><span class="k">****************</span><span class="o">]</span> VILLE : <span class="o">[</span><span class="k">******</span><span class="o">]</span> CODE POSTAL : <span class="o">[</span><span class="k">***</span><span class="o">]</span>
+Masked with fixed length chars
+<span class="nt">------------------------------</span>
+PRENOM : <span class="k">****</span> NOM : <span class="k">****</span> NUMÉRO DE SÉCURITÉ SOCIALE : <span class="k">****</span>  ADRESSE : <span class="k">****</span> VILLE : <span class="k">****</span> CODE POSTAL : <span class="k">****</span>
+Obfuscated
+<span class="nt">------------------------------</span>
+PRENOM : Mme Olivier NOM : Mme Traore NUMÉRO DE SÉCURITÉ SOCIALE : 164033818514436  ADRESSE : 731, boulevard de Legrand VILLE : Sainte Antoine CODE POSTAL : 37443
+</code></pre></div></div>
+
+<h4 id="new-italian-deidentification-ner-models-and-pipeline">New Italian Deidentification NER models and pipeline</h4>
+
+<p>We trained two new NER models to find PHI data (protected health information) that may need to be deidentified in <strong>Italian</strong>. <code class="language-plaintext highlighter-rouge">ner_deid_generic</code> and <code class="language-plaintext highlighter-rouge">ner_deid_subentity</code> models are trained with in-house annotations.</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ner_deid_generic</code> : Detects 8 PHI entities in Italian (<code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">NAME</code>, <code class="language-plaintext highlighter-rouge">LOCATION</code>, <code class="language-plaintext highlighter-rouge">PROFESSION</code>, <code class="language-plaintext highlighter-rouge">CONTACT</code>, <code class="language-plaintext highlighter-rouge">AGE</code>, <code class="language-plaintext highlighter-rouge">ID</code>, <code class="language-plaintext highlighter-rouge">SEX</code>).</li>
+  <li><code class="language-plaintext highlighter-rouge">ner_deid_subentity</code> : Detects 19 PHI sub-entities in Italian (<code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">AGE</code>, <code class="language-plaintext highlighter-rouge">SEX</code>, <code class="language-plaintext highlighter-rouge">PROFESSION</code>, <code class="language-plaintext highlighter-rouge">ORGANIZATION</code>, <code class="language-plaintext highlighter-rouge">PHONE</code>, <code class="language-plaintext highlighter-rouge">EMAIL</code>, <code class="language-plaintext highlighter-rouge">ZIP</code>, <code class="language-plaintext highlighter-rouge">STREET</code>, <code class="language-plaintext highlighter-rouge">CITY</code>, <code class="language-plaintext highlighter-rouge">COUNTRY</code>, <code class="language-plaintext highlighter-rouge">PATIENT</code>, <code class="language-plaintext highlighter-rouge">DOCTOR</code>, <code class="language-plaintext highlighter-rouge">HOSPITAL</code>, <code class="language-plaintext highlighter-rouge">MEDICALRECORD</code>, <code class="language-plaintext highlighter-rouge">SSN</code>, <code class="language-plaintext highlighter-rouge">IDNUM</code>, <code class="language-plaintext highlighter-rouge">USERNAME</code>, <code class="language-plaintext highlighter-rouge">URL</code>).
+<em>Example</em> :
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+embeddings <span class="o">=</span> WordEmbeddingsModel.pretrained<span class="o">(</span><span class="s2">"w2v_cc_300d"</span>, <span class="s2">"it"</span><span class="o">)</span><span class="se">\</span>
+  .setInputCols<span class="o">([</span><span class="s2">"sentence"</span>, <span class="s2">"token"</span><span class="o">])</span><span class="se">\</span>
+     .setOutputCol<span class="o">(</span><span class="s2">"embeddings"</span><span class="o">)</span>
+deid_ner <span class="o">=</span> MedicalNerModel.pretrained<span class="o">(</span><span class="s2">"ner_deid_generic"</span>, <span class="s2">"it"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span><span class="se">\</span>
+  .setInputCols<span class="o">([</span><span class="s2">"sentence"</span>, <span class="s2">"token"</span>, <span class="s2">"embeddings"</span><span class="o">])</span><span class="se">\</span>
+  .setOutputCol<span class="o">(</span><span class="s2">"ner"</span><span class="o">)</span>
+deid_sub_entity_ner <span class="o">=</span> MedicalNerModel.pretrained<span class="o">(</span><span class="s2">"ner_deid_subentity"</span>, <span class="s2">"it"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span><span class="se">\</span>
+  .setInputCols<span class="o">([</span><span class="s2">"sentence"</span>, <span class="s2">"token"</span>, <span class="s2">"embeddings"</span><span class="o">])</span><span class="se">\</span>
+  .setOutputCol<span class="o">(</span><span class="s2">"ner_sub_entity"</span><span class="o">)</span>
+...
+text <span class="o">=</span> <span class="s2">"""Ho visto Gastone Montanariello (49 anni) riferito all' Ospedale San Camillo per diabete mal controllato con sintomi risalenti a marzo 2015."""</span>
+result <span class="o">=</span> model.transform<span class="o">(</span>spark.createDataFrame<span class="o">([[</span>text]], <span class="o">[</span><span class="s2">"text"</span><span class="o">]))</span>
+</code></pre></div>    </div>
+    <p><em>Results</em> :</p>
+  </li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| chunk                | ner_deid_generic_chunk | ner_deid_subentity_chunk |
+|----------------------|------------------------|--------------------------|
+| Gastone Montanariello| NAME                   | PATIENT                  |
+| 49                   | AGE                    | AGE                      |
+| Ospedale San Camillo | LOCATION               | HOSPITAL                 |
+| marzo 2015           | DATE                   | DATE                     |
+</code></pre></div></div>
+
+<p>We also developed a clinical deidentification pretrained pipeline that can be used to deidentify PHI information from <strong>Italian</strong> medical texts. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask and obfuscate the following entities: <code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">AGE</code>, <code class="language-plaintext highlighter-rouge">SEX</code>, <code class="language-plaintext highlighter-rouge">PROFESSION</code>, <code class="language-plaintext highlighter-rouge">ORGANIZATION</code>, <code class="language-plaintext highlighter-rouge">PHONE</code>, <code class="language-plaintext highlighter-rouge">E-MAIL</code>, <code class="language-plaintext highlighter-rouge">ZIP</code>, <code class="language-plaintext highlighter-rouge">STREET</code>, <code class="language-plaintext highlighter-rouge">CITY</code>, <code class="language-plaintext highlighter-rouge">COUNTRY</code>, <code class="language-plaintext highlighter-rouge">PATIENT</code>, <code class="language-plaintext highlighter-rouge">DOCTOR</code>, <code class="language-plaintext highlighter-rouge">HOSPITAL</code>, <code class="language-plaintext highlighter-rouge">MEDICALRECORD</code>, <code class="language-plaintext highlighter-rouge">SSN</code>, <code class="language-plaintext highlighter-rouge">IDNUM</code>, <code class="language-plaintext highlighter-rouge">ACCOUNT</code>, <code class="language-plaintext highlighter-rouge">PLATE</code>, <code class="language-plaintext highlighter-rouge">USERNAME</code>, <code class="language-plaintext highlighter-rouge">URL</code>, and <code class="language-plaintext highlighter-rouge">IPADDR</code>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from sparknlp.pretrained import PretrainedPipeline
+deid_pipeline <span class="o">=</span> PretrainedPipeline<span class="o">(</span><span class="s2">"clinical_deidentification"</span>, <span class="s2">"it"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span>
+sample_text <span class="o">=</span> <span class="s2">"""NOME: Stefano Montanariello CODICE FISCALE: YXYGXN51C61Y662I INDIRIZZO: Viale Burcardo 7 CODICE POSTALE: 80139"""</span>
+result <span class="o">=</span> deid_pipeline.annotate<span class="o">(</span>sample_text<span class="o">)</span>
+</code></pre></div></div>
+<p><em>Results</em>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Masked with entity labels
+<span class="nt">------------------------------</span>
+NOME: &lt;PATIENT&gt; CODICE FISCALE: &lt;SSN&gt; INDIRIZZO: &lt;STREET&gt; CODICE POSTALE: &lt;ZIP&gt;
+
+Masked with chars
+<span class="nt">------------------------------</span>
+NOME: <span class="o">[</span><span class="k">*******************</span><span class="o">]</span> CODICE FISCALE: <span class="o">[</span><span class="k">**************</span><span class="o">]</span> INDIRIZZO: <span class="o">[</span><span class="k">**************</span><span class="o">]</span> CODICE POSTALE: <span class="o">[</span><span class="k">***</span><span class="o">]</span>
+
+Masked with fixed length chars
+<span class="nt">------------------------------</span>
+NOME: <span class="k">****</span> CODICE FISCALE: <span class="k">****</span> INDIRIZZO: <span class="k">****</span> CODICE POSTALE: <span class="k">****</span>
+
+Obfuscated
+<span class="nt">------------------------------</span>
+NOME: Stefania Gregori CODICE FISCALE: UIWSUS86M04J604B INDIRIZZO: Viale Orlando 808 CODICE POSTALE: 53581
+</code></pre></div></div>
+
+<h4 id="check-our-reference-table-for-french-and-italian-deidentification-metrics">Check our reference table for <strong>French and Italian deidentification metrics</strong></h4>
+<p>Please find this reference table with metrics comparing F1 score for the available entities in French and Italian clinical pipelines:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|Entity Label |Italian|French|
+|-------------|-------|------|
+|PATIENT      |0.9069 |0.9382|
+|DOCTOR       |0.9171 |0.9912|
+|HOSPITAL     |0.8968 |0.9375|
+|DATE         |0.9835 |0.9849|
+|AGE          |0.9832 |0.8575|
+|PROFESSION   |0.8864 |0.8147|
+|ORGANIZATION |0.7385 |0.7697|
+|STREET       |0.9754 |0.8986|
+|CITY         |0.9678 |0.8643|
+|COUNTRY      |0.9262 |0.8983|
+|PHONE        |0.9815 |0.9785|
+|USERNAME     |0.9091 |0.9239|
+|ZIP          |0.9867 |1.0   |
+|E-MAIL       |1      |1.0   |
+|MEDICALRECORD|0.8085 |0.939 |
+|SSN          |0.9286 |N/A   |
+|URL          |1      |N/A   |
+|SEX          |0.9697 |N/A   |
+|IDNUM        |0.9576 |N/A   |
+</code></pre></div></div>
+
+<h4 id="added-french-support-in-deidentification-annotaotr-for-data-obfuscation">Added French support in Deidentification Annotaotr for data obfuscation</h4>
+<p>Our <code class="language-plaintext highlighter-rouge">Deidentificator</code> annotator is now able to obfuscate entities (coming from a deid NER model) with fake data in French language. Example:</p>
+
+<p>Example code:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "fr").setInputCols(["sentence", "token"]).setOutputCol("word_embeddings")
+
+clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity", "fr", "clinical/models").setInputCols(["sentence","token", "word_embeddings"]).setOutputCol("ner")
+
+ner_converter = NerConverter().setInputCols(["sentence", "token", "ner"]).setOutputCol("ner_chunk")
+
+de_identification = DeIdentification() \
+    .setInputCols(["ner_chunk", "token", "sentence"]) \
+    .setOutputCol("dei") \
+    .setMode("obfuscate") \
+    .setObfuscateDate(True) \
+    .setRefSep("#") \
+    .setDateTag("DATE") \
+    .setLanguage("fr") \
+    .setObfuscateRefSource('faker')
+
+pipeline = Pipeline() \
+    .setStages([
+    documentAssembler,
+    sentenceDetector,
+    tokenizer,
+    embeddings,
+    clinical_ner,
+    ner_converter,
+    de_identification
+])
+sentences = [
+["""J'ai vu en consultation Michel Martinez (49 ans) adressé au Centre Hospitalier De Plaisir pour un diabète mal contrôlé avec des symptômes datant"""]
+]
+
+my_input_df = spark.createDataFrame(sentences).toDF("text")
+output = pipeline.fit(my_input_df).transform(my_input_df)
+...
+</code></pre></div></div>
+
+<p>Entities detected:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------+----------+
+|token       |entity    |
++------------+----------+
+|J'ai        |O         |
+|vu          |O         |
+|en          |O         |
+|consultation|O         |
+|Michel      |B-PATIENT |
+|Martinez    |I-PATIENT |
+|(           |O         |
+|49          |B-AGE     |
+|ans         |O         |
+|)           |O         |
+|adressé     |O         |
+|au          |O         |
+|Centre      |B-HOSPITAL|
+|Hospitalier |I-HOSPITAL|
+|De          |I-HOSPITAL|
+|Plaisir     |I-HOSPITAL|
+|pour        |O         |
+|un          |O         |
+|diabète     |O         |
+|mal         |O         |
++------------+----------+
+</code></pre></div></div>
+
+<p>Obfuscated sentence:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+|result                                                                                                                                                  |
++--------------------------------------------------------------------------------------------------------------------------------------------------------+
+|[J'ai vu en consultation Sacrispeyre Ligniez (86 ans) adressé au Centre Hospitalier Pierre Futin pour un diabète mal contrôlé avec des symptômes datant]|
++--------------------------------------------------------------------------------------------------------------------------------------------------------+
+</code></pre></div></div>
+
+<h4 id="deidentification-benchmark-spark-nlp-vs-cloud-providers-aws-azure-gcp">Deidentification benchmark: Spark NLP vs Cloud Providers (AWS, Azure, GCP)</h4>
+<p>We have published a new notebook with a benchmark and the reproduceable code, comparing Spark NLP for Healthcare Deidentification capabilities of one of our English pipelines (<code class="language-plaintext highlighter-rouge">clinical_deidentification_glove_augmented</code>) versus:</p>
+<ul>
+  <li>AWS Comprehend Medical</li>
+  <li>Azure Cognitive Services</li>
+  <li>GCP Data Loss Prevention</li>
+</ul>
+
+<p>The notebook is available <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.3.Clinical_Deidentification_SparkNLP_vs_Cloud_Providers_Comparison.ipynb">here</a>, and the results are the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        SPARK NLP   AWS    AZURE      GCP
+AGE          1      0.96    0.93      0.9
+DATE         1      0.99    0.9       0.96
+DOCTOR      0.98    0.96    0.7       0.6
+HOSPITAL    0.92    0.89    0.72      0.72
+LOCATION    0.9     0.81    0.87      0.73
+PATIENT     0.96    0.95    0.78      0.48
+PHONE        1       1      0.8       0.97
+ID          0.93    0.93     -          -
+</code></pre></div></div>
+
+<h4 id="chunkmapperapproach-mapping-extracted-entities-to-an-ontology-json-dictionary-with-relations">ChunkMapperApproach: mapping extracted entities to an ontology (Json dictionary) with relations</h4>
+<p>We have released a new annotator, called <strong>ChunkMapperApproach</strong>(), that receives a <strong>ner_chunk</strong> and a Json with a mapping of NER entities and relations, and returns the <strong>ner_chunk</strong> augmented with the relations from the Json ontology.</p>
+
+<p>Example of a small ontology with relations:</p>
+
+<p>Giving the map with entities and relationships stored in mapper.json, we will use an NER to detect entities in a text and, in case any of them is found, the <strong>ChunkMapper</strong> will augment the output with the relationships from this dictionary:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"mappings": [{
+             "key": "metformin",
+             "relations": [{
+                   "key": "action",
+                   "values" : ["hypoglycemic", "Drugs Used In Diabets"]
+                   },{
+                   "key": "treatment",
+                   "values" : ["diabetes", "t2dm"]
+                   }]
+           }]
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>text = ["""The patient was prescribed 1 unit of Advil for 5 days after meals. The patient was also 
+given 1 unit of Metformin daily.
+He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night , 
+12 units of insulin lispro with meals , and metformin 1000 mg two times a day."""]
+...
+nerconverter = NerConverterInternal()\
+  .setInputCols("sentence", "token", "ner")\
+  .setOutputCol("ner_chunk")
+
+chunkerMapper = ChunkMapperApproach() \
+  .setInputCols("ner_chunk")\
+  .setOutputCol("relations")\
+  .setDictionary("mapper.json")\
+  .setRel("action")
+
+pipeline = Pipeline().setStages([document_assembler,sentence_detector,tokenizer, ner, nerconverter, chunkerMapper])
+
+res = pipeline.fit(test_data).transform(test_data)
+
+res.select(F.explode('ner_chunk.result').alias("chunks")).show(truncate=False)
+</code></pre></div></div>
+
+<p>Entities:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------+
+|chunks          |
++----------------+
+|Metformin       |
+|insulin glargine|
+|insulin lispro  |
+|metformin       |
+|mg              |
+|times           |
++----------------+
+</code></pre></div></div>
+
+<p>Checking the relations:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+pd_df = res.select(F.explode('relations').alias('res')).select('res.result', 'res.metadata').toPandas()
+...
+</code></pre></div></div>
+
+<p>Results:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Entity:					metformin
+Main relation:				hypoglycemic
+Other relations (included in metadata):	Drugs Used In Diabets
+</code></pre></div></div>
+
+<h4 id="configuration-of-case-sensitivity-in-the-name-of-the-relations-in-relation-extraction-models">Configuration of case sensitivity in the name of the relations in Relation Extraction Models</h4>
+<p>We have added a new parameter, called ‘relationPairsCaseSensitive’, which affects the way <code class="language-plaintext highlighter-rouge">setRelationPairs</code> works. If <code class="language-plaintext highlighter-rouge">relationPairsCaseSensitive</code> is True, then the pairs of entities in the dataset should match the pairs in setRelationPairs in their specific case (case sensitive). By default it’s set to False, meaning that the match of those relation names is case insensitive.</p>
+
+<p>Before 3.5.0, <code class="language-plaintext highlighter-rouge">.setRelationPairs(["dosage-drug"])</code> would not return relations if it was trained with a relation called <code class="language-plaintext highlighter-rouge">DOSAGE-DRUG</code> (different casing). Now, setting <code class="language-plaintext highlighter-rouge">.setRelationPairs(["dosage-drug"])</code>and <code class="language-plaintext highlighter-rouge">relationPairsCaseSensitive(False)</code> or just leaving it by default, it will return any <code class="language-plaintext highlighter-rouge">dosage-drug</code> or <code class="language-plaintext highlighter-rouge">DOSAGE-DRUG</code> relationship.</p>
+
+<p>Example of usage in Python:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+reModel = RelationExtractionModel()\
+    .pretrained("posology_re")\
+    .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
+    .setMaxSyntacticDistance(4)\
+    .setRelationPairs(["dosage-drug"]) \
+    .setRelationPairsCaseSensitive(False) \
+    .setOutputCol("relations_case_insensitive")
+...
+</code></pre></div></div>
+
+<p>This will return relations named dosage-drug, DOSAGE-DRUG, etc.</p>
+
+<h4 id="we-have-reached-the-milestone-of-600-clinical-models-and-5000-models-overall--">We have reached the milestone of 600 clinical models (and 5000+ models overall) ! 🥳</h4>
+<p>This release added to Spark NLP Models Hub 100+ pretrained clinical pipelines, available to use as one-liners, including some of the most used NER models, namely:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ner_deid_generic_pipeline_de</code>: German deidentification pipeline with aggregated (generic) labels</li>
+  <li><code class="language-plaintext highlighter-rouge">ner_deid_subentity_pipeline_de</code>: German deidentification pipeline with specific (subentity) labels</li>
+  <li><code class="language-plaintext highlighter-rouge">ner_clinical_biobert_pipeline_en</code>: A pretrained pipeline based on <code class="language-plaintext highlighter-rouge">ner_clinical_biobert</code> to carry out NER on BioBERT embeddings</li>
+  <li><code class="language-plaintext highlighter-rouge">ner_abbreviation_clinical_pipeline_en</code>: A pretrained pipeline based on <code class="language-plaintext highlighter-rouge">ner_abbreviation_clinical</code> that detects medical acronyms and abbreviations</li>
+  <li><code class="language-plaintext highlighter-rouge">ner_ade_biobert_pipeline_en</code>: A pretrained pipeline based on <code class="language-plaintext highlighter-rouge">ner_ade_biobert</code> to carry out Adverse Drug Events NER recognition using BioBERT embeddings</li>
+  <li><code class="language-plaintext highlighter-rouge">ner_ade_clinical_pipeline_en</code>: Similar to the previous one, but using <code class="language-plaintext highlighter-rouge">clinical_embeddings</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ner_radiology_pipeline_en</code>: A pretrained pipeline to detect Radiology entities (coming from <code class="language-plaintext highlighter-rouge">ner_radiology_wip</code> model)</li>
+  <li><code class="language-plaintext highlighter-rouge">ner_events_clinical_pipeline_en</code>: A pretrained pipeline to extract Clinical Events related entities (leveraging <code class="language-plaintext highlighter-rouge">ner_events_clinical</code>)</li>
+  <li><code class="language-plaintext highlighter-rouge">ner_anatomy_biobert_pipeline_en</code>: A pretrained pipeline to extract Anamoty entities (from <code class="language-plaintext highlighter-rouge">ner_anamoty_biobert</code>)</li>
+  <li>…100 more</li>
+</ul>
+
+<p>Here is how you can use any of the pipelines with one line of code:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from sparknlp.pretrained import PretrainedPipeline
+
+pipeline = PretrainedPipeline("explain_clinical_doc_medication", "en", "clinical/models")
+
+result = pipeline.fullAnnotate("""The patient is a 30-year-old female with a long history of insulin dependent diabetes, type 2. She received a course of Bactrim for 14 days for UTI.  She was prescribed 5000 units of Fragmin  subcutaneously daily, and along with Lantus 40 units subcutaneously at bedtime.""")[0]
+</code></pre></div></div>
+
+<p>Results:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----+----------------+------------+
+|    | chunks         | entities   |
+|---:|:---------------|:-----------|
+|  0 | insulin        | DRUG       |
+|  1 | Bactrim        | DRUG       |
+|  2 | for 14 days    | DURATION   |
+|  3 | 5000 units     | DOSAGE     |
+|  4 | Fragmin        | DRUG       |
+|  5 | subcutaneously | ROUTE      |
+|  6 | daily          | FREQUENCY  |
+|  7 | Lantus         | DRUG       |
+|  8 | 40 units       | DOSAGE     |
+|  9 | subcutaneously | ROUTE      |
+| 10 | at bedtime     | FREQUENCY  |
++----+----------------+------------+
++----+----------+------------+-------------+
+|    | chunks   | entities   | assertion   |
+|---:|:---------|:-----------|:------------|
+|  0 | insulin  | DRUG       | Present     |
+|  1 | Bactrim  | DRUG       | Past        |
+|  2 | Fragmin  | DRUG       | Planned     |
+|  3 | Lantus   | DRUG       | Planned     |
++----+----------+------------+-------------+
++----------------+-----------+------------+-----------+----------------+
+| relation       | entity1   | chunk1     | entity2   | chunk2         |
+|:---------------|:----------|:-----------|:----------|:---------------|
+| DRUG-DURATION  | DRUG      | Bactrim    | DURATION  | for 14 days    |
+| DOSAGE-DRUG    | DOSAGE    | 5000 units | DRUG      | Fragmin        |
+| DRUG-ROUTE     | DRUG      | Fragmin    | ROUTE     | subcutaneously |
+| DRUG-FREQUENCY | DRUG      | Fragmin    | FREQUENCY | daily          |
+| DRUG-DOSAGE    | DRUG      | Lantus     | DOSAGE    | 40 units       |
+| DRUG-ROUTE     | DRUG      | Lantus     | ROUTE     | subcutaneously |
+| DRUG-FREQUENCY | DRUG      | Lantus     | FREQUENCY | at bedtime     |
++----------------+-----------+------------+-----------+----------------+
+</code></pre></div></div>
+
+<p>We have updated our <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb">11.Pretrained_Clinical_Pipelines.ipynb</a> notebook to properly show this addition. Don’t forget to check it out!</p>
+
+<p>All of our scalable, production-ready Spark NLP Clinical Models and Pipelines can be found in our Models Hub</p>
+
+<p>Finally, we have added two new <strong>entityMapper</strong> models: <strong>drug_ontology</strong> and <strong>section_mapper</strong></p>
+
+<p>For all Spark NLP for healthcare models, please check our <a href="https://nlp.johnsnowlabs.com/models?edition=Spark+NLP+for+Healthcare">Models Hub webpage</a></p>
+
+<h4 id="have-you-checked-our-demo-page">Have you checked our demo page?</h4>
+<p>New several demos were created, available at https://nlp.johnsnowlabs.com/demos</p>
+
+<p>In this release we feature the <strong>Multilingual deidentification</strong>, showcasing how to deidentify clinical texts in English, Spanish, German, French and Italian. This demo is available <a href="https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_MULTI">here</a></p>
+
+<p><strong>For the rest of the demos, please visit https://nlp.johnsnowlabs.com/demos</strong></p>
+
+<h4 id="generate-dataframes-to-train-assertion-status-models-using-json-files-exported-from-annotation-lab-alab">Generate Dataframes to train Assertion Status Models using JSON files exported from Annotation Lab (ALAB)</h4>
+<p>Now we can generate a dataframe that can be used to train an <code class="language-plaintext highlighter-rouge">AssertionDLModel</code> by using the output of <code class="language-plaintext highlighter-rouge">AnnotationToolJsonReader.generatePlainAssertionTrainSet()</code>. The dataframe contains all the columns that you need for training.</p>
+
+<p><em>Example</em> :</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">filename</span> <span class="o">=</span> <span class="s">"../json_import.json"</span>
+<span class="n">reader</span> <span class="o">=</span> <span class="n">AnnotationToolJsonReader</span><span class="p">(</span><span class="n">assertion_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s">'AsPresent'</span><span class="p">,</span> <span class="s">'AsAbsent'</span><span class="p">,</span> <span class="s">'AsConditional'</span><span class="p">,</span> <span class="s">'AsHypothetical'</span><span class="p">,</span> <span class="s">'AsFamily'</span><span class="p">,</span> <span class="s">'AsPossible'</span><span class="p">,</span> <span class="s">'AsElse'</span><span class="p">])</span>
+<span class="n">df</span> <span class="o">=</span>  <span class="n">reader</span><span class="p">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+<span class="n">reader</span><span class="p">.</span><span class="n">generatePlainAssertionTrainSet</span><span class="p">(</span><span class="n">df</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><em>Results</em> :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------+--------------------------------------------+-----+---+-----------+---------+
+|task_id|sentence                                    |begin|end|ner        |assertion|
++-------+--------------------------------------------+-----+---+-----------+---------+
+|1      |Patient has a headache for the last 2 weeks |2    |3  |a headache |AsPresent|
++-------+--------------------------------------------+-----+---+-----------+---------+
+</code></pre></div></div>
+
+<h4 id="understand-how-to-scale-from-a-poc-to-production-using-spark-nlp-for-healthcare-in-our-new-medium-article-available-here">Understand how to scale from a PoC to Production using Spark NLP for Healthcare in our new Medium Article, available here</h4>
+
+<p>We receive many questions about how Spark work distribution is carried out, what specially becomes important before making the leap from a PoC to a big scalable, production-ready cluster.</p>
+
+<p>This article helps you understand:</p>
+<ul>
+  <li>How many different ways to create a cluster are available, as well as their advantages and disadvantages;</li>
+  <li>How to scale all of them;</li>
+  <li>How to take advantage of autoscalability and autotermination policy in Cloud Providers;</li>
+  <li>Which are the steps to take depending on your infrastructure, to make the leap to production;</li>
+</ul>
+
+<p>If you need further assistance, please reach our Support team at <a href="mailto:support@johnsnowlabs.com">support@johnsnowlabs.com</a></p>
+
+<h4 id="contextual-parser-our-rule-based-ner-annotator-is-now-much-more-performant">Contextual Parser (our Rule-based NER annotator) is now much more performant!</h4>
+<p>Contextual Parser has been improved in terms of performance. These are the metrics comparing 3.4.2 and 3.5.0</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4 cores and 30 GB RAM
+=====================
+	10 MB	20 MB	30MB	50MB		
+3.4.2	349	786	982	1633		
+3.5.0   142	243	352	556		
+
+8 cores and 60 GB RAM
+=====================
+	10 MB	20 MB	30MB	50MB
+3.4.2	197	373	554	876
+3.5.0   79	136	197	294
+</code></pre></div></div>
+
+<h4 id="we-have-reached-the-milestone-of-600-clinical-demos">We have reached the milestone of 600 clinical demos!</h4>
+<p>During this release, we included:</p>
+<ul>
+  <li>More than 100+ recently created clinical models and pipelines, including NER, NER+RE, NER+Assertion+RE, etc.</li>
+  <li>Added two new <code class="language-plaintext highlighter-rouge">entityMapper</code> models: <code class="language-plaintext highlighter-rouge">drug_action_treatment_mapper</code> and <code class="language-plaintext highlighter-rouge">normalized_section_header_mapper</code></li>
+</ul>
+
+<p><strong>For all Spark NLP for healthcare models, please check : <a href="https://nlp.johnsnowlabs.com/models?edition=Spark+NLP+for+Healthcare">Models Hub Page</a></strong></p>
+
+<h4 id="bug-fixing-and-compatibility-additions">Bug fixing and compatibility additions</h4>
+<p>This is the list of fixed issues and bugs, as well as one compatibility addition between <strong>EntityRuler</strong> and <strong>AssertionFiltered</strong>:</p>
+
+<ul>
+  <li><strong>Error in AssertionDLApproach and AssertionLogRegApproach</strong>: an error was being triggered wthen the dataset contained long (64bits) instead of 32 bits integers for the start / end columns. Now this bug is fixed.</li>
+  <li><strong>Error in BertSentenceChunkEmbeddings</strong>: loading a model after downloading it with pretrained() was triggering an error. Not you can load any model after downloading it with <code class="language-plaintext highlighter-rouge">pretrained()</code>.</li>
+  <li>Adding <strong>setIncludeConfidence</strong> to AssertionDL Python version, where it was missing. Now, it’s included in both Python and Scala, as described <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLModel.html#setIncludeConfidence(value:Boolean):AssertionDLModel.this.type">here</a></li>
+  <li><strong>Making EntityRuler and AssertionFiltered compatible</strong>: AssertionFilterer annotator that is being used to filter the entities based on entity labels now can be used by EntityRulerApproach, a rule based entity extractor:</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Path("test_file.jsonl").write_text(json.dumps({"id":"cough","label":"COUGH","patterns":["cough","coughing"]}))
+...
+entityRuler = EntityRulerApproach()\
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("ner_chunk")\
+    .setPatternsResource("test_file.jsonl", ReadAs.TEXT, {"format": "jsonl"})
+
+clinical_assertion = AssertionDLModel.pretrained("assertion_dl", "en", "clinical/models") \
+    .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
+    .setOutputCol("assertion")
+
+assertion_filterer = AssertionFilterer()\
+    .setInputCols("sentence","ner_chunk","assertion")\
+    .setOutputCol("assertion_filtered")\
+    .setWhiteList(["present"])\
+
+...
+
+empty_data = spark.createDataFrame([[""]]).toDF("text")
+ruler_model = rulerPipeline.fit(empty_data)
+
+text = "I have a cough but no fatigue or chills."
+
+ruler_light_model = LightPipeline(ruler_model).fullAnnotate(text)[0]['assertion_filtered']
+</code></pre></div></div>
+
+<p>Result:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Annotation(chunk, 9, 13, cough, {'entity': 'COUGH', 'id': 'cough', 'sentence': '0'})]
+</code></pre></div></div>
+
+<h4 id="new-notebooks-zero-shot-relation-extraction-and-deidentification-benchmark-spark-nlp-and-cloud-providers"><strong>New notebooks: zero-shot relation extraction and Deidentification benchmark (Spark NLP and Cloud Providers)</strong></h4>
+<p>Check these recently notebooks created by our Healthcare team and available in our <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/">Spark NLP Workshop git repo</a>, where you can find many more.</p>
+<ul>
+  <li>Zero-shot Relation Extraction, available <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.3.ZeroShot_Clinical_Relation_Extraction.ipynb">here</a>.</li>
+  <li>Deidentification benchmark (SparkNLP and Cloud Providers), available <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.3.Clinical_Deidentification_SparkNLP_vs_Cloud_Providers_Comparison.ipynb">here</a></li>
+</ul>
+
+<h2 id="342">3.4.2</h2>
+<p>We are glad to announce that Spark NLP Healthcare 3.4.2 has been released!</p>
+
+<h4 id="highlights-1">Highlights</h4>
 
 <ul>
   <li>New RCT Classifier, NER models and pipeline (Deidentification)</li>
@@ -720,7 +1353,7 @@ Clinica San Carlos       HOSPITAL            LOCATION
 
 <p>We are glad to announce that Spark NLP Healthcare 3.4.1 has been released!</p>
 
-<h4 id="highlights-1">Highlights</h4>
+<h4 id="highlights-2">Highlights</h4>
 
 <ul>
   <li>Brand new Spanish deidentification NER models</li>
@@ -1218,7 +1851,7 @@ visualiser.display<span class="o">(</span>light_result[0], <span class="nv">labe
 <p>We are glad to announce that Spark NLP Healthcare 3.4.0 has been released!
 This is a massive release: new features, new models, academic papers, and more!</p>
 
-<h4 id="highlights-2">Highlights</h4>
+<h4 id="highlights-3">Highlights</h4>
 
 <ul>
   <li>New German Deidentification NER Models</li>
@@ -2083,7 +2716,7 @@ and Couto 2020), (Crone 2020), and (Yang et al. 2021) respectively.</em></p>
 <h2 id="334">3.3.4</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.3.4 has been released!</p>
 
-<h4 id="highlights-3">Highlights</h4>
+<h4 id="highlights-4">Highlights</h4>
 
 <ul>
   <li>New Clinical NER Models</li>
@@ -2615,7 +3248,7 @@ UpdateModels.updateModels<span class="o">(</span><span class="s2">"11/24/2021"</
 <h2 id="332">3.3.2</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.3.2 has been released!.</p>
 
-<h4 id="highlights-4">Highlights</h4>
+<h4 id="highlights-5">Highlights</h4>
 
 <ul>
   <li>New Clinical NER Models and Spanish NER Model</li>
@@ -3220,7 +3853,7 @@ PROCEDURE:  Right VATS pleurodesis and pleural biopsy."""</span><span class="p">
 <h2 id="331">3.3.1</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.3.1 has been released!.</p>
 
-<h4 id="highlights-5">Highlights</h4>
+<h4 id="highlights-6">Highlights</h4>
 <ul>
   <li>New ChunkKeyPhraseExtraction Annotator</li>
   <li>New BERT-Based NER Models</li>
@@ -3503,7 +4136,7 @@ results <span class="o">=</span> model.fit<span class="o">(</span>data<span clas
 <h2 id="330">3.3.0</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.3.0 has been released!.</p>
 
-<h4 id="highlights-6">Highlights</h4>
+<h4 id="highlights-7">Highlights</h4>
 <ul>
   <li>NER Finder Pretrained Pipelines to Run Run 48 different Clinical NER and 21 Different Biobert Models At Once Over the Input Text</li>
   <li>3 New Sentence Entity Resolver Models (3-char ICD10CM, RxNorm_NDC, HCPCS)</li>
@@ -4211,7 +4844,7 @@ To use this feature, you just need to make sure that you always call the start()
 <h2 id="323">3.2.3</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.2.3 has been released!.</p>
 
-<h4 id="highlights-7">Highlights</h4>
+<h4 id="highlights-8">Highlights</h4>
 <ul>
   <li>New BERT-Based Deidentification NER Model</li>
   <li>New Sentence Entity Resolver Models For German Language</li>
@@ -4493,7 +5126,7 @@ Here, you can see that as we have provided the same seed <span class="sb">`</spa
 <h2 id="322">3.2.2</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.2.2 has been released!.</p>
 
-<h4 id="highlights-8">Highlights</h4>
+<h4 id="highlights-9">Highlights</h4>
 <ul>
   <li>New NER Model For Detecting Drugs, Posology, and Administration Cycles</li>
   <li>New Sentence Entity Resolver Models</li>
@@ -4740,7 +5373,7 @@ results <span class="o">=</span> model.transform<span class="o">(</span>spark.cr
 <h2 id="321">3.2.1</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.2.1 has been released!.</p>
 
-<h4 id="highlights-9">Highlights</h4>
+<h4 id="highlights-10">Highlights</h4>
 
 <ul>
   <li>Deprecated ChunkEntityResolver.</li>
@@ -5122,7 +5755,7 @@ medicaid: If the patient is in Medicaid or not.
 <h2 id="320">3.2.0</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.2.0 has been released!.</p>
 
-<h4 id="highlights-10">Highlights</h4>
+<h4 id="highlights-11">Highlights</h4>
 
 <ul>
   <li>New Sentence Boundary Detection Model for Healthcare text</li>
@@ -5814,7 +6447,7 @@ results = model.transform(spark.createDataFrame([[text]], ["text"]))
 <p>We are glad to announce that Spark NLP for Healthcare 3.1.3 has been released!.
 This release comes with new features, new models, bug fixes, and examples.</p>
 
-<h4 id="highlights-11">Highlights</h4>
+<h4 id="highlights-12">Highlights</h4>
 <ul>
   <li>New Relation Extraction model and a Pretrained pipeline for extracting and linking ADEs</li>
   <li>New Entity Resolver model for SNOMED codes</li>
@@ -5927,7 +6560,7 @@ Relations:
 <p>We are glad to announce that Spark NLP for Healthcare 3.1.2 has been released!.
 This release comes with new features, new models, bug fixes, and examples.</p>
 
-<h4 id="highlights-12">Highlights</h4>
+<h4 id="highlights-13">Highlights</h4>
 <ul>
   <li>Support for Fine-tuning of Ner models.</li>
   <li>More builtin(pre-defined) graphs for MedicalNerApproach.</li>
@@ -6113,7 +6746,7 @@ print(compatibility.findVersion('sentence_detector_dl_healthcare'))
 <h2 id="311">3.1.1</h2>
 <p>We are glad to announce that Spark NLP for Healthcare 3.1.1 has been released!</p>
 
-<h4 id="highlights-13">Highlights</h4>
+<h4 id="highlights-14">Highlights</h4>
 <ul>
   <li>MedicalNerModel new parameter <code class="language-plaintext highlighter-rouge">includeAllConfidenceScores</code>.</li>
   <li>MedicalNerModel new parameter <code class="language-plaintext highlighter-rouge">inferenceBatchSize</code>.</li>
@@ -6213,7 +6846,7 @@ results = model.transform(spark.createDataFrame([["The patient is a very pleasan
 
 <h2 id="310">3.1.0</h2>
 <p>We are glad to announce that Spark NLP for Healthcare 3.1.0 has been released!</p>
-<h4 id="highlights-14">Highlights</h4>
+<h4 id="highlights-15">Highlights</h4>
 <ul>
   <li>Improved load time &amp; memory consumption for SentenceResolver models.</li>
   <li>New JSL Bert Models.</li>
@@ -6775,7 +7408,7 @@ Given the sentence <code class="language-plaintext highlighter-rouge">The patien
 
 <p>We are glad to announce that Spark NLP for Healthcare 3.0.3 has been released!</p>
 
-<h4 id="highlights-15">Highlights</h4>
+<h4 id="highlights-16">Highlights</h4>
 
 <ul>
   <li>Five new entity resolution models to cover UMLS, HPO and LIONC terminologies.</li>
@@ -6858,7 +7491,7 @@ Given the sentence <code class="language-plaintext highlighter-rouge">The patien
 
 <p>We are very excited to announce that <strong>Spark NLP for Healthcare 3.0.2</strong> has been released! This release includes bug fixes and some compatibility improvements.</p>
 
-<h4 id="highlights-16">Highlights</h4>
+<h4 id="highlights-17">Highlights</h4>
 
 <ul>
   <li>Dictionaries for Obfuscator were augmented with more than 10K names.</li>
@@ -6880,7 +7513,7 @@ Given the sentence <code class="language-plaintext highlighter-rouge">The patien
 
 <p>We are very excited to announce that <strong>Spark NLP for Healthcare 3.0.1</strong> has been released!</p>
 
-<h4 id="highlights-17">Highlights:</h4>
+<h4 id="highlights-18">Highlights:</h4>
 
 <ul>
   <li>Fixed problem in Assertion Status internal tokenization (reported in Spark-NLP #2470).</li>
@@ -7008,11 +7641,11 @@ Return obfuscated documents in a repeatable manner based on the same seed.</p>
 
 <p>We are very excited to announce that <strong>Spark NLP for Healthcare 3.0.0</strong> has been released! This has been one of the biggest releases we have ever done and we are so proud to share this with our customers.</p>
 
-<h4 id="highlights-18">Highlights:</h4>
+<h4 id="highlights-19">Highlights:</h4>
 
 <p>Spark NLP for Healthcare 3.0.0 extends the support for Apache Spark 3.0.x and 3.1.x major releases on Scala 2.12 with both Hadoop 2.7. and 3.2. We now support all 4 major Apache Spark and PySpark releases of 2.3.x, 2.4.x, 3.0.x, and 3.1.x helping the customers to migrate from earlier Apache Spark versions to newer releases without being worried about Spark NLP support.</p>
 
-<h4 id="highlights-19">Highlights:</h4>
+<h4 id="highlights-20">Highlights:</h4>
 <ul>
   <li>Support for Apache Spark and PySpark 3.0.x on Scala 2.12</li>
   <li>Support for Apache Spark and PySpark 3.1.x on Scala 2.12</li>
@@ -7120,7 +7753,7 @@ print(compatibility.findVersion("ner_deid"))
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.6 has been released!</p>
 
-<h4 id="highlights-20">Highlights:</h4>
+<h4 id="highlights-21">Highlights:</h4>
 
 <ul>
   <li>
@@ -7421,7 +8054,7 @@ text =''' Provider: David Hale, M.D.
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.5 has been released!</p>
 
-<h4 id="highlights-21">Highlights:</h4>
+<h4 id="highlights-22">Highlights:</h4>
 
 <ul>
   <li>New pretrained <strong>Relation Extraction</strong> model to link clinical tests to test results and dates to clinical entities: <code class="language-plaintext highlighter-rouge">re_test_result_date</code></li>
@@ -7611,7 +8244,7 @@ text =''' Provider: David Hale, M.D.
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.4 has been released!</p>
 
-<h4 id="highlights-22">Highlights:</h4>
+<h4 id="highlights-23">Highlights:</h4>
 
 <ul>
   <li>Introducing a new annotator to extract chunks with NER tags using regex-like patterns: <strong>NerChunker</strong>.</li>
@@ -7695,7 +8328,7 @@ text = 'Patient with severe fever and sore throat, but no stomach pain.'
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.3 has been released!</p>
 
-<h4 id="highlights-23">Highlights:</h4>
+<h4 id="highlights-24">Highlights:</h4>
 
 <ul>
   <li>Introducing a brand-new <strong>RelationExtractionDL Annotator</strong> – Achieving SOTA results in clinical relation extraction using <strong>BioBert</strong>.</li>
