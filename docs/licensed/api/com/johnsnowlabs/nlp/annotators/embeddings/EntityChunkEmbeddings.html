@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings" />
+          <title>Spark NLP 3.5.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings</title>
+          <meta name="description" content="Spark NLP 3.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings" />
+          <meta name="keywords" content="Spark NLP 3.5.0 ScalaDoc com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.5.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -207,25 +207,25 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p> Entity Chunk Embeddings uses BERT Sentence embeddings to compute a weighted average vector represention of
- related entity chunks.  The input the model consists of chunks of recognized named entities. One or more entities are
- selected as target entities and for each of them a list of related entities is specified (if empty, all other entities
- are assumed to be related). The model looks for chunks of the target entities and then tries to pair each target entity
- (e.g. DRUG)  with other related entities (e.g. DOSAGE, STRENGTH, FORM, etc). The criterion for pairing a target entity
- with another related  entity is that they appear in the same sentence and the maximal syntactic distance is below a
- predefined threshold.
- The relationship between target and related entities is one-to-many, meaning that if there multiple instances of the
- same target entity (e.g.) within a sentence, the model will map a related entity (e.g. DOSAGE) to at most one of the
- instances of the target entity. For example, if there is a sentence &quot;The patient was given 125 mg of paracetamol
- and metformin&quot;, the model will pair &quot;125 mg&quot; to  &quot;paracetamol&quot;, but not to &quot;metformin&quot;.
- The output of the model is an average embeddings of the chunks of each of the target entities and their related
- entities. It is possible to specify a particular weight for each entity type.
- An entity can be defined both as target a entity and as a related entity for some other target entity. For example,
- we may want to compute the embeddings of SYMPTOMs and their related entities, as well as the embeddings of DRUGs and
- their related entities, one of each is also SYMPTOM. In such cases, it is possible to use the
- TARGET_ENTITY:RELATED_ENTITY notation to specify the weight of an related entity (e.g. &quot;DRUG:SYMPTOM&quot; to set the
- weight of SYMPTOM when it appears as an related entity to target entity DRUG). The relative weights of entities for
- particular entity chunk embeddings are available in the annotations metadata.</p><p>This model is a subclass of <span class="extype" name="BertSentenceEmbeddings">BertSentenceEmbeddings</span> and shares all parameters with it. It can load any pretrained
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Entity Chunk Embeddings uses BERT Sentence embeddings to compute a weighted average vector represention of
+related entity chunks.  The input the model consists of chunks of recognized named entities. One or more entities are
+selected as target entities and for each of them a list of related entities is specified (if empty, all other entities
+are assumed to be related). The model looks for chunks of the target entities and then tries to pair each target entity
+(e.g. DRUG)  with other related entities (e.g. DOSAGE, STRENGTH, FORM, etc). The criterion for pairing a target entity
+with another related  entity is that they appear in the same sentence and the maximal syntactic distance is below a
+predefined threshold.
+The relationship between target and related entities is one-to-many, meaning that if there multiple instances of the
+same target entity (e.g.) within a sentence, the model will map a related entity (e.g. DOSAGE) to at most one of the
+instances of the target entity. For example, if there is a sentence &quot;The patient was given 125 mg of paracetamol
+and metformin&quot;, the model will pair &quot;125 mg&quot; to  &quot;paracetamol&quot;, but not to &quot;metformin&quot;.
+The output of the model is an average embeddings of the chunks of each of the target entities and their related
+entities. It is possible to specify a particular weight for each entity type.
+An entity can be defined both as target a entity and as a related entity for some other target entity. For example,
+we may want to compute the embeddings of SYMPTOMs and their related entities, as well as the embeddings of DRUGs and
+their related entities, one of each is also SYMPTOM. In such cases, it is possible to use the
+TARGET_ENTITY:RELATED_ENTITY notation to specify the weight of an related entity (e.g. &quot;DRUG:SYMPTOM&quot; to set the
+weight of SYMPTOM when it appears as an related entity to target entity DRUG). The relative weights of entities for
+particular entity chunk embeddings are available in the annotations metadata.</p><p>This model is a subclass of <span class="extype" name="BertSentenceEmbeddings">BertSentenceEmbeddings</span> and shares all parameters with it. It can load any pretrained
 BertSentenceEmbeddings model. Available models can be found at <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>Two input columns are required - chunks and dependency annotations.</p><pre><span class="kw">val</span> embeddings = EntityChunkEmbeddings.pretrained()
   .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"dependencies"</span>)
   .setOutputCol(<span class="lit">"entity_chunk_embeddings"</span>)</pre><p>The default model is <code>&quot;sbiobert_base_cased_mli&quot;</code> from &quot;clinical/models&quot;.</p><p><b>Sources</b> :</p><p><a href="https://arxiv.org/abs/1810.04805" target="_blank">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a>
@@ -1433,7 +1433,8 @@ Entity names are case insensitive.
         <span class="name">getMaxSyntacticDistance</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       
-      <p class="shortcomment cmt">Maximal syntactic distance, as threshold (Default: 0)</p>
+      <p class="shortcomment cmt">Maximal syntactic distance, as threshold (Default: 0)
+</p>
     </li><li name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings#getModelIfNotSet" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getModelIfNotSet:com.johnsnowlabs.ml.tensorflow.TensorflowBert"></a><a id="getModelIfNotSet:TensorflowBert"></a>
       <span class="permalink">
@@ -1692,7 +1693,9 @@ Entity names are case insensitive.
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings.AnnotatorType">AnnotatorType</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Input annotator types: CHUNK, DEPENDENCY</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: CHUNK, DEPENDENCY</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings">EntityChunkEmbeddings</a> → BertSentenceEmbeddings → HasInputAnnotationCols</dd></dl></div>
+      <p class="shortcomment cmt">Input annotator types: CHUNK, DEPENDENCY
+</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: CHUNK, DEPENDENCY
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings">EntityChunkEmbeddings</a> → BertSentenceEmbeddings → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -2076,7 +2079,8 @@ Entity names are case insensitive.
         <span class="name">maxSyntacticDistance</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Maximal syntactic distance between the drug entity and the other drug related entities.</p><div class="fullcomment"><div class="comment cmt"><p>Maximal syntactic distance between the drug entity and the other drug related entities. Default value is 2.</p></div></div>
+      <p class="shortcomment cmt">Maximal syntactic distance between the drug entity and the other drug related entities.</p><div class="fullcomment"><div class="comment cmt"><p>Maximal syntactic distance between the drug entity and the other drug related entities. Default value is 2.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a><a id="msgHelper(StructType):String"></a>
       <span class="permalink">
@@ -2194,7 +2198,9 @@ Entity names are case insensitive.
         <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings.AnnotatorType">AnnotatorType</a></span>
       </span>
       
-      <p class="shortcomment cmt">Output annotator types: CHUNK</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: CHUNK</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings">EntityChunkEmbeddings</a> → BertSentenceEmbeddings → HasOutputAnnotatorType</dd></dl></div>
+      <p class="shortcomment cmt">Output annotator types: CHUNK
+</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: CHUNK
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings">EntityChunkEmbeddings</a> → BertSentenceEmbeddings → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -2686,7 +2692,8 @@ Entity names are case insensitive.
         <span class="name">setMaxSyntacticDistance</span><span class="params">(<span name="maxSyntacticDistance">maxSyntacticDistance: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings">EntityChunkEmbeddings</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt"> Set the ,aximal syntactic distance</p>
+      <p class="shortcomment cmt">Set the ,aximal syntactic distance
+</p>
     </li><li name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings#setModelIfNotSet" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setModelIfNotSet(spark:org.apache.spark.sql.SparkSession,tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper):BertSentenceEmbeddings.this.type"></a><a id="setModelIfNotSet(SparkSession,TensorflowWrapper):EntityChunkEmbeddings.this.type"></a>
       <span class="permalink">

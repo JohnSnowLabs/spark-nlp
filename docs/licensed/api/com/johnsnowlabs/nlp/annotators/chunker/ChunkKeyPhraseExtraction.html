@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.chunker.ChunkKeyPhraseExtraction</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.chunker.ChunkKeyPhraseExtraction" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.chunker.ChunkKeyPhraseExtraction" />
+          <title>Spark NLP 3.5.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.chunker.ChunkKeyPhraseExtraction</title>
+          <meta name="description" content="Spark NLP 3.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.chunker.ChunkKeyPhraseExtraction" />
+          <meta name="keywords" content="Spark NLP 3.5.0 ScalaDoc com.johnsnowlabs.nlp.annotators.chunker.ChunkKeyPhraseExtraction" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.5.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -149,6 +149,22 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.chunkmapper" visbl="pub" class="indented6 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="chunkmapper"></a><a id="chunkmapper:chunkmapper"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/chunkmapper/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="chunkmapper/index.html"><span class="name">chunkmapper</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker">chunker</a></dd></dl></div>
     </li><li class="current-entities indented5">
                         <a class="object" href="AssertionFilterer$.html" title=""></a>
                         <a class="class" href="AssertionFilterer.html" title="Filters entities coming from ASSERTION type annotations and returns the CHUNKS."></a>
@@ -170,6 +186,14 @@
                         <a class="class" href="" title="Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a text."></a>
                         <a href="" title="Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a text.">ChunkKeyPhraseExtraction</a>
                       </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="class" href="ChunkMapperApproach.html" title=""></a>
+                        <a href="ChunkMapperApproach.html" title="">ChunkMapperApproach</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="ChunkMapperModel$.html" title=""></a>
+                        <a class="class" href="ChunkMapperModel.html" title=""></a>
+                        <a href="ChunkMapperModel.html" title="">ChunkMapperModel</a>
+                      </li><li class="current-entities indented5">
                         <a class="object" href="ChunkSentenceSplitter$.html" title=""></a>
                         <a class="class" href="ChunkSentenceSplitter.html" title="Split the document using the chunks that you provided,and put in the metadata the chunk entity."></a>
                         <a href="ChunkSentenceSplitter.html" title="Split the document using the chunks that you provided,and put in the metadata the chunk entity.">ChunkSentenceSplitter</a>
@@ -181,6 +205,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedChunkKeyPhraseExtractionModel.html" title=""></a>
                         <a href="ReadablePretrainedChunkKeyPhraseExtractionModel.html" title="">ReadablePretrainedChunkKeyPhraseExtractionModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedChunkMapperModel.html" title=""></a>
+                        <a href="ReadablePretrainedChunkMapperModel.html" title="">ReadablePretrainedChunkMapperModel</a>
                       </li>
               </ul>
             </div>
@@ -211,15 +239,15 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p> Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a
- text. The input to the model consists of chunk annotations and sentence or document annotation. The model compares
- the chunks against the corresponding sentences/documents and selects the chunks which are most representative of the
- broader text context (i.e. the document or the sentence they belong to).
- The key phrases candidates (i.e. the input chunks) can be generated in various ways, e.g. by NGramGenerator,
- TextMatcher or NerConverter.
- The model operates either at sentence (selecting the most descriptive chunks from the sentence they
- belong to) or at document level. In the latter case, the key phrases are selected to represent all the input
- document annotations.</p><p>This model is a subclass of <span class="extype" name="BertSentenceEmbeddings">BertSentenceEmbeddings</span> and shares all parameters with it. It can load any pretrained
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a
+text. The input to the model consists of chunk annotations and sentence or document annotation. The model compares
+the chunks against the corresponding sentences/documents and selects the chunks which are most representative of the
+broader text context (i.e. the document or the sentence they belong to).
+The key phrases candidates (i.e. the input chunks) can be generated in various ways, e.g. by NGramGenerator,
+TextMatcher or NerConverter.
+The model operates either at sentence (selecting the most descriptive chunks from the sentence they
+belong to) or at document level. In the latter case, the key phrases are selected to represent all the input
+document annotations.</p><p>This model is a subclass of <span class="extype" name="BertSentenceEmbeddings">BertSentenceEmbeddings</span> and shares all parameters with it. It can load any pretrained
 BertSentenceEmbeddings model. Available models can be found at <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><pre><span class="kw">val</span> embeddings = ChunkKeyPhraseExtraction.pretrained()
   .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"chunk"</span>)
   .setOutputCol(<span class="lit">"key_phrase_chunks"</span>)</pre><p>The default model is <code>&quot;sbert_jsl_medium_uncased&quot;</code>, if no name is provided.</p><p><b>Sources</b> :</p><p><a href="https://dl.acm.org/doi/10.1145/290941.291025" target="_blank">The use of MMR, diversity-based reranking for reordering documents and
@@ -1275,7 +1303,8 @@ are not affected.
       </span>
       
       <p class="shortcomment cmt">Selects a combination of vectors such that the sum of their pair-wise cosines is minimized, i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Selects a combination of vectors such that the sum of their pair-wise cosines is minimized, i.e. the vectors as
-much different from each as possible.</p></div><dl class="paramcmts block"><dt class="param">vectors</dt><dd class="cmt"><p>a set of float vectors</p></dd><dt>returns</dt><dd class="cmt"><p>a list of vector indices</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+much different from each as possible.
+</p></div><dl class="paramcmts block"><dt class="param">vectors</dt><dd class="cmt"><p>a set of float vectors</p></dd><dt>returns</dt><dd class="cmt"><p>a list of vector indices</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkKeyPhraseExtraction#getConcatenateSentences" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getConcatenateSentences:Boolean"></a>
       <span class="permalink">
@@ -1698,7 +1727,9 @@ much different from each as possible.</p></div><dl class="paramcmts block"><dt c
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkKeyPhraseExtraction.AnnotatorType">AnnotatorType</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Input annotator types: DOCUMENT,CHUNK</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: DOCUMENT,CHUNK</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkKeyPhraseExtraction">ChunkKeyPhraseExtraction</a> → BertSentenceEmbeddings → HasInputAnnotationCols</dd></dl></div>
+      <p class="shortcomment cmt">Input annotator types: DOCUMENT,CHUNK
+</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: DOCUMENT,CHUNK
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkKeyPhraseExtraction">ChunkKeyPhraseExtraction</a> → BertSentenceEmbeddings → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -2172,7 +2203,9 @@ the highest MMR scores
         <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkKeyPhraseExtraction.AnnotatorType">AnnotatorType</a></span>
       </span>
       
-      <p class="shortcomment cmt">Output annotator types: CHUNK</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: CHUNK</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkKeyPhraseExtraction">ChunkKeyPhraseExtraction</a> → BertSentenceEmbeddings → HasOutputAnnotatorType</dd></dl></div>
+      <p class="shortcomment cmt">Output annotator types: CHUNK
+</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: CHUNK
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkKeyPhraseExtraction">ChunkKeyPhraseExtraction</a> → BertSentenceEmbeddings → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">

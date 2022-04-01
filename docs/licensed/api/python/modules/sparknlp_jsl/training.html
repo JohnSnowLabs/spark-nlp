@@ -7,27 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>sparknlp_jsl.training &#8212; Spark NLP 3.3.0 documentation</title>
     
-    <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
+
     
-    <link rel="stylesheet"
-      href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+  <link rel="stylesheet"
+    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
     
-    <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
     <script src="../../static/underscore.js"></script>
@@ -43,7 +40,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -140,11 +137,12 @@
                 
   <h1>Source code for sparknlp_jsl.training</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">PipelineModel</span>
-<span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">ExtendedJavaWrapper</span>
 <span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">ExtendedJavaWrapper</span>
 
 <span class="kn">from</span> <span class="nn">._tf_graph_builders.graph_builders</span> <span class="kn">import</span> <span class="n">TFGraphBuilderFactory</span>
 <span class="kn">from</span> <span class="nn">._tf_graph_builders_1x.graph_builders</span> <span class="kn">import</span> <span class="n">TFGraphBuilderFactory</span> <span class="k">as</span> <span class="n">TFGraphBuilderFactory1x</span>
+
 
 <div class="viewcode-block" id="AnnotationToolJsonReader"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.training.AnnotationToolJsonReader.html#sparknlp_jsl.training.AnnotationToolJsonReader">[docs]</a><span class="k">class</span> <span class="nc">AnnotationToolJsonReader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -168,7 +166,7 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline_model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">assertion_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">excluded_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cleanup_mode</span><span class="o">=</span><span class="s2">&quot;disabled&quot;</span><span class="p">,</span>
                  <span class="n">split_chars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">context_chars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s2">&quot;IOB&quot;</span><span class="p">,</span> <span class="n">min_chars_tol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">align_chars_tol</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                 <span class="n">merge_overlapping</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">SDDLPath</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+                 <span class="n">merge_overlapping</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">SDDLPath</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Attributes</span>
 <span class="sd">        ----------</span>
@@ -207,7 +205,7 @@
             <span class="nb">super</span><span class="p">(</span><span class="n">AnnotationToolJsonReader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.nlp.training.AnnotationToolJsonReader&quot;</span><span class="p">,</span>
                                                            <span class="n">assertion_labels</span><span class="p">,</span> <span class="n">excluded_labels</span><span class="p">,</span> <span class="n">cleanup_mode</span><span class="p">,</span>
                                                            <span class="n">split_chars</span><span class="p">,</span> <span class="n">context_chars</span><span class="p">,</span> <span class="n">scheme</span><span class="p">,</span>
-                                                           <span class="n">min_chars_tol</span><span class="p">,</span> <span class="n">align_chars_tol</span><span class="p">,</span> <span class="n">merge_overlapping</span><span class="p">,</span><span class="n">SDDLPath</span><span class="p">)</span>
+                                                           <span class="n">min_chars_tol</span><span class="p">,</span> <span class="n">align_chars_tol</span><span class="p">,</span> <span class="n">merge_overlapping</span><span class="p">,</span> <span class="n">SDDLPath</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">readDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 
@@ -222,13 +220,14 @@
         <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">generateAssertionTrainSet</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">_jdf</span><span class="p">,</span> <span class="n">sentenceCol</span><span class="p">,</span> <span class="n">assertionCol</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">jdf</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">sql_ctx</span><span class="p">)</span>
 
-    <span class="k">def</span>  <span class="nf">generateColln</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">taskColumn</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;task_id&quot;</span><span class="p">,</span> <span class="n">tokenCol</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="n">nerLabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ner_label&quot;</span><span class="p">):</span>
-        <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">generateColln</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">_jdf</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">taskColumn</span><span class="p">,</span><span class="n">tokenCol</span><span class="p">,</span><span class="n">nerLabel</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">generateConll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">taskColumn</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;task_id&quot;</span><span class="p">,</span> <span class="n">tokenCol</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span>
+                      <span class="n">nerLabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ner_label&quot;</span><span class="p">):</span>
+        <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">generateConll</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">_jdf</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">taskColumn</span><span class="p">,</span> <span class="n">tokenCol</span><span class="p">,</span> <span class="n">nerLabel</span><span class="p">)</span>
 
-    <span class="k">def</span>  <span class="nf">generatePlainAssertionTrainSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span><span class="n">taskColumn</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;task_id&quot;</span><span class="p">,</span> <span class="n">tokenCol</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="n">nerLabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ner_label&quot;</span><span class="p">,</span> <span class="n">assertion_label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;assertion_label&quot;</span><span class="p">):</span>
-        <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">generatePlainAssertionTrainSet</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">_jdf</span><span class="p">,</span><span class="n">taskColumn</span><span class="p">,</span><span class="n">tokenCol</span><span class="p">,</span><span class="n">nerLabel</span><span class="p">,</span><span class="n">assertion_label</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">generatePlainAssertionTrainSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">taskColumn</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;task_id&quot;</span><span class="p">,</span> <span class="n">tokenCol</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span>
+                                       <span class="n">nerLabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ner_label&quot;</span><span class="p">,</span> <span class="n">assertion_label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;assertion_label&quot;</span><span class="p">):</span>
+        <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">generatePlainAssertionTrainSet</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">_jdf</span><span class="p">,</span> <span class="n">taskColumn</span><span class="p">,</span> <span class="n">tokenCol</span><span class="p">,</span> <span class="n">nerLabel</span><span class="p">,</span> <span class="n">assertion_label</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">jdf</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">sql_ctx</span><span class="p">)</span></div>
-
 
 
 <div class="viewcode-block" id="CodiEspReader"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.training.CodiEspReader.html#sparknlp_jsl.training.CodiEspReader">[docs]</a><span class="k">class</span> <span class="nc">CodiEspReader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
@@ -272,8 +271,9 @@
       </div>
     </div>
   
-    <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -284,7 +284,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
 </p>
     </div>
     

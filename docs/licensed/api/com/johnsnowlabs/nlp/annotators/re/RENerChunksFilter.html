@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter" />
+          <title>Spark NLP 3.5.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter</title>
+          <meta name="description" content="Spark NLP 3.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter" />
+          <meta name="keywords" content="Spark NLP 3.5.0 ScalaDoc com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.5.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -179,8 +179,20 @@
                         <a href="ReadRelationExtractionDLModelTensorflowModel.html" title="">ReadRelationExtractionDLModelTensorflowModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
+                        <a class="trait" href="ReadZeroShotRelationExtractionModel.html" title=""></a>
+                        <a href="ReadZeroShotRelationExtractionModel.html" title="">ReadZeroShotRelationExtractionModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedRelationExtractionDLModel.html" title=""></a>
                         <a href="ReadablePretrainedRelationExtractionDLModel.html" title="">ReadablePretrainedRelationExtractionDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedZeroShotRelationExtractionModel.html" title=""></a>
+                        <a href="ReadablePretrainedZeroShotRelationExtractionModel.html" title="">ReadablePretrainedZeroShotRelationExtractionModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="RelationEncoding.html" title=""></a>
+                        <a href="RelationEncoding.html" title="">RelationEncoding</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="RelationExtractionApproach.html" title="Trains a TensorFlow model for relation extraction."></a>
@@ -197,6 +209,10 @@
                         <span class="separator"></span>
                         <a class="class" href="RelationInstance.html" title=""></a>
                         <a href="RelationInstance.html" title="">RelationInstance</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="ZeroShotRelationExtractionModel$.html" title="This is the companion object of MedicalBertForSequenceClassification."></a>
+                        <a class="class" href="ZeroShotRelationExtractionModel.html" title="ZeroShotRelationExtractionModel implements zero shot binary relations extraction by utilizing BERT transformer models trained on the NLI (Natural Language Inference) task."></a>
+                        <a href="ZeroShotRelationExtractionModel.html" title="ZeroShotRelationExtractionModel implements zero shot binary relations extraction by utilizing BERT transformer models trained on the NLI (Natural Language Inference) task.">ZeroShotRelationExtractionModel</a>
                       </li>
               </ul>
             </div>
@@ -1146,7 +1162,8 @@ This annotator is especially useful to create inputs for the <a href="RelationEx
         <span class="name">getDocLevelRelations</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      <p class="shortcomment cmt">Include relations between entities from different sentences (Default: False)</p>
+      <p class="shortcomment cmt">Include relations between entities from different sentences (Default: False)
+</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#getInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getInputCols:Array[String]"></a>
       <span class="permalink">
@@ -1194,7 +1211,8 @@ This annotator is especially useful to create inputs for the <a href="RelationEx
         <span class="name">getMaxSyntacticDistance</span><span class="result">: <span class="extype" name="scala.Float">Float</span></span>
       </span>
       
-      <p class="shortcomment cmt">Maximal syntactic distance, as threshold (Default: 0)</p>
+      <p class="shortcomment cmt">Maximal syntactic distance, as threshold (Default: 0)
+</p>
     </li><li name="org.apache.spark.ml.param.Params#getOrDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getOrDefault[T](param:org.apache.spark.ml.param.Param[T]):T"></a><a id="getOrDefault[T](Param[T]):T"></a>
       <span class="permalink">
@@ -1258,7 +1276,24 @@ This annotator is especially useful to create inputs for the <a href="RelationEx
         <span class="name">getRelationPairs</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g.</p><div class="fullcomment"><div class="comment cmt"><p>List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g. &quot;Biomarker-RelativeDay&quot;), which will be processed</p></div></div>
+      <p class="shortcomment cmt">List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g.</p><div class="fullcomment"><div class="comment cmt"><p>List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g. &quot;Biomarker-RelativeDay&quot;), which will be processed
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter#getRelationPairsCaseSensitive" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
+      <a id="getRelationPairsCaseSensitive:Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RENerChunksFilter.html#getRelationPairsCaseSensitive:Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getRelationPairsCaseSensitive</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Gets the case sensitivity of relation pairs</p>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a><a id="hasDefault[T](Param[T]):Boolean"></a>
       <span class="permalink">
@@ -1373,7 +1408,9 @@ This annotator is especially useful to create inputs for the <a href="RelationEx
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter.AnnotatorType">AnnotatorType</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Input annotator type : CHUNK, DEPENDENCY</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator type : CHUNK, DEPENDENCY</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a> → HasInputAnnotationCols</dd></dl></div>
+      <p class="shortcomment cmt">Input annotator type : CHUNK, DEPENDENCY
+</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator type : CHUNK, DEPENDENCY
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a> → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -1715,7 +1752,8 @@ This annotator is especially useful to create inputs for the <a href="RelationEx
         <span class="name">maxSyntacticDistance</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Maximal syntactic distance, as threshold (Default: 0)</p>
+      <p class="shortcomment cmt">Maximal syntactic distance, as threshold (Default: 0)
+</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a><a id="msgHelper(StructType):String"></a>
       <span class="permalink">
@@ -1833,7 +1871,9 @@ This annotator is especially useful to create inputs for the <a href="RelationEx
         <span class="name">outputAnnotatorType</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      <p class="shortcomment cmt">Output annotator type : CHUNK</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator type : CHUNK</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a> → HasOutputAnnotatorType</dd></dl></div>
+      <p class="shortcomment cmt">Output annotator type : CHUNK
+</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator type : CHUNK
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a> → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -1929,7 +1969,24 @@ This annotator is especially useful to create inputs for the <a href="RelationEx
         <span class="name">relationPairs</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g.</p><div class="fullcomment"><div class="comment cmt"><p>List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g. &quot;Biomarker-RelativeDay&quot;), which will be processed</p></div></div>
+      <p class="shortcomment cmt">List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g.</p><div class="fullcomment"><div class="comment cmt"><p>List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g. &quot;Biomarker-RelativeDay&quot;), which will be processed
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter#relationPairsCaseSensitive" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="relationPairsCaseSensitive:org.apache.spark.ml.param.BooleanParam"></a><a id="relationPairsCaseSensitive:BooleanParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RENerChunksFilter.html#relationPairsCaseSensitive:org.apache.spark.ml.param.BooleanParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">relationPairsCaseSensitive</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Determines whether relation pairs are case sensitive</p>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
       <span class="permalink">
@@ -2185,7 +2242,8 @@ sentence ids of all entities is set to 0, i.e. the sentences are merged together
 preserved in the metadata as 'orig_sentence'. The dependency annotations are not affected. Mind that the model
 which is used to extract relations may not be able to process texts that exceed a given length. It is generally a
 bad idea to search for relations between entities spanning more than 100 words unless using a model which is
-specifically trained on such data.</p></div></div>
+specifically trained on such data.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):RENerChunksFilter.this.type"></a>
       <span class="permalink">
@@ -2250,7 +2308,8 @@ specifically trained on such data.</p></div></div>
       </span>
       
       <p class="shortcomment cmt">Maximal syntactic distance, as threshold (Default: 0).</p><div class="fullcomment"><div class="comment cmt"><p>Maximal syntactic distance, as threshold (Default: 0). This constraint may not work well if setDocLevelRelations is
-set to True, because dependency parsers are poor at detecting syntactic relations across multiple sentences.</p></div></div>
+set to True, because dependency parsers are poor at detecting syntactic relations across multiple sentences.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a><a id="setOutputCol(String):RENerChunksFilter.this.type"></a>
       <span class="permalink">
@@ -2298,7 +2357,24 @@ set to True, because dependency parsers are poor at detecting syntactic relation
         <span class="name">setRelationPairs</span><span class="params">(<span name="relationPairs">relationPairs: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g.</p><div class="fullcomment"><div class="comment cmt"><p>List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g. &quot;Biomarker-RelativeDay&quot;), which will be processed</p></div></div>
+      <p class="shortcomment cmt">List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g.</p><div class="fullcomment"><div class="comment cmt"><p>List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g. &quot;Biomarker-RelativeDay&quot;), which will be processed
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter#setRelationPairsCaseSensitive" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setRelationPairsCaseSensitive(value:Boolean):RENerChunksFilter.this.type"></a><a id="setRelationPairsCaseSensitive(Boolean):RENerChunksFilter.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RENerChunksFilter.html#setRelationPairsCaseSensitive(value:Boolean):RENerChunksFilter.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setRelationPairsCaseSensitive</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Sets the case sensitivity of relation pairs</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">

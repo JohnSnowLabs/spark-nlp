@@ -8,27 +8,24 @@
 
     <title>sparknlp_jsl.annotator &#8212; Spark NLP 3.3.0 documentation</title>
     
-    <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
+
     
-    <link rel="stylesheet"
-      href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+  <link rel="stylesheet"
+    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
     
-    <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
     <script src="../../static/underscore.js"></script>
@@ -46,7 +43,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -191,6 +188,16 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html">
      sparknlp_jsl.annotator.ChunkKeyPhraseExtraction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ChunkMapperApproach.html">
+     sparknlp_jsl.annotator.ChunkMapperApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ChunkMapperModel.html">
+     sparknlp_jsl.annotator.ChunkMapperModel
     </a>
    </li>
    <li class="toctree-l2">
@@ -366,6 +373,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.SentenceResolverParams.html">
      sparknlp_jsl.annotator.SentenceResolverParams
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ZeroShotRelationExtractionModel.html">
+     sparknlp_jsl.annotator.ZeroShotRelationExtractionModel
     </a>
    </li>
   </ul>
@@ -558,9 +570,10 @@
               <div>
                 
   <section id="module-sparknlp_jsl.annotator">
-<span id="sparknlp-jsl-annotator"></span><h1>sparknlp_jsl.annotator<a class="headerlink" href="#module-sparknlp_jsl.annotator" title="Permalink to this headline">¶</a></h1>
+<span id="sparknlp-jsl-annotator"></span><h1>sparknlp_jsl.annotator<a class="headerlink" href="#module-sparknlp_jsl.annotator" title="Permalink to this headline">#</a></h1>
+<p>Module containing all available Annotators of Spark NLP Healthcare and their baseclasses.</p>
 <p class="rubric">Classes</p>
-<table class="longtable table autosummary">
+<table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="sparknlp_jsl.annotator.AnnotationMerger.html#sparknlp_jsl.annotator.AnnotationMerger" title="sparknlp_jsl.annotator.AnnotationMerger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AnnotationMerger</span></code></a></p></td>
 <td><p>Merges Annotations from multiple columns.</p></td>
@@ -600,6 +613,12 @@
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction" title="sparknlp_jsl.annotator.ChunkKeyPhraseExtraction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkKeyPhraseExtraction</span></code></a></p></td>
 <td><p>Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a text.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach" title="sparknlp_jsl.annotator.ChunkMapperApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkMapperApproach</span></code></a></p></td>
+<td><p>Merges multiple annotations into one.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel" title="sparknlp_jsl.annotator.ChunkMapperModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkMapperModel</span></code></a></p></td>
+<td><p>Merges multiple annotations into one.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="sparknlp_jsl.annotator.ChunkMergeApproach.html#sparknlp_jsl.annotator.ChunkMergeApproach" title="sparknlp_jsl.annotator.ChunkMergeApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkMergeApproach</span></code></a></p></td>
 <td><p>Merges two chunk columns coming from two annotators(NER, ContextualParser or any other annotator producing chunks).</p></td>
@@ -706,6 +725,9 @@
 <tr class="row-even"><td><p><a class="reference internal" href="sparknlp_jsl.annotator.SentenceResolverParams.html#sparknlp_jsl.annotator.SentenceResolverParams" title="sparknlp_jsl.annotator.SentenceResolverParams"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentenceResolverParams</span></code></a></p></td>
 <td><p>Class used to have a common interface Sentence Resolver family.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp_jsl.annotator.ZeroShotRelationExtractionModel.html#sparknlp_jsl.annotator.ZeroShotRelationExtractionModel" title="sparknlp_jsl.annotator.ZeroShotRelationExtractionModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ZeroShotRelationExtractionModel</span></code></a></p></td>
+<td><p>ZeroShotRelationExtractionModel implements zero shot binary relations extraction by utilizing BERT transformer</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -738,8 +760,9 @@
       </div>
     </div>
   
-    <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -750,7 +773,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
 </p>
     </div>
     

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.re" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.re" />
+          <title>Spark NLP 3.5.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re</title>
+          <meta name="description" content="Spark NLP 3.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.re" />
+          <meta name="keywords" content="Spark NLP 3.5.0 ScalaDoc com.johnsnowlabs.nlp.annotators.re" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.5.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -371,8 +371,20 @@
                         <a href="ReadRelationExtractionDLModelTensorflowModel.html" title="">ReadRelationExtractionDLModelTensorflowModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
+                        <a class="trait" href="ReadZeroShotRelationExtractionModel.html" title=""></a>
+                        <a href="ReadZeroShotRelationExtractionModel.html" title="">ReadZeroShotRelationExtractionModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedRelationExtractionDLModel.html" title=""></a>
                         <a href="ReadablePretrainedRelationExtractionDLModel.html" title="">ReadablePretrainedRelationExtractionDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedZeroShotRelationExtractionModel.html" title=""></a>
+                        <a href="ReadablePretrainedZeroShotRelationExtractionModel.html" title="">ReadablePretrainedZeroShotRelationExtractionModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="RelationEncoding.html" title=""></a>
+                        <a href="RelationEncoding.html" title="">RelationEncoding</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="RelationExtractionApproach.html" title="Trains a TensorFlow model for relation extraction."></a>
@@ -389,6 +401,10 @@
                         <span class="separator"></span>
                         <a class="class" href="RelationInstance.html" title=""></a>
                         <a href="RelationInstance.html" title="">RelationInstance</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="ZeroShotRelationExtractionModel$.html" title="This is the companion object of MedicalBertForSequenceClassification."></a>
+                        <a class="class" href="ZeroShotRelationExtractionModel.html" title="ZeroShotRelationExtractionModel implements zero shot binary relations extraction by utilizing BERT transformer models trained on the NLI (Natural Language Inference) task."></a>
+                        <a href="ZeroShotRelationExtractionModel.html" title="ZeroShotRelationExtractionModel implements zero shot binary relations extraction by utilizing BERT transformer models trained on the NLI (Natural Language Inference) task.">ZeroShotRelationExtractionModel</a>
                       </li><li name="com.johnsnowlabs.nlp.annotators.resolution" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="resolution"></a><a id="resolution:resolution"></a>
       <span class="permalink">
@@ -520,7 +536,8 @@ This class is not intended to be directly used, please use the RelationExtractio
 Possible values are
 <code>&quot;DRUG-DOSAGE&quot;, &quot;DRUG-ADE&quot;, &quot;DRUG-FORM&quot;, &quot;DRUG-FREQUENCY&quot;, &quot;DRUG-ROUTE&quot;, &quot;DRUG-REASON&quot;, &quot;DRUG-STRENGTH&quot;, &quot;DRUG-DURATION&quot;</code>.
 Please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Relation+Extraction" target="_blank">Models Hub</a> for available models.</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="RelationExtractionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel">RelationExtractionModel</a> to use the model</p></span></dd></dl></div>
+<a href="https://nlp.johnsnowlabs.com/models?task=Relation+Extraction" target="_blank">Models Hub</a> for available models.
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="RelationExtractionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel">RelationExtractionModel</a> to use the model</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.re.REDataEncoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="REDataEncoderextendsSerializable"></a><a id="REDataEncoder:REDataEncoder"></a>
       <span class="permalink">
@@ -636,6 +653,22 @@ This annotator is especially useful to create inputs for the <a href="RelationEx
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.ReadZeroShotRelationExtractionModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadZeroShotRelationExtractionModelextendsReadTensorflowModel"></a><a id="ReadZeroShotRelationExtractionModel:ReadZeroShotRelationExtractionModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/ReadZeroShotRelationExtractionModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadZeroShotRelationExtractionModel.html"><span class="name">ReadZeroShotRelationExtractionModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel">ReadTensorflowModel</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.re.ReadablePretrainedRelationExtractionDLModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="ReadablePretrainedRelationExtractionDLModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel]"></a><a id="ReadablePretrainedRelationExtractionDLModel:ReadablePretrainedRelationExtractionDLModel"></a>
       <span class="permalink">
@@ -649,6 +682,38 @@ This annotator is especially useful to create inputs for the <a href="RelationEx
       </span>
       <span class="symbol">
         <a title="" href="ReadablePretrainedRelationExtractionDLModel.html"><span class="name">ReadablePretrainedRelationExtractionDLModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</span>[<a href="RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">RelationExtractionDLModel</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</span>[<a href="RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">RelationExtractionDLModel</a>]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.ReadablePretrainedZeroShotRelationExtractionModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadablePretrainedZeroShotRelationExtractionModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel]"></a><a id="ReadablePretrainedZeroShotRelationExtractionModel:ReadablePretrainedZeroShotRelationExtractionModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/ReadablePretrainedZeroShotRelationExtractionModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadablePretrainedZeroShotRelationExtractionModel.html"><span class="name">ReadablePretrainedZeroShotRelationExtractionModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</span>[<a href="ZeroShotRelationExtractionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel">ZeroShotRelationExtractionModel</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</span>[<a href="ZeroShotRelationExtractionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel">ZeroShotRelationExtractionModel</a>]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.RelationEncoding" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="RelationEncodingextendsAnyRef"></a><a id="RelationEncoding:RelationEncoding"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RelationEncoding.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="RelationEncoding.html"><span class="name">RelationEncoding</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       
       
@@ -732,7 +797,7 @@ To start training, see the parameters that need to be set in the Parameters sect
 
 <span class="kw">val</span> model = pipeline.fit(trainData)</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="RelationExtractionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel">RelationExtractionModel</a> for pretrained models and how to use it</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="RelationExtractionDLModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel]withWriteTensorflowModelwithHasStorageRefwithHasCaseSensitivePropertieswithHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel]withCheckLicense"></a><a id="RelationExtractionDLModel:RelationExtractionDLModel"></a>
+      <a id="RelationExtractionDLModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel]withWriteTensorflowModelwithHasStorageRefwithHasCaseSensitivePropertieswithHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel]withRelationEncodingwithCheckLicense"></a><a id="RelationExtractionDLModel:RelationExtractionDLModel"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RelationExtractionDLModel.html" title="Permalink">
         <i class="material-icons"></i>
@@ -743,7 +808,7 @@ To start training, see the parameters that need to be set in the Parameters sect
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Extracts and classifies instances of relations between named entities." href="RelationExtractionDLModel.html"><span class="name">RelationExtractionDLModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">RelationExtractionDLModel</a>] with <span class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</span> with <span class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties">HasCaseSensitiveProperties</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">RelationExtractionDLModel</a>] with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
+        <a title="Extracts and classifies instances of relations between named entities." href="RelationExtractionDLModel.html"><span class="name">RelationExtractionDLModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">RelationExtractionDLModel</a>] with <span class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</span> with <span class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties">HasCaseSensitiveProperties</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">RelationExtractionDLModel</a>] with <a href="RelationEncoding.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationEncoding">RelationEncoding</a> with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
       </span>
       
       <p class="shortcomment cmt">Extracts and classifies instances of relations between named entities.</p><div class="fullcomment"><div class="comment cmt"><p>Extracts and classifies instances of relations between named entities.
@@ -897,6 +962,114 @@ need to be defined with <a href="RelationExtractionModel.html#setRelationPairs(r
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ZeroShotRelationExtractionModelextendsMedicalBertForSequenceClassificationwithRelationEncoding"></a><a id="ZeroShotRelationExtractionModel:ZeroShotRelationExtractionModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/ZeroShotRelationExtractionModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="ZeroShotRelationExtractionModel implements zero shot binary relations extraction by utilizing BERT transformer models trained on the NLI (Natural Language Inference) task." href="ZeroShotRelationExtractionModel.html"><span class="name">ZeroShotRelationExtractionModel</span></a><span class="result"> extends <a href="../classification/MedicalBertForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.MedicalBertForSequenceClassification">MedicalBertForSequenceClassification</a> with <a href="RelationEncoding.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationEncoding">RelationEncoding</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">ZeroShotRelationExtractionModel implements zero shot binary relations extraction by utilizing BERT transformer models
+trained on the NLI (Natural Language Inference) task.</p><div class="fullcomment"><div class="comment cmt"><p>ZeroShotRelationExtractionModel implements zero shot binary relations extraction by utilizing BERT transformer models
+trained on the NLI (Natural Language Inference) task. The model inputs consists of documents/sentences and paired
+NER chunks, usually obtained by RENerChunksFilter. The definitions of relations which are extracted is given by a
+dictionary structures, specifying a set of statements regarding the relationship of named entities. These statements
+are automatically appended to each document in the dataset and the NLI model is used to determine whether a particular
+relationship between entities.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> zeroShotRE = ZeroShotRelationExtractionModel.pretrained()
+  .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"label"</span>)</pre><p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Zero-Shot-Classification" target="_blank">Models Hub</a>.</p><h4>Example</h4><pre><span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="std">Array</span>(<span class="lit">"document"</span>))
+  .setOutputCol(<span class="lit">"tokens"</span>)
+
+<span class="kw">val</span> sentencer = <span class="kw">new</span> SentenceDetector()
+  .setInputCols(<span class="std">Array</span>(<span class="lit">"document"</span>))
+  .setOutputCol(<span class="lit">"sentences"</span>)
+
+<span class="kw">val</span> embeddings = WordEmbeddingsModel
+  .pretrained(<span class="lit">"embeddings_clinical"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="std">Array</span>(<span class="lit">"sentences"</span>, <span class="lit">"tokens"</span>))
+  .setOutputCol(<span class="lit">"embeddings"</span>)
+
+<span class="kw">val</span> posTagger = PerceptronModel
+  .pretrained(<span class="lit">"pos_clinical"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="std">Array</span>(<span class="lit">"sentences"</span>, <span class="lit">"tokens"</span>))
+  .setOutputCol(<span class="lit">"posTags"</span>)
+
+<span class="kw">val</span> nerTagger = MedicalNerModel
+  .pretrained(<span class="lit">"ner_clinical"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="std">Array</span>(<span class="lit">"sentences"</span>, <span class="lit">"tokens"</span>, <span class="lit">"embeddings"</span>))
+  .setOutputCol(<span class="lit">"nerTags"</span>)
+
+<span class="kw">val</span> nerConverter = <span class="kw">new</span> NerConverter()
+  .setInputCols(<span class="std">Array</span>(<span class="lit">"sentences"</span>, <span class="lit">"tokens"</span>, <span class="lit">"nerTags"</span>))
+  .setOutputCol(<span class="lit">"nerChunks"</span>)
+
+<span class="kw">val</span> dependencyParser = DependencyParserModel
+  .pretrained(<span class="lit">"dependency_conllu"</span>, <span class="lit">"en"</span>)
+  .setInputCols(<span class="std">Array</span>(<span class="lit">"document"</span>, <span class="lit">"posTags"</span>, <span class="lit">"tokens"</span>))
+  .setOutputCol(<span class="lit">"dependencies"</span>)
+
+<span class="kw">val</span> reNerFilter = <span class="kw">new</span> RENerChunksFilter()
+  .setRelationPairs(<span class="std">Array</span>(<span class="lit">"problem-test"</span>,<span class="lit">"problem-treatment"</span>))
+  .setMaxSyntacticDistance(<span class="num">4</span>)
+  .setDocLevelRelations(<span class="kw">false</span>)
+  .setInputCols(<span class="std">Array</span>(<span class="lit">"nerChunks"</span>, <span class="lit">"dependencies"</span>))
+  .setOutputCol(<span class="lit">"RENerChunks"</span>)
+
+<span class="kw">val</span> re = ZeroShotRelationExtractionModel
+  .load(<span class="lit">"/tmp/spark_sbert_zero_shot"</span>)
+  .setRelationalCategories(
+    <span class="std">Map</span>(
+      <span class="lit">"CURE"</span> -&gt; <span class="std">Array</span>(<span class="lit">"{{TREATMENT}} cures {{PROBLEM}}."</span>),
+      <span class="lit">"IMPROVE"</span> -&gt; <span class="std">Array</span>(<span class="lit">"{{TREATMENT}} improves {{PROBLEM}}."</span>, <span class="lit">"{{TREATMENT}} cures {{PROBLEM}}."</span>),
+      <span class="lit">"REVEAL"</span> -&gt; <span class="std">Array</span>(<span class="lit">"{{TEST}} reveals {{PROBLEM}}."</span>)
+      ))
+  .setPredictionThreshold(<span class="num">0.9</span>f)
+  .setMultiLabel(<span class="kw">false</span>)
+  .setInputCols(<span class="std">Array</span>(<span class="lit">"sentences"</span>, <span class="lit">"RENerChunks"</span>))
+  .setOutputCol(<span class="lit">"relations)
+
+val pipeline = new Pipeline()
+  .setStages(Array(
+    documentAssembler,
+    sentencer,
+    tokenizer,
+    embeddings,
+    posTagger,
+    nerTagger,
+    nerConverter,
+    dependencyParser,
+    reNerFilter,
+    re))
+
+val model = pipeline.fit(Seq("</span><span class="lit">").toDS.toDF("</span>text<span class="lit">"))
+val results = model.transform(
+  Seq("</span>Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer.<span class="lit">").toDS.toDF("</span>text<span class="lit">"))
+
+results
+  .selectExpr("</span>EXPLODE(relations) as relation<span class="lit">")
+  .selectExpr("</span>relation.result<span class="lit">", "</span>relation.metadata.confidence<span class="lit">")
+  .show(truncate = false)
+
++-------+----------+
+|result |confidence|
++-------+----------+
+|REVEAL |0.9760039 |
+|IMPROVE|0.98819494|
+|IMPROVE|0.9929625 |
++-------+----------+</span></pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="http://jmlr.org/papers/v21/20-074.html" target="_blank">http://jmlr.org/papers/v21/20-074.html</a> for details about using NLI models for zero shot categorization</p></span><span class="cmt"><p><a href="RENerChunksFilter.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a> on how to generate paired named entity chunks for relation extraction</p></span></dd></dl></div>
     </li></ol>
             </div>
 
@@ -969,6 +1142,23 @@ need to be defined with <a href="RelationExtractionModel.html#setRelationPairs(r
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ZeroShotRelationExtractionModel"></a><a id="ZeroShotRelationExtractionModel:ZeroShotRelationExtractionModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/ZeroShotRelationExtractionModel$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="This is the companion object of MedicalBertForSequenceClassification." href="ZeroShotRelationExtractionModel$.html"><span class="name">ZeroShotRelationExtractionModel</span></a><span class="result"> extends <a href="ReadablePretrainedZeroShotRelationExtractionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ReadablePretrainedZeroShotRelationExtractionModel">ReadablePretrainedZeroShotRelationExtractionModel</a> with <a href="ReadZeroShotRelationExtractionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ReadZeroShotRelationExtractionModel">ReadZeroShotRelationExtractionModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">This is the companion object of <span class="extype" name="MedicalBertForSequenceClassification">MedicalBertForSequenceClassification</span>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <span class="extype" name="MedicalBertForSequenceClassification">MedicalBertForSequenceClassification</span>. Please refer to that class for the documentation.
+</p></div></div>
     </li>
               </ol>
             </div>

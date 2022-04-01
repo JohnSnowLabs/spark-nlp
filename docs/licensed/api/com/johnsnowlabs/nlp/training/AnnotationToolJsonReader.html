@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.training.AnnotationToolJsonReader</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.training.AnnotationToolJsonReader" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.training.AnnotationToolJsonReader" />
+          <title>Spark NLP 3.5.0 ScalaDoc  - com.johnsnowlabs.nlp.training.AnnotationToolJsonReader</title>
+          <meta name="description" content="Spark NLP 3.5.0 ScalaDoc - com.johnsnowlabs.nlp.training.AnnotationToolJsonReader" />
+          <meta name="keywords" content="Spark NLP 3.5.0 ScalaDoc com.johnsnowlabs.nlp.training.AnnotationToolJsonReader" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.5.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -339,20 +339,20 @@
       </span>
       
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">pipelineModel</dt><dd class="cmt"><p>The pipeline model that is used to create the documents the sentences and the tokens.
-                     And example of that pipeline could be the following:
-                     {{
-                       val documentAssembler = new DocumentAssembler()
+                        And example of that pipeline could be the following:
+                        {{
+                        val documentAssembler = new DocumentAssembler()
                         .setInputCol(&quot;text&quot;)
                         .setOutputCol(&quot;document&quot;)
-                       val sentenceDetector = new SentenceDetector()
-                         .setInputCols(Array(&quot;document&quot;))
-                         .setOutputCol(&quot;sentence&quot;)
-                       val tokenizer = new Tokenizer()
+                        val sentenceDetector = new SentenceDetector()
+                        .setInputCols(Array(&quot;document&quot;))
+                        .setOutputCol(&quot;sentence&quot;)
+                        val tokenizer = new Tokenizer()
                         .setInputCols(Array(&quot;sentence&quot;))
                         .setOutputCol(&quot;token&quot;)
-                       pipline =   new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer))
+                        pipline =   new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer))
                         *
-                     }</p></dd><dt class="param">assertionLabels</dt><dd class="cmt"><p>The assertions labels that will be used to train the dataset.</p></dd><dt class="param">excludedLabels</dt><dd class="cmt"><p>The labels that will be excluded to trandform the dataset.</p></dd><dt class="param">scheme</dt><dd class="cmt"><p>The schema that will use to create the IOB_tagger (IOB or BIOES).</p></dd><dt class="param">minCharsTol</dt><dd class="cmt"><p>The min length of the token to be consider a label.</p></dd><dt class="param">mergeOverlapping</dt><dd class="cmt"><p>'true' if we want to merge the chunks when they are in the same position, 'false' if we keep both chunks in the same position.</p></dd></dl></div>
+                        }</p></dd><dt class="param">assertionLabels</dt><dd class="cmt"><p>The assertions labels that will be used to train the dataset.</p></dd><dt class="param">excludedLabels</dt><dd class="cmt"><p>The labels that will be excluded to trandform the dataset.</p></dd><dt class="param">scheme</dt><dd class="cmt"><p>The schema that will use to create the IOB_tagger (IOB or BIOES).</p></dd><dt class="param">minCharsTol</dt><dd class="cmt"><p>The min length of the token to be consider a label.</p></dd><dt class="param">mergeOverlapping</dt><dd class="cmt"><p>'true' if we want to merge the chunks when they are in the same position, 'false' if we keep both chunks in the same position.</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -649,10 +649,10 @@
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.training.AnnotationToolJsonReader#generateColln" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="generateColln(df:org.apache.spark.sql.DataFrame,path:String,taskColumn:String,tokenCol:String,nerLabel:String):Unit"></a><a id="generateColln(DataFrame,String,String,String,String):Unit"></a>
+    </li><li name="com.johnsnowlabs.nlp.training.AnnotationToolJsonReader#generateConll" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="generateConll(df:org.apache.spark.sql.DataFrame,path:String,taskColumn:String,tokenCol:String,nerLabel:String):Unit"></a><a id="generateConll(DataFrame,String,String,String,String):Unit"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/nlp/training/AnnotationToolJsonReader.html#generateColln(df:org.apache.spark.sql.DataFrame,path:String,taskColumn:String,tokenCol:String,nerLabel:String):Unit" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/training/AnnotationToolJsonReader.html#generateConll(df:org.apache.spark.sql.DataFrame,path:String,taskColumn:String,tokenCol:String,nerLabel:String):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -661,7 +661,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">generateColln</span><span class="params">(<span name="df">df: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>, <span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="taskColumn">taskColumn: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;task_id&quot;</span></span>, <span name="tokenCol">tokenCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;token&quot;</span></span>, <span name="nerLabel">nerLabel: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;ner_label&quot;</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">generateConll</span><span class="params">(<span name="df">df: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>, <span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="taskColumn">taskColumn: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;task_id&quot;</span></span>, <span name="tokenCol">tokenCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;token&quot;</span></span>, <span name="nerLabel">nerLabel: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;ner_label&quot;</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
       

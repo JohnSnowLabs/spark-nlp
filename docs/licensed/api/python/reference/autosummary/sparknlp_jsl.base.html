@@ -8,27 +8,24 @@
 
     <title>sparknlp_jsl.base &#8212; Spark NLP 3.3.0 documentation</title>
     
-    <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
+
     
-    <link rel="stylesheet"
-      href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+  <link rel="stylesheet"
+    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
     
-    <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
     <script src="../../static/underscore.js"></script>
@@ -38,7 +35,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="sparknlp_jsl.base.FeaturesAssembler" href="sparknlp_jsl.base.FeaturesAssembler.html" />
-    <link rel="prev" title="sparknlp_jsl.annotator.SentenceResolverParams" href="sparknlp_jsl.annotator.SentenceResolverParams.html" />
+    <link rel="prev" title="sparknlp_jsl.annotator.ZeroShotRelationExtractionModel" href="sparknlp_jsl.annotator.ZeroShotRelationExtractionModel.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -46,7 +43,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -191,6 +188,16 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html">
      sparknlp_jsl.annotator.ChunkKeyPhraseExtraction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ChunkMapperApproach.html">
+     sparknlp_jsl.annotator.ChunkMapperApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ChunkMapperModel.html">
+     sparknlp_jsl.annotator.ChunkMapperModel
     </a>
    </li>
    <li class="toctree-l2">
@@ -366,6 +373,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.SentenceResolverParams.html">
      sparknlp_jsl.annotator.SentenceResolverParams
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ZeroShotRelationExtractionModel.html">
+     sparknlp_jsl.annotator.ZeroShotRelationExtractionModel
     </a>
    </li>
   </ul>
@@ -558,9 +570,31 @@
               <div>
                 
   <section id="module-sparknlp_jsl.base">
-<span id="sparknlp-jsl-base"></span><h1>sparknlp_jsl.base<a class="headerlink" href="#module-sparknlp_jsl.base" title="Permalink to this headline">¶</a></h1>
+<span id="sparknlp-jsl-base"></span><h1>sparknlp_jsl.base<a class="headerlink" href="#module-sparknlp_jsl.base" title="Permalink to this headline">#</a></h1>
+<p>The FeaturesAssembler is used to collect features from different columns. It can collect features from single value
+columns (anything which can be cast to a float, if casts fails then the value is set to 0), array columns or
+SparkNLP annotations (if the annotation is an embedding, it takes the embedding, otherwise tries to cast the
+<cite>result</cite> field). The output of the transformer is a <cite>FEATURE_VECTOR</cite> annotation (the numeric vector is in the
+<cite>embeddings</cite> field).</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp_jsl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;timestampFormat&quot;</span><span class="p">,</span> <span class="s2">&quot;yyyy/MM/dd HH:mm:ss ZZ&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>           <span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="s2">&quot;./test_jsl/resources/relfeatures.csv&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>           <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;array_column&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s2">&quot;words_in_ent1&quot;</span><span class="p">,</span> <span class="s2">&quot;words_in_ent2&quot;</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">features_asm1</span> <span class="o">=</span> <span class="n">sparknlp_jsl</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">FeaturesAssembler</span><span class="p">()</span><span class="o">...</span>                    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;words_in_ent1&quot;</span><span class="p">,</span> <span class="s2">&quot;words_in_ent2&quot;</span><span class="p">,</span> <span class="s2">&quot;words_between&quot;</span><span class="p">,</span> <span class="s2">&quot;array_column&quot;</span><span class="p">])</span> <span class="o">...</span>                    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;features_t&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">results</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span><span class="n">features_asm1</span><span class="p">])</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">)</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
+</pre></div>
+</div>
 <p class="rubric">Classes</p>
-<table class="longtable table autosummary">
+<table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="sparknlp_jsl.base.FeaturesAssembler.html#sparknlp_jsl.base.FeaturesAssembler" title="sparknlp_jsl.base.FeaturesAssembler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FeaturesAssembler</span></code></a></p></td>
 <td><p></p></td>
@@ -575,11 +609,11 @@
               
               <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="sparknlp_jsl.annotator.SentenceResolverParams.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="sparknlp_jsl.annotator.ZeroShotRelationExtractionModel.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">sparknlp_jsl.annotator.SentenceResolverParams</p>
+            <p class="prev-next-title">sparknlp_jsl.annotator.ZeroShotRelationExtractionModel</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="sparknlp_jsl.base.FeaturesAssembler.html" title="next page">
@@ -597,8 +631,9 @@
       </div>
     </div>
   
-    <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -609,7 +644,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
 </p>
     </div>
     

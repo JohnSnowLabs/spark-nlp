@@ -8,27 +8,24 @@
 
     <title>sparknlp_jsl.annotator.CommonResolverParams &#8212; Spark NLP 3.3.0 documentation</title>
     
-    <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
+
     
-    <link rel="stylesheet"
-      href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+  <link rel="stylesheet"
+    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
     
-    <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
     <script src="../../static/underscore.js"></script>
@@ -46,7 +43,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -191,6 +188,16 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html">
      sparknlp_jsl.annotator.ChunkKeyPhraseExtraction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ChunkMapperApproach.html">
+     sparknlp_jsl.annotator.ChunkMapperApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ChunkMapperModel.html">
+     sparknlp_jsl.annotator.ChunkMapperModel
     </a>
    </li>
    <li class="toctree-l2">
@@ -366,6 +373,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.SentenceResolverParams.html">
      sparknlp_jsl.annotator.SentenceResolverParams
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ZeroShotRelationExtractionModel.html">
+     sparknlp_jsl.annotator.ZeroShotRelationExtractionModel
     </a>
    </li>
   </ul>
@@ -558,10 +570,10 @@
               <div>
                 
   <section id="sparknlp-jsl-annotator-commonresolverparams">
-<h1>sparknlp_jsl.annotator.CommonResolverParams<a class="headerlink" href="#sparknlp-jsl-annotator-commonresolverparams" title="Permalink to this headline">¶</a></h1>
+<h1>sparknlp_jsl.annotator.CommonResolverParams<a class="headerlink" href="#sparknlp-jsl-annotator-commonresolverparams" title="Permalink to this headline">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.CommonResolverParams">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sparknlp_jsl.annotator.</span></span><span class="sig-name descname"><span class="pre">CommonResolverParams</span></span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sparknlp_jsl.annotator.</span></span><span class="sig-name descname"><span class="pre">CommonResolverParams</span></span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.HasCaseSensitiveProperties</span></code></p>
 <p>Class used to have a common interface Entity Resolver family.</p>
 <dl class="field-list simple">
@@ -603,7 +615,7 @@
 </dd>
 </dl>
 <p class="rubric">Methods</p>
-<table class="longtable table autosummary">
+<table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>(*args, **kwargs)</p></td>
 <td><p></p></td>
@@ -665,7 +677,7 @@
 </tbody>
 </table>
 <p class="rubric">Attributes</p>
-<table class="longtable table autosummary">
+<table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">allDistancesMetadata</span></code></p></td>
 <td><p></p></td>
@@ -722,7 +734,7 @@
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.CommonResolverParams.getCaseSensitive">
-<span class="sig-name descname"><span class="pre">getCaseSensitive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.getCaseSensitive" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getCaseSensitive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.getCaseSensitive" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets whether to ignore case in tokens for embeddings matching.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -736,7 +748,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.CommonResolverParams.setAllDistancesMetadata">
-<span class="sig-name descname"><span class="pre">setAllDistancesMetadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setAllDistancesMetadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setAllDistancesMetadata" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setAllDistancesMetadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setAllDistancesMetadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setAllDistancesMetadata" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether or not to return an all distance values in the metadata. Default: False.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -750,7 +762,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.CommonResolverParams.setAlternatives">
-<span class="sig-name descname"><span class="pre">setAlternatives</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setAlternatives"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setAlternatives" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setAlternatives</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setAlternatives"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setAlternatives" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets number of results to return in the metadata after sorting by last distance calculated.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -764,7 +776,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.CommonResolverParams.setCaseSensitive">
-<span class="sig-name descname"><span class="pre">setCaseSensitive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setCaseSensitive" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setCaseSensitive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setCaseSensitive" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether to ignore case in tokens for embeddings matching.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -778,7 +790,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.CommonResolverParams.setConfidenceFunction">
-<span class="sig-name descname"><span class="pre">setConfidenceFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setConfidenceFunction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setConfidenceFunction" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setConfidenceFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setConfidenceFunction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setConfidenceFunction" title="Permalink to this definition">#</a></dt>
 <dd><p>What function to use to calculate confidence: INVERSE or SOFTMAX.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -792,7 +804,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.CommonResolverParams.setDistanceFunction">
-<span class="sig-name descname"><span class="pre">setDistanceFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dist</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setDistanceFunction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setDistanceFunction" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setDistanceFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dist</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setDistanceFunction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setDistanceFunction" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets distance function to use for WMD: ‘EUCLIDEAN’ or ‘COSINE’.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -806,7 +818,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.CommonResolverParams.setDistanceWeights">
-<span class="sig-name descname"><span class="pre">setDistanceWeights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setDistanceWeights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setDistanceWeights" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setDistanceWeights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setDistanceWeights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setDistanceWeights" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets distance weights to apply before pooling: [WMD, TFIDF, Jaccard, SorensenDice, JaroWinkler, Levenshtein].</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -820,7 +832,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.CommonResolverParams.setEnableJaccard">
-<span class="sig-name descname"><span class="pre">setEnableJaccard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setEnableJaccard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setEnableJaccard" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setEnableJaccard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setEnableJaccard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setEnableJaccard" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether or not to use Jaccard token distance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -834,7 +846,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.CommonResolverParams.setEnableJaroWinkler">
-<span class="sig-name descname"><span class="pre">setEnableJaroWinkler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setEnableJaroWinkler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setEnableJaroWinkler" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setEnableJaroWinkler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setEnableJaroWinkler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setEnableJaroWinkler" title="Permalink to this definition">#</a></dt>
 <dd><p>Whether or not to use Jaro-Winkler token distance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -848,7 +860,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.CommonResolverParams.setEnableLevenshtein">
-<span class="sig-name descname"><span class="pre">setEnableLevenshtein</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setEnableLevenshtein"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setEnableLevenshtein" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setEnableLevenshtein</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setEnableLevenshtein"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setEnableLevenshtein" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether or not to use Levenshtein token distance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -862,7 +874,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.CommonResolverParams.setEnableSorensenDice">
-<span class="sig-name descname"><span class="pre">setEnableSorensenDice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setEnableSorensenDice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setEnableSorensenDice" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setEnableSorensenDice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setEnableSorensenDice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setEnableSorensenDice" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether or not to use Sorensen-Dice token distance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -876,7 +888,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.CommonResolverParams.setEnableTfidf">
-<span class="sig-name descname"><span class="pre">setEnableTfidf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setEnableTfidf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setEnableTfidf" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setEnableTfidf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setEnableTfidf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setEnableTfidf" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether or not to use TFIDF token distance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -890,7 +902,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.CommonResolverParams.setEnableWmd">
-<span class="sig-name descname"><span class="pre">setEnableWmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setEnableWmd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setEnableWmd" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setEnableWmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setEnableWmd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setEnableWmd" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether or not to use WMD token distance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -904,7 +916,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.CommonResolverParams.setExtramassPenalty">
-<span class="sig-name descname"><span class="pre">setExtramassPenalty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">emp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setExtramassPenalty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setExtramassPenalty" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setExtramassPenalty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">emp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setExtramassPenalty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setExtramassPenalty" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets penalty for extra words in the knowledge base match.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -918,7 +930,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.CommonResolverParams.setMissAsEmpty">
-<span class="sig-name descname"><span class="pre">setMissAsEmpty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setMissAsEmpty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setMissAsEmpty" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setMissAsEmpty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setMissAsEmpty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setMissAsEmpty" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether or not to return an empty annotation on unmatched chunks</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -932,7 +944,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.CommonResolverParams.setNeighbours">
-<span class="sig-name descname"><span class="pre">setNeighbours</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setNeighbours"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setNeighbours" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setNeighbours</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setNeighbours"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setNeighbours" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets number of neighbours to consider in the KNN query to calculate WMD.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -946,7 +958,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.CommonResolverParams.setPoolingStrategy">
-<span class="sig-name descname"><span class="pre">setPoolingStrategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setPoolingStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setPoolingStrategy" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setPoolingStrategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setPoolingStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setPoolingStrategy" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets pooling strategy to aggregate distances: AVERAGE, MIN or MAX.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -960,7 +972,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.CommonResolverParams.setThreshold">
-<span class="sig-name descname"><span class="pre">setThreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">thres</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setThreshold" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setThreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">thres</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#CommonResolverParams.setThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.CommonResolverParams.setThreshold" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets Threshold value for the last distance calculated.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1004,8 +1016,9 @@
       </div>
     </div>
   
-    <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -1016,7 +1029,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
 </p>
     </div>
     
