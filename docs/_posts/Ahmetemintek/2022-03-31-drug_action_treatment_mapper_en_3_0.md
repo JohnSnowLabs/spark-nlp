@@ -68,7 +68,8 @@ document_assembler = DocumentAssembler()\
                                   chunkerMapper])
 
  text = ["""
- The patient was given Aspagin, Warfarina Lusa
+ The patient is a 71-year-old female patient of Dr. X. and she was given Aklis and Dermovate.
+ Cureent Medications: Diprivan, Proventil
  """]
 
  test_data = spark.createDataFrame([text]).toDF("text")
@@ -104,7 +105,8 @@ val document_assembler = DocumentAssembler()
  val pipeline =  new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, ner, nerconverter, chunkerMapper ))
 
 
- val text_data = Seq("The patient was given Aspagin, Warfarina Lusa").toDF("text")
+ val text_data = Seq("The patient is a 71-year-old female patient of Dr. X. and she was given Aklis and Dermovate.
+                      Cureent Medications: Diprivan, Proventil").toDF("text")
 
 
  val res = pipeline.fit(test_data).transform(test_data)
@@ -114,12 +116,14 @@ val document_assembler = DocumentAssembler()
 ## Results
 
 ```bash
- +--------------+--------------+-------------------------------+
- |ner_chunk     |mapping_result|all_relations                  |
- +--------------+--------------+-------------------------------+
- |Aspagin       |Analgesic     |Anti-Inflammatory:::Antipyretic|
- |Warfarina Lusa|Anticoagulant |                               |
- +--------------+--------------+-------------------------------+
++---------+------------------+--------------------------------------------------------------+
+|ner_chunk|mapping_result    |all_relations                                                 |
++---------+------------------+--------------------------------------------------------------+
+|Aklis    |Hyperlipidemia    |Hypertension:::Diabetic Kidney Disease:::Cerebrovascular...   |
+|Dermovate|Lupus             |Discoid Lupus Erythematosus:::Empeines:::Psoriasis:::Eczema...|
+|Diprivan |Infection         |Laryngitis:::Pneumonia:::Pharyngitis                          |
+|Proventil|Addison's Disease |Allergic Conjunctivitis:::Anemia:::Ankylosing Spondylitis     |
++---------+------------------+--------------------------------------------------------------+
 ```
 
 {:.model-param}
