@@ -53,12 +53,12 @@ document_assembler = DocumentAssembler()\
 
  nerconverter = NerConverterInternal()\
        .setInputCols("sentence", "token", "ner")\
-       .setOutputCol("ner_chunk")
+       .setOutputCol("drug")
 
  chunkerMapper = ChunkMapperModel.pretrained("drug_action_treatment_mapper", "en", "clinical/models") \
-       .setInputCols("ner_chunk")\
+       .setInputCols("drug")\
        .setOutputCol("relations")\
-       .setRel("action") #or treatment
+       .setRel("treatment") #or action
 
  pipeline = Pipeline().setStages([document_assembler,
                                   sentence_detector,
@@ -95,12 +95,12 @@ val document_assembler = DocumentAssembler()
 
  val nerconverter = NerConverterInternal()
           .setInputCols(Array("sentence", "token", "ner"))
-          .setOutputCol("ner_chunk")
+          .setOutputCol("drug")
 
  val chunkerMapper = ChunkMapperModel.pretrained("drug_action_treatment_mapper", "en", "clinical/models")
-          .setInputCols("ner_chunk")
+          .setInputCols("drug")
           .setOutputCol("relations")
-          .setRel("action")
+          .setRel("treatment")
 
  val pipeline =  new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, ner, nerconverter, chunkerMapper ))
 
@@ -117,7 +117,7 @@ val document_assembler = DocumentAssembler()
 
 ```bash
 +---------+------------------+--------------------------------------------------------------+
-|ner_chunk|mapping_result    |all_relations                                                 |
+|Drug     |Treatments        |Pharmaceutical Action                                         |
 +---------+------------------+--------------------------------------------------------------+
 |Aklis    |Hyperlipidemia    |Hypertension:::Diabetic Kidney Disease:::Cerebrovascular...   |
 |Dermovate|Lupus             |Discoid Lupus Erythematosus:::Empeines:::Psoriasis:::Eczema...|
