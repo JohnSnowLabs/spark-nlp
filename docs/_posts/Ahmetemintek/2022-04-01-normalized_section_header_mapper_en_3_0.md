@@ -137,13 +137,13 @@ val res = pipeline.fit(test_data).transform(test_data)
 ## Results
 
 ```bash
-+-------------------+--------------+
-|ner_chunk          |mapping_result|
-+-------------------+--------------+
-|ADMISSION DIAGNOSIS|DIAGNOSIS     |
-|PRINCIPAL DIAGNOSIS|DIAGNOSIS     |
-|GENERAL REVIEW     |REVIEW TYPE   |
-+-------------------+--------------+
++-------------------+------------------+
+|section            |normalized_section|
++-------------------+------------------+
+|ADMISSION DIAGNOSIS|DIAGNOSIS         |
+|PRINCIPAL DIAGNOSIS|DIAGNOSIS         |
+|GENERAL REVIEW     |REVIEW TYPE       |
++-------------------+------------------+
 ```
 
 {:.model-param}
