@@ -117,7 +117,7 @@ val document_assembler = DocumentAssembler()
 
 ```bash
 +---------+------------------+--------------------------------------------------------------+
-|Drug     |Treatments        |Pharmaceutical Action                                         |
+|Drug     |Treats            |Pharmaceutical Action                                         |
 +---------+------------------+--------------------------------------------------------------+
 |Aklis    |Hyperlipidemia    |Hypertension:::Diabetic Kidney Disease:::Cerebrovascular...   |
 |Dermovate|Lupus             |Discoid Lupus Erythematosus:::Empeines:::Psoriasis:::Eczema...|
