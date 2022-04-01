@@ -1,4 +1,2 @@
-docs/_posts/Cabir40/2022-03-31-explain_clinical_doc_radiology_en_3_0.md
-docs/_posts/josejuanmartinez/2022-04-01-re_zeroshot_biobert_en_3_0.md
-docs/_posts/Cabir40/2022-03-31-explain_clinical_doc_radiology_en_3_0.md
-docs/_posts/josejuanmartinez/2022-04-01-re_zeroshot_biobert_en_3_0.md
+docs/_posts/egenc/2022-01-17-sbiobertresolve_clinical_abbreviation_acronym_en.md
+docs/_posts/egenc/2022-01-17-sbiobertresolve_clinical_abbreviation_acronym_en.md
