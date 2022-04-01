@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Context Spell Checker for English- Spark NLP Model</title><meta name="description" content="DescriptionSpell Checker is a sequence-to-sequence model that detects and corrects spelling errors in your input text. It’s based on Levenshtein Automaton fo...">
-<link rel="canonical" href="/2022/03/28/spellcheck_dl_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Pipeline to Detect Radiology Entities, Assign Assertion Status and Find Relations- Spark NLP Model</title><meta name="description" content="DescriptionA pipeline for detecting radiology entities with the ner_radiology NER model, assigning their assertion status with assertion_dl_radiology model, ...">
+<link rel="canonical" href="/2022/03/31/explain_clinical_doc_radiology_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -404,19 +404,17 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Mar 28, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-03-28T00:00:00+00:00"></div><header class="main-docs"><h1>Context Spell Checker for English</h1></header></div><meta itemprop="headline" content="Context Spell Checker for English"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>spellcheck</li><li>en</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-03-28T00:00:00+00:00">
-    <meta itemprop="keywords" content="spellcheck,en,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Mar 31, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-03-31T00:00:00+00:00"></div><header class="main-docs"><h1>Pipeline to Detect Radiology Entities, Assign Assertion Status and Find Relations</h1></header></div><meta itemprop="headline" content="Pipeline to Detect Radiology Entities, Assign Assertion Status and Find Relations"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>licensed</li><li>clinical</li><li>en</li><li>ner</li><li>assertion</li><li>relation_extraction</li><li>radiology</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-03-31T00:00:00+00:00">
+    <meta itemprop="keywords" content="licensed,clinical,en,ner,assertion,relation_extraction,radiology"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Spell Checker is a sequence-to-sequence model that detects and corrects spelling errors in your input text. It’s based on Levenshtein Automaton for generating candidate corrections and a Neural Language Model for ranking corrections.</p>
+<p>A pipeline for detecting radiology entities with the <code class="language-plaintext highlighter-rouge">ner_radiology</code> NER model, assigning their assertion status with <code class="language-plaintext highlighter-rouge">assertion_dl_radiology</code> model, and extracting relations between the diagnosis, test, and findings with <code class="language-plaintext highlighter-rouge">re_test_problem_finding</code> relation extraction model.</p>
 
-<h2 id="predicted-entities">Predicted Entities</h2>
-
-<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/CONTEXTUAL_SPELL_CHECKER/" class="button button-orange">Live Demo</a>
-<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CONTEXTUAL_SPELL_CHECKER.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spellcheck_dl_en_3.4.1_3.0_1648457196011.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<button class="button button-orange" disabled="">Open in Colab</button>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/explain_clinical_doc_radiology_en_3.4.2_3.0_1648737971620.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -424,60 +422,59 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">RecursiveTokenizer</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setPrefixes</span><span class="p">([</span><span class="s">"</span><span class="se">\"</span><span class="s">"</span><span class="p">,</span> <span class="s">"“"</span><span class="p">,</span> <span class="s">"("</span><span class="p">,</span> <span class="s">"["</span><span class="p">,</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="s">"."</span><span class="p">])</span> \
-  <span class="p">.</span><span class="n">setSuffixes</span><span class="p">([</span><span class="s">"</span><span class="se">\"</span><span class="s">"</span><span class="p">,</span> <span class="s">"”"</span><span class="p">,</span> <span class="s">"."</span><span class="p">,</span> <span class="s">","</span><span class="p">,</span> <span class="s">"?"</span><span class="p">,</span> <span class="s">")"</span><span class="p">,</span> <span class="s">"]"</span><span class="p">,</span> <span class="s">"!"</span><span class="p">,</span> <span class="s">";"</span><span class="p">,</span> <span class="s">":"</span><span class="p">,</span> <span class="s">"'s"</span><span class="p">,</span> <span class="s">"’s"</span><span class="p">])</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"explain_clinical_doc_radiology"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
 
-<span class="n">spellModel</span> <span class="o">=</span> <span class="n">ContextSpellCheckerModel</span>\
-    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"spellcheck_dl"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"checked"</span><span class="p">)</span>\
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">"""Bilateral breast ultrasound was subsequently performed, which demonstrated an ovoid mass measuring approximately 0.5 x 0.5 x 0.4 cm in diameter located within the anteromedial aspect of the left shoulder. This mass demonstrates isoechoic echotexture to the adjacent muscle, with no evidence of internal color flow. This may represent benign fibrous tissue or a lipoma."""</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span> <span class="o">=</span> <span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">spellModel</span><span class="p">])</span>
-
-<span class="n">empty_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">lp</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_df</span><span class="p">))</span>
-<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"During the summer we have the best ueather."</span><span class="p">,</span> <span class="s">"I have a black ueather jacket, so nice."</span><span class="p">]</span>
-<span class="n">lp</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">val</span> <span class="nv">assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
 
-  <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">RecursiveTokenizer</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setPrefixes</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"\""</span><span class="o">,</span> <span class="s">"“"</span><span class="o">,</span> <span class="s">"("</span><span class="o">,</span> <span class="s">"["</span><span class="o">,</span> <span class="s">"\n"</span><span class="o">,</span> <span class="s">"."</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setSuffixes</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"\""</span><span class="o">,</span> <span class="s">"”"</span><span class="o">,</span> <span class="s">"."</span><span class="o">,</span> <span class="s">","</span><span class="o">,</span> <span class="s">"?"</span><span class="o">,</span> <span class="s">")"</span><span class="o">,</span> <span class="s">"]"</span><span class="o">,</span> <span class="s">"!"</span><span class="o">,</span> <span class="s">";"</span><span class="o">,</span> <span class="s">":"</span><span class="o">,</span> <span class="s">"'s"</span><span class="o">,</span> <span class="s">"’s"</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"explain_clinical_doc_radiology"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
 
-  <span class="k">val</span> <span class="nv">spellChecker</span> <span class="k">=</span> <span class="nc">ContextSpellCheckerModel</span><span class="o">.</span>
-    <span class="nf">pretrained</span><span class="o">(</span><span class="s">"spellcheck_dl"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">).</span>
-    <span class="nf">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">).</span>
-    <span class="nf">setOutputCol</span><span class="o">(</span><span class="s">"checked"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fullAnnotate</span><span class="o">(</span><span class="s">"""Bilateral breast ultrasound was subsequently performed, which demonstrated an ovoid mass measuring approximately 0.5 x 0.5 x 0.4 cm in diameter located within the anteromedial aspect of the left shoulder. This mass demonstrates isoechoic echotexture to the adjacent muscle, with no evidence of internal color flow. This may represent benign fibrous tissue or a lipoma."""</span><span class="o">)(</span><span class="mi">0</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span>  <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">spellChecker</span><span class="o">))</span>
-<span class="k">val</span> <span class="nv">empty_df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">([[</span><span class="err">""</span><span class="o">]]).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">lp</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">LightPipeline</span><span class="o">(</span><span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">empty_df</span><span class="o">))</span>
-<span class="k">val</span> <span class="nv">text</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">(</span><span class="s">"During the summer we have the best ueather."</span><span class="o">,</span> <span class="s">"I have a black ueather jacket, so nice."</span><span class="o">)</span>
-<span class="nv">lp</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="n">text</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[{</span><span class="s1">'checked'</span>: <span class="o">[</span><span class="s1">'During'</span>, <span class="s1">'the'</span>, <span class="s1">'summer'</span>, <span class="s1">'we'</span>, <span class="s1">'have'</span>, <span class="s1">'the'</span>, <span class="s1">'best'</span>, <span class="s1">'weather'</span>, <span class="s1">'.'</span><span class="o">]</span>,
-  <span class="s1">'document'</span>: <span class="o">[</span><span class="s1">'During the summer we have the best ueather.'</span><span class="o">]</span>,
-  <span class="s1">'token'</span>: <span class="o">[</span><span class="s1">'During'</span>, <span class="s1">'the'</span>, <span class="s1">'summer'</span>, <span class="s1">'we'</span>, <span class="s1">'have'</span>, <span class="s1">'the'</span>, <span class="s1">'best'</span>, <span class="s1">'ueather'</span>, <span class="s1">'.'</span><span class="o">]}</span>,
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----+------------------------------------------+---------------------------+
+|    | chunks                                   | entities                  |
+|---:|:-----------------------------------------|:--------------------------|
+|  0 | Bilateral breast                         | BodyPart                  |
+|  1 | ultrasound                               | ImagingTest               |
+|  2 | ovoid mass                               | ImagingFindings           |
+|  3 | 0.5 x 0.5 x 0.4                          | Measurements              |
+|  4 | cm                                       | Units                     |
+|  5 | anteromedial aspect of the left shoulder | BodyPart                  |
+|  6 | mass                                     | ImagingFindings           |
+|  7 | isoechoic echotexture                    | ImagingFindings           |
+|  8 | muscle                                   | BodyPart                  |
+|  9 | internal color flow                      | ImagingFindings           |
+| 10 | benign fibrous tissue                    | ImagingFindings           |
+| 11 | lipoma                                   | Disease_Syndrome_Disorder |
++----+------------------------------------------+---------------------------+
 
- <span class="o">{</span><span class="s1">'checked'</span>: <span class="o">[</span><span class="s1">'I'</span>, <span class="s1">'have'</span>, <span class="s1">'a'</span>, <span class="s1">'black'</span>, <span class="s1">'leather'</span>, <span class="s1">'jacket'</span>, <span class="s1">','</span>, <span class="s1">'so'</span>, <span class="s1">'nice'</span>,  <span class="s1">'.'</span><span class="o">]</span>,
-  <span class="s1">'document'</span>: <span class="o">[</span><span class="s1">'I have a black ueather jacket, so nice.'</span><span class="o">]</span>,
-  <span class="s1">'token'</span>: <span class="o">[</span><span class="s1">'I'</span>, <span class="s1">'have'</span>, <span class="s1">'a'</span>, <span class="s1">'black'</span>, <span class="s1">'ueather'</span>, <span class="s1">'jacket'</span>, <span class="s1">','</span>, <span class="s1">'so'</span>, <span class="s1">'nice'</span>, <span class="s1">'.'</span><span class="o">]}]</span>
++----+-----------------------+---------------------------+-------------+
+|    | chunks                | entities                  | assertion   |
+|---:|:----------------------|:--------------------------|:------------|
+|  0 | ultrasound            | ImagingTest               | Confirmed   |
+|  1 | ovoid mass            | ImagingFindings           | Confirmed   |
+|  2 | mass                  | ImagingFindings           | Confirmed   |
+|  3 | isoechoic echotexture | ImagingFindings           | Confirmed   |
+|  4 | internal color flow   | ImagingFindings           | Negative    |
+|  5 | benign fibrous tissue | ImagingFindings           | Suspected   |
+|  6 | lipoma                | Disease_Syndrome_Disorder | Suspected   |
++----+-----------------------+---------------------------+-------------+
+
++---------+-----------------+-----------------------+---------------------------+------------+
+|relation | entity1         | chunk1                | entity2                   | chunk2     |
+|--------:|:----------------|:----------------------|:--------------------------|:-----------|
+|       1 | ImagingTest     | ultrasound            | ImagingFindings           | ovoid mass |
+|       0 | ImagingFindings | benign fibrous tissue | Disease_Syndrome_Disorder | lipoma     |
++---------+-----------------+-----------------------+---------------------------+------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -486,27 +483,23 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>spellcheck_dl</td>
+      <td>explain_clinical_doc_radiology</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>pipeline</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.4.1+</td>
+      <td>Spark NLP for Healthcare 3.4.2+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
       <td>Official</td>
-    </tr>
-    <tr>
-      <td>Input Labels:</td>
-      <td>[token]</td>
-    </tr>
-    <tr>
-      <td>Output Labels:</td>
-      <td>[corrected]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -514,15 +507,27 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>99.7 MB</td>
+      <td>1.7 GB</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="references">References</h2>
+<h2 id="included-models">Included Models</h2>
 
-<p>Combination of custom data sets.</p>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-03-28T00:00:00+00:00"><!-- start custom article footer snippet -->
+<ul>
+  <li>DocumentAssembler</li>
+  <li>SentenceDetectorDLModel</li>
+  <li>TokenizerModel</li>
+  <li>WordEmbeddingsModel</li>
+  <li>MedicalNerModel</li>
+  <li>NerConverterInternal</li>
+  <li>NerConverterInternal</li>
+  <li>AssertionDLModel</li>
+  <li>PerceptronModel</li>
+  <li>DependencyParserModel</li>
+  <li>RelationExtractionModel</li>
+</ul>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-03-31T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -647,7 +652,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/03/28/clinical_deidentification_it_3_0.html">Clinical Deidentification (Italian)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/03/31/explain_clinical_doc_radiology_en_3_0.html">Pipeline to Detect Radiology Entities, Assign Assertion Status and Find Relations</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/03/28/spellcheck_dl_en_3_0.html">Context Spell Checker for English</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/03/31/lemma_afribooms_af_3_0.html">Lemma UD model for Afrikaans (lemma_afribooms)</a></div></div></div>
 
 </div>
 </div>
