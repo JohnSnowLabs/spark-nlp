@@ -83,7 +83,7 @@ re_ner_chunk_filter = sparknlp_jsl.annotator.RENerChunksFilter() \
     .setOutputCol("re_ner_chunks")
 
 re_model = sparknlp_jsl.annotator.ZeroShotRelationExtractionModel \
-    .pretrained("re_zeroshot_biobert", "en", "clinical/models") \
+    .pretrained("zero_shot_re", "en", "clinical/models") \
     .setRelationalCategories({
         "CURE": ["{{TREATMENT}} cures {{PROBLEM}}."],
         "IMPROVE": ["{{TREATMENT}} improves {{PROBLEM}}.", "{{TREATMENT}} cures {{PROBLEM}}."],
