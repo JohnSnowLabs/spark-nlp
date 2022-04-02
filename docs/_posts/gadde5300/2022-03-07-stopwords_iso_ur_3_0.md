@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Stopwords Remover for Urdu language (stopwords-iso)
+title: Stopwords Remover for Urdu language (508 entries)
 author: John Snow Labs
 name: stopwords_iso
 date: 2022-03-07
