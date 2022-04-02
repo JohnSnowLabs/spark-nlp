@@ -86,8 +86,8 @@ res = pipeline.fit(test_data).transform(test_data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
-        .setInputCol('text')
-        .setOutputCol('document')
+        .setInputCol("text")
+        .setOutputCol("document")
 
 val sentence_detector = new SentenceDetector()
         .setInputCols(Array("document"))
