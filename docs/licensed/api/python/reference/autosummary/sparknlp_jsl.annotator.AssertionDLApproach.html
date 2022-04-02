@@ -8,27 +8,24 @@
 
     <title>sparknlp_jsl.annotator.AssertionDLApproach &#8212; Spark NLP 3.3.0 documentation</title>
     
-    <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
+
     
-    <link rel="stylesheet"
-      href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+  <link rel="stylesheet"
+    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
     
-    <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
     <script src="../../static/underscore.js"></script>
@@ -46,7 +43,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -191,6 +188,16 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html">
      sparknlp_jsl.annotator.ChunkKeyPhraseExtraction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ChunkMapperApproach.html">
+     sparknlp_jsl.annotator.ChunkMapperApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ChunkMapperModel.html">
+     sparknlp_jsl.annotator.ChunkMapperModel
     </a>
    </li>
    <li class="toctree-l2">
@@ -366,6 +373,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.SentenceResolverParams.html">
      sparknlp_jsl.annotator.SentenceResolverParams
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ZeroShotRelationExtractionModel.html">
+     sparknlp_jsl.annotator.ZeroShotRelationExtractionModel
     </a>
    </li>
   </ul>
@@ -558,10 +570,10 @@
               <div>
                 
   <section id="sparknlp-jsl-annotator-assertiondlapproach">
-<h1>sparknlp_jsl.annotator.AssertionDLApproach<a class="headerlink" href="#sparknlp-jsl-annotator-assertiondlapproach" title="Permalink to this headline">¶</a></h1>
+<h1>sparknlp_jsl.annotator.AssertionDLApproach<a class="headerlink" href="#sparknlp-jsl-annotator-assertiondlapproach" title="Permalink to this headline">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sparknlp_jsl.annotator.</span></span><span class="sig-name descname"><span class="pre">AssertionDLApproach</span></span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sparknlp_jsl.annotator.</span></span><span class="sig-name descname"><span class="pre">AssertionDLApproach</span></span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorApproach</span></code></p>
 <p>Train a Assertion Model algorithm using deep learning.
 from extracted entities and text. AssertionLogRegModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type
@@ -670,7 +682,7 @@ the <code class="docutils literal notranslate"><span class="pre">end</span></cod
 </dd>
 </dl>
 <p class="rubric">Methods</p>
-<table class="longtable table autosummary">
+<table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>()</p></td>
 <td><p></p></td>
@@ -810,7 +822,7 @@ the <code class="docutils literal notranslate"><span class="pre">end</span></cod
 </tbody>
 </table>
 <p class="rubric">Attributes</p>
-<table class="longtable table autosummary">
+<table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">batchSize</span></code></p></td>
 <td><p></p></td>
@@ -885,13 +897,13 @@ the <code class="docutils literal notranslate"><span class="pre">end</span></cod
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.clear">
-<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.clear" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.clear" title="Permalink to this definition">#</a></dt>
 <dd><p>Clears a param from the param map if it has been explicitly set.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.copy">
-<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.copy" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.copy" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a copy of this instance with the same uid and some
 extra params. This implementation first calls Params.copy and
 then make a copy of the companion Java pipeline component with
@@ -909,21 +921,21 @@ component get copied.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.explainParam">
-<span class="sig-name descname"><span class="pre">explainParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.explainParam" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">explainParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.explainParam" title="Permalink to this definition">#</a></dt>
 <dd><p>Explains a single param and returns its name, doc, and optional
 default value and user-supplied value in a string.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.explainParams">
-<span class="sig-name descname"><span class="pre">explainParams</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.explainParams" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">explainParams</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.explainParams" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the documentation of all params with their optionally
 default values and user-supplied values.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.extractParamMap">
-<span class="sig-name descname"><span class="pre">extractParamMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.extractParamMap" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">extractParamMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.extractParamMap" title="Permalink to this definition">#</a></dt>
 <dd><p>Extracts the embedded default param values and user-supplied
 values, and then merges them with extra values from input into
 a flat param map, where the latter value is used if there exist
@@ -941,7 +953,7 @@ user-supplied values &lt; extra.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.fit" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.fit" title="Permalink to this definition">#</a></dt>
 <dd><p>Fits a model to the input dataset with optional parameters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -963,7 +975,7 @@ models.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.fitMultiple">
-<span class="sig-name descname"><span class="pre">fitMultiple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paramMaps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.fitMultiple" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fitMultiple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paramMaps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.fitMultiple" title="Permalink to this definition">#</a></dt>
 <dd><p>Fits a model to the input dataset for each param map in <cite>paramMaps</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -985,39 +997,39 @@ using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequen
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.getInputCols">
-<span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.getInputCols" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.getInputCols" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.getLazyAnnotator">
-<span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.getLazyAnnotator" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets whether Annotator should be evaluated lazily in a
 RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.getOrDefault">
-<span class="sig-name descname"><span class="pre">getOrDefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.getOrDefault" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getOrDefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.getOrDefault" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets the value of a param in the user-supplied param map or its
 default value. Raises an error if neither is set.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.getOutputCol">
-<span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.getOutputCol" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.getOutputCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.getParam">
-<span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.getParam" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.getParam" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets a param by its name.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.getParamValue">
-<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.getParamValue" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.getParamValue" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets the value of a parameter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1031,39 +1043,39 @@ default value. Raises an error if neither is set.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.hasDefault">
-<span class="sig-name descname"><span class="pre">hasDefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.hasDefault" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">hasDefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.hasDefault" title="Permalink to this definition">#</a></dt>
 <dd><p>Checks whether a param has a default value.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.hasParam">
-<span class="sig-name descname"><span class="pre">hasParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.hasParam" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">hasParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.hasParam" title="Permalink to this definition">#</a></dt>
 <dd><p>Tests whether this instance contains a param with a given
 (string) name.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.isDefined">
-<span class="sig-name descname"><span class="pre">isDefined</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.isDefined" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">isDefined</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.isDefined" title="Permalink to this definition">#</a></dt>
 <dd><p>Checks whether a param is explicitly set by user or has
 a default value.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.isSet">
-<span class="sig-name descname"><span class="pre">isSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.isSet" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">isSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.isSet" title="Permalink to this definition">#</a></dt>
 <dd><p>Checks whether a param is explicitly set by user.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.load">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.load" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.load" title="Permalink to this definition">#</a></dt>
 <dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.params">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.params" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.params" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns all params ordered by name. The default implementation
 uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
 <code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
@@ -1071,25 +1083,25 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.read">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.read" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.read" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns an MLReader instance for this class.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.save" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.save" title="Permalink to this definition">#</a></dt>
 <dd><p>Save this ML instance to the given path, a shortcut of ‘write().save(path)’.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.set">
-<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.set" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets a parameter in the embedded param map.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setBatchSize">
-<span class="sig-name descname"><span class="pre">setBatchSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setBatchSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setBatchSize" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setBatchSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setBatchSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setBatchSize" title="Permalink to this definition">#</a></dt>
 <dd><p>Set Size for each batch in the optimization process.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1103,7 +1115,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setConfigProtoBytes">
-<span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setConfigProtoBytes" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setConfigProtoBytes" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets  ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()`.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1117,7 +1129,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setDropout">
-<span class="sig-name descname"><span class="pre">setDropout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rate</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setDropout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setDropout" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setDropout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rate</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setDropout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setDropout" title="Permalink to this definition">#</a></dt>
 <dd><p>Set a dropout at the output of each layer</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1131,7 +1143,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setEnableOutputLogs">
-<span class="sig-name descname"><span class="pre">setEnableOutputLogs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setEnableOutputLogs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setEnableOutputLogs" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setEnableOutputLogs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setEnableOutputLogs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setEnableOutputLogs" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets if you enable to output to annotators log folder.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1145,7 +1157,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setEndCol">
-<span class="sig-name descname"><span class="pre">setEndCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setEndCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setEndCol" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setEndCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setEndCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setEndCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Set column that contains the token number for the end of the target.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1159,7 +1171,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setEpochs">
-<span class="sig-name descname"><span class="pre">setEpochs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setEpochs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setEpochs" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setEpochs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setEpochs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setEpochs" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets number of epochs for the optimization process</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1173,7 +1185,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setEvaluationLogExtended">
-<span class="sig-name descname"><span class="pre">setEvaluationLogExtended</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setEvaluationLogExtended"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setEvaluationLogExtended" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setEvaluationLogExtended</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setEvaluationLogExtended"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setEvaluationLogExtended" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a Annotation from a Spark <cite>Row</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1187,7 +1199,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setGraphFolder">
-<span class="sig-name descname"><span class="pre">setGraphFolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setGraphFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setGraphFolder" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setGraphFolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setGraphFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setGraphFolder" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets folder path that contain external graph files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1201,7 +1213,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setIncludeConfidence">
-<span class="sig-name descname"><span class="pre">setIncludeConfidence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setIncludeConfidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setIncludeConfidence" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setIncludeConfidence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setIncludeConfidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setIncludeConfidence" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets if you waht to include confidence scores in annotation metadata.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1215,7 +1227,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setInputCols">
-<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setInputCols" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setInputCols" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets column names of input annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1229,7 +1241,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setLabelCol">
-<span class="sig-name descname"><span class="pre">setLabelCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setLabelCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setLabelCol" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setLabelCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setLabelCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setLabelCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Set a column with one label per document. Example of possible values: “present”, “absent”, “hypothetical”, “conditional”, “associated_with_other_person”, etc.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1243,7 +1255,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setLazyAnnotator">
-<span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setLazyAnnotator" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether Annotator should be evaluated lazily in a
 RecursivePipeline.</p>
 <dl class="field-list simple">
@@ -1259,7 +1271,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setLearningRate">
-<span class="sig-name descname"><span class="pre">setLearningRate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lamda</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setLearningRate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setLearningRate" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setLearningRate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lamda</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setLearningRate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setLearningRate" title="Permalink to this definition">#</a></dt>
 <dd><p>Set a learning rate for the optimization process</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1279,7 +1291,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setMaxSentLen">
-<span class="sig-name descname"><span class="pre">setMaxSentLen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setMaxSentLen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setMaxSentLen" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setMaxSentLen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setMaxSentLen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setMaxSentLen" title="Permalink to this definition">#</a></dt>
 <dd><p>Set the max length for an input sentence.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1293,7 +1305,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setOutputCol">
-<span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setOutputCol" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setOutputCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1307,7 +1319,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setOutputLogsPath">
-<span class="sig-name descname"><span class="pre">setOutputLogsPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setOutputLogsPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setOutputLogsPath" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setOutputLogsPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setOutputLogsPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setOutputLogsPath" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets folder path that contain external graph files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1321,7 +1333,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setParamValue">
-<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setParamValue" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setParamValue" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets the value of a parameter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1335,7 +1347,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setScopeWindow">
-<span class="sig-name descname"><span class="pre">setScopeWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setScopeWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setScopeWindow" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setScopeWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setScopeWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setScopeWindow" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets the scope of the window of the assertion expression</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1349,7 +1361,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setStartCol">
-<span class="sig-name descname"><span class="pre">setStartCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setStartCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setStartCol" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setStartCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setStartCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setStartCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Set a column that contains the token number for the start of the target</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1363,7 +1375,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setTestDataset">
-<span class="sig-name descname"><span class="pre">setTestDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'SPARK'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'format':</span> <span class="pre">'parquet'}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setTestDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setTestDataset" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setTestDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'SPARK'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setTestDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setTestDataset" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets path to test dataset. If set used to calculate statistic on it during training.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1377,7 +1389,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setValidationSplit">
-<span class="sig-name descname"><span class="pre">setValidationSplit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setValidationSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setValidationSplit" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setValidationSplit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setValidationSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setValidationSplit" title="Permalink to this definition">#</a></dt>
 <dd><dl class="simple">
 <dt>Set Choose the proportion of training dataset to be validated against the model on each Epoch.</dt><dd><p>The value should be between 0.0 and 1.0 and by default it is 0.0 and off.</p>
 </dd>
@@ -1395,7 +1407,7 @@ The value should be between 0.0 and 1.0 and by default it is 0.0 and off.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setVerbose">
-<span class="sig-name descname"><span class="pre">setVerbose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setVerbose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setVerbose" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setVerbose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setVerbose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setVerbose" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets level of verbosity during training.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1409,13 +1421,13 @@ The value should be between 0.0 and 1.0 and by default it is 0.0 and off.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.uid">
-<span class="sig-name descname"><span class="pre">uid</span></span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.uid" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">uid</span></span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.uid" title="Permalink to this definition">#</a></dt>
 <dd><p>A unique id for the object.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.write">
-<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.write" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.write" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns an MLWriter instance for this ML instance.</p>
 </dd></dl>
 
@@ -1451,8 +1463,9 @@ The value should be between 0.0 and 1.0 and by default it is 0.0 and off.</p>
       </div>
     </div>
   
-    <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -1463,7 +1476,7 @@ The value should be between 0.0 and 1.0 and by default it is 0.0 and off.</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
 </p>
     </div>
     

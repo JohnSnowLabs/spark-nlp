@@ -8,27 +8,24 @@
 
     <title>sparknlp_jsl.annotator.DeIdentification &#8212; Spark NLP 3.3.0 documentation</title>
     
-    <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
+
     
-    <link rel="stylesheet"
-      href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+  <link rel="stylesheet"
+    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
     
-    <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
     <script src="../../static/underscore.js"></script>
@@ -46,7 +43,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -191,6 +188,16 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html">
      sparknlp_jsl.annotator.ChunkKeyPhraseExtraction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ChunkMapperApproach.html">
+     sparknlp_jsl.annotator.ChunkMapperApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ChunkMapperModel.html">
+     sparknlp_jsl.annotator.ChunkMapperModel
     </a>
    </li>
    <li class="toctree-l2">
@@ -366,6 +373,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.SentenceResolverParams.html">
      sparknlp_jsl.annotator.SentenceResolverParams
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ZeroShotRelationExtractionModel.html">
+     sparknlp_jsl.annotator.ZeroShotRelationExtractionModel
     </a>
    </li>
   </ul>
@@ -558,10 +570,10 @@
               <div>
                 
   <section id="sparknlp-jsl-annotator-deidentification">
-<h1>sparknlp_jsl.annotator.DeIdentification<a class="headerlink" href="#sparknlp-jsl-annotator-deidentification" title="Permalink to this headline">¶</a></h1>
+<h1>sparknlp_jsl.annotator.DeIdentification<a class="headerlink" href="#sparknlp-jsl-annotator-deidentification" title="Permalink to this headline">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sparknlp_jsl.annotator.</span></span><span class="sig-name descname"><span class="pre">DeIdentification</span></span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sparknlp_jsl.annotator.</span></span><span class="sig-name descname"><span class="pre">DeIdentification</span></span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorApproach</span></code></p>
 <p>Contains all the methods for training a DeIdentificationModel model.
 This module can obfuscate or mask the entities that contains personal information. These can be set with a file of
@@ -710,7 +722,7 @@ fixed_length_chars: Replace the obfuscated entity with a masking sequence compos
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
-<table class="longtable table autosummary">
+<table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>()</p></td>
 <td><p></p></td>
@@ -854,7 +866,7 @@ fixed_length_chars: Replace the obfuscated entity with a masking sequence compos
 <td><p>Sets whether to prioritize regex over ner entities</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentification.setRegexPatternsDictionary" title="sparknlp_jsl.annotator.DeIdentification.setRegexPatternsDictionary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRegexPatternsDictionary</span></code></a>(path[, read_as, ...])</p></td>
-<td><p>Setst dictionary with regular expression patterns that match some protected entity</p></td>
+<td><p>Sets dictionary with regular expression patterns that match some protected entity</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentification.setReturnEntityMappings" title="sparknlp_jsl.annotator.DeIdentification.setReturnEntityMappings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setReturnEntityMappings</span></code></a>(s)</p></td>
 <td><p>Sets if you want to return mapping column</p></td>
@@ -871,7 +883,7 @@ fixed_length_chars: Replace the obfuscated entity with a masking sequence compos
 </tbody>
 </table>
 <p class="rubric">Attributes</p>
-<table class="longtable table autosummary">
+<table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">blackList</span></code></p></td>
 <td><p></p></td>
@@ -967,13 +979,13 @@ fixed_length_chars: Replace the obfuscated entity with a masking sequence compos
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.clear">
-<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.clear" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.clear" title="Permalink to this definition">#</a></dt>
 <dd><p>Clears a param from the param map if it has been explicitly set.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.copy">
-<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.copy" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.copy" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a copy of this instance with the same uid and some
 extra params. This implementation first calls Params.copy and
 then make a copy of the companion Java pipeline component with
@@ -991,21 +1003,21 @@ component get copied.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.explainParam">
-<span class="sig-name descname"><span class="pre">explainParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.explainParam" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">explainParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.explainParam" title="Permalink to this definition">#</a></dt>
 <dd><p>Explains a single param and returns its name, doc, and optional
 default value and user-supplied value in a string.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.explainParams">
-<span class="sig-name descname"><span class="pre">explainParams</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.explainParams" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">explainParams</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.explainParams" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the documentation of all params with their optionally
 default values and user-supplied values.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.extractParamMap">
-<span class="sig-name descname"><span class="pre">extractParamMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.extractParamMap" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">extractParamMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.extractParamMap" title="Permalink to this definition">#</a></dt>
 <dd><p>Extracts the embedded default param values and user-supplied
 values, and then merges them with extra values from input into
 a flat param map, where the latter value is used if there exist
@@ -1023,7 +1035,7 @@ user-supplied values &lt; extra.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.fit" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.fit" title="Permalink to this definition">#</a></dt>
 <dd><p>Fits a model to the input dataset with optional parameters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1045,7 +1057,7 @@ models.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.fitMultiple">
-<span class="sig-name descname"><span class="pre">fitMultiple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paramMaps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.fitMultiple" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fitMultiple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paramMaps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.fitMultiple" title="Permalink to this definition">#</a></dt>
 <dd><p>Fits a model to the input dataset for each param map in <cite>paramMaps</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1067,39 +1079,39 @@ using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequen
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.getInputCols">
-<span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.getInputCols" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.getInputCols" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.getLazyAnnotator">
-<span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.getLazyAnnotator" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets whether Annotator should be evaluated lazily in a
 RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.getOrDefault">
-<span class="sig-name descname"><span class="pre">getOrDefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.getOrDefault" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getOrDefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.getOrDefault" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets the value of a param in the user-supplied param map or its
 default value. Raises an error if neither is set.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.getOutputCol">
-<span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.getOutputCol" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.getOutputCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.getParam">
-<span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.getParam" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.getParam" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets a param by its name.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.getParamValue">
-<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.getParamValue" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.getParamValue" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets the value of a parameter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1113,39 +1125,39 @@ default value. Raises an error if neither is set.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.hasDefault">
-<span class="sig-name descname"><span class="pre">hasDefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.hasDefault" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">hasDefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.hasDefault" title="Permalink to this definition">#</a></dt>
 <dd><p>Checks whether a param has a default value.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.hasParam">
-<span class="sig-name descname"><span class="pre">hasParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.hasParam" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">hasParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.hasParam" title="Permalink to this definition">#</a></dt>
 <dd><p>Tests whether this instance contains a param with a given
 (string) name.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.isDefined">
-<span class="sig-name descname"><span class="pre">isDefined</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.isDefined" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">isDefined</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.isDefined" title="Permalink to this definition">#</a></dt>
 <dd><p>Checks whether a param is explicitly set by user or has
 a default value.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.isSet">
-<span class="sig-name descname"><span class="pre">isSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.isSet" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">isSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.isSet" title="Permalink to this definition">#</a></dt>
 <dd><p>Checks whether a param is explicitly set by user.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.load">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.load" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.load" title="Permalink to this definition">#</a></dt>
 <dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.params">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.params" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.params" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns all params ordered by name. The default implementation
 uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
 <code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
@@ -1153,25 +1165,25 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.read">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.read" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.read" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns an MLReader instance for this class.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.save" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.save" title="Permalink to this definition">#</a></dt>
 <dd><p>Save this ML instance to the given path, a shortcut of ‘write().save(path)’.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.set">
-<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.set" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets a parameter in the embedded param map.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setBlackList">
-<span class="sig-name descname"><span class="pre">setBlackList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setBlackList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setBlackList" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setBlackList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setBlackList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setBlackList" title="Permalink to this definition">#</a></dt>
 <dd><p>List of entities ignored for masking or obfuscation.
 Parameters
 ———-
@@ -1183,7 +1195,7 @@ s : list</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setConsistentObfuscation">
-<span class="sig-name descname"><span class="pre">setConsistentObfuscation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setConsistentObfuscation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setConsistentObfuscation" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setConsistentObfuscation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setConsistentObfuscation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setConsistentObfuscation" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether to replace very similar entities in a document with the same randomized term (default: true).The similarity is based on the Levenshtein Distance between the words.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1197,7 +1209,7 @@ s : list</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setDateFormats">
-<span class="sig-name descname"><span class="pre">setDateFormats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setDateFormats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setDateFormats" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setDateFormats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setDateFormats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setDateFormats" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets list of date formats to automatically displace if parsed</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1211,7 +1223,7 @@ s : list</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setDateTag">
-<span class="sig-name descname"><span class="pre">setDateTag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setDateTag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setDateTag" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setDateTag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setDateTag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setDateTag" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets tag representing dates in the obfuscate reference file (default: DATE)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1225,7 +1237,7 @@ s : list</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setDateToYear">
-<span class="sig-name descname"><span class="pre">setDateToYear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setDateToYear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setDateToYear" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setDateToYear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setDateToYear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setDateToYear" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets transform dates into years.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1239,7 +1251,7 @@ s : list</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setDays">
-<span class="sig-name descname"><span class="pre">setDays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setDays"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setDays" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setDays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setDays"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setDays" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets number of days to obfuscate by displacement the dates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1253,7 +1265,7 @@ s : list</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setFixedMaskLength">
-<span class="sig-name descname"><span class="pre">setFixedMaskLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setFixedMaskLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setFixedMaskLength" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setFixedMaskLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setFixedMaskLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setFixedMaskLength" title="Permalink to this definition">#</a></dt>
 <dd><dl class="simple">
 <dt>Fixed mask length: this is the length of the masking sequence that will be used when the ‘fixed_length_chars’ masking</dt><dd><p>policy is selected.</p>
 </dd>
@@ -1266,7 +1278,7 @@ s : list</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setIgnoreRegex">
-<span class="sig-name descname"><span class="pre">setIgnoreRegex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setIgnoreRegex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setIgnoreRegex" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setIgnoreRegex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setIgnoreRegex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setIgnoreRegex" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets if you want to use regex.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1280,7 +1292,7 @@ s : list</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setInputCols">
-<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setInputCols" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setInputCols" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets column names of input annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1294,7 +1306,7 @@ s : list</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setIsRandomDateDisplacement">
-<span class="sig-name descname"><span class="pre">setIsRandomDateDisplacement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setIsRandomDateDisplacement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setIsRandomDateDisplacement" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setIsRandomDateDisplacement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setIsRandomDateDisplacement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setIsRandomDateDisplacement" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets if you want to use random displacement in dates</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1308,7 +1320,7 @@ s : list</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setLanguage">
-<span class="sig-name descname"><span class="pre">setLanguage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setLanguage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setLanguage" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setLanguage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setLanguage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setLanguage" title="Permalink to this definition">#</a></dt>
 <dd><p>The language used to select the regex file and some faker entities.’en’(english),’de’() or ‘es’(Spanish)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1322,7 +1334,7 @@ s : list</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setLazyAnnotator">
-<span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setLazyAnnotator" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether Annotator should be evaluated lazily in a
 RecursivePipeline.</p>
 <dl class="field-list simple">
@@ -1338,7 +1350,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setMappingsColumn">
-<span class="sig-name descname"><span class="pre">setMappingsColumn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setMappingsColumn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setMappingsColumn" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setMappingsColumn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setMappingsColumn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setMappingsColumn" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets the name of mapping column that will return the Annotations chunks with the fake entities</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1352,7 +1364,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setMaskingPolicy">
-<span class="sig-name descname"><span class="pre">setMaskingPolicy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setMaskingPolicy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setMaskingPolicy" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setMaskingPolicy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setMaskingPolicy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setMaskingPolicy" title="Permalink to this definition">#</a></dt>
 <dd><dl class="simple">
 <dt>Sets the masking policy:</dt><dd><p>same_length_chars: Replace the obfuscated entity with a masking sequence composed of asterisks and surrounding squared brackets, being the total length of the masking sequence of the same length as the original sequence.
 Example, Smith -&gt; [<a href="#id5"><span class="problematic" id="id6">**</span></a><a href="#id7"><span class="problematic" id="id8">*</span></a>].
@@ -1373,7 +1385,7 @@ fixed_length_chars: Replace the obfuscated entity with a masking sequence compos
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setMinYear">
-<span class="sig-name descname"><span class="pre">setMinYear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setMinYear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setMinYear" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setMinYear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setMinYear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setMinYear" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets minimum year to be used when transforming dates into years.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1387,7 +1399,7 @@ fixed_length_chars: Replace the obfuscated entity with a masking sequence compos
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setMode">
-<span class="sig-name descname"><span class="pre">setMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setMode" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setMode" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets mode for Anonimizer [‘mask’|’obfuscate’]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1401,7 +1413,7 @@ fixed_length_chars: Replace the obfuscated entity with a masking sequence compos
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setObfuscateDate">
-<span class="sig-name descname"><span class="pre">setObfuscateDate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setObfuscateDate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setObfuscateDate" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setObfuscateDate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setObfuscateDate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setObfuscateDate" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets auxiliary label which maps resolved entities to additional labels</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1417,7 +1429,7 @@ WHen setting to ‘false’ then the date will be mask to &lt;DATE&gt;</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setObfuscateRefFile">
-<span class="sig-name descname"><span class="pre">setObfuscateRefFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setObfuscateRefFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setObfuscateRefFile" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setObfuscateRefFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setObfuscateRefFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setObfuscateRefFile" title="Permalink to this definition">#</a></dt>
 <dd><p>Set file with the terms to be used for Obfuscation
 Parameters
 ———-
@@ -1429,7 +1441,7 @@ f : str</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setObfuscateRefSource">
-<span class="sig-name descname"><span class="pre">setObfuscateRefSource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setObfuscateRefSource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setObfuscateRefSource" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setObfuscateRefSource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setObfuscateRefSource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setObfuscateRefSource" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets mode for select obfuscate source [‘both’|’faker’| ‘file]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1443,7 +1455,7 @@ f : str</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setOutputCol">
-<span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setOutputCol" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setOutputCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1457,7 +1469,7 @@ f : str</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setParamValue">
-<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setParamValue" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setParamValue" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets the value of a parameter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1471,7 +1483,7 @@ f : str</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setRefFileFormat">
-<span class="sig-name descname"><span class="pre">setRefFileFormat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setRefFileFormat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setRefFileFormat" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setRefFileFormat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setRefFileFormat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setRefFileFormat" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets format of the reference file</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1485,7 +1497,7 @@ f : str</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setRefSep">
-<span class="sig-name descname"><span class="pre">setRefSep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setRefSep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setRefSep" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setRefSep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setRefSep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setRefSep" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets separator character in refFile</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1499,7 +1511,7 @@ f : str</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setRegexOverride">
-<span class="sig-name descname"><span class="pre">setRegexOverride</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setRegexOverride"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setRegexOverride" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setRegexOverride</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setRegexOverride"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setRegexOverride" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether to prioritize regex over ner entities</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1513,8 +1525,8 @@ f : str</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setRegexPatternsDictionary">
-<span class="sig-name descname"><span class="pre">setRegexPatternsDictionary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'TEXT'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'delimiter':</span> <span class="pre">'</span> <span class="pre">'}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setRegexPatternsDictionary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setRegexPatternsDictionary" title="Permalink to this definition">¶</a></dt>
-<dd><p>Setst dictionary with regular expression patterns that match some protected entity</p>
+<span class="sig-name descname"><span class="pre">setRegexPatternsDictionary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'TEXT'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setRegexPatternsDictionary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setRegexPatternsDictionary" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets dictionary with regular expression patterns that match some protected entity</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -1531,7 +1543,7 @@ f : str</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setReturnEntityMappings">
-<span class="sig-name descname"><span class="pre">setReturnEntityMappings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setReturnEntityMappings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setReturnEntityMappings" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setReturnEntityMappings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setReturnEntityMappings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setReturnEntityMappings" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets if you want to return mapping column</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1545,7 +1557,7 @@ f : str</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setSameEntityThreshold">
-<span class="sig-name descname"><span class="pre">setSameEntityThreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setSameEntityThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setSameEntityThreshold" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setSameEntityThreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setSameEntityThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setSameEntityThreshold" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets similarity threshold [0.0-1.0] to consider two appearances of an entity as <cite>the same</cite> (default: 0.9).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1559,7 +1571,7 @@ f : str</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.setSeed">
-<span class="sig-name descname"><span class="pre">setSeed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setSeed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setSeed" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setSeed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentification.setSeed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.setSeed" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets the seed to select the entities on obfuscate mode</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1573,13 +1585,13 @@ f : str</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.uid">
-<span class="sig-name descname"><span class="pre">uid</span></span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.uid" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">uid</span></span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.uid" title="Permalink to this definition">#</a></dt>
 <dd><p>A unique id for the object.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentification.write">
-<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.write" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentification.write" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns an MLWriter instance for this ML instance.</p>
 </dd></dl>
 
@@ -1615,8 +1627,9 @@ f : str</p>
       </div>
     </div>
   
-    <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -1627,7 +1640,7 @@ f : str</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
 </p>
     </div>
     

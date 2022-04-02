@@ -8,27 +8,24 @@
 
     <title>sparknlp_jsl.annotator.NerConverterInternal &#8212; Spark NLP 3.3.0 documentation</title>
     
-    <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
+
     
-    <link rel="stylesheet"
-      href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+  <link rel="stylesheet"
+    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
     
-    <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
     <script src="../../static/underscore.js"></script>
@@ -46,7 +43,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -191,6 +188,16 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html">
      sparknlp_jsl.annotator.ChunkKeyPhraseExtraction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ChunkMapperApproach.html">
+     sparknlp_jsl.annotator.ChunkMapperApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ChunkMapperModel.html">
+     sparknlp_jsl.annotator.ChunkMapperModel
     </a>
    </li>
    <li class="toctree-l2">
@@ -366,6 +373,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.SentenceResolverParams.html">
      sparknlp_jsl.annotator.SentenceResolverParams
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ZeroShotRelationExtractionModel.html">
+     sparknlp_jsl.annotator.ZeroShotRelationExtractionModel
     </a>
    </li>
   </ul>
@@ -558,10 +570,10 @@
               <div>
                 
   <section id="sparknlp-jsl-annotator-nerconverterinternal">
-<h1>sparknlp_jsl.annotator.NerConverterInternal<a class="headerlink" href="#sparknlp-jsl-annotator-nerconverterinternal" title="Permalink to this headline">¶</a></h1>
+<h1>sparknlp_jsl.annotator.NerConverterInternal<a class="headerlink" href="#sparknlp-jsl-annotator-nerconverterinternal" title="Permalink to this headline">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sparknlp_jsl.annotator.</span></span><span class="sig-name descname"><span class="pre">NerConverterInternal</span></span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#NerConverterInternal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sparknlp_jsl.annotator.</span></span><span class="sig-name descname"><span class="pre">NerConverterInternal</span></span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#NerConverterInternal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorModel</span></code></p>
 <p>Converts a IOB or IOB2 representation of NER to a user-friendly one,
 by associating the tokens of recognized entities and their label.
@@ -623,7 +635,7 @@ Chunks with no associated entity (tagged “O”) are filtered.</p>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
-<table class="longtable table autosummary">
+<table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>()</p></td>
 <td><p>Initialize this instance with a Java model object.</p></td>
@@ -727,7 +739,7 @@ Chunks with no associated entity (tagged “O”) are filtered.</p>
 </tbody>
 </table>
 <p class="rubric">Attributes</p>
-<table class="longtable table autosummary">
+<table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">blackList</span></code></p></td>
 <td><p></p></td>
@@ -769,13 +781,13 @@ Chunks with no associated entity (tagged “O”) are filtered.</p>
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.clear">
-<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.clear" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.clear" title="Permalink to this definition">#</a></dt>
 <dd><p>Clears a param from the param map if it has been explicitly set.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.copy">
-<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.copy" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.copy" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a copy of this instance with the same uid and some
 extra params. This implementation first calls Params.copy and
 then make a copy of the companion Java pipeline component with
@@ -793,21 +805,21 @@ component get copied.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.explainParam">
-<span class="sig-name descname"><span class="pre">explainParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.explainParam" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">explainParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.explainParam" title="Permalink to this definition">#</a></dt>
 <dd><p>Explains a single param and returns its name, doc, and optional
 default value and user-supplied value in a string.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.explainParams">
-<span class="sig-name descname"><span class="pre">explainParams</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.explainParams" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">explainParams</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.explainParams" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the documentation of all params with their optionally
 default values and user-supplied values.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.extractParamMap">
-<span class="sig-name descname"><span class="pre">extractParamMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.extractParamMap" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">extractParamMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.extractParamMap" title="Permalink to this definition">#</a></dt>
 <dd><p>Extracts the embedded default param values and user-supplied
 values, and then merges them with extra values from input into
 a flat param map, where the latter value is used if there exist
@@ -825,39 +837,39 @@ user-supplied values &lt; extra.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.getInputCols">
-<span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.getInputCols" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.getInputCols" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.getLazyAnnotator">
-<span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.getLazyAnnotator" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets whether Annotator should be evaluated lazily in a
 RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.getOrDefault">
-<span class="sig-name descname"><span class="pre">getOrDefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.getOrDefault" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getOrDefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.getOrDefault" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets the value of a param in the user-supplied param map or its
 default value. Raises an error if neither is set.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.getOutputCol">
-<span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.getOutputCol" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.getOutputCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.getParam">
-<span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.getParam" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.getParam" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets a param by its name.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.getParamValue">
-<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.getParamValue" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.getParamValue" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets the value of a parameter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -871,39 +883,39 @@ default value. Raises an error if neither is set.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.hasDefault">
-<span class="sig-name descname"><span class="pre">hasDefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.hasDefault" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">hasDefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.hasDefault" title="Permalink to this definition">#</a></dt>
 <dd><p>Checks whether a param has a default value.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.hasParam">
-<span class="sig-name descname"><span class="pre">hasParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.hasParam" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">hasParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.hasParam" title="Permalink to this definition">#</a></dt>
 <dd><p>Tests whether this instance contains a param with a given
 (string) name.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.isDefined">
-<span class="sig-name descname"><span class="pre">isDefined</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.isDefined" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">isDefined</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.isDefined" title="Permalink to this definition">#</a></dt>
 <dd><p>Checks whether a param is explicitly set by user or has
 a default value.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.isSet">
-<span class="sig-name descname"><span class="pre">isSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.isSet" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">isSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.isSet" title="Permalink to this definition">#</a></dt>
 <dd><p>Checks whether a param is explicitly set by user.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.load">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.load" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.load" title="Permalink to this definition">#</a></dt>
 <dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.params">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.params" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.params" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns all params ordered by name. The default implementation
 uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
 <code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
@@ -911,25 +923,25 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.read">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.read" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.read" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns an MLReader instance for this class.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.save" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.save" title="Permalink to this definition">#</a></dt>
 <dd><p>Save this ML instance to the given path, a shortcut of ‘write().save(path)’.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.set">
-<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.set" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets a parameter in the embedded param map.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.setBlackList">
-<span class="sig-name descname"><span class="pre">setBlackList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#NerConverterInternal.setBlackList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.setBlackList" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setBlackList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#NerConverterInternal.setBlackList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.setBlackList" title="Permalink to this definition">#</a></dt>
 <dd><p>If defined, list of entities to ignore. The rest will be processed. Do not include IOB prefix on labels</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -943,7 +955,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.setGreedyMode">
-<span class="sig-name descname"><span class="pre">setGreedyMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#NerConverterInternal.setGreedyMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.setGreedyMode" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setGreedyMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#NerConverterInternal.setGreedyMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.setGreedyMode" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets  whether to ignore B tags for contiguous tokens of same entity same</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -957,7 +969,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.setInputCols">
-<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.setInputCols" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.setInputCols" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets column names of input annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -971,7 +983,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.setLazyAnnotator">
-<span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.setLazyAnnotator" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether Annotator should be evaluated lazily in a
 RecursivePipeline.</p>
 <dl class="field-list simple">
@@ -987,7 +999,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.setOutputCol">
-<span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.setOutputCol" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.setOutputCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1001,7 +1013,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.setParamValue">
-<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.setParamValue" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.setParamValue" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets the value of a parameter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1015,7 +1027,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.setPreservePosition">
-<span class="sig-name descname"><span class="pre">setPreservePosition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#NerConverterInternal.setPreservePosition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.setPreservePosition" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setPreservePosition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#NerConverterInternal.setPreservePosition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.setPreservePosition" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether to preserve the original position of the tokens in the original document or use the modified tokens</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1029,7 +1041,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.setReplaceDictResource">
-<span class="sig-name descname"><span class="pre">setReplaceDictResource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'TEXT'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'delimiter':</span> <span class="pre">','}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#NerConverterInternal.setReplaceDictResource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.setReplaceDictResource" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setReplaceDictResource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'TEXT'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#NerConverterInternal.setReplaceDictResource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.setReplaceDictResource" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets replace dictionary pairs</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1047,7 +1059,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.setThreshold">
-<span class="sig-name descname"><span class="pre">setThreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#NerConverterInternal.setThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.setThreshold" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setThreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#NerConverterInternal.setThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.setThreshold" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets confidence threshold to filter the chunk entities.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1061,7 +1073,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.setWhiteList">
-<span class="sig-name descname"><span class="pre">setWhiteList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#NerConverterInternal.setWhiteList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.setWhiteList" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setWhiteList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#NerConverterInternal.setWhiteList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.setWhiteList" title="Permalink to this definition">#</a></dt>
 <dd><p>If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1075,7 +1087,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.transform">
-<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.transform" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.transform" title="Permalink to this definition">#</a></dt>
 <dd><p>Transforms the input dataset with optional parameters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1095,13 +1107,13 @@ RecursivePipeline</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.uid">
-<span class="sig-name descname"><span class="pre">uid</span></span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.uid" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">uid</span></span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.uid" title="Permalink to this definition">#</a></dt>
 <dd><p>A unique id for the object.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.NerConverterInternal.write">
-<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.write" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.NerConverterInternal.write" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns an MLWriter instance for this ML instance.</p>
 </dd></dl>
 
@@ -1137,8 +1149,9 @@ RecursivePipeline</p>
       </div>
     </div>
   
-    <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -1149,7 +1162,7 @@ RecursivePipeline</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
 </p>
     </div>
     

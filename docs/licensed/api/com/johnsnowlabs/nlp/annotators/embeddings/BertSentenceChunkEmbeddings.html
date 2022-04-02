@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.embeddings.BertSentenceChunkEmbeddings</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.embeddings.BertSentenceChunkEmbeddings" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.embeddings.BertSentenceChunkEmbeddings" />
+          <title>Spark NLP 3.5.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.embeddings.BertSentenceChunkEmbeddings</title>
+          <meta name="description" content="Spark NLP 3.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.embeddings.BertSentenceChunkEmbeddings" />
+          <meta name="keywords" content="Spark NLP 3.5.0 ScalaDoc com.johnsnowlabs.nlp.annotators.embeddings.BertSentenceChunkEmbeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.5.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -207,12 +207,12 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p> BERT Sentence embeddings for chunk annotations which take into account the context of the sentence the chunk appeared in.
- This is an extension of BertSentenceEmbeddings which combines the embedding of a chunk with the embedding of the
- surrounding sentence. For each input chunk annotation, it finds the corresponding sentence, computes
- the BERT sentence embedding of both the chunk and the sentence and averages them. The resulting embeddings are
- useful in cases, in which one needs a numerical representation of a text chunk which is sensitive to
- the context it appears in.</p><p>This model is a subclass of <span class="extype" name="BertSentenceEmbeddings">BertSentenceEmbeddings</span> and shares all parameters with it. It can load any pretrained
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>BERT Sentence embeddings for chunk annotations which take into account the context of the sentence the chunk appeared in.
+This is an extension of BertSentenceEmbeddings which combines the embedding of a chunk with the embedding of the
+surrounding sentence. For each input chunk annotation, it finds the corresponding sentence, computes
+the BERT sentence embedding of both the chunk and the sentence and averages them. The resulting embeddings are
+useful in cases, in which one needs a numerical representation of a text chunk which is sensitive to
+the context it appears in.</p><p>This model is a subclass of <span class="extype" name="BertSentenceEmbeddings">BertSentenceEmbeddings</span> and shares all parameters with it. It can load any pretrained
 BertSentenceEmbeddings model. Available models can be found at <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>Two input columns are required - chunk and sentence.</p><pre><span class="kw">val</span> embeddings = BertSentenceChunkEmbeddings.pretrained()
   .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"chunk"</span>)
   .setOutputCol(<span class="lit">"sentence_chunk_bert_embeddings"</span>)</pre><p>The default model is <code>&quot;sent_small_bert_L2_768&quot;</code>, if no name is provided.</p><p><b>Sources</b> :</p><p><a href="https://arxiv.org/abs/1810.04805" target="_blank">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a></p><p><a href="https://arxiv.org/pdf/1908.10084.pdf" target="_blank">Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks</a></p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -1549,7 +1549,9 @@ The default is 0.5, which means the chunk and sentence embeddings are given equa
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.embeddings.BertSentenceChunkEmbeddings.AnnotatorType">AnnotatorType</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Input annotator types: DOCUMENT,CHUNK</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: DOCUMENT,CHUNK</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.embeddings.BertSentenceChunkEmbeddings">BertSentenceChunkEmbeddings</a> → BertSentenceEmbeddings → HasInputAnnotationCols</dd></dl></div>
+      <p class="shortcomment cmt">Input annotator types: DOCUMENT,CHUNK
+</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: DOCUMENT,CHUNK
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.embeddings.BertSentenceChunkEmbeddings">BertSentenceChunkEmbeddings</a> → BertSentenceEmbeddings → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -2003,7 +2005,9 @@ The default is 0.5, which means the chunk and sentence embeddings are given equa
         <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.embeddings.BertSentenceChunkEmbeddings.AnnotatorType">AnnotatorType</a></span>
       </span>
       
-      <p class="shortcomment cmt">Output annotator types: CHUNK</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: CHUNK</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.embeddings.BertSentenceChunkEmbeddings">BertSentenceChunkEmbeddings</a> → BertSentenceEmbeddings → HasOutputAnnotatorType</dd></dl></div>
+      <p class="shortcomment cmt">Output annotator types: CHUNK
+</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: CHUNK
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.embeddings.BertSentenceChunkEmbeddings">BertSentenceChunkEmbeddings</a> → BertSentenceEmbeddings → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">

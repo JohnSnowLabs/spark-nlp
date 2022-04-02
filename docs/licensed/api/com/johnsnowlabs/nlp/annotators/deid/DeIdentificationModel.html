@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" />
+          <title>Spark NLP 3.5.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel</title>
+          <meta name="description" content="Spark NLP 3.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" />
+          <meta name="keywords" content="Spark NLP 3.5.0 ScalaDoc com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.5.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -221,10 +221,6 @@
                         <span class="separator"></span>
                         <a class="class" href="SentenceMaxException.html" title=""></a>
                         <a href="SentenceMaxException.html" title="">SentenceMaxException</a>
-                      </li><li class="current-entities indented5">
-                        <span class="separator"></span>
-                        <a class="class" href="StructuredDeid.html" title="Utility class that helps to create a pipeline to obfuscate tabular data."></a>
-                        <a href="StructuredDeid.html" title="Utility class that helps to create a pipeline to obfuscate tabular data.">StructuredDeid</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="StructuredDeidentification.html" title="Utility class that helps to obfuscate tabular data."></a>
@@ -584,7 +580,8 @@ masking or obfuscating the given CHUNKS.</p><p>To create an configured DeIdentif
         <span class="name">allTerms</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
       </span>
       
-      <p class="shortcomment cmt">dictionary, which contains all terms for using later in anonimization function</p>
+      <p class="shortcomment cmt">dictionary, which contains all terms for using later in anonimization function
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel#annotate" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="annotate(annotations:Seq[com.johnsnowlabs.nlp.Annotation]):Seq[com.johnsnowlabs.nlp.Annotation]"></a><a id="annotate(Seq[Annotation]):Seq[Annotation]"></a>
       <span class="permalink">
@@ -1288,7 +1285,8 @@ policy is selected.</p></div><dl class="attributes block"> <dt>Definition Classe
         <span class="name">getAllTerms</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
       </span>
       
-      <p class="shortcomment cmt">dictionary, which contains all terms for using later in anonimization function</p>
+      <p class="shortcomment cmt">dictionary, which contains all terms for using later in anonimization function
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel#getAnonymizeSentence" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getAnonymizeSentence(sentence:com.johnsnowlabs.nlp.annotators.common.Sentence,protectedEntities:Seq[com.johnsnowlabs.nlp.Annotation],dateTag:String,days:Int,dateToYear:Boolean,minYear:Int):(String,Seq[com.johnsnowlabs.nlp.Annotation])"></a><a id="getAnonymizeSentence(Sentence,Seq[Annotation],String,Int,Boolean,Int):(String,Seq[Annotation])"></a>
       <span class="permalink">
@@ -1521,7 +1519,8 @@ This method is called for each sentence in the input collection of Annotations
         <span class="name">getRegexPatternsDictionary</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
       </span>
       
-      <p class="shortcomment cmt">dictionary with regular expression patterns that match some protected entity</p>
+      <p class="shortcomment cmt">dictionary with regular expression patterns that match some protected entity
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel#getSeed" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="getSeed():Int"></a>
       <span class="permalink">
@@ -1724,7 +1723,9 @@ The default value is false.</p></div><dl class="attributes block"> <dt>Definitio
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel.AnnotatorType">AnnotatorType</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Input annotator type: DOCUMENT, TOKEN, CHUNK</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator type: DOCUMENT, TOKEN, CHUNK</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a> → HasInputAnnotationCols</dd></dl></div>
+      <p class="shortcomment cmt">Input annotator type: DOCUMENT, TOKEN, CHUNK
+</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator type: DOCUMENT, TOKEN, CHUNK
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a> → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -2326,7 +2327,9 @@ The values ar the following:
         <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel.AnnotatorType">AnnotatorType</a></span>
       </span>
       
-      <p class="shortcomment cmt">Output annotator types: DOCUMENT</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: DOCUMENT</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a> → HasOutputAnnotatorType</dd></dl></div>
+      <p class="shortcomment cmt">Output annotator types: DOCUMENT
+</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: DOCUMENT
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a> → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -2423,7 +2426,8 @@ The default value is false.</p></div><dl class="attributes block"> <dt>Definitio
         <span class="name">regexPatternsDictionary</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
       </span>
       
-      <p class="shortcomment cmt">dictionary with regular expression patterns that match some protected entity</p>
+      <p class="shortcomment cmt">dictionary with regular expression patterns that match some protected entity
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel#replaceRegExFlavors" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="replaceRegExFlavors(word:String):String"></a><a id="replaceRegExFlavors(String):String"></a>
       <span class="permalink">
@@ -2648,7 +2652,8 @@ with the same ouptut.</p></div><dl class="attributes block"> <dt>Definition Clas
         <span class="name">setAllTerms</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">dictionary, which contains all terms for using later in anonimization function</p>
+      <p class="shortcomment cmt">dictionary, which contains all terms for using later in anonimization function
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setBlackList" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setBlackList(list:Array[String]):DeIdentificationParams.this.type"></a><a id="setBlackList(Array[String]):DeIdentificationModel.this.type"></a>
       <span class="permalink">
@@ -3135,7 +3140,8 @@ The default value is false.</p></div><dl class="attributes block"> <dt>Definitio
         <span class="name">setRegexPatternsDictionary</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">dictionary with regular expression patterns that match some protected entity</p>
+      <p class="shortcomment cmt">dictionary with regular expression patterns that match some protected entity
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setReturnEntityMappings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setReturnEntityMappings(s:Boolean):DeIdentificationParams.this.type"></a><a id="setReturnEntityMappings(Boolean):DeIdentificationModel.this.type"></a>
       <span class="permalink">

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.chunker.ChunkFiltererApproach</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.chunker.ChunkFiltererApproach" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.chunker.ChunkFiltererApproach" />
+          <title>Spark NLP 3.5.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.chunker.ChunkFiltererApproach</title>
+          <meta name="description" content="Spark NLP 3.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.chunker.ChunkFiltererApproach" />
+          <meta name="keywords" content="Spark NLP 3.5.0 ScalaDoc com.johnsnowlabs.nlp.annotators.chunker.ChunkFiltererApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.5.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -149,6 +149,22 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.chunkmapper" visbl="pub" class="indented6 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="chunkmapper"></a><a id="chunkmapper:chunkmapper"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/chunkmapper/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="chunkmapper/index.html"><span class="name">chunkmapper</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker">chunker</a></dd></dl></div>
     </li><li class="current-entities indented5">
                         <a class="object" href="AssertionFilterer$.html" title=""></a>
                         <a class="class" href="AssertionFilterer.html" title="Filters entities coming from ASSERTION type annotations and returns the CHUNKS."></a>
@@ -170,6 +186,14 @@
                         <a class="class" href="ChunkKeyPhraseExtraction.html" title="Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a text."></a>
                         <a href="ChunkKeyPhraseExtraction.html" title="Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a text.">ChunkKeyPhraseExtraction</a>
                       </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="class" href="ChunkMapperApproach.html" title=""></a>
+                        <a href="ChunkMapperApproach.html" title="">ChunkMapperApproach</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="ChunkMapperModel$.html" title=""></a>
+                        <a class="class" href="ChunkMapperModel.html" title=""></a>
+                        <a href="ChunkMapperModel.html" title="">ChunkMapperModel</a>
+                      </li><li class="current-entities indented5">
                         <a class="object" href="ChunkSentenceSplitter$.html" title=""></a>
                         <a class="class" href="ChunkSentenceSplitter.html" title="Split the document using the chunks that you provided,and put in the metadata the chunk entity."></a>
                         <a href="ChunkSentenceSplitter.html" title="Split the document using the chunks that you provided,and put in the metadata the chunk entity.">ChunkSentenceSplitter</a>
@@ -181,6 +205,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedChunkKeyPhraseExtractionModel.html" title=""></a>
                         <a href="ReadablePretrainedChunkKeyPhraseExtractionModel.html" title="">ReadablePretrainedChunkKeyPhraseExtractionModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedChunkMapperModel.html" title=""></a>
+                        <a href="ReadablePretrainedChunkMapperModel.html" title="">ReadablePretrainedChunkMapperModel</a>
                       </li>
               </ul>
             </div>
@@ -646,7 +674,8 @@ result.selectExpr(<span class="lit">"explode(filtered)"</span>).show(truncate=<s
         <span class="name">criteria</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Tag representing dates in the obfuscate reference file (Default: &quot;isin&quot;)</p>
+      <p class="shortcomment cmt">Tag representing dates in the obfuscate reference file (Default: &quot;isin&quot;)
+</p>
     </li><li name="org.apache.spark.ml.param.Params#defaultCopy" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="defaultCopy[T&lt;:org.apache.spark.ml.param.Params](extra:org.apache.spark.ml.param.ParamMap):T"></a><a id="defaultCopy[T&lt;:Params](ParamMap):T"></a>
       <span class="permalink">
@@ -808,7 +837,8 @@ result.selectExpr(<span class="lit">"explode(filtered)"</span>).show(truncate=<s
       </span>
       
       <p class="shortcomment cmt">Possibles values result|entity,If is entity we filter the ner chunks by the ner label that you want to filter.</p><div class="fullcomment"><div class="comment cmt"><p>Possibles values result|entity,If is entity we filter the ner chunks by the ner label that you want to filter.
-If is result you will filter by the result</p></div></div>
+If is result you will filter by the result
+</p></div></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <span class="permalink">
@@ -1144,7 +1174,9 @@ If is result you will filter by the result</p></div></div>
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFiltererApproach.AnnotatorType">AnnotatorType</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Input annotator types: DOCUMENT,CHUNK</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: DOCUMENT,CHUNK</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFiltererApproach">ChunkFiltererApproach</a> → HasInputAnnotationCols</dd></dl></div>
+      <p class="shortcomment cmt">Input annotator types: DOCUMENT,CHUNK
+</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: DOCUMENT,CHUNK
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFiltererApproach">ChunkFiltererApproach</a> → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -1566,7 +1598,9 @@ If is result you will filter by the result</p></div></div>
         <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFiltererApproach.AnnotatorType">AnnotatorType</a></span>
       </span>
       
-      <p class="shortcomment cmt">Output annotator types: CHUNK</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: CHUNK</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFiltererApproach">ChunkFiltererApproach</a> → HasOutputAnnotatorType</dd></dl></div>
+      <p class="shortcomment cmt">Output annotator types: CHUNK
+</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: CHUNK
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFiltererApproach">ChunkFiltererApproach</a> → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -1614,7 +1648,8 @@ If is result you will filter by the result</p></div></div>
         <span class="name">regex</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">If defined, list of regex to process the chunks (Default: <code>Array()</code>)</p>
+      <p class="shortcomment cmt">If defined, list of regex to process the chunks (Default: <code>Array()</code>)
+</p>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
       <span class="permalink">
@@ -1754,7 +1789,8 @@ If is result you will filter by the result</p></div></div>
       </span>
       
       <p class="shortcomment cmt">Possibles values result|entity,If is entity we filter the ner chunks by the ner label that you want to filter.</p><div class="fullcomment"><div class="comment cmt"><p>Possibles values result|entity,If is entity we filter the ner chunks by the ner label that you want to filter.
-If is result you will filter by the result</p></div></div>
+If is result you will filter by the result
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):ChunkFiltererApproach.this.type"></a>
       <span class="permalink">
@@ -1867,7 +1903,8 @@ If is result you will filter by the result</p></div></div>
         <span class="name">setWhiteList</span><span class="params">(<span name="list">list: <span class="extype" name="scala.Predef.String">String</span>*</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFiltererApproach">ChunkFiltererApproach</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">If defined, list of entities to process.</p><div class="fullcomment"><div class="comment cmt"><p>If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels</p></div></div>
+      <p class="shortcomment cmt">If defined, list of entities to process.</p><div class="fullcomment"><div class="comment cmt"><p>If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels
+</p></div></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -2066,7 +2103,8 @@ If is result you will filter by the result</p></div></div>
         <span class="name">whiteList</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">If defined, list of entities to process.</p><div class="fullcomment"><div class="comment cmt"><p>If defined, list of entities to process. The rest will be ignored. Does not include IOB prefix on labels (Default: <code>Array()</code>)</p></div></div>
+      <p class="shortcomment cmt">If defined, list of entities to process.</p><div class="fullcomment"><div class="comment cmt"><p>If defined, list of entities to process. The rest will be ignored. Does not include IOB prefix on labels (Default: <code>Array()</code>)
+</p></div></div>
     </li><li name="org.apache.spark.ml.util.DefaultParamsWritable#write" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="write:org.apache.spark.ml.util.MLWriter"></a><a id="write:MLWriter"></a>
       <span class="permalink">

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.embeddings</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.embeddings" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.embeddings" />
+          <title>Spark NLP 3.5.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.embeddings</title>
+          <meta name="description" content="Spark NLP 3.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.embeddings" />
+          <meta name="keywords" content="Spark NLP 3.5.0 ScalaDoc com.johnsnowlabs.nlp.annotators.embeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.5.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -479,12 +479,12 @@
         <a title="BERT Sentence embeddings for chunk annotations which take into account the context of the sentence the chunk appeared in." href="BertSentenceChunkEmbeddings.html"><span class="name">BertSentenceChunkEmbeddings</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings">BertSentenceEmbeddings</span> with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
       </span>
       
-      <p class="shortcomment cmt"> BERT Sentence embeddings for chunk annotations which take into account the context of the sentence the chunk appeared in.</p><div class="fullcomment"><div class="comment cmt"><p> BERT Sentence embeddings for chunk annotations which take into account the context of the sentence the chunk appeared in.
- This is an extension of BertSentenceEmbeddings which combines the embedding of a chunk with the embedding of the
- surrounding sentence. For each input chunk annotation, it finds the corresponding sentence, computes
- the BERT sentence embedding of both the chunk and the sentence and averages them. The resulting embeddings are
- useful in cases, in which one needs a numerical representation of a text chunk which is sensitive to
- the context it appears in.</p><p>This model is a subclass of <span class="extype" name="BertSentenceEmbeddings">BertSentenceEmbeddings</span> and shares all parameters with it. It can load any pretrained
+      <p class="shortcomment cmt">BERT Sentence embeddings for chunk annotations which take into account the context of the sentence the chunk appeared in.</p><div class="fullcomment"><div class="comment cmt"><p>BERT Sentence embeddings for chunk annotations which take into account the context of the sentence the chunk appeared in.
+This is an extension of BertSentenceEmbeddings which combines the embedding of a chunk with the embedding of the
+surrounding sentence. For each input chunk annotation, it finds the corresponding sentence, computes
+the BERT sentence embedding of both the chunk and the sentence and averages them. The resulting embeddings are
+useful in cases, in which one needs a numerical representation of a text chunk which is sensitive to
+the context it appears in.</p><p>This model is a subclass of <span class="extype" name="BertSentenceEmbeddings">BertSentenceEmbeddings</span> and shares all parameters with it. It can load any pretrained
 BertSentenceEmbeddings model. Available models can be found at <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>Two input columns are required - chunk and sentence.</p><pre><span class="kw">val</span> embeddings = BertSentenceChunkEmbeddings.pretrained()
   .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"chunk"</span>)
   .setOutputCol(<span class="lit">"sentence_chunk_bert_embeddings"</span>)</pre><p>The default model is <code>&quot;sent_small_bert_L2_768&quot;</code>, if no name is provided.</p><p><b>Sources</b> :</p><p><a href="https://arxiv.org/abs/1810.04805" target="_blank">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a></p><p><a href="https://arxiv.org/pdf/1908.10084.pdf" target="_blank">Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks</a></p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -569,26 +569,26 @@ result
         <a title="Entity Chunk Embeddings uses BERT Sentence embeddings to compute a weighted average vector represention of related entity chunks." href="EntityChunkEmbeddings.html"><span class="name">EntityChunkEmbeddings</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.annotator.BertSentenceEmbeddings">BertSentenceEmbeddings</span> with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
       </span>
       
-      <p class="shortcomment cmt"> Entity Chunk Embeddings uses BERT Sentence embeddings to compute a weighted average vector represention of
- related entity chunks.</p><div class="fullcomment"><div class="comment cmt"><p> Entity Chunk Embeddings uses BERT Sentence embeddings to compute a weighted average vector represention of
- related entity chunks.  The input the model consists of chunks of recognized named entities. One or more entities are
- selected as target entities and for each of them a list of related entities is specified (if empty, all other entities
- are assumed to be related). The model looks for chunks of the target entities and then tries to pair each target entity
- (e.g. DRUG)  with other related entities (e.g. DOSAGE, STRENGTH, FORM, etc). The criterion for pairing a target entity
- with another related  entity is that they appear in the same sentence and the maximal syntactic distance is below a
- predefined threshold.
- The relationship between target and related entities is one-to-many, meaning that if there multiple instances of the
- same target entity (e.g.) within a sentence, the model will map a related entity (e.g. DOSAGE) to at most one of the
- instances of the target entity. For example, if there is a sentence &quot;The patient was given 125 mg of paracetamol
- and metformin&quot;, the model will pair &quot;125 mg&quot; to  &quot;paracetamol&quot;, but not to &quot;metformin&quot;.
- The output of the model is an average embeddings of the chunks of each of the target entities and their related
- entities. It is possible to specify a particular weight for each entity type.
- An entity can be defined both as target a entity and as a related entity for some other target entity. For example,
- we may want to compute the embeddings of SYMPTOMs and their related entities, as well as the embeddings of DRUGs and
- their related entities, one of each is also SYMPTOM. In such cases, it is possible to use the
- TARGET_ENTITY:RELATED_ENTITY notation to specify the weight of an related entity (e.g. &quot;DRUG:SYMPTOM&quot; to set the
- weight of SYMPTOM when it appears as an related entity to target entity DRUG). The relative weights of entities for
- particular entity chunk embeddings are available in the annotations metadata.</p><p>This model is a subclass of <span class="extype" name="BertSentenceEmbeddings">BertSentenceEmbeddings</span> and shares all parameters with it. It can load any pretrained
+      <p class="shortcomment cmt">Entity Chunk Embeddings uses BERT Sentence embeddings to compute a weighted average vector represention of
+related entity chunks.</p><div class="fullcomment"><div class="comment cmt"><p>Entity Chunk Embeddings uses BERT Sentence embeddings to compute a weighted average vector represention of
+related entity chunks.  The input the model consists of chunks of recognized named entities. One or more entities are
+selected as target entities and for each of them a list of related entities is specified (if empty, all other entities
+are assumed to be related). The model looks for chunks of the target entities and then tries to pair each target entity
+(e.g. DRUG)  with other related entities (e.g. DOSAGE, STRENGTH, FORM, etc). The criterion for pairing a target entity
+with another related  entity is that they appear in the same sentence and the maximal syntactic distance is below a
+predefined threshold.
+The relationship between target and related entities is one-to-many, meaning that if there multiple instances of the
+same target entity (e.g.) within a sentence, the model will map a related entity (e.g. DOSAGE) to at most one of the
+instances of the target entity. For example, if there is a sentence &quot;The patient was given 125 mg of paracetamol
+and metformin&quot;, the model will pair &quot;125 mg&quot; to  &quot;paracetamol&quot;, but not to &quot;metformin&quot;.
+The output of the model is an average embeddings of the chunks of each of the target entities and their related
+entities. It is possible to specify a particular weight for each entity type.
+An entity can be defined both as target a entity and as a related entity for some other target entity. For example,
+we may want to compute the embeddings of SYMPTOMs and their related entities, as well as the embeddings of DRUGs and
+their related entities, one of each is also SYMPTOM. In such cases, it is possible to use the
+TARGET_ENTITY:RELATED_ENTITY notation to specify the weight of an related entity (e.g. &quot;DRUG:SYMPTOM&quot; to set the
+weight of SYMPTOM when it appears as an related entity to target entity DRUG). The relative weights of entities for
+particular entity chunk embeddings are available in the annotations metadata.</p><p>This model is a subclass of <span class="extype" name="BertSentenceEmbeddings">BertSentenceEmbeddings</span> and shares all parameters with it. It can load any pretrained
 BertSentenceEmbeddings model. Available models can be found at <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>Two input columns are required - chunks and dependency annotations.</p><pre><span class="kw">val</span> embeddings = EntityChunkEmbeddings.pretrained()
   .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"dependencies"</span>)
   .setOutputCol(<span class="lit">"entity_chunk_embeddings"</span>)</pre><p>The default model is <code>&quot;sbiobert_base_cased_mli&quot;</code> from &quot;clinical/models&quot;.</p><p><b>Sources</b> :</p><p><a href="https://arxiv.org/abs/1810.04805" target="_blank">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a>
