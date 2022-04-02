@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>RE Pipeline between Tests, Results, and Dates- Spark NLP Model</title><meta name="description" content="DescriptionThis pretrained pipeline is built on the top of re_test_result_date model.Live DemoOpen in ColabDownloadHow to use         PythonScalaNLU  pipelin...">
-<link rel="canonical" href="/2022/03/31/re_test_result_date_pipeline_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Pipeline to Detect Medication Entities, Assign Assertion Status and Find Relations- Spark NLP Model</title><meta name="description" content="DescriptionA pipeline for detecting posology entities with the ner_posology_large NER model, assigning their assertion status with assertion_jsl model, and e...">
+<link rel="canonical" href="/2022/04/01/explain_clinical_doc_medication_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -404,17 +404,17 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Mar 31, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-03-31T00:00:00+00:00"></div><header class="main-docs"><h1>RE Pipeline between Tests, Results, and Dates</h1></header></div><meta itemprop="headline" content="RE Pipeline between Tests, Results, and Dates"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>licensed</li><li>clinical</li><li>relation_extraction</li><li>tests</li><li>results</li><li>dates</li><li>en</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-03-31T00:00:00+00:00">
-    <meta itemprop="keywords" content="licensed,clinical,relation_extraction,tests,results,dates,en"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Apr 01, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-01T00:00:00+00:00"></div><header class="main-docs"><h1>Pipeline to Detect Medication Entities, Assign Assertion Status and Find Relations</h1></header></div><meta itemprop="headline" content="Pipeline to Detect Medication Entities, Assign Assertion Status and Find Relations"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>licensed</li><li>en</li><li>clinical</li><li>ner</li><li>assertion</li><li>relation_extraction</li><li>posology</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-01T00:00:00+00:00">
+    <meta itemprop="keywords" content="licensed,en,clinical,ner,assertion,relation_extraction,posology"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This pretrained pipeline is built on the top of <a href="https://nlp.johnsnowlabs.com/2021/02/24/re_test_result_date_en.html">re_test_result_date</a> model.</p>
+<p>A pipeline for detecting posology entities with the <code class="language-plaintext highlighter-rouge">ner_posology_large</code> NER model, assigning their assertion status with <code class="language-plaintext highlighter-rouge">assertion_jsl</code> model, and extracting relations between posology-related terminology with <code class="language-plaintext highlighter-rouge">posology_re</code> relation extraction model.</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_test_result_date_pipeline_en_3.4.1_3.0_1648734076557.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/explain_clinical_doc_medication_en_3.4.2_3.0_1648813363898.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -422,25 +422,60 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"re_test_result_date_pipeline"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
 
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"explain_clinical_doc_medication"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
 
-<span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"He was advised chest X-ray or CT scan after checking his SpO2 which was &lt;= 93%"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">"""The patient is a 30-year-old female with a long history of insulin dependent diabetes, type 2. She received a course of Bactrim for 14 days for UTI.  She was prescribed 5000 units of Fragmin  subcutaneously daily, and along with Lantus 40 units subcutaneously at bedtime."""</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"re_test_result_date_pipeline"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
 
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"explain_clinical_doc_medication"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
 
-<span class="nv">pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"He was advised chest X-ray or CT scan after checking his SpO2 which was &lt;= 93%"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fullAnnotate</span><span class="o">(</span><span class="s">"""The patient is a 30-year-old female with a long history of insulin dependent diabetes, type 2. She received a course of Bactrim for 14 days for UTI.  She was prescribed 5000 units of Fragmin  subcutaneously daily, and along with Lantus 40 units subcutaneously at bedtime."""</span><span class="o">)(</span><span class="mi">0</span><span class="o">)</span>
+
 </code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| index | relations    | entity1      | chunk1              | entity2      |  chunk2 |
-|-------|--------------|--------------|---------------------|--------------|---------|
-| 0     | O            | TEST         | chest X-ray         | MEASUREMENTS |  93%    | 
-| 1     | O            | TEST         | CT scan             | MEASUREMENTS |  93%    |
-| 2     | is_result_of | TEST         | SpO2                | MEASUREMENTS |  93%    |
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----+----------------+------------+
+|    | chunks         | entities   |
+|---:|:---------------|:-----------|
+|  0 | insulin        | DRUG       |
+|  1 | Bactrim        | DRUG       |
+|  2 | <span class="k">for </span>14 days    | DURATION   |
+|  3 | 5000 units     | DOSAGE     |
+|  4 | Fragmin        | DRUG       |
+|  5 | subcutaneously | ROUTE      |
+|  6 | daily          | FREQUENCY  |
+|  7 | Lantus         | DRUG       |
+|  8 | 40 units       | DOSAGE     |
+|  9 | subcutaneously | ROUTE      |
+| 10 | at bedtime     | FREQUENCY  |
++----+----------------+------------+
+
++----+----------+------------+-------------+
+|    | chunks   | entities   | assertion   |
+|---:|:---------|:-----------|:------------|
+|  0 | insulin  | DRUG       | Present     |
+|  1 | Bactrim  | DRUG       | Past        |
+|  2 | Fragmin  | DRUG       | Planned     |
+|  3 | Lantus   | DRUG       | Planned     |
++----+----------+------------+-------------+
+
++----------------+-----------+------------+-----------+----------------+
+| relation       | entity1   | chunk1     | entity2   | chunk2         |
+|:---------------|:----------|:-----------|:----------|:---------------|
+| DRUG-DURATION  | DRUG      | Bactrim    | DURATION  | <span class="k">for </span>14 days    |
+| DOSAGE-DRUG    | DOSAGE    | 5000 units | DRUG      | Fragmin        |
+| DRUG-ROUTE     | DRUG      | Fragmin    | ROUTE     | subcutaneously |
+| DRUG-FREQUENCY | DRUG      | Fragmin    | FREQUENCY | daily          |
+| DRUG-DOSAGE    | DRUG      | Lantus     | DOSAGE    | 40 units       |
+| DRUG-ROUTE     | DRUG      | Lantus     | ROUTE     | subcutaneously |
+| DRUG-FREQUENCY | DRUG      | Lantus     | FREQUENCY | at bedtime     |
++----------------+-----------+------------+-----------+----------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -449,7 +484,7 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>re_test_result_date_pipeline</td>
+      <td>explain_clinical_doc_medication</td>
     </tr>
     <tr>
       <td>Type:</td>
@@ -457,7 +492,7 @@
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 3.4.1+</td>
+      <td>Spark NLP for Healthcare 3.4.2+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -482,16 +517,18 @@
 
 <ul>
   <li>DocumentAssembler</li>
-  <li>SentenceDetector</li>
+  <li>SentenceDetectorDLModel</li>
   <li>TokenizerModel</li>
-  <li>PerceptronModel</li>
   <li>WordEmbeddingsModel</li>
   <li>MedicalNerModel</li>
-  <li>NerConverter</li>
+  <li>NerConverterInternal</li>
+  <li>NerConverterInternal</li>
+  <li>AssertionDLModel</li>
+  <li>PerceptronModel</li>
   <li>DependencyParserModel</li>
-  <li>RelationExtractionModel</li>
+  <li>PosologyREModel</li>
 </ul>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-03-31T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-04-01T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -616,7 +653,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/03/31/re_test_problem_finding_pipeline_en_3_0.html">RE Pipeline between Problem, Test, and Findings in Reports</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/04/01/normalized_section_header_mapper_en_3_0.html">Normalizing Section Headers in Clinical Notes</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/04/01/normalized_section_header_mapper_en_3_0.html">Normalizing Section Headers in Clinical Notes</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/04/01/re_zeroshot_biobert_en_3_0.html">Zero-shot Relation Extraction (BioBert)</a></div></div></div>
 
 </div>
 </div>

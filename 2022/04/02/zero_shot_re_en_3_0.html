@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>RE Pipeline between Tests, Results, and Dates- Spark NLP Model</title><meta name="description" content="DescriptionThis pretrained pipeline is built on the top of re_test_result_date model.Live DemoOpen in ColabDownloadHow to use         PythonScalaNLU  pipelin...">
-<link rel="canonical" href="/2022/03/31/re_test_result_date_pipeline_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Zero-shot Relation Extraction (BioBert)- Spark NLP Model</title><meta name="description" content="DescriptionZero-shot Relation Extraction to extract relations between clinical entities with no training dataset, just pretrained BioBert embeddings (include...">
+<link rel="canonical" href="/2022/04/02/zero_shot_re_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -404,17 +404,19 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Mar 31, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-03-31T00:00:00+00:00"></div><header class="main-docs"><h1>RE Pipeline between Tests, Results, and Dates</h1></header></div><meta itemprop="headline" content="RE Pipeline between Tests, Results, and Dates"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>licensed</li><li>clinical</li><li>relation_extraction</li><li>tests</li><li>results</li><li>dates</li><li>en</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-03-31T00:00:00+00:00">
-    <meta itemprop="keywords" content="licensed,clinical,relation_extraction,tests,results,dates,en"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Apr 02, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-02T00:00:00+00:00"></div><header class="main-docs"><h1>Zero-shot Relation Extraction (BioBert)</h1></header></div><meta itemprop="headline" content="Zero-shot Relation Extraction (BioBert)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>zero_shot</li><li>zeroshot</li><li>zero</li><li>shot</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-02T00:00:00+00:00">
+    <meta itemprop="keywords" content="zero_shot,zeroshot,zero,shot,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This pretrained pipeline is built on the top of <a href="https://nlp.johnsnowlabs.com/2021/02/24/re_test_result_date_en.html">re_test_result_date</a> model.</p>
+<p>Zero-shot Relation Extraction to extract relations between clinical entities with no training dataset, just pretrained BioBert embeddings (included in the model).</p>
+
+<h2 id="predicted-entities">Predicted Entities</h2>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_test_result_date_pipeline_en_3.4.1_3.0_1648734076557.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/zero_shot_re_en_3.5.0_3.0_1648893990753.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -422,25 +424,86 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"re_test_result_date_pipeline"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span>
+    <span class="p">[[</span><span class="s">"Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer."</span><span class="p">]]</span>
+<span class="p">).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
+<span class="n">documenter</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"He was advised chest X-ray or CT scan after checking his SpO2 which was &lt;= 93%"</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">annotators</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"tokens"</span><span class="p">)</span>
+
+<span class="n">sentencer</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">annotators</span><span class="p">.</span><span class="n">SentenceDetector</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentences"</span><span class="p">)</span>
+
+<span class="n">words_embedder</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">annotators</span><span class="p">.</span><span class="n">WordEmbeddingsModel</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+
+<span class="n">pos_tagger</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">annotators</span><span class="p">.</span><span class="n">PerceptronModel</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"pos_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos_tags"</span><span class="p">)</span>
+
+<span class="n">ner_tagger</span> <span class="o">=</span> <span class="n">sparknlp_jsl</span><span class="p">.</span><span class="n">annotator</span><span class="p">.</span><span class="n">MedicalNerModel</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_tags"</span><span class="p">)</span>
+
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">annotators</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"ner_tags"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunks"</span><span class="p">)</span>
+
+<span class="n">dependency_parser</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">annotators</span><span class="p">.</span><span class="n">DependencyParserModel</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"dependency_conllu"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"pos_tags"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"dependencies"</span><span class="p">)</span>
+
+<span class="n">re_ner_chunk_filter</span> <span class="o">=</span> <span class="n">sparknlp_jsl</span><span class="p">.</span><span class="n">annotator</span><span class="p">.</span><span class="n">RENerChunksFilter</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setRelationPairs</span><span class="p">([</span><span class="s">"problem-test"</span><span class="p">,</span><span class="s">"problem-treatment"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setMaxSyntacticDistance</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setDocLevelRelations</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunks"</span><span class="p">,</span> <span class="s">"dependencies"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"re_ner_chunks"</span><span class="p">)</span>
+
+<span class="n">re_model</span> <span class="o">=</span> <span class="n">sparknlp_jsl</span><span class="p">.</span><span class="n">annotator</span><span class="p">.</span><span class="n">ZeroShotRelationExtractionModel</span> \
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"zero_shot_re"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setRelationalCategories</span><span class="p">({</span>
+        <span class="s">"CURE"</span><span class="p">:</span> <span class="p">[</span><span class="s">" cures ."</span><span class="p">],</span>
+        <span class="s">"IMPROVE"</span><span class="p">:</span> <span class="p">[</span><span class="s">" improves ."</span><span class="p">,</span> <span class="s">" cures ."</span><span class="p">],</span>
+        <span class="s">"REVEAL"</span><span class="p">:</span> <span class="p">[</span><span class="s">" reveals ."</span><span class="p">]})</span>\
+    <span class="p">.</span><span class="n">setMultiLabel</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"re_ner_chunks"</span><span class="p">,</span> <span class="s">"sentences"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">base</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setStages</span><span class="p">([</span><span class="n">documenter</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">sentencer</span><span class="p">,</span> <span class="n">words_embedder</span><span class="p">,</span> <span class="n">pos_tagger</span><span class="p">,</span> <span class="n">ner_tagger</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">,</span>
+                <span class="n">dependency_parser</span><span class="p">,</span> <span class="n">re_ner_chunk_filter</span><span class="p">,</span> <span class="n">re_model</span><span class="p">])</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">results</span>\
+    <span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(relations) as relation"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"re_test_result_date_pipeline"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
 
-
-<span class="nv">pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"He was advised chest X-ray or CT scan after checking his SpO2 which was &lt;= 93%"</span><span class="o">)</span>
-</code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| index | relations    | entity1      | chunk1              | entity2      |  chunk2 |
-|-------|--------------|--------------|---------------------|--------------|---------|
-| 0     | O            | TEST         | chest X-ray         | MEASUREMENTS |  93%    | 
-| 1     | O            | TEST         | CT scan             | MEASUREMENTS |  93%    |
-| 2     | is_result_of | TEST         | SpO2                | MEASUREMENTS |  93%    |
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|relation                                                                                                                                                                                                                                                                                                                                                              |
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|<span class="o">{</span>category, 534, 613, REVEAL, <span class="o">{</span>entity1_begin -&gt; 48, relation -&gt; REVEAL, hypothesis -&gt; An MRI <span class="nb">test </span>reveals cancer., confidence -&gt; 0.9760039, nli_prediction -&gt; entail, entity1 -&gt; TEST, syntactic_distance -&gt; 4, chunk2 -&gt; cancer, entity2_end -&gt; 85, entity1_end -&gt; 58, entity2_begin -&gt; 80, entity2 -&gt; PROBLEM, chunk1 -&gt; An MRI <span class="nb">test</span>, sentence -&gt; 1<span class="o">}</span>, <span class="o">[]}</span>            |
+|<span class="o">{</span>category, 267, 357, IMPROVE, <span class="o">{</span>entity1_begin -&gt; 0, relation -&gt; IMPROVE, hypothesis -&gt; Paracetamol improves sickness., confidence -&gt; 0.98819494, nli_prediction -&gt; entail, entity1 -&gt; TREATMENT, syntactic_distance -&gt; 3, chunk2 -&gt; sickness, entity2_end -&gt; 45, entity1_end -&gt; 10, entity2_begin -&gt; 38, entity2 -&gt; PROBLEM, chunk1 -&gt; Paracetamol, sentence -&gt; 0<span class="o">}</span>, <span class="o">[]}</span>|
+|<span class="o">{</span>category, 0, 90, IMPROVE, <span class="o">{</span>entity1_begin -&gt; 0, relation -&gt; IMPROVE, hypothesis -&gt; Paracetamol improves headache., confidence -&gt; 0.9929625, nli_prediction -&gt; entail, entity1 -&gt; TREATMENT, syntactic_distance -&gt; 2, chunk2 -&gt; headache, entity2_end -&gt; 33, entity1_end -&gt; 10, entity2_begin -&gt; 26, entity2 -&gt; PROBLEM, chunk1 -&gt; Paracetamol, sentence -&gt; 0<span class="o">}</span>, <span class="o">[]}</span>    |
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -449,15 +512,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>re_test_result_date_pipeline</td>
-    </tr>
-    <tr>
-      <td>Type:</td>
-      <td>pipeline</td>
+      <td>zero_shot_re</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 3.4.1+</td>
+      <td>Spark NLP for Healthcare 3.5.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -473,25 +532,24 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>1.7 GB</td>
+      <td>1.3 GB</td>
+    </tr>
+    <tr>
+      <td>Case sensitive:</td>
+      <td>true</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="included-models">Included Models</h2>
+<h2 id="references">References</h2>
 
-<ul>
-  <li>DocumentAssembler</li>
-  <li>SentenceDetector</li>
-  <li>TokenizerModel</li>
-  <li>PerceptronModel</li>
-  <li>WordEmbeddingsModel</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>DependencyParserModel</li>
-  <li>RelationExtractionModel</li>
-</ul>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-03-31T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>As it is a zero-shot relation extractor, no training dataset is necessary.</p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Since it does not have a training dataset, the accuracy of the model depends on the relations you <span class="nb">set </span><span class="k">in</span> <span class="sb">`</span>setRelationalCategories<span class="sb">`</span><span class="nb">.</span>
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-04-02T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -616,7 +674,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/03/31/re_test_problem_finding_pipeline_en_3_0.html">RE Pipeline between Problem, Test, and Findings in Reports</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/04/01/normalized_section_header_mapper_en_3_0.html">Normalizing Section Headers in Clinical Notes</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/04/01/pos_wtb_wo_3_0.html">Part of Speech UD model for Wolof (pos_wtb)</a></div></div></div>
 
 </div>
 </div>
