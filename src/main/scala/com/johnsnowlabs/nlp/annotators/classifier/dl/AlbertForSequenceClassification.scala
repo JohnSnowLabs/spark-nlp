@@ -141,15 +141,6 @@ class AlbertForSequenceClassification(override val uid: String)
     */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.CATEGORY
 
-  /** Vocabulary used to encode the words to ids with WordPieceEncoder
-    *
-    * @group param
-    */
-  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
-
-  /** @group setParam */
-  def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
-
   /** Labels used to decode predicted IDs back to string tags
     *
     * @group param
@@ -163,15 +154,6 @@ class AlbertForSequenceClassification(override val uid: String)
   def getClasses: Array[String] = {
     $$(labels).keys.toArray
   }
-
-  /** Holding merges.txt coming from ALBERT model
-    *
-    * @group param
-    */
-  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges")
-
-  /** @group setParam */
-  def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)
 
   /** Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document
     * by averaging probabilities in all sentences. Due to max sequence length limit in almost all
