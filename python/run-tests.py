@@ -108,6 +108,7 @@ unittest.TextTestRunner().run(Word2VecTestSpec())
 # unittest.TextTestRunner().run(XlmRoBertaForSequenceClassificationTestSpec())
 # unittest.TextTestRunner().run(GetClassesTestSpec())
 # unittest.TextTestRunner().run(GPT2TransformerTextGenerationTestSpec())
+# unittest.TextTestRunner().run(DeBertaForSequenceClassificationTestSpec())
 
 # Misc tests
 unittest.TextTestRunner().run(UtilitiesTestSpec())
