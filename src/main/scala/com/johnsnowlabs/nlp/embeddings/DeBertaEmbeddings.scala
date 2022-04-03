@@ -47,8 +47,7 @@ import java.io.File
   *
   * For extended examples see
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/DeBertaEmbeddingsTestSpec.scala DeBertaEmbeddingsTestSpec]].
-  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The
-  * Spark NLP Workshop example shows how to import them
+  *  To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
   *
   * It builds on RoBERTa with disentangled attention and enhanced mask decoder training with half
