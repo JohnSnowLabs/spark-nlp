@@ -1,8 +1,2 @@
-docs/_posts/Ahmetemintek/2022-03-31-drug_action_treatment_mapper_en_3_0.md
-docs/_posts/Ahmetemintek/2022-04-01-normalized_section_header_mapper_en_3_0.md
-docs/_posts/Cabir40/2022-04-01-explain_clinical_doc_medication_en_3_0.md
-docs/_posts/josejuanmartinez/2022-04-02-zero_shot_re_en_3_0.md
-docs/_posts/Ahmetemintek/2022-03-31-drug_action_treatment_mapper_en_3_0.md
-docs/_posts/Ahmetemintek/2022-04-01-normalized_section_header_mapper_en_3_0.md
-docs/_posts/Cabir40/2022-04-01-explain_clinical_doc_medication_en_3_0.md
-docs/_posts/josejuanmartinez/2022-04-02-zero_shot_re_en_3_0.md
+docs/en/licensed_release_notes.md
+docs/en/licensed_release_notes.md

@@ -797,7 +797,7 @@ NOME: Stefania Gregori CODICE FISCALE: UIWSUS86M04J604B INDIRIZZO: Viale Orlando
 |IDNUM        |0.9576 |N/A   |
 </code></pre></div></div>
 
-<h4 id="added-french-support-in-deidentification-annotaotr-for-data-obfuscation">Added French support in Deidentification Annotaotr for data obfuscation</h4>
+<h4 id="added-french-support-in-deidentification-annotator-for-data-obfuscation">Added French support in Deidentification Annotator for data obfuscation</h4>
 <p>Our <code class="language-plaintext highlighter-rouge">Deidentificator</code> annotator is now able to obfuscate entities (coming from a deid NER model) with fake data in French language. Example:</p>
 
 <p>Example code:</p>
@@ -1053,7 +1053,7 @@ result = pipeline.fullAnnotate("""The patient is a 30-year-old female with a lon
 
 <p>In this release we feature the <strong>Multilingual deidentification</strong>, showcasing how to deidentify clinical texts in English, Spanish, German, French and Italian. This demo is available <a href="https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_MULTI">here</a></p>
 
-<p><strong>For the rest of the demos, please visit https://nlp.johnsnowlabs.com/demos</strong></p>
+<p><strong>For the rest of the demos, please visit <a href="https://nlp.johnsnowlabs.com/demos">Models Hub Demos Page</a></strong></p>
 
 <h4 id="generate-dataframes-to-train-assertion-status-models-using-json-files-exported-from-annotation-lab-alab">Generate Dataframes to train Assertion Status Models using JSON files exported from Annotation Lab (ALAB)</h4>
 <p>Now we can generate a dataframe that can be used to train an <code class="language-plaintext highlighter-rouge">AssertionDLModel</code> by using the output of <code class="language-plaintext highlighter-rouge">AnnotationToolJsonReader.generatePlainAssertionTrainSet()</code>. The dataframe contains all the columns that you need for training.</p>
@@ -1119,7 +1119,7 @@ result = pipeline.fullAnnotate("""The patient is a 30-year-old female with a lon
 
 <ul>
   <li><strong>Error in AssertionDLApproach and AssertionLogRegApproach</strong>: an error was being triggered wthen the dataset contained long (64bits) instead of 32 bits integers for the start / end columns. Now this bug is fixed.</li>
-  <li><strong>Error in BertSentenceChunkEmbeddings</strong>: loading a model after downloading it with pretrained() was triggering an error. Not you can load any model after downloading it with <code class="language-plaintext highlighter-rouge">pretrained()</code>.</li>
+  <li><strong>Error in BertSentenceChunkEmbeddings</strong>: loading a model after downloading it with pretrained() was triggering an error. Now you can load any model after downloading it with <code class="language-plaintext highlighter-rouge">pretrained()</code>.</li>
   <li>Adding <strong>setIncludeConfidence</strong> to AssertionDL Python version, where it was missing. Now, it’s included in both Python and Scala, as described <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLModel.html#setIncludeConfidence(value:Boolean):AssertionDLModel.this.type">here</a></li>
   <li><strong>Making EntityRuler and AssertionFiltered compatible</strong>: AssertionFilterer annotator that is being used to filter the entities based on entity labels now can be used by EntityRulerApproach, a rule based entity extractor:</li>
 </ul>
