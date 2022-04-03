@@ -50,8 +50,7 @@ import java.io.File
   * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/3.NER_with_BERT.ipynb Spark NLP Workshop]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala BertEmbeddingsTestSpec]].
-  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The
-  * Spark NLP Workshop example shows how to import them
+  *  To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
   *
   * '''Sources''' :
