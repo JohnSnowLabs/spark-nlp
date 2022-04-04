@@ -101,5 +101,19 @@ data:
             url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_QUESTIONPAIR/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_QUESTIONPAIRS.ipynb        
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_QUESTIONPAIRS.ipynb
+        - title: Identify Antisemitic Texts
+          id: identify_antisemitic_texts  
+          image: 
+              src: /assets/images/Identify_whether_pairs_of_questions_are_semantically_similar.svg
+          image2: 
+              src: /assets/images/Identify_whether_pairs_of_questions_are_semantically_similar_f.svg
+          excerpt: This demo shows how to identify if a text contains antisemitic content or not.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_ANTISEMITISM/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb      
 ---

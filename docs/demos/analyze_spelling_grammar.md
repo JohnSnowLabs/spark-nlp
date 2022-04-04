@@ -145,4 +145,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb 
+        - title:  English Typo Detector
+          id: english_typo_detector 
+          image: 
+              src: /assets/images/Spell_Checking.svg
+          image2: 
+              src: /assets/images/Spell_Checking_f.svg
+          excerpt: This demo shows how to detect typos in English texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/TYPO_DETECTOR_EN/
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/DistilBertForTokenClassification.ipynb
 ---
