@@ -326,7 +326,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_De_SENTIMENT.ipynb
-        - title: Identify sentiments in French texts.
+        - title: Identify sentiments in French texts
           id: identify_sentiments_french_texts 
           image: 
               src: /assets/images/Identify_sentiments_in_French_texts.svg
@@ -340,4 +340,32 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_Fr_Sentiment.ipynb
+        - title: Icelandic Typo Detector
+          id: icelandic_typo_detector  
+          image: 
+              src: /assets/images/Spell_Checking.svg
+          image2: 
+              src: /assets/images/Spell_Checking_f.svg
+          excerpt: This demo shows how to detect typos in Icelandic texts. 
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/TYPO_DETECTOR_IS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/DistilBertForTokenClassification.ipynb
+        - title: Analyze Sentiment in Danish Texts
+          id: analyze_sentiment_danish_texts   
+          image: 
+              src: /assets/images/Aspect_based_sentiment_analysis_for_restaurants.svg
+          image2: 
+              src: /assets/images/Aspect_based_sentiment_analysis_for_restaurants_f.svg
+          excerpt: This demo shows how to identify positive, negative or neutral sentiment in Danish texts. 
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/SENTIMENT_DA/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb
 ---
