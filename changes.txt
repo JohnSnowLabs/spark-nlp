@@ -1,2 +1,12 @@
-docs/en/nlp_server/release_notes.md
-docs/en/nlp_server/release_notes.md
+docs/en/alab/active_learning.md
+docs/en/alab/byol.md
+docs/en/alab/infrastructure.md
+docs/en/alab/preannotations.md
+docs/en/alab/release_notes.md
+docs/en/alab/visual_ner.md
+docs/en/alab/active_learning.md
+docs/en/alab/byol.md
+docs/en/alab/infrastructure.md
+docs/en/alab/preannotations.md
+docs/en/alab/release_notes.md
+docs/en/alab/visual_ner.md
