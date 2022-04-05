@@ -13,20 +13,6 @@ sidebar:
 
 ## NLP Server 0.6.0
 
-### Overview
-
-We are excited to release NLP Server v0.6.0! This new release comes with exciting new features and improvements that extend and enhance the capabilities of the NLP Server. 
-
-This release comes with the ability to share the models with our very own Annotation Lab. This will enable us to use all the custom trained, pre-trained, or models downloaded to the Annotation Lab directly as spells on the NLP Server making it easy to quickly test and play around with our trained models. 
-
-Another important feature we have introduced is the support for Spark OCR spells. Now we can upload images, PDFs, or other documents to the NLP Server and run OCR spells on top of it. The results of the processed documents are also available for export. 
-
-The release also includes a few improvements to the existing features and some bug fixes.
-
-<br>
-
-### Release Details
-
 Fields | Details
 --- | ---
 Name | NLP Server
@@ -36,17 +22,24 @@ Dependency |
 Release Date | 2022-04-05
 
 <br>
+### Overview
 
-### Installation Prerequisites
+We are excited to release NLP Server v0.6.0! This new release comes with exciting new features and improvements that extend and enhance the capabilities of the NLP Server. 
 
-1. For a smooth and optimal performance, it is recommended to use an instance with 8 core CPU, and 32GB RAM specifications
+This release comes with the ability to share the models with the Annotation Lab. This will enable easy access to custom models uploaded to or trained with the Annotation Lab or to pre-trained models downloaded to Annotation Lab from the NLP Models Hub. 
+As such the NLP Server becomes an easy and quick tool for testing our trained models locally on your own infrastructure with zero data sharing. 
+
+Another important feature we have introduced is the support for Spark OCR spells. Now we can upload images, PDFs, or other documents to the NLP Server and run OCR spells on top of it. The results of the processed documents are also available for export. 
+
+The release also includes a few improvements to the existing features and some bug fixes.
 
 <br>
 
+
 ### Key Information
 
-1. Is now available in the Azure marketplace from v0.6.0
-2. Uses NLU v3.4.3rc1 as an underlying dependency
+1. For a smooth and optimal performance, it is recommended to use an instance with 8 core CPU, and 32GB RAM specifications
+2. NLP Server is now available on Azure Marketplace as well as on AWS marketplace.
 
 <br>
 
