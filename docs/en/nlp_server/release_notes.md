@@ -52,26 +52,26 @@ Release Date | 2022-04-05
 
 ### Major Features and Improvements
 
-#### Share models with Annotation Lab
+#### Support for custom models trained with the Annotation Lab
 
-Custom-trained models from the Annotation Lab are now available as “custom” spells in the NLP Server. Similarly, models uploaded to the Annotation Lab, pre-trained models, and the models downloaded from the Models Hub in Annotation Lab are also made available for use in the NLP Server. This is only supported in a docker setup at present when both the tools are deployed in the same machine.
+Models trained with the Annotation Lab are now available as “custom” spells in the NLP Server. Similarly, models manually uploaded to the Annotation Lab, or downloaded from the NLP Models Hub are also made available for use in the NLP Server. This is only supported in a docker setup at present when both tools are deployed in the same machine.
 
 #### Support for Spark OCR spells
 
-Now we can use OCR spells directly from the NLP Server if we have an OCR license. We can upload an image, PDF, or other supported document format and run the OCR spells on it. The processed results are also available for download as a text document. We can also upload multiple files at once for OCR operation. These files can be images, PDFs, word documents, or a zipped file.
+OCR spells are now supported by NLP Server in the presence of a valid OCR license. Users can upload an image, PDF, or other supported document format and run the OCR spells on it. The processed results are also available for download as a text document. It is also possible to upload multiple files at once for OCR operation. These files can be images, PDFs, word documents, or a zipped file.
 
 <br>
 
 ### Other Improvements
 
-1. Now we can chain multiple spells together to predict the input data. The order of operation on the input data will be in the sequence of the spell chain from left to right.
-2. Now supports more than 5000+ models in 250+ languages powered by NLU.
+1. Now users can chain multiple spells together to analyze the input data. The order of operation on the input data will be in the sequence of the spell chain from left to right.
+2. NLP Server now supports more than 5000+ models in 250+ languages powered by NLU.
 
 <br>
 
 ### Bug Fixes
 
-1. Not found error is seen when running predictions using certain spells.
+1. Not found error seen when running predictions using certain spells.
 2. The prediction job runs in an infinite loop when using certain spells.
 3. For input data having new line characters JSON exception was seen when processing the output from NLU.
 
