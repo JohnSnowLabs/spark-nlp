@@ -2,9 +2,9 @@
 layout: model
 title: Zero-shot Relation Extraction (BioBert)
 author: John Snow Labs
-name: re_zeroshot_biobert
-date: 2022-04-04
-tags: [zero_shot, zero, shot, en, licensed]
+name: zero_shot_re
+date: 2022-04-05
+tags: [zero, zero_shot, shot, en, licensed]
 task: Relation Extraction
 language: en
 edition: Spark NLP for Healthcare 3.4.2
@@ -26,7 +26,7 @@ Zero-shot Relation Extraction to extract relations between clinical entities wit
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_zeroshot_biobert_en_3.4.2_3.0_1649093422169.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/zero_shot_re_en_3.4.2_3.0_1649169384285.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -83,7 +83,7 @@ re_ner_chunk_filter = sparknlp_jsl.annotator.RENerChunksFilter() \
     .setOutputCol("re_ner_chunks")
 
 re_model = sparknlp_jsl.annotator.ZeroShotRelationExtractionModel \
-    .pretrained("re_zeroshot_biobert", "en", "clinical/models") \
+    .pretrained("zero_shot_re", "en", "clinical/models") \
     .setRelationalCategories({
         "CURE": ["{{TREATMENT}} cures {{PROBLEM}}."],
         "IMPROVE": ["{{TREATMENT}} improves {{PROBLEM}}.", "{{TREATMENT}} cures {{PROBLEM}}."],
@@ -123,7 +123,7 @@ results\
 
 {:.table-model}
 |---|---|
-|Model Name:|re_zeroshot_biobert|
+|Model Name:|zero_shot_re|
 |Compatibility:|Spark NLP for Healthcare 3.4.2+|
 |License:|Licensed|
 |Edition:|Official|
