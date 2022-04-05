@@ -1,6 +1,2 @@
-docs/_posts/Ahmetemintek/2022-04-04-drug_action_treatment_mapper_en_3_0.md
-docs/_posts/Ahmetemintek/2022-04-04-normalized_section_header_mapper_en_3_0.md
-docs/_posts/josejuanmartinez/2022-04-05-zero_shot_re_en_3_0.md
-docs/_posts/Ahmetemintek/2022-04-04-drug_action_treatment_mapper_en_3_0.md
-docs/_posts/Ahmetemintek/2022-04-04-normalized_section_header_mapper_en_3_0.md
-docs/_posts/josejuanmartinez/2022-04-05-zero_shot_re_en_3_0.md
+docs/en/nlp_server/release_notes.md
+docs/en/nlp_server/release_notes.md

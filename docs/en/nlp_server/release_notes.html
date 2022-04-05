@@ -528,7 +528,100 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Release Notes"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="nlp-server-050">NLP Server 0.5.0</h2>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="nlp-server-060">NLP Server 0.6.0</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Fields</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Name</td>
+      <td>NLP Server</td>
+    </tr>
+    <tr>
+      <td>Version</td>
+      <td>0.6.0</td>
+    </tr>
+    <tr>
+      <td>Type</td>
+      <td>Minor</td>
+    </tr>
+    <tr>
+      <td>Dependency</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>Release Date</td>
+      <td>2022-04-05</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br /></p>
+<h3 id="overview">Overview</h3>
+
+<p>We are excited to release NLP Server v0.6.0! This new release comes with exciting new features and improvements that extend and enhance the capabilities of the NLP Server.</p>
+
+<p>This release comes with the ability to share the models with the Annotation Lab. This will enable easy access to custom models uploaded to or trained with the Annotation Lab or to pre-trained models downloaded to Annotation Lab from the NLP Models Hub. 
+As such the NLP Server becomes an easy and quick tool for testing our trained models locally on your own infrastructure with zero data sharing.</p>
+
+<p>Another important feature we have introduced is the support for Spark OCR spells. Now we can upload images, PDFs, or other documents to the NLP Server and run OCR spells on top of it. The results of the processed documents are also available for export.</p>
+
+<p>The release also includes a few improvements to the existing features and some bug fixes.</p>
+
+<p><br /></p>
+
+<h3 id="key-information">Key Information</h3>
+
+<ol>
+  <li>For a smooth and optimal performance, it is recommended to use an instance with 8 core CPU, and 32GB RAM specifications</li>
+  <li>NLP Server is now available on Azure Marketplace as well as on AWS marketplace.</li>
+</ol>
+
+<p><br /></p>
+
+<h3 id="major-features-and-improvements">Major Features and Improvements</h3>
+
+<h4 id="support-for-custom-models-trained-with-the-annotation-lab">Support for custom models trained with the Annotation Lab</h4>
+
+<p>Models trained with the Annotation Lab are now available as “custom” spells in the NLP Server. Similarly, models manually uploaded to the Annotation Lab, or downloaded from the NLP Models Hub are also made available for use in the NLP Server. This is only supported in a docker setup at present when both tools are deployed in the same machine.</p>
+
+<h4 id="support-for-spark-ocr-spells">Support for Spark OCR spells</h4>
+
+<p>OCR spells are now supported by NLP Server in the presence of a valid OCR license. Users can upload an image, PDF, or other supported document format and run the OCR spells on it. The processed results are also available for download as a text document. It is also possible to upload multiple files at once for OCR operation. These files can be images, PDFs, word documents, or a zipped file.</p>
+
+<p><br /></p>
+
+<h3 id="other-improvements">Other Improvements</h3>
+
+<ol>
+  <li>Now users can chain multiple spells together to analyze the input data. The order of operation on the input data will be in the sequence of the spell chain from left to right.</li>
+  <li>NLP Server now supports more than 5000+ models in 250+ languages powered by NLU.</li>
+</ol>
+
+<p><br /></p>
+
+<h3 id="bug-fixes">Bug Fixes</h3>
+
+<ol>
+  <li>Not found error seen when running predictions using certain spells.</li>
+  <li>The prediction job runs in an infinite loop when using certain spells.</li>
+  <li>For input data having new line characters JSON exception was seen when processing the output from NLU.</li>
+</ol>
+
+<p><br /></p>
+
+<h3 id="known-issues">Known Issues</h3>
+
+<ol>
+  <li>License generated using v3.5.0 secret will not work in the v0.6.0 of the NLP Server.</li>
+</ol>
+
+<h2 id="nlp-server-050">NLP Server 0.5.0</h2>
 
 <h3 id="highlights">Highlights</h3>
 
@@ -551,7 +644,7 @@
   <li>Support for floating licenses. Users can now take advantage of the floating license flexibility and use those inside of the NLP Server.</li>
 </ul>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2021-12-07T00:00:00+00:00">Dec 07, 2021</time>
+      <time itemprop="dateModified" datetime="2022-04-05T00:00:00+00:00">Apr 05, 2022</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
