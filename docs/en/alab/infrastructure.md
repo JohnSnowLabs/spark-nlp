@@ -6,7 +6,7 @@ seotitle: Annotation Lab | John Snow Labs
 title: Infrastructure
 permalink: /docs/en/alab/infrastructure
 key: docs-training
-modify_date: "2022-03-21"
+modify_date: "2022-04-05"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
@@ -19,7 +19,7 @@ sidebar:
 
 ### Resource allocation for Training and Preannotation 
 
-This release of Annotationlab gives users the ability to change the configuration for the training and preannotation processes. This is done from the `Settings page` > `Infrastructure tab`. The settings can be edited by admin users and they are read-only for the other users. The Infrastructure tab consists of three sections named `Training Resources`, `Prenotation Server Resources`, `Prenotation Pipeline Resources`.
+Since version 2.8.0, Annotation Lab gives users the ability to change the configuration for the training and preannotation processes. This is done from the `Settings page` > `Infrastructure tab`. The settings can be edited by admin users and they are read-only for the other users. The Infrastructure tab consists of three sections named `Training Resources`, `Prenotation Server Resources`, `Prenotation Pipeline Resources`.
 
 **Resources Inclusion:**
 1.  Memory Limit – Represents the maximum memory size to allocate for the training/preannotation processes.
@@ -33,6 +33,22 @@ This release of Annotationlab gives users the ability to change the configuratio
 **NOTE:-** If the specified configurations exceed the available resources, the server will not start.
  
 ### Backup settings in UI
-In this release, AnnotationLab adds support for defining database and files backups via the UI. Any user with the admin role can view and edit the backup settings under the Settings tab. Users can select different backup periods and can specify a target S3 bucket for storing the backup files. New backups will be automatically generated and saved to the S3 bucket following the defined schedule. 
+In 2.8.0 release, Annotation Lab added support for defining database and files backups via the UI. Any user with the admin role can view and edit the backup settings under the Settings tab. Users can select different backup periods and can specify a target S3 bucket for storing the backup files. New backups will be automatically generated and saved to the S3 bucket following the defined schedule. 
  
  ![image](https://user-images.githubusercontent.com/73094423/158530658-89adf6c2-70c0-489a-868d-5b17e5c71ee7.png)
+
+### Management of Preannotation and Training Servers  
+
+Annotationlab 3.0.0 gives users the ability to view the list of all active servers. Any user can access the Server List page by navigating to the Settings page > Server tab. This page gives the following details.
+
+- A summary of the status/limitations of the current infrastructure to run Spark NLP for Healthcare training jobs and/or preannotation servers.
+- Ability to delete a server and free up resources when required, so that another training job and/or preannotation server can be started.
+- Shows details of the server
+   - Server Name: Gives the name of the server that can help identify it while running preannotation or importing files.
+   - License Details: The license that is being used in the server and its scope.
+   - Usage: Let the user know the usage of the server. A server can be used for preannotation, training or OCR.
+   - Deployed by: The user who deployed the server. This information might be useful for contacting the user who deployed a server before deleting it.
+   - Deployed at: The deployed time of the server.
+
+        
+![server_page](https://user-images.githubusercontent.com/26042994/161711565-798bf34d-92ba-41c8-b0b8-2778a3e61561.gif)
