@@ -66,6 +66,8 @@ trait ResourceDownloader {
 
   def downloadMetadataIfNeed(folder: String): List[ResourceMetadata]
 
+  def downloadAndUnzipFile(s3FilePath: String): Option[String]
+
   val fileSystem: FileSystem = ResourceDownloader.fileSystem
 
 }
@@ -464,6 +466,24 @@ object ResourceDownloader {
     path.get
   }
 
+  /** Downloads a resource from the default S3 bucket in the cache pretrained folder.
+    * @param model
+    *   the name of the key in the S3 bucket
+    * @param folder
+    *   the language of the model
+    * @return
+    *   the path to the downloaded file
+    */
+  def downloadModelDirectly(model: String, folder: String = publicLoc): Unit = {
+    if (folder.equals(publicLoc)) {
+      publicDownloader.downloadAndUnzipFile(model)
+    } else if (folder.startsWith("@")) {
+      communityDownloader.downloadAndUnzipFile(model)
+    } else {
+      defaultDownloader.downloadAndUnzipFile(model)
+    }
+  }
+
   def downloadModel[TModel <: PipelineStage](
       reader: DefaultParamsReadable[TModel],
       name: String,
@@ -644,6 +664,11 @@ object PythonResourceDownloader {
   def clearCache(name: String, language: String = null, remoteLoc: String = null): Unit = {
     val correctedFolder = Option(remoteLoc).getOrElse(ResourceDownloader.publicLoc)
     ResourceDownloader.clearCache(name, Option(language), correctedFolder)
+  }
+
+  def downloadModelDirectly(model: String, remoteLoc: String = null): Unit = {
+    val correctedFolder = Option(remoteLoc).getOrElse(ResourceDownloader.publicLoc)
+    ResourceDownloader.downloadModelDirectly(model, correctedFolder)
   }
 
   def showUnCategorizedResources(): String = {
