@@ -1,2 +1,8 @@
+docs/_posts/josejuanmartinez/2022-04-01-re_zeroshot_biobert_en_3_0.md
+docs/_posts/josejuanmartinez/2022-04-02-zero_shot_re_en_3_0.md
 docs/_posts/josejuanmartinez/2022-04-05-re_zeroshot_biobert_en_3_0.md
+docs/_posts/josejuanmartinez/2022-04-05-zero_shot_re_en_3_0.md
+docs/_posts/josejuanmartinez/2022-04-01-re_zeroshot_biobert_en_3_0.md
+docs/_posts/josejuanmartinez/2022-04-02-zero_shot_re_en_3_0.md
 docs/_posts/josejuanmartinez/2022-04-05-re_zeroshot_biobert_en_3_0.md
+docs/_posts/josejuanmartinez/2022-04-05-zero_shot_re_en_3_0.md

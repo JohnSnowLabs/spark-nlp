@@ -426,7 +426,7 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Zero-shot Relation Extraction (BioBert)- Spark NLP Model</title><meta name="description" content="DescriptionZero-shot Relation Extraction to extract relations between clinical entities with no training dataset, just pretrained BioBert embeddings (include...">
-<link rel="canonical" href="/2022/04/05/zero_shot_re_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<link rel="canonical" href="/2022/04/05/re_zeroshot_biobert_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -821,18 +821,20 @@
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Apr 05, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-05T00:00:00+00:00"></div><header class="main-docs"><h1>Zero-shot Relation Extraction (BioBert)</h1></header></div><meta itemprop="headline" content="Zero-shot Relation Extraction (BioBert)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>zero</li><li>zero_shot</li><li>shot</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-05T00:00:00+00:00">
-    <meta itemprop="keywords" content="zero,zero_shot,shot,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-05T00:00:00+00:00"></div><header class="main-docs"><h1>Zero-shot Relation Extraction (BioBert)</h1></header></div><meta itemprop="headline" content="Zero-shot Relation Extraction (BioBert)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>zero</li><li>shot</li><li>zero_shot</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-05T00:00:00+00:00">
+    <meta itemprop="keywords" content="zero,shot,zero_shot,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Zero-shot Relation Extraction to extract relations between clinical entities with no training dataset, just pretrained BioBert embeddings (included in the model).</p>
+<p>Zero-shot Relation Extraction to extract relations between clinical entities with no training dataset, just pretrained BioBert embeddings (included in the model). This model requires Spark NLP for Healthcare 3.5.0.</p>
+
+<p>Take a look at how it works in the “Open in Colab” section below.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/zero_shot_re_en_3.4.2_3.0_1649169384285.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.3.ZeroShot_Clinical_Relation_Extraction.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_zeroshot_biobert_en_3.5.0_3.0_1649176740466.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -840,6 +842,7 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span>
     <span class="p">[[</span><span class="s">"Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer."</span><span class="p">]]</span>
 <span class="p">).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
@@ -888,11 +891,11 @@
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"re_ner_chunks"</span><span class="p">)</span>
 
 <span class="n">re_model</span> <span class="o">=</span> <span class="n">sparknlp_jsl</span><span class="p">.</span><span class="n">annotator</span><span class="p">.</span><span class="n">ZeroShotRelationExtractionModel</span> \
-    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"zero_shot_re"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"re_zeroshot_biobert"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setRelationalCategories</span><span class="p">({</span>
-        <span class="s">"CURE"</span><span class="p">:</span> <span class="p">[</span><span class="s">" cures ."</span><span class="p">],</span>
-        <span class="s">"IMPROVE"</span><span class="p">:</span> <span class="p">[</span><span class="s">" improves ."</span><span class="p">,</span> <span class="s">" cures ."</span><span class="p">],</span>
-        <span class="s">"REVEAL"</span><span class="p">:</span> <span class="p">[</span><span class="s">" reveals ."</span><span class="p">]})</span>\
+        <span class="s">"CURE"</span><span class="p">:</span> <span class="p">[</span><span class="s">"{{TREATMENT}} cures {{PROBLEM}}."</span><span class="p">],</span>
+        <span class="s">"IMPROVE"</span><span class="p">:</span> <span class="p">[</span><span class="s">"{{TREATMENT}} improves {{PROBLEM}}."</span><span class="p">,</span> <span class="s">"{{TREATMENT}} cures {{PROBLEM}}."</span><span class="p">],</span>
+        <span class="s">"REVEAL"</span><span class="p">:</span> <span class="p">[</span><span class="s">"{{TEST}} reveals {{PROBLEM}}."</span><span class="p">]})</span>\
     <span class="p">.</span><span class="n">setMultiLabel</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"re_ner_chunks"</span><span class="p">,</span> <span class="s">"sentences"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>
@@ -928,11 +931,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>zero_shot_re</td>
+      <td>re_zeroshot_biobert</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 3.4.2+</td>
+      <td>Spark NLP for Healthcare 3.5.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -1090,7 +1093,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/04/05/re_zeroshot_biobert_en_3_0.html">Zero-shot Relation Extraction (BioBert)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/04/04/normalized_section_header_mapper_en_3_0.html">Normalizing Section Headers in Clinical Notes</a></div></div></div>
 
 </div>
 </div>
