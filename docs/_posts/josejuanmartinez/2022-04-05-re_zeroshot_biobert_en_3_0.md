@@ -34,6 +34,7 @@ Zero-shot Relation Extraction to extract relations between clinical entities wit
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+{% raw %}
 ```python
 data = spark.createDataFrame(
     [["Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer."]]
@@ -103,7 +104,7 @@ results\
     .selectExpr("explode(relations) as relation")\
     .show(truncate=False)
 ```
-
+{% endraw %}
 </div>
 
 ## Results
