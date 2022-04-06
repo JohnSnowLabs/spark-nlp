@@ -5,7 +5,7 @@ seotitle: NLP Server | John Snow Labs
 title: Release Notes
 permalink: /docs/en/nlp_server/release_notes
 key: docs-nlp-server
-modify_date: "2022-04-05"
+modify_date: "2022-04-06"
 show_nav: true
 sidebar:
     nav: nlp-server
@@ -16,12 +16,12 @@ sidebar:
 Fields | Details
 --- | ---
 Name | NLP Server
-Version | 0.6.0
+Version | `0.6.0`
 Type | Minor
-Dependency | 
-Release Date | 2022-04-05
+Release Date | 2022-04-06
 
 <br>
+
 ### Overview
 
 We are excited to release NLP Server v0.6.0! This new release comes with exciting new features and improvements that extend and enhance the capabilities of the NLP Server. 
@@ -35,11 +35,10 @@ The release also includes a few improvements to the existing features and some b
 
 <br>
 
-
 ### Key Information
 
 1. For a smooth and optimal performance, it is recommended to use an instance with 8 core CPU, and 32GB RAM specifications
-2. NLP Server is now available on Azure Marketplace as well as on AWS marketplace.
+2. NLP Server is now available on [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/johnsnowlabsinc1646051154808.nlp_server) as well as on [AWS marketplace](https://aws.amazon.com/marketplace/pp/prodview-4ohxjejvg7vwm).
 
 <br>
 
@@ -67,12 +66,8 @@ OCR spells are now supported by NLP Server in the presence of a valid OCR licens
 1. Not found error seen when running predictions using certain spells.
 2. The prediction job runs in an infinite loop when using certain spells.
 3. For input data having new line characters JSON exception was seen when processing the output from NLU.
-
-<br>
-
-### Known Issues
-
-1. License generated using v3.5.0 secret will not work in the v0.6.0 of the NLP Server.
+4. Incorrect license information was seen in the license popup.
+5. Spell field cleared abruptly when typing the spells.
 
 ## NLP Server 0.5.0
 
