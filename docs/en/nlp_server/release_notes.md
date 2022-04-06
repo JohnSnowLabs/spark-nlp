@@ -58,7 +58,6 @@ OCR spells are now supported by NLP Server in the presence of a valid OCR licens
 
 1. Now users can chain multiple spells together to analyze the input data. The order of operation on the input data will be in the sequence of the spell chain from left to right.
 2. NLP Server now supports more than 5000+ models in 250+ languages powered by NLU.
-3. NLP Server now supports license having `3.5.0` secret.
 
 <br>
 
