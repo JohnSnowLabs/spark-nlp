@@ -6,7 +6,7 @@ seotitle: Annotation Lab | John Snow Labs
 title: Preannotations with Spark NLP  
 permalink: /docs/en/alab/preannotations
 key: docs-training
-modify_date: "2021-05-11"
+modify_date: "2022-04-05"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
@@ -34,6 +34,21 @@ On the project setup screen you can find a Spark NLP pipeline config widget whic
 
 In the below example we are reusing the posology model that comes with 7 labels related to drugs.  
 <img class="image image--xl" src="/assets/images/annotation_lab/spark_nlp_models.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+
+
+### Start Preannotation
+
+Since Annotation Lab 3.0.0 multiple preannotation servers can be available to preannotate the tasks from a project. The dialog box that opens when clicking the Preannotate button on the Tasks page has been extended with new options. Namely, Project Owners or Managers can now select the server to use. At that point information about the configuration deployed on the selected server will be shown on the popup so users can make an informed decision on which server to use. 
+
+In case the target preannotation server does not exist yet, the dialog box also offers the option to deploy a new server with the current project's configuration. If this option is selected, and if enough resources are available (infrastructure capacity and a free license if required) the server is deployed and preannotation can be started. If there are no free resources, users can delete one or several existing servers from Settings page - Server tab.
+
+
+![preannotation_dialog](https://user-images.githubusercontent.com/26042994/161700555-1a46ef82-1ed4-41b8-b518-9c97767b1469.gif)
+
+
+Concurrency is not only supported between preannotation servers but between training and preannotation too. Users can have training running on one project and preannotation running on another project at the same time.
+
 
 ## Pipeline Limitations
 

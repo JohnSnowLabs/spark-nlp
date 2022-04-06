@@ -3,11 +3,11 @@ layout: model
 title: Zero-shot Relation Extraction (BioBert)
 author: John Snow Labs
 name: re_zeroshot_biobert
-date: 2022-04-01
-tags: [zero_shot, zeroshot, zero, shot, en, licensed]
+date: 2022-04-05
+tags: [zero, shot, zero_shot, en, licensed]
 task: Relation Extraction
 language: en
-edition: Spark NLP for Healthcare 3.4.2
+edition: Spark NLP for Healthcare 3.5.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -17,7 +17,9 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Zero-shot Relation Extraction to extract relations between clinical entities with no training dataset, just pretrained BioBert embeddings (included in the model).
+Zero-shot Relation Extraction to extract relations between clinical entities with no training dataset, just pretrained BioBert embeddings (included in the model). This model requires Spark NLP for Healthcare 3.5.0. 
+
+Take a look at how it works in the "Open in Colab" section below.
 
 ## Predicted Entities
 
@@ -25,8 +27,8 @@ Zero-shot Relation Extraction to extract relations between clinical entities wit
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_zeroshot_biobert_en_3.4.2_3.0_1648808432473.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.3.ZeroShot_Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_zeroshot_biobert_en_3.5.0_3.0_1649176740466.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -34,6 +36,7 @@ Zero-shot Relation Extraction to extract relations between clinical entities wit
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+{% raw %}
 ```python
 data = spark.createDataFrame(
     [["Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer."]]
@@ -103,7 +106,7 @@ results\
     .selectExpr("explode(relations) as relation")\
     .show(truncate=False)
 ```
-
+{% endraw %}
 </div>
 
 ## Results
@@ -124,7 +127,7 @@ results\
 {:.table-model}
 |---|---|
 |Model Name:|re_zeroshot_biobert|
-|Compatibility:|Spark NLP for Healthcare 3.4.2+|
+|Compatibility:|Spark NLP for Healthcare 3.5.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|
