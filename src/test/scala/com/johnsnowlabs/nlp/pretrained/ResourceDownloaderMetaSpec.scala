@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.pretrained
 
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.Version
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.BeforeAndAfter
@@ -180,6 +180,13 @@ class ResourceDownloaderMetaSpec extends AnyFlatSpec with BeforeAndAfter {
     assert(noAnnoFieldFilter.length == 1)
     assert(noAnnoFieldFilter.head.equals("anno_not_missing:tst:2.5.4"))
 
+  }
+  it should "should download a model and unzip file" taggedAs SlowTest in {
+    ResourceDownloader.defaultDownloader = realDefaultDownloader
+    ResourceDownloader.publicDownloader = realPublicDownloader
+    ResourceDownloader.communityDownloader = realCommunityDownloader
+    ResourceDownloader.downloadModelDirectly(
+      "public/models/bert_base_cased_es_3.2.2_3.0_1630999631885.zip")
   }
 
   it should "be able to list from online metadata" in {
