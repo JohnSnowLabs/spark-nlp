@@ -1508,9 +1508,10 @@ class SentenceDetectorDLTestSpec(unittest.TestCase):
 class SentenceDetectorDLExtraParamsTestSpec(unittest.TestCase):
     def runTest(self):
         sampleText = """
-    A dog loves going out on a walk, eating and sleeping in front of the fireplace. This how a dog lives. It's great!
+            A dog loves going out on a walk, eating and sleeping in front of the fireplace. 
+            This how a dog lives. 
+            It's great!
         """.strip()
-
         data_df = SparkContextForTest.spark.createDataFrame([[sampleText]]).toDF("text")
 
         document_assembler = DocumentAssembler() \
@@ -1528,27 +1529,41 @@ class SentenceDetectorDLExtraParamsTestSpec(unittest.TestCase):
             document_assembler,
             sentence_detector
         ])
-
-        results = pipeline.fit(data_df).transform(data_df).selectExpr("explode(sentences)").collect()
+        model = pipeline.fit(data_df)
+        results = model.transform(data_df).selectExpr("explode(sentences)").collect()
+        print(results)
         self.assertEqual(len(results), 2)
 
-        sentence_detector2 = SentenceDetectorDLModel.pretrained() \
-            .setInputCols(["document"]) \
-            .setOutputCol("sentences") \
+        sentence_detector \
             .setUseCustomBoundsOnly(True) \
             .setMinLength(0) \
             .setMaxLength(1000) \
             .setCustomBounds([","])
 
-        pipeline2 = Pipeline(stages=[
+        pipeline = Pipeline(stages=[
             document_assembler,
-            sentence_detector2
+            sentence_detector
         ])
-
-        results = pipeline2.fit(data_df).transform(data_df).selectExpr("explode(sentences)").collect()
-
+        model = pipeline.fit(data_df)
+        results = model.transform(data_df).selectExpr("explode(sentences)").collect()
+        print(results)
         self.assertEqual(len(results), 2)
 
+        sentence_detector \
+            .setUseCustomBoundsOnly(False) \
+            .setMinLength(0) \
+            .setMaxLength(1000) \
+            .setCustomBounds([]) \
+            .setImpossiblePenultimates(sentence_detector.getImpossiblePenultimates() + ["fireplace"])
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector
+        ])
+        model = pipeline.fit(data_df)
+        results = model.transform(data_df).selectExpr("explode(sentences)").collect()
+        print(results)
+        self.assertEqual(len(results), 2)
 
 class WordSegmenterTestSpec(unittest.TestCase):
 

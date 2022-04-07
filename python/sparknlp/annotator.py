@@ -10948,6 +10948,9 @@ class SentenceDetectorDLModel(AnnotatorModel):
         Set the minimum allowed length for each sentence, by default 0
     maxLength
         Set the maximum allowed length for each sentence, by default 99999
+    impossiblePenultimates
+        Impossible penultimates - list of strings which a sentence can't end
+        with
 
     Examples
     --------
@@ -11032,6 +11035,11 @@ class SentenceDetectorDLModel(AnnotatorModel):
                       "Set the maximum allowed length for each sentence",
                       typeConverter=TypeConverters.toInt)
 
+    impossiblePenultimates = Param(Params._dummy(),
+                                   "impossiblePenultimates",
+                                   "Impossible penultimates - list of strings which a sentence can't end with",
+                                   typeConverter=TypeConverters.toListString)
+
     def setModel(self, modelArchitecture):
         """Sets the Model architecture. Currently only ``"cnn"`` is available.
 
@@ -11105,6 +11113,18 @@ class SentenceDetectorDLModel(AnnotatorModel):
             Maximum allowed length for each sentence
         """
         return self._set(maxLength=value)
+
+    def setImpossiblePenultimates(self, impossible_penultimates):
+        """Sets impossible penultimates - list of strings which a sentence can't
+        end with.
+
+        Parameters
+        ----------
+        impossible_penultimates : List[str]
+            List of strings which a sentence can't end with
+
+        """
+        return self._set(impossiblePenultimates=impossible_penultimates)
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel",
                  java_model=None):
