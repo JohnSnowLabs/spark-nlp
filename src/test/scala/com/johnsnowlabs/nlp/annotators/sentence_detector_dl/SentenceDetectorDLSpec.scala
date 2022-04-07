@@ -52,9 +52,10 @@ class SentenceDetectorDLSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("sentences")
 
+    val impossiblePenultimates = sentenceDetectorDL.getImpossiblePenultimates
+
     sentenceDetectorDL
-      .setImpossiblePenultimates(
-        sentenceDetectorDL.getImpossiblePenultimates ++ Array("fireplace"))
+      .setImpossiblePenultimates(impossiblePenultimates ++ Array("fireplace"))
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetectorDL))
 
@@ -67,7 +68,9 @@ class SentenceDetectorDLSpec extends AnyFlatSpec {
       println(anno.begin, anno.end, anno.result)
     })
 
-    require(sentences.length == 2, "Detect four sentences.")
+    require(sentences.length == 2, "Detect two sentences.")
+
+    sentenceDetectorDL.setImpossiblePenultimates(impossiblePenultimates)
   }
 
   "Sentence Detector DL" should "test custom eos patterns" taggedAs FastTest in {

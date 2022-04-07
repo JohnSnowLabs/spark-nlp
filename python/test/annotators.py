@@ -1549,12 +1549,14 @@ class SentenceDetectorDLExtraParamsTestSpec(unittest.TestCase):
         print(results)
         self.assertEqual(len(results), 2)
 
+        impossible_penultimates = sentence_detector.getImpossiblePenultimates()
+
         sentence_detector \
             .setUseCustomBoundsOnly(False) \
             .setMinLength(0) \
             .setMaxLength(1000) \
             .setCustomBounds([]) \
-            .setImpossiblePenultimates(sentence_detector.getImpossiblePenultimates() + ["fireplace"])
+            .setImpossiblePenultimates(impossible_penultimates + ["fireplace"])
 
         pipeline = Pipeline(stages=[
             document_assembler,
@@ -1564,6 +1566,14 @@ class SentenceDetectorDLExtraParamsTestSpec(unittest.TestCase):
         results = model.transform(data_df).selectExpr("explode(sentences)").collect()
         print(results)
         self.assertEqual(len(results), 2)
+
+        sentence_detector \
+            .setUseCustomBoundsOnly(False) \
+            .setMinLength(0) \
+            .setMaxLength(1000) \
+            .setCustomBounds([]) \
+            .setImpossiblePenultimates(impossible_penultimates)
+
 
 class WordSegmenterTestSpec(unittest.TestCase):
 
