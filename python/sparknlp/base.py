@@ -31,8 +31,24 @@ from sparknlp.annotation import Annotation
 from sparknlp.common import AnnotatorProperties, SparkNLPTransformer, AnnotatorModel, AnnotatorType
 from sparknlp.internal import AnnotatorTransformer, RecursiveEstimator, RecursiveTransformer
 
+import time
 
-class LightPipelineCommon:
+
+class _Stage:
+    """
+    Valid states:
+    I: Initialized
+    P: Processed
+    """
+
+    def __init__(self, index, state, is_custom_annotator):
+        # TODO: Validate state value
+        self.index = index
+        self.state = state
+        self.is_custom_annotator = is_custom_annotator
+
+
+class _LightPipelineCommon:
 
     def __init__(self, pipeline_model):
         self.pipeline_model = pipeline_model
@@ -53,7 +69,7 @@ class LightPipelineCommon:
         return self.pipeline_model.transform(dataframe)
 
 
-class LightPipeline(LightPipelineCommon):
+class LightPipeline(_LightPipelineCommon):
     """Creates a LightPipeline from a Spark PipelineModel.
 
     LightPipeline is a Spark NLP specific Pipeline class equivalent to Spark
@@ -265,12 +281,12 @@ class _LightPipelinePython:
         self.stages = pipeline_model.stages
         self.parse_embeddings = parse_embeddings
         self.annotators_stages = []
-        self.custom_annotators_stages = []
         self.input = None
         self.output = []
 
     def annotate(self, target, output_format):
         self.output.clear()
+        self.annotators_stages.clear()
         stages_stack = list(range(len(self.stages)))
         former_stage = None
         if type(target) is str:
@@ -281,35 +297,44 @@ class _LightPipelinePython:
             current_index_stage = stages_stack.pop(0)
             current_stage = self.stages[current_index_stage]
             if isinstance(current_stage, SparkNLPTransformer):
-                self.custom_annotators_stages.append(current_stage)
+                stage = _Stage(current_index_stage, state='I', is_custom_annotator=True)
+                self.annotators_stages.append(stage)
             elif self.isAnnotatorInstance(current_stage):
-                self.annotators_stages.append(current_stage)
+                stage = _Stage(current_index_stage, state='I', is_custom_annotator=False)
+                self.annotators_stages.append(stage)
             else:
                 raise Exception("Unexpected light pipeline stage")
 
             if len(stages_stack) == 0:
-                self.processStages(former_stage)
+                self.processStages(former_stage, output_format)
                 self.processLastStage(current_stage)
 
             if len(stages_stack) > 0 and former_stage is not None:
                 if not self.areSameTypes(current_stage, former_stage):
-                    self.processStages(former_stage)
+                    self.processStages(former_stage, output_format)
 
             former_stage = current_stage
 
         return self.buildOutput(output_format)
 
-    def processStages(self, former_stage):
+    def processStages(self, former_stage, output_format):
 
-        if len(self.annotators_stages) == 0 and len(self.custom_annotators_stages) == 0:
-            return
-
-        if len(self.annotators_stages) > 0 and self.isAnnotatorInstance(former_stage):
-            self.sendStagesToJVM()
-        elif len(self.custom_annotators_stages) > 0 and isinstance(former_stage, SparkNLPTransformer):
+        if self.stagesNotProcessed(self.annotators_stages) and self.isAnnotatorInstance(former_stage):
+            start_time = time.time()
+            self.sendStagesToJVM(output_format)
+            end_time = time.time()
+            print('processStages.sendStagesToJVM time: ' + str(end_time - start_time) + ' sec')
+        elif self.stagesNotProcessed(self.annotators_stages) and isinstance(former_stage, SparkNLPTransformer):
+            start_time = time.time()
             self.sendStagesToPython()
+            end_time = time.time()
+            print('processStages.sendStagesToPython time: ' + str(end_time - start_time) + ' sec')
         else:
             raise Exception("Error processing stages in python for LightPipeline")
+
+    @staticmethod
+    def stagesNotProcessed(stages):
+        return stages[-1].state == 'I'
 
     def areSameTypes(self, current_stage, former_stage):
         are_annotators = self.isAnnotatorInstance(current_stage) and self.isAnnotatorInstance(former_stage)
@@ -317,56 +342,74 @@ class _LightPipelinePython:
                                                                                               SparkNLPTransformer)
         return are_annotators or are_custom_annotators
 
-    def isAnnotatorInstance(self, stage):
+    @staticmethod
+    def isAnnotatorInstance(stage):
         return isinstance(stage, AnnotatorTransformer) or isinstance(stage, AnnotatorModel)
 
-    def processLastStage(self, last_stage):
+    def processLastStage(self, last_stage, output_format):
 
-        if len(self.annotators_stages) == 0 and len(self.custom_annotators_stages) == 0:
-            return
-
-        if len(self.annotators_stages) > 0 and self.isAnnotatorInstance(last_stage):
-            self.sendStagesToJVM()
-        elif len(self.custom_annotators_stages) > 0 and isinstance(last_stage, SparkNLPTransformer):
+        if self.stagesNotProcessed(self.annotators_stages) and self.isAnnotatorInstance(last_stage):
+            print('processLastStage')
+            self.sendStagesToJVM(output_format)
+        elif self.stagesNotProcessed(self.annotators_stages) and isinstance(last_stage, SparkNLPTransformer):
+            start_time = time.time()
             self.sendStagesToPython()
+            end_time = time.time()
+            print('processLastStage.sendStagesToPython time: ' + str(end_time - start_time) + ' sec')
 
-    def sendStagesToJVM(self):
+    def sendStagesToJVM(self, output_format):
         if self.input is not None:  # Process initial Document Assembler
-            pipeline_model = PipelineModel(self.annotators_stages)
+            start_time = time.time()
+            initial_stages = []
+            for annotator_stage in self.annotators_stages:
+                if annotator_stage.state == 'I' and not annotator_stage.is_custom_annotator:
+                    stage = self.stages[annotator_stage.index]
+                    initial_stages.append(stage)
+                    annotator_stage.state = 'P'
+            pipeline_model = PipelineModel(initial_stages)
             light_pipeline_jvm = _LightPipelineJVM(pipeline_model)
-            self.output = light_pipeline_jvm.fullAnnotate(self.input)
+            if output_format == 'annotate':
+                self.output = light_pipeline_jvm.annotate(self.input)
+            else:
+                self.output = light_pipeline_jvm.fullAnnotate(self.input)
             self.input = None
+            end_time = time.time()
+            print('sendStagesToJVM _LightPipelineJVM.fullAnnotate time: ' + str(end_time - start_time) + ' sec')
         else:
-            for output in self.output:
-                for annotator in self.annotators_stages:
+            start_time = time.time()
+            for annotator_stage in self.annotators_stages:
+                if annotator_stage.state == 'I' and not annotator_stage.is_custom_annotator:
+                    annotator = self.stages[annotator_stage.index]
                     input_cols = annotator.getInputCols()
                     output_col = annotator.getOutputCol()
-                    annotations = self.unpackAnnotations(input_cols, output)
-                    output[output_col] = annotator.annotate(annotations, annotator.apply())
-
-        self.annotators_stages = []
+                    annotations = []
+                    for output in self.output:
+                        unpack_annotation = self.unpackAnnotations(input_cols, output)
+                        annotations.append(unpack_annotation)
+                    results = annotator.annotate(annotations, annotator.apply())
+                    for index, result in enumerate(results):
+                        output = self.output[index]
+                        output[output_col] = result
+                    annotator_stage.state = 'P'
+            end_time = time.time()
+            print('sendStagesToJVM annotator.annotate time: ' + str(end_time - start_time) + ' sec')
 
     def sendStagesToPython(self):
         if len(self.output) == 0:
             raise Exception("Pipeline should start with document assembler")
 
-        first_custom_annotator = self.custom_annotators_stages[0]
-        input_cols = first_custom_annotator.getInputCols()
-        output_col = first_custom_annotator.getOutputCol()
-        for output in self.output:
-            annotations = list(map(lambda key: output[key], input_cols))[0]
-            output[output_col] = first_custom_annotator.annotate(annotations)
+        for annotator_stage in self.annotators_stages:
+            if annotator_stage.state == 'I' and annotator_stage.is_custom_annotator:
+                annotator = self.stages[annotator_stage.index]
+                for output in self.output:
+                    input_cols = annotator.getInputCols()
+                    output_col = annotator.getOutputCol()  # TODO How to get real outputcol
+                    annotations = self.unpackAnnotations(input_cols, output)
+                    output[output_col] = annotator.annotate(annotations)
+                annotator_stage.state = 'P'
 
-        for custom_annotator in self.custom_annotators_stages[1:]:
-            for output in self.output:
-                input_cols = custom_annotator.getInputCols()
-                output_col = custom_annotator.getOutputCol()
-                annotations = self.unpackAnnotations(input_cols, output)
-                output[output_col] = custom_annotator.annotate(annotations)
-
-        self.custom_annotators_stages = []
-
-    def unpackAnnotations(self, input_cols, output):
+    @staticmethod
+    def unpackAnnotations(input_cols, output):
         annotations = list(map(lambda key: output.get(key, []), input_cols))[0]
         return annotations
 

@@ -42,24 +42,21 @@ trait HasSimpleAnnotate[M <: Model[M]] extends AnnotatorModel[M] {
       annotate(annotationProperties.flatMap(_.map(Annotation(_))))
   }
 
-  def annotateJson(jsonMapAnnotations: java.util.List[java.util.Map[String, java.util.List[Float]]]):
-  java.util.List[java.util.Map[String, java.util.List[Float]]]= {
+  def annotateJsonList(jsonAnnotations: java.util.List[java.util.List[String]]):
+  java.util.List[java.util.List[String]] = {
+    val result = jsonAnnotations.asScala.par.map(jsonAnnotation => this.annotateJson(jsonAnnotation))
+    result.toList.asJava
+  }
 
-    val annotation: Seq[Annotation] = jsonMapAnnotations.asScala.par.flatMap{ jsonMapAnnotation =>
-      jsonMapAnnotation.asScala.par.map{ case(jsonAnnotation, embeddings) =>
-        val annotation = Annotation.parseJson(jsonAnnotation)
-        Annotation(annotation.annotatorType, annotation.begin, annotation.end, annotation.result,
-          annotation.metadata, embeddings.asScala.toArray)
-      }
+  def annotateJson(jsonAnnotations: java.util.List[String]): java.util.List[String] = {
+    //TODO: Test without par
+    val annotation: Seq[Annotation] = jsonAnnotations.asScala.par.map{ jsonAnnotation =>
+      val annotation = Annotation.parseJson(jsonAnnotation)
+      Annotation(annotation.annotatorType, annotation.begin, annotation.end, annotation.result,
+        annotation.metadata)
     }.toList
 
-    annotate(annotation).par.map{ annotation =>
-      val annotationWithoutEmbeddings = Annotation(annotation.annotatorType, annotation.begin, annotation.end,
-        annotation.result, annotation.metadata)
-      val annotationJson = Annotation.toJson(annotationWithoutEmbeddings)
-      Map(annotationJson -> annotation.embeddings.toList.asJava).asJava
-    }.toList.asJava
-
+    annotate(annotation).par.map(annotation => Annotation.toJson(annotation)).toList.asJava
   }
 
 }

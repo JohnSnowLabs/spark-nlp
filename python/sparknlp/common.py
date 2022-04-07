@@ -120,9 +120,11 @@ class AnnotatorModel(JavaModel, _internal.AnnotatorJavaMLReadable, JavaMLWritabl
 class AnnotateJava:
 
     def annotate(self, annotations, annotator):
-        json_annotations = self.annotationsToJson(annotations)
-        java_output_list = annotator.annotateJson(json_annotations)
-        processed_annotations = self.javaOutputToAnnotation(java_output_list)
+        json_annotations = []
+        for annotation in annotations:
+            json_annotations.append(self.annotationsToJson(annotation))
+        java_output_list = annotator.annotateJsonList(json_annotations)
+        processed_annotations = [self.javaOutputToAnnotation(java_output) for java_output in java_output_list]
 
         return processed_annotations
 
@@ -131,21 +133,18 @@ class AnnotateJava:
         json_annotations = []
         for annotation in annotations:
             json_annotation = json.dumps(annotation.__dict__)
-            embeddings = annotation.embeddings
-            json_annotations.append({json_annotation: embeddings})
+            json_annotations.append(json_annotation)
 
         return json_annotations
 
     def javaOutputToAnnotation(self, java_output_list):
         annotations = []
         for java_output in java_output_list:
-            for annotation_str, embeddings in java_output.items():
-                annotation_dict = json.loads(annotation_str)
-                annotation = Annotation(annotation_dict['annotatorType'], int(annotation_dict['begin']),
-                                        int(annotation_dict['end']), annotation_dict['result'],
-                                        annotation_dict['metadata'], list(embeddings))
-
-                annotations.append(annotation)
+            annotation_dict = json.loads(java_output)
+            annotation = Annotation(annotation_dict['annotatorType'], int(annotation_dict['begin']),
+                                    int(annotation_dict['end']), annotation_dict['result'],
+                                    annotation_dict['metadata'])
+            annotations.append(annotation)
 
         return annotations
 
