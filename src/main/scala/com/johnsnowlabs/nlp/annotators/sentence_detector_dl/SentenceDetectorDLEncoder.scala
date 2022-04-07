@@ -201,7 +201,8 @@ class SentenceDetectorDLEncoder extends Serializable {
         val leftC = getLeftContext(text, pos)
         val rightC = getRightContext(text, pos)
 
-        if (impossiblePenultimates.find(penultimate => leftC.endsWith(penultimate)).isDefined) {
+        if (impossiblePenultimates.exists(penultimate =>
+            leftC.endsWith(penultimate) || text.slice(0, pos).trim.endsWith(penultimate))) {
           (-1, "")
         } else {
           (

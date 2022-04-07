@@ -36,6 +36,40 @@ class SentenceDetectorDLSpec extends AnyFlatSpec {
 
   import spark.implicits._
 
+  "Sentence Detector DL" should "apply impossible penultimates" taggedAs FastTest in {
+    val sampleText =
+      """A dog loves going out on a walk, eating and sleeping in front of the fireplace  . This is how a dog lives.
+        |It's great!""".stripMargin
+
+    val df = Seq(sampleText).toDS.toDF("text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceDetectorDL = SentenceDetectorDLModel
+      .pretrained()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentences")
+
+    sentenceDetectorDL
+      .setImpossiblePenultimates(
+        sentenceDetectorDL.getImpossiblePenultimates ++ Array("fireplace"))
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetectorDL))
+
+    val results = pipeline.fit(df).transform(df)
+
+    val sentences = results.selectExpr("explode(sentences) AS sentence").collect()
+
+    sentences.foreach(row => {
+      val anno = Annotation(row.get(0).asInstanceOf[Row])
+      println(anno.begin, anno.end, anno.result)
+    })
+
+    require(sentences.length == 2, "Detect four sentences.")
+  }
+
   "Sentence Detector DL" should "test custom eos patterns" taggedAs FastTest in {
     val sampleText =
       """A dog loves going out on a walk, eating and sleeping in front of the fireplace. This how a dog lives. It's great!"""
