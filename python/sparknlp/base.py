@@ -159,6 +159,7 @@ class LightPipeline:
         >>> result["ner"]
         ['B-ORG', 'O', 'O', 'B-PER', 'O', 'O', 'B-LOC', 'O']
         """
+
         def reformat(annotations):
             return {k: list(v) for k, v in annotations.items()}
 
@@ -238,6 +239,7 @@ class RecursivePipeline(Pipeline, JavaEstimator):
     ...     finisher
     ... ])
     """
+
     @keyword_only
     def __init__(self, *args, **kwargs):
         super(RecursivePipeline, self).__init__(*args, **kwargs)
@@ -283,6 +285,7 @@ class RecursivePipelineModel(PipelineModel):
     initialized by itself. To create a RecursivePipelineModel please fit data to
     a :class:`.RecursivePipeline`.
     """
+
     def __init__(self, pipeline_model):
         super(PipelineModel, self).__init__()
         self.stages = pipeline_model.stages
@@ -337,9 +340,6 @@ class DocumentAssembler(AnnotatorTransformer):
         Name of String type column for row id.
     metadataCol
         Name of Map type column with metadata information
-    calculationsCol
-        Name of float vector map column to use for embeddings and other
-        representations.
     cleanupMode
         How to cleanup the document , by default disabled.
         Possible values: ``disabled, inplace, inplace_full, shrink, shrink_full,
@@ -376,10 +376,13 @@ class DocumentAssembler(AnnotatorTransformer):
 
     inputCol = Param(Params._dummy(), "inputCol", "input column name", typeConverter=TypeConverters.toString)
     outputCol = Param(Params._dummy(), "outputCol", "output column name", typeConverter=TypeConverters.toString)
-    idCol = Param(Params._dummy(), "idCol", "column for setting an id to such string in row", typeConverter=TypeConverters.toString)
-    metadataCol = Param(Params._dummy(), "metadataCol", "String to String map column to use as metadata", typeConverter=TypeConverters.toString)
-    calculationsCol = Param(Params._dummy(), "calculationsCol", "String to Float vector map column to use as embeddigns and other representations", typeConverter=TypeConverters.toString)
-    cleanupMode = Param(Params._dummy(), "cleanupMode", "possible values: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full", typeConverter=TypeConverters.toString)
+    idCol = Param(Params._dummy(), "idCol", "column for setting an id to such string in row",
+                  typeConverter=TypeConverters.toString)
+    metadataCol = Param(Params._dummy(), "metadataCol", "String to String map column to use as metadata",
+                        typeConverter=TypeConverters.toString)
+    cleanupMode = Param(Params._dummy(), "cleanupMode",
+                        "possible values: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full",
+                        typeConverter=TypeConverters.toString)
     name = 'DocumentAssembler'
 
     @keyword_only
@@ -432,14 +435,149 @@ class DocumentAssembler(AnnotatorTransformer):
         """
         return self._set(metadataCol=value)
 
-    def setCalculationsCol(self, value):
-        """Sets name of float vector map column to use for embeddings and other
-        representations.
+    def setCleanupMode(self, value):
+        """Sets how to cleanup the document, by default disabled.
+        Possible values: ``disabled, inplace, inplace_full, shrink, shrink_full,
+        each, each_full, delete_full``
 
         Parameters
         ----------
         value : str
-            Name of the calculations column
+            Cleanup mode
+        """
+        if value.strip().lower() not in ['disabled', 'inplace', 'inplace_full', 'shrink', 'shrink_full', 'each',
+                                         'each_full', 'delete_full']:
+            raise Exception(
+                "Cleanup mode possible values: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full")
+        return self._set(cleanupMode=value)
+
+
+class MultiDocumentAssembler(AnnotatorTransformer):
+    """Prepares data into a format that is processable by Spark NLP.
+
+    This is the entry point for every Spark NLP pipeline. The
+    `MultiDocumentAssembler` can read either a ``String`` column or an
+    ``Array[String]``. Additionally, :meth:`.setCleanupMode` can be used to
+    pre-process the text (Default: ``disabled``). For possible options please
+    refer the parameters section.
+
+    For more extended examples on document pre-processing see the
+    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``NONE``               ``DOCUMENT``
+    ====================== ======================
+
+    Parameters
+    ----------
+    inputCols
+        Input column name
+    outputCols
+        Output column name
+    idCol
+        Name of String type column for row id.
+    metadataCol
+        Name of Map type column with metadata information
+    cleanupMode
+        How to cleanup the document , by default disabled.
+        Possible values: ``disabled, inplace, inplace_full, shrink, shrink_full,
+        each, each_full, delete_full``
+
+    Examples
+    --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from pyspark.ml import Pipeline
+    >>> data = spark.createDataFrame([["Spark NLP is an open-source text processing library."]]).toDF("text")
+    >>> multiDocumentAssembler = MultiDocumentAssembler().setInputCols(["text"]).setOutputCols(["document"])
+    >>> result = multiDocumentAssembler.transform(data)
+    >>> result.select("document").show(truncate=False)
+    +----------------------------------------------------------------------------------------------+
+    |document                                                                                      |
+    +----------------------------------------------------------------------------------------------+
+    |[[document, 0, 51, Spark NLP is an open-source text processing library., [sentence -> 0], []]]|
+    +----------------------------------------------------------------------------------------------+
+    >>> result.select("document").printSchema()
+    root
+    |-- document: array (nullable = True)
+    |    |-- element: struct (containsNull = True)
+    |    |    |-- annotatorType: string (nullable = True)
+    |    |    |-- begin: integer (nullable = False)
+    |    |    |-- end: integer (nullable = False)
+    |    |    |-- result: string (nullable = True)
+    |    |    |-- metadata: map (nullable = True)
+    |    |    |    |-- key: string
+    |    |    |    |-- value: string (valueContainsNull = True)
+    |    |    |-- embeddings: array (nullable = True)
+    |    |    |    |-- element: float (containsNull = False)
+    """
+
+    inputCols = Param(Params._dummy(), "inputCols", "input column name", typeConverter=TypeConverters.toListString)
+    outputCols = Param(Params._dummy(), "outputCols", "output column name", typeConverter=TypeConverters.toListString)
+    idCol = Param(Params._dummy(), "idCol", "column for setting an id to such string in row",
+                  typeConverter=TypeConverters.toString)
+    metadataCol = Param(Params._dummy(), "metadataCol", "String to String map column to use as metadata",
+                        typeConverter=TypeConverters.toString)
+    cleanupMode = Param(Params._dummy(), "cleanupMode",
+                        "possible values: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full",
+                        typeConverter=TypeConverters.toString)
+    name = 'MultiDocumentAssembler'
+
+    @keyword_only
+    def __init__(self):
+        super(MultiDocumentAssembler, self).__init__(classname="com.johnsnowlabs.nlp.MultiDocumentAssembler")
+        self._setDefault(outputCols=["document"], cleanupMode='disabled')
+
+    @keyword_only
+    def setParams(self):
+        kwargs = self._input_kwargs
+        return self._set(**kwargs)
+
+    def setInputCols(self, *value):
+        """Sets column names of input annotations.
+
+        Parameters
+        ----------
+        *value : str
+            Input columns for the annotator
+        """
+        if len(value) == 1 and type(value[0]) == list:
+            return self._set(inputCols=value[0])
+        else:
+            return self._set(inputCols=list(value))
+
+    def setOutputCols(self, *value):
+        """Sets column names of finished output annotations.
+
+        Parameters
+        ----------
+        *value : List[str]
+            List of output columns
+        """
+        if len(value) == 1 and type(value[0]) == list:
+            return self._set(outputCols=value[0])
+        else:
+            return self._set(outputCols=list(value))
+
+    def setIdCol(self, value):
+        """Sets name of string type column for row id.
+
+        Parameters
+        ----------
+        value : str
+            Name of the Id Column
+        """
+        return self._set(idCol=value)
+
+    def setMetadataCol(self, value):
+        """Sets name for Map type column with metadata information.
+
+        Parameters
+        ----------
+        value : str
+            Name of the metadata column
         """
         return self._set(metadataCol=value)
 
@@ -453,8 +591,10 @@ class DocumentAssembler(AnnotatorTransformer):
         value : str
             Cleanup mode
         """
-        if value.strip().lower() not in ['disabled', 'inplace', 'inplace_full', 'shrink', 'shrink_full', 'each', 'each_full', 'delete_full']:
-            raise Exception("Cleanup mode possible values: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full")
+        if value.strip().lower() not in ['disabled', 'inplace', 'inplace_full', 'shrink', 'shrink_full', 'each',
+                                         'each_full', 'delete_full']:
+            raise Exception(
+                "Cleanup mode possible values: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full")
         return self._set(cleanupMode=value)
 
 
@@ -532,7 +672,9 @@ class TokenAssembler(AnnotatorTransformer, AnnotatorProperties):
     """
 
     name = "TokenAssembler"
-    preservePosition = Param(Params._dummy(), "preservePosition", "whether to preserve the actual position of the tokens or reduce them to one space", typeConverter=TypeConverters.toBoolean)
+    preservePosition = Param(Params._dummy(), "preservePosition",
+                             "whether to preserve the actual position of the tokens or reduce them to one space",
+                             typeConverter=TypeConverters.toBoolean)
 
     @keyword_only
     def __init__(self):
@@ -620,12 +762,19 @@ class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
     Chunk2Doc : for converting `CHUNK` annotations to `DOCUMENT`
     """
 
-    chunkCol = Param(Params._dummy(), "chunkCol", "column that contains string. Must be part of DOCUMENT", typeConverter=TypeConverters.toString)
-    startCol = Param(Params._dummy(), "startCol", "column that has a reference of where chunk begins", typeConverter=TypeConverters.toString)
-    startColByTokenIndex = Param(Params._dummy(), "startColByTokenIndex", "whether start col is by whitespace tokens", typeConverter=TypeConverters.toBoolean)
-    isArray = Param(Params._dummy(), "isArray", "whether the chunkCol is an array of strings", typeConverter=TypeConverters.toBoolean)
-    failOnMissing = Param(Params._dummy(), "failOnMissing", "whether to fail the job if a chunk is not found within document. return empty otherwise", typeConverter=TypeConverters.toBoolean)
-    lowerCase = Param(Params._dummy(), "lowerCase", "whether to lower case for matching case", typeConverter=TypeConverters.toBoolean)
+    chunkCol = Param(Params._dummy(), "chunkCol", "column that contains string. Must be part of DOCUMENT",
+                     typeConverter=TypeConverters.toString)
+    startCol = Param(Params._dummy(), "startCol", "column that has a reference of where chunk begins",
+                     typeConverter=TypeConverters.toString)
+    startColByTokenIndex = Param(Params._dummy(), "startColByTokenIndex", "whether start col is by whitespace tokens",
+                                 typeConverter=TypeConverters.toBoolean)
+    isArray = Param(Params._dummy(), "isArray", "whether the chunkCol is an array of strings",
+                    typeConverter=TypeConverters.toBoolean)
+    failOnMissing = Param(Params._dummy(), "failOnMissing",
+                          "whether to fail the job if a chunk is not found within document. return empty otherwise",
+                          typeConverter=TypeConverters.toBoolean)
+    lowerCase = Param(Params._dummy(), "lowerCase", "whether to lower case for matching case",
+                      typeConverter=TypeConverters.toBoolean)
     name = "Doc2Chunk"
 
     @keyword_only
@@ -837,13 +986,22 @@ class Finisher(AnnotatorTransformer):
     """
 
     inputCols = Param(Params._dummy(), "inputCols", "input annotations", typeConverter=TypeConverters.toListString)
-    outputCols = Param(Params._dummy(), "outputCols", "output finished annotation cols", typeConverter=TypeConverters.toListString)
-    valueSplitSymbol = Param(Params._dummy(), "valueSplitSymbol", "character separating annotations", typeConverter=TypeConverters.toString)
-    annotationSplitSymbol = Param(Params._dummy(), "annotationSplitSymbol", "character separating annotations", typeConverter=TypeConverters.toString)
-    cleanAnnotations = Param(Params._dummy(), "cleanAnnotations", "whether to remove annotation columns", typeConverter=TypeConverters.toBoolean)
-    includeMetadata = Param(Params._dummy(), "includeMetadata", "annotation metadata format", typeConverter=TypeConverters.toBoolean)
-    outputAsArray = Param(Params._dummy(), "outputAsArray", "finisher generates an Array with the results instead of string", typeConverter=TypeConverters.toBoolean)
-    parseEmbeddingsVectors = Param(Params._dummy(), "parseEmbeddingsVectors", "whether to include embeddings vectors in the process", typeConverter=TypeConverters.toBoolean)
+    outputCols = Param(Params._dummy(), "outputCols", "output finished annotation cols",
+                       typeConverter=TypeConverters.toListString)
+    valueSplitSymbol = Param(Params._dummy(), "valueSplitSymbol", "character separating annotations",
+                             typeConverter=TypeConverters.toString)
+    annotationSplitSymbol = Param(Params._dummy(), "annotationSplitSymbol", "character separating annotations",
+                                  typeConverter=TypeConverters.toString)
+    cleanAnnotations = Param(Params._dummy(), "cleanAnnotations", "whether to remove annotation columns",
+                             typeConverter=TypeConverters.toBoolean)
+    includeMetadata = Param(Params._dummy(), "includeMetadata", "annotation metadata format",
+                            typeConverter=TypeConverters.toBoolean)
+    outputAsArray = Param(Params._dummy(), "outputAsArray",
+                          "finisher generates an Array with the results instead of string",
+                          typeConverter=TypeConverters.toBoolean)
+    parseEmbeddingsVectors = Param(Params._dummy(), "parseEmbeddingsVectors",
+                                   "whether to include embeddings vectors in the process",
+                                   typeConverter=TypeConverters.toBoolean)
 
     name = "Finisher"
 
@@ -1049,10 +1207,16 @@ class EmbeddingsFinisher(AnnotatorTransformer):
     EmbeddingsFinisher : for finishing embeddings
     """
 
-    inputCols = Param(Params._dummy(), "inputCols", "name of input annotation cols containing embeddings", typeConverter=TypeConverters.toListString)
-    outputCols = Param(Params._dummy(), "outputCols", "output EmbeddingsFinisher ouput cols", typeConverter=TypeConverters.toListString)
-    cleanAnnotations = Param(Params._dummy(), "cleanAnnotations", "whether to remove all the existing annotation columns", typeConverter=TypeConverters.toBoolean)
-    outputAsVector = Param(Params._dummy(), "outputAsVector", "if enabled it will output the embeddings as Vectors instead of arrays", typeConverter=TypeConverters.toBoolean)
+    inputCols = Param(Params._dummy(), "inputCols", "name of input annotation cols containing embeddings",
+                      typeConverter=TypeConverters.toListString)
+    outputCols = Param(Params._dummy(), "outputCols", "output EmbeddingsFinisher ouput cols",
+                       typeConverter=TypeConverters.toListString)
+    cleanAnnotations = Param(Params._dummy(), "cleanAnnotations",
+                             "whether to remove all the existing annotation columns",
+                             typeConverter=TypeConverters.toBoolean)
+    outputAsVector = Param(Params._dummy(), "outputAsVector",
+                           "if enabled it will output the embeddings as Vectors instead of arrays",
+                           typeConverter=TypeConverters.toBoolean)
 
     name = "EmbeddingsFinisher"
 
@@ -1163,7 +1327,8 @@ class GraphFinisher(AnnotatorTransformer):
     +-----------------------------------------------------+-----------------------------------------------------------------------+
     """
     inputCol = Param(Params._dummy(), "inputCol", "Name of input annotation col", typeConverter=TypeConverters.toString)
-    outputCol = Param(Params._dummy(), "outputCol", "Name of finisher output col", typeConverter=TypeConverters.toString)
+    outputCol = Param(Params._dummy(), "outputCol", "Name of finisher output col",
+                      typeConverter=TypeConverters.toString)
     cleanAnnotations = Param(Params._dummy(),
                              "cleanAnnotations",
                              "Whether to remove all the existing annotation columns",
@@ -1226,4 +1391,3 @@ class GraphFinisher(AnnotatorTransformer):
             Whether to generate an Array with the results, by default True.
         """
         return self._set(outputAsArray=value)
-
