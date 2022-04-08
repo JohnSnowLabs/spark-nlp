@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.client.aws.AWSGateway
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader.fileSystem
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader, FileHelper}
 import org.apache.hadoop.fs.Path
 
@@ -147,6 +148,56 @@ class S3ResourceDownloader(
     } else {
       Some(destinationFile.getName)
     }
+  }
+
+  def downloadAndUnzipFile(s3FilePath: String): Option[String] = {
+
+    val s3File = s3FilePath.split("/").last
+    val destinationFile = new Path(cachePath.toString + "/" + s3File)
+    val splitPath = destinationFile.toString.substring(0, destinationFile.toString.length - 4)
+
+    if (!(fileSystem.exists(destinationFile) || fileSystem.exists(new Path(splitPath)))) {
+      // 1. Create tmp file
+      val tmpFileName = Files.createTempFile(s3File, "").toString
+      val tmpFile = new File(tmpFileName)
+
+      val newStrfilePath: String = s3FilePath.toString
+      val mybucket: String = bucket.toString
+      // 2. Download content to tmp file
+      awsGateway.getS3Object(mybucket, newStrfilePath, tmpFile)
+
+      // 4. Move tmp file to destination
+      fileSystem.moveFromLocalFile(new Path(tmpFile.toString), destinationFile)
+    }
+
+    if (!fileSystem.exists(new Path(splitPath))) {
+      val zis = new ZipInputStream(fileSystem.open(destinationFile))
+      val buf = Array.ofDim[Byte](1024)
+      var entry = zis.getNextEntry
+      require(
+        destinationFile.toString.substring(destinationFile.toString.length - 4) == ".zip",
+        "Not a zip file.")
+
+      while (entry != null) {
+        if (!entry.isDirectory) {
+          val entryName = new Path(splitPath, entry.getName)
+          val outputStream = fileSystem.create(entryName)
+          var bytesRead = zis.read(buf, 0, 1024)
+          while (bytesRead > -1) {
+            outputStream.write(buf, 0, bytesRead)
+            bytesRead = zis.read(buf, 0, 1024)
+          }
+          outputStream.close()
+        }
+        zis.closeEntry()
+        entry = zis.getNextEntry
+      }
+      zis.close()
+      // delete the zip file
+      fileSystem.delete(destinationFile, true)
+    }
+    Some(splitPath)
+
   }
 
   override def getDownloadSize(request: ResourceRequest): Option[Long] = {
