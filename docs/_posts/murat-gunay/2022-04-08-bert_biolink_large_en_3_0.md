@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This embeddings component was trained on PubMed abstracts all along with citation link information. They were introduced in [this paper](https://arxiv.org/abs/2203.15827). The model achieves state-of-the-art performance on several biomedical NLP benchmarks such as [BLURB](https://microsoft.github.io/BLURB/) and [MedQA-USMLE](https://github.com/jind11/MedQA).
+This embeddings component was trained on PubMed abstracts all along with citation link information. The model was introduced in [this paper](https://arxiv.org/abs/2203.15827), achieving state-of-the-art performance on several biomedical NLP benchmarks such as [BLURB](https://microsoft.github.io/BLURB/) and [MedQA-USMLE](https://github.com/jind11/MedQA).
 
 ## Predicted Entities
 
