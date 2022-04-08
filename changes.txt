@@ -1,12 +1,2 @@
-docs/_posts/galiph/2021-10-29-sbiobertresolve_rxnorm_augmented_en.md
-docs/_posts/galiph/2021-11-04-sbiobertresolve_rxnorm_augmented_en.md
-docs/_posts/galiph/2021-11-09-sbiobertresolve_rxnorm_augmented_en.md
-docs/_posts/gokhanturer/2022-02-20-Ner_glove_100d_en.md
-docs/_posts/josejuanmartinez/2022-02-15-clinical_deidentification_augmented_es.md
-docs/_posts/luca-martial/2022-02-28-clinical_deidentification_fr_2_4.md
-docs/_posts/galiph/2021-10-29-sbiobertresolve_rxnorm_augmented_en.md
-docs/_posts/galiph/2021-11-04-sbiobertresolve_rxnorm_augmented_en.md
-docs/_posts/galiph/2021-11-09-sbiobertresolve_rxnorm_augmented_en.md
-docs/_posts/gokhanturer/2022-02-20-Ner_glove_100d_en.md
-docs/_posts/josejuanmartinez/2022-02-15-clinical_deidentification_augmented_es.md
-docs/_posts/luca-martial/2022-02-28-clinical_deidentification_fr_2_4.md
+docs/_posts/egenc/2022-01-06-bert_token_classifier_ner_clinical_en.md
+docs/_posts/egenc/2022-01-06-bert_token_classifier_ner_clinical_en.md

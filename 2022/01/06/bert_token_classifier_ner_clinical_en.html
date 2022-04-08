@@ -478,32 +478,30 @@ A 28-year-old female with a history of gestational diabetes mellitus diagnosed e
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------+-------+
-|chunk       |label  |
-+------------+-------+
-|gestational |PROBLEM|
-|diabetes    |PROBLEM|
-|mellitus    |PROBLEM|
-|type        |PROBLEM|
-|two         |PROBLEM|
-|diabetes    |PROBLEM|
-|mellitus    |PROBLEM|
-|T2DM        |PROBLEM|
-|HTG-induced |PROBLEM|
-|pancreatitis|PROBLEM|
-|acute       |PROBLEM|
-|hepatitis   |PROBLEM|
-|obesity     |PROBLEM|
-|body        |TEST   |
-|mass        |TEST   |
-|index       |TEST   |
-|BMI         |TEST   |
-|polyuria    |PROBLEM|
-|polydipsia  |PROBLEM|
-|poor        |PROBLEM|
-|appetite    |PROBLEM|
-|vomiting    |PROBLEM|
-+------------+-------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------------------------------+---------+
+|chunk                          |ner_label|
++-------------------------------+---------+
+|gestational diabetes mellitus  |PROBLEM  |
+|type two diabetes mellitus     |PROBLEM  |
+|T2DM                           |PROBLEM  |
+|HTG-induced pancreatitis       |PROBLEM  |
+|an acute hepatitis             |PROBLEM  |
+|obesity                        |PROBLEM  |
+|a body mass index              |TEST     |
+|BMI                            |TEST     |
+|polyuria                       |PROBLEM  |
+|polydipsia                     |PROBLEM  |
+|poor appetite                  |PROBLEM  |
+|vomiting                       |PROBLEM  |
+|amoxicillin                    |TREATMENT|
+|a respiratory tract infection  |PROBLEM  |
+|metformin                      |TREATMENT|
+|glipizide                      |TREATMENT|
+|dapagliflozin                  |TREATMENT|
+|T2DM                           |PROBLEM  |
+|atorvastatin                   |TREATMENT|
+|gemfibrozil                    |TREATMENT|
++-------------------------------+---------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
