@@ -1,2 +1,2 @@
-docs/en/nlp_server/release_notes.md
-docs/en/nlp_server/release_notes.md
+docs/_data/navigation.yml
+docs/_data/navigation.yml
