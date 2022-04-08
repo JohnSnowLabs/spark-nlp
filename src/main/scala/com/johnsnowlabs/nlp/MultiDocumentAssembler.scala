@@ -27,7 +27,7 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 
 /**
  * Prepares data into a format that is processable by Spark NLP. This is the entry point for every Spark NLP pipeline.
- * The `DocumentAssembler` can read either a `String` column or an `Array[String]`. Additionally, [[DocumentAssembler.setCleanupMode]]
+ * The `MultiDocumentAssembler` can read either a `String` column or an `Array[String]`. Additionally, [[MultiDocumentAssembler.setCleanupMode]]
  * can be used to pre-process the text (Default: `disabled`). For possible options please refer the parameters section.
  *
  * For more extended examples on document pre-processing see the
@@ -36,12 +36,12 @@ import com.johnsnowlabs.nlp.AnnotatorType._
  * ==Example==
  * {{{
  * import spark.implicits._
- * import com.johnsnowlabs.nlp.DocumentAssembler
+ * import com.johnsnowlabs.nlp.MultiDocumentAssembler
  *
  * val data = Seq("Spark NLP is an open-source text processing library.").toDF("text")
- * val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
+ * val multiDocumentAssembler = new MultiDocumentAssembler().setInputCols("text").setOutputCols("document")
  *
- * val result = documentAssembler.transform(data)
+ * val result = multiDocumentAssembler.transform(data)
  *
  * result.select("document").show(false)
  * +----------------------------------------------------------------------------------------------+
