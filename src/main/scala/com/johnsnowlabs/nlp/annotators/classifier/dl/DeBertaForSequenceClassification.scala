@@ -17,6 +17,11 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.tensorflow._
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -28,24 +33,24 @@ import org.apache.spark.sql.SparkSession
 
 import java.io.File
 
-/** LongformerForSequenceClassification can load Longformer Models with sequence
+/** DeBertaForSequenceClassification can load DeBerta v2 & v3 Models with sequence
   * classification/regression head on top (a linear layer on top of the pooled output) e.g. for
   * multi-class document classification tasks.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
-  * val sequenceClassifier = LongformerForSequenceClassification.pretrained()
+  * val sequenceClassifier = DeBertaForSequenceClassification.pretrained()
   *   .setInputCols("token", "document")
   *   .setOutputCol("label")
   * }}}
-  * The default model is `"longformer_base_sequence_classifier_imdb"`, if no name is provided.
+  * The default model is `"deberta_v3_xsmall_sequence_classifier_imdb"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
   *
   * To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]]. and the
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/LongformerForSequenceClassificationTestSpec.scala LongformerForSequenceClassification]].
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DeBertaForSequenceClassificationTestSpec.scala DeBertaForSequenceClassification]].
   *
   * ==Example==
   * {{{
@@ -62,7 +67,7 @@ import java.io.File
   *   .setInputCols("document")
   *   .setOutputCol("token")
   *
-  * val sequenceClassifier = LongformerForSequenceClassification.pretrained()
+  * val sequenceClassifier = DeBertaForSequenceClassification.pretrained()
   *   .setInputCols("token", "document")
   *   .setOutputCol("label")
   *   .setCaseSensitive(true)
@@ -86,7 +91,7 @@ import java.io.File
   * }}}
   *
   * @see
-  *   [[LongformerForSequenceClassification]] for sequence-level classification
+  *   [[DeBertaForSequenceClassification]] for sequence-level classification
   * @see
   *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
   *   transformer based classifiers
@@ -109,17 +114,18 @@ import java.io.File
   *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
   *   parameter values through setters and getters, respectively.
   */
-class LongformerForSequenceClassification(override val uid: String)
-    extends AnnotatorModel[LongformerForSequenceClassification]
-    with HasBatchedAnnotate[LongformerForSequenceClassification]
+class DeBertaForSequenceClassification(override val uid: String)
+    extends AnnotatorModel[DeBertaForSequenceClassification]
+    with HasBatchedAnnotate[DeBertaForSequenceClassification]
     with WriteTensorflowModel
+    with WriteSentencePieceModel
     with HasCaseSensitiveProperties
     with HasClassifierActivationProperties {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
     */
-  def this() = this(Identifiable.randomUID("LongformerForSequenceClassification"))
+  def this() = this(Identifiable.randomUID("DeBertaForSequenceClassification"))
 
   /** Input Annotator Types: DOCUMENT, TOKEN
     *
@@ -134,27 +140,6 @@ class LongformerForSequenceClassification(override val uid: String)
     */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.CATEGORY
 
-  def sentenceStartTokenId: Int = {
-    $$(vocabulary)("<s>")
-  }
-
-  def sentenceEndTokenId: Int = {
-    $$(vocabulary)("</s>")
-  }
-
-  def padTokenId: Int = {
-    $$(vocabulary)("<pad>")
-  }
-
-  /** Vocabulary used to encode the words to ids with WordPieceEncoder
-    *
-    * @group param
-    */
-  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
-
-  /** @group setParam */
-  def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
-
   /** Labels used to decode predicted IDs back to string tags
     *
     * @group param
@@ -168,15 +153,6 @@ class LongformerForSequenceClassification(override val uid: String)
   def getClasses: Array[String] = {
     $$(labels).keys.toArray
   }
-
-  /** Holding merges.txt coming from Longformer model
-    *
-    * @group param
-    */
-  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges")
-
-  /** @group setParam */
-  def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)
 
   /** Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document
     * by averaging probabilities in all sentences. Due to max sequence length limit in almost all
@@ -208,7 +184,7 @@ class LongformerForSequenceClassification(override val uid: String)
     "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): LongformerForSequenceClassification.this.type =
+  def setConfigProtoBytes(bytes: Array[Int]): DeBertaForSequenceClassification.this.type =
     set(this.configProtoBytes, bytes)
 
   /** @group getParam */
@@ -224,8 +200,8 @@ class LongformerForSequenceClassification(override val uid: String)
   /** @group setParam */
   def setMaxSentenceLength(value: Int): this.type = {
     require(
-      value <= 4096,
-      "Longformer models do not support sequences longer than 4096 because of trainable positional embeddings.")
+      value <= 512,
+      "DeBERTa models do not support sequences longer than 512 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -250,32 +226,29 @@ class LongformerForSequenceClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowRoBertaClassification]] = None
+  private var _model: Option[Broadcast[TensorflowDeBertaClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: TensorflowWrapper): LongformerForSequenceClassification = {
+      tensorflowWrapper: TensorflowWrapper,
+      spp: SentencePieceWrapper): DeBertaForSequenceClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowRoBertaClassification(
+          new TensorflowDeBertaClassification(
             tensorflowWrapper,
-            sentenceStartTokenId,
-            sentenceEndTokenId,
-            padTokenId,
+            spp,
             configProtoBytes = getConfigProtoBytes,
             tags = $$(labels),
-            signatures = getSignatures,
-            $$(merges),
-            $$(vocabulary))))
+            signatures = getSignatures)))
     }
 
     this
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowRoBertaClassification = _model.get.value
+  def getModelIfNotSet: TensorflowDeBertaClassification = _model.get.value
 
   /** Whether to lowercase tokens or not
     *
@@ -289,9 +262,10 @@ class LongformerForSequenceClassification(override val uid: String)
 
   setDefault(
     batchSize -> 8,
-    maxSentenceLength -> 4096,
+    maxSentenceLength -> 128,
     caseSensitive -> true,
-    coalesceSentences -> false)
+    coalesceSentences -> false,
+    activation -> ActivationFunction.softmax)
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation
     * type
@@ -329,88 +303,74 @@ class LongformerForSequenceClassification(override val uid: String)
       path,
       spark,
       getModelIfNotSet.tensorflowWrapper,
-      "_longformer_classification",
-      LongformerForSequenceClassification.tfFile,
+      "_deberta_classification",
+      DeBertaForSequenceClassification.tfFile,
       configProtoBytes = getConfigProtoBytes)
+    writeSentencePieceModel(
+      path,
+      spark,
+      getModelIfNotSet.spp,
+      "_deberta",
+      DeBertaForSequenceClassification.sppFile)
   }
-
 }
 
-trait ReadablePretrainedLongformerForSequenceModel
-    extends ParamsAndFeaturesReadable[LongformerForSequenceClassification]
-    with HasPretrained[LongformerForSequenceClassification] {
-  override val defaultModelName: Some[String] = Some("longformer_base_sequence_classifier_imdb")
+trait ReadablePretrainedDeBertaForSequenceModel
+    extends ParamsAndFeaturesReadable[DeBertaForSequenceClassification]
+    with HasPretrained[DeBertaForSequenceClassification] {
+  override val defaultModelName: Some[String] = Some("deberta_v3_xsmall_sequence_classifier_imdb")
 
   /** Java compliant-overrides */
-  override def pretrained(): LongformerForSequenceClassification = super.pretrained()
+  override def pretrained(): DeBertaForSequenceClassification = super.pretrained()
 
-  override def pretrained(name: String): LongformerForSequenceClassification =
+  override def pretrained(name: String): DeBertaForSequenceClassification =
     super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): LongformerForSequenceClassification =
+  override def pretrained(name: String, lang: String): DeBertaForSequenceClassification =
     super.pretrained(name, lang)
 
   override def pretrained(
       name: String,
       lang: String,
-      remoteLoc: String): LongformerForSequenceClassification =
+      remoteLoc: String): DeBertaForSequenceClassification =
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadLongformerForSequenceTensorflowModel extends ReadTensorflowModel {
-  this: ParamsAndFeaturesReadable[LongformerForSequenceClassification] =>
+trait ReadDeBertaForSequenceTensorflowModel
+    extends ReadTensorflowModel
+    with ReadSentencePieceModel {
+  this: ParamsAndFeaturesReadable[DeBertaForSequenceClassification] =>
 
-  override val tfFile: String = "longformer_classification_tensorflow"
+  override val tfFile: String = "deberta_classification_tensorflow"
+  override val sppFile: String = "deberta_spp"
 
   def readTensorflow(
-      instance: LongformerForSequenceClassification,
+      instance: DeBertaForSequenceClassification,
       path: String,
       spark: SparkSession): Unit = {
 
     val tf =
-      readTensorflowModel(path, spark, "_longformer_classification_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+      readTensorflowModel(path, spark, "_deberta_classification_tf", initAllTables = false)
+    val spp = readSentencePieceModel(path, spark, "_deberta_spp", sppFile)
+    instance.setModelIfNotSet(spark, tf, spp)
   }
 
   addReader(readTensorflow)
 
   def loadSavedModel(
       tfModelPath: String,
-      spark: SparkSession): LongformerForSequenceClassification = {
+      spark: SparkSession): DeBertaForSequenceClassification = {
 
     val f = new File(tfModelPath)
     val savedModel = new File(tfModelPath, "saved_model.pb")
-
     require(f.exists, s"Folder $tfModelPath not found")
     require(f.isDirectory, s"File $tfModelPath is not folder")
     require(
       savedModel.exists(),
       s"savedModel file saved_model.pb not found in folder $tfModelPath")
-
-    val vocabFile = new File(tfModelPath + "/assets", "vocab.txt")
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(vocabFile.exists(), s"Vocabulary file vocab.txt not found in folder $tfModelPath")
-
-    val mergesFile = new File(tfModelPath + "/assets", "merges.txt")
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(mergesFile.exists(), s"merges file merges.txt not found in folder $tfModelPath")
-
-    val vocabResource =
-      new ExternalResource(vocabFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
-
-    val mergesResource =
-      new ExternalResource(mergesFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val merges = ResourceHelper.parseLines(mergesResource)
-
-    val bytePairs: Map[(String, String), Int] = merges
-      .map(_.split(" "))
-      .filter(w => w.length == 2)
-      .map { case Array(c1, c2) => (c1, c2) }
-      .zipWithIndex
-      .toMap
+    val sppModelPath = tfModelPath + "/assets"
+    val sppModel = new File(sppModelPath, "spm.model")
+    require(sppModel.exists(), s"SentencePiece model spm.model not found in folder $sppModelPath")
 
     val labelsPath = new File(tfModelPath + "/assets", "labels.txt")
     require(
@@ -423,6 +383,7 @@ trait ReadLongformerForSequenceTensorflowModel extends ReadTensorflowModel {
 
     val (wrapper, signatures) =
       TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
+    val spp = SentencePieceWrapper.read(sppModel.toString)
 
     val _signatures = signatures match {
       case Some(s) => s
@@ -430,18 +391,16 @@ trait ReadLongformerForSequenceTensorflowModel extends ReadTensorflowModel {
     }
 
     /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new LongformerForSequenceClassification()
-      .setVocabulary(words)
-      .setMerges(bytePairs)
+    new DeBertaForSequenceClassification()
       .setLabels(labels)
       .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper)
+      .setModelIfNotSet(spark, wrapper, spp)
   }
 }
 
-/** This is the companion object of [[LongformerForSequenceClassification]]. Please refer to that
+/** This is the companion object of [[DeBertaForSequenceClassification]]. Please refer to that
   * class for the documentation.
   */
-object LongformerForSequenceClassification
-    extends ReadablePretrainedLongformerForSequenceModel
-    with ReadLongformerForSequenceTensorflowModel
+object DeBertaForSequenceClassification
+    extends ReadablePretrainedDeBertaForSequenceModel
+    with ReadDeBertaForSequenceTensorflowModel

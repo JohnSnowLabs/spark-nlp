@@ -48,8 +48,7 @@ import java.io.File
   *
   * For some examples of usage, see
   * [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/LongformerEmbeddingsTestSpec.scala LongformerEmbeddingsTestSpec]].
-  * Models from the HuggingFace 🤗 Transformers library are compatible with Spark NLP 🚀. The
-  * Spark NLP Workshop example shows how to import them
+  * To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
   *
   * '''Paper Abstract:'''

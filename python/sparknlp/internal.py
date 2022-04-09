@@ -504,3 +504,10 @@ class _DeBERTaLoader(ExtendedJavaWrapper):
         super(_DeBERTaLoader, self).__init__(
             "com.johnsnowlabs.nlp.embeddings.DeBertaEmbeddings.loadSavedModel", path,
             jspark)
+
+
+class _DeBertaSequenceClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_DeBertaSequenceClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForSequenceClassification.loadSavedModel", path,
+            jspark)

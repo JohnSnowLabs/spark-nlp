@@ -46,8 +46,7 @@ import java.io.File
   * multi-lingual), if no values are provided. For available pretrained models please see the
   * [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
   *
-  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The
-  * Spark NLP Workshop example shows how to import them
+  * To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]]. and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/XlmRoBertaSentenceEmbeddingsTestSpec.scala XlmRoBertaSentenceEmbeddingsTestSpec]].
   *
