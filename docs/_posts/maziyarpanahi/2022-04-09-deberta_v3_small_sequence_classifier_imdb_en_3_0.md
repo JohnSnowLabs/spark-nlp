@@ -5,7 +5,7 @@ author: John Snow Labs
 name: deberta_v3_small_sequence_classifier_imdb
 date: 2022-04-09
 tags: [open_source, deberta, v3, sequence_classification, en, english]
-task: Embeddings
+task: Text Classification
 language: en
 edition: Spark NLP 3.4.3
 spark_version: 3.0
@@ -26,7 +26,7 @@ We used TFDebertaV2ForSequenceClassification to train this model and used DeBert
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/deberta_v3_small_sequence_classifier_imdb_en_3.4.3_3.0_1649510894988.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/deberta_v3_small_sequence_classifier_imdb_en_3.4.3_3.0_1649511772003.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
