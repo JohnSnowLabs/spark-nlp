@@ -43,8 +43,7 @@ import java.io.File
   * For available pretrained models please see the
   * [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
   *
-  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The
-  * Spark NLP Workshop example shows how to import them
+  * To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]]. and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForSequenceClassificationTestSpec.scala DistilBertForSequenceClassificationTestSpec]].
   *

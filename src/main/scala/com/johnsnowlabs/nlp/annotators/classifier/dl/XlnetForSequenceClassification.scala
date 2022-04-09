@@ -48,8 +48,7 @@ import java.io.File
   * For available pretrained models please see the
   * [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
   *
-  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The
-  * Spark NLP Workshop example shows how to import them
+  * To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]]. and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/XlnetForSequenceClassificationTestSpec.scala XlnetForSequenceClassification]].
   *
@@ -141,15 +140,6 @@ class XlnetForSequenceClassification(override val uid: String)
     */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.CATEGORY
 
-  /** Vocabulary used to encode the words to ids with WordPieceEncoder
-    *
-    * @group param
-    */
-  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
-
-  /** @group setParam */
-  def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
-
   /** Labels used to decode predicted IDs back to string tags
     *
     * @group param
@@ -163,15 +153,6 @@ class XlnetForSequenceClassification(override val uid: String)
   def getClasses: Array[String] = {
     $$(labels).keys.toArray
   }
-
-  /** Holding merges.txt coming from XLNet model
-    *
-    * @group param
-    */
-  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges")
-
-  /** @group setParam */
-  def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)
 
   /** Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document
     * by averaging probabilities in all sentences. Due to max sequence length limit in almost all

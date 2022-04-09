@@ -6457,8 +6457,7 @@ class BertEmbeddings(AnnotatorModel,
 
     For extended examples of usage, see the `Spark NLP Workshop
     <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/3.NER_with_BERT.ipynb>`__.
-    Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -8363,8 +8362,7 @@ class AlbertEmbeddings(AnnotatorModel,
 
     For extended examples of usage, see the `Spark NLP Workshop
     <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_albert.ipynb>`__.
-    Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -8587,8 +8585,7 @@ class XlnetEmbeddings(AnnotatorModel,
 
     For extended examples of usage, see the `Spark NLP Workshop
     <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_xlnet.ipynb>`__.
-    Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -12236,8 +12233,7 @@ class DistilBertEmbeddings(AnnotatorModel,
 
     For extended examples of usage, see the `Spark NLP Workshop
     <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb>`__.
-    Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -12456,8 +12452,7 @@ class RoBertaEmbeddings(AnnotatorModel,
 
     For extended examples of usage, see the `Spark NLP Workshop
     <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb>`__.
-    Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -12671,8 +12666,7 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
 
     For extended examples of usage, see the `Spark NLP Workshop
     <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb>`__.
-    Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -13227,8 +13221,7 @@ class BertForTokenClassification(AnnotatorModel,
     For available pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition>`__.
 
-    Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -13398,8 +13391,7 @@ class DistilBertForTokenClassification(AnnotatorModel,
     For available pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition>`__.
 
-    Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -13570,8 +13562,7 @@ class LongformerEmbeddings(AnnotatorModel,
     available pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
 
-    Models from the HuggingFace 🤗 Transformers library are compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -14143,8 +14134,7 @@ class RoBertaForTokenClassification(AnnotatorModel,
     For available pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition>`__.
 
-    Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -14310,8 +14300,7 @@ class XlmRoBertaForTokenClassification(AnnotatorModel,
 
     For available pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition>`__.
-    Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -14478,8 +14467,7 @@ class AlbertForTokenClassification(AnnotatorModel,
     For available pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition>`__.
 
-    Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -14652,8 +14640,7 @@ class XlnetForTokenClassification(AnnotatorModel,
     For available pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition>`__.
 
-    Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -14822,8 +14809,7 @@ class LongformerForTokenClassification(AnnotatorModel,
     For available pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition>`__.
 
-    Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -15203,8 +15189,7 @@ class BertForSequenceClassification(AnnotatorModel,
     For available pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
 
-    Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -15716,8 +15701,7 @@ class DistilBertForSequenceClassification(AnnotatorModel,
     For available pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
 
-    Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -15908,8 +15892,7 @@ class RoBertaForSequenceClassification(AnnotatorModel,
     For available pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
 
-    Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -16100,8 +16083,7 @@ class XlmRoBertaForSequenceClassification(AnnotatorModel,
     For available pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
 
-    Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -16292,8 +16274,7 @@ class LongformerForSequenceClassification(AnnotatorModel,
     For available pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
 
-    Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -16484,8 +16465,7 @@ class AlbertForSequenceClassification(AnnotatorModel,
     For available pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
 
-    Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -16676,8 +16656,7 @@ class XlnetForSequenceClassification(AnnotatorModel,
     For available pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
 
-    Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -17538,8 +17517,7 @@ class DeBertaEmbeddings(AnnotatorModel,
 
     The default model is ``"deberta_v3_base"``, if no name is provided.
 
-    Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. To see which models are compatible and how to import them see
+    To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
@@ -17714,3 +17692,195 @@ class DeBertaEmbeddings(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(DeBertaEmbeddings, name, lang, remote_loc)
+
+
+class DeBertaForSequenceClassification(AnnotatorModel,
+                                       HasCaseSensitiveProperties,
+                                       HasBatchedAnnotate,
+                                       HasClassifierActivationProperties):
+    """DeBertaForSequenceClassification can load DeBERTa v2 & v3 Models with sequence classification/regression head on
+    top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
+
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
+
+    >>> sequenceClassifier = DeBertaForSequenceClassification.pretrained() \\
+    ...     .setInputCols(["token", "document"]) \\
+    ...     .setOutputCol("label")
+
+    The default model is ``"deberta_v3_xsmall_sequence_classifier_imdb"``, if no name is
+    provided.
+
+    For available pretrained models please see the `Models Hub
+    <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
+
+    To see which models are compatible and how to import them see
+    `Import Transformers into Spark NLP 🚀
+    <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, TOKEN``    ``CATEGORY``
+    ====================== ======================
+
+    Parameters
+    ----------
+    batchSize
+        Batch size. Large values allows faster processing but requires more
+        memory, by default 8
+    caseSensitive
+        Whether to ignore case in tokens for embeddings matching, by default
+        True
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array.
+    maxSentenceLength
+        Max sentence length to process, by default 128
+    coalesceSentences
+        Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging
+        probabilities in all sentences.
+
+    Examples
+    --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> sequenceClassifier = DeBertaForSequenceClassification.pretrained() \\
+    ...     .setInputCols(["token", "document"]) \\
+    ...     .setOutputCol("label") \\
+    ...     .setCaseSensitive(True)
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     sequenceClassifier
+    ... ])
+    >>> data = spark.createDataFrame([[\"\"\"John Lenon was born in London and lived
+    ... in Paris. My name is Sarah and I live in London\"\"\"]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.select("label.result").show(truncate=False)
+    +--------------------+
+    |result              |
+    +--------------------+
+    |[neg, neg]          |
+    |[pos, pos, pos, pos]|
+    +--------------------+
+    """
+    name = "DeBertaForSequenceClassification"
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListInt)
+
+    coalesceSentences = Param(Params._dummy(), "coalesceSentences",
+                              "Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.",
+                              TypeConverters.toBoolean)
+
+    def getClasses(self):
+        """
+        Returns labels used to train this model
+        """
+        return self._call_java("getClasses")
+
+    def setConfigProtoBytes(self, b):
+        """Sets configProto from tensorflow, serialized into byte array.
+
+        Parameters
+        ----------
+        b : List[int]
+            ConfigProto from tensorflow, serialized into byte array
+        """
+        return self._set(configProtoBytes=b)
+
+    def setMaxSentenceLength(self, value):
+        """Sets max sentence length to process, by default 128.
+
+        Parameters
+        ----------
+        value : int
+            Max sentence length to process
+        """
+        return self._set(maxSentenceLength=value)
+
+    def setCoalesceSentences(self, value):
+        """Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging
+        probabilities in all sentences. Due to max sequence length limit in almost all transformer models such as
+        BERT (512 tokens), this parameter helps to feed all the sentences into the model and averaging all the
+        probabilities for the entire document instead of probabilities per sentence. (Default: true)
+
+        Parameters
+        ----------
+        value : bool
+            If the output of all sentences will be averaged to one output
+        """
+        return self._set(coalesceSentences=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForSequenceClassification",
+                 java_model=None):
+        super(DeBertaForSequenceClassification, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            batchSize=8,
+            maxSentenceLength=128,
+            caseSensitive=True,
+            coalesceSentences=False,
+            activation="softmax"
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        """Loads a locally saved model.
+
+        Parameters
+        ----------
+        folder : str
+            Folder of the saved model
+        spark_session : pyspark.sql.SparkSession
+            The current SparkSession
+
+        Returns
+        -------
+        AlbertForSequenceClassification
+            The restored model
+        """
+        from sparknlp.internal import _DeBertaSequenceClassifierLoader
+        jModel = _DeBertaSequenceClassifierLoader(folder, spark_session._jsparkSession)._java_obj
+        return DeBertaForSequenceClassification(java_model=jModel)
+
+    @staticmethod
+    def pretrained(name="deberta_base_sequence_classifier_imdb", lang="en", remote_loc=None):
+        """Downloads and loads a pretrained model.
+
+        Parameters
+        ----------
+        name : str, optional
+            Name of the pretrained model, by default
+            "deberta_v3_xsmall_sequence_classifier_imdb"
+        lang : str, optional
+            Language of the pretrained model, by default "en"
+        remote_loc : str, optional
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
+
+        Returns
+        -------
+        AlbertForSequenceClassification
+            The restored model
+        """
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(DeBertaForSequenceClassification, name, lang, remote_loc)
