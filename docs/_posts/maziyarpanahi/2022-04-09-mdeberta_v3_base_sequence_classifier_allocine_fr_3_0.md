@@ -1,6 +1,6 @@
 ---
 layout: model
-title: DeBERTa Sequence Classification Base - IMDB (mdeberta_v3_base_sequence_classifier_allocine)
+title: DeBERTa Sequence Classification Base - Allocine (mdeberta_v3_base_sequence_classifier_allocine)
 author: John Snow Labs
 name: mdeberta_v3_base_sequence_classifier_allocine
 date: 2022-04-09
