@@ -1,2 +1,2 @@
-docs/_posts/murat-gunay/2022-02-23-bert_sequence_classifier_age_news_pipeline_en.md
-docs/_posts/murat-gunay/2022-02-23-bert_sequence_classifier_age_news_pipeline_en.md
+docs/_posts/murat-gunay/2021-11-07-bert_sequence_classifier_age_news_en.md
+docs/_posts/murat-gunay/2021-11-07-bert_sequence_classifier_age_news_en.md
