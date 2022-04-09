@@ -17688,7 +17688,7 @@ class DeBertaForSequenceClassification(AnnotatorModel,
     ...     .setInputCols(["token", "document"]) \\
     ...     .setOutputCol("label")
 
-    The default model is ``"deberta_base_sequence_classifier_imdb"``, if no name is
+    The default model is ``"deberta_v3_xsmall_sequence_classifier_imdb"``, if no name is
     provided.
 
     For available pretrained models please see the `Models Hub
@@ -17850,7 +17850,7 @@ class DeBertaForSequenceClassification(AnnotatorModel,
         ----------
         name : str, optional
             Name of the pretrained model, by default
-            "deberta_base_sequence_classifier_imdb"
+            "deberta_v3_xsmall_sequence_classifier_imdb"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional

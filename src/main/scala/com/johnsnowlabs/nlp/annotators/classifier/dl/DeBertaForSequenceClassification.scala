@@ -43,7 +43,7 @@ import java.io.File
   *   .setInputCols("token", "document")
   *   .setOutputCol("label")
   * }}}
-  * The default model is `"deberta_base_sequence_classifier_imdb"`, if no name is provided.
+  * The default model is `"deberta_v3_xsmall_sequence_classifier_imdb"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
@@ -318,7 +318,7 @@ class DeBertaForSequenceClassification(override val uid: String)
 trait ReadablePretrainedDeBertaForSequenceModel
     extends ParamsAndFeaturesReadable[DeBertaForSequenceClassification]
     with HasPretrained[DeBertaForSequenceClassification] {
-  override val defaultModelName: Some[String] = Some("deberta_base_sequence_classifier_imdb")
+  override val defaultModelName: Some[String] = Some("deberta_v3_xsmall_sequence_classifier_imdb")
 
   /** Java compliant-overrides */
   override def pretrained(): DeBertaForSequenceClassification = super.pretrained()
