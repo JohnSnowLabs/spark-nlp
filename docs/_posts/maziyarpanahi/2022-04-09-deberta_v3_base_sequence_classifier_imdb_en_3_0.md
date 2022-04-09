@@ -4,7 +4,7 @@ title: DeBERTa Sequence Classification Base - IMDB (deberta_v3_base_sequence_cla
 author: John Snow Labs
 name: deberta_v3_base_sequence_classifier_imdb
 date: 2022-04-09
-tags: [open_source, deberta, v3, sequence_classification, en, english]
+tags: [open_source, deberta, v3, sequence_classification, en, english, imdb]
 task: Text Classification
 language: en
 edition: Spark NLP 3.4.3
