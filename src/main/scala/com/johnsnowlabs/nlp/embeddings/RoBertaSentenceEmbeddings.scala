@@ -48,7 +48,7 @@ import java.io.File
   * The default model is `"sent_roberta_base"`, if no name is provided. For available pretrained
   * models please see the [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
   *
-  *  To see which models are compatible and how to import them see
+  * To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]]. and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/RoBertaEmbeddingsTestSpec.scala RoBertaEmbeddingsTestSpec]].
   *

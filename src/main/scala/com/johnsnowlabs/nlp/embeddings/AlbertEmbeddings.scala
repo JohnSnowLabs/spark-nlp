@@ -64,7 +64,7 @@ import java.io.File
   * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_albert.ipynb Spark NLP Workshop]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/AlbertEmbeddingsTestSpec.scala AlbertEmbeddingsTestSpec]].
-  *  To see which models are compatible and how to import them see
+  * To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
   *
   * '''Sources:'''

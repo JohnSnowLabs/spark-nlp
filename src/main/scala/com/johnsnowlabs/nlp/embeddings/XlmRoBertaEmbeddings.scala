@@ -50,7 +50,7 @@ import java.io.File
   * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb Spark NLP Workshop]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/XlmRoBertaEmbeddingsTestSpec.scala XlmRoBertaEmbeddingsTestSpec]].
-  *  To see which models are compatible and how to import them see
+  * To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
   *
   * '''Paper Abstract:'''
