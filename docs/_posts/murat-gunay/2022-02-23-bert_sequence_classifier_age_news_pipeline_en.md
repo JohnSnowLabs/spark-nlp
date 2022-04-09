@@ -4,7 +4,7 @@ title: Pipeline to Classify Texts into 4 News Categories
 author: John Snow Labs
 name: bert_sequence_classifier_age_news_pipeline
 date: 2022-02-23
-tags: [age_news, news, bert, bert_sequence, classification, en, open_source]
+tags: [ag_news, news, bert, bert_sequence, classification, en, open_source]
 task: Text Classification
 language: en
 edition: Spark NLP 3.4.0
