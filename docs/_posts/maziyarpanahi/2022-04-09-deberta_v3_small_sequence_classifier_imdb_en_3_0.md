@@ -4,7 +4,7 @@ title: DeBERTa Sequence Classification Small - IMDB (deberta_v3_small_sequence_c
 author: John Snow Labs
 name: deberta_v3_small_sequence_classifier_imdb
 date: 2022-04-09
-tags: [open_source, deberta, v3, sequence_classification, en, english]
+tags: [open_source, deberta, v3, sequence_classification, en, english, imdb]
 task: Text Classification
 language: en
 edition: Spark NLP 3.4.3
