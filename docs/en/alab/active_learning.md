@@ -6,7 +6,7 @@ seotitle: Annotation Lab | John Snow Labs
 title: Model Training  
 permalink: /docs/en/alab/active_learning
 key: docs-training
-modify_date: "2021-05-11"
+modify_date: "2022-04-05"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
@@ -171,3 +171,13 @@ If there is any mistake in the name of models, the validation error is displayed
 
 
 <img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/config_update.png" style="width:70%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+## Train German and Spanish Models
+
+In earlier versions of the Annotation Lab, users could download German/Spanish pretrained models from the NLP Models Hub and use them for preannotation. From this version, Annotation Lab also offers support for training/tuning German and Spanish models.
+
+## Deploy a new training job
+
+With release 3.0.0, users can perform multiple training jobs at the same time, depending on the available resources/license(s). Users can opt to create new training jobs independently from already running training/preannotation/OCR jobs. If resources/licenses are available when pressing the `Train Now` button a new training server is launched. 
+
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/10557387/161714065-931d2c90-fd46-42bc-b008-bea0e1cdfff3.gif)

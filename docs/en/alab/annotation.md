@@ -63,7 +63,15 @@ To extract information using NER labels, first click on the label to select it o
 <img class="image image--xl" src="/assets/images/annotation_lab/add_label.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 For deleting a label, select it by clicking on it and press backspace. 
- 
+
+### Trim leading and ending spaces in annotated chunks
+
+When annotating text, it is possible and probable that the annotation is not very precise and the chunks contain leading/trailing spaces and punctuation marks. As of 2.8.0 all the leading/trailing spaces and punctuation marks are excluded by default. A new configuration option is added to the Settings in the Labeling page for this purpose. It can be used to disable this feature if necessary.
+
+ ![trim_spaces_punctuations](https://user-images.githubusercontent.com/26042994/158371039-0e5d0722-192e-4d46-81a1-efddba79ccf5.gif)
+
+
+
 ## Assertion Labels
 
 To add an assertion label to an extracted entity, select the label and use it to do the same exact extraction as the NER label. After this, the extracted entity will have two labels: one for NER and one for assertion. In the example below, the chunks "heart disease", "kidney disease", "stroke" etc. ware extracted using first a blue yellow label and then a red assertion label (**Absent**).
@@ -84,8 +92,14 @@ You can add a label to the relation, change its direction or delete it using the
 <img class="image image--xl" src="/assets/images/annotation_lab/relations2.png" style="width:50%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 
+## Cross page Annotation
 
- 
+Since release 2.8.0 Annotation Lab supports cross page NER annotation for Text projects. This means that Annotators can annotate a chunk starting at the bottom of one page and finishing on the next page. This feature is also offered for Relations. Previously, relations were created between chunks located on the same page. But now, relations can be created among tokens located on different pages.
+The way to do this is to first [change the pagination settings](/docs/en/alab/import#dynamic-task-pagination) to include a higher number of tokens on one page, then create the annotation using the regular annotation approach and finally go back to the original pagination settings. The annotation is persisted after the update of the pagination.
+  
+ <img class="image image--xl" src="/assets/images/annotation_lab/2.8.0/158549847-b6434489-102e-4245-b751-3f07e6e7c39e.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+
 ## Pre-annotations  
 When you setup a project to use existing Spark NLP models for pre-annotation, you can run the designated models on all of your tasks by pressing the Preannotate button located on the upper side of the task view. 
  
@@ -94,6 +108,55 @@ When you setup a project to use existing Spark NLP models for pre-annotation, yo
 As a result, all predicted labels for a given task will be available in the Prediction widget, on the main annotation screen. The predictions are not editable, you can only view them and navigate them or compare them with older predictions. However, you can create a new completion based on a given prediction. All labels and relations from such a new completion are now editable. 
  
 <img class="image image--xl" src="/assets/images/annotation_lab/image029.png" style="width:50%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+
+## Simplified workflow
+
+**Direct Submit:**
+
+Using the classical annotation workflow, when an annotator works on a task, a series of actions are necessary for creating a new annotation and submitting it as ground truth:
+-   Create the completion
+-   Save the completion, 
+-   Submit the completion,
+-   Confirm submission, 
+-   Load next task. 
+
+This process is adapted for more complex workflows and larger tasks. For cases of simpler projects, involving smaller tasks, Annotation Lab now offers a simplified workflow. Annotators can now submit a completion with just one click.
+
+
+- The project owner/manager can activate this option from the Settings of the Setup page (Project Configuration). Once enabled, annotators can see the submit button on the labeling page. 
+- A second option is available on the same Project Configuration screen for project owner/manager: "Serve next task after completion submission". Once enabled, annotators can see the next task on the labeling page after submitting the completion for the current task.
+
+<img class="image image--xl" src="/assets/images/annotation_lab/2.8.0/158314384-801a8ed5-f0e1-410b-a13e-fc46884ab503.gif" style="width:50%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+--- 
+
+**Accept Prediction:**
+
+When predictions are available for a task, Annotator will be offered the option to accept the predictions with just one click and navigate automatically to the next task. When users click on Accept Prediction, a new completion is created based on the prediction, then submitted as ground truth and the next task in line (assigned to the current annotator/reviewer and with Incomplete or In progress status) is automatically served.
+
+<img class="image image--xl" src="/assets/images/annotation_lab/2.8.0/158314467-bf6c359c-04a7-44d6-8d97-eaeb5314b914.gif" style="width:50%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+---
+
+**Minor update on Shortcuts:**
+
+- Annotator can **save/update** completion using `CTRL+Enter`
+- Annotator can **Submit** completion using `ALT+Enter`
+
+---
+
+**Overall work progress:**
+
+Annotator/Reviewer can now see their overall work progress from within the labeling page. The status is calculated with respect to their assigned work. 
+
+- **For Annotator View:**
+![image](https://user-images.githubusercontent.com/45035063/158314725-67a5f9fb-8540-4528-8ae3-8cb1ddb7464d.png)
+
+- **For Reviewer View:**
+![image](https://user-images.githubusercontent.com/45035063/158314820-b8711b88-b041-4517-a7bc-83a203b6235f.png)
+
+
 
 
 ## Annotation Screen customizations
