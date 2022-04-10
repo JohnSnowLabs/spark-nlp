@@ -144,4 +144,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_SQL.ipynb
+        - title: Text Generation with GPT-2
+          id: text_generation_with_gpt2  
+          image: 
+              src: /assets/images/Grammar_Analysis.svg
+          image2: 
+              src: /assets/images/Grammar_Analysis_f.svg
+          excerpt: This demo shows how to generate text using GPT-2 Transformer.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/GPT2_TRANSFORMER/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/16.GPT2_Transformer_In_Spark_NLP.ipynb
 ---

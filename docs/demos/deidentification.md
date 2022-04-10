@@ -102,4 +102,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
+        - title: Deidentify Clinical Notes in Different Languages
+          id: deidentify_clinical_notes_different_languages
+          image: 
+              src: /assets/images/Deidentify_free_text_documents.svg
+          image2: 
+              src: /assets/images/Deidentify_free_text_documents_f.svg
+          excerpt: This demo shows how to deidentify protected health information in English , Spanish, French, Italian and German texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_MULTI/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/Clinical_Deidentification_Multilingual.ipynb
 ---
