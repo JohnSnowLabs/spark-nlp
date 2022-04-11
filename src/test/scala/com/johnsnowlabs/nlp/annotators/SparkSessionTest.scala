@@ -31,6 +31,7 @@ trait SparkSessionTest extends BeforeAndAfterAll { this: Suite =>
   val documentAssembler = new DocumentAssembler()
   val tokenizer = new Tokenizer()
   val emptyDataSet: Dataset[_] = PipelineModels.dummyDataset
+  val pipeline = new Pipeline()
 
   override def beforeAll(): Unit = {
     super.beforeAll()
