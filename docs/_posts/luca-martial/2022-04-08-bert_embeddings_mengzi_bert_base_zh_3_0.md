@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Bert Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. mengzi-bert-base is a Chinese model orginally trained by Langboat.
+Pretrained Bert Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `mengzi-bert-base` is a Chinese model orginally trained by `Langboat`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
