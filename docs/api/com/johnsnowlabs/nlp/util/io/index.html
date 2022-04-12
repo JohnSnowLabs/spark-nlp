@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.util.io</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.util.io" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.util.io" />
+          <title>Spark NLP 3.4.3 ScalaDoc  - com.johnsnowlabs.nlp.util.io</title>
+          <meta name="description" content="Spark NLP 3.4.3 ScalaDoc - com.johnsnowlabs.nlp.util.io" />
+          <meta name="keywords" content="Spark NLP 3.4.3 ScalaDoc com.johnsnowlabs.nlp.util.io" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -259,9 +259,10 @@
         <a title="This represents an external source which contains information into how an external resource shall be read by Spark-NLP's Resource Helper." href="ExternalResource.html"><span class="name">ExternalResource</span></a><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="readAs">readAs: <a href="ReadAs$.html#Format=com.johnsnowlabs.nlp.util.io.ReadAs.Value" class="extmbr" name="com.johnsnowlabs.nlp.util.io.ReadAs.Format">Format</a></span>, <span name="options">options: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result"> extends <a href="../../annotators/param/WritableAnnotatorComponent.html" class="extype" name="com.johnsnowlabs.nlp.annotators.param.WritableAnnotatorComponent">WritableAnnotatorComponent</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
-      <p class="shortcomment cmt">This represents an external source which contains information into
-how an external resource shall be read by Spark-NLP's Resource Helper.</p><div class="fullcomment"><div class="comment cmt"><p>This represents an external source which contains information into
-how an external resource shall be read by Spark-NLP's Resource Helper.</p><ul><li><code>ReadAs.TEXT</code> will configure the file to be read locally as text</li><li><code>ReadAs.BINARY</code> will configure the file to be read locally as binary</li><li><code>ReadAs.SPARK</code> will configure the file to be read by Spark. <code>&quot;format&quot;</code> will need to be defined in <code>options</code>.</li></ul><h4>Example</h4><pre>ExternalResource(
+      <p class="shortcomment cmt">This represents an external source which contains information into how an external resource
+shall be read by Spark-NLP's Resource Helper.</p><div class="fullcomment"><div class="comment cmt"><p>This represents an external source which contains information into how an external resource
+shall be read by Spark-NLP's Resource Helper.</p><ul><li><code>ReadAs.TEXT</code> will configure the file to be read locally as text</li><li><code>ReadAs.BINARY</code> will configure the file to be read locally as binary</li><li><code>ReadAs.SPARK</code> will configure the file to be read by Spark. <code>&quot;format&quot;</code> will need to be
+    defined in <code>options</code>.</li></ul><h4>Example</h4><pre>ExternalResource(
   <span class="lit">"src/test/resources/regex-matcher/rules.txt"</span>,
   ReadAs.TEXT,
   <span class="std">Map</span>(<span class="lit">"delimiter"</span> -&gt; <span class="lit">","</span>)
@@ -271,7 +272,11 @@ ExternalResource(
   <span class="lit">"src/test/resources/regex-matcher/rules.txt"</span>,
   ReadAs.SPARK,
   <span class="std">Map</span>(<span class="lit">"format"</span> -&gt; <span class="lit">"text"</span>, <span class="lit">"delimiter"</span> -&gt; <span class="lit">","</span>)
-)</pre></div><dl class="paramcmts block"><dt class="param">path</dt><dd class="cmt"><p>Path to the resource</p></dd><dt class="param">readAs</dt><dd class="cmt"><p>How to interpret the resource. Possible values are <code>ReadAs.SPARK, ReadAs.TEXT, ReadAs.BINARY</code></p></dd><dt class="param">options</dt><dd class="cmt"><p>Options for Spark. Option <code>format</code> needs to be set if <code>readAs</code> is set to <code>ReadAs.SPARK</code></p></dd></dl></div>
+)</pre></div><dl class="paramcmts block"><dt class="param">path</dt><dd class="cmt"><p>
+  Path to the resource</p></dd><dt class="param">readAs</dt><dd class="cmt"><p>
+  How to interpret the resource. Possible values are <code>ReadAs.SPARK, ReadAs.TEXT,
+  ReadAs.BINARY</code></p></dd><dt class="param">options</dt><dd class="cmt"><p>
+  Options for Spark. Option <code>format</code> needs to be set if <code>readAs</code> is set to <code>ReadAs.SPARK</code></p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -343,7 +348,8 @@ ExternalResource(
         <a title="Helper one-place for IO management." href="ResourceHelper$.html"><span class="name">ResourceHelper</span></a>
       </span>
       
-      <p class="shortcomment cmt">Helper one-place for IO management.</p><div class="fullcomment"><div class="comment cmt"><p>Helper one-place for IO management. Streams, source and external input should be handled from here
+      <p class="shortcomment cmt">Helper one-place for IO management.</p><div class="fullcomment"><div class="comment cmt"><p>Helper one-place for IO management. Streams, source and external input should be handled from
+here
 </p></div></div>
     </li>
               </ol>

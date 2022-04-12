@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.er</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.er" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.er" />
+          <title>Spark NLP 3.4.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.er</title>
+          <meta name="description" content="Spark NLP 3.4.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.er" />
+          <meta name="keywords" content="Spark NLP 3.4.3 ScalaDoc com.johnsnowlabs.nlp.annotators.er" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -535,13 +535,14 @@
         <a title="Fits an Annotator to match exact strings or regex patterns provided in a file against a Document and assigns them an named entity." href="EntityRulerApproach.html"><span class="name">EntityRulerApproach</span></a><span class="result"> extends <a href="../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="EntityRulerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.er.EntityRulerModel">EntityRulerModel</a>] with <a href="../../../storage/HasStorage.html" class="extype" name="com.johnsnowlabs.storage.HasStorage">HasStorage</a></span>
       </span>
       
-      <p class="shortcomment cmt">Fits an Annotator to match exact strings or regex patterns provided in a file against a Document and assigns them an
-named entity.</p><div class="fullcomment"><div class="comment cmt"><p>Fits an Annotator to match exact strings or regex patterns provided in a file against a Document and assigns them an
-named entity. The definitions can contain any number of named entities.</p><p>There are multiple ways and formats to set the extraction resource. It is possible to set it either as a &quot;JSON&quot;,
-&quot;JSONL&quot; or &quot;CSV&quot; file. A path to the file needs to be provided to <code>setPatternsResource</code>. The file format needs to be
-set as the &quot;format&quot; field in the <code>option</code> parameter map and depending on the file type, additional parameters might
-need to be set.</p><p>To enable regex extraction, <code>setEnablePatternRegex(true)</code> needs to be called.</p><p>If the file is in a JSON format, then the rule definitions need to be given in a list with the fields &quot;id&quot;, &quot;label&quot;
-and &quot;patterns&quot;:</p><pre> [
+      <p class="shortcomment cmt">Fits an Annotator to match exact strings or regex patterns provided in a file against a
+Document and assigns them an named entity.</p><div class="fullcomment"><div class="comment cmt"><p>Fits an Annotator to match exact strings or regex patterns provided in a file against a
+Document and assigns them an named entity. The definitions can contain any number of named
+entities.</p><p>There are multiple ways and formats to set the extraction resource. It is possible to set it
+either as a &quot;JSON&quot;, &quot;JSONL&quot; or &quot;CSV&quot; file. A path to the file needs to be provided to
+<code>setPatternsResource</code>. The file format needs to be set as the &quot;format&quot; field in the <code>option</code>
+parameter map and depending on the file type, additional parameters might need to be set.</p><p>To enable regex extraction, <code>setEnablePatternRegex(true)</code> needs to be called.</p><p>If the file is in a JSON format, then the rule definitions need to be given in a list with the
+fields &quot;id&quot;, &quot;label&quot; and &quot;patterns&quot;:</p><pre> [
   {
     <span class="lit">"id"</span>: <span class="lit">"person-regex"</span>,
     <span class="lit">"label"</span>: <span class="lit">"PERSON"</span>,
@@ -554,8 +555,9 @@ and &quot;patterns&quot;:</p><pre> [
   }
 ]</pre><p>The same fields also apply to a file in the JSONL format:</p><pre>{<span class="lit">"id"</span>: <span class="lit">"names-with-j"</span>, <span class="lit">"label"</span>: <span class="lit">"PERSON"</span>, <span class="lit">"patterns"</span>: [<span class="lit">"Jon"</span>, <span class="lit">"John"</span>, <span class="lit">"John Snow"</span>]}
 {<span class="lit">"id"</span>: <span class="lit">"names-with-s"</span>, <span class="lit">"label"</span>: <span class="lit">"PERSON"</span>, <span class="lit">"patterns"</span>: [<span class="lit">"Stark"</span>, <span class="lit">"Snow"</span>]}
-{<span class="lit">"id"</span>: <span class="lit">"names-with-e"</span>, <span class="lit">"label"</span>: <span class="lit">"PERSON"</span>, <span class="lit">"patterns"</span>: [<span class="lit">"Eddard"</span>, <span class="lit">"Eddard Stark"</span>]}</pre><p>In order to use a CSV file, an additional parameter &quot;delimiter&quot; needs to be set. In this case, the delimiter might be
-set by using <code>.setPatternsResource(&quot;patterns.csv&quot;, ReadAs.TEXT, Map(&quot;format&quot;-&gt;&quot;csv&quot;, &quot;delimiter&quot; -&gt; &quot;\\|&quot;))</code></p><pre>PERSON|Jon
+{<span class="lit">"id"</span>: <span class="lit">"names-with-e"</span>, <span class="lit">"label"</span>: <span class="lit">"PERSON"</span>, <span class="lit">"patterns"</span>: [<span class="lit">"Eddard"</span>, <span class="lit">"Eddard Stark"</span>]}</pre><p>In order to use a CSV file, an additional parameter &quot;delimiter&quot; needs to be set. In this case,
+the delimiter might be set by using <code>.setPatternsResource(&quot;patterns.csv&quot;, ReadAs.TEXT,
+Map(&quot;format&quot;-&gt;&quot;csv&quot;, &quot;delimiter&quot; -&gt; &quot;\\|&quot;))</code></p><pre>PERSON|Jon
 PERSON|John
 PERSON|John Snow
 LOCATION|Winterfell</pre><h4>Example</h4><p>In this example, the entities file as the form of</p><pre>PERSON|Jon
@@ -634,8 +636,8 @@ result.selectExpr(<span class="lit">"explode(entities)"</span>).show(<span class
         <a title="Instantiated model of the EntityRulerApproach." href="EntityRulerModel.html"><span class="name">EntityRulerModel</span></a><span class="result"> extends <a href="../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="EntityRulerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.er.EntityRulerModel">EntityRulerModel</a>] with <a href="../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="EntityRulerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.er.EntityRulerModel">EntityRulerModel</a>] with <a href="../../../storage/HasStorageModel.html" class="extype" name="com.johnsnowlabs.storage.HasStorageModel">HasStorageModel</a></span>
       </span>
       
-      <p class="shortcomment cmt">Instantiated model of the <a href="EntityRulerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach">EntityRulerApproach</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Instantiated model of the <a href="EntityRulerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach">EntityRulerApproach</a>.
-For usage and examples see the documentation of the main class.
+      <p class="shortcomment cmt">Instantiated model of the <a href="EntityRulerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach">EntityRulerApproach</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Instantiated model of the <a href="EntityRulerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach">EntityRulerApproach</a>. For usage and examples see the
+documentation of the main class.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.er.PatternsReadWriter" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="PatternsReadWriterextendsPatternsReaderwithStorageReadWriter[String]"></a><a id="PatternsReadWriter:PatternsReadWriter"></a>
