@@ -35,22 +35,22 @@ class BertSentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
   "BertSentenceEmbeddings" should "produce consistent embeddings" taggedAs FastTest in {
 
-    val testData = ResourceHelper.spark.createDataFrame(Seq(
-
-      (1, "John loves apples."),
-      (2, "Mary loves oranges. John loves Mary.")
-
-    )).toDF("id", "text")
+    val testData = ResourceHelper.spark
+      .createDataFrame(
+        Seq((1, "John loves apples."), (2, "Mary loves oranges. John loves Mary.")))
+      .toDF("id", "text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
 
-    val sentence = SentenceDetectorDLModel.pretrained()
+    val sentence = SentenceDetectorDLModel
+      .pretrained()
       .setInputCols("document")
       .setOutputCol("sentence")
 
-    val embeddings = BertSentenceEmbeddings.pretrained("sent_small_bert_L2_128")
+    val embeddings = BertSentenceEmbeddings
+      .pretrained("sent_small_bert_L2_128")
       .setInputCols(Array("sentence"))
       .setOutputCol("bert")
       .setMaxSentenceLength(32)
@@ -62,21 +62,39 @@ class BertSentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
     results.foreach(row => {
       val rowI = row.get(0)
-      row.get(1).asInstanceOf[mutable.WrappedArray[GenericRowWithSchema]].zipWithIndex.foreach(t => {
-        print("%1$-3s\t%2$-3s\t%3$-30s\t".format(rowI.toString, t._2.toString, t._1.getString(3)))
-        println(t._1.get(5).asInstanceOf[mutable.WrappedArray[Float]].slice(0, 5).map("%1$-7.3f".format(_)).mkString(" "))
-      })
+      row
+        .get(1)
+        .asInstanceOf[mutable.WrappedArray[GenericRowWithSchema]]
+        .zipWithIndex
+        .foreach(t => {
+          print(
+            "%1$-3s\t%2$-3s\t%3$-30s\t".format(rowI.toString, t._2.toString, t._1.getString(3)))
+          println(
+            t._1
+              .get(5)
+              .asInstanceOf[mutable.WrappedArray[Float]]
+              .slice(0, 5)
+              .map("%1$-7.3f".format(_))
+              .mkString(" "))
+        })
     })
 
-    model.stages(2).asInstanceOf[BertSentenceEmbeddings].write.overwrite().save("./tmp_bert_sentence_embed")
+    model
+      .stages(2)
+      .asInstanceOf[BertSentenceEmbeddings]
+      .write
+      .overwrite()
+      .save("./tmp_bert_sentence_embed")
   }
 
   "BertSentenceEmbeddings" should "correctly work with empty tokens" taggedAs FastTest in {
 
-    val testData = ResourceHelper.spark.createDataFrame(Seq(
-      (1, "This is my first sentence. This is my second."),
-      (2, "This is my third sentence. This is my forth.")
-    )).toDF("id", "text")
+    val testData = ResourceHelper.spark
+      .createDataFrame(
+        Seq(
+          (1, "This is my first sentence. This is my second."),
+          (2, "This is my third sentence. This is my forth.")))
+      .toDF("id", "text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -86,12 +104,12 @@ class BertSentenceEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols("document")
       .setOutputCol("sentence")
 
-    val embeddings = BertSentenceEmbeddings.pretrained("sent_small_bert_L2_128")
+    val embeddings = BertSentenceEmbeddings
+      .pretrained("sent_small_bert_L2_128")
       .setInputCols("sentence")
       .setOutputCol("bert")
       .setCaseSensitive(false)
       .setMaxSentenceLength(32)
-
 
     val pipeline = new Pipeline().setStages(Array(document, sentence, embeddings))
 
@@ -106,9 +124,11 @@ class BertSentenceEmbeddingsTestSpec extends AnyFlatSpec {
     import ResourceHelper.spark.implicits._
 
     val conll = CoNLL()
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+    val training_data =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
-    val embeddings = BertSentenceEmbeddings.pretrained("sent_small_bert_L2_128")
+    val embeddings = BertSentenceEmbeddings
+      .pretrained("sent_small_bert_L2_128")
       .setInputCols("sentence")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
@@ -116,9 +136,7 @@ class BertSentenceEmbeddingsTestSpec extends AnyFlatSpec {
       .setBatchSize(16)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        embeddings
-      ))
+      .setStages(Array(embeddings))
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
     Benchmark.time("Time to save BertSentenceEmbeddings results") {
@@ -126,7 +144,8 @@ class BertSentenceEmbeddingsTestSpec extends AnyFlatSpec {
     }
 
     println("missing tokens/embeddings: ")
-    pipelineDF.withColumn("sentence_size", size(col("sentence")))
+    pipelineDF
+      .withColumn("sentence_size", size(col("sentence")))
       .withColumn("token_size", size(col("token")))
       .withColumn("embed_size", size(col("embeddings")))
       .where(col("sentence_size") =!= col("embed_size"))
@@ -146,9 +165,7 @@ class BertSentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
     import ResourceHelper.spark.implicits._
 
-    val ddd = Seq(
-      "Something is weird on the notebooks, something is happening."
-    ).toDF("text")
+    val ddd = Seq("Something is weird on the notebooks, something is happening.").toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -160,7 +177,8 @@ class BertSentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
     val tfModelPath = "src/test/resources/tf-hub-bert/model"
 
-    val embeddings = BertSentenceEmbeddings.loadSavedModel(tfModelPath, ResourceHelper.spark)
+    val embeddings = BertSentenceEmbeddings
+      .loadSavedModel(tfModelPath, ResourceHelper.spark)
       .setInputCols("document")
       .setOutputCol("bert")
       .setStorageRef("tf_hub_bert_test")
@@ -175,9 +193,11 @@ class BertSentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
   "BertSentenceEmbeddings" should "correctly propagate metadata" taggedAs FastTest in {
 
-    val testData = ResourceHelper.spark.createDataFrame(Seq(
-      (1, "\"My first sentence with the first rule. This is my second sentence with ceremonies rule")
-    )).toDF("id", "text")
+    val testData = ResourceHelper.spark
+      .createDataFrame(Seq((
+        1,
+        "\"My first sentence with the first rule. This is my second sentence with ceremonies rule")))
+      .toDF("id", "text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -188,21 +208,26 @@ class BertSentenceEmbeddingsTestSpec extends AnyFlatSpec {
       .setOutputCol("sentence")
 
     val regexMatcher = new RegexMatcher()
-      .setExternalRules(ExternalResource("src/test/resources/regex-matcher/rules.txt", ReadAs.TEXT, Map("delimiter" -> ",")))
+      .setExternalRules(
+        ExternalResource(
+          "src/test/resources/regex-matcher/rules.txt",
+          ReadAs.TEXT,
+          Map("delimiter" -> ",")))
       .setInputCols(Array("sentence"))
       .setOutputCol("regex")
       .setStrategy("MATCH_ALL")
 
     val chunk2Doc = new Chunk2Doc().setInputCols("regex").setOutputCol("doc_chunk")
 
-    val embeddings = BertSentenceEmbeddings.pretrained("sent_small_bert_L2_128")
+    val embeddings = BertSentenceEmbeddings
+      .pretrained("sent_small_bert_L2_128")
       .setInputCols("doc_chunk")
       .setOutputCol("bert")
       .setCaseSensitive(false)
       .setMaxSentenceLength(32)
 
-
-    val pipeline = new Pipeline().setStages(Array(document, sentence, regexMatcher, chunk2Doc, embeddings))
+    val pipeline =
+      new Pipeline().setStages(Array(document, sentence, regexMatcher, chunk2Doc, embeddings))
 
     val pipelineDF = pipeline.fit(testData).transform(testData)
 

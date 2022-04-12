@@ -20,12 +20,13 @@ import java.util.Random;
 
 public final class Utils {
 
-    private Utils() { throw new IllegalStateException("Utility class"); }
+    private Utils() {
+        throw new IllegalStateException("Utility class");
+    }
 
     private static Random rnd = new Random(System.currentTimeMillis());
 
-    public static int log2(long x)
-    {
+    public static int log2(long x) {
         long y = 1;
         int i = 0;
         while (y < x) {
@@ -35,8 +36,7 @@ public final class Utils {
         return i;
     }
 
-    public static float[] getRandomUnitVector(int length)
-    {
+    public static float[] getRandomUnitVector(int length) {
         float[] vec = new float[length];
         float sum = 0;
         for (int i = 0; i < length; ++i) {
@@ -49,39 +49,34 @@ public final class Utils {
         return vec;
     }
 
-    public static float squaredSum(float[] vec)
-    {
+    public static float squaredSum(float[] vec) {
         float sum = 0;
         for (float aVec : vec) sum += aVec * aVec;
         return sum;
     }
 
-    public static void normalize(float[] vec)
-    {
+    public static void normalize(float[] vec) {
         double coeff = 1.0 / Math.sqrt(squaredSum(vec));
         for (int i = 0, N = vec.length; i < N; ++i)
             vec[i] *= coeff;
     }
 
-    public static float max(float[] vec)
-    {
+    public static float max(float[] vec) {
         float max = Float.NEGATIVE_INFINITY;
         for (float aVec : vec) max = Math.max(max, aVec);
         return max;
     }
 
-    public static float min(float[] vec)
-    {
+    public static float min(float[] vec) {
         float min = Float.POSITIVE_INFINITY;
         for (float aVec : vec) min = Math.min(min, aVec);
         return min;
     }
 
-    public static float dot(float[] u, float[] v)
-    {
+    public static float dot(float[] u, float[] v) {
         float dot = 0.0f;
         for (int i = 0, N = u.length; i < N; ++i)
-            dot += u[i]*v[i];
+            dot += u[i] * v[i];
         return dot;
     }
 

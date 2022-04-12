@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach" />
+          <title>Spark NLP 3.4.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach</title>
+          <meta name="description" content="Spark NLP 3.4.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach" />
+          <meta name="keywords" content="Spark NLP 3.4.3 ScalaDoc com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -303,11 +303,18 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Labeled parser that finds a grammatical relation between two words in a sentence.
-Its input is either a CoNLL2009 or ConllU dataset.</p><p>For instantiated/pretrained models, see <a href="TypedDependencyParserModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel">TypedDependencyParserModel</a>.</p><p>Dependency parsers provide information about word relationship. For example, dependency parsing can tell you what
-the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help
-you find precise answers to specific questions.</p><p>The parser requires the dependant tokens beforehand with e.g. <a href="../dep/DependencyParserModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel">DependencyParser</a>.
-The required training data can be set in two different ways (only one can be chosen for a particular model):</p><ul><li>Dataset in the <a href="https://ufal.mff.cuni.cz/conll2009-st/trial-data.html" target="_blank">CoNLL 2009 format</a> set with <code>setConll2009</code></li><li>Dataset in the <a href="https://universaldependencies.org/format.html" target="_blank">CoNLL-U format</a> set with <code>setConllU</code></li></ul><p>Apart from that, no additional training data is needed.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyParserApproachTestSpec.scala" target="_blank">TypedDependencyParserApproachTestSpec</a> for further reference on this API.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Labeled parser that finds a grammatical relation between two words in a sentence. Its input is
+either a CoNLL2009 or ConllU dataset.</p><p>For instantiated/pretrained models, see <a href="TypedDependencyParserModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel">TypedDependencyParserModel</a>.</p><p>Dependency parsers provide information about word relationship. For example, dependency
+parsing can tell you what the subjects and objects of a verb are, as well as which words are
+modifying (describing) the subject. This can help you find precise answers to specific
+questions.</p><p>The parser requires the dependant tokens beforehand with e.g.
+<a href="../dep/DependencyParserModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel">DependencyParser</a>. The
+required training data can be set in two different ways (only one can be chosen for a
+particular model):</p><ul><li>Dataset in the <a href="https://ufal.mff.cuni.cz/conll2009-st/trial-data.html" target="_blank">CoNLL 2009 format</a>
+    set with <code>setConll2009</code></li><li>Dataset in the <a href="https://universaldependencies.org/format.html" target="_blank">CoNLL-U format</a> set with
+    <code>setConllU</code></li></ul><p>Apart from that, no additional training data is needed.</p><p>See
+<a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyParserApproachTestSpec.scala" target="_blank">TypedDependencyParserApproachTestSpec</a>
+for further reference on this API.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
@@ -729,7 +736,11 @@ The required training data can be set in two different ways (only one can be cho
         <span class="name">description</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      <p class="shortcomment cmt">Typed Dependency Parser is a labeled parser that finds a grammatical relation between two words in a sentence</p><div class="fullcomment"><div class="comment cmt"><p>Typed Dependency Parser is a labeled parser that finds a grammatical relation between two words in a sentence</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach">TypedDependencyParserApproach</a> → <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+      <p class="shortcomment cmt">Typed Dependency Parser is a labeled parser that finds a grammatical relation between two
+words in a sentence
+</p><div class="fullcomment"><div class="comment cmt"><p>Typed Dependency Parser is a labeled parser that finds a grammatical relation between two
+words in a sentence
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach">TypedDependencyParserApproach</a> → <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -1195,10 +1206,10 @@ The required training data can be set in two different ways (only one can be cho
         <span class="name">inputCols</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
-</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
+      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
+</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isDefined(Param[_]):Boolean"></a>
@@ -1731,7 +1742,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setConll2009</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="readAs">readAs: <a href="../../../util/io/ReadAs$.html#Format=com.johnsnowlabs.nlp.util.io.ReadAs.Value" class="extmbr" name="com.johnsnowlabs.nlp.util.io.ReadAs.Format">Format</a> = <span class="symbol"><span class="name"><a href="../../../../../index.html">ReadAs.TEXT</a></span></span></span>, <span name="options">options: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">Map.empty[String, String]</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach">TypedDependencyParserApproach</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Path to a file in <a href="https://ufal.mff.cuni.cz/conll2009-st/trial-data.html" target="_blank">CoNLL 2009 format</a>
+      <p class="shortcomment cmt">Path to a file in
+<a href="https://ufal.mff.cuni.cz/conll2009-st/trial-data.html" target="_blank">CoNLL 2009 format</a>
 </p>
     </li><li name="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach#setConllU" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setConllU(path:String,readAs:com.johnsnowlabs.nlp.util.io.ReadAs.Format,options:Map[String,String]):TypedDependencyParserApproach.this.type"></a><a id="setConllU(String,Format,Map[String,String]):TypedDependencyParserApproach.this.type"></a>
@@ -1978,7 +1990,9 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.
-</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>
+  to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>
+  True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach#validateTrainingFiles" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="validateTrainingFiles():Unit"></a>
       <span class="permalink">
@@ -2128,10 +2142,13 @@ AnnotatorType is used both as input and output columns if not specified
         <div id="groupedMembers">
         <div class="group" name="param">
               <h3>Parameters</h3>
-              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
+              <div class="comment cmt"><p>
+  A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  parameter values through setters and getters, respectively.</p></div>
             </div><div class="group" name="anno">
               <h3>Annotator types</h3>
-              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+              <div class="comment cmt"><p>
+  Required input and expected output annotator types</p></div>
             </div><div class="group" name="Ungrouped">
               <h3>Members</h3>
               

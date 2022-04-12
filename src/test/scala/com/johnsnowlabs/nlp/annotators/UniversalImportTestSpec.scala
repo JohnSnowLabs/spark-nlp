@@ -23,6 +23,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 class UniversalImportTestSpec extends AnyFlatSpec {
 
   "A SentenceDetector" should "be imported automatically when accessing annotator pseudo package" taggedAs FastTest in {
+
     /** Now you can access all annotators by using this import here */
     import com.johnsnowlabs.nlp.annotator._
     require(!SparkAccessor.spark.sparkContext.isStopped)

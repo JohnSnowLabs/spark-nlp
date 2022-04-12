@@ -79,7 +79,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="RecursiveTokenizer" summary="Tokenizes raw text recursively based on a handful of definable rules."%}
 {% include templates/anno_table_entry.md path="" name="RegexMatcher" summary="Uses a reference file to match a set of regular expressions and associate them with a provided identifier."%}
 {% include templates/anno_table_entry.md path="" name="RegexTokenizer" summary="A tokenizer that splits text by a regex pattern."%}
-{% include templates/anno_table_entry.md path="" name="SentenceDetector" summary="Detects sentence boundaries using any provided approach."%}
+{% include templates/anno_table_entry.md path="" name="SentenceDetector" summary="Annotator that detects sentence boundaries using regular expressions."%}
 {% include templates/anno_table_entry.md path="" name="SentenceDetectorDL" summary="Detects sentence boundaries using a deep learning approach."%}
 {% include templates/anno_table_entry.md path="" name="SentenceEmbeddings" summary="Converts the results from WordEmbeddings, BertEmbeddings, or ElmoEmbeddings into sentence or document embeddings by either summing up or averaging all the word embeddings in a sentence or a document (depending on the inputCols)."%}
 {% include templates/anno_table_entry.md path="" name="SentimentDL" summary="Annotator for multi-class sentiment analysis."%}

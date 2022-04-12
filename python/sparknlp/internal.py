@@ -212,6 +212,9 @@ class _DownloadModel(ExtendedJavaWrapper):
     def __init__(self, reader, name, language, remote_loc, validator):
         super(_DownloadModel, self).__init__("com.johnsnowlabs.nlp.pretrained." + validator + ".downloadModel", reader,
                                              name, language, remote_loc)
+class _DownloadModelDirectly(ExtendedJavaWrapper):
+    def __init__(self, name, remote_loc="public/models"):
+        super(_DownloadModelDirectly, self).__init__("com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.downloadModelDirectly",name, remote_loc)
 
 
 class _DownloadPipeline(ExtendedJavaWrapper):
@@ -500,4 +503,11 @@ class _DeBERTaLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_DeBERTaLoader, self).__init__(
             "com.johnsnowlabs.nlp.embeddings.DeBertaEmbeddings.loadSavedModel", path,
+            jspark)
+
+
+class _DeBertaSequenceClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_DeBertaSequenceClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForSequenceClassification.loadSavedModel", path,
             jspark)

@@ -16,11 +16,11 @@
 
 package com.johnsnowlabs.ml.crf
 
-import VectorMath._
+import com.johnsnowlabs.ml.crf.VectorMath._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import org.slf4j.LoggerFactory
-import scala.util.Random
 
+import scala.util.Random
 
 // ToDo Make c0 estimation before training
 class LinearChainCrf(val params: CrfParams) {
@@ -35,7 +35,8 @@ class LinearChainCrf(val params: CrfParams) {
 
   def trainSGD(dataset: CrfDataset): LinearChainCrfModel = {
     val metadata = dataset.metadata
-    val weights = Vector(dataset.metadata.attrFeatures.length + dataset.metadata.transitions.length)
+    val weights = Vector(
+      dataset.metadata.attrFeatures.length + dataset.metadata.transitions.length)
     val labels = dataset.metadata.labels.length
 
     if (params.randomSeed.isDefined)
@@ -49,7 +50,6 @@ class LinearChainCrf(val params: CrfParams) {
     log(s"features: ${weights.length}", Verbose.TrainingStat)
     log(s"maxLength: $maxLength", Verbose.TrainingStat)
 
-
     // 2. Allocate reusable space
     val context = new FbCalculator(maxLength, metadata)
 
@@ -62,7 +62,7 @@ class LinearChainCrf(val params: CrfParams) {
     val decayStrategy = new L2DecayStrategy(dataset.instances.size, params.l2, params.c0)
 
     for (epoch <- 0 until params.maxEpochs
-         if notImprovedEpochs < 10 || epoch < params.minEpochs) {
+      if notImprovedEpochs < 10 || epoch < params.minEpochs) {
 
       var loss = 0f
 
@@ -93,11 +93,11 @@ class LinearChainCrf(val params: CrfParams) {
       // Return weights to normal values
       decayStrategy.reset(weights)
 
-      val l2Loss = params.l2 * weights.map(w => w*w).sum
+      val l2Loss = params.l2 * weights.map(w => w * w).sum
 
       val totalLoss = loss + l2Loss
 
-      log(s"finished, time: ${(System.nanoTime() - started)/1e9}", Verbose.Epochs)
+      log(s"finished, time: ${(System.nanoTime() - started) / 1e9}", Verbose.Epochs)
       log(s"Loss = $totalLoss, logLoss = $loss, l2Loss = $l2Loss", Verbose.Epochs)
 
       // Update best solution if loss is lower
@@ -105,12 +105,11 @@ class LinearChainCrf(val params: CrfParams) {
         bestLoss = totalLoss
         copy(weights, bestW)
 
-        if ((bestLoss - totalLoss)/totalLoss < params.lossEps)
+        if ((bestLoss - totalLoss) / totalLoss < params.lossEps)
           notImprovedEpochs = 0
         else
           notImprovedEpochs += 1
-      }
-      else
+      } else
         notImprovedEpochs += 1
 
       lastLoss = totalLoss
@@ -119,7 +118,10 @@ class LinearChainCrf(val params: CrfParams) {
     new LinearChainCrfModel(bestW, metadata)
   }
 
-  private def getLoss(sentence: Instance, labels: InstanceLabels, context: FbCalculator): Float = {
+  private def getLoss(
+      sentence: Instance,
+      labels: InstanceLabels,
+      context: FbCalculator): Float = {
     val length = sentence.items.length
 
     var prevLabel = 0
@@ -139,11 +141,12 @@ class LinearChainCrf(val params: CrfParams) {
   }
 
   // Step for minimizing model Log Likelihood
-  def doSgdStep(sentence: Instance,
-                labels: InstanceLabels,
-                a: Float,
-                weights: Array[Float],
-                context: FbCalculator): Unit = {
+  def doSgdStep(
+      sentence: Instance,
+      labels: InstanceLabels,
+      a: Float,
+      weights: Array[Float],
+      context: FbCalculator): Unit = {
 
     // Make Gradient Step
     // Minimizing -log likelihood
@@ -158,10 +161,7 @@ class LinearChainCrf(val params: CrfParams) {
   }
 }
 
-class L2DecayStrategy(val instances: Int,
-                      val l2: Float,
-                      val c0: Float = 1000
-                     ) {
+class L2DecayStrategy(val instances: Int, val l2: Float, val c0: Float = 1000) {
 
   // Correct weights is equal weights * scale
   private var scale: Float = 1f
@@ -170,7 +170,7 @@ class L2DecayStrategy(val instances: Int,
   private var step = 0
 
   // Regularization for one instance
-  private val lambda = 2f*l2 / instances
+  private val lambda = 2f * l2 / instances
 
   def getScale: Float = scale
 
@@ -191,26 +191,29 @@ class L2DecayStrategy(val instances: Int,
   }
 }
 
-
-/**
-  * Hyper Parameters and Setting for LinearChainCrf training
-  * @param minEpochs - Minimum number of epochs to train
-  * @param maxEpochs - Maximum number of epochs to train
-  * @param l2 - l2 regularization coefficient
-  * @param c0 - Initial number of steps in decay strategy
-  * @param lossEps - If loss after a SGD epochs haven't improved (absolutely) more than lossEps, then training is stopped
+/** Hyper Parameters and Setting for LinearChainCrf training
+  * @param minEpochs
+  *   \- Minimum number of epochs to train
+  * @param maxEpochs
+  *   \- Maximum number of epochs to train
+  * @param l2
+  *   \- l2 regularization coefficient
+  * @param c0
+  *   \- Initial number of steps in decay strategy
+  * @param lossEps
+  *   \- If loss after a SGD epochs haven't improved (absolutely) more than lossEps, then training
+  *   is stopped
   *
-  * @param randomSeed - Seed for random
-  * @param verbose - Level of verbosity during training procedure
- */
-case class CrfParams
-(
-  minEpochs: Int = 10,
-  maxEpochs: Int = 1000,
-  l2: Float = 1f,
-  c0: Int = 1500000,
-  lossEps: Float = 1e-4f,
-
-  randomSeed: Option[Int] = None,
-  verbose: Verbose.Value = Verbose.Silent
-)
+  * @param randomSeed
+  *   \- Seed for random
+  * @param verbose
+  *   \- Level of verbosity during training procedure
+  */
+case class CrfParams(
+    minEpochs: Int = 10,
+    maxEpochs: Int = 1000,
+    l2: Float = 1f,
+    c0: Int = 1500000,
+    lossEps: Float = 1e-4f,
+    randomSeed: Option[Int] = None,
+    verbose: Verbose.Value = Verbose.Silent)

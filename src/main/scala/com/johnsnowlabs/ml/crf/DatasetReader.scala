@@ -16,19 +16,16 @@
 
 package com.johnsnowlabs.ml.crf
 
-import java.io.FileInputStream
-
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream
 
+import java.io.FileInputStream
 import scala.collection.TraversableOnce
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
 
-
 case class TextSentenceLabels(labels: Seq[String])
 case class TextSentenceAttrs(words: Seq[WordAttrs])
 case class WordAttrs(strAttrs: Seq[(String, String)], numAttrs: Array[Float] = Array.empty)
-
 
 object DatasetReader {
 
@@ -42,7 +39,9 @@ object DatasetReader {
     }
   }
 
-  private def readWithLabels(file: String, skipLines: Int = 0): TraversableOnce[(TextSentenceLabels, TextSentenceAttrs)] = {
+  private def readWithLabels(
+      file: String,
+      skipLines: Int = 0): TraversableOnce[(TextSentenceLabels, TextSentenceAttrs)] = {
     val lines = getSource(file)
       .getLines()
       .drop(skipLines)
@@ -57,13 +56,12 @@ object DatasetReader {
         labels = new ArrayBuffer[String]()
         tokens = new ArrayBuffer[WordAttrs]()
         Some(result)
-      }
-      else {
+      } else {
         None
       }
     }
 
-    lines.flatMap{line =>
+    lines.flatMap { line =>
       val words = line.split("\t")
       if (words.length <= 1) {
         addToResultIfExists()
@@ -85,19 +83,23 @@ object DatasetReader {
     }
   }
 
-  def encodeDataset(source: TraversableOnce[(TextSentenceLabels, TextSentenceAttrs)]): CrfDataset = {
+  def encodeDataset(
+      source: TraversableOnce[(TextSentenceLabels, TextSentenceAttrs)]): CrfDataset = {
     val metadata = new DatasetEncoder()
 
-    val instances = source.map{case (textLabels, textSentence) =>
+    val instances = source.map { case (textLabels, textSentence) =>
       var prevLabel = metadata.startLabel
-      val (labels, features) = textLabels.labels.zip(textSentence.words)
-        .map{case (label, word) =>
+      val (labels, features) = textLabels.labels
+        .zip(textSentence.words)
+        .map { case (label, word) =>
           val attrs = word.strAttrs.map(a => a._1 + "=" + a._2)
-          val (labelId, features) = metadata.getFeatures(prevLabel, label, attrs, word.numAttrs)
+          val (labelId, features) =
+            metadata.getFeatures(prevLabel, label, attrs, word.numAttrs)
           prevLabel = label
 
           (labelId, features)
-        }.unzip
+        }
+        .unzip
 
       (InstanceLabels(labels), Instance(features))
     }.toArray
@@ -105,19 +107,23 @@ object DatasetReader {
     CrfDataset(instances, metadata.getMetadata)
   }
 
-  private def encodeLabels(labels: TextSentenceLabels, metadata: DatasetMetadata): InstanceLabels = {
+  private def encodeLabels(
+      labels: TextSentenceLabels,
+      metadata: DatasetMetadata): InstanceLabels = {
     val labelIds = labels.labels.map(text => metadata.label2Id.getOrElse(text, -1))
     InstanceLabels(labelIds)
   }
 
   def encodeSentence(sentence: TextSentenceAttrs, metadata: DatasetMetadata): Instance = {
-    val items = sentence.words.map{word =>
-      val strAttrs = word.strAttrs.flatMap { case (name, value) =>
-        val key = name + "=" + value
-        metadata.attr2Id.get(key)
-      }.map((_, 1f))
+    val items = sentence.words.map { word =>
+      val strAttrs = word.strAttrs
+        .flatMap { case (name, value) =>
+          val key = name + "=" + value
+          metadata.attr2Id.get(key)
+        }
+        .map((_, 1f))
 
-      val numAttrs = word.numAttrs.zipWithIndex.flatMap {case(value, idx) =>
+      val numAttrs = word.numAttrs.zipWithIndex.flatMap { case (value, idx) =>
         val key = "num" + idx
         val attr = metadata.attr2Id.get(key)
         attr.map(attrName => (attrName, value))
@@ -138,10 +144,13 @@ object DatasetReader {
     encodeDataset(textDataset)
   }
 
-  def readAndEncode(file: String, skipLines: Int, metadata: DatasetMetadata): TraversableOnce[(InstanceLabels, Instance)] = {
+  def readAndEncode(
+      file: String,
+      skipLines: Int,
+      metadata: DatasetMetadata): TraversableOnce[(InstanceLabels, Instance)] = {
     val textDataset = readWithLabels(file, skipLines)
 
-    textDataset.map{case (sourceLabels, sourceInstance) =>
+    textDataset.map { case (sourceLabels, sourceInstance) =>
       val labels = encodeLabels(sourceLabels, metadata)
       val instance = encodeSentence(sourceInstance, metadata)
       (labels, instance)

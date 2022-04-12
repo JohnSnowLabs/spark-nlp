@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.client.aws.AWSGateway
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader.fileSystem
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader, FileHelper}
 import org.apache.hadoop.fs.Path
 
@@ -27,34 +28,36 @@ import java.util.Calendar
 import java.util.zip.ZipInputStream
 import scala.collection.mutable
 
+class S3ResourceDownloader(
+    bucket: => String,
+    s3Path: => String,
+    cacheFolder: => String,
+    credentialsType: => String,
+    region: String = "us-east-1")
+    extends ResourceDownloader {
 
-class S3ResourceDownloader(bucket: => String,
-                           s3Path: => String,
-                           cacheFolder: => String,
-                           credentialsType: => String,
-                           region: String = "us-east-1"
-                          )
-  extends ResourceDownloader {
-
-  val repoFolder2Metadata: mutable.Map[String, RepositoryMetadata] = mutable.Map[String, RepositoryMetadata]()
+  val repoFolder2Metadata: mutable.Map[String, RepositoryMetadata] =
+    mutable.Map[String, RepositoryMetadata]()
   val cachePath = new Path(cacheFolder)
 
   if (!fileSystem.exists(cachePath)) {
     fileSystem.mkdirs(cachePath)
   }
 
-  lazy val awsGateway = new AWSGateway(ConfigLoader.getConfigStringValue(ConfigHelper.accessKeyId),
+  lazy val awsGateway = new AWSGateway(
+    ConfigLoader.getConfigStringValue(ConfigHelper.accessKeyId),
     ConfigLoader.getConfigStringValue(ConfigHelper.secretAccessKey),
     ConfigLoader.getConfigStringValue(ConfigHelper.sessionToken),
     ConfigLoader.getConfigStringValue(ConfigHelper.awsProfileName),
-    region, credentialsType
-  )
+    region,
+    credentialsType)
 
   def downloadMetadataIfNeed(folder: String): List[ResourceMetadata] = {
     val lastState = repoFolder2Metadata.get(folder)
 
     val fiveMinsBefore = getTimestamp(-5)
-    val needToRefresh = lastState.isEmpty || lastState.get.lastMetadataDownloaded.before(fiveMinsBefore)
+    val needToRefresh = lastState.isEmpty || lastState.get.lastMetadataDownloaded
+      .before(fiveMinsBefore)
 
     if (!needToRefresh) {
       lastState.get.metadata
@@ -63,33 +66,35 @@ class S3ResourceDownloader(bucket: => String,
     }
   }
 
-
   def resolveLink(request: ResourceRequest): Option[ResourceMetadata] = {
     val metadata = downloadMetadataIfNeed(request.folder)
     ResourceMetadata.resolveResource(metadata, request)
   }
 
-  /**
-   * Download resource to local file
-   *
-   * @param request Resource request
-   * @return Downloaded file or None if resource is not found
-   */
+  /** Download resource to local file
+    *
+    * @param request
+    *   Resource request
+    * @return
+    *   Downloaded file or None if resource is not found
+    */
   override def download(request: ResourceRequest): Option[String] = {
     val link = resolveLink(request)
-    link.flatMap {
-      resource =>
-        val s3FilePath = awsGateway.getS3File(s3Path, request.folder, resource.fileName)
-        val destinationFile = new Path(cachePath.toString, resource.fileName)
-        if (!awsGateway.doesS3ObjectExist(bucket, s3FilePath)) {
-          None
-        } else {
-          downloadAndUnzipFile(destinationFile, resource, s3FilePath)
-        }
+    link.flatMap { resource =>
+      val s3FilePath = awsGateway.getS3File(s3Path, request.folder, resource.fileName)
+      val destinationFile = new Path(cachePath.toString, resource.fileName)
+      if (!awsGateway.doesS3ObjectExist(bucket, s3FilePath)) {
+        None
+      } else {
+        downloadAndUnzipFile(destinationFile, resource, s3FilePath)
+      }
     }
   }
 
-  def downloadAndUnzipFile(destinationFile: Path, resource: ResourceMetadata, s3FilePath: String): Option[String] = {
+  def downloadAndUnzipFile(
+      destinationFile: Path,
+      resource: ResourceMetadata,
+      s3FilePath: String): Option[String] = {
 
     val splitPath = destinationFile.toString.substring(0, destinationFile.toString.length - 4)
     if (!(fileSystem.exists(destinationFile) || fileSystem.exists(new Path(splitPath)))) {
@@ -101,7 +106,9 @@ class S3ResourceDownloader(bucket: => String,
       awsGateway.getS3Object(bucket, s3FilePath, tmpFile)
       // 3. validate checksum
       if (!resource.checksum.equals(""))
-        require(FileHelper.generateChecksum(tmpFileName).equals(resource.checksum), "Checksum validation failed!")
+        require(
+          FileHelper.generateChecksum(tmpFileName).equals(resource.checksum),
+          "Checksum validation failed!")
 
       // 4. Move tmp file to destination
       fileSystem.moveFromLocalFile(new Path(tmpFile.toString), destinationFile)
@@ -110,12 +117,14 @@ class S3ResourceDownloader(bucket: => String,
 
     // 5. Unzip if needs
     if (resource.isZipped) {
-      //if not already unzipped
+      // if not already unzipped
       if (!fileSystem.exists(new Path(splitPath))) {
         val zis = new ZipInputStream(fileSystem.open(destinationFile))
         val buf = Array.ofDim[Byte](1024)
         var entry = zis.getNextEntry
-        require(destinationFile.toString.substring(destinationFile.toString.length - 4) == ".zip", "Not a zip file.")
+        require(
+          destinationFile.toString.substring(destinationFile.toString.length - 4) == ".zip",
+          "Not a zip file.")
 
         while (entry != null) {
           if (!entry.isDirectory) {
@@ -132,7 +141,7 @@ class S3ResourceDownloader(bucket: => String,
           entry = zis.getNextEntry
         }
         zis.close()
-        //delete the zip file
+        // delete the zip file
         fileSystem.delete(destinationFile, true)
       }
       Some(splitPath)
@@ -141,11 +150,60 @@ class S3ResourceDownloader(bucket: => String,
     }
   }
 
+  def downloadAndUnzipFile(s3FilePath: String): Option[String] = {
+
+    val s3File = s3FilePath.split("/").last
+    val destinationFile = new Path(cachePath.toString + "/" + s3File)
+    val splitPath = destinationFile.toString.substring(0, destinationFile.toString.length - 4)
+
+    if (!(fileSystem.exists(destinationFile) || fileSystem.exists(new Path(splitPath)))) {
+      // 1. Create tmp file
+      val tmpFileName = Files.createTempFile(s3File, "").toString
+      val tmpFile = new File(tmpFileName)
+
+      val newStrfilePath: String = s3FilePath.toString
+      val mybucket: String = bucket.toString
+      // 2. Download content to tmp file
+      awsGateway.getS3Object(mybucket, newStrfilePath, tmpFile)
+
+      // 4. Move tmp file to destination
+      fileSystem.moveFromLocalFile(new Path(tmpFile.toString), destinationFile)
+    }
+
+    if (!fileSystem.exists(new Path(splitPath))) {
+      val zis = new ZipInputStream(fileSystem.open(destinationFile))
+      val buf = Array.ofDim[Byte](1024)
+      var entry = zis.getNextEntry
+      require(
+        destinationFile.toString.substring(destinationFile.toString.length - 4) == ".zip",
+        "Not a zip file.")
+
+      while (entry != null) {
+        if (!entry.isDirectory) {
+          val entryName = new Path(splitPath, entry.getName)
+          val outputStream = fileSystem.create(entryName)
+          var bytesRead = zis.read(buf, 0, 1024)
+          while (bytesRead > -1) {
+            outputStream.write(buf, 0, bytesRead)
+            bytesRead = zis.read(buf, 0, 1024)
+          }
+          outputStream.close()
+        }
+        zis.closeEntry()
+        entry = zis.getNextEntry
+      }
+      zis.close()
+      // delete the zip file
+      fileSystem.delete(destinationFile, true)
+    }
+    Some(splitPath)
+
+  }
+
   override def getDownloadSize(request: ResourceRequest): Option[Long] = {
     val link = resolveLink(request)
-    link.flatMap {
-      resource =>
-        awsGateway.getS3DownloadSize(s3Path, request.folder, resource.fileName, bucket)
+    link.flatMap { resource =>
+      awsGateway.getS3DownloadSize(s3Path, request.folder, resource.fileName, bucket)
     }
   }
 

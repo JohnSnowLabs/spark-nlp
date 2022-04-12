@@ -6,7 +6,7 @@ name := getPackageName(is_spark23, is_spark24, is_spark32, is_gpu)
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "3.4.2"
+version := "3.4.3"
 
 (ThisBuild / scalaVersion) := scalaVer
 
@@ -26,6 +26,8 @@ scalacOptions ++= Seq(
   "com.johnsnowlabs.nlp.annotator:com.johnsnowlabs.nlp.base",
   "-nowarn"
 )
+
+(ThisBuild / scalafmtOnCompile) := true
 
 Compile / doc / target := baseDirectory.value / "docs/api"
 

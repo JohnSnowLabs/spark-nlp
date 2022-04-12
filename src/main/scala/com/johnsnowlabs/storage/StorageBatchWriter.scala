@@ -24,6 +24,7 @@ trait StorageBatchWriter[A] extends StorageWriter[A] {
   private var batchSize = 0
 
   def add(word: String, content: A): Unit = {
+
     /** calling .trim because we always trim in reader */
     put(localBatch, word, content)
     batchSize += 1

@@ -19,9 +19,9 @@ package com.johnsnowlabs.nlp.annotators.btm
 import com.johnsnowlabs.storage.{RocksDBConnection, StorageReader}
 
 class TMEdgesReader(
-                     override protected val connection: RocksDBConnection,
-                     override protected val caseSensitiveIndex: Boolean
-                   ) extends StorageReader[Int] {
+    override protected val connection: RocksDBConnection,
+    override protected val caseSensitiveIndex: Boolean)
+    extends StorageReader[Int] {
 
   override def emptyValue: Int = -1
 

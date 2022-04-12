@@ -38,8 +38,8 @@ class XlmRoBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
       "EU rejects German call to boycott British lamb .",
       "TORONTO 1996-08-21",
       " carbon emissions have come down without impinging on our growth. .  . .",
-      "\\u2009.carbon emissions have come down without impinging on our growth .\\u2009.\\u2009."
-    ).toDF("text")
+      "\\u2009.carbon emissions have come down without impinging on our growth .\\u2009.\\u2009.")
+      .toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -87,8 +87,7 @@ class XlmRoBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
       "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London",
       "Rare Hendrix song draft sells for almost $17,000.",
       "EU rejects German call to boycott British lamb .",
-      "TORONTO 1996-08-21"
-    ).toDF("text")
+      "TORONTO 1996-08-21").toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -98,7 +97,8 @@ class XlmRoBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val classifier = XlmRoBertaForSequenceClassification.pretrained()
+    val classifier = XlmRoBertaForSequenceClassification
+      .pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("label")
       .setCaseSensitive(true)
@@ -115,7 +115,11 @@ class XlmRoBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
     }
 
     Benchmark.time("Time to save XlmRoBertaForSequenceClassification model") {
-      pipelineModel.stages.last.asInstanceOf[XlmRoBertaForSequenceClassification].write.overwrite().save("./tmp_forsequence_model")
+      pipelineModel.stages.last
+        .asInstanceOf[XlmRoBertaForSequenceClassification]
+        .write
+        .overwrite()
+        .save("./tmp_forsequence_model")
     }
 
     val loadedPipelineModel = PipelineModel.load("./tmp_forsequence_pipeline")
@@ -129,37 +133,39 @@ class XlmRoBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
   "XlmRoBertaForSequenceClassification" should "benchmark test" taggedAs SlowTest in {
 
     val conll = CoNLL()
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+    val training_data =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
-    val classifier = XlmRoBertaForSequenceClassification.pretrained()
+    val classifier = XlmRoBertaForSequenceClassification
+      .pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("class")
       .setCaseSensitive(true)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        classifier
-      ))
+      .setStages(Array(classifier))
 
-    val pipelineDF = pipeline.fit(training_data).transform(training_data)
-    Benchmark.time("Time to save XlmRoBertaForSequenceClassification results") {
+    val pipelineDF = pipeline.fit(training_data).transform(training_data).cache()
+    Benchmark.time("Time to save pipeline results") {
       pipelineDF.write.mode("overwrite").parquet("./tmp_sequence_classifier")
     }
 
-    pipelineDF.select("label").show(20, truncate = false)
-    pipelineDF.select("document.result", "label.result").show(20, truncate = false)
+    pipelineDF.select("label").show(2, false)
+    pipelineDF.select("document.result", "label.result").show(2, false)
+
+    // only works if it's softmax - one lable per row
     pipelineDF
       .withColumn("doc_size", size(col("document")))
-      .withColumn("label_size", size(col("label")))
+      .withColumn("label_size", size(col("class")))
       .where(col("doc_size") =!= col("label_size"))
-      .select("doc_size", "label_size", "document.result", "label.result")
-      .show(20, truncate = false)
+      .select("doc_size", "label_size", "document.result", "class.result")
+      .show(20, false)
 
     val totalDocs = pipelineDF.select(explode($"document.result")).count.toInt
-    val totalLabels = pipelineDF.select(explode($"label.result")).count.toInt
+    val totalLabels = pipelineDF.select(explode($"class.result")).count.toInt
 
-    println(s"total tokens: $totalDocs")
-    println(s"total embeddings: $totalLabels")
+    println(s"total docs: $totalDocs")
+    println(s"total classes: $totalLabels")
 
     assert(totalDocs == totalLabels)
   }

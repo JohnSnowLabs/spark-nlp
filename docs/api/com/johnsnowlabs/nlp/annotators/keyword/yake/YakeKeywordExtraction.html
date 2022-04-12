@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction" />
+          <title>Spark NLP 3.4.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction</title>
+          <meta name="description" content="Spark NLP 3.4.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction" />
+          <meta name="keywords" content="Spark NLP 3.4.3 ScalaDoc com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -219,26 +219,38 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Yake is an Unsupervised, Corpus-Independent, Domain and Language-Independent and Single-Document keyword extraction
-algorithm.</p><p>Extracting keywords from texts has become a challenge for individuals and organizations as the information grows in
-complexity and size. The need to automate this task so that text can be processed in a timely and adequate manner has
-led to the emergence of automatic keyword extraction tools. Yake is a novel feature-based system for multi-lingual
-keyword extraction, which supports texts of different sizes, domain or languages. Unlike other approaches, Yake does
-not rely on dictionaries nor thesauri, neither is trained against any corpora. Instead, it follows an unsupervised
-approach which builds upon features extracted from the text, making it thus applicable to documents written in
-different languages without the need for further knowledge. This can be beneficial for a large number of tasks and a
-plethora of situations where access to training corpora is either limited or restricted.
-The algorithm makes use of the position of a sentence and token. Therefore, to use the annotator, the text should be
-first sent through a Sentence Boundary Detector and then a tokenizer.</p><p>See the parameters section for tweakable parameters to get the best result from the annotator.</p><p>Note that each keyword will be given a keyword score greater than 0 (The lower the score better the keyword).
-Therefore to filter the keywords, an upper bound for the score can be set with <code>setThreshold</code>.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/8.Keyword_Extraction_YAKE.ipynb" target="_blank">Spark NLP Workshop</a>
-and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/keyword/yake/YakeTestSpec.scala" target="_blank">YakeTestSpec</a>.</p><p><b>Sources</b> :</p><p><a href="https://www.sciencedirect.com/science/article/pii/S0020025519308588" target="_blank">Campos, R., Mangaravite, V., Pasquali, A., Jatowt, A., Jorge, A., Nunes, C. and Jatowt, A. (2020). YAKE! Keyword Extraction from Single Documents using Multiple Local Features. In Information Sciences Journal. Elsevier, Vol 509, pp 257-289</a></p><p><b>Paper abstract:</b></p><p><i>As the amount of generated information grows, reading and summarizing texts of large collections turns into a challenging task. Many documents do not come with descriptive terms,
-thus requiring humans to generate keywords on-the-fly. The need to automate this kind of task demands the development of keyword extraction systems with the ability to automatically
-identify keywords within the text. One approach is to resort to machine-learning algorithms. These, however, depend on large annotated text corpora, which are not always available.
-An alternative solution is to consider an unsupervised approach. In this article, we describe YAKE!, a light-weight unsupervised automatic keyword extraction method which rests on
-statistical text features extracted from single documents to select the most relevant keywords of a text. Our system does not need to be trained on a particular set of documents,
-nor does it depend on dictionaries, external corpora, text size, language, or domain. To demonstrate the merits and significance of YAKE!, we compare it against ten state-of-the-art
-unsupervised approaches and one supervised method. Experimental results carried out on top of twenty datasets show that YAKE! significantly outperforms other unsupervised methods on
-texts of different sizes, languages, and domains.</i></p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Yake is an Unsupervised, Corpus-Independent, Domain and Language-Independent and
+Single-Document keyword extraction algorithm.</p><p>Extracting keywords from texts has become a challenge for individuals and organizations as the
+information grows in complexity and size. The need to automate this task so that text can be
+processed in a timely and adequate manner has led to the emergence of automatic keyword
+extraction tools. Yake is a novel feature-based system for multi-lingual keyword extraction,
+which supports texts of different sizes, domain or languages. Unlike other approaches, Yake
+does not rely on dictionaries nor thesauri, neither is trained against any corpora. Instead,
+it follows an unsupervised approach which builds upon features extracted from the text, making
+it thus applicable to documents written in different languages without the need for further
+knowledge. This can be beneficial for a large number of tasks and a plethora of situations
+where access to training corpora is either limited or restricted. The algorithm makes use of
+the position of a sentence and token. Therefore, to use the annotator, the text should be
+first sent through a Sentence Boundary Detector and then a tokenizer.</p><p>See the parameters section for tweakable parameters to get the best result from the annotator.</p><p>Note that each keyword will be given a keyword score greater than 0 (The lower the score
+better the keyword). Therefore to filter the keywords, an upper bound for the score can be set
+with <code>setThreshold</code>.</p><p>For extended examples of usage, see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/8.Keyword_Extraction_YAKE.ipynb" target="_blank">Spark NLP Workshop</a>
+and the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/keyword/yake/YakeTestSpec.scala" target="_blank">YakeTestSpec</a>.</p><p><b>Sources</b> :</p><p><a href="https://www.sciencedirect.com/science/article/pii/S0020025519308588" target="_blank">Campos, R., Mangaravite, V., Pasquali, A., Jatowt, A., Jorge, A., Nunes, C. and Jatowt, A. (2020). YAKE! Keyword Extraction from Single Documents using Multiple Local Features. In Information Sciences Journal. Elsevier, Vol 509, pp 257-289</a></p><p><b>Paper abstract:</b></p><p><i>As the amount of generated information grows, reading and summarizing texts of large
+collections turns into a challenging task. Many documents do not come with descriptive terms,
+thus requiring humans to generate keywords on-the-fly. The need to automate this kind of task
+demands the development of keyword extraction systems with the ability to automatically
+identify keywords within the text. One approach is to resort to machine-learning algorithms.
+These, however, depend on large annotated text corpora, which are not always available. An
+alternative solution is to consider an unsupervised approach. In this article, we describe
+YAKE!, a light-weight unsupervised automatic keyword extraction method which rests on
+statistical text features extracted from single documents to select the most relevant keywords
+of a text. Our system does not need to be trained on a particular set of documents, nor does
+it depend on dictionaries, external corpora, text size, language, or domain. To demonstrate
+the merits and significance of YAKE!, we compare it against ten state-of-the-art unsupervised
+approaches and one supervised method. Experimental results carried out on top of twenty
+datasets show that YAKE! significantly outperforms other unsupervised methods on texts of
+different sizes, languages, and domains.</i></p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotator.{SentenceDetector, Tokenizer}
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction
@@ -356,7 +368,8 @@ scores.orderBy(<span class="lit">"score"</span>).show(<span class="num">5</span>
         <span class="name">YakeKeywordExtraction</span><span class="params">()</span>
       </span>
       
-      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator type
+      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator
+type
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction"></a><a id="&lt;init&gt;:YakeKeywordExtraction"></a>
@@ -394,10 +407,10 @@ scores.orderBy(<span class="lit">"score"</span>).show(<span class="num">5</span>
         <span class="name">AnnotationContent</span><span class="result alias"> = <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="org.apache.spark.sql.Row">Row</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">internal types to show Rows as a relevant StructType
-Should be deleted once Spark releases UserDefinedTypes to @developerAPI
-</p><div class="fullcomment"><div class="comment cmt"><p>internal types to show Rows as a relevant StructType
-Should be deleted once Spark releases UserDefinedTypes to @developerAPI
+      <p class="shortcomment cmt">internal types to show Rows as a relevant StructType Should be deleted once Spark releases
+UserDefinedTypes to @developerAPI
+</p><div class="fullcomment"><div class="comment cmt"><p>internal types to show Rows as a relevant StructType Should be deleted once Spark releases
+UserDefinedTypes to @developerAPI
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotatorType.AnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="AnnotatorType=String"></a><a id="AnnotatorType:AnnotatorType"></a>
@@ -598,9 +611,14 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">annotate</span><span class="params">(<span name="annotations">annotations: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">takes a document and annotations and produces new annotations of this annotator's annotation type
-</p><div class="fullcomment"><div class="comment cmt"><p>takes a document and annotations and produces new annotations of this annotator's annotation type
-</p></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>Annotations that correspond to inputAnnotationCols generated by previous annotators if any</p></dd><dt>returns</dt><dd class="cmt"><p>any number of annotations processed for every input annotation. Not necessary one to one relationship</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction">YakeKeywordExtraction</a> → <a href="../../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a></dd></dl></div>
+      <p class="shortcomment cmt">takes a document and annotations and produces new annotations of this annotator's annotation
+type
+</p><div class="fullcomment"><div class="comment cmt"><p>takes a document and annotations and produces new annotations of this annotator's annotation
+type
+</p></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>
+  Annotations that correspond to inputAnnotationCols generated by previous annotators if any</p></dd><dt>returns</dt><dd class="cmt"><p>
+  any number of annotations processed for every input annotation. Not necessary one to one
+  relationship</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction">YakeKeywordExtraction</a> → <a href="../../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
@@ -664,13 +682,13 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">calculateTokenScores</span><span class="params">(<span name="basicStats">basicStats: <span class="extype" name="scala.Array">Array</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>)]</span>, <span name="coOccurLeftAggregate">coOccurLeftAggregate: <span class="extype" name="scala.collection.mutable.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.collection.mutable.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>]]</span>, <span name="coOccurRightAggregate">coOccurRightAggregate: <span class="extype" name="scala.collection.mutable.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.collection.mutable.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>]]</span>)</span><span class="result">: <span class="extype" name="scala.collection.immutable.Iterable">Iterable</span>[<a href="util/Token.html" class="extype" name="com.johnsnowlabs.nlp.annotators.keyword.yake.util.Token">Token</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Calculate token scores given statistics</p><div class="fullcomment"><div class="comment cmt"><p>Calculate token scores given statistics</p><p>Refer <a href="https://doi.org/10.1016/j.ins.2019.09.013" target="_blank">YAKE Paper</a></p><p>T Position = ln ( ln ( 3 + Median(Sentence Index))
-T Case =  max(TF(U(t)) , TF(A(t))) / ln(TF(t))
-TF Norm =TF(t) / (MeanTF + 1 ∗ σ)
-T Rel = 1 + ( DL + DR ) * TF(t)/MaxTF
-T Sentence = SF(t)/# Sentences
-TS = ( TPos ∗ TRel ) / ( TCase + (( TFNorm + TSent ) / TRel ))
-</p></div><dl class="paramcmts block"><dt class="param">basicStats</dt><dd class="cmt"><p>Basic stats</p></dd><dt class="param">coOccurLeftAggregate</dt><dd class="cmt"><p>Left Co Occurrence</p></dd><dt class="param">coOccurRightAggregate</dt><dd class="cmt"><p>Right Co Occurrence</p></dd></dl></div>
+      <p class="shortcomment cmt">Calculate token scores given statistics</p><div class="fullcomment"><div class="comment cmt"><p>Calculate token scores given statistics</p><p>Refer <a href="https://doi.org/10.1016/j.ins.2019.09.013" target="_blank">YAKE Paper</a></p><p>T Position = ln ( ln ( 3 + Median(Sentence Index)) T Case = max(TF(U(t)) , TF(A(t))) /
+ln(TF(t)) TF Norm =TF(t) / (MeanTF + 1 ∗ σ) T Rel = 1 + ( DL + DR ) * TF(t)/MaxTF T Sentence
+\= SF(t)/# Sentences TS = ( TPos ∗ TRel ) / ( TCase + (( TFNorm + TSent ) / TRel ))
+</p></div><dl class="paramcmts block"><dt class="param">basicStats</dt><dd class="cmt"><p>
+  Basic stats</p></dd><dt class="param">coOccurLeftAggregate</dt><dd class="cmt"><p>
+  Left Co Occurrence</p></dd><dt class="param">coOccurRightAggregate</dt><dd class="cmt"><p>
+  Right Co Occurrence</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#checkSchema" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="checkSchema(schema:org.apache.spark.sql.types.StructType,inputAnnotatorType:String):Boolean"></a><a id="checkSchema(StructType,String):Boolean"></a>
       <span class="permalink">
@@ -790,9 +808,13 @@ TS = ( TPos ∗ TRel ) / ( TCase + (( TFNorm + TSent ) / TRel ))
         <span class="name">dfAnnotate</span><span class="result">: <span class="extype" name="org.apache.spark.sql.expressions.UserDefinedFunction">UserDefinedFunction</span></span>
       </span>
       
-      <p class="shortcomment cmt">Wraps annotate to happen inside SparkSQL user defined functions in order to act with <span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span>
-</p><div class="fullcomment"><div class="comment cmt"><p>Wraps annotate to happen inside SparkSQL user defined functions in order to act with <span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span>
-</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>udf function to be applied to <span class="extype" name="inputCols">inputCols</span> using this annotator's annotate function as part of ML transformation</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a></dd></dl></div>
+      <p class="shortcomment cmt">Wraps annotate to happen inside SparkSQL user defined functions in order to act with
+<span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span>
+</p><div class="fullcomment"><div class="comment cmt"><p>Wraps annotate to happen inside SparkSQL user defined functions in order to act with
+<span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span>
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+  udf function to be applied to <span class="extype" name="inputCols">inputCols</span> using this annotator's annotate function as
+  part of ML transformation</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -1054,9 +1076,13 @@ TS = ( TPos ∗ TRel ) / ( TCase + (( TFNorm + TSent ) / TRel ))
         <span class="name">getBasicStats</span><span class="params">(<span name="result">result: <span class="extype" name="scala.Array">Array</span>[<a href="../../../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>)]</span>
       </span>
       
-      <p class="shortcomment cmt">Calculates basic statistics like total Sentences in the document and assign a tag for each token
-</p><div class="fullcomment"><div class="comment cmt"><p>Calculates basic statistics like total Sentences in the document and assign a tag for each token
-</p></div><dl class="paramcmts block"><dt class="param">result</dt><dd class="cmt"><p>Document to annotate as array of tokens with sentence metadata</p></dd><dt>returns</dt><dd class="cmt"><p>Dataframe with columns SentenceID, token, totalSentences, tag</p></dd></dl></div>
+      <p class="shortcomment cmt">Calculates basic statistics like total Sentences in the document and assign a tag for each
+token
+</p><div class="fullcomment"><div class="comment cmt"><p>Calculates basic statistics like total Sentences in the document and assign a tag for each
+token
+</p></div><dl class="paramcmts block"><dt class="param">result</dt><dd class="cmt"><p>
+  Document to annotate as array of tokens with sentence metadata</p></dd><dt>returns</dt><dd class="cmt"><p>
+  Dataframe with columns SentenceID, token, totalSentences, tag</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction#getCandidateKeywords" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getCandidateKeywords(sentences:Array[(String,Int,Int,String)]):scala.collection.mutable.Map[String,Int]"></a><a id="getCandidateKeywords(Array[(String,Int,Int,String)]):Map[String,Int]"></a>
       <span class="permalink">
@@ -1074,7 +1100,9 @@ TS = ( TPos ∗ TRel ) / ( TCase + (( TFNorm + TSent ) / TRel ))
       
       <p class="shortcomment cmt">Generate candidate keywords
 </p><div class="fullcomment"><div class="comment cmt"><p>Generate candidate keywords
-</p></div><dl class="paramcmts block"><dt class="param">sentences</dt><dd class="cmt"><p>sentences as a list</p></dd><dt>returns</dt><dd class="cmt"><p>candidate keywords</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">sentences</dt><dd class="cmt"><p>
+  sentences as a list</p></dd><dt>returns</dt><dd class="cmt"><p>
+  candidate keywords</p></dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
@@ -1111,7 +1139,9 @@ TS = ( TPos ∗ TRel ) / ( TCase + (( TFNorm + TSent ) / TRel ))
       
       <p class="shortcomment cmt">Calculate Co Occurrence for left to right given a window size
 </p><div class="fullcomment"><div class="comment cmt"><p>Calculate Co Occurrence for left to right given a window size
-</p></div><dl class="paramcmts block"><dt class="param">sentences</dt><dd class="cmt"><p>DataFrame with tokens</p></dd><dt>returns</dt><dd class="cmt"><p>Co Occurrence for token x from left to right as a Map</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">sentences</dt><dd class="cmt"><p>
+  DataFrame with tokens</p></dd><dt>returns</dt><dd class="cmt"><p>
+  Co Occurrence for token x from left to right as a Map</p></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#getDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getDefault[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a><a id="getDefault[T](Param[T]):Option[T]"></a>
       <span class="permalink">
@@ -1161,7 +1191,10 @@ TS = ( TPos ∗ TRel ) / ( TCase + (( TFNorm + TSent ) / TRel ))
       
       <p class="shortcomment cmt">Extract keywords
 </p><div class="fullcomment"><div class="comment cmt"><p>Extract keywords
-</p></div><dl class="paramcmts block"><dt class="param">candidate</dt><dd class="cmt"><p>candidate keywords</p></dd><dt class="param">tokens</dt><dd class="cmt"><p>tokens with scores</p></dd><dt>returns</dt><dd class="cmt"><p>keywords</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">candidate</dt><dd class="cmt"><p>
+  candidate keywords</p></dd><dt class="param">tokens</dt><dd class="cmt"><p>
+  tokens with scores</p></dd><dt>returns</dt><dd class="cmt"><p>
+  keywords</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#getLazyAnnotator" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getLazyAnnotator:Boolean"></a>
       <span class="permalink">
@@ -1243,7 +1276,9 @@ TS = ( TPos ∗ TRel ) / ( TCase + (( TFNorm + TSent ) / TRel ))
       
       <p class="shortcomment cmt">Separate sentences given tokens with sentence metadata
 </p><div class="fullcomment"><div class="comment cmt"><p>Separate sentences given tokens with sentence metadata
-</p></div><dl class="paramcmts block"><dt class="param">tokenizedArray</dt><dd class="cmt"><p>Tokens with sentence metadata</p></dd><dt>returns</dt><dd class="cmt"><p>separated sentences</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">tokenizedArray</dt><dd class="cmt"><p>
+  Tokens with sentence metadata</p></dd><dt>returns</dt><dd class="cmt"><p>
+  separated sentences</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.keyword.yake.YakeParams#getStopWords" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getStopWords:Array[String]"></a>
       <span class="permalink">
@@ -1392,10 +1427,10 @@ TS = ( TPos ∗ TRel ) / ( TCase + (( TFNorm + TSent ) / TRel ))
         <span class="name">inputCols</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
-</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
+      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
+</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isDefined(Param[_]):Boolean"></a>
@@ -1905,7 +1940,9 @@ AnnotatorType is used both as input and output columns if not specified
       
       <p class="shortcomment cmt">Execute the YAKE algorithm for each sentence
 </p><div class="fullcomment"><div class="comment cmt"><p>Execute the YAKE algorithm for each sentence
-</p></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>token array to annotate</p></dd><dt>returns</dt><dd class="cmt"><p>annotated token array</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>
+  token array to annotate</p></dd><dt>returns</dt><dd class="cmt"><p>
+  annotated token array</p></dd></dl></div>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
       <span class="permalink">
@@ -2366,9 +2403,9 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">threshold</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.FloatParam">FloatParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Threshold to filter keywords (Default: <code>-1</code>).</p><div class="fullcomment"><div class="comment cmt"><p>Threshold to filter keywords (Default: <code>-1</code>). By default it is disabled.
-Each keyword will be given a keyword score greater than 0. (The lower the score better the keyword).
-This sets the upper bound for the keyword score.
+      <p class="shortcomment cmt">Threshold to filter keywords (Default: <code>-1</code>).</p><div class="fullcomment"><div class="comment cmt"><p>Threshold to filter keywords (Default: <code>-1</code>). By default it is disabled. Each keyword will
+be given a keyword score greater than 0. (The lower the score better the keyword). This sets
+the upper bound for the keyword score.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="YakeParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.keyword.yake.YakeParams">YakeParams</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.util.Identifiable#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
@@ -2402,12 +2439,15 @@ This sets the upper bound for the keyword score.
       </span>
       
       <p class="shortcomment cmt">Given requirements are met, this applies ML transformation within a Pipeline or stand-alone
-Output annotation will be generated as a new column, previous annotations are still available separately
-metadata is built at schema level to record annotations structural information outside its content
+Output annotation will be generated as a new column, previous annotations are still
+available separately metadata is built at schema level to record annotations structural
+information outside its content
 </p><div class="fullcomment"><div class="comment cmt"><p>Given requirements are met, this applies ML transformation within a Pipeline or stand-alone
-Output annotation will be generated as a new column, previous annotations are still available separately
-metadata is built at schema level to record annotations structural information outside its content
-</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p><span class="extype" name="Dataset[Row">Dataset[Row</span>]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a> → Transformer</dd></dl></div>
+Output annotation will be generated as a new column, previous annotations are still
+available separately metadata is built at schema level to record annotations structural
+information outside its content
+</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>
+  <span class="extype" name="Dataset[Row">Dataset[Row</span>]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a> → Transformer</dd></dl></div>
     </li><li name="org.apache.spark.ml.Transformer#transform" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="transform(dataset:org.apache.spark.sql.Dataset[_],paramMap:org.apache.spark.ml.param.ParamMap):org.apache.spark.sql.DataFrame"></a><a id="transform(Dataset[_],ParamMap):DataFrame"></a>
       <span class="permalink">
@@ -2521,7 +2561,9 @@ metadata is built at schema level to record annotations structural information o
       </span>
       
       <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.
-</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>
+  to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>
+  True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
@@ -2605,9 +2647,8 @@ metadata is built at schema level to record annotations structural information o
         <span class="name">windowSize</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Window size for Co-Occurrence (Default: <code>3</code>).</p><div class="fullcomment"><div class="comment cmt"><p>Window size for Co-Occurrence (Default: <code>3</code>).
-Yake will construct a co-occurrence matrix. You can set the window size for the co-occurrence matrix construction
-with this parameter.
+      <p class="shortcomment cmt">Window size for Co-Occurrence (Default: <code>3</code>).</p><div class="fullcomment"><div class="comment cmt"><p>Window size for Co-Occurrence (Default: <code>3</code>). Yake will construct a co-occurrence matrix.
+You can set the window size for the co-occurrence matrix construction with this parameter.
 Example: <code>windowSize=2</code> will look at two words to both left and right of a candidate word.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="YakeParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.keyword.yake.YakeParams">YakeParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.RawAnnotator#wrapColumnMetadata" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -2703,10 +2744,13 @@ Example: <code>windowSize=2</code> will look at two words to both left and right
         <div id="groupedMembers">
         <div class="group" name="param">
               <h3>Parameters</h3>
-              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
+              <div class="comment cmt"><p>
+  A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  parameter values through setters and getters, respectively.</p></div>
             </div><div class="group" name="anno">
               <h3>Annotator types</h3>
-              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+              <div class="comment cmt"><p>
+  Required input and expected output annotator types</p></div>
             </div><div class="group" name="Ungrouped">
               <h3>Members</h3>
               

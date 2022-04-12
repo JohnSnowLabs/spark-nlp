@@ -33,17 +33,11 @@ class NerPerfTest extends AnyFlatSpec {
 
     import ResourceHelper.spark.implicits._
 
-    val documentAssembler = new DocumentAssembler().
-      setInputCol("text").
-      setOutputCol("document")
+    val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
 
-    val tokenizer = new Tokenizer().
-      setInputCols(Array("document")).
-      setOutputCol("token")
+    val tokenizer = new Tokenizer().setInputCols(Array("document")).setOutputCol("token")
 
-    val pos = PerceptronModel.pretrained().
-      setInputCols("document", "token").
-      setOutputCol("pos")
+    val pos = PerceptronModel.pretrained().setInputCols("document", "token").setOutputCol("pos")
 
     val embeddings = new WordEmbeddings()
       .setInputCols("document", "token")
@@ -51,32 +45,26 @@ class NerPerfTest extends AnyFlatSpec {
       .setStoragePath("src/test/resources/ner-corpus/embeddings.100d.test.txt", "TEXT")
       .setDimension(100)
 
-    val ner = new NerCrfApproach().
-      setInputCols("document", "token", "pos", "embeddings").
-      setOutputCol("ner").
-      setLabelColumn("label").
-      setOutputCol("ner").
-      setMinEpochs(1).
-      setMaxEpochs(5).
-      setC0(1250000).
-      setRandomSeed(0).
-      setVerbose(2)
+    val ner = new NerCrfApproach()
+      .setInputCols("document", "token", "pos", "embeddings")
+      .setOutputCol("ner")
+      .setLabelColumn("label")
+      .setOutputCol("ner")
+      .setMinEpochs(1)
+      .setMaxEpochs(5)
+      .setC0(1250000)
+      .setRandomSeed(0)
+      .setVerbose(2)
 
-    val finisher = new Finisher().
-      setInputCols("ner")
+    val finisher = new Finisher().setInputCols("ner")
 
-    val pipeline = new Pipeline().
-      setStages(Array(
-        documentAssembler,
-        tokenizer,
-        pos,
-        embeddings,
-        ner,
-        finisher
-      ))
+    val pipeline = new Pipeline().setStages(
+      Array(documentAssembler, tokenizer, pos, embeddings, ner, finisher))
 
     val conll = CoNLL()
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/ner-corpus/test_ner_dataset.txt")
+    val training_data = conll.readDataset(
+      ResourceHelper.spark,
+      "src/test/resources/ner-corpus/test_ner_dataset.txt")
     val nermodel = pipeline.fit(training_data)
     val nerlpmodel = new LightPipeline(nermodel)
 
@@ -92,13 +80,9 @@ class NerPerfTest extends AnyFlatSpec {
 
     import ResourceHelper.spark.implicits._
 
-    val documentAssembler = new DocumentAssembler().
-      setInputCol("text").
-      setOutputCol("document")
+    val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
 
-    val tokenizer = new Tokenizer().
-      setInputCols(Array("document")).
-      setOutputCol("token")
+    val tokenizer = new Tokenizer().setInputCols(Array("document")).setOutputCol("token")
 
     val embeddings = new WordEmbeddings()
       .setInputCols("document", "token")
@@ -106,8 +90,8 @@ class NerPerfTest extends AnyFlatSpec {
       .setStoragePath("src/test/resources/ner-corpus/embeddings.100d.test.txt", "TEXT")
       .setDimension(100)
 
-    val ner = new NerDLApproach().
-      setInputCols("document", "token", "embeddings")
+    val ner = new NerDLApproach()
+      .setInputCols("document", "token", "embeddings")
       .setOutputCol("ner")
       .setLabelColumn("label")
       .setOutputCol("ner")
@@ -119,21 +103,15 @@ class NerPerfTest extends AnyFlatSpec {
       .setBatchSize(18)
       .setGraphFolder("src/test/resources/graph/")
 
+    val finisher = new Finisher().setInputCols("ner")
 
-    val finisher = new Finisher().
-      setInputCols("ner")
-
-    val pipeline = new Pipeline().
-      setStages(Array(
-        documentAssembler,
-        tokenizer,
-        embeddings,
-        ner,
-        finisher
-      ))
+    val pipeline =
+      new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings, ner, finisher))
 
     val conll = CoNLL()
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/ner-corpus/test_ner_dataset.txt")
+    val training_data = conll.readDataset(
+      ResourceHelper.spark,
+      "src/test/resources/ner-corpus/test_ner_dataset.txt")
     val nermodel = pipeline.fit(training_data)
     val nerlpmodel = new LightPipeline(nermodel)
 
@@ -151,47 +129,36 @@ class NerPerfTest extends AnyFlatSpec {
 
     import ResourceHelper.spark.implicits._
 
-    val documentAssembler = new DocumentAssembler().
-      setInputCol("text").
-      setOutputCol("document")
+    val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
 
     val sentenceDetector = new SentenceDetector()
       .setInputCols("document")
       .setOutputCol("sentence")
       .setUseAbbreviations(false)
 
-    val tokenizer = new Tokenizer().
-      setInputCols(Array("sentence")).
-      setOutputCol("token")
+    val tokenizer = new Tokenizer().setInputCols(Array("sentence")).setOutputCol("token")
 
-    val embeddings = WordEmbeddingsModel.pretrained()
+    val embeddings = WordEmbeddingsModel
+      .pretrained()
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
 
-    val ner = NerDLModel.pretrained().
-      setInputCols("sentence", "token", "embeddings").
-      setOutputCol("ner")
+    val ner =
+      NerDLModel.pretrained().setInputCols("sentence", "token", "embeddings").setOutputCol("ner")
 
     val converter = new NerConverter()
       .setInputCols("sentence", "token", "ner")
       .setOutputCol("nerconverter")
 
-    val finisher = new Finisher().
-      setInputCols("token", "sentence", "nerconverter", "ner")
+    val finisher = new Finisher().setInputCols("token", "sentence", "nerconverter", "ner")
 
-    val pipeline = new Pipeline().
-      setStages(Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        embeddings,
-        ner,
-        converter,
-        finisher
-      ))
+    val pipeline = new Pipeline().setStages(
+      Array(documentAssembler, sentenceDetector, tokenizer, embeddings, ner, converter, finisher))
 
     val conll = CoNLL()
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/ner-corpus/test_ner_dataset.txt")
+    val training_data = conll.readDataset(
+      ResourceHelper.spark,
+      "src/test/resources/ner-corpus/test_ner_dataset.txt")
     val nermodel = pipeline.fit(training_data)
     val nerlpmodel = new LightPipeline(nermodel)
 
@@ -219,42 +186,37 @@ class NerPerfTest extends AnyFlatSpec {
 
     import ResourceHelper.spark.implicits._
 
-    val documentAssembler = new DocumentAssembler().
-      setInputCol("text").
-      setOutputCol("document")
+    val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
 
     val sentenceDetector = new SentenceDetector()
       .setInputCols("document")
       .setOutputCol("sentence")
       .setUseAbbreviations(false)
 
-    val tokenizer = new Tokenizer().
-      setInputCols(Array("sentence")).
-      setOutputCol("token")
+    val tokenizer = new Tokenizer().setInputCols(Array("sentence")).setOutputCol("token")
 
-    val pos = PerceptronModel.pretrained().
-      setInputCols("document", "token").
-      setOutputCol("pos")
+    val pos = PerceptronModel.pretrained().setInputCols("document", "token").setOutputCol("pos")
 
-    val word_embeddings = WordEmbeddingsModel.pretrained()
+    val word_embeddings = WordEmbeddingsModel
+      .pretrained()
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
 
-    //document, token, pos, word_embeddings
-    val ner = NerCrfModel.pretrained().
-      setInputCols("sentence", "token", "pos", "word_embeddings").
-      setOutputCol("ner")
+    // document, token, pos, word_embeddings
+    val ner = NerCrfModel
+      .pretrained()
+      .setInputCols("sentence", "token", "pos", "word_embeddings")
+      .setOutputCol("ner")
 
     val converter = new NerConverter()
       .setInputCols("sentence", "token", "ner")
       .setOutputCol("nerconverter")
 
-    val finisher = new Finisher().
-      setInputCols("token", "sentence", "nerconverter", "ner")
+    val finisher = new Finisher().setInputCols("token", "sentence", "nerconverter", "ner")
 
-    val pipeline = new Pipeline().
-      setStages(Array(
+    val pipeline = new Pipeline().setStages(
+      Array(
         documentAssembler,
         sentenceDetector,
         tokenizer,
@@ -262,11 +224,12 @@ class NerPerfTest extends AnyFlatSpec {
         word_embeddings,
         ner,
         converter,
-        finisher
-      ))
+        finisher))
 
     val conll = CoNLL()
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/ner-corpus/test_ner_dataset.txt")
+    val training_data = conll.readDataset(
+      ResourceHelper.spark,
+      "src/test/resources/ner-corpus/test_ner_dataset.txt")
     val nermodel = pipeline.fit(training_data)
     val nerlpmodel = new LightPipeline(nermodel)
 
@@ -291,4 +254,3 @@ class NerPerfTest extends AnyFlatSpec {
   }
 
 }
-

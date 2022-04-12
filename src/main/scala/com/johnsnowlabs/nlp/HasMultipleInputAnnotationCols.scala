@@ -16,23 +16,19 @@
 
 package com.johnsnowlabs.nlp
 
-/**
- * Trait  used to create annotators with input columns of variable length.
- * */
+/** Trait used to create annotators with input columns of variable length. */
 trait HasMultipleInputAnnotationCols extends HasInputAnnotationCols {
 
-  /** Annotator reference id. The Annotator type is the same for any of the input columns*/
+  /** Annotator reference id. The Annotator type is the same for any of the input columns */
   val inputAnnotatorType: String
 
-  lazy override val inputAnnotatorTypes: Array[String] = getInputCols.map(_ =>inputAnnotatorType)
+  lazy override val inputAnnotatorTypes: Array[String] = getInputCols.map(_ => inputAnnotatorType)
 
-  /**
-    * Columns that contain annotations necessary to run this annotator
-    * AnnotatorType is the same for all input columns in that annotator.
+  /** Columns that contain annotations necessary to run this annotator AnnotatorType is the same
+    * for all input columns in that annotator.
     */
-  override def  setInputCols(value: Array[String]): this.type = {
+  override def setInputCols(value: Array[String]): this.type = {
     set(inputCols, value)
   }
-
 
 }

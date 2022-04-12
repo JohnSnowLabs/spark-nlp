@@ -16,14 +16,14 @@
 
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
-import java.io.{BufferedOutputStream, File, FileOutputStream}
-import java.nio.file.Paths
-
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.commons.lang.SystemUtils
 import org.apache.spark.SparkFiles
 import org.apache.spark.sql.SparkSession
 import org.tensorflow.TensorFlow
+
+import java.io.{BufferedOutputStream, File, FileOutputStream}
+import java.nio.file.Paths
 
 object LoadsContrib {
   @transient var loadedToCluster = false
@@ -32,12 +32,12 @@ object LoadsContrib {
   private lazy val lib1 = "_sparse_feature_cross_op.so"
   private lazy val lib2 = "_lstm_ops.so"
 
-  private def resourcePath(os: String, lib: String) = "ner-dl/"+os+"/"+lib
+  private def resourcePath(os: String, lib: String) = "ner-dl/" + os + "/" + lib
 
   /*
-  * In TensorFlow 1.15.0 we don't need to load any .so files
-  * We reserve this feature for the future releases
-  *  */
+   * In TensorFlow 1.15.0 we don't need to load any .so files
+   * We reserve this feature for the future releases
+   *  */
   lazy val contribPaths: Option[(String, String)] =
     if (SystemUtils.IS_OS_MAC || SystemUtils.IS_OS_MAC_OSX) {
       None
@@ -48,10 +48,10 @@ object LoadsContrib {
     }
 
   private def getFileName(path: String) = {
-    "sparknlp_contrib"+new File(path).getName.take(5)
+    "sparknlp_contrib" + new File(path).getName.take(5)
   }
 
-  /** NOT thread safe. Make sure this runs on DRIVER only*/
+  /** NOT thread safe. Make sure this runs on DRIVER only */
   private def copyResourceToTmp(path: String): File = {
     val stream = ResourceHelper.getResourceStream(path)
     val tmpFolder = System.getProperty("java.io.tmpdir")
@@ -71,7 +71,8 @@ object LoadsContrib {
   }
 
   def loadContribToCluster(spark: SparkSession): Unit = {
-    /** NOT thread-safe. DRIVER only*/
+
+    /** NOT thread-safe. DRIVER only */
     if (!LoadsContrib.loadedToCluster && contribPaths.isDefined) {
       LoadsContrib.loadedToCluster = true
       spark.sparkContext.addFile(copyResourceToTmp(contribPaths.get._1).getPath)

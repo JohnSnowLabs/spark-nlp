@@ -18,17 +18,25 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp.{
+  Annotation,
+  AnnotatorModel,
+  HasSimpleAnnotate,
+  ParamsAndFeaturesReadable
+}
 import org.apache.spark.ml.param.{BooleanParam, IntParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 
-/**
-  * Instantiated Model of the [[Normalizer]]. For usage and examples, please see the documentation of that class.
+/** Instantiated Model of the [[Normalizer]]. For usage and examples, please see the documentation
+  * of that class.
   *
-  * @see [[Normalizer]] for the base class
-  * @param uid required internal uid for saving annotator
+  * @see
+  *   [[Normalizer]] for the base class
+  * @param uid
+  *   required internal uid for saving annotator
   * @groupname anno Annotator types
-  * @groupdesc anno Required input and expected output annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
   * @groupname Ungrouped Members
   * @groupname param Parameters
   * @groupname setParam Parameter setters
@@ -39,38 +47,47 @@ import org.apache.spark.ml.util.Identifiable
   * @groupprio Ungrouped 3
   * @groupprio setParam  4
   * @groupprio getParam  5
-  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
   */
-class NormalizerModel(override val uid: String) extends AnnotatorModel[NormalizerModel] with HasSimpleAnnotate[NormalizerModel] {
+class NormalizerModel(override val uid: String)
+    extends AnnotatorModel[NormalizerModel]
+    with HasSimpleAnnotate[NormalizerModel] {
 
   /** Output annotator type : TOKEN
     *
     * @group anno
     */
   override val outputAnnotatorType: AnnotatorType = TOKEN
+
   /** Input annotator type : TOKEN
     *
     * @group anno
     */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
-  case class TokenizerAndNormalizerMap(beginTokenizer: Int, endTokenizer: Int, token: String,
-                                       beginNormalizer: Int, endNormalizer: Int, normalizer: String)
+  case class TokenizerAndNormalizerMap(
+      beginTokenizer: Int,
+      endTokenizer: Int,
+      token: String,
+      beginNormalizer: Int,
+      endNormalizer: Int,
+      normalizer: String)
 
   /** normalization regex patterns which match will be removed from token
     *
     * @group param
     */
-  val cleanupPatterns = new StringArrayParam(this, "cleanupPatterns", "normalization regex patterns which match will be removed from token")
+  val cleanupPatterns = new StringArrayParam(
+    this,
+    "cleanupPatterns",
+    "normalization regex patterns which match will be removed from token")
 
-  /**
-    * @group setParam
-    */
+  /** @group setParam */
   def setCleanupPatterns(value: Array[String]): this.type = set(cleanupPatterns, value)
 
-  /**
-    * @group setParam
-    */
+  /** @group setParam */
   def getCleanupPatterns: Array[String] = $(cleanupPatterns)
 
   /** whether to convert strings to lowercase
@@ -79,16 +96,10 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
     */
   val lowercase = new BooleanParam(this, "lowercase", "whether to convert strings to lowercase")
 
-  /**
-    *
-    * @group setParam
-    */
+  /** @group setParam */
   def setLowercase(value: Boolean): this.type = set(lowercase, value)
 
-  /**
-    *
-    * @group setParam
-    */
+  /** @group setParam */
   def getLowercase: Boolean = $(lowercase)
 
   /** slangDict
@@ -101,29 +112,21 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
     *
     * @group param
     */
-  val slangMatchCase = new BooleanParam(this, "slangMatchCase", "whether or not to be case sensitive to match slangs. Defaults to false.")
+  val slangMatchCase = new BooleanParam(
+    this,
+    "slangMatchCase",
+    "whether or not to be case sensitive to match slangs. Defaults to false.")
 
-  /**
-    *
-    * @group setParam
-    */
+  /** @group setParam */
   def setSlangMatchCase(value: Boolean): this.type = set(slangMatchCase, value)
 
-  /**
-    *
-    * @group getParam
-    */
+  /** @group getParam */
   def getSlangMatchCase: Boolean = $(slangMatchCase)
 
   def this() = this(Identifiable.randomUID("NORMALIZER"))
 
-
-  /**
-    *
-    * @group setParam
-    */
+  /** @group setParam */
   def setSlangDict(value: Map[String, String]): this.type = set(slangDict, value)
-
 
   /** Set the minimum allowed length for each token
     *
@@ -131,22 +134,15 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
     */
   val minLength = new IntParam(this, "minLength", "Set the minimum allowed length for each token")
 
-  /**
-    *
-    * @group setParam
-    */
+  /** @group setParam */
   def setMinLength(value: Int): this.type = {
     require(value >= 0, "minLength must be greater equal than 0")
     require(value.isValidInt, "minLength must be Int")
     set(minLength, value)
   }
 
-  /**
-    *
-    * @group getParam
-    */
+  /** @group getParam */
   def getMinLength: Int = $(minLength)
-
 
   /** Set the maximum allowed length for each token
     *
@@ -154,30 +150,28 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
     */
   val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed length for each token")
 
-  /**
-    *
-    * @group setParam
-    */
+  /** @group setParam */
   def setMaxLength(value: Int): this.type = {
-    require(value >= ${
-      minLength
-    }, "maxLength must be greater equal than minLength")
+    require(
+      value >= $ {
+        minLength
+      },
+      "maxLength must be greater equal than minLength")
     require(value.isValidInt, "minLength must be Int")
     set(maxLength, value)
   }
 
-  /**
-    *
-    * @group getParam
-    */
+  /** @group getParam */
   def getMaxLength: Int = $(maxLength)
 
   def applyRegexPatterns(word: String): String = {
 
     val nToken = {
-      get(cleanupPatterns).map(_.foldLeft(word)((currentText, compositeToken) => {
-        currentText.replaceAll(compositeToken, "")
-      })).getOrElse(word)
+      get(cleanupPatterns)
+        .map(_.foldLeft(word)((currentText, compositeToken) => {
+          currentText.replaceAll(compositeToken, "")
+        }))
+        .getOrElse(word)
     }
     nToken
   }
@@ -188,36 +182,42 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
     */
   protected def getSlangDict: Map[String, String] = $$(slangDict)
 
-  /** ToDo: Review implementation, Current implementation generates spaces between non-words, potentially breaking tokens */
+  /** ToDo: Review implementation, Current implementation generates spaces between non-words,
+    * potentially breaking tokens
+    */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val normalizedAnnotations = annotations.flatMap { originalToken =>
-
       /** slang dictionary keys should have been lowercased if slangMatchCase is false */
       val unslanged = $$(slangDict).get(
         if ($(slangMatchCase)) originalToken.result
-        else originalToken.result.toLowerCase
-      )
+        else originalToken.result.toLowerCase)
 
       /** simple-tokenize the unslanged slag phrase */
       val tokenizedUnslang = {
-        unslanged.map(unslang => {
-          unslang.split(" ")
-        }).getOrElse(Array(originalToken.result))
+        unslanged
+          .map(unslang => {
+            unslang.split(" ")
+          })
+          .getOrElse(Array(originalToken.result))
       }
 
       val cleaned = tokenizedUnslang.map(word => applyRegexPatterns(word))
 
       val cased = if ($(lowercase)) cleaned.map(_.toLowerCase) else cleaned
 
-      cased.filter(t => t.nonEmpty && t.length >= $(minLength) && get(maxLength).forall(m => t.length <= m)).map { finalToken => {
-        Annotation(
-          outputAnnotatorType,
-          originalToken.begin,
-          originalToken.begin + finalToken.length - 1,
-          finalToken,
-          originalToken.metadata
-        )
-      }}
+      cased
+        .filter(t =>
+          t.nonEmpty && t.length >= $(minLength) && get(maxLength).forall(m => t.length <= m))
+        .map { finalToken =>
+          {
+            Annotation(
+              outputAnnotatorType,
+              originalToken.begin,
+              originalToken.begin + finalToken.length - 1,
+              finalToken,
+              originalToken.metadata)
+          }
+        }
 
     }
 

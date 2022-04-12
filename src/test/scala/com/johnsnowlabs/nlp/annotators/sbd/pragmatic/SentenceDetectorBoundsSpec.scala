@@ -22,7 +22,6 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, ContentProvider, Documen
 import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
 
-
 class SentenceDetectorBoundsSpec extends AnyFlatSpec {
 
   "SentenceDetector" should "support disable list detection" taggedAs FastTest in {
@@ -102,28 +101,69 @@ class SentenceDetectorBoundsSpec extends AnyFlatSpec {
       .setSplitLength(12)
 
     val doc = document.transform(df)
-    val sentenced = sd.transform(doc)
+    val sentenced = sd
+      .transform(doc)
       .select("sentence")
-      .as[Array[Annotation]].first
+      .as[Array[Annotation]]
+      .first
 
     assert(sentenced.length == expected.length)
-    assert(sentenced.zip(expected).forall(r => {
-      println(r._1.result)
-      println(r._2)
-      r._1.result == r._2
-    }))
-    assert(sentenced(0) == Annotation(AnnotatorType.DOCUMENT, 0, 11, "Hello world,", Map("sentence" -> "0"), Array.emptyFloatArray))
-    assert(sentenced(1) == Annotation(AnnotatorType.DOCUMENT, 13, 21, "this is a", Map("sentence" -> "1"), Array.emptyFloatArray))
-    assert(sentenced(2) == Annotation(AnnotatorType.DOCUMENT, 23, 26, "long", Map("sentence" -> "2"), Array.emptyFloatArray))
-    assert(sentenced(3) == Annotation(AnnotatorType.DOCUMENT, 28, 35, "sentence", Map("sentence" -> "3"), Array.emptyFloatArray))
-    assert(sentenced(4) == Annotation(AnnotatorType.DOCUMENT, 37, 57, "longerThanSplitLength", Map("sentence" -> "4"), Array.emptyFloatArray))
+    assert(
+      sentenced
+        .zip(expected)
+        .forall(r => {
+          println(r._1.result)
+          println(r._2)
+          r._1.result == r._2
+        }))
+    assert(
+      sentenced(0) == Annotation(
+        AnnotatorType.DOCUMENT,
+        0,
+        11,
+        "Hello world,",
+        Map("sentence" -> "0"),
+        Array.emptyFloatArray))
+    assert(
+      sentenced(1) == Annotation(
+        AnnotatorType.DOCUMENT,
+        13,
+        21,
+        "this is a",
+        Map("sentence" -> "1"),
+        Array.emptyFloatArray))
+    assert(
+      sentenced(2) == Annotation(
+        AnnotatorType.DOCUMENT,
+        23,
+        26,
+        "long",
+        Map("sentence" -> "2"),
+        Array.emptyFloatArray))
+    assert(
+      sentenced(3) == Annotation(
+        AnnotatorType.DOCUMENT,
+        28,
+        35,
+        "sentence",
+        Map("sentence" -> "3"),
+        Array.emptyFloatArray))
+    assert(
+      sentenced(4) == Annotation(
+        AnnotatorType.DOCUMENT,
+        37,
+        57,
+        "longerThanSplitLength",
+        Map("sentence" -> "4"),
+        Array.emptyFloatArray))
 
   }
 
   "SentenceDetector" should "correctly filters out sentences less or greater than maxLength and minLength" taggedAs FastTest in {
     import ResourceHelper.spark.implicits._
 
-    val sentence = "Small sentence. This is a normal sentence. This is a long sentence (longer than the maxLength)."
+    val sentence =
+      "Small sentence. This is a normal sentence. This is a long sentence (longer than the maxLength)."
 
     val df = Seq(sentence).toDF("text")
 
@@ -140,17 +180,29 @@ class SentenceDetectorBoundsSpec extends AnyFlatSpec {
       .setMaxLength(26)
 
     val doc = document.transform(df)
-    val sentenced = sd.transform(doc)
+    val sentenced = sd
+      .transform(doc)
       .select("sentence")
-      .as[Array[Annotation]].first
+      .as[Array[Annotation]]
+      .first
 
     assert(sentenced.length == expected.length)
-    assert(sentenced.zip(expected).forall(r => {
-      println(r._1.result)
-      println(r._2)
-      r._1.result == r._2
-    }))
-    assert(sentenced(0) == Annotation(AnnotatorType.DOCUMENT, 16, 41, "This is a normal sentence.", Map("sentence" -> "0"), Array.emptyFloatArray))
+    assert(
+      sentenced
+        .zip(expected)
+        .forall(r => {
+          println(r._1.result)
+          println(r._2)
+          r._1.result == r._2
+        }))
+    assert(
+      sentenced(0) == Annotation(
+        AnnotatorType.DOCUMENT,
+        16,
+        41,
+        "This is a normal sentence.",
+        Map("sentence" -> "0"),
+        Array.emptyFloatArray))
 
   }
 

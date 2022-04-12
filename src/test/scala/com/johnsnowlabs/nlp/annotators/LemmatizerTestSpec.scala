@@ -22,15 +22,12 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.training.CoNLLU
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
-
-import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.ml.{PipelineModel, Pipeline}
 import org.apache.spark.sql.{Dataset, Row}
-
 import org.scalatest.Tag
 import org.scalatest.flatspec.AnyFlatSpec
 
-import java.nio.file.{Files, Paths}
-
+import java.nio.file.{Paths, Files}
 
 class LemmatizerTestSpec extends AnyFlatSpec with LemmatizerBehaviors {
 
@@ -55,7 +52,8 @@ class LemmatizerTestSpec extends AnyFlatSpec with LemmatizerBehaviors {
 
   val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)
 
-  "A full Normalizer pipeline with latin content" should behave like fullLemmatizerPipeline(latinBodyData)
+  "A full Normalizer pipeline with latin content" should behave like fullLemmatizerPipeline(
+    latinBodyData)
 
   "A lemmatizer" should "be readable and writable" taggedAs Tag("LinuxOnly") in {
     val lemmatizer = new Lemmatizer()
@@ -83,22 +81,10 @@ class LemmatizerTestSpec extends AnyFlatSpec with LemmatizerBehaviors {
       .setInputCols("lemma")
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        lemmatizer,
-        finisher
-      ))
+      .setStages(Array(documentAssembler, sentenceDetector, tokenizer, lemmatizer, finisher))
 
     val recursivePipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        lemmatizer,
-        finisher
-      ))
+      .setStages(Array(documentAssembler, sentenceDetector, tokenizer, lemmatizer, finisher))
 
     val model = pipeline.fit(data)
     model.transform(data).show(1)
@@ -123,23 +109,28 @@ class LemmatizerTestSpec extends AnyFlatSpec with LemmatizerBehaviors {
 
   it should "lemmatize text from a spark dataset" taggedAs FastTest in {
     val testDataSet = Seq("So what happened?", "That too was stopped.").toDS.toDF("text")
-    val expectedLemmas = Array(Seq(Annotation(TOKEN, 0, 1, "So", Map("sentence" -> "0")),
-      Annotation(TOKEN, 3, 6, "what", Map("sentence" -> "0")),
-      Annotation(TOKEN, 8, 15, "happen", Map("sentence" -> "0")),
-      Annotation(TOKEN, 16, 16, "?", Map("sentence" -> "0"))),
-      Seq(Annotation(TOKEN, 0, 3, "That", Map("sentence" -> "0")),
+    val expectedLemmas = Array(
+      Seq(
+        Annotation(TOKEN, 0, 1, "So", Map("sentence" -> "0")),
+        Annotation(TOKEN, 3, 6, "what", Map("sentence" -> "0")),
+        Annotation(TOKEN, 8, 15, "happen", Map("sentence" -> "0")),
+        Annotation(TOKEN, 16, 16, "?", Map("sentence" -> "0"))),
+      Seq(
+        Annotation(TOKEN, 0, 3, "That", Map("sentence" -> "0")),
         Annotation(TOKEN, 5, 7, "too", Map("sentence" -> "0")),
         Annotation(TOKEN, 9, 11, "be", Map("sentence" -> "0")),
         Annotation(TOKEN, 13, 19, "stop", Map("sentence" -> "0")),
-        Annotation(TOKEN, 20, 20, ".", Map("sentence" -> "0"))
-      )
-    )
+        Annotation(TOKEN, 20, 20, ".", Map("sentence" -> "0"))))
     val conlluFile = "src/test/resources/conllu/en.test.lemma.conllu"
-    val trainDataSet = CoNLLU().readDataset(ResourceHelper.spark, conlluFile)
+    val trainDataSet = CoNLLU(formCol = "form_training", lemmaCol = "lemma_training")
+      .readDataset(ResourceHelper.spark, conlluFile)
     val lemmatizer = new Lemmatizer()
       .setInputCols(Array("token"))
+      .setFormCol("form_training")
+      .setLemmaCol("lemma_training")
       .setOutputCol("lemma")
-    val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, lemmatizer))
+    val pipeline =
+      new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, lemmatizer))
 
     val model = pipeline.fit(trainDataSet)
     val lemmaDataSet = model.transform(testDataSet)
@@ -152,13 +143,15 @@ class LemmatizerTestSpec extends AnyFlatSpec with LemmatizerBehaviors {
     val lemmatizer = new Lemmatizer()
       .setInputCols(Array("token"))
       .setOutputCol("lemma")
-    val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, lemmatizer))
+    val pipeline =
+      new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, lemmatizer))
 
     val caught = intercept[IllegalArgumentException] {
       pipeline.fit(testDataSet)
     }
 
-    assert(caught.getMessage == "form column required. Verify that training dataset was loaded with CoNLLU component")
+    assert(
+      caught.getMessage == "form column required. Verify that training dataset was loaded with CoNLLU component")
   }
 
   it should "raise error when lemma column is not present" taggedAs FastTest in {
@@ -166,26 +159,31 @@ class LemmatizerTestSpec extends AnyFlatSpec with LemmatizerBehaviors {
     val tokenizer = new Tokenizer()
       .setInputCols(Array("sentence"))
       .setOutputCol("form")
-    val tokenizerPipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer))
+    val tokenizerPipeline =
+      new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer))
     val tokenizerDataSet = tokenizerPipeline.fit(testDataSet).transform(testDataSet)
     val lemmatizer = new Lemmatizer()
       .setInputCols(Array("form"))
       .setOutputCol("lemma")
-    val lemmatizerPipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, lemmatizer))
+    val lemmatizerPipeline =
+      new Pipeline().setStages(Array(documentAssembler, sentenceDetector, lemmatizer))
 
     val caught = intercept[IllegalArgumentException] {
       lemmatizerPipeline.fit(tokenizerDataSet)
     }
 
-    assert(caught.getMessage == "lemma column required. Verify that training dataset was loaded with CoNLLU component")
+    assert(
+      caught.getMessage == "lemma column required. Verify that training dataset was loaded with CoNLLU component")
   }
 
   it should "raise error when lemma or form does not have token annotator type" taggedAs FastTest in {
-    val testDataSet = Seq(("text column", "form column", "lemma column")).toDS.toDF("text", "form", "lemma")
+    val testDataSet =
+      Seq(("text column", "form column", "lemma column")).toDS.toDF("text", "form", "lemma")
     val lemmatizer = new Lemmatizer()
       .setInputCols(Array("token"))
       .setOutputCol("lemma")
-    val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, lemmatizer))
+    val pipeline =
+      new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, lemmatizer))
 
     val caught = intercept[IllegalArgumentException] {
       pipeline.fit(testDataSet)
@@ -211,15 +209,17 @@ class LemmatizerTestSpec extends AnyFlatSpec with LemmatizerBehaviors {
 
   it should "deserialize a lemmatizer model" taggedAs FastTest in {
     val testDataSet = Seq("So what happened?").toDS.toDF("text")
-    val expectedLemmas = Array(Seq(Annotation(TOKEN, 0, 1, "So", Map("sentence" -> "0")),
-      Annotation(TOKEN, 3, 6, "what", Map("sentence" -> "0")),
-      Annotation(TOKEN, 8, 15, "happen", Map("sentence" -> "0")),
-      Annotation(TOKEN, 16, 16, "?", Map("sentence" -> "0")))
-    )
+    val expectedLemmas = Array(
+      Seq(
+        Annotation(TOKEN, 0, 1, "So", Map("sentence" -> "0")),
+        Annotation(TOKEN, 3, 6, "what", Map("sentence" -> "0")),
+        Annotation(TOKEN, 8, 15, "happen", Map("sentence" -> "0")),
+        Annotation(TOKEN, 16, 16, "?", Map("sentence" -> "0"))))
     val conlluFile = "src/test/resources/conllu/en.test.lemma.conllu"
     val trainDataSet = CoNLLU().readDataset(ResourceHelper.spark, conlluFile)
     val lemmatizer = LemmatizerModel.load("./tmp_lemmatizer")
-    val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, lemmatizer))
+    val pipeline =
+      new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, lemmatizer))
 
     val model = pipeline.fit(trainDataSet)
     val lemmaDataSet = model.transform(testDataSet)
@@ -227,7 +227,9 @@ class LemmatizerTestSpec extends AnyFlatSpec with LemmatizerBehaviors {
     assertLemmas(lemmaDataSet, expectedLemmas)
   }
 
-  private def assertLemmas(lemmaDataSet: Dataset[_], expectedLemmas: Array[Seq[Annotation]]): Unit = {
+  private def assertLemmas(
+      lemmaDataSet: Dataset[_],
+      expectedLemmas: Array[Seq[Annotation]]): Unit = {
     val actualLemmas = AssertAnnotations.getActualResult(lemmaDataSet, "lemma")
     assert(actualLemmas.length == expectedLemmas.length)
     AssertAnnotations.assertFields(expectedLemmas, actualLemmas)
@@ -235,11 +237,13 @@ class LemmatizerTestSpec extends AnyFlatSpec with LemmatizerBehaviors {
 
   it should "download pretrained model" taggedAs FastTest in {
     val testDataSet = Seq("So what happened?").toDS.toDF("text")
-    val lemmatizer = LemmatizerModel.pretrained()
+    val lemmatizer = LemmatizerModel
+      .pretrained()
       .setInputCols(Array("token"))
       .setOutputCol("lemma")
 
-    val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, lemmatizer))
+    val pipeline =
+      new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, lemmatizer))
 
     val model = pipeline.fit(testDataSet)
     model.transform(testDataSet).show()

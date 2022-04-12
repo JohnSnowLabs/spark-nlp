@@ -26,20 +26,16 @@ import org.apache.spark.ml.PipelineModel
 
 import scala.collection.mutable
 
-
 object NerHelper {
 
-  /**
-    * Print top n Named Entity annotations
-    */
+  /** Print top n Named Entity annotations */
   def print(annotations: Seq[Annotation], n: Int): Unit = {
     for (a <- annotations.take(n)) {
       System.out.println(s"${a.begin}, ${a.end}, ${a.result}, ${a.metadata("text")}")
     }
   }
 
-  /**
-    * Saves ner results to csv file
+  /** Saves ner results to csv file
     * @param annotations
     * @param file
     */
@@ -49,7 +45,8 @@ object NerHelper {
     bw.write(s"start\tend\ttag\ttext\n")
     for (i <- 0 until annotations.length) {
       for (a <- annotations(i))
-        bw.write(s"${a.begin}\t${a.end}\t${a.result}\t${a.metadata("entity").replace("\n", " ")}\n")
+        bw.write(
+          s"${a.begin}\t${a.end}\t${a.result}\t${a.metadata("entity").replace("\n", " ")}\n")
     }
     bw.close()
   }
@@ -64,7 +61,11 @@ object NerHelper {
     (prec, rec, f1)
   }
 
-  def measureExact(nerReader: CoNLL, model: PipelineModel, file: ExternalResource, printErrors: Int = 0): Unit = {
+  def measureExact(
+      nerReader: CoNLL,
+      model: PipelineModel,
+      file: ExternalResource,
+      printErrors: Int = 0): Unit = {
     val df = nerReader.readDataset(SparkAccessor.benchmarkSpark, file.path).toDF()
     val transformed = model.transform(df)
     val rows = transformed.select("ner_span", "label_span").collect()
@@ -99,27 +100,33 @@ object NerHelper {
       if (toPrintErrors > 0) {
         for (p <- predictions) {
           if (toPrintErrors > 0 && !correctPredictions.contains(p)) {
-            System.out.println(s"Predicted\t${p.result}\t${p.begin}\t${p.end}\t${p.metadata("text")}")
+            System.out.println(
+              s"Predicted\t${p.result}\t${p.begin}\t${p.end}\t${p.metadata("text")}")
             toPrintErrors -= 1
           }
         }
 
         for (p <- labels) {
           if (toPrintErrors > 0 && !correctPredictions.contains(p)) {
-            System.out.println(s"Correct\t${p.result}\t${p.begin}\t${p.end}\t${p.metadata("text")}")
+            System.out.println(
+              s"Correct\t${p.result}\t${p.begin}\t${p.end}\t${p.metadata("text")}")
             toPrintErrors -= 1
           }
         }
       }
     }
 
-    val (prec, rec, f1) = calcStat(correct.values.sum, predicted.values.sum, correctPredicted.values.sum)
+    val (prec, rec, f1) =
+      calcStat(correct.values.sum, predicted.values.sum, correctPredicted.values.sum)
     System.out.println(s"$prec\t$rec\t$f1")
 
     val tags = (correct.keys ++ predicted.keys ++ correctPredicted.keys).toList.distinct
 
     for (tag <- tags) {
-      val (prec, rec, f1) = calcStat(correct.getOrElse(tag, 0), predicted.getOrElse(tag, 0), correctPredicted.getOrElse(tag, 0))
+      val (prec, rec, f1) = calcStat(
+        correct.getOrElse(tag, 0),
+        predicted.getOrElse(tag, 0),
+        correctPredicted.getOrElse(tag, 0))
       System.out.println(s"$tag\t$prec\t$rec\t$f1")
     }
   }

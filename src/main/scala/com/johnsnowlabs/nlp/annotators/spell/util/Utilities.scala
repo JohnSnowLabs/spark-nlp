@@ -18,7 +18,6 @@ package com.johnsnowlabs.nlp.annotators.spell.util
 
 import org.slf4j.LoggerFactory
 
-import scala.collection.mutable.ArrayBuffer
 import scala.math.min
 import scala.util.Random
 
@@ -39,31 +38,34 @@ object Utilities {
     wordCount.getOrElse(word, 0)
   }
 
-  /** Computes Levenshtein distance :
-    * Metric of measuring difference between two sequences (edit distance)
-    * Source: https://rosettacode.org/wiki/Levenshtein_distance
-    * */
-
+  /** Computes Levenshtein distance : Metric of measuring difference between two sequences (edit
+    * distance) Source: https://rosettacode.org/wiki/Levenshtein_distance
+    */
   def levenshteinDistance(s1: String, s2: String): Int = {
-    val dist = Array.tabulate(s2.length + 1, s1.length + 1) { (j, i) => if (j == 0) i else if (i == 0) j else 0 }
+    val dist = Array.tabulate(s2.length + 1, s1.length + 1) { (j, i) =>
+      if (j == 0) i else if (i == 0) j else 0
+    }
 
     for (j <- 1 to s2.length; i <- 1 to s1.length)
-      dist(j)(i) = if (s2(j - 1) == s1(i - 1)) dist(j - 1)(i - 1)
-      else minimum(dist(j - 1)(i) + 1, dist(j)(i - 1) + 1, dist(j - 1)(i - 1) + 1)
+      dist(j)(i) =
+        if (s2(j - 1) == s1(i - 1)) dist(j - 1)(i - 1)
+        else minimum(dist(j - 1)(i) + 1, dist(j)(i - 1) + 1, dist(j - 1)(i - 1) + 1)
 
     dist(s2.length)(s1.length)
   }
 
   private def minimum(i1: Int, i2: Int, i3: Int) = min(min(i1, i2), i3)
 
-  def limitDuplicates(duplicatesLimit: Int, text: String, overrideLimit: Option[Int] = None): String = {
+  def limitDuplicates(
+      duplicatesLimit: Int,
+      text: String,
+      overrideLimit: Option[Int] = None): String = {
     var duplicates = 0
-    text.zipWithIndex.collect {
-      case (w, i) =>
+    text.zipWithIndex
+      .collect { case (w, i) =>
         if (i == 0) {
           w
-        }
-        else if (w == text(i - 1)) {
+        } else if (w == text(i - 1)) {
           if (duplicates < overrideLimit.getOrElse(duplicatesLimit)) {
             duplicates += 1
             w
@@ -74,7 +76,8 @@ object Utilities {
           duplicates = 0
           w
         }
-    }.mkString("")
+      }
+      .mkString("")
   }
 
   /** Possibilities analysis */
@@ -82,7 +85,7 @@ object Utilities {
 
     val splits = (0 to targetWord.length).map(i => (targetWord.take(i), targetWord.drop(i)))
     val vars = scala.collection.mutable.Set.empty[String]
-    splits.toIterator.foreach{case (a,b) =>
+    splits.toIterator.foreach { case (a, b) =>
       if (b.nonEmpty) {
         vars.add(a + b.tail)
       }
@@ -119,7 +122,7 @@ object Utilities {
     var idx = id
     val initialId = idx
     val last = text(idx)
-    while (idx+1 < text.length && text(idx+1) == last) {
+    while (idx + 1 < text.length && text(idx + 1) == last) {
       idx += 1
     }
     idx - initialId
@@ -128,8 +131,8 @@ object Utilities {
   /** flattens vowel possibilities */
   def getVowelSwaps(word: String, vowelSwapLimit: Int): List[String] = {
     if (word.length > vowelSwapLimit) return List.empty[String]
-    val flatWord: Iterator[Iterator[Char]] = word.toCharArray.toIterator.collect {
-      case c => if (vowels.contains(c)) {
+    val flatWord: Iterator[Iterator[Char]] = word.toCharArray.toIterator.collect { case c =>
+      if (vowels.contains(c)) {
         vowels.toIterator
       } else {
         Iterator(c)

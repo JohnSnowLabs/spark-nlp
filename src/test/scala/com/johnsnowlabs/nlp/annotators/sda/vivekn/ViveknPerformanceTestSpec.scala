@@ -44,7 +44,8 @@ class ViveknPerformanceTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val vivekn = ViveknSentimentModel.pretrained()
+    val vivekn = ViveknSentimentModel
+      .pretrained()
       .setInputCols("document", "token")
       .setOutputCol("sentiment")
 
@@ -52,22 +53,33 @@ class ViveknPerformanceTestSpec extends AnyFlatSpec {
       .setInputCols("sentiment")
 
     val recursivePipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        //sentenceDetector,
-        tokenizer,
-        vivekn,
-        finisher
-      ))
+      .setStages(
+        Array(
+          documentAssembler,
+          // sentenceDetector,
+          tokenizer,
+          vivekn,
+          finisher))
 
     val sentmodel = recursivePipeline.fit(Seq.empty[String].toDF("text"))
     val sentlplight = new LightPipeline(sentmodel)
 
     Benchmark.time("Positive sentence") {
-      println(sentlplight.annotate("Oh man, the movie is so great I can't stop watching it over and over again!!!").values.flatten.mkString(","))
+      println(
+        sentlplight
+          .annotate(
+            "Oh man, the movie is so great I can't stop watching it over and over again!!!")
+          .values
+          .flatten
+          .mkString(","))
     }
     Benchmark.time("Negative sentence") {
-      println(sentlplight.annotate("Don't watch it. It's horrible. You will regret it.").values.flatten.mkString(","))
+      println(
+        sentlplight
+          .annotate("Don't watch it. It's horrible. You will regret it.")
+          .values
+          .flatten
+          .mkString(","))
     }
     Benchmark.time("Known positive") {
       println(sentlplight.annotate("We liked Mission Impossible.").values.flatten.mkString(","))
@@ -76,10 +88,20 @@ class ViveknPerformanceTestSpec extends AnyFlatSpec {
       println(sentlplight.annotate("I love Harry Potter..").values.flatten.mkString(","))
     }
     Benchmark.time("Known negative") {
-      println(sentlplight.annotate("Brokeback Mountain is fucking horrible..").values.flatten.mkString(","))
+      println(
+        sentlplight
+          .annotate("Brokeback Mountain is fucking horrible..")
+          .values
+          .flatten
+          .mkString(","))
     }
     Benchmark.time("Known negative") {
-      println(sentlplight.annotate("These Harry Potter movies really suck.").values.flatten.mkString(","))
+      println(
+        sentlplight
+          .annotate("These Harry Potter movies really suck.")
+          .values
+          .flatten
+          .mkString(","))
     }
 
   }
