@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.HasSimpleAnnotate</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.HasSimpleAnnotate" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.HasSimpleAnnotate" />
+          <title>Spark NLP 3.4.3 ScalaDoc  - com.johnsnowlabs.nlp.HasSimpleAnnotate</title>
+          <meta name="description" content="Spark NLP 3.4.3 ScalaDoc - com.johnsnowlabs.nlp.HasSimpleAnnotate" />
+          <meta name="keywords" content="Spark NLP 3.4.3 ScalaDoc com.johnsnowlabs.nlp.HasSimpleAnnotate" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -230,6 +230,10 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.johnsnowlabs.nlp">nlp</a></dd></dl></div>
     </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="ActivationFunction$.html" title=""></a>
+                        <a href="ActivationFunction$.html" title="">ActivationFunction</a>
+                      </li><li class="current-entities indented3">
                         <a class="object" href="Annotation$.html" title=""></a>
                         <a class="class" href="Annotation.html" title="represents annotator's output parts and their details"></a>
                         <a href="Annotation.html" title="represents annotator's output parts and their details">Annotation</a>
@@ -291,6 +295,10 @@
                         <a href="HasCaseSensitiveProperties.html" title="">HasCaseSensitiveProperties</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="trait" href="HasClassifierActivationProperties.html" title=""></a>
+                        <a href="HasClassifierActivationProperties.html" title="">HasClassifierActivationProperties</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="trait" href="HasEnableCachingProperties.html" title=""></a>
                         <a href="HasEnableCachingProperties.html" title="">HasEnableCachingProperties</a>
                       </li><li class="current-entities indented3">
@@ -303,8 +311,8 @@
                         <a href="HasInputAnnotationCols.html" title="">HasInputAnnotationCols</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="trait" href="HasMultipleInputAnnotationCols.html" title="Trait  used to create annotators with input columns of variable length."></a>
-                        <a href="HasMultipleInputAnnotationCols.html" title="Trait  used to create annotators with input columns of variable length.">HasMultipleInputAnnotationCols</a>
+                        <a class="trait" href="HasMultipleInputAnnotationCols.html" title="Trait used to create annotators with input columns of variable length."></a>
+                        <a href="HasMultipleInputAnnotationCols.html" title="Trait used to create annotators with input columns of variable length.">HasMultipleInputAnnotationCols</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="trait" href="HasOutputAnnotationCol.html" title=""></a>
@@ -471,9 +479,14 @@
         <span class="name">annotate</span><span class="params">(<span name="annotations">annotations: <span class="extype" name="scala.Seq">Seq</span>[<a href="Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">takes a document and annotations and produces new annotations of this annotator's annotation type
-</p><div class="fullcomment"><div class="comment cmt"><p>takes a document and annotations and produces new annotations of this annotator's annotation type
-</p></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>Annotations that correspond to inputAnnotationCols generated by previous annotators if any</p></dd><dt>returns</dt><dd class="cmt"><p>any number of annotations processed for every input annotation. Not necessary one to one relationship</p></dd></dl></div>
+      <p class="shortcomment cmt">takes a document and annotations and produces new annotations of this annotator's annotation
+type
+</p><div class="fullcomment"><div class="comment cmt"><p>takes a document and annotations and produces new annotations of this annotator's annotation
+type
+</p></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>
+  Annotations that correspond to inputAnnotationCols generated by previous annotators if any</p></dd><dt>returns</dt><dd class="cmt"><p>
+  any number of annotations processed for every input annotation. Not necessary one to one
+  relationship</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -583,9 +596,13 @@
         <span class="name">dfAnnotate</span><span class="result">: <span class="extype" name="org.apache.spark.sql.expressions.UserDefinedFunction">UserDefinedFunction</span></span>
       </span>
       
-      <p class="shortcomment cmt">Wraps annotate to happen inside SparkSQL user defined functions in order to act with <span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span>
-</p><div class="fullcomment"><div class="comment cmt"><p>Wraps annotate to happen inside SparkSQL user defined functions in order to act with <span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span>
-</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>udf function to be applied to <span class="extype" name="inputCols">inputCols</span> using this annotator's annotate function as part of ML transformation</p></dd></dl></div>
+      <p class="shortcomment cmt">Wraps annotate to happen inside SparkSQL user defined functions in order to act with
+<span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span>
+</p><div class="fullcomment"><div class="comment cmt"><p>Wraps annotate to happen inside SparkSQL user defined functions in order to act with
+<span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span>
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+  udf function to be applied to <span class="extype" name="inputCols">inputCols</span> using this annotator's annotate function as
+  part of ML transformation</p></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">

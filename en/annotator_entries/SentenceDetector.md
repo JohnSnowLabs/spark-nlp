@@ -3,7 +3,35 @@ SentenceDetector
 {%- endcapture -%}
 
 {%- capture description -%}
-Annotator that detects sentence boundaries using any provided approach.
+Annotator that detects sentence boundaries using regular expressions.
+
+The following characters are checked as sentence boundaries:
+
+1. Lists ("(i), (ii)", "(a), (b)", "1., 2.")
+2. Numbers
+3. Abbreviations
+4. Punctuations
+5. Multiple Periods
+6. Geo-Locations/Coordinates ("N°. 1026.253.553.")
+7. Ellipsis ("...")
+8. In-between punctuations
+9. Quotation marks
+10. Exclamation Points
+11. Basic Breakers (".", ";")
+
+For the explicit regular expressions used for detection, refer to source of
+[PragmaticContentFormatter](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/PragmaticContentFormatter.scala).
+
+To add additional custom bounds, the parameter `customBounds` can be set with an array:
+
+```
+val sentence = new SentenceDetector()
+  .setInputCols("document")
+  .setOutputCol("sentence")
+  .setCustomBounds(Array("\n\n"))
+```
+
+If only the custom bounds should be used, then the parameter `useCustomBoundsOnly` should be set to `true`.
 
 Each extracted sentence can be returned in an Array or exploded to separate rows,
 if `explodeSentences` is set to `true`.
@@ -31,7 +59,8 @@ documentAssembler = DocumentAssembler() \
 
 sentence = SentenceDetector() \
     .setInputCols(["document"]) \
-    .setOutputCol("sentence")
+    .setOutputCol("sentence") \
+    .setCustomBounds(["\n\n"])
 
 pipeline = Pipeline().setStages([
     documentAssembler,
@@ -65,6 +94,7 @@ val documentAssembler = new DocumentAssembler()
 val sentence = new SentenceDetector()
   .setInputCols("document")
   .setOutputCol("sentence")
+  .setCustomBounds(Array("\n\n"))
 
 val pipeline = new Pipeline().setStages(Array(
   documentAssembler,

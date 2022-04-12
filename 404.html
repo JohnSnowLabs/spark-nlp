@@ -425,8 +425,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>English BERT Embeddings (from nlpaueb)- Spark NLP Model</title><meta name="description" content="DescriptionPretrained BERT Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. sec-bert-shape is a English model orginally train...">
-<link rel="canonical" href="/2022/04/12/bert_embeddings_sec_bert_sh_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Marathi DistilBERT Embeddings (from DarshanDeshpande)- Spark NLP Model</title><meta name="description" content="DescriptionPretrained DistilBERT Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. marathi-distilbert is a Marathi model orgin...">
+<link rel="canonical" href="/2022/04/12/distilbert_embeddings_marathi_distilbert_mr_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -821,16 +821,16 @@
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Apr 12, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-12T00:00:00+00:00"></div><header class="main-docs"><h1>English BERT Embeddings (from nlpaueb)</h1></header></div><meta itemprop="headline" content="English BERT Embeddings (from nlpaueb)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-12T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-12T00:00:00+00:00"></div><header class="main-docs"><h1>Marathi DistilBERT Embeddings (from DarshanDeshpande)</h1></header></div><meta itemprop="headline" content="Marathi DistilBERT Embeddings (from DarshanDeshpande)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>mr</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-12T00:00:00+00:00">
+    <meta itemprop="keywords" content="mr,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Pretrained BERT Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. <code class="language-plaintext highlighter-rouge">sec-bert-shape</code> is a English model orginally trained by <code class="language-plaintext highlighter-rouge">nlpaueb</code>.</p>
+<p>Pretrained DistilBERT Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. <code class="language-plaintext highlighter-rouge">marathi-distilbert</code> is a Marathi model orginally trained by <code class="language-plaintext highlighter-rouge">DarshanDeshpande</code>.</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_embeddings_sec_bert_sh_en_3.4.2_3.0_1649758845734.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_embeddings_marathi_distilbert_mr_3.4.2_3.0_1649783605801.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -838,8 +838,7 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
@@ -847,31 +846,31 @@
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
   
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_sh"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">DistilBertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"distilbert_embeddings_marathi_distilbert"</span><span class="p">,</span><span class="s">"mr"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
     
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">])</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"I love Spark NLP"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"मला स्पार्क एनएलपी आवडते"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
  
 <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">BertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_embeddings_sec_bert_sh"</span><span class="o">,</span><span class="s">"en"</span><span class="o">)</span> 
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">DistilBertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"distilbert_embeddings_marathi_distilbert"</span><span class="o">,</span><span class="s">"mr"</span><span class="o">)</span> 
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I love Spark NLP"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"मला स्पार्क एनएलपी आवडते"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
@@ -883,7 +882,7 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>bert_embeddings_sec_bert_sh</td>
+      <td>distilbert_embeddings_marathi_distilbert</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
@@ -907,11 +906,11 @@
     </tr>
     <tr>
       <td>Language:</td>
-      <td>en</td>
+      <td>mr</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>409.5 MB</td>
+      <td>247.9 MB</td>
     </tr>
     <tr>
       <td>Case sensitive:</td>
@@ -923,9 +922,11 @@
 <h2 id="references">References</h2>
 
 <ul>
-  <li>https://huggingface.co/nlpaueb/sec-bert-shape</li>
-  <li>https://arxiv.org/abs/2203.06482</li>
-  <li>http://nlp.cs.aueb.gr/</li>
+  <li>https://huggingface.co/DarshanDeshpande/marathi-distilbert</li>
+  <li>https://github.com/DarshanDeshpande</li>
+  <li>https://www.linkedin.com/in/darshan-deshpande/</li>
+  <li>https://github.com/Baras64</li>
+  <li>http://​www.linkedin.com/in/harsh-abhi</li>
 </ul>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-04-12T00:00:00+00:00"><!-- start custom article footer snippet -->
 
@@ -1052,7 +1053,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/04/12/bert_embeddings_sec_bert_num_en_3_0.html">English BERT Embeddings (from nlpaueb)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/04/12/distilbert_embeddings_malaysian_distilbert_small_ms_3_0.html">Malay DistilBERT Embeddings (from w11wo)</a></div></div></div>
 
 </div>
 </div>
