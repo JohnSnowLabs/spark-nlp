@@ -743,7 +743,7 @@ in the DataFrames.</li>
       </tr>
       <tr>
         <td><a href="#sentencedetector">SentenceDetector</a></td>
-        <td>Detects sentence boundaries using any provided approach.</td>
+        <td>Annotator that detects sentence boundaries using regular expressions.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -6403,7 +6403,36 @@ By default this pattern is <code class="language-plaintext highlighter-rouge">\s
 
   <h2 id="sentencedetector">SentenceDetector</h2>
 
-  <p>Annotator that detects sentence boundaries using any provided approach.</p>
+  <p>Annotator that detects sentence boundaries using regular expressions.</p>
+
+  <p>The following characters are checked as sentence boundaries:</p>
+
+  <ol>
+    <li>Lists (“(i), (ii)”, “(a), (b)”, “1., 2.”)</li>
+    <li>Numbers</li>
+    <li>Abbreviations</li>
+    <li>Punctuations</li>
+    <li>Multiple Periods</li>
+    <li>Geo-Locations/Coordinates (“N°. 1026.253.553.”)</li>
+    <li>Ellipsis (“…”)</li>
+    <li>In-between punctuations</li>
+    <li>Quotation marks</li>
+    <li>Exclamation Points</li>
+    <li>Basic Breakers (“.”, “;”)</li>
+  </ol>
+
+  <p>For the explicit regular expressions used for detection, refer to source of
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/PragmaticContentFormatter.scala">PragmaticContentFormatter</a>.</p>
+
+  <p>To add additional custom bounds, the parameter <code class="language-plaintext highlighter-rouge">customBounds</code> can be set with an array:</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val sentence = new SentenceDetector()
+  .setInputCols("document")
+  .setOutputCol("sentence")
+  .setCustomBounds(Array("\n\n"))
+</code></pre></div>  </div>
+
+  <p>If only the custom bounds should be used, then the parameter <code class="language-plaintext highlighter-rouge">useCustomBoundsOnly</code> should be set to <code class="language-plaintext highlighter-rouge">true</code>.</p>
 
   <p>Each extracted sentence can be returned in an Array or exploded to separate rows,
 if <code class="language-plaintext highlighter-rouge">explodeSentences</code> is set to <code class="language-plaintext highlighter-rouge">true</code>.</p>
@@ -6445,7 +6474,8 @@ if <code class="language-plaintext highlighter-rouge">explodeSentences</code> is
 
 <span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setCustomBounds</span><span class="p">([</span><span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">])</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
     <span class="n">documentAssembler</span><span class="p">,</span>
@@ -6477,6 +6507,7 @@ if <code class="language-plaintext highlighter-rouge">explodeSentences</code> is
 <span class="k">val</span> <span class="nv">sentence</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setCustomBounds</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"\n\n"</span><span class="o">))</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
   <span class="n">documentAssembler</span><span class="o">,</span>
