@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ld.dl</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.ld.dl" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.ld.dl" />
+          <title>Spark NLP 3.4.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ld.dl</title>
+          <meta name="description" content="Spark NLP 3.4.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.ld.dl" />
+          <meta name="keywords" content="Spark NLP 3.4.3 ScalaDoc com.johnsnowlabs.nlp.annotators.ld.dl" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -255,16 +255,18 @@
         <a title="Language Identification and Detection by using CNN and RNN architectures in TensorFlow." href="LanguageDetectorDL.html"><span class="name">LanguageDetectorDL</span></a><span class="result"> extends <a href="../../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="LanguageDetectorDL.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>] with <a href="../../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="LanguageDetectorDL.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>] with <a href="../../../../ml/tensorflow/WriteTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</a></span>
       </span>
       
-      <p class="shortcomment cmt">Language Identification and Detection by using CNN and RNN architectures in TensorFlow.</p><div class="fullcomment"><div class="comment cmt"><p>Language Identification and Detection by using CNN and RNN architectures in TensorFlow.</p><p><code>LanguageDetectorDL</code> is an annotator that detects the language of documents or sentences depending on the inputCols.
-The models are trained on large datasets such as Wikipedia and Tatoeba.
-Depending on the language (how similar the characters are), the LanguageDetectorDL works
-best with text longer than 140 characters.
-The output is a language code in <a href="https://en.wikipedia.org/wiki/List_of_Wikipedias" target="_blank">Wiki Code style</a>.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre>Val languageDetector = LanguageDetectorDL.pretrained()
+      <p class="shortcomment cmt">Language Identification and Detection by using CNN and RNN architectures in TensorFlow.</p><div class="fullcomment"><div class="comment cmt"><p>Language Identification and Detection by using CNN and RNN architectures in TensorFlow.</p><p><code>LanguageDetectorDL</code> is an annotator that detects the language of documents or sentences
+depending on the inputCols. The models are trained on large datasets such as Wikipedia and
+Tatoeba. Depending on the language (how similar the characters are), the LanguageDetectorDL
+works best with text longer than 140 characters. The output is a language code in
+<a href="https://en.wikipedia.org/wiki/List_of_Wikipedias" target="_blank">Wiki Code style</a>.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre>Val languageDetector = LanguageDetectorDL.pretrained()
   .setInputCols(<span class="lit">"sentence"</span>)
-  .setOutputCol(<span class="lit">"language"</span>)</pre><p>The default model is <code>&quot;ld_wiki_tatoeba_cnn_21&quot;</code>, default language is <code>&quot;xx&quot;</code> (meaning multi-lingual),
-if no values are provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Language+Detection" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/language-detection/Language_Detection_and_Indentification.ipynb" target="_blank">Spark NLP Workshop</a>
-And the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDLTestSpec.scala" target="_blank">LanguageDetectorDLTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+  .setOutputCol(<span class="lit">"language"</span>)</pre><p>The default model is <code>&quot;ld_wiki_tatoeba_cnn_21&quot;</code>, default language is <code>&quot;xx&quot;</code> (meaning
+multi-lingual), if no values are provided. For available pretrained models please see the
+<a href="https://nlp.johnsnowlabs.com/models?task=Language+Detection" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/language-detection/Language_Detection_and_Indentification.ipynb" target="_blank">Spark NLP Workshop</a>
+And the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDLTestSpec.scala" target="_blank">LanguageDetectorDLTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
@@ -353,7 +355,8 @@ result.select(<span class="lit">"language.result"</span>).show(<span class="kw">
         <a title="This is the companion object of LanguageDetectorDL." href="LanguageDetectorDL$.html"><span class="name">LanguageDetectorDL</span></a><span class="result"> extends <a href="ReadablePretrainedLanguageDetectorDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.ReadablePretrainedLanguageDetectorDLModel">ReadablePretrainedLanguageDetectorDLModel</a> with <a href="ReadLanguageDetectorDLTensorflowModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.ReadLanguageDetectorDLTensorflowModel">ReadLanguageDetectorDLTensorflowModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
-      <p class="shortcomment cmt">This is the companion object of <a href="LanguageDetectorDL.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="LanguageDetectorDL.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>. Please refer to that class for the documentation.
+      <p class="shortcomment cmt">This is the companion object of <a href="LanguageDetectorDL.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="LanguageDetectorDL.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>. Please refer to that class for the
+documentation.
 </p></div></div>
     </li>
               </ol>

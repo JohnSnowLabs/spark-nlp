@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.RegexMatcher</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.RegexMatcher" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.RegexMatcher" />
+          <title>Spark NLP 3.4.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.RegexMatcher</title>
+          <meta name="description" content="Spark NLP 3.4.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.RegexMatcher" />
+          <meta name="keywords" content="Spark NLP 3.4.3 ScalaDoc com.johnsnowlabs.nlp.annotators.RegexMatcher" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -575,10 +575,14 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Uses a reference file to match a set of regular expressions and associate them with a provided identifier.</p><p>A dictionary of predefined regular expressions must be provided with <code>setExternalRules</code>.
-The dictionary can be set in either in the form of a delimited text file or directly as an
-<a href="../util/io/ExternalResource.html" class="extype" name="com.johnsnowlabs.nlp.util.io.ExternalResource">ExternalResource</a>.</p><p>Pretrained pipelines are available for this module, see <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines" target="_blank">Pipelines</a>.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>
-and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/RegexMatcherTestSpec.scala" target="_blank">RegexMatcherTestSpec</a>.</p><h4>Example</h4><p>In this example, the <code>rules.txt</code> has the form of</p><pre>the\s\w+, followed by <span class="lit">'the'</span>
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Uses a reference file to match a set of regular expressions and associate them with a provided
+identifier.</p><p>A dictionary of predefined regular expressions must be provided with <code>setExternalRules</code>. The
+dictionary can be set in either in the form of a delimited text file or directly as an
+<a href="../util/io/ExternalResource.html" class="extype" name="com.johnsnowlabs.nlp.util.io.ExternalResource">ExternalResource</a>.</p><p>Pretrained pipelines are available for this module, see
+<a href="https://nlp.johnsnowlabs.com/docs/en/pipelines" target="_blank">Pipelines</a>.</p><p>For extended examples of usage, see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>
+and the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/RegexMatcherTestSpec.scala" target="_blank">RegexMatcherTestSpec</a>.</p><h4>Example</h4><p>In this example, the <code>rules.txt</code> has the form of</p><pre>the\s\w+, followed by <span class="lit">'the'</span>
 ceremonies, ceremony</pre><p>where each regex is separated by the identifier by <code>&quot;,&quot;</code></p><pre><span class="kw">import</span> ResourceHelper.spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotator.SentenceDetector
@@ -689,7 +693,8 @@ results.selectExpr(<span class="lit">"explode(regex) as result"</span>).show(<sp
         <span class="name">RegexMatcher</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>internal element required for storing annotator to disk</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>
+  internal element required for storing annotator to disk</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -1434,10 +1439,10 @@ results.selectExpr(<span class="lit">"explode(regex) as result"</span>).show(<sp
         <span class="name">inputCols</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
-</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
+      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
+</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isDefined(Param[_]):Boolean"></a>
@@ -2003,9 +2008,9 @@ the resource
         <span class="name">setExternalRules</span><span class="params">(<span name="value">value: <a href="../util/io/ExternalResource.html" class="extype" name="com.johnsnowlabs.nlp.util.io.ExternalResource">ExternalResource</a></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.RegexMatcher">RegexMatcher</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">External dictionary already in the form of <span class="extype" name="ExternalResource">ExternalResource</span>, for which the Map member <code>options</code>
-has <code>&quot;delimiter&quot;</code> defined.</p><div class="fullcomment"><div class="comment cmt"><p>External dictionary already in the form of <span class="extype" name="ExternalResource">ExternalResource</span>, for which the Map member <code>options</code>
-has <code>&quot;delimiter&quot;</code> defined.</p><h4>Example</h4><pre><span class="kw">val</span> regexMatcher = <span class="kw">new</span> RegexMatcher()
+      <p class="shortcomment cmt">External dictionary already in the form of <span class="extype" name="ExternalResource">ExternalResource</span>, for which the Map member
+<code>options</code> has <code>&quot;delimiter&quot;</code> defined.</p><div class="fullcomment"><div class="comment cmt"><p>External dictionary already in the form of <span class="extype" name="ExternalResource">ExternalResource</span>, for which the Map member
+<code>options</code> has <code>&quot;delimiter&quot;</code> defined.</p><h4>Example</h4><pre><span class="kw">val</span> regexMatcher = <span class="kw">new</span> RegexMatcher()
   .setExternalRules(ExternalResource(
     <span class="lit">"src/test/resources/regex-matcher/rules.txt"</span>,
     ReadAs.TEXT,
@@ -2110,8 +2115,7 @@ has <code>&quot;delimiter&quot;</code> defined.</p><h4>Example</h4><pre><span cl
         <span class="name">strategy</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Strategy for which to match the expressions (Default: <code>&quot;MATCH_ALL&quot;</code>).</p><div class="fullcomment"><div class="comment cmt"><p>Strategy for which to match the expressions (Default: <code>&quot;MATCH_ALL&quot;</code>).
-Possible values are:</p><ul><li>MATCH_ALL brings one-to-many results</li><li>MATCH_FIRST catches only first match</li><li>MATCH_COMPLETE returns only if match is entire target.
+      <p class="shortcomment cmt">Strategy for which to match the expressions (Default: <code>&quot;MATCH_ALL&quot;</code>).</p><div class="fullcomment"><div class="comment cmt"><p>Strategy for which to match the expressions (Default: <code>&quot;MATCH_ALL&quot;</code>). Possible values are:</p><ul><li>MATCH_ALL brings one-to-many results</li><li>MATCH_FIRST catches only first match</li><li>MATCH_COMPLETE returns only if match is entire target.
 </li></ul></div></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
@@ -2228,7 +2232,9 @@ Possible values are:</p><ul><li>MATCH_ALL brings one-to-many results</li><li>MAT
       </span>
       
       <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.
-</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>
+  to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>
+  True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
@@ -2362,10 +2368,13 @@ Possible values are:</p><ul><li>MATCH_ALL brings one-to-many results</li><li>MAT
         <div id="groupedMembers">
         <div class="group" name="anno">
               <h3>Annotator types</h3>
-              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+              <div class="comment cmt"><p>
+  Required input and expected output annotator types</p></div>
             </div><div class="group" name="param">
               <h3>Parameters</h3>
-              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
+              <div class="comment cmt"><p>
+  A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  parameter values through setters and getters, respectively.</p></div>
             </div><div class="group" name="setParam">
               <h3>Parameter setters</h3>
               

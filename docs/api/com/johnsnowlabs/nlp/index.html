@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp" />
+          <title>Spark NLP 3.4.3 ScalaDoc  - com.johnsnowlabs.nlp</title>
+          <meta name="description" content="Spark NLP 3.4.3 ScalaDoc - com.johnsnowlabs.nlp" />
+          <meta name="keywords" content="Spark NLP 3.4.3 ScalaDoc com.johnsnowlabs.nlp" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -278,6 +278,10 @@
       
       
     </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="ActivationFunction$.html" title=""></a>
+                        <a href="ActivationFunction$.html" title="">ActivationFunction</a>
+                      </li><li class="current-entities indented3">
                         <a class="object" href="Annotation$.html" title=""></a>
                         <a class="class" href="Annotation.html" title="represents annotator's output parts and their details"></a>
                         <a href="Annotation.html" title="represents annotator's output parts and their details">Annotation</a>
@@ -339,6 +343,10 @@
                         <a href="HasCaseSensitiveProperties.html" title="">HasCaseSensitiveProperties</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="trait" href="HasClassifierActivationProperties.html" title=""></a>
+                        <a href="HasClassifierActivationProperties.html" title="">HasClassifierActivationProperties</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="trait" href="HasEnableCachingProperties.html" title=""></a>
                         <a href="HasEnableCachingProperties.html" title="">HasEnableCachingProperties</a>
                       </li><li class="current-entities indented3">
@@ -351,8 +359,8 @@
                         <a href="HasInputAnnotationCols.html" title="">HasInputAnnotationCols</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="trait" href="HasMultipleInputAnnotationCols.html" title="Trait  used to create annotators with input columns of variable length."></a>
-                        <a href="HasMultipleInputAnnotationCols.html" title="Trait  used to create annotators with input columns of variable length.">HasMultipleInputAnnotationCols</a>
+                        <a class="trait" href="HasMultipleInputAnnotationCols.html" title="Trait used to create annotators with input columns of variable length."></a>
+                        <a href="HasMultipleInputAnnotationCols.html" title="Trait used to create annotators with input columns of variable length.">HasMultipleInputAnnotationCols</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="trait" href="HasOutputAnnotationCol.html" title=""></a>
@@ -529,7 +537,11 @@
       
       <p class="shortcomment cmt">represents annotator's output parts and their details
 </p><div class="fullcomment"><div class="comment cmt"><p>represents annotator's output parts and their details
-</p></div><dl class="paramcmts block"><dt class="param">annotatorType</dt><dd class="cmt"><p>the type of annotation</p></dd><dt class="param">begin</dt><dd class="cmt"><p>the index of the first character under this annotation</p></dd><dt class="param">end</dt><dd class="cmt"><p>the index after the last character under this annotation</p></dd><dt class="param">metadata</dt><dd class="cmt"><p>associated metadata for this annotation</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">annotatorType</dt><dd class="cmt"><p>
+  the type of annotation</p></dd><dt class="param">begin</dt><dd class="cmt"><p>
+  the index of the first character under this annotation</p></dd><dt class="param">end</dt><dd class="cmt"><p>
+  the index after the last character under this annotation</p></dd><dt class="param">metadata</dt><dd class="cmt"><p>
+  associated metadata for this annotation</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="AnnotatorApproach[M&lt;:org.apache.spark.ml.Model[M]]extendsEstimator[M]withHasInputAnnotationColswithHasOutputAnnotationColwithHasOutputAnnotatorTypewithDefaultParamsWritablewithCanBeLazy"></a><a id="AnnotatorApproach[M&lt;:Model[M]]:AnnotatorApproach[M]"></a>
       <span class="permalink">
@@ -545,8 +557,8 @@
         <a title="This class should grow once we start training on datasets and share params For now it stands as a dummy placeholder for future reference" href="AnnotatorApproach.html"><span class="name">AnnotatorApproach</span></a><span class="tparams">[<span name="M">M &lt;: <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach.M">M</span>]</span>]</span><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Estimator">Estimator</span>[<span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach.M">M</span>] with <a href="HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a> with <a href="HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a> with <a href="HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a> with <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span> with <a href="CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></span>
       </span>
       
-      <p class="shortcomment cmt">This class should grow once we start training on datasets and share params
-For now it stands as a dummy placeholder for future reference
+      <p class="shortcomment cmt">This class should grow once we start training on datasets and share params For now it stands
+as a dummy placeholder for future reference
 </p>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="AnnotatorModel[M&lt;:org.apache.spark.ml.Model[M]]extendsModel[M]withRawAnnotator[M]withCanBeLazy"></a><a id="AnnotatorModel[M&lt;:Model[M]]:AnnotatorModel[M]"></a>
@@ -563,8 +575,8 @@ For now it stands as a dummy placeholder for future reference
         <a title="This trait implements logic that applies nlp using Spark ML Pipeline transformers Should strongly change once UsedDefinedTypes are allowed https://issues.apache.org/jira/browse/SPARK-7768" href="AnnotatorModel.html"><span class="name">AnnotatorModel</span></a><span class="tparams">[<span name="M">M &lt;: <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel.M">M</span>]</span>]</span><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel.M">M</span>] with <a href="RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a>[<span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel.M">M</span>] with <a href="CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></span>
       </span>
       
-      <p class="shortcomment cmt">This trait implements logic that applies nlp using Spark ML Pipeline transformers
-Should strongly change once UsedDefinedTypes are allowed
+      <p class="shortcomment cmt">This trait implements logic that applies nlp using Spark ML Pipeline transformers Should
+strongly change once UsedDefinedTypes are allowed
 https://issues.apache.org/jira/browse/SPARK-7768
 </p>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
@@ -598,8 +610,8 @@ https://issues.apache.org/jira/browse/SPARK-7768
         <a title="Converts a CHUNK type column back into DOCUMENT." href="Chunk2Doc.html"><span class="name">Chunk2Doc</span></a><span class="result"> extends <a href="AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="Chunk2Doc.html" class="extype" name="com.johnsnowlabs.nlp.Chunk2Doc">Chunk2Doc</a>] with <a href="HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="Chunk2Doc.html" class="extype" name="com.johnsnowlabs.nlp.Chunk2Doc">Chunk2Doc</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Converts a <code>CHUNK</code> type column back into <code>DOCUMENT</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Converts a <code>CHUNK</code> type column back into <code>DOCUMENT</code>. Useful when trying to re-tokenize or do further analysis on a
-<code>CHUNK</code> result.</p><p>For more extended examples on document pre-processing see the
+      <p class="shortcomment cmt">Converts a <code>CHUNK</code> type column back into <code>DOCUMENT</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Converts a <code>CHUNK</code> type column back into <code>DOCUMENT</code>. Useful when trying to re-tokenize or do
+further analysis on a <code>CHUNK</code> result.</p><p>For more extended examples on document pre-processing see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>.</p><h4>Example</h4><p>Location entities are extracted and converted back into <code>DOCUMENT</code> type for further processing</p><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 <span class="kw">import</span> com.johnsnowlabs.nlp.Chunk2Doc
@@ -619,7 +631,10 @@ result.selectExpr(<span class="lit">"explode(chunkConverted)"</span>).show(<span
 +------------------------------------------------------------------------------+
 |[document, <span class="num">0</span>, <span class="num">7</span>, New York, [entity -&gt; LOC, sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">0</span>], []]    |
 |[document, <span class="num">13</span>, <span class="num">22</span>, New Jersey, [entity -&gt; LOC, sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">1</span>], []]|
-+------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="pretrained/PretrainedPipeline.html" class="extype" name="com.johnsnowlabs.nlp.pretrained.PretrainedPipeline">PretrainedPipeline</a> on how to use the PretrainedPipeline</p></span><span class="cmt"><p><a href="Doc2Chunk.html" class="extype" name="com.johnsnowlabs.nlp.Doc2Chunk">Doc2Chunk</a> for converting <code>DOCUMENT</code> annotations to <code>CHUNK</code></p></span></dd></dl></div>
++------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
+  <a href="pretrained/PretrainedPipeline.html" class="extype" name="com.johnsnowlabs.nlp.pretrained.PretrainedPipeline">PretrainedPipeline</a> on how to use the
+  PretrainedPipeline</p></span><span class="cmt"><p>
+  <a href="Doc2Chunk.html" class="extype" name="com.johnsnowlabs.nlp.Doc2Chunk">Doc2Chunk</a> for converting <code>DOCUMENT</code> annotations to <code>CHUNK</code></p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.Doc2Chunk" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Doc2ChunkextendsModel[com.johnsnowlabs.nlp.Doc2Chunk]withRawAnnotator[com.johnsnowlabs.nlp.Doc2Chunk]"></a><a id="Doc2Chunk:Doc2Chunk"></a>
       <span class="permalink">
@@ -636,8 +651,9 @@ result.selectExpr(<span class="lit">"explode(chunkConverted)"</span>).show(<span
       </span>
       
       <p class="shortcomment cmt">Converts <code>DOCUMENT</code> type annotations into <code>CHUNK</code> type with the contents of a <code>chunkCol</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Converts <code>DOCUMENT</code> type annotations into <code>CHUNK</code> type with the contents of a <code>chunkCol</code>.
-Chunk text must be contained within input <code>DOCUMENT</code>. May be either <code>StringType</code> or <code>ArrayType[StringType]</code>
-(using <a href="Doc2Chunk.html#setIsArray(value:Boolean):Doc2Chunk.this.type" class="extmbr" name="com.johnsnowlabs.nlp.Doc2Chunk#setIsArray">setIsArray</a>). Useful for annotators that require a CHUNK type input.</p><p>For more extended examples on document pre-processing see the
+Chunk text must be contained within input <code>DOCUMENT</code>. May be either <code>StringType</code> or
+<code>ArrayType[StringType]</code> (using <a href="Doc2Chunk.html#setIsArray(value:Boolean):Doc2Chunk.this.type" class="extmbr" name="com.johnsnowlabs.nlp.Doc2Chunk#setIsArray">setIsArray</a>). Useful for annotators that require a CHUNK
+type input.</p><p>For more extended examples on document pre-processing see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.{Doc2Chunk, DocumentAssembler}
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
@@ -662,7 +678,8 @@ result.selectExpr(<span class="lit">"chunk.result"</span>, <span class="lit">"ch
 |result                                                           |annotatorType        |
 +-----------------------------------------------------------------+---------------------+
 |[Spark NLP, text processing library, natural language processing]|[chunk, chunk, chunk]|
-+-----------------------------------------------------------------+---------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="Chunk2Doc.html" class="extype" name="com.johnsnowlabs.nlp.Chunk2Doc">Chunk2Doc</a> for converting <code>CHUNK</code> annotations to <code>DOCUMENT</code></p></span></dd></dl></div>
++-----------------------------------------------------------------+---------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
+  <a href="Chunk2Doc.html" class="extype" name="com.johnsnowlabs.nlp.Chunk2Doc">Chunk2Doc</a> for converting <code>CHUNK</code> annotations to <code>DOCUMENT</code></p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.DocumentAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DocumentAssemblerextendsTransformerwithDefaultParamsWritablewithHasOutputAnnotatorTypewithHasOutputAnnotationCol"></a><a id="DocumentAssembler:DocumentAssembler"></a>
       <span class="permalink">
@@ -678,9 +695,10 @@ result.selectExpr(<span class="lit">"chunk.result"</span>, <span class="lit">"ch
         <a title="Prepares data into a format that is processable by Spark NLP." href="DocumentAssembler.html"><span class="name">DocumentAssembler</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span> with <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span> with <a href="HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a> with <a href="HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></span>
       </span>
       
-      <p class="shortcomment cmt">Prepares data into a format that is processable by Spark NLP.</p><div class="fullcomment"><div class="comment cmt"><p>Prepares data into a format that is processable by Spark NLP. This is the entry point for every Spark NLP pipeline.
-The <code>DocumentAssembler</code> can read either a <code>String</code> column or an <code>Array[String]</code>. Additionally, <a href="DocumentAssembler.html#setCleanupMode(v:String):DocumentAssembler.this.type" class="extmbr" name="com.johnsnowlabs.nlp.DocumentAssembler#setCleanupMode">setCleanupMode</a>
-can be used to pre-process the text (Default: <code>disabled</code>). For possible options please refer the parameters section.</p><p>For more extended examples on document pre-processing see the
+      <p class="shortcomment cmt">Prepares data into a format that is processable by Spark NLP.</p><div class="fullcomment"><div class="comment cmt"><p>Prepares data into a format that is processable by Spark NLP. This is the entry point for
+every Spark NLP pipeline. The <code>DocumentAssembler</code> can read either a <code>String</code> column or an
+<code>Array[String]</code>. Additionally, <a href="DocumentAssembler.html#setCleanupMode(v:String):DocumentAssembler.this.type" class="extmbr" name="com.johnsnowlabs.nlp.DocumentAssembler#setCleanupMode">setCleanupMode</a> can be used to pre-process the text
+(Default: <code>disabled</code>). For possible options please refer the parameters section.</p><p>For more extended examples on document pre-processing see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.DocumentAssembler
 
@@ -724,13 +742,12 @@ root
         <a title="Extracts embeddings from Annotations into a more easily usable form." href="EmbeddingsFinisher.html"><span class="name">EmbeddingsFinisher</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span> with <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span></span>
       </span>
       
-      <p class="shortcomment cmt">Extracts embeddings from Annotations into a more easily usable form.</p><div class="fullcomment"><div class="comment cmt"><p>Extracts embeddings from Annotations into a more easily usable form.</p><p>This is useful for example:
-<a href="embeddings/WordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings">WordEmbeddings</a>,
+      <p class="shortcomment cmt">Extracts embeddings from Annotations into a more easily usable form.</p><div class="fullcomment"><div class="comment cmt"><p>Extracts embeddings from Annotations into a more easily usable form.</p><p>This is useful for example: <a href="embeddings/WordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings">WordEmbeddings</a>,
 <a href="embeddings/BertEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertEmbeddings">BertEmbeddings</a>,
 <a href="embeddings/SentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a> and
-<a href="embeddings/ChunkEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings">ChunkEmbeddings</a>.</p><p>By using <code>EmbeddingsFinisher</code> you can easily transform your embeddings into array of floats or vectors which are
-compatible with Spark ML functions such as LDA, K-mean, Random Forest classifier or any other functions that require
-<code>featureCol</code>.</p><p>For more extended examples see the
+<a href="embeddings/ChunkEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings">ChunkEmbeddings</a>.</p><p>By using <code>EmbeddingsFinisher</code> you can easily transform your embeddings into array of floats or
+vectors which are compatible with Spark ML functions such as LDA, K-mean, Random Forest
+classifier or any other functions that require <code>featureCol</code>.</p><p>For more extended examples see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.1_Text_classification_examples_in_SparkML_SparkNLP.ipynb" target="_blank">Spark NLP Workshop</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
 <span class="kw">import</span> com.johnsnowlabs.nlp.{DocumentAssembler, EmbeddingsFinisher}
@@ -791,7 +808,8 @@ resultWithSize.show(<span class="num">5</span>, <span class="num">80</span>)
 | <span class="num">100</span>|[<span class="num">0.08621499687433243</span>,-<span class="num">0.15772999823093414</span>,-<span class="num">0.06067200005054474</span>,<span class="num">0.395359992980</span>...|
 | <span class="num">100</span>|[-<span class="num">0.4970499873161316</span>,<span class="num">0.7164199948310852</span>,<span class="num">0.40119001269340515</span>,-<span class="num">0.05761000141501</span>...|
 | <span class="num">100</span>|[-<span class="num">0.08170200139284134</span>,<span class="num">0.7159299850463867</span>,-<span class="num">0.20677000284194946</span>,<span class="num">0.0295659992843</span>...|
-+----+--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="Finisher.html" class="extype" name="com.johnsnowlabs.nlp.Finisher">Finisher</a> for finishing Strings</p></span></dd></dl></div>
++----+--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
+  <a href="Finisher.html" class="extype" name="com.johnsnowlabs.nlp.Finisher">Finisher</a> for finishing Strings</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.FeaturesReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="FeaturesReader[T&lt;:com.johnsnowlabs.nlp.HasFeatures]extendsMLReader[T]"></a><a id="FeaturesReader[T&lt;:HasFeatures]:FeaturesReader[T]"></a>
       <span class="permalink">
@@ -839,8 +857,8 @@ resultWithSize.show(<span class="num">5</span>, <span class="num">80</span>)
         <a title="Converts annotation results into a format that easier to use." href="Finisher.html"><span class="name">Finisher</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span> with <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span></span>
       </span>
       
-      <p class="shortcomment cmt">Converts annotation results into a format that easier to use.</p><div class="fullcomment"><div class="comment cmt"><p>Converts annotation results into a format that easier to use. It is useful to extract the results from Spark NLP
-Pipelines. The Finisher outputs annotation(s) values into <code>String</code>.</p><p>For more extended examples on document pre-processing see the
+      <p class="shortcomment cmt">Converts annotation results into a format that easier to use.</p><div class="fullcomment"><div class="comment cmt"><p>Converts annotation results into a format that easier to use. It is useful to extract the
+results from Spark NLP Pipelines. The Finisher outputs annotation(s) values into <code>String</code>.</p><p>For more extended examples on document pre-processing see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 <span class="kw">import</span> com.johnsnowlabs.nlp.Finisher
@@ -866,7 +884,8 @@ result.select(<span class="lit">"output"</span>).show(<span class="kw">false</sp
 |output                |
 +----------------------+
 |[New York, New Jersey]|
-+----------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="EmbeddingsFinisher.html" class="extype" name="com.johnsnowlabs.nlp.EmbeddingsFinisher">EmbeddingsFinisher</a> for finishing embeddings</p></span></dd></dl></div>
++----------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
+  <a href="EmbeddingsFinisher.html" class="extype" name="com.johnsnowlabs.nlp.EmbeddingsFinisher">EmbeddingsFinisher</a> for finishing embeddings</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.GraphFinisher" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="GraphFinisherextendsTransformer"></a><a id="GraphFinisher:GraphFinisher"></a>
       <span class="permalink">
@@ -882,9 +901,11 @@ result.select(<span class="lit">"output"</span>).show(<span class="kw">false</sp
         <a title="Helper class to convert the knowledge graph from GraphExtraction into a generic format, such as RDF." href="GraphFinisher.html"><span class="name">GraphFinisher</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span></span>
       </span>
       
-      <p class="shortcomment cmt">Helper class to convert the knowledge graph from GraphExtraction into a generic format, such as RDF.</p><div class="fullcomment"><div class="comment cmt"><p>Helper class to convert the knowledge graph from GraphExtraction into a generic format, such as RDF.</p><h4>Example</h4><p>This is a continuation of the example of
-<a href="annotators/GraphExtraction.html" class="extype" name="com.johnsnowlabs.nlp.annotators.GraphExtraction">GraphExtraction</a>. To see how the graph is extracted, see the
-documentation of that class.</p><pre><span class="kw">import</span> com.johnsnowlabs.nlp.GraphFinisher
+      <p class="shortcomment cmt">Helper class to convert the knowledge graph from GraphExtraction into a generic format, such
+as RDF.</p><div class="fullcomment"><div class="comment cmt"><p>Helper class to convert the knowledge graph from GraphExtraction into a generic format, such
+as RDF.</p><h4>Example</h4><p>This is a continuation of the example of
+<a href="annotators/GraphExtraction.html" class="extype" name="com.johnsnowlabs.nlp.annotators.GraphExtraction">GraphExtraction</a>. To see how the graph is
+extracted, see the documentation of that class.</p><pre><span class="kw">import</span> com.johnsnowlabs.nlp.GraphFinisher
 
 <span class="kw">val</span> graphFinisher = <span class="kw">new</span> GraphFinisher()
   .setInputCol(<span class="lit">"graph"</span>)
@@ -897,7 +918,8 @@ finishedResult.select(<span class="lit">"text"</span>, <span class="lit">"graph_
 |text                                                 |graph_finished                                                         |
 +-----------------------------------------------------+-----------------------------------------------------------------------+
 |You and John prefer the morning flight through Denver|[[(prefer,nsubj,morning), (morning,flat,flight), (flight,flat,Denver)]]|
-+-----------------------------------------------------+-----------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="annotators/GraphExtraction.html" class="extype" name="com.johnsnowlabs.nlp.annotators.GraphExtraction">GraphExtraction</a> to extract the graph.</p></span></dd></dl></div>
++-----------------------------------------------------+-----------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
+  <a href="annotators/GraphExtraction.html" class="extype" name="com.johnsnowlabs.nlp.annotators.GraphExtraction">GraphExtraction</a> to extract the graph.</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasBatchedAnnotate" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="HasBatchedAnnotate[M&lt;:org.apache.spark.ml.Model[M]]extendsAnyRef"></a><a id="HasBatchedAnnotate[M&lt;:Model[M]]:HasBatchedAnnotate[M]"></a>
       <span class="permalink">
@@ -927,6 +949,22 @@ finishedResult.select(<span class="lit">"text"</span>, <span class="lit">"graph_
       </span>
       <span class="symbol">
         <a title="" href="HasCaseSensitiveProperties.html"><span class="name">HasCaseSensitiveProperties</span></a><span class="result"> extends <a href="ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.HasClassifierActivationProperties" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="HasClassifierActivationPropertiesextendsParamsAndFeaturesWritable"></a><a id="HasClassifierActivationProperties:HasClassifierActivationProperties"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/HasClassifierActivationProperties.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="HasClassifierActivationProperties.html"><span class="name">HasClassifierActivationProperties</span></a><span class="result"> extends <a href="ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></span>
       </span>
       
       
@@ -990,10 +1028,10 @@ finishedResult.select(<span class="lit">"text"</span>, <span class="lit">"graph_
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="Trait  used to create annotators with input columns of variable length." href="HasMultipleInputAnnotationCols.html"><span class="name">HasMultipleInputAnnotationCols</span></a><span class="result"> extends <a href="HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></span>
+        <a title="Trait used to create annotators with input columns of variable length." href="HasMultipleInputAnnotationCols.html"><span class="name">HasMultipleInputAnnotationCols</span></a><span class="result"> extends <a href="HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></span>
       </span>
       
-      <p class="shortcomment cmt">Trait  used to create annotators with input columns of variable length.</p>
+      <p class="shortcomment cmt">Trait used to create annotators with input columns of variable length.</p>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="HasOutputAnnotationColextendsParams"></a><a id="HasOutputAnnotationCol:HasOutputAnnotationCol"></a>
       <span class="permalink">
@@ -1057,9 +1095,8 @@ finishedResult.select(<span class="lit">"text"</span>, <span class="lit">"graph_
         <a title="AnnotatorApproach'es may extend this trait in order to allow RecursivePipelines to include intermediate steps trained PipelineModel's" href="HasRecursiveFit.html"><span class="name">HasRecursiveFit</span></a><span class="tparams">[<span name="M">M &lt;: <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasRecursiveFit.M">M</span>]</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       
-      <p class="shortcomment cmt">AnnotatorApproach'es may extend this trait in order to allow
-RecursivePipelines to include intermediate
-steps trained PipelineModel's
+      <p class="shortcomment cmt">AnnotatorApproach'es may extend this trait in order to allow RecursivePipelines to include
+intermediate steps trained PipelineModel's
 </p>
     </li><li name="com.johnsnowlabs.nlp.HasRecursiveTransform" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="HasRecursiveTransform[M&lt;:org.apache.spark.ml.Model[M]]extendsAnyRef"></a><a id="HasRecursiveTransform[M&lt;:Model[M]]:HasRecursiveTransform[M]"></a>
@@ -1220,10 +1257,12 @@ steps trained PipelineModel's
         <a title="This transformer reconstructs a DOCUMENT type annotation from tokens, usually after these have been normalized, lemmatized, normalized, spell checked, etc, in order to use this document annotation in further annotators." href="TokenAssembler.html"><span class="name">TokenAssembler</span></a><span class="result"> extends <a href="AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="TokenAssembler.html" class="extype" name="com.johnsnowlabs.nlp.TokenAssembler">TokenAssembler</a>] with <a href="HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="TokenAssembler.html" class="extype" name="com.johnsnowlabs.nlp.TokenAssembler">TokenAssembler</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">This transformer reconstructs a <code>DOCUMENT</code> type annotation from tokens, usually after these have been normalized,
-lemmatized, normalized, spell checked, etc, in order to use this document annotation in further annotators.</p><div class="fullcomment"><div class="comment cmt"><p>This transformer reconstructs a <code>DOCUMENT</code> type annotation from tokens, usually after these have been normalized,
-lemmatized, normalized, spell checked, etc, in order to use this document annotation in further annotators.
-Requires <code>DOCUMENT</code> and <code>TOKEN</code> type annotations as input.</p><p>For more extended examples on document pre-processing see the
+      <p class="shortcomment cmt">This transformer reconstructs a <code>DOCUMENT</code> type annotation from tokens, usually after these
+have been normalized, lemmatized, normalized, spell checked, etc, in order to use this
+document annotation in further annotators.</p><div class="fullcomment"><div class="comment cmt"><p>This transformer reconstructs a <code>DOCUMENT</code> type annotation from tokens, usually after these
+have been normalized, lemmatized, normalized, spell checked, etc, in order to use this
+document annotation in further annotators. Requires <code>DOCUMENT</code> and <code>TOKEN</code> type annotations as
+input.</p><p>For more extended examples on document pre-processing see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotator.SentenceDetector
@@ -1278,7 +1317,8 @@ result.select(<span class="lit">"cleanText"</span>).show(<span class="kw">false<
 |cleanText                                                                                                                  |
 +---------------------------------------------------------------------------------------------------------------------------+
 |[[document, <span class="num">0</span>, <span class="num">80</span>, Spark NLP opensource text processing library advanced natural language processing, [sentence -&gt; <span class="num">0</span>], []]]|
-+---------------------------------------------------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="DocumentAssembler.html" class="extype" name="com.johnsnowlabs.nlp.DocumentAssembler">DocumentAssembler</a> on the data structure</p></span></dd></dl></div>
++---------------------------------------------------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
+  <a href="DocumentAssembler.html" class="extype" name="com.johnsnowlabs.nlp.DocumentAssembler">DocumentAssembler</a> on the data structure</p></span></dd></dl></div>
     </li></ol>
             </div>
 
@@ -1287,7 +1327,23 @@ result.select(<span class="lit">"cleanText"</span>).show(<span class="kw">false<
         <div class="values members">
               <h3>Value Members</h3>
               <ol>
-                <li name="com.johnsnowlabs.nlp.Annotation" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+                <li name="com.johnsnowlabs.nlp.ActivationFunction" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ActivationFunction"></a><a id="ActivationFunction:ActivationFunction"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/ActivationFunction$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ActivationFunction$.html"><span class="name">ActivationFunction</span></a>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.Annotation" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="Annotation"></a><a id="Annotation:Annotation"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/nlp/Annotation$.html" title="Permalink">
@@ -1334,7 +1390,8 @@ result.select(<span class="lit">"cleanText"</span>).show(<span class="kw">false<
         <a title="This is the companion object of Chunk2Doc." href="Chunk2Doc$.html"><span class="name">Chunk2Doc</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="Chunk2Doc.html" class="extype" name="com.johnsnowlabs.nlp.Chunk2Doc">Chunk2Doc</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
-      <p class="shortcomment cmt">This is the companion object of <a href="Chunk2Doc.html" class="extype" name="com.johnsnowlabs.nlp.Chunk2Doc">Chunk2Doc</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="Chunk2Doc.html" class="extype" name="com.johnsnowlabs.nlp.Chunk2Doc">Chunk2Doc</a>. Please refer to that class for the documentation.
+      <p class="shortcomment cmt">This is the companion object of <a href="Chunk2Doc.html" class="extype" name="com.johnsnowlabs.nlp.Chunk2Doc">Chunk2Doc</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="Chunk2Doc.html" class="extype" name="com.johnsnowlabs.nlp.Chunk2Doc">Chunk2Doc</a>. Please refer to that class for the
+documentation.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.Doc2Chunk" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Doc2Chunk"></a><a id="Doc2Chunk:Doc2Chunk"></a>
@@ -1351,7 +1408,8 @@ result.select(<span class="lit">"cleanText"</span>).show(<span class="kw">false<
         <a title="This is the companion object of Doc2Chunk." href="Doc2Chunk$.html"><span class="name">Doc2Chunk</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="Doc2Chunk.html" class="extype" name="com.johnsnowlabs.nlp.Doc2Chunk">Doc2Chunk</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
-      <p class="shortcomment cmt">This is the companion object of <a href="Doc2Chunk.html" class="extype" name="com.johnsnowlabs.nlp.Doc2Chunk">Doc2Chunk</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="Doc2Chunk.html" class="extype" name="com.johnsnowlabs.nlp.Doc2Chunk">Doc2Chunk</a>. Please refer to that class for the documentation.
+      <p class="shortcomment cmt">This is the companion object of <a href="Doc2Chunk.html" class="extype" name="com.johnsnowlabs.nlp.Doc2Chunk">Doc2Chunk</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="Doc2Chunk.html" class="extype" name="com.johnsnowlabs.nlp.Doc2Chunk">Doc2Chunk</a>. Please refer to that class for the
+documentation.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.DocumentAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DocumentAssembler"></a><a id="DocumentAssembler:DocumentAssembler"></a>
@@ -1368,7 +1426,8 @@ result.select(<span class="lit">"cleanText"</span>).show(<span class="kw">false<
         <a title="This is the companion object of DocumentAssembler." href="DocumentAssembler$.html"><span class="name">DocumentAssembler</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="DocumentAssembler.html" class="extype" name="com.johnsnowlabs.nlp.DocumentAssembler">DocumentAssembler</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
-      <p class="shortcomment cmt">This is the companion object of <a href="DocumentAssembler.html" class="extype" name="com.johnsnowlabs.nlp.DocumentAssembler">DocumentAssembler</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="DocumentAssembler.html" class="extype" name="com.johnsnowlabs.nlp.DocumentAssembler">DocumentAssembler</a>. Please refer to that class for the documentation.
+      <p class="shortcomment cmt">This is the companion object of <a href="DocumentAssembler.html" class="extype" name="com.johnsnowlabs.nlp.DocumentAssembler">DocumentAssembler</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="DocumentAssembler.html" class="extype" name="com.johnsnowlabs.nlp.DocumentAssembler">DocumentAssembler</a>. Please refer to that class for the
+documentation.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.EmbeddingsFinisher" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="EmbeddingsFinisher"></a><a id="EmbeddingsFinisher:EmbeddingsFinisher"></a>
@@ -1385,7 +1444,8 @@ result.select(<span class="lit">"cleanText"</span>).show(<span class="kw">false<
         <a title="This is the companion object of EmbeddingsFinisher." href="EmbeddingsFinisher$.html"><span class="name">EmbeddingsFinisher</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="EmbeddingsFinisher.html" class="extype" name="com.johnsnowlabs.nlp.EmbeddingsFinisher">EmbeddingsFinisher</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
-      <p class="shortcomment cmt">This is the companion object of <a href="EmbeddingsFinisher.html" class="extype" name="com.johnsnowlabs.nlp.EmbeddingsFinisher">EmbeddingsFinisher</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="EmbeddingsFinisher.html" class="extype" name="com.johnsnowlabs.nlp.EmbeddingsFinisher">EmbeddingsFinisher</a>. Please refer to that class for the documentation.
+      <p class="shortcomment cmt">This is the companion object of <a href="EmbeddingsFinisher.html" class="extype" name="com.johnsnowlabs.nlp.EmbeddingsFinisher">EmbeddingsFinisher</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="EmbeddingsFinisher.html" class="extype" name="com.johnsnowlabs.nlp.EmbeddingsFinisher">EmbeddingsFinisher</a>. Please refer to that class for the
+documentation.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.Finisher" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Finisher"></a><a id="Finisher:Finisher"></a>
@@ -1402,7 +1462,8 @@ result.select(<span class="lit">"cleanText"</span>).show(<span class="kw">false<
         <a title="This is the companion object of Finisher." href="Finisher$.html"><span class="name">Finisher</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="Finisher.html" class="extype" name="com.johnsnowlabs.nlp.Finisher">Finisher</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
-      <p class="shortcomment cmt">This is the companion object of <a href="Finisher.html" class="extype" name="com.johnsnowlabs.nlp.Finisher">Finisher</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="Finisher.html" class="extype" name="com.johnsnowlabs.nlp.Finisher">Finisher</a>. Please refer to that class for the documentation.
+      <p class="shortcomment cmt">This is the companion object of <a href="Finisher.html" class="extype" name="com.johnsnowlabs.nlp.Finisher">Finisher</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="Finisher.html" class="extype" name="com.johnsnowlabs.nlp.Finisher">Finisher</a>. Please refer to that class for the
+documentation.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.SparkNLP" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="SparkNLP"></a><a id="SparkNLP:SparkNLP"></a>
@@ -1435,7 +1496,8 @@ result.select(<span class="lit">"cleanText"</span>).show(<span class="kw">false<
         <a title="This is the companion object of TokenAssembler." href="TokenAssembler$.html"><span class="name">TokenAssembler</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="TokenAssembler.html" class="extype" name="com.johnsnowlabs.nlp.TokenAssembler">TokenAssembler</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
-      <p class="shortcomment cmt">This is the companion object of <a href="TokenAssembler.html" class="extype" name="com.johnsnowlabs.nlp.TokenAssembler">TokenAssembler</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="TokenAssembler.html" class="extype" name="com.johnsnowlabs.nlp.TokenAssembler">TokenAssembler</a>. Please refer to that class for the documentation.
+      <p class="shortcomment cmt">This is the companion object of <a href="TokenAssembler.html" class="extype" name="com.johnsnowlabs.nlp.TokenAssembler">TokenAssembler</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="TokenAssembler.html" class="extype" name="com.johnsnowlabs.nlp.TokenAssembler">TokenAssembler</a>. Please refer to that class for the
+documentation.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.functions" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="functions"></a><a id="functions:functions"></a>
