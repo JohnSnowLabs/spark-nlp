@@ -67,9 +67,9 @@ val assembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
 
-val tokenizer = new Tokenizer()\
-      .setInputCols(["document"])\
-      .setOutputCol("token")\
+val tokenizer = new Tokenizer()
+      .setInputCols(["document"])
+      .setOutputCol("token")
       .setContextChars(["*", "-", "“", "(", "[", "\n", ".","\"", "”", ",", "?", ")", "]", "!", ";", ":", "'s", "’s"])
 
  val spellChecker = ContextSpellCheckerModel.
