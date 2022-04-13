@@ -42,50 +42,50 @@ data = spark.createDataFrame(
     [["Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer."]]
 ).toDF("text")
 
-documenter = sparknlp.DocumentAssembler() \
+documenter = DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
 
-tokenizer = sparknlp.annotators.Tokenizer() \
+tokenizer = Tokenizer() \
     .setInputCols(["document"]) \
     .setOutputCol("tokens")
 
-sentencer = sparknlp.annotators.SentenceDetector()\
+sentencer = SentenceDetector()\
     .setInputCols(["document"])\
     .setOutputCol("sentences")
 
-words_embedder = sparknlp.annotators.WordEmbeddingsModel() \
+words_embedder = WordEmbeddingsModel() \
     .pretrained("embeddings_clinical", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens"]) \
     .setOutputCol("embeddings")
 
-pos_tagger = sparknlp.annotators.PerceptronModel() \
+pos_tagger = PerceptronModel() \
     .pretrained("pos_clinical", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens"]) \
     .setOutputCol("pos_tags")
 
-ner_tagger = sparknlp_jsl.annotator.MedicalNerModel() \
+ner_tagger = MedicalNerModel() \
     .pretrained("ner_clinical", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens", "embeddings"]) \
     .setOutputCol("ner_tags")
 
-ner_converter = sparknlp.annotators.NerConverter() \
+ner_converter = NerConverter() \
     .setInputCols(["sentences", "tokens", "ner_tags"]) \
     .setOutputCol("ner_chunks")
 
-dependency_parser = sparknlp.annotators.DependencyParserModel() \
+dependency_parser = DependencyParserModel() \
     .pretrained("dependency_conllu", "en") \
     .setInputCols(["document", "pos_tags", "tokens"]) \
     .setOutputCol("dependencies")
 
-re_ner_chunk_filter = sparknlp_jsl.annotator.RENerChunksFilter() \
+re_ner_chunk_filter = RENerChunksFilter() \
     .setRelationPairs(["problem-test","problem-treatment"]) \
     .setMaxSyntacticDistance(4)\
     .setDocLevelRelations(False)\
     .setInputCols(["ner_chunks", "dependencies"]) \
     .setOutputCol("re_ner_chunks")
 
-re_model = sparknlp_jsl.annotator.ZeroShotRelationExtractionModel \
+re_model = ZeroShotRelationExtractionModel \
     .pretrained("re_zeroshot_biobert", "en", "clinical/models") \
     .setRelationalCategories({
         "CURE": ["{{TREATMENT}} cures {{PROBLEM}}."],
@@ -95,7 +95,7 @@ re_model = sparknlp_jsl.annotator.ZeroShotRelationExtractionModel \
     .setInputCols(["re_ner_chunks", "sentences"]) \
     .setOutputCol("relations")
 
-pipeline = sparknlp.base.Pipeline() \
+pipeline = Pipeline() \
     .setStages([documenter, tokenizer, sentencer, words_embedder, pos_tagger, ner_tagger, ner_converter,
                 dependency_parser, re_ner_chunk_filter, re_model])
 
@@ -105,6 +105,72 @@ results = model.transform(data)
 results\
     .selectExpr("explode(relations) as relation")\
     .show(truncate=False)
+```
+```scala
+val data = spark.createDataFrame(Seq("Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer.")).toDF("text")
+
+val documenter = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+
+val tokenizer = new Tokenizer()
+    .setInputCols(Array("document"))
+    .setOutputCol("tokens")
+
+val sentencer = new SentenceDetector()
+    .setInputCols(Array("document"))
+    .setOutputCol("sentences")
+
+val words_embedder = new WordEmbeddingsModel()
+    .pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("embeddings")
+
+val pos_tagger = new PerceptronModel()
+    .pretrained("pos_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("pos_tags")
+
+val ner_tagger = new MedicalNerModel()
+    .pretrained("ner_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens", "embeddings"))
+    .setOutputCol("ner_tags")
+
+val ner_converter = new NerConverter()
+    .setInputCols(Array("sentences", "tokens", "ner_tags"))
+    .setOutputCol("ner_chunks")
+
+val dependency_parser = new DependencyParserModel()
+    .pretrained("dependency_conllu", "en")
+    .setInputCols(Array("document", "pos_tags", "tokens"))
+    .setOutputCol("dependencies")
+
+val re_ner_chunk_filter = new RENerChunksFilter()
+    .setRelationPairs(Array("problem-test","problem-treatment"))
+    .setMaxSyntacticDistance(4)
+    .setDocLevelRelations(false)
+    .setInputCols(Array("ner_chunks", "dependencies"))
+    .setOutputCol("re_ner_chunks")
+
+val re_model = ZeroShotRelationExtractionModel.pretrained("re_zeroshot_biobert", "en", "clinical/models")
+    .setRelationalCategories({
+          Map(
+          "CURE" -> Array("{{TREATMENT}} cures {{PROBLEM}}."),
+          "IMPROVE" -> Array("{{TREATMENT}} improves {{PROBLEM}}.", "{{TREATMENT}} cures {{PROBLEM}}."),
+          "REVEAL" -> Array("{{TEST}} reveals {{PROBLEM}}.")
+          ))
+    .setMultiLabel(false)
+    .setInputCols(Array("re_ner_chunks", "sentences"))
+    .setOutputCol("relations")
+
+val pipeline = new Pipeline()
+    .setStages(Array(documenter, tokenizer, sentencer, words_embedder, pos_tagger, ner_tagger, ner_converter,
+                dependency_parser, re_ner_chunk_filter, re_model))
+
+val model = pipeline.fit(data)
+val results = model.transform(data)
+
+results.selectExpr("explode(relations) as relation").show(truncate=false)
 ```
 {% endraw %}
 </div>
