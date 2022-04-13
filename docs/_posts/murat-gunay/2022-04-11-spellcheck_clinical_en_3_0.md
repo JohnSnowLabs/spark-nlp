@@ -39,11 +39,10 @@ documentAssembler = DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
 
-tokenizer = RecursiveTokenizer()\
-    .setInputCols(["document"])\
-    .setOutputCol("token")\
-    .setPrefixes(["\"", "“", "(", "[", "\n", "."]) \
-    .setSuffixes(["\"", "”", ".", ",", "?", ")", "]", "!", ";", ":", "'s", "’s"])
+tokenizer = Tokenizer()\
+      .setInputCols(["document"])\
+      .setOutputCol("token")\
+      .setContextChars(["*", "-", "“", "(", "[", "\n", ".","\"", "”", ",", "?", ")", "]", "!", ";", ":", "'s", "’s"])
 
 spellModel = ContextSpellCheckerModel\
     .pretrained('spellcheck_clinical', 'en', 'clinical/models')\
@@ -68,11 +67,10 @@ val assembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
 
- val tokenizer = new RecursiveTokenizer()
-      .setInputCols(Array("document"))
-      .setOutputCol("token")
-      .setPrefixes(Array("\"", "“", "(", "[", "\n", "."))
-      .setSuffixes(Array("\"", "”", ".", ",", "?", ")", "]", "!", ";", ":", "'s", "’s"))
+val tokenizer = new Tokenizer()\
+      .setInputCols(["document"])\
+      .setOutputCol("token")\
+      .setContextChars(["*", "-", "“", "(", "[", "\n", ".","\"", "”", ",", "?", ")", "]", "!", ";", ":", "'s", "’s"])
 
  val spellChecker = ContextSpellCheckerModel.
       pretrained("spellcheck_clinical", "en", "clinical/models").
