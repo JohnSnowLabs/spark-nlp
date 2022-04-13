@@ -84,7 +84,45 @@ df = spark.createDataFrame([text]).toDF("text")
 
 results = nlpPipeline.fit(data).transform(data)
 ```
+```scala
+val documentAssembler = new DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
 
+val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")
+        .setInputCols(Array("document"))
+        .setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+        .setInputCols(Array("sentence"))
+        .setOutputCol("token")
+
+embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "pt")
+	.setInputCols(Array("sentence","token"))
+	.setOutputCol("word_embeddings")
+
+clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity", "pt", "clinical/models")
+        .setInputCols(Array("sentence","token","word_embeddings"))
+        .setOutputCol("ner")
+
+val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner))
+
+val text = "Detalhes do paciente.
+Nome do paciente:  Pedro Gonçalves
+NHC: 2569870.
+Endereço: Rua Das Flores 23.
+Cidade/ Província: Porto.
+Código Postal: 21754-987.
+Dados de cuidados.
+Data de nascimento: 10/10/1963.
+Idade: 53 anos Sexo: Homen
+Data de admissão: 17/06/2016.
+Doutora: Maria Santos"
+
+val df = Seq(text).toDF("text")
+
+val results = pipeline.fit(data).transform(data)
+```
 </div>
 
 ## Results
