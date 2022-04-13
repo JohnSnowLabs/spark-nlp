@@ -44,7 +44,7 @@ image: struct (nullable = true)
 | width | integer | image width in pixels |
 | nChannels | integer | number of color channels |
 | mode | [ImageType](#imagetype) | the data type and channel order the data is stored in |
-| resolution | integer | Resolution of image in dpi |
+| resolution | integer | resolution of image in dpi |
 | data | binary | image data in a binary format |
 
 
@@ -353,7 +353,7 @@ Show images on Databrics notebook.
 | field | string | image | input column name with image struct |
 | limit | integer | 5 | count of rows for display  |
 | width | string | "800" | width of image |
-| show_meta | boolean | true | enable/disable displaying methadata of image |
+| show_meta | boolean | true | enable/disable displaying metadata of image |
 
 </div><div class="h3-box" markdown="1">
 
@@ -361,14 +361,14 @@ Show images on Databrics notebook.
 
 ### display_image
 
-Show single image with methadata in Jupyter notebook.
+Show single image with metadata in Jupyter notebook.
 
 #### Parameters
 
 {:.table-model-big}
 | Param name | Type | Default | Description |
 | width | string | "600" | width of image |
-| show_meta | boolean | true | enable/disable displaying methadata of image |
+| show_meta | boolean | true | enable/disable displaying metadata of image |
 
 
 **Example:**
@@ -396,7 +396,7 @@ Show images from dataframe.
 | field | string | image | input column name with image struct |
 | limit | integer | 5 | count of rows for display  |
 | width | string | "600" | width of image |
-| show_meta | boolean | true | enable/disable displaying methadata of image |
+| show_meta | boolean | true | enable/disable displaying metadata of image |
 
 
 **Example:**
@@ -426,7 +426,7 @@ Show one or more images per row from dataframe.
 | fields | string | image | comma separated input column names with image struct |
 | limit | integer | 5 | count of rows for display  |
 | width | string | "600" | width of image |
-| show_meta | boolean | true | enable/disable displaying methadata of image |
+| show_meta | boolean | true | enable/disable displaying metadata of image |
 
 
 **Example:**
@@ -452,7 +452,7 @@ Show pdf from dataframe.
 | field | string | content | input column with binary representation of pdf|
 | limit | integer | 5 | count of rows for display  |
 | width | string | "600" | width of image |
-| show_meta | boolean | true | enable/disable displaying methadata of image |
+| show_meta | boolean | true | enable/disable displaying metadata of image |
 
 
 **Example:**
@@ -521,7 +521,7 @@ Show images from dataframe.
 | field | string | image | input column name with image struct |
 | limit | integer | 5 | count of rows for display  |
 | width | string | "800" | width of image |
-| show_meta | boolean | true | enable/disable displaying methadata of image |
+| show_meta | boolean | true | enable/disable displaying metadata of image |
 
 **Example:**
 
