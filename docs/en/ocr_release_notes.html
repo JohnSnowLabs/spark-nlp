@@ -663,8 +663,8 @@ This release comes with new models, new features, bug fixes, and notebook exampl
 <h4 id="new-features-3">New Features</h4>
 
 <ul>
-  <li>Added <a href="ocr_pipeline_components#ppttopdf">PptToPdf</a> transformer for convert PPT and PPTX slides to the PDF document.</li>
-  <li>Added <a href="ocr_pipeline_components#ppttotexttable">PptToTextTable</a> transformer for extract tables from PPT and PPTX slides.</li>
+  <li>Added <a href="ocr_pipeline_components#ppttopdf">PptToPdf</a> transformer for converting PPT and PPTX slides to the PDF document.</li>
+  <li>Added <a href="ocr_pipeline_components#ppttotexttable">PptToTextTable</a> transformer for extracting tables from PPT and PPTX slides.</li>
 </ul>
 
 <h4 id="new-and-updated-notebooks-2">New and updated notebooks</h4>
@@ -685,9 +685,9 @@ This release comes with new models, new features, bug fixes, and notebook exampl
 <h4 id="new-features-4">New Features</h4>
 
 <ul>
-  <li>Added <a href="ocr_pipeline_components#imagetotextpdf">ImageToTextPdf</a> transformer for store recognized text to the searchable
+  <li>Added <a href="ocr_pipeline_components#imagetotextpdf">ImageToTextPdf</a> transformer for storing recognized text to the searchable
 PDF with original image</li>
-  <li>Added <a href="ocr_pipeline_components#pdfassembler">PdfAssembler</a> for assemble multipage PDF document from single page PDF
+  <li>Added <a href="ocr_pipeline_components#pdfassembler">PdfAssembler</a> for assembling multipage PDF document from single page PDF
 documents</li>
 </ul>
 
@@ -696,11 +696,11 @@ documents</li>
 <ul>
   <li>Added support dbfs for store models. This allow to use models on Databricks.</li>
   <li>Improved <a href="ocr_table_recognition#imagetablecelldetector">ImageTableCellDetector</a> algorithms</li>
-  <li>Added params for tune <a href="ocr_table_recognition#imagetablecelldetector">ImageTableCellDetector</a> algorithms</li>
+  <li>Added params for tuning <a href="ocr_table_recognition#imagetablecelldetector">ImageTableCellDetector</a> algorithms</li>
   <li>Added possibility to render detected lines to the original image in <a href="ocr_table_recognition#imagetablecelldetector">ImageTableCellDetector</a></li>
-  <li>Added support store recognized results to CSV in <a href="ocr_table_recognition#imagecellstotexttable">ImageCellsToTextTable</a></li>
+  <li>Added support to store recognized results to CSV in <a href="ocr_table_recognition#imagecellstotexttable">ImageCellsToTextTable</a></li>
   <li>Added <a href="ocr_structures#displaytable">display_table</a> and <a href="ocr_structures#displaytables">display_tables</a> functions</li>
-  <li>Added <a href="ocr_structures#displaypdffile">display_pdf_file</a> function for display pdf in embedded pdf viewer</li>
+  <li>Added <a href="ocr_structures#displaypdffile">display_pdf_file</a> function for displaying pdf in embedded pdf viewer</li>
   <li>Updated license validator</li>
 </ul>
 
@@ -720,12 +720,12 @@ documents</li>
 
 <h4 id="overview-6">Overview</h4>
 
-<p>Handwritten detection and improve visualization.</p>
+<p>Handwritten detection and visualization improvement.</p>
 
 <h4 id="new-features-5">New Features</h4>
 
 <ul>
-  <li>Added <a href="ocr_object_detection#imagehandwrittendetector">ImageHandwrittenDetector</a> for detect ‘signature’, ‘date’, ‘name’,
+  <li>Added <a href="ocr_object_detection#imagehandwrittendetector">ImageHandwrittenDetector</a> for detecting ‘signature’, ‘date’, ‘name’,
  ‘title’, ‘address’ and others handwritten text.</li>
   <li>Added rendering labels and scores in <a href="ocr_pipeline_components#imagedrawregions">ImageDrawRegions</a>.</li>
   <li>Added possibility to scale image to fixed size in <a href="ocr_pipeline_components#imagescaler">ImageScaler</a>
@@ -801,7 +801,7 @@ borderless tables and combined tables.</li>
 <h4 id="new-features-7">New Features</h4>
 
 <ul>
-  <li><a href="ocr_object_detection#imagehandwrittendetector">ImageSignatureDetector</a> is a DL model for detect signature on the image.</li>
+  <li><a href="ocr_object_detection#imagehandwrittendetector">ImageSignatureDetector</a> is a DL model for detecting signature on the image.</li>
 </ul>
 
 <h4 id="new-notebooks-3">New notebooks</h4>
@@ -819,8 +819,8 @@ borderless tables and combined tables.</li>
 <p>Table detection and recognition for scanned documents.</p>
 
 <p>For table detection we added <strong><em>ImageTableDetector</em></strong>. 
-It based on <strong>CascadeTabNet</strong> which used <em>Cascade mask Region-based CNN High-Resolution Network</em> (Cascade mask R-CNN HRNet).
-Model was pre-trained on the <strong>COCO dataset</strong> and fine tuned on <strong>ICDAR 2019</strong> competitions dataset for table detection. It demonstrates state of the art results for ICDAR 2013 and TableBank. And top results for ICDAR 2019.</p>
+It’s based on <strong>CascadeTabNet</strong> which used <em>Cascade mask Region-based CNN High-Resolution Network</em> (Cascade mask R-CNN HRNet).
+The model was pre-trained on the <strong>COCO dataset</strong> and fine-tuned on <strong>ICDAR 2019</strong> competitions dataset for table detection. It demonstrates state of the art results for ICDAR 2013 and TableBank. And top results for ICDAR 2019.</p>
 
 <p>More details please read in <a href="https://medium.com/spark-nlp/table-detection-extraction-in-spark-ocr-50765c6cedc9">Table Detection &amp; Extraction in Spark OCR</a></p>
 
@@ -882,7 +882,7 @@ Currently available pre-trained model on the SROIE dataset.</li>
 
 <h4 id="overview-11">Overview</h4>
 
-<p>Image processing on GPU. It is in 3..5 times faster than on CPU.</p>
+<p>Image processing on GPU. It is in 3.5 times faster than on CPU.</p>
 
 <p>More details please read in <a href="https://medium.com/spark-nlp/gpu-image-pre-processing-in-spark-ocr-3-1-0-6fc27560a9bb">GPU image preprocessing in Spark OCR</a></p>
 
@@ -890,7 +890,7 @@ Currently available pre-trained model on the SROIE dataset.</li>
 
 <ul>
   <li><a href="ocr_pipeline_components#gpuimagetransformer">GPUImageTransformer</a> with support: scaling, erosion, delation, Otsu and Huang thresholding.</li>
-  <li>Added <a href="ocr_structures#displayimages">display_images</a> util function for display images from Spark DataFrame in Jupyter notebooks.</li>
+  <li>Added <a href="ocr_structures#displayimages">display_images</a> util function for displaying images from Spark DataFrame in Jupyter notebooks.</li>
 </ul>
 
 <h4 id="enhancements-6">Enhancements</h4>
@@ -1271,7 +1271,7 @@ ocr params.</li>
   <li>Added setting resolution in <code class="language-plaintext highlighter-rouge">ImageToText</code>. And added <code class="language-plaintext highlighter-rouge">ignoreResolution</code> param with
 default <code class="language-plaintext highlighter-rouge">true</code> value to <code class="language-plaintext highlighter-rouge">ImageToText</code> transformer for back compatibility.</li>
   <li>Added parsing resolution from image metadata in <code class="language-plaintext highlighter-rouge">BinaryToImage</code> transformer.</li>
-  <li>Added storing resolution in <code class="language-plaintext highlighter-rouge">PrfToImage</code> transformer.</li>
+  <li>Added storing resolution in <code class="language-plaintext highlighter-rouge">PdfToImage</code> transformer.</li>
   <li>Added resolution field to Image schema.</li>
   <li>Updated ‘start’ function for set ‘PYSPARK_PYTHON’ env variable.</li>
   <li>Improve auto-scaling/skew correction:

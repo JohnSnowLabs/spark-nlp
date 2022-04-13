@@ -579,13 +579,13 @@
       <td>splitPage</td>
       <td>bool</td>
       <td>true</td>
-      <td>whether it needed to split document to pages</td>
+      <td>Whether it needed to split document to pages</td>
     </tr>
     <tr>
       <td>textStripper</td>
       <td> </td>
       <td>TextStripperType.PDF_TEXT_STRIPPER</td>
-      <td> </td>
+      <td>Extract unstructured text</td>
     </tr>
     <tr>
       <td>sort</td>
@@ -710,8 +710,8 @@
 
 <p><code class="language-plaintext highlighter-rouge">PdfToImage</code> renders PDF to an image. To be used with scanned PDF documents.
 Output dataframe contains <code class="language-plaintext highlighter-rouge">total_pages</code> field with total number of pages.
-For process pdf with big number of pages prefer to split pdf by setting <code class="language-plaintext highlighter-rouge">splitNumBatch</code> param.
-Number of partitions should be equal number of cores/executors.</p>
+For process pdf with a big number of pages prefer to split pdf by setting <code class="language-plaintext highlighter-rouge">splitNumBatch</code> param.
+Number of partitions should be equal to number of cores/executors.</p>
 
 <h5 id="input-columns-1">Input Columns</h5>
 
@@ -956,7 +956,7 @@ column and create multipage PDF document.</p>
 
 <p><strong>Example:</strong></p>
 
-<p>Read images and store it as single page PDF documents.</p>
+<p>Read images and store them as single page PDF documents.</p>
 
 <div class="tabs-box pt0">
 
@@ -1016,8 +1016,8 @@ column and create multipage PDF document.</p>
 
 <h3 id="texttopdf">TextToPdf</h3>
 
-<p><code class="language-plaintext highlighter-rouge">TextToPdf</code> renders ocr results to PDF document as text layout. Each symbol will render to same position
-with same font size as in original image or PDF.
+<p><code class="language-plaintext highlighter-rouge">TextToPdf</code> renders ocr results to PDF document as text layout. Each symbol will render to the same position
+with the same font size as in original image or PDF.
 If dataframe contains few records for same origin path, it groups image by origin
 column and create multipage PDF document.</p>
 
@@ -2124,7 +2124,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 
 <h3 id="ppttopdf">PptToPdf</h3>
 
-<p><code class="language-plaintext highlighter-rouge">PptToPdf</code> convert PPT and PPTX document to PDF document.</p>
+<p><code class="language-plaintext highlighter-rouge">PptToPdf</code> convert PPT and PPTX documents to PDF document.</p>
 
 <h5 id="input-columns-11">Input Columns</h5>
 
@@ -2539,7 +2539,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 
 <p><code class="language-plaintext highlighter-rouge">GPUImageTransformer</code> allows to run image pre-processing operations on GPU.</p>
 
-<p>It supports following operations:</p>
+<p>It supports the following operations:</p>
 <ul>
   <li>Scaling</li>
   <li>Otsu thresholding</li>
@@ -2548,7 +2548,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
   <li>Dilation</li>
 </ul>
 
-<p><code class="language-plaintext highlighter-rouge">GPUImageTransformer</code> allows to add few operations. For add  operations need to call
+<p><code class="language-plaintext highlighter-rouge">GPUImageTransformer</code> allows to add few operations. To add operations you need to call
 one of the methods with params:</p>
 
 <table class="table-model-big">
@@ -2724,7 +2724,7 @@ one of the methods with params:</p>
 
 <h3 id="imagebinarizer">ImageBinarizer</h3>
 
-<p><code class="language-plaintext highlighter-rouge">ImageBinarizer</code> transforms image to binary color schema by threshold.</p>
+<p><code class="language-plaintext highlighter-rouge">ImageBinarizer</code> transforms image to binary color schema, based on threshold.</p>
 
 <h5 id="input-columns-16">Input Columns</h5>
 
@@ -2852,11 +2852,11 @@ one of the methods with params:</p>
 
 <p>Supported Methods:</p>
 <ul>
-  <li>OTSU</li>
+  <li>OTSU.  Returns a single intensity threshold that separate pixels into two classes, foreground and background.</li>
   <li>Gaussian local thresholding. Thresholds the image using a locally adaptive threshold that is computed
  using a local square region centered on each pixel.  The threshold is equal to the gaussian weighted sum 
  of the surrounding pixels times the scale.</li>
-  <li>Sauvola</li>
+  <li>Sauvola. Is a Local thresholding technique that are useful for images where the background is not uniform.</li>
 </ul>
 
 <h4 id="input-columns-17">Input Columns</h4>
@@ -3756,13 +3756,13 @@ It supports keeping original ratio of image by padding the image in case fixed o
 
 <p><strong>python only</strong></p>
 
-<p><code class="language-plaintext highlighter-rouge">ImageRemoveObjects</code> for remove background objects.
-It support removing:</p>
+<p><code class="language-plaintext highlighter-rouge">ImageRemoveObjects</code> to remove background objects.
+It supports removing:</p>
 <ul>
-  <li>objects less then elements of font with <em>minSizeFont</em> size</li>
-  <li>objects less then <em>minSizeObject</em></li>
-  <li>holes less then <em>minSizeHole</em></li>
-  <li>objects more then <em>maxSizeObject</em></li>
+  <li>objects less than elements of font with <em>minSizeFont</em> size</li>
+  <li>objects less than <em>minSizeObject</em></li>
+  <li>holes less than <em>minSizeHole</em></li>
+  <li>objects more than <em>maxSizeObject</em></li>
 </ul>
 
 <h4 id="input-columns-23">Input Columns</h4>
@@ -4336,7 +4336,7 @@ It support removing:</p>
 
 <h3 id="imagesplitregions">ImageSplitRegions</h3>
 
-<p><code class="language-plaintext highlighter-rouge">ImageSplitRegions</code> splits image to regions.</p>
+<p><code class="language-plaintext highlighter-rouge">ImageSplitRegions</code> splits image into regions.</p>
 
 <h4 id="input-columns-27">Input Columns</h4>
 
@@ -5819,7 +5819,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
 
 <h3 id="positionfinder">PositionFinder</h3>
 
-<p><code class="language-plaintext highlighter-rouge">PositionFinder</code> find position of input text entities in original document.</p>
+<p><code class="language-plaintext highlighter-rouge">PositionFinder</code> find the position of input text entities in the original document.</p>
 
 <h4 id="input-columns-35">Input Columns</h4>
 
@@ -6197,7 +6197,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
 <h3 id="foundationonereportparser">FoundationOneReportParser</h3>
 
 <p><code class="language-plaintext highlighter-rouge">FoundationOneReportParser</code> is a transformer for parsing FoundationOne reports.
-Current implementation support parsing patient info, genomic, biomarker findings and gene lists
+Current implementation supports parsing patient info, genomic, biomarker findings and gene lists
 from appendix.
 Output format is json.</p>
 
