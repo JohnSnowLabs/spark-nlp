@@ -206,6 +206,11 @@ val results = pipeline.fit(data).transform(data)
 |Language:|pt|
 |Size:|15.0 MB|
 
+## References
+
+- Custom John Snow Labs datasets
+- Data augmentation techniques
+
 ## Benchmarking
 
 ```bash
