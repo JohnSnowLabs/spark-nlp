@@ -1,2 +1,2 @@
-docs/_posts/Ahmetemintek/2022-02-26-sbiobertresolve_snomed_findings_aux_concepts_en_3_0.md
-docs/_posts/Ahmetemintek/2022-02-26-sbiobertresolve_snomed_findings_aux_concepts_en_3_0.md
+docs/_posts/josejuanmartinez/2022-04-05-re_zeroshot_biobert_en_3_0.md
+docs/_posts/josejuanmartinez/2022-04-05-re_zeroshot_biobert_en_3_0.md
