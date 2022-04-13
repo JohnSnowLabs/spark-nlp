@@ -78,7 +78,7 @@ val tokenizer = new Tokenizer()
       setOutputCol("checked")
 
  val pipeline =  new Pipeline().setStages(Array(assembler, tokenizer, spellChecker))
- val empty_df = spark.createDataFrame([[""]]).toDF("text")
+ val empty_df = Seq("").toDF("text")
  val lp = new LightPipeline(pipeline.fit(empty_df))
  val text = Array("Witth the hell of phisical terapy the patient was imbulated and on postoperative, the impatient tolerating a post curgical soft diet.",
            "With paint wel controlled on orall pain medications, she was discharged too reihabilitation facilitay.",
