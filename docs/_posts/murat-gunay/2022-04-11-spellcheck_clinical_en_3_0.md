@@ -129,4 +129,4 @@ val tokenizer = new Tokenizer()\
 
 ## References
 
-MTSamples, i2b2 clinical notes, and several specific medical corpuses.
+MTSamples, i2b2 clinical notes, and several specific medical corpora.
