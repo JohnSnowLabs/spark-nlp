@@ -35,6 +35,7 @@ ocr.setOutputFormat(OcrOutputFormat.FORMATTED_TEXT)
 * Support for Spark 3.2:
   * We added support for the latest Spark version, check installation instructions below.
   * Known problems & workarounds:
+  
 [SPARK-38330](https://issues.apache.org/jira/browse/SPARK-38330): S3 access issues, there's a workaround using the following settings,
 
 ```
