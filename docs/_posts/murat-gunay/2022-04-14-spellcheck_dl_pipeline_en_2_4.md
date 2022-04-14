@@ -65,7 +65,7 @@ pipeline.annotate(example)
 |---|---|
 |Model Name:|spellcheck_dl_pipeline|
 |Type:|pipeline|
-|Compatibility:|Spark NLP 3.4.1+|
+|Compatibility:|Spark NLP 3.4.1|
 |License:|Open Source|
 |Edition:|Official|
 |Language:|en|
