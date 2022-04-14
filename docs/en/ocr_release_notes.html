@@ -557,11 +557,12 @@ ocr.setOutputFormat(OcrOutputFormat.FORMATTED_TEXT)</li>
   <li>Support for Spark 3.2:
     <ul>
       <li>We added support for the latest Spark version, check installation instructions below.</li>
-      <li>Known problems &amp; workarounds:
-<a href="https://issues.apache.org/jira/browse/SPARK-38330">SPARK-38330</a>: S3 access issues, there’s a workaround using the following settings,</li>
+      <li>Known problems &amp; workarounds:</li>
     </ul>
   </li>
 </ul>
+
+<p><a href="https://issues.apache.org/jira/browse/SPARK-38330">SPARK-38330</a>: S3 access issues, there’s a workaround using the following settings,</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//Scala
 spark.sparkContext.hadoopConfiguration.set("fs.s3a.path.style.access", "true")
