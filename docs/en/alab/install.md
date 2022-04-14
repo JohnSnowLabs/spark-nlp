@@ -132,7 +132,7 @@ backup.files=false
 
 -- Configure Backup from user interface
 
-Backup can also be configured by admin user from the UI. Goto Settings > Backup and fill set the parameters and backup will be configured.
+Backup can also be configured by admin user from the UI. Goto Settings > Backup and set the parameters.
 
 <img class="image image--xl" src="/assets/images/annotation_lab/3.1.0/backupRestoreUI.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
