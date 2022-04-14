@@ -119,7 +119,7 @@ val tokenizer = new Tokenizer()
 {:.table-model}
 |---|---|
 |Model Name:|spellcheck_clinical|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Spark NLP for Healthcare 3.4.1|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[token]|
