@@ -395,25 +395,25 @@ class HasEnableCachingProperties:
 class HasClassifierActivationProperties:
     activation = Param(Params._dummy(),
                        "activation",
-                       "Whether to calcuate logits via Softmax or Sigmoid. Default is Softmax",
+                       "Whether to calculate logits via Softmax or Sigmoid. Default is Softmax",
                        typeConverter=TypeConverters.toString)
 
     def setActivation(self, value):
-        """Sets whether to calcuate logits via Softmax or Sigmoid. Default is Softmax
+        """Sets whether to calculate logits via Softmax or Sigmoid. Default is Softmax
 
         Parameters
         ----------
         value : str
-            Whether to calcuate logits via Softmax or Sigmoid. Default is Softmax
+            Whether to calculate logits via Softmax or Sigmoid. Default is Softmax
         """
         return self._set(activation=value)
 
     def getActivation(self):
-        """Gets whether to calcuate logits via Softmax or Sigmoid. Default is Softmax
+        """Gets whether to calculate logits via Softmax or Sigmoid. Default is Softmax
 
         Returns
         -------
         str
-            Whether to calcuate logits via Softmax or Sigmoid. Default is Softmax
+            Whether to calculate logits via Softmax or Sigmoid. Default is Softmax
         """
         return self.getOrDefault(self.activation)
