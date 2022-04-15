@@ -4,9 +4,9 @@ object Dependencies {
 
   /** ------- Spark version start ------- */
   val spark23Ver = "2.3.4"
-  val spark24Ver = "2.4.7"
-  val spark30Ver = "3.0.2"
-  val spark32Ver = "3.2.0"
+  val spark24Ver = "2.4.8"
+  val spark30Ver = "3.0.3"
+  val spark32Ver = "3.2.1"
 
   val is_gpu: String = System.getProperty("is_gpu", "false")
   val is_opt: String = System.getProperty("is_opt", "false")
@@ -19,9 +19,12 @@ object Dependencies {
 
   /** ------- Spark version end ------- */
 
-
   /** Package attributes */
-  def getPackageName(is_spark23: String, is_spark24: String, is_spark32: String, is_gpu: String): String = {
+  def getPackageName(
+      is_spark23: String,
+      is_spark24: String,
+      is_spark32: String,
+      is_gpu: String): String = {
     if (is_gpu.equals("true") && is_spark23.equals("true")) {
       "spark-nlp-gpu-spark23"
     } else if (is_gpu.equals("true") && is_spark24.equals("true")) {
@@ -59,11 +62,12 @@ object Dependencies {
   /** ------- Scala version start ------- */
   lazy val scala211 = "2.11.12"
   lazy val scala212 = "2.12.10"
-  lazy val scalaVer: String = if (is_spark23 == "true" | is_spark24 == "true") scala211 else scala212
+  lazy val scalaVer: String =
+    if (is_spark23 == "true" | is_spark24 == "true") scala211 else scala212
 
   lazy val supportedScalaVersions = List(scala212, scala211)
 
-  val scalaTestVersion = "3.2.9"
+  val scalaTestVersion = "3.2.11"
 
   /** ------- Scala version end ------- */
 
@@ -71,7 +75,7 @@ object Dependencies {
 
   // utilDependencies
 
-  val typesafeVersion = "1.4.1"
+  val typesafeVersion = "1.4.2"
   val typesafe = "com.typesafe" % "config" % typesafeVersion
 
   val rocksdbjniVersion = "6.5.3"
