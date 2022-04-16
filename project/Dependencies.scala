@@ -75,7 +75,7 @@ object Dependencies {
 
   // utilDependencies
 
-  val typesafeVersion = "1.4.1"
+  val typesafeVersion = "1.4.2"
   val typesafe = "com.typesafe" % "config" % typesafeVersion
 
   val rocksdbjniVersion = "6.5.3"
