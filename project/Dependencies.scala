@@ -67,7 +67,7 @@ object Dependencies {
 
   lazy val supportedScalaVersions = List(scala212, scala211)
 
-  val scalaTestVersion = "3.2.11"
+  val scalaTestVersion = "3.2.9"
 
   /** ------- Scala version end ------- */
 
@@ -75,7 +75,7 @@ object Dependencies {
 
   // utilDependencies
 
-  val typesafeVersion = "1.4.2"
+  val typesafeVersion = "1.4.1"
   val typesafe = "com.typesafe" % "config" % typesafeVersion
 
   val rocksdbjniVersion = "6.5.3"
