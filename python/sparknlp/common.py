@@ -54,7 +54,7 @@ class AnnotatorProperties(Params):
 
     def getInputCols(self):
         """Gets current column names of input annotations."""
-        self.getOrDefault(self.inputCols)
+        return self.getOrDefault(self.inputCols)
 
     def setOutputCol(self, value):
         """Sets output column name of annotations.
@@ -68,7 +68,7 @@ class AnnotatorProperties(Params):
 
     def getOutputCol(self):
         """Gets output column name of annotations."""
-        self.getOrDefault(self.outputCol)
+        return self.getOrDefault(self.outputCol)
 
     def setLazyAnnotator(self, value):
         """Sets whether Annotator should be evaluated lazily in a
@@ -86,7 +86,7 @@ class AnnotatorProperties(Params):
         """Gets whether Annotator should be evaluated lazily in a
         RecursivePipeline.
         """
-        self.getOrDefault(self.lazyAnnotator)
+        return self.getOrDefault(self.lazyAnnotator)
 
 
 class AnnotatorModel(JavaModel, _internal.AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties,
