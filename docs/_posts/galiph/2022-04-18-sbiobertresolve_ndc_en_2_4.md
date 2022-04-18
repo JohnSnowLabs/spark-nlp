@@ -49,7 +49,7 @@ sbert_embedder = BertSentenceEmbeddings\
 ndc_resolver = SentenceEntityResolverModel\
       .pretrained("sbiobertresolve_ndc", "en", "clinical/models") \
       .setInputCols(["ner_chunk", "sentence_embeddings"]) \
-      .setOutputCol("ndc_code")\
+      .setOutputCol("ndc")\
       .setDistanceFunction("EUCLIDEAN")\
       .setCaseSensitive(False)
     
@@ -85,7 +85,7 @@ val sbert_embedder = BertSentenceEmbeddings
 val ndc_resolver = SentenceEntityResolverModel
       .pretrained("sbiobertresolve_ndc", "en", "clinical/models") 
       .setInputCols(Array("ner_chunk", "sentence_embeddings")) 
-      .setOutputCol("ndc_code")
+      .setOutputCol("ndc")
       .setDistanceFunction("EUCLIDEAN")
       .setCaseSensitive(False)
     
@@ -101,7 +101,7 @@ val resolver_pipeline = new Pipeline().setStages(Array(
         ndc_resolver
         ))
 
-val clinical_note = Seq("The patient was transferred secondary to inability and continue of her diabetes, the sacral decubitus, left foot pressure wound, and associated complications of diabetes. She is given aspirin 81 mg, folic acid 1 g daily, insulin glargine 100 UNT/ML injection and metformin 500 mg p.o. p.r.n.")
+val clinical_note = Seq("The patient was given aspirin 81 mg and metformin 500 mg")
 
 val result = resolver_pipeline.fit(clinical_note).transform(clinical_note)
 ```
@@ -129,7 +129,7 @@ val result = resolver_pipeline.fit(clinical_note).transform(clinical_note)
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|
-|Output Labels:|[ndc_code]|
+|Output Labels:|[ndc]|
 |Language:|en|
 |Size:|932.2 MB|
 |Case sensitive:|false|
