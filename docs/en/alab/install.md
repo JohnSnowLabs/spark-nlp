@@ -132,7 +132,12 @@ backup.files=false
 
 **Configure Backup from the UI**
 
-Backup can also be configured by admin user from the UI. Goto Settings > Backup and set the parameters.
+Backup can be configured by admin user from the UI. Goto Settings > Backup and set the parameters.
+
+`S3 Bucket Full Path for Database` - full path to your database backup in s3 bucket (f.e. s3://example.com/path/to/my/backup/dir)
+`S3 Bucket Full Path for File` - full path to your file backup in s3 bucket (f.e. s3://example.com/path/to/my/backup/dir)
+`S3 Access Key` - your access key for AWS S3 access
+`S3 Secret Key` - your secret key for AWS S3 access
 
 <img class="image image--xl" src="/assets/images/annotation_lab/3.1.0/backupRestoreUI.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
