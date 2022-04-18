@@ -104,32 +104,6 @@ commands inside `annotationlab-installer.sh` and `annotationlab-updater.sh` file
 
 #### Backup
 
-You can enable daily backups by adding several variables with --set option to helm command in `annotationlab-updater.sh`:
-
-```bash
-backup.enable=true
-backup.files=true
-backup.s3_access_key="<ACCESS_KEY>"
-backup.s3_secret_key="<SECRET_KEY>"
-backup.s3_bucket_fullpath="<FULL_PATH>"
-```
-
-`<ACCESS_KEY>` - your access key for AWS S3 access
-`<SECRET_KEY>` - your secret key for AWS S3 access
-`<FULL_PATH>` - full path to your backup in s3 bucket (f.e. s3://example.com/path/to/my/backup/dir)
-
-
-Notice: Files backups enabled by default. If you don't need to backup files, you have to change
-
-```bash
-backup.files=true
-```
-to
-
-```bash
-backup.files=false
-```
-
 **Configure Backup from the UI**
 
 Backup can be configured by admin user from the UI. Goto Settings > Backup and set the parameters.
