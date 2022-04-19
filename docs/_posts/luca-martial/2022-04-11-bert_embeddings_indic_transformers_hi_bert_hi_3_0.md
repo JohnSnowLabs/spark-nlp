@@ -4,7 +4,7 @@ title: Hindi Bert Embeddings (from neuralspace-reverie)
 author: John Snow Labs
 name: bert_embeddings_indic_transformers_hi_bert
 date: 2022-04-11
-tags: [hi, open_source]
+tags: [bert, embeddings, hi, open_source]
 task: Embeddings
 language: hi
 edition: Spark NLP 3.4.2

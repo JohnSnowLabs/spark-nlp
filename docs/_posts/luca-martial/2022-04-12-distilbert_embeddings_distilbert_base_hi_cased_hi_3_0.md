@@ -4,7 +4,7 @@ title: Hindi DistilBERT Embeddings (from Geotrend)
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_hi_cased
 date: 2022-04-12
-tags: [hi, open_source]
+tags: [distilbert, embeddings, hi, open_source]
 task: Embeddings
 language: hi
 edition: Spark NLP 3.4.2

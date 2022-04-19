@@ -4,7 +4,7 @@ title: Spanish RoBERTa Embeddings (from PlanTL-GOB-ES)
 author: John Snow Labs
 name: roberta_embeddings_roberta_large_bne
 date: 2022-04-14
-tags: [es, open_source]
+tags: [roberta, embeddings, es, open_source]
 task: Embeddings
 language: es
 edition: Spark NLP 3.4.2

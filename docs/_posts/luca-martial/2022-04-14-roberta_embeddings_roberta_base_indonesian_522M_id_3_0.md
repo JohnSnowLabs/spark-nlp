@@ -4,7 +4,7 @@ title: Indonesian RoBERTa Embeddings (from cahya)
 author: John Snow Labs
 name: roberta_embeddings_roberta_base_indonesian_522M
 date: 2022-04-14
-tags: [id, open_source]
+tags: [roberta, embeddings, id, open_source]
 task: Embeddings
 language: id
 edition: Spark NLP 3.4.2

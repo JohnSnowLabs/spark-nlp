@@ -4,7 +4,7 @@ title: Bangla DistilBERT Embeddings (from neuralspace-reverie)
 author: John Snow Labs
 name: distilbert_embeddings_indic_transformers_bn_distilbert
 date: 2022-04-12
-tags: [bn, open_source]
+tags: [distilbert, embeddings, bn, open_source]
 task: Embeddings
 language: bn
 edition: Spark NLP 3.4.2

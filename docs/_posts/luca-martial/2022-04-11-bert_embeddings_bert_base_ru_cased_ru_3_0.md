@@ -4,7 +4,7 @@ title: Russian Bert Embeddings (from Geotrend)
 author: John Snow Labs
 name: bert_embeddings_bert_base_ru_cased
 date: 2022-04-11
-tags: [ru, open_source]
+tags: [bert, embeddings, ru, open_source]
 task: Embeddings
 language: ru
 edition: Spark NLP 3.4.2

@@ -4,7 +4,7 @@ title: Urdu Bert Embeddings (from monsoon-nlp)
 author: John Snow Labs
 name: bert_embeddings_muril_adapted_local
 date: 2022-04-11
-tags: [ur, open_source]
+tags: [bert, embeddings, ur, open_source]
 task: Embeddings
 language: ur
 edition: Spark NLP 3.4.2

@@ -4,7 +4,7 @@ title: Urdu Bert Embeddings (from Geotrend)
 author: John Snow Labs
 name: bert_embeddings_bert_base_ur_cased
 date: 2022-04-11
-tags: [ur, open_source]
+tags: [bert, embeddings, ur, open_source]
 task: Embeddings
 language: ur
 edition: Spark NLP 3.4.2

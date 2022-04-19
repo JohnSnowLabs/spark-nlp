@@ -4,7 +4,7 @@ title: Portuguese DistilBERT Embeddings (from Geotrend)
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_pt_cased
 date: 2022-04-12
-tags: [pt, open_source]
+tags: [distilbert, embeddings, pt, open_source]
 task: Embeddings
 language: pt
 edition: Spark NLP 3.4.2

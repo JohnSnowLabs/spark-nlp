@@ -4,7 +4,7 @@ title: Chinese RoBERTa Embeddings (from benjamin)
 author: John Snow Labs
 name: roberta_embeddings_roberta_base_wechsel_chinese
 date: 2022-04-14
-tags: [zh, open_source]
+tags: [roberta, embeddings, zh, open_source]
 task: Embeddings
 language: zh
 edition: Spark NLP 3.4.2

@@ -4,7 +4,7 @@ title: Chinese Bert Embeddings (from Langboat)
 author: John Snow Labs
 name: bert_embeddings_mengzi_bert_base
 date: 2022-04-08
-tags: [zh, open_source]
+tags: [bert, embeddings, zh, open_source]
 task: Embeddings
 language: zh
 edition: Spark NLP 3.4.2

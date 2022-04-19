@@ -4,7 +4,7 @@ title: Persian RoBERTa Embeddings (from HooshvareLab)
 author: John Snow Labs
 name: roberta_embeddings_roberta_fa_zwnj_base
 date: 2022-04-14
-tags: [fa, open_source]
+tags: [roberta, embeddings, fa, open_source]
 task: Embeddings
 language: fa
 edition: Spark NLP 3.4.2

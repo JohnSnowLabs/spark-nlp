@@ -4,7 +4,7 @@ title: Romanian DistilBERT Embeddings (from Geotrend)
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_ro_cased
 date: 2022-04-12
-tags: [ro, open_source]
+tags: [distilbert, embeddings, ro, open_source]
 task: Embeddings
 language: ro
 edition: Spark NLP 3.4.2

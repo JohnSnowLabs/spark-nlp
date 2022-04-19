@@ -4,7 +4,7 @@ title: Russian DistilBERT Embeddings (from Geotrend)
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_ru_cased
 date: 2022-04-12
-tags: [ru, open_source]
+tags: [distilbert, embeddings, ru, open_source]
 task: Embeddings
 language: ru
 edition: Spark NLP 3.4.2

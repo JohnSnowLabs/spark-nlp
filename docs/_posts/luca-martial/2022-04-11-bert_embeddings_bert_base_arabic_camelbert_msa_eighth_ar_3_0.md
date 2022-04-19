@@ -4,7 +4,7 @@ title: Arabic Bert Embeddings (from CAMeL-Lab)
 author: John Snow Labs
 name: bert_embeddings_bert_base_arabic_camelbert_msa_eighth
 date: 2022-04-11
-tags: [ar, open_source]
+tags: [bert, embeddings, ar, open_source]
 task: Embeddings
 language: ar
 edition: Spark NLP 3.4.2

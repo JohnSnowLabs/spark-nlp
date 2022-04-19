@@ -4,7 +4,7 @@ title: Thai DistilBERT Embeddings (from Geotrend)
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_th_cased
 date: 2022-04-12
-tags: [th, open_source]
+tags: [distilbert, embeddings, th, open_source]
 task: Embeddings
 language: th
 edition: Spark NLP 3.4.2

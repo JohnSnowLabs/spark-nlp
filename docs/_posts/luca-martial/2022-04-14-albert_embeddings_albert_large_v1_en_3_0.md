@@ -4,7 +4,7 @@ title: English ALBERT Embeddings
 author: John Snow Labs
 name: albert_embeddings_albert_large_v1
 date: 2022-04-14
-tags: [en, open_source]
+tags: [albert, embeddings, en, open_source]
 task: Embeddings
 language: en
 edition: Spark NLP 3.4.2

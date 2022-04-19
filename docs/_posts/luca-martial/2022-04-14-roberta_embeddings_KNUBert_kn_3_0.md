@@ -4,7 +4,7 @@ title: Kannada RoBERTa Embeddings (from Chakita)
 author: John Snow Labs
 name: roberta_embeddings_KNUBert
 date: 2022-04-14
-tags: [kn, open_source]
+tags: [roberta, embeddings, kn, open_source]
 task: Embeddings
 language: kn
 edition: Spark NLP 3.4.2

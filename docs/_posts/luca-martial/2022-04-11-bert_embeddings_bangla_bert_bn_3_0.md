@@ -4,7 +4,7 @@ title: Bangla Bert Embeddings (from Kowsher)
 author: John Snow Labs
 name: bert_embeddings_bangla_bert
 date: 2022-04-11
-tags: [bn, open_source]
+tags: [bert, embeddings, bn, open_source]
 task: Embeddings
 language: bn
 edition: Spark NLP 3.4.2

@@ -4,7 +4,7 @@ title: Amharic RoBERTa Embeddings (from uhhlt)
 author: John Snow Labs
 name: roberta_embeddings_am_roberta
 date: 2022-04-14
-tags: [am, open_source]
+tags: [roberta, embeddings, am, open_source]
 task: Embeddings
 language: am
 edition: Spark NLP 3.4.2

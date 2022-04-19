@@ -4,7 +4,7 @@ title: French Bert Embeddings (from Geotrend)
 author: John Snow Labs
 name: bert_embeddings_bert_base_fr_cased
 date: 2022-04-11
-tags: [fr, open_source]
+tags: [bert, embeddings, fr, open_source]
 task: Embeddings
 language: fr
 edition: Spark NLP 3.4.2

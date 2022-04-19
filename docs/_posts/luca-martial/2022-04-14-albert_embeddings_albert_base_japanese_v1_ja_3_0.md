@@ -4,7 +4,7 @@ title: Japanese ALBERT Embeddings (from ken11)
 author: John Snow Labs
 name: albert_embeddings_albert_base_japanese_v1
 date: 2022-04-14
-tags: [ja, open_source]
+tags: [albert, embeddings, ja, open_source]
 task: Embeddings
 language: ja
 edition: Spark NLP 3.4.2

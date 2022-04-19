@@ -4,7 +4,7 @@ title: Telugu Bert Embeddings (from neuralspace-reverie)
 author: John Snow Labs
 name: bert_embeddings_indic_transformers_te_bert
 date: 2022-04-11
-tags: [te, open_source]
+tags: [bert, embeddings, te, open_source]
 task: Embeddings
 language: te
 edition: Spark NLP 3.4.2

@@ -4,7 +4,7 @@ title: Dutch RoBERTa Embeddings (from pdelobelle)
 author: John Snow Labs
 name: roberta_embeddings_robbert_v2_dutch_base
 date: 2022-04-14
-tags: [nl, open_source]
+tags: [roberta, embeddings, nl, open_source]
 task: Embeddings
 language: nl
 edition: Spark NLP 3.4.2

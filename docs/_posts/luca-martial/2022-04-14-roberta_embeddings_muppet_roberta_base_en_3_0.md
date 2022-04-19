@@ -4,7 +4,7 @@ title: English RoBERTa Embeddings (from facebook)
 author: John Snow Labs
 name: roberta_embeddings_muppet_roberta_base
 date: 2022-04-14
-tags: [en, open_source]
+tags: [roberta, embeddings, en, open_source]
 task: Embeddings
 language: en
 edition: Spark NLP 3.4.2

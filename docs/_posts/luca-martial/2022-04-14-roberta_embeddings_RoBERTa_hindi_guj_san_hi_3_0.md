@@ -4,7 +4,7 @@ title: Hindi RoBERTa Embeddings (from surajp)
 author: John Snow Labs
 name: roberta_embeddings_RoBERTa_hindi_guj_san
 date: 2022-04-14
-tags: [hi, open_source]
+tags: [roberta, embeddings, hi, open_source]
 task: Embeddings
 language: hi
 edition: Spark NLP 3.4.2

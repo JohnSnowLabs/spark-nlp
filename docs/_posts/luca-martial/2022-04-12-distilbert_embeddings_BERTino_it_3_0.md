@@ -4,7 +4,7 @@ title: Italian DistilBERT Embeddings (from indigo-ai)
 author: John Snow Labs
 name: distilbert_embeddings_BERTino
 date: 2022-04-12
-tags: [it, open_source]
+tags: [distilbert, embeddings, it, open_source]
 task: Embeddings
 language: it
 edition: Spark NLP 3.4.2

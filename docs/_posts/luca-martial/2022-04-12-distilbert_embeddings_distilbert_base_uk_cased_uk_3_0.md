@@ -4,7 +4,7 @@ title: Ukrainian DistilBERT Embeddings (from Geotrend)
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_uk_cased
 date: 2022-04-12
-tags: [uk, open_source]
+tags: [distilbert, embeddings, uk, open_source]
 task: Embeddings
 language: uk
 edition: Spark NLP 3.4.2

@@ -4,7 +4,7 @@ title: Gujarati RoBERTa Embeddings (from surajp)
 author: John Snow Labs
 name: roberta_embeddings_RoBERTa_hindi_guj_san
 date: 2022-04-14
-tags: [gu, open_source]
+tags: [roberta, embeddings, gu, open_source]
 task: Embeddings
 language: gu
 edition: Spark NLP 3.4.2

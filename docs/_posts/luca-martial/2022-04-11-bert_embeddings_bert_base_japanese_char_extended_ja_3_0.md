@@ -4,7 +4,7 @@ title: Japanese Bert Embeddings (from KoichiYasuoka)
 author: John Snow Labs
 name: bert_embeddings_bert_base_japanese_char_extended
 date: 2022-04-11
-tags: [ja, open_source]
+tags: [bert, embeddings, ja, open_source]
 task: Embeddings
 language: ja
 edition: Spark NLP 3.4.2

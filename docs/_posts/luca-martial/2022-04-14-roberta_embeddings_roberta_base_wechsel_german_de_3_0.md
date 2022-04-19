@@ -4,7 +4,7 @@ title: German RoBERTa Embeddings (from benjamin)
 author: John Snow Labs
 name: roberta_embeddings_roberta_base_wechsel_german
 date: 2022-04-14
-tags: [de, open_source]
+tags: [roberta, embeddings, de, open_source]
 task: Embeddings
 language: de
 edition: Spark NLP 3.4.2

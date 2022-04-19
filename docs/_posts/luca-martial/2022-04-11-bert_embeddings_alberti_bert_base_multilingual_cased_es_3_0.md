@@ -4,7 +4,7 @@ title: Spanish Bert Embeddings (from flax-community)
 author: John Snow Labs
 name: bert_embeddings_alberti_bert_base_multilingual_cased
 date: 2022-04-11
-tags: [es, open_source]
+tags: [bert, embeddings, es, open_source]
 task: Embeddings
 language: es
 edition: Spark NLP 3.4.2

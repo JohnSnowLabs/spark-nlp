@@ -4,7 +4,7 @@ title: Bangla RoBERTa Embeddings (from neuralspace-reverie)
 author: John Snow Labs
 name: roberta_embeddings_indic_transformers_bn_roberta
 date: 2022-04-14
-tags: [bn, open_source]
+tags: [roberta, embeddings, bn, open_source]
 task: Embeddings
 language: bn
 edition: Spark NLP 3.4.2

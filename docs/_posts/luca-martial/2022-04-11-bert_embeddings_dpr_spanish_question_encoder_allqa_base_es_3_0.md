@@ -4,7 +4,7 @@ title: Spanish Bert Embeddings (from IIC)
 author: John Snow Labs
 name: bert_embeddings_dpr_spanish_question_encoder_allqa_base
 date: 2022-04-11
-tags: [es, open_source]
+tags: [bert, embeddings, es, open_source]
 task: Embeddings
 language: es
 edition: Spark NLP 3.4.2
