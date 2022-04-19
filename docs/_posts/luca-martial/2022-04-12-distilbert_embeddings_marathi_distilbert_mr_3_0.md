@@ -4,7 +4,7 @@ title: Marathi DistilBERT Embeddings (from DarshanDeshpande)
 author: John Snow Labs
 name: distilbert_embeddings_marathi_distilbert
 date: 2022-04-12
-tags: [mr, open_source]
+tags: [distilbert, embeddings, mr, open_source]
 task: Embeddings
 language: mr
 edition: Spark NLP 3.4.2

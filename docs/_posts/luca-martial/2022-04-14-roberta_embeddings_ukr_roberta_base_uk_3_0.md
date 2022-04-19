@@ -4,7 +4,7 @@ title: Ukrainian RoBERTa Embeddings (from youscan)
 author: John Snow Labs
 name: roberta_embeddings_ukr_roberta_base
 date: 2022-04-14
-tags: [uk, open_source]
+tags: [roberta, embeddings, uk, open_source]
 task: Embeddings
 language: uk
 edition: Spark NLP 3.4.2

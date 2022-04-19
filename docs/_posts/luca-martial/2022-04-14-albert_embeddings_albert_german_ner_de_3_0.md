@@ -4,7 +4,7 @@ title: German ALBERT Embeddings (from abhilash1910)
 author: John Snow Labs
 name: albert_embeddings_albert_german_ner
 date: 2022-04-14
-tags: [de, open_source]
+tags: [albert, embeddings, de, open_source]
 task: Embeddings
 language: de
 edition: Spark NLP 3.4.2

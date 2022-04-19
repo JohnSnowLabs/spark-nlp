@@ -4,7 +4,7 @@ title: Korean RoBERTa Embeddings (from lassl)
 author: John Snow Labs
 name: roberta_embeddings_roberta_ko_small
 date: 2022-04-14
-tags: [ko, open_source]
+tags: [roberta, embeddings, ko, open_source]
 task: Embeddings
 language: ko
 edition: Spark NLP 3.4.2

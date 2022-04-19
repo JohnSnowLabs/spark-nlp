@@ -4,7 +4,7 @@ title: Tagalog RoBERTa Embeddings (from jcblaise)
 author: John Snow Labs
 name: roberta_embeddings_roberta_tagalog_base
 date: 2022-04-14
-tags: [tl, open_source]
+tags: [roberta, embeddings, tl, open_source]
 task: Embeddings
 language: tl
 edition: Spark NLP 3.4.2

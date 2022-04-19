@@ -4,7 +4,7 @@ title: Turkish Bert Embeddings (from Geotrend)
 author: John Snow Labs
 name: bert_embeddings_bert_base_tr_cased
 date: 2022-04-11
-tags: [tr, open_source]
+tags: [bert, embeddings, tr, open_source]
 task: Embeddings
 language: tr
 edition: Spark NLP 3.4.2

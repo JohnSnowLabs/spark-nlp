@@ -4,7 +4,7 @@ title: Spanish RoBERTa Embeddings (from bertin-project)
 author: John Snow Labs
 name: roberta_embeddings_bertin_roberta_base_spanish
 date: 2022-04-14
-tags: [es, open_source]
+tags: [roberta, embeddings, es, open_source]
 task: Embeddings
 language: es
 edition: Spark NLP 3.4.2

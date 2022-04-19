@@ -4,7 +4,7 @@ title: Portuguese BioBERT Embeddings (from pucpr)
 author: John Snow Labs
 name: biobert_embeddings_all
 date: 2022-04-11
-tags: [pt, open_source]
+tags: [biobert, embeddings, pt, open_source]
 task: Embeddings
 language: pt
 edition: Spark NLP 3.4.2

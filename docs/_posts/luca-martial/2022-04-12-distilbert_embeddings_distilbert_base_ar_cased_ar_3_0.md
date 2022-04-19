@@ -4,7 +4,7 @@ title: Arabic DistilBERT Embeddings (from Geotrend)
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_ar_cased
 date: 2022-04-12
-tags: [ar, open_source]
+tags: [distilbert, embeddings, ar, open_source]
 task: Embeddings
 language: ar
 edition: Spark NLP 3.4.2

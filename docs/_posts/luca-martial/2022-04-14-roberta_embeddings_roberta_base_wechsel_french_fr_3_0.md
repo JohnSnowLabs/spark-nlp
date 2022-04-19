@@ -4,7 +4,7 @@ title: French RoBERTa Embeddings (from benjamin)
 author: John Snow Labs
 name: roberta_embeddings_roberta_base_wechsel_french
 date: 2022-04-14
-tags: [fr, open_source]
+tags: [roberta, embeddings, fr, open_source]
 task: Embeddings
 language: fr
 edition: Spark NLP 3.4.2

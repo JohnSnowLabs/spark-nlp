@@ -4,7 +4,7 @@ title: Russian RoBERTa Embeddings (from sberbank-ai)
 author: John Snow Labs
 name: roberta_embeddings_ruRoberta_large
 date: 2022-04-14
-tags: [ru, open_source]
+tags: [roberta, embeddings, ru, open_source]
 task: Embeddings
 language: ru
 edition: Spark NLP 3.4.2

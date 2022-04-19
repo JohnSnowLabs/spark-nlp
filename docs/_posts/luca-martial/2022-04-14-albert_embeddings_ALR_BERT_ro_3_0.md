@@ -4,7 +4,7 @@ title: Romanian ALBERT Embeddings (from dragosnicolae555)
 author: John Snow Labs
 name: albert_embeddings_ALR_BERT
 date: 2022-04-14
-tags: [ro, open_source]
+tags: [albert, embeddings, ro, open_source]
 task: Embeddings
 language: ro
 edition: Spark NLP 3.4.2

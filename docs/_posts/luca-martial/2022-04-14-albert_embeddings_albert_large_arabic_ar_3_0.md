@@ -4,7 +4,7 @@ title: Arabic ALBERT Embeddings (from asafaya)
 author: John Snow Labs
 name: albert_embeddings_albert_large_arabic
 date: 2022-04-14
-tags: [ar, open_source]
+tags: [albert, embeddings, ar, open_source]
 task: Embeddings
 language: ar
 edition: Spark NLP 3.4.2

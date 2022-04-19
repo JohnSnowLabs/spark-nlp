@@ -4,7 +4,7 @@ title: Telugu RoBERTa Embeddings (from neuralspace-reverie)
 author: John Snow Labs
 name: roberta_embeddings_indic_transformers_te_roberta
 date: 2022-04-14
-tags: [te, open_source]
+tags: [roberta, embeddings, te, open_source]
 task: Embeddings
 language: te
 edition: Spark NLP 3.4.2

@@ -4,7 +4,7 @@ title: Urdu RoBERTa Embeddings (from urduhack)
 author: John Snow Labs
 name: roberta_embeddings_roberta_urdu_small
 date: 2022-04-14
-tags: [ur, open_source]
+tags: [roberta, embeddings, ur, open_source]
 task: Embeddings
 language: ur
 edition: Spark NLP 3.4.2

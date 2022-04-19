@@ -4,7 +4,7 @@ title: Persian ALBERT Embeddings (from m3hrdadfi)
 author: John Snow Labs
 name: albert_embeddings_albert_fa_base_v2
 date: 2022-04-14
-tags: [fa, open_source]
+tags: [albert, embeddings, fa, open_source]
 task: Embeddings
 language: fa
 edition: Spark NLP 3.4.2

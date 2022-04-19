@@ -4,7 +4,7 @@ title: Sundanese RoBERTa Embeddings (from w11wo)
 author: John Snow Labs
 name: roberta_embeddings_sundanese_roberta_base
 date: 2022-04-14
-tags: [su, open_source]
+tags: [roberta, embeddings, su, open_source]
 task: Embeddings
 language: su
 edition: Spark NLP 3.4.2

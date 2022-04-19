@@ -4,7 +4,7 @@ title: Marathi ALBERT Embeddings (from l3cube-pune)
 author: John Snow Labs
 name: albert_embeddings_marathi_albert_v2
 date: 2022-04-14
-tags: [mr, open_source]
+tags: [albert, embeddings, mr, open_source]
 task: Embeddings
 language: mr
 edition: Spark NLP 3.4.2

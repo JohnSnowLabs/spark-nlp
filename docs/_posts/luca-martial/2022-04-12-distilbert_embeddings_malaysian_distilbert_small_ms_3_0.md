@@ -4,7 +4,7 @@ title: Malay DistilBERT Embeddings (from w11wo)
 author: John Snow Labs
 name: distilbert_embeddings_malaysian_distilbert_small
 date: 2022-04-12
-tags: [ms, open_source]
+tags: [distilbert, embeddings, ms, open_source]
 task: Embeddings
 language: ms
 edition: Spark NLP 3.4.2

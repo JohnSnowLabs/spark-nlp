@@ -4,7 +4,7 @@ title: Korean Bert Embeddings (from emeraldgoose)
 author: John Snow Labs
 name: bert_embeddings_bert_base_v1_sports
 date: 2022-04-11
-tags: [ko, open_source]
+tags: [bert, embeddings, ko, open_source]
 task: Embeddings
 language: ko
 edition: Spark NLP 3.4.2

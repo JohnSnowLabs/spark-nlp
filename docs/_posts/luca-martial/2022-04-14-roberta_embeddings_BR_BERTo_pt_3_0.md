@@ -4,7 +4,7 @@ title: Portuguese RoBERTa Embeddings (from rdenadai)
 author: John Snow Labs
 name: roberta_embeddings_BR_BERTo
 date: 2022-04-14
-tags: [pt, open_source]
+tags: [roberta, embeddings, pt, open_source]
 task: Embeddings
 language: pt
 edition: Spark NLP 3.4.2

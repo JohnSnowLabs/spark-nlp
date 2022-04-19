@@ -4,7 +4,7 @@ title: Vietnamese Bert Embeddings (from Geotrend)
 author: John Snow Labs
 name: bert_embeddings_bert_base_vi_cased
 date: 2022-04-11
-tags: [vi, open_source]
+tags: [bert, embeddings, vi, open_source]
 task: Embeddings
 language: vi
 edition: Spark NLP 3.4.2

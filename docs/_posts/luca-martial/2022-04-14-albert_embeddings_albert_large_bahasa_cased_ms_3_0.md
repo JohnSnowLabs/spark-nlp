@@ -4,7 +4,7 @@ title: Malay ALBERT Embeddings (from malay-huggingface)
 author: John Snow Labs
 name: albert_embeddings_albert_large_bahasa_cased
 date: 2022-04-14
-tags: [ms, open_source]
+tags: [albert, embeddings, ms, open_source]
 task: Embeddings
 language: ms
 edition: Spark NLP 3.4.2

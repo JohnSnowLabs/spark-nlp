@@ -4,7 +4,7 @@ title: Bangla Bert Embeddings (from monsoon-nlp)
 author: John Snow Labs
 name: bert_embeddings_muril_adapted_local
 date: 2022-04-11
-tags: [bn, open_source]
+tags: [bert, embeddings, bn, open_source]
 task: Embeddings
 language: bn
 edition: Spark NLP 3.4.2

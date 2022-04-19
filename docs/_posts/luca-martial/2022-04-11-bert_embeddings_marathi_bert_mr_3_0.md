@@ -4,7 +4,7 @@ title: Marathi Bert Embeddings (from l3cube-pune)
 author: John Snow Labs
 name: bert_embeddings_marathi_bert
 date: 2022-04-11
-tags: [mr, open_source]
+tags: [bert, embeddings, mr, open_source]
 task: Embeddings
 language: mr
 edition: Spark NLP 3.4.2

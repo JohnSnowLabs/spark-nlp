@@ -4,7 +4,7 @@ title: French ALBERT Embeddings (from qwant)
 author: John Snow Labs
 name: albert_embeddings_fralbert_base
 date: 2022-04-14
-tags: [fr, open_source]
+tags: [albert, embeddings, fr, open_source]
 task: Embeddings
 language: fr
 edition: Spark NLP 3.4.2

@@ -4,7 +4,7 @@ title: German Bert Embeddings (from fabianrausch)
 author: John Snow Labs
 name: bert_embeddings_german_financial_statements_bert
 date: 2022-04-11
-tags: [de, open_source]
+tags: [bert, embeddings, de, open_source]
 task: Embeddings
 language: de
 edition: Spark NLP 3.4.2
