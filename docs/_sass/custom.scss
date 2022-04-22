@@ -1141,15 +1141,20 @@ ol.list1 {
 	transition: all 300ms ease;
 	width: 250px;
 	padding: 64px 28px 0 37px;
+	overflow-x: hidden;
+	overflow-y: auto;
 	&:before {
 		content: '';
 		position: absolute;
-		right: 0;
+		right: -15px;
 		top: 0;
 		height: 100%;
 		width: 15px;
 		background: #F5F5F5;
 		display: block;
+	}
+	[data-hide="hide"] {
+		display: none;
 	}
 }
 
