@@ -110,7 +110,8 @@ const FilterForm = ({ onSubmit, isLoading, meta, params }) => {
               (acc, item) => {
                 if (
                   item.key !== 'Spark NLP' &&
-                  item.key !== 'Spark NLP for Healthcare'
+                  item.key !== 'Spark NLP for Healthcare' &&
+                  item.key !== 'Spark OCR'
                 ) {
                   acc.push(item);
                 }
@@ -125,6 +126,14 @@ const FilterForm = ({ onSubmit, isLoading, meta, params }) => {
                     value: 'Spark NLP',
                   },
                   'All Spark NLP versions'
+                ),
+                e(
+                  'option',
+                  {
+                    key: 'All Spark OCR versions',
+                    value: 'Spark OCR',
+                  },
+                  'All Spark OCR versions'
                 ),
                 e(
                   'option',
