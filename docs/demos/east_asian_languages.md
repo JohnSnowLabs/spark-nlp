@@ -59,5 +59,19 @@ data:
             url: https://demo.johnsnowlabs.com/public/NER_ZH/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb        
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb  
+        - title: Lemmatizer for East Asian Languages
+          id: lemmatizer_east_asian_languages 
+          image: 
+              src: /assets/images/Lemmatizer_for_East_Asian_Languages.svg
+          image2: 
+              src: /assets/images/Lemmatizer_for_East_Asian_Languages_f.svg
+          excerpt: This demo shows how to lemmatize documents of East Asian languages.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/LEMMATIZER_EAST_ASIAN/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb     
 ---

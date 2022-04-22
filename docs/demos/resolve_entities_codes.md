@@ -244,4 +244,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb
+        - title: Resolve Clinical Procedures using CPT taxonomy
+          id: resolve_clinical_procedures_cpt_taxonomy       
+          image: 
+              src: /assets/images/Resolve_Clinical_Procedures_using_CPT_taxonomy.svg
+          image2: 
+              src: /assets/images/Resolve_Clinical_Procedures_using_CPT_taxonomy_f.svg
+          excerpt: This demo shows how to map clinical procedures to codes using CPT taxonomy.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ER_CPT/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb
 ---
