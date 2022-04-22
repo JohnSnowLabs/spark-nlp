@@ -143,19 +143,5 @@ data:
             url: https://demo.johnsnowlabs.com/public/NER_TIMEX_SEMEVAL/ 
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
-        - title: Recognize Ticker Alias in Financial texts
-          id: recognize_ticker_alias_in_financial_texts 
-          image: 
-              src: /assets/images/Recognize_ticker_alias_in_financial_texts.svg
-          image2: 
-              src: /assets/images/Recognize_ticker_alias_in_financial_texts_f.svg
-          excerpt: This demo shows how to extract ticker alias from financial texts.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/public/NER_TICKER/ 
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb        
 ---
