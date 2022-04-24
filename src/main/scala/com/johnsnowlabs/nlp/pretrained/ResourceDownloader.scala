@@ -635,7 +635,9 @@ object PythonResourceDownloader {
     "XlnetForSequenceClassification" -> XlnetForSequenceClassification,
     "GPT2Transformer" -> GPT2Transformer,
     "Word2VecModel" -> Word2VecModel,
-    "DeBertaEmbeddings" -> DeBertaEmbeddings)
+    "DeBertaEmbeddings" -> DeBertaEmbeddings,
+    "DeBertaForSequenceClassification" -> DeBertaForSequenceClassification,
+    "DeBertaForTokenClassification" -> DeBertaForTokenClassification)
 
   def downloadModel(
       readerStr: String,
