@@ -82,7 +82,7 @@ jobs:
       - name: Install Python packages (Python 3.7)
         run: |
           python -m pip install --upgrade pip
-          pip install pyspark==2.4.4 numpy
+          pip install pyspark==2.4.8 numpy
       - name: Build Spark NLP on Apache Spark 2.4.x
         run: |
           brew install sbt
@@ -116,8 +116,8 @@ jobs:
       - name: Install Python packages (Python 3.7)
         run: |
           python -m pip install --upgrade pip
-          pip install pyspark==3.0.2 numpy
-      - name: Build Spark NLP on Apache Spark 3.0.2
+          pip install pyspark==3.0.3 numpy
+      - name: Build Spark NLP on Apache Spark 3.0.3
         run: |
           brew install sbt
           sbt clean
@@ -150,8 +150,8 @@ jobs:
       - name: Install Python packages (Python 3.7)
         run: |
           python -m pip install --upgrade pip
-          pip install pyspark==3.2.0 numpy
-      - name: Build Spark NLP on Apache Spark 3.2.0
+          pip install pyspark==3.2.1 numpy
+      - name: Build Spark NLP on Apache Spark 3.2.1
         run: |
           brew install sbt
           sbt clean
