@@ -1,6 +1,6 @@
 ---
 layout: model
-title: RCT Classifier (BioBERT Sentence Embeddings)
+title: RCT Binary Classifier (BioBERT Sentence Embeddings)
 author: John Snow Labs
 name: rct_binary_classifier_biobert
 date: 2022-04-25
@@ -40,8 +40,8 @@ document_assembler = DocumentAssembler()\
         .setOutputCol("document")
 
 bert_sent = BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_base_cased", "en") \
-      .setInputCols("document") \
-      .setOutputCol("sentence_embeddings")
+        .setInputCols("document") \
+        .setOutputCol("sentence_embeddings")
 
 classifier_dl = ClassifierDLModel.pretrained("rct_binary_classifier_biobert", "en", "clinical/models")\
         .setInputCols(["sentence_embeddings"])\
@@ -67,8 +67,8 @@ val bert_sent = new BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_base_
     .setOutputCol("sentence_embeddings")
 
 val classifier_dl = new ClassifierDLModel.pretrained("rct_binary_classifier_biobert", "en", "clinical/models")
-        .setInputCols(Array("sentence_embeddings"))
-        .setOutputCol("class")
+    .setInputCols(Array("sentence_embeddings"))
+    .setOutputCol("class")
 
 val biobert_clf_pipeline = new Pipeline().setStages(Array(documenter, bert_sent, classifier_dl))
 
