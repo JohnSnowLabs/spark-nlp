@@ -1,6 +1,6 @@
 ---
 layout: model
-title: RCT Classifier (BioBERT)
+title: RCT Classifier (BioBERT Sentence Embeddings)
 author: John Snow Labs
 name: rct_binary_classifier_biobert
 date: 2022-04-25
