@@ -638,7 +638,6 @@ object PythonResourceDownloader {
     "DeBertaEmbeddings" -> DeBertaEmbeddings,
     "DeBertaForSequenceClassification" -> DeBertaForSequenceClassification,
     "DeBertaForTokenClassification" -> DeBertaForTokenClassification)
-  )
 
   def downloadModel(
       readerStr: String,
