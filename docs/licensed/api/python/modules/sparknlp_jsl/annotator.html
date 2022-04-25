@@ -7296,6 +7296,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="MedicalBertForTokenClassifier.getClasses"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalBertForTokenClassifier.html#sparknlp_jsl.annotator.MedicalBertForTokenClassifier.getClasses">[docs]</a>    <span class="k">def</span> <span class="nf">getClasses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns labels used to train this model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;getClasses&quot;</span><span class="p">)</span></div>
+
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classification.MedicalBertForTokenClassifier&quot;</span><span class="p">,</span>
                  <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -7473,6 +7479,12 @@
 <span class="sd">            Max sentence length to process</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalBertForSequenceClassification.getClasses"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalBertForSequenceClassification.html#sparknlp_jsl.annotator.MedicalBertForSequenceClassification.getClasses">[docs]</a>    <span class="k">def</span> <span class="nf">getClasses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns labels used to train this model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;getClasses&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="MedicalBertForSequenceClassification.setCoalesceSentences"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalBertForSequenceClassification.html#sparknlp_jsl.annotator.MedicalBertForSequenceClassification.setCoalesceSentences">[docs]</a>    <span class="k">def</span> <span class="nf">setCoalesceSentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Instead of 1 class per sentence (if inputCols is &#39;&#39;&#39;sentence&#39;&#39;&#39;) output 1 class per document by averaging probabilities in all sentences.</span>
@@ -8016,11 +8028,11 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        MedicalBertForSequenceClassification</span>
+<span class="sd">        ChunkMapperModel</span>
 <span class="sd">            The restored model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
-        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">MedicalBertForSequenceClassification</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">ChunkMapperModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                 <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>
 
 <div class="viewcode-block" id="ZeroShotRelationExtractionModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ZeroShotRelationExtractionModel.html#sparknlp_jsl.annotator.ZeroShotRelationExtractionModel">[docs]</a><span class="k">class</span> <span class="nc">ZeroShotRelationExtractionModel</span><span class="p">(</span><span class="n">MedicalBertForSequenceClassification</span><span class="p">):</span>
