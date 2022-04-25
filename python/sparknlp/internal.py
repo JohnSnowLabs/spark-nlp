@@ -511,3 +511,9 @@ class _DeBertaSequenceClassifierLoader(ExtendedJavaWrapper):
         super(_DeBertaSequenceClassifierLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForSequenceClassification.loadSavedModel", path,
             jspark)
+
+
+class _DeBertTokenClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_DeBertTokenClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForTokenClassification.loadSavedModel", path, jspark)

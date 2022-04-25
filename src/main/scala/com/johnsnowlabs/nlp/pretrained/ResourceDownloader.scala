@@ -637,7 +637,7 @@ object PythonResourceDownloader {
     "Word2VecModel" -> Word2VecModel,
     "DeBertaEmbeddings" -> DeBertaEmbeddings,
     "DeBertaForSequenceClassification" -> DeBertaForSequenceClassification,
-
+    "DeBertaForTokenClassification" -> DeBertaForTokenClassification)
   )
 
   def downloadModel(
