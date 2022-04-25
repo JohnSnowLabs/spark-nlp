@@ -167,7 +167,7 @@ Check Spark NLP Portuguese capabilities in [4.7.Clinical_Deidentification_in_Por
 
 We are releasing `sbiobertresolve_rxnorm_action_treatment` model that maps clinical entities and concepts (like drugs/ingredients) to RxNorm codes using `sbiobert_base_cased_mli` Sentence Bert Embeddings. This resolver model maps and extracts pharmaceutical actions (e.g analgesic, hypoglycemic) as well as treatments (e.g backache, diabetes) along with the RxNorm code resolved. Actions and treatments of the drugs are returned in `all_k_aux_labels` column.
 
- See [Model Hub Page](https://nlp.johnsnowlabs.com/models) for details. 
+ See [Model Card](https://nlp.johnsnowlabs.com/2022/04/25/sbiobertresolve_rxnorm_action_treatment_en.html) for details. 
 
 *Example* :
 
@@ -313,7 +313,7 @@ result = pipeline.annotate(text)
   #### - Graph_builder `relation_extraction` model file name extension problem with `auto` param
   
   A naming problem which occurs while generating a graph for Relation Extraction via graph builder was resolved. Now, the TF graph is generated with the correct extension (`.pb`).
-  
+
 ## 3.5.0
 We are glad to announce that Spark NLP Healthcare 3.5.0 has been released!
 
