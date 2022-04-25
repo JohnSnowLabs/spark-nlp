@@ -167,7 +167,7 @@ Check Spark NLP Portuguese capabilities in [4.7.Clinical_Deidentification_in_Por
 
 We are releasing `sbiobertresolve_rxnorm_action_treatment` model that maps clinical entities and concepts (like drugs/ingredients) to RxNorm codes using `sbiobert_base_cased_mli` Sentence Bert Embeddings. This resolver model maps and extracts pharmaceutical actions (e.g analgesic, hypoglycemic) as well as treatments (e.g backache, diabetes) along with the RxNorm code resolved. Actions and treatments of the drugs are returned in `all_k_aux_labels` column.
 
- See [Model Card](https://nlp.johnsnowlabs.com/2022/04/25/sbiobertresolve_rxnorm_action_treatment_en.html) for details. 
+ See [Model Card](https://nlp.johnsnowlabs.com/2022/04/25/sbiobertresolve_rxnorm_action_treatment_en_2_4.html) for details. 
 
 *Example* :
 
@@ -210,8 +210,6 @@ Results* :
 ### New **RCT** Classification Models and Pretrained Pipelines
 
 We are releasing new **Randomized Clinical Trial (RCT)** classification models and pretrained pipelines that can classify the sections within the abstracts of scientific articles regarding randomized clinical trials (RCT). 
-
-classify the sections within the abstracts of scientific articles regarding randomized clinical trials (RCT).
 
 + Classification Models: 
 	+ `rct_binary_classifier_use` ([Models Hub page](https://nlp.johnsnowlabs.com/2022/04/24/rct_binary_classifier_use_en_3_0.html))
