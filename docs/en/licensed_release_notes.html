@@ -531,7 +531,7 @@
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="351">3.5.1</h2>
 <p>We are glad to announce that 3.5.1 version of Spark NLP for Healthcare has been released!</p>
 
-<h3 id="highlights">Highlights</h3>
+<h4 id="highlights">Highlights</h4>
 <ul>
   <li><strong>Deidentification</strong>:
     <ul>
@@ -559,7 +559,7 @@
   </li>
 </ul>
 
-<h3 id="portuguese-deidentification-models">Portuguese Deidentification Models</h3>
+<h4 id="portuguese-deidentification-models">Portuguese Deidentification Models</h4>
 
 <p>This is the 6th supported language for deidentification (English, German, Spanish, Italian, French and Portuguese). This version includes two Portuguese deidentification models to mask or obfuscate Protected Health Information in the Portuguese language. The models are the following:</p>
 
@@ -589,7 +589,7 @@
 <span class="n">ner_converter_subentity</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner_deid_subentity"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_subentity"</span><span class="p">)</span>
-    
+
 <span class="n">ner_generic</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_deid_generic"</span><span class="p">,</span> <span class="s">"pt"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\    
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"embeddings"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_deid_generic"</span><span class="p">)</span>
@@ -599,7 +599,7 @@
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_generic"</span><span class="p">)</span>
 
 <span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-      <span class="n">documentAssembler</span><span class="p">,</span> 
+      <span class="n">documentAssembler</span><span class="p">,</span>
       <span class="n">sentencerDL</span><span class="p">,</span>
       <span class="n">tokenizer</span><span class="p">,</span>
       <span class="n">word_embeddings</span><span class="p">,</span>
@@ -616,7 +616,7 @@ Endereço: Rua Das Flores 23.
 Código Postal: 21754-987.
 Dados de cuidados.
 Data de nascimento: 10/10/1963.
-Idade: 53 anos 
+Idade: 53 anos
 Data de admissão: 17/06/2016.
 Doutora: Maria Santos"""</span>
 
@@ -693,7 +693,7 @@ result = deid_pipeline.annotate(text)
 
 <p>Check Spark NLP Portuguese capabilities in <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.7.Clinical_Deidentification_in_Portuguese.ipynb">4.7.Clinical_Deidentification_in_Portuguese.ipynb notebook</a> we have prepared for you.</p>
 
-<h3 id="new-rxnorm-sentence-entity-resolver-model-sbiobertresolve_rxnorm_action_treatment">New <strong>RxNorm</strong> Sentence Entity Resolver Model (<code class="language-plaintext highlighter-rouge">sbiobertresolve_rxnorm_action_treatment</code>)</h3>
+<h4 id="new-rxnorm-sentence-entity-resolver-model-sbiobertresolve_rxnorm_action_treatment">New RxNorm Sentence Entity Resolver Model (<code class="language-plaintext highlighter-rouge">sbiobertresolve_rxnorm_action_treatment</code>)</h4>
 
 <p>We are releasing <code class="language-plaintext highlighter-rouge">sbiobertresolve_rxnorm_action_treatment</code> model that maps clinical entities and concepts (like drugs/ingredients) to RxNorm codes using <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> Sentence Bert Embeddings. This resolver model maps and extracts pharmaceutical actions (e.g analgesic, hypoglycemic) as well as treatments (e.g backache, diabetes) along with the RxNorm code resolved. Actions and treatments of the drugs are returned in <code class="language-plaintext highlighter-rouge">all_k_aux_labels</code> column.</p>
 
@@ -704,7 +704,7 @@ result = deid_pipeline.annotate(text)
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
       <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
-      
+
 <span class="n">sbert_embedder</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'sbiobert_base_cased_mli'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span><span class="s">'clinical/models'</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
@@ -713,14 +713,14 @@ result = deid_pipeline.annotate(text)
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">])</span> \
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"rxnorm_code"</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
-      
+
 <span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span>
     <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">documentAssembler</span><span class="p">,</span>
         <span class="n">sbert_embedder</span><span class="p">,</span>
         <span class="n">rxnorm_resolver</span><span class="p">])</span>
-	
-<span class="n">lp_model</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">pipelineModel</span><span class="p">)</span> 
+
+<span class="n">lp_model</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">pipelineModel</span><span class="p">)</span>
 
 <span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"Zita 200 mg"</span><span class="p">,</span> <span class="s">"coumadin 5 mg"</span><span class="p">,</span> <span class="s">'avandia 4 mg'</span><span class="p">]</span>
 
@@ -735,7 +735,7 @@ result = deid_pipeline.annotate(text)
 |  2 | avandia 4 mg  |        261242 | ['Drugs Used In Diabets','Hypoglycemic']| ['Diabetes Mellitus', ...]         |                                                                                              |
 </code></pre></div></div>
 
-<h3 id="new-rct-classification-models-and-pretrained-pipelines">New <strong>RCT</strong> Classification Models and Pretrained Pipelines</h3>
+<h4 id="new-rct-classification-models-and-pretrained-pipelines">New RCT Classification Models and Pretrained Pipelines</h4>
 
 <p>We are releasing new <strong>Randomized Clinical Trial (RCT)</strong> classification models and pretrained pipelines that can classify the sections within the abstracts of scientific articles regarding randomized clinical trials (RCT).</p>
 
@@ -770,7 +770,7 @@ result = deid_pipeline.annotate(text)
 <span class="n">use_clf_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
     <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">document_assembler</span><span class="p">,</span>
-        <span class="n">use</span><span class="p">,</span> 
+        <span class="n">use</span><span class="p">,</span>
         <span class="n">classifier_dl</span>
     <span class="p">])</span>
 
@@ -781,7 +781,7 @@ result = deid_pipeline.annotate(text)
 </code></pre></div></div>
 
 <p><em>Results</em> :</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt; class: True 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt; class: True
 </code></pre></div></div>
 
 <p><em>Pretrained Pipeline Example</em> :</p>
@@ -798,44 +798,45 @@ result = pipeline.annotate(text)
 
 <p><em>Results</em> :</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt; class: True 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt; class: True
 </code></pre></div></div>
 
-<h3 id="new-features"><strong>New features</strong>:</h3>
-<p>#### - Add getClasses() attribute to MedicalBertForTokenClassifier and MedicalBertForSequenceClassification
-  Now you can use getClasses() method for checking the entity labels of  MedicalBertForTokenClassifier and MedicalBertForSequenceClassification like MedicalNerModel().</p>
+<h4 id="new-features">New Features</h4>
+<h5 id="add-getclasses-attribute-to-medicalbertfortokenclassifier-and-medicalbertforsequenceclassification">Add <code class="language-plaintext highlighter-rouge">getClasses()</code> attribute to <code class="language-plaintext highlighter-rouge">MedicalBertForTokenClassifier</code> and <code class="language-plaintext highlighter-rouge">MedicalBertForSequenceClassification</code></h5>
+<p>Now you can use <code class="language-plaintext highlighter-rouge">getClasses()</code> method for checking the entity labels of  <code class="language-plaintext highlighter-rouge">MedicalBertForTokenClassifier</code> and <code class="language-plaintext highlighter-rouge">MedicalBertForSequenceClassification</code> like <code class="language-plaintext highlighter-rouge">MedicalNerModel</code>.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">MedicalBertForTokenClassifier</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_token_classifier_ner_ade"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
   	<span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">)</span>\
   	<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
   	<span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>\
   	<span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
-  
+
   <span class="n">tokenClassifier</span><span class="p">.</span><span class="n">getClasses</span><span class="p">()</span>
 </code></pre></div></div>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="o">[</span><span class="s1">'B-DRUG'</span>, <span class="s1">'I-ADE'</span>, <span class="s1">'I-DRUG'</span>, <span class="s1">'O'</span>, <span class="s1">'B-ADE'</span><span class="o">]</span>
 </code></pre></div></div>
 
-<p>#### - Download the AnnotatorModels from the healthcare library using the Healthcare version instead of the open source version
-  Now we download the private models using the Healthcare version instead of the open source version (the pretrained models were used to be dependent on open source Spark NLP version before).</p>
+<h5 id="download-the-annotatormodels-from-the-healthcare-library-using-the-healthcare-version-instead-of-the-open-source-version">Download the AnnotatorModels from the healthcare library using the Healthcare version instead of the open source version</h5>
 
-<p>#### - New functionality to download and extract clinical models from S3 via direct link.
-  Now, you can download clinical models from S3 via direct link directly by <code class="language-plaintext highlighter-rouge">downloadModelDirectly</code> method. See the <a href="https://nlp.johnsnowlabs.com/models">Models Hub Page</a> to find out the download url of each model.</p>
+<p>Now we download the private models using the Healthcare version instead of the open source version (the pretrained models were used to be dependent on open source Spark NLP version before).</p>
+
+<h5 id="new-functionality-to-download-and-extract-clinical-models-from-s3-via-direct-link">New functionality to download and extract clinical models from S3 via direct link.</h5>
+<p>Now, you can download clinical models from S3 via direct link directly by <code class="language-plaintext highlighter-rouge">downloadModelDirectly</code> method. See the <a href="https://nlp.johnsnowlabs.com/models">Models Hub Page</a> to find out the download url of each model.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
-  
+
   <span class="c1">#The first argument is the path to the zip file and the second one is the folder.
 </span>  <span class="n">ResourceDownloader</span><span class="p">.</span><span class="n">downloadModelDirectly</span><span class="p">(</span><span class="s">"clinical/models/assertion_dl_en_2.0.2_2.4_1556655581078.zip"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>  
 </code></pre></div></div>
 
-<h3 id="core-improvements"><strong>Core improvements</strong>:</h3>
+<h4 id="core-improvements">Core improvements:</h4>
 
-<p>#### - Fix <code class="language-plaintext highlighter-rouge">MedicalNerModel</code> confidence scores when <code class="language-plaintext highlighter-rouge">setIncludeAllConfidenceScores</code> is <code class="language-plaintext highlighter-rouge">True</code></p>
+<h5 id="fix-medicalnermodel-confidence-scores-when-setincludeallconfidencescores-is-true">Fix <code class="language-plaintext highlighter-rouge">MedicalNerModel</code> confidence scores when <code class="language-plaintext highlighter-rouge">setIncludeAllConfidenceScores</code> is <code class="language-plaintext highlighter-rouge">True</code></h5>
 
 <p>A mismatch problem between the tag with the highest confidence score and the predicted tag in <code class="language-plaintext highlighter-rouge">MedicalNerModel</code> is resolved.</p>
 
-<p>#### - Graph_builder <code class="language-plaintext highlighter-rouge">relation_extraction</code> model file name extension problem with <code class="language-plaintext highlighter-rouge">auto</code> param</p>
+<h5 id="graph_builder-relation_extraction-model-file-name-extension-problem-with-auto-param">Graph_builder <code class="language-plaintext highlighter-rouge">relation_extraction</code> model file name extension problem with <code class="language-plaintext highlighter-rouge">auto</code> param</h5>
 
 <p>A naming problem which occurs while generating a graph for Relation Extraction via graph builder was resolved. Now, the TF graph is generated with the correct extension (<code class="language-plaintext highlighter-rouge">.pb</code>).</p>
 
@@ -942,7 +943,7 @@ re_model = sparknlp_jsl.annotator.ZeroShotRelationExtractionModel \
 pipeline = sparknlp.base.Pipeline() \
     .setStages([documenter, tokenizer, sentencer, words_embedder, pos_tagger, ner_tagger, ner_converter,
                 dependency_parser, re_ner_chunk_filter, re_model])
-		
+
 data = spark.createDataFrame(
     [["Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer."]]
 ).toDF("text")
@@ -1223,9 +1224,9 @@ ID          0.93    0.93     -          -
            }]
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>text = ["""The patient was prescribed 1 unit of Advil for 5 days after meals. The patient was also 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>text = ["""The patient was prescribed 1 unit of Advil for 5 days after meals. The patient was also
 given 1 unit of Metformin daily.
-He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night , 
+He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night ,
 12 units of insulin lispro with meals , and metformin 1000 mg two times a day."""]
 ...
 nerconverter = NerConverterInternal()\
@@ -2247,7 +2248,7 @@ from sparknlp.pretrained import PretrainedPipeline
 
 deid_pipeline <span class="o">=</span> PretrainedPipeline<span class="o">(</span><span class="s2">"clinical_deidentification"</span>, <span class="s2">"de"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span>
 
-text <span class="o">=</span> <span class="s2">"""Zusammenfassung : Michael Berger wird am Morgen des 12 Dezember 2018 ins St.Elisabeth Krankenhaus in Bad Kissingen eingeliefert. 
+text <span class="o">=</span> <span class="s2">"""Zusammenfassung : Michael Berger wird am Morgen des 12 Dezember 2018 ins St.Elisabeth Krankenhaus in Bad Kissingen eingeliefert.
 Herr Michael Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen.
 
 Persönliche Daten :
@@ -2800,7 +2801,7 @@ B-Disease	 657	 81	 60	 0.8902439	 0.916318	 0.90309274
 tp: 1364 fp: 153 fn: 181 labels: 2
 Macro-average	 prec: 0.89890885, rec: 0.88509136, f1: 0.8919466
 Micro-average	 prec: 0.89914304, rec: 0.8828479, f1: 0.89092094
-Quality on <span class="nb">test </span>dataset: 
+Quality on <span class="nb">test </span>dataset:
 <span class="nb">time </span>to finish evaluation: 9.11s
 Total <span class="nb">test </span>loss: 17.7705	Avg <span class="nb">test </span>loss: 1.6155
 label	 tp	 fp	 fn	 prec	 rec	 f1
@@ -3283,7 +3284,7 @@ ndc_resolver <span class="o">=</span> SentenceEntityResolverModel.pretrained<spa
       .setCaseSensitive<span class="o">(</span>False<span class="o">)</span>
 ...
 
-sample_text <span class="o">=</span> <span class="s2">"""The patient was transferred secondary to inability and continue of her diabetes, the sacral decubitus, left foot pressure wound, and associated complications of diabetes. 
+sample_text <span class="o">=</span> <span class="s2">"""The patient was transferred secondary to inability and continue of her diabetes, the sacral decubitus, left foot pressure wound, and associated complications of diabetes.
 She is given aspirin 81 mg, folic acid 1 g daily, insulin glargine 100 UNT/ML injection and metformin 500 mg p.o. p.r.n."""</span>
 result <span class="o">=</span> resolver_model.transform<span class="o">(</span>spark.createDataFrame<span class="o">([[</span>sample_text]]<span class="o">)</span>.toDF<span class="o">(</span><span class="s2">"text"</span><span class="o">))</span>
 </code></pre></div></div>
@@ -3372,13 +3373,13 @@ result <span class="o">=</span> light_model.fullAnnotate<span class="o">([</span
             ["Will Smith", "23/02/1977", "1 Green Avenue.", "140", "+23 (673) 431234"],
             ["Pedro Ximénez", "11/04/1900", "Calle del Libertador, 7", "100", "912 345623"]
         ]).toDF("NAME", "DOB", "ADDRESS", "SBP", "TEL")
- 
+
  obfuscator = StructuredDeidentification(spark=spark, columns={"NAME": "ID", "DOB": "DATE"},
                                                       columnsSeed={"NAME": 23, "DOB": 23},
                                                       obfuscateRefSource="faker",
                                                       days=5
                                          )
-                                         
+
 result = obfuscator.obfuscateColumns(self.df)
 result.show(truncate=False)                                             
 </code></pre>
@@ -3404,27 +3405,27 @@ result.show(truncate=False)
 <span class="n">deid_ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_deid_large"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
             <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
             <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
-            
+
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
             <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span> \
             <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span> \
             <span class="p">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">'DATE'</span><span class="p">,</span> <span class="s">'AGE'</span><span class="p">,</span> <span class="s">'NAME'</span><span class="p">,</span> <span class="s">'PROFESSION'</span><span class="p">,</span> <span class="s">'ID'</span><span class="p">])</span>
-            
+
 <span class="n">medical_ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_events_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
             <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
             <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner2"</span><span class="p">)</span>
-            
+
 <span class="n">ner_converter_2</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
             <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner2"</span><span class="p">])</span> \
-            <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_2"</span><span class="p">)</span> 
-            
+            <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_2"</span><span class="p">)</span>
+
 <span class="n">ssn_parser</span> <span class="o">=</span> <span class="n">ContextualParserApproach</span><span class="p">()</span> \
             <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
             <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"entity_ssn"</span><span class="p">)</span> \
             <span class="p">.</span><span class="n">setJsonPath</span><span class="p">(</span><span class="s">"../../src/test/resources/ssn.json"</span><span class="p">)</span> \
             <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span> \
             <span class="p">.</span><span class="n">setContextMatch</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-            
+
 <span class="n">chunk_merge</span> <span class="o">=</span> <span class="n">ChunkMergeApproach</span><span class="p">()</span> \
             <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"entity_ssn"</span><span class="p">,</span><span class="s">"ner_chunk"</span><span class="p">,</span><span class="s">"ner_chunk_2"</span><span class="p">)</span> \
             <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"deid_merged_chunk"</span><span class="p">)</span> \
@@ -3497,7 +3498,7 @@ result.show(truncate=False)
 <span class="nb">ls</span> ~/cache_pretrained
 <span class="o">&gt;&gt;</span> ner_clinical_large_en_3.0.0_2.3_1617206114650/
 
-<span class="c"># Update models in /cache_pretrained </span>
+<span class="c"># Update models in /cache_pretrained</span>
 from sparknlp_jsl.updateModels import UpdateModels
 UpdateModels.updateCacheModels<span class="o">()</span>
 </code></pre></div></div>
@@ -3520,7 +3521,7 @@ UpdateModels.updateCacheModels<span class="o">()</span>
 <span class="nb">ls</span> ~/cache_pretrained
 <span class="o">&gt;&gt;</span> ner_clinical_large_en_3.0.0_2.3_1617206114650/
    ner_clinical_large_en_3.0.0_3.0_1617206114650/
-   
+
 <span class="c"># Update models in /cache_pretrained according to date</span>
 from sparknlp_jsl.updateModels import UpdateModels
 UpdateModels.updateModels<span class="o">(</span><span class="s2">"11/24/2021"</span><span class="o">)</span>
@@ -3529,7 +3530,7 @@ UpdateModels.updateModels<span class="o">(</span><span class="s2">"11/24/2021"</
 
 <p><em>Results</em> :</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Updated models in /cache_pretrained </span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Updated models in /cache_pretrained</span>
 <span class="nb">ls</span> ~/cache_pretrained
 <span class="o">&gt;&gt;</span>ner_clinical_large_en_3.0.0_2.3_1617206114650/
   ner_clinical_large_en_3.0.0_3.0_1617206114650/
@@ -3590,15 +3591,15 @@ UpdateModels.updateModels<span class="o">(</span><span class="s2">"11/24/2021"</
 embeddings <span class="o">=</span>  RoBertaEmbeddings.pretrained<span class="o">(</span><span class="s2">"roberta_base_biomedical"</span>, <span class="s2">"es"</span><span class="o">)</span><span class="se">\</span>
     .setInputCols<span class="o">([</span><span class="s2">"sentence"</span>, <span class="s2">"token"</span><span class="o">])</span><span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"embeddings"</span><span class="o">)</span>
-    
+
 ner <span class="o">=</span> MedicalNerModel.pretrained<span class="o">(</span><span class="s2">"roberta_ner_diag_proc"</span>, <span class="s2">"es"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span><span class="se">\</span>
     .setInputCols<span class="o">([</span><span class="s2">"sentence"</span>, <span class="s2">"token"</span>, <span class="s2">"embeddings"</span><span class="o">])</span><span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"ner"</span><span class="o">)</span><span class="se">\</span>
-    
+
 ner_converter <span class="o">=</span> NerConverter<span class="o">()</span> <span class="se">\</span>
     .setInputCols<span class="o">([</span><span class="s1">'sentence'</span>, <span class="s1">'token'</span>, <span class="s1">'ner'</span><span class="o">])</span> <span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s1">'ner_chunk'</span><span class="o">)</span>
-    
+
 pipeline <span class="o">=</span> Pipeline<span class="o">(</span>stages <span class="o">=</span> <span class="o">[</span>
     documentAssembler,
     sentenceDetector,
@@ -3606,7 +3607,7 @@ pipeline <span class="o">=</span> Pipeline<span class="o">(</span>stages <span c
     embeddings,
     ner,
     ner_converter]<span class="o">)</span>
-    
+
 empty <span class="o">=</span> spark.createDataFrame<span class="o">([[</span><span class="s1">''</span><span class="o">]])</span>.toDF<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span>
 
 p_model <span class="o">=</span> pipeline.fit<span class="o">(</span>empty<span class="o">)</span>
@@ -3890,7 +3891,7 @@ results <span class="o">=</span> model.transform<span class="o">(</span>spark.cr
 
 <p><em>Example</em>:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ner_model.getTrainingClassDistribution<span class="o">()</span> 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ner_model.getTrainingClassDistribution<span class="o">()</span>
 <span class="o">&gt;&gt;</span> <span class="o">{</span><span class="s1">'B-Disease'</span>: 2536, <span class="s1">'O'</span>: 31659, <span class="s1">'I-Disease'</span>: 2960<span class="o">}</span>
 </code></pre></div></div>
 
@@ -3912,41 +3913,41 @@ results <span class="o">=</span> model.transform<span class="o">(</span>spark.cr
 documentAssembler <span class="o">=</span> DocumentAssembler<span class="o">()</span><span class="se">\</span>
     .setInputCol<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span><span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"document"</span><span class="o">)</span>
-    
+
 sentenceDetector <span class="o">=</span> SentenceDetectorDLModel.pretrained<span class="o">()</span> <span class="se">\</span>
     .setInputCols<span class="o">([</span><span class="s2">"document"</span><span class="o">])</span> <span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"sentence"</span><span class="o">)</span>
-    
+
 tokenizer <span class="o">=</span> Tokenizer<span class="o">()</span><span class="se">\</span>
     .setInputCols<span class="o">(</span><span class="s2">"sentence"</span><span class="o">)</span><span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"token"</span><span class="o">)</span>
-    
+
 word_embeddings <span class="o">=</span> RoBertaEmbeddings.pretrained<span class="o">(</span><span class="s2">"roberta_base_biomedical"</span>, <span class="s2">"es"</span><span class="o">)</span><span class="se">\</span>
     .setInputCols<span class="o">([</span><span class="s2">"sentence"</span>, <span class="s2">"token"</span><span class="o">])</span><span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"roberta_embeddings"</span><span class="o">)</span>
-    
+
 ner <span class="o">=</span> MedicalNerModel.pretrained<span class="o">(</span><span class="s2">"roberta_ner_diag_proc"</span>,<span class="s2">"es"</span>,<span class="s2">"clinical/models"</span><span class="o">)</span><span class="se">\</span>
     .setInputCols<span class="o">(</span><span class="s2">"sentence"</span>,<span class="s2">"token"</span>,<span class="s2">"roberta_embeddings"</span><span class="o">)</span><span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"ner"</span><span class="o">)</span>
-    
+
 ner_converter <span class="o">=</span> NerConverter<span class="o">()</span> <span class="se">\</span>
     .setInputCols<span class="o">([</span><span class="s2">"sentence"</span>, <span class="s2">"token"</span>, <span class="s2">"ner"</span><span class="o">])</span> <span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"ner_chunk"</span><span class="o">)</span>
-    
+
 c2doc <span class="o">=</span> Chunk2Doc<span class="o">()</span> <span class="se">\</span>
     .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span><span class="o">])</span> <span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"ner_chunk_doc"</span><span class="o">)</span>
-    
+
 chunk_embeddings <span class="o">=</span> SentenceEmbeddings<span class="o">()</span> <span class="se">\</span>
     .setInputCols<span class="o">([</span><span class="s2">"ner_chunk_doc"</span>, <span class="s2">"roberta_embeddings"</span><span class="o">])</span> <span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"chunk_embeddings"</span><span class="o">)</span> <span class="se">\</span>
     .setPoolingStrategy<span class="o">(</span><span class="s2">"AVERAGE"</span><span class="o">)</span>
-    
+
 er <span class="o">=</span> SentenceEntityResolverModel.pretrained<span class="o">(</span><span class="s2">"robertaresolve_snomed"</span>, <span class="s2">"es"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span><span class="se">\</span>
     .setInputCols<span class="o">([</span><span class="s2">"ner_chunk_doc"</span>, <span class="s2">"chunk_embeddings"</span><span class="o">])</span> <span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"snomed_code"</span><span class="o">)</span> <span class="se">\</span>
     .setDistanceFunction<span class="o">(</span><span class="s2">"EUCLIDEAN"</span><span class="o">)</span>
-    
+
 snomed_training_pipeline <span class="o">=</span> Pipeline<span class="o">(</span>stages <span class="o">=</span> <span class="o">[</span>
     documentAssembler,
     sentenceDetector,
@@ -3957,7 +3958,7 @@ snomed_training_pipeline <span class="o">=</span> Pipeline<span class="o">(</spa
     c2doc,
     chunk_embeddings,
     er]<span class="o">)</span>
-    
+
 empty <span class="o">=</span> spark.createDataFrame<span class="o">([[</span><span class="s1">''</span><span class="o">]])</span>.toDF<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span>
 
 p_model <span class="o">=</span> snomed_pipeline .fit<span class="o">(</span>empty<span class="o">)</span>
@@ -4003,26 +4004,26 @@ res <span class="o">=</span> p_model.transform<span class="o">(</span>spark.crea
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>documentAssembler <span class="o">=</span> DocumentAssembler<span class="o">()</span><span class="se">\</span>
     .setInputCol<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span><span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"document"</span><span class="o">)</span>
-    
+
 sentenceDetector <span class="o">=</span> SentenceDetectorDLModel.pretrained<span class="o">()</span> <span class="se">\</span>
     .setInputCols<span class="o">([</span><span class="s2">"document"</span><span class="o">])</span> <span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"sentence"</span><span class="o">)</span>
-    
+
 tokenizer <span class="o">=</span> Tokenizer<span class="o">()</span><span class="se">\</span>
     .setInputCols<span class="o">(</span><span class="s2">"sentence"</span><span class="o">)</span><span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"token"</span><span class="o">)</span>
-    
+
 <span class="nb">seq</span> <span class="o">=</span> BertForSequenceClassification.pretrained<span class="o">(</span><span class="s1">'bert_sequence_classifier_question_statement_clinical'</span>, <span class="s1">'en'</span>, <span class="s1">'clinical/models'</span><span class="o">)</span><span class="se">\</span>
   .setInputCols<span class="o">([</span><span class="s2">"token"</span>, <span class="s2">"sentence"</span><span class="o">])</span><span class="se">\</span>
   .setOutputCol<span class="o">(</span><span class="s2">"label"</span><span class="o">)</span><span class="se">\</span>
   .setCaseSensitive<span class="o">(</span>True<span class="o">)</span>
-  
+
 pipeline <span class="o">=</span> Pipeline<span class="o">(</span>stages <span class="o">=</span> <span class="o">[</span>
     documentAssembler,
     sentenceDetector,
     tokenizer,
     <span class="nb">seq</span><span class="o">])</span>
-    
+
 test_sentences <span class="o">=</span> <span class="o">[</span><span class="s2">"""Hello I am going to be having a baby throughand have just received my medical results before I have my tubes tested. I had the tests on day 23 of my cycle. My progresterone level is 10. What does this mean? What does progesterone level of 10 indicate?
 Your progesterone report is perfectly normal. We expect this result on day 23rd of the cycle.So there's nothing to worry as it's perfectly alright"""</span><span class="o">]</span>
 
@@ -4130,12 +4131,12 @@ PROCEDURE:  Right VATS pleurodesis and pleural biopsy."""</span><span class="p">
     <span class="p">.</span><span class="n">setGroupBySentences</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setDefaultEntity</span><span class="p">(</span><span class="s">"Intro"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInsertChunk</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        
+
 <span class="n">paragraphs</span> <span class="o">=</span> <span class="n">chunkSentenceSplitter</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">paragraphs</span><span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(paragraphs) as result"</span><span class="p">)</span>\
-               <span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"result.result"</span><span class="p">,</span> 
-                           <span class="s">"result.metadata.entity"</span><span class="p">,</span> 
+               <span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"result.result"</span><span class="p">,</span>
+                           <span class="s">"result.metadata.entity"</span><span class="p">,</span>
                            <span class="s">"result.metadata.splitter_chunk"</span><span class="p">)</span>
 
 </code></pre></div></div>
@@ -4237,7 +4238,7 @@ weighted avg       0.99      0.93      0.96     62001
 <span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_token_classifier_ner_chemicals"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> 
+    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 <span class="p">...</span>
 
 <span class="n">test_sentence</span> <span class="o">=</span> <span class="s">"""The results have shown that the product p - choloroaniline is not a significant factor in chlorhexidine - digluconate associated erosive cystitis. A high percentage of kanamycin - colistin and povidone - iodine irrigations were associated with erosive cystitis."""</span>
@@ -4806,7 +4807,7 @@ icd_resolver <span class="o">=</span> SentenceEntityResolverModel.pretrained<spa
       .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span>, <span class="s2">"sentence_embeddings"</span><span class="o">])</span> <span class="se">\</span>
       .setOutputCol<span class="o">(</span><span class="s2">"icd_code"</span><span class="o">)</span><span class="se">\</span>
       .setDistanceFunction<span class="o">(</span><span class="s2">"EUCLIDEAN"</span><span class="o">)</span>
-      
+
 icd_pipelineModel <span class="o">=</span> PipelineModel<span class="o">(</span>
     stages <span class="o">=</span> <span class="o">[</span>
         documentAssembler,
@@ -4835,7 +4836,7 @@ res <span class="o">=</span> icd_pipelineModel.transform<span class="o">(</span>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>documentAssembler <span class="o">=</span> DocumentAssembler<span class="o">()</span><span class="se">\</span>
       .setInputCol<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span><span class="se">\</span>
       .setOutputCol<span class="o">(</span><span class="s2">"ner_chunk"</span><span class="o">)</span>
-      
+
 sbert_embedder <span class="o">=</span> BertSentenceEmbeddings.pretrained<span class="o">(</span><span class="s1">'sbiobert_base_cased_mli'</span>, <span class="s1">'en'</span>,<span class="s1">'clinical/models'</span><span class="o">)</span><span class="se">\</span>
       .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span><span class="o">])</span><span class="se">\</span>
       .setOutputCol<span class="o">(</span><span class="s2">"sentence_embeddings"</span><span class="o">)</span>
@@ -4844,7 +4845,7 @@ rxnorm_ndc_resolver <span class="o">=</span> SentenceEntityResolverModel.pretrai
       .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span>, <span class="s2">"sentence_embeddings"</span><span class="o">])</span> <span class="se">\</span>
       .setOutputCol<span class="o">(</span><span class="s2">"rxnorm_code"</span><span class="o">)</span><span class="se">\</span>
       .setDistanceFunction<span class="o">(</span><span class="s2">"EUCLIDEAN"</span><span class="o">)</span>
-      
+
 rxnorm_ndc_pipelineModel <span class="o">=</span> PipelineModel<span class="o">(</span>
     stages <span class="o">=</span> <span class="o">[</span>
         documentAssembler,
@@ -5098,7 +5099,7 @@ clinical_ner <span class="o">=</span> MedicalNerModel.pretrained<span class="o">
 ...
 nlpPipeline <span class="o">=</span> Pipeline<span class="o">(</span><span class="nv">stages</span><span class="o">=[</span>document_assembler, sentence_detector, tokenizer, embeddings_clinical, clinical_ner, ner_converter]<span class="o">)</span>
 model <span class="o">=</span> nlpPipeline.fit<span class="o">(</span>spark.createDataFrame<span class="o">([[</span><span class="s2">""</span><span class="o">]])</span>.toDF<span class="o">(</span><span class="s2">"text"</span><span class="o">))</span>
-EXAMPLE_TEXT <span class="o">=</span> <span class="s2">"""FINAL REPORT HISTORY : Chest tube leak , to assess for pneumothorax . 
+EXAMPLE_TEXT <span class="o">=</span> <span class="s2">"""FINAL REPORT HISTORY : Chest tube leak , to assess for pneumothorax .
 FINDINGS : In comparison with study of ___ , the endotracheal tube and Swan - Ganz catheter have been removed . The left chest tube remains in place and there is no evidence of pneumothorax. Mild atelectatic changes are seen at the left base."""</span>
 results <span class="o">=</span> model.transform<span class="o">(</span>spark.createDataFrame<span class="o">([[</span>EXAMPLE_TEXT]]<span class="o">)</span>.toDF<span class="o">(</span><span class="s2">"text"</span><span class="o">))</span>
 </code></pre></div></div>
@@ -5175,20 +5176,20 @@ To use this feature, you just need to make sure that you always call the start()
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>documentAssembler <span class="o">=</span> DocumentAssembler<span class="o">()</span><span class="se">\</span>
   .setInputCol<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span><span class="se">\</span>
   .setOutputCol<span class="o">(</span><span class="s2">"document"</span><span class="o">)</span>
-  
+
 tokenizer <span class="o">=</span> Tokenizer<span class="o">()</span><span class="se">\</span>
   .setInputCols<span class="o">(</span><span class="s2">"document"</span><span class="o">)</span><span class="se">\</span>
   .setOutputCol<span class="o">(</span><span class="s2">"token"</span><span class="o">)</span>
-  
+
 tokenClassifier <span class="o">=</span> BertForTokenClassification.pretrained<span class="o">(</span><span class="s2">"bert_token_classifier_ner_deid"</span>, <span class="s2">"en"</span><span class="o">)</span><span class="se">\</span>
   .setInputCols<span class="o">(</span><span class="s2">"token"</span>, <span class="s2">"document"</span><span class="o">)</span><span class="se">\</span>
   .setOutputCol<span class="o">(</span><span class="s2">"ner"</span><span class="o">)</span><span class="se">\</span>
   .setCaseSensitive<span class="o">(</span>True<span class="o">)</span>
-  
+
 ner_converter <span class="o">=</span> NerConverter<span class="o">()</span><span class="se">\</span>
   .setInputCols<span class="o">([</span><span class="s2">"document"</span>,<span class="s2">"token"</span>,<span class="s2">"ner"</span><span class="o">])</span><span class="se">\</span>
   .setOutputCol<span class="o">(</span><span class="s2">"ner_chunk"</span><span class="o">)</span>
-        
+
 pipeline <span class="o">=</span>  Pipeline<span class="o">(</span><span class="nv">stages</span><span class="o">=[</span>documentAssembler, tokenizer, tokenClassifier, ner_converter]<span class="o">)</span>
 p_model <span class="o">=</span> pipeline.fit<span class="o">(</span>spark.createDataFrame<span class="o">(</span>pd.DataFrame<span class="o">({</span><span class="s1">'text'</span>: <span class="o">[</span><span class="s1">''</span><span class="o">]})))</span>
 
@@ -5226,7 +5227,7 @@ result <span class="o">=</span> p_model.transform<span class="o">(</span>spark.c
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>documentAssembler <span class="o">=</span> DocumentAssembler<span class="o">()</span><span class="se">\</span>
     .setInputCol<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span><span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"ner_chunk"</span><span class="o">)</span>
-    
+
 sbert_embedder <span class="o">=</span> BertSentenceEmbeddings.pretrained<span class="o">(</span><span class="s2">"sent_bert_base_cased"</span>, <span class="s2">"de"</span><span class="o">)</span><span class="se">\</span>
     .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span><span class="o">])</span><span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"sbert_embeddings"</span><span class="o">)</span>
@@ -5270,10 +5271,10 @@ icd_lp.fullAnnotate<span class="o">(</span><span class="s2">"Dyspnoe"</span><spa
 
 <p><em>Example</em>:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>documentAssembler <span class="o">=</span> DocumentAssembler<span class="o">()</span><span class="se">\ </span>
-    .setInputCol<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span><span class="se">\ </span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>documentAssembler <span class="o">=</span> DocumentAssembler<span class="o">()</span><span class="se">\</span>
+    .setInputCol<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span><span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"ner_chunk"</span><span class="o">)</span>
-    
+
 sbert_embedder <span class="o">=</span> BertSentenceEmbeddings.pretrained<span class="o">(</span><span class="s2">"sent_bert_base_cased"</span>, <span class="s2">"de"</span><span class="o">)</span><span class="se">\</span>
     .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span><span class="o">])</span><span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"sbert_embeddings"</span><span class="o">)</span>
@@ -5317,10 +5318,10 @@ snomed_lp.fullAnnotate<span class="o">(</span><span class="s2">"Bronchialkarzino
 
 <p><em>Example</em> :</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>documentAssembler <span class="o">=</span> DocumentAssembler<span class="o">()</span><span class="se">\ </span>
-    .setInputCol<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span><span class="se">\ </span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>documentAssembler <span class="o">=</span> DocumentAssembler<span class="o">()</span><span class="se">\</span>
+    .setInputCol<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span><span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"document"</span><span class="o">)</span>
-    
+
 tokenizer <span class="o">=</span> Tokenizer<span class="o">()</span>
     .setInputCols<span class="o">(</span><span class="s2">"document"</span><span class="o">)</span><span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"token"</span><span class="o">)</span>
@@ -5332,7 +5333,7 @@ spell <span class="o">=</span> NorvigSweetingModel.pretrained<span class="o">(</
 pipeline <span class="o">=</span> Pipeline<span class="o">(</span> stages <span class="o">=</span> <span class="o">[</span>documentAssembler,
 tokenizer, spell]<span class="o">)</span>
 
-model <span class="o">=</span> pipeline.fit<span class="o">(</span>spark.createDataFrame<span class="o">([[</span><span class="s1">''</span><span class="o">]])</span>.toDF<span class="o">(</span><span class="s1">'text'</span><span class="o">))</span> 
+model <span class="o">=</span> pipeline.fit<span class="o">(</span>spark.createDataFrame<span class="o">([[</span><span class="s1">''</span><span class="o">]])</span>.toDF<span class="o">(</span><span class="s1">'text'</span><span class="o">))</span>
 lp <span class="o">=</span> LightPipeline<span class="o">(</span>model<span class="o">)</span>
 
 lp.annotate<span class="o">(</span><span class="s2">"You have to take Neutrcare and colfosrinum and a bit of Fluorometholne &amp; Ribotril"</span><span class="o">)</span>
@@ -5355,23 +5356,23 @@ Corrected text : You have to take Neutracare and colforsinum and a bit of fluoro
      <span class="p">[</span><span class="n">text</span><span class="p">]])</span> \
      <span class="p">.</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">).</span><span class="n">cache</span><span class="p">()</span>
  <span class="n">da</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">().</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
- 
+
  <span class="n">sd</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
- 
+
  <span class="n">tk</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
- 
+
  <span class="n">emb</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">().</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embs"</span><span class="p">)</span>
- 
+
  <span class="n">semb</span> <span class="o">=</span> <span class="n">SentenceEmbeddings</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"embs"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
- 
+
  <span class="n">ner</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embs"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
- 
+
  <span class="n">nc</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">).</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">"PER"</span><span class="p">])</span>
- 
+
  <span class="n">NerDisambiguatorModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"disambiguation"</span><span class="p">)</span>
- 
+
  <span class="n">pl</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">da</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">tk</span><span class="p">,</span> <span class="n">emb</span><span class="p">,</span> <span class="n">semb</span><span class="p">,</span> <span class="n">ner</span><span class="p">,</span> <span class="n">nc</span><span class="p">,</span> <span class="n">disambiguator</span><span class="p">])</span>
- 
+
  <span class="n">data</span> <span class="o">=</span> <span class="n">pl</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
  <span class="n">data</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"disambiguation"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
 
@@ -5395,7 +5396,7 @@ Corrected text : You have to take Neutracare and colforsinum and a bit of fluoro
             <span class="p">[</span><span class="s">"24"</span><span class="p">,</span> <span class="s">"56"</span><span class="p">,</span> <span class="s">"Will Smith"</span><span class="p">],</span>
             <span class="p">[</span><span class="s">"56"</span><span class="p">,</span> <span class="s">"32"</span><span class="p">,</span> <span class="s">"Pedro Ximénez"</span><span class="p">]</span>
         <span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"ID1"</span><span class="p">,</span> <span class="s">"ID2"</span><span class="p">,</span> <span class="s">"NAME"</span><span class="p">)</span>
-        
+
 <span class="n">obfuscator</span> <span class="o">=</span> <span class="n">StructuredDeidentification</span><span class="p">(</span><span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s">"ID1"</span><span class="p">:</span> <span class="s">"ID"</span><span class="p">,</span> <span class="s">"ID2"</span><span class="p">:</span> <span class="s">"ID"</span><span class="p">,</span> <span class="s">"NAME"</span><span class="p">:</span> <span class="s">"PATIENT"</span><span class="p">},</span>
                                                 <span class="n">columnsSeed</span><span class="o">=</span><span class="p">{</span><span class="s">"ID1"</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span> <span class="s">"ID2"</span><span class="p">:</span> <span class="mi">23</span><span class="p">},</span>
                                                 <span class="n">obfuscateRefSource</span><span class="o">=</span><span class="s">"faker"</span><span class="p">)</span>
@@ -5494,7 +5495,7 @@ results <span class="o">=</span> model.transform<span class="o">(</span>spark.cr
 sbert_embedder <span class="o">=</span> BertSentenceEmbeddings.pretrained<span class="o">(</span><span class="s1">'sbert_jsl_medium_uncased'</span>, <span class="s1">'en'</span>,<span class="s1">'clinical/models'</span><span class="o">)</span><span class="se">\</span>
       .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span><span class="o">])</span><span class="se">\</span>
       .setOutputCol<span class="o">(</span><span class="s2">"sbert_embeddings"</span><span class="o">)</span>
-    
+
 rxnorm_resolver <span class="o">=</span> SentenceEntityResolverModel.pretrained<span class="o">(</span><span class="s2">"sbertresolve_rxnorm_disposition"</span>, <span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span> <span class="se">\</span>
       .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span>, <span class="s2">"sbert_embeddings"</span><span class="o">])</span> <span class="se">\</span>
       .setOutputCol<span class="o">(</span><span class="s2">"rxnorm_code"</span><span class="o">)</span><span class="se">\</span>
@@ -5529,7 +5530,7 @@ rxnorm_lp <span class="o">=</span> LightPipeline<span class="o">(</span>pipeline
 sbert_embedder <span class="o">=</span> BertSentenceEmbeddings.pretrained<span class="o">(</span><span class="s1">'sbert_jsl_medium_uncased'</span>, <span class="s1">'en'</span>,<span class="s1">'clinical/models'</span><span class="o">)</span><span class="se">\</span>
       .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span><span class="o">])</span><span class="se">\</span>
       .setOutputCol<span class="o">(</span><span class="s2">"sbert_embeddings"</span><span class="o">)</span>
-    
+
 snomed_resolver <span class="o">=</span> SentenceEntityResolverModel.pretrained<span class="o">(</span><span class="s2">"sbertresolve_snomed_conditions"</span>, <span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span> <span class="se">\</span>
       .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span>, <span class="s2">"sbert_embeddings"</span><span class="o">])</span> <span class="se">\</span>
       .setOutputCol<span class="o">(</span><span class="s2">"snomed_code"</span><span class="o">)</span><span class="se">\</span>
@@ -5571,7 +5572,7 @@ clinical_ner_chunk <span class="o">=</span> NerConverter<span class="o">()</span
         .setOutputCol<span class="o">(</span><span class="s2">"clinical_ner_chunk"</span><span class="o">)</span><span class="se">\</span>
         .setWhiteList<span class="o">([</span><span class="s2">"PROBLEM"</span><span class="o">])</span>
 
-<span class="c"># to get DRUG entities </span>
+<span class="c"># to get DRUG entities</span>
 posology_ner <span class="o">=</span> MedicalNerModel<span class="o">()</span>.pretrained<span class="o">(</span><span class="s2">"ner_posology"</span>, <span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span> <span class="se">\</span>
         .setInputCols<span class="o">([</span><span class="s2">"sentence"</span>, <span class="s2">"token"</span>, <span class="s2">"word_embeddings"</span><span class="o">])</span> <span class="se">\</span>
         .setOutputCol<span class="o">(</span><span class="s2">"posology_ner"</span><span class="o">)</span>
@@ -5735,7 +5736,7 @@ tokenClassifier <span class="o">=</span> BertForTokenClassification.pretrained<s
        .setInputCols<span class="o">(</span><span class="s2">"token"</span>, <span class="s2">"sentence"</span><span class="o">)</span><span class="se">\</span>
        .setOutputCol<span class="o">(</span><span class="s2">"ner"</span><span class="o">)</span><span class="se">\</span>
        .setCaseSensitive<span class="o">(</span>True<span class="o">)</span>
-  
+
 ner_converter <span class="o">=</span> NerConverter<span class="o">()</span><span class="se">\</span>
         .setInputCols<span class="o">([</span><span class="s2">"sentence"</span>,<span class="s2">"token"</span>,<span class="s2">"ner"</span><span class="o">])</span><span class="se">\</span>
         .setOutputCol<span class="o">(</span><span class="s2">"ner_chunk"</span><span class="o">)</span>
@@ -5866,7 +5867,7 @@ tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_n
        .setInputCols("token", "sentence")\
        .setOutputCol("ner")\
        .setCaseSensitive(True)
-  
+
 ner_converter = NerConverter()\
         .setInputCols(["sentence","token","ner"])\
         .setOutputCol("ner_chunk")
@@ -5905,11 +5906,11 @@ res[0]['label']
        - "INS": Long Term Institutional
        - "NE": New Enrollee
        - "SNPNE": SNP NE
-       
+
 orec: Original reason for entitlement code.
       - "0": Old age and survivor's insurance
       - "1": Disability insurance benefits
-      - "2": End-stage renal disease 
+      - "2": End-stage renal disease
       - "3": Both DIB and ESRD
 
 medicaid: If the patient is in Medicaid or not.
@@ -5977,14 +5978,14 @@ medicaid: If the patient is in Medicaid or not.
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 <span class="kn">from</span> <span class="nn">sparknlp_jsl.functions</span> <span class="kn">import</span> <span class="n">profile</span><span class="p">,</span><span class="n">profileV22</span><span class="p">,</span><span class="n">profileV23</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s">"hcc_profileV24"</span><span class="p">,</span> <span class="n">profile</span><span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="n">icd10_code</span><span class="p">,</span> 
-                                          <span class="n">df</span><span class="p">.</span><span class="n">age</span><span class="p">,</span> 
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s">"hcc_profileV24"</span><span class="p">,</span> <span class="n">profile</span><span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="n">icd10_code</span><span class="p">,</span>
+                                          <span class="n">df</span><span class="p">.</span><span class="n">age</span><span class="p">,</span>
                                           <span class="n">df</span><span class="p">.</span><span class="n">gender</span><span class="p">,</span>
                                           <span class="n">df</span><span class="p">.</span><span class="n">eligibility</span><span class="p">,</span>
                                           <span class="n">df</span><span class="p">.</span><span class="n">orec</span><span class="p">,</span>
                                           <span class="n">df</span><span class="p">.</span><span class="n">medicaid</span>
                                           <span class="p">))</span>
-                                          
+
 <span class="n">df</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s">"hcc_profileV22"</span><span class="p">,</span> <span class="n">profileV22</span><span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="n">codes</span><span class="p">,</span> <span class="n">df</span><span class="p">.</span><span class="n">age</span><span class="p">,</span> <span class="n">df</span><span class="p">.</span><span class="n">sex</span><span class="p">,</span><span class="n">df</span><span class="p">.</span><span class="n">elig</span><span class="p">,</span><span class="n">df</span><span class="p">.</span><span class="n">orec</span><span class="p">,</span><span class="n">df</span><span class="p">.</span><span class="n">medicaid</span><span class="p">))</span>
 <span class="n">df</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s">"hcc_profileV23"</span><span class="p">,</span> <span class="n">profileV23</span><span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="n">codes</span><span class="p">,</span> <span class="n">df</span><span class="p">.</span><span class="n">age</span><span class="p">,</span> <span class="n">df</span><span class="p">.</span><span class="n">sex</span><span class="p">,</span><span class="n">df</span><span class="p">.</span><span class="n">elig</span><span class="p">,</span><span class="n">df</span><span class="p">.</span><span class="n">orec</span><span class="p">,</span><span class="n">df</span><span class="p">.</span><span class="n">medicaid</span><span class="p">))</span>
 
@@ -6639,7 +6640,7 @@ Current supported version for the model is CMS-HCC V24.</p>
 <p><em>Python:</em></p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from sparknlp_jsl.functions import profile
 df = df.withColumn("hcc_profile", profile(df.ICD_codes, df.Age, df.Gender))
-                                          
+
 df = df.withColumn("hcc_profile", F.from_json(F.col("hcc_profile"), schema))
 df= df.withColumn("risk_score", df.hcc_profile.getItem("risk_score"))\
       .withColumn("hcc_lst", df.hcc_profile.getItem("hcc_map"))\
@@ -6672,11 +6673,11 @@ RECORD 0------------------------------------------------------------------------
  OREC                | 0                                                                                                    
  Medicaid            | false                                                                                                 
  Disabled            | false                                                                                                
- hcc_profile         | {{"CNA_HCC18":0.302,"CNA_HCC85":0.331,"CNA_HCC23":0.194,"CNA_D3":0.0,"CNA_HCC85_gDiabetesMellit":... 
+ hcc_profile         | {{"CNA_HCC18":0.302,"CNA_HCC85":0.331,"CNA_HCC23":0.194,"CNA_D3":0.0,"CNA_HCC85_gDiabetesMellit":...
  risk_score          | 0.827                                                                                                
  hcc_lst             | {"E1169":["HCC18"],"I5030":["HCC85"],"I509":["HCC85"],"E852":["HCC23"]}                              
  parameters          | {"elig":"CNA","age":64,"sex":"F","origds":'0',"disabled":false,"medicaid":false}                   
- details             | {"CNA_HCC18":0.302,"CNA_HCC85":0.331,"CNA_HCC23":0.194,"CNA_D3":0.0,"CNA_HCC85_gDiabetesMellit":0.0} 
+ details             | {"CNA_HCC18":0.302,"CNA_HCC85":0.331,"CNA_HCC23":0.194,"CNA_D3":0.0,"CNA_HCC85_gDiabetesMellit":0.0}
 -RECORD 1-------------------------------------------------------------------------------------------------------------------
  Patient_ID          | 102                                                                                                  
  ICD_codes           | [G629, D469, D6181]                                                                                  
@@ -6686,7 +6687,7 @@ RECORD 0------------------------------------------------------------------------
  OREC                | 0                                                                                                    
  Medicaid            | false                                                                                                 
  Disabled            | false                                                                                                 
- hcc_profile         | {{"CNA_M75_79":0.473,"CNA_D1":0.0,"CNA_HCC46":1.372}, ["D1","HCC46"], {"D469":["HCC46"]}, {"elig"... 
+ hcc_profile         | {{"CNA_M75_79":0.473,"CNA_D1":0.0,"CNA_HCC46":1.372}, ["D1","HCC46"], {"D469":["HCC46"]}, {"elig"...
  risk_score          | 1.845                                                                                                
  hcc_lst             | {"D469":["HCC46"]}                                                                                   
  parameters          | {"elig":"CNA","age":77,"sex":"M","origds":'0',"disabled":false,"medicaid":false}                   
@@ -6700,11 +6701,11 @@ RECORD 0------------------------------------------------------------------------
  OREC                | 0                                                                                                    
  Medicaid            | false                                                                                                
  Disabled            | false                                                                                                
- hcc_profile         | {{"CNA_HCC10":0.675,"CNA_HCC40":0.421,"CNA_HCC48":0.192,"CNA_D3":0.0}, ["HCC10","HCC40","HCC48","... 
+ hcc_profile         | {{"CNA_HCC10":0.675,"CNA_HCC40":0.421,"CNA_HCC48":0.192,"CNA_D3":0.0}, ["HCC10","HCC40","HCC48","...
  risk_score          | 1.288                                                                                                
  hcc_lst             | {"D473":["HCC48"],"M069":["HCC40"],"C969":["HCC10"]}                                                 
  parameters          | {"elig":"CNA","age":16,"sex":"F","origds":'0',"disabled":false,"medicaid":false}                   
- details             | {"CNA_HCC10":0.675,"CNA_HCC40":0.421,"CNA_HCC48":0.192,"CNA_D3":0.0} 
+ details             | {"CNA_HCC10":0.675,"CNA_HCC40":0.421,"CNA_HCC48":0.192,"CNA_D3":0.0}
 </code></pre></div></div>
 
 <p>Here is a sample notebook : <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.1.Calculate_Medicare_Risk_Adjustment_Score.ipynb">Calculating Medicare Risk Adjustment Score</a></p>
@@ -6724,12 +6725,12 @@ sentence_chunk_embeddings = BertSentenceChunkEmbeddings\
     .setInputCols(["sentences", "ner_chunk"])\
     .setOutputCol("sentence_chunk_embeddings")\
     .setChunkWeight(0.5)
-    
+
 resolver = SentenceEntityResolverModel.pretrained('sbiobertresolve_icd10cm', 'en', 'clinical/models')\
             .setInputCols(["ner_chunk", "sentence_chunk_embeddings"]) \
               .setOutputCol("resolution")
-              
-text = """A 20 year old female patient badly tripped while going down stairs. She complains of right leg pain. 
+
+text = """A 20 year old female patient badly tripped while going down stairs. She complains of right leg pain.
 Her x-ray showed right hip fracture. Hair line fractures also seen on the left knee joint.
 She also suffered from trauma and slight injury on the head.
 
@@ -6745,7 +6746,7 @@ results = model.transform(spark.createDataFrame([[text]], ["text"]))
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|    | chunk               | entity              | code_with_old_approach | resolutions_with_old_approach                              | code_with_new_approach | resolutions_with_new_approach                                                                 |
 |---:|:--------------------|:--------------------|:-----------------------|:-----------------------------------------------------------|:-----------------------|:----------------------------------------------------------------------------------------------|
 |  0 | leg pain            | Symptom             | R1033                  | Periumbilical pain                                         | M79661                 | Pain in right lower leg                                                                       |
-|  1 | hip fracture        | Injury_or_Poisoning | M84459S                | Pathological fracture, hip, unspecified, sequela           | M84451S                | Pathological fracture, right femur, sequela                                                   | 
+|  1 | hip fracture        | Injury_or_Poisoning | M84459S                | Pathological fracture, hip, unspecified, sequela           | M84451S                | Pathological fracture, right femur, sequela                                                   |
 |  2 | Hair line fractures | Injury_or_Poisoning | S070XXS                | Crushing injury of face, sequela                           | S92592P                | Other fracture of left lesser toe(s), subsequent encounter for fracture with malunion         |
 |  3 | trauma              | Injury_or_Poisoning | T794XXS                | Traumatic shock, sequela                                   | S0083XS                | Contusion of other part of head, sequela                                                      |
 |  4 | slight injury       | Injury_or_Poisoning | B03                    | Smallpox                                                   | S0080XD                | Unspecified superficial injury of other part of head, subsequent encounter                    |
@@ -6777,8 +6778,8 @@ This release comes with new features, new models, bug fixes, and examples.</p>
         <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"re_ade_biobert"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">'clinical/models'</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"embeddings"</span><span class="p">,</span> <span class="s">"pos_tags"</span><span class="p">,</span> <span class="s">"ner_chunks"</span><span class="p">,</span> <span class="s">"dependencies"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setMaxSyntacticDistance</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>\ <span class="c1">#default: 0 
-</span>        <span class="p">.</span><span class="n">setPredictionThreshold</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>\ <span class="c1">#default: 0.5 
+        <span class="p">.</span><span class="n">setMaxSyntacticDistance</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>\ <span class="c1">#default: 0
+</span>        <span class="p">.</span><span class="n">setPredictionThreshold</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>\ <span class="c1">#default: 0.5
 </span>        <span class="p">.</span><span class="n">setRelationPairs</span><span class="p">([</span><span class="s">"ade-drug"</span><span class="p">,</span> <span class="s">"drug-ade"</span><span class="p">])</span> <span class="c1"># Possible relation pairs. Default: All Relations.
 </span>
 <span class="n">nlp_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documenter</span><span class="p">,</span> <span class="n">sentencer</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">words_embedder</span><span class="p">,</span> <span class="n">pos_tagger</span><span class="p">,</span> <span class="n">ner_tagger</span><span class="p">,</span> <span class="n">ner_chunker</span><span class="p">,</span> <span class="n">dependency_parser</span><span class="p">,</span> <span class="n">re_model</span><span class="p">])</span>
@@ -6795,7 +6796,7 @@ This release comes with new features, new models, bug fixes, and examples.</p>
 <p>Example:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">pretrained_ade_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">'explain_clinical_doc_ade'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'clinical/models'</span><span class="p">)</span>
-    
+
     <span class="n">result</span> <span class="o">=</span> <span class="n">pretrained_ade_pipeline</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">"""Been taking Lipitor for 15 years , have experienced sever fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps"""</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 </code></pre></div></div>
 
@@ -6863,7 +6864,7 @@ Relations:
             .setExternalRules(path="../src/test/resources/regex-matcher/rules.txt",delimiter=",")
 
         chunkConverter = ChunkConverter().setInputCols("regex").setOutputCol("chunk")
-        
+
 
 </code></pre>
 
@@ -6887,7 +6888,7 @@ This release comes with new features, new models, bug fixes, and examples.</p>
 
 <p>Users can now resume training/fine-tune existing(already trained) Spark NLP MedicalNer models on new data. Users can simply provide the path to any existing MedicalNer model and train it further on the new dataset:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ner_tagger = MedicalNerApproach().setPretrainedModelPath("/path/to/trained/medicalnermodel") 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ner_tagger = MedicalNerApproach().setPretrainedModelPath("/path/to/trained/medicalnermodel")
 </code></pre></div></div>
 
 <p>If the new dataset contains new tags/labels/entities, users can choose to override existing tags with the new ones. The default behaviour is to reset the list of existing tags and generate a new list from the new dataset. It is also possible to preserve the existing tags by setting the ‘overrideExistingTags’ parameter:</p>
@@ -6946,7 +6947,7 @@ Both the input and output formats for the annotator are <code class="language-pl
 	dateDf.select<span class="o">(</span><span class="s2">"date.result"</span>,<span class="s2">"text"</span><span class="o">)</span>.show<span class="o">()</span>
 </code></pre></div></div>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 +-----------+----------+
 |text        |  <span class="nb">date</span>    |
 +-----------+----------+
@@ -6974,14 +6975,14 @@ Both the input and output formats for the annotator are <code class="language-pl
                                      .setOutputCol<span class="o">(</span><span class="s2">"relations"</span><span class="o">)</span><span class="se">\</span>
                                      .setPredictionThreshold<span class="o">(</span>0.5<span class="o">)</span><span class="se">\</span>
                                      .setRelationPairs<span class="o">([</span><span class="s1">'ade-drug'</span>, <span class="s1">'drug-ade'</span><span class="o">])</span>
-    pipeline <span class="o">=</span> Pipeline<span class="o">(</span><span class="nv">stages</span><span class="o">=[</span>documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, 
+    pipeline <span class="o">=</span> Pipeline<span class="o">(</span><span class="nv">stages</span><span class="o">=[</span>documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter,
                                                    dependency_parser, re_ner_chunk_filter, re_model]<span class="o">)</span>
     text <span class="o">=</span><span class="s2">"""A 30 year old female presented with tense bullae due to excessive use of naproxin, and leg cramps relating to oxaprozin."""</span>
 
     p_model <span class="o">=</span> pipeline.fit<span class="o">(</span>spark.createDataFrame<span class="o">([[</span>text]]<span class="o">)</span>.toDF<span class="o">(</span><span class="s2">"text"</span><span class="o">))</span>
-    
+
     result <span class="o">=</span> p_model.transform<span class="o">(</span>data<span class="o">)</span>
-       
+
 </code></pre></div></div>
 
 <p>Results</p>
@@ -7118,12 +7119,12 @@ result = snomed_lp.fullAnnotate("Amputation stump")
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
- 
+
 sbert_embedder = BertSentenceEmbeddings\
      .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
      .setInputCols(["ner_chunk_doc"])\
      .setOutputCol("sbert_embeddings")
- 
+
 icdo_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icdo_augmented","en", "clinical/models") \
      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
      .setOutputCol("resolution")\
@@ -7520,9 +7521,9 @@ This column is optional and you can set it up with the <code class="language-pla
 Also, the name for the column can be changed using the following method; <code class="language-plaintext highlighter-rouge">.setMappingsColumn("newAlternativeName")</code>
 The new column will produce annotations with the following structure,</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Annotation(
-  type: chunk, 
-  begin: 17, 
-  end: 25, 
+  type: chunk,
+  begin: 17,
+  end: 25,
   result: 47,
     metadata:{
         originalChunk -&gt; 01/13/93  //Original text of the chunk
@@ -7618,7 +7619,7 @@ deid_pipeline.annotate<span class="o">(</span><span class="s2">"Record date : 20
 
 <h4 id="chunk-filtering-based-on-confidence">Chunk filtering based on confidence</h4>
 
-<p>We added a new annotator ChunkFiltererApproach that allows to load a csv with both entities and confidence thresholds. 
+<p>We added a new annotator ChunkFiltererApproach that allows to load a csv with both entities and confidence thresholds.
 This annotator will produce a ChunkFilterer model.</p>
 
 <p>You can load the dictionary with the following property <code class="language-plaintext highlighter-rouge">setEntitiesConfidenceResource()</code>.</p>
@@ -7635,12 +7636,12 @@ This annotator will produce a ChunkFilterer model.</p>
 <p>We have a ner_chunk column and sentence column with the following data:</p>
 
 <p>Ner_chunk</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|[{chunk, 141, 163, the genomicorganization, {entity -&gt; TREATMENT, sentence -&gt; 0, chunk -&gt; 0, confidence -&gt; 0.57785}, []}, {chunk, 209, 267, a candidate gene forType II 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|[{chunk, 141, 163, the genomicorganization, {entity -&gt; TREATMENT, sentence -&gt; 0, chunk -&gt; 0, confidence -&gt; 0.57785}, []}, {chunk, 209, 267, a candidate gene forType II
            diabetes mellitus, {entity -&gt; PROBLEM, sentence -&gt; 0, chunk -&gt; 1, confidence -&gt; 0.6614286}, []}, {chunk, 394, 408, byapproximately, {entity -&gt; TREATMENT, sentence -&gt; 1, chunk -&gt; 2, confidence -&gt; 0.7705}, []}, {chunk, 478, 508, single nucleotide polymorphisms, {entity -&gt; TREATMENT, sentence -&gt; 2, chunk -&gt; 3, confidence -&gt; 0.7204666}, []}, {chunk, 559, 581, aVal366Ala substitution, {entity -&gt; TREATMENT, sentence -&gt; 2, chunk -&gt; 4, confidence -&gt; 0.61505}, []}, {chunk, 588, 601, an 8 base-pair, {entity -&gt; TREATMENT, sentence -&gt; 2, chunk -&gt; 5, confidence -&gt; 0.29226667}, []}, {chunk, 608, 625, insertion/deletion, {entity -&gt; PROBLEM, sentence -&gt; 3, chunk -&gt; 6, confidence -&gt; 0.9841}, []}]|
 +-------
 </code></pre></div></div>
 <p>Sentence</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[{document, 0, 298, The human KCNJ9 (Kir 3.3, GIRK3) is a member of the G-protein-activated inwardly rectifying potassium (GIRK) channel family.Here we describe the genomicorganization of the KCNJ9 locus on chromosome 1q21-23 as a candidate gene forType II 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[{document, 0, 298, The human KCNJ9 (Kir 3.3, GIRK3) is a member of the G-protein-activated inwardly rectifying potassium (GIRK) channel family.Here we describe the genomicorganization of the KCNJ9 locus on chromosome 1q21-23 as a candidate gene forType II
              diabetes mellitus in the Pima Indian population., {sentence -&gt; 0}, []}, {document, 300, 460, The gene spansapproximately 7.6 kb and contains one noncoding and two coding exons ,separated byapproximately 2.2 and approximately 2.6 kb introns, respectively., {sentence -&gt; 1}, []}, {document, 462, 601, We identified14 single nucleotide polymorphisms (SNPs),
              including one that predicts aVal366Ala substitution, and an 8 base-pair, {sentence -&gt; 2}, []}, {document, 603, 626, (bp) insertion/deletion., {sentence -&gt; 3}, []}]
 </code></pre></div></div>
@@ -7762,7 +7763,7 @@ Given the sentence <code class="language-plaintext highlighter-rouge">The patien
   <li>
     <p><code class="language-plaintext highlighter-rouge">icd10cm_umls_mapping</code>: This pretrained pipeline maps ICD10CM codes to UMLS codes without using any text data. You’ll just feed white space-delimited ICD10CM codes and it will return the corresponding UMLS codes as a list. If there is no mapping, the original code is returned with no mapping.</p>
 
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'icd10cm': ['M89.50', 'R82.2', 'R09.01'], 
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'icd10cm': ['M89.50', 'R82.2', 'R09.01'],
     'umls': ['C4721411', 'C0159076', 'C0004044']}
 </code></pre></div>    </div>
   </li>
@@ -8173,9 +8174,9 @@ print(compatibility.findVersion("ner_deid"))
   .setSameEntityThreshold(0.8)\
   .setObfuscateRefSource("faker")
 
-  
+
 text =''' Provider: David Hale, M.D.
-          Pt: Jessica Parker 
+          Pt: Jessica Parker
           David told  Jessica that she will need to visit the clinic next month.'''
 </code></pre></div></div>
 
@@ -8327,7 +8328,7 @@ text =''' Provider: David Hale, M.D.
                         cache_pretrained_path='/home/ubuntu/cache_pretrained')
 
  &gt;&gt; result['outdated_models']
- 
+
   [{'model_name': 'clinical_ner_assertion',
     'current_version': '2.4.0',
     'latest_version': '2.6.4'},
@@ -8348,7 +8349,7 @@ text =''' Provider: David Hale, M.D.
     'latest_version': '2.5.0'}]
 
   &gt;&gt; result['version_comparison_dict']
-  
+
   [{'clinical_ner_assertion': {'current_version': '2.4.0', 'latest_version': '2.6.4'}}, {'jsl_ner_wip_clinical': {'current_version': '2.6.5', 'latest_version': '2.6.1'}}, {'jsl_ner_wip_greedy_clinical': {'current_version': '2.6.5', 'latest_version': '2.6.5'}}, {'jsl_ner_wip_modifier_clinical': {'current_version': '2.6.4', 'latest_version': '2.6.4'}}, {'jsl_rd_ner_wip_greedy_clinical': {'current_version': '2.6.1','latest_version': '2.6.2'}}]
 </code></pre></div></div>
 
@@ -8575,7 +8576,7 @@ text =''' Provider: David Hale, M.D.
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ner_model = NerDLModel.pretrained("ner_radiology", "en", "clinical/models")\
     .setInputCols("sentence","token","embeddings")\
     .setOutputCol("ner")
-            
+
 ner_chunker = NerChunker().\
     .setInputCols(["sentence","ner"])\
     .setOutputCol("ner_chunk")\
@@ -8600,11 +8601,11 @@ text = 'She has cystic cyst on her kidney.'
 ner_converter = NerConverter() \
       .setInputCols(["sentence", "token", "ner"]) \
       .setOutputCol("ner_chunk")
-      
+
 chunk_filterer = ChunkFilterer()\
       .setInputCols("sentence","ner_chunk")\
       .setOutputCol("chunk_filtered")\
-      .setCriteria("isin") \ 
+      .setCriteria("isin") \
       .setWhiteList(['severe fever','sore throat'])
 
 text = 'Patient with severe fever, sore throat, stomach pain, and a headache.'
