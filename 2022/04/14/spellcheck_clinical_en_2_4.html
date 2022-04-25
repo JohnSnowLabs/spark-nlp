@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Portuguese BioBERT Embeddings (from pucpr)- Spark NLP Model</title><meta name="description" content="DescriptionPretrained BioBERT Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. biobertpt-clin is a Portuguese model orginally...">
-<link rel="canonical" href="/2022/04/11/biobert_embeddings_clinical_pt_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Medical Spell Checker- Spark NLP Model</title><meta name="description" content="DescriptionContextual Spell Checker is a sequence-to-sequence model that detects and corrects spelling errors in your medical input text. It’s based on Leven...">
+<link rel="canonical" href="/2022/04/14/spellcheck_clinical_en_2_4.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -404,17 +404,19 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Apr 11, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-11T00:00:00+00:00"></div><header class="main-docs"><h1>Portuguese BioBERT Embeddings (from pucpr)</h1></header></div><meta itemprop="headline" content="Portuguese BioBERT Embeddings (from pucpr)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>pt</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-11T00:00:00+00:00">
-    <meta itemprop="keywords" content="pt,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Apr 14, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-14T00:00:00+00:00"></div><header class="main-docs"><h1>Medical Spell Checker</h1></header></div><meta itemprop="headline" content="Medical Spell Checker"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>spellcheck</li><li>medical</li><li>medical_spell_checker</li><li>spell_checker</li><li>spelling_corrector</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-14T00:00:00+00:00">
+    <meta itemprop="keywords" content="spellcheck,medical,medical_spell_checker,spell_checker,spelling_corrector,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Pretrained BioBERT Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. <code class="language-plaintext highlighter-rouge">biobertpt-clin</code> is a Portuguese model orginally trained by <code class="language-plaintext highlighter-rouge">pucpr</code>.</p>
+<p>Contextual Spell Checker is a sequence-to-sequence model that detects and corrects spelling errors in your medical input text. It’s based on Levenshtein Automation for generating candidate corrections and a Neural Language Model for ranking corrections. This model has been trained in a dataset containing data from different sources; MTSamples, i2b2 clinical notes, and several specific medical corpora. You can download the model that comes fully pretrained and ready to use. However, you can still customize it further without the need for re-training a new model from scratch. This can be accomplished by providing custom definitions for the word classes the model has been trained on, namely Dates, Numbers, Ages, Units, and Medications. This model is trained for PySpark 2.4.x users with SparkNLP 3.4.1.</p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/biobert_embeddings_clinical_pt_3.4.2_3.0_1649686994929.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<h2 id="predicted-entities">Predicted Entities</h2>
+
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/CONTEXTUAL_SPELL_CHECKER/" class="button button-orange">Live Demo</a>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/6.Clinical_Context_Spell_Checker.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/spellcheck_clinical_en_3.4.1_2.4_1649926082521.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -422,43 +424,81 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \    
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \    
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
-  
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"biobert_embeddings_clinical"</span><span class="p">,</span><span class="s">"pt"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
-    
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">])</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setContextChars</span><span class="p">([</span><span class="s">"*"</span><span class="p">,</span> <span class="s">"-"</span><span class="p">,</span> <span class="s">"“"</span><span class="p">,</span> <span class="s">"("</span><span class="p">,</span> <span class="s">"["</span><span class="p">,</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="s">"."</span><span class="p">,</span><span class="s">"</span><span class="se">\"</span><span class="s">"</span><span class="p">,</span> <span class="s">"”"</span><span class="p">,</span> <span class="s">","</span><span class="p">,</span> <span class="s">"?"</span><span class="p">,</span> <span class="s">")"</span><span class="p">,</span> <span class="s">"]"</span><span class="p">,</span> <span class="s">"!"</span><span class="p">,</span> <span class="s">";"</span><span class="p">,</span> <span class="s">":"</span><span class="p">,</span> <span class="s">"'s"</span><span class="p">,</span> <span class="s">"’s"</span><span class="p">])</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"Odeio o cancro"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">spellModel</span> <span class="o">=</span> <span class="n">ContextSpellCheckerModel</span>\
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'spellcheck_clinical'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'clinical/models'</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"checked"</span><span class="p">)</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span> <span class="o">=</span> <span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">spellModel</span><span class="p">])</span>
+
+<span class="n">empty</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">lp</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty</span><span class="p">))</span>
+
+<span class="n">example</span> <span class="o">=</span> <span class="p">[</span><span class="s">"Witth the hell of phisical terapy the patient was imbulated and on postoperative, the impatient tolerating a post curgical soft diet."</span><span class="p">,</span>
+           <span class="s">"With paint wel controlled on orall pain medications, she was discharged too reihabilitation facilitay."</span><span class="p">,</span>
+           <span class="s">"Abdomen is sort, nontender, and nonintended."</span><span class="p">,</span>
+           <span class="s">"Patient not showing pain or any wealth problems."</span><span class="p">,</span>
+           <span class="s">"No cute distress"</span><span class="p">]</span>
+
+<span class="n">lp</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
- 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">BertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"biobert_embeddings_clinical"</span><span class="o">,</span><span class="s">"pt"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setContextChars</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"*"</span><span class="o">,</span> <span class="s">"-"</span><span class="o">,</span> <span class="s">"“"</span><span class="o">,</span> <span class="s">"("</span><span class="o">,</span> <span class="s">"["</span><span class="o">,</span> <span class="s">"\n"</span><span class="o">,</span> <span class="s">"."</span><span class="o">,</span><span class="s">"\""</span><span class="o">,</span> <span class="s">"”"</span><span class="o">,</span> <span class="s">","</span><span class="o">,</span> <span class="s">"?"</span><span class="o">,</span> <span class="s">")"</span><span class="o">,</span> <span class="s">"]"</span><span class="o">,</span> <span class="s">"!"</span><span class="o">,</span> <span class="s">";"</span><span class="o">,</span> <span class="s">":"</span><span class="o">,</span> <span class="s">"'s"</span><span class="o">,</span> <span class="s">"’s"</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">))</span>
+ <span class="k">val</span> <span class="nv">spellChecker</span> <span class="k">=</span> <span class="nc">ContextSpellCheckerModel</span><span class="o">.</span>
+      <span class="nf">pretrained</span><span class="o">(</span><span class="s">"spellcheck_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">).</span>
+      <span class="nf">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">).</span>
+      <span class="nf">setOutputCol</span><span class="o">(</span><span class="s">"checked"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Odeio o cancro"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+ <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span>  <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">spellChecker</span><span class="o">))</span>
+ <span class="k">val</span> <span class="nv">empty_df</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">""</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+ <span class="k">val</span> <span class="nv">lp</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">LightPipeline</span><span class="o">(</span><span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">empty_df</span><span class="o">))</span>
+ <span class="k">val</span> <span class="nv">text</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">(</span><span class="s">"Witth the hell of phisical terapy the patient was imbulated and on postoperative, the impatient tolerating a post curgical soft diet."</span><span class="o">,</span>
+           <span class="s">"With paint wel controlled on orall pain medications, she was discharged too reihabilitation facilitay."</span><span class="o">,</span>
+           <span class="s">"Abdomen is sort, nontender, and nonintended."</span><span class="o">,</span>
+           <span class="s">"Patient not showing pain or any wealth problems."</span><span class="o">,</span>
+           <span class="s">"No cute distress"</span><span class="o">)</span>
+ <span class="nv">lp</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="n">text</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[{</span><span class="s1">'checked'</span>: <span class="o">[</span><span class="s1">'With'</span>,<span class="s1">'the'</span>,<span class="s1">'cell'</span>,<span class="s1">'of'</span>,<span class="s1">'physical'</span>,<span class="s1">'therapy'</span>,<span class="s1">'the'</span>,<span class="s1">'patient'</span>,<span class="s1">'was'</span>,<span class="s1">'ambulated'</span>,<span class="s1">'and'</span>,<span class="s1">'on'</span>,<span class="s1">'postoperative'</span>,<span class="s1">','</span>,<span class="s1">'the'</span>,<span class="s1">'patient'</span>,<span class="s1">'tolerating'</span>,<span class="s1">'a'</span>,<span class="s1">'post'</span>,<span class="s1">'surgical'</span>,<span class="s1">'soft'</span>,<span class="s1">'diet'</span>,<span class="s1">'.'</span><span class="o">]</span>,
+  <span class="s1">'document'</span>: <span class="o">[</span><span class="s1">'Witth the hell of phisical terapy the patient was imbulated and on postoperative, the impatient tolerating a post curgical soft diet.'</span><span class="o">]</span>,
+  <span class="s1">'token'</span>: <span class="o">[</span><span class="s1">'Witth'</span>,<span class="s1">'the'</span>,<span class="s1">'hell'</span>,<span class="s1">'of'</span>,<span class="s1">'phisical'</span>,<span class="s1">'terapy'</span>,<span class="s1">'the'</span>,<span class="s1">'patient'</span>,<span class="s1">'was'</span>,<span class="s1">'imbulated'</span>,<span class="s1">'and'</span>,<span class="s1">'on'</span>,<span class="s1">'postoperative'</span>,<span class="s1">','</span>,<span class="s1">'the'</span>,<span class="s1">'impatient'</span>,<span class="s1">'tolerating'</span>,<span class="s1">'a'</span>,<span class="s1">'post'</span>,<span class="s1">'curgical'</span>,<span class="s1">'soft'</span>,<span class="s1">'diet'</span>,<span class="s1">'.'</span><span class="o">]}</span>,
+ 
+ <span class="o">{</span><span class="s1">'checked'</span>: <span class="o">[</span><span class="s1">'With'</span>,<span class="s1">'pain'</span>,<span class="s1">'well'</span>,<span class="s1">'controlled'</span>,<span class="s1">'on'</span>,<span class="s1">'oral'</span>,<span class="s1">'pain'</span>,<span class="s1">'medications'</span>,<span class="s1">','</span>,<span class="s1">'she'</span>,<span class="s1">'was'</span>,<span class="s1">'discharged'</span>,<span class="s1">'to'</span>,<span class="s1">'rehabilitation'</span>,<span class="s1">'facility'</span>,<span class="s1">'.'</span><span class="o">]</span>,
+  <span class="s1">'document'</span>: <span class="o">[</span><span class="s1">'With paint wel controlled on orall pain medications, she was discharged too reihabilitation facilitay.'</span><span class="o">]</span>,
+  <span class="s1">'token'</span>: <span class="o">[</span><span class="s1">'With'</span>,<span class="s1">'paint'</span>,<span class="s1">'wel'</span>,<span class="s1">'controlled'</span>,<span class="s1">'on'</span>,<span class="s1">'orall'</span>,<span class="s1">'pain'</span>,<span class="s1">'medications'</span>,<span class="s1">','</span>,<span class="s1">'she'</span>,<span class="s1">'was'</span>,<span class="s1">'discharged'</span>,<span class="s1">'too'</span>,<span class="s1">'reihabilitation'</span>,<span class="s1">'facilitay'</span>,<span class="s1">'.'</span><span class="o">]}</span>,
+ 
+ <span class="o">{</span><span class="s1">'checked'</span>: <span class="o">[</span><span class="s1">'Abdomen'</span>,<span class="s1">'is'</span>,<span class="s1">'soft'</span>,<span class="s1">','</span>,<span class="s1">'nontender'</span>,<span class="s1">','</span>,<span class="s1">'and'</span>,<span class="s1">'nondistended'</span>,<span class="s1">'.'</span><span class="o">]</span>,
+  <span class="s1">'document'</span>: <span class="o">[</span><span class="s1">'Abdomen is sort, nontender, and nonintended.'</span><span class="o">]</span>,
+  <span class="s1">'token'</span>: <span class="o">[</span><span class="s1">'Abdomen'</span>,<span class="s1">'is'</span>,<span class="s1">'sort'</span>,<span class="s1">','</span>,<span class="s1">'nontender'</span>,<span class="s1">','</span>,<span class="s1">'and'</span>,<span class="s1">'nonintended'</span>,<span class="s1">'.'</span><span class="o">]}</span>,
+ 
+ <span class="o">{</span><span class="s1">'checked'</span>: <span class="o">[</span><span class="s1">'Patient'</span>,<span class="s1">'not'</span>,<span class="s1">'showing'</span>,<span class="s1">'pain'</span>,<span class="s1">'or'</span>,<span class="s1">'any'</span>,<span class="s1">'health'</span>,<span class="s1">'problems'</span>,<span class="s1">'.'</span><span class="o">]</span>,
+  <span class="s1">'document'</span>: <span class="o">[</span><span class="s1">'Patient not showing pain or any wealth problems.'</span><span class="o">]</span>,
+  <span class="s1">'token'</span>: <span class="o">[</span><span class="s1">'Patient'</span>,<span class="s1">'not'</span>,<span class="s1">'showing'</span>,<span class="s1">'pain'</span>,<span class="s1">'or'</span>,<span class="s1">'any'</span>,<span class="s1">'wealth'</span>,<span class="s1">'problems'</span>,<span class="s1">'.'</span><span class="o">]}</span>,
+ 
+ <span class="o">{</span><span class="s1">'checked'</span>: <span class="o">[</span><span class="s1">'No'</span>, <span class="s1">'acute'</span>, <span class="s1">'distress'</span><span class="o">]</span>,
+  <span class="s1">'document'</span>: <span class="o">[</span><span class="s1">'No cute distress'</span><span class="o">]</span>,
+  <span class="s1">'token'</span>: <span class="o">[</span><span class="s1">'No'</span>, <span class="s1">'cute'</span>, <span class="s1">'distress'</span><span class="o">]}]</span>
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -466,15 +506,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>biobert_embeddings_clinical</td>
+      <td>spellcheck_clinical</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.4.2+</td>
+      <td>Spark NLP for Healthcare 3.4.1</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -482,35 +522,27 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence, token]</td>
+      <td>[token]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[bert]</td>
+      <td>[corrected]</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>pt</td>
+      <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>667.9 MB</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>true</td>
+      <td>141.2 MB</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<ul>
-  <li>https://huggingface.co/pucpr/biobertpt-clin</li>
-  <li>https://aclanthology.org/2020.clinicalnlp-1.7/</li>
-  <li>https://github.com/HAILab-PUCPR/BioBERTpt</li>
-</ul>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-04-11T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>MTSamples, i2b2 clinical notes, and several specific medical corpora.</p>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-04-14T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -635,7 +667,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/04/11/biobert_embeddings_biomedical_pt_3_0.html">Portuguese BioBERT Embeddings (from pucpr)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/04/11/spellcheck_clinical_en_3_0.html">Medical Spell Checker</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/04/14/clinical_deidentification_pt_3_0.html">Clinical Deidentification Pipeline (Portuguese)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/04/14/spellcheck_clinical_pipeline_en_2_4.html">Medical Spell Checker Pipeline</a></div></div></div>
 
 </div>
 </div>

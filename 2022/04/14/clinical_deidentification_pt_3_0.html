@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Portuguese BioBERT Embeddings (from pucpr)- Spark NLP Model</title><meta name="description" content="DescriptionPretrained BioBERT Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. biobertpt-clin is a Portuguese model orginally...">
-<link rel="canonical" href="/2022/04/11/biobert_embeddings_clinical_pt_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Clinical Deidentification Pipeline (Portuguese)- Spark NLP Model</title><meta name="description" content="DescriptionThis pipeline is trained with w2v_cc_300d portuguese embeddings and can be used to deidentify PHI information from medical texts in Spanish. The P...">
+<link rel="canonical" href="/2022/04/14/clinical_deidentification_pt_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -404,17 +404,17 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Apr 11, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-11T00:00:00+00:00"></div><header class="main-docs"><h1>Portuguese BioBERT Embeddings (from pucpr)</h1></header></div><meta itemprop="headline" content="Portuguese BioBERT Embeddings (from pucpr)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>pt</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-11T00:00:00+00:00">
-    <meta itemprop="keywords" content="pt,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Apr 14, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-14T00:00:00+00:00"></div><header class="main-docs"><h1>Clinical Deidentification Pipeline (Portuguese)</h1></header></div><meta itemprop="headline" content="Clinical Deidentification Pipeline (Portuguese)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>deid</li><li>deidentification</li><li>pt</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-14T00:00:00+00:00">
+    <meta itemprop="keywords" content="deid,deidentification,pt,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Pretrained BioBERT Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. <code class="language-plaintext highlighter-rouge">biobertpt-clin</code> is a Portuguese model orginally trained by <code class="language-plaintext highlighter-rouge">pucpr</code>.</p>
+<p>This pipeline is trained with <code class="language-plaintext highlighter-rouge">w2v_cc_300d</code> portuguese embeddings and can be used to deidentify PHI information from medical texts in Spanish. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask, fake or obfuscate the following entities: <code class="language-plaintext highlighter-rouge">AGE</code>, <code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">PROFESSION</code>, <code class="language-plaintext highlighter-rouge">EMAIL</code>, <code class="language-plaintext highlighter-rouge">ID</code>, <code class="language-plaintext highlighter-rouge">COUNTRY</code>, <code class="language-plaintext highlighter-rouge">STREET</code>, <code class="language-plaintext highlighter-rouge">DOCTOR</code>, <code class="language-plaintext highlighter-rouge">HOSPITAL</code>, <code class="language-plaintext highlighter-rouge">PATIENT</code>, <code class="language-plaintext highlighter-rouge">URL</code>, <code class="language-plaintext highlighter-rouge">IP</code>, <code class="language-plaintext highlighter-rouge">ORGANIZATION</code>, <code class="language-plaintext highlighter-rouge">PHONE</code>, <code class="language-plaintext highlighter-rouge">ZIP</code>, <code class="language-plaintext highlighter-rouge">ACCOUNT</code>, <code class="language-plaintext highlighter-rouge">SSN</code>, <code class="language-plaintext highlighter-rouge">PLATE</code>, <code class="language-plaintext highlighter-rouge">SEX</code> and <code class="language-plaintext highlighter-rouge">IPADDR</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/biobert_embeddings_clinical_pt_3.4.2_3.0_1649686994929.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/clinical_deidentification_pt_3.4.1_3.0_1649956332889.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -422,43 +422,190 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \    
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \    
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
-  
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"biobert_embeddings_clinical"</span><span class="p">,</span><span class="s">"pt"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
-    
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">])</span>
+<span class="n">deid_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"clinical_deidentification"</span><span class="p">,</span> <span class="s">"pt"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"Odeio o cancro"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">sample</span> <span class="o">=</span> <span class="s">"""Dados do paciente.
+Nome: Mauro.
+Apelido: Gonçalves.
+NIF: 368503.
+NISS: 26 63514095.
+Endereço: Calle Miguel Benitez 90.
+CÓDIGO POSTAL: 28016.
+Dados de cuidados.
+Data de nascimento: 03/03/1946.
+País: Portugal.
+Idade: 70 anos Sexo: M.
+Data de admissão: 12/12/2016.
+Doutor: Ignacio Navarro Cuéllar NºCol: 28 28 70973.
+Relatório clínico do paciente: Paciente de 70 anos, mineiro reformado, sem alergias medicamentosas conhecidas, que apresenta como história pessoal: acidente de trabalho antigo com fracturas vertebrais e das costelas; operado por doença de Dupuytren na mão direita e iliofemoral esquerda; Diabetes Mellitus tipo II, hipercolesterolemia e hiperuricemia; alcoolismo activo, fumador de 20 cigarros / dia.
+Foi encaminhado dos cuidados primários porque apresentou uma vez hematúria macroscópica pós-morte e depois microhaematúria persistente, com micturição normal.
+O exame físico mostrou um bom estado geral, com abdómen e genitália normais; o exame rectal foi compatível com adenoma de próstata de grau I/IV.
+A urinálise mostrou 4 glóbulos vermelhos/campo e 0-5 leucócitos/campo; o resto do sedimento estava normal.
+Hemograma normal; a bioquímica mostrou glicemia de 169 mg/dl e triglicéridos de 456 mg/dl; função hepática e renal normal. PSA de 1,16 ng/ml.
+A citologia da urina era repetidamente desconfiada por malignidade.
+A radiografia simples abdominal mostra alterações degenerativas na coluna lombar e calcificações vasculares tanto no hipocôndrio como na pélvis.
+A ecografia urológica revelou cistos corticais simples no rim direito, uma bexiga inalterada com boa capacidade e uma próstata com 30g de peso.
+O IVUS mostrou normofuncionalismo renal bilateral, calcificações na silhueta renal direita e ureteres artrosados com imagens de adição no terço superior de ambos os ureteres, relacionadas com pseudodiverticulose ureteral. O cistograma mostra uma bexiga com boa capacidade, mas com paredes trabeculadas em relação à bexiga de stress. A tomografia computorizada abdominal é normal.
+A cistoscopia revelou a existência de pequenos tumores na bexiga, e a ressecção transuretral foi realizada com o resultado anatomopatológico do carcinoma urotelial superficial da bexiga.
+Referido por: Miguel Santos - Avenida dos Aliados, 22 Portugal E-mail: nnavcu@hotmail.com.
+"""</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">deid_pipeline</span> <span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
- 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
 
-<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">BertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"biobert_embeddings_clinical"</span><span class="o">,</span><span class="s">"pt"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">deid_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"clinical_deidentification"</span><span class="o">,</span> <span class="s">"pt"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">))</span>
+<span class="n">sample</span> <span class="k">=</span> <span class="s">"Dados do paciente.
+Nome: Mauro.
+Apelido: Gonçalves.
+NIF: 368503.
+NISS: 26 63514095.
+Endereço: Calle Miguel Benitez 90.
+CÓDIGO POSTAL: 28016.
+Dados de cuidados.
+Data de nascimento: 03/03/1946.
+País: Portugal.
+Idade: 70 anos Sexo: M.
+Data de admissão: 12/12/2016.
+Doutor: Ignacio Navarro Cuéllar NºCol: 28 28 70973.
+Relatório clínico do paciente: Paciente de 70 anos, mineiro reformado, sem alergias medicamentosas conhecidas, que apresenta como história pessoal: acidente de trabalho antigo com fracturas vertebrais e das costelas; operado por doença de Dupuytren na mão direita e iliofemoral esquerda; Diabetes Mellitus tipo II, hipercolesterolemia e hiperuricemia; alcoolismo activo, fumador de 20 cigarros / dia.
+Foi encaminhado dos cuidados primários porque apresentou uma vez hematúria macroscópica pós-morte e depois microhaematúria persistente, com micturição normal.
+O exame físico mostrou um bom estado geral, com abdómen e genitália normais; o exame rectal foi compatível com adenoma de próstata de grau I/IV.
+A urinálise mostrou 4 glóbulos vermelhos/campo e 0-5 leucócitos/campo; o resto do sedimento estava normal.
+Hemograma normal; a bioquímica mostrou glicemia de 169 mg/dl e triglicéridos de 456 mg/dl; função hepática e renal normal. PSA de 1,16 ng/ml.
+A citologia da urina era repetidamente desconfiada por malignidade.
+A radiografia simples abdominal mostra alterações degenerativas na coluna lombar e calcificações vasculares tanto no hipocôndrio como na pélvis.
+A ecografia urológica revelou cistos corticais simples no rim direito, uma bexiga inalterada com boa capacidade e uma próstata com 30g de peso.
+O IVUS mostrou normofuncionalismo renal bilateral, calcificações na silhueta renal direita e ureteres artrosados com imagens de adição no terço superior de ambos os ureteres, relacionadas com pseudodiverticulose ureteral. O cistograma mostra uma bexiga com boa capacidade, mas com paredes trabeculadas em relação à bexiga de stress. A tomografia computorizada abdominal é normal.
+A cistoscopia revelou a existência de pequenos tumores na bexiga, e a ressecção transuretral foi realizada com o resultado anatomopatológico do carcinoma urotelial superficial da bexiga.
+Referido por: Miguel Santos - Avenida dos Aliados, 22 Portugal E-mail: nnavcu@hotmail.com"</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Odeio o cancro"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">deid_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="n">sample</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Masked with entity labels
+<span class="nt">------------------------------</span>
+Dados <span class="k">do</span> &lt;SEX&gt;.
+Nome: &lt;PATIENT&gt;.
+Apelido: &lt;PATIENT&gt;.
+NIF: &lt;ID&gt;.
+NISS: &lt;ID&gt;.
+Endereço: &lt;STREET&gt;.
+CÓDIGO POSTAL: &lt;ZIP&gt;.
+Dados de cuidados.
+Data de nascimento: &lt;DATE&gt;.
+País: &lt;COUNTRY&gt;.
+Idade: &lt;AGE&gt; anos Sexo: &lt;SEX&gt;.
+Data de admissão: &lt;DATE&gt;.
+Doutor: &lt;DOCTOR&gt; Cuéllar NºCol: &lt;ID&gt; &lt;ID&gt; &lt;ID&gt;.
+Relatório clínico <span class="k">do</span> &lt;SEX&gt;: &lt;SEX&gt; de &lt;AGE&gt; anos, mineiro reformado, sem alergias medicamentosas conhecidas, que apresenta como história pessoal: acidente de trabalho antigo com fracturas vertebrais e das costelas<span class="p">;</span> operado por doença de Dupuytren na mão direita e iliofemoral esquerda<span class="p">;</span>
+Diabetes Mellitus tipo II, hipercolesterolemia e hiperuricemia<span class="p">;</span> alcoolismo activo, fumador de 20 cigarros / dia.
+Foi encaminhado dos cuidados primários porque apresentou uma vez hematúria macroscópica pós-morte e depois microhaematúria persistente, com micturição normal.
+O exame físico mostrou um bom estado geral, com abdómen e genitália normais<span class="p">;</span> o exame rectal foi compatível com adenoma de próstata de grau I/IV.
+A urinálise mostrou 4 glóbulos vermelhos/campo e 0-5 leucócitos/campo<span class="p">;</span> o resto <span class="k">do </span>sedimento estava normal.
+Hemograma normal<span class="p">;</span> a bioquímica mostrou glicemia de 169 mg/dl e triglicér&lt;SEX&gt; de 456 mg/dl<span class="p">;</span> função hepática e renal normal. PSA de 1,16 ng/ml.
+A citologia da urina era repetidamente desconfiada por malignidade.
+A radiografia simples abdominal mostra alterações degenerativas na coluna lombar e calcificações vasculares tanto no hipocôndrio como na pélvis.
+A ecografia urológica revelou cistos corticais simples no rim direito, uma bexiga inalterada com boa capacidade e uma próstata com 30g de peso.
+O IVUS mostrou normofuncionalismo renal bilateral, calcificações na silhueta renal direita e ureteres artrosados com imagens de adição no terço superior de ambos os ureteres, relacionadas com pseudodiverticulose ureteral. O cistograma mostra uma bexiga com boa capacidade, mas com paredes trabeculadas em relação à bexiga de stress.
+A tomografia computorizada abdominal é normal.
+A cistoscopia revelou a existência de pequenos tumores na bexiga, e a ressecção transuretral foi realizada com o resultado anatomopatológico <span class="k">do </span>carcinoma urotelial superficial da bexiga.
+Referido por: &lt;DOCTOR&gt; - &lt;STREET&gt;, 22 &lt;COUNTRY&gt; E-mail: &lt;EMAIL&gt;.
+
+Masked with chars
+<span class="nt">------------------------------</span>
+Dados <span class="k">do</span> <span class="o">[</span><span class="k">******</span><span class="o">]</span><span class="nb">.</span>
+Nome: <span class="o">[</span><span class="k">***</span><span class="o">]</span><span class="nb">.</span>
+Apelido: <span class="o">[</span><span class="k">*******</span><span class="o">]</span><span class="nb">.</span>
+NIF: <span class="o">[</span><span class="k">****</span><span class="o">]</span><span class="nb">.</span>
+NISS: <span class="o">[</span><span class="k">*********</span><span class="o">]</span><span class="nb">.</span>
+Endereço: <span class="o">[</span><span class="k">*********************</span><span class="o">]</span><span class="nb">.</span>
+CÓDIGO POSTAL: <span class="o">[</span><span class="k">***</span><span class="o">]</span><span class="nb">.</span>
+Dados de cuidados.
+Data de nascimento: <span class="o">[</span><span class="k">********</span><span class="o">]</span><span class="nb">.</span>
+País: <span class="o">[</span><span class="k">******</span><span class="o">]</span><span class="nb">.</span>
+Idade: <span class="k">**</span> anos Sexo: <span class="k">*</span><span class="nb">.</span>
+Data de admissão: <span class="o">[</span><span class="k">********</span><span class="o">]</span><span class="nb">.</span>
+Doutor: <span class="o">[</span><span class="k">*************</span><span class="o">]</span> Cuéllar NºCol: <span class="k">**</span> <span class="k">**</span> <span class="o">[</span><span class="k">***</span><span class="o">]</span><span class="nb">.</span>
+Relatório clínico <span class="k">do</span> <span class="o">[</span><span class="k">******</span><span class="o">]</span>: <span class="o">[</span><span class="k">******</span><span class="o">]</span> de <span class="k">**</span> anos, mineiro reformado, sem alergias medicamentosas conhecidas, que apresenta como história pessoal: acidente de trabalho antigo com fracturas vertebrais e das costelas<span class="p">;</span> operado por doença de Dupuytren na mão direita e iliofemoral esquerda<span class="p">;</span>
+Diabetes Mellitus tipo II, hipercolesterolemia e hiperuricemia<span class="p">;</span> alcoolismo activo, fumador de 20 cigarros / dia.
+Foi encaminhado dos cuidados primários porque apresentou uma vez hematúria macroscópica pós-morte e depois microhaematúria persistente, com micturição normal.
+O exame físico mostrou um bom estado geral, com abdómen e genitália normais<span class="p">;</span> o exame rectal foi compatível com adenoma de próstata de grau I/IV.
+A urinálise mostrou 4 glóbulos vermelhos/campo e 0-5 leucócitos/campo<span class="p">;</span> o resto <span class="k">do </span>sedimento estava normal.
+Hemograma normal<span class="p">;</span> a bioquímica mostrou glicemia de 169 mg/dl e triglicér[<span class="k">**</span><span class="o">]</span> de 456 mg/dl<span class="p">;</span> função hepática e renal normal. PSA de 1,16 ng/ml.
+A citologia da urina era repetidamente desconfiada por malignidade.
+A radiografia simples abdominal mostra alterações degenerativas na coluna lombar e calcificações vasculares tanto no hipocôndrio como na pélvis.
+A ecografia urológica revelou cistos corticais simples no rim direito, uma bexiga inalterada com boa capacidade e uma próstata com 30g de peso.
+O IVUS mostrou normofuncionalismo renal bilateral, calcificações na silhueta renal direita e ureteres artrosados com imagens de adição no terço superior de ambos os ureteres, relacionadas com pseudodiverticulose ureteral. O cistograma mostra uma bexiga com boa capacidade, mas com paredes trabeculadas em relação à bexiga de stress.
+A tomografia computorizada abdominal é normal.
+A cistoscopia revelou a existência de pequenos tumores na bexiga, e a ressecção transuretral foi realizada com o resultado anatomopatológico <span class="k">do </span>carcinoma urotelial superficial da bexiga.
+Referido por: <span class="o">[</span><span class="k">***********</span><span class="o">]</span> - <span class="o">[</span><span class="k">*****************</span><span class="o">]</span>, 22 <span class="o">[</span><span class="k">******</span><span class="o">]</span> E-mail: <span class="o">[</span><span class="k">****************</span><span class="o">]</span><span class="nb">.</span>
+
+Masked with fixed length chars
+<span class="nt">------------------------------</span>
+Dados <span class="k">do</span> <span class="k">****</span><span class="nb">.</span>
+Nome: <span class="k">****</span><span class="nb">.</span>
+Apelido: <span class="k">****</span><span class="nb">.</span>
+NIF: <span class="k">****</span><span class="nb">.</span>
+NISS: <span class="k">****</span><span class="nb">.</span>
+Endereço: <span class="k">****</span><span class="nb">.</span>
+CÓDIGO POSTAL: <span class="k">****</span><span class="nb">.</span>
+Dados de cuidados.
+Data de nascimento: <span class="k">****</span><span class="nb">.</span>
+País: <span class="k">****</span><span class="nb">.</span>
+Idade: <span class="k">****</span> anos Sexo: <span class="k">****</span><span class="nb">.</span>
+Data de admissão: <span class="k">****</span><span class="nb">.</span>
+Doutor: <span class="k">****</span> Cuéllar NºCol: <span class="k">****</span> <span class="k">****</span> <span class="k">****</span><span class="nb">.</span>
+Relatório clínico <span class="k">do</span> <span class="k">****</span>: <span class="k">****</span> de <span class="k">****</span> anos, mineiro reformado, sem alergias medicamentosas conhecidas, que apresenta como história pessoal: acidente de trabalho antigo com fracturas vertebrais e das costelas<span class="p">;</span> operado por doença de Dupuytren na mão direita e iliofemoral esquerda<span class="p">;</span>
+Diabetes Mellitus tipo II, hipercolesterolemia e hiperuricemia<span class="p">;</span> alcoolismo activo, fumador de 20 cigarros / dia.
+Foi encaminhado dos cuidados primários porque apresentou uma vez hematúria macroscópica pós-morte e depois microhaematúria persistente, com micturição normal.
+O exame físico mostrou um bom estado geral, com abdómen e genitália normais<span class="p">;</span> o exame rectal foi compatível com adenoma de próstata de grau I/IV.
+A urinálise mostrou 4 glóbulos vermelhos/campo e 0-5 leucócitos/campo<span class="p">;</span> o resto <span class="k">do </span>sedimento estava normal.
+Hemograma normal<span class="p">;</span> a bioquímica mostrou glicemia de 169 mg/dl e triglicér<span class="k">****</span> de 456 mg/dl<span class="p">;</span> função hepática e renal normal. PSA de 1,16 ng/ml.
+A citologia da urina era repetidamente desconfiada por malignidade.
+A radiografia simples abdominal mostra alterações degenerativas na coluna lombar e calcificações vasculares tanto no hipocôndrio como na pélvis.
+A ecografia urológica revelou cistos corticais simples no rim direito, uma bexiga inalterada com boa capacidade e uma próstata com 30g de peso.
+O IVUS mostrou normofuncionalismo renal bilateral, calcificações na silhueta renal direita e ureteres artrosados com imagens de adição no terço superior de ambos os ureteres, relacionadas com pseudodiverticulose ureteral. O cistograma mostra uma bexiga com boa capacidade, mas com paredes trabeculadas em relação à bexiga de stress.
+A tomografia computorizada abdominal é normal.
+A cistoscopia revelou a existência de pequenos tumores na bexiga, e a ressecção transuretral foi realizada com o resultado anatomopatológico <span class="k">do </span>carcinoma urotelial superficial da bexiga.
+Referido por: <span class="k">****</span> - <span class="k">****</span>, 22 <span class="k">****</span> E-mail: <span class="k">****</span><span class="nb">.</span>
+
+Obfuscated
+<span class="nt">------------------------------</span>
+Dados <span class="k">do </span>H..
+Nome: Marcos Alves.
+Apelido: Tiago Santos.
+NIF: 566-445.
+NISS: 134544332.
+Endereço: Rua de Santa María, 100.
+CÓDIGO POSTAL: 4099.
+Dados de cuidados.
+Data de nascimento: 31/03/1946.
+País: Espanha.
+Idade: 46 anos Sexo: Mulher.
+Data de admissão: 06/01/2017.
+Doutor: Carlos Melo Cuéllar NºCol: 134544332 134544332 124 445 311.
+Relatório clínico <span class="k">do </span>H.: M. de 46 anos, mineiro reformado, sem alergias medicamentosas conhecidas, que apresenta como história pessoal: acidente de trabalho antigo com fracturas vertebrais e das costelas<span class="p">;</span> operado por doença de Dupuytren na mão direita e iliofemoral esquerda<span class="p">;</span>
+Diabetes Mellitus tipo II, hipercolesterolemia e hiperuricemia<span class="p">;</span> alcoolismo activo, fumador de 20 cigarros / dia.
+Foi encaminhado dos cuidados primários porque apresentou uma vez hematúria macroscópica pós-morte e depois microhaematúria persistente, com micturição normal.
+O exame físico mostrou um bom estado geral, com abdómen e genitália normais<span class="p">;</span> o exame rectal foi compatível com adenoma de próstata de grau I/IV.
+A urinálise mostrou 4 glóbulos vermelhos/campo e 0-5 leucócitos/campo<span class="p">;</span> o resto <span class="k">do </span>sedimento estava normal.
+Hemograma normal<span class="p">;</span> a bioquímica mostrou glicemia de 169 mg/dl e triglicérHomen de 456 mg/dl<span class="p">;</span> função hepática e renal normal. PSA de 1,16 ng/ml.
+A citologia da urina era repetidamente desconfiada por malignidade.
+A radiografia simples abdominal mostra alterações degenerativas na coluna lombar e calcificações vasculares tanto no hipocôndrio como na pélvis.
+A ecografia urológica revelou cistos corticais simples no rim direito, uma bexiga inalterada com boa capacidade e uma próstata com 30g de peso.
+O IVUS mostrou normofuncionalismo renal bilateral, calcificações na silhueta renal direita e ureteres artrosados com imagens de adição no terço superior de ambos os ureteres, relacionadas com pseudodiverticulose ureteral. O cistograma mostra uma bexiga com boa capacidade, mas com paredes trabeculadas em relação à bexiga de stress.
+A tomografia computorizada abdominal é normal.
+A cistoscopia revelou a existência de pequenos tumores na bexiga, e a ressecção transuretral foi realizada com o resultado anatomopatológico <span class="k">do </span>carcinoma urotelial superficial da bexiga.
+Referido por: Carlos Melo - Avenida Dos Aliados, 56, 22 Espanha E-mail: maria.prado@jacob.com.
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -466,27 +613,23 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>biobert_embeddings_clinical</td>
+      <td>clinical_deidentification</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>pipeline</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.4.2+</td>
+      <td>Spark NLP for Healthcare 3.4.1+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
       <td>Official</td>
-    </tr>
-    <tr>
-      <td>Input Labels:</td>
-      <td>[sentence, token]</td>
-    </tr>
-    <tr>
-      <td>Output Labels:</td>
-      <td>[bert]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -494,23 +637,37 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>667.9 MB</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>true</td>
+      <td>1.3 GB</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="references">References</h2>
+<h2 id="included-models">Included Models</h2>
 
 <ul>
-  <li>https://huggingface.co/pucpr/biobertpt-clin</li>
-  <li>https://aclanthology.org/2020.clinicalnlp-1.7/</li>
-  <li>https://github.com/HAILab-PUCPR/BioBERTpt</li>
+  <li>DocumentAssembler</li>
+  <li>SentenceDetectorDLModel</li>
+  <li>TokenizerModel</li>
+  <li>WordEmbeddingsModel</li>
+  <li>MedicalNerModel</li>
+  <li>NerConverter</li>
+  <li>ContextualParserModel</li>
+  <li>ContextualParserModel</li>
+  <li>ContextualParserModel</li>
+  <li>ContextualParserModel</li>
+  <li>ContextualParserModel</li>
+  <li>ContextualParserModel</li>
+  <li>ContextualParserModel</li>
+  <li>RegexMatcherModel</li>
+  <li>RegexMatcherModel</li>
+  <li>ChunkMergeModel</li>
+  <li>DeIdentificationModel</li>
+  <li>DeIdentificationModel</li>
+  <li>DeIdentificationModel</li>
+  <li>DeIdentificationModel</li>
+  <li>Finisher</li>
 </ul>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-04-11T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-04-14T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -635,7 +792,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/04/11/biobert_embeddings_biomedical_pt_3_0.html">Portuguese BioBERT Embeddings (from pucpr)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/04/11/spellcheck_clinical_en_3_0.html">Medical Spell Checker</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/04/13/spellcheck_clinical_pipeline_en_3_0.html">Medical Spell Checker Pipeline</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/04/14/spellcheck_clinical_en_2_4.html">Medical Spell Checker</a></div></div></div>
 
 </div>
 </div>
