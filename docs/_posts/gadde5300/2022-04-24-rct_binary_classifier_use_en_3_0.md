@@ -1,6 +1,6 @@
 ---
 layout: model
-title: RCT Classifier (USE)
+title: RCT Binary Classifier (USE)
 author: John Snow Labs
 name: rct_binary_classifier_use
 date: 2022-04-24
