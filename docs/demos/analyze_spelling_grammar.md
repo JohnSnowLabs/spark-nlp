@@ -21,9 +21,9 @@ data:
         - title:  Correct Sentences Grammar
           id: correct_sentences_grammar 
           image: 
-              src: /assets/images/Grammar_Analysis.svg
+              src: /assets/images/Correct_Sentences_Grammar.svg
           image2: 
-              src: /assets/images/Grammar_Analysis_f.svg
+              src: /assets/images/Correct_Sentences_Grammar_f.svg
           excerpt: This demo shows how to correct grammatical errors in texts.
           actions:
           - text: Live Demo
@@ -106,9 +106,9 @@ data:
         - title:  Switch Between Active and Passive voice
           id: switch_between_active_passive_voice  
           image: 
-              src: /assets/images/Grammar_Analysis.svg
+              src: /assets/images/Switch_Between_Active_and_Passive_voice.svg
           image2: 
-              src: /assets/images/Grammar_Analysis_f.svg
+              src: /assets/images/Switch_Between_Active_and_Passive_voice_f.svg
           excerpt: This demo shows how to switch between active and passive sentences.
           actions:
           - text: Live Demo
@@ -120,9 +120,9 @@ data:
         - title:  Switch Between Informal and Formal style
           id: switch_between_informal_formal  
           image: 
-              src: /assets/images/Grammar_Analysis.svg
+              src: /assets/images/Switch_Between_Informal_and_Formal_style.svg
           image2: 
-              src: /assets/images/Grammar_Analysis_f.svg
+              src: /assets/images/Switch_Between_Informal_and_Formal_style_f.svg
           excerpt: This demo shows how to switch between texts written in formal and informal style.
           actions:
           - text: Live Demo
