@@ -147,9 +147,9 @@ data:
         - title: Text Generation with GPT-2
           id: text_generation_with_gpt2  
           image: 
-              src: /assets/images/Grammar_Analysis.svg
+              src: /assets/images/Text_Generation_gpt2.svg
           image2: 
-              src: /assets/images/Grammar_Analysis_f.svg
+              src: /assets/images/Text_Generation_gpt2_f.svg
           excerpt: This demo shows how to generate text using GPT-2 Transformer.
           actions:
           - text: Live Demo
