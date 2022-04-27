@@ -31,6 +31,9 @@ Classify medical text according to PICO framework.
 {:.h2_title}
 ## How to use
 
+This sample snippet may not include all the required components of the pipeline for readability purposes. However, you can find a complete example of all the end-to-end components of the pipeline by clicking the "Open in Colab" link included above.
+
+
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, BertEmbeddings (biobert_pubmed_base_cased), SentenceEmbeddings, ClassifierDLModel.
 
 <div class="tabs-box" markdown="1">

@@ -29,6 +29,9 @@ Deidentification NER (DL) is a Named Entity Recognition model that annotates tex
 
 ## How to use
 
+This sample snippet may not include all the required components of the pipeline for readability purposes. However, you can find a complete example of all the end-to-end components of the pipeline by clicking the "Open in Colab" link included above.
+
+
 Model is trained with the 'embeddings_clinical' word embeddings model, so be sure to use the same embeddings in the pipeline.
 
 <div class="tabs-box" markdown="1">

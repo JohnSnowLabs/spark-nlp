@@ -32,6 +32,9 @@ Paper: [How Much Knowledge Can You Pack Into the Parameters of a Language Model?
 
 ## How to use
 
+This sample snippet may not include all the required components of the pipeline for readability purposes. However, you can find a complete example of all the end-to-end components of the pipeline by clicking the "Open in Colab" link included above.
+
+
 Either set the following tasks or have them inline with your input:
 
 - nq question:

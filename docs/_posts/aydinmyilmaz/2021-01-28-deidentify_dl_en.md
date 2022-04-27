@@ -26,6 +26,9 @@ Deidentify (DL) is a deidentification model. It identifies instances of protecte
 
 ## How to use
 
+This sample snippet may not include all the required components of the pipeline for readability purposes. However, you can find a complete example of all the end-to-end components of the pipeline by clicking the "Open in Colab" link included above.
+
+
 Use as a downstream task of a pipeline including one of Spark NLP  deidentification ner models (i.e. `ner_deid_large`)
 
 <div class="tabs-box" markdown="1">

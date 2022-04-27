@@ -30,6 +30,9 @@ Analyze sentiment in reviews by classifying them as `positive` and `negative`. W
 
 ## How to use
 
+This sample snippet may not include all the required components of the pipeline for readability purposes. However, you can find a complete example of all the end-to-end components of the pipeline by clicking the "Open in Colab" link included above.
+
+
 Use in the pipeline with the pretrained multi-language `UniversalSentenceEncoder` annotator `tfhub_use_multi_lg`.
 
 <div class="tabs-box" markdown="1">

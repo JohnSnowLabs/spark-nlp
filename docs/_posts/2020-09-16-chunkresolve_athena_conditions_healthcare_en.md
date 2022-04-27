@@ -32,6 +32,9 @@ Athena Codes and their normalized definition.
 
 {:.h2_title}
 ## How to use
+
+This sample snippet may not include all the required components of the pipeline for readability purposes. However, you can find a complete example of all the end-to-end components of the pipeline by clicking the "Open in Colab" link included above.
+
 This model requires `embeddings_healthcare_100d` and `ner_healthcare` in the pipeline you use.
 
 <div class="tabs-box" markdown="1">

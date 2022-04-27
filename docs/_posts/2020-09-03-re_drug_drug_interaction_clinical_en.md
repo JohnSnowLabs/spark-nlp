@@ -28,7 +28,10 @@ Relation Extraction model based on syntactic features using deep learning. This 
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_drug_drug_interaction_clinical_en_2.5.5_2.4_1599156924424.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
-## How to use 
+## How to use
+
+This sample snippet may not include all the required components of the pipeline for readability purposes. However, you can find a complete example of all the end-to-end components of the pipeline by clicking the "Open in Colab" link included above.
+ 
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}

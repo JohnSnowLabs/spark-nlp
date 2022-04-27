@@ -31,7 +31,10 @@ Pretrained named entity recognition deep learning model for posology, this NER i
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_posology_small_en_2.4.2_2.4_1587513301751.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 {:.h2_title}
-## How to use 
+## How to use
+
+This sample snippet may not include all the required components of the pipeline for readability purposes. However, you can find a complete example of all the end-to-end components of the pipeline by clicking the "Open in Colab" link included above.
+ 
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}

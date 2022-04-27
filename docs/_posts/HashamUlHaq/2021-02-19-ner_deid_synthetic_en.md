@@ -30,6 +30,9 @@ Deidentification NER (Augmented) is a Named Entity Recognition model that annota
 
 ## How to use
 
+This sample snippet may not include all the required components of the pipeline for readability purposes. However, you can find a complete example of all the end-to-end components of the pipeline by clicking the "Open in Colab" link included above.
+
+
 This model is trained with the ‘embeddings_clinical’ word embeddings, so be sure to use the same embeddings within the pipeline in addition to document assembler, sentence detector, tokenizer and ner converter .
 
 <div class="tabs-box" markdown="1">

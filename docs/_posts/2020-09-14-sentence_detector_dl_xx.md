@@ -32,7 +32,10 @@ We are releasing two pretrained SDDL models: english and multilanguage that are 
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/models/sentence_detector_dl_xx_2.6.0_2.4_1600092755641.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 {:.h2_title}
-## How to use 
+## How to use
+
+This sample snippet may not include all the required components of the pipeline for readability purposes. However, you can find a complete example of all the end-to-end components of the pipeline by clicking the "Open in Colab" link included above.
+ 
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPythonNLU.html %}

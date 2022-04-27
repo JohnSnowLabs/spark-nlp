@@ -30,6 +30,9 @@ Assign assertion status to clinical entities extracted by Radiology NER based on
 
 ## How to use
 
+This sample snippet may not include all the required components of the pipeline for readability purposes. However, you can find a complete example of all the end-to-end components of the pipeline by clicking the "Open in Colab" link included above.
+
+
 Extract radiology entities using the radiology NER model in the pipeline and assign assertion status for them with `assertion_dl_radiology` pretrained model. Note: Example for demo purpose taken from: https://www.mtsamples.com/site/pages/sample.asp?Type=95-Radiology&Sample=1391-Chest%20PA%20&%20Lateral
 
 

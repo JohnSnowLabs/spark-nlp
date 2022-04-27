@@ -27,6 +27,9 @@ This model removes 'stop words' from text. Stop words are words so common that t
 {:.h2_title}
 ## How to use
 
+This sample snippet may not include all the required components of the pipeline for readability purposes. However, you can find a complete example of all the end-to-end components of the pipeline by clicking the "Open in Colab" link included above.
+
+
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
