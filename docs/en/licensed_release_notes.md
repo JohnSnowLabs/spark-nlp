@@ -28,6 +28,8 @@ We are glad to announce that 3.5.1 version of Spark NLP for Healthcare has been 
   - Fixing the confidence scores in `MedicalNerModel` when `setIncludeAllConfidenceScores` is true
   - Graph_builder `relation_extraction` model file name extension problem with `auto` parameter.
 
+- **List of recently updated or added models**
+
 #### Portuguese Deidentification Models
 
 This is the 6th supported language for deidentification (English, German, Spanish, Italian, French and Portuguese). This version includes two Portuguese deidentification models to mask or obfuscate Protected Health Information in the Portuguese language. The models are the following:
@@ -312,6 +314,21 @@ A mismatch problem between the tag with the highest confidence score and the pre
 ##### Graph_builder `relation_extraction` model file name extension problem with `auto` param
 
 A naming problem which occurs while generating a graph for Relation Extraction via graph builder was resolved. Now, the TF graph is generated with the correct extension (`.pb`).
+
+#### List of Recently Updated or Added Models
+
+- ner_deid_generic_pt
+- ner_deid_subentity_pt
+- clinical_deidentification_pt
+- sbiobertresolve_rxnorm_action_treatment
+- rct_binary_classifier_use 
+- rct_binary_classifier_biobert 
+- bert_sequence_classifier_binary_rct_biobert 
+- rct_binary_classifier_use_pipeline 
+- rct_binary_classifier_biobert_pipeline 
+- bert_sequence_classifier_binary_rct_biobert_pipeline 
+- sbiobertresolve_ndc
+
 
 ## 3.5.0
 We are glad to announce that Spark NLP Healthcare 3.5.0 has been released!
