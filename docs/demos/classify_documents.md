@@ -143,19 +143,5 @@ data:
             url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_EN_NEWS/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb 
-        - title: Classify Banking-related texts
-          id: classify_banking_related_texts   
-          image: 
-              src: /assets/images/Classify_Banking-related_texts.svg
-          image2: 
-              src: /assets/images/Classify_Banking-related_texts_f.svg
-          excerpt: This demo shows how to classify banking-related texts into 77 categories.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_BANKING/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb   
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb            
 ---
