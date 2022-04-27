@@ -26,6 +26,9 @@ Pretrained Bert Embeddings model, uploaded to Hugging Face, adapted and imported
 
 ## How to use
 
+The sample code snippet may not contain all required fields of a pipeline. In this case, you can reach out a related colab notebook containing the end-to-end pipeline and more by clicking the "Open in Colab" link above.
+
+
 
 
 <div class="tabs-box" markdown="1">

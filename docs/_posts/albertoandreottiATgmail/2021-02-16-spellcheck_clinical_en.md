@@ -27,6 +27,9 @@ This model has been trained in a dataset containing data from different sources;
 
 ## How to use
 
+The sample code snippet may not contain all required fields of a pipeline. In this case, you can reach out a related colab notebook containing the end-to-end pipeline and more by clicking the "Open in Colab" link above.
+
+
 In order to use this model, you need to setup a pipeline and feed tokens.
 
 <div class="tabs-box" markdown="1">

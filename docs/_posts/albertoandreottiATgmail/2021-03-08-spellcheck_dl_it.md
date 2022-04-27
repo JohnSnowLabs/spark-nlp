@@ -26,6 +26,9 @@ This is an Italian Context Spell Checker trained on the Paisà corpus.
 
 ## How to use
 
+The sample code snippet may not contain all required fields of a pipeline. In this case, you can reach out a related colab notebook containing the end-to-end pipeline and more by clicking the "Open in Colab" link above.
+
+
 The model works at the token level, so you must put it after tokenization.
 The model can change the length of the tokes when correcting words, so keep this in mind when using it before other annotators that may work with absolute references to the original document like NerConverter.
 

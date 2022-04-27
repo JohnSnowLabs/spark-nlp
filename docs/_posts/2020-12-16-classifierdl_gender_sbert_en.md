@@ -32,6 +32,9 @@ This model classifies the gender of the patient in the clinical document.
 
 {:.h2_title}
 ## How to use
+
+The sample code snippet may not contain all required fields of a pipeline. In this case, you can reach out a related colab notebook containing the end-to-end pipeline and more by clicking the "Open in Colab" link above.
+
 To classify your text, you can use this model as part of an nlp pipeline with the following stages: DocumentAssembler, BertSentenceEmbeddings (``sbiobert_base_cased_mli``), ClassifierDLModel.
 
 <div class="tabs-box" markdown="1">

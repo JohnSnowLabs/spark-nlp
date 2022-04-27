@@ -31,6 +31,9 @@ Identifies whether two question sentences are semantically repetitive or differe
 
 ## How to use
 
+The sample code snippet may not contain all required fields of a pipeline. In this case, you can reach out a related colab notebook containing the end-to-end pipeline and more by clicking the "Open in Colab" link above.
+
+
 - The model is trained with `sent_electra_large_uncased` embeddings therefore the same embeddings should be used in the prediction pipeline.
 
 - The question pairs should be identified with "q1" and "q2" in the text. The input text format should be as follows : `text = "q1: What is your name? q2: Who are you?"`

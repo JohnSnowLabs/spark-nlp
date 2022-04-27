@@ -25,6 +25,9 @@ This is one of the smaller BERT models referenced in [Well-Read Students Learn B
 
 ## How to use
 
+The sample code snippet may not contain all required fields of a pipeline. In this case, you can reach out a related colab notebook containing the end-to-end pipeline and more by clicking the "Open in Colab" link above.
+
+
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPythonNLU.html %}

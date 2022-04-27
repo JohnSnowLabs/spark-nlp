@@ -30,6 +30,9 @@ This model is trained on Few-NERD/inter public dataset and it extracts 8 entitie
 
 ## How to use
 
+The sample code snippet may not contain all required fields of a pipeline. In this case, you can reach out a related colab notebook containing the end-to-end pipeline and more by clicking the "Open in Colab" link above.
+
+
 The model is trained using `glove_100d` word embeddings so, you should use the same embeddings in your nlp pipeline.
 
 <div class="tabs-box" markdown="1">

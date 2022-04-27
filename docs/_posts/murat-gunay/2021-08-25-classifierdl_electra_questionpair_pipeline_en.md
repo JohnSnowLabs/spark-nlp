@@ -26,6 +26,9 @@ This pre-trained pipeline identifies whether the two question sentences are sema
 
 ## How to use
 
+The sample code snippet may not contain all required fields of a pipeline. In this case, you can reach out a related colab notebook containing the end-to-end pipeline and more by clicking the "Open in Colab" link above.
+
+
 - The question pairs should be identified with "q1" and "q2" in the text. The input text format should be as follows : `text = "q1: What is your name? q2: Who are you?"`.
 
 <div class="tabs-box" markdown="1">

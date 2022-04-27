@@ -30,6 +30,9 @@ This model maps predetected ner chunks (from a `MedicalNerModel`, a `ChunkConver
 
 ## How to use
 
+The sample code snippet may not contain all required fields of a pipeline. In this case, you can reach out a related colab notebook containing the end-to-end pipeline and more by clicking the "Open in Colab" link above.
+
+
 Use any `MedicalNer` Model from our ModelsHub that detects, for example, diagnosis, for Spanish. Then, use a `NerConverter` (in case your model has B-I-O notation). Create documents using `Chunk2Doc`. Then use a `Tokenizer` the split the chunk, and finally use the `roberta_base_biomedical_es` Roberta Embeddings model and a `SentenceEmbeddings` annotator with an average pooling strategy, as in the example.
 
 <div class="tabs-box" markdown="1">

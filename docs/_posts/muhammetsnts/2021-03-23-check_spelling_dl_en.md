@@ -26,6 +26,9 @@ Spell Checker is a sequence-to-sequence pipeline that detects and corrects spell
 
 ## How to use
 
+The sample code snippet may not contain all required fields of a pipeline. In this case, you can reach out a related colab notebook containing the end-to-end pipeline and more by clicking the "Open in Colab" link above.
+
+
 In order to use this pretrained pipeline, you need to just provide the text to be checked.
 
 <div class="tabs-box" markdown="1">
