@@ -1,2 +1,2 @@
-docs/_posts/C-K-Loan/2021-03-23-onto_recognize_entities_electra_large_en.md
-docs/_posts/C-K-Loan/2021-03-23-onto_recognize_entities_electra_large_en.md
+docs/_posts/Ahmetemintek/2022-03-21-w2v_cc_300d_de_2_4.md
+docs/_posts/Ahmetemintek/2022-03-21-w2v_cc_300d_de_2_4.md
