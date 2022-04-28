@@ -1,10 +1,2 @@
-docs/_includes/demomenu.html
-docs/demos/analyze_financial_models.md
-docs/demos/classify_documents.md
-docs/demos/entity_recognition.md
-docs/demos/text_classification.md
-docs/_includes/demomenu.html
-docs/demos/analyze_financial_models.md
-docs/demos/classify_documents.md
-docs/demos/entity_recognition.md
-docs/demos/text_classification.md
+docs/_posts/C-K-Loan/2021-03-23-onto_recognize_entities_electra_large_en.md
+docs/_posts/C-K-Loan/2021-03-23-onto_recognize_entities_electra_large_en.md
