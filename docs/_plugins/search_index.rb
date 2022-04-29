@@ -101,6 +101,59 @@ class Extractor
     nil
   end
 
+  def benchmarking_results(post_url)
+    if @content.include? '## Benchmarking'
+      m = /## Benchmarking(\r\n|\r|\n)+```bash(.*?)```/m.match(@content)
+      if m
+        buf = m[2].strip
+        # Using an external tool, to parse table information
+        cmd = "echo '#{buf}' | parse-markdown-table --format list"
+        result =`#{cmd}`
+        benchmarking_data = {}
+        begin
+          benchmarking_data = JSON.parse(result)
+          # Add validation for labels
+          if not benchmarking_data['headers'].include?('label')
+            print("Required header label missing for #{post_url}\n")
+            return nil
+          else
+            rows = benchmarking_data["rows"]
+            headers = benchmarking_data["headers"]
+            return_data = {post_url: post_url, labels: []}
+            for i in 0..rows.length()-1
+                row_data = {}
+                
+                for j in 0..headers.length()-1
+                    if headers[j] == ""
+                        next
+                    end
+                    unless rows[i][j].end_with?("--") || rows[i][j].end_with?("--:")
+                        key = headers[j]
+                        
+                        if headers[j] == "label"
+                            key = "name"
+                        end
+                        row_data[key] =  rows[i][j]
+                    end
+                    
+                end
+                unless row_data.empty?
+                    return_data[:labels] << row_data
+                end
+            end
+            return return_data
+          end
+        rescue JSON::ParserError => e
+          print("Invalid syntax for #{post_url}\n")
+        end
+      else
+        print("Benchmarking pattern match failed for #{post_url}\n")
+      end
+    end
+    nil
+  end
+
+
   private
 
   def comma_separated_predicted_entities(buf)
@@ -143,6 +196,7 @@ uniq_to_models_mapping = {}
 uniq_for_indexing = Set.new
 name_language_editions_sparkversion_to_models_mapping = {}
 models_json = {}
+models_benchmarking_json = {}
 
 changed_filenames = []
 
@@ -183,6 +237,11 @@ Jekyll::Hooks.register :posts, :pre_render do |post|
     predicted_entities: extractor.predicted_entities || [],
     type: doc_type,
   }
+
+  benchmarking_info = extractor.benchmarking_results(post.url)
+  if benchmarking_info
+    models_benchmarking_json[post.url] = benchmarking_info
+  end
 end
 
 Jekyll::Hooks.register :posts, :post_render do |post|
@@ -380,4 +439,7 @@ end
 Jekyll::Hooks.register :site, :post_write do |site|
   filename = File.join(site.config['destination'], 'models.json')
   File.write(filename, models_json.values.to_json)
+
+  benchmarking_filename = File.join(site.config['destination'], 'benchmarking.json')
+  File.write(benchmarking_filename, models_benchmarking_json.values.to_json)
 end
