@@ -537,18 +537,16 @@ object ResourceDownloader {
     cache.remove(request)
   }
 
-  def getDownloadSize(
-      name: String,
-      language: Option[String] = None,
-      folder: String = publicLoc): String = {
+  def getDownloadSize(resourceRequest: ResourceRequest): String = {
     var size: Option[Long] = None
+    val folder = resourceRequest.folder
     if (folder.equals(publicLoc)) {
-      size = publicDownloader.getDownloadSize(ResourceRequest(name, language, folder))
+      size = publicDownloader.getDownloadSize(resourceRequest)
     } else if (folder.startsWith("@")) {
       val actualLoc = folder.replace("@", "")
-      size = communityDownloader.getDownloadSize(ResourceRequest(name, language, actualLoc))
+      size = communityDownloader.getDownloadSize(resourceRequest)
     } else {
-      size = defaultDownloader.getDownloadSize(ResourceRequest(name, language, folder))
+      size = defaultDownloader.getDownloadSize(resourceRequest)
     }
     size match {
       case Some(downloadBytes) => FileHelper.getHumanReadableFileSize(downloadBytes)
