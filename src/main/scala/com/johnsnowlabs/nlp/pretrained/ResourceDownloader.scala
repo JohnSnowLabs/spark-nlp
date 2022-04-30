@@ -709,6 +709,6 @@ object PythonResourceDownloader {
 
   def getDownloadSize(name: String, language: String = "en", remoteLoc: String = null): String = {
     val correctedFolder = Option(remoteLoc).getOrElse(ResourceDownloader.publicLoc)
-    ResourceDownloader.getDownloadSize(name, Option(language), correctedFolder)
+    ResourceDownloader.getDownloadSize(ResourceRequest(name, Option(language), correctedFolder))
   }
 }
