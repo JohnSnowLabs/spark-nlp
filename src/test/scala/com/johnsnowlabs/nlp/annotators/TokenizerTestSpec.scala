@@ -256,9 +256,9 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
     Annotation(AnnotatorType.TOKEN, 60, 60, ".", Map("sentence" -> "0")))
 
   def getTokenizerOutput[T](
-                             tokenizer: TokenizerModel,
-                             data: DataFrame,
-                             mode: String = "finisher"): Array[T] = {
+      tokenizer: TokenizerModel,
+      data: DataFrame,
+      mode: String = "finisher"): Array[T] = {
     val finisher = new Finisher()
       .setInputCols("token")
       .setOutputAsArray(true)
@@ -275,10 +275,10 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
 
   /* here assembler can either be a SentenceDetector or a DocumentAssembler */
   def getTokenizerPipelineOutput[T](
-                                     assembler: Transformer,
-                                     tokenizer: TokenizerModel,
-                                     data: DataFrame,
-                                     mode: String = "finisher"): Array[T] = {
+      assembler: Transformer,
+      tokenizer: TokenizerModel,
+      data: DataFrame,
+      mode: String = "finisher"): Array[T] = {
 
     val finisher = new Finisher()
       .setInputCols("token")
@@ -673,18 +673,17 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
       .setInputCols("document")
       .setOutputCol("token")
 
-    val pipeline = new Pipeline().setStages(Array(
-      documentAssembler,
-      tokenizer
-    ))
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer))
 
     /** Run first to cache for more consistent results */
     var result: Array[Row] = pipeline.fit(data).transform(data).select("token.result").collect()
 
-    val tokens = result.foldLeft(ArrayBuffer.empty[String]) { (arr: ArrayBuffer[String], i: Row) =>
-      val Row(tokens: mutable.WrappedArray[String]) = i
-      arr ++= tokens.map(_.replaceAll("\\W", "")).filter(_.nonEmpty)
-    }.toArray
+    val tokens = result
+      .foldLeft(ArrayBuffer.empty[String]) { (arr: ArrayBuffer[String], i: Row) =>
+        val Row(tokens: mutable.WrappedArray[String]) = i
+        arr ++= tokens.map(_.replaceAll("\\W", "")).filter(_.nonEmpty)
+      }
+      .toArray
 
     val documentAssembler2 = new DocumentAssembler()
       .setInputCol("text")
@@ -695,17 +694,17 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
       .setOutputCol("token")
       .setExceptions(tokens.slice(0, 200))
 
-    val pipelineWithExceptions = new Pipeline().setStages(Array(
-      documentAssembler2,
-      tokenizerWithExceptions
-    ))
+    val pipelineWithExceptions =
+      new Pipeline().setStages(Array(documentAssembler2, tokenizerWithExceptions))
 
-    Benchmark.measure(iterations=20, forcePrint = true, description = "Time to tokenize Sherlock Holmes with exceptions") {
+    Benchmark.measure(
+      iterations = 20,
+      forcePrint = true,
+      description = "Time to tokenize Sherlock Holmes with exceptions") {
       pipelineWithExceptions.fit(data).transform(data).select("token.result").collect()
     }
 
   }
-
 
   "RecursiveTokenizer" should "split suffixes" taggedAs FastTest in {
 
