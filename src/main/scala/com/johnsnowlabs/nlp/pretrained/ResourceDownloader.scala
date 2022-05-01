@@ -437,7 +437,8 @@ object ResourceDownloader {
 
     var download_finished = false
     var path: Option[String] = None
-    val file_size = getDownloadSize(request.name, request.language, request.folder)
+    val file_size = getDownloadSize(
+      ResourceRequest(request.name, request.language, request.folder))
     require(
       !file_size.equals("-1"),
       s"Can not find ${request.name} inside ${request.folder} to download. Please make sure the name and location are correct!")
