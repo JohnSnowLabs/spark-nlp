@@ -4,7 +4,7 @@ title: Hindi Bert Embeddings (from Geotrend)
 author: John Snow Labs
 name: bert_embeddings_bert_base_hi_cased
 date: 2022-04-11
-tags: [hi, open_source]
+tags: [bert, embeddings, hi, open_source]
 task: Embeddings
 language: hi
 edition: Spark NLP 3.4.2

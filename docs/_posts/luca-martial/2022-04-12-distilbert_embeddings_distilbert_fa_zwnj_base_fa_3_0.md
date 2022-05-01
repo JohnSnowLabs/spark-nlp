@@ -4,7 +4,7 @@ title: Persian DistilBERT Embeddings (from HooshvareLab)
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_fa_zwnj_base
 date: 2022-04-12
-tags: [fa, open_source]
+tags: [distilbert, embeddings, fa, open_source]
 task: Embeddings
 language: fa
 edition: Spark NLP 3.4.2

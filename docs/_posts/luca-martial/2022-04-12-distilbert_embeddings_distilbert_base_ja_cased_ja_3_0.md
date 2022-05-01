@@ -4,7 +4,7 @@ title: Japanese DistilBERT Embeddings (from Geotrend)
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_ja_cased
 date: 2022-04-12
-tags: [ja, open_source]
+tags: [distilbert, embeddings, ja, open_source]
 task: Embeddings
 language: ja
 edition: Spark NLP 3.4.2

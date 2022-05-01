@@ -4,7 +4,7 @@ title: Chinese Bert Embeddings (from wangfan)
 author: John Snow Labs
 name: bert_embeddings_jdt_fin_roberta_wwm_large
 date: 2022-04-11
-tags: [zh, open_source]
+tags: [bert, embeddings, zh, open_source]
 task: Embeddings
 language: zh
 edition: Spark NLP 3.4.2

@@ -4,7 +4,7 @@ title: Indonesian DistilBERT Embeddings (from cahya)
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_indonesian
 date: 2022-04-12
-tags: [id, open_source]
+tags: [distilbert, embeddings, id, open_source]
 task: Embeddings
 language: id
 edition: Spark NLP 3.4.2

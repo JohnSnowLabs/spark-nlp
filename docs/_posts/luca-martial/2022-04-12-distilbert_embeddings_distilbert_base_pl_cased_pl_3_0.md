@@ -4,7 +4,7 @@ title: Polish DistilBERT Embeddings (from Geotrend)
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_pl_cased
 date: 2022-04-12
-tags: [pl, open_source]
+tags: [distilbert, embeddings, pl, open_source]
 task: Embeddings
 language: pl
 edition: Spark NLP 3.4.2

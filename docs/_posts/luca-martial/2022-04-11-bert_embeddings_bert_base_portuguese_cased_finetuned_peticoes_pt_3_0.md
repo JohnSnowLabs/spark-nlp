@@ -4,7 +4,7 @@ title: Portuguese Bert Embeddings (from Luciano)
 author: John Snow Labs
 name: bert_embeddings_bert_base_portuguese_cased_finetuned_peticoes
 date: 2022-04-11
-tags: [pt, open_source]
+tags: [bert, embeddings, pt, open_source]
 task: Embeddings
 language: pt
 edition: Spark NLP 3.4.2

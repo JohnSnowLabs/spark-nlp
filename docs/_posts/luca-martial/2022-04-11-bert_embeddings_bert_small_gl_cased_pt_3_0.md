@@ -4,7 +4,7 @@ title: Portuguese Bert Embeddings (from marcosgg)
 author: John Snow Labs
 name: bert_embeddings_bert_small_gl_cased
 date: 2022-04-11
-tags: [pt, open_source]
+tags: [bert, embeddings, pt, open_source]
 task: Embeddings
 language: pt
 edition: Spark NLP 3.4.2
