@@ -545,7 +545,8 @@ object ResourceDownloader {
       size = publicDownloader.getDownloadSize(resourceRequest)
     } else if (folder.startsWith("@")) {
       val actualLoc = folder.replace("@", "")
-      size = communityDownloader.getDownloadSize(resourceRequest)
+      size = communityDownloader.getDownloadSize(
+        ResourceRequest(resourceRequest.name, resourceRequest.language, actualLoc))
     } else {
       size = defaultDownloader.getDownloadSize(resourceRequest)
     }
