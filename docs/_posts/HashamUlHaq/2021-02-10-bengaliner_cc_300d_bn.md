@@ -7,6 +7,7 @@ date: 2021-02-10
 task: Named Entity Recognition
 language: bn
 edition: Spark NLP 2.7.3
+spark_version: 2.4
 tags: [open_source, bn, ner]
 supported: true
 article_header:
@@ -20,7 +21,7 @@ Detect 4 different types of entities in Indian text.
 
 ## Predicted Entities
 
-`PER` - Person, `ORG` - Orgnanization, `LOC` - Location, `TIME` - Time/Year.
+`PER`, `ORG`, `LOC`, `TIME`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_BN/){:.button.button-orange}

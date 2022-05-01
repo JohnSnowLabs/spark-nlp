@@ -7,6 +7,7 @@ date: 2020-12-28
 task: Translation
 language: xx
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [open_source, seq2seq, translation, afa, en, xx]
 supported: true
 article_header:
@@ -94,4 +95,4 @@ opus_df
 
 ## Data Source
 
-[https://huggingface.co/Helsinki-NLP/opus-mt-afa-en](https://huggingface.co/Helsinki-NLP/opus-mt-afa-en)
+[https://github.com/Helsinki-NLP/OPUS-MT-train/tree/master/models](https://github.com/Helsinki-NLP/OPUS-MT-train/tree/master/models)

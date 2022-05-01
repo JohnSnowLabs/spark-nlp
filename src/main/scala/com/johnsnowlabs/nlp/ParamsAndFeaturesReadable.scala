@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,10 @@ import org.apache.spark.sql.SparkSession
 
 import scala.collection.mutable.ArrayBuffer
 
-class FeaturesReader[T <: HasFeatures](baseReader: MLReader[T], onRead: (T, String, SparkSession) => Unit) extends MLReader[T] {
+class FeaturesReader[T <: HasFeatures](
+    baseReader: MLReader[T],
+    onRead: (T, String, SparkSession) => Unit)
+    extends MLReader[T] {
 
   override def load(path: String): T = {
 
@@ -52,8 +55,8 @@ trait ParamsAndFeaturesReadable[T <: HasFeatures] extends DefaultParamsReadable[
     readers.append(reader)
   }
 
-  override def read: MLReader[T] = new FeaturesReader(
-    super.read,
-    (instance: T, path: String, spark: SparkSession) => onRead(instance, path, spark)
-  )
+  override def read: MLReader[T] =
+    new FeaturesReader(
+      super.read,
+      (instance: T, path: String, spark: SparkSession) => onRead(instance, path, spark))
 }

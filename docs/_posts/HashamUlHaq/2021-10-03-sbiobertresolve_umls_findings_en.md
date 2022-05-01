@@ -26,7 +26,7 @@ This model returns CUI (concept unique identifier) codes for 200K concepts from 
 
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_UMLS_CUI/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_umls_findings_en_3.2.3_3.0_1633220877215.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -37,6 +37,7 @@ This model returns CUI (concept unique identifier) codes for 200K concepts from 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
+...
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
 sbert_embedder = BertSentenceEmbeddings\
@@ -53,26 +54,28 @@ pipeline = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, st
 
 data = spark.createDataFrame([["""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting."""]]).toDF("text")
 
-p_model = pipeline.fit(data)
-
-results = p_model.transform(data)
+results = pipeline.fit(data).transform(data)
 ```
 ```scala
+...
 val chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
-      .setInputCols(["ner_chunk_doc"])\
+val sbert_embedder = BertSentenceEmbeddings
+      .pretrained("sbiobert_base_cased_mli", "en","clinical/models")
+      .setInputCols(Array("ner_chunk_doc"))
       .setOutputCol("sbert_embeddings")
     
-val resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_umls_findings", "en", "clinical/models") \
-      .setInputCols(["ner_chunk_doc", "sbert_embeddings"]) \
-      .setOutputCol("resolution")\
+val resolver = SentenceEntityResolverModel
+      .pretrained("sbiobertresolve_umls_findings", "en", "clinical/models") 
+      .setInputCols(Array("ner_chunk_doc", "sbert_embeddings")) 
+      .setOutputCol("resolution")
       .setDistanceFunction("EUCLIDEAN")
 
-val p_model = new PipelineModel().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, resolver))
+val p_model = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, resolver))
     
-val data = Seq("A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting.").toDF("text")    
-val res = p_model.transform(data)
+val data = Seq("A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting.").toDF("text")  
+
+val res = p_model.fit(data).transform(data)
 ```
 </div>
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,14 +83,13 @@ public class FeatureVector implements Collector {
             addEntry(m.x[i], m.va[i] * coeff);
     }
 
-    public float squaredL2NormUnsafe()
-    {
-        TIntDoubleHashMap vec = new TIntDoubleHashMap(size<<1);
+    public float squaredL2NormUnsafe() {
+        TIntDoubleHashMap vec = new TIntDoubleHashMap(size << 1);
         for (int i = 0; i < size; ++i)
             vec.adjustOrPutValue(x[i], va[i], va[i]);
         float sum = 0;
         for (double v : vec.values())
-            sum += v*v;
+            sum += v * v;
         return sum;
     }
 
@@ -98,8 +97,14 @@ public class FeatureVector implements Collector {
         return size;
     }
 
-    public int x(int i) { return x[i]; }
-    public float value(int i) { return va[i]; }
+    public int x(int i) {
+        return x[i];
+    }
+
+    public float value(int i) {
+        return va[i];
+    }
+
     public float dotProduct(float[] y) {
         return dotProduct(this, y);
     }

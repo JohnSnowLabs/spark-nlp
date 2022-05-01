@@ -1,4 +1,4 @@
-#  Copyright 2017-2021 John Snow Labs
+#  Copyright 2017-2022 John Snow Labs
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -212,6 +212,9 @@ class _DownloadModel(ExtendedJavaWrapper):
     def __init__(self, reader, name, language, remote_loc, validator):
         super(_DownloadModel, self).__init__("com.johnsnowlabs.nlp.pretrained." + validator + ".downloadModel", reader,
                                              name, language, remote_loc)
+class _DownloadModelDirectly(ExtendedJavaWrapper):
+    def __init__(self, name, remote_loc="public/models"):
+        super(_DownloadModelDirectly, self).__init__("com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.downloadModelDirectly",name, remote_loc)
 
 
 class _DownloadPipeline(ExtendedJavaWrapper):
@@ -354,6 +357,12 @@ class _T5Loader(ExtendedJavaWrapper):
             "com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer.loadSavedModel", path, jspark)
 
 
+class _GPT2Loader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_GPT2Loader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer.loadSavedModel", path, jspark)
+
+
 class _MarianLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_MarianLoader, self).__init__(
@@ -446,3 +455,59 @@ class _BertSequenceClassifierLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_BertSequenceClassifierLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.BertForSequenceClassification.loadSavedModel", path, jspark)
+
+
+class _DistilBertSequenceClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_DistilBertSequenceClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForSequenceClassification.loadSavedModel", path,
+            jspark)
+
+
+class _RoBertaSequenceClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_RoBertaSequenceClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForSequenceClassification.loadSavedModel", path,
+            jspark)
+
+
+class _XlmRoBertaSequenceClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_XlmRoBertaSequenceClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForSequenceClassification.loadSavedModel", path,
+            jspark)
+
+
+class _LongformerSequenceClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_LongformerSequenceClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForSequenceClassification.loadSavedModel", path,
+            jspark)
+
+
+class _AlbertSequenceClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_AlbertSequenceClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForSequenceClassification.loadSavedModel", path,
+            jspark)
+
+
+class _XlnetSequenceClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_XlnetSequenceClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification.loadSavedModel", path,
+            jspark)
+
+
+class _DeBERTaLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_DeBERTaLoader, self).__init__(
+            "com.johnsnowlabs.nlp.embeddings.DeBertaEmbeddings.loadSavedModel", path,
+            jspark)
+
+
+class _DeBertaSequenceClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_DeBertaSequenceClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForSequenceClassification.loadSavedModel", path,
+            jspark)

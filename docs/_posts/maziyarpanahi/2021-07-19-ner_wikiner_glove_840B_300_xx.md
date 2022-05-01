@@ -22,12 +22,12 @@ We used WordEmbeddings (glove_840B_300) model for the embeddings to train this N
 
 ## Predicted Entities
 
-`B-LOC` 
-`I-LOC`
-`B-ORG`
-`I-ORG`
-`B-PER`
-`I-PER`
+- B-LOC
+- I-LOC
+- B-ORG
+- I-ORG
+- B-PER
+- I-PER
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

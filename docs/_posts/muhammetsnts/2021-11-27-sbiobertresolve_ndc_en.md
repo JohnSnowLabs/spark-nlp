@@ -24,7 +24,7 @@ This model maps clinical entities and concepts (like drugs/ingredients) to [Nati
 `NDC Codes`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_NDC/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_ndc_en_3.3.2_2.4_1638010818380.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -41,12 +41,13 @@ c2doc = Chunk2Doc()\
       .setInputCols("ner_chunk")\
       .setOutputCol("ner_chunk_doc") 
 
-sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
+sbert_embedder = BertSentenceEmbeddings\
+      .pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
       .setInputCols(["ner_chunk_doc"])\
-      .setOutputCol("sentence_embeddings")\
-      .setCaseSensitive(False)
+      .setOutputCol("sentence_embeddings")
     
-ndc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_ndc", "en", "clinical/models") \
+ndc_resolver = SentenceEntityResolverModel\
+      .pretrained("sbiobertresolve_ndc", "en", "clinical/models") \
       .setInputCols(["ner_chunk", "sentence_embeddings"]) \
       .setOutputCol("ndc_code")\
       .setDistanceFunction("EUCLIDEAN")\
@@ -65,29 +66,27 @@ resolver_pipeline = Pipeline(
         ndc_resolver
   ])
 
-model = resolver_pipeline.fit(spark.createDataFrame([['']]).toDF("text"))
+data = spark.createDataFrame([["""The patient was transferred secondary to inability and continue of her diabetes, the sacral decubitus, left foot pressure wound, and associated complications of diabetes. She is given aspirin 81 mg, folic acid 1 g daily, insulin glargine 100 UNT/ML injection and metformin 500 mg p.o. p.r.n."""]]).toDF("text")
 
-clinical_note = """The patient was transferred secondary to inability and continue of her diabetes, the sacral decubitus, left foot pressure wound, and associated complications of diabetes. 
-She is given aspirin 81 mg, folic acid 1 g daily, insulin glargine 100 UNT/ML injection and metformin 500 mg p.o. p.r.n."""
-
-result = model.transform(spark.createDataFrame([[clinical_note]]).toDF("text"))
+result = resolver_pipeline.fit(data).transform(data)
 ```
 ```scala
 ...
 
-val c2doc = Chunk2Doc()\
-      .setInputCols("ner_chunk")\
+val c2doc = Chunk2Doc()
+      .setInputCols("ner_chunk")
       .setOutputCol("ner_chunk_doc") 
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en","clinical/models")\
-      .setInputCols("ner_chunk_doc")\
-      .setOutputCol("sentence_embeddings")\
-      .setCaseSensitive(False)
+val sbert_embedder = BertSentenceEmbeddings
+      .pretrained("sbiobert_base_cased_mli", "en","clinical/models")
+      .setInputCols(Array("ner_chunk_doc"))
+      .setOutputCol("sentence_embeddings")
     
-val ndc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_ndc", "en", "clinical/models") \
-      .setInputCols(Array("ner_chunk", "sentence_embeddings")) \
-      .setOutputCol("ndc_code")\
-      .setDistanceFunction("EUCLIDEAN")\
+val ndc_resolver = SentenceEntityResolverModel
+      .pretrained("sbiobertresolve_ndc", "en", "clinical/models") 
+      .setInputCols(Array("ner_chunk", "sentence_embeddings")) 
+      .setOutputCol("ndc_code")
+      .setDistanceFunction("EUCLIDEAN")
       .setCaseSensitive(False)
     
 val resolver_pipeline = new Pipeline().setStages(Array(
@@ -102,10 +101,9 @@ val resolver_pipeline = new Pipeline().setStages(Array(
         ndc_resolver
         ))
 
-val model = resolver_pipeline.fit(spark.createDataFrame([['']]).toDF("text"))
-
 val clinical_note = Seq("The patient was transferred secondary to inability and continue of her diabetes, the sacral decubitus, left foot pressure wound, and associated complications of diabetes. She is given aspirin 81 mg, folic acid 1 g daily, insulin glargine 100 UNT/ML injection and metformin 500 mg p.o. p.r.n.")
-val result = model.transform(spark.createDataFrame([[clinical_note]]).toDF("text"))
+
+val result = resolver_pipeline.fit(clinical_note).transform(clinical_note)
 ```
 </div>
 

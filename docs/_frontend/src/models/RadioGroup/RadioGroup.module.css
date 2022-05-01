@@ -1,0 +1,7 @@
+.root {
+  display: flex;
+
+  & > label:not(:last-child) {
+    margin-right: 8px;
+  }
+}

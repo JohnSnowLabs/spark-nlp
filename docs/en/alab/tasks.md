@@ -80,7 +80,7 @@ When multiple Annotators are assigned to a task, the reviewer will see the task 
 
 ## View As Feature
 
-For users that have multiple roles (e.g. Annotator and Reviewer or Reviewer and Manager), the task status can get confusing. In order to elliminate all posible confusions, the *View As* filter was added. When selecting *View As Annotator* option, the task statuses are updated as if the only role the currently logged-in user has is Annotator. The same applies to *View As Reviewer* and *View as Manager*. This option is available only if the currently logged-in user has multiple roles.
+For users that have multiple roles (e.g. Annotator and Reviewer or Reviewer and Manager), the task status can get confusing. In order to eliminate all possible confusion, the *View As* filter was added. When selecting *View As Annotator* option, the task statuses are updated as if the only role the currently logged-in user has is Annotator. The same applies to *View As Reviewer* and *View as Manager*. This option is available only if the currently logged-in user has multiple roles.
 
 <img class="image image--xl" src="/assets/images/annotation_lab/1.8.0/view_as.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 

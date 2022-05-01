@@ -56,6 +56,10 @@ word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud", "ja") \
     .setInputCols(["sentence"]) \
     .setOutputCol("token")
 
+embeddings = WordEmbeddingsModel.pretrained("japanese_cc_300d", "ja") \
+    .setInputCols("sentence", "token") \
+    .setOutputCol("embeddings")
+
 pipeline = Pipeline().setStages([
     documentAssembler,
     sentence,

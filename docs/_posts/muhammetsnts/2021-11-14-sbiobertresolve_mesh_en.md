@@ -36,18 +36,17 @@ This model maps clinical entities to Medical Subject Heading (MeSH) codes using 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
-
 c2doc = Chunk2Doc()\
       .setInputCols("ner_chunk")\
       .setOutputCol("ner_chunk_doc") 
 
-sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
+sbert_embedder = BertSentenceEmbeddings\
+      .pretrained("sbiobert_base_cased_mli", "en","clinical/models")\
       .setInputCols(["ner_chunk_doc"])\
-      .setOutputCol("sentence_embeddings")\
-      .setCaseSensitive(False)
+      .setOutputCol("sentence_embeddings")
 
-
-mesh_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_mesh", "en", "clinical/models") \
+mesh_resolver = SentenceEntityResolverModel\
+      .pretrained("sbiobertresolve_mesh", "en", "clinical/models") \
       .setInputCols(["ner_chunk", "sentence_embeddings"]) \
       .setOutputCol("mesh_code")\
       .setDistanceFunction("EUCLIDEAN")\
@@ -66,29 +65,28 @@ resolver_pipeline = Pipeline(
   ])
 
 
-model = resolver_pipeline.fit(spark.createDataFrame([['']]).toDF("text"))
-text = """She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy with fluid biopsies, which were performed, which revealed malignant mesothelioma."""
+data = spark.createDataFrame([["""She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy with fluid biopsies, which were performed, which revealed malignant mesothelioma."""]]).toDF("text"))
 
-result = model.transform(spark.createDataFrame([[text]]).toDF("text"))
+result = resolver_pipeline.fit(data).transform(data)
 
 ```
 ```scala
 ...
 
-val c2doc = Chunk2Doc()\
-      .setInputCols("ner_chunk")\
+val c2doc = Chunk2Doc()
+      .setInputCols("ner_chunk")
       .setOutputCol("ner_chunk_doc") 
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
-      .setInputCols("ner_chunk_doc")\
-      .setOutputCol("sentence_embeddings")\
-      .setCaseSensitive(False)
+val sbert_embedder = BertSentenceEmbeddings
+      .pretrained("sbiobert_base_cased_mli", "en","clinical/models")
+      .setInputCols(Array("ner_chunk_doc"))
+      .setOutputCol("sentence_embeddings")
 
-
-val mesh_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_mesh", "en", "clinical/models") \
-      .setInputCols(Array("ner_chunk", "sentence_embeddings")) \
-      .setOutputCol("mesh_code")\
-      .setDistanceFunction("EUCLIDEAN")\
+val mesh_resolver = SentenceEntityResolverModel
+      .pretrained("sbiobertresolve_mesh", "en", "clinical/models")
+      .setInputCols(Array("ner_chunk", "sentence_embeddings"))
+      .setOutputCol("mesh_code")
+      .setDistanceFunction("EUCLIDEAN")
 
 val resolver_pipeline = new Pipeline(
     stages = Array(

@@ -7,6 +7,7 @@ date: 2020-12-09
 task: [Named Entity Recognition, Sentence Detection, Embeddings, Pipeline Public]
 language: en
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [pipeline, open_source, en]
 supported: true
 article_header:

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,16 +25,15 @@ trait StemmerBehaviors { this: AnyFlatSpec =>
 
   def fullStemmerPipeline(dataset: => Dataset[Row]) {
     "A Stemmer Annotator" should "successfully transform data" taggedAs FastTest in {
-      AnnotatorBuilder.withFullStemmer(dataset)
-        .collect.foreach {
-        row =>
-          row.getSeq[Row](2)
-            .map(Annotation(_))
-            .foreach {
-              case stem: Annotation if stem.annotatorType == AnnotatorType.TOKEN =>
-                println(stem, stem.result)
-              case _ => ()
-            }
+      AnnotatorBuilder.withFullStemmer(dataset).collect.foreach { row =>
+        row
+          .getSeq[Row](2)
+          .map(Annotation(_))
+          .foreach {
+            case stem: Annotation if stem.annotatorType == AnnotatorType.TOKEN =>
+              println(stem, stem.result)
+            case _ => ()
+          }
       }
     }
   }

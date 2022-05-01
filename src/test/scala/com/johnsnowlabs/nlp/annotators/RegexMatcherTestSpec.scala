@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,9 +23,9 @@ import org.scalatest.flatspec.AnyFlatSpec
 class RegexMatcherTestSpec extends AnyFlatSpec with RegexMatcherBehaviors {
   val df: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.englishPhrase)
   val strategy = "MATCH_ALL"
-  val rules = Array(
-    ("the\\s\\w+", "followed by 'the'"),
-    ("ceremonies", "ceremony")
-  )
-  "A full RegexMatcher pipeline with content" should behave like customizedRulesRegexMatcher(df, rules, strategy)
+  val rules = Array(("the\\s\\w+", "followed by 'the'"), ("ceremonies", "ceremony"))
+  "A full RegexMatcher pipeline with content" should behave like customizedRulesRegexMatcher(
+    df,
+    rules,
+    strategy)
 }

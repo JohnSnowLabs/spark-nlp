@@ -7,6 +7,7 @@ date: 2020-12-21
 task: Question Answering
 language: en
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [open_source, t5, en]
 supported: true
 article_header:

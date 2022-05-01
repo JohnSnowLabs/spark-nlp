@@ -7,6 +7,7 @@ date: 2020-12-16
 task: Text Classification
 language: en
 edition: Spark NLP for Healthcare 2.6.5
+spark_version: 2.4
 tags: [classifier, en, clinical, licensed]
 supported: true
 article_header:

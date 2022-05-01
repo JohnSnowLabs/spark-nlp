@@ -7,6 +7,7 @@ date: 2021-01-02
 task: Sentence Detection
 language: en
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [en, sentence_detection, open_source]
 supported: true
 article_header:

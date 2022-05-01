@@ -1,4 +1,4 @@
-#  Copyright 2017-2021 John Snow Labs
+#  Copyright 2017-2022 John Snow Labs
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -20,11 +20,11 @@ from pyspark.ml.wrapper import JavaModel, JavaEstimator
 from pyspark.ml.param.shared import Param, TypeConverters
 from pyspark.ml.param import Params
 from pyspark import keyword_only
+
 import sparknlp.internal as _internal
 
 
 class AnnotatorProperties(Params):
-
     inputCols = Param(Params._dummy(),
                       "inputCols",
                       "previous annotations columns, if renamed",
@@ -89,7 +89,8 @@ class AnnotatorProperties(Params):
         self.getOrDefault(self.lazyAnnotator)
 
 
-class AnnotatorModel(JavaModel, _internal.AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties, _internal.ParamsGettersSetters):
+class AnnotatorModel(JavaModel, _internal.AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties,
+                     _internal.ParamsGettersSetters):
 
     @keyword_only
     def setParams(self):
@@ -129,7 +130,6 @@ class HasEmbeddingsProperties(Params):
 
 
 class HasStorageRef:
-
     storageRef = Param(Params._dummy(), "storageRef",
                        "unique reference name for identification",
                        TypeConverters.toString)
@@ -156,7 +156,6 @@ class HasStorageRef:
 
 
 class HasBatchedAnnotate:
-
     batchSize = Param(Params._dummy(), "batchSize", "Size of every batch", TypeConverters.toInt)
 
     def setBatchSize(self, v):
@@ -208,7 +207,6 @@ class HasCaseSensitiveProperties:
 
 
 class HasExcludableStorage:
-
     includeStorage = Param(Params._dummy(),
                            "includeStorage",
                            "whether to include indexed storage in trained model",
@@ -236,7 +234,6 @@ class HasExcludableStorage:
 
 
 class HasStorage(HasStorageRef, HasCaseSensitiveProperties, HasExcludableStorage):
-
     storagePath = Param(Params._dummy(),
                         "storagePath",
                         "path to file",
@@ -308,7 +305,8 @@ class AnnotatorApproach(JavaEstimator, JavaMLWritable, _internal.AnnotatorJavaML
         raise NotImplementedError('Please implement _create_model in %s' % self)
 
 
-class RecursiveAnnotatorApproach(_internal.RecursiveEstimator, JavaMLWritable, _internal.AnnotatorJavaMLReadable, AnnotatorProperties,
+class RecursiveAnnotatorApproach(_internal.RecursiveEstimator, JavaMLWritable, _internal.AnnotatorJavaMLReadable,
+                                 AnnotatorProperties,
                                  _internal.ParamsGettersSetters):
     @keyword_only
     def __init__(self, classname):
@@ -365,3 +363,57 @@ class CoverageResult:
         self.covered = cov_obj.covered()
         self.total = cov_obj.total()
         self.percentage = cov_obj.percentage()
+
+
+class HasEnableCachingProperties:
+    enableCaching = Param(Params._dummy(),
+                          "enableCaching",
+                          "Whether to enable caching DataFrames or RDDs during the training",
+                          typeConverter=TypeConverters.toBoolean)
+
+    def setEnableCaching(self, value):
+        """Sets whether to enable caching DataFrames or RDDs during the training
+
+        Parameters
+        ----------
+        value : bool
+            Whether to enable caching DataFrames or RDDs during the training
+        """
+        return self._set(enableCaching=value)
+
+    def getEnableCaching(self):
+        """Gets whether to enable caching DataFrames or RDDs during the training
+
+        Returns
+        -------
+        bool
+            Whether to enable caching DataFrames or RDDs during the training
+        """
+        return self.getOrDefault(self.enableCaching)
+
+
+class HasClassifierActivationProperties:
+    activation = Param(Params._dummy(),
+                       "activation",
+                       "Whether to calcuate logits via Softmax or Sigmoid. Default is Softmax",
+                       typeConverter=TypeConverters.toString)
+
+    def setActivation(self, value):
+        """Sets whether to calcuate logits via Softmax or Sigmoid. Default is Softmax
+
+        Parameters
+        ----------
+        value : str
+            Whether to calcuate logits via Softmax or Sigmoid. Default is Softmax
+        """
+        return self._set(activation=value)
+
+    def getActivation(self):
+        """Gets whether to calcuate logits via Softmax or Sigmoid. Default is Softmax
+
+        Returns
+        -------
+        str
+            Whether to calcuate logits via Softmax or Sigmoid. Default is Softmax
+        """
+        return self.getOrDefault(self.activation)

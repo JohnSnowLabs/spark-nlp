@@ -7,6 +7,7 @@ date: 2021-02-15
 task: Text Classification
 language: en
 edition: Spark NLP 2.7.3
+spark_version: 2.4
 tags: [open_source, classifier, en]
 supported: true
 article_header:
@@ -40,7 +41,7 @@ embeddings = UniversalSentenceEncoder.pretrained('tfhub_use', lang="en") \
     .setInputCols(["document"])\
     .setOutputCol("sentence_embeddings")
 
-classifier = ClassifierDLModel('classifierdl_use_snips').setInputCols(['sentence_embeddings']).setOutputCol('class')
+classifier = ClassifierDLModel.pretrained('classifierdl_use_snips').setInputCols(['sentence_embeddings']).setOutputCol('class')
 
 nlp_pipeline = Pipeline(stages=[document_assembler, embeddings, classifier])
 
@@ -50,11 +51,11 @@ annotations = l_model.fullAnnotate(["i want to bring six of us to a bistro in to
 ```
 ```scala
 ...
-val embeddings = UniversalSentenceEncoder.pretrained('tfhub_use', lang="en") \
+val embeddings = UniversalSentenceEncoder.pretrained("tfhub_use", lang="en") \
     .setInputCols(Array("document"))\
     .setOutputCol("sentence_embeddings")
 
-val classifier = ClassifierDLModel('classifierdl_use_snips', 'en').setInputCols(Array('sentence_embeddings')).setOutputCol('class')
+val classifier = ClassifierDLModel.pretrained("classifierdl_use_snips", "en").setInputCols(Array("sentence_embeddings")).setOutputCol("class")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings, classifier))
 

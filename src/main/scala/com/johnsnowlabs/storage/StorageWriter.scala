@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@ trait StorageWriter[A] extends HasConnection {
 
   def flush(batch: WriteBatch): Unit = {
     val writeOptions = new WriteOptions()
+
     /** Might have disconnected already */
     if (connection.isConnected) {
       connection.getDb.write(writeOptions, batch)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,8 @@ trait SparkSessionTest extends BeforeAndAfterAll { this: Suite =>
     sentenceDetector.setInputCols("document").setOutputCol("sentence")
     val tokenizerWithSentence = new Tokenizer()
     tokenizerWithSentence.setInputCols("sentence").setOutputCol("token")
-    tokenizerWithSentencePipeline.setStages(Array(documentAssembler, sentenceDetector, tokenizerWithSentence))
+    tokenizerWithSentencePipeline.setStages(
+      Array(documentAssembler, sentenceDetector, tokenizerWithSentence))
   }
 
 }

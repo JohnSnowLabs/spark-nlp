@@ -7,6 +7,7 @@ date: 2021-01-03
 task: Word Segmentation
 language: ko
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [open_source, word_segmentation, ko]
 supported: true
 article_header:

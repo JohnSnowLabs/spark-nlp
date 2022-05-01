@@ -7,6 +7,7 @@ date: 2021-01-08
 task: Text Classification
 language: en
 edition: Spark NLP 2.7.1
+spark_version: 2.4
 tags: [classifier, text_classification, en, open_source]
 supported: true
 article_header:

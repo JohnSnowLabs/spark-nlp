@@ -21,18 +21,18 @@ This NER model was trained over the MIT Movie Corpus simple queries dataset to d
 
 ## Predicted Entities
 
-`ACTOR`
-`CHARACTER`
-`DIRECTOR`
-`GENRE`
-`PLOT`
-`RATING`
-`RATINGS_AVERAGE`
-`REVIEW`
-`SONG`
-`TITLE`
-`TRAILER`
-`YEAR`
+- ACTOR
+- CHARACTER
+- DIRECTOR
+- GENRE
+- PLOT
+- RATING
+- RATINGS_AVERAGE
+- REVIEW
+- SONG
+- TITLE
+- TRAILER
+- YEAR
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

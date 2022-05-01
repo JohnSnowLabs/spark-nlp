@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,10 +26,11 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class ClassifierDLTestSpec extends AnyFlatSpec {
 
-
   "ClassifierDL" should "correctly train IMDB train dataset" taggedAs SlowTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/classifier/sentiment.csv")
+    val smallCorpus = ResourceHelper.spark.read
+      .option("header", "true")
+      .csv("src/test/resources/classifier/sentiment.csv")
 
     println("count of training dataset: ", smallCorpus.count)
 
@@ -37,7 +38,8 @@ class ClassifierDLTestSpec extends AnyFlatSpec {
       .setInputCol("text")
       .setOutputCol("document")
 
-    val useEmbeddings = UniversalSentenceEncoder.pretrained()
+    val sentenceEmbeddings = BertSentenceEmbeddings
+      .pretrained("sent_small_bert_L2_128")
       .setInputCols("document")
       .setOutputCol("sentence_embeddings")
 
@@ -45,20 +47,14 @@ class ClassifierDLTestSpec extends AnyFlatSpec {
       .setInputCols("sentence_embeddings")
       .setOutputCol("category")
       .setLabelColumn("label")
-      .setBatchSize(64)
-      .setMaxEpochs(20)
+      .setBatchSize(8)
+      .setMaxEpochs(1)
       .setLr(5e-3f)
       .setDropout(0.5f)
       .setRandomSeed(44)
 
     val pipeline = new Pipeline()
-      .setStages(
-        Array(
-          documentAssembler,
-          useEmbeddings,
-          docClassifier
-        )
-      )
+      .setStages(Array(documentAssembler, sentenceEmbeddings, docClassifier))
 
     val pipelineModel = pipeline.fit(smallCorpus)
 
@@ -68,11 +64,13 @@ class ClassifierDLTestSpec extends AnyFlatSpec {
 
   "ClassifierDL" should "not fail on empty inputs" taggedAs SlowTest in {
 
-    val testData = ResourceHelper.spark.createDataFrame(Seq(
-      (1, "This is my first sentence. This is my second."),
-      (2, "This is my third sentence. . . . .... ..."),
-      (3, "")
-    )).toDF("id", "text")
+    val testData = ResourceHelper.spark
+      .createDataFrame(
+        Seq(
+          (1, "This is my first sentence. This is my second."),
+          (2, "This is my third sentence. . . . .... ..."),
+          (3, "")))
+      .toDF("id", "text")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -82,21 +80,18 @@ class ClassifierDLTestSpec extends AnyFlatSpec {
       .setInputCols("document")
       .setOutputCol("sentence")
 
-    val useEmbeddings = UniversalSentenceEncoder.pretrained()
+    val useEmbeddings = UniversalSentenceEncoder
+      .pretrained()
       .setInputCols("document")
       .setOutputCol("sentence_embeddings")
 
-    val sarcasmDL = ClassifierDLModel.pretrained(name = "classifierdl_use_sarcasm")
+    val sarcasmDL = ClassifierDLModel
+      .pretrained(name = "classifierdl_use_sarcasm")
       .setInputCols("sentence_embeddings")
       .setOutputCol("sarcasm")
 
-    val pipeline = new RecursivePipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentence,
-        useEmbeddings,
-        sarcasmDL
-      ))
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, sentence, useEmbeddings, sarcasmDL))
 
     val pipelineDF = pipeline.fit(testData).transform(testData)
     pipelineDF.select("sentence.result").show(false)
@@ -109,7 +104,7 @@ class ClassifierDLTestSpec extends AnyFlatSpec {
 
   "ClassifierDL" should "correctly download and load pre-trained model" taggedAs FastTest in {
     val classifierDL = ClassifierDLModel.pretrained("classifierdl_use_trec50")
-    classifierDL.getClasses.foreach(x=>print(x+", "))
+    classifierDL.getClasses.foreach(x => print(x + ", "))
   }
 
 }

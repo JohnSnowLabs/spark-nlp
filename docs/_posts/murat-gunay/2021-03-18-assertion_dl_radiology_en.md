@@ -24,7 +24,7 @@ Assign assertion status to clinical entities extracted by Radiology NER based on
 `Confirmed`, `Suspected`, `Negative`.
 
 {:.btn-box}
-[Live Demo](https://demo.johnsnowlabs.com/healthcare/ASSERTION/){:.button.button-orange}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ASSERTION_RADIOLOGY/){:.button.button-orange}
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/assertion_dl_radiology_en_2.7.4_2.4_1616071311532.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

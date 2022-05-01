@@ -39,7 +39,7 @@ unset AWS_SESSION_TOKEN
 aws sts get-session-token --serial-number $MFA_DEVICE_ID --duration-seconds $DURATION --token-code $TOKEN |
     jq -r \
         --arg aki "AWS_ACCESS_KEY_ID:" \
-        --arg asak "AWS_ACCESS_KEY_ID:" \
+        --arg asak "AWS_SECRET_ACCESS_KEY:" \
         --arg ast "AWS_SESSION_TOKEN:" \
     '.Credentials|($aki + " " + .AccessKeyId),($asak + " " + .SecretAccessKey),($ast + " " + .SessionToken)'
 

@@ -7,6 +7,7 @@ date: 2020-09-08
 task: Named Entity Recognition
 language: en
 edition: Spark NLP 2.6.0
+spark_version: 2.4
 tags: [ner, en, open_source]
 supported: true
 article_header:
@@ -24,7 +25,7 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Predicted Entities 
-Persons-`PER`, Locations-`LOC`, Organizations-`ORG`, Miscellaneous-`MISC`.
+`PER`, `LOC`, `ORG`, `MISC`
 
 ## How to use 
 

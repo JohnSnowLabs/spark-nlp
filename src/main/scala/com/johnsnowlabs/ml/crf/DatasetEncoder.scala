@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ package com.johnsnowlabs.ml.crf
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.reflect.ClassTag
-
 
 class DatasetEncoder(val startLabel: String = "@#Start") {
 
@@ -50,7 +49,6 @@ class DatasetEncoder(val startLabel: String = "@#Start") {
   // All transitions
   def transitions = transFeaturesFreq.keys.toSeq
 
-
   private def addAttrFeature(label: Int, attr: Int, value: Float): Unit = {
     val featureId = attrFeatures2Id.getOrElseUpdate((attr, label), attrFeatures2Id.size)
 
@@ -77,30 +75,32 @@ class DatasetEncoder(val startLabel: String = "@#Start") {
   private def getAttr(attr: String, isNumerical: Boolean): Int = {
     val attrId = attr2Id.getOrElseUpdate(attr, attr2Id.size)
     if (attrId >= attributes.size) {
-      attributes.append(
-        Attr(attrId, attr, isNumerical))
+      attributes.append(Attr(attrId, attr, isNumerical))
     }
 
     attrId
   }
 
-  def getFeatures(prevLabel: String = startLabel,
-                  label: String,
-                  binaryAttrs: Seq[String],
-                  numAttrs: Seq[Float]): (Int, SparseArray) = {
+  def getFeatures(
+      prevLabel: String = startLabel,
+      label: String,
+      binaryAttrs: Seq[String],
+      numAttrs: Seq[Float]): (Int, SparseArray) = {
     val labelId = getLabel(label)
 
-    val binFeature = binaryAttrs.map{attr =>
+    val binFeature = binaryAttrs.map { attr =>
       val attrId = getAttr(attr, false)
       addAttrFeature(labelId, attrId, 1f)
       (attrId, 1f)
     }
 
-    val numFeatures = numAttrs.zipWithIndex.map{case(value, idx) => {
-      val attrId = getAttr("num" + idx, true)
-      addAttrFeature(labelId, attrId, value)
-      (attrId, value)
-    }}
+    val numFeatures = numAttrs.zipWithIndex.map {
+      case (value, idx) => {
+        val attrId = getAttr("num" + idx, true)
+        addAttrFeature(labelId, attrId, value)
+        (attrId, value)
+      }
+    }
 
     val fromId = getLabel(prevLabel)
     addTransFeature(fromId, labelId)
@@ -128,11 +128,10 @@ class DatasetEncoder(val startLabel: String = "@#Start") {
       copy(attributes),
       copy(attrFeatures),
       transitions.toArray,
-      (attrsStat ++ transitionsStat).toArray
-    )
+      (attrsStat ++ transitionsStat).toArray)
   }
 
-  private def copy[T : ClassTag](source: IndexedSeq[T]): Array[T] = {
+  private def copy[T: ClassTag](source: IndexedSeq[T]): Array[T] = {
     if (source.length == 0) {
       Array.empty[T]
     } else {

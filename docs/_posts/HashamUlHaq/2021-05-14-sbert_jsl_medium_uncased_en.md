@@ -22,7 +22,7 @@ This model is trained to generate contextual sentence embeddings of input senten
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbert_jsl_medium_uncased_en_3.0.3_3.0_1621017111185.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbert_jsl_medium_uncased_en_3.0.3_2.4_1621017111185.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 

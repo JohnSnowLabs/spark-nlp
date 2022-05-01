@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,13 +41,11 @@ class NerCrfApproachTestSpec extends AnyFlatSpec {
     assert(nerModel.dictionaryFeatures.getOrDefault == loadedNer.dictionaryFeatures.getOrDefault)
   }
 
-
   it should "have correct set of labels" taggedAs FastTest in {
     assert(nerModel.model.isSet)
     val metadata = nerModel.model.getOrDefault.metadata
     assert(metadata.labels.toSeq == Seq("@#Start", "PER", "O", "ORG", "LOC"))
   }
-
 
   it should "correctly store annotations" taggedAs FastTest in {
     val tagged = nerModel.transform(nerInputDataset)
@@ -64,7 +62,6 @@ class NerCrfApproachTestSpec extends AnyFlatSpec {
     }
   }
 
-
   it should "correctly tag sentences" taggedAs FastTest in {
     val tagged = nerModel.transform(nerInputDataset)
     val annotations = Annotation.collect(tagged, "ner").flatten
@@ -73,7 +70,6 @@ class NerCrfApproachTestSpec extends AnyFlatSpec {
     assert(tags.toList == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
   }
 
-
   "NerCrfModel" should "correctly train using dataset from file" taggedAs SlowTest in {
     val tagged = AnnotatorBuilder.withNerCrfTagger(nerInputDataset)
     val annotations = Annotation.collect(tagged, "ner").flatten
@@ -81,7 +77,6 @@ class NerCrfApproachTestSpec extends AnyFlatSpec {
     val tags = annotations.map(a => a.result).toSeq
     assert(tags.toList == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
   }
-
 
   it should "correctly handle entities param" taggedAs FastTest in {
 

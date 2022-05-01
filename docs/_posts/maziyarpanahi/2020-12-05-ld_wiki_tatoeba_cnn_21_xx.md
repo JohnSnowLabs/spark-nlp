@@ -7,6 +7,7 @@ date: 2020-12-05
 task: Language Detection
 language: xx
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [open_source, language_detection, xx]
 supported: true
 article_header:

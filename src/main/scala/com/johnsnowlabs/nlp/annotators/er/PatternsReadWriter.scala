@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,8 @@ package com.johnsnowlabs.nlp.annotators.er
 import com.johnsnowlabs.storage.{RocksDBConnection, StorageReadWriter}
 
 class PatternsReadWriter(protected override val connection: RocksDBConnection)
-  extends PatternsReader(connection) with StorageReadWriter[String] {
+    extends PatternsReader(connection)
+    with StorageReadWriter[String] {
 
   override protected def writeBufferSize: Int = 10000
 

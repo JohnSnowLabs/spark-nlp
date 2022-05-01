@@ -18,7 +18,7 @@ data:
           activemenu: infer_meaning_intent
       source: yes
       source: 
-        - title:  Summarize text
+        - title: Text summarization
           id: summarize_text
           image: 
               src: /assets/images/Document_Classification.svg
@@ -116,18 +116,46 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
-        - title: Detect Entities in tweets 
-          id: detect_entities_tweets  
+        - title: Extract graph entities and relations 
+          id: extract_graphs_from_text 
           image: 
-              src: /assets/images/Detect_Entities_in_tweets.svg
+              src: /assets/images/Extract_Graphs_in_a_Text.svg
           image2: 
-              src: /assets/images/Detect_Entities_in_tweets_f.svg
-          excerpt: This demo shows how to extract Named Entities, as PER, ORG or LOC, from tweets.
+              src: /assets/images/Extract_Graphs_in_a_Text_f.svg
+          excerpt: This demo shows how knowledge graphs entities and relations can be extracted from texts.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/public/NER_BTC/ 
+            url:  https://demo.johnsnowlabs.com/public/GRAPH_RE/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_BTC.ipynb
+            url:  https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/Graph_RE.ipynb
+        - title: SQL Query Generation 
+          id: sql_query_generation  
+          image: 
+              src: /assets/images/Sql_query_generation.svg
+          image2: 
+              src: /assets/images/Sql_query_generation_f.svg
+          excerpt: This demo shows how to generate SQL code from natural language text.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/T5_SQL/ 
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_SQL.ipynb
+        - title: Text Generation with GPT-2
+          id: text_generation_with_gpt2  
+          image: 
+              src: /assets/images/Text_Generation_gpt2.svg
+          image2: 
+              src: /assets/images/Text_Generation_gpt2_f.svg
+          excerpt: This demo shows how to generate text using GPT-2 Transformer.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/GPT2_TRANSFORMER/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/16.GPT2_Transformer_In_Spark_NLP.ipynb
 ---

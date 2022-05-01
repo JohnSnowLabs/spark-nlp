@@ -39,11 +39,13 @@ documentAssembler = DocumentAssembler()\
       .setInputCol("text")\
       .setOutputCol("ner_chunk")
 
-sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
+sbert_embedder = BertSentenceEmbeddings\
+      .pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
       .setInputCols(["ner_chunk"])\
       .setOutputCol("sbert_embeddings")
 
-rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_disposition", "en", "clinical/models") \
+rxnorm_resolver = SentenceEntityResolverModel\
+      .pretrained("sbiobertresolve_rxnorm_disposition", "en", "clinical/models") \
       .setInputCols(["ner_chunk", "sbert_embeddings"]) \
       .setOutputCol("rxnorm_code")\
       .setDistanceFunction("EUCLIDEAN")
@@ -59,17 +61,19 @@ rxnorm_lp = LightPipeline(pipelineModel)
 result = rxnorm_lp.fullAnnotate("belimumab 80 mg/ml injectable solution")
 ```
 ```scala
-val documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
+val documentAssembler = DocumentAssembler()
+      .setInputCol("text")
       .setOutputCol("ner_chunk")
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
-      .setInputCols(["ner_chunk"])\
+val sbert_embedder = BertSentenceEmbeddings
+      .pretrained("sbiobert_base_cased_mli", "en","clinical/models")
+      .setInputCols(Array("ner_chunk"))
       .setOutputCol("sbert_embeddings")
 
-val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_disposition", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-      .setOutputCol("rxnorm_code")\
+val rxnorm_resolver = SentenceEntityResolverModel
+      .pretrained("sbiobertresolve_rxnorm_disposition", "en", "clinical/models")
+      .setInputCols(Array("ner_chunk", "sbert_embeddings"))
+      .setOutputCol("rxnorm_code")
       .setDistanceFunction("EUCLIDEAN")
 
 val pipelineModel= new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, rxnorm_resolver))

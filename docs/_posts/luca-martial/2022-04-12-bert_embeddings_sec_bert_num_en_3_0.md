@@ -1,10 +1,10 @@
 ---
 layout: model
-title: English BERT Embeddings (from nlpaueb)
+title: Financial English BERT Embeddings (from nlpaueb)
 author: John Snow Labs
 name: bert_embeddings_sec_bert_num
 date: 2022-04-12
-tags: [bert, embeddings, en, open_source]
+tags: [bert, embeddings, en, open_source, financial]
 task: Embeddings
 language: en
 edition: Spark NLP 3.4.2
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained BERT Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `sec-bert-num` is a English model orginally trained by `nlpaueb`.
+Financial Pretrained BERT Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `sec-bert-num` is a English model orginally trained by `nlpaueb`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

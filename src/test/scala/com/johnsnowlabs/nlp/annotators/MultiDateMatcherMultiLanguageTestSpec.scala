@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@ import org.scalatest.flatspec.AnyFlatSpec
 import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalAdjusters
 import java.time.{DayOfWeek, LocalDate}
-
 
 class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
 
@@ -61,22 +60,19 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
   "a DateMatcher" should "be catching multiple unformatted english dates using the same factory2" taggedAs FastTest in {
 
-    val data = DataBuilder.basicDataBuild(
-      "We met on the 13/5/2018 and then on the 18/5/2020.")
+    val data = DataBuilder.basicDataBuild("We met on the 13/5/2018 and then on the 18/5/2020.")
 
     val dateMatcher = new MultiDateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
 
     val annotated = pipeline.fit(data).transform(data)
 
     val annotations =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+      Annotation.getAnnotations(annotated.select("date").collect().head, "date")
 
     assert(annotations(0).result == "05/13/2018")
     assert(annotations(1).result == "05/18/2020")
@@ -84,28 +80,26 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
   "a DateMatcher" should "be catching multiple unformatted future english dates" taggedAs FastTest in {
 
-    val data: Dataset[Row] = DataBuilder.basicDataBuild(
-      "I see you next Friday after the next Thursday.")
+    val data: Dataset[Row] =
+      DataBuilder.basicDataBuild("I see you next Friday after the next Thursday.")
 
     val dateMatcher = new MultiDateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
 
     val annotated = pipeline.fit(data).transform(data)
 
     val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+      Annotation.getAnnotations(annotated.select("date").collect().head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
-    assert(results.contains(getNextWeekOfDay(DayOfWeek.THURSDAY))
-      && results.contains(getNextWeekOfDay(DayOfWeek.FRIDAY))
-    )
+    assert(
+      results.contains(getNextWeekOfDay(DayOfWeek.THURSDAY))
+        && results.contains(getNextWeekOfDay(DayOfWeek.FRIDAY)))
   }
 
   "a DateMatcher" should "be catching multiple unformatted english dates" taggedAs FastTest in {
@@ -116,16 +110,14 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val dateMatcher = new MultiDateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
 
     val annotated = pipeline.fit(data).transform(data)
 
     val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+      Annotation.getAnnotations(annotated.select("date").collect().head, "date")
 
     assert(annotations(0).result == getTwoDaysAgoDate())
     assert(annotations(1).result == getNextWeekDate())
@@ -135,13 +127,13 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
   "a DateMatcher" should "be catching multiple formatted italian dates" taggedAs FastTest in {
 
-    val data: Dataset[Row] = DataBuilder.basicDataBuild(
-      "Ci siamo incontrati il 13/5/2018 e poi il 18/5/2020.")
+    val data: Dataset[Row] =
+      DataBuilder.basicDataBuild("Ci siamo incontrati il 13/5/2018 e poi il 18/5/2020.")
 
     val dateMatcher = new MultiDateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("it")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -149,9 +141,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val annotated = pipeline.fit(data).transform(data)
 
     val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+      Annotation.getAnnotations(annotated.select("date").collect().head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -166,7 +156,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val dateMatcher = new MultiDateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("it")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -174,9 +164,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val annotated = pipeline.fit(data).transform(data)
 
     val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+      Annotation.getAnnotations(annotated.select("date").collect().head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -191,7 +179,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val dateMatcher = new MultiDateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("it")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -199,9 +187,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val annotated = pipeline.fit(data).transform(data)
 
     val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+      Annotation.getAnnotations(annotated.select("date").collect().head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -212,13 +198,13 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
   "a DateMatcher" should "be catching multiple formatted french dates" taggedAs FastTest in {
 
-    val data: Dataset[Row] = DataBuilder.basicDataBuild(
-      "Nous nous sommes rencontrés le 13/05/2018 puis le 18/05/2020.")
+    val data: Dataset[Row] =
+      DataBuilder.basicDataBuild("Nous nous sommes rencontrés le 13/05/2018 puis le 18/05/2020.")
 
     val dateMatcher = new MultiDateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("fr")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -226,9 +212,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val annotated = pipeline.fit(data).transform(data)
 
     val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+      Annotation.getAnnotations(annotated.select("date").collect().head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -244,7 +228,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val dateMatcher = new MultiDateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("fr")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -252,9 +236,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val annotated = pipeline.fit(data).transform(data)
 
     val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+      Annotation.getAnnotations(annotated.select("date").collect().head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -269,7 +251,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val dateMatcher = new MultiDateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("fr")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -277,9 +259,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val annotated = pipeline.fit(data).transform(data)
 
     val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+      Annotation.getAnnotations(annotated.select("date").collect().head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -290,13 +270,13 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
   "a DateMatcher" should "be catching multiple formatted portuguese dates" taggedAs FastTest in {
 
-    val data: Dataset[Row] = DataBuilder.basicDataBuild(
-      "Encontramo-nos no dia 13/05/2018 e depois no dia 18/05/2020.")
+    val data: Dataset[Row] =
+      DataBuilder.basicDataBuild("Encontramo-nos no dia 13/05/2018 e depois no dia 18/05/2020.")
 
     val dateMatcher = new MultiDateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("pt")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -304,9 +284,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val annotated = pipeline.fit(data).transform(data)
 
     val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+      Annotation.getAnnotations(annotated.select("date").collect().head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -321,7 +299,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val dateMatcher = new MultiDateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("pt")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -329,9 +307,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val annotated = pipeline.fit(data).transform(data)
 
     val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+      Annotation.getAnnotations(annotated.select("date").collect().head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -346,7 +322,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val dateMatcher = new MultiDateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("pt")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -354,9 +330,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val annotated = pipeline.fit(data).transform(data)
 
     val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+      Annotation.getAnnotations(annotated.select("date").collect().head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -367,13 +341,13 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
   "a DateMatcher" should "be catching multiple formatted spanish dates" taggedAs FastTest in {
 
-    val data: Dataset[Row] = DataBuilder.basicDataBuild(
-      "Nos conocimos el 13/05/2018 y luego el 18/05/2020.")
+    val data: Dataset[Row] =
+      DataBuilder.basicDataBuild("Nos conocimos el 13/05/2018 y luego el 18/05/2020.")
 
     val dateMatcher = new MultiDateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("es")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -381,9 +355,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val annotated = pipeline.fit(data).transform(data)
 
     val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+      Annotation.getAnnotations(annotated.select("date").collect().head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -398,7 +370,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val dateMatcher = new MultiDateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("es")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -406,9 +378,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val annotated = pipeline.fit(data).transform(data)
 
     val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+      Annotation.getAnnotations(annotated.select("date").collect().head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -417,13 +387,13 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
   "a DateMatcher" should "be catching -1d and +2w unformatted spanish dates" taggedAs FastTest in {
 
-    val data: Dataset[Row] = DataBuilder.basicDataBuild(
-      "Lo conocí ayer y me dijo que nos visitará dentro de 2 semanas.")
+    val data: Dataset[Row] =
+      DataBuilder.basicDataBuild("Lo conocí ayer y me dijo que nos visitará dentro de 2 semanas.")
 
     val dateMatcher = new MultiDateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("es")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -431,9 +401,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val annotated = pipeline.fit(data).transform(data)
 
     val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+      Annotation.getAnnotations(annotated.select("date").collect().head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -444,13 +412,13 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
   "a DateMatcher" should "be catching multiple formatted german dates" taggedAs FastTest in {
 
-    val data: Dataset[Row] = DataBuilder.basicDataBuild(
-      "Wir trafen uns am 13/05/2018 und dann am 18/05/2020 .")
+    val data: Dataset[Row] =
+      DataBuilder.basicDataBuild("Wir trafen uns am 13/05/2018 und dann am 18/05/2020 .")
 
     val dateMatcher = new MultiDateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("de")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -458,9 +426,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val annotated = pipeline.fit(data).transform(data)
 
     val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+      Annotation.getAnnotations(annotated.select("date").collect().head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -475,7 +441,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val dateMatcher = new MultiDateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("de")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -483,9 +449,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val annotated = pipeline.fit(data).transform(data)
 
     val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+      Annotation.getAnnotations(annotated.select("date").collect().head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -500,7 +464,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val dateMatcher = new MultiDateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("de")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -508,9 +472,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     val annotated = pipeline.fit(data).transform(data)
 
     val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+      Annotation.getAnnotations(annotated.select("date").collect().head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 

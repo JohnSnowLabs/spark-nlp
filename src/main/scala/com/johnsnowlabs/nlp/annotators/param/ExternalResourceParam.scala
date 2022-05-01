@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,4 +21,7 @@ import com.johnsnowlabs.nlp.util.io.ExternalResource
 import org.apache.spark.ml.util.Identifiable
 
 class ExternalResourceParam(identifiable: Identifiable, name: String, description: String)
-  extends AnnotatorParam[ExternalResource, SerializedExternalResource](identifiable, name, description)
+    extends AnnotatorParam[ExternalResource, SerializedExternalResource](
+      identifiable,
+      name,
+      description)

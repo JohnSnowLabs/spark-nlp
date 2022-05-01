@@ -9,7 +9,7 @@ task: Entity Resolution
 language: de
 edition: Spark NLP for Healthcare 3.0.0
 spark_version: 3.0
-supported: true
+deprecated: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -38,20 +38,20 @@ ICD10 codes
 
 ...
 resolver = ChunkEntityResolverModel.pretrained("chunkresolve_ICD10GM_2021","de","clinical/models")    .setInputCols("token","chunk_embeddings")    .setOutputCol("entity")
-     
+
 pipeline = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk_embeddings, resolver])
-    
+
 data = spark.createDataFrame([["metastatic lung cancer"]]).toDF("text")
 model = pipeline.fit(data)
 results = model.transform(data)
 ...
-            
+
 ```
 ```scala
 
 ...
 val resolver = ChunkEntityResolverModel.pretrained("chunkresolve_ICD10GM_2021","de","clinical/models")    .setInputCols("token","chunk_embeddings")    .setOutputCol("entity")
-    
+
 val pipeline = new Pipeline().setStages(Array(document_assembler, sbert_embedder, resolver))
 
 val data = Seq("metastatic lung cancer").toDF("text")

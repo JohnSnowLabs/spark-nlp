@@ -21,10 +21,10 @@ this NER model is based on LayoutLM pre-trained model and fine-tuned with SROIE 
 
 ## Predicted Entities
 
-O
-B-DATE
-B-COMPANY
-B-TOTAL
+- O
+- B-DATE
+- B-COMPANY
+- B-TOTAL
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

@@ -9,6 +9,7 @@ repository: public/models
 date: 03/05/2020
 task: Text Classification
 edition: Spark NLP 2.5.0
+spark_version: 2.4
 tags: [classifier]
 supported: true
 article_header:

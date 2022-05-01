@@ -9,6 +9,7 @@ repository: clinical/models
 date: 2020-09-14
 task: Sentence Detection
 edition: Spark NLP 2.6.2
+spark_version: 2.4
 tags: [open_source,sentence_detection,xx]
 supported: true
 article_header:

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,5 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.er
 
-case class EntityRulerFeatures(patterns: Map[String, String], regexPatterns: Map[String, Seq[String]])
-  extends Serializable
+case class EntityRulerFeatures(
+    patterns: Map[String, String],
+    regexPatterns: Map[String, Seq[String]])
+    extends Serializable

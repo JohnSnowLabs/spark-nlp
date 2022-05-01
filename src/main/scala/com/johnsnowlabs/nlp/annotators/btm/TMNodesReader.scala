@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,14 +16,14 @@
 
 package com.johnsnowlabs.nlp.annotators.btm
 
-import java.io.{ByteArrayInputStream, ObjectInputStream}
-
 import com.johnsnowlabs.storage.{RocksDBConnection, StorageReader}
 
+import java.io.{ByteArrayInputStream, ObjectInputStream}
+
 class TMNodesReader(
-                     override val connection: RocksDBConnection,
-                     override protected val caseSensitiveIndex: Boolean
-                  ) extends StorageReader[TrieNode] {
+    override val connection: RocksDBConnection,
+    override protected val caseSensitiveIndex: Boolean)
+    extends StorageReader[TrieNode] {
 
   override def emptyValue: TrieNode = TrieNode(0, isLeaf = true, 0, 0)
 

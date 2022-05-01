@@ -25,11 +25,11 @@ The model has been trained on Swedish data and only supports an inference of Swe
 
 ## Predicted Entities
 
-* Location
-* Organization
-* Person
-* Religion
-* Title
+- Location
+- Organization
+- Person
+- Religion
+- Title
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

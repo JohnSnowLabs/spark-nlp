@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,11 @@ trait Logging {
     }
   }
 
-  protected def outputLog(value: => String, uuid: String, shouldLog: Boolean, outputLogsPath: String): Unit = {
+  protected def outputLog(
+      value: => String,
+      uuid: String,
+      shouldLog: Boolean,
+      outputLogsPath: String): Unit = {
     if (shouldLog) {
       OutputHelper.writeAppend(uuid, value, outputLogsPath)
     }

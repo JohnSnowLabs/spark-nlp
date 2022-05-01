@@ -7,6 +7,7 @@ date: 2020-11-30
 task: Part of Speech Tagging
 language: ar
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [pos, ar]
 supported: true
 article_header:

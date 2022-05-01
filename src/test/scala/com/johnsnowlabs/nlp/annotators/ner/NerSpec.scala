@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.collection.mutable.ArrayBuffer
-
 
 class NerSpec extends AnyFlatSpec {
   val doc = "word1 word2 word3 word4"
@@ -60,7 +59,8 @@ class NerSpec extends AnyFlatSpec {
 
       wordIdx = wordIdx + cnt
       if (entity != "O") {
-        val extracted = NamedEntity(start, idx - 2, entity, doc.substring(start, idx - 1), "0", None)
+        val extracted =
+          NamedEntity(start, idx - 2, entity, doc.substring(start, idx - 1), "0", None)
         result.append(extracted)
       }
     }
@@ -68,10 +68,11 @@ class NerSpec extends AnyFlatSpec {
     result.toList
   }
 
-
   "NerTagsEncoder" should "correct Begin after Begin" taggedAs FastTest in {
     val tagged = createTagged(doc, "B-PER", "B-PER", "I-PER", "O")
-    val parsed = NerTagsEncoding.fromIOB(tagged, Annotation(AnnotatorType.DOCUMENT, 0, doc.length - 1, doc, Map()))
+    val parsed = NerTagsEncoding.fromIOB(
+      tagged,
+      Annotation(AnnotatorType.DOCUMENT, 0, doc.length - 1, doc, Map()))
     val target = createEntities(doc, ("PER", 1), ("PER", 2), ("O", 1))
 
     assert(parsed == target)
@@ -79,7 +80,9 @@ class NerSpec extends AnyFlatSpec {
 
   "NerTagsEncoder" should "correct process end of the sentence" taggedAs FastTest in {
     val tagged = createTagged(doc, "B-PER", "O", "B-PER", "I-PER")
-    val parsed = NerTagsEncoding.fromIOB(tagged, Annotation(AnnotatorType.DOCUMENT, 0, doc.length - 1, doc, Map()))
+    val parsed = NerTagsEncoding.fromIOB(
+      tagged,
+      Annotation(AnnotatorType.DOCUMENT, 0, doc.length - 1, doc, Map()))
     val target = createEntities(doc, ("PER", 1), ("O", 1), ("PER", 2))
 
     assert(parsed == target)

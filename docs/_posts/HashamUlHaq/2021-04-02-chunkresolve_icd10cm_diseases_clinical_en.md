@@ -9,7 +9,7 @@ task: Entity Resolution
 language: en
 edition: Spark NLP for Healthcare 3.0.0
 spark_version: 3.0
-supported: true
+deprecated: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -42,7 +42,7 @@ icd10cmResolver = ChunkEntityResolverModel.pretrained('chunkresolve_icd10cm_dise
     .setNeighbours(200).setAlternatives(5).setDistanceWeights([3,3,2,0,0,7])\
     .setInputCols('token', 'chunk_embs_jsl')\
     .setOutputCol('icd10cm_resolution')
-    
+
 pipeline_icd10 = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, jslNer, drugNer, jslConverter, drugConverter, jslChunkEmbeddings, drugChunkEmbeddings, icd10cmResolver])
 
 empty_df = spark.createDataFrame([[""]]).toDF("text")
@@ -63,7 +63,7 @@ val icd10cmResolver = ChunkEntityResolverModel.pretrained('chunkresolve_icd10cm_
     .setNeighbours(200).setAlternatives(5).setDistanceWeights(Array(3,3,2,0,0,7))
     .setInputCols('token', 'chunk_embs_jsl')
     .setOutputCol('icd10cm_resolution')
-    
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, jslNer, drugNer, jslConverter, drugConverter, jslChunkEmbeddings, drugChunkEmbeddings, icd10cmResolver))
 
 val data = Seq("This is an 82 - year-old male with a history of prior tobacco use , hypertension , chronic renal insufficiency , COPD , gastritis , and TIA who initially presented to Braintree with a non-ST elevation MI and Guaiac positive stools , transferred to St . Margaret's Center for Women & Infants for cardiac catheterization with PTCA to mid LAD lesion complicated by hypotension and bradycardia requiring Atropine , IV fluids and transient dopamine possibly secondary to vagal reaction , subsequently transferred to CCU for close monitoring , hemodynamically stable at the time of admission to the CCU").toDF("text")

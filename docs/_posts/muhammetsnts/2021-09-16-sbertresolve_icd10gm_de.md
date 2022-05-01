@@ -24,7 +24,7 @@ This model maps extracted medical entities to ICD10-GM codes for the German lang
 `ICD10GM Codes`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_ICD10_GM_DE/){:.button.button-orange}
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/14.German_Healthcare_Models.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbertresolve_icd10gm_de_3.2.2_2.4_1631814227170.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

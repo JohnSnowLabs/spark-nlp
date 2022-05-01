@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,21 +27,18 @@ import java.io.{FileWriter, InputStream}
 import java.sql.Timestamp
 import scala.io.Source
 
-
-case class ResourceMetadata
-(
-  name: String,
-  language: Option[String],
-  libVersion: Option[Version],
-  sparkVersion: Option[Version],
-  readyToUse: Boolean,
-  time: Timestamp,
-  isZipped: Boolean = false,
-  category: Option[ResourceType] = Some(ResourceType.NOT_DEFINED),
-  checksum: String = "",
-  annotator: Option[String] = None
-) {
-
+case class ResourceMetadata(
+    name: String,
+    language: Option[String],
+    libVersion: Option[Version],
+    sparkVersion: Option[Version],
+    readyToUse: Boolean,
+    time: Timestamp,
+    isZipped: Boolean = false,
+    category: Option[ResourceType] = Some(ResourceType.NOT_DEFINED),
+    checksum: String = "",
+    annotator: Option[String] = None)
+    extends Ordered[ResourceMetadata] {
 
   lazy val key: String = {
     if (language.isEmpty && libVersion.isEmpty && sparkVersion.isEmpty) {
@@ -64,11 +61,41 @@ case class ResourceMetadata
   private def t(time: Timestamp): String = {
     time.getTime.toString
   }
+
+  override def compare(that: ResourceMetadata): Int = {
+
+    var value: Option[Int] = None
+
+    if (this.sparkVersion == that.sparkVersion && this.libVersion == that.libVersion) {
+      value = Some(0)
+    }
+
+    if (this.sparkVersion == that.sparkVersion) {
+      if (this.libVersion.get.toFloat == that.libVersion.get.toFloat) {
+        value = orderByTimeStamp(this.time, that.time)
+      } else {
+        if (this.libVersion.get.toFloat > that.libVersion.get.toFloat) {
+          value = Some(1)
+        } else value = Some(-1)
+      }
+    } else {
+      if (this.sparkVersion.get.toFloat > that.sparkVersion.get.toFloat) {
+        value = Some(1)
+      } else value = Some(-1)
+    }
+
+    value.get
+  }
+
+  private def orderByTimeStamp(thisTime: Timestamp, thatTime: Timestamp): Option[Int] = {
+    if (thisTime.after(thatTime)) Some(1) else Some(-1)
+  }
+
 }
 
-
 object ResourceMetadata {
-  implicit val formats: Formats = Serialization.formats(NoTypeHints) + new EnumNameSerializer(ResourceType)
+  implicit val formats: Formats =
+    Serialization.formats(NoTypeHints) + new EnumNameSerializer(ResourceType)
 
   def toJson(meta: ResourceMetadata): String = {
     write(meta)
@@ -79,18 +106,20 @@ object ResourceMetadata {
     JsonParser.parseObject[ResourceMetadata](json)
   }
 
-  def resolveResource(candidates: List[ResourceMetadata],
-                      request: ResourceRequest): Option[ResourceMetadata] = {
+  def resolveResource(
+      candidates: List[ResourceMetadata],
+      request: ResourceRequest): Option[ResourceMetadata] = {
 
-    candidates
-      .filter(item => item.readyToUse
-        && item.name == request.name
-        && (request.language.isEmpty || item.language.isEmpty || request.language.get == item.language.get)
-        && Version.isCompatible(request.libVersion, item.libVersion)
-        && Version.isCompatible(request.sparkVersion, item.sparkVersion)
-      )
-      .sortBy(item => item.time.getTime)
-      .lastOption
+    val compatibleCandidates = candidates
+      .filter(item =>
+        item.readyToUse && item.libVersion.isDefined && item.sparkVersion.isDefined
+          && item.name == request.name
+          && (request.language.isEmpty || item.language.isEmpty || request.language.get == item.language.get)
+          && Version.isCompatible(request.libVersion, item.libVersion)
+          && Version.isCompatible(request.sparkVersion, item.sparkVersion))
+
+    val sortedResult = compatibleCandidates.sorted
+    sortedResult.lastOption
   }
 
   def readResources(file: String): List[ResourceMetadata] = {
@@ -102,9 +131,11 @@ object ResourceMetadata {
   }
 
   def readResources(source: Source): List[ResourceMetadata] = {
-    source.getLines()
-      .collect { case line if line.nonEmpty =>
-        ResourceMetadata.parseJson(line)
+    source
+      .getLines()
+      .collect {
+        case line if line.nonEmpty =>
+          ResourceMetadata.parseJson(line)
       }
       .toList
   }
@@ -113,7 +144,6 @@ object ResourceMetadata {
     val fw = new FileWriter(fileName, true)
     try {
       fw.write("\n" + ResourceMetadata.toJson(metadata))
-    }
-    finally fw.close()
+    } finally fw.close()
   }
 }

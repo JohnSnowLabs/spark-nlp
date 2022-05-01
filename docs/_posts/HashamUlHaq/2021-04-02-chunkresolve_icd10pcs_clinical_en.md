@@ -9,7 +9,7 @@ task: Entity Resolution
 language: en
 edition: Spark NLP for Healthcare 3.0.0
 spark_version: 3.0
-supported: true
+deprecated: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -39,7 +39,7 @@ ICD10-PCS Codes and their normalized definition with `clinical_embeddings`.
 model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10pcs_clinical","en","clinical/models")
 	.setInputCols("token","chunk_embeddings")
 	.setOutputCol("entity")
-    
+
 pipeline_icd10pcs = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, ner, chunk_embeddings, model])
 
 data = ["""He has a starvation ketosis but nothing found for significant for dry oral mucosa"""]
@@ -55,7 +55,7 @@ result = light_pipeline.annotate(data)
 val model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10pcs_clinical","en","clinical/models")
 	.setInputCols("token","chunk_embeddings")
 	.setOutputCol("entity")
-    
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, ner, chunk_embeddings, model))
 
 val data = Seq("He has a starvation ketosis but nothing found for significant for dry oral mucosa").toDF("text")

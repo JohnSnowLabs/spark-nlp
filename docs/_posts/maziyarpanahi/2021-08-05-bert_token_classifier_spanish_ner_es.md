@@ -23,15 +23,15 @@ This model is a fine-tuned on [NER-C](https://www.kaggle.com/nltkdata/conll-corp
 
 ## Predicted Entities
 
-`B-LOC`
-`B-MISC`
-`B-ORG`
-`B-PER`
-`I-LOC`
-`I-MISC`
-`I-ORG`
-`I-PER`
-`O`
+- B-LOC
+- B-MISC
+- B-ORG
+- B-PER
+- I-LOC
+- I-MISC
+- I-ORG
+- I-PER
+- O
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,13 +40,7 @@ trait HasStorageModel extends HasStorageReader with HasExcludableStorage {
   def deserializeStorage(path: String, spark: SparkSession): Unit = {
     if ($(includeStorage))
       databases.foreach(database => {
-        StorageHelper.load(
-          path,
-          spark,
-          database.toString,
-          $(storageRef),
-          withinStorage = true
-        )
+        StorageHelper.load(path, spark, database.toString, $(storageRef), withinStorage = true)
       })
   }
 

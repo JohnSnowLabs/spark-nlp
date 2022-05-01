@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,10 @@ import org.apache.spark.ml.param.{BooleanParam, Params}
 
 trait HasExcludableStorage extends Params {
 
-  val includeStorage: BooleanParam = new BooleanParam(this, "includeStorage", "whether to include indexed storage in trained model")
+  val includeStorage: BooleanParam = new BooleanParam(
+    this,
+    "includeStorage",
+    "whether to include indexed storage in trained model")
 
   def setIncludeStorage(value: Boolean): this.type = set(includeStorage, value)
 

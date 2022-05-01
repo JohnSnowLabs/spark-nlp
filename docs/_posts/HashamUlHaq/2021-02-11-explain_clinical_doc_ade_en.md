@@ -7,6 +7,7 @@ date: 2021-02-11
 task: Pipeline Healthcare
 language: en
 edition: Spark NLP 2.7.3
+spark_version: 2.4
 tags: [en, licensed]
 supported: true
 article_header:

@@ -1,4 +1,4 @@
-#  Copyright 2017-2021 John Snow Labs
+#  Copyright 2017-2022 John Snow Labs
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -65,6 +65,9 @@ class ResourceDownloader(object):
                 t1.join()
 
             return reader(classname=None, java_model=j_obj)
+    @staticmethod
+    def downloadModelDirectly(name, remote_loc="public/models"):
+        _internal._DownloadModelDirectly(name, remote_loc).apply()
 
     @staticmethod
     def downloadPipeline(name, language, remote_loc=None):

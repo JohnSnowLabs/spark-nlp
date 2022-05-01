@@ -7,6 +7,7 @@ date: 2021-02-04
 task: Relation Extraction
 language: en
 edition: Spark NLP for Healthcare 2.7.3
+spark_version: 2.4
 tags: [licensed, clinical, en, relation_extraction]
 supported: true
 article_header:
@@ -23,7 +24,7 @@ Detect interactions between chemicals and proteins using BERT model by classifyi
 `CPR:1`, `CPR:2`, `CPR:3`, `CPR:4`, `CPR:5`, `CPR:6`, `CPR:7`, `CPR:8`, `CPR:9`, `CPR:10`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_CHEM_PROT){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_chemprot_biobert_en_2.7.3_2.4_1612443115083.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

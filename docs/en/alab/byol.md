@@ -6,7 +6,7 @@ seotitle: Annotation Lab | John Snow Labs
 title: Bring Your Own License
 permalink: /docs/en/alab/byol
 key: docs-training
-modify_date: "2021-06-23"
+modify_date: "2022-04-05"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
@@ -25,6 +25,26 @@ Once a valid license is uploaded, all the licensed/Healthcare models and embeddi
 
 Admin users will see License expiry warnings in the Menu List if any license is approaching the expiry date or has expired.
 
+## Support for Floating Licenses
+
+Annotation Lab now supports floating licenses with different scopes (ocr: training, ocr: inference, healthcare: inference, healthcare: training). Depending on the scope of the available license, users can perform model training and/or deploy preannotation servers. 
+Licenses are a must only for training Spark NLP for Healthcare models and for deploying Spark NLP for Healthcare models as preannotation servers.
+Floating licenses can be aquired on self service via (my.JohnSnowLabs.com)[https://my.johnsnowlabs.com/]. 
+
+One floating license can be only bound with one server (preannotation server, OCR server, training job) at a time. To run multiple model training jobs and/or preannotations servers, users must provide multiple floating licenses.
+
+Annotation Lab supports either floating licenses or air-gapped licenses. Mixing floating and air-gapped licenses on the same Annotation Lab instance is not allowed.
+
+### Usage of Spark NLP for Healthcare licenses
+
+The number of available floating licenses can influence the creation of multiple training and preannotation servers. For example, to deploy 5 preannotation servers using Spark NLP for Healthcare models or embeddings, across 5 different projects, you will need 5 floating licenses. 
+
+Since one floating license can only be used for one server, it is not possible to deploy a preannotation server and then trigger training from the same project when only one license is available. In this case, the preannotation server has to be deleted first and then the training can be started. 
+
+Those restrictions do not apply when using airgap licenses or when using Spark NLP models and embeddings. 
 
 
+### License Page
+Users can see an info message regarding the number of servers that can be spawned based on available licenses.
 
+<img width="1442" alt="license_page" src="https://user-images.githubusercontent.com/26042994/161700762-0d0b3694-0683-4225-9097-aaa59801c46d.png">

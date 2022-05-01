@@ -28,7 +28,7 @@ The results will display on the console or to an [MLflow tracking UI](https://ml
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-from sparknlp.eval import *
+from sparknlp_jsl.eval import *
 ```
 
 ```scala

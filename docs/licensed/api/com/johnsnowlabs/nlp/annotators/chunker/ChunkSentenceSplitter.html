@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.3.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter</title>
-          <meta name="description" content="Spark NLP 3.3.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter" />
-          <meta name="keywords" content="Spark NLP 3.3.2 ScalaDoc com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter" />
+          <title>Spark NLP 3.5.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter</title>
+          <meta name="description" content="Spark NLP 3.5.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter" />
+          <meta name="keywords" content="Spark NLP 3.5.1 ScalaDoc com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.3.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.5.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -149,6 +149,22 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.chunkmapper" visbl="pub" class="indented6 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="chunkmapper"></a><a id="chunkmapper:chunkmapper"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/chunkmapper/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="chunkmapper/index.html"><span class="name">chunkmapper</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker">chunker</a></dd></dl></div>
     </li><li class="current-entities indented5">
                         <a class="object" href="AssertionFilterer$.html" title=""></a>
                         <a class="class" href="AssertionFilterer.html" title="Filters entities coming from ASSERTION type annotations and returns the CHUNKS."></a>
@@ -170,6 +186,14 @@
                         <a class="class" href="ChunkKeyPhraseExtraction.html" title="Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a text."></a>
                         <a href="ChunkKeyPhraseExtraction.html" title="Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a text.">ChunkKeyPhraseExtraction</a>
                       </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="class" href="ChunkMapperApproach.html" title=""></a>
+                        <a href="ChunkMapperApproach.html" title="">ChunkMapperApproach</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="ChunkMapperModel$.html" title=""></a>
+                        <a class="class" href="ChunkMapperModel.html" title=""></a>
+                        <a href="ChunkMapperModel.html" title="">ChunkMapperModel</a>
+                      </li><li class="current-entities indented5">
                         <a class="object" href="ChunkSentenceSplitter$.html" title=""></a>
                         <a class="class" href="" title="Split the document using the chunks that you provided,and put in the metadata the chunk entity."></a>
                         <a href="" title="Split the document using the chunks that you provided,and put in the metadata the chunk entity.">ChunkSentenceSplitter</a>
@@ -181,6 +205,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedChunkKeyPhraseExtractionModel.html" title=""></a>
                         <a href="ReadablePretrainedChunkKeyPhraseExtractionModel.html" title="">ReadablePretrainedChunkKeyPhraseExtractionModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedChunkMapperModel.html" title=""></a>
+                        <a href="ReadablePretrainedChunkMapperModel.html" title="">ReadablePretrainedChunkMapperModel</a>
                       </li>
               </ul>
             </div>
@@ -211,8 +239,8 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p> Split the document using the chunks that you provided,and put in the metadata the chunk entity.
-  The first piece of document to the first chunk will have the entity as header.</p><p>Is useful if you identify the titles and subtitles using some ner and after that you can split by paragraph</p><h4>Example</h4><pre> <span class="kw">val</span> data = <span class="std">Seq</span>(text,text).toDS.toDF(<span class="lit">"text"</span>)
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Split the document using the chunks that you provided,and put in the metadata the chunk entity.
+The first piece of document to the first chunk will have the entity as header.</p><p>Is useful if you identify the titles and subtitles using some ner and after that you can split by paragraph</p><h4>Example</h4><pre> <span class="kw">val</span> data = <span class="std">Seq</span>(text,text).toDS.toDF(<span class="lit">"text"</span>)
 <span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"doc"</span>)
 <span class="kw">val</span> regexMatcher = <span class="kw">new</span> RegexMatcher().setInputCols(<span class="lit">"doc"</span>).setOutputCol(<span class="lit">"chunks"</span>).setExternalRules(<span class="lit">"src/test/resources/chunker/title_regex.txt"</span>,<span class="lit">","</span>)
 <span class="kw">val</span> chunkSentenceSplitter = <span class="kw">new</span> ChunkSentenceSplitter().setInputCols(<span class="lit">"chunks"</span>,<span class="lit">"doc"</span>).setOutputCol(<span class="lit">"paragraphs"</span>)
@@ -570,9 +598,9 @@ result.show(truncate = <span class="kw">false</span>)</pre></div><div class="tog
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.license.CheckLicense#checkValidEnvironment" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="checkValidEnvironment(spark:Option[org.apache.spark.SparkContext]):Unit"></a><a id="checkValidEnvironment(Option[SparkContext]):Unit"></a>
+      <a id="checkValidEnvironment(spark:Option[org.apache.spark.sql.SparkSession]):Unit"></a><a id="checkValidEnvironment(Option[SparkSession]):Unit"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkSentenceSplitter.html#checkValidEnvironment(spark:Option[org.apache.spark.SparkContext]):Unit" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkSentenceSplitter.html#checkValidEnvironment(spark:Option[org.apache.spark.sql.SparkSession]):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -581,7 +609,7 @@ result.show(truncate = <span class="kw">false</span>)</pre></div><div class="tog
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">checkValidEnvironment</span><span class="params">(<span name="spark">spark: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.SparkContext">SparkContext</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">checkValidEnvironment</span><span class="params">(<span name="spark">spark: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CheckLicense</dd></dl></div>
@@ -602,9 +630,9 @@ result.show(truncate = <span class="kw">false</span>)</pre></div><div class="tog
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CheckLicense</dd></dl></div>
     </li><li name="com.johnsnowlabs.license.CheckLicense#checkValidScopeAndEnvironment" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="checkValidScopeAndEnvironment(scope:String,spark:Option[org.apache.spark.SparkContext],checkLp:Boolean):Unit"></a><a id="checkValidScopeAndEnvironment(String,Option[SparkContext],Boolean):Unit"></a>
+      <a id="checkValidScopeAndEnvironment(scope:String,spark:Option[org.apache.spark.sql.SparkSession],checkLp:Boolean):Unit"></a><a id="checkValidScopeAndEnvironment(String,Option[SparkSession],Boolean):Unit"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkSentenceSplitter.html#checkValidScopeAndEnvironment(scope:String,spark:Option[org.apache.spark.SparkContext],checkLp:Boolean):Unit" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkSentenceSplitter.html#checkValidScopeAndEnvironment(scope:String,spark:Option[org.apache.spark.sql.SparkSession],checkLp:Boolean):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -613,7 +641,23 @@ result.show(truncate = <span class="kw">false</span>)</pre></div><div class="tog
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">checkValidScopeAndEnvironment</span><span class="params">(<span name="scope">scope: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.SparkContext">SparkContext</span>]</span>, <span name="checkLp">checkLp: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">checkValidScopeAndEnvironment</span><span class="params">(<span name="scope">scope: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span>]</span>, <span name="checkLp">checkLp: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CheckLicense</dd></dl></div>
+    </li><li name="com.johnsnowlabs.license.CheckLicense#checkValidScopesAndEnvironment" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="checkValidScopesAndEnvironment(scopes:Seq[String],spark:Option[org.apache.spark.sql.SparkSession],checkLp:Boolean):Unit"></a><a id="checkValidScopesAndEnvironment(Seq[String],Option[SparkSession],Boolean):Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkSentenceSplitter.html#checkValidScopesAndEnvironment(scopes:Seq[String],spark:Option[org.apache.spark.sql.SparkSession],checkLp:Boolean):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">checkValidScopesAndEnvironment</span><span class="params">(<span name="scopes">scopes: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="spark">spark: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span>]</span>, <span name="checkLp">checkLp: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CheckLicense</dd></dl></div>
@@ -705,6 +749,22 @@ result.show(truncate = <span class="kw">false</span>)</pre></div><div class="tog
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter#defaultEntity" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="defaultEntity:org.apache.spark.ml.param.Param[String]"></a><a id="defaultEntity:Param[String]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkSentenceSplitter.html#defaultEntity:org.apache.spark.ml.param.Param[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultEntity</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.HasSimpleAnnotate#dfAnnotate" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="dfAnnotate:org.apache.spark.sql.expressions.UserDefinedFunction"></a><a id="dfAnnotate:UserDefinedFunction"></a>
       <span class="permalink">
@@ -1018,6 +1078,38 @@ result.show(truncate = <span class="kw">false</span>)</pre></div><div class="tog
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter#getDefaultEntity" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getDefaultEntity():String"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkSentenceSplitter.html#getDefaultEntity():String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDefaultEntity</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter#getGroupBySentences" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getGroupBySentences():Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkSentenceSplitter.html#getGroupBySentences():Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getGroupBySentences</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#getInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getInputCols:Array[String]"></a>
       <span class="permalink">
@@ -1034,6 +1126,22 @@ result.show(truncate = <span class="kw">false</span>)</pre></div><div class="tog
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter#getInsertChunk" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getInsertChunk():Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkSentenceSplitter.html#getInsertChunk():Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getInsertChunk</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#getLazyAnnotator" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getLazyAnnotator:Boolean"></a>
       <span class="permalink">
@@ -1098,6 +1206,23 @@ result.show(truncate = <span class="kw">false</span>)</pre></div><div class="tog
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter#groupBySentences" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="groupBySentences:org.apache.spark.ml.param.BooleanParam"></a><a id="groupBySentences:BooleanParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkSentenceSplitter.html#groupBySentences:org.apache.spark.ml.param.BooleanParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">groupBySentences</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">This parameter allow split the paragraphs grouping the chunks by sentences
+</p>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a><a id="hasDefault[T](Param[T]):Boolean"></a>
       <span class="permalink">
@@ -1212,7 +1337,9 @@ result.show(truncate = <span class="kw">false</span>)</pre></div><div class="tog
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter.AnnotatorType">AnnotatorType</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Input annotator types: DOCUMENT,CHUNK</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: DOCUMENT,CHUNK</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter">ChunkSentenceSplitter</a> → HasInputAnnotationCols</dd></dl></div>
+      <p class="shortcomment cmt">Input annotator types: DOCUMENT,CHUNK
+</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: DOCUMENT,CHUNK
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter">ChunkSentenceSplitter</a> → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -1229,6 +1356,22 @@ result.show(truncate = <span class="kw">false</span>)</pre></div><div class="tog
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter#insertChunk" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="insertChunk:org.apache.spark.ml.param.BooleanParam"></a><a id="insertChunk:BooleanParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkSentenceSplitter.html#insertChunk:org.apache.spark.ml.param.BooleanParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">insertChunk</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      
+      
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isDefined(Param[_]):Boolean"></a>
       <span class="permalink">
@@ -1634,7 +1777,9 @@ result.show(truncate = <span class="kw">false</span>)</pre></div><div class="tog
         <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter.AnnotatorType">AnnotatorType</a></span>
       </span>
       
-      <p class="shortcomment cmt">Output annotator types: CHUNK</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: CHUNK</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter">ChunkSentenceSplitter</a> → HasOutputAnnotatorType</dd></dl></div>
+      <p class="shortcomment cmt">Output annotator types: CHUNK
+</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: CHUNK
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter">ChunkSentenceSplitter</a> → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -1934,6 +2079,38 @@ result.show(truncate = <span class="kw">false</span>)</pre></div><div class="tog
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter#setDefaultEntity" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setDefaultEntity(value:String):ChunkSentenceSplitter.this.type"></a><a id="setDefaultEntity(String):ChunkSentenceSplitter.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkSentenceSplitter.html#setDefaultEntity(value:String):ChunkSentenceSplitter.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setDefaultEntity</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter">ChunkSentenceSplitter</a>.this.type</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter#setGroupBySentences" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setGroupBySentences(value:Boolean):ChunkSentenceSplitter.this.type"></a><a id="setGroupBySentences(Boolean):ChunkSentenceSplitter.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkSentenceSplitter.html#setGroupBySentences(value:Boolean):ChunkSentenceSplitter.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setGroupBySentences</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter">ChunkSentenceSplitter</a>.this.type</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):ChunkSentenceSplitter.this.type"></a>
       <span class="permalink">
@@ -1958,7 +2135,7 @@ result.show(truncate = <span class="kw">false</span>)</pre></div><div class="tog
       </a>
     </span>
       <span class="modifier_kind">
-        <span class="modifier">final </span>
+        <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -1966,6 +2143,22 @@ result.show(truncate = <span class="kw">false</span>)</pre></div><div class="tog
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter#setInsertChunk" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setInsertChunk(value:Boolean):ChunkSentenceSplitter.this.type"></a><a id="setInsertChunk(Boolean):ChunkSentenceSplitter.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkSentenceSplitter.html#setInsertChunk(value:Boolean):ChunkSentenceSplitter.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setInsertChunk</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter">ChunkSentenceSplitter</a>.this.type</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#setLazyAnnotator" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setLazyAnnotator(value:Boolean):com.johnsnowlabs.nlp.CanBeLazy.&lt;refinement&gt;.type"></a><a id="setLazyAnnotator(Boolean):ChunkSentenceSplitter.this.type"></a>
       <span class="permalink">

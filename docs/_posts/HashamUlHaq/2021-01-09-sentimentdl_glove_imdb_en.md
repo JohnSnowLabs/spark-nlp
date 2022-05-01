@@ -7,6 +7,7 @@ date: 2021-01-09
 task: Sentiment Analysis
 language: en
 edition: Spark NLP 2.7.1
+spark_version: 2.4
 tags: [open_source, en, sentiment]
 supported: true
 article_header:

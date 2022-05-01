@@ -19,6 +19,10 @@ use_language_switcher: "Python-Scala-Java"
 
 This model uses context and language knowledge to assign all forms and inflections of a word to a single root. This enables the pipeline to treat the past and present tense of a verb, for example, as the same word instead of two completely different words. The lemmatizer takes into consideration the context surrounding a word to determine which root is correct when the word form alone is ambiguous.
 
+{:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
+<button class="button button-orange" disabled>Open in Colab</button>
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_antbnc_en_2.0.2_2.4_1556480454569.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 

@@ -7,6 +7,7 @@ date: 2021-01-26
 task: Assertion Status
 language: en
 edition: Spark NLP for Healthcare 2.7.2
+spark_version: 2.4
 tags: [assertion, en, licensed, clinical]
 supported: true
 article_header:

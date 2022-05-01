@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp.annotators.parser.dep
 
 package object GreedyTransition {
-  type ClassNum  = Int
+  type ClassNum = Int
   type ClassName = String
 
   type DependencyIndex = Int
@@ -35,13 +35,11 @@ package object GreedyTransition {
   case class WordData(raw: Word, pos: ClassName = "", dep: DependencyIndex = -1) {
     lazy val norm: Word = {
       if (raw.length == 1) {
-        if  (raw(0).isDigit) "#NUM#"
+        if (raw(0).isDigit) "#NUM#"
         else raw
-      }
-      else if (raw.forall(c => c.isDigit || c == '-' || c == '.')) {
+      } else if (raw.forall(c => c.isDigit || c == '-' || c == '.')) {
         if (raw.forall(_.isDigit) && raw.length == 4) "#YEAR#" else "#NUM#"
-      }
-      else raw
+      } else raw
     }
   }
 }

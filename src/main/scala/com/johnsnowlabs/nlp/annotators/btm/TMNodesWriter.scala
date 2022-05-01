@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,12 @@
 
 package com.johnsnowlabs.nlp.annotators.btm
 
-import java.io.{ByteArrayOutputStream, ObjectOutputStream}
-
 import com.johnsnowlabs.storage.{RocksDBConnection, StorageBatchWriter}
 
-class TMNodesWriter(
-                    override protected val connection: RocksDBConnection
-                  ) extends StorageBatchWriter[TrieNode] {
+import java.io.{ByteArrayOutputStream, ObjectOutputStream}
+
+class TMNodesWriter(override protected val connection: RocksDBConnection)
+    extends StorageBatchWriter[TrieNode] {
 
   def toBytes(content: TrieNode): Array[Byte] = {
     val stream: ByteArrayOutputStream = new ByteArrayOutputStream()

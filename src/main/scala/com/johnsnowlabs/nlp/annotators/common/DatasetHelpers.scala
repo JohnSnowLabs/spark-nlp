@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,15 +33,22 @@ object DatasetHelpers {
       }
     }
   }
-  
-  def doSlice[T: ClassTag](dataset: TraversableOnce[T], getLen: T => Int, batchSize: Int = 32): Iterator[Array[T]] = {
+
+  def doSlice[T: ClassTag](
+      dataset: TraversableOnce[T],
+      getLen: T => Int,
+      batchSize: Int = 32): Iterator[Array[T]] = {
     val gr = SentenceGrouper[T](getLen)
     gr.slice(dataset, batchSize)
   }
 
-  def slice(dataset: TraversableOnce[(TextSentenceLabels, WordpieceEmbeddingsSentence)], batchSize: Int = 32):
-  Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
-    doSlice[(TextSentenceLabels, WordpieceEmbeddingsSentence)](dataset, _._2.tokens.length, batchSize)
+  def slice(
+      dataset: TraversableOnce[(TextSentenceLabels, WordpieceEmbeddingsSentence)],
+      batchSize: Int = 32): Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
+    doSlice[(TextSentenceLabels, WordpieceEmbeddingsSentence)](
+      dataset,
+      _._2.tokens.length,
+      batchSize)
   }
 
 }

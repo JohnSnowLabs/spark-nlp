@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,8 @@ import com.johnsnowlabs.storage.{RocksDBConnection, StorageReader}
 
 import java.io.{ByteArrayInputStream, ObjectInputStream}
 
-class RegexPatternsReader(protected val connection: RocksDBConnection) extends StorageReader[Seq[String]] {
+class RegexPatternsReader(protected val connection: RocksDBConnection)
+    extends StorageReader[Seq[String]] {
 
   protected val caseSensitiveIndex: Boolean = false
 
@@ -33,6 +34,5 @@ class RegexPatternsReader(protected val connection: RocksDBConnection) extends S
     objectInputStream.close()
     value
   }
-
 
 }

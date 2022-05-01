@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,8 @@ class AWSProfileCredentials extends Credentials {
         return Some(new ProfileCredentialsProvider(credentialParams.profile).getCredentials)
       } catch {
         case _: Exception =>
-          logger.info(s"Profile ${credentialParams.profile} is not working. Attempting to use credentials provider")
+          logger.info(
+            s"Profile ${credentialParams.profile} is not working. Attempting to use credentials provider")
           next.get.buildCredentials(credentialParams)
       }
     }

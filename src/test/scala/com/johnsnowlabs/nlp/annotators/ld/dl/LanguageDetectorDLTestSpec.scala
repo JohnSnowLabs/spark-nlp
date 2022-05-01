@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,20 +38,18 @@ class LanguageDetectorDLTestSpec extends AnyFlatSpec {
       .setInputCol("text")
       .setOutputCol("document")
 
-    val sentence = SentenceDetectorDLModel.pretrained()
+    val sentence = SentenceDetectorDLModel
+      .pretrained()
       .setInputCols(Array("document"))
       .setOutputCol("sentence")
 
-    val languageDetector = LanguageDetectorDL.pretrained()
+    val languageDetector = LanguageDetectorDL
+      .pretrained()
       .setInputCols("sentence")
       .setOutputCol("language")
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentence,
-        languageDetector
-      ))
+      .setStages(Array(documentAssembler, sentence, languageDetector))
 
     pipeline.fit(smallCorpus).write.overwrite().save("./tmp_ld_pipeline")
     val pipelineModel = PipelineModel.load("./tmp_ld_pipeline")

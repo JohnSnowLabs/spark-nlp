@@ -116,18 +116,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
-        - title: Detect Chemicals in Medical Text
-          id: detect_chemicals_medical_text_bertfortokenclassification
+        - title: Extract chemical compounds, drugs, genes and proteins 
+          id: extract_chemical_compounds_drugs_genes_proteins  
           image: 
-              src: /assets/images/Detect_Chemicals_in_Medical_Text.svg
+              src: /assets/images/Extract_chemical_compounds_drugs_genes_and_proteins.svg
           image2: 
-              src: /assets/images/Detect_Chemicals_in_Medical_Text_f.svg
-          excerpt: This demo shows how chemical compounds can be extracted from medical texts. 
+              src: /assets/images/Extract_chemical_compounds_drugs_genes_and_proteins_f.svg
+          excerpt: This demo shows how to extract chemical compounds, drugs, genes and proteins from medical texts.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_BERT_TOKEN_CLASSIFIER/
+            url: https://demo.johnsnowlabs.com/healthcare/NER_DRUG_PROT/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
+            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb      
 ---

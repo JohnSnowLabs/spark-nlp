@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,10 +36,12 @@ class LfuCache[TKey, TValue](maxSize: Int) {
   }
 
   def get(itemId: TKey): Option[TValue] = {
-    entries.get(itemId).map { cachedItem => {
-      cachedItem.bump()
-      cachedItem.value
-    }}
+    entries.get(itemId).map { cachedItem =>
+      {
+        cachedItem.bump()
+        cachedItem.value
+      }
+    }
   }
 
   def removeLast(): Option[TValue] = {

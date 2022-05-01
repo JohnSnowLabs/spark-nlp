@@ -24,8 +24,8 @@ This model identifies the sentiments (positive, negative or neutral) in financia
 `neutral`, `positive`, `negative`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/SENTIMENT_EN_FINANCE/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_FINANCE.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_bertwiki_finance_sentiment_en_3.3.0_2.4_1632818954596.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use

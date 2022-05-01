@@ -9,8 +9,9 @@ repository: clinical/models
 date: 2020-07-27
 task: Entity Resolution
 edition: Spark NLP for Healthcare 2.5.1
+spark_version: 2.4
 tags: [clinical,licensed,entity_resolution,en]
-supported: true
+deprecated: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -20,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance.
 
-## Predicted Entities 
+## Predicted Entities
 RxNorm Codes and their normalized definition with `clinical_embeddings`.
 
 {:.btn-box}
@@ -29,7 +30,7 @@ RxNorm Codes and their normalized definition with `clinical_embeddings`.
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_rxnorm_sbd_clinical_en_2.5.1_2.4_1595813912622.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 {:.h2_title}
-## How to use 
+## How to use
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
@@ -43,7 +44,7 @@ rxnorm_resolver = ChunkEntityResolverModel()\
     .setInputCols(['token', 'chunk_embeddings'])\
     .setOutputCol('rxnorm_resolution')\
     .setPoolingStrategy("MAX")
-    
+
 pipeline_rxnorm = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk_embeddings, rxnorm_resolver])
 
 model = pipeline_rxnorm.fit(spark.createDataFrame([['']]).toDF("text"))
@@ -60,7 +61,7 @@ val rxnorm_resolver = ChunkEntityResolverModel()
     .setInputCols('token', 'chunk_embeddings')
     .setOutputCol('rxnorm_resolution')
     .setPoolingStrategy("MAX")
-    
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk_embeddings, rxnorm_resolver))
 
 val result = pipeline.fit(Seq.empty[String]).transform(data)

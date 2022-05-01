@@ -7,6 +7,7 @@ date: 2021-02-04
 task: Relation Extraction
 language: en
 edition: Spark NLP for Healthcare 2.7.3
+spark_version: 2.4
 tags: [licensed, clinical, en, relation_extraction]
 supported: true
 article_header:
@@ -23,7 +24,7 @@ Extract potential improvements or harmful effects of Drug-Drug interactions (DDI
 `DDI-advise`, `DDI-effect`, `DDI-false`, `DDI-int`, `DDI-mechanism`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_DRUG_DRUG_INT/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_drug_drug_interaction_biobert_en_2.7.3_2.4_1612441748775.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

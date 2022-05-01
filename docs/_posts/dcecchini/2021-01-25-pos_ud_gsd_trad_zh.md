@@ -7,6 +7,7 @@ date: 2021-01-25
 task: Part of Speech Tagging
 language: zh
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [pos, zh, open_source]
 supported: true
 article_header:

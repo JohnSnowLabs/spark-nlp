@@ -7,6 +7,7 @@ date: 2020-01-30
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Healthcare 2.4.0
+spark_version: 2.4
 tags: [clinical, licensed, ner, en]
 supported: true
 article_header:

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,8 @@ import com.johnsnowlabs.storage.{RocksDBConnection, StorageReadWriter}
 import java.io.{ByteArrayOutputStream, ObjectOutputStream}
 
 class RegexPatternsReadWriter(protected override val connection: RocksDBConnection)
-  extends RegexPatternsReader(connection) with StorageReadWriter[Seq[String]] {
+    extends RegexPatternsReader(connection)
+    with StorageReadWriter[Seq[String]] {
 
   protected def writeBufferSize: Int = 10000
 

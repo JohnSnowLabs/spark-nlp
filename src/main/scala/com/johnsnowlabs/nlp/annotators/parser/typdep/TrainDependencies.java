@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,7 +54,7 @@ public class TrainDependencies implements Serializable {
     }
 
     public TrainDependencies(TrainFile trainFile, DependencyPipe dependencyPipe,
-                             TypedDependencyParser typedDependencyParser, Options options){
+                             TypedDependencyParser typedDependencyParser, Options options) {
         this.trainFile = trainFile;
         this.dependencyPipe = dependencyPipe;
         this.typedDependencyParser = typedDependencyParser;

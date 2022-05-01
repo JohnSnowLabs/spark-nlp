@@ -25,7 +25,7 @@ We used [TFLongformerForTokenClassification](https://huggingface.co/transformers
 
 ## Predicted Entities
 
-
+`PER`, `ORG`, `LOC`, `MISC`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

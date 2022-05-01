@@ -39,11 +39,13 @@ documentAssembler = DocumentAssembler()\
       .setInputCol("text")\
       .setOutputCol("ner_chunk")
 
-jsl_sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli','en','clinical/models')\
+jsl_sbert_embedder = BertSentenceEmbeddings\
+      .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
       .setInputCols(["ner_chunk"])\
       .setOutputCol("sbert_embeddings")
 
-snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_bodyStructure, "en", "clinical/models) \
+snomed_resolver = SentenceEntityResolverModel\
+      .pretrained("sbiobertresolve_snomed_bodyStructure", "en", "clinical/models") \
       .setInputCols(["ner_chunk", "sbert_embeddings"]) \
       .setOutputCol("snomed_code")
 
@@ -57,17 +59,19 @@ snomed_lp = LightPipeline(snomed_pipelineModel)
 result = snomed_lp.fullAnnotate("Amputation stump")
 ```
 ```scala
-val document_assembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("ner_chunk")
+val document_assembler = DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("ner_chunk")
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-     .setInputCols(["ner_chunk"])\
-     .setOutputCol("sbert_embeddings")
+val sbert_embedder = BertSentenceEmbeddings
+      .pretrained("sbiobert_base_cased_mli","en","clinical/models")
+      .setInputCols(Array("ner_chunk"))
+      .setOutputCol("sbert_embeddings")
 
-val snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_bodyStructure, "en", "clinical/models) \
-     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-     .setOutputCol("snomed_code")
+val snomed_resolver = SentenceEntityResolverModel
+      .pretrained("sbiobertresolve_snomed_bodyStructure", "en", "clinical/models")
+      .setInputCols(Array("ner_chunk", "sbert_embeddings"))
+      .setOutputCol("snomed_code")
 
 val snomed_pipelineModel= new PipelineModel().setStages(Array(document_assembler, sbert_embedder, snomed_resolver))
 

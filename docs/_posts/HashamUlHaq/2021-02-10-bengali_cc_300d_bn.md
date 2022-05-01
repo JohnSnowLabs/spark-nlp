@@ -7,6 +7,7 @@ date: 2021-02-10
 task: Embeddings
 language: bn
 edition: Spark NLP 2.7.3
+spark_version: 2.4
 tags: [open_source, bn, embeddings]
 supported: true
 article_header:

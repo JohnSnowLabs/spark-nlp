@@ -9,7 +9,8 @@ def create_graph(output_path, number_of_tags, embeddings_dimension, number_of_ch
     if sys.version_info[0] != 3 or sys.version_info[1] >= 7:
         raise Exception('Python 3.7 or above not supported by TensorFlow')
     if tf.__version__ != '1.15.0':
-        raise Exception(f'Spark NLP is compiled with TensorFlow 1.15.0. Please use such version and not {tf.__version__}.')
+        error_message = 'Spark NLP is compiled with TensorFlow 1.15.0. Please use such version and not ' + tf.__version__
+        raise Exception(error_message)
     tf.reset_default_graph()
     name_prefix = 'blstm'
     model_name = name_prefix+'_{}_{}_{}_{}'.format(number_of_tags, embeddings_dimension, lstm_size, number_of_chars)
@@ -27,7 +28,7 @@ def create_graph(output_path, number_of_tags, embeddings_dimension, number_of_ch
         tf.train.write_graph(ner.session.graph, output_path, file_name, False)
         ner.close()
         session.close()
-        print(f'Graph created successfully')
+        print('Graph created successfully')
 
 
 def main(arguments):

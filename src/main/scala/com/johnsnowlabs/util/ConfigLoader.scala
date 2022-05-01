@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,8 @@ object ConfigLoader {
 
   private lazy val fileSystem: FileSystem = ConfigHelper.getFileSystem
   private lazy val homeDirectory: String = {
-    if (fileSystem.getScheme.equals("dbfs")) System.getProperty("user.home") else fileSystem.getHomeDirectory.toString
+    if (fileSystem.getScheme.equals("dbfs")) System.getProperty("user.home")
+    else fileSystem.getHomeDirectory.toString
   }
   private lazy val hadoopTmpDir: String = ConfigHelper.getHadoopTmpDir
 

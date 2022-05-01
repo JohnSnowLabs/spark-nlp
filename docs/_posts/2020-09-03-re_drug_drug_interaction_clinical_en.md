@@ -9,6 +9,7 @@ repository: clinical/models
 date: 2020-09-03
 task: Relation Extraction
 edition: Spark NLP for Healthcare 2.5.5
+spark_version: 2.4
 tags: [clinical,licensed,relation extraction,en]
 supported: true
 article_header:
@@ -21,7 +22,7 @@ use_language_switcher: "Python-Scala-Java"
 Relation Extraction model based on syntactic features using deep learning. This model can be used to identify drug-drug interactions relationships among drug entities.
 
 ## Predicted Entities
-``DDI-advise``, ``DDI-effect``, ``DDI-mechanism``, ``DDI-int``, ``DDI-false``.
+``DDI-advise``, ``DDI-effect``, ``DDI-mechanism``, ``DDI-int``, ``DDI-false``
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -93,8 +94,6 @@ Trained on data gathered and manually annotated by John Snow Labs.
 +-------------+------+------+------+
 |     relation|recall| prec |   f1 |
 +-------------+------+------+------+
-|      DDI-int|  0.40| 0.41 | 0.40 |
-|DDI-mechanism|  0.77| 0.28 | 0.41 |
 |   DDI-effect|  0.76| 0.38 | 0.51 |
 |    DDI-false|  0.72| 0.97 | 0.83 |
 |   DDI-advise|  0.74| 0.39 | 0.51 |

@@ -39,11 +39,13 @@ documentAssembler = DocumentAssembler()\
       .setInputCol("text")\
       .setOutputCol("ner_chunk")
 
-jsl_sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli','en','clinical/models')\
+jsl_sbert_embedder = BertSentenceEmbeddings\
+      .pretrained('sbiobert_base_cased_mli','en','clinical/models')\
       .setInputCols(["ner_chunk"])\
       .setOutputCol("sbert_embeddings")
 
-cpt_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_cpt_procedures_measurements_augmented", "en", "clinical/models") \
+cpt_resolver = SentenceEntityResolverModel\
+      .pretrained("sbiobertresolve_cpt_procedures_measurements_augmented", "en", "clinical/models") \
       .setInputCols(["ner_chunk", "sbert_embeddings"]) \
       .setOutputCol("cpt_code")
 
@@ -57,17 +59,19 @@ cpt_lp = LightPipeline(cpt_pipelineModel)
 result = cpt_lp.fullAnnotate(['calcium score', 'heart surgery'])
 ```
 ```scala
-val document_assembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("ner_chunk")
+val document_assembler = DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("ner_chunk")
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-     .setInputCols(["ner_chunk"])\
-     .setOutputCol("sbert_embeddings")
+val sbert_embedder = BertSentenceEmbeddings
+      .pretrained("sbiobert_base_cased_mli","en","clinical/models")
+      .setInputCols(Array("ner_chunk"))
+      .setOutputCol("sbert_embeddings")
 
-val cpt_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_cpt_procedures_measurements_augmented", "en", "clinical/models) \
-     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-     .setOutputCol("cpt_code")
+val cpt_resolver = SentenceEntityResolverModel
+      .pretrained("sbiobertresolve_cpt_procedures_measurements_augmented", "en", "clinical/models) 
+      .setInputCols(Array("ner_chunk", "sbert_embeddings")) 
+      .setOutputCol("cpt_code")
 
 val cpt_pipelineModel= new PipelineModel().setStages(Array(document_assembler, sbert_embedder, cpt_resolver))
 

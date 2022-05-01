@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2019 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,7 @@
 
 package com.johnsnowlabs.nlp.util
 
-/**
-  * Additional configure options that used by spark.nlp
-  */
+/** Additional configure options that used by spark.nlp */
 object SparkNlpConfigKeys {
 
   /** Folder to store word embeddings */

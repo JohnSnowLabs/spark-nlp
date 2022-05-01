@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,8 +28,11 @@ class AWSTokenCredentials extends Credentials {
     val expectedNumberOfParams = credentialsValues.slice(0, 3).count(_.!=(""))
     if (expectedNumberOfParams == 3) {
       logger.info("Connecting to AWS with AWS Token Credentials...")
-      return Some(new BasicSessionCredentials(credentialParams.accessKeyId, credentialParams.secretAccessKey,
-        credentialParams.sessionToken))
+      return Some(
+        new BasicSessionCredentials(
+          credentialParams.accessKeyId,
+          credentialParams.secretAccessKey,
+          credentialParams.sessionToken))
     }
     next.get.buildCredentials(credentialParams)
   }

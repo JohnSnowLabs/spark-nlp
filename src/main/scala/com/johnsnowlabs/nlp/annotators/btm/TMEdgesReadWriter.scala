@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,10 @@ package com.johnsnowlabs.nlp.annotators.btm
 import com.johnsnowlabs.storage.{RocksDBConnection, StorageReadWriter}
 
 class TMEdgesReadWriter(
-                         protected override val connection: RocksDBConnection,
-                         protected override val caseSensitiveIndex: Boolean
-                       ) extends TMEdgesReader(connection, caseSensitiveIndex) with StorageReadWriter[Int] {
+    protected override val connection: RocksDBConnection,
+    protected override val caseSensitiveIndex: Boolean)
+    extends TMEdgesReader(connection, caseSensitiveIndex)
+    with StorageReadWriter[Int] {
 
   def add(word: (Int, Int), content: Int): Unit = super.add(word.toString(), content)
 

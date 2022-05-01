@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,11 +33,20 @@ trait PragmaticSentimentBehaviors { this: AnyFlatSpec =>
     val sdAnnotations = Annotation.collect(df, "sentiment").flatten
   }
 
-  def isolatedSentimentDetector(tokenizedSentences: Array[TokenizedSentence], expectedScore: Double): Unit = {
+  def isolatedSentimentDetector(
+      tokenizedSentences: Array[TokenizedSentence],
+      expectedScore: Double): Unit = {
     s"tagged sentences" should s"have an expected score of $expectedScore" taggedAs FastTest in {
-      val pragmaticScorer = new PragmaticScorer(ResourceHelper.parseKeyValueText(ExternalResource("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ReadAs.TEXT, Map("delimiter" -> ","))))
+      val pragmaticScorer = new PragmaticScorer(
+        ResourceHelper.parseKeyValueText(
+          ExternalResource(
+            "src/test/resources/sentiment-corpus/default-sentiment-dict.txt",
+            ReadAs.TEXT,
+            Map("delimiter" -> ","))))
       val result = pragmaticScorer.score(tokenizedSentences)
-      assert(result == expectedScore, s"because result: $result did not match expected: $expectedScore")
+      assert(
+        result == expectedScore,
+        s"because result: $result did not match expected: $expectedScore")
     }
   }
 
