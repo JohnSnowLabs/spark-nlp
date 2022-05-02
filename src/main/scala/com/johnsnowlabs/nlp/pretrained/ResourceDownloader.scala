@@ -437,7 +437,7 @@ object ResourceDownloader {
 
     var download_finished = false
     var path: Option[String] = None
-    val file_size = getDownloadSize(request.name, request.language, request.folder)
+    val file_size = getDownloadSize(request)
     require(
       !file_size.equals("-1"),
       s"Can not find ${request.name} inside ${request.folder} to download. Please make sure the name and location are correct!")
@@ -537,18 +537,17 @@ object ResourceDownloader {
     cache.remove(request)
   }
 
-  def getDownloadSize(
-      name: String,
-      language: Option[String] = None,
-      folder: String = publicLoc): String = {
+  def getDownloadSize(resourceRequest: ResourceRequest): String = {
     var size: Option[Long] = None
+    val folder = resourceRequest.folder
     if (folder.equals(publicLoc)) {
-      size = publicDownloader.getDownloadSize(ResourceRequest(name, language, folder))
+      size = publicDownloader.getDownloadSize(resourceRequest)
     } else if (folder.startsWith("@")) {
       val actualLoc = folder.replace("@", "")
-      size = communityDownloader.getDownloadSize(ResourceRequest(name, language, actualLoc))
+      size = communityDownloader.getDownloadSize(
+        ResourceRequest(resourceRequest.name, resourceRequest.language, actualLoc))
     } else {
-      size = defaultDownloader.getDownloadSize(ResourceRequest(name, language, folder))
+      size = defaultDownloader.getDownloadSize(resourceRequest)
     }
     size match {
       case Some(downloadBytes) => FileHelper.getHumanReadableFileSize(downloadBytes)
@@ -711,6 +710,6 @@ object PythonResourceDownloader {
 
   def getDownloadSize(name: String, language: String = "en", remoteLoc: String = null): String = {
     val correctedFolder = Option(remoteLoc).getOrElse(ResourceDownloader.publicLoc)
-    ResourceDownloader.getDownloadSize(name, Option(language), correctedFolder)
+    ResourceDownloader.getDownloadSize(ResourceRequest(name, Option(language), correctedFolder))
   }
 }
