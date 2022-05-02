@@ -531,4 +531,18 @@ package object annotator {
 
   object DeBertaEmbeddings extends ReadablePretrainedDeBertaModel with ReadDeBertaTensorflowModel
 
+  type DeBertaForSequenceClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForSequenceClassification
+
+  object DeBertaForSequenceClassification
+      extends ReadablePretrainedDeBertaForSequenceModel
+      with ReadDeBertaForSequenceTensorflowModel
+
+  type DeBertaForTokenClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForTokenClassification
+
+  object DeBertaForTokenClassification
+      extends ReadablePretrainedDeBertaForTokenModel
+      with ReadDeBertaForTokenTensorflowModel
+
 }

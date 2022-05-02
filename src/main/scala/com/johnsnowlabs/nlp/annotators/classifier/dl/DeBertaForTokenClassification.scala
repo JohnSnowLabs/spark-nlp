@@ -27,30 +27,32 @@ import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
+import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
 import java.io.File
 
-/** XlmRoBertaForSequenceClassification can load XLM-RoBERTa Models with sequence
-  * classification/regression head on top (a linear layer on top of the pooled output) e.g. for
-  * multi-class document classification tasks.
+/** DeBertaForTokenClassification can load DeBERTA Models v2 and v3 with a token classification
+  * head on top (a linear layer on top of the hidden-states output) e.g. for
+  * Named-Entity-Recognition (NER) tasks.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
-  * val sequenceClassifier = XlmRoBertaForSequenceClassification.pretrained()
+  * val tokenClassifier = DeBertaForTokenClassification.pretrained()
   *   .setInputCols("token", "document")
   *   .setOutputCol("label")
   * }}}
-  * The default model is `"xlm_roberta_base_sequence_classifier_imdb"`, if no name is provided.
+  * The default model is `"deberta_xsmall_token_classifier_conll03"`, if no name is provided.
   *
   * For available pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
+  * [[https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition Models Hub]].
   *
-  * To see which models are compatible and how to import them see
-  * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]]. and the
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/XlmRoBertaForSequenceClassificationTestSpec.scala XlmRoBertaForSequenceClassification]].
+  * and the
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DeBertaForTokenClassificationTestSpec.scala DeBertaForTokenClassificationTestSpec]].
+  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The
+  * Spark NLP Workshop example shows how to import them
+  * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
   *
   * ==Example==
   * {{{
@@ -67,7 +69,7 @@ import java.io.File
   *   .setInputCols("document")
   *   .setOutputCol("token")
   *
-  * val sequenceClassifier = XlmRoBertaForSequenceClassification.pretrained()
+  * val tokenClassifier = DeBertaForTokenClassification.pretrained()
   *   .setInputCols("token", "document")
   *   .setOutputCol("label")
   *   .setCaseSensitive(true)
@@ -75,23 +77,22 @@ import java.io.File
   * val pipeline = new Pipeline().setStages(Array(
   *   documentAssembler,
   *   tokenizer,
-  *   sequenceClassifier
+  *   tokenClassifier
   * ))
   *
   * val data = Seq("John Lenon was born in London and lived in Paris. My name is Sarah and I live in London").toDF("text")
   * val result = pipeline.fit(data).transform(data)
   *
   * result.select("label.result").show(false)
-  * +--------------------+
-  * |result              |
-  * +--------------------+
-  * |[neg, neg]          |
-  * |[pos, pos, pos, pos]|
-  * +--------------------+
+  * +------------------------------------------------------------------------------------+
+  * |result                                                                              |
+  * +------------------------------------------------------------------------------------+
+  * |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
+  * +------------------------------------------------------------------------------------+
   * }}}
   *
   * @see
-  *   [[XlmRoBertaForSequenceClassification]] for sequence-level classification
+  *   [[DeBertaForTokenClassification]] for token-level classification
   * @see
   *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
   *   transformer based classifiers
@@ -114,18 +115,17 @@ import java.io.File
   *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
   *   parameter values through setters and getters, respectively.
   */
-class XlmRoBertaForSequenceClassification(override val uid: String)
-    extends AnnotatorModel[XlmRoBertaForSequenceClassification]
-    with HasBatchedAnnotate[XlmRoBertaForSequenceClassification]
+class DeBertaForTokenClassification(override val uid: String)
+    extends AnnotatorModel[DeBertaForTokenClassification]
+    with HasBatchedAnnotate[DeBertaForTokenClassification]
     with WriteTensorflowModel
     with WriteSentencePieceModel
-    with HasCaseSensitiveProperties
-    with HasClassifierActivationProperties {
+    with HasCaseSensitiveProperties {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
     */
-  def this() = this(Identifiable.randomUID("XlmRoBertaForSequenceClassification"))
+  def this() = this(Identifiable.randomUID("DeBertaForTokenClassification"))
 
   /** Input Annotator Types: DOCUMENT, TOKEN
     *
@@ -134,11 +134,11 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
   override val inputAnnotatorTypes: Array[String] =
     Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
 
-  /** Output Annotator Types: CATEGORY
+  /** Output Annotator Types: WORD_EMBEDDINGS
     *
     * @group anno
     */
-  override val outputAnnotatorType: AnnotatorType = AnnotatorType.CATEGORY
+  override val outputAnnotatorType: AnnotatorType = AnnotatorType.NAMED_ENTITY
 
   /** Labels used to decode predicted IDs back to string tags
     *
@@ -154,25 +154,6 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
     $$(labels).keys.toArray
   }
 
-  /** Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document
-    * by averaging probabilities in all sentences. Due to max sequence length limit in almost all
-    * transformer models such as BERT (512 tokens), this parameter helps feeding all the sentences
-    * into the model and averaging all the probabilities for the entire document instead of
-    * probabilities per sentence. (Default: true)
-    *
-    * @group param
-    */
-  val coalesceSentences = new BooleanParam(
-    this,
-    "coalesceSentences",
-    "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to true.")
-
-  /** @group setParam */
-  def setCoalesceSentences(value: Boolean): this.type = set(coalesceSentences, value)
-
-  /** @group getParam */
-  def getCoalesceSentences: Boolean = $(coalesceSentences)
-
   /** ConfigProto from tensorflow, serialized into byte array. Get with
     * `config_proto.SerializeToString()`
     *
@@ -184,7 +165,7 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
     "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): XlmRoBertaForSequenceClassification.this.type =
+  def setConfigProtoBytes(bytes: Array[Int]): DeBertaForTokenClassification.this.type =
     set(this.configProtoBytes, bytes)
 
   /** @group getParam */
@@ -201,7 +182,7 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
   def setMaxSentenceLength(value: Int): this.type = {
     require(
       value <= 512,
-      "XLM-RoBERTa models do not support sequences longer than 512 because of trainable positional embeddings.")
+      "DeBERTa models do not support sequences longer than 512 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -226,17 +207,17 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowXlmRoBertaClassification]] = None
+  private var _model: Option[Broadcast[TensorflowDeBertaClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
       tensorflowWrapper: TensorflowWrapper,
-      spp: SentencePieceWrapper): XlmRoBertaForSequenceClassification = {
+      spp: SentencePieceWrapper): DeBertaForTokenClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowXlmRoBertaClassification(
+          new TensorflowDeBertaClassification(
             tensorflowWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
@@ -248,7 +229,7 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowXlmRoBertaClassification = _model.get.value
+  def getModelIfNotSet: TensorflowDeBertaClassification = _model.get.value
 
   /** Whether to lowercase tokens or not
     *
@@ -260,11 +241,7 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
     this
   }
 
-  setDefault(
-    batchSize -> 8,
-    maxSentenceLength -> 128,
-    caseSensitive -> true,
-    coalesceSentences -> false)
+  setDefault(batchSize -> 8, maxSentenceLength -> 128, caseSensitive -> true)
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation
     * type
@@ -276,24 +253,22 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
     *   relationship
     */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    batchedAnnotations.map(annotations => {
-      val sentences = SentenceSplit.unpack(annotations).toArray
-      val tokenizedSentences = TokenizedWithSentence.unpack(annotations).toArray
+    val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations
+      .map(annotations => TokenizedWithSentence.unpack(annotations).toArray)
+      .toArray
+    /*Return empty if the real tokens are empty*/
+    if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
 
-      if (tokenizedSentences.nonEmpty) {
-        getModelIfNotSet.predictSequence(
-          tokenizedSentences,
-          sentences,
-          $(batchSize),
-          $(maxSentenceLength),
-          $(caseSensitive),
-          $(coalesceSentences),
-          $$(labels),
-          $(activation))
-      } else {
-        Seq.empty[Annotation]
-      }
+      getModelIfNotSet.predict(
+        tokenizedSentences,
+        $(batchSize),
+        $(maxSentenceLength),
+        $(caseSensitive),
+        $$(labels))
     })
+    else {
+      Seq(Seq.empty[Annotation])
+    }
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
@@ -302,64 +277,57 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
       path,
       spark,
       getModelIfNotSet.tensorflowWrapper,
-      "_xlm_roberta_classification",
-      XlmRoBertaForSequenceClassification.tfFile,
+      "_deberta_classification",
+      DeBertaForTokenClassification.tfFile,
       configProtoBytes = getConfigProtoBytes)
     writeSentencePieceModel(
       path,
       spark,
       getModelIfNotSet.spp,
-      "_xlmroberta",
-      XlmRoBertaForSequenceClassification.sppFile)
+      "_deberta",
+      DeBertaForTokenClassification.sppFile)
   }
+
 }
 
-trait ReadablePretrainedXlmRoBertaForSequenceModel
-    extends ParamsAndFeaturesReadable[XlmRoBertaForSequenceClassification]
-    with HasPretrained[XlmRoBertaForSequenceClassification] {
-  override val defaultModelName: Some[String] = Some("xlm_roberta_base_sequence_classifier_imdb")
+trait ReadablePretrainedDeBertaForTokenModel
+    extends ParamsAndFeaturesReadable[DeBertaForTokenClassification]
+    with HasPretrained[DeBertaForTokenClassification] {
+  override val defaultModelName: Some[String] = Some("deberta_xsmall_token_classifier_conll03")
 
   /** Java compliant-overrides */
-  override def pretrained(): XlmRoBertaForSequenceClassification = super.pretrained()
+  override def pretrained(): DeBertaForTokenClassification = super.pretrained()
 
-  override def pretrained(name: String): XlmRoBertaForSequenceClassification =
-    super.pretrained(name)
+  override def pretrained(name: String): DeBertaForTokenClassification = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): XlmRoBertaForSequenceClassification =
+  override def pretrained(name: String, lang: String): DeBertaForTokenClassification =
     super.pretrained(name, lang)
 
   override def pretrained(
       name: String,
       lang: String,
-      remoteLoc: String): XlmRoBertaForSequenceClassification =
-    super.pretrained(name, lang, remoteLoc)
+      remoteLoc: String): DeBertaForTokenClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadXlmRoBertaForSequenceTensorflowModel
-    extends ReadTensorflowModel
-    with ReadSentencePieceModel {
-  this: ParamsAndFeaturesReadable[XlmRoBertaForSequenceClassification] =>
+trait ReadDeBertaForTokenTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+  this: ParamsAndFeaturesReadable[DeBertaForTokenClassification] =>
 
-  override val tfFile: String = "xlm_roberta_classification_tensorflow"
-  override val sppFile: String = "xlmroberta_spp"
+  override val tfFile: String = "deberta_classification_tensorflow"
+  override val sppFile: String = "deberta_spp"
 
   def readTensorflow(
-      instance: XlmRoBertaForSequenceClassification,
+      instance: DeBertaForTokenClassification,
       path: String,
       spark: SparkSession): Unit = {
 
-    val tf =
-      readTensorflowModel(path, spark, "_xlm_roberta_classification_tf", initAllTables = false)
-    val spp = readSentencePieceModel(path, spark, "_xlmroberta_spp", sppFile)
+    val tf = readTensorflowModel(path, spark, "_deberta_classification_tf", initAllTables = false)
+    val spp = readSentencePieceModel(path, spark, "_deberta_spp", sppFile)
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
   addReader(readTensorflow)
 
-  def loadSavedModel(
-      tfModelPath: String,
-      spark: SparkSession): XlmRoBertaForSequenceClassification = {
-
+  def loadSavedModel(tfModelPath: String, spark: SparkSession): DeBertaForTokenClassification = {
     val f = new File(tfModelPath)
     val savedModel = new File(tfModelPath, "saved_model.pb")
     require(f.exists, s"Folder $tfModelPath not found")
@@ -368,10 +336,8 @@ trait ReadXlmRoBertaForSequenceTensorflowModel
       savedModel.exists(),
       s"savedModel file saved_model.pb not found in folder $tfModelPath")
     val sppModelPath = tfModelPath + "/assets"
-    val sppModel = new File(sppModelPath, "sentencepiece.bpe.model")
-    require(
-      sppModel.exists(),
-      s"SentencePiece model sentencepiece.bpe.model not found in folder $sppModelPath")
+    val sppModel = new File(sppModelPath, "spm.model")
+    require(sppModel.exists(), s"SentencePiece model spm.model not found in folder $sppModelPath")
 
     val labelsPath = new File(tfModelPath + "/assets", "labels.txt")
     require(
@@ -392,16 +358,16 @@ trait ReadXlmRoBertaForSequenceTensorflowModel
     }
 
     /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new XlmRoBertaForSequenceClassification()
+    new DeBertaForTokenClassification()
       .setLabels(labels)
       .setSignatures(_signatures)
       .setModelIfNotSet(spark, wrapper, spp)
   }
 }
 
-/** This is the companion object of [[XlmRoBertaForSequenceClassification]]. Please refer to that
-  * class for the documentation.
+/** This is the companion object of [[DeBertaForTokenClassification]]. Please refer to that class
+  * for the documentation.
   */
-object XlmRoBertaForSequenceClassification
-    extends ReadablePretrainedXlmRoBertaForSequenceModel
-    with ReadXlmRoBertaForSequenceTensorflowModel
+object DeBertaForTokenClassification
+    extends ReadablePretrainedDeBertaForTokenModel
+    with ReadDeBertaForTokenTensorflowModel
