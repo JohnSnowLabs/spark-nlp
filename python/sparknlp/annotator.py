@@ -7515,7 +7515,10 @@ class NerOverwriter(AnnotatorModel):
         return self._set(newResult=value)
 
 
-class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef):
+class UniversalSentenceEncoder(AnnotatorModel,
+                               HasEmbeddingsProperties,
+                               HasStorageRef,
+                               HasBatchedAnnotate):
     """The Universal Sentence Encoder encodes text into high dimensional vectors
     that can be used for text classification, semantic similarity, clustering
     and other natural language tasks.
@@ -7654,7 +7657,9 @@ class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStora
             java_model=java_model
         )
         self._setDefault(
-            loadSP=False
+            loadSP=False,
+            dimension=512,
+            batchSize=2
         )
 
     @staticmethod
@@ -17887,8 +17892,8 @@ class DeBertaForSequenceClassification(AnnotatorModel,
 
 
 class DeBertaForTokenClassification(AnnotatorModel,
-                                 HasCaseSensitiveProperties,
-                                 HasBatchedAnnotate):
+                                    HasCaseSensitiveProperties,
+                                    HasBatchedAnnotate):
     """DeBertaForTokenClassification can load DeBERTa v2&v3 Models with a token
     classification head on top (a linear layer on top of the hidden-states
     output) e.g. for Named-Entity-Recognition (NER) tasks.
@@ -18054,4 +18059,3 @@ class DeBertaForTokenClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(DeBertaForTokenClassification, name, lang, remote_loc)
-
