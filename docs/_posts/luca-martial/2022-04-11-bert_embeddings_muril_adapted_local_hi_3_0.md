@@ -4,7 +4,7 @@ title: Hindi Bert Embeddings (from monsoon-nlp)
 author: John Snow Labs
 name: bert_embeddings_muril_adapted_local
 date: 2022-04-11
-tags: [hi, open_source]
+tags: [bert, embeddings, hi, open_source]
 task: Embeddings
 language: hi
 edition: Spark NLP 3.4.2

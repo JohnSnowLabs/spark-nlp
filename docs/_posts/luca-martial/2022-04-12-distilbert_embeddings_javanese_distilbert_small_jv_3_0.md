@@ -4,7 +4,7 @@ title: Javanese DistilBERT Embeddings (from w11wo)
 author: John Snow Labs
 name: distilbert_embeddings_javanese_distilbert_small
 date: 2022-04-12
-tags: [jv, open_source]
+tags: [distilbert, embeddings, jv, open_source]
 task: Embeddings
 language: jv
 edition: Spark NLP 3.4.2

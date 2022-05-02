@@ -4,7 +4,7 @@ title: Italian Bert Embeddings (from vinhood)
 author: John Snow Labs
 name: bert_embeddings_chefberto_italian_cased
 date: 2022-04-11
-tags: [it, open_source]
+tags: [bert, embeddings, it, open_source]
 task: Embeddings
 language: it
 edition: Spark NLP 3.4.2

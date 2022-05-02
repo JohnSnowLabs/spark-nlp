@@ -4,7 +4,7 @@ title: Legal English Bert Embeddings (from nlpaueb)
 author: John Snow Labs
 name: bert_embeddings_legal_bert_base_uncased
 date: 2022-04-11
-tags: [en, open_source, legal]
+tags: [bert, embeddings, en, open_source, legal]
 task: Embeddings
 language: en
 edition: Spark NLP 3.4.2

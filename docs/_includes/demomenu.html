@@ -70,9 +70,6 @@
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "analyze_medical_text_german" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/analyze_medical_text_german">Analyze Medical Texts in German</a>
       </li>
-      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "analyze_financial_models" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-        <a href="/analyze_financial_models">Analyze Financial Models</a>
-      </li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "medical_risk_scoring" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/medical_risk_scoring">Medical Risk Scoring</a>
       </li>
@@ -94,6 +91,9 @@
       </li>
       <li data-hide="hide" {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "table_extraction" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/table_extraction">Table Extraction</a>
+      </li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "text_classification" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/text_classification">Text Classification</a>
       </li>
       <li><strong>Spark OCR</strong></li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "extract_text_from_documents" %} class="active"  {% endif %} {% endfor %} {% endif %} >

@@ -4,7 +4,7 @@ title: Tamil Bert Embeddings (from monsoon-nlp)
 author: John Snow Labs
 name: bert_embeddings_muril_adapted_local
 date: 2022-04-11
-tags: [ta, open_source]
+tags: [bert, embeddings, ta, open_source]
 task: Embeddings
 language: ta
 edition: Spark NLP 3.4.2
