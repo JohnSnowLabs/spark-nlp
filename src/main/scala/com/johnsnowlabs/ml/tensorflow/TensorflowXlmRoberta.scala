@@ -85,7 +85,7 @@ class TensorflowXlmRoberta(
   private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
 
   private val encoder =
-    new SentencepieceEncoder(spp, caseSensitive, SentencePieceDelimiterId, pieceIdFromZero = true)
+    new SentencepieceEncoder(spp, caseSensitive, SentencePieceDelimiterId, pieceIdOffset = 1)
 
   def prepareBatchInputs(
       sentences: Seq[(WordpieceTokenizedSentence, Int)],
