@@ -16,10 +16,8 @@
 
 package com.johnsnowlabs.nlp.annotators.parser.typdep.util;
 
-import gnu.trove.map.TIntIntMap;
-import gnu.trove.map.hash.TIntIntHashMap;
-
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class DictionarySet implements Serializable {
 
@@ -45,7 +43,7 @@ public class DictionarySet implements Serializable {
         return isCounting;
     }
 
-    private TIntIntMap[] counters;
+    private HashMap<Integer, Integer>[] counters;
 
     public DictionarySet() {
         isCounting = false;
@@ -61,7 +59,8 @@ public class DictionarySet implements Serializable {
 
         if (isCounting && id > 0) {
             counters[tag.ordinal()].putIfAbsent(id, 0);
-            counters[tag.ordinal()].increment(id);
+            int increment = counters[tag.ordinal()].get(id) + 1;
+            counters[tag.ordinal()].put(id, increment);
         }
 
         return id <= 0 ? 1 : id;
@@ -82,14 +81,14 @@ public class DictionarySet implements Serializable {
 
     public void setCounters() {
         isCounting = true;
-        counters = new TIntIntHashMap[dictionaries.length];
-        for (int i = 0; i < dictionaries.length; ++i)
-            counters[i] = new TIntIntHashMap();
+        counters = new HashMap[dictionaries.length];
+        for (int i = 0; i < dictionaries.length; ++i) {
+            counters[i] = new HashMap<>();
+        }
     }
 
     public void closeCounters() {
         isCounting = false;
-        counters = null;
     }
 
 }
