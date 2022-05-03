@@ -16,22 +16,101 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
-
-import scala.language.postfixOps
 
 class CamemBertEmbeddingsTestSpec extends AnyFlatSpec {
 
-  "CamemBert Embeddings" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
+  "CamemBertEmbeddings" should "correctly work with empty tokens" taggedAs SlowTest in {
+
+    val smallCorpus = ResourceHelper.spark.read
+      .option("header", "true")
+      .csv("src/test/resources/embeddings/sentence_embeddings.csv")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val stopWordsCleaner = new StopWordsCleaner()
+      .setInputCols("token")
+      .setOutputCol("cleanTokens")
+      .setStopWords(
+        Array("this", "is", "my", "document", "sentence", "second", "first", ",", "."))
+      .setCaseSensitive(false)
+
+    val embeddings = CamemBertEmbeddings
+      .pretrained()
+      .setInputCols("document", "cleanTokens")
+      .setOutputCol("embeddings")
+      .setCaseSensitive(true)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, tokenizer, stopWordsCleaner, embeddings))
+
+    val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
+    Benchmark.time("Time to save CamemBertEmbeddings results") {
+      pipelineDF.write.mode("overwrite").parquet("./tmp_embeddings")
+    }
+  }
+
+  "CamemBertEmbeddings" should "benchmark test" taggedAs SlowTest in {
+    import ResourceHelper.spark.implicits._
+
+    val conll = CoNLL(explodeSentences = false)
+    val training_data =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+
+    val embeddings = CamemBertEmbeddings
+      .pretrained()
+      .setInputCols("sentence", "token")
+      .setOutputCol("embeddings")
+      .setCaseSensitive(true)
+      .setMaxSentenceLength(512)
+      .setBatchSize(16)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(embeddings))
+
+    val pipelineDF = pipeline.fit(training_data).transform(training_data)
+    Benchmark.time("Time to save CamemBertEmbeddings results") {
+      pipelineDF.write.mode("overwrite").parquet("./tmp_embeddings")
+    }
+
+    println("missing tokens/embeddings: ")
+    pipelineDF
+      .withColumn("sentence_size", size(col("sentence")))
+      .withColumn("token_size", size(col("token")))
+      .withColumn("embed_size", size(col("embeddings")))
+      .where(col("token_size") =!= col("embed_size"))
+      .select("sentence_size", "token_size", "embed_size", "token.result", "embeddings.result")
+      .show(false)
+
+    println("total sentences: ", pipelineDF.select(explode($"sentence.result")).count)
+    val totalTokens = pipelineDF.select(explode($"token.result")).count.toInt
+    val totalEmbeddings = pipelineDF.select(explode($"embeddings.embeddings")).count.toInt
+
+    println(s"total tokens: $totalTokens")
+    println(s"total embeddings: $totalEmbeddings")
+
+    assert(totalTokens == totalEmbeddings)
+  }
+
+  "CamemBertEmbeddings" should "download, save, and load a model" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
 
-    val ddd = Seq("Something is weird on the notebooks, something is happening.").toDF("text")
+    val ddd = Seq("This is just a simple sentence for the testing purposes!").toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -41,19 +120,90 @@ class CamemBertEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val tfModelPath = "PATH"
-
     val embeddings = CamemBertEmbeddings
-      .loadSavedModel(tfModelPath, ResourceHelper.spark)
-      .setInputCols(Array("token", "document"))
-      .setOutputCol("bert")
-      .setStorageRef("tf_hub_bert_test")
+      .pretrained()
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+      .setCaseSensitive(true)
+      .setMaxSentenceLength(512)
+      .setBatchSize(12)
 
     val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
 
-    pipeline.fit(ddd).write.overwrite().save("./tmp_camembert_pipeline")
-    val pipelineModel = PipelineModel.load("./tmp_camembert_pipeline")
+    val pipelineModel = pipeline.fit(ddd)
+    pipelineModel.transform(ddd).show()
 
-    pipelineModel.transform(ddd)
+    Benchmark.time("Time to save CamemBertEmbeddings pipeline model") {
+      pipelineModel.write.overwrite().save("./tmp_camembert_pipeline")
+    }
+
+    Benchmark.time("Time to save RoBertaEmbeddings model") {
+      pipelineModel.stages.last
+        .asInstanceOf[CamemBertEmbeddings]
+        .write
+        .overwrite()
+        .save("./tmp_camembert_model")
+    }
+
+    val loadedPipelineModel = PipelineModel.load("./tmp_camembert_pipeline")
+    loadedPipelineModel.transform(ddd).show()
+
+    val loadedDistilBertModel = RoBertaEmbeddings.load("./tmp_camembert_model")
+    loadedDistilBertModel.getDimension
+
+  }
+
+  "CamemBertEmbeddings" should "be aligned with custom tokens from Tokenizer" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val ddd = Seq(
+      "Paris est la capitale de la France .",
+      "Le camembert est délicieux .",
+      "Le camembert est excellent !",
+      " J'aime le camembert ! .  . .",
+      "\\u2009.Les modèles de langue contextuels Camembert pour le Français : impact de la taille et de l'hétérogénéité des données d'entrainement .\\u2009.\\u2009.")
+      .toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val embeddings = CamemBertEmbeddings
+      .pretrained()
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+      .setCaseSensitive(true)
+      .setMaxSentenceLength(512)
+      .setBatchSize(12)
+
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
+
+    val pipelineModel = pipeline.fit(ddd)
+    val pipelineDF = pipelineModel.transform(ddd)
+
+    println("tokens: ")
+    pipelineDF.select("token.result").show(false)
+    println("embeddings: ")
+    pipelineDF.select("embeddings.result").show(false)
+    pipelineDF
+      .withColumn("token_size", size(col("token")))
+      .withColumn("embed_size", size(col("embeddings")))
+      .where(col("token_size") =!= col("embed_size"))
+      .select("token_size", "embed_size", "token.result", "embeddings.result")
+      .show(false)
+
+    val totalTokens = pipelineDF.select(explode($"token.result")).count.toInt
+    val totalEmbeddings = pipelineDF.select(explode($"embeddings.embeddings")).count.toInt
+
+    println(s"total tokens: $totalTokens")
+    println(s"total embeddings: $totalEmbeddings")
+
+    assert(totalTokens == totalEmbeddings)
+
   }
 }
