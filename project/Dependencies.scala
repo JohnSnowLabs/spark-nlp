@@ -94,9 +94,6 @@ object Dependencies {
 
   val json4s = "org.json4s" %% "json4s-ext" % json4sVersion
 
-  val trove4jVersion = "3.0.3"
-  val trove4j = "net.sf.trove4j" % "trove4j" % trove4jVersion
-
   val junitVersion = "4.13.2"
   val junit = "junit" % "junit" % junitVersion % Test
 
