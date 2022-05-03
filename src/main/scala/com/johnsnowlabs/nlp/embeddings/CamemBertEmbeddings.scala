@@ -13,15 +13,16 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
 
 import java.io.File
 
-/** Token-level embeddings using BERT. BERT (Bidirectional Encoder Representations from
-  * Transformers) provides dense vector representations for natural language by using a deep,
-  * pre-trained neural network with the Transformer architecture.
+/** The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin,
+  * Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de
+  * la Clergerie, Djamé Seddah, and Benoît Sagot. It is based on Facebook’s RoBERTa model released
+  * in 2019. It is a model trained on 138GB of French text.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
-  * val embeddings = BertEmbeddings.pretrained()
+  * val embeddings = CamemBertEmbeddings.pretrained()
   *   .setInputCols("token", "document")
-  *   .setOutputCol("embeddings")
+  *   .setOutputCol("camembert_embeddings")
   * }}}
   * The default model is `"camembert_base"`, if no name is provided.
   *
@@ -31,37 +32,36 @@ import java.io.File
   * For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/3.NER_with_BERT.ipynb Spark NLP Workshop]]
   * and the
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/CamemBertEmbeddingsTestSpec.scala BertEmbeddingsTestSpec]].
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/CamemBertEmbeddingsTestSpec.scala CamemBertEmbeddingsTestSpec]].
   * To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
   *
   * '''Sources''' :
   *
-  * [[https://arxiv.org/abs/1810.04805 BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding]]
+  * [[https://arxiv.org/abs/1911.03894 CamemBERT: a Tasty French Language Model]]
   *
-  * [[https://github.com/google-research/bert]]
+  * [[https://huggingface.co/camembert]]
   *
   * ''' Paper abstract '''
   *
-  * ''We introduce a new language representation model called BERT, which stands for Bidirectional
-  * Encoder Representations from Transformers. Unlike recent language representation models, BERT
-  * is designed to pre-train deep bidirectional representations from unlabeled text by jointly
-  * conditioning on both left and right context in all layers. As a result, the pre-trained BERT
-  * model can be fine-tuned with just one additional output layer to create state-of-the-art
-  * models for a wide range of tasks, such as question answering and language inference, without
-  * substantial task-specific architecture modifications. BERT is conceptually simple and
-  * empirically powerful. It obtains new state-of-the-art results on eleven natural language
-  * processing tasks, including pushing the GLUE score to 80.5% (7.7% point absolute improvement),
-  * MultiNLI accuracy to 86.7% (4.6% absolute improvement), SQuAD v1.1 question answering Test F1
-  * to 93.2 (1.5 point absolute improvement) and SQuAD v2.0 Test F1 to 83.1 (5.1 point absolute
-  * improvement).''
+  * ''Pretrained language models are now ubiquitous in Natural Language Processing. Despite their
+  * success, most available models have either been trained on English data or on the
+  * concatenation of data in multiple languages. This makes practical use of such models --in all
+  * languages except English-- very limited. In this paper, we investigate the feasibility of
+  * training monolingual Transformer-based language models for other languages, taking French as
+  * an example and evaluating our language models on part-of-speech tagging, dependency parsing,
+  * named entity recognition and natural language inference tasks. We show that the use of web
+  * crawled data is preferable to the use of Wikipedia data. More surprisingly, we show that a
+  * relatively small web crawled dataset (4GB) leads to results that are as good as those obtained
+  * using larger datasets (130+GB). Our best performing model CamemBERT reaches or improves the
+  * state of the art in all four downstream tasks.''
   *
   * ==Example==
   * {{{
   * import spark.implicits._
   * import com.johnsnowlabs.nlp.base.DocumentAssembler
   * import com.johnsnowlabs.nlp.annotators.Tokenizer
-  * import com.johnsnowlabs.nlp.embeddings.BertEmbeddings
+  * import com.johnsnowlabs.nlp.embeddings.CamemBertEmbeddings
   * import com.johnsnowlabs.nlp.EmbeddingsFinisher
   * import org.apache.spark.ml.Pipeline
   *
@@ -75,10 +75,10 @@ import java.io.File
   *
   * val embeddings = CamemBertEmbeddings.pretrained()
   *   .setInputCols("token", "document")
-  *   .setOutputCol("bert_embeddings")
+  *   .setOutputCol("camembert_embeddings")
   *
   * val embeddingsFinisher = new EmbeddingsFinisher()
-  *   .setInputCols("bert_embeddings")
+  *   .setInputCols("camembert_embeddings")
   *   .setOutputCols("finished_embeddings")
   *   .setOutputAsVector(true)
   *
@@ -104,11 +104,6 @@ import java.io.File
   * +--------------------------------------------------------------------------------+
   * }}}
   *
-  * @see
-  *   [[BertSentenceEmbeddings]] for sentence-level embeddings
-  * @see
-  *   [[com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification BertForTokenClassification]]
-  *   For BertEmbeddings with a token classification layer on top
   * @see
   *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
   *   transformer based embeddings
@@ -298,6 +293,7 @@ class CamemBertEmbeddings(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
+
     writeTensorflowModelV2(
       path,
       spark,
@@ -305,6 +301,7 @@ class CamemBertEmbeddings(override val uid: String)
       "_camembert",
       CamemBertEmbeddings.tfFile,
       configProtoBytes = getConfigProtoBytes)
+
     writeSentencePieceModel(
       path,
       spark,
