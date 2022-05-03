@@ -1,37 +1,15 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.ml.tensorflow.{
-  ReadTensorflowModel,
-  TensorflowBert,
-  TensorflowWrapper,
-  WriteTensorflowModel
-}
-import com.johnsnowlabs.nlp.annotators.common.{
-  IndexedToken,
-  Sentence,
-  TokenizedSentence,
-  TokenizedWithSentence,
-  WordpieceEmbeddingsSentence,
-  WordpieceTokenizedSentence
-}
-import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
+import com.johnsnowlabs.ml.tensorflow._
+import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.nlp.{
-  Annotation,
-  AnnotatorModel,
-  AnnotatorType,
-  HasBatchedAnnotate,
-  HasCaseSensitiveProperties,
-  HasPretrained,
-  ParamsAndFeaturesReadable
-}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
-import org.slf4j.{Logger, LoggerFactory}
 
 import java.io.File
 
@@ -43,9 +21,9 @@ import java.io.File
   * {{{
   * val embeddings = BertEmbeddings.pretrained()
   *   .setInputCols("token", "document")
-  *   .setOutputCol("bert_embeddings")
+  *   .setOutputCol("embeddings")
   * }}}
-  * The default model is `"small_bert_L2_768"`, if no name is provided.
+  * The default model is `"camembert_base"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
@@ -53,7 +31,7 @@ import java.io.File
   * For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/3.NER_with_BERT.ipynb Spark NLP Workshop]]
   * and the
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala BertEmbeddingsTestSpec]].
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/CamemBertEmbeddingsTestSpec.scala BertEmbeddingsTestSpec]].
   * To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
   *
@@ -95,7 +73,7 @@ import java.io.File
   *   .setInputCols("document")
   *   .setOutputCol("token")
   *
-  * val embeddings = BertEmbeddings.pretrained("small_bert_L2_128", "en")
+  * val embeddings = CamemBertEmbeddings.pretrained()
   *   .setInputCols("token", "document")
   *   .setOutputCol("bert_embeddings")
   *
@@ -157,28 +135,12 @@ class CamemBertEmbeddings(override val uid: String)
     extends AnnotatorModel[CamemBertEmbeddings]
     with HasBatchedAnnotate[CamemBertEmbeddings]
     with WriteTensorflowModel
+    with WriteSentencePieceModel
     with HasEmbeddingsProperties
     with HasStorageRef
     with HasCaseSensitiveProperties {
 
   def this() = this(Identifiable.randomUID("CAMEMBERT_EMBEDDINGS"))
-
-  def sentenceStartTokenId: Int = {
-    $$(vocabulary)("[CLS]")
-  }
-
-  /** @group setParam */
-  def sentenceEndTokenId: Int = {
-    $$(vocabulary)("[SEP]")
-  }
-
-  /** Vocabulary used to encode the words to ids with WordPieceEncoder
-    *
-    * @group param
-    */
-  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
-
-  def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with
     * `config_proto.SerializeToString()`
@@ -233,18 +195,18 @@ class CamemBertEmbeddings(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowBert]] = None
+  private var _model: Option[Broadcast[TensorflowCamemBert]] = None
 
   def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: TensorflowWrapper): CamemBertEmbeddings = {
+      tensorflowWrapper: TensorflowWrapper,
+      spp: SentencePieceWrapper): CamemBertEmbeddings = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowBert(
+          new TensorflowCamemBert(
             tensorflowWrapper,
-            sentenceStartTokenId,
-            sentenceEndTokenId,
+            spp,
             configProtoBytes = getConfigProtoBytes,
             signatures = getSignatures)))
     }
@@ -253,10 +215,10 @@ class CamemBertEmbeddings(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowBert = _model.get.value
+  def getModelIfNotSet: TensorflowCamemBert = _model.get.value
 
-  /** Set Embeddings dimensions for the BERT model Only possible to set this when the first time
-    * is saved dimension is not changeable, it comes from BERT config file
+  /** Set Embeddings dimensions for the CamemBERT model Only possible to set this when the first
+    * time is saved dimension is not changeable, it comes from CamemBERT config file
     *
     * @group setParam
     */
@@ -276,30 +238,7 @@ class CamemBertEmbeddings(override val uid: String)
     this
   }
 
-  setDefault(dimension -> 768, batchSize -> 8, maxSentenceLength -> 128, caseSensitive -> false)
-
-  def tokenizeWithAlignment(tokens: Seq[TokenizedSentence]): Seq[WordpieceTokenizedSentence] = {
-    val basicTokenizer = new BasicTokenizer($(caseSensitive))
-    val encoder = new WordpieceEncoder($$(vocabulary))
-
-    tokens.map { tokenIndex =>
-      // filter empty and only whitespace tokens
-      val camembertTokens =
-        tokenIndex.indexedTokens.filter(x => x.token.nonEmpty && !x.token.equals(" ")).map {
-          token =>
-            val content = if ($(caseSensitive)) token.token else token.token.toLowerCase()
-            val sentenceBegin = token.begin
-            val sentenceEnd = token.end
-            val sentenceInedx = tokenIndex.sentenceIndex
-            val result = basicTokenizer.tokenize(
-              Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
-            if (result.nonEmpty) result.head else IndexedToken("")
-        }
-      val wordpieceTokens =
-        camembertTokens.flatMap(token => encoder.encode(token)).take($(maxSentenceLength))
-      WordpieceTokenizedSentence(wordpieceTokens)
-    }
-  }
+  setDefault(dimension -> 768, batchSize -> 8, maxSentenceLength -> 128, caseSensitive -> true)
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation
     * type
@@ -310,9 +249,6 @@ class CamemBertEmbeddings(override val uid: String)
     * @return
     *   any number of annotations processed for every batch of input annotations. Not necessary
     *   one to one relationship
-    *
-    * IMPORTANT: !MUST! return sequences of equal lengths !! IMPORTANT: !MUST! return sentences
-    * that belong to the same original row !! (challenging)
     */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
 
@@ -322,12 +258,8 @@ class CamemBertEmbeddings(override val uid: String)
         TokenizedWithSentence.unpack(annotations).toArray.map(x => (x, i))
       }
 
-    // Tokenize sentences
-    val tokenizedSentences = tokenizeWithAlignment(sentencesWithRow.map(_._1))
-
     // Process all sentences
     val sentenceWordEmbeddings = getModelIfNotSet.predict(
-      tokenizedSentences,
       sentencesWithRow.map(_._1),
       $(batchSize),
       $(maxSentenceLength),
@@ -369,10 +301,16 @@ class CamemBertEmbeddings(override val uid: String)
     writeTensorflowModelV2(
       path,
       spark,
-      getModelIfNotSet.tensorflowWrapper,
+      getModelIfNotSet.tensorflow,
       "_camembert",
-      BertEmbeddings.tfFile,
+      CamemBertEmbeddings.tfFile,
       configProtoBytes = getConfigProtoBytes)
+    writeSentencePieceModel(
+      path,
+      spark,
+      getModelIfNotSet.spp,
+      "_camembert",
+      CamemBertEmbeddings.sppFile)
   }
 
 }
@@ -380,7 +318,7 @@ class CamemBertEmbeddings(override val uid: String)
 trait ReadablePretrainedCamemBertModel
     extends ParamsAndFeaturesReadable[CamemBertEmbeddings]
     with HasPretrained[CamemBertEmbeddings] {
-  override val defaultModelName: Some[String] = Some("small_bert_L2_768")
+  override val defaultModelName: Some[String] = Some("camembert_base")
 
   /** Java compliant-overrides */
   override def pretrained(): CamemBertEmbeddings = super.pretrained()
@@ -394,16 +332,17 @@ trait ReadablePretrainedCamemBertModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadCamemBertTensorflowModel extends ReadTensorflowModel {
+trait ReadCamemBertTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[CamemBertEmbeddings] =>
 
-  // FIXME name it camembert_tensorflow
-  override val tfFile: String = "bert_tensorflow"
+  override val tfFile: String = "camembert_tensorflow"
+  override val sppFile: String = "camembert_spp"
 
   def readTensorflow(instance: CamemBertEmbeddings, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_camembert_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+    val spp = readSentencePieceModel(path, spark, "_camembert_spp", sppFile)
+    instance.setModelIfNotSet(spark, tf, spp)
   }
 
   addReader(readTensorflow)
@@ -412,25 +351,20 @@ trait ReadCamemBertTensorflowModel extends ReadTensorflowModel {
 
     val f = new File(tfModelPath)
     val savedModel = new File(tfModelPath, "saved_model.pb")
-
     require(f.exists, s"Folder $tfModelPath not found")
     require(f.isDirectory, s"File $tfModelPath is not folder")
     require(
       savedModel.exists(),
       s"savedModel file saved_model.pb not found in folder $tfModelPath")
-
-    val vocab = new File(tfModelPath + "/assets", "vocab.txt")
-
-    require(f.exists, s"Folder $tfModelPath not found")
-    require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(vocab.exists(), s"Vocabulary file vocab.txt not found in folder $tfModelPath")
-
-    val vocabResource =
-      new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
+    val sppModelPath = tfModelPath + "/assets"
+    val sppModel = new File(sppModelPath, "sentencepiece.bpe.model")
+    require(
+      sppModel.exists(),
+      s"SentencePiece model sentencepiece.bpe.model not found in folder $sppModelPath")
 
     val (wrapper, signatures) =
       TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
+    val spp = SentencePieceWrapper.read(sppModel.toString)
 
     val _signatures = signatures match {
       case Some(s) => s
@@ -439,9 +373,8 @@ trait ReadCamemBertTensorflowModel extends ReadTensorflowModel {
 
     /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
     new CamemBertEmbeddings()
-      .setVocabulary(words)
       .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper)
+      .setModelIfNotSet(spark, wrapper, spp)
   }
 }
 
@@ -450,6 +383,4 @@ trait ReadCamemBertTensorflowModel extends ReadTensorflowModel {
   */
 object CamemBertEmbeddings
     extends ReadablePretrainedCamemBertModel
-    with ReadCamemBertTensorflowModel {
-  private[CamemBertEmbeddings] val logger: Logger = LoggerFactory.getLogger("CamemBertEmbeddings")
-}
+    with ReadCamemBertTensorflowModel
