@@ -31,7 +31,7 @@ private[ml] class SentencepieceEncoder(
     spp: SentencePieceWrapper,
     caseSensitive: Boolean,
     delimiterId: Int = 13,
-    pieceIdFromZero: Boolean = false) {
+    pieceIdOffset: Int = 0) {
 
   /** @param token
     *   IndexedToken input that is used for encoding to piece tokens and piece ids
@@ -43,12 +43,12 @@ private[ml] class SentencepieceEncoder(
     val text = token.token
     var start = 0
     var end = text.length
-    val normalizedDelimiterId = if (pieceIdFromZero) delimiterId + 1 else delimiterId
+    val normalizedDelimiterId = delimiterId + pieceIdOffset
 
     val tokenContent = if (caseSensitive) token.token else token.token.toLowerCase()
     val wordPieces = spp.getSppModel.encodeAsPieces(tokenContent).toArray.map(x => x.toString)
     val encodedIds = spp.getSppModel.encodeAsIds(tokenContent)
-    val pieceIds = if (pieceIdFromZero) encodedIds.map(x => x + 1) else encodedIds
+    val pieceIds = encodedIds.map(x => x + pieceIdOffset)
     wordPieces.zip(pieceIds).filter(id => id._2 != normalizedDelimiterId).map { piece =>
       val tokenPiece =
         TokenPiece(piece._1, token.token, piece._2, start == 0, token.begin + start, token.end)
@@ -63,12 +63,12 @@ private[ml] class SentencepieceEncoder(
     val text = sentence.content.take(maxLength)
     var start = 0
     var end = text.length
-    val normalizedDelimiterId = if (pieceIdFromZero) delimiterId + 1 else delimiterId
+    val normalizedDelimiterId = delimiterId + pieceIdOffset
 
     val sentContent = if (caseSensitive) sentence.content else sentence.content.toLowerCase()
     val wordPieces = spp.getSppModel.encodeAsPieces(sentContent).toArray.map(x => x.toString)
     val encodedIds = spp.getSppModel.encodeAsIds(sentContent)
-    val pieceIds = if (pieceIdFromZero) encodedIds.map(x => x + 1) else encodedIds
+    val pieceIds = encodedIds.map(x => x + pieceIdOffset)
     wordPieces.zip(pieceIds).filter(id => id._2 != normalizedDelimiterId).map { piece =>
       val tokenPiece = TokenPiece(
         piece._1,
