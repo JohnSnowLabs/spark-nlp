@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.parser.typdep.util;
 
-import gnu.trove.map.hash.TIntDoubleHashMap;
+import java.util.HashMap;
 
 public class FeatureVector implements Collector {
 
@@ -83,10 +83,16 @@ public class FeatureVector implements Collector {
             addEntry(m.x[i], m.va[i] * coeff);
     }
 
-    public float squaredL2NormUnsafe() {
-        TIntDoubleHashMap vec = new TIntDoubleHashMap(size << 1);
-        for (int i = 0; i < size; ++i)
-            vec.adjustOrPutValue(x[i], va[i], va[i]);
+    public float squaredL2NormUnsafe()
+    {
+        HashMap<Integer, Double> vec = new HashMap(size<<1);
+        for (int i = 0; i < size; ++i) {
+            int key = x[i];
+            double adjustAmount = va[i];
+            double value = (vec.get(key) == null) ? adjustAmount : vec.get(key) + adjustAmount;
+            vec.put(key, value);
+        }
+
         float sum = 0;
         for (double v : vec.values())
             sum += v * v;

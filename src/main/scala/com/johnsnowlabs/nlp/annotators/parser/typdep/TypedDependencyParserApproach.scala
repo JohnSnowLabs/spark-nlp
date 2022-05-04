@@ -221,7 +221,10 @@ class TypedDependencyParserApproach(override val uid: String)
 
     val dictionaries = trainDependencies.getDependencyPipe.getDictionariesSet.getDictionaries
 
-    dictionaries.foreach(dictionary => dictionary.setMapAsString(dictionary.getMap.toString))
+    dictionaries.foreach { dictionary =>
+      val dictionaryNewString = dictionary.getMap.toString.replaceAll("\\s", "")
+      dictionary.setMapAsString(dictionaryNewString)
+    }
 
     typedDependencyParser.getDependencyPipe.closeAlphabets()
 
