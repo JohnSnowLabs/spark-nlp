@@ -65,7 +65,7 @@ object Dependencies {
   lazy val scalaVer: String =
     if (is_spark23 == "true" | is_spark24 == "true") scala211 else scala212
 
-  lazy val supportedScalaVersions = List(scala212, scala211)
+  lazy val supportedScalaVersions: Seq[String] = List(scala212, scala211)
 
   val scalaTestVersion = "3.2.9"
 
