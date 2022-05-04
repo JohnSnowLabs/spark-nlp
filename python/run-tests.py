@@ -65,6 +65,7 @@ unittest.TextTestRunner().run(EntityRulerTestSpec())
 unittest.TextTestRunner().run(Doc2VecTestSpec())
 unittest.TextTestRunner().run(AlbertForTokenClassificationTestSpec())
 unittest.TextTestRunner().run(Word2VecTestSpec())
+unittest.TextTestRunner().run(CamemBertEmbeddingsTestSpec())
 
 # Should be locally tested
 # print("Running ElmoEmbeddingsTestSpec")
