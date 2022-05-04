@@ -233,7 +233,7 @@ class CamemBertEmbeddings(override val uid: String)
     this
   }
 
-  setDefault(dimension -> 768, batchSize -> 8, maxSentenceLength -> 128, caseSensitive -> true)
+  setDefault(batchSize -> 8, dimension -> 768, maxSentenceLength -> 128, caseSensitive -> true)
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation
     * type
