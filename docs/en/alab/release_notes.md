@@ -21,9 +21,9 @@ We are very excited to release Annotation Lab v3.1.0 which includes support for 
 
 ### Highlights
 
-- Support Training of Large documents, Spark NLP feature called Memory Optimization Approach is enabled when the training data is greater then 5MB which enables training of model on machines with lower memory resources.
-- Improvements in Visual NER Projects
-  - Users can provide title in the input JSON along with the URL for tasks to import. This sets the title of the task accordingly
+- Support Training of large documents. Spark NLP feature called Memory Optimization Approach is enabled when the training data is greater then 5MB which enables training of model on machines with lower memory resources.
+- Improvements in Visual NER Projects:
+  - Users can provide title in the input JSON along with the URL for tasks to import. This sets the title of the task accordingly.
   - JSON export for the Visual NER projects contains both chunk and token-level annotations.
   - Sample tasks can be imported into the Visual NER project using any available OCR server (created by another project).
   - Multi-chunk annotation can be done without changing the start token when the end token is the last word on the document.
@@ -32,8 +32,8 @@ We are very excited to release Annotation Lab v3.1.0 which includes support for 
 - Integration with my.johnsnowlabs.com, this means the available licenses can be easily imported by Admin users of Annotation Lab without having to download or copy them manually.
 - The maximum number of words/tokens that can be set in a single page in labeling screen is now limited to 1000.
 - For a large number of multiple relations, the previous version of Annotation Lab used Prev and Next identifiers which was not optimal for mapping to the correct pairs. For increased usability and clarity , the pair connections now use numerical values.
-- While creating new (Contextual Parser) Rules using dictionary, the uploaded CSV file is validated based on: CSV should not contain any null values, CSV should either be a single row or single column
-- Allow users to remove a license, admin users are now able to remove unused licenses
+- While creating new (Contextual Parser) Rules using dictionary, the uploaded CSV file is validated based on: CSV should not contain any null values, CSV should either be a single row or single column.
+- Admin users are now able to remove unused licenses. 
 
 ## 3.0.1 
 
