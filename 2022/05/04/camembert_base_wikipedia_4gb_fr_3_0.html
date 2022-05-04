@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Arabic Named Entity Recognition (from Davlan)- Spark NLP Model</title><meta name="description" content="DescriptionPretrained Named Entity Recognition model, uploaded to Hugging Face, adapted and imported into Spark NLP. bert-base-multilingual-cased-ner-hrl is ...">
-<link rel="canonical" href="/2022/05/04/bert_ner_bert_base_multilingual_cased_ner_hrl_ar_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>CamemBERT Base Wikipedia- Spark NLP Model</title><meta name="description" content="DescriptionCamemBERT is a state-of-the-art language model for French based on the RoBERTa model.For further information or requests, please go to Camembert W...">
+<link rel="canonical" href="/2022/05/04/camembert_base_wikipedia_4gb_fr_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -405,20 +405,19 @@
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>May 04, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-05-04T00:00:00+00:00"></div><header class="main-docs"><h1>Arabic Named Entity Recognition (from Davlan)</h1></header></div><meta itemprop="headline" content="Arabic Named Entity Recognition (from Davlan)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>bert</li><li>ner</li><li>token_classification</li><li>ar</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-05-04T00:00:00+00:00">
-    <meta itemprop="keywords" content="bert,ner,token_classification,ar,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-05-04T00:00:00+00:00"></div><header class="main-docs"><h1>CamemBERT Base Wikipedia</h1></header></div><meta itemprop="headline" content="CamemBERT Base Wikipedia"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>fr</li><li>french</li><li>embeddings</li><li>camembert</li><li>wikipedia</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-05-04T00:00:00+00:00">
+    <meta itemprop="keywords" content="fr,french,embeddings,camembert,wikipedia,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Pretrained Named Entity Recognition model, uploaded to Hugging Face, adapted and imported into Spark NLP. <code class="language-plaintext highlighter-rouge">bert-base-multilingual-cased-ner-hrl</code> is a Arabic model orginally trained by <code class="language-plaintext highlighter-rouge">Davlan</code>.</p>
+<p><a href="https://arxiv.org/abs/1911.03894">CamemBERT</a> is a state-of-the-art language model for French based on the RoBERTa model.
+For further information or requests, please go to <a href="https://camembert-model.fr/">Camembert Website</a></p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">LOC</code>, <code class="language-plaintext highlighter-rouge">ORG</code>, <code class="language-plaintext highlighter-rouge">PER</code></p>
-
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_ner_bert_base_multilingual_cased_ner_hrl_ar_3.4.2_3.0_1651630145936.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/camembert_base_wikipedia_4gb_fr_3.4.4_3.0_1651673934156.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -426,49 +425,13 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-
-<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span>\
-       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
-
-<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_ner_bert_base_multilingual_cased_ner_hrl"</span><span class="p">,</span><span class="s">"ar"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos"</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">sentenceDetector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">tokenClassifier</span><span class="p">])</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"أنا أحب الشرارة NLP"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">embeddings</span> <span class="o">=</span> <span class="n">CamemBertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"camembert_base_wikipedia_4gb"</span><span class="p">,</span> <span class="s">"fr"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">sentenceDetector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sentence_detector_dl"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
-       <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
-       <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">BertForTokenClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_ner_bert_base_multilingual_cased_ner_hrl"</span><span class="o">,</span><span class="s">"ar"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pos"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span><span class="n">sentenceDetector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">tokenClassifier</span><span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"أنا أحب الشرارة NLP"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">CamemBertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"camembert_base_wikipedia_4gb"</span><span class="o">,</span> <span class="s">"fr"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
@@ -478,11 +441,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>bert_ner_bert_base_multilingual_cased_ner_hrl</td>
+      <td>camembert_base_wikipedia_4gb</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.4.2+</td>
+      <td>Spark NLP 3.4.4+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -494,45 +457,42 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[document, token]</td>
+      <td>[token, sentence]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[ner]</td>
+      <td>[embeddings]</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>ar</td>
+      <td>fr</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>665.8 MB</td>
+      <td>265.5 MB</td>
     </tr>
     <tr>
       <td>Case sensitive:</td>
       <td>true</td>
-    </tr>
-    <tr>
-      <td>Max sentence length:</td>
-      <td>128</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<ul>
-  <li>https://huggingface.co/Davlan/bert-base-multilingual-cased-ner-hrl</li>
-  <li>https://camel.abudhabi.nyu.edu/anercorp/</li>
-  <li>https://www.clips.uantwerpen.be/conll2003/ner/</li>
-  <li>https://www.clips.uantwerpen.be/conll2003/ner/</li>
-  <li>https://www.clips.uantwerpen.be/conll2002/ner/</li>
-  <li>https://github.com/EuropeanaNewspapers/ner-corpora/tree/master/enp_FR.bnf.bio</li>
-  <li>https://ontotext.fbk.eu/icab.html</li>
-  <li>https://github.com/LUMII-AILab/FullStack/tree/master/NamedEntities</li>
-  <li>https://www.clips.uantwerpen.be/conll2002/ner/</li>
-  <li>https://github.com/davidsbatista/NER-datasets/tree/master/Portuguese</li>
-</ul>
+<p><a href="https://huggingface.co/camembert/camembert-base-wikipedia-4gb">https://huggingface.co/camembert/camembert-base-wikipedia-4gb</a></p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| Model                          | <span class="c">#params                        | Arch. | Training data                     |</span>
+|--------------------------------|--------------------------------|-------|-----------------------------------|
+| <span class="sb">`</span>camembert-base<span class="sb">`</span> | 110M   | Base  | OSCAR <span class="o">(</span>138 GB of text<span class="o">)</span>            |
+| <span class="sb">`</span>camembert/camembert-large<span class="sb">`</span>              | 335M    | Large | CCNet <span class="o">(</span>135 GB of text<span class="o">)</span>            |
+| <span class="sb">`</span>camembert/camembert-base-ccnet<span class="sb">`</span>         | 110M    | Base  | CCNet <span class="o">(</span>135 GB of text<span class="o">)</span>            |
+| <span class="sb">`</span>camembert/camembert-base-wikipedia-4gb<span class="sb">`</span> | 110M    | Base  | Wikipedia <span class="o">(</span>4 GB of text<span class="o">)</span>          |
+| <span class="sb">`</span>camembert/camembert-base-oscar-4gb<span class="sb">`</span>     | 110M    | Base  | Subsample of OSCAR <span class="o">(</span>4 GB of text<span class="o">)</span> |
+| <span class="sb">`</span>camembert/camembert-base-ccnet-4gb<span class="sb">`</span>     | 110M    | Base  | Subsample of CCNet <span class="o">(</span>4 GB of text<span class="o">)</span> |
+</code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-05-04T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -658,7 +618,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/05/04/bert_ner_bert_base_arabic_camelbert_msa_ner_ar_3_0.html">Arabic Named Entity Recognition (from CAMeL-Lab)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/05/04/camembert_base_ccnet_4gb_fr_3_0.html">CamemBERT Subsample of CCNet</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/05/04/camembert_base_oscar_4gb_fr_3_0.html">CamemBERT Base OSCAR</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/05/04/camembert_large_fr_3_0.html">CamemBERT Large Model</a></div></div></div>
 
 </div>
 </div>
