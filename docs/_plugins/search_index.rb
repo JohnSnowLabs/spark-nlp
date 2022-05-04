@@ -114,12 +114,12 @@ class Extractor
           benchmarking_data = JSON.parse(result)
           # Add validation for labels
           if not benchmarking_data['headers'].include?('label')
-            print("Required header label missing for #{post_url}\n")
+            print("Failed to parse the Benchmarking section (the label header is missing) #{post_url}\n")
             return nil
           else
             rows = benchmarking_data["rows"]
             headers = benchmarking_data["headers"]
-            return_data = {post_url: post_url, labels: []}
+            return_data = []
             for i in 0..rows.length()-1
                 row_data = {}
                 
@@ -138,16 +138,16 @@ class Extractor
                     
                 end
                 unless row_data.empty?
-                    return_data[:labels] << row_data
+                    return_data << row_data
                 end
             end
             return return_data
           end
         rescue JSON::ParserError => e
-          print("Invalid syntax for #{post_url}\n")
+          print("Failed to parse the Benchmarking section (invalid syntax) #{post_url}\n")
         end
       else
-        print("Benchmarking pattern match failed for #{post_url}\n")
+        print("Failed to parse the Benchmarking section (invalid section) #{post_url}\n")
       end
     end
     nil
@@ -441,5 +441,5 @@ Jekyll::Hooks.register :site, :post_write do |site|
   File.write(filename, models_json.values.to_json)
 
   benchmarking_filename = File.join(site.config['destination'], 'benchmarking.json')
-  File.write(benchmarking_filename, models_benchmarking_json.values.to_json)
+  File.write(benchmarking_filename, models_benchmarking_json.to_json)
 end
