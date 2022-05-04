@@ -21,7 +21,7 @@ We are very excited to release Annotation Lab v3.1.0 which includes support for 
 
 ### Highlights
 
-- Support Training of Large documents
+- Support Training of Large documents, Spark NLP feature called Memory Optimization Approach is enabled when the training data is greater then 5MB which enables training of model on machines with lower memory resources.
 - Improvements in Visual NER Projects
   - Users can provide title in the input JSON along with the URL for tasks to import. This sets the title of the task accordingly
   - JSON export for the Visual NER projects contains both chunk and token-level annotations.
