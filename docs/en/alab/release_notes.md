@@ -13,6 +13,38 @@ sidebar:
     nav: annotation-lab
 ---
 
+## 3.1.0
+
+Release date: **04-05-2022**
+
+We are very excited to release Annotation Lab v3.1.0 which includes support for training large documents, improvements for Visual NER Projects, security fixes and stabilizations. Here are the highlights:
+
+### Highlights
+
+- Support Training of Large documents
+- Improvements in Visual NER Projects
+  - Users can provide title in the input JSON along with the URL for tasks to import. This sets the title of the task accordingly
+  - JSON export for the Visual NER projects contains both chunk and token-level annotations.
+  - Sample tasks can be imported into the Visual NER project using any available OCR server (created by another project).
+  - Multi-chunk annotation can be done without changing the start token when the end token is the last word on the document.
+  - For Visual NER project, users can export tasks in the VOC format for multi-page tasks with/without completions.
+- During restoring backup file in the previous versions, the SECRETS (kubernetes) of the old machine needed manual transfer to the target machine. With v3.1.0, all the SECRETS are backed-up automatically along with database backup and hence they are restored without any hassle.
+- Integration with my.johnsnowlabs.com, this means the available licenses can be easily imported by Admin users of Annotation Lab without having to download or copy them manually.
+- The maximum number of words/tokens that can be set in a single page in labeling screen is now limited to 1000.
+- For a large number of multiple relations, the previous version of Annotation Lab used Prev and Next identifiers which was not optimal for mapping to the correct pairs. For increased usability and clarity , the pair connections now use numerical values.
+- While creating new (Contextual Parser) Rules using dictionary, the uploaded CSV file is validated based on: CSV should not contain any null values, CSV should either be a single row or single column
+- Allow users to remove a license, admin users are now able to remove unused licenses
+
+## 3.0.1 
+
+Release date: **12-04-2022**
+
+Annotation Lab v3.0.1 includes some CVE issues are fixed along with application bug fixes
+
+### Bug Fixes 
+- When licensed model is trained, label "label" was added to prediction entities
+- Expired license icon is seen after the user enters new floating license
+- In airgaped machine, deployed licensed preannotation server is shown as open source in active-servers page
 
 ## 3.0.0
 
