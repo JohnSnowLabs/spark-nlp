@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, LABELED_DEPENDENCY, POS, TOKEN}
+import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.{ConllSentence, LabeledDependency}
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.{
   DependencyLabel,
@@ -24,8 +25,6 @@ import com.johnsnowlabs.nlp.annotators.parser.typdep.util.{
   DictionarySet
 }
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import com.johnsnowlabs.nlp._
-import gnu.trove.map.hash.TObjectIntHashMap
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
 
@@ -253,16 +252,18 @@ class TypedDependencyParserModel(override val uid: String)
 
   private def getTroveMap(
       predictionParameters: PredictionParameters,
-      dictionary: Dictionary): TObjectIntHashMap[_] = {
+      dictionary: Dictionary): java.util.HashMap[String, Integer] = {
     if (dictionary.getMapAsString != null) {
-      predictionParameters.transformToTroveMap(dictionary.getMapAsString)
+      val result = predictionParameters.transformToTroveMap(dictionary.getMapAsString)
+      result
     } else {
       dictionary.getMap
     }
   }
 
   private def deserializeDictionaries(
-      dictionariesValues: List[(TObjectIntHashMap[_], Int, Boolean)]): DictionarySet = {
+      dictionariesValues: List[(java.util.HashMap[String, Integer], Int, Boolean)])
+      : DictionarySet = {
 
     val dictionarySet = getDictionarySetInstance
 

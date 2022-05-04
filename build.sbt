@@ -142,7 +142,7 @@ lazy val utilDependencies = Seq(
   greex,
   json4s)
 
-lazy val typedDependencyParserDependencies = Seq(trove4j, junit)
+lazy val typedDependencyParserDependencies = Seq(junit)
 
 val tensorflowDependencies: Seq[sbt.ModuleID] =
   if (is_gpu.equals("true"))

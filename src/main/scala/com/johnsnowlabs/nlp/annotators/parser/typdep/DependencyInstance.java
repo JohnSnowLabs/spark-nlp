@@ -202,7 +202,6 @@ public class DependencyInstance implements Serializable {
         xPosTagIds = new int[length];
 
         for (int i = 0; i < length; ++i) {
-            //TODO: Check here how the dictioaries are set
             formIds[i] = dicts.lookupIndex(WORD, "form=" + normalize(forms[i]));
             uPosTagIds[i] = dicts.lookupIndex(POS, "pos=" + uPosTags[i]);
             xPosTagIds[i] = dicts.lookupIndex(POS, "cpos=" + xPosTags[i]);

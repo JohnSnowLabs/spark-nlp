@@ -65,7 +65,7 @@ object Dependencies {
   lazy val scalaVer: String =
     if (is_spark23 == "true" | is_spark24 == "true") scala211 else scala212
 
-  lazy val supportedScalaVersions = List(scala212, scala211)
+  lazy val supportedScalaVersions: Seq[String] = List(scala212, scala211)
 
   val scalaTestVersion = "3.2.9"
 
@@ -93,9 +93,6 @@ object Dependencies {
   val json4sVersion: String = if (is_spark32 == "true") "3.7.0-M11" else "3.5.3"
 
   val json4s = "org.json4s" %% "json4s-ext" % json4sVersion
-
-  val trove4jVersion = "3.0.3"
-  val trove4j = "net.sf.trove4j" % "trove4j" % trove4jVersion
 
   val junitVersion = "4.13.2"
   val junit = "junit" % "junit" % junitVersion % Test
