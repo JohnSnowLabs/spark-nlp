@@ -316,6 +316,7 @@ trait ReadablePretrainedCamemBertModel
     extends ParamsAndFeaturesReadable[CamemBertEmbeddings]
     with HasPretrained[CamemBertEmbeddings] {
   override val defaultModelName: Some[String] = Some("camembert_base")
+  override val defaultLang: String = "fr"
 
   /** Java compliant-overrides */
   override def pretrained(): CamemBertEmbeddings = super.pretrained()
