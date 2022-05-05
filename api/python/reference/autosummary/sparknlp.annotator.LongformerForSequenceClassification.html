@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>sparknlp.annotator.LongformerForSequenceClassification &#8212; Spark NLP 3.4.3 documentation</title>
+    <title>sparknlp.annotator.LongformerForSequenceClassification &#8212; Spark NLP 3.4.4 documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -183,6 +183,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.CamemBertEmbeddings.html">
+     sparknlp.annotator.CamemBertEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.ChunkEmbeddings.html">
      sparknlp.annotator.ChunkEmbeddings
     </a>
@@ -240,6 +245,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.DeBertaForSequenceClassification.html">
      sparknlp.annotator.DeBertaForSequenceClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DeBertaForTokenClassification.html">
+     sparknlp.annotator.DeBertaForTokenClassification
     </a>
    </li>
    <li class="toctree-l2">
@@ -996,7 +1006,7 @@ probabilities in all sentences.</p>
 <td><p>Extracts the embedded default param values and user-supplied values, and then merges them with extra values from input into a flat param map, where the latter value is used if there exist conflicts, i.e., with ordering: default param values &lt; user-supplied values &lt; extra.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForSequenceClassification.getActivation" title="sparknlp.annotator.LongformerForSequenceClassification.getActivation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getActivation</span></code></a>()</p></td>
-<td><p>Gets whether to calcuate logits via Softmax or Sigmoid.</p></td>
+<td><p>Gets whether to calculate logits via Softmax or Sigmoid.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForSequenceClassification.getBatchSize" title="sparknlp.annotator.LongformerForSequenceClassification.getBatchSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getBatchSize</span></code></a>()</p></td>
 <td><p>Gets current batch size.</p></td>
@@ -1056,7 +1066,7 @@ probabilities in all sentences.</p>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForSequenceClassification.setActivation" title="sparknlp.annotator.LongformerForSequenceClassification.setActivation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setActivation</span></code></a>(value)</p></td>
-<td><p>Sets whether to calcuate logits via Softmax or Sigmoid.</p></td>
+<td><p>Sets whether to calculate logits via Softmax or Sigmoid.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForSequenceClassification.setBatchSize" title="sparknlp.annotator.LongformerForSequenceClassification.setBatchSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setBatchSize</span></code></a>(v)</p></td>
 <td><p>Sets batch size.</p></td>
@@ -1200,11 +1210,11 @@ user-supplied values &lt; extra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.LongformerForSequenceClassification.getActivation">
 <span class="sig-name descname"><span class="pre">getActivation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.LongformerForSequenceClassification.getActivation" title="Permalink to this definition">#</a></dt>
-<dd><p>Gets whether to calcuate logits via Softmax or Sigmoid. Default is Softmax</p>
+<dd><p>Gets whether to calculate logits via Softmax or Sigmoid. Default is Softmax</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><dl class="simple">
-<dt>str</dt><dd><p>Whether to calcuate logits via Softmax or Sigmoid. Default is Softmax</p>
+<dt>str</dt><dd><p>Whether to calculate logits via Softmax or Sigmoid. Default is Softmax</p>
 </dd>
 </dl>
 </dd>
@@ -1400,11 +1410,11 @@ Spark NLPs repositories otherwise.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.LongformerForSequenceClassification.setActivation">
 <span class="sig-name descname"><span class="pre">setActivation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.LongformerForSequenceClassification.setActivation" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets whether to calcuate logits via Softmax or Sigmoid. Default is Softmax</p>
+<dd><p>Sets whether to calculate logits via Softmax or Sigmoid. Default is Softmax</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Whether to calcuate logits via Softmax or Sigmoid. Default is Softmax</p>
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Whether to calculate logits via Softmax or Sigmoid. Default is Softmax</p>
 </dd>
 </dl>
 </dd>

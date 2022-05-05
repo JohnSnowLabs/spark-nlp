@@ -452,22 +452,22 @@
                   <div class="highlight-box">
     
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">    <span class="c"># Install Spark NLP from PyPI</span>
-    <span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>3.4.3 <span class="nv">pyspark</span><span class="o">==</span>3.1.2
+    <span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>3.4.4 <span class="nv">pyspark</span><span class="o">==</span>3.1.2
 
     <span class="c"># Install Spark NLP from Anaconda/Conda</span>
     <span class="nv">$ </span>conda <span class="nb">install</span> <span class="nt">-c</span> johnsnowlabs spark-nlp
 
     <span class="c"># Load Spark NLP with Spark Shell</span>
-    <span class="nv">$ </span>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.4.3
+    <span class="nv">$ </span>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.4.4
 
     <span class="c"># Load Spark NLP with PySpark</span>
-    <span class="nv">$ </span>pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.4.3
+    <span class="nv">$ </span>pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.4.4
 
     <span class="c"># Load Spark NLP with Spark Submit</span>
-    <span class="nv">$ </span>spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.4.3
+    <span class="nv">$ </span>spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.4.4
 
     <span class="c"># Load Spark NLP as an external Fat JAR</span>
-    <span class="nv">$ </span>spark-shell <span class="nt">--jars</span> spark-nlp-assembly-3.4.3.jar
+    <span class="nv">$ </span>spark-shell <span class="nt">--jars</span> spark-nlp-assembly-3.4.4.jar
     </code></pre></figure>
 
                     </div>
@@ -507,6 +507,7 @@
                     <li>Word Embeddings (<strong>GloVe</strong> & <strong>Word2Vec</strong>)</li>
                     <li><strong>BERT</strong> Embeddings</li>
                     <li><strong>DistilBERT</strong> Embeddings</li>
+                    <li><strong>CamemBERT</strong> Embeddings</li>
                     <li><strong>RoBERTa</strong> Embeddings</li>
                     <li><strong>DeBERTa</strong> Embeddings</li>
                     <li><strong>XLM-RoBERTa</strong> Embeddings</li>
@@ -532,6 +533,7 @@
                     <li>DistilBERT for <strong>Token & Sequence Classification</strong></li>
                     <li>ALBERT for <strong>Token & Sequence Classification</strong></li>
                     <li>RoBERTa for <strong>Token & Sequence Classification</strong></li>
+                    <li>DeBERTa for <strong>Token & Sequence Classification</strong></li>
                     <li>XLM-RoBERTa for <strong>Token & Sequence Classification</strong></li>
                     <li>XLNet for <strong>Token & Sequence Classification</strong></li>
                     <li>Longformer for <strong>Token & Sequence Classification</strong></li>
@@ -539,7 +541,7 @@
                     <li>Easy <strong>TensorFlow</strong> integration</li>
                     <li><strong>GPU</strong> Support</li>
                     <li>Full integration with <strong>Spark ML</strong> functions</li>
-                    <li><strong>2300+</strong> pre-trained <strong>models </strong> in <strong>200+ languages! </strong>
+                    <li><strong>3200+</strong> pre-trained <strong>models </strong> in <strong>200+ languages! </strong>
                     <li><strong>1700+</strong> pre-trained <strong>pipelines </strong> in <strong>200+ languages! </strong>
                   </ul>
                 </div>
@@ -588,7 +590,7 @@
                     <li>Blazing fast training</li>
                     <li>Use <strong>CPU</strong> or <strong>GPU</strong></li>
                     <li>80+ Pretrained Embeddings including <strong>GloVe</strong>, <strong>Word2Vec</strong>,
-                    <strong>BERT</strong>, <strong>DistilBERT</strong>, <strong>RoBERTa</strong>, <strong>XLM-RoBERTa</strong>, <strong>Longformer</strong>, <strong>ELMO</strong>, <strong>ELECTRA</strong>, <strong>ALBERT</strong>, <strong>XLNet</strong>, <strong>BioBERT</strong>, etc.  </li>
+                    <strong>BERT</strong>, <strong>DistilBERT</strong>, <strong>CamemBERT</strong>, <strong>RoBERTa</strong>, <strong>DeBERTa</strong>, <strong>XLM-RoBERTa</strong>, <strong>Longformer</strong>, <strong>ELMO</strong>, <strong>ELECTRA</strong>, <strong>ALBERT</strong>, <strong>XLNet</strong>, <strong>BioBERT</strong>, etc.  </li>
                     <li>Multi-lingual NER models in <strong>Arabic, Bengali, Chinese, Danish, Dutch, English, Finnish, French, German, Hebrew, Italian, Japanese, Korean, Norwegian, Persian, Polish, Portuguese, Russian, Spanish, Swedish, and Urdu</strong></li>
                   </ul>
                 </div>
@@ -609,7 +611,7 @@
                             <td><strong>Spark NLP v3</strong></td>
                             <td>2021</td>
                             <td>Python/Scala/Java/R</td>
-                            <td><strong>93.2 (test F1) <br> 95 (dev F1)</strong></td>
+                            <td><strong>93 (test F1) <br> 95 (dev F1)</strong></td>
                           </tr>
                           <tr>
                             <td>spaCy v3</td>
