@@ -291,9 +291,9 @@ data:
         - title: Extract conditions and benefits from drug reviews
           id: extract_conditions_benefits_drug_reviews 
           image: 
-              src: /assets/images/Detect_drugs_interactions.svg
+              src: /assets/images/Extract_conditions_and_benefits_from_drug_reviews.svg
           image2: 
-              src: /assets/images/Detect_drugs_interactions_c.svg
+              src: /assets/images/Extract_conditions_and_benefits_from_drug_reviews_f.svg
           excerpt: This model shows how to extract conditions and benefits from drug reviews.
           actions:
           - text: Live Demo

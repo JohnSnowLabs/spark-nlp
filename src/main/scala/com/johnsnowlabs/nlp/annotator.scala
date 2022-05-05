@@ -545,4 +545,9 @@ package object annotator {
       extends ReadablePretrainedDeBertaForTokenModel
       with ReadDeBertaForTokenTensorflowModel
 
+  type CamemBertEmbeddings = com.johnsnowlabs.nlp.embeddings.CamemBertEmbeddings
+
+  object CamemBertEmbeddings
+      extends ReadablePretrainedCamemBertModel
+      with ReadCamemBertTensorflowModel
 }

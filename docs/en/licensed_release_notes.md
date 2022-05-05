@@ -10,6 +10,326 @@ show_nav: true
 sidebar:
     nav: sparknlp-healthcare
 ---
+
+## 3.5.1
+We are glad to announce that 3.5.1 version of Spark NLP for Healthcare has been released!
+
+#### Highlights
+- **Deidentification**:
+  - New **Portuguese** **Deidentification** NER models and pretrained pipeline. This is the 6th supported language for deidentification (English, German, Spanish, Italian, French and Portuguese).
+- **New pretrained models and pipelines**:
+  - New **RxNorm** Sentence Entity Resolver model to map and extract pharmaceutical actions (e.g. analgesic, hypoglycemic) as well as treatments (e.g. backache, diabetes) along with the RxNorm code resolved (`sbiobertresolve_rxnorm_action_treatment`)
+  - New **RCT** classification models and pretrained pipelines to classify the sections within the abstracts of scientific articles regarding randomized clinical trials (RCT). (`rct_binary_classifier_use`, `rct_binary_classifier_biobert`, `bert_sequence_classifier_binary_rct_biobert`, `rct_binary_classifier_use_pipeline`, `rct_binary_classifier_biobert_pipeline`, `bert_sequence_classifier_binary_rct_biobert_pipeline`)
+- **New features**:
+  - Add `getClasses()` attribute for `MedicalBertForTokenClassifier` and `MedicalBertForSequenceClassification` to find out the entity classes of the models
+  - Download the AnnotatorModels from the healthcare library using the Healthcare version instead of the open source version (the pretrained models were used to be dependent on open source Spark NLP version before)
+  - New functionality to download and extract clinical models from S3 via direct zip url.
+- **Core improvements**:
+  - Fixing the confidence scores in `MedicalNerModel` when `setIncludeAllConfidenceScores` is true
+  - Graph_builder `relation_extraction` model file name extension problem with `auto` parameter.
+
+- **List of recently updated or added models**
+
+#### Portuguese Deidentification Models
+
+This is the 6th supported language for deidentification (English, German, Spanish, Italian, French and Portuguese). This version includes two Portuguese deidentification models to mask or obfuscate Protected Health Information in the Portuguese language. The models are the following:
+
+- `ner_deid_generic`:  extracts `Name`, `Profession`, `Age`, `Date`, `Contact` (Telephone numbers, Email addresses), `Location` (Address, City, Postal code, Hospital Name, Organization), `ID` (Social Security numbers, Medical record numbers) and `Sex` entities.
+
+   See [Model Hub Page](https://nlp.johnsnowlabs.com/2022/04/13/ner_deid_generic_pt_3_0.html) for details.
+
+- `ner_deid_subentity`: `Patient` (name), `Hospital` (name), `Date`, `Organization`, `City`, `ID`, `Street`, `Sex`, `Email`, `ZIP`, `Profession`, `Phone`, `Country`, `Doctor` (name) and `Age`
+
+  See [Model Hub Page](https://nlp.johnsnowlabs.com/2022/04/13/ner_deid_subentity_pt_3_0.html) for details.
+
+You will use the `w2v_cc_300d` Portuguese Embeddings with these models. The pipeline should look as follows:
+```python
+...
+word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "pt")\
+    .setInputCols(["sentence","token"])\
+    .setOutputCol("embeddings")
+
+ner_subentity = MedicalNerModel.pretrained("ner_deid_subentity", "pt", "clinical/models")\    
+    .setInputCols(["sentence","token","embeddings"])\
+    .setOutputCol("ner_deid_subentity")
+
+ner_converter_subentity = NerConverter()\
+    .setInputCols(["sentence","token","ner_deid_subentity"])\
+    .setOutputCol("ner_chunk_subentity")
+
+ner_generic = MedicalNerModel.pretrained("ner_deid_generic", "pt", "clinical/models")\    
+    .setInputCols(["sentence","token","embeddings"])\
+    .setOutputCol("ner_deid_generic")
+
+ner_converter_generic = NerConverter()\
+    .setInputCols(["sentence","token","ner_deid_generic"])\
+    .setOutputCol("ner_chunk_generic")
+
+nlpPipeline = Pipeline(stages=[
+      documentAssembler,
+      sentencerDL,
+      tokenizer,
+      word_embeddings,
+      ner_subentity,
+      ner_converter_subentity,
+      ner_generic,
+      ner_converter_generic,
+      ])
+
+text = """Detalhes do paciente.
+Nome do paciente:  Pedro Gonçalves
+NHC: 2569870.
+Endereço: Rua Das Flores 23.
+Código Postal: 21754-987.
+Dados de cuidados.
+Data de nascimento: 10/10/1963.
+Idade: 53 anos
+Data de admissão: 17/06/2016.
+Doutora: Maria Santos"""
+
+data = spark.createDataFrame([[text]]).toDF("text")
+results = nlpPipeline.fit(data).transform(data)
+
+```
+
+Results:
+```
++-----------------+-------------------------------------+
+|chunk            |ner_generic_label|ner_subentity_label|
++-----------------+-------------------------------------+
+|Pedro Gonçalves  |      NAME       |      PATIENT      |
+|2569870          |      ID         |      ID           |
+|Rua Das Flores 23|      LOCATION   |      STREET       |
+|21754-987        |      LOCATION   |      ZIP          |
+|10/10/1963       |      DATE       |      DATE         |
+|53               |      AGE        |      AGE          |
+|17/06/2016       |      DATE       |      DATE         |
+|Maria Santos     |      NAME       |      DOCTOR       |
++-----------------+-------------------------------------+
+```
+
+We also include a Clinical Deidentification Pipeline for Portuguese that uses `ner_deid_subentity` NER model and also several `ContextualParsers` for rule based contextual Named Entity Recognition tasks. It's available to be used as follows:
+
+```python
+from sparknlp.pretrained import PretrainedPipeline
+
+deid_pipeline = PretrainedPipeline("clinical_deidentification", "pt", "clinical/models")
+```
+
+The pretrained pipeline comes with Deidentification and Obfuscation capabilities as shows the following example:
+
+```
+text = """RELAÇÃO HOSPITALAR
+NOME: Pedro Gonçalves
+NHC: MVANSK92F09W408A
+ENDEREÇO: Rua Burcardo 7
+CÓDIGO POSTAL: 80139
+DATA DE NASCIMENTO: 03/03/1946
+IDADE: 70 anos
+SEXO: Homens
+E-MAIL: pgon21@tim.pt
+DATA DE ADMISSÃO: 12/12/2016
+DOUTORA: Eva Andrade
+RELATO CLÍNICO: 70 anos, aposentado, sem alergia a medicamentos conhecida, com a seguinte história: ex-acidente de trabalho com fratura de vértebras e costelas; operado de doença de Dupuytren na mão direita e ponte ílio-femoral esquerda; diabetes tipo II, hipercolesterolemia e hiperuricemia; alcoolismo ativo, fuma 20 cigarros/dia.
+Ele foi encaminhado a nós por apresentar hematúria macroscópica pós-evacuação em uma ocasião e microhematúria persistente posteriormente, com evacuação normal.
+O exame físico mostrou bom estado geral, com abdome e genitais normais; o toque retal foi compatível com adenoma de próstata grau I/IV.
+A urinálise mostrou 4 hemácias/campo e 0-5 leucócitos/campo; o resto do sedimento era normal.
+O hemograma é normal; a bioquímica mostrou uma glicemia de 169 mg/dl e triglicerídeos 456 mg/dl; função hepática e renal são normais. PSA de 1,16 ng/ml.
+
+DIRIGIDA A: Dr. Eva Andrade - Centro Hospitalar do Medio Ave - Avenida Dos Aliados, 56
+E-MAIL: evandrade@poste.pt
+"""
+
+result = deid_pipeline.annotate(text)
+```
+
+Results:
+```
+|    | Sentence                       | Masked                     | Masked with Chars              | Masked with Fixed Chars   | Obfuscated                        |
+|---:|:-------------------------------|:---------------------------|:-------------------------------|:--------------------------|:----------------------------------|
+|  0 | RELAÇÃO HOSPITALAR             | RELAÇÃO HOSPITALAR         | RELAÇÃO HOSPITALAR             | RELAÇÃO HOSPITALAR        | RELAÇÃO HOSPITALAR                |
+|    | NOME: Pedro Gonçalves          | NOME: <DOCTOR>             | NOME: [*************]          | NOME: ****                | NOME: Isabel Magalhães            |
+|  1 | NHC: MVANSK92F09W408A          | NHC: <ID>                  | NHC: [**************]          | NHC: ****                 | NHC: 124 445 311                  |
+|  2 | ENDEREÇO: Rua Burcardo 7       | ENDEREÇO: <STREET>         | ENDEREÇO: [************]       | ENDEREÇO: ****            | ENDEREÇO: Rua de Santa María, 100 |
+|  3 | CÓDIGO POSTAL: 80139           | CÓDIGO POSTAL: <ZIP>       | CÓDIGO POSTAL: [***]           | CÓDIGO POSTAL: ****       | CÓDIGO POSTAL: 1000-306           |
+|    | DATA DE NASCIMENTO: 03/03/1946 | DATA DE NASCIMENTO: <DATE> | DATA DE NASCIMENTO: [********] | DATA DE NASCIMENTO: ****  | DATA DE NASCIMENTO: 04/04/1946    |
+|  4 | IDADE: 70 anos                 | IDADE: <AGE> anos          | IDADE: ** anos                 | IDADE: **** anos          | IDADE: 46 anos                    |
+|  5 | SEXO: Homens                   | SEXO: <SEX>                | SEXO: [****]                   | SEXO: ****                | SEXO: Mulher                      |
+|  6 | E-MAIL: pgon21@tim.pt          | E-MAIL: <EMAIL>            | E-MAIL: [***********]          | E-MAIL: ****              | E-MAIL: eric.shannon@geegle.com   |
+|    | DATA DE ADMISSÃO: 12/12/2016   | DATA DE ADMISSÃO: <DATE>   | DATA DE ADMISSÃO: [********]   | DATA DE ADMISSÃO: ****    | DATA DE ADMISSÃO: 23/12/2016      |
+|  7 | DOUTORA: Eva Andrade           | DOUTORA: <DOCTOR>          | DOUTORA: [*********]           | DOUTORA: ****             | DOUTORA: Isabel Magalhães         |
+```
+
+ See [Model Hub Page](https://nlp.johnsnowlabs.com/2022/04/14/clinical_deidentification_pt_3_0.html) for details.
+
+
+Check Spark NLP Portuguese capabilities in [4.7.Clinical_Deidentification_in_Portuguese.ipynb notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.7.Clinical_Deidentification_in_Portuguese.ipynb) we have prepared for you.
+
+#### New RxNorm Sentence Entity Resolver Model (`sbiobertresolve_rxnorm_action_treatment`)
+
+We are releasing `sbiobertresolve_rxnorm_action_treatment` model that maps clinical entities and concepts (like drugs/ingredients) to RxNorm codes using `sbiobert_base_cased_mli` Sentence Bert Embeddings. This resolver model maps and extracts pharmaceutical actions (e.g analgesic, hypoglycemic) as well as treatments (e.g backache, diabetes) along with the RxNorm code resolved. Actions and treatments of the drugs are returned in `all_k_aux_labels` column.
+
+ See [Model Card](https://nlp.johnsnowlabs.com/2022/04/25/sbiobertresolve_rxnorm_action_treatment_en_2_4.html) for details.
+
+*Example* :
+
+```python
+documentAssembler = DocumentAssembler()\
+      .setInputCol("text")\
+      .setOutputCol("ner_chunk")
+
+sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
+      .setInputCols(["ner_chunk"])\
+      .setOutputCol("sentence_embeddings")
+
+rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_action_treatment", "en", "clinical/models") \
+      .setInputCols(["ner_chunk", "sentence_embeddings"]) \
+      .setOutputCol("rxnorm_code")\
+      .setDistanceFunction("EUCLIDEAN")
+
+pipelineModel = PipelineModel(
+    stages = [
+        documentAssembler,
+        sbert_embedder,
+        rxnorm_resolver])
+
+lp_model = LightPipeline(pipelineModel)
+
+text = ["Zita 200 mg", "coumadin 5 mg", 'avandia 4 mg']
+
+result= lp_model.annotate(text)
+
+```
+Results* :
+```
+|    | ner_chunk     |   rxnorm_code | action                                  | treatment                          |
+|---:|:--------------|--------------:|:----------------------------------------|------------------------------------|
+|  0 | Zita 200 mg   |        104080 | ['Analgesic', 'Antacid', 'Antipyretic'] | ['Backache', 'Pain', 'Sore Throat']|
+|  1 | coumadin 5 mg |        855333 | ['Anticoagulant']                       | ['Cerebrovascular Accident']       |
+|  2 | avandia 4 mg  |        261242 | ['Drugs Used In Diabets','Hypoglycemic']| ['Diabetes Mellitus', ...]         |                                                                                              |
+```
+
+#### New RCT Classification Models and Pretrained Pipelines
+
+We are releasing new **Randomized Clinical Trial (RCT)** classification models and pretrained pipelines that can classify the sections within the abstracts of scientific articles regarding randomized clinical trials (RCT).
+
++ Classification Models:
+	+ `rct_binary_classifier_use` ([Models Hub page](https://nlp.johnsnowlabs.com/2022/04/24/rct_binary_classifier_use_en_3_0.html))
+	+ `rct_binary_classifier_biobert` ([Models Hub page](https://nlp.johnsnowlabs.com/2022/04/25/rct_binary_classifier_biobert_en_3_0.html))
+	+ `bert_sequence_classifier_binary_rct_biobert` ([Models Hub page](https://nlp.johnsnowlabs.com/2022/04/25/bert_sequence_classifier_binary_rct_biobert_en_3_0.html))
+
++ Pretrained Pipelines:
+	+ `rct_binary_classifier_use_pipeline` ([Models Hub page](https://nlp.johnsnowlabs.com/2022/04/25/rct_binary_classifier_use_pipeline_en_3_0.html))
+	+ `rct_binary_classifier_biobert_pipeline` ([Models Hub page](https://nlp.johnsnowlabs.com/2022/04/25/rct_binary_classifier_biobert_pipeline_en_3_0.html))
+	+ `bert_sequence_classifier_binary_rct_biobert_pipeline` ([Models Hub page](https://nlp.johnsnowlabs.com/2022/04/25/bert_sequence_classifier_binary_rct_biobert_pipeline_en_3_0.html))
+
+ *Classification Model Example* :
+
+```python
+...
+use = UniversalSentenceEncoder.pretrained()\
+        .setInputCols("document")\
+        .setOutputCol("sentence_embeddings")
+
+classifier_dl = ClassifierDLModel.pretrained('rct_binary_classifier_use', 'en', 'clinical/models')\
+        .setInputCols(["sentence_embeddings"])\
+        .setOutputCol("class")
+
+use_clf_pipeline = Pipeline(
+    stages = [
+        document_assembler,
+        use,
+        classifier_dl
+    ])
+
+sample_text = """Abstract:Based on the American Society of Anesthesiologists' Practice Guidelines for Sedation and Analgesia by Non-Anesthesiologists (ASA-SED), a sedation training course aimed at improving medical safety was developed by the Japanese Association for Medical Simulation in 2011. This study evaluated the effect of debriefing on participants' perceptions of the essential points of the ASA-SED. A total of 38 novice doctors participated in the sedation training course during the research period. Of these doctors, 18 participated in the debriefing group, and 20 participated in non-debriefing group. Scoring of participants' guideline perceptions was conducted using an evaluation sheet (nine items, 16 points) created based on the ASA-SED. The debriefing group showed a greater perception of the ASA-SED, as reflected in the significantly higher scores on the evaluation sheet (median, 16 points) than the control group (median, 13 points; p < 0.05). No significant differences were identified before or during sedation, but the difference after sedation was significant (p < 0.05). Debriefing after sedation training courses may contribute to better perception of the ASA-SED, and may lead to enhanced attitudes toward medical safety during sedation and analgesia. """
+
+result = use_clf_pipeline.transform(spark.createDataFrame([[sample_text]]).toDF("text"))
+
+```
+
+*Results* :
+```
+>> class: True
+```
+
+*Pretrained Pipeline Example* :
+
+```python
+from sparknlp.pretrained import PretrainedPipeline
+
+pipeline = PretrainedPipeline("rct_binary_classifier_use_pipeline", "en", "clinical/models")
+```
+
+```
+text = """Abstract:Based on the American Society of Anesthesiologists' Practice Guidelines for Sedation and Analgesia by Non-Anesthesiologists (ASA-SED), a sedation training course aimed at improving medical safety was developed by the Japanese Association for Medical Simulation in 2011. This study evaluated the effect of debriefing on participants' perceptions of the essential points of the ASA-SED. A total of 38 novice doctors participated in the sedation training course during the research period. Of these doctors, 18 participated in the debriefing group, and 20 participated in non-debriefing group. Scoring of participants' guideline perceptions was conducted using an evaluation sheet (nine items, 16 points) created based on the ASA-SED. The debriefing group showed a greater perception of the ASA-SED, as reflected in the significantly higher scores on the evaluation sheet (median, 16 points) than the control group (median, 13 points; p < 0.05). No significant differences were identified before or during sedation, but the difference after sedation was significant (p < 0.05). Debriefing after sedation training courses may contribute to better perception of the ASA-SED, and may lead to enhanced attitudes toward medical safety during sedation and analgesia. """
+
+result = pipeline.annotate(text)
+```
+
+*Results* :
+
+```
+>> class: True
+```
+
+#### New Features
+##### Add `getClasses()` attribute to `MedicalBertForTokenClassifier` and `MedicalBertForSequenceClassification`
+Now you can use `getClasses()` method for checking the entity labels of  `MedicalBertForTokenClassifier` and `MedicalBertForSequenceClassification` like `MedicalNerModel`.
+
+  ```python
+  tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_ade", "en", "clinical/models")\
+  	.setInputCols("token", "document")\
+  	.setOutputCol("ner")\
+  	.setCaseSensitive(True)\
+  	.setMaxSentenceLength(512)
+
+  tokenClassifier.getClasses()
+  ```
+
+  ```bash
+  ['B-DRUG', 'I-ADE', 'I-DRUG', 'O', 'B-ADE']
+  ```
+
+##### Download the AnnotatorModels from the healthcare library using the Healthcare version instead of the open source version
+
+Now we download the private models using the Healthcare version instead of the open source version (the pretrained models were used to be dependent on open source Spark NLP version before).
+
+##### New functionality to download and extract clinical models from S3 via direct link.
+Now, you can download clinical models from S3 via direct link directly by `downloadModelDirectly` method. See the [Models Hub Page](https://nlp.johnsnowlabs.com/models) to find out the download url of each model.
+
+  ```python
+  from sparknlp.pretrained import ResourceDownloader
+
+  #The first argument is the path to the zip file and the second one is the folder.
+  ResourceDownloader.downloadModelDirectly("clinical/models/assertion_dl_en_2.0.2_2.4_1556655581078.zip", "clinical/models")  
+  ```
+
+#### Core improvements:
+
+##### Fix `MedicalNerModel` confidence scores when `setIncludeAllConfidenceScores` is `True`
+
+A mismatch problem between the tag with the highest confidence score and the predicted tag in `MedicalNerModel` is resolved.
+
+##### Graph_builder `relation_extraction` model file name extension problem with `auto` param
+
+A naming problem which occurs while generating a graph for Relation Extraction via graph builder was resolved. Now, the TF graph is generated with the correct extension (`.pb`).
+
+#### List of Recently Updated or Added Models
+
+- ner_deid_generic_pt
+- ner_deid_subentity_pt
+- clinical_deidentification_pt
+- sbiobertresolve_rxnorm_action_treatment
+- rct_binary_classifier_use 
+- rct_binary_classifier_biobert 
+- bert_sequence_classifier_binary_rct_biobert 
+- rct_binary_classifier_use_pipeline 
+- rct_binary_classifier_biobert_pipeline 
+- bert_sequence_classifier_binary_rct_biobert_pipeline 
+- sbiobertresolve_ndc
+
+
 ## 3.5.0
 We are glad to announce that Spark NLP Healthcare 3.5.0 has been released!
 
@@ -96,7 +416,7 @@ re_model = sparknlp_jsl.annotator.ZeroShotRelationExtractionModel \
 pipeline = sparknlp.base.Pipeline() \
     .setStages([documenter, tokenizer, sentencer, words_embedder, pos_tagger, ner_tagger, ner_converter,
                 dependency_parser, re_ner_chunk_filter, re_model])
-		
+
 data = spark.createDataFrame(
     [["Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer."]]
 ).toDF("text")
@@ -392,9 +712,9 @@ Giving the map with entities and relationships stored in mapper.json, we will us
 ```
 
 ```
-text = ["""The patient was prescribed 1 unit of Advil for 5 days after meals. The patient was also 
+text = ["""The patient was prescribed 1 unit of Advil for 5 days after meals. The patient was also
 given 1 unit of Metformin daily.
-He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night , 
+He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night ,
 12 units of insulin lispro with meals , and metformin 1000 mg two times a day."""]
 ...
 nerconverter = NerConverterInternal()\
@@ -1389,7 +1709,7 @@ from sparknlp.pretrained import PretrainedPipeline
 
 deid_pipeline = PretrainedPipeline("clinical_deidentification", "de", "clinical/models")
 
-text = """Zusammenfassung : Michael Berger wird am Morgen des 12 Dezember 2018 ins St.Elisabeth Krankenhaus in Bad Kissingen eingeliefert. 
+text = """Zusammenfassung : Michael Berger wird am Morgen des 12 Dezember 2018 ins St.Elisabeth Krankenhaus in Bad Kissingen eingeliefert.
 Herr Michael Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen.
 
 Persönliche Daten :
@@ -1947,7 +2267,7 @@ B-Disease	 657	 81	 60	 0.8902439	 0.916318	 0.90309274
 tp: 1364 fp: 153 fn: 181 labels: 2
 Macro-average	 prec: 0.89890885, rec: 0.88509136, f1: 0.8919466
 Micro-average	 prec: 0.89914304, rec: 0.8828479, f1: 0.89092094
-Quality on test dataset: 
+Quality on test dataset:
 time to finish evaluation: 9.11s
 Total test loss: 17.7705	Avg test loss: 1.6155
 label	 tp	 fp	 fn	 prec	 rec	 f1
@@ -2098,7 +2418,7 @@ We are glad to announce that Spark NLP Healthcare 3.3.4 has been released!
 + New Relation Extraction Model
 + New LOINC, MeSH, NDC and SNOMED Entity Resolver Models
 + Updated RxNorm Sentence Entity Resolver Model
-+ New Shift Days Feature in StructuredDeid Deidentification Module 
++ New Shift Days Feature in StructuredDeid Deidentification Module
 + New Multiple Chunks Merge Ability in ChunkMergeApproach
 + New setBlackList Feature in ChunkMergeApproach
 + New setBlackList Feature in NerConverterInternal
@@ -2112,7 +2432,7 @@ We have three new clinical NER models.
 
 + `ner_deid_subentity_augmented_i2b2` : This model annotates text to find protected health information(PHI) that may need to be removed. It is trained with 2014 i2b2 dataset (no augmentation applied) and can detect `MEDICALRECORD`, `ORGANIZATION`, `DOCTOR`, `USERNAME`, `PROFESSION`, `HEALTHPLAN`, `URL`, `CITY`, `DATE`, `LOCATION-OTHER`, `STATE`, `PATIENT`, `DEVICE`, `COUNTRY`, `ZIP`, `PHONE`, `HOSPITAL`, `EMAIL`, `IDNUM`, `SREET`, `BIOID`, `FAX`, `AGE` entities.
 
-*Example* : 
+*Example* :
 
 ```bash
 ...
@@ -2332,7 +2652,7 @@ ndc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_ndc", "en
       .setCaseSensitive(False)
 ...
 
-sample_text = """The patient was transferred secondary to inability and continue of her diabetes, the sacral decubitus, left foot pressure wound, and associated complications of diabetes. 
+sample_text = """The patient was transferred secondary to inability and continue of her diabetes, the sacral decubitus, left foot pressure wound, and associated complications of diabetes.
 She is given aspirin 81 mg, folic acid 1 g daily, insulin glargine 100 UNT/ML injection and metformin 500 mg p.o. p.r.n."""
 result = resolver_model.transform(spark.createDataFrame([[sample_text]]).toDF("text"))
 ```
@@ -2412,30 +2732,30 @@ result = light_model.fullAnnotate(['coronary calcium score', 'heart surgery', 'c
 We have updated `sbiobertresolve_rxnorm_augmented` model training on an augmented version of the dataset used in previous versions of the model.
 
 #### New Shift Days Feature in StructuredDeid Deidentification Module
- 
+
  Now we can shift n days in the structured deidentification when the column is a Date.
- 
+
  *Example* :
- 
+
  ```pyhton
  df = spark.createDataFrame([
             ["Juan García", "13/02/1977", "711 Nulla St.", "140", "673 431234"],
             ["Will Smith", "23/02/1977", "1 Green Avenue.", "140", "+23 (673) 431234"],
             ["Pedro Ximénez", "11/04/1900", "Calle del Libertador, 7", "100", "912 345623"]
         ]).toDF("NAME", "DOB", "ADDRESS", "SBP", "TEL")
- 
+
  obfuscator = StructuredDeidentification(spark=spark, columns={"NAME": "ID", "DOB": "DATE"},
                                                       columnsSeed={"NAME": 23, "DOB": 23},
                                                       obfuscateRefSource="faker",
                                                       days=5
                                          )
-                                         
+
 result = obfuscator.obfuscateColumns(self.df)
 result.show(truncate=False)                                             
 ```
 
 *Results* :
- 
+
 ```bash
 +----------+------------+-----------------------+---+----------------+
 |NAME      |DOB         |ADDRESS                |SBP|TEL             |
@@ -2457,27 +2777,27 @@ Updated ChunkMergeApproach to admit N input cols (`.setInputCols("ner_chunk","ne
 deid_ner = MedicalNerModel.pretrained("ner_deid_large", "en", "clinical/models") \
             .setInputCols(["sentence", "token", "embeddings"]) \
             .setOutputCol("ner")
-            
+
 ner_converter = NerConverter() \
             .setInputCols(["sentence", "token", "ner"]) \
             .setOutputCol("ner_chunk") \
             .setWhiteList(['DATE', 'AGE', 'NAME', 'PROFESSION', 'ID'])
-            
+
 medical_ner = MedicalNerModel.pretrained("ner_events_clinical", "en", "clinical/models") \
             .setInputCols(["sentence", "token", "embeddings"]) \
             .setOutputCol("ner2")
-            
+
 ner_converter_2 = NerConverter() \
             .setInputCols(["sentence", "token", "ner2"]) \
-            .setOutputCol("ner_chunk_2") 
-            
+            .setOutputCol("ner_chunk_2")
+
 ssn_parser = ContextualParserApproach() \
             .setInputCols(["sentence", "token"]) \
             .setOutputCol("entity_ssn") \
             .setJsonPath("../../src/test/resources/ssn.json") \
             .setCaseSensitive(False) \
             .setContextMatch(False)
-            
+
 chunk_merge = ChunkMergeApproach() \
             .setInputCols("entity_ssn","ner_chunk","ner_chunk_2") \
             .setOutputCol("deid_merged_chunk") \
@@ -2555,7 +2875,7 @@ We developed a new utility function called `UpdateModels` that allows you to ref
 ls ~/cache_pretrained
 >> ner_clinical_large_en_3.0.0_2.3_1617206114650/
 
-# Update models in /cache_pretrained 
+# Update models in /cache_pretrained
 from sparknlp_jsl.updateModels import UpdateModels
 UpdateModels.updateCacheModels()
 ```
@@ -2570,7 +2890,7 @@ ls ~/cache_pretrained
 ```
 
 
-+ `UpdateModels.updateModels("11/24/2021")` : This method lets you download all the new models uploaded to the Models Hub starting from a cut-off date (i.e. the last sync update). 
++ `UpdateModels.updateModels("11/24/2021")` : This method lets you download all the new models uploaded to the Models Hub starting from a cut-off date (i.e. the last sync update).
 
 *Example* :
 
@@ -2579,7 +2899,7 @@ ls ~/cache_pretrained
 ls ~/cache_pretrained
 >> ner_clinical_large_en_3.0.0_2.3_1617206114650/
    ner_clinical_large_en_3.0.0_3.0_1617206114650/
-   
+
 # Update models in /cache_pretrained according to date
 from sparknlp_jsl.updateModels import UpdateModels
 UpdateModels.updateModels("11/24/2021")
@@ -2589,7 +2909,7 @@ UpdateModels.updateModels("11/24/2021")
 *Results* :
 
 ```bash
-# Updated models in /cache_pretrained 
+# Updated models in /cache_pretrained
 ls ~/cache_pretrained
 >>ner_clinical_large_en_3.0.0_2.3_1617206114650/
   ner_clinical_large_en_3.0.0_3.0_1617206114650/
@@ -2601,7 +2921,7 @@ ls ~/cache_pretrained
 #### New and Updated Notebooks
 
 + We have a new [Connect to Annotation Lab via API Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Annotation_Lab/AL_API_import_export_pre_annotate.ipynb) you can find how to;
-     
+
      - upload pre-annotations to ALAB
      - import a project form ALAB and convert to CoNLL file
      - upload tasks without pre-annotations
@@ -2645,15 +2965,15 @@ We are releasing three new clinical NER models trained by MedicalNerApproach().
 embeddings =  RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
     .setInputCols(["sentence", "token"])\
     .setOutputCol("embeddings")
-    
+
 ner = MedicalNerModel.pretrained("roberta_ner_diag_proc", "es", "clinical/models")\
     .setInputCols(["sentence", "token", "embeddings"])\
     .setOutputCol("ner")\
-    
+
 ner_converter = NerConverter() \
     .setInputCols(['sentence', 'token', 'ner']) \
     .setOutputCol('ner_chunk')
-    
+
 pipeline = Pipeline(stages = [
     documentAssembler,
     sentenceDetector,
@@ -2661,7 +2981,7 @@ pipeline = Pipeline(stages = [
     embeddings,
     ner,
     ner_converter])
-    
+
 empty = spark.createDataFrame([['']]).toDF("text")
 
 p_model = pipeline.fit(empty)
@@ -2670,7 +2990,7 @@ test_sentence = 'Mujer de 28 años con antecedentes de diabetes mellitus gestaci
 res = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
 
-*Results* : 
+*Results* :
 ```bash
 +---------------------------------+------------+
 |                             text|ner_label  |
@@ -2707,9 +3027,9 @@ covid_ner = MedicalNerModel.pretrained('ner_covid_trials', 'en', 'clinical/model
 ...
 
 results = covid_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["""In December 2019 , a group of patients with the acute respiratory disease was detected in Wuhan , Hubei Province of China . A month later , a new beta-coronavirus was identified as the cause of the 2019 coronavirus infection . SARS-CoV-2 is a coronavirus that belongs to the group of β-coronaviruses of the subgenus Coronaviridae . The SARS-CoV-2 is the third known zoonotic coronavirus disease after severe acute respiratory syndrome ( SARS ) and Middle Eastern respiratory syndrome ( MERS ). The diagnosis of SARS-CoV-2 recommended by the WHO , CDC is the collection of a sample from the upper respiratory tract ( nasal and oropharyngeal exudate ) or from the lower respiratory tract such as expectoration of endotracheal aspirate and bronchioloalveolar lavage and its analysis using the test of real-time polymerase chain reaction ( qRT-PCR )."""]})))
-``` 
+```
 
-*Results* : 
+*Results* :
 
 ```bash
 
@@ -2745,9 +3065,9 @@ chemd_ner = MedicalNerModel.pretrained('ner_chemd', 'en', 'clinical/models') \
 ...
 
 results = chemd_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["""Isolation, Structure Elucidation, and Iron-Binding Properties of Lystabactins, Siderophores Isolated from a Marine Pseudoalteromonas sp. The marine bacterium Pseudoalteromonas sp. S2B, isolated from the Gulf of Mexico after the Deepwater Horizon oil spill, was found to produce lystabactins A, B, and C (1-3), three new siderophores. The structures were elucidated through mass spectrometry, amino acid analysis, and NMR. The lystabactins are composed of serine (Ser), asparagine (Asn), two formylated/hydroxylated ornithines (FOHOrn), dihydroxy benzoic acid (Dhb), and a very unusual nonproteinogenic amino acid, 4,8-diamino-3-hydroxyoctanoic acid (LySta). The iron-binding properties of the compounds were investigated through a spectrophotometric competition."""]})))
-``` 
+```
 
-*Results* : 
+*Results* :
 
 ```bash
 +----------------------------------+------------+
@@ -2877,13 +3197,13 @@ result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sen
 +-------------------------------------------+---------+
 ```
 
-#### Updated Clinical NER Model 
+#### Updated Clinical NER Model
 
-We have updated `ner_jsl_enriched` model by enriching the training data using clinical trials data to make it more robust. This model is capable of predicting up to `87` different entities and is based on `ner_jsl` model. Here are the entities this model can detect; 
+We have updated `ner_jsl_enriched` model by enriching the training data using clinical trials data to make it more robust. This model is capable of predicting up to `87` different entities and is based on `ner_jsl` model. Here are the entities this model can detect;
 
 `Social_History_Header`, `Oncology_Therapy`, `Blood_Pressure`, `Respiration`, `Performance_Status`, `Family_History_Header`, `Dosage`, `Clinical_Dept`, `Diet`, `Procedure`, `HDL`, `Weight`, `Admission_Discharge`, `LDL`, `Kidney_Disease`, `Oncological`, `Route`, `Imaging_Technique`, `Puerperium`, `Overweight`, `Temperature`, `Diabetes`, `Vaccine`, `Age`, `Test_Result`, `Employment`, `Time`, `Obesity`, `EKG_Findings`, `Pregnancy`, `Communicable_Disease`, `BMI`, `Strength`, `Tumor_Finding`, `Section_Header`, `RelativeDate`, `ImagingFindings`, `Death_Entity`, `Date`, `Cerebrovascular_Disease`, `Treatment`, `Labour_Delivery`, `Pregnancy_Delivery_Puerperium`, `Direction`, `Internal_organ_or_component`, `Psychological_Condition`, `Form`, `Medical_Device`, `Test`, `Symptom`, `Disease_Syndrome_Disorder`, `Staging`, `Birth_Entity`, `Hyperlipidemia`, `O2_Saturation`, `Frequency`, `External_body_part_or_region`, `Drug_Ingredient`, `Vital_Signs_Header`, `Substance_Quantity`, `Race_Ethnicity`, `VS_Finding`, `Injury_or_Poisoning`, `Medical_History_Header`, `Alcohol`, `Triglycerides`, `Total_Cholesterol`, `Sexually_Active_or_Sexual_Orientation`, `Female_Reproductive_Status`, `Relationship_Status`, `Drug_BrandName`, `RelativeTime`, `Duration`, `Hypertension`, `Metastasis`, `Gender`, `Oxygen_Therapy`, `Pulse`, `Heart_Disease`, `Modifier`, `Allergen`, `Smoking`, `Substance`, `Cancer_Modifier`, `Fetus_NewBorn`, `Height` .
 
-*Example* : 
+*Example* :
 
 ```bash
 ...  
@@ -2894,7 +3214,7 @@ clinical_ner = MedicalNerModel.pretrained("ner_jsl_enriched", "en", "clinical/mo
 
 results = model.transform(spark.createDataFrame([["The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature."]], ["text"]))
 ```
-*Results* : 
+*Results* :
 
 ```bash
 |    | chunk                                     |   begin |   end | entity                       |
@@ -2948,7 +3268,7 @@ results = model.transform(spark.createDataFrame([["The patient is a 21-day-old C
 *Example*:
 
 ```bash
-ner_model.getTrainingClassDistribution() 
+ner_model.getTrainingClassDistribution()
 >> {'B-Disease': 2536, 'O': 31659, 'I-Disease': 2960}
 ```
 
@@ -2958,7 +3278,7 @@ ner_model.getTrainingClassDistribution()
 
 #### New Spanish SNOMED Sentence Entity Resolver Model
 
-+ `robertaresolve_snomed` : This models leverages Spanish Roberta Biomedical Embeddings (`roberta_base_biomedical`) at sentence-level to map ner chunks into Spanish SNOMED codes. 
++ `robertaresolve_snomed` : This models leverages Spanish Roberta Biomedical Embeddings (`roberta_base_biomedical`) at sentence-level to map ner chunks into Spanish SNOMED codes.
 
 *Example* :
 
@@ -2967,41 +3287,41 @@ ner_model.getTrainingClassDistribution()
 documentAssembler = DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
-    
+
 sentenceDetector = SentenceDetectorDLModel.pretrained() \
     .setInputCols(["document"]) \
     .setOutputCol("sentence")
-    
+
 tokenizer = Tokenizer()\
     .setInputCols("sentence")\
     .setOutputCol("token")
-    
+
 word_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
     .setInputCols(["sentence", "token"])\
     .setOutputCol("roberta_embeddings")
-    
+
 ner = MedicalNerModel.pretrained("roberta_ner_diag_proc","es","clinical/models")\
     .setInputCols("sentence","token","roberta_embeddings")\
     .setOutputCol("ner")
-    
+
 ner_converter = NerConverter() \
     .setInputCols(["sentence", "token", "ner"]) \
     .setOutputCol("ner_chunk")
-    
+
 c2doc = Chunk2Doc() \
     .setInputCols(["ner_chunk"]) \
     .setOutputCol("ner_chunk_doc")
-    
+
 chunk_embeddings = SentenceEmbeddings() \
     .setInputCols(["ner_chunk_doc", "roberta_embeddings"]) \
     .setOutputCol("chunk_embeddings") \
     .setPoolingStrategy("AVERAGE")
-    
+
 er = SentenceEntityResolverModel.pretrained("robertaresolve_snomed", "es", "clinical/models")\
     .setInputCols(["ner_chunk_doc", "chunk_embeddings"]) \
     .setOutputCol("snomed_code") \
     .setDistanceFunction("EUCLIDEAN")
-    
+
 snomed_training_pipeline = Pipeline(stages = [
     documentAssembler,
     sentenceDetector,
@@ -3012,7 +3332,7 @@ snomed_training_pipeline = Pipeline(stages = [
     c2doc,
     chunk_embeddings,
     er])
-    
+
 empty = spark.createDataFrame([['']]).toDF("text")
 
 p_model = snomed_pipeline .fit(empty)
@@ -3022,7 +3342,7 @@ test_sentence = 'Mujer de 28 años con antecedentes de diabetes mellitus gestaci
 res = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
 
-*Results* : 
+*Results* :
 
 ```bash
 +----+-------------------------------+-------------+--------------+
@@ -3058,33 +3378,33 @@ res = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_senten
 documentAssembler = DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
-    
+
 sentenceDetector = SentenceDetectorDLModel.pretrained() \
     .setInputCols(["document"]) \
     .setOutputCol("sentence")
-    
+
 tokenizer = Tokenizer()\
     .setInputCols("sentence")\
     .setOutputCol("token")
-    
+
 seq = BertForSequenceClassification.pretrained('bert_sequence_classifier_question_statement_clinical', 'en', 'clinical/models')\
   .setInputCols(["token", "sentence"])\
   .setOutputCol("label")\
   .setCaseSensitive(True)
-  
+
 pipeline = Pipeline(stages = [
     documentAssembler,
     sentenceDetector,
     tokenizer,
     seq])
-    
+
 test_sentences = ["""Hello I am going to be having a baby throughand have just received my medical results before I have my tubes tested. I had the tests on day 23 of my cycle. My progresterone level is 10. What does this mean? What does progesterone level of 10 indicate?
 Your progesterone report is perfectly normal. We expect this result on day 23rd of the cycle.So there's nothing to worry as it's perfectly alright"""]
 
 res = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': test_sentences})))
 ```
 
-*Results* : 
+*Results* :
 
 ```bash
 +--------------------------------------------------------------------------------------------------------------------+---------+
@@ -3100,7 +3420,7 @@ res = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': test_sentenc
 +--------------------------------------------------------------------------------------------------------------------+---------
 ```
 
-*Metrics* : 
+*Metrics* :
 ```bash
               precision    recall  f1-score   support
 
@@ -3114,7 +3434,7 @@ weighted avg       0.98      0.98      0.98       972
 
 #### New Sentence Entity Resolver Fine-Tune Features (Overwriting and Drop Code)
 
-+ `.setOverwriteExistingCode()` : This parameter provides overwriting codes over the existing codes if in pretrained Sentence Entity Resolver Model. For example, you want to add a new term to a pretrained resolver model, and if the code of term already exists in the pretrained model, when you `.setOverwriteExistingCode(True)`, it removes all the same codes and their descriptions from the model, then you will have just the new term with its code in the fine-tuned model. 
++ `.setOverwriteExistingCode()` : This parameter provides overwriting codes over the existing codes if in pretrained Sentence Entity Resolver Model. For example, you want to add a new term to a pretrained resolver model, and if the code of term already exists in the pretrained model, when you `.setOverwriteExistingCode(True)`, it removes all the same codes and their descriptions from the model, then you will have just the new term with its code in the fine-tuned model.
 
 + `.setDropCodesList()` : This parameter drops list of codes from a pretrained Sentence Entity Resolver Model.
 
@@ -3130,7 +3450,7 @@ We have updated `ner_profiling_clinical` and `ner_profiling_biobert` pretrained 
 
 #### New ChunkSentenceSplitter Annotator
 
-+ We are releasing `ChunkSentenceSplitter` annotator that splits documents or sentences by chunks provided. Splitted parts can be named with the splitting chunks. By using this annotator, you can do some some tasks like splitting clinical documents according into sections in accordance with CDA (Clinical Document Architecture). 
++ We are releasing `ChunkSentenceSplitter` annotator that splits documents or sentences by chunks provided. Splitted parts can be named with the splitting chunks. By using this annotator, you can do some some tasks like splitting clinical documents according into sections in accordance with CDA (Clinical Document Architecture).
 
 *Example* :
 
@@ -3157,7 +3477,7 @@ PROCEDURE:  Right VATS pleurodesis and pleural biopsy."""]
 results = pipeline_model.transform(df)
 ```
 
-*Results* : 
+*Results* :
 
 ```bash
 +----------------------------------------------------------------------+------+
@@ -3181,17 +3501,17 @@ chunkSentenceSplitter = ChunkSentenceSplitter()\
     .setGroupBySentences(True) \
     .setDefaultEntity("Intro") \
     .setInsertChunk(False)
-        
+
 paragraphs = chunkSentenceSplitter.transform(results)
 
 df = paragraphs.selectExpr("explode(paragraphs) as result")\
-               .selectExpr("result.result", 
-                           "result.metadata.entity", 
+               .selectExpr("result.result",
+                           "result.metadata.entity",
                            "result.metadata.splitter_chunk")
 
 ```
 
-*Results* : 
+*Results* :
 
 ```bash
 +--------------------------------------------------+------+------------------------+
@@ -3226,7 +3546,7 @@ We are glad to announce that Spark NLP Healthcare 3.3.1 has been released!.
 + New Docker Images for Spark NLP for Healthcare and Spark OCR
 + New and Updated Deidentification() Parameters
 + New Python API Documentation
-+ Updated Spark NLP For Healthcare Notebooks and New Notebooks 
++ Updated Spark NLP For Healthcare Notebooks and New Notebooks
 
 #### New ChunkKeyPhraseExtraction Annotator
 
@@ -3286,12 +3606,12 @@ weighted avg       0.99      0.93      0.96     62001
 
 *Example* :
 
-```python 
+```python
 ...
 tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_chemicals", "en", "clinical/models")\
     .setInputCols("token", "document")\
     .setOutputCol("ner")\
-    .setCaseSensitive(True) 
+    .setCaseSensitive(True)
 ...
 
 test_sentence = """The results have shown that the product p - choloroaniline is not a significant factor in chlorhexidine - digluconate associated erosive cystitis. A high percentage of kanamycin - colistin and povidone - iodine irrigations were associated with erosive cystitis."""
@@ -3498,7 +3818,7 @@ We are glad to announce that Spark NLP Healthcare 3.3.0 has been released!.
 + Updated UMLS Entity Resolvers (Dropping Invalid Codes)
 + 5 New Clinical NER Models (Trained By BertForTokenClassification Approach)
 + Radiology NER Model Trained On cheXpert Dataset
-+ New Speed Benchmarks on Databricks 
++ New Speed Benchmarks on Databricks
 + NerConverterInternal Fixes
 + Simplified Setup and Recommended Use of start() Function
 + NER Evaluation Metrics Fix
@@ -3678,7 +3998,7 @@ icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_g
       .setInputCols(["ner_chunk", "sentence_embeddings"]) \
       .setOutputCol("icd_code")\
       .setDistanceFunction("EUCLIDEAN")
-      
+
 icd_pipelineModel = PipelineModel(
     stages = [
         documentAssembler,
@@ -3707,7 +4027,7 @@ res = icd_pipelineModel.transform(spark.createDataFrame([["82 - year-old male wi
 documentAssembler = DocumentAssembler()\
       .setInputCol("text")\
       .setOutputCol("ner_chunk")
-      
+
 sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
       .setInputCols(["ner_chunk"])\
       .setOutputCol("sentence_embeddings")
@@ -3716,7 +4036,7 @@ rxnorm_ndc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rx
       .setInputCols(["ner_chunk", "sentence_embeddings"]) \
       .setOutputCol("rxnorm_code")\
       .setDistanceFunction("EUCLIDEAN")
-      
+
 rxnorm_ndc_pipelineModel = PipelineModel(
     stages = [
         documentAssembler,
@@ -3952,7 +4272,7 @@ clinical_ner = MedicalNerModel.pretrained("ner_chexpert", "en", "clinical/models
 ...
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical, clinical_ner, ner_converter])
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-EXAMPLE_TEXT = """FINAL REPORT HISTORY : Chest tube leak , to assess for pneumothorax . 
+EXAMPLE_TEXT = """FINAL REPORT HISTORY : Chest tube leak , to assess for pneumothorax .
 FINDINGS : In comparison with study of ___ , the endotracheal tube and Swan - Ganz catheter have been removed . The left chest tube remains in place and there is no evidence of pneumothorax. Mild atelectatic changes are seen at the left base."""
 results = model.transform(spark.createDataFrame([[EXAMPLE_TEXT]]).toDF("text"))
 ```
@@ -4009,7 +4329,7 @@ Bug fixed in the `NerDLMetrics` package. Previously, the `full_chunk` option was
 **To see more, please check :** [Spark NLP Healthcare Workshop Repo](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Healthcare)
 
 
-## 3.2.3	
+## 3.2.3
 We are glad to announce that Spark NLP Healthcare 3.2.3 has been released!.
 
 #### Highlights
@@ -4019,7 +4339,7 @@ We are glad to announce that Spark NLP Healthcare 3.2.3 has been released!.
 + Allow To Use Disambiguator Pretrained Model
 + Allow To Use Seeds in StructuredDeidentification
 + Added Compatibility with Tensorflow 1.15 For Graph Generation.
-+ New Setup Videos 
++ New Setup Videos
 
 #### New BERT-Based Deidentification NER Model
 
@@ -4031,20 +4351,20 @@ We have a new `bert_token_classifier_ner_deid` model that is BERT-based version 
 documentAssembler = DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
-  
+
 tokenizer = Tokenizer()\
   .setInputCols("document")\
   .setOutputCol("token")
-  
+
 tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_deid", "en")\
   .setInputCols("token", "document")\
   .setOutputCol("ner")\
   .setCaseSensitive(True)
-  
+
 ner_converter = NerConverter()\
   .setInputCols(["document","token","ner"])\
   .setOutputCol("ner_chunk")
-        
+
 pipeline =  Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
 p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
 
@@ -4082,7 +4402,7 @@ We are releasing two new Sentence Entity Resolver Models for German language tha
 documentAssembler = DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("ner_chunk")
-    
+
 sbert_embedder = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "de")\
     .setInputCols(["ner_chunk"])\
     .setOutputCol("sbert_embeddings")
@@ -4108,10 +4428,10 @@ icd_lp.fullAnnotate("Dyspnoe")
 *Example*:
 
 ```bash
-documentAssembler = DocumentAssembler()\ 
-    .setInputCol("text")\ 
+documentAssembler = DocumentAssembler()\
+    .setInputCol("text")\
     .setOutputCol("ner_chunk")
-    
+
 sbert_embedder = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "de")\
     .setInputCols(["ner_chunk"])\
     .setOutputCol("sbert_embeddings")
@@ -4139,10 +4459,10 @@ We are releasing new `spellcheck_drug_norvig` model that detects and corrects sp
 *Example* :
 
 ```bash
-documentAssembler = DocumentAssembler()\ 
-    .setInputCol("text")\ 
+documentAssembler = DocumentAssembler()\
+    .setInputCol("text")\
     .setOutputCol("document")
-    
+
 tokenizer = Tokenizer()
     .setInputCols("document")\
     .setOutputCol("token")
@@ -4154,7 +4474,7 @@ spell = NorvigSweetingModel.pretrained("spellcheck_drug_norvig", "en", "clinical
 pipeline = Pipeline( stages = [documentAssembler,
 tokenizer, spell])
 
-model = pipeline.fit(spark.createDataFrame([['']]).toDF('text')) 
+model = pipeline.fit(spark.createDataFrame([['']]).toDF('text'))
 lp = LightPipeline(model)
 
 lp.annotate("You have to take Neutrcare and colfosrinum and a bit of Fluorometholne & Ribotril")
@@ -4179,23 +4499,23 @@ Now we can use the NerDisambiguatorModel as a pretrained model to disambiguate p
      [text]]) \
      .toDF("text").cache()
  da = DocumentAssembler().setInputCol("text").setOutputCol("document")
- 
+
  sd = SentenceDetector().setInputCols("document").setOutputCol("sentence")
- 
+
  tk = Tokenizer().setInputCols("sentence").setOutputCol("token")
- 
+
  emb = WordEmbeddingsModel.pretrained().setOutputCol("embs")
- 
+
  semb = SentenceEmbeddings().setInputCols("sentence", "embs").setOutputCol("sentence_embeddings")
- 
+
  ner = NerDLModel.pretrained().setInputCols("sentence", "token", "embs").setOutputCol("ner")
- 
+
  nc = NerConverter().setInputCols("sentence", "token", "ner").setOutputCol("ner_chunk").setWhiteList(["PER"])
- 
+
  NerDisambiguatorModel.pretrained().setInputCols("ner_chunk", "sentence_embeddings").setOutputCol("disambiguation")
- 
+
  pl = Pipeline().setStages([da, sd, tk, emb, semb, ner, nc, disambiguator])
- 
+
  data = pl.fit(data).transform(data)
  data.select("disambiguation").show(10, False)
 
@@ -4221,7 +4541,7 @@ df = spark.createDataFrame([
             ["24", "56", "Will Smith"],
             ["56", "32", "Pedro Ximénez"]
         ]).toDF("ID1", "ID2", "NAME")
-        
+
 obfuscator = StructuredDeidentification(spark=spark, columns={"ID1": "ID", "ID2": "ID", "NAME": "PATIENT"},
                                                 columnsSeed={"ID1": 23, "ID2": 23},
                                                 obfuscateRefSource="faker")
@@ -4320,7 +4640,7 @@ documentAssembler = DocumentAssembler()\
 sbert_embedder = BertSentenceEmbeddings.pretrained('sbert_jsl_medium_uncased', 'en','clinical/models')\
       .setInputCols(["ner_chunk"])\
       .setOutputCol("sbert_embeddings")
-    
+
 rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_rxnorm_disposition", "en", "clinical/models") \
       .setInputCols(["ner_chunk", "sbert_embeddings"]) \
       .setOutputCol("rxnorm_code")\
@@ -4355,7 +4675,7 @@ documentAssembler = DocumentAssembler()\
 sbert_embedder = BertSentenceEmbeddings.pretrained('sbert_jsl_medium_uncased', 'en','clinical/models')\
       .setInputCols(["ner_chunk"])\
       .setOutputCol("sbert_embeddings")
-    
+
 snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_conditions", "en", "clinical/models") \
       .setInputCols(["ner_chunk", "sbert_embeddings"]) \
       .setOutputCol("snomed_code")\
@@ -4399,7 +4719,7 @@ clinical_ner_chunk = NerConverter()\
         .setOutputCol("clinical_ner_chunk")\
         .setWhiteList(["PROBLEM"])
 
-# to get DRUG entities 
+# to get DRUG entities
 posology_ner = MedicalNerModel().pretrained("ner_posology", "en", "clinical/models") \
         .setInputCols(["sentence", "token", "word_embeddings"]) \
         .setOutputCol("posology_ner")
@@ -4508,7 +4828,7 @@ results = model.transform(spark.createDataFrame(pd.DataFrame({"text": ["""A. Rec
 |(302) 786-5227               |PHONE        |
 |Brothers Coal-Mine           |ORGANIZATION |
 +-----------------------------+-------------+
-``` 
+```
 
 
 **To see more, please check:** [Spark NLP Healthcare Workshop Repo](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Healthcare)
@@ -4527,7 +4847,7 @@ We are glad to announce that Spark NLP Healthcare 3.2.1 has been released!.
 
 #### New BERT-Based NER Models
 
-We have two new BERT-based token classifier NER models. These models are the first clinical NER models that use the BertForTokenCLassification approach that was introduced in Spark NLP 3.2.0. 
+We have two new BERT-based token classifier NER models. These models are the first clinical NER models that use the BertForTokenCLassification approach that was introduced in Spark NLP 3.2.0.
 
 + `bert_token_classifier_ner_clinical`: This model is BERT-based version of `ner_clinical` model. This new model is 4% better than the legacy NER model (MedicalNerModel) that is based on BiLSTM-CNN-Char architecture.
 
@@ -4566,7 +4886,7 @@ tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_n
        .setInputCols("token", "sentence")\
        .setOutputCol("ner")\
        .setCaseSensitive(True)
-  
+
 ner_converter = NerConverter()\
         .setInputCols(["sentence","token","ner"])\
         .setOutputCol("ner_chunk")
@@ -4697,7 +5017,7 @@ tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_n
        .setInputCols("token", "sentence")\
        .setOutputCol("ner")\
        .setCaseSensitive(True)
-  
+
 ner_converter = NerConverter()\
         .setInputCols(["sentence","token","ner"])\
         .setOutputCol("ner_chunk")
@@ -4738,11 +5058,11 @@ elig : The eligibility segment of the patient.
        - "INS": Long Term Institutional
        - "NE": New Enrollee
        - "SNPNE": SNP NE
-       
+
 orec: Original reason for entitlement code.
       - "0": Old age and survivor's insurance
       - "1": Disability insurance benefits
-      - "2": End-stage renal disease 
+      - "2": End-stage renal disease
       - "3": Both DIB and ESRD
 
 medicaid: If the patient is in Medicaid or not.
@@ -4812,14 +5132,14 @@ We can import different CMS-HCC model versions as seperate functions and use the
 
 from sparknlp_jsl.functions import profile,profileV22,profileV23
 
-df = df.withColumn("hcc_profileV24", profile(df.icd10_code, 
-                                          df.age, 
+df = df.withColumn("hcc_profileV24", profile(df.icd10_code,
+                                          df.age,
                                           df.gender,
                                           df.eligibility,
                                           df.orec,
                                           df.medicaid
                                           ))
-                                          
+
 df.withColumn("hcc_profileV22", profileV22(df.codes, df.age, df.sex,df.elig,df.orec,df.medicaid))
 df.withColumn("hcc_profileV23", profileV23(df.codes, df.age, df.sex,df.elig,df.orec,df.medicaid))
 
@@ -4854,7 +5174,7 @@ Here are the updated resolver notebooks:
 
 You can also check for more examples of this annotator: [24.1.Improved_Entity_Resolution_with_SentenceChunkEmbeddings.ipynb](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.1.Improved_Entity_Resolution_with_SentenceChunkEmbeddings.ipynb)
 
-+ We have updated TF Graph builder notebook to show how to create TF graphs with TF2.x. 
++ We have updated TF Graph builder notebook to show how to create TF graphs with TF2.x.
 
 > Here is the updated notebook: [17.Graph_builder_for_DL_models.ipynb](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/17.Graph_builder_for_DL_models.ipynb)  
 
@@ -4863,7 +5183,7 @@ You can also check for more examples of this annotator: [24.1.Improved_Entity_Re
 
 #### New TF Graph Builder
 
-TF graph builder to create graphs and train DL models for licensed annotators (MedicalNer, Relation Extraction, Assertion and Generic Classifier) is made compatible with TF2.x. 
+TF graph builder to create graphs and train DL models for licensed annotators (MedicalNer, Relation Extraction, Assertion and Generic Classifier) is made compatible with TF2.x.
 
 To see how to create TF Graphs, you can check here: [17.Graph_builder_for_DL_models.ipynb](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/17.Graph_builder_for_DL_models.ipynb)  
 
@@ -5237,7 +5557,7 @@ The model needs following parameters in order to calculate the risk score:
 - Age
 - Gender
 - The eligibility segment of the patient
-- Original reason for entitlement 
+- Original reason for entitlement
 - If the patient is in Medicaid or not
 - If the patient is disabled or not
 
@@ -5263,7 +5583,7 @@ sample_patients.show()
 ```
 from sparknlp_jsl.functions import profile
 df = df.withColumn("hcc_profile", profile(df.ICD_codes, df.Age, df.Gender))
-                                          
+
 df = df.withColumn("hcc_profile", F.from_json(F.col("hcc_profile"), schema))
 df= df.withColumn("risk_score", df.hcc_profile.getItem("risk_score"))\
       .withColumn("hcc_lst", df.hcc_profile.getItem("hcc_map"))\
@@ -5297,11 +5617,11 @@ RECORD 0------------------------------------------------------------------------
  OREC                | 0                                                                                                    
  Medicaid            | false                                                                                                 
  Disabled            | false                                                                                                
- hcc_profile         | {{"CNA_HCC18":0.302,"CNA_HCC85":0.331,"CNA_HCC23":0.194,"CNA_D3":0.0,"CNA_HCC85_gDiabetesMellit":... 
+ hcc_profile         | {{"CNA_HCC18":0.302,"CNA_HCC85":0.331,"CNA_HCC23":0.194,"CNA_D3":0.0,"CNA_HCC85_gDiabetesMellit":...
  risk_score          | 0.827                                                                                                
  hcc_lst             | {"E1169":["HCC18"],"I5030":["HCC85"],"I509":["HCC85"],"E852":["HCC23"]}                              
  parameters          | {"elig":"CNA","age":64,"sex":"F","origds":'0',"disabled":false,"medicaid":false}                   
- details             | {"CNA_HCC18":0.302,"CNA_HCC85":0.331,"CNA_HCC23":0.194,"CNA_D3":0.0,"CNA_HCC85_gDiabetesMellit":0.0} 
+ details             | {"CNA_HCC18":0.302,"CNA_HCC85":0.331,"CNA_HCC23":0.194,"CNA_D3":0.0,"CNA_HCC85_gDiabetesMellit":0.0}
 -RECORD 1-------------------------------------------------------------------------------------------------------------------
  Patient_ID          | 102                                                                                                  
  ICD_codes           | [G629, D469, D6181]                                                                                  
@@ -5311,7 +5631,7 @@ RECORD 0------------------------------------------------------------------------
  OREC                | 0                                                                                                    
  Medicaid            | false                                                                                                 
  Disabled            | false                                                                                                 
- hcc_profile         | {{"CNA_M75_79":0.473,"CNA_D1":0.0,"CNA_HCC46":1.372}, ["D1","HCC46"], {"D469":["HCC46"]}, {"elig"... 
+ hcc_profile         | {{"CNA_M75_79":0.473,"CNA_D1":0.0,"CNA_HCC46":1.372}, ["D1","HCC46"], {"D469":["HCC46"]}, {"elig"...
  risk_score          | 1.845                                                                                                
  hcc_lst             | {"D469":["HCC46"]}                                                                                   
  parameters          | {"elig":"CNA","age":77,"sex":"M","origds":'0',"disabled":false,"medicaid":false}                   
@@ -5325,11 +5645,11 @@ RECORD 0------------------------------------------------------------------------
  OREC                | 0                                                                                                    
  Medicaid            | false                                                                                                
  Disabled            | false                                                                                                
- hcc_profile         | {{"CNA_HCC10":0.675,"CNA_HCC40":0.421,"CNA_HCC48":0.192,"CNA_D3":0.0}, ["HCC10","HCC40","HCC48","... 
+ hcc_profile         | {{"CNA_HCC10":0.675,"CNA_HCC40":0.421,"CNA_HCC48":0.192,"CNA_D3":0.0}, ["HCC10","HCC40","HCC48","...
  risk_score          | 1.288                                                                                                
  hcc_lst             | {"D473":["HCC48"],"M069":["HCC40"],"C969":["HCC10"]}                                                 
  parameters          | {"elig":"CNA","age":16,"sex":"F","origds":'0',"disabled":false,"medicaid":false}                   
- details             | {"CNA_HCC10":0.675,"CNA_HCC40":0.421,"CNA_HCC48":0.192,"CNA_D3":0.0} 
+ details             | {"CNA_HCC10":0.675,"CNA_HCC40":0.421,"CNA_HCC48":0.192,"CNA_D3":0.0}
 ```
 {% endraw %}
 
@@ -5351,12 +5671,12 @@ sentence_chunk_embeddings = BertSentenceChunkEmbeddings\
     .setInputCols(["sentences", "ner_chunk"])\
     .setOutputCol("sentence_chunk_embeddings")\
     .setChunkWeight(0.5)
-    
+
 resolver = SentenceEntityResolverModel.pretrained('sbiobertresolve_icd10cm', 'en', 'clinical/models')\
             .setInputCols(["ner_chunk", "sentence_chunk_embeddings"]) \
               .setOutputCol("resolution")
-              
-text = """A 20 year old female patient badly tripped while going down stairs. She complains of right leg pain. 
+
+text = """A 20 year old female patient badly tripped while going down stairs. She complains of right leg pain.
 Her x-ray showed right hip fracture. Hair line fractures also seen on the left knee joint.
 She also suffered from trauma and slight injury on the head.
 
@@ -5373,7 +5693,7 @@ results = model.transform(spark.createDataFrame([[text]], ["text"]))
 |    | chunk               | entity              | code_with_old_approach | resolutions_with_old_approach                              | code_with_new_approach | resolutions_with_new_approach                                                                 |
 |---:|:--------------------|:--------------------|:-----------------------|:-----------------------------------------------------------|:-----------------------|:----------------------------------------------------------------------------------------------|
 |  0 | leg pain            | Symptom             | R1033                  | Periumbilical pain                                         | M79661                 | Pain in right lower leg                                                                       |
-|  1 | hip fracture        | Injury_or_Poisoning | M84459S                | Pathological fracture, hip, unspecified, sequela           | M84451S                | Pathological fracture, right femur, sequela                                                   | 
+|  1 | hip fracture        | Injury_or_Poisoning | M84459S                | Pathological fracture, hip, unspecified, sequela           | M84451S                | Pathological fracture, right femur, sequela                                                   |
 |  2 | Hair line fractures | Injury_or_Poisoning | S070XXS                | Crushing injury of face, sequela                           | S92592P                | Other fracture of left lesser toe(s), subsequent encounter for fracture with malunion         |
 |  3 | trauma              | Injury_or_Poisoning | T794XXS                | Traumatic shock, sequela                                   | S0083XS                | Contusion of other part of head, sequela                                                      |
 |  4 | slight injury       | Injury_or_Poisoning | B03                    | Smallpox                                                   | S0080XD                | Unspecified superficial injury of other part of head, subsequent encounter                    |
@@ -5405,8 +5725,8 @@ re_model = RelationExtractionModel()\
         .pretrained("re_ade_biobert", "en", 'clinical/models')\
         .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
         .setOutputCol("relations")\
-        .setMaxSyntacticDistance(3)\ #default: 0 
-        .setPredictionThreshold(0.5)\ #default: 0.5 
+        .setMaxSyntacticDistance(3)\ #default: 0
+        .setPredictionThreshold(0.5)\ #default: 0.5
         .setRelationPairs(["ade-drug", "drug-ade"]) # Possible relation pairs. Default: All Relations.
 
 nlp_pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, re_model])
@@ -5424,7 +5744,7 @@ Example:
 
 ```python
     pretrained_ade_pipeline = PretrainedPipeline('explain_clinical_doc_ade', 'en', 'clinical/models')
-    
+
     result = pretrained_ade_pipeline.fullAnnotate("""Been taking Lipitor for 15 years , have experienced sever fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps""")[0]
 ```
 
@@ -5497,7 +5817,7 @@ Allows to use RegexMather chunks as NER chunks and feed the output to the downst
             .setExternalRules(path="../src/test/resources/regex-matcher/rules.txt",delimiter=",")
 
         chunkConverter = ChunkConverter().setInputCols("regex").setOutputCol("chunk")
-        
+
 
 ```
 
@@ -5522,7 +5842,7 @@ This release comes with new features, new models, bug fixes, and examples.
 Users can now resume training/fine-tune existing(already trained) Spark NLP MedicalNer models on new data. Users can simply provide the path to any existing MedicalNer model and train it further on the new dataset:
 
 ```
-ner_tagger = MedicalNerApproach().setPretrainedModelPath("/path/to/trained/medicalnermodel") 
+ner_tagger = MedicalNerApproach().setPretrainedModelPath("/path/to/trained/medicalnermodel")
 ```
 
 If the new dataset contains new tags/labels/entities, users can choose to override existing tags with the new ones. The default behaviour is to reset the list of existing tags and generate a new list from the new dataset. It is also possible to preserve the existing tags by setting the 'overrideExistingTags' parameter:
@@ -5588,7 +5908,7 @@ Example:
 ```
 
 ```bash
-     
+
 +-----------+----------+
 |text        |  date    |
 +-----------+----------+
@@ -5617,14 +5937,14 @@ Example
                                      .setOutputCol("relations")\
                                      .setPredictionThreshold(0.5)\
                                      .setRelationPairs(['ade-drug', 'drug-ade'])
-    pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, 
+    pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter,
                                                    dependency_parser, re_ner_chunk_filter, re_model])
     text ="""A 30 year old female presented with tense bullae due to excessive use of naproxin, and leg cramps relating to oxaprozin."""
 
     p_model = pipeline.fit(spark.createDataFrame([[text]]).toDF("text"))
-    
+
     result = p_model.transform(data)
-       
+
 ```
 
 Results
@@ -5717,11 +6037,11 @@ You can now customize whether you will require confidence score for every token(
 
 #### MedicalNerModel new parameter `inferenceBatchSize`
 You can now control the batch size used during inference as a separate parameter from the one you used during training of the model. This can be useful in the situation in which the hardware on which you run inference has different capacity. For example, when you have lower available memory during inference, you can reduce the batch size.
- 
-#### New Resolver Models
-We trained three new sentence entity resolver models. 
 
-+ `sbertresolve_snomed_bodyStructure_med` and `sbiobertresolve_snomed_bodyStructure` models map extracted medical (anatomical structures) entities to Snomed codes (body structure version). 
+#### New Resolver Models
+We trained three new sentence entity resolver models.
+
++ `sbertresolve_snomed_bodyStructure_med` and `sbiobertresolve_snomed_bodyStructure` models map extracted medical (anatomical structures) entities to Snomed codes (body structure version).
 
      + `sbertresolve_snomed_bodyStructure_med` : Trained  with using `sbert_jsl_medium_uncased` embeddings.
      + `sbiobertresolve_snomed_bodyStructure`  : Trained with using `sbiobert_base_cased_mli` embeddings.
@@ -5759,12 +6079,12 @@ result = snomed_lp.fullAnnotate("Amputation stump")
 ```
 ...
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
- 
+
 sbert_embedder = BertSentenceEmbeddings\
      .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
      .setInputCols(["ner_chunk_doc"])\
      .setOutputCol("sbert_embeddings")
- 
+
 icdo_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icdo_augmented","en", "clinical/models") \
      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
      .setOutputCol("resolution")\
@@ -5791,12 +6111,12 @@ results = model.transform(spark.createDataFrame([["The patient is a very pleasan
 +--------------------+-----+---+-----------+-------------+-------------------------+-------------------------+
 ```
 
- 
+
 #### Updated Resolver Models
 We updated `sbiobertresolve_snomed_findings` and `sbiobertresolve_cpt_procedures_augmented` resolver models to reflect the latest changes in the official terminologies.
 
 #### Getting Started with Spark NLP for Healthcare Notebook in Databricks
-We prepared a new notebook for those who want to get started with Spark NLP for Healthcare in Databricks : [Getting Started with Spark NLP for Healthcare Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/databricks/python/healthcare_case_studies/Get_Started_Spark_NLP_for_Healthcare.ipynb) 
+We prepared a new notebook for those who want to get started with Spark NLP for Healthcare in Databricks : [Getting Started with Spark NLP for Healthcare Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/databricks/python/healthcare_case_studies/Get_Started_Spark_NLP_for_Healthcare.ipynb)
 
 ## 3.1.0
 We are glad to announce that Spark NLP for Healthcare 3.1.0 has been released!
@@ -5814,7 +6134,7 @@ We are glad to announce that Spark NLP for Healthcare 3.1.0 has been released!
 + Enhanced RelationExtractionDL Model to create and identify relations between entities across the entire document
 + MedicalNerApproach can now accept a graph file directly.
 + MedicalNerApproach can now accept a user-defined name for log file.
-+ More improvements in Scaladocs. 
++ More improvements in Scaladocs.
 + Bug fixes in Deidentification module.
 + New notebooks.
 
@@ -5861,7 +6181,7 @@ Models Hub Page : https://nlp.johnsnowlabs.com/2021/05/25/sbiobertresolve_icd10c
 Models Hub Page : https://nlp.johnsnowlabs.com/2021/05/25/sbertresolve_icd10cm_slim_billable_hcc_med_en.html
 
 
-*Example*: 'bladder cancer' 
+*Example*: 'bladder cancer'
 + `sbiobertresolve_icd10cm_augmented_billable_hcc`
 
 | chunks | code | all_codes | resolutions |all_distances | 100x Loop(sec) |
@@ -5878,7 +6198,7 @@ Models Hub Page : https://nlp.johnsnowlabs.com/2021/05/25/sbertresolve_icd10cm_s
 
 | chunks | code | all_codes | resolutions |all_distances | 100x Loop(sec) |
 | - | - | - | - | - | - |
-| bladder cancer | C671 | [C671, C679, C61, C672, C673] | [bladder cancer, dome [Malignant neoplasm of dome of bladder], cancer of the urinary bladder [Malignant neoplasm of bladder, unspecified], prostate cancer [Malignant neoplasm of prostate], cancer of the urinary bladder] | [0.0894, 0.1051, 0.1184, 0.1180, 0.1200] | 12,8 | 
+| bladder cancer | C671 | [C671, C679, C61, C672, C673] | [bladder cancer, dome [Malignant neoplasm of dome of bladder], cancer of the urinary bladder [Malignant neoplasm of bladder, unspecified], prostate cancer [Malignant neoplasm of prostate], cancer of the urinary bladder] | [0.0894, 0.1051, 0.1184, 0.1180, 0.1200] | 12,8 |
 
 #### New Deidentification NER Models
 
@@ -5958,7 +6278,7 @@ results = model.transform(spark.createDataFrame(pd.DataFrame({"text": ["""A. Rec
 |(302) 786-5227               |PHONE        |
 |Brothers Coal-Mine           |ORGANIZATION |
 +-----------------------------+-------------+
-``` 
+```
 
 
 #### New column returned in DeidentificationModel
@@ -5969,9 +6289,9 @@ Also, the name for the column can be changed using the following method; `.setMa
 The new column will produce annotations with the following structure,
 ```
 Annotation(
-  type: chunk, 
-  begin: 17, 
-  end: 25, 
+  type: chunk,
+  begin: 17,
+  end: 25,
   result: 47,
     metadata:{
         originalChunk -> 01/13/93  //Original text of the chunk
@@ -6007,7 +6327,7 @@ reDeidentification = ReIdentification()
 ```
 
 #### New Deidentification Pretrained Pipelines
-We developed a `clinical_deidentification` pretrained pipeline that can be used to deidentify PHI information from medical texts. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask and obfuscate `AGE`, `CONTACT`, `DATE`, `ID`, `LOCATION`, `NAME`, `PROFESSION`, `CITY`, `COUNTRY`, `DOCTOR`, `HOSPITAL`, `IDNUM`, `MEDICALRECORD`, `ORGANIZATION`, `PATIENT`, `PHONE`, `PROFESSION`,  `STREET`, `USERNAME`, `ZIP`, `ACCOUNT`, `LICENSE`, `VIN`, `SSN`, `DLN`, `PLATE`, `IPADDR` entities. 
+We developed a `clinical_deidentification` pretrained pipeline that can be used to deidentify PHI information from medical texts. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask and obfuscate `AGE`, `CONTACT`, `DATE`, `ID`, `LOCATION`, `NAME`, `PROFESSION`, `CITY`, `COUNTRY`, `DOCTOR`, `HOSPITAL`, `IDNUM`, `MEDICALRECORD`, `ORGANIZATION`, `PATIENT`, `PHONE`, `PROFESSION`,  `STREET`, `USERNAME`, `ZIP`, `ACCOUNT`, `LICENSE`, `VIN`, `SSN`, `DLN`, `PLATE`, `IPADDR` entities.
 
 Models Hub Page : [clinical_deidentification](https://nlp.johnsnowlabs.com/2021/05/27/clinical_deidentification_en.html)
 
@@ -6019,7 +6339,7 @@ Here are the model names:
 *Example:*
 
 Python:
-```bash 
+```bash
 from sparknlp.pretrained import PretrainedPipeline
 deid_pipeline = PretrainedPipeline("clinical_deidentification", "en", "clinical/models")
 
@@ -6070,7 +6390,7 @@ val result = deid_pipeline.annotate("Record date : 2093-01-13, David Hale, M.D. 
 
 #### Chunk filtering based on confidence
 
-We added a new annotator ChunkFiltererApproach that allows to load a csv with both entities and confidence thresholds. 
+We added a new annotator ChunkFiltererApproach that allows to load a csv with both entities and confidence thresholds.
 This annotator will produce a ChunkFilterer model.
 
 You can load the dictionary with the following property `setEntitiesConfidenceResource()`.
@@ -6089,13 +6409,13 @@ We have a ner_chunk column and sentence column with the following data:
 
 Ner_chunk
 ```
-|[{chunk, 141, 163, the genomicorganization, {entity -> TREATMENT, sentence -> 0, chunk -> 0, confidence -> 0.57785}, []}, {chunk, 209, 267, a candidate gene forType II 
+|[{chunk, 141, 163, the genomicorganization, {entity -> TREATMENT, sentence -> 0, chunk -> 0, confidence -> 0.57785}, []}, {chunk, 209, 267, a candidate gene forType II
            diabetes mellitus, {entity -> PROBLEM, sentence -> 0, chunk -> 1, confidence -> 0.6614286}, []}, {chunk, 394, 408, byapproximately, {entity -> TREATMENT, sentence -> 1, chunk -> 2, confidence -> 0.7705}, []}, {chunk, 478, 508, single nucleotide polymorphisms, {entity -> TREATMENT, sentence -> 2, chunk -> 3, confidence -> 0.7204666}, []}, {chunk, 559, 581, aVal366Ala substitution, {entity -> TREATMENT, sentence -> 2, chunk -> 4, confidence -> 0.61505}, []}, {chunk, 588, 601, an 8 base-pair, {entity -> TREATMENT, sentence -> 2, chunk -> 5, confidence -> 0.29226667}, []}, {chunk, 608, 625, insertion/deletion, {entity -> PROBLEM, sentence -> 3, chunk -> 6, confidence -> 0.9841}, []}]|
 +-------
 ```
 Sentence
 ```
-[{document, 0, 298, The human KCNJ9 (Kir 3.3, GIRK3) is a member of the G-protein-activated inwardly rectifying potassium (GIRK) channel family.Here we describe the genomicorganization of the KCNJ9 locus on chromosome 1q21-23 as a candidate gene forType II 
+[{document, 0, 298, The human KCNJ9 (Kir 3.3, GIRK3) is a member of the G-protein-activated inwardly rectifying potassium (GIRK) channel family.Here we describe the genomicorganization of the KCNJ9 locus on chromosome 1q21-23 as a candidate gene forType II
              diabetes mellitus in the Pima Indian population., {sentence -> 0}, []}, {document, 300, 460, The gene spansapproximately 7.6 kb and contains one noncoding and two coding exons ,separated byapproximately 2.2 and approximately 2.6 kb introns, respectively., {sentence -> 1}, []}, {document, 462, 601, We identified14 single nucleotide polymorphisms (SNPs),
              including one that predicts aVal366Ala substitution, and an 8 base-pair, {sentence -> 2}, []}, {document, 603, 626, (bp) insertion/deletion., {sentence -> 3}, []}]
 ```
@@ -6135,7 +6455,7 @@ As you can see, only the treatment entities with confidence score of more than 0
 The RegexPatternsDictionary can now use a regex that spawns the 2 previous token and the 2 next tokens.
 That feature is implemented using regex groups.
 
-Examples: 
+Examples:
 
 Given the sentence `The patient with ssn 123123123` we can use the following regex to capture the entitty `ssn (\d{9})`
 Given the sentence `The patient has 12 years` we can use the following regex to capture the entitty `(\d{2}) years`
@@ -6187,7 +6507,7 @@ We are glad to announce that Spark NLP for Healthcare 3.0.3 has been released!
 + New feature for random displacement of dates on deidentification model.
 + Five new pretrained pipelines to map terminologies across each other (from UMLS to ICD10, from RxNorm to MeSH etc.)
 + AnnotationToolReader support for Spark 2.3. The tool that helps model training on Spark-NLP to leverage data annotated using JSL Annotation Tool now has support for Spark 2.3.
-+ Updated documentation (Scaladocs) covering more APIs, and examples. 
++ Updated documentation (Scaladocs) covering more APIs, and examples.
 
 #### Five new resolver models:
 
@@ -6204,16 +6524,16 @@ We are glad to announce that Spark NLP for Healthcare 3.0.3 has been released!
 		* OMIM (Online Mendelian Inheritance in Man)
 
   *Related Notebook*: [Resolver Models](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb)
-  
+
 #### New feature on Deidentification Module
 + isRandomDateDisplacement(True): Be able to apply a random displacement on obfuscation dates. The randomness is based on the seed.
-+ Fix random dates when the format is not correct. Now you can repeat an execution using a seed for dates. Random dates will be based on the seed. 
++ Fix random dates when the format is not correct. Now you can repeat an execution using a seed for dates. Random dates will be based on the seed.
 
 #### Five new healthcare code mapping pipelines:
 
 + `icd10cm_umls_mapping`: This pretrained pipeline maps ICD10CM codes to UMLS codes without using any text data. You’ll just feed white space-delimited ICD10CM codes and it will return the corresponding UMLS codes as a list. If there is no mapping, the original code is returned with no mapping.
 
-      {'icd10cm': ['M89.50', 'R82.2', 'R09.01'], 
+      {'icd10cm': ['M89.50', 'R82.2', 'R09.01'],
           'umls': ['C4721411', 'C0159076', 'C0004044']}
 
 + `mesh_umls_mapping`: This pretrained pipeline maps MeSH codes to UMLS codes without using any text data. You’ll just feed white space-delimited MeSH codes and it will return the corresponding UMLS codes as a list. If there is no mapping, the original code is returned with no mapping.
@@ -6263,13 +6583,13 @@ Provide confidence scores for all available tags in `MedicalNerModel`,
 
 ### 3.0.1
 
-We are very excited to announce that **Spark NLP for Healthcare 3.0.1** has been released! 
+We are very excited to announce that **Spark NLP for Healthcare 3.0.1** has been released!
 
 #### Highlights:
 
 * Fixed problem in Assertion Status internal tokenization (reported in Spark-NLP #2470).
 * Fixes in the internal implementation of DeIdentificationModel/Obfuscator.
-* Being able to disable the use of regexes in the Deidentification process 
+* Being able to disable the use of regexes in the Deidentification process
 * Other minor bug fixes & general improvements.
 
 #### DeIdentificationModel Annotator
@@ -6519,7 +6839,7 @@ We are glad to announce that Spark NLP for Healthcare 2.7.6 has been released!
 
 - New upgrades on `ner_deid_large` and `ner_deid_enriched` NER models to cover more use cases with better resolutions.
 
-- Adding more [examples](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/scala/healthcare) to workshop repo for _Scala_ users to practice more on healthcare annotators. 
+- Adding more [examples](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/scala/healthcare) to workshop repo for _Scala_ users to practice more on healthcare annotators.
 
 - Bug fixes & general improvements.
 
@@ -6561,9 +6881,9 @@ You can also use this with `AssertionFilterer` to return clinical findings from 
       .setSameEntityThreshold(0.8)\
       .setObfuscateRefSource("faker")
 
-      
+
     text =''' Provider: David Hale, M.D.
-              Pt: Jessica Parker 
+              Pt: Jessica Parker
               David told  Jessica that she will need to visit the clinic next month.'''
 
 
@@ -6606,7 +6926,7 @@ We are releasing the version compatibility table to help users get to see which 
 
 #### 4. Pretrained Models Version Control :
 
-Due to active release cycle, we are adding & training new pretrained models at each release and it might be tricky to maintain the backward compatibility or keep up with the latest models, especially for the users using our models locally in air-gapped networks. 
+Due to active release cycle, we are adding & training new pretrained models at each release and it might be tricky to maintain the backward compatibility or keep up with the latest models, especially for the users using our models locally in air-gapped networks.
 
 We are releasing a new utility class to help you check your local & existing models with the latest version of everything we have up to date. This is an highly experimental feature of which we plan to improve and add more capability later on.
 
@@ -6623,7 +6943,7 @@ We are releasing a new utility class to help you check your local & existing mod
                             cache_pretrained_path='/home/ubuntu/cache_pretrained')
 
      >> result['outdated_models']
-     
+
       [{'model_name': 'clinical_ner_assertion',
         'current_version': '2.4.0',
         'latest_version': '2.6.4'},
@@ -6644,13 +6964,13 @@ We are releasing a new utility class to help you check your local & existing mod
         'latest_version': '2.5.0'}]
 
       >> result['version_comparison_dict']
-      
+
       [{'clinical_ner_assertion': {'current_version': '2.4.0', 'latest_version': '2.6.4'}}, {'jsl_ner_wip_clinical': {'current_version': '2.6.5', 'latest_version': '2.6.1'}}, {'jsl_ner_wip_greedy_clinical': {'current_version': '2.6.5', 'latest_version': '2.6.5'}}, {'jsl_ner_wip_modifier_clinical': {'current_version': '2.6.4', 'latest_version': '2.6.4'}}, {'jsl_rd_ner_wip_greedy_clinical': {'current_version': '2.6.1','latest_version': '2.6.2'}}]
 
 #### 5. Updated Pretrained Models:
 
  (requires fresh `.pretraned()`)
- 
+
 - ner_deid_large
 - ner_deid_enriched
 
@@ -6730,14 +7050,14 @@ We are glad to announce that Spark NLP for Healthcare 2.7.4 has been released!
 
 #### 1. NerChunker:
 
-Similar to what we used to do in **POSChunker** with POS tags, now we can also extract phrases that fits into a known pattern using the NER tags. **NerChunker** would be quite handy to extract entity groups with neighboring tokens when there is no pretrained NER model to address certain issues. Lets say we want to extract clinical findings and body parts together as a single chunk even if there are some unwanted tokens between. 
+Similar to what we used to do in **POSChunker** with POS tags, now we can also extract phrases that fits into a known pattern using the NER tags. **NerChunker** would be quite handy to extract entity groups with neighboring tokens when there is no pretrained NER model to address certain issues. Lets say we want to extract clinical findings and body parts together as a single chunk even if there are some unwanted tokens between.
 
 **How to use:**
 
     ner_model = NerDLModel.pretrained("ner_radiology", "en", "clinical/models")\
         .setInputCols("sentence","token","embeddings")\
         .setOutputCol("ner")
-                
+
     ner_chunker = NerChunker().\
         .setInputCols(["sentence","ner"])\
         .setOutputCol("ner_chunk")\
@@ -6762,11 +7082,11 @@ Similar to what we used to do in **POSChunker** with POS tags, now we can also e
     ner_converter = NerConverter() \
           .setInputCols(["sentence", "token", "ner"]) \
           .setOutputCol("ner_chunk")
-          
+
     chunk_filterer = ChunkFilterer()\
           .setInputCols("sentence","ner_chunk")\
           .setOutputCol("chunk_filtered")\
-          .setCriteria("isin") \ 
+          .setCriteria("isin") \
           .setWhiteList(['severe fever','sore throat'])
 
     text = 'Patient with severe fever, sore throat, stomach pain, and a headache.'
@@ -6784,7 +7104,7 @@ Similar to what we used to do in **POSChunker** with POS tags, now we can also e
     clinical_assertion = AssertionDLModel.pretrained("assertion_dl", "en", "clinical/models") \
       .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
       .setOutputCol("assertion")
-    
+
     assertion_filterer = AssertionFilterer()\
       .setInputCols("sentence","ner_chunk","assertion")\
       .setOutputCol("assertion_filtered")\
@@ -6796,7 +7116,7 @@ Similar to what we used to do in **POSChunker** with POS tags, now we can also e
     >> ner_chunk: ['severe fever','sore throat','stomach pain','headache']
     >> assertion_filtered: ['severe fever','sore throat']
 
- 
+
 ### 2.7.3
 
 We are glad to announce that Spark NLP for Healthcare 2.7.3 has been released!  

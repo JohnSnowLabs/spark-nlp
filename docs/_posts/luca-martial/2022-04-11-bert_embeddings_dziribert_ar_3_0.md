@@ -4,7 +4,7 @@ title: Arabic Bert Embeddings (from alger-ia)
 author: John Snow Labs
 name: bert_embeddings_dziribert
 date: 2022-04-11
-tags: [ar, open_source]
+tags: [bert, embeddings, ar, open_source]
 task: Embeddings
 language: ar
 edition: Spark NLP 3.4.2

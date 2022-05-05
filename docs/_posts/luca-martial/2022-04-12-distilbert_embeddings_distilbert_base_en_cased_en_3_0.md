@@ -4,7 +4,7 @@ title: English DistilBERT Embeddings (from Geotrend)
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_en_cased
 date: 2022-04-12
-tags: [en, open_source]
+tags: [distilbert, embeddings, en, open_source]
 task: Embeddings
 language: en
 edition: Spark NLP 3.4.2

@@ -4,7 +4,7 @@ title: Urdu DistilBERT Embeddings (from Geotrend)
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_ur_cased
 date: 2022-04-12
-tags: [ur, open_source]
+tags: [distilbert, embeddings, ur, open_source]
 task: Embeddings
 language: ur
 edition: Spark NLP 3.4.2

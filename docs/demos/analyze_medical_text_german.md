@@ -77,9 +77,9 @@ data:
         - title: Deidentify German Medical texts
           id: deidentify_german_medical_texts   
           image: 
-              src: /assets/images/Detect_PHI_terminology_German_medical_text.svg
+              src: /assets/images/Deidentify_German_Medical_texts.svg
           image2: 
-              src: /assets/images/Detect_PHI_terminology_German_medical_text_f.svg
+              src: /assets/images/Deidentify_German_Medical_texts_f.svg
           excerpt: This demo shows how to deidentify protected health information in German medical texts.
           actions:
           - text: Live Demo

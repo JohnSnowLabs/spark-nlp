@@ -58,11 +58,8 @@ class TensorflowXlmRoBertaClassification(
       maxSeqLength: Int,
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
 
-    val encoder = new SentencepieceEncoder(
-      spp,
-      caseSensitive,
-      sentencePieceDelimiterId,
-      pieceIdFromZero = true)
+    val encoder =
+      new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId, pieceIdOffset = 1)
 
     val sentenceTokenPieces = sentences.map { s =>
       val shrinkedSentence = s.indexedTokens.take(maxSeqLength - 2)

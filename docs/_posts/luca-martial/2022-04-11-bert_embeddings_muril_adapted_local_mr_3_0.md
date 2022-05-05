@@ -4,7 +4,7 @@ title: Marathi Bert Embeddings (from monsoon-nlp)
 author: John Snow Labs
 name: bert_embeddings_muril_adapted_local
 date: 2022-04-11
-tags: [mr, open_source]
+tags: [bert, embeddings, mr, open_source]
 task: Embeddings
 language: mr
 edition: Spark NLP 3.4.2

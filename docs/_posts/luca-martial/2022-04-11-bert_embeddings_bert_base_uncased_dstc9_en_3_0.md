@@ -4,7 +4,7 @@ title: English Bert Embeddings (from wilsontam)
 author: John Snow Labs
 name: bert_embeddings_bert_base_uncased_dstc9
 date: 2022-04-11
-tags: [en, open_source]
+tags: [bert, embeddings, en, open_source]
 task: Embeddings
 language: en
 edition: Spark NLP 3.4.2
