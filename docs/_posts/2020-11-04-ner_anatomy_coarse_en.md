@@ -41,7 +41,7 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
   .setInputCols(["sentence", "token"])\
   .setOutputCol("embeddings")
-clinical_ner = NerDLModel.pretrained("ner_anatomy_coarse", "en", "clinical/models") \
+clinical_ner = MedicalNerModel.pretrained("ner_anatomy_coarse", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
 ...
@@ -55,7 +55,7 @@ results = model.transform(data)
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
   .setInputCols(Array("sentence", "token"))
   .setOutputCol("embeddings")
-val ner = NerDLModel.pretrained("ner_anatomy_coarse", "en", "clinical/models") \
+val ner = MedicalNerModel.pretrained("ner_anatomy_coarse", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
 ...
