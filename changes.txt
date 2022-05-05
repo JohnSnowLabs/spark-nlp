@@ -1,12 +1,2 @@
-docs/_posts/maziyarpanahi/2022-05-04-camembert_base_ccnet_4gb_fr_3_0.md
-docs/_posts/maziyarpanahi/2022-05-04-camembert_base_ccnet_fr_3_0.md
-docs/_posts/maziyarpanahi/2022-05-04-camembert_base_fr_3_0.md
-docs/_posts/maziyarpanahi/2022-05-04-camembert_base_oscar_4gb_fr_3_0.md
-docs/_posts/maziyarpanahi/2022-05-04-camembert_base_wikipedia_4gb_fr_3_0.md
-docs/_posts/maziyarpanahi/2022-05-04-camembert_large_fr_3_0.md
-docs/_posts/maziyarpanahi/2022-05-04-camembert_base_ccnet_4gb_fr_3_0.md
-docs/_posts/maziyarpanahi/2022-05-04-camembert_base_ccnet_fr_3_0.md
-docs/_posts/maziyarpanahi/2022-05-04-camembert_base_fr_3_0.md
-docs/_posts/maziyarpanahi/2022-05-04-camembert_base_oscar_4gb_fr_3_0.md
-docs/_posts/maziyarpanahi/2022-05-04-camembert_base_wikipedia_4gb_fr_3_0.md
-docs/_posts/maziyarpanahi/2022-05-04-camembert_large_fr_3_0.md
+docs/_posts/2020-11-04-ner_anatomy_coarse_en.md
+docs/_posts/2020-11-04-ner_anatomy_coarse_en.md
