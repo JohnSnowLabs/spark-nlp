@@ -368,4 +368,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb
+        - title: Lemmatizer for European Languages 
+          id: lemmatizer_european_languages    
+          image: 
+              src: /assets/images/Lemmatizer_for_European_Languages.svg
+          image2: 
+              src: /assets/images/Lemmatizer_for_European_Languages_f.svg
+          excerpt: This demo shows how to lemmatize documents of European languages.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/LEMMATIZER_EUROPEAN/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb
 ---

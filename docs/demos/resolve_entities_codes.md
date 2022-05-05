@@ -205,9 +205,9 @@ data:
         - title: Resolve Clinical Abbreviations and Acronyms
           id: resolve_clinical_abbreviations_acronyms    
           image: 
-              src: /assets/images/Recognize_clinical_abbreviations_and_acronyms.svg
+              src: /assets/images/Resolve_Clinical_Abbreviations_and_Acronyms.svg
           image2: 
-              src: /assets/images/Recognize_clinical_abbreviations_and_acronyms_f.svg
+              src: /assets/images/Resolve_Clinical_Abbreviations_and_Acronyms_f.svg
           excerpt: This demo shows how to map clinical abbreviations and acronyms to their meanings.
           actions:
           - text: Live Demo
@@ -219,9 +219,9 @@ data:
         - title: Resolve Drug Class using RxNorm taxonomy
           id: resolve_drug_class_using_rxnorm_taxonomy     
           image: 
-              src: /assets/images/Resolve_Drugs_to_RxNorm_Codes.svg
+              src: /assets/images/Resolve_Drug_Class_using_RxNorm_taxonomy.svg
           image2: 
-              src: /assets/images/Resolve_Drugs_to_RxNorm_Codes_f.svg
+              src: /assets/images/Resolve_Drug_Class_using_RxNorm_taxonomy_f.svg
           excerpt: This demo shows how to map Drugs to related Drug-Classes using RxNorm taxonomy.
           actions:
           - text: Live Demo
@@ -233,14 +233,28 @@ data:
         - title: Resolve Drug & Substance using the UMLS CUI taxonomy
           id: resolve_drug_Substance_using_umls_cui_taxonomy      
           image: 
-              src: /assets/images/Sentence_Entity_Resolver_for_UMLS_CUI.svg
+              src: /assets/images/Resolve_Drug_Substance_using_the_umls_cuitaxonomy.svg
           image2: 
-              src: /assets/images/Sentence_Entity_Resolver_for_UMLS_CUI_f.svg
+              src: /assets/images/Resolve_Drug_Substance_using_the_umls_cuitaxonomy_f.svg
           excerpt: This demo shows how to map Drug & Substance to their corresponding codes using UMLS CUI taxonomy.
           actions:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ER_UMLS_CUI_DRUG_SUBSTANCE/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb
+        - title: Resolve Clinical Procedures using CPT taxonomy
+          id: resolve_clinical_procedures_cpt_taxonomy       
+          image: 
+              src: /assets/images/Resolve_Clinical_Procedures_using_CPT_taxonomy.svg
+          image2: 
+              src: /assets/images/Resolve_Clinical_Procedures_using_CPT_taxonomy_f.svg
+          excerpt: This demo shows how to map clinical procedures to codes using CPT taxonomy.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ER_CPT/
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb
