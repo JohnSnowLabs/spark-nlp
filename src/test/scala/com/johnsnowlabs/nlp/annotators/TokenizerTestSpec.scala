@@ -18,12 +18,15 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel, Transformer}
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
 
 import java.util.Date
+import scala.collection.mutable
+import scala.collection.mutable.ArrayBuffer
 
 class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
 
@@ -657,6 +660,50 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
       result.sameElements(expected),
       s"because result tokens differ: " +
         s"\nresult was \n${result.mkString("\n")} \nexpected is: \n${expected.mkString("\n")}")
+  }
+
+  "a Tokenizer" should "benchmark exceptions" taggedAs SlowTest in {
+    val data = AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols("document")
+      .setOutputCol("token")
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer))
+
+    /** Run first to cache for more consistent results */
+    var result: Array[Row] = pipeline.fit(data).transform(data).select("token.result").collect()
+
+    val tokens = result
+      .foldLeft(ArrayBuffer.empty[String]) { (arr: ArrayBuffer[String], i: Row) =>
+        val Row(tokens: mutable.WrappedArray[String]) = i
+        arr ++= tokens.map(_.replaceAll("\\W", "")).filter(_.nonEmpty)
+      }
+      .toArray
+
+    val documentAssembler2 = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizerWithExceptions = new Tokenizer()
+      .setInputCols("document")
+      .setOutputCol("token")
+      .setExceptions(tokens.slice(0, 200))
+
+    val pipelineWithExceptions =
+      new Pipeline().setStages(Array(documentAssembler2, tokenizerWithExceptions))
+
+    Benchmark.measure(
+      iterations = 20,
+      forcePrint = true,
+      description = "Time to tokenize Sherlock Holmes with exceptions") {
+      pipelineWithExceptions.fit(data).transform(data).select("token.result").collect()
+    }
+
   }
 
   "RecursiveTokenizer" should "split suffixes" taggedAs FastTest in {

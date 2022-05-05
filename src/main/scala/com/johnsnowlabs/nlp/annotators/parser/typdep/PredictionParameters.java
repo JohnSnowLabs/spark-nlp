@@ -16,20 +16,19 @@
 
 package com.johnsnowlabs.nlp.annotators.parser.typdep;
 
-import gnu.trove.map.hash.TObjectIntHashMap;
-
+import java.util.HashMap;
 import java.util.Arrays;
 import java.util.List;
 
 public class PredictionParameters {
 
-    private TObjectIntHashMap map;
+    private HashMap<String, Integer> map;
 
     public PredictionParameters() {
-        map = new TObjectIntHashMap(10000);
+        map = new HashMap(10000);
     }
 
-    public TObjectIntHashMap transformToTroveMap(String mapAsString) {
+    public HashMap<String, Integer> transformToTroveMap(String mapAsString) {
 
         List<String> mapAsArray = transformToListOfString(mapAsString);
 

@@ -140,7 +140,7 @@ import java.io.File
   */
 class UniversalSentenceEncoder(override val uid: String)
     extends AnnotatorModel[UniversalSentenceEncoder]
-    with HasSimpleAnnotate[UniversalSentenceEncoder]
+    with HasBatchedAnnotate[UniversalSentenceEncoder]
     with HasEmbeddingsProperties
     with HasStorageRef
     with WriteTensorflowModel {
@@ -241,7 +241,7 @@ class UniversalSentenceEncoder(override val uid: String)
     this
   }
 
-  setDefault(dimension -> 512, storageRef -> "tfhub_use", loadSP -> false)
+  setDefault(dimension -> 512, storageRef -> "tfhub_use", loadSP -> false, batchSize -> 2)
 
   /** Takes a document and annotations and produces new annotations of this annotator's annotation
     * type
@@ -252,13 +252,33 @@ class UniversalSentenceEncoder(override val uid: String)
     *   any number of annotations processed for every input annotation. Not necessary one to one
     *   relationship
     */
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val sentences = SentenceSplit.unpack(annotations)
-    val nonEmptySentences = sentences.filter(_.content.nonEmpty)
+  override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
 
-    if (nonEmptySentences.nonEmpty)
-      getModelIfNotSet.predict(nonEmptySentences)
-    else Seq.empty[Annotation]
+    // Unpack annotations and zip each sentence to the index or the row it belongs to
+    val sentencesWithRow = batchedAnnotations.zipWithIndex
+      .flatMap { case (annotations, i) => SentenceSplit.unpack(annotations).map(x => (x, i)) }
+
+    val nonEmptySentences = sentencesWithRow.map(_._1).filter(_.content.nonEmpty)
+    val allAnnotations =
+      if (nonEmptySentences.nonEmpty)
+        getModelIfNotSet.predict(nonEmptySentences, $(batchSize))
+      else Seq.empty[Annotation]
+
+    // Group resulting annotations by rows. If there are not sentences in a given row, return empty sequence
+    batchedAnnotations.indices.map(rowIndex => {
+      val rowAnnotations = allAnnotations
+        // zip each annotation with its corresponding row index
+        .zip(sentencesWithRow)
+        // select the sentences belonging to the current row
+        .filter(_._2._2 == rowIndex)
+        // leave the annotation only
+        .map(_._1)
+
+      if (rowAnnotations.nonEmpty)
+        rowAnnotations
+      else
+        Seq.empty[Annotation]
+    })
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
