@@ -26,21 +26,6 @@ elif [[ "$PYSPARK" == "3.1"* ]]; then
 elif [[ "$PYSPARK" == "3.0"* ]]; then
   PYSPARK="3.0.3"
   echo "Installing PySpark $PYSPARK and Spark NLP $SPARKNLP"
-elif [[ "$PYSPARK" == "2"* ]]; then
-  PYSPARK="2.4.8"
-  echo "Installing PySpark $PYSPARK and Spark NLP $SPARKNLP"
-  echo "Don't forget to use spark24=True inside sparknlp.start(spark24=True)"
-  apt-get update
-  apt-get purge -y openjdk-11* -qq > /dev/null && sudo apt-get autoremove -y -qq > /dev/null
-  apt-get install -y openjdk-8-jdk-headless -qq > /dev/null
-
-  SPARKHOME="/content/spark-2.4.8-bin-hadoop2.7"
-  export SPARK_HOME=$SPARKHOME
-  export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
-
-  wget -q "https://downloads.apache.org/spark/spark-2.4.8/spark-2.4.8-bin-hadoop2.7.tgz" > /dev/null
-  tar -xvf spark-2.4.8-bin-hadoop2.7.tgz > /dev/null
-
 else
   PYSPARK="3.0.3"
   export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
