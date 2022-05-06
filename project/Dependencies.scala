@@ -71,7 +71,7 @@ object Dependencies {
   val greexVersion = "1.0"
   val greex = "com.navigamez" % "greex" % greexVersion
 
-  val json4sVersion: String = if (is_spark32 == "true") "3.7.0-M11" else "3.5.3"
+  val json4sVersion: String = if (is_spark30 == "true") "3.5.3" else "3.7.0-M11"
 
   val json4s = "org.json4s" %% "json4s-ext" % json4sVersion
 
