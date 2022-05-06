@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>CamemBERT Large Model- Spark NLP Model</title><meta name="description" content="DescriptionCamemBERT is a state-of-the-art language model for French based on the RoBERTa model.For further information or requests, please go to Camembert W...">
-<link rel="canonical" href="/2022/05/04/camembert_large_fr_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>DeBERTa Token Classification Base - NER OntoNotes (deberta_v3_base_token_classifier_ontonotes)- Spark NLP Model</title><meta name="description" content="DescriptionDeBertaForTokenClassification can load DeBERTA Models v2 and v3 with a token classification head on top (a linear layer on top of the hidden-state...">
+<link rel="canonical" href="/2022/05/06/deberta_v3_base_token_classifier_ontonotes_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -404,20 +404,22 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>May 04, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-05-04T00:00:00+00:00"></div><header class="main-docs"><h1>CamemBERT Large Model</h1></header></div><meta itemprop="headline" content="CamemBERT Large Model"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>fr</li><li>french</li><li>camembert</li><li>embeddings</li><li>large</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-05-04T00:00:00+00:00">
-    <meta itemprop="keywords" content="fr,french,camembert,embeddings,large,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>May 06, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-05-06T00:00:00+00:00"></div><header class="main-docs"><h1>DeBERTa Token Classification Base - NER OntoNotes (deberta_v3_base_token_classifier_ontonotes)</h1></header></div><meta itemprop="headline" content="DeBERTa Token Classification Base - NER OntoNotes (deberta_v3_base_token_classifier_ontonotes)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>open_source</li><li>deberta</li><li>v3</li><li>token_classification</li><li>en</li><li>english</li><li>ontonotes</li><li>ner</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-05-06T00:00:00+00:00">
+    <meta itemprop="keywords" content="open_source,deberta,v3,token_classification,en,english,ontonotes,ner"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p><a href="https://arxiv.org/abs/1911.03894">CamemBERT</a> is a state-of-the-art language model for French based on the RoBERTa model.
-For further information or requests, please go to <a href="https://camembert-model.fr/">Camembert Website</a></p>
+<p>DeBertaForTokenClassification can load DeBERTA Models v2 and v3 with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks.</p>
 
-<h2 id="predicted-entities">Predicted Entities</h2>
+<p>deberta_v3_base_token_classifier_ontonotes is a fine-tuned DeBERTa model that is ready to be used for Token Classification task such as Named Entity Recognition and it achieves state-of-the-art performance.</p>
+
+<p>We used TFDebertaV2ForTokenClassification to train this model and used DeBertaForTokenClassification annotator in Spark NLP 🚀 for prediction at scale!  This model has been trained to recognize four types of entities: 
+CARDINAL, DATE, EVENT, FAC, GPE, LANGUAGE, LAW, LOC, MONEY, NORP, ORDINAL, ORG, PERCENT, PERSON, PRODUCT, QUANTITY, TIME, and WORK_OF_ART.</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/camembert_large_fr_3.4.4_3.0_1651673112923.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/deberta_v3_base_token_classifier_ontonotes_en_3.4.4_3.0_1651826367819.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -425,13 +427,61 @@ For further information or requests, please go to <a href="https://camembert-mod
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">embeddings</span> <span class="o">=</span> <span class="n">CamemBertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"camembert_large"</span><span class="p">,</span> <span class="s">"fr"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                
+<span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\ 
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\ 
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\ 
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span>\ 
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span> 
+
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">DeBertaForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"deberta_v3_base_token_classifier_ontonotes"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\ 
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\ 
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\ 
+    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>\ 
+    <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span> 
+
+<span class="c1"># since output column is IOB/IOB2 style, NerConverter can extract entities
+</span><span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\ 
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'ner'</span><span class="p">])</span>\ 
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'entities'</span><span class="p">)</span> 
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">document_assembler</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">tokenClassifier</span><span class="p">,</span>
+    <span class="n">ner_converter</span>
+<span class="p">])</span>
+
+<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'I really liked that movie!'</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">CamemBertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"camembert_large"</span><span class="o">,</span> <span class="s">"fr"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">DeBertaForTokenClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"deberta_v3_base_token_classifier_ontonotes"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">512</span><span class="o">)</span>
+
+<span class="c1">// since output column is IOB/IOB2 style, NerConverter can extract entities</span>
+<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="nc">NerConverter</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"entities"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">tokenClassifier</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">example</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I really liked that movie!"</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">example</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">example</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
@@ -441,7 +491,7 @@ For further information or requests, please go to <a href="https://camembert-mod
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>camembert_large</td>
+      <td>deberta_v3_base_token_classifier_ontonotes</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
@@ -457,43 +507,35 @@ For further information or requests, please go to <a href="https://camembert-mod
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[token, sentence]</td>
+      <td>[token, document]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[embeddings]</td>
+      <td>[ner]</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>fr</td>
+      <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>805.6 MB</td>
+      <td>623.1 MB</td>
     </tr>
     <tr>
       <td>Case sensitive:</td>
       <td>true</td>
+    </tr>
+    <tr>
+      <td>Max sentence length:</td>
+      <td>512</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p><a href="https://huggingface.co/camembert/camembert-large">https://huggingface.co/camembert/camembert-large</a></p>
-
-<h2 id="benchmarking">Benchmarking</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| Model                          | <span class="c">#params                        | Arch. | Training data                     |</span>
-|--------------------------------|--------------------------------|-------|-----------------------------------|
-| <span class="sb">`</span>camembert-base<span class="sb">`</span> | 110M   | Base  | OSCAR <span class="o">(</span>138 GB of text<span class="o">)</span>            |
-| <span class="sb">`</span>camembert/camembert-large<span class="sb">`</span>              | 335M    | Large | CCNet <span class="o">(</span>135 GB of text<span class="o">)</span>            |
-| <span class="sb">`</span>camembert/camembert-base-ccnet<span class="sb">`</span>         | 110M    | Base  | CCNet <span class="o">(</span>135 GB of text<span class="o">)</span>            |
-| <span class="sb">`</span>camembert/camembert-base-wikipedia-4gb<span class="sb">`</span> | 110M    | Base  | Wikipedia <span class="o">(</span>4 GB of text<span class="o">)</span>          |
-| <span class="sb">`</span>camembert/camembert-base-oscar-4gb<span class="sb">`</span>     | 110M    | Base  | Subsample of OSCAR <span class="o">(</span>4 GB of text<span class="o">)</span> |
-| <span class="sb">`</span>camembert/camembert-base-ccnet-4gb<span class="sb">`</span>     | 110M    | Base  | Subsample of CCNet <span class="o">(</span>4 GB of text<span class="o">)</span> |
-</code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-05-04T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p><a href="https://huggingface.co/datasets/conll2003">https://huggingface.co/datasets/conll2003</a></p>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-05-06T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -618,7 +660,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/05/04/camembert_base_wikipedia_4gb_fr_3_0.html">CamemBERT Base Wikipedia</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/05/06/deberta_v3_base_token_classifier_conll03_en_3_0.html">DeBERTa Token Classification Base - NER CoNLL (deberta_v3_base_token_classifier_conll03)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/05/06/deberta_v3_base_token_classifier_conll03_en_3_0.html">DeBERTa Token Classification Base - NER CoNLL (deberta_v3_base_token_classifier_conll03)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/05/06/deberta_v3_large_token_classifier_conll03_en_3_0.html">DeBERTa Token Classification Large - NER CoNLL (deberta_v3_large_token_classifier_conll03)</a></div></div></div>
 
 </div>
 </div>
