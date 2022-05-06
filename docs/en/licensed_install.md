@@ -312,13 +312,12 @@ from google.colab import files
 license_keys = files.upload()
 
 with open(list(license_keys.keys())[0]) as f:
-license_keys = json.load(f)
+  license_keys = json.load(f)
 
 # Defining license key-value pairs as local variables
 locals().update(license_keys)
 
-# Adding license key-value pairs to environment
-variables
+# Adding license key-value pairs to environment variables
 os.environ.update(license_keys)
 ```
 
