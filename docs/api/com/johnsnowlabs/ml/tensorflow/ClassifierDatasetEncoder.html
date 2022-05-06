@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -239,12 +239,20 @@
                         <a href="TensorflowBertClassification.html" title="">TensorflowBertClassification</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
+                        <a class="class" href="TensorflowCamemBert.html" title="The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot."></a>
+                        <a href="TensorflowCamemBert.html" title="The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot.">TensorflowCamemBert</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
                         <a class="class" href="TensorflowClassifier.html" title=""></a>
                         <a href="TensorflowClassifier.html" title="">TensorflowClassifier</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="class" href="TensorflowDeBerta.html" title=""></a>
                         <a href="TensorflowDeBerta.html" title="">TensorflowDeBerta</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="TensorflowDeBertaClassification.html" title=""></a>
+                        <a href="TensorflowDeBertaClassification.html" title="">TensorflowDeBertaClassification</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="class" href="TensorflowDistilBert.html" title="The DistilBERT model was proposed in the paper DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter https://arxiv.org/abs/1910.01108."></a>
@@ -562,7 +570,9 @@
       
       <p class="shortcomment cmt">Converts DataFrame to Array of Arrays of Labels (string)
 </p><div class="fullcomment"><div class="comment cmt"><p>Converts DataFrame to Array of Arrays of Labels (string)
-</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>Input DataFrame with embeddings and labels</p></dd><dt>returns</dt><dd class="cmt"><p>Array of Array of Map(String, Array(Float))</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>
+  Input DataFrame with embeddings and labels</p></dd><dt>returns</dt><dd class="cmt"><p>
+  Array of Array of Map(String, Array(Float))</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder#collectTrainingInstancesMultiLabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="collectTrainingInstancesMultiLabel(dataset:org.apache.spark.sql.DataFrame,labelCol:String):Array[Array[(Array[String],Array[Float])]]"></a><a id="collectTrainingInstancesMultiLabel(DataFrame,String):Array[Array[(Array[String],Array[Float])]]"></a>
       <span class="permalink">
@@ -580,7 +590,9 @@
       
       <p class="shortcomment cmt">Converts DataFrame to labels and embeddings
 </p><div class="fullcomment"><div class="comment cmt"><p>Converts DataFrame to labels and embeddings
-</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>Input DataFrame with embeddings and labels</p></dd><dt>returns</dt><dd class="cmt"><p>Array of Array of Map(Array(String), Array(Float))</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>
+  Input DataFrame with embeddings and labels</p></dd><dt>returns</dt><dd class="cmt"><p>
+  Array of Array of Map(Array(String), Array(Float))</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder#decodeOutputData" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="decodeOutputData(tagIds:Array[Array[Float]]):Array[Array[(String,Float)]]"></a><a id="decodeOutputData(Array[Array[Float]]):Array[Array[(String,Float)]]"></a>
       <span class="permalink">
@@ -598,7 +610,9 @@
       
       <p class="shortcomment cmt">Converts Tag Identifiers to Tag Names
 </p><div class="fullcomment"><div class="comment cmt"><p>Converts Tag Identifiers to Tag Names
-</p></div><dl class="paramcmts block"><dt class="param">tagIds</dt><dd class="cmt"><p>Tag Ids encoded for Tensorflow Model.</p></dd><dt>returns</dt><dd class="cmt"><p>Tag names</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">tagIds</dt><dd class="cmt"><p>
+  Tag Ids encoded for Tensorflow Model.</p></dd><dt>returns</dt><dd class="cmt"><p>
+  Tag names</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder#encodeTags" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="encodeTags(labels:Array[String]):Array[Array[Int]]"></a><a id="encodeTags(Array[String]):Array[Array[Int]]"></a>
       <span class="permalink">
@@ -680,7 +694,9 @@
       
       <p class="shortcomment cmt">Converts DataFrame to Array of Arrays of Labels (string)
 </p><div class="fullcomment"><div class="comment cmt"><p>Converts DataFrame to Array of Arrays of Labels (string)
-</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>Input DataFrame with labels</p></dd><dt>returns</dt><dd class="cmt"><p>Array of Array of String</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>
+  Input DataFrame with labels</p></dd><dt>returns</dt><dd class="cmt"><p>
+  Array of Array of String</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder#extractLabelsMultiLabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="extractLabelsMultiLabel(dataset:Array[Array[(Array[String],Array[Float])]]):Array[Array[String]]"></a><a id="extractLabelsMultiLabel(Array[Array[(Array[String],Array[Float])]]):Array[Array[String]]"></a>
       <span class="permalink">
@@ -698,7 +714,9 @@
       
       <p class="shortcomment cmt">Converts DataFrame to Array of Arrays of Labels (string)
 </p><div class="fullcomment"><div class="comment cmt"><p>Converts DataFrame to Array of Arrays of Labels (string)
-</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>Input DataFrame with labels</p></dd><dt>returns</dt><dd class="cmt"><p>Array of Array of String</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>
+  Input DataFrame with labels</p></dd><dt>returns</dt><dd class="cmt"><p>
+  Array of Array of String</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder#extractSentenceEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="extractSentenceEmbeddings(docs:Seq[(Int,Seq[com.johnsnowlabs.nlp.Annotation])]):Array[Array[Float]]"></a><a id="extractSentenceEmbeddings(Seq[(Int,Seq[Annotation])]):Array[Array[Float]]"></a>
       <span class="permalink">
@@ -716,7 +734,9 @@
       
       <p class="shortcomment cmt">Converts DataFrame to Array of Arrays of Embeddings
 </p><div class="fullcomment"><div class="comment cmt"><p>Converts DataFrame to Array of Arrays of Embeddings
-</p></div><dl class="paramcmts block"><dt class="param">docs</dt><dd class="cmt"><p>Input DataFrame with sentence_embeddings</p></dd><dt>returns</dt><dd class="cmt"><p>Array of Array of Float</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">docs</dt><dd class="cmt"><p>
+  Input DataFrame with sentence_embeddings</p></dd><dt>returns</dt><dd class="cmt"><p>
+  Array of Array of Float</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder#extractSentenceEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="extractSentenceEmbeddings(dataset:Array[Array[(String,Array[Float])]]):Array[Array[Float]]"></a><a id="extractSentenceEmbeddings(Array[Array[(String,Array[Float])]]):Array[Array[Float]]"></a>
       <span class="permalink">
@@ -734,7 +754,9 @@
       
       <p class="shortcomment cmt">Converts DataFrame to Array of Arrays of Embeddings
 </p><div class="fullcomment"><div class="comment cmt"><p>Converts DataFrame to Array of Arrays of Embeddings
-</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>Input DataFrame with sentence_embeddings</p></dd><dt>returns</dt><dd class="cmt"><p>Array of Array of Float</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>
+  Input DataFrame with sentence_embeddings</p></dd><dt>returns</dt><dd class="cmt"><p>
+  Array of Array of Float</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder#extractSentenceEmbeddingsMultiLabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="extractSentenceEmbeddingsMultiLabel(docs:Seq[(Int,Seq[com.johnsnowlabs.nlp.Annotation])]):Array[Array[Array[Float]]]"></a><a id="extractSentenceEmbeddingsMultiLabel(Seq[(Int,Seq[Annotation])]):Array[Array[Array[Float]]]"></a>
       <span class="permalink">
@@ -750,13 +772,15 @@
         <span class="name">extractSentenceEmbeddingsMultiLabel</span><span class="params">(<span name="docs">docs: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>])]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]]</span>
       </span>
       
-      <p class="shortcomment cmt">Converts DataFrame to Array of arrays of arrays of arrays of Embeddings
-The difference in this function is to create a sequence in case of multiple sentences in a document
-Used in MultiClassifierDL
-</p><div class="fullcomment"><div class="comment cmt"><p>Converts DataFrame to Array of arrays of arrays of arrays of Embeddings
-The difference in this function is to create a sequence in case of multiple sentences in a document
-Used in MultiClassifierDL
-</p></div><dl class="paramcmts block"><dt class="param">docs</dt><dd class="cmt"><p>Input DataFrame with sentence_embeddings</p></dd><dt>returns</dt><dd class="cmt"><p>Array of Arrays of Arrays of Floats</p></dd></dl></div>
+      <p class="shortcomment cmt">Converts DataFrame to Array of arrays of arrays of arrays of Embeddings The difference in
+this function is to create a sequence in case of multiple sentences in a document Used in
+MultiClassifierDL
+</p><div class="fullcomment"><div class="comment cmt"><p>Converts DataFrame to Array of arrays of arrays of arrays of Embeddings The difference in
+this function is to create a sequence in case of multiple sentences in a document Used in
+MultiClassifierDL
+</p></div><dl class="paramcmts block"><dt class="param">docs</dt><dd class="cmt"><p>
+  Input DataFrame with sentence_embeddings</p></dd><dt>returns</dt><dd class="cmt"><p>
+  Array of Arrays of Arrays of Floats</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder#extractSentenceEmbeddingsMultiLabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="extractSentenceEmbeddingsMultiLabel(dataset:Array[Array[(Array[String],Array[Float])]]):Array[Array[Array[Float]]]"></a><a id="extractSentenceEmbeddingsMultiLabel(Array[Array[(Array[String],Array[Float])]]):Array[Array[Array[Float]]]"></a>
       <span class="permalink">
@@ -772,13 +796,15 @@ Used in MultiClassifierDL
         <span class="name">extractSentenceEmbeddingsMultiLabel</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[(<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>], <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>])]]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]]</span>
       </span>
       
-      <p class="shortcomment cmt">Converts DataFrame to Array of arrays of arrays of arrays of Embeddings
-The difference in this function is to create a sequence in case of multiple sentences in a document
-Used in MultiClassifierDL
-</p><div class="fullcomment"><div class="comment cmt"><p>Converts DataFrame to Array of arrays of arrays of arrays of Embeddings
-The difference in this function is to create a sequence in case of multiple sentences in a document
-Used in MultiClassifierDL
-</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>Input DataFrame with sentence_embeddings</p></dd><dt>returns</dt><dd class="cmt"><p>Array of Arrays of Arrays of Floats</p></dd></dl></div>
+      <p class="shortcomment cmt">Converts DataFrame to Array of arrays of arrays of arrays of Embeddings The difference in
+this function is to create a sequence in case of multiple sentences in a document Used in
+MultiClassifierDL
+</p><div class="fullcomment"><div class="comment cmt"><p>Converts DataFrame to Array of arrays of arrays of arrays of Embeddings The difference in
+this function is to create a sequence in case of multiple sentences in a document Used in
+MultiClassifierDL
+</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>
+  Input DataFrame with sentence_embeddings</p></dd><dt>returns</dt><dd class="cmt"><p>
+  Array of Arrays of Arrays of Floats</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder#extractSentenceEmbeddingsMultiLabelPredict" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="extractSentenceEmbeddingsMultiLabelPredict(docs:Seq[(Int,Seq[com.johnsnowlabs.nlp.Annotation])]):Array[Array[Array[Float]]]"></a><a id="extractSentenceEmbeddingsMultiLabelPredict(Seq[(Int,Seq[Annotation])]):Array[Array[Array[Float]]]"></a>
       <span class="permalink">

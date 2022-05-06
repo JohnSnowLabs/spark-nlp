@@ -6,29 +6,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>sparknlp.annotator.NerDLApproach &#8212; Spark NLP 3.4.2 documentation</title>
+    <title>sparknlp.annotator.NerDLApproach &#8212; Spark NLP 3.4.4 documentation</title>
     
-    <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
+
     
-    <link rel="stylesheet"
-      href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+  <link rel="stylesheet"
+    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
     
-    <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
     <script src="../../static/underscore.js"></script>
@@ -46,7 +43,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -186,6 +183,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.CamemBertEmbeddings.html">
+     sparknlp.annotator.CamemBertEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.ChunkEmbeddings.html">
      sparknlp.annotator.ChunkEmbeddings
     </a>
@@ -238,6 +240,16 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.DeBertaEmbeddings.html">
      sparknlp.annotator.DeBertaEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DeBertaForSequenceClassification.html">
+     sparknlp.annotator.DeBertaForSequenceClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DeBertaForTokenClassification.html">
+     sparknlp.annotator.DeBertaForTokenClassification
     </a>
    </li>
    <li class="toctree-l2">
@@ -882,10 +894,10 @@
               <div>
                 
   <section id="sparknlp-annotator-nerdlapproach">
-<h1>sparknlp.annotator.NerDLApproach<a class="headerlink" href="#sparknlp-annotator-nerdlapproach" title="Permalink to this headline">¶</a></h1>
+<h1>sparknlp.annotator.NerDLApproach<a class="headerlink" href="#sparknlp-annotator-nerdlapproach" title="Permalink to this headline">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">NerDLApproach</span></span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">NerDLApproach</span></span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorApproach</span></code>, <a class="reference internal" href="sparknlp.annotator.NerApproach.html#sparknlp.annotator.NerApproach" title="sparknlp.annotator.NerApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.annotator.NerApproach</span></code></a></p>
 <p>This Named Entity recognition annotator allows to train generic NER model
 based on Neural Networks.</p>
@@ -978,44 +990,6 @@ at the end of the training.</p>
 </dd>
 <dt><strong>bestModelMetric</strong></dt><dd><p>Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model</p>
 </dd>
-<dt><strong>Examples</strong></dt><dd></dd>
-<dt><strong>——–</strong></dt><dd></dd>
-<dt><strong>&gt;&gt;&gt; import sparknlp</strong></dt><dd></dd>
-<dt><strong>&gt;&gt;&gt; from sparknlp.base import *</strong></dt><dd></dd>
-<dt><strong>&gt;&gt;&gt; from sparknlp.annotator import *</strong></dt><dd></dd>
-<dt><strong>&gt;&gt;&gt; from sparknlp.training import *</strong></dt><dd></dd>
-<dt><strong>&gt;&gt;&gt; from pyspark.ml import Pipeline</strong></dt><dd></dd>
-<dt><strong>This CoNLL dataset already includes a sentence, token and label</strong></dt><dd></dd>
-<dt><strong>column with their respective annotator types. If a custom dataset is used,</strong></dt><dd></dd>
-<dt><strong>these need to be defined with for example:</strong></dt><dd></dd>
-<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>&gt;&gt;&gt; documentAssembler = DocumentAssembler() **</dt><dd></dd>
-<dt><a href="#id3"><span class="problematic" id="id4">**</span></a>…     .setInputCol(“text”) **</dt><dd></dd>
-<dt><strong>…     .setOutputCol(“document”)</strong></dt><dd></dd>
-<dt><a href="#id5"><span class="problematic" id="id6">**</span></a>&gt;&gt;&gt; sentence = SentenceDetector() **</dt><dd></dd>
-<dt><a href="#id7"><span class="problematic" id="id8">**</span></a>…     .setInputCols([“document”]) **</dt><dd></dd>
-<dt><strong>…     .setOutputCol(“sentence”)</strong></dt><dd></dd>
-<dt><a href="#id9"><span class="problematic" id="id10">**</span></a>&gt;&gt;&gt; tokenizer = Tokenizer() **</dt><dd></dd>
-<dt><a href="#id11"><span class="problematic" id="id12">**</span></a>…     .setInputCols([“sentence”]) **</dt><dd></dd>
-<dt><strong>…     .setOutputCol(“token”)</strong></dt><dd></dd>
-<dt><strong>Then the training can start</strong></dt><dd></dd>
-<dt><a href="#id13"><span class="problematic" id="id14">**</span></a>&gt;&gt;&gt; embeddings = BertEmbeddings.pretrained() **</dt><dd></dd>
-<dt><a href="#id15"><span class="problematic" id="id16">**</span></a>…     .setInputCols([“sentence”, “token”]) **</dt><dd></dd>
-<dt><strong>…     .setOutputCol(“embeddings”)</strong></dt><dd></dd>
-<dt><a href="#id17"><span class="problematic" id="id18">**</span></a>&gt;&gt;&gt; nerTagger = NerDLApproach() **</dt><dd></dd>
-<dt><a href="#id19"><span class="problematic" id="id20">**</span></a>…     .setInputCols([“sentence”, “token”, “embeddings”]) **</dt><dd></dd>
-<dt><a href="#id21"><span class="problematic" id="id22">**</span></a>…     .setLabelColumn(“label”) **</dt><dd></dd>
-<dt><a href="#id23"><span class="problematic" id="id24">**</span></a>…     .setOutputCol(“ner”) **</dt><dd></dd>
-<dt><a href="#id25"><span class="problematic" id="id26">**</span></a>…     .setMaxEpochs(1) **</dt><dd></dd>
-<dt><a href="#id27"><span class="problematic" id="id28">**</span></a>…     .setRandomSeed(0) **</dt><dd></dd>
-<dt><strong>…     .setVerbose(0)</strong></dt><dd></dd>
-<dt><strong>&gt;&gt;&gt; pipeline = Pipeline().setStages([</strong></dt><dd></dd>
-<dt><strong>…     embeddings,</strong></dt><dd></dd>
-<dt><strong>…     nerTagger</strong></dt><dd></dd>
-<dt><strong>… ])</strong></dt><dd></dd>
-<dt><strong>We use the sentences, tokens, and labels from the CoNLL dataset.</strong></dt><dd></dd>
-<dt><strong>&gt;&gt;&gt; conll = CoNLL()</strong></dt><dd></dd>
-<dt><strong>&gt;&gt;&gt; trainingData = conll.readDataset(spark, “src/test/resources/conll2003/eng.train”)</strong></dt><dd></dd>
-<dt><strong>&gt;&gt;&gt; pipelineModel = pipeline.fit(trainingData)</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -1028,8 +1002,53 @@ at the end of the training.</p>
 </dd>
 </dl>
 </div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+</pre></div>
+</div>
+<p>This CoNLL dataset already includes a sentence, token and label
+column with their respective annotator types. If a custom dataset is used,
+these need to be defined with for example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then the training can start</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nerTagger</span> <span class="o">=</span> <span class="n">NerDLApproach</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;embeddings&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setMaxEpochs</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setRandomSeed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setVerbose</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="n">embeddings</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">nerTagger</span>
+<span class="gp">... </span><span class="p">])</span>
+</pre></div>
+</div>
+<p>We use the sentences, tokens, and labels from the CoNLL dataset.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">conll</span> <span class="o">=</span> <span class="n">CoNLL</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trainingData</span> <span class="o">=</span> <span class="n">conll</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s2">&quot;src/test/resources/conll2003/eng.train&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
+</pre></div>
+</div>
 <p class="rubric">Methods</p>
-<table class="longtable table autosummary">
+<table class="autosummary longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -1191,7 +1210,7 @@ at the end of the training.</p>
 </tbody>
 </table>
 <p class="rubric">Attributes</p>
-<table class="longtable table autosummary">
+<table class="autosummary longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -1285,13 +1304,13 @@ at the end of the training.</p>
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.clear">
-<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.clear" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.clear" title="Permalink to this definition">#</a></dt>
 <dd><p>Clears a param from the param map if it has been explicitly set.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.copy">
-<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.copy" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.copy" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a copy of this instance with the same uid and some
 extra params. This implementation first calls Params.copy and
 then make a copy of the companion Java pipeline component with
@@ -1309,21 +1328,21 @@ component get copied.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.explainParam">
-<span class="sig-name descname"><span class="pre">explainParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.explainParam" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">explainParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.explainParam" title="Permalink to this definition">#</a></dt>
 <dd><p>Explains a single param and returns its name, doc, and optional
 default value and user-supplied value in a string.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.explainParams">
-<span class="sig-name descname"><span class="pre">explainParams</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.explainParams" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">explainParams</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.explainParams" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the documentation of all params with their optionally
 default values and user-supplied values.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.extractParamMap">
-<span class="sig-name descname"><span class="pre">extractParamMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.extractParamMap" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">extractParamMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.extractParamMap" title="Permalink to this definition">#</a></dt>
 <dd><p>Extracts the embedded default param values and user-supplied
 values, and then merges them with extra values from input into
 a flat param map, where the latter value is used if there exist
@@ -1341,7 +1360,7 @@ user-supplied values &lt; extra.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.fit" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.fit" title="Permalink to this definition">#</a></dt>
 <dd><p>Fits a model to the input dataset with optional parameters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1363,7 +1382,7 @@ models.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.fitMultiple">
-<span class="sig-name descname"><span class="pre">fitMultiple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paramMaps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.fitMultiple" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fitMultiple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paramMaps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.fitMultiple" title="Permalink to this definition">#</a></dt>
 <dd><p>Fits a model to the input dataset for each param map in <cite>paramMaps</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1385,13 +1404,13 @@ using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequen
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.getInputCols">
-<span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.getInputCols" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.getInputCols" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.getLabelColumn">
-<span class="sig-name descname"><span class="pre">getLabelColumn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.getLabelColumn" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getLabelColumn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.getLabelColumn" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets column for label per each token.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -1405,33 +1424,33 @@ using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequen
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.getLazyAnnotator">
-<span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.getLazyAnnotator" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets whether Annotator should be evaluated lazily in a
 RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.getOrDefault">
-<span class="sig-name descname"><span class="pre">getOrDefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.getOrDefault" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getOrDefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.getOrDefault" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets the value of a param in the user-supplied param map or its
 default value. Raises an error if neither is set.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.getOutputCol">
-<span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.getOutputCol" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.getOutputCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.getParam">
-<span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.getParam" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.getParam" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets a param by its name.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.getParamValue">
-<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.getParamValue" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.getParamValue" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets the value of a parameter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1445,39 +1464,39 @@ default value. Raises an error if neither is set.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.hasDefault">
-<span class="sig-name descname"><span class="pre">hasDefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.hasDefault" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">hasDefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.hasDefault" title="Permalink to this definition">#</a></dt>
 <dd><p>Checks whether a param has a default value.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.hasParam">
-<span class="sig-name descname"><span class="pre">hasParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.hasParam" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">hasParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.hasParam" title="Permalink to this definition">#</a></dt>
 <dd><p>Tests whether this instance contains a param with a given
 (string) name.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.isDefined">
-<span class="sig-name descname"><span class="pre">isDefined</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.isDefined" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">isDefined</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.isDefined" title="Permalink to this definition">#</a></dt>
 <dd><p>Checks whether a param is explicitly set by user or has
 a default value.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.isSet">
-<span class="sig-name descname"><span class="pre">isSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.isSet" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">isSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.isSet" title="Permalink to this definition">#</a></dt>
 <dd><p>Checks whether a param is explicitly set by user.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.load">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.load" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.load" title="Permalink to this definition">#</a></dt>
 <dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.params">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.params" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.params" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns all params ordered by name. The default implementation
 uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
 <code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
@@ -1485,25 +1504,25 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.read">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.read" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.read" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns an MLReader instance for this class.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.save" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.save" title="Permalink to this definition">#</a></dt>
 <dd><p>Save this ML instance to the given path, a shortcut of ‘write().save(path)’.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.set">
-<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.set" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets a parameter in the embedded param map.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setBatchSize">
-<span class="sig-name descname"><span class="pre">setBatchSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setBatchSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setBatchSize" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setBatchSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setBatchSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setBatchSize" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets batch size, by default 64.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1517,7 +1536,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setBestModelMetric">
-<span class="sig-name descname"><span class="pre">setBestModelMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setBestModelMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setBestModelMetric" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setBestModelMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setBestModelMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setBestModelMetric" title="Permalink to this definition">#</a></dt>
 <dd><p>Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model when setUseBestModel is True</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1531,7 +1550,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setConfigProtoBytes">
-<span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setConfigProtoBytes" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setConfigProtoBytes" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets configProto from tensorflow, serialized into byte array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1545,7 +1564,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setDropout">
-<span class="sig-name descname"><span class="pre">setDropout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setDropout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setDropout" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setDropout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setDropout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setDropout" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets dropout coefficient, by default 0.5.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1559,7 +1578,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setEnableMemoryOptimizer">
-<span class="sig-name descname"><span class="pre">setEnableMemoryOptimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setEnableMemoryOptimizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setEnableMemoryOptimizer" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setEnableMemoryOptimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setEnableMemoryOptimizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setEnableMemoryOptimizer" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets Whether to optimize for large datasets or not, by default False.
 Enabling this option can slow down training.</p>
 <dl class="field-list simple">
@@ -1574,7 +1593,7 @@ Enabling this option can slow down training.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setEnableOutputLogs">
-<span class="sig-name descname"><span class="pre">setEnableOutputLogs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setEnableOutputLogs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setEnableOutputLogs" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setEnableOutputLogs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setEnableOutputLogs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setEnableOutputLogs" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether to use stdout in addition to Spark logs, by default
 False.</p>
 <dl class="field-list simple">
@@ -1589,7 +1608,7 @@ False.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setEntities">
-<span class="sig-name descname"><span class="pre">setEntities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setEntities" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setEntities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setEntities" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets entities to recognize.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1603,7 +1622,7 @@ False.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setEvaluationLogExtended">
-<span class="sig-name descname"><span class="pre">setEvaluationLogExtended</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setEvaluationLogExtended"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setEvaluationLogExtended" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setEvaluationLogExtended</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setEvaluationLogExtended"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setEvaluationLogExtended" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether logs for validation to be extended, by default False.
 Displays time and evaluation of each label.</p>
 <dl class="field-list simple">
@@ -1618,7 +1637,7 @@ Displays time and evaluation of each label.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setGraphFolder">
-<span class="sig-name descname"><span class="pre">setGraphFolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setGraphFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setGraphFolder" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setGraphFolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setGraphFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setGraphFolder" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets folder path that contain external graph files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1632,7 +1651,7 @@ Displays time and evaluation of each label.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setIncludeAllConfidenceScores">
-<span class="sig-name descname"><span class="pre">setIncludeAllConfidenceScores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setIncludeAllConfidenceScores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setIncludeAllConfidenceScores" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setIncludeAllConfidenceScores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setIncludeAllConfidenceScores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setIncludeAllConfidenceScores" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether to include all confidence scores in annotation metadata
 or just the score of the predicted tag, by default False.</p>
 <dl class="field-list simple">
@@ -1648,7 +1667,7 @@ just the score of the predicted tag</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setIncludeConfidence">
-<span class="sig-name descname"><span class="pre">setIncludeConfidence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setIncludeConfidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setIncludeConfidence" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setIncludeConfidence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setIncludeConfidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setIncludeConfidence" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether to include confidence scores in annotation metadata, by
 default False.</p>
 <dl class="field-list simple">
@@ -1663,7 +1682,7 @@ default False.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setInputCols">
-<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setInputCols" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setInputCols" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets column names of input annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1677,7 +1696,7 @@ default False.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setLabelColumn">
-<span class="sig-name descname"><span class="pre">setLabelColumn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setLabelColumn" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setLabelColumn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setLabelColumn" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets name of column for data labels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1691,7 +1710,7 @@ default False.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setLazyAnnotator">
-<span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setLazyAnnotator" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether Annotator should be evaluated lazily in a
 RecursivePipeline.</p>
 <dl class="field-list simple">
@@ -1707,7 +1726,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setLr">
-<span class="sig-name descname"><span class="pre">setLr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setLr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setLr" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setLr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setLr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setLr" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets Learning Rate, by default 0.001.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1721,7 +1740,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setMaxEpochs">
-<span class="sig-name descname"><span class="pre">setMaxEpochs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epochs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setMaxEpochs" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setMaxEpochs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epochs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setMaxEpochs" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets maximum number of epochs to train.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1735,7 +1754,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setMinEpochs">
-<span class="sig-name descname"><span class="pre">setMinEpochs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epochs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setMinEpochs" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setMinEpochs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epochs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setMinEpochs" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets minimum number of epochs to train.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1749,7 +1768,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setOutputCol">
-<span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setOutputCol" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setOutputCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1763,7 +1782,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setOutputLogsPath">
-<span class="sig-name descname"><span class="pre">setOutputLogsPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setOutputLogsPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setOutputLogsPath" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setOutputLogsPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setOutputLogsPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setOutputLogsPath" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets folder path to save training logs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1777,7 +1796,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setParamValue">
-<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setParamValue" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setParamValue" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets the value of a parameter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1791,7 +1810,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setPo">
-<span class="sig-name descname"><span class="pre">setPo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setPo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setPo" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setPo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setPo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setPo" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets Learning rate decay coefficient, by default 0.005.</p>
 <p>Real Learning Rage is lr / (1 + po * epoch).</p>
 <dl class="field-list simple">
@@ -1806,7 +1825,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setRandomSeed">
-<span class="sig-name descname"><span class="pre">setRandomSeed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setRandomSeed" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setRandomSeed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setRandomSeed" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets random seed for shuffling.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1820,7 +1839,7 @@ RecursivePipeline</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setTestDataset">
-<span class="sig-name descname"><span class="pre">setTestDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'SPARK'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'format':</span> <span class="pre">'parquet'}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setTestDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setTestDataset" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setTestDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'SPARK'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'format':</span> <span class="pre">'parquet'}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setTestDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setTestDataset" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets Path to test dataset. If set used to calculate statistic on it
 during training.</p>
 <dl class="field-list simple">
@@ -1839,7 +1858,7 @@ during training.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setUseBestModel">
-<span class="sig-name descname"><span class="pre">setUseBestModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setUseBestModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setUseBestModel" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setUseBestModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setUseBestModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setUseBestModel" title="Permalink to this definition">#</a></dt>
 <dd><p>Whether to restore and use the model that has achieved the best performance at the end of the training.
 The metric that is being monitored is F1 for testDataset and if it’s not set it will be validationSplit, and if it’s not set finally looks for loss.</p>
 <dl class="field-list simple">
@@ -1854,7 +1873,7 @@ The metric that is being monitored is F1 for testDataset and if it’s not set i
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setUseContrib">
-<span class="sig-name descname"><span class="pre">setUseContrib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setUseContrib"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setUseContrib" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setUseContrib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setUseContrib"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setUseContrib" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether to use contrib LSTM Cells. Not compatible with Windows.
 Might slightly improve accuracy.</p>
 <dl class="field-list simple">
@@ -1875,7 +1894,7 @@ Might slightly improve accuracy.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setValidationSplit">
-<span class="sig-name descname"><span class="pre">setValidationSplit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setValidationSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setValidationSplit" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setValidationSplit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setValidationSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setValidationSplit" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets the proportion of training dataset to be validated against the
 model on each Epoch, by default it is 0.0 and off. The value should be
 between 0.0 and 1.0.</p>
@@ -1891,7 +1910,7 @@ between 0.0 and 1.0.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setVerbose">
-<span class="sig-name descname"><span class="pre">setVerbose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verboseValue</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setVerbose" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setVerbose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verboseValue</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setVerbose" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets level of verbosity during training.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1905,13 +1924,13 @@ between 0.0 and 1.0.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.uid">
-<span class="sig-name descname"><span class="pre">uid</span></span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.uid" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">uid</span></span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.uid" title="Permalink to this definition">#</a></dt>
 <dd><p>A unique id for the object.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.write">
-<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.write" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.write" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns an MLWriter instance for this ML instance.</p>
 </dd></dl>
 
@@ -1947,8 +1966,9 @@ between 0.0 and 1.0.</p>
       </div>
     </div>
   
-    <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -1959,7 +1979,7 @@ between 0.0 and 1.0.</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
 </p>
     </div>
     

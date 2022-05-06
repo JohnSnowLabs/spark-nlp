@@ -32,14 +32,19 @@ object Benchmark {
     result
   }
 
-  def measure(iterations: Integer = 3, forcePrint: Boolean = false, description: String = "Took")(f: => Any): Double = {
-    val time = (0 until iterations).map { _ =>
-      val t0 = System.nanoTime()
-      f
-      System.nanoTime() - t0
-    }.sum.toDouble / iterations
+  def measure(iterations: Integer = 3, forcePrint: Boolean = false, description: String = "Took")(
+      f: => Any): Double = {
+    val time = (0 until iterations)
+      .map { _ =>
+        val t0 = System.nanoTime()
+        f
+        System.nanoTime() - t0
+      }
+      .sum
+      .toDouble / iterations
 
-    if (print || forcePrint) println(s"$description (Avg for $iterations iterations): ${time / 1000000000} sec")
+    if (print || forcePrint)
+      println(s"$description (Avg for $iterations iterations): ${time / 1000000000} sec")
 
     time / 1000000000
   }

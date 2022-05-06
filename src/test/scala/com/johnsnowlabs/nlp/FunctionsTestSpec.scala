@@ -31,7 +31,11 @@ class FunctionsTestSpec extends AnyFlatSpec {
 
     import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
 
-    val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "|", "tags")
+    val trainingPerceptronDF = POS().readDataset(
+      ResourceHelper.spark,
+      "src/test/resources/anc-pos-corpus-small/",
+      "|",
+      "tags")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -48,28 +52,34 @@ class FunctionsTestSpec extends AnyFlatSpec {
       .setNIterations(3)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer,
-        pos
-      ))
+      .setStages(Array(documentAssembler, tokenizer, pos))
 
     val model = pipeline.fit(trainingPerceptronDF)
     val data = model.transform(Seq("Peter is a very good and compromised person.").toDF("text"))
 
     import functions._
 
-    val mapped = data.mapAnnotationsCol("pos", "modpos","pos", (annotations: Seq[Annotation]) => {
-      annotations.filter(_.result == "JJ")
-    })
+    val mapped = data.mapAnnotationsCol(
+      "pos",
+      "modpos",
+      "pos",
+      (annotations: Seq[Annotation]) => {
+        annotations.filter(_.result == "JJ")
+      })
 
-    val modified = data.mapAnnotationsCol("pos", "modpos","pos", (_: Seq[Annotation]) => {
-      "hello world"
-    })
+    val modified = data.mapAnnotationsCol(
+      "pos",
+      "modpos",
+      "pos",
+      (_: Seq[Annotation]) => {
+        "hello world"
+      })
 
-    val filtered = data.filterByAnnotationsCol("pos", (annotations: Seq[Annotation]) => {
-      annotations.exists(_.result == "JJ")
-    })
+    val filtered = data.filterByAnnotationsCol(
+      "pos",
+      (annotations: Seq[Annotation]) => {
+        annotations.exists(_.result == "JJ")
+      })
 
     import org.apache.spark.sql.functions.col
 
@@ -88,37 +98,32 @@ class FunctionsTestSpec extends AnyFlatSpec {
     udfed2.show(1)
   }
 
-
   "A mapAnnotationsCol" should "transform document to lower case" in {
     import SparkAccessor.spark.implicits._
-    val df  = Seq(
-      ("Pablito clavo un palito"),
-      ("Un clavito chiquitillo")
-    ).toDS.toDF("text")
+    val df = Seq(("Pablito clavo un palito"), ("Un clavito chiquitillo")).toDS.toDF("text")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
-
 
     val lower = (annotations: Seq[Annotation]) => {
       annotations.map(an => an.copy(result = an.result.toLowerCase))
     }
     import functions._
 
-    val lowerDf = documentAssembler.transform(df.select("text")).mapAnnotationsCol[Seq[Annotation]](Seq("document"),"tail_document","document",lower)
-    val tail_annotation = Annotation.collect(lowerDf, "tail_document").flatten.toSeq.sortBy(_.begin)
+    val lowerDf = documentAssembler
+      .transform(df.select("text"))
+      .mapAnnotationsCol[Seq[Annotation]](Seq("document"), "tail_document", "document", lower)
+    val tail_annotation =
+      Annotation.collect(lowerDf, "tail_document").flatten.toSeq.sortBy(_.begin)
     assertEquals(tail_annotation.head.result, "pablito clavo un palito")
     assertEquals(tail_annotation.last.result, "un clavito chiquitillo")
   }
 
-
-
   "A mapAnnotationsCol" should "transform 2 documents columns to lower case" in {
     import SparkAccessor.spark.implicits._
-    val df  = Seq(
-      ("Pablito clavo un palito","Tres tristes tigres"),
-      ("Un clavito chiquitillo","Comian trigo en un trigal")
-    ).toDS.toDF("text","text2")
+    val df = Seq(
+      ("Pablito clavo un palito", "Tres tristes tigres"),
+      ("Un clavito chiquitillo", "Comian trigo en un trigal")).toDS.toDF("text", "text2")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -126,20 +131,26 @@ class FunctionsTestSpec extends AnyFlatSpec {
     val documentAssembler2 = new DocumentAssembler()
       .setInputCol("text2")
       .setOutputCol("document2")
-    val df2Documents =  documentAssembler.transform(df)
+    val df2Documents = documentAssembler.transform(df)
 
     val lower = (annotations: Seq[Annotation]) => {
       annotations.map(an => an.copy(result = an.result.toLowerCase))
     }
 
     import functions._
-    val lowerDf = documentAssembler2.transform(df2Documents).mapAnnotationsCol[Seq[Annotation]](Seq("document","document2"),"tail_document","document",lower)
-    val tail_annotation = Annotation.collect(lowerDf, "tail_document").flatten.toSeq.sortBy(_.begin)
+    val lowerDf = documentAssembler2
+      .transform(df2Documents)
+      .mapAnnotationsCol[Seq[Annotation]](
+        Seq("document", "document2"),
+        "tail_document",
+        "document",
+        lower)
+    val tail_annotation =
+      Annotation.collect(lowerDf, "tail_document").flatten.toSeq.sortBy(_.begin)
     assertEquals(tail_annotation.head.result, "pablito clavo un palito")
     assertEquals(tail_annotation(1).result, "tres tristes tigres")
     assertEquals(tail_annotation(2).result, "un clavito chiquitillo")
-    assertEquals(tail_annotation.last.result,"comian trigo en un trigal")
+    assertEquals(tail_annotation.last.result, "comian trigo en un trigal")
   }
-
 
 }

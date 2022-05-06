@@ -172,4 +172,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_UR_NEWS.ipynb
+        - title: Lemmatizer for Middle Eastern Languages
+          id: lemmatizer_middle_mastern_languages 
+          image: 
+              src: /assets/images/Lemmatizer_for_Middle_Eastern_Languages.svg
+          image2: 
+              src: /assets/images/Lemmatizer_for_Middle_Eastern_Languages_f.svg
+          excerpt: This demo shows how to lemmatize documents of Middle Eastern languages.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/LEMMATIZER_MIDDLE_EAST/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb
 ---

@@ -88,4 +88,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/Ner_masakhaner.ipynb
+        - title: Lemmatizer for African Languages
+          id: lemmatizer_african_languages   
+          image: 
+              src: /assets/images/Lemmatizer_for_African_Languages.svg
+          image2: 
+              src: /assets/images/Lemmatizer_for_African_Languages_f.svg
+          excerpt: This demo shows how to lemmatize documents of African languages.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/LEMMATIZER_AFRICAN/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb
 ---

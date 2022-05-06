@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -239,7 +239,10 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Distributed Averaged Perceptron model to tag words part-of-speech.</p><p>Sets a POS tag to each word within a sentence. Its train data (train_pos) is a spark dataset of POS format values with Annotation columns.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron/DistributedPos.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron/DistributedPos.scala</a> for further reference on how to use this APIs.
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Distributed Averaged Perceptron model to tag words part-of-speech.</p><p>Sets a POS tag to each word within a sentence. Its train data (train_pos) is a spark dataset
+of POS format values with Annotation columns.</p><p>See
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron/DistributedPos.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron/DistributedPos.scala</a>
+for further reference on how to use this APIs.
 </p></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
@@ -321,7 +324,8 @@
         <span class="name">PerceptronApproachDistributed</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>internal uid required to generate writable annotators</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>
+  internal uid required to generate writable annotators</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -478,11 +482,14 @@
         <span class="name">buildTagBook</span><span class="params">(<span name="taggedSentences">taggedSentences: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[<a href="../../common/TaggedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.TaggedSentence">TaggedSentence</a>]</span>, <span name="frequencyThreshold">frequencyThreshold: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">20</span></span>, <span name="ambiguityThreshold">ambiguityThreshold: <span class="extype" name="scala.Double">Double</span> = <span class="symbol">0.97</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Finds very frequent tags on a word in training, and marks them as non ambiguous based on tune parameters
-ToDo: Move such parameters to configuration
-</p><div class="fullcomment"><div class="comment cmt"><p>Finds very frequent tags on a word in training, and marks them as non ambiguous based on tune parameters
-ToDo: Move such parameters to configuration
-</p></div><dl class="paramcmts block"><dt class="param">taggedSentences</dt><dd class="cmt"><p>Takes entire tagged sentences to find frequent tags</p></dd><dt class="param">frequencyThreshold</dt><dd class="cmt"><p>How many times at least a tag on a word to be marked as frequent</p></dd><dt class="param">ambiguityThreshold</dt><dd class="cmt"><p>How much percentage of total amount of words are covered to be marked as frequent</p></dd></dl></div>
+      <p class="shortcomment cmt">Finds very frequent tags on a word in training, and marks them as non ambiguous based on
+tune parameters ToDo: Move such parameters to configuration
+</p><div class="fullcomment"><div class="comment cmt"><p>Finds very frequent tags on a word in training, and marks them as non ambiguous based on
+tune parameters ToDo: Move such parameters to configuration
+</p></div><dl class="paramcmts block"><dt class="param">taggedSentences</dt><dd class="cmt"><p>
+  Takes entire tagged sentences to find frequent tags</p></dd><dt class="param">frequencyThreshold</dt><dd class="cmt"><p>
+  How many times at least a tag on a word to be marked as frequent</p></dd><dt class="param">ambiguityThreshold</dt><dd class="cmt"><p>
+  How much percentage of total amount of words are covered to be marked as frequent</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils#buildTagBook" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="buildTagBook(taggedSentences:Array[com.johnsnowlabs.nlp.annotators.common.TaggedSentence],frequencyThreshold:Int,ambiguityThreshold:Double):Map[String,String]"></a><a id="buildTagBook(Array[TaggedSentence],Int,Double):Map[String,String]"></a>
       <span class="permalink">
@@ -498,11 +505,14 @@ ToDo: Move such parameters to configuration
         <span class="name">buildTagBook</span><span class="params">(<span name="taggedSentences">taggedSentences: <span class="extype" name="scala.Array">Array</span>[<a href="../../common/TaggedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.TaggedSentence">TaggedSentence</a>]</span>, <span name="frequencyThreshold">frequencyThreshold: <span class="extype" name="scala.Int">Int</span></span>, <span name="ambiguityThreshold">ambiguityThreshold: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Finds very frequent tags on a word in training, and marks them as non ambiguous based on tune parameters
-ToDo: Move such parameters to configuration
-</p><div class="fullcomment"><div class="comment cmt"><p>Finds very frequent tags on a word in training, and marks them as non ambiguous based on tune parameters
-ToDo: Move such parameters to configuration
-</p></div><dl class="paramcmts block"><dt class="param">taggedSentences</dt><dd class="cmt"><p>Takes entire tagged sentences to find frequent tags</p></dd><dt class="param">frequencyThreshold</dt><dd class="cmt"><p>How many times at least a tag on a word to be marked as frequent</p></dd><dt class="param">ambiguityThreshold</dt><dd class="cmt"><p>How much percentage of total amount of words are covered to be marked as frequent</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="PerceptronTrainingUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils">PerceptronTrainingUtils</a></dd></dl></div>
+      <p class="shortcomment cmt">Finds very frequent tags on a word in training, and marks them as non ambiguous based on
+tune parameters ToDo: Move such parameters to configuration
+</p><div class="fullcomment"><div class="comment cmt"><p>Finds very frequent tags on a word in training, and marks them as non ambiguous based on
+tune parameters ToDo: Move such parameters to configuration
+</p></div><dl class="paramcmts block"><dt class="param">taggedSentences</dt><dd class="cmt"><p>
+  Takes entire tagged sentences to find frequent tags</p></dd><dt class="param">frequencyThreshold</dt><dd class="cmt"><p>
+  How many times at least a tag on a word to be marked as frequent</p></dd><dt class="param">ambiguityThreshold</dt><dd class="cmt"><p>
+  How much percentage of total amount of words are covered to be marked as frequent</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="PerceptronTrainingUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils">PerceptronTrainingUtils</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#checkSchema" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="checkSchema(schema:org.apache.spark.sql.types.StructType,inputAnnotatorType:String):Boolean"></a><a id="checkSchema(StructType,String):Boolean"></a>
       <span class="permalink">
@@ -857,9 +867,7 @@ ToDo: Move such parameters to configuration
         <span class="name">generatesTagBook</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="../../common/TaggedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.TaggedSentence">TaggedSentence</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Generates TagBook, which holds all the word to tags mapping that are not ambiguous
-</p><div class="fullcomment"><div class="comment cmt"><p>Generates TagBook, which holds all the word to tags mapping that are not ambiguous
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="PerceptronTrainingUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils">PerceptronTrainingUtils</a></dd></dl></div>
+      <p class="shortcomment cmt">Generates TagBook, which holds all the word to tags mapping that are not ambiguous</p><div class="fullcomment"><div class="comment cmt"><p>Generates TagBook, which holds all the word to tags mapping that are not ambiguous</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="PerceptronTrainingUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils">PerceptronTrainingUtils</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#get" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="get[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a><a id="get[T](Param[T]):Option[T]"></a>
       <span class="permalink">
@@ -1107,10 +1115,10 @@ ToDo: Move such parameters to configuration
         <span class="name">inputCols</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
-</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
+      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
+</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isDefined(Param[_]):Boolean"></a>
@@ -1857,7 +1865,8 @@ AnnotatorType is used both as input and output columns if not specified
       
       <p class="shortcomment cmt">Trains a model based on a provided CORPUS
 </p><div class="fullcomment"><div class="comment cmt"><p>Trains a model based on a provided CORPUS
-</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>A trained averaged model</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed">PerceptronApproachDistributed</a> → <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+  A trained averaged model</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed">PerceptronApproachDistributed</a> → <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils#trainPerceptron" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="trainPerceptron(nIterations:Int,initialModel:com.johnsnowlabs.nlp.annotators.pos.perceptron.TrainingPerceptronLegacy,taggedSentences:Array[com.johnsnowlabs.nlp.annotators.common.TaggedSentence],taggedWordBook:Map[String,String]):com.johnsnowlabs.nlp.annotators.pos.perceptron.AveragedPerceptron"></a><a id="trainPerceptron(Int,TrainingPerceptronLegacy,Array[TaggedSentence],Map[String,String]):AveragedPerceptron"></a>
       <span class="permalink">
@@ -1873,9 +1882,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">trainPerceptron</span><span class="params">(<span name="nIterations">nIterations: <span class="extype" name="scala.Int">Int</span></span>, <span name="initialModel">initialModel: <a href="TrainingPerceptronLegacy.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.TrainingPerceptronLegacy">TrainingPerceptronLegacy</a></span>, <span name="taggedSentences">taggedSentences: <span class="extype" name="scala.Array">Array</span>[<a href="../../common/TaggedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.TaggedSentence">TaggedSentence</a>]</span>, <span name="taggedWordBook">taggedWordBook: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="AveragedPerceptron.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.AveragedPerceptron">AveragedPerceptron</a></span>
       </span>
       
-      <p class="shortcomment cmt">Iterates for training
-</p><div class="fullcomment"><div class="comment cmt"><p>Iterates for training
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="PerceptronTrainingUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils">PerceptronTrainingUtils</a></dd></dl></div>
+      <p class="shortcomment cmt">Iterates for training</p><div class="fullcomment"><div class="comment cmt"><p>Iterates for training</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="PerceptronTrainingUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils">PerceptronTrainingUtils</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#transformSchema" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="transformSchema(schema:org.apache.spark.sql.types.StructType):org.apache.spark.sql.types.StructType"></a><a id="transformSchema(StructType):StructType"></a>
       <span class="permalink">
@@ -1943,7 +1950,9 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.
-</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>
+  to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>
+  True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
@@ -2081,10 +2090,13 @@ AnnotatorType is used both as input and output columns if not specified
         <div id="groupedMembers">
         <div class="group" name="param">
               <h3>Parameters</h3>
-              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
+              <div class="comment cmt"><p>
+  A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  parameter values through setters and getters, respectively.</p></div>
             </div><div class="group" name="anno">
               <h3>Annotator types</h3>
-              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+              <div class="comment cmt"><p>
+  Required input and expected output annotator types</p></div>
             </div><div class="group" name="Ungrouped">
               <h3>Members</h3>
               

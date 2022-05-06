@@ -214,6 +214,12 @@ class _DownloadModel(ExtendedJavaWrapper):
                                              name, language, remote_loc)
 
 
+class _DownloadModelDirectly(ExtendedJavaWrapper):
+    def __init__(self, name, remote_loc="public/models"):
+        super(_DownloadModelDirectly, self).__init__(
+            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.downloadModelDirectly", name, remote_loc)
+
+
 class _DownloadPipeline(ExtendedJavaWrapper):
     def __init__(self, name, language, remote_loc):
         super(_DownloadPipeline, self).__init__(
@@ -501,3 +507,23 @@ class _DeBERTaLoader(ExtendedJavaWrapper):
         super(_DeBERTaLoader, self).__init__(
             "com.johnsnowlabs.nlp.embeddings.DeBertaEmbeddings.loadSavedModel", path,
             jspark)
+
+
+class _DeBertaSequenceClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_DeBertaSequenceClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForSequenceClassification.loadSavedModel", path,
+            jspark)
+
+
+class _DeBertTokenClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_DeBertTokenClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForTokenClassification.loadSavedModel", path, jspark)
+
+
+class _CamemBertLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_CamemBertLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.CamemBertEmbeddings.loadSavedModel",
+                                               path,
+                                               jspark)

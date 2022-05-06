@@ -16,24 +16,32 @@
 
 package com.johnsnowlabs.nlp.annotators.parser.dep
 
-import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition.{ClassName, ClassNum, Sentence, Word}
+import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition.{
+  ClassName,
+  ClassNum,
+  Sentence,
+  Word
+}
 
 import scala.collection.mutable
 
 object TagDictionary { // Here, tag == Part-of-Speech
   // Make a tag dictionary for single-tag words : So that they can be 'resolved' immediately, as well as the class list
-  def classesAndTagDictionary(trainingSentences: List[Sentence]): (Vector[ClassName], Map[Word, ClassNum])  = {
-    def mutationalApproach(): (mutable.Set[ClassName], mutable.Map[ Word, mutable.Map[ClassName, Int] ]) = {
+  def classesAndTagDictionary(
+      trainingSentences: List[Sentence]): (Vector[ClassName], Map[Word, ClassNum]) = {
+    def mutationalApproach()
+        : (mutable.Set[ClassName], mutable.Map[Word, mutable.Map[ClassName, Int]]) = {
       // takes 60ms on full training data !
       val classSet = mutable.Set[ClassName]()
-      val fullMap  = mutable.Map[ Word, mutable.Map[ClassName, Int] ]()
+      val fullMap = mutable.Map[Word, mutable.Map[ClassName, Int]]()
 
       for {
         sentence <- trainingSentences
         wordData <- sentence
       } {
         classSet += wordData.pos
-        fullMap.getOrElseUpdate(wordData.norm, mutable.Map[ClassName, Int]().withDefaultValue(0))(wordData.pos) += 1
+        fullMap.getOrElseUpdate(wordData.norm, mutable.Map[ClassName, Int]().withDefaultValue(0))(
+          wordData.pos) += 1
       }
 
       (classSet, fullMap)
@@ -43,7 +51,7 @@ object TagDictionary { // Here, tag == Part-of-Speech
     val (classSet, fullMap) = mutationalApproach()
 
     // Convert the set of classes into a nice map, with indexer
-    val classes = classSet.toVector.sorted  // This is alphabetical
+    val classes = classSet.toVector.sorted // This is alphabetical
     val classMap = classes.zipWithIndex.toMap
 
     val frequencyThreshold = 20

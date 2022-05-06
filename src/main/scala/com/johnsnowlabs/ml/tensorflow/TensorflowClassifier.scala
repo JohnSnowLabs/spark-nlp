@@ -16,20 +16,20 @@
 
 package com.johnsnowlabs.ml.tensorflow
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-import org.apache.spark.ml.util.Identifiable
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.util.io.OutputHelper
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
+import org.apache.spark.ml.util.Identifiable
 
 import scala.collection.mutable
 import scala.util.Random
 
 class TensorflowClassifier(
-                            val tensorflow: TensorflowWrapper,
-                            val encoder: ClassifierDatasetEncoder,
-                            override val verboseLevel: Verbose.Value
-                          )
-  extends Serializable with Logging {
+    val tensorflow: TensorflowWrapper,
+    val encoder: ClassifierDatasetEncoder,
+    override val verboseLevel: Verbose.Value)
+    extends Serializable
+    with Logging {
 
   private val inputKey = "inputs:0"
   private val labelKey = "labels:0"
@@ -45,24 +45,27 @@ class TensorflowClassifier(
   private val initKey = "init_all_tables"
 
   def train(
-             inputs: Array[Array[Float]],
-             labels: Array[String],
-             classNum: Int,
-             lr: Float = 5e-3f,
-             batchSize: Int = 64,
-             dropout: Float = 0.5f,
-             startEpoch: Int = 0,
-             endEpoch: Int = 10,
-             configProtoBytes: Option[Array[Byte]] = None,
-             validationSplit: Float = 0.0f,
-             enableOutputLogs: Boolean = false,
-             outputLogsPath: String,
-             uuid: String = Identifiable.randomUID("classifierdl")
-           ): Unit = {
+      inputs: Array[Array[Float]],
+      labels: Array[String],
+      classNum: Int,
+      lr: Float = 5e-3f,
+      batchSize: Int = 64,
+      dropout: Float = 0.5f,
+      startEpoch: Int = 0,
+      endEpoch: Int = 10,
+      configProtoBytes: Option[Array[Byte]] = None,
+      validationSplit: Float = 0.0f,
+      enableOutputLogs: Boolean = false,
+      outputLogsPath: String,
+      uuid: String = Identifiable.randomUID("classifierdl")): Unit = {
 
     // Initialize
     if (startEpoch == 0)
-      tensorflow.createSession(configProtoBytes = configProtoBytes).runner.addTarget(initKey).run()
+      tensorflow
+        .createSession(configProtoBytes = configProtoBytes)
+        .runner
+        .addTarget(initKey)
+        .run()
 
     val encodedLabels = encoder.encodeTags(labels)
     val zippedInputsLabels = inputs.zip(encodedLabels).toSeq
@@ -79,9 +82,13 @@ class TensorflowClassifier(
       (trainingDataset.toArray, emptyValid.toArray)
     }
 
-    println(s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainDatasetSeq.length} - classes: $classNum")
-    outputLog(s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainDatasetSeq.length} - classes: $classNum",
-      uuid, enableOutputLogs, outputLogsPath)
+    println(
+      s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainDatasetSeq.length} - classes: $classNum")
+    outputLog(
+      s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainDatasetSeq.length} - classes: $classNum",
+      uuid,
+      enableOutputLogs,
+      outputLogsPath)
 
     for (epoch <- startEpoch until endEpoch) {
 
@@ -124,14 +131,25 @@ class TensorflowClassifier(
       acc /= (trainDatasetSeq.length / batchSize)
 
       if (validationSplit > 0.0) {
-        val validationAccuracy = measure(validateDatasetSample, (s: String) => log(s, Verbose.Epochs))
+        val validationAccuracy =
+          measure(validateDatasetSample, (s: String) => log(s, Verbose.Epochs))
         val endTime = (System.nanoTime() - time) / 1e9
-        println(f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_acc: $validationAccuracy - batches: $batches")
-        outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_acc: $validationAccuracy - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
+        println(
+          f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_acc: $validationAccuracy - batches: $batches")
+        outputLog(
+          f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_acc: $validationAccuracy - batches: $batches",
+          uuid,
+          enableOutputLogs,
+          outputLogsPath)
       } else {
         val endTime = (System.nanoTime() - time) / 1e9
-        println(f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches")
-        outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
+        println(
+          f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches")
+        outputLog(
+          f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches",
+          uuid,
+          enableOutputLogs,
+          outputLogsPath)
       }
 
     }
@@ -141,11 +159,13 @@ class TensorflowClassifier(
     }
   }
 
-  def predict(docs: Seq[(Int, Seq[Annotation])], configProtoBytes: Option[Array[Byte]] = None): Seq[Annotation] = {
+  def predict(
+      docs: Seq[(Int, Seq[Annotation])],
+      configProtoBytes: Option[Array[Byte]] = None): Seq[Annotation] = {
 
     val tensors = new TensorResources()
 
-    //FixMe: implement batchSize
+    // FixMe: implement batchSize
 
     val inputs = encoder.extractSentenceEmbeddings(docs)
 
@@ -161,24 +181,25 @@ class TensorflowClassifier(
     tensors.clearTensors()
 
     docs.flatMap { sentence =>
-      sentence._2.zip(tagsName).map {
-        case (content, score) =>
-          val label = score.find(_._1 == score.maxBy(_._2)._1).map(_._1).getOrElse("NA")
+      sentence._2.zip(tagsName).map { case (content, score) =>
+        val label = score.find(_._1 == score.maxBy(_._2)._1).map(_._1).getOrElse("NA")
 
-          Annotation(
-            annotatorType = AnnotatorType.CATEGORY,
-            begin = content.begin,
-            end = content.end,
-            result = label,
-            metadata = Map("sentence" -> sentence._1.toString) ++ score.flatMap(x => Map(x._1 -> x._2.toString))
-          )
+        Annotation(
+          annotatorType = AnnotatorType.CATEGORY,
+          begin = content.begin,
+          end = content.end,
+          result = label,
+          metadata = Map("sentence" -> sentence._1.toString) ++ score.flatMap(x =>
+            Map(x._1 -> x._2.toString)))
       }
 
     }
 
   }
 
-  def internalPredict(inputs: Array[Array[Float]], configProtoBytes: Option[Array[Byte]] = None): Array[Int] = {
+  def internalPredict(
+      inputs: Array[Array[Float]],
+      configProtoBytes: Option[Array[Byte]] = None): Array[Int] = {
 
     val tensors = new TensorResources()
 
@@ -198,20 +219,22 @@ class TensorflowClassifier(
     predictedLabels
   }
 
-  def measure(labeled: Array[(Array[Float], Array[Int])],
-              log: String => Unit,
-              extended: Boolean = false,
-              batchSize: Int = 100
-             ): Float = {
+  def measure(
+      labeled: Array[(Array[Float], Array[Int])],
+      log: String => Unit,
+      extended: Boolean = false,
+      batchSize: Int = 100): Float = {
 
-    //ToDo: Add batch strategy
+    // ToDo: Add batch strategy
 
     val correctGuess = mutable.Map[Int, Int]()
     val predicted = mutable.Map[Int, Int]()
     val correct = mutable.Map[Int, Int]()
 
     val originalEmbeddings = labeled.map(x => x._1)
-    val originalLabels = labeled.map(x => x._2).map { x => x.zipWithIndex.maxBy(_._1)._2 }
+    val originalLabels = labeled.map(x => x._2).map { x =>
+      x.zipWithIndex.maxBy(_._1)._2
+    }
 
     val predictedLabels = internalPredict(originalEmbeddings)
     val labeledPredicted = predictedLabels.zip(originalLabels)

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.BertEmbeddings</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.embeddings.BertEmbeddings" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.embeddings.BertEmbeddings" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.BertEmbeddings</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.nlp.embeddings.BertEmbeddings" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.nlp.embeddings.BertEmbeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -146,6 +146,10 @@
                         <a class="class" href="BertSentenceEmbeddings.html" title="Sentence-level embeddings using BERT."></a>
                         <a href="BertSentenceEmbeddings.html" title="Sentence-level embeddings using BERT.">BertSentenceEmbeddings</a>
                       </li><li class="current-entities indented4">
+                        <a class="object" href="CamemBertEmbeddings$.html" title="This is the companion object of CamemBertEmbeddings."></a>
+                        <a class="class" href="CamemBertEmbeddings.html" title="The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot."></a>
+                        <a href="CamemBertEmbeddings.html" title="The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot.">CamemBertEmbeddings</a>
+                      </li><li class="current-entities indented4">
                         <a class="object" href="ChunkEmbeddings$.html" title="This is the companion object of ChunkEmbeddings."></a>
                         <a class="class" href="ChunkEmbeddings.html" title="This annotator utilizes WordEmbeddings, BertEmbeddings etc."></a>
                         <a href="ChunkEmbeddings.html" title="This annotator utilizes WordEmbeddings, BertEmbeddings etc.">ChunkEmbeddings</a>
@@ -199,6 +203,10 @@
                         <a href="ReadBertTensorflowModel.html" title="">ReadBertTensorflowModel</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
+                        <a class="trait" href="ReadCamemBertTensorflowModel.html" title=""></a>
+                        <a href="ReadCamemBertTensorflowModel.html" title="">ReadCamemBertTensorflowModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
                         <a class="trait" href="ReadDeBertaTensorflowModel.html" title=""></a>
                         <a href="ReadDeBertaTensorflowModel.html" title="">ReadDeBertaTensorflowModel</a>
                       </li><li class="current-entities indented4">
@@ -249,6 +257,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedBertSentenceModel.html" title=""></a>
                         <a href="ReadablePretrainedBertSentenceModel.html" title="">ReadablePretrainedBertSentenceModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedCamemBertModel.html" title=""></a>
+                        <a href="ReadablePretrainedCamemBertModel.html" title="">ReadablePretrainedCamemBertModel</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedDeBertaModel.html" title=""></a>
@@ -395,22 +407,28 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Token-level embeddings using BERT. BERT (Bidirectional Encoder Representations from Transformers) provides dense
-vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = BertEmbeddings.pretrained()
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Token-level embeddings using BERT. BERT (Bidirectional Encoder Representations from
+Transformers) provides dense vector representations for natural language by using a deep,
+pre-trained neural network with the Transformer architecture.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = BertEmbeddings.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
-  .setOutputCol(<span class="lit">"bert_embeddings"</span>)</pre><p>The default model is <code>&quot;small_bert_L2_768&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/3.NER_with_BERT.ipynb" target="_blank">Spark NLP Workshop</a>
-and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala" target="_blank">BertEmbeddingsTestSpec</a>.
-Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
-example shows how to import them <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a>.</p><p><b>Sources</b> :</p><p><a href="https://arxiv.org/abs/1810.04805" target="_blank">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a></p><p><a href="https://github.com/google-research/bert" target="_blank">https://github.com/google-research/bert</a></p><p><b> Paper abstract </b></p><p><i>We introduce a new language representation model called BERT, which stands for Bidirectional Encoder Representations
-from Transformers. Unlike recent language representation models, BERT is designed to pre-train deep bidirectional
-representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a
-result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create
-state-of-the-art models for a wide range of tasks, such as question answering and language inference, without
-substantial task-specific architecture modifications. BERT is conceptually simple and empirically powerful. It
-obtains new state-of-the-art results on eleven natural language processing tasks, including pushing the GLUE score
-to 80.5% (7.7% point absolute improvement), MultiNLI accuracy to 86.7% (4.6% absolute improvement), SQuAD v1.1
-question answering Test F1 to 93.2 (1.5 point absolute improvement) and SQuAD v2.0 Test F1 to 83.1 (5.1 point
-absolute improvement).</i></p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+  .setOutputCol(<span class="lit">"bert_embeddings"</span>)</pre><p>The default model is <code>&quot;small_bert_L2_768&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
+<a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/3.NER_with_BERT.ipynb" target="_blank">Spark NLP Workshop</a>
+and the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala" target="_blank">BertEmbeddingsTestSpec</a>.
+To see which models are compatible and how to import them see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a>.</p><p><b>Sources</b> :</p><p><a href="https://arxiv.org/abs/1810.04805" target="_blank">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a></p><p><a href="https://github.com/google-research/bert" target="_blank">https://github.com/google-research/bert</a></p><p><b> Paper abstract </b></p><p><i>We introduce a new language representation model called BERT, which stands for Bidirectional
+Encoder Representations from Transformers. Unlike recent language representation models, BERT
+is designed to pre-train deep bidirectional representations from unlabeled text by jointly
+conditioning on both left and right context in all layers. As a result, the pre-trained BERT
+model can be fine-tuned with just one additional output layer to create state-of-the-art
+models for a wide range of tasks, such as question answering and language inference, without
+substantial task-specific architecture modifications. BERT is conceptually simple and
+empirically powerful. It obtains new state-of-the-art results on eleven natural language
+processing tasks, including pushing the GLUE score to 80.5% (7.7% point absolute improvement),
+MultiNLI accuracy to 86.7% (4.6% absolute improvement), SQuAD v1.1 question answering Test F1
+to 93.2 (1.5 point absolute improvement) and SQuAD v2.0 Test F1 to 83.1 (5.1 point absolute
+improvement).</i></p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
 <span class="kw">import</span> com.johnsnowlabs.nlp.embeddings.BertEmbeddings
@@ -453,8 +471,12 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
 |[-<span class="num">1.8244884014129639</span>,-<span class="num">0.27088963985443115</span>,-<span class="num">1.059438943862915</span>,-<span class="num">0.9817547798156</span>...|
 |[-<span class="num">1.1648050546646118</span>,-<span class="num">0.4725411534309387</span>,-<span class="num">0.5938255786895752</span>,-<span class="num">1.5780693292617</span>...|
 |[-<span class="num">0.9125322699546814</span>,<span class="num">0.4563939869403839</span>,-<span class="num">0.3975459933280945</span>,-<span class="num">1.81611204147338</span>...|
-+--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="BertSentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings">BertSentenceEmbeddings</a> for sentence-level embeddings</p></span><span class="cmt"><p><a href="../annotators/classifier/dl/BertForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification">BertForTokenClassification</a> For
-     BertEmbeddings with a token classification layer on top</p></span><span class="cmt"><p><a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer based embeddings</p></span></dd></dl><div class="toggleContainer block">
++--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
+  <a href="BertSentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings">BertSentenceEmbeddings</a> for sentence-level embeddings</p></span><span class="cmt"><p>
+  <a href="../annotators/classifier/dl/BertForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification">BertForTokenClassification</a>
+  For BertEmbeddings with a token classification layer on top</p></span><span class="cmt"><p>
+  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
+  transformer based embeddings</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -535,7 +557,8 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
         <span class="name">BertEmbeddings</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>required uid for storing annotator to disk</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>
+  required uid for storing annotator to disk</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -556,10 +579,10 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
         <span class="name">AnnotationContent</span><span class="result alias"> = <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="org.apache.spark.sql.Row">Row</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">internal types to show Rows as a relevant StructType
-Should be deleted once Spark releases UserDefinedTypes to @developerAPI
-</p><div class="fullcomment"><div class="comment cmt"><p>internal types to show Rows as a relevant StructType
-Should be deleted once Spark releases UserDefinedTypes to @developerAPI
+      <p class="shortcomment cmt">internal types to show Rows as a relevant StructType Should be deleted once Spark releases
+UserDefinedTypes to @developerAPI
+</p><div class="fullcomment"><div class="comment cmt"><p>internal types to show Rows as a relevant StructType Should be deleted once Spark releases
+UserDefinedTypes to @developerAPI
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotatorType.AnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="AnnotatorType=String"></a><a id="AnnotatorType:AnnotatorType"></a>
@@ -776,9 +799,14 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">batchAnnotate</span><span class="params">(<span name="batchedAnnotations">batchedAnnotations: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]]</span>
       </span>
       
-      <p class="shortcomment cmt">takes a document and annotations and produces new annotations of this annotator's annotation type
-</p><div class="fullcomment"><div class="comment cmt"><p>takes a document and annotations and produces new annotations of this annotator's annotation type
-</p></div><dl class="paramcmts block"><dt class="param">batchedAnnotations</dt><dd class="cmt"><p>Annotations that correspond to inputAnnotationCols generated by previous annotators if any</p></dd><dt>returns</dt><dd class="cmt"><p>any number of annotations processed for every input annotation. Not necessary one to one relationship</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertEmbeddings">BertEmbeddings</a> → <a href="../HasBatchedAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotate">HasBatchedAnnotate</a></dd></dl></div>
+      <p class="shortcomment cmt">takes a document and annotations and produces new annotations of this annotator's annotation
+type
+</p><div class="fullcomment"><div class="comment cmt"><p>takes a document and annotations and produces new annotations of this annotator's annotation
+type
+</p></div><dl class="paramcmts block"><dt class="param">batchedAnnotations</dt><dd class="cmt"><p>
+  Annotations that correspond to inputAnnotationCols generated by previous annotators if any</p></dd><dt>returns</dt><dd class="cmt"><p>
+  any number of annotations processed for every input annotation. Not necessary one to one
+  relationship</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertEmbeddings">BertEmbeddings</a> → <a href="../HasBatchedAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotate">HasBatchedAnnotate</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasBatchedAnnotate#batchProcess" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="batchProcess(rows:Iterator[_]):Iterator[org.apache.spark.sql.Row]"></a><a id="batchProcess(Iterator[_]):Iterator[Row]"></a>
       <span class="permalink">
@@ -917,7 +945,8 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">configProtoBytes</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntArrayParam">IntArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">ConfigProto from tensorflow, serialized into byte array.</p><div class="fullcomment"><div class="comment cmt"><p>ConfigProto from tensorflow, serialized into byte array. Get with <code>config_proto.SerializeToString()</code>
+      <p class="shortcomment cmt">ConfigProto from tensorflow, serialized into byte array.</p><div class="fullcomment"><div class="comment cmt"><p>ConfigProto from tensorflow, serialized into byte array. Get with
+<code>config_proto.SerializeToString()</code>
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.RawAnnotator#copy" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="copy(extra:org.apache.spark.ml.param.ParamMap):M"></a><a id="copy(ParamMap):BertEmbeddings"></a>
@@ -1605,7 +1634,9 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator type</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertEmbeddings">BertEmbeddings</a> → <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator
+type
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertEmbeddings">BertEmbeddings</a> → <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -1621,10 +1652,10 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">inputCols</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
-</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
+      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
+</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isDefined(Param[_]):Boolean"></a>
@@ -2414,12 +2445,10 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setDimension</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertEmbeddings">BertEmbeddings</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Set Embeddings dimensions for the BERT model
-Only possible to set this when the first time is saved
-dimension is not changeable, it comes from BERT config file
-</p><div class="fullcomment"><div class="comment cmt"><p>Set Embeddings dimensions for the BERT model
-Only possible to set this when the first time is saved
-dimension is not changeable, it comes from BERT config file
+      <p class="shortcomment cmt">Set Embeddings dimensions for the BERT model Only possible to set this when the first time
+is saved dimension is not changeable, it comes from BERT config file
+</p><div class="fullcomment"><div class="comment cmt"><p>Set Embeddings dimensions for the BERT model Only possible to set this when the first time
+is saved dimension is not changeable, it comes from BERT config file
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertEmbeddings">BertEmbeddings</a> → <a href="HasEmbeddingsProperties.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):BertEmbeddings.this.type"></a>
@@ -2680,12 +2709,15 @@ dimension is not changeable, it comes from BERT config file
       </span>
       
       <p class="shortcomment cmt">Given requirements are met, this applies ML transformation within a Pipeline or stand-alone
-Output annotation will be generated as a new column, previous annotations are still available separately
-metadata is built at schema level to record annotations structural information outside its content
+Output annotation will be generated as a new column, previous annotations are still
+available separately metadata is built at schema level to record annotations structural
+information outside its content
 </p><div class="fullcomment"><div class="comment cmt"><p>Given requirements are met, this applies ML transformation within a Pipeline or stand-alone
-Output annotation will be generated as a new column, previous annotations are still available separately
-metadata is built at schema level to record annotations structural information outside its content
-</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p><span class="extype" name="Dataset[Row">Dataset[Row</span>]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a> → Transformer</dd></dl></div>
+Output annotation will be generated as a new column, previous annotations are still
+available separately metadata is built at schema level to record annotations structural
+information outside its content
+</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>
+  <span class="extype" name="Dataset[Row">Dataset[Row</span>]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a> → Transformer</dd></dl></div>
     </li><li name="org.apache.spark.ml.Transformer#transform" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="transform(dataset:org.apache.spark.sql.Dataset[_],paramMap:org.apache.spark.ml.param.ParamMap):org.apache.spark.sql.DataFrame"></a><a id="transform(Dataset[_],ParamMap):DataFrame"></a>
       <span class="permalink">
@@ -2799,7 +2831,9 @@ metadata is built at schema level to record annotations structural information o
       </span>
       
       <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.
-</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>
+  to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>
+  True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.storage.HasStorageRef#validateStorageRef" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="validateStorageRef(dataset:org.apache.spark.sql.Dataset[_],inputCols:Array[String],annotatorType:String):Unit"></a><a id="validateStorageRef(Dataset[_],Array[String],String):Unit"></a>
       <span class="permalink">
@@ -3080,7 +3114,9 @@ metadata is built at schema level to record annotations structural information o
         <div id="groupedMembers">
         <div class="group" name="param">
               <h3>Parameters</h3>
-              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
+              <div class="comment cmt"><p>
+  A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  parameter values through setters and getters, respectively.</p></div>
             </div><div class="group" name="Ungrouped">
               <h3>Members</h3>
               

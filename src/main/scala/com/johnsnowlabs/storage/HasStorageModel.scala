@@ -40,13 +40,7 @@ trait HasStorageModel extends HasStorageReader with HasExcludableStorage {
   def deserializeStorage(path: String, spark: SparkSession): Unit = {
     if ($(includeStorage))
       databases.foreach(database => {
-        StorageHelper.load(
-          path,
-          spark,
-          database.toString,
-          $(storageRef),
-          withinStorage = true
-        )
+        StorageHelper.load(path, spark, database.toString, $(storageRef), withinStorage = true)
       })
   }
 

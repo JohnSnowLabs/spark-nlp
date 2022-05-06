@@ -17,10 +17,12 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep;
 
 
-import gnu.trove.map.hash.TObjectIntHashMap;
 import org.junit.Test;
 
+import java.util.HashMap;
+
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class PredictionParametersTest {
 
@@ -30,7 +32,7 @@ public class PredictionParametersTest {
         String mapAsString = "{form=<root>=1,form=The=2}";
 
         PredictionParameters predictionParameters = new PredictionParameters();
-        TObjectIntHashMap map = predictionParameters.transformToTroveMap(mapAsString);
+        HashMap<String, Integer> map = predictionParameters.transformToTroveMap(mapAsString);
 
         assertFalse(map.isEmpty());
 
@@ -42,7 +44,7 @@ public class PredictionParametersTest {
         String mapAsString = "{TITLE=27,SBJ=4,PM0D=8}";
 
         PredictionParameters predictionParameters = new PredictionParameters();
-        TObjectIntHashMap map = predictionParameters.transformToTroveMap(mapAsString);
+        HashMap<String, Integer> map = predictionParameters.transformToTroveMap(mapAsString);
 
         assertFalse(map.isEmpty());
 
@@ -54,9 +56,9 @@ public class PredictionParametersTest {
         String mapAsString = "{}";
 
         PredictionParameters predictionParameters = new PredictionParameters();
-        TObjectIntHashMap map = predictionParameters.transformToTroveMap(mapAsString);
+        HashMap<String, Integer> map = predictionParameters.transformToTroveMap(mapAsString);
 
-        assertFalse(map.isEmpty());
+        assertTrue(map.isEmpty());
 
     }
 

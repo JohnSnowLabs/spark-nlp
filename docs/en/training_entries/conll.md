@@ -27,7 +27,7 @@ lamb NN I-NP O
 - **documentCol:** Name of the DocumentAssembler column, by default ‘document’
 - **sentenceCol:** Name of the SentenceDetector column, by default ‘sentence’
 - **tokenCol:** Name of the Tokenizer column, by default ‘token’
-- **posCol:** Name of the PerceptronModel column, by default ‘pos’
+- **posCol:** Name of the part-of-speech tag column, by default ‘pos’
 - **conllLabelIndex:** Index of the label column in the dataset, by default 3
 - **conllPosIndex:** Index of the POS tags in the dataset, by default 1
 - **textCol:** Index of the text column in the dataset, by default ‘text’

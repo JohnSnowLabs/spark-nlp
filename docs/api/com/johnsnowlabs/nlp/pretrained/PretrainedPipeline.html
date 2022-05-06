@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.pretrained.PretrainedPipeline" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.pretrained.PretrainedPipeline" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.nlp.pretrained.PretrainedPipeline" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.nlp.pretrained.PretrainedPipeline" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -195,10 +195,12 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Represents a fully constructed and trained Spark NLP pipeline, ready to be used. This way, a whole pipeline can be
-defined in 1 line. Additionally, the <a href="../LightPipeline.html" class="extype" name="com.johnsnowlabs.nlp.LightPipeline">LightPipeline</a> version of the model can be retrieved with member
-<code>lightModel</code>.</p><p>For more extended examples see the <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines" target="_blank">Pipelines page</a> and our
-<a href="https://github.com/JohnSnowLabs/spark-nlp-models" target="_blank">Github Model Repository</a> for available pipeline models.</p><h4>Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Represents a fully constructed and trained Spark NLP pipeline, ready to be used. This way, a
+whole pipeline can be defined in 1 line. Additionally, the <a href="../LightPipeline.html" class="extype" name="com.johnsnowlabs.nlp.LightPipeline">LightPipeline</a> version of the
+model can be retrieved with member <code>lightModel</code>.</p><p>For more extended examples see the
+<a href="https://nlp.johnsnowlabs.com/docs/en/pipelines" target="_blank">Pipelines page</a> and our
+<a href="https://github.com/JohnSnowLabs/spark-nlp-models" target="_blank">Github Model Repository</a> for available
+pipeline models.</p><h4>Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 <span class="kw">import</span> com.johnsnowlabs.nlp.SparkNLP
 <span class="kw">val</span> testData = spark.createDataFrame(<span class="std">Seq</span>(
 (<span class="num">1</span>, <span class="lit">"Google has announced the release of a beta version of the popular TensorFlow machine learning library"</span>),
@@ -218,7 +220,10 @@ annotation.select(<span class="lit">"entities.result"</span>).show(<span class="
 |[Google, TensorFlow]              |
 |[Donald John Trump, United States]|
 +----------------------------------+
-*/</span></pre></div><dl class="paramcmts block"><dt class="param">downloadName</dt><dd class="cmt"><p>Name of the Pipeline Model</p></dd><dt class="param">lang</dt><dd class="cmt"><p>Language of the defined pipeline (Default: &quot;en&quot;)</p></dd><dt class="param">source</dt><dd class="cmt"><p>Source where to get the Pipeline Model</p></dd></dl><div class="toggleContainer block">
+*/</span></pre></div><dl class="paramcmts block"><dt class="param">downloadName</dt><dd class="cmt"><p>
+  Name of the Pipeline Model</p></dd><dt class="param">lang</dt><dd class="cmt"><p>
+  Language of the defined pipeline (Default: &quot;en&quot;)</p></dd><dt class="param">source</dt><dd class="cmt"><p>
+  Source where to get the Pipeline Model</p></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -315,7 +320,10 @@ annotation.select(<span class="lit">"entities.result"</span>).show(<span class="
         <span class="name">PretrainedPipeline</span><span class="params">(<span name="downloadName">downloadName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="lang">lang: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;en&quot;</span></span>, <span name="source">source: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol"><span class="name"><a href="ResourceDownloader$.html">ResourceDownloader.publicLoc</a></span></span></span>, <span name="parseEmbeddingsVectors">parseEmbeddingsVectors: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="diskLocation">diskLocation: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">downloadName</dt><dd class="cmt"><p>Name of the Pipeline Model</p></dd><dt class="param">lang</dt><dd class="cmt"><p>Language of the defined pipeline (Default: &quot;en&quot;)</p></dd><dt class="param">source</dt><dd class="cmt"><p>Source where to get the Pipeline Model</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">downloadName</dt><dd class="cmt"><p>
+  Name of the Pipeline Model</p></dd><dt class="param">lang</dt><dd class="cmt"><p>
+  Language of the defined pipeline (Default: &quot;en&quot;)</p></dd><dt class="param">source</dt><dd class="cmt"><p>
+  Source where to get the Pipeline Model</p></dd></dl></div>
     </li></ol>
             </div>
 

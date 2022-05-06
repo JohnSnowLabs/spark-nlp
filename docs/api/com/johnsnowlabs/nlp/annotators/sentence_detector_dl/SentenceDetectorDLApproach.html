@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.sentence detector dl.SentenceDetectorDLApproach" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.sentence detector dl.SentenceDetectorDLApproach" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.sentence detector dl.SentenceDetectorDLApproach" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.nlp.annotators.sentence detector dl.SentenceDetectorDLApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -205,17 +205,18 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Trains an annotator that detects sentence boundaries using a deep learning approach.</p><p>For pretrained models see <a href="SentenceDetectorDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel">SentenceDetectorDLModel</a>.</p><p>Currently, only the CNN model is supported for training, but in the future the architecture of the model can
-be set with <code>setModelArchitecture</code>.</p><p>The default model <code>&quot;cnn&quot;</code> is based on the paper
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Trains an annotator that detects sentence boundaries using a deep learning approach.</p><p>For pretrained models see <a href="SentenceDetectorDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel">SentenceDetectorDLModel</a>.</p><p>Currently, only the CNN model is supported for training, but in the future the architecture of
+the model can be set with <code>setModelArchitecture</code>.</p><p>The default model <code>&quot;cnn&quot;</code> is based on the paper
 <a href="https://konvens.org/proceedings/2019/papers/KONVENS2019_paper_41.pdf" target="_blank">Deep-EOS: General-Purpose Neural Networks for Sentence Boundary Detection (2020, Stefan Schweter, Sajawel Ahmed)</a>
-using a CNN architecture. We also modified the original implementation a little bit to cover broken sentences and some impossible end of line chars.</p><p>Each extracted sentence can be returned in an Array or exploded to separate rows,
-if <code>explodeSentences</code> is set to <code>true</code>.</p><p>For extended examples of usage, see the
+using a CNN architecture. We also modified the original implementation a little bit to cover
+broken sentences and some impossible end of line chars.</p><p>Each extracted sentence can be returned in an Array or exploded to separate rows, if
+<code>explodeSentences</code> is set to <code>true</code>.</p><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb" target="_blank">Spark NLP Workshop</a>
-and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLSpec.scala" target="_blank">SentenceDetectorDLSpec</a>.</p><h4>Example</h4><p>The training process needs data, where each data point is a sentence.</p><p>In this example the <code>train.txt</code> file has the form of</p><pre>...
+and the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLSpec.scala" target="_blank">SentenceDetectorDLSpec</a>.</p><h4>Example</h4><p>The training process needs data, where each data point is a sentence.</p><p>In this example the <code>train.txt</code> file has the form of</p><pre>...
 Slightly more moderate language would make our present situation – namely the lack of progress – a little easier.
 His political successors now have great responsibilities to history and to the heritage of values bequeathed to them by Nelson Mandela.
-...</pre><p>where each line is one sentence.
-Training can then be started like so:</p><pre><span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+...</pre><p>where each line is one sentence. Training can then be started like so:</p><pre><span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
 
@@ -232,7 +233,10 @@ Training can then be started like so:</p><pre><span class="kw">import</span> com
 
 <span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(documentAssembler, sentenceDetector))
 
-<span class="kw">val</span> model = pipeline.fit(trainingData)</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="SentenceDetectorDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel">SentenceDetectorDLModel</a> for pretrained models</p></span><span class="cmt"><p><a href="../sbd/pragmatic/SentenceDetector.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector">SentenceDetector</a> for non deep learning extraction</p></span></dd></dl><div class="toggleContainer block">
+<span class="kw">val</span> model = pipeline.fit(trainingData)</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
+  <a href="SentenceDetectorDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel">SentenceDetectorDLModel</a> for pretrained models</p></span><span class="cmt"><p>
+  <a href="../sbd/pragmatic/SentenceDetector.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector">SentenceDetector</a> for non
+  deep learning extraction</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -313,7 +317,8 @@ Training can then be started like so:</p><pre><span class="kw">import</span> com
         <span class="name">SentenceDetectorDLApproach</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>required uid for storing annotator to disk</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>
+  required uid for storing annotator to disk</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -543,6 +548,23 @@ Training can then be started like so:</p><pre><span class="kw">import</span> com
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#customBounds" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="customBounds:org.apache.spark.ml.param.StringArrayParam"></a><a id="customBounds:StringArrayParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach.html#customBounds:org.apache.spark.ml.param.StringArrayParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">customBounds</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Characters used to explicitly mark sentence bounds (Default: None)
+</p>
     </li><li name="org.apache.spark.ml.param.Params#defaultCopy" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="defaultCopy[T&lt;:org.apache.spark.ml.param.Params](extra:org.apache.spark.ml.param.ParamMap):T"></a><a id="defaultCopy[T&lt;:Params](ParamMap):T"></a>
       <span class="permalink">
@@ -671,8 +693,8 @@ Training can then be started like so:</p><pre><span class="kw">import</span> com
         <span class="name">explodeSentences</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">A flag indicating whether to split sentences into different Dataset rows.</p><div class="fullcomment"><div class="comment cmt"><p>A flag indicating whether to split sentences into different Dataset rows. Useful for higher parallelism in
-fat rows (Default: <code>false</code>)
+      <p class="shortcomment cmt">A flag indicating whether to split sentences into different Dataset rows.</p><div class="fullcomment"><div class="comment cmt"><p>A flag indicating whether to split sentences into different Dataset rows. Useful for higher
+parallelism in fat rows (Default: <code>false</code>)
 </p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#extractParamMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="extractParamMap():org.apache.spark.ml.param.ParamMap"></a><a id="extractParamMap():ParamMap"></a>
@@ -847,6 +869,22 @@ fat rows (Default: <code>false</code>)
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#getCustomBounds" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
+      <a id="getCustomBounds:Array[String]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach.html#getCustomBounds:Array[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getCustomBounds</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Custom sentence separator text</p>
     </li><li name="org.apache.spark.ml.param.Params#getDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getDefault[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a><a id="getDefault[T](Param[T]):Option[T]"></a>
       <span class="permalink">
@@ -895,7 +933,8 @@ fat rows (Default: <code>false</code>)
         <span class="name">getExplodeSentences</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      <p class="shortcomment cmt">Whether to split sentences into different Dataset rows.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to split sentences into different Dataset rows. Useful for higher parallelism in fat rows. Defaults to false.
+      <p class="shortcomment cmt">Whether to split sentences into different Dataset rows.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to split sentences into different Dataset rows. Useful for higher parallelism in fat
+rows. Defaults to false.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#getGraphFilename" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="getGraphFilename:String"></a>
@@ -962,6 +1001,38 @@ fat rows (Default: <code>false</code>)
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#getMaxLength" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
+      <a id="getMaxLength:Int"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach.html#getMaxLength:Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getMaxLength</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Get the maximum allowed length for each sentence</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#getMinLength" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
+      <a id="getMinLength:Int"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach.html#getMinLength:Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getMinLength</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Get the minimum allowed length for each sentence</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#getModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getModel:String"></a>
       <span class="permalink">
@@ -1044,6 +1115,39 @@ fat rows (Default: <code>false</code>)
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#getSplitLength" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
+      <a id="getSplitLength:Int"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach.html#getSplitLength:Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getSplitLength</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Length at which sentences will be forcibly split</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#getUseCustomBoundsOnly" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
+      <a id="getUseCustomBoundsOnly:Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach.html#getUseCustomBoundsOnly:Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getUseCustomBoundsOnly</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Use only custom bounds without considering those of Pragmatic Segmenter.</p><div class="fullcomment"><div class="comment cmt"><p>Use only custom bounds without considering those of Pragmatic Segmenter. Defaults to false.
+Needs customBounds.</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#getValidationSplit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getValidationSplit:Float"></a>
       <span class="permalink">
@@ -1059,7 +1163,8 @@ fat rows (Default: <code>false</code>)
         <span class="name">getValidationSplit</span><span class="result">: <span class="extype" name="scala.Float">Float</span></span>
       </span>
       
-      <p class="shortcomment cmt">Choose the proportion of training dataset to be validated against the model on each Epoch.</p><div class="fullcomment"><div class="comment cmt"><p>Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
+      <p class="shortcomment cmt">Choose the proportion of training dataset to be validated against the model on each Epoch.</p><div class="fullcomment"><div class="comment cmt"><p>Choose the proportion of training dataset to be validated against the model on each Epoch.
+The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
 </p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a><a id="hasDefault[T](Param[T]):Boolean"></a>
@@ -1127,9 +1232,7 @@ fat rows (Default: <code>false</code>)
         <span class="name">impossiblePenultimates</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Impossible penultimates, which should not be split on
-Default:</p><div class="fullcomment"><div class="comment cmt"><p>Impossible penultimates, which should not be split on
-Default:</p><pre><span class="std">Array</span>(
+      <p class="shortcomment cmt">Impossible penultimates, which should not be split on Default:</p><div class="fullcomment"><div class="comment cmt"><p>Impossible penultimates, which should not be split on Default:</p><pre><span class="std">Array</span>(
   <span class="lit">"Bros"</span>, <span class="lit">"No"</span>, <span class="lit">"al"</span>, <span class="lit">"vs"</span>, <span class="lit">"etc"</span>, <span class="lit">"Fig"</span>, <span class="lit">"Dr"</span>, <span class="lit">"Prof"</span>, <span class="lit">"PhD"</span>, <span class="lit">"MD"</span>, <span class="lit">"Co"</span>, <span class="lit">"Corp"</span>, <span class="lit">"Inc"</span>,
   <span class="lit">"bros"</span>, <span class="lit">"VS"</span>, <span class="lit">"Vs"</span>, <span class="lit">"ETC"</span>, <span class="lit">"fig"</span>, <span class="lit">"dr"</span>, <span class="lit">"prof"</span>, <span class="lit">"PHD"</span>, <span class="lit">"phd"</span>, <span class="lit">"md"</span>, <span class="lit">"co"</span>, <span class="lit">"corp"</span>, <span class="lit">"inc"</span>,
   <span class="lit">"Jan"</span>, <span class="lit">"Feb"</span>, <span class="lit">"Mar"</span>, <span class="lit">"Apr"</span>, <span class="lit">"Jul"</span>, <span class="lit">"Aug"</span>, <span class="lit">"Sep"</span>, <span class="lit">"Sept"</span>, <span class="lit">"Oct"</span>, <span class="lit">"Nov"</span>, <span class="lit">"Dec"</span>,
@@ -1202,10 +1305,10 @@ Default:</p><pre><span class="std">Array</span>(
         <span class="name">inputCols</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
-</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
+      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
+</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isDefined(Param[_]):Boolean"></a>
@@ -1479,6 +1582,40 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#maxLength" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="maxLength:org.apache.spark.ml.param.IntParam"></a><a id="maxLength:IntParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach.html#maxLength:org.apache.spark.ml.param.IntParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">maxLength</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Set the maximum allowed length for each sentence (Ignored if not set)
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#minLength" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="minLength:org.apache.spark.ml.param.IntParam"></a><a id="minLength:IntParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach.html#minLength:org.apache.spark.ml.param.IntParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">minLength</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Set the minimum allowed length for each sentence (Default: <code>0</code>)
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#modelArchitecture" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="modelArchitecture:org.apache.spark.ml.param.Param[String]"></a><a id="modelArchitecture:Param[String]"></a>
       <span class="permalink">
@@ -1647,8 +1784,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">outputLogsPath</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Path to folder to output logs (Default: <code>&quot;&quot;</code>)
-If no path is specified, no logs are generated
+      <p class="shortcomment cmt">Path to folder to output logs (Default: <code>&quot;&quot;</code>) If no path is specified, no logs are generated
 </p>
     </li><li name="org.apache.spark.ml.param.Params#params" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="params:Array[org.apache.spark.ml.param.Param[_]]"></a><a id="params:Array[Param[_]]"></a>
@@ -1741,6 +1877,22 @@ If no path is specified, no logs are generated
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#setCustomBounds" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setCustomBounds(value:Array[String]):SentenceDetectorDLApproach.this.type"></a><a id="setCustomBounds(Array[String]):SentenceDetectorDLApproach.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach.html#setCustomBounds(value:Array[String]):SentenceDetectorDLApproach.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setCustomBounds</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach">SentenceDetectorDLApproach</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Custom sentence separator text</p>
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a><a id="setDefault(ParamPair[_]*):SentenceDetectorDLApproach.this.type"></a>
       <span class="permalink">
@@ -1805,7 +1957,8 @@ If no path is specified, no logs are generated
         <span class="name">setExplodeSentences</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach">SentenceDetectorDLApproach</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Whether to split sentences into different Dataset rows.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to split sentences into different Dataset rows. Useful for higher parallelism in fat rows. Defaults to false.
+      <p class="shortcomment cmt">Whether to split sentences into different Dataset rows.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to split sentences into different Dataset rows. Useful for higher parallelism in fat
+rows. Defaults to false.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#setGraphFile" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="setGraphFile(graphFilename:String):SentenceDetectorDLApproach.this.type"></a><a id="setGraphFile(String):SentenceDetectorDLApproach.this.type"></a>
@@ -1888,6 +2041,38 @@ If no path is specified, no logs are generated
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#setMaxLength" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setMaxLength(value:Int):SentenceDetectorDLApproach.this.type"></a><a id="setMaxLength(Int):SentenceDetectorDLApproach.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach.html#setMaxLength(value:Int):SentenceDetectorDLApproach.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setMaxLength</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach">SentenceDetectorDLApproach</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Set the maximum allowed length for each sentence</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#setMinLength" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setMinLength(value:Int):SentenceDetectorDLApproach.this.type"></a><a id="setMinLength(Int):SentenceDetectorDLApproach.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach.html#setMinLength(value:Int):SentenceDetectorDLApproach.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setMinLength</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach">SentenceDetectorDLApproach</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Set the minimum allowed length for each sentence</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#setModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setModel(modelArchitecture:String):SentenceDetectorDLApproach.this.type"></a><a id="setModel(String):SentenceDetectorDLApproach.this.type"></a>
       <span class="permalink">
@@ -1938,6 +2123,39 @@ If no path is specified, no logs are generated
       
       <p class="shortcomment cmt">Set the output log path
 </p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#setSplitLength" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setSplitLength(value:Int):SentenceDetectorDLApproach.this.type"></a><a id="setSplitLength(Int):SentenceDetectorDLApproach.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach.html#setSplitLength(value:Int):SentenceDetectorDLApproach.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setSplitLength</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach">SentenceDetectorDLApproach</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Length at which sentences will be forcibly split</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#setUseCustomBoundsOnly" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setUseCustomBoundsOnly(value:Boolean):SentenceDetectorDLApproach.this.type"></a><a id="setUseCustomBoundsOnly(Boolean):SentenceDetectorDLApproach.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach.html#setUseCustomBoundsOnly(value:Boolean):SentenceDetectorDLApproach.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setUseCustomBoundsOnly</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach">SentenceDetectorDLApproach</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Use only custom bounds without considering those of Pragmatic Segmenter.</p><div class="fullcomment"><div class="comment cmt"><p>Use only custom bounds without considering those of Pragmatic Segmenter. Defaults to false.
+Needs customBounds.</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#setValidationSplit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setValidationSplit(validationSplit:Float):SentenceDetectorDLApproach.this.type"></a><a id="setValidationSplit(Float):SentenceDetectorDLApproach.this.type"></a>
       <span class="permalink">
@@ -1953,8 +2171,26 @@ If no path is specified, no logs are generated
         <span class="name">setValidationSplit</span><span class="params">(<span name="validationSplit">validationSplit: <span class="extype" name="scala.Float">Float</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach">SentenceDetectorDLApproach</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Choose the proportion of training dataset to be validated against the model on each Epoch.</p><div class="fullcomment"><div class="comment cmt"><p>Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
+      <p class="shortcomment cmt">Choose the proportion of training dataset to be validated against the model on each Epoch.</p><div class="fullcomment"><div class="comment cmt"><p>Choose the proportion of training dataset to be validated against the model on each Epoch.
+The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
 </p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#splitLength" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="splitLength:org.apache.spark.ml.param.IntParam"></a><a id="splitLength:IntParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach.html#splitLength:org.apache.spark.ml.param.IntParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">splitLength</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Length at which sentences will be forcibly split (Ignored if not set)
+</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -2054,6 +2290,23 @@ If no path is specified, no logs are generated
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach">SentenceDetectorDLApproach</a> → Identifiable</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#useCustomBoundsOnly" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="useCustomBoundsOnly:org.apache.spark.ml.param.BooleanParam"></a><a id="useCustomBoundsOnly:BooleanParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach.html#useCustomBoundsOnly:org.apache.spark.ml.param.BooleanParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">useCustomBoundsOnly</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Whether to only utilize custom bounds for sentence detection (Default: <code>false</code>)
+</p>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#validate" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="validate(schema:org.apache.spark.sql.types.StructType):Boolean"></a><a id="validate(StructType):Boolean"></a>
       <span class="permalink">
@@ -2070,7 +2323,9 @@ If no path is specified, no logs are generated
       </span>
       
       <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.
-</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>
+  to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>
+  True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach#validationSplit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="validationSplit:org.apache.spark.ml.param.FloatParam"></a><a id="validationSplit:FloatParam"></a>
       <span class="permalink">
@@ -2086,8 +2341,10 @@ If no path is specified, no logs are generated
         <span class="name">validationSplit</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.FloatParam">FloatParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Choose the proportion of training dataset to be validated against the model on each Epoch (Default: <code>0.0f</code>).</p><div class="fullcomment"><div class="comment cmt"><p>Choose the proportion of training dataset to be validated against the model on each Epoch (Default: <code>0.0f</code>).
-The value should be between <code>0.0</code> and <code>1.0</code> and by default it is <code>0.0</code> and off.
+      <p class="shortcomment cmt">Choose the proportion of training dataset to be validated against the model on each Epoch
+(Default: <code>0.0f</code>).</p><div class="fullcomment"><div class="comment cmt"><p>Choose the proportion of training dataset to be validated against the model on each Epoch
+(Default: <code>0.0f</code>). The value should be between <code>0.0</code> and <code>1.0</code> and by default it is <code>0.0</code>
+and off.
 </p></div></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
@@ -2222,10 +2479,13 @@ The value should be between <code>0.0</code> and <code>1.0</code> and by default
         <div id="groupedMembers">
         <div class="group" name="param">
               <h3>Parameters</h3>
-              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
+              <div class="comment cmt"><p>
+  A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  parameter values through setters and getters, respectively.</p></div>
             </div><div class="group" name="anno">
               <h3>Annotator types</h3>
-              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+              <div class="comment cmt"><p>
+  Required input and expected output annotator types</p></div>
             </div><div class="group" name="Ungrouped">
               <h3>Members</h3>
               

@@ -24,14 +24,13 @@ public class FeatureTemplate {
      * "H"	: head
      * "M"	: modifier
      * "B"	: in-between tokens
-     *
+     * <p>
      * "P"	: pos tag
      * "W"	: word form or lemma
      * "EMB": word embedding (word vector)
-     *
+     * <p>
      * "p": previous token
      * "n": next token
-     *
      */
 
     public enum Arc {
@@ -49,23 +48,23 @@ public class FeatureTemplate {
         MPp_MP_MPn,
 
         // posL-1 posL posR posR+1
-        HPp_HP_MP_MPn,		//CORE_POS_PT0,
-        HP_MP_MPn,			//CORE_POS_PT1,
-        HPp_HP_MP,			//CORE_POS_PT2,
-        HPp_MP_MPn,			//CORE_POS_PT3,
-        HPp_HP_MPn,			//CORE_POS_PT4,
+        HPp_HP_MP_MPn,        //CORE_POS_PT0,
+        HP_MP_MPn,            //CORE_POS_PT1,
+        HPp_HP_MP,            //CORE_POS_PT2,
+        HPp_MP_MPn,            //CORE_POS_PT3,
+        HPp_HP_MPn,            //CORE_POS_PT4,
 
         // posL posL+1 posR-1 posR
-        HP_HPn_MPp_MP,		//CORE_POS_APT0,
-        HP_MPp_MP,			//CORE_POS_APT1,
-        HP_HPn_MP,			//CORE_POS_APT2,
-        HPn_MPp_MP,			//CORE_POS_APT3,
-        HP_HPn_MPp,			//CORE_POS_APT4,
+        HP_HPn_MPp_MP,        //CORE_POS_APT0,
+        HP_MPp_MP,            //CORE_POS_APT1,
+        HP_HPn_MP,            //CORE_POS_APT2,
+        HPn_MPp_MP,            //CORE_POS_APT3,
+        HP_HPn_MPp,            //CORE_POS_APT4,
 
         // posL-1 posL posR-1 posR
         // posL posL+1 posR posR+1
-        HPp_HP_MPp_MP,		//CORE_POS_BPT,
-        HP_HPn_MP_MPn,		//CORE_POS_CPT,
+        HPp_HP_MPp_MP,        //CORE_POS_BPT,
+        HP_HPn_MP_MPn,        //CORE_POS_CPT,
 
         // unigram (form, lemma, pos, coarse_pos, morphology)
         CORE_HEAD_WORD,
@@ -78,15 +77,15 @@ public class FeatureTemplate {
         CORE_MOD_nWORD,
 
         // bigram  [word|lemma]-cross-[pos|cpos|mophlogy](-cross-distance)
-        HW_MW_HP_MP,			//CORE_BIGRAM_A,
-        MW_HP_MP,				//CORE_BIGRAM_B,
-        HW_HP_MP,				//CORE_BIGRAM_C,
-        MW_HP,					//CORE_BIGRAM_D,
-        HW_MP,					//CORE_BIGRAM_E,
-        HW_HP,					//CORE_BIGRAM_H,
-        MW_MP,					//CORE_BIGRAM_K,
-        HW_MW,					//CORE_BIGRAM_F,
-        HP_MP,					//CORE_BIGRAM_G,
+        HW_MW_HP_MP,            //CORE_BIGRAM_A,
+        MW_HP_MP,                //CORE_BIGRAM_B,
+        HW_HP_MP,                //CORE_BIGRAM_C,
+        MW_HP,                    //CORE_BIGRAM_D,
+        HW_MP,                    //CORE_BIGRAM_E,
+        HW_HP,                    //CORE_BIGRAM_H,
+        MW_MP,                    //CORE_BIGRAM_K,
+        HW_MW,                    //CORE_BIGRAM_F,
+        HP_MP,                    //CORE_BIGRAM_G,
 
 
         /*************************************************
@@ -110,7 +109,7 @@ public class FeatureTemplate {
         GC_HL,
         GL_HL,
 
-        GC_MC,	// this block only cross with dir flag
+        GC_MC,    // this block only cross with dir flag
         GL_MC,
         GC_ML,
         GL_ML,

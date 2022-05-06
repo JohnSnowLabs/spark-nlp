@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.btm.BigTextMatcher</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.btm.BigTextMatcher" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.btm.BigTextMatcher" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.btm.BigTextMatcher</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.btm.BigTextMatcher" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.nlp.annotators.btm.BigTextMatcher" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -219,9 +219,9 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Annotator to match exact phrases (by token) provided in a file against a Document.</p><p>A text file of predefined phrases must be provided with <code>setStoragePath</code>.
-The text file can als be set directly as an
-<a href="../../util/io/ExternalResource.html" class="extype" name="com.johnsnowlabs.nlp.util.io.ExternalResource">ExternalResource</a>.</p><p>In contrast to the normal <code>TextMatcher</code>, the <code>BigTextMatcher</code> is designed for large corpora.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/btm/BigTextMatcherTestSpec.scala" target="_blank">BigTextMatcherTestSpec</a>.</p><h4>Example</h4><p>In this example, the entities file is of the form</p><pre>...
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Annotator to match exact phrases (by token) provided in a file against a Document.</p><p>A text file of predefined phrases must be provided with <code>setStoragePath</code>. The text file can
+als be set directly as an <a href="../../util/io/ExternalResource.html" class="extype" name="com.johnsnowlabs.nlp.util.io.ExternalResource">ExternalResource</a>.</p><p>In contrast to the normal <code>TextMatcher</code>, the <code>BigTextMatcher</code> is designed for large corpora.</p><p>For extended examples of usage, see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/btm/BigTextMatcherTestSpec.scala" target="_blank">BigTextMatcherTestSpec</a>.</p><h4>Example</h4><p>In this example, the entities file is of the form</p><pre>...
 dolore magna aliqua
 lorem ipsum dolor. sit
 laborum
@@ -336,7 +336,8 @@ results.selectExpr(<span class="lit">"explode(entity)"</span>).show(<span class=
         <span class="name">BigTextMatcher</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>internal uid required to generate writable annotators</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>
+  internal uid required to generate writable annotators</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -1399,10 +1400,10 @@ results.selectExpr(<span class="lit">"explode(entity)"</span>).show(<span class=
         <span class="name">inputCols</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
-</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
+      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
+</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isDefined(Param[_]):Boolean"></a>
@@ -2452,7 +2453,9 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.
-</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>
+  to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>
+  True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.storage.HasStorageRef#validateStorageRef" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="validateStorageRef(dataset:org.apache.spark.sql.Dataset[_],inputCols:Array[String],annotatorType:String):Unit"></a><a id="validateStorageRef(Dataset[_],Array[String],String):Unit"></a>
       <span class="permalink">
@@ -2614,10 +2617,13 @@ AnnotatorType is used both as input and output columns if not specified
         <div id="groupedMembers">
         <div class="group" name="anno">
               <h3>Annotator types</h3>
-              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+              <div class="comment cmt"><p>
+  Required input and expected output annotator types</p></div>
             </div><div class="group" name="param">
               <h3>Parameters</h3>
-              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
+              <div class="comment cmt"><p>
+  A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  parameter values through setters and getters, respectively.</p></div>
             </div><div class="group" name="setParam">
               <h3>Parameter setters</h3>
               

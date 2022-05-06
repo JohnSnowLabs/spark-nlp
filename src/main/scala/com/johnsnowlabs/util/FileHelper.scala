@@ -16,13 +16,13 @@
 
 package com.johnsnowlabs.util
 
+import org.apache.commons.io.FileUtils
+
 import java.io.{File, IOException}
 import java.nio.charset.Charset
 import java.nio.file.{Files, Paths}
 import java.security.MessageDigest
 import java.text.DecimalFormat
-
-import org.apache.commons.io.FileUtils
 
 object FileHelper {
   def writeLines(file: String, lines: Seq[String], encoding: String = "UTF-8"): Unit = {
@@ -35,12 +35,10 @@ object FileHelper {
           writer.write(System.lineSeparator())
         cnt += 1
       }
-    }
-    catch {
+    } catch {
       case ex: IOException =>
         ex.printStackTrace()
-    }
-    finally if (writer != null) writer.close()
+    } finally if (writer != null) writer.close()
   }
 
   def delete(file: String, throwOnError: Boolean = false): Unit = {
@@ -51,8 +49,7 @@ object FileHelper {
           FileUtils.deleteDirectory(f)
         else
           FileUtils.deleteQuietly(f)
-      }
-      catch {
+      } catch {
         case e: Exception =>
           if (throwOnError)
             throw e
@@ -73,6 +70,7 @@ object FileHelper {
     if (size <= 0) return "0"
     val units = Array[String]("B", "KB", "MB", "GB", "TB", "PB", "EB")
     val digitGroups = (Math.log10(size) / Math.log10(1024)).toInt
-    new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units(digitGroups)
+    new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units(
+      digitGroups)
   }
 }
