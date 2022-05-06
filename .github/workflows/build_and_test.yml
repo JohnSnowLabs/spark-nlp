@@ -52,9 +52,7 @@ jobs:
       - name: Build Spark NLP on Apache Spark 3.2.1
         run: |
           brew install sbt
-          sbt clean
-          sbt compile
-          sbt -mem 4096 assemblyAndCopy
+          sbt -mem 4096 clean assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 3.2.x
         run: |
           sbt -mem 4096 coverage test
@@ -91,9 +89,7 @@ jobs:
       - name: Build Spark NLP on Apache Spark 3.1.x
         run: |
           brew install sbt
-          sbt clean
-          sbt compile
-          sbt -mem 4096 -Dis_spark30=true assemblyAndCopy
+          sbt -mem 4096 -Dis_spark30=true clean assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 3.1.x
         run: |
           sbt -mem 4096 -Dis_spark30=true test
@@ -125,9 +121,7 @@ jobs:
       - name: Build Spark NLP on Apache Spark 3.0.x
         run: |
           brew install sbt
-          sbt clean
-          sbt compile
-          sbt -mem 4096 -Dis_spark30=true assemblyAndCopy
+          sbt -mem 4096 -Dis_spark30=true clean assemblyAndCopy
       - name: Test Spark NLP in Python - Apache Spark 3.0.x
         run: |
           cd python

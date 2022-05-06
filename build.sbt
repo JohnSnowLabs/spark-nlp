@@ -217,8 +217,8 @@ inConfig(SlowTest)(Defaults.testTasks)
 (Test / publishArtifact) := true
 
 /** Copies the assembled jar to the pyspark/lib dir * */
-lazy val copyAssembledJar = taskKey[Unit]("Copy assembled jar to pyspark/lib")
-lazy val copyAssembledJarForPyPi = taskKey[Unit]("Copy assembled jar to pyspark/sparknlp/lib")
+lazy val copyAssembledJar = taskKey[Unit]("Copy assembled jar to python/lib")
+lazy val copyAssembledJarForPyPi = taskKey[Unit]("Copy assembled jar to python/sparknlp/lib")
 
 copyAssembledJar := {
   val jarFilePath = (assembly / assemblyOutputPath).value
