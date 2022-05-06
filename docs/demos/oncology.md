@@ -33,6 +33,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_TUMOR.ipynb  
         - title: Map oncology terminology to ICD-O taxonomy
+          hide: yes
           id: icdo_coding
           image: 
               src: /assets/images/Detect_diagnosis_and_procedures.svg

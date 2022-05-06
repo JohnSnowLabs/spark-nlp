@@ -20,6 +20,7 @@ from pyspark.ml.wrapper import JavaModel, JavaEstimator
 from pyspark.ml.param.shared import Param, TypeConverters
 from pyspark.ml.param import Params
 from pyspark import keyword_only
+
 import sparknlp.internal as _internal
 
 
@@ -53,7 +54,7 @@ class AnnotatorProperties(Params):
 
     def getInputCols(self):
         """Gets current column names of input annotations."""
-        self.getOrDefault(self.inputCols)
+        return self.getOrDefault(self.inputCols)
 
     def setOutputCol(self, value):
         """Sets output column name of annotations.
@@ -67,7 +68,7 @@ class AnnotatorProperties(Params):
 
     def getOutputCol(self):
         """Gets output column name of annotations."""
-        self.getOrDefault(self.outputCol)
+        return self.getOrDefault(self.outputCol)
 
     def setLazyAnnotator(self, value):
         """Sets whether Annotator should be evaluated lazily in a
@@ -85,7 +86,7 @@ class AnnotatorProperties(Params):
         """Gets whether Annotator should be evaluated lazily in a
         RecursivePipeline.
         """
-        self.getOrDefault(self.lazyAnnotator)
+        return self.getOrDefault(self.lazyAnnotator)
 
 
 class AnnotatorModel(JavaModel, _internal.AnnotatorJavaMLReadable, JavaMLWritable, AnnotatorProperties,
@@ -389,3 +390,30 @@ class HasEnableCachingProperties:
             Whether to enable caching DataFrames or RDDs during the training
         """
         return self.getOrDefault(self.enableCaching)
+
+
+class HasClassifierActivationProperties:
+    activation = Param(Params._dummy(),
+                       "activation",
+                       "Whether to calculate logits via Softmax or Sigmoid. Default is Softmax",
+                       typeConverter=TypeConverters.toString)
+
+    def setActivation(self, value):
+        """Sets whether to calculate logits via Softmax or Sigmoid. Default is Softmax
+
+        Parameters
+        ----------
+        value : str
+            Whether to calculate logits via Softmax or Sigmoid. Default is Softmax
+        """
+        return self._set(activation=value)
+
+    def getActivation(self):
+        """Gets whether to calculate logits via Softmax or Sigmoid. Default is Softmax
+
+        Returns
+        -------
+        str
+            Whether to calculate logits via Softmax or Sigmoid. Default is Softmax
+        """
+        return self.getOrDefault(self.activation)

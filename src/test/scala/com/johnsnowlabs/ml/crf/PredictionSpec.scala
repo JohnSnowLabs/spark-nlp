@@ -43,4 +43,3 @@ class PredictionSpec extends AnyFlatSpec {
     assert(labels.labels == Seq(0, 0))
   }
 }
-

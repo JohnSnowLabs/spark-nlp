@@ -36,9 +36,7 @@ import java.util.LinkedList;
 
 import static com.johnsnowlabs.nlp.annotators.parser.typdep.feature.FeatureTemplate.Arc.NUM_ARC_FEAT_BITS;
 import static com.johnsnowlabs.nlp.annotators.parser.typdep.feature.FeatureTemplate.Word.NUM_WORD_FEAT_BITS;
-import static com.johnsnowlabs.nlp.annotators.parser.typdep.util.DictionarySet.DictionaryTypes.DEP_LABEL;
-import static com.johnsnowlabs.nlp.annotators.parser.typdep.util.DictionarySet.DictionaryTypes.POS;
-import static com.johnsnowlabs.nlp.annotators.parser.typdep.util.DictionarySet.DictionaryTypes.WORD;
+import static com.johnsnowlabs.nlp.annotators.parser.typdep.util.DictionarySet.DictionaryTypes.*;
 
 public class DependencyPipe implements Serializable {
 
@@ -69,7 +67,7 @@ public class DependencyPipe implements Serializable {
         this.dictionariesSet = dictionariesSet;
     }
 
-    private String[] types;					// array that maps label index to label string
+    private String[] types;                    // array that maps label index to label string
 
     public String[] getTypes() {
         return types;
@@ -88,8 +86,7 @@ public class DependencyPipe implements Serializable {
 
     private int numCPOS;
 
-    DependencyPipe(Options options)
-    {
+    DependencyPipe(Options options) {
         dictionariesSet = new DictionarySet();
         synFactory = new SyntacticFeatureFactory();
 
@@ -134,8 +131,7 @@ public class DependencyPipe implements Serializable {
      *
      * @param file file path of the training data
      */
-    private void createDictionaries(String file, String conllFormat) throws IOException
-    {
+    private void createDictionaries(String file, String conllFormat) throws IOException {
         long start = System.currentTimeMillis();
         logger.debug("Creating dictionariesSet ... ");
 
@@ -167,17 +163,17 @@ public class DependencyPipe implements Serializable {
         synFactory.setWordNumBits(Utils.log2((long) dictionariesSet.getDictionarySize(WORD) + 1));
         synFactory.setTagNumBits(Utils.log2((long) dictionariesSet.getDictionarySize(POS) + 1));
         synFactory.setDepNumBits(Utils.log2((long) dictionariesSet.getDictionarySize(DEP_LABEL) + 1));
-        synFactory.setFlagBits(2*synFactory.getDepNumBits() + 4);
+        synFactory.setFlagBits(2 * synFactory.getDepNumBits() + 4);
 
         types = new String[dictionariesSet.getDictionarySize(DEP_LABEL)];
         Dictionary labelDict = dictionariesSet.getDictionary(DEP_LABEL);
-        Object[] keys = labelDict.toArray();
-        for (Object key : keys) {
+        String[] keys = labelDict.newToArray();
+        for (String key : keys) {
             int id = labelDict.lookupIndex(key);
-            types[id - 1] = (String) key;
+            types[id - 1] = key;
         }
 
-        if(logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled()) {
             logger.debug(String.format("%d %d %n", NUM_WORD_FEAT_BITS, NUM_ARC_FEAT_BITS));
             logger.debug(String.format("Lexical items: %d (%d bits)%n",
                     dictionariesSet.getDictionarySize(WORD), synFactory.getWordNumBits()));
@@ -197,8 +193,7 @@ public class DependencyPipe implements Serializable {
      *
      * @param file  file path of the training data
      */
-    public void createAlphabets(String file, String conllFormat) throws IOException
-    {
+    public void createAlphabets(String file, String conllFormat) throws IOException {
 
         createDictionaries(file, conllFormat);
 
@@ -212,7 +207,7 @@ public class DependencyPipe implements Serializable {
 
         DependencyInstance dependencyInstance = reader.nextInstance();
 
-        while(dependencyInstance != null) {
+        while (dependencyInstance != null) {
 
             for (int i = 0; i < dependencyInstance.getLength(); ++i) {
                 if (dependencyInstance.getUPosTags() != null) posTagSet.add(dependencyInstance.getUPosTags()[i]);
@@ -226,7 +221,7 @@ public class DependencyPipe implements Serializable {
             dependencyInstance = reader.nextInstance();
         }
 
-        if(logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled()) {
             logger.debug(String.format("[%d ms]%n", System.currentTimeMillis() - start));
         }
 
@@ -234,7 +229,7 @@ public class DependencyPipe implements Serializable {
         reader.close();
 
         synFactory.checkCollisions();
-        if(logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled()) {
             logger.debug(String.format("Num of CONLL fine POS tags: %d%n", posTagSet.size()));
             logger.debug(String.format("Num of CONLL coarse POS tags: %d%n", cposTagSet.size()));
             logger.debug(String.format("Num of labels: %d%n", types.length));
@@ -247,13 +242,11 @@ public class DependencyPipe implements Serializable {
     /***
      * Close alphabets so the feature set wouldn't grow.
      */
-    public void closeAlphabets()
-    {
+    public void closeAlphabets() {
         synFactory.closeAlphabets();
     }
 
-    public DependencyInstance[] createInstances(String file, String conllFormat) throws IOException
-    {
+    public DependencyInstance[] createInstances(String file, String conllFormat) throws IOException {
 
         logger.debug("Creating instances ... ");
 
@@ -263,7 +256,7 @@ public class DependencyPipe implements Serializable {
         LinkedList<DependencyInstance> lt = new LinkedList<>();
         DependencyInstance dependencyInstance = reader.nextInstance();
 
-        while(dependencyInstance != null) {
+        while (dependencyInstance != null) {
 
             dependencyInstance.setInstIds(dictionariesSet, coarseMap, conjWord);
 
@@ -284,8 +277,7 @@ public class DependencyPipe implements Serializable {
         return insts;
     }
 
-    public DependencyInstance nextSentence(ConllData[] sentence, String conllFormat)
-    {
+    public DependencyInstance nextSentence(ConllData[] sentence, String conllFormat) {
         DependencyInstance dependencyInstance;
         if (conllFormat.equals("2009")) {
             Conll09Reader conll09Reader = new Conll09Reader();
@@ -304,11 +296,10 @@ public class DependencyPipe implements Serializable {
         return dependencyInstance;
     }
 
-    public void pruneLabel(DependencyInstance[] dependencyInstances)
-    {
+    public void pruneLabel(DependencyInstance[] dependencyInstances) {
         int numPOS = dictionariesSet.getDictionarySize(POS) + 1;
         int numLab = dictionariesSet.getDictionarySize(DEP_LABEL) + 1;
-        this.pruneLabel = new boolean [numPOS][numPOS][numLab];
+        this.pruneLabel = new boolean[numPOS][numPOS][numLab];
         int num = 0;
 
         for (DependencyInstance dependencyInstance : dependencyInstances) {
@@ -323,8 +314,8 @@ public class DependencyPipe implements Serializable {
             }
         }
 
-        if(logger.isDebugEnabled()) {
-            logger.debug(String.format("Prune label: %d/%d", num, numCPOS*numCPOS*numLab));
+        if (logger.isDebugEnabled()) {
+            logger.debug(String.format("Prune label: %d/%d", num, numCPOS * numCPOS * numLab));
         }
 
     }

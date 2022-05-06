@@ -27,7 +27,8 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 trait NorvigSweetingBehaviors { this: AnyFlatSpec =>
 
-  private val trainDataSet = AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
+  private val trainDataSet =
+    AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
   private val predictionDataSet = ContentProvider.parquetData.limit(1000)
 
   private val documentAssembler = new DocumentAssembler()
@@ -51,14 +52,7 @@ trait NorvigSweetingBehaviors { this: AnyFlatSpec =>
     .setInputCols("spell")
 
   private val pipeline = new Pipeline()
-    .setStages(Array(
-      documentAssembler,
-      tokenizer,
-      normalizer,
-      spell,
-      finisher
-    ))
-
+    .setStages(Array(documentAssembler, tokenizer, normalizer, spell, finisher))
 
   def getTrainDataSet(trainDataPath: String): Dataset[_] = {
 
@@ -74,10 +68,7 @@ trait NorvigSweetingBehaviors { this: AnyFlatSpec =>
       .setOutputCol("token")
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer
-      ))
+      .setStages(Array(documentAssembler, tokenizer))
 
     pipeline.fit(emptyDataSet).transform(corpusDataSet)
   }
@@ -92,7 +83,8 @@ trait NorvigSweetingBehaviors { this: AnyFlatSpec =>
         .setDictionary("src/test/resources/spell/words.txt")
         .fit(trainBigDataSet)
 
-      val result = wordAnswer.count(wa => spellChecker.checkSpellWord(wa._1)._1 == wa._2) / wordAnswer.length.toDouble
+      val result = wordAnswer.count(wa =>
+        spellChecker.checkSpellWord(wa._1)._1 == wa._2) / wordAnswer.length.toDouble
       assert(result > 0.95, s"because result: $result did was below: 0.95")
     }
   }
@@ -100,16 +92,19 @@ trait NorvigSweetingBehaviors { this: AnyFlatSpec =>
   def sparkBasedSpellChecker(dataset: => Dataset[Row], inputFormat: String = "TXT"): Unit = {
     s"a SpellChecker Annotator with ${dataset.count} rows and corpus format $inputFormat" should
       s"successfully correct words" taggedAs FastTest in {
-      val result = AnnotatorBuilder.withFullSpellChecker(dataset, inputFormat)
-        .select("document", "spell")
-      result.collect()
-    }
+        val result = AnnotatorBuilder
+          .withFullSpellChecker(dataset, inputFormat)
+          .select("document", "spell")
+        result.collect()
+      }
   }
 
   def datasetBasedSpellChecker(): Unit = {
     s"a SpellChecker annotator trained with datasets" should "successfully correct words" taggedAs FastTest in {
 
-      /**Not cool to do this. Fit calls transform early, and will look for text column. Spark limitation...*/
+      /** Not cool to do this. Fit calls transform early, and will look for text column. Spark
+        * limitation...
+        */
       val model = pipeline.fit(trainDataSet)
       model.transform(predictionDataSet).show(1)
     }
@@ -118,7 +113,9 @@ trait NorvigSweetingBehaviors { this: AnyFlatSpec =>
   def testDefaultTokenCorpusParameter(): Unit = {
     s"using a corpus with default token parameter" should "successfully correct words" taggedAs FastTest in {
 
-      /**Not cool to do this. Fit calls transform early, and will look for text column. Spark limitation...*/
+      /** Not cool to do this. Fit calls transform early, and will look for text column. Spark
+        * limitation...
+        */
       val model = pipeline.fit(trainDataSet)
       model.transform(predictionDataSet).show(1)
     }
@@ -133,7 +130,7 @@ trait NorvigSweetingBehaviors { this: AnyFlatSpec =>
   }
 
   def trainSpellCheckerModelFromFit(): Unit = {
-    "" should "trained a model from fit when dataset with array annotation is used"  in {
+    "" should "trained a model from fit when dataset with array annotation is used" in {
       val trainDataSet = getTrainDataSet("src/test/resources/spell/sherlockholmes.txt")
 
       val spell = new NorvigSweetingApproach()
@@ -149,8 +146,9 @@ trait NorvigSweetingBehaviors { this: AnyFlatSpec =>
   }
 
   def raiseErrorWhenWrongColumnIsSent(): Unit = {
-    "" should "raise an error when dataset without array annotation is used"  in {
-      val trainDataSet = AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
+    "" should "raise an error when dataset without array annotation is used" in {
+      val trainDataSet =
+        AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
       val spell = new NorvigSweetingApproach()
         .setInputCols(Array("text"))
         .setOutputCol("spell")
@@ -162,8 +160,10 @@ trait NorvigSweetingBehaviors { this: AnyFlatSpec =>
 
       val expectedErrorMessage = caught match {
         case ex: AnalysisException => "need an array field but got string" // Spark 3.x
-        case ex: IllegalArgumentException => "Train dataset must have an array annotation type column" // Spark 2.x
-        case _ => new Exception("Unknown exception. Please check Spark version for correct handling.")
+        case ex: IllegalArgumentException =>
+          "Train dataset must have an array annotation type column" // Spark 2.x
+        case _ =>
+          new Exception("Unknown exception. Please check Spark version for correct handling.")
       }
 
       assert(caught.getMessage == expectedErrorMessage)
@@ -173,14 +173,9 @@ trait NorvigSweetingBehaviors { this: AnyFlatSpec =>
   def includeScoreOnMetadata(): Unit = {
     "" should "include score on metadata" taggedAs FastTest in {
       val pipeline = new Pipeline()
-        .setStages(Array(
-          documentAssembler,
-          tokenizer,
-          normalizer,
-          spell
-        ))
+        .setStages(Array(documentAssembler, tokenizer, normalizer, spell))
       val model = pipeline.fit(trainDataSet)
-      model.transform(predictionDataSet).select("spell").show(1,false)
+      model.transform(predictionDataSet).select("spell").show(1, false)
     }
   }
 

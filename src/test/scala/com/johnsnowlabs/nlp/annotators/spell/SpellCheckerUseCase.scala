@@ -18,7 +18,10 @@ package com.johnsnowlabs.nlp.annotators.spell
 
 import com.johnsnowlabs.nlp.annotator.RecursiveTokenizer
 import com.johnsnowlabs.nlp.{DocumentAssembler, SparkAccessor}
-import com.johnsnowlabs.nlp.annotators.spell.context.{ContextSpellCheckerApproach, ContextSpellCheckerModel}
+import com.johnsnowlabs.nlp.annotators.spell.context.{
+  ContextSpellCheckerApproach,
+  ContextSpellCheckerModel
+}
 import org.apache.spark.ml.Pipeline
 
 object SpellCheckerUseCase extends App {
@@ -35,15 +38,30 @@ object SpellCheckerUseCase extends App {
   // do some brief DS exploration, and preparation to get clean text
   val df = SparkAccessor.spark.read.text(paisaCorpusPath)
 
-  val dataset = df.filter(!df("value").contains("</text")).
-    filter(!df("value").contains("<text")).
-    filter(!df("value").startsWith("#")).
-    limit(10000)
+  val dataset = df
+    .filter(!df("value").contains("</text"))
+    .filter(!df("value").contains("<text"))
+    .filter(!df("value").startsWith("#"))
+    .limit(10000)
 
   dataset.show(truncate = false)
 
-  val names = List("Achille", "Achillea", "Achilleo", "Achillina", "Achiropita", "Acilia", "Acilio", "Acquisto",
-    "Acrisio", "Ada", "Adalberta", "Adalberto", "Adalciso", "Adalgerio", "Adalgisa")
+  val names = List(
+    "Achille",
+    "Achillea",
+    "Achilleo",
+    "Achillina",
+    "Achiropita",
+    "Acilia",
+    "Acilio",
+    "Acquisto",
+    "Acrisio",
+    "Ada",
+    "Adalberta",
+    "Adalberto",
+    "Adalciso",
+    "Adalgerio",
+    "Adalgisa")
 
   import scala.collection.JavaConverters._
 
@@ -59,7 +77,8 @@ object SpellCheckerUseCase extends App {
   val tokenizer = new RecursiveTokenizer()
     .setInputCols("document")
     .setOutputCol("token")
-    .setPrefixes(Array("\"", "“", "(", "[", "\n", ".", "l’", "dell’", "nell’", "sull’", "all’", "d’", "un’"))
+    .setPrefixes(
+      Array("\"", "“", "(", "[", "\n", ".", "l’", "dell’", "nell’", "sull’", "all’", "d’", "un’"))
     .setSuffixes(Array("\"", "”", ".", ",", "?", ")", "]", "!", ";", ":"))
 
   val spellCheckerModel = new ContextSpellCheckerApproach()

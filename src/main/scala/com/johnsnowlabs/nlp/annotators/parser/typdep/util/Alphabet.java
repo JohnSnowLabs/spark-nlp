@@ -16,33 +16,30 @@
 
 package com.johnsnowlabs.nlp.annotators.parser.typdep.util;
 
-import gnu.trove.map.hash.TLongIntHashMap;
-
 import java.io.Serializable;
+import java.util.HashMap;
 
-public class Alphabet implements Serializable
-{
+public class Alphabet implements Serializable {
     // Serialization
     private static final long serialVersionUID = 1;
-    private TLongIntHashMap map;
+    private HashMap<Long, Integer> map;
     private int numEntries;
     private boolean growthStopped = false;
 
     private Alphabet (int capacity)
     {
-        this.map = new TLongIntHashMap(capacity);
+        this.map = new HashMap(capacity);
         numEntries = 0;
     }
 
-    public Alphabet ()
-    {
-        this (10000);
+    public Alphabet() {
+        this(10000);
     }
 
     /** Return -1 if entry isn't present. */
     public int lookupIndex (long entry, int value)
     {
-        int ret = map.get(entry);
+        int ret = map.get(entry) == null ? 0 : map.get(entry);
         if (ret <= 0 && !growthStopped) {
             numEntries++;
             ret = value + 1;
@@ -54,7 +51,7 @@ public class Alphabet implements Serializable
     /** Return -1 if entry isn't present. */
     public int lookupIndex (long entry)
     {
-        int ret = map.get(entry);
+        int ret = map.get(entry) == null ? 0 : map.get(entry);
         if (ret <= 0 && !growthStopped) {
             numEntries++;
             ret = numEntries;
@@ -63,8 +60,7 @@ public class Alphabet implements Serializable
         return ret - 1;	// feature id should be 0-based
     }
 
-    public void stopGrowth ()
-    {
+    public void stopGrowth() {
         growthStopped = true;
     }
 }

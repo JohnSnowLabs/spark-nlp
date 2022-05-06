@@ -30,14 +30,14 @@ class NerCrfCustomCase extends AnyFlatSpec {
 
   val spark: SparkSession = ResourceHelper.spark
 
-
   "NerCRF" should "train CoNLL dataset" taggedAs SlowTest in {
 
-
     val conll = CoNLL()
-    val test_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+    val test_data =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
-    val embeddings = WordEmbeddingsModel.pretrained()
+    val embeddings = WordEmbeddingsModel
+      .pretrained()
       .setInputCols("token", "sentence")
       .setOutputCol("embeddings")
 
@@ -48,10 +48,7 @@ class NerCrfCustomCase extends AnyFlatSpec {
       .setMaxEpochs(50)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        embeddings,
-        nerCrf
-      ))
+      .setStages(Array(embeddings, nerCrf))
 
     val model = pipeline.fit(test_data)
 
@@ -63,7 +60,8 @@ class NerCrfCustomCase extends AnyFlatSpec {
   "NerCRF" should "load saved model and predict" taggedAs SlowTest in {
 
     val conll = CoNLL()
-    val test_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testb")
+    val test_data =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testb")
 
     val m = PipelineModel.load("./tmp_nercrfpipeline")
     m.stages(1).asInstanceOf[NerCrfModel].setIncludeConfidence(false)

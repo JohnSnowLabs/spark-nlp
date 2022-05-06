@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.sbd.pragmatic.PragmaticSentenceExtractor</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.sbd.pragmatic.PragmaticSentenceExtractor" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.sbd.pragmatic.PragmaticSentenceExtractor" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.sbd.pragmatic.PragmaticSentenceExtractor</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.sbd.pragmatic.PragmaticSentenceExtractor" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.nlp.annotators.sbd.pragmatic.PragmaticSentenceExtractor" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -203,8 +203,8 @@
                         <a href="RuleSymbols.html" title="Base Symbols that may be extended later on.">RuleSymbols</a>
                       </li><li class="current-entities indented6">
                         <a class="object" href="SentenceDetector$.html" title="This is the companion object of SentenceDetector."></a>
-                        <a class="class" href="SentenceDetector.html" title="Annotator that detects sentence boundaries using any provided approach."></a>
-                        <a href="SentenceDetector.html" title="Annotator that detects sentence boundaries using any provided approach.">SentenceDetector</a>
+                        <a class="class" href="SentenceDetector.html" title="Annotator that detects sentence boundaries using regular expressions."></a>
+                        <a href="SentenceDetector.html" title="Annotator that detects sentence boundaries using regular expressions.">SentenceDetector</a>
                       </li>
               </ul>
             </div>
@@ -233,7 +233,8 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Reads through symbolized data, and computes the bounds based on regex rules following symbol meaning
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Reads through symbolized data, and computes the bounds based on regex rules following symbol
+meaning
 </p></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
@@ -299,7 +300,8 @@
         <span class="name">PragmaticSentenceExtractor</span><span class="params">(<span name="text">text: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sourceText">sourceText: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">text</dt><dd class="cmt"><p>symbolized text</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">text</dt><dd class="cmt"><p>
+  symbolized text</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -575,11 +577,11 @@
         <span class="name">pull</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="../../common/Sentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.Sentence">Sentence</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">1.</p><div class="fullcomment"><div class="comment cmt"><p>1. Splits the text by boundary symbol that are not within a protection marker
-2. replaces all ignore marker symbols with nothing
-3. Clean all sentences that ended up being empty between boundaries
-4. Puts back all replacement symbols with their original meaning
-5. Collects sentence information</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>final sentence structure</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"><ol class="decimal"><li>Splits the text by boundary symbol that are not within a protection marker 2. replaces
+     all ignore marker symbols with nothing 3. Clean all sentences that ended up being empty
+     between boundaries 4. Puts back all replacement symbols with their original meaning 5.
+     Collects sentence information</li></ol></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+  final sentence structure</p></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">

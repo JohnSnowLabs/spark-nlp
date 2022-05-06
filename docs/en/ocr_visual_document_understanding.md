@@ -20,8 +20,9 @@ Please check also webinar: [Visual Document Understanding with Multi-Modal Image
 
 ## VisualDocumentClassifier
 
-`VisualDocumentClassifier` is a DL model for classification documents using text and layout data.
-Currently available pretrained model on the Tabacco3482 dataset.
+`VisualDocumentClassifier` is a DL model for document classification using text and layout data.
+Currently available pretrained model on the Tobacco3482 dataset, that contains 3482 images belonging 
+to 10 different classes (Resume, News, Note, Advertisement, Scientific, Report, Form, Letter, Email and Memo)
 
 #### Input Columns
 
@@ -147,7 +148,8 @@ Output:
 ## VisualDocumentNER
 
 `VisualDocumentNER` is a DL model for NER documents using text and layout data.
-Currently available pre-trained model on the SROIE dataset.
+Currently available pre-trained model on the SROIE dataset. The dataset has 1000 whole 
+scanned receipt images.
 
 #### Input Columns
 
@@ -267,6 +269,7 @@ Output:
 ## VisualDocumentNERv2
 
 `VisualDocumentNERv2` is a DL model for NER documents which is an improved version of `VisualDocumentNER`. There is available pretrained model trained on FUNSD dataset.
+The dataset comprises 199 real, fully annotated, scanned forms.
 
 #### Input Columns
 

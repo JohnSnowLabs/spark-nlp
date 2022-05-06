@@ -43,7 +43,7 @@ tokenizer = Tokenizer()\
   .setInputCols(["document"])\
   .setOutputCol("token")
 
-tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_bionlp", "en", "clinical/models")\
+tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_anatomy", "en", "clinical/models")\
   .setInputCols("token", "document")\
   .setOutputCol("ner")\
   .setCaseSensitive(True)

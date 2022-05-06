@@ -19,7 +19,6 @@ package com.johnsnowlabs.util
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.hadoop.fs.FileSystem
 
-
 object ConfigHelper {
 
   private lazy val sparkSession = ResourceHelper.spark

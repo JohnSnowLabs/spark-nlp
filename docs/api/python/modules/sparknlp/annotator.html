@@ -5,29 +5,26 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator &#8212; Spark NLP 3.4.2 documentation</title>
+    <title>sparknlp.annotator &#8212; Spark NLP 3.4.4 documentation</title>
     
-    <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
+
     
-    <link rel="stylesheet"
-      href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+  <link rel="stylesheet"
+    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
     
-    <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
     <script src="../../static/underscore.js"></script>
@@ -43,7 +40,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -170,6 +167,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">sys</span>
+
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="c1"># Do NOT delete. Looks redundant but this is key work around for python 2 support.</span>
@@ -2048,12 +2046,46 @@
                        <span class="s2">&quot; needs &#39;keyDelimiter&#39; and &#39;valueDelimiter&#39; in options for parsing target text&quot;</span><span class="p">,</span>
                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
 
+    <span class="n">formCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                    <span class="s2">&quot;formCol&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;Column that correspends to CoNLLU(formCol=) output&quot;</span><span class="p">,</span>
+                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="n">lemmaCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                     <span class="s2">&quot;lemmaCol&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;Column that correspends to CoNLLU(lemmaCol=) output&quot;</span><span class="p">,</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Lemmatizer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.Lemmatizer&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">formCol</span><span class="o">=</span><span class="s2">&quot;form&quot;</span><span class="p">,</span>
+            <span class="n">lemmaCol</span><span class="o">=</span><span class="s2">&quot;lemma&quot;</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">LemmatizerModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Lemmatizer.setFormCol"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.Lemmatizer.html#sparknlp.annotator.Lemmatizer.setFormCol">[docs]</a>    <span class="k">def</span> <span class="nf">setFormCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Column that correspends to CoNLLU(formCol=) output</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Name of column for Array of Form tokens</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">formCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Lemmatizer.setLemmaCol"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.Lemmatizer.html#sparknlp.annotator.Lemmatizer.setLemmaCol">[docs]</a>    <span class="k">def</span> <span class="nf">setLemmaCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Column that correspends to CoNLLU(fromLemma=) output</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Name of column for Array of Lemma tokens</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">lemmaCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Lemmatizer.setDictionary"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.Lemmatizer.html#sparknlp.annotator.Lemmatizer.setDictionary">[docs]</a>    <span class="k">def</span> <span class="nf">setDictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">key_delimiter</span><span class="p">,</span> <span class="n">value_delimiter</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span>
                       <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">}):</span>
@@ -3291,10 +3323,36 @@
 
 
 <div class="viewcode-block" id="SentenceDetector"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.SentenceDetector.html#sparknlp.annotator.SentenceDetector">[docs]</a><span class="k">class</span> <span class="nc">SentenceDetector</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">SentenceDetectorParams</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Annotator that detects sentence boundaries using any provided approach.</span>
+    <span class="sd">&quot;&quot;&quot;Annotator that detects sentence boundaries using regular expressions.</span>
 
-<span class="sd">    Each extracted sentence can be returned in an Array or exploded to separate</span>
-<span class="sd">    rows, if `explodeSentences` is set to ``True``.</span>
+<span class="sd">    The following characters are checked as sentence boundaries:</span>
+
+<span class="sd">    1. Lists (&quot;(i), (ii)&quot;, &quot;(a), (b)&quot;, &quot;1., 2.&quot;)</span>
+<span class="sd">    2. Numbers</span>
+<span class="sd">    3. Abbreviations</span>
+<span class="sd">    4. Punctuations</span>
+<span class="sd">    5. Multiple Periods</span>
+<span class="sd">    6. Geo-Locations/Coordinates (&quot;N°. 1026.253.553.&quot;)</span>
+<span class="sd">    7. Ellipsis (&quot;...&quot;)</span>
+<span class="sd">    8. In-between punctuations</span>
+<span class="sd">    9. Quotation marks</span>
+<span class="sd">    10. Exclamation Points</span>
+<span class="sd">    11. Basic Breakers (&quot;.&quot;, &quot;;&quot;)</span>
+
+<span class="sd">    For the explicit regular expressions used for detection, refer to source of</span>
+<span class="sd">    `PragmaticContentFormatter &lt;https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/PragmaticContentFormatter.scala&gt;`__.</span>
+
+<span class="sd">    To add additional custom bounds, the parameter ``customBounds`` can be set with an array:</span>
+
+<span class="sd">    &gt;&gt;&gt; sentence = SentenceDetector() \\</span>
+<span class="sd">    &gt;&gt;&gt;     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    &gt;&gt;&gt;     .setOutputCol(&quot;sentence&quot;) \\</span>
+<span class="sd">    &gt;&gt;&gt;     .setCustomBounds([&quot;\\n\\n&quot;])</span>
+
+<span class="sd">    If only the custom bounds should be used, then the parameter ``useCustomBoundsOnly`` should be set to ``true``.</span>
+
+<span class="sd">    Each extracted sentence can be returned in an Array or exploded to separate rows,</span>
+<span class="sd">    if ``explodeSentences`` is set to ``true``.</span>
 
 <span class="sd">    For extended examples of usage, see the `Spark NLP Workshop</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb&gt;`__.</span>
@@ -3337,11 +3395,12 @@
 <span class="sd">    &gt;&gt;&gt; sentence = SentenceDetector() \\</span>
 <span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;sentence&quot;)</span>
+<span class="sd">    ...     .setCustomBounds([&quot;\\n\\n&quot;])</span>
 <span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
 <span class="sd">    ...     documentAssembler,</span>
 <span class="sd">    ...     sentence</span>
 <span class="sd">    ... ])</span>
-<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;This is my first sentence. This my second. How about a third?&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;This is my first sentence. This my second.\\n\\nHow about a third?&quot;]]).toDF(&quot;text&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
 <span class="sd">    &gt;&gt;&gt; result.selectExpr(&quot;explode(sentence) as sentences&quot;).show(truncate=False)</span>
 <span class="sd">    +------------------------------------------------------------------+</span>
@@ -4994,6 +5053,7 @@
 <span class="sd">        at the end of the training.</span>
 <span class="sd">    bestModelMetric</span>
 <span class="sd">        Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model</span>
+
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
@@ -6547,8 +6607,7 @@
 
 <span class="sd">    For extended examples of usage, see the `Spark NLP Workshop</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/3.NER_with_BERT.ipynb&gt;`__.</span>
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -7606,7 +7665,10 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">newResult</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="UniversalSentenceEncoder"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.UniversalSentenceEncoder.html#sparknlp.annotator.UniversalSentenceEncoder">[docs]</a><span class="k">class</span> <span class="nc">UniversalSentenceEncoder</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasEmbeddingsProperties</span><span class="p">,</span> <span class="n">HasStorageRef</span><span class="p">):</span>
+<div class="viewcode-block" id="UniversalSentenceEncoder"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.UniversalSentenceEncoder.html#sparknlp.annotator.UniversalSentenceEncoder">[docs]</a><span class="k">class</span> <span class="nc">UniversalSentenceEncoder</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
+                               <span class="n">HasEmbeddingsProperties</span><span class="p">,</span>
+                               <span class="n">HasStorageRef</span><span class="p">,</span>
+                               <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;The Universal Sentence Encoder encodes text into high dimensional vectors</span>
 <span class="sd">    that can be used for text classification, semantic similarity, clustering</span>
 <span class="sd">    and other natural language tasks.</span>
@@ -7745,7 +7807,9 @@
             <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
-            <span class="n">loadSP</span><span class="o">=</span><span class="kc">False</span>
+            <span class="n">loadSP</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">dimension</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">2</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="UniversalSentenceEncoder.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.UniversalSentenceEncoder.html#sparknlp.annotator.UniversalSentenceEncoder.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -8453,8 +8517,7 @@
 
 <span class="sd">    For extended examples of usage, see the `Spark NLP Workshop</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_albert.ipynb&gt;`__.</span>
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -8677,8 +8740,7 @@
 
 <span class="sd">    For extended examples of usage, see the `Spark NLP Workshop</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_xlnet.ipynb&gt;`__.</span>
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -10669,7 +10731,7 @@
 <span class="sd">    |This is pretty good stuff!|[]              |</span>
 <span class="sd">    |Wtf kind of crap is this  |[toxic, obscene]|</span>
 <span class="sd">    +--------------------------+----------------+</span>
-<span class="sd">    </span>
+
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    ClassifierDLModel : for single-class classification</span>
@@ -11028,6 +11090,19 @@
 <span class="sd">    explodeSentences</span>
 <span class="sd">        whether to explode each sentence into a different row, for better</span>
 <span class="sd">        parallelization. Defaults to false.</span>
+<span class="sd">    customBounds</span>
+<span class="sd">        characters used to explicitly mark sentence bounds, by default []</span>
+<span class="sd">    useCustomBoundsOnly</span>
+<span class="sd">        Only utilize custom bounds in sentence detection, by default False</span>
+<span class="sd">    splitLength</span>
+<span class="sd">        length at which sentences will be forcibly split</span>
+<span class="sd">    minLength</span>
+<span class="sd">        Set the minimum allowed length for each sentence, by default 0</span>
+<span class="sd">    maxLength</span>
+<span class="sd">        Set the maximum allowed length for each sentence, by default 99999</span>
+<span class="sd">    impossiblePenultimates</span>
+<span class="sd">        Impossible penultimates - list of strings which a sentence can&#39;t end</span>
+<span class="sd">        with</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -11087,6 +11162,36 @@
                              <span class="s2">&quot;whether to explode each sentence into a different row, for better parallelization. Defaults to false.&quot;</span><span class="p">,</span>
                              <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
+    <span class="n">customBounds</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                         <span class="s2">&quot;customBounds&quot;</span><span class="p">,</span>
+                         <span class="s2">&quot;characters used to explicitly mark sentence bounds&quot;</span><span class="p">,</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+
+    <span class="n">useCustomBoundsOnly</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                <span class="s2">&quot;useCustomBoundsOnly&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;Only utilize custom bounds in sentence detection&quot;</span><span class="p">,</span>
+                                <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">splitLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                        <span class="s2">&quot;splitLength&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;length at which sentences will be forcibly split.&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">minLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                      <span class="s2">&quot;minLength&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;Set the minimum allowed length for each sentence.&quot;</span><span class="p">,</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">maxLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                      <span class="s2">&quot;maxLength&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;Set the maximum allowed length for each sentence&quot;</span><span class="p">,</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">impossiblePenultimates</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                   <span class="s2">&quot;impossiblePenultimates&quot;</span><span class="p">,</span>
+                                   <span class="s2">&quot;Impossible penultimates - list of strings which a sentence can&#39;t end with&quot;</span><span class="p">,</span>
+                                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+
 <div class="viewcode-block" id="SentenceDetectorDLModel.setModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.SentenceDetectorDLModel.html#sparknlp.annotator.SentenceDetectorDLModel.setModel">[docs]</a>    <span class="k">def</span> <span class="nf">setModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelArchitecture</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets the Model architecture. Currently only ``&quot;cnn&quot;`` is available.</span>
 
@@ -11108,11 +11213,83 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">explodeSentences</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="SentenceDetectorDLModel.setCustomBounds"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.SentenceDetectorDLModel.html#sparknlp.annotator.SentenceDetectorDLModel.setCustomBounds">[docs]</a>    <span class="k">def</span> <span class="nf">setCustomBounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets characters used to explicitly mark sentence bounds, by default</span>
+<span class="sd">        [].</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : List[str]</span>
+<span class="sd">            Characters used to explicitly mark sentence bounds</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">customBounds</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SentenceDetectorDLModel.setUseCustomBoundsOnly"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.SentenceDetectorDLModel.html#sparknlp.annotator.SentenceDetectorDLModel.setUseCustomBoundsOnly">[docs]</a>    <span class="k">def</span> <span class="nf">setUseCustomBoundsOnly</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to only utilize custom bounds in sentence detection, by</span>
+<span class="sd">        default False.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether to only utilize custom bounds</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useCustomBoundsOnly</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SentenceDetectorDLModel.setSplitLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.SentenceDetectorDLModel.html#sparknlp.annotator.SentenceDetectorDLModel.setSplitLength">[docs]</a>    <span class="k">def</span> <span class="nf">setSplitLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets length at which sentences will be forcibly split.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Length at which sentences will be forcibly split.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">splitLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SentenceDetectorDLModel.setMinLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.SentenceDetectorDLModel.html#sparknlp.annotator.SentenceDetectorDLModel.setMinLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMinLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets minimum allowed length for each sentence, by default 0</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Minimum allowed length for each sentence</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SentenceDetectorDLModel.setMaxLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.SentenceDetectorDLModel.html#sparknlp.annotator.SentenceDetectorDLModel.setMaxLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the maximum allowed length for each sentence, by default</span>
+<span class="sd">        99999</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Maximum allowed length for each sentence</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SentenceDetectorDLModel.setImpossiblePenultimates"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.SentenceDetectorDLModel.html#sparknlp.annotator.SentenceDetectorDLModel.setImpossiblePenultimates">[docs]</a>    <span class="k">def</span> <span class="nf">setImpossiblePenultimates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">impossible_penultimates</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets impossible penultimates - list of strings which a sentence can&#39;t</span>
+<span class="sd">        end with.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        impossible_penultimates : List[str]</span>
+<span class="sd">            List of strings which a sentence can&#39;t end with</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">impossiblePenultimates</span><span class="o">=</span><span class="n">impossible_penultimates</span><span class="p">)</span></div>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel&quot;</span><span class="p">,</span>
                  <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">SentenceDetectorDLModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
             <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">useCustomBoundsOnly</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">customBounds</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">explodeSentences</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">minLength</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">maxLength</span><span class="o">=</span><span class="mi">99999</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="SentenceDetectorDLModel.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.SentenceDetectorDLModel.html#sparknlp.annotator.SentenceDetectorDLModel.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -12211,8 +12388,7 @@
 
 <span class="sd">    For extended examples of usage, see the `Spark NLP Workshop</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb&gt;`__.</span>
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -12431,8 +12607,7 @@
 
 <span class="sd">    For extended examples of usage, see the `Spark NLP Workshop</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb&gt;`__.</span>
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -12646,8 +12821,7 @@
 
 <span class="sd">    For extended examples of usage, see the `Spark NLP Workshop</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb&gt;`__.</span>
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -13202,8 +13376,7 @@
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
 <span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition&gt;`__.</span>
 
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -13373,8 +13546,7 @@
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
 <span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition&gt;`__.</span>
 
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -13545,8 +13717,7 @@
 <span class="sd">    available pretrained models please see the `Models Hub</span>
 <span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Embeddings&gt;`__.</span>
 
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -14118,8 +14289,7 @@
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
 <span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition&gt;`__.</span>
 
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -14285,8 +14455,7 @@
 
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
 <span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition&gt;`__.</span>
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -14453,8 +14622,7 @@
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
 <span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition&gt;`__.</span>
 
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -14627,8 +14795,7 @@
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
 <span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition&gt;`__.</span>
 
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -14797,8 +14964,7 @@
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
 <span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition&gt;`__.</span>
 
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -15160,7 +15326,8 @@
 
 <div class="viewcode-block" id="BertForSequenceClassification"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.BertForSequenceClassification.html#sparknlp.annotator.BertForSequenceClassification">[docs]</a><span class="k">class</span> <span class="nc">BertForSequenceClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
                                     <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
-                                    <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+                                    <span class="n">HasBatchedAnnotate</span><span class="p">,</span>
+                                    <span class="n">HasClassifierActivationProperties</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;BertForSequenceClassification can load Bert Models with sequence classification/regression head on top</span>
 <span class="sd">    (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.</span>
 
@@ -15177,8 +15344,7 @@
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
 <span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
 
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -15300,7 +15466,8 @@
             <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
             <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
             <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">coalesceSentences</span><span class="o">=</span><span class="kc">False</span>
+            <span class="n">coalesceSentences</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;softmax&quot;</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="BertForSequenceClassification.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.BertForSequenceClassification.html#sparknlp.annotator.BertForSequenceClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -15671,7 +15838,8 @@
 
 <div class="viewcode-block" id="DistilBertForSequenceClassification"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DistilBertForSequenceClassification.html#sparknlp.annotator.DistilBertForSequenceClassification">[docs]</a><span class="k">class</span> <span class="nc">DistilBertForSequenceClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
                                           <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
-                                          <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+                                          <span class="n">HasBatchedAnnotate</span><span class="p">,</span>
+                                          <span class="n">HasClassifierActivationProperties</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;DistilBertForSequenceClassification can load DistilBERT Models with sequence classification/regression head on</span>
 <span class="sd">    top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.</span>
 
@@ -15688,8 +15856,7 @@
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
 <span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
 
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -15812,7 +15979,8 @@
             <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
             <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
             <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">coalesceSentences</span><span class="o">=</span><span class="kc">False</span>
+            <span class="n">coalesceSentences</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;softmax&quot;</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="DistilBertForSequenceClassification.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DistilBertForSequenceClassification.html#sparknlp.annotator.DistilBertForSequenceClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -15861,7 +16029,8 @@
 
 <div class="viewcode-block" id="RoBertaForSequenceClassification"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.RoBertaForSequenceClassification.html#sparknlp.annotator.RoBertaForSequenceClassification">[docs]</a><span class="k">class</span> <span class="nc">RoBertaForSequenceClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
                                        <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
-                                       <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+                                       <span class="n">HasBatchedAnnotate</span><span class="p">,</span>
+                                       <span class="n">HasClassifierActivationProperties</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;RoBertaForSequenceClassification can load RoBERTa Models with sequence classification/regression head on</span>
 <span class="sd">    top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.</span>
 
@@ -15878,8 +16047,7 @@
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
 <span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
 
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -16002,7 +16170,8 @@
             <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
             <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
             <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">coalesceSentences</span><span class="o">=</span><span class="kc">False</span>
+            <span class="n">coalesceSentences</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;softmax&quot;</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="RoBertaForSequenceClassification.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.RoBertaForSequenceClassification.html#sparknlp.annotator.RoBertaForSequenceClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -16051,7 +16220,8 @@
 
 <div class="viewcode-block" id="XlmRoBertaForSequenceClassification"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlmRoBertaForSequenceClassification.html#sparknlp.annotator.XlmRoBertaForSequenceClassification">[docs]</a><span class="k">class</span> <span class="nc">XlmRoBertaForSequenceClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
                                           <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
-                                          <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+                                          <span class="n">HasBatchedAnnotate</span><span class="p">,</span>
+                                          <span class="n">HasClassifierActivationProperties</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;XlmRoBertaForSequenceClassification can load XLM-RoBERTa Models with sequence classification/regression head on</span>
 <span class="sd">    top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.</span>
 
@@ -16068,8 +16238,7 @@
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
 <span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
 
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -16192,7 +16361,8 @@
             <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
             <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
             <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">coalesceSentences</span><span class="o">=</span><span class="kc">False</span>
+            <span class="n">coalesceSentences</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;softmax&quot;</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="XlmRoBertaForSequenceClassification.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlmRoBertaForSequenceClassification.html#sparknlp.annotator.XlmRoBertaForSequenceClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -16241,7 +16411,8 @@
 
 <div class="viewcode-block" id="LongformerForSequenceClassification"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.LongformerForSequenceClassification.html#sparknlp.annotator.LongformerForSequenceClassification">[docs]</a><span class="k">class</span> <span class="nc">LongformerForSequenceClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
                                           <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
-                                          <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+                                          <span class="n">HasBatchedAnnotate</span><span class="p">,</span>
+                                          <span class="n">HasClassifierActivationProperties</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;LongformerForSequenceClassification can load Longformer Models with sequence classification/regression head on</span>
 <span class="sd">    top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.</span>
 
@@ -16258,8 +16429,7 @@
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
 <span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
 
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -16382,7 +16552,8 @@
             <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
             <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">4096</span><span class="p">,</span>
             <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">coalesceSentences</span><span class="o">=</span><span class="kc">False</span>
+            <span class="n">coalesceSentences</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;softmax&quot;</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="LongformerForSequenceClassification.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.LongformerForSequenceClassification.html#sparknlp.annotator.LongformerForSequenceClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -16431,7 +16602,8 @@
 
 <div class="viewcode-block" id="AlbertForSequenceClassification"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.AlbertForSequenceClassification.html#sparknlp.annotator.AlbertForSequenceClassification">[docs]</a><span class="k">class</span> <span class="nc">AlbertForSequenceClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
                                       <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
-                                      <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+                                      <span class="n">HasBatchedAnnotate</span><span class="p">,</span>
+                                      <span class="n">HasClassifierActivationProperties</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;AlbertForSequenceClassification can load Albert Models with sequence classification/regression head on</span>
 <span class="sd">    top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.</span>
 
@@ -16448,8 +16620,7 @@
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
 <span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
 
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -16572,7 +16743,8 @@
             <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
             <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
             <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">coalesceSentences</span><span class="o">=</span><span class="kc">False</span>
+            <span class="n">coalesceSentences</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;softmax&quot;</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="AlbertForSequenceClassification.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.AlbertForSequenceClassification.html#sparknlp.annotator.AlbertForSequenceClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -16621,7 +16793,8 @@
 
 <div class="viewcode-block" id="XlnetForSequenceClassification"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlnetForSequenceClassification.html#sparknlp.annotator.XlnetForSequenceClassification">[docs]</a><span class="k">class</span> <span class="nc">XlnetForSequenceClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
                                      <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
-                                     <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+                                     <span class="n">HasBatchedAnnotate</span><span class="p">,</span>
+                                     <span class="n">HasClassifierActivationProperties</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;XlnetForSequenceClassification can load XLNet Models with sequence classification/regression head on</span>
 <span class="sd">    top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.</span>
 
@@ -16638,8 +16811,7 @@
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
 <span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
 
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -16762,7 +16934,8 @@
             <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
             <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
             <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">coalesceSentences</span><span class="o">=</span><span class="kc">False</span>
+            <span class="n">coalesceSentences</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;softmax&quot;</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="XlnetForSequenceClassification.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlnetForSequenceClassification.html#sparknlp.annotator.XlnetForSequenceClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -17479,30 +17652,27 @@
                         <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
                         <span class="n">HasStorageRef</span><span class="p">,</span>
                         <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;The DeBERTa model was proposed in DeBERTa: Decoding-enhanced BERT with Disentangled Attention  by Pengcheng</span>
-<span class="sd">    He, Xiaodong Liu, Jianfeng Gao, Weizhu Chen It is based on Google’s BERT model released in 2018 and Facebook’s</span>
-<span class="sd">    RoBERTa model released in 2019. This model requires input tokenization with SentencePiece model,</span>
-<span class="sd">    which is provided by Spark NLP (See tokenizers package). Pretrained models can be loaded with pretrained of the</span>
-<span class="sd">    companion object: val embeddings = DeBertaEmbeddings.pretrained() .setInputCols(&quot;sentence&quot;,</span>
-<span class="sd">    &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;)</span>
+    <span class="sd">&quot;&quot;&quot;The DeBERTa model was proposed in DeBERTa: Decoding-enhanced BERT with</span>
+<span class="sd">    Disentangled Attention by Pengcheng He, Xiaodong Liu, Jianfeng Gao, Weizhu</span>
+<span class="sd">    Chen It is based on Google’s BERT model released in 2018 and Facebook’s</span>
+<span class="sd">    RoBERTa model released in 2019.</span>
 
-<span class="sd">    The default model is &quot;deberta_v3_base&quot;, if no name is provided. Models from the HuggingFace 🤗 Transformers library</span>
-<span class="sd">    are also compatible with Spark NLP 🚀. The Spark NLP Workshop example shows how to import them</span>
-<span class="sd">    https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 . It builds on RoBERTa with disentangled attention and</span>
-<span class="sd">    enhanced mask decoder training with half of the data used in RoBERTa. Sources:</span>
-<span class="sd">    https://github.com/microsoft/DeBERTa https://www.microsoft.com/en-us/research/blog/microsoft-deberta-surpasses-human-performance-on-the-superglue-benchmark/</span>
+<span class="sd">    This model requires input tokenization with</span>
+<span class="sd">    SentencePiece model, which is provided by Spark NLP (See tokenizers</span>
+<span class="sd">    package).</span>
+
+<span class="sd">    It builds on RoBERTa with disentangled attention and enhanced mask decoder</span>
+<span class="sd">    training with half of the data used in RoBERTa.</span>
+
+<span class="sd">    Pretrained models can be loaded with pretrained of the companion object:</span>
 
 <span class="sd">    &gt;&gt;&gt; embeddings = DeBertaEmbeddings.pretrained() \\</span>
 <span class="sd">    ...    .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \\</span>
 <span class="sd">    ...    .setOutputCol(&quot;embeddings&quot;)</span>
 
-
 <span class="sd">    The default model is ``&quot;deberta_v3_base&quot;``, if no name is provided.</span>
 
-<span class="sd">    For extended examples of usage, see the `Spark NLP Workshop</span>
-<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_albert.ipynb&gt;`__.</span>
-<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
-<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
 <span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
 
@@ -17528,22 +17698,29 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    https://github.com/microsoft/DeBERTa https://www.microsoft.com/en-us/research/blog/microsoft-deberta-surpasses-human-performance-on-the-superglue-benchmark/</span>
+<span class="sd">    https://github.com/microsoft/DeBERTa</span>
+
+<span class="sd">    https://www.microsoft.com/en-us/research/blog/microsoft-deberta-surpasses-human-performance-on-the-superglue-benchmark/</span>
 
 <span class="sd">    **Paper abstract:**</span>
 
-<span class="sd">    *Paper abstract: Recent progress in pre-trained neural language models has significantly improved the performance</span>
-<span class="sd">    of many natural language processing (NLP) tasks. In this paper we propose a new model architecture DeBERTa (</span>
-<span class="sd">    Decoding-enhanced BERT with disentangled attention) that improves the BERT and RoBERTa models using two novel</span>
-<span class="sd">    techniques. The first is the disentangled attention mechanism, where each word is represented using two vectors</span>
-<span class="sd">    that encode its content and position, respectively, and the attention weights among words are computed using</span>
-<span class="sd">    disentangled matrices on their contents and relative positions. Second, an enhanced mask decoder is used to</span>
-<span class="sd">    replace the output softmax layer to predict the masked tokens for model pretraining. We show that these two</span>
-<span class="sd">    techniques significantly improve the efficiency of model pretraining and performance of downstream tasks.</span>
-<span class="sd">    Compared to RoBERTa-Large, a DeBERTa model trained on half of the training data performs consistently better on a</span>
-<span class="sd">    wide range of NLP tasks, achieving improvements on MNLI by +0.9% (90.2% vs. 91.1%), on SQuAD v2.0 by +2.3% (88.4%</span>
-<span class="sd">    vs. 90.7%) and RACE by +3.6% (83.2% vs. 86.8%). The DeBERTa code and pre-trained models will be made publicly</span>
-<span class="sd">    available at https://github.com/microsoft/DeBERTa.*</span>
+<span class="sd">    *Paper abstract: Recent progress in pre-trained neural language models has</span>
+<span class="sd">    significantly improved the performance of many natural language processing</span>
+<span class="sd">    (NLP) tasks. In this paper we propose a new model architecture DeBERTa (</span>
+<span class="sd">    Decoding-enhanced BERT with disentangled attention) that improves the BERT</span>
+<span class="sd">    and RoBERTa models using two novel techniques. The first is the disentangled</span>
+<span class="sd">    attention mechanism, where each word is represented using two vectors that</span>
+<span class="sd">    encode its content and position, respectively, and the attention weights</span>
+<span class="sd">    among words are computed using disentangled matrices on their contents and</span>
+<span class="sd">    relative positions. Second, an enhanced mask decoder is used to replace the</span>
+<span class="sd">    output softmax layer to predict the masked tokens for model pretraining. We</span>
+<span class="sd">    show that these two techniques significantly improve the efficiency of model</span>
+<span class="sd">    pretraining and performance of downstream tasks. Compared to RoBERTa-Large,</span>
+<span class="sd">    a DeBERTa model trained on half of the training data performs consistently</span>
+<span class="sd">    better on a wide range of NLP tasks, achieving improvements on MNLI by +0.9%</span>
+<span class="sd">    (90.2% vs. 91.1%), on SQuAD v2.0 by +2.3% (88.4% vs. 90.7%) and RACE by</span>
+<span class="sd">    +3.6% (83.2% vs. 86.8%). The DeBERTa code and pre-trained models will be</span>
+<span class="sd">    made publicly available at https://github.com/microsoft/DeBERTa.*</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -17670,6 +17847,461 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
         <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">DeBertaEmbeddings</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DeBertaForSequenceClassification"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DeBertaForSequenceClassification.html#sparknlp.annotator.DeBertaForSequenceClassification">[docs]</a><span class="k">class</span> <span class="nc">DeBertaForSequenceClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
+                                       <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
+                                       <span class="n">HasBatchedAnnotate</span><span class="p">,</span>
+                                       <span class="n">HasClassifierActivationProperties</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;DeBertaForSequenceClassification can load DeBERTa v2 &amp; v3 Models with sequence classification/regression head on</span>
+<span class="sd">    top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
+<span class="sd">    object:</span>
+
+<span class="sd">    &gt;&gt;&gt; sequenceClassifier = DeBertaForSequenceClassification.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;label&quot;)</span>
+
+<span class="sd">    The default model is ``&quot;deberta_v3_xsmall_sequence_classifier_imdb&quot;``, if no name is</span>
+<span class="sd">    provided.</span>
+
+<span class="sd">    For available pretrained models please see the `Models Hub</span>
+<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
+
+<span class="sd">    To see which models are compatible and how to import them see</span>
+<span class="sd">    `Import Transformers into Spark NLP 🚀</span>
+<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``DOCUMENT, TOKEN``    ``CATEGORY``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    batchSize</span>
+<span class="sd">        Batch size. Large values allows faster processing but requires more</span>
+<span class="sd">        memory, by default 8</span>
+<span class="sd">    caseSensitive</span>
+<span class="sd">        Whether to ignore case in tokens for embeddings matching, by default</span>
+<span class="sd">        True</span>
+<span class="sd">    configProtoBytes</span>
+<span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
+<span class="sd">    maxSentenceLength</span>
+<span class="sd">        Max sentence length to process, by default 128</span>
+<span class="sd">    coalesceSentences</span>
+<span class="sd">        Instead of 1 class per sentence (if inputCols is &#39;&#39;&#39;sentence&#39;&#39;&#39;) output 1 class per document by averaging</span>
+<span class="sd">        probabilities in all sentences.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sequenceClassifier = DeBertaForSequenceClassification.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;label&quot;) \\</span>
+<span class="sd">    ...     .setCaseSensitive(True)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     sequenceClassifier</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[\&quot;\&quot;\&quot;John Lenon was born in London and lived</span>
+<span class="sd">    ... in Paris. My name is Sarah and I live in London\&quot;\&quot;\&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.select(&quot;label.result&quot;).show(truncate=False)</span>
+<span class="sd">    +--------------------+</span>
+<span class="sd">    |result              |</span>
+<span class="sd">    +--------------------+</span>
+<span class="sd">    |[neg, neg]          |</span>
+<span class="sd">    |[pos, pos, pos, pos]|</span>
+<span class="sd">    +--------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DeBertaForSequenceClassification&quot;</span>
+
+    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
+
+    <span class="n">coalesceSentences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;coalesceSentences&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Instead of 1 class per sentence (if inputCols is &#39;&#39;&#39;sentence&#39;&#39;&#39;) output 1 class per document by averaging probabilities in all sentences.&quot;</span><span class="p">,</span>
+                              <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DeBertaForSequenceClassification.getClasses"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DeBertaForSequenceClassification.html#sparknlp.annotator.DeBertaForSequenceClassification.getClasses">[docs]</a>    <span class="k">def</span> <span class="nf">getClasses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns labels used to train this model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;getClasses&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DeBertaForSequenceClassification.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DeBertaForSequenceClassification.html#sparknlp.annotator.DeBertaForSequenceClassification.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : List[int]</span>
+<span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DeBertaForSequenceClassification.setMaxSentenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DeBertaForSequenceClassification.html#sparknlp.annotator.DeBertaForSequenceClassification.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Max sentence length to process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DeBertaForSequenceClassification.setCoalesceSentences"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DeBertaForSequenceClassification.html#sparknlp.annotator.DeBertaForSequenceClassification.setCoalesceSentences">[docs]</a>    <span class="k">def</span> <span class="nf">setCoalesceSentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Instead of 1 class per sentence (if inputCols is &#39;&#39;&#39;sentence&#39;&#39;&#39;) output 1 class per document by averaging</span>
+<span class="sd">        probabilities in all sentences. Due to max sequence length limit in almost all transformer models such as</span>
+<span class="sd">        BERT (512 tokens), this parameter helps to feed all the sentences into the model and averaging all the</span>
+<span class="sd">        probabilities for the entire document instead of probabilities per sentence. (Default: true)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            If the output of all sentences will be averaged to one output</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">coalesceSentences</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForSequenceClassification&quot;</span><span class="p">,</span>
+                 <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DeBertaForSequenceClassification</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+            <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+            <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">coalesceSentences</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;softmax&quot;</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="DeBertaForSequenceClassification.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DeBertaForSequenceClassification.html#sparknlp.annotator.DeBertaForSequenceClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        AlbertForSequenceClassification</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">_DeBertaSequenceClassifierLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_DeBertaSequenceClassifierLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">DeBertaForSequenceClassification</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DeBertaForSequenceClassification.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DeBertaForSequenceClassification.html#sparknlp.annotator.DeBertaForSequenceClassification.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;deberta_base_sequence_classifier_imdb&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default</span>
+<span class="sd">            &quot;deberta_v3_xsmall_sequence_classifier_imdb&quot;</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        AlbertForSequenceClassification</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">DeBertaForSequenceClassification</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DeBertaForTokenClassification"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DeBertaForTokenClassification.html#sparknlp.annotator.DeBertaForTokenClassification">[docs]</a><span class="k">class</span> <span class="nc">DeBertaForTokenClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
+                                    <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
+                                    <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;DeBertaForTokenClassification can load DeBERTa v2&amp;v3 Models with a token</span>
+<span class="sd">    classification head on top (a linear layer on top of the hidden-states</span>
+<span class="sd">    output) e.g. for Named-Entity-Recognition (NER) tasks.</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
+<span class="sd">    object:</span>
+
+<span class="sd">    &gt;&gt;&gt; embeddings = DeBertaForTokenClassification.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;label&quot;)</span>
+
+<span class="sd">    The default model is ``&quot;deberta_xsmall_token_classifier_conll03&quot;``, if no name is</span>
+<span class="sd">    provided.</span>
+
+<span class="sd">    For available pretrained models please see the `Models Hub</span>
+<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition&gt;`__.</span>
+
+<span class="sd">    To see which models are compatible and how to import them see</span>
+<span class="sd">    `Import Transformers into Spark NLP 🚀</span>
+<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``DOCUMENT, TOKEN``    ``NAMED_ENTITY``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    batchSize</span>
+<span class="sd">        Batch size. Large values allows faster processing but requires more</span>
+<span class="sd">        memory, by default 8</span>
+<span class="sd">    caseSensitive</span>
+<span class="sd">        Whether to ignore case in tokens for embeddings matching, by default</span>
+<span class="sd">        True</span>
+<span class="sd">    configProtoBytes</span>
+<span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
+<span class="sd">    maxSentenceLength</span>
+<span class="sd">        Max sentence length to process, by default 128</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenClassifier = DeBertaForTokenClassification.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;label&quot;) \\</span>
+<span class="sd">    ...     .setCaseSensitive(True)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     tokenClassifier</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;John Lenon was born in London and lived in Paris. My name is Sarah and I live in London&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.select(&quot;label.result&quot;).show(truncate=False)</span>
+<span class="sd">    +------------------------------------------------------------------------------------+</span>
+<span class="sd">    |result</span>
+<span class="sd">    |</span>
+<span class="sd">    +------------------------------------------------------------------------------------+</span>
+<span class="sd">    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O,</span>
+<span class="sd">    O, B-LOC]|</span>
+<span class="sd">    +------------------------------------------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DeBertaForTokenClassification&quot;</span>
+
+    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DeBertaForTokenClassification.getClasses"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DeBertaForTokenClassification.html#sparknlp.annotator.DeBertaForTokenClassification.getClasses">[docs]</a>    <span class="k">def</span> <span class="nf">getClasses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns labels used to train this model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;getClasses&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DeBertaForTokenClassification.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DeBertaForTokenClassification.html#sparknlp.annotator.DeBertaForTokenClassification.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : List[int]</span>
+<span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DeBertaForTokenClassification.setMaxSentenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DeBertaForTokenClassification.html#sparknlp.annotator.DeBertaForTokenClassification.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Max sentence length to process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForTokenClassification&quot;</span><span class="p">,</span>
+                 <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DeBertaForTokenClassification</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+            <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+            <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="DeBertaForTokenClassification.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DeBertaForTokenClassification.html#sparknlp.annotator.DeBertaForTokenClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model</span>
+<span class="sd">            spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DeBertaForTokenClassification</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">_DeBertTokenClassifierLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_DeBertTokenClassifierLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">DeBertaForTokenClassification</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DeBertaForTokenClassification.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DeBertaForTokenClassification.html#sparknlp.annotator.DeBertaForTokenClassification.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;deberta_xsmall_token_classifier_conll03&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default</span>
+<span class="sd">            &quot;deberta_xsmall_token_classifier_conll03&quot;</span>
+<span class="sd">            lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">            remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DeBertaForTokenClassification</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">DeBertaForTokenClassification</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="CamemBertEmbeddings"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.CamemBertEmbeddings.html#sparknlp.annotator.CamemBertEmbeddings">[docs]</a><span class="k">class</span> <span class="nc">CamemBertEmbeddings</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
+                          <span class="n">HasEmbeddingsProperties</span><span class="p">,</span>
+                          <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
+                          <span class="n">HasStorageRef</span><span class="p">,</span>
+                          <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;CamemBertEmbeddings&quot;</span>
+
+    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
+
+    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CamemBertEmbeddings.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.CamemBertEmbeddings.html#sparknlp.annotator.CamemBertEmbeddings.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : List[int]</span>
+<span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CamemBertEmbeddings.setMaxSentenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.CamemBertEmbeddings.html#sparknlp.annotator.CamemBertEmbeddings.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets max sentence length to process.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Max sentence length to process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.embeddings.CamemBertEmbeddings&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CamemBertEmbeddings</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+            <span class="n">dimension</span><span class="o">=</span><span class="mi">768</span><span class="p">,</span>
+            <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+            <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="CamemBertEmbeddings.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.CamemBertEmbeddings.html#sparknlp.annotator.CamemBertEmbeddings.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        CamemBertEmbeddings</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">_CamemBertLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_CamemBertLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">CamemBertEmbeddings</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CamemBertEmbeddings.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.CamemBertEmbeddings.html#sparknlp.annotator.CamemBertEmbeddings.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;camembert_base&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;fr&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default &quot;albert_base_uncased&quot;</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        CamemBertEmbeddings</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">CamemBertEmbeddings</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
 </pre></div>
 
               </div>
@@ -17685,8 +18317,9 @@
       </div>
     </div>
   
-    <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -17697,7 +18330,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
 </p>
     </div>
     

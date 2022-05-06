@@ -9,7 +9,7 @@ language: xx
 edition: Spark NLP 2.7.0
 spark_version: 2.4
 tags: [embeddings, open_source, xx]
-supported: true
+deprecated: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

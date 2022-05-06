@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.Word2VecModel</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.embeddings.Word2VecModel" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.embeddings.Word2VecModel" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.Word2VecModel</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.nlp.embeddings.Word2VecModel" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.nlp.embeddings.Word2VecModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -146,6 +146,10 @@
                         <a class="class" href="BertSentenceEmbeddings.html" title="Sentence-level embeddings using BERT."></a>
                         <a href="BertSentenceEmbeddings.html" title="Sentence-level embeddings using BERT.">BertSentenceEmbeddings</a>
                       </li><li class="current-entities indented4">
+                        <a class="object" href="CamemBertEmbeddings$.html" title="This is the companion object of CamemBertEmbeddings."></a>
+                        <a class="class" href="CamemBertEmbeddings.html" title="The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot."></a>
+                        <a href="CamemBertEmbeddings.html" title="The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot.">CamemBertEmbeddings</a>
+                      </li><li class="current-entities indented4">
                         <a class="object" href="ChunkEmbeddings$.html" title="This is the companion object of ChunkEmbeddings."></a>
                         <a class="class" href="ChunkEmbeddings.html" title="This annotator utilizes WordEmbeddings, BertEmbeddings etc."></a>
                         <a href="ChunkEmbeddings.html" title="This annotator utilizes WordEmbeddings, BertEmbeddings etc.">ChunkEmbeddings</a>
@@ -199,6 +203,10 @@
                         <a href="ReadBertTensorflowModel.html" title="">ReadBertTensorflowModel</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
+                        <a class="trait" href="ReadCamemBertTensorflowModel.html" title=""></a>
+                        <a href="ReadCamemBertTensorflowModel.html" title="">ReadCamemBertTensorflowModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
                         <a class="trait" href="ReadDeBertaTensorflowModel.html" title=""></a>
                         <a href="ReadDeBertaTensorflowModel.html" title="">ReadDeBertaTensorflowModel</a>
                       </li><li class="current-entities indented4">
@@ -249,6 +257,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedBertSentenceModel.html" title=""></a>
                         <a href="ReadablePretrainedBertSentenceModel.html" title="">ReadablePretrainedBertSentenceModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedCamemBertModel.html" title=""></a>
+                        <a href="ReadablePretrainedCamemBertModel.html" title="">ReadablePretrainedCamemBertModel</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedDeBertaModel.html" title=""></a>
@@ -395,16 +407,18 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Word2Vec model that creates vector representations of words in a text corpus.</p><p>The algorithm first constructs a vocabulary from the corpus
-and then learns vector representation of words in the vocabulary.
-The vector representation can be used as features in
-natural language processing and machine learning algorithms.</p><p>We use Word2Vec implemented in Spark ML. It uses skip-gram model in our implementation and a hierarchical softmax
-method to train the model. The variable names in the implementation match the original C implementation.</p><p>This is the instantiated model of the <a href="Word2VecApproach.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.Word2VecApproach">Word2VecApproach</a>.
-For training your own model, please see the documentation of that class.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = Word2VecModel.pretrained()
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Word2Vec model that creates vector representations of words in a text corpus.</p><p>The algorithm first constructs a vocabulary from the corpus and then learns vector
+representation of words in the vocabulary. The vector representation can be used as features
+in natural language processing and machine learning algorithms.</p><p>We use Word2Vec implemented in Spark ML. It uses skip-gram model in our implementation and a
+hierarchical softmax method to train the model. The variable names in the implementation match
+the original C implementation.</p><p>This is the instantiated model of the <a href="Word2VecApproach.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.Word2VecApproach">Word2VecApproach</a>. For training your own model,
+please see the documentation of that class.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = Word2VecModel.pretrained()
   .setInputCols(<span class="lit">"token"</span>)
-  .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>The default model is <code>&quot;word2vec_gigaword_300&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models" target="_blank">Models Hub</a>.</p><p><b>Sources</b> :</p><p>For the original C implementation, see https://code.google.com/p/word2vec/</p><p>For the research paper, see
+  .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>The default model is <code>&quot;word2vec_gigaword_300&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
+<a href="https://nlp.johnsnowlabs.com/models" target="_blank">Models Hub</a>.</p><p><b>Sources</b> :</p><p>For the original C implementation, see https://code.google.com/p/word2vec/</p><p>For the research paper, see
 <a href="https://arxiv.org/abs/1301.3781" target="_blank">Efficient Estimation of Word Representations in Vector Space</a>
-and <a href="https://arxiv.org/pdf/1310.4546v1.pdf" target="_blank">Distributed Representations of Words and Phrases and their Compositionality</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+and
+<a href="https://arxiv.org/pdf/1310.4546v1.pdf" target="_blank">Distributed Representations of Words and Phrases and their Compositionality</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotator.{Tokenizer, Word2VecModel}
 <span class="kw">import</span> com.johnsnowlabs.nlp.EmbeddingsFinisher
@@ -545,10 +559,10 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
         <span class="name">AnnotationContent</span><span class="result alias"> = <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="org.apache.spark.sql.Row">Row</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">internal types to show Rows as a relevant StructType
-Should be deleted once Spark releases UserDefinedTypes to @developerAPI
-</p><div class="fullcomment"><div class="comment cmt"><p>internal types to show Rows as a relevant StructType
-Should be deleted once Spark releases UserDefinedTypes to @developerAPI
+      <p class="shortcomment cmt">internal types to show Rows as a relevant StructType Should be deleted once Spark releases
+UserDefinedTypes to @developerAPI
+</p><div class="fullcomment"><div class="comment cmt"><p>internal types to show Rows as a relevant StructType Should be deleted once Spark releases
+UserDefinedTypes to @developerAPI
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotatorType.AnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="AnnotatorType=String"></a><a id="AnnotatorType:AnnotatorType"></a>
@@ -749,9 +763,14 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">annotate</span><span class="params">(<span name="annotations">annotations: <span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">takes a document and annotations and produces new annotations of this annotator's annotation type
-</p><div class="fullcomment"><div class="comment cmt"><p>takes a document and annotations and produces new annotations of this annotator's annotation type
-</p></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>Annotations that correspond to inputAnnotationCols generated by previous annotators if any</p></dd><dt>returns</dt><dd class="cmt"><p>any number of annotations processed for every input annotation. Not necessary one to one relationship</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.Word2VecModel">Word2VecModel</a> → <a href="../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a></dd></dl></div>
+      <p class="shortcomment cmt">takes a document and annotations and produces new annotations of this annotator's annotation
+type
+</p><div class="fullcomment"><div class="comment cmt"><p>takes a document and annotations and produces new annotations of this annotator's annotation
+type
+</p></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>
+  Annotations that correspond to inputAnnotationCols generated by previous annotators if any</p></dd><dt>returns</dt><dd class="cmt"><p>
+  any number of annotations processed for every input annotation. Not necessary one to one
+  relationship</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.Word2VecModel">Word2VecModel</a> → <a href="../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
@@ -919,9 +938,13 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">dfAnnotate</span><span class="result">: <span class="extype" name="org.apache.spark.sql.expressions.UserDefinedFunction">UserDefinedFunction</span></span>
       </span>
       
-      <p class="shortcomment cmt">Wraps annotate to happen inside SparkSQL user defined functions in order to act with <span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span>
-</p><div class="fullcomment"><div class="comment cmt"><p>Wraps annotate to happen inside SparkSQL user defined functions in order to act with <span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span>
-</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>udf function to be applied to <span class="extype" name="inputCols">inputCols</span> using this annotator's annotate function as part of ML transformation</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a></dd></dl></div>
+      <p class="shortcomment cmt">Wraps annotate to happen inside SparkSQL user defined functions in order to act with
+<span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span>
+</p><div class="fullcomment"><div class="comment cmt"><p>Wraps annotate to happen inside SparkSQL user defined functions in order to act with
+<span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span>
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+  udf function to be applied to <span class="extype" name="inputCols">inputCols</span> using this annotator's annotate function as
+  part of ML transformation</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties#dimension" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="dimension:org.apache.spark.ml.param.IntParam"></a><a id="dimension:IntParam"></a>
       <span class="permalink">
@@ -1481,10 +1504,10 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">inputCols</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
-</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
+      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
+</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isDefined(Param[_]):Boolean"></a>
@@ -2371,12 +2394,15 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <p class="shortcomment cmt">Given requirements are met, this applies ML transformation within a Pipeline or stand-alone
-Output annotation will be generated as a new column, previous annotations are still available separately
-metadata is built at schema level to record annotations structural information outside its content
+Output annotation will be generated as a new column, previous annotations are still
+available separately metadata is built at schema level to record annotations structural
+information outside its content
 </p><div class="fullcomment"><div class="comment cmt"><p>Given requirements are met, this applies ML transformation within a Pipeline or stand-alone
-Output annotation will be generated as a new column, previous annotations are still available separately
-metadata is built at schema level to record annotations structural information outside its content
-</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p><span class="extype" name="Dataset[Row">Dataset[Row</span>]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a> → Transformer</dd></dl></div>
+Output annotation will be generated as a new column, previous annotations are still
+available separately metadata is built at schema level to record annotations structural
+information outside its content
+</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>
+  <span class="extype" name="Dataset[Row">Dataset[Row</span>]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a> → Transformer</dd></dl></div>
     </li><li name="org.apache.spark.ml.Transformer#transform" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="transform(dataset:org.apache.spark.sql.Dataset[_],paramMap:org.apache.spark.ml.param.ParamMap):org.apache.spark.sql.DataFrame"></a><a id="transform(Dataset[_],ParamMap):DataFrame"></a>
       <span class="permalink">
@@ -2490,7 +2516,9 @@ metadata is built at schema level to record annotations structural information o
       </span>
       
       <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.
-</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>
+  to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>
+  True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.storage.HasStorageRef#validateStorageRef" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="validateStorageRef(dataset:org.apache.spark.sql.Dataset[_],inputCols:Array[String],annotatorType:String):Unit"></a><a id="validateStorageRef(Dataset[_],Array[String],String):Unit"></a>
       <span class="permalink">
@@ -2736,10 +2764,13 @@ metadata is built at schema level to record annotations structural information o
         <div id="groupedMembers">
         <div class="group" name="param">
               <h3>Parameters</h3>
-              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
+              <div class="comment cmt"><p>
+  A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  parameter values through setters and getters, respectively.</p></div>
             </div><div class="group" name="anno">
               <h3>Annotator types</h3>
-              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+              <div class="comment cmt"><p>
+  Required input and expected output annotator types</p></div>
             </div><div class="group" name="Ungrouped">
               <h3>Members</h3>
               

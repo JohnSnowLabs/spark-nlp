@@ -18,12 +18,11 @@ package com.johnsnowlabs.nlp.annotators.ner.crf
 
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ResourceHelper}
 
-case class DictionaryFeatures(dict: Map[String, String])
-{
- def get(tokens: Seq[String]): Seq[String] = {
+case class DictionaryFeatures(dict: Map[String, String]) {
+  def get(tokens: Seq[String]): Seq[String] = {
     val lower = new StringBuilder()
 
-    tokens.take(DictionaryFeatures.maxTokens).flatMap{token =>
+    tokens.take(DictionaryFeatures.maxTokens).flatMap { token =>
       if (lower.nonEmpty)
         lower.append(" ")
 
@@ -42,7 +41,8 @@ object DictionaryFeatures {
   }
 
   def read(possibleEr: Option[ExternalResource]): DictionaryFeatures = {
-    possibleEr.map(er => DictionaryFeatures(ResourceHelper.parseTupleText(er)))
+    possibleEr
+      .map(er => DictionaryFeatures(ResourceHelper.parseTupleText(er)))
       .getOrElse(new DictionaryFeatures(Map.empty[String, String]))
   }
 }

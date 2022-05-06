@@ -41,11 +41,13 @@ class AWSGatewayTestSpec extends AnyFlatSpec {
     val secretAccessKey = "mySecretAccessKey"
     val sessionToken = "mySessionToken"
     val region = "myRegion"
-    val credentialParams = CredentialParams(accessKeyId, secretAccessKey, sessionToken, "", region)
+    val credentialParams =
+      CredentialParams(accessKeyId, secretAccessKey, sessionToken, "", region)
 
     val awsCredentials = new AWSTokenCredentials().buildCredentials(credentialParams)
 
-    val awsSessionCredentials: BasicSessionCredentials = awsCredentials.get.asInstanceOf[BasicSessionCredentials]
+    val awsSessionCredentials: BasicSessionCredentials =
+      awsCredentials.get.asInstanceOf[BasicSessionCredentials]
 
     assert(awsSessionCredentials.getAWSAccessKeyId == accessKeyId)
     assert(awsSessionCredentials.getAWSSecretKey == secretAccessKey)
@@ -70,7 +72,8 @@ class AWSGatewayTestSpec extends AnyFlatSpec {
 
     val awsCredentials = new AWSTokenCredentials().buildCredentials(credentialParams)
 
-    val awsSessionCredentials: AnonymousAWSCredentials = awsCredentials.get.asInstanceOf[AnonymousAWSCredentials]
+    val awsSessionCredentials: AnonymousAWSCredentials =
+      awsCredentials.get.asInstanceOf[AnonymousAWSCredentials]
 
     assert(awsSessionCredentials.getAWSAccessKeyId == null)
     assert(awsSessionCredentials.getAWSSecretKey == null)

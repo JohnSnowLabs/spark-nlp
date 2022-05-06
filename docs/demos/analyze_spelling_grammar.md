@@ -17,21 +17,21 @@ data:
           subtitle: Analyze Spelling & Grammar 
           activemenu: analyze_spelling_grammar
       source: yes
-      source: 
-        - title:  Evaluate sentence grammar
-          id: evaluate_sentence_grammar
+      source:
+        - title:  Correct Sentences Grammar
+          id: correct_sentences_grammar 
           image: 
-              src: /assets/images/Find_in_Text.svg
+              src: /assets/images/Correct_Sentences_Grammar.svg
           image2: 
-              src: /assets/images/Find_in_Text_f.svg
-          excerpt: Classify a sentence as grammatically correct or incorrect.
+              src: /assets/images/Correct_Sentences_Grammar_f.svg
+          excerpt: This demo shows how to correct grammatical errors in texts.
           actions:
           - text: Live Demo
             type: normal
-            url:  https://demo.johnsnowlabs.com/public/SENTENCE_GRAMMAR/
+            url:  https://demo.johnsnowlabs.com/public/T5_GRAMMAR/
           - text: Colab Netbook
             type: blue_btn
-            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+            url:  https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_LINGUISTIC.ipynb    
         - title: Grammar analysis & Dependency Parsing
           id: grammar_analysis_dependency_parsing
           image: 
@@ -89,6 +89,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TEXT_PREPROCESSING.ipynb     
         - title: Linguistic transformations on texts
+          hide: yes
           id: linguistic_transformations_texts
           image: 
               src: /assets/images/Text_generation_for_linguistics.svg
@@ -101,5 +102,61 @@ data:
             url: https://demo.johnsnowlabs.com/public/T5_LINGUISTIC/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_LINGUISTIC.ipynb  
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_LINGUISTIC.ipynb               
+        - title:  Switch Between Active and Passive voice
+          id: switch_between_active_passive_voice  
+          image: 
+              src: /assets/images/Switch_Between_Active_and_Passive_voice.svg
+          image2: 
+              src: /assets/images/Switch_Between_Active_and_Passive_voice_f.svg
+          excerpt: This demo shows how to switch between active and passive sentences.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/T5_ACTIVE_PASSIVE/
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_LINGUISTIC.ipynb
+        - title:  Switch Between Informal and Formal style
+          id: switch_between_informal_formal  
+          image: 
+              src: /assets/images/Switch_Between_Informal_and_Formal_style.svg
+          image2: 
+              src: /assets/images/Switch_Between_Informal_and_Formal_style_f.svg
+          excerpt: This demo shows how to switch between texts written in formal and informal style.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/T5_FORMAL_INFORMAL/
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5_LINGUISTIC.ipynb
+        - title:  Evaluate Sentence Grammar
+          id: evaluate_sentence_grammar
+          image: 
+              src: /assets/images/Find_in_Text.svg
+          image2: 
+              src: /assets/images/Find_in_Text_f.svg
+          excerpt: Classify a sentence as grammatically correct or incorrect.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/SENTENCE_GRAMMAR/
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb 
+        - title:  English Typo Detector
+          id: english_typo_detector 
+          image: 
+              src: /assets/images/Spell_Checking.svg
+          image2: 
+              src: /assets/images/Spell_Checking_f.svg
+          excerpt: This demo shows how to detect typos in English texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/TYPO_DETECTOR_EN/
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/DistilBertForTokenClassification.ipynb
 ---

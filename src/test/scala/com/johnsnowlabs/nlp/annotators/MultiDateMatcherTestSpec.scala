@@ -24,7 +24,6 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 import java.util.Calendar
 
-
 class MultiDateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
 
   val dateMatcher = new MultiDateMatcher
@@ -32,21 +31,25 @@ class MultiDateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
     assert(dateMatcher.outputAnnotatorType == AnnotatorType.DATE)
   }
 
-  val dateData: Dataset[Row] = DataBuilder.multipleDataBuild(Array("2014/01/23", "day after tomorrow"))
+  val dateData: Dataset[Row] =
+    DataBuilder.multipleDataBuild(Array("2014/01/23", "day after tomorrow"))
 
-  "A full MultiDateMatcher pipeline with some sentences" should behave like sparkBasedDateMatcher(dateData)
+  "A full MultiDateMatcher pipeline with some sentences" should behave like sparkBasedDateMatcher(
+    dateData)
 
   val currentYear: Int = Calendar.getInstance.get(Calendar.YEAR)
   val nextThursdayCalendar: Calendar = {
     val calendar = Calendar.getInstance
     calendar.add(Calendar.DAY_OF_MONTH, 1)
-    while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.THURSDAY) calendar.add(Calendar.DAY_OF_MONTH, 1)
+    while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.THURSDAY)
+      calendar.add(Calendar.DAY_OF_MONTH, 1)
     calendar
   }
   val lastWednesdayCalendar: Calendar = {
     val calendar = Calendar.getInstance
     calendar.add(Calendar.DAY_OF_MONTH, -1)
-    while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.WEDNESDAY) calendar.add(Calendar.DAY_OF_MONTH, -1)
+    while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.WEDNESDAY)
+      calendar.add(Calendar.DAY_OF_MONTH, -1)
     calendar
   }
   val tomorrowCalendar: Calendar = {
@@ -71,8 +74,7 @@ class MultiDateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
     calendarBuild.setDate(
       calendar.get(Calendar.YEAR),
       calendar.get(Calendar.MONTH),
-      calendar.get(Calendar.DAY_OF_MONTH)
-    )
+      calendar.get(Calendar.DAY_OF_MONTH))
     calendarBuild.setTimeOfDay(hour, minutes, seconds)
     calendarBuild.build
   }
@@ -82,12 +84,14 @@ class MultiDateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
     ("1984/04/02", Some(new Calendar.Builder().setDate(1984, 4 - 1, 2).build)),
     ("1/02/1980", Some(new Calendar.Builder().setDate(1980, 1 - 1, 2).build)),
     ("2/28/79", Some(new Calendar.Builder().setDate(1979, 2 - 1, 28).build)),
-    ("The 31st of April in the year 2008", Some(new Calendar.Builder().setDate(2008, 4 - 1, 31).build)),
+    (
+      "The 31st of April in the year 2008",
+      Some(new Calendar.Builder().setDate(2008, 4 - 1, 31).build)),
     ("Fri, 21 Nov 1997", Some(new Calendar.Builder().setDate(1997, 11 - 1, 21).build)),
     ("Jan 21, '97", Some(new Calendar.Builder().setDate(1997, 1 - 1, 21).build)),
     ("Sun, Nov 21", Some(new Calendar.Builder().setDate(currentYear, 11 - 1, 21).build)),
     ("jan 1st", Some(new Calendar.Builder().setDate(currentYear, 1 - 1, 1).build)),
-    //NS: "february twenty-eighth",
+    // NS: "february twenty-eighth",
     ("next thursday", Some(nextThursdayCalendar)),
     ("last wednesday", Some(lastWednesdayCalendar)),
     ("today", Some(Calendar.getInstance)),
@@ -96,15 +100,17 @@ class MultiDateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
     ("next week", Some(nextCalendar(Calendar.WEEK_OF_MONTH))),
     ("next month", Some(nextCalendar(Calendar.MONTH))),
     ("next year", Some(nextCalendar(Calendar.YEAR))),
-    //NS: "3 days from now",
-    //NS: "three weeks ago",
+    // NS: "3 days from now",
+    // NS: "three weeks ago",
     (" day after", Some(tomorrowCalendar)),
     ("the day before", Some(yesterdayCalendar)),
-    //"the monday after",
-    //"the monday before"
-    //NS: "2 fridays before",
-    //NS: "4 tuesdays after"
-    ("Let's meet on 20th of February.", Some(new Calendar.Builder().setDate(currentYear, 2 - 1, 20).build)),
+    // "the monday after",
+    // "the monday before"
+    // NS: "2 fridays before",
+    // NS: "4 tuesdays after"
+    (
+      "Let's meet on 20th of February.",
+      Some(new Calendar.Builder().setDate(currentYear, 2 - 1, 20).build)),
     ("Today is March 14th 2019.", Some(new Calendar.Builder().setDate(2019, 3 - 1, 14).build)),
     ("10-02-19", Some(new Calendar.Builder().setDate(2019, 10 - 1, 2).build)),
     // Breaking use cases
@@ -117,30 +123,35 @@ class MultiDateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
     ("3", None),
     ("Xgeva", None),
     ("today 4", Some(Calendar.getInstance)),
-    ("1 month", None)
-  )
+    ("1 month", None))
 
-  dateSentences.map(date => dateMatcher.extractDate(date._1)).zip(dateSentences).foreach(dateAnswer => {
-    "a MultiDateMatcher" should s"successfully parse ${dateAnswer._2._1} as ${dateAnswer._2._2.map(_.getTime)}" taggedAs FastTest in {
-      if (dateAnswer._1.isEmpty && dateAnswer._2._2.isEmpty)
-        succeed
-      else if (dateAnswer._1.nonEmpty && dateAnswer._2._2.isEmpty) {
-        fail(s"because date matcher found ${dateAnswer._1.head.calendar.getTime} within ${dateAnswer._2._1} where None was expected")
+  dateSentences
+    .map(date => dateMatcher.extractDate(date._1))
+    .zip(dateSentences)
+    .foreach(dateAnswer => {
+      "a MultiDateMatcher" should s"successfully parse ${dateAnswer._2._1} as ${dateAnswer._2._2
+          .map(_.getTime)}" taggedAs FastTest in {
+        if (dateAnswer._1.isEmpty && dateAnswer._2._2.isEmpty)
+          succeed
+        else if (dateAnswer._1.nonEmpty && dateAnswer._2._2.isEmpty) {
+          fail(
+            s"because date matcher found ${dateAnswer._1.head.calendar.getTime} within ${dateAnswer._2._1} where None was expected")
+        } else if (dateAnswer._1.isEmpty && dateAnswer._2._2.nonEmpty) {
+          fail(s"because date matcher could not find anything within ${dateAnswer._2._1}")
+        } else {
+          val result = dateAnswer._1
+          assert(
+            result.head.calendar.get(Calendar.YEAR) == dateAnswer._2._2.get.get(Calendar.YEAR) &&
+              result.head.calendar.get(Calendar.MONTH) == dateAnswer._2._2.get
+                .get(Calendar.MONTH) &&
+              result.head.calendar.get(Calendar.DAY_OF_MONTH) == dateAnswer._2._2.get
+                .get(Calendar.DAY_OF_MONTH) &&
+              result.head.calendar.get(Calendar.DAY_OF_WEEK) == dateAnswer._2._2.get
+                .get(Calendar.DAY_OF_WEEK),
+            s"because result ${result.head.calendar.getTime} is not expected ${dateAnswer._2._2.get.getTime} for string ${dateAnswer._2._1}")
+        }
       }
-      else if (dateAnswer._1.isEmpty && dateAnswer._2._2.nonEmpty) {
-        fail(s"because date matcher could not find anything within ${dateAnswer._2._1}")
-      }
-      else {
-        val result = dateAnswer._1
-        assert(
-          result.head.calendar.get(Calendar.YEAR) == dateAnswer._2._2.get.get(Calendar.YEAR) &&
-            result.head.calendar.get(Calendar.MONTH) == dateAnswer._2._2.get.get(Calendar.MONTH) &&
-            result.head.calendar.get(Calendar.DAY_OF_MONTH) == dateAnswer._2._2.get.get(Calendar.DAY_OF_MONTH) &&
-            result.head.calendar.get(Calendar.DAY_OF_WEEK) == dateAnswer._2._2.get.get(Calendar.DAY_OF_WEEK),
-          s"because result ${result.head.calendar.getTime} is not expected ${dateAnswer._2._2.get.getTime} for string ${dateAnswer._2._1}")
-      }
-    }
-  })
+    })
 
   "a MultiDateMatcher" should "ignore chunks of text with nothing relevant" taggedAs FastTest in {
     val _: Dataset[Row] = DataBuilder.multipleDataBuild(Array("2014/01/23", "day after tomorrow"))
@@ -157,10 +168,11 @@ class MultiDateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
   "a MultiDateMatcher" should "correctly search for input formats to output format" taggedAs FastTest in {
 
     val data: Dataset[Row] = DataBuilder.multipleDataBuild(
-      Array("Neighbouring Austria has already locked down its population this week for at until 2021/10/12, " +
-        "becoming the first to reimpose such restrictions. It will also require the whole population to be " +
-        "vaccinated from the second month of 2022, infuriating many in a country where scepticism about state mandates " +
-        "affecting individual freedoms runs high in the next 02/2022."))
+      Array(
+        "Neighbouring Austria has already locked down its population this week for at until 2021/10/12, " +
+          "becoming the first to reimpose such restrictions. It will also require the whole population to be " +
+          "vaccinated from the second month of 2022, infuriating many in a country where scepticism about state mandates " +
+          "affecting individual freedoms runs high in the next 02/2022."))
 
     val inputFormats = Array("yyyy/dd/MM", "yyyy", "MM/yyyy")
     val outputFormat = "yyyy/MM/dd"
@@ -179,16 +191,15 @@ class MultiDateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
       Annotation(DATE, 83, 86, "2021/01/01", Map("sentence" -> "0")),
       Annotation(DATE, 83, 92, "2021/12/10", Map("sentence" -> "0")),
       Annotation(DATE, 229, 232, "2022/01/01", Map("sentence" -> "0")),
-      Annotation(DATE, 354, 361, "2022/02/01", Map("sentence" -> "0"))
-    )
+      Annotation(DATE, 354, 361, "2022/02/01", Map("sentence" -> "0")))
 
     assert(results == expectedDates)
   }
 
   "a MultiDateMatcher" should "correctly disambiguating non dates with input formats provided" taggedAs FastTest in {
 
-    val data: Dataset[Row] = DataBuilder.multipleDataBuild(
-      Array("Omicron is a new variant of COVID-19, which the World Health Organization designated a " +
+    val data: Dataset[Row] = DataBuilder.multipleDataBuild(Array(
+      "Omicron is a new variant of COVID-19, which the World Health Organization designated a " +
         "\"variant of concern\" on Nov. 26, 2021/26/11. The name comes from the letter in the Greek alphabet.\n\n" +
         "The omicron variant was first detected by scientists in South Africa, " +
         "where it is believed to be the cause of a recent spike in cases in the Gauteng province." +
@@ -217,8 +228,8 @@ class MultiDateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
 
   "a MultiDateMatcher" should "correctly matches provided full input format" taggedAs FastTest in {
 
-    val data: Dataset[Row] = DataBuilder.multipleDataBuild(
-      Array("Omicron is a new variant of COVID-19, which the World Health Organization designated a " +
+    val data: Dataset[Row] = DataBuilder.multipleDataBuild(Array(
+      "Omicron is a new variant of COVID-19, which the World Health Organization designated a " +
         "\"variant of concern\" on Nov. 26, 2021/26/11. The name comes from the letter in the Greek alphabet.\n\n" +
         "The omicron variant was first detected by scientists in South Africa, " +
         "where it is believed to be the cause of a recent spike in cases in the Gauteng province." +
@@ -244,8 +255,8 @@ class MultiDateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
 
   "a MultiDateMatcher" should "correctly matches provided year input format" taggedAs FastTest in {
 
-    val data: Dataset[Row] = DataBuilder.multipleDataBuild(
-      Array("Omicron is a new variant of COVID-19, which the World Health Organization designated a " +
+    val data: Dataset[Row] = DataBuilder.multipleDataBuild(Array(
+      "Omicron is a new variant of COVID-19, which the World Health Organization designated a " +
         "\"variant of concern\" on Nov. 26, 2021/26/11. The name comes from the letter in the Greek alphabet.\n\n" +
         "The omicron variant was first detected by scientists in South Africa, " +
         "where it is believed to be the cause of a recent spike in cases in the Gauteng province." +
@@ -266,16 +277,15 @@ class MultiDateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
 
     val expectedDates = Seq(
       Annotation(DATE, 120, 123, "2021/01/01", Map("sentence" -> "0")),
-      Annotation(DATE, 378, 381, "2022/01/01", Map("sentence" -> "0"))
-    )
+      Annotation(DATE, 378, 381, "2022/01/01", Map("sentence" -> "0")))
 
     assert(results == expectedDates)
   }
 
   "a MultiDateMatcher" should "correctly not match input formats" taggedAs FastTest in {
 
-    val data: Dataset[Row] = DataBuilder.multipleDataBuild(
-      Array("Omicron is a new variant of COVID-19, which the World Health Organization designated a " +
+    val data: Dataset[Row] = DataBuilder.multipleDataBuild(Array(
+      "Omicron is a new variant of COVID-19, which the World Health Organization designated a " +
         "\"variant of concern\" on Nov. 26, 2021/26/11. The name comes from the letter in the Greek alphabet.\n\n" +
         "The omicron variant was first detected by scientists in South Africa, " +
         "where it is believed to be the cause of a recent spike in cases in the Gauteng province." +

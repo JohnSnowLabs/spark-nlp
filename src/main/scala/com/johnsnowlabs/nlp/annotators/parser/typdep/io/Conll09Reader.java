@@ -16,32 +16,31 @@
 
 package com.johnsnowlabs.nlp.annotators.parser.typdep.io;
 
-import com.johnsnowlabs.nlp.annotators.parser.typdep.ConllData;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.DependencyInstance;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Conll09Reader extends DependencyReader{
+public class Conll09Reader extends DependencyReader {
 
-     /**
-	     *  CoNLL 2009 format:
-		    0 ID
-		    1 FORM
-		    2 LEMMA (not used)
-		    3 PLEMMA
-		    4 POS (not used)
-		    5 PPOS
-		    6 FEAT (not used)
-		    7 PFEAT
-		    8 HEAD
-		    9 PHEAD
-		    10 DEPREL
-		    11 PDEPREL
-		    12 FILLPRED
-		    13 PRED
-		    14... APREDn
-	   	*/
+    /**
+     * CoNLL 2009 format:
+     * 0 ID
+     * 1 FORM
+     * 2 LEMMA (not used)
+     * 3 PLEMMA
+     * 4 POS (not used)
+     * 5 PPOS
+     * 6 FEAT (not used)
+     * 7 PFEAT
+     * 8 HEAD
+     * 9 PHEAD
+     * 10 DEPREL
+     * 11 PDEPREL
+     * 12 FILLPRED
+     * 13 PRED
+     * 14... APREDn
+     */
 
 
     @Override
@@ -72,7 +71,7 @@ public class Conll09Reader extends DependencyReader{
         boolean hasLemma = false;
 
         for (int i = 1; i < length + 1; ++i) {
-            String[] parts = lstLines.get(i-1);
+            String[] parts = lstLines.get(i - 1);
             forms[i] = parts[1];
             if (!parts[3].equals("_")) {
                 lemmas[i] = parts[3];

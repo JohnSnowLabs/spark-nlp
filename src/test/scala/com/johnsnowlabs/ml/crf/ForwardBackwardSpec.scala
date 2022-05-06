@@ -44,7 +44,6 @@ class ForwardBackwardSpec extends AnyFlatSpec {
     assert(logEdge(2).toSeq == Seq(0f, 0.4f, 0.3f))
   }
 
-
   "EdgeCalculate" should "fill matrix correctly for second word" taggedAs FastTest in {
     val secondWordFeatures = dataset.instances(0)._2.items(1).values
     val logEdge = Matrix(3, 3)
@@ -54,7 +53,6 @@ class ForwardBackwardSpec extends AnyFlatSpec {
     FloatAssert.seqEquals(logEdge(1), Seq(0f, 0.5f, 0.7f))
     FloatAssert.seqEquals(logEdge(2), Seq(0f, 0.5f, 0.6f))
   }
-
 
   "EdgeCalculator" should "fill matrix correctly according to scale param" taggedAs FastTest in {
     val secondWordFeatures = dataset.instances(0)._2.items(1).values
@@ -68,10 +66,9 @@ class ForwardBackwardSpec extends AnyFlatSpec {
     FloatAssert.seqEquals(logEdge(2), Seq(0f, 0.5f, 0.6f))
   }
 
-
   "FbCalculator" should "calculate c correct" taggedAs FastTest in {
     // Calculate Z(x) as expected
-    val zTest = fb.c.reduce(_*_)
+    val zTest = fb.c.reduce(_ * _)
 
     // Calculate Z(x) by brute force
     val z = fb.phi
@@ -84,14 +81,14 @@ class ForwardBackwardSpec extends AnyFlatSpec {
     assert(alphaPaths == 1f)
 
     // Calculate Z(x) from beta
-    val betaPaths = fb.beta(0).zip(fb.phi(0)(0)).map{case(a,b) => a*b}.sum
+    val betaPaths = fb.beta(0).zip(fb.phi(0)(0)).map { case (a, b) => a * b }.sum
     assert(betaPaths == 1f)
   }
 
-
   "FbCalculator" should "calculated alpha and beta should satisfy invariants" taggedAs FastTest in {
     for (i <- 0 until instance.items.size) {
-      val fbZ = Range(0, labels).map(label => fb.alpha(i)(label) * fb.beta(i)(label)*fb.c(i)).sum
+      val fbZ =
+        Range(0, labels).map(label => fb.alpha(i)(label) * fb.beta(i)(label) * fb.c(i)).sum
       assert(fbZ == 1f)
     }
   }
@@ -105,7 +102,6 @@ class ForwardBackwardSpec extends AnyFlatSpec {
       }
     }
   }
-
 
   "FbCalculator" should "correctly estimates paths goes through label at time" taggedAs FastTest in {
     for (i <- 0 until instance.items.length) {
