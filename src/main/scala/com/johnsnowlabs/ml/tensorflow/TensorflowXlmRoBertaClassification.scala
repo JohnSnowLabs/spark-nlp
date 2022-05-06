@@ -18,7 +18,7 @@ package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
-import com.johnsnowlabs.nlp.ActivationFunction
+import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
 import com.johnsnowlabs.nlp.annotators.common._
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
@@ -68,6 +68,13 @@ class TensorflowXlmRoBertaClassification(
       WordpieceTokenizedSentence(wordpieceTokens)
     }
     sentenceTokenPieces
+  }
+
+  def tokenizeDocument(
+      docs: Seq[Annotation],
+      maxSeqLength: Int,
+      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
+    Seq.empty[WordpieceTokenizedSentence]
   }
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
@@ -188,6 +195,10 @@ class TensorflowXlmRoBertaClassification(
         .toArray
 
     batchScores
+  }
+
+  def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {
+    (Array.empty[Array[Float]], Array.empty[Array[Float]])
   }
 
   def findIndexedToken(
