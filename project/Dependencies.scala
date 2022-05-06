@@ -4,7 +4,7 @@ object Dependencies {
 
   /** ------- Spark version start ------- */
   // Spark 3.0.x and 3.1.x are similar
-  val spark30Ver = "3.0.3"
+  val spark30Ver = "3.1.3"
   val spark32Ver = "3.2.1"
 
   val is_gpu: String = System.getProperty("is_gpu", "false")
@@ -71,8 +71,7 @@ object Dependencies {
   val greexVersion = "1.0"
   val greex = "com.navigamez" % "greex" % greexVersion
 
-  val json4sVersion: String = if (is_spark30 == "true") "3.5.3" else "3.7.0-M11"
-
+  val json4sVersion: String = if (is_spark30 == "true") "3.7.0-M5" else "3.7.0-M11"
   val json4s = "org.json4s" %% "json4s-ext" % json4sVersion
 
   val junitVersion = "4.13.2"
