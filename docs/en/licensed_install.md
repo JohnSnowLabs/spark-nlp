@@ -326,12 +326,8 @@ os.environ.update(license_keys)
 !wget https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/jsl_colab_setup.sh
 ```
 
-This script comes to an option to define pyspark version via options:
 
 ```sh
-# -p is for pyspark
-# -s is for spark-nlp
-# by default they are set to the latest
 # -p is for pyspark (by default 3.1.1)
 !bash jsl_colab_setup.sh
 ```
