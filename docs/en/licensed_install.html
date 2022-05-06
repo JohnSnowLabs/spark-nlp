@@ -815,24 +815,27 @@ The precedence for that location is the highest, so make sure that file is not c
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
 
 <span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">files</span>
 
 <span class="n">license_keys</span> <span class="o">=</span> <span class="n">files</span><span class="p">.</span><span class="n">upload</span><span class="p">()</span>
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">license_keys</span><span class="p">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">])</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">license_keys</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+  <span class="n">license_keys</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="c1"># Defining license key-value pairs as local variables
+</span><span class="nb">locals</span><span class="p">().</span><span class="n">update</span><span class="p">(</span><span class="n">license_keys</span><span class="p">)</span>
+
+<span class="c1"># Adding license key-value pairs to environment variables
+</span><span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">license_keys</span><span class="p">)</span>
 </code></pre></div></div>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># This is only to setup PySpark and Spark NLP on Colab</span>
 <span class="o">!</span>wget https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/jsl_colab_setup.sh
 </code></pre></div></div>
 
-<p>This script comes with the two options to define <code class="language-plaintext highlighter-rouge">pyspark</code>,<code class="language-plaintext highlighter-rouge">spark-nlp</code> and <code class="language-plaintext highlighter-rouge">spark-nlp-jsl</code> versions via options:</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># -p is for pyspark</span>
-<span class="c"># -s is for spark-nlp</span>
-<span class="c"># by default they are set to the latest</span>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># -p is for pyspark (by default 3.1.1)</span>
 <span class="o">!</span>bash jsl_colab_setup.sh
 </code></pre></div></div>
 
