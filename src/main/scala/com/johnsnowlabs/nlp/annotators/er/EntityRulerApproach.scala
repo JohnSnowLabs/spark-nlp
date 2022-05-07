@@ -454,10 +454,6 @@ class EntityRulerApproach(override val uid: String)
 
     val spark = patternsDataFrame.sparkSession
     val sparkVersion = Version.parse(spark.version).toFloat
-    // TODO: drop this feature and the UDF when we deprecated Spark 2.3 support
-    if (sparkVersion < 2.4) {
-      spark.udf.register("flatten", SparkUtil.flattenArrays)
-    }
 
     if (fieldId.nonEmpty) {
       val patternsWithIdDataFrame =
