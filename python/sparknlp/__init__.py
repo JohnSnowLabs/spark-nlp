@@ -232,21 +232,17 @@ def start(gpu=False,
     spark_nlp_config = SparkNLPConfig()
 
     if real_time_output:
-        if spark23 or spark24:
-            spark_session = start_without_realtime_output()
-            return spark_session
-        else:
-            # Available from Spark 3.0.x
-            class SparkRealTimeOutput:
+        # Available from Spark 3.0.x
+        class SparkRealTimeOutput:
 
-                def __init__(self):
-                    self.__spark_with_custom_gateway = start_with_realtime_output()
-                    self.spark_session = self.__spark_with_custom_gateway.spark_session
+            def __init__(self):
+                self.__spark_with_custom_gateway = start_with_realtime_output()
+                self.spark_session = self.__spark_with_custom_gateway.spark_session
 
-                def shutdown(self):
-                    self.__spark_with_custom_gateway.shutdown()
+            def shutdown(self):
+                self.__spark_with_custom_gateway.shutdown()
 
-            return SparkRealTimeOutput()
+        return SparkRealTimeOutput()
     else:
         spark_session = start_without_realtime_output()
         return spark_session
