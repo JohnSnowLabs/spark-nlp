@@ -49,8 +49,6 @@ public class GeneralAnnotationsTest {
         SparkSession spark = com.johnsnowlabs.nlp.SparkNLP.start(
                 false,
                 false,
-                false,
-                false,
                 "16G",
                 "",
                 "",

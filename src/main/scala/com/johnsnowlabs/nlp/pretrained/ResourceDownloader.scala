@@ -90,9 +90,7 @@ object ResourceDownloader {
   private val cache = mutable.Map[ResourceRequest, PipelineStage]()
 
   lazy val sparkVersion: Version = {
-    val spark_version =
-      if (ResourceHelper.spark.version.startsWith("2.3")) "2.4.4"
-      else ResourceHelper.spark.version
+    val spark_version = ResourceHelper.spark.version
     Version.parse(spark_version)
   }
 
