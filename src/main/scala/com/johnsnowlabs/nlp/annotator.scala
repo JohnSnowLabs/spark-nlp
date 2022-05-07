@@ -550,4 +550,12 @@ package object annotator {
   object CamemBertEmbeddings
       extends ReadablePretrainedCamemBertModel
       with ReadCamemBertTensorflowModel
+
+  type BertForQuestionAnswering =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.BertForQuestionAnswering
+
+  object BertForQuestionAnswering
+      extends ReadablePretrainedBertForQAModel
+      with ReadBertForQATensorflowModel
+
 }
