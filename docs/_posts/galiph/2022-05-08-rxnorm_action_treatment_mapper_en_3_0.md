@@ -105,7 +105,7 @@ val pipeline = Pipeline().setStages(Array(document_assembler,
                                  chunkerMapper_treatment
                                  ))
 
- val text_data = Seq('Sinequan 150 MG', "Zonalon 50 mg").toDF("text")
+ val text_data = Seq("Sinequan 150 MG", "Zonalon 50 mg").toDF("text")
 
 
  val res = pipeline.fit(text_data).transform(text_data)
