@@ -54,7 +54,7 @@ chunkerMapper_action = ChunkMapperModel.pretrained("rxnorm_action_treatment_mapp
       .setOutputCol("Action")\
       .setRel("Action") 
 
-chunkerMapper_treatment = ChunkMapperModel.load(f"/content/{extract_dir}")\
+chunkerMapper_treatment = ChunkMapperModel.pretrained("rxnorm_action_treatment_mapper", "en", "clinical/models"))\
       .setInputCols(["rxnorm_code"])\
       .setOutputCol("Treatment")\
       .setRel("Treatment") 
