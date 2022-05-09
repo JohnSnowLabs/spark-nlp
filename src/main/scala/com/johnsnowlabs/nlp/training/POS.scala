@@ -17,10 +17,10 @@
 package com.johnsnowlabs.nlp.training
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-import org.apache.spark.sql.{Column, DataFrame, SparkSession}
 import org.apache.spark.sql.expressions.UserDefinedFunction
-import org.apache.spark.sql.functions.{col, concat_ws, lit, split, udf}
+import org.apache.spark.sql.functions.{col, concat_ws, udf}
 import org.apache.spark.sql.types.MetadataBuilder
+import org.apache.spark.sql.{Column, DataFrame, SparkSession}
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -28,16 +28,17 @@ private case class TaggedToken(token: String, tag: String)
 private case class TaggedDocument(sentence: String, taggedTokens: Array[TaggedToken])
 private case class Annotations(text: String, document: Array[Annotation], pos: Array[Annotation])
 
-/**
-  * Helper class for creating DataFrames for training a part-of-speech tagger.
+/** Helper class for creating DataFrames for training a part-of-speech tagger.
   *
-  * The dataset needs to consist of sentences on each line, where each word is delimited with its respective tag:
+  * The dataset needs to consist of sentences on each line, where each word is delimited with its
+  * respective tag:
   *
   * {{{
   * Pierre|NNP Vinken|NNP ,|, 61|CD years|NNS old|JJ ,|, will|MD join|VB the|DT board|NN as|IN a|DT nonexecutive|JJ director|NN Nov.|NNP 29|CD .|.
   * }}}
   *
-  * The sentence can then be parsed with [[readDataset]] into a column with annotations of type `POS`.
+  * The sentence can then be parsed with [[readDataset]] into a column with annotations of type
+  * `POS`.
   *
   * ==Example==
   * In this example, the file `test-training.txt` has the content of the sentence above.
@@ -76,9 +77,9 @@ private case class Annotations(text: String, document: Array[Annotation], pos: A
 case class POS() {
 
   /*
-  * Add Metadata annotationType to output DataFrame
-  * NOTE: This should be replaced by an existing function when it's accessible in next release
-  * */
+   * Add Metadata annotationType to output DataFrame
+   * NOTE: This should be replaced by an existing function when it's accessible in next release
+   * */
 
   def wrapColumnMetadata(col: Column, annotatorType: String, outPutColName: String): Column = {
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
@@ -92,13 +93,13 @@ case class POS() {
    * */
 
   private def createDocumentAnnotation(sentence: String) = {
-    Array(Annotation(
-      AnnotatorType.DOCUMENT,
-      0,
-      sentence.length - 1,
-      sentence,
-      Map.empty[String, String]
-    ))
+    Array(
+      Annotation(
+        AnnotatorType.DOCUMENT,
+        0,
+        sentence.length - 1,
+        sentence,
+        Map.empty[String, String]))
   }
 
   private def createPosAnnotation(sentence: String, taggedTokens: Array[TaggedToken]) = {
@@ -110,8 +111,7 @@ case class POS() {
         tokenBegin,
         tokenBegin + token.length - 1,
         tag,
-        Map("word" -> token)
-      )
+        Map("word" -> token))
       lastBegin += token.length
       a
     }
@@ -122,7 +122,7 @@ case class POS() {
     /*
     TODO: improve the performance of regex group
     val splitted = line.replaceAll(s"(?:${delimiter.head}\\w+)+(\\s)", "$0##$1").split("##").map(_.trim)
-    */
+     */
     val splitted = line.split(" ").map(_.trim)
 
     val tokenTags = splitted.flatMap(token => {
@@ -136,100 +136,107 @@ case class POS() {
     TaggedDocument(tokenTags.map(_.token).mkString(" "), tokenTags)
   }
 
-  /**
-    * Reads the provided dataset file with given parameters and returns a DataFrame ready to for training a
-    * part-of-speech tagger.
+  /** Reads the provided dataset file with given parameters and returns a DataFrame ready to for
+    * training a part-of-speech tagger.
     *
-    * @param sparkSession Current Spark sessions
-    * @param path Path to the resource
-    * @param delimiter Delimiter used to separate word from their tag in the text
-    * @param outputPosCol Name for the output column of the part-of-tags
-    * @param outputDocumentCol Name for the [[com.johnsnowlabs.nlp.base.DocumentAssembler DocumentAssembler]] column
-    * @param outputTextCol Name for the column of the raw text
-    * @return DataFrame of parsed text
+    * @param sparkSession
+    *   Current Spark sessions
+    * @param path
+    *   Path to the resource
+    * @param delimiter
+    *   Delimiter used to separate word from their tag in the text
+    * @param outputPosCol
+    *   Name for the output column of the part-of-tags
+    * @param outputDocumentCol
+    *   Name for the [[com.johnsnowlabs.nlp.base.DocumentAssembler DocumentAssembler]] column
+    * @param outputTextCol
+    *   Name for the column of the raw text
+    * @return
+    *   DataFrame of parsed text
     */
   def readDataset(
-                   sparkSession: SparkSession,
-                   path: String,
-                   delimiter: String = "|",
-                   outputPosCol: String = "tags",
-                   outputDocumentCol: String = "document",
-                   outputTextCol: String = "text"
-                 ): DataFrame = {
+      sparkSession: SparkSession,
+      path: String,
+      delimiter: String = "|",
+      outputPosCol: String = "tags",
+      outputDocumentCol: String = "document",
+      outputTextCol: String = "text"): DataFrame = {
     import sparkSession.implicits._
 
     require(delimiter.length == 1, s"Delimiter must be one character long. Received $delimiter")
 
-    val dataset = sparkSession.read.textFile(path)
+    val dataset = sparkSession.read
+      .textFile(path)
       .filter(_.nonEmpty)
       .map(line => lineToTaggedDocument(line, delimiter))
       .map { case TaggedDocument(sentence, taggedTokens) =>
         Annotations(
           sentence,
           createDocumentAnnotation(sentence),
-          createPosAnnotation(sentence, taggedTokens)
-        )
+          createPosAnnotation(sentence, taggedTokens))
       }
 
     dataset
-        .withColumnRenamed(
-          "text",
-          outputTextCol
-        )
+      .withColumnRenamed("text", outputTextCol)
       .withColumn(
         outputDocumentCol,
-        wrapColumnMetadata(dataset("document"), AnnotatorType.DOCUMENT, outputDocumentCol)
-      )
+        wrapColumnMetadata(dataset("document"), AnnotatorType.DOCUMENT, outputDocumentCol))
       .withColumn(
         outputPosCol,
-        wrapColumnMetadata(dataset("pos"), AnnotatorType.POS, outputPosCol)
-      )
+        wrapColumnMetadata(dataset("pos"), AnnotatorType.POS, outputPosCol))
       .select(outputTextCol, outputDocumentCol, outputPosCol)
   }
 
   // For testing purposes when there is an array of tokens and an array of labels
-  def readFromDataframe(posDataframe: DataFrame, tokensCol: String = "tokens", labelsCol: String = "labels",
-                        outPutDocColName: String = "text", outPutPosColName: String = "tags"): DataFrame = {
+  def readFromDataframe(
+      posDataframe: DataFrame,
+      tokensCol: String = "tokens",
+      labelsCol: String = "labels",
+      outPutDocColName: String = "text",
+      outPutPosColName: String = "tags"): DataFrame = {
     def annotatorType: String = AnnotatorType.POS
 
-    def annotateTokensTags: UserDefinedFunction = udf { (tokens: Seq[String], tags: Seq[String], text: String) =>
-      lazy val strTokens = tokens.mkString("#")
-      lazy val strPosTags = tags.mkString("#")
+    def annotateTokensTags: UserDefinedFunction = udf {
+      (tokens: Seq[String], tags: Seq[String], text: String) =>
+        lazy val strTokens = tokens.mkString("#")
+        lazy val strPosTags = tags.mkString("#")
 
-      require(tokens.length == tags.length, s"Cannot train from DataFrame since there" +
-        s" is a row with different amount of tags and tokens:\n$strTokens\n$strPosTags")
+        require(
+          tokens.length == tags.length,
+          s"Cannot train from DataFrame since there" +
+            s" is a row with different amount of tags and tokens:\n$strTokens\n$strPosTags")
 
-      val tokenTagAnnotation: ArrayBuffer[Annotation] = ArrayBuffer()
-      def annotatorType: String = AnnotatorType.POS
-      var lastIndex = 0
+        val tokenTagAnnotation: ArrayBuffer[Annotation] = ArrayBuffer()
+        def annotatorType: String = AnnotatorType.POS
+        var lastIndex = 0
 
-      for ((e, i) <- tokens.zipWithIndex) {
+        for ((e, i) <- tokens.zipWithIndex) {
 
-        val beginOfToken = text.indexOfSlice(e, lastIndex)
-        val endOfToken = (beginOfToken + e.length) - 1
+          val beginOfToken = text.indexOfSlice(e, lastIndex)
+          val endOfToken = (beginOfToken + e.length) - 1
 
-        val fullPOSAnnotatorStruct = new Annotation(
-          annotatorType = annotatorType,
-          begin=beginOfToken,
-          end=endOfToken,
-          result=tags(i),
-          metadata=Map("word" -> e)
-        )
-        tokenTagAnnotation += fullPOSAnnotatorStruct
-        lastIndex = text.indexOfSlice(e, lastIndex)
-      }
-      tokenTagAnnotation
+          val fullPOSAnnotatorStruct = new Annotation(
+            annotatorType = annotatorType,
+            begin = beginOfToken,
+            end = endOfToken,
+            result = tags(i),
+            metadata = Map("word" -> e))
+          tokenTagAnnotation += fullPOSAnnotatorStruct
+          lastIndex = text.indexOfSlice(e, lastIndex)
+        }
+        tokenTagAnnotation
     }
 
     val tempDataFrame = posDataframe
-      .withColumn(outPutDocColName,  concat_ws(" ", col(tokensCol)))
-      .withColumn(outPutPosColName, annotateTokensTags(col(tokensCol), col(labelsCol), col(outPutDocColName)))
+      .withColumn(outPutDocColName, concat_ws(" ", col(tokensCol)))
+      .withColumn(
+        outPutPosColName,
+        annotateTokensTags(col(tokensCol), col(labelsCol), col(outPutDocColName)))
       .drop(tokensCol, labelsCol)
 
     tempDataFrame.withColumn(
       outPutPosColName,
-      wrapColumnMetadata(tempDataFrame(outPutPosColName), annotatorType, outPutPosColName)
-    )
+      wrapColumnMetadata(tempDataFrame(outPutPosColName), annotatorType, outPutPosColName))
   }
 
 }

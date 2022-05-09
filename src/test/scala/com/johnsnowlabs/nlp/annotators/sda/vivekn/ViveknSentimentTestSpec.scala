@@ -49,8 +49,7 @@ class ViveknSentimentTestSpec extends AnyFlatSpec {
       ("very bad", "negative"),
       ("very fantastic", "positive"),
       ("very fantastic", "positive"),
-      ("incredible!!", "positive")
-    ).toDF("text", "sentiment_label")
+      ("incredible!!", "positive")).toDF("text", "sentiment_label")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -71,12 +70,7 @@ class ViveknSentimentTestSpec extends AnyFlatSpec {
       .setPruneCorpus(0)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        sentimentDetector
-      ))
+      .setStages(Array(documentAssembler, sentenceDetector, tokenizer, sentimentDetector))
 
     // Train ViveknSentimentApproach inside Pipeline by using DataFrame
     val model = pipeline.fit(trainingDataDF)
@@ -91,10 +85,9 @@ class ViveknSentimentTestSpec extends AnyFlatSpec {
       "I think this movie is horrible.",
       "simply put, this is like a bad dream, a horrible one, but in an amazing scenario",
       "amazing staff, really horrible movie",
-      "horrible watchout bloody thing"
-    ).toDF("text")
+      "horrible watchout bloody thing").toDF("text")
 
-    model.transform(testDataDF).select("text", "vivekn").show(1, truncate=false)
+    model.transform(testDataDF).select("text", "vivekn").show(1, truncate = false)
     succeed
   }
 
@@ -107,8 +100,7 @@ class ViveknSentimentTestSpec extends AnyFlatSpec {
       ("horrible staff", "negative"),
       ("very bad", "negative"),
       ("simply fantastic", "positive"),
-      ("incredible!!", "positive")
-    ).toDF("text", "sentiment_label")
+      ("incredible!!", "positive")).toDF("text", "sentiment_label")
 
     val testDataDF = trainingDataDF
 
@@ -140,18 +132,18 @@ class ViveknSentimentTestSpec extends AnyFlatSpec {
       .setPruneCorpus(0)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        normalizer,
-        spellChecker,
-        sentimentDetector
-      ))
+      .setStages(
+        Array(
+          documentAssembler,
+          sentenceDetector,
+          tokenizer,
+          normalizer,
+          spellChecker,
+          sentimentDetector))
 
     val model = pipeline.fit(trainingDataDF)
 
-    model.transform(testDataDF).select("vivekn").show(1, truncate=false)
+    model.transform(testDataDF).select("vivekn").show(1, truncate = false)
 
     val PIPE_PATH = "./tmp_pipeline"
     model.write.overwrite().save(PIPE_PATH)
@@ -170,28 +162,31 @@ class ViveknSentimentTestSpec extends AnyFlatSpec {
       ("horrible staff", "negative"),
       ("very bad", "negative"),
       ("simply fantastic", "positive"),
-      ("incredible!!", "positive")
-    ).toDF("text", "sentiment_label")
+      ("incredible!!", "positive")).toDF("text", "sentiment_label")
 
     val testDataset = Map(
       "amazing voice acting" -> "positive",
       "horrible staff" -> "negative",
       "very bad" -> "negative",
       "simply fantastic" -> "positive",
-      "incredible!!" -> "positive"
-    )
+      "incredible!!" -> "positive")
 
-    AnnotatorBuilder.withViveknSentimentAnalysis(trainingDataDF)
+    AnnotatorBuilder
+      .withViveknSentimentAnalysis(trainingDataDF)
       .select("text", "vivekn")
-      .collect().foreach {
-      row => {
-        val content = row.getString(0)
-        val sentiments = row.getSeq[Row](1).map(Annotation(_).result)
-        assert(sentiments.length == 1, "because sentiments per sentence returned more or less than one result?")
-        assert(sentiments.head == testDataset(content), s"because text $content returned ${sentiments.head} when it was ${testDataset(content)}")
+      .collect()
+      .foreach { row =>
+        {
+          val content = row.getString(0)
+          val sentiments = row.getSeq[Row](1).map(Annotation(_).result)
+          assert(
+            sentiments.length == 1,
+            "because sentiments per sentence returned more or less than one result?")
+          assert(
+            sentiments.head == testDataset(content),
+            s"because text $content returned ${sentiments.head} when it was ${testDataset(content)}")
+        }
       }
-    }
   }
-
 
 }

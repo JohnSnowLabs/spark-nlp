@@ -52,17 +52,18 @@ class FinisherTestSpec extends AnyFlatSpec {
       .setValueSplitSymbol("#")
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer,
-        embeddings,
-        finisher
-      ))
+      .setStages(Array(documentAssembler, tokenizer, embeddings, finisher))
 
     val result = pipeline.fit(data).transform(data)
 
-    assert(result.columns.length == 5, "because finisher did not clean annotations or did not return proper columns")
-    result.select("finished_token").as[String].collect.foreach(s => assert(s.contains("@"), "because @ separator string was not found"))
+    assert(
+      result.columns.length == 5,
+      "because finisher did not clean annotations or did not return proper columns")
+    result
+      .select("finished_token")
+      .as[String]
+      .collect
+      .foreach(s => assert(s.contains("@"), "because @ separator string was not found"))
   }
 
   "A Finisher with default settings without split parameters" should "return clean results" taggedAs FastTest in {
@@ -73,17 +74,18 @@ class FinisherTestSpec extends AnyFlatSpec {
       .setIncludeMetadata(false)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer,
-        embeddings,
-        finisher
-      ))
+      .setStages(Array(documentAssembler, tokenizer, embeddings, finisher))
 
     val result = pipeline.fit(data).transform(data)
 
-    assert(result.columns.length == 5, "because finisher did not clean annotations or did not return proper columns")
-    result.select("finished_token").as[String].collect.foreach(s => assert(s.contains("@"), "because @ separator string was not found"))
+    assert(
+      result.columns.length == 5,
+      "because finisher did not clean annotations or did not return proper columns")
+    result
+      .select("finished_token")
+      .as[String]
+      .collect
+      .foreach(s => assert(s.contains("@"), "because @ separator string was not found"))
   }
 
   "A Finisher with custom settings" should "behave accordingly" taggedAs FastTest in {
@@ -98,19 +100,24 @@ class FinisherTestSpec extends AnyFlatSpec {
       .setIncludeMetadata(true)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer,
-        embeddings,
-        finisher
-      ))
+      .setStages(Array(documentAssembler, tokenizer, embeddings, finisher))
 
     val result = pipeline.fit(data).transform(data)
 
-    assert(result.columns.length == 8, "because finisher removed annotations or did not return proper columns")
+    assert(
+      result.columns.length == 8,
+      "because finisher removed annotations or did not return proper columns")
     assert(result.columns.contains("token_out"))
-    result.select("token_out").as[String].collect.foreach(s => assert(s.contains("%"), "because % separator string was not found"))
-    result.select("token_out").as[String].collect.foreach(s => assert(s.contains("->"), "because -> key value was not found"))
+    result
+      .select("token_out")
+      .as[String]
+      .collect
+      .foreach(s => assert(s.contains("%"), "because % separator string was not found"))
+    result
+      .select("token_out")
+      .as[String]
+      .collect
+      .foreach(s => assert(s.contains("->"), "because -> key value was not found"))
 
   }
 
@@ -126,17 +133,13 @@ class FinisherTestSpec extends AnyFlatSpec {
       .setOutputCol("stopped")
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer,
-        embeddings,
-        finisher,
-        stopWords
-      ))
+      .setStages(Array(documentAssembler, tokenizer, embeddings, finisher, stopWords))
 
     val result = pipeline.fit(data).transform(data)
 
-    assert(result.columns.length == 6, "because finisher removed annotations or did not return proper columns")
+    assert(
+      result.columns.length == 6,
+      "because finisher removed annotations or did not return proper columns")
     assert(result.columns.contains("stopped"))
 
   }

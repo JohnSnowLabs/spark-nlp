@@ -19,8 +19,7 @@ package com.johnsnowlabs.nlp.annotators.tokenizer.normalizer
 import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
 
-/**
-  * tests ported from sacremoses
+/** tests ported from sacremoses
   * https://github.com/alvations/sacremoses/blob/master/sacremoses/test/test_normalizer.py
   */
 class MosesPunctNormalizerTestSpec extends AnyFlatSpec {
@@ -30,17 +29,17 @@ class MosesPunctNormalizerTestSpec extends AnyFlatSpec {
       "The United States in 1805 (color map)                 _Facing_     193",
       "=Formation of the Constitution.=--(1) The plans before the convention,",
       "directions--(1) The infective element must be eliminated. When the ulcer",
-      "College of Surgeons, Edinburgh.)]"
-    )
+      "College of Surgeons, Edinburgh.)]")
     val expected = Array(
       "The United States in 1805 (color map) _Facing_ 193",
       "=Formation of the Constitution.=-- (1) The plans before the convention,",
       "directions-- (1) The infective element must be eliminated. When the ulcer",
-      "College of Surgeons, Edinburgh.) ]"
-    )
-    documents.zip(expected).foreach({ case (doc: String, exp: String) =>
-      assert(normalizer.normalize(doc) == exp)
-    })
+      "College of Surgeons, Edinburgh.) ]")
+    documents
+      .zip(expected)
+      .foreach({ case (doc: String, exp: String) =>
+        assert(normalizer.normalize(doc) == exp)
+      })
   }
 
   "MosesPunctNormalizer" should "normalize quote comma" taggedAs FastTest in {

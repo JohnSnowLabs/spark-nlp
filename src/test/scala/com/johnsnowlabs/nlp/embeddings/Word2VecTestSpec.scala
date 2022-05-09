@@ -26,7 +26,6 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
-
 class Word2VecTestSpec extends AnyFlatSpec {
 
   import ResourceHelper.spark.implicits._
@@ -43,8 +42,7 @@ class Word2VecTestSpec extends AnyFlatSpec {
       "carbon emissions have come down without impinging on our growth .\\u2009.\\u2009.",
       "the ",
       "  ",
-      " "
-    ).toDF("text")
+      " ").toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -68,14 +66,9 @@ class Word2VecTestSpec extends AnyFlatSpec {
       .setOutputCol("embeddings")
       .setMaxSentenceLength(512)
       .setStorageRef("my_awesome_word2vec")
+      .setEnableCaching(true)
 
-    val pipeline = new Pipeline().setStages(Array(
-      document,
-      setence,
-      tokenizer,
-      stops,
-      Word2Vec
-    ))
+    val pipeline = new Pipeline().setStages(Array(document, setence, tokenizer, stops, Word2Vec))
 
     val pipelineModel = pipeline.fit(ddd)
     val pipelineDF = pipelineModel.transform(ddd)
@@ -83,18 +76,19 @@ class Word2VecTestSpec extends AnyFlatSpec {
     pipelineDF.select("embeddings").show()
 
     pipelineModel.write.overwrite().save("./tmp_pipeline_word2vec")
-    pipelineModel.stages.last.asInstanceOf[Word2VecModel].write.overwrite().save("./tmp_word2vec_model")
+    pipelineModel.stages.last
+      .asInstanceOf[Word2VecModel]
+      .write
+      .overwrite()
+      .save("./tmp_word2vec_model")
 
-    val loadedWord2Vec = Word2VecModel.load("./tmp_word2vec_model")
+    val loadedWord2Vec = Word2VecModel
+      .load("./tmp_word2vec_model")
       .setInputCols("token")
       .setOutputCol("embeddings")
 
-    val loadedPipeline = new Pipeline().setStages(Array(
-      document,
-      setence,
-      tokenizer,
-      loadedWord2Vec
-    ))
+    val loadedPipeline =
+      new Pipeline().setStages(Array(document, setence, tokenizer, loadedWord2Vec))
 
     loadedPipeline.fit(ddd).transform(ddd).select("embeddings").show()
 
@@ -103,8 +97,12 @@ class Word2VecTestSpec extends AnyFlatSpec {
   "Word2VecModel" should "Benchmark" taggedAs SlowTest in {
 
     val conll = CoNLL(explodeSentences = false)
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train").repartition(12)
-    val test_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testa").repartition(12)
+    val training_data = conll
+      .readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+      .repartition(12)
+    val test_data = conll
+      .readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testa")
+      .repartition(12)
 
     println(training_data.count())
 
@@ -120,23 +118,30 @@ class Word2VecTestSpec extends AnyFlatSpec {
       .setSeed(42)
       .setStorageRef("Word2Vec_conll_03")
 
-    val pipeline = new Pipeline().setStages(Array(
-      Word2Vec
-    ))
+    val pipeline = new Pipeline().setStages(Array(Word2Vec))
 
     val pipelineModel = pipeline.fit(training_data)
     val pipelineDF = pipelineModel.transform(test_data)
 
     Benchmark.time("Time to save Word2Vec results") {
-      pipelineModel.transform(training_data).write.mode("overwrite").parquet("./tmp_Word2Vec_pipeline")
+      pipelineModel
+        .transform(training_data)
+        .write
+        .mode("overwrite")
+        .parquet("./tmp_Word2Vec_pipeline")
     }
 
     Benchmark.time("Time to save Word2Vec results") {
-      pipelineModel.transform(test_data).write.mode("overwrite").parquet("./tmp_Word2Vec_pipeline")
+      pipelineModel
+        .transform(test_data)
+        .write
+        .mode("overwrite")
+        .parquet("./tmp_Word2Vec_pipeline")
     }
 
     println("missing tokens/embeddings: ")
-    pipelineDF.withColumn("sentence_size", size(col("sentence")))
+    pipelineDF
+      .withColumn("sentence_size", size(col("sentence")))
       .withColumn("token_size", size(col("token")))
       .withColumn("embed_size", size(col("embeddings")))
       .where(col("token_size") =!= col("embed_size"))
@@ -157,7 +162,8 @@ class Word2VecTestSpec extends AnyFlatSpec {
   "Word2VecModel" should "train classifierdl" taggedAs SlowTest in {
 
     val conll = CoNLL(explodeSentences = true)
-    val trainingData = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+    val trainingData =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
     println("count of training dataset: ", trainingData.count)
 
@@ -165,7 +171,8 @@ class Word2VecTestSpec extends AnyFlatSpec {
       .setInputCol("text")
       .setOutputCol("document")
 
-    val sentence = SentenceDetectorDLModel.pretrained()
+    val sentence = SentenceDetectorDLModel
+      .pretrained()
       .setInputCols(Array("document"))
       .setOutputCol("sentence")
 
@@ -190,9 +197,9 @@ class Word2VecTestSpec extends AnyFlatSpec {
       .setOutputCol("ner")
       .setLabelColumn("label")
       .setOutputCol("ner")
-      .setLr(1e-3f) //0.001
-      .setPo(5e-3f) //0.005
-      .setDropout(5e-1f) //0.5
+      .setLr(1e-3f) // 0.001
+      .setPo(5e-3f) // 0.005
+      .setDropout(5e-1f) // 0.5
       .setMaxEpochs(5)
       .setRandomSeed(0)
       .setVerbose(0)
@@ -200,13 +207,8 @@ class Word2VecTestSpec extends AnyFlatSpec {
       .setValidationSplit(0.1f)
       .setEvaluationLogExtended(true)
 
-    val pipeline = new Pipeline().setStages(Array(
-      document,
-      sentence,
-      tokenizer,
-      word2vec,
-      nerClassifier
-    ))
+    val pipeline =
+      new Pipeline().setStages(Array(document, sentence, tokenizer, word2vec, nerClassifier))
 
     val pipelineModel = pipeline.fit(trainingData)
     val pipelineDF = pipelineModel.transform(trainingData)

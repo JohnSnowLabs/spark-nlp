@@ -59,21 +59,7 @@ data:
             url: https://demo.johnsnowlabs.com/public/ASPECT_BASED_SENTIMENT_RESTAURANT/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ABSA_Inference.ipynb
-        - title: Detect toxic content in comments
-          id: detect_toxic_content_in_comments
-          image: 
-              src: /assets/images/Detect_Toxic_Comments.svg
-          image2: 
-              src: /assets/images/Detect_Toxic_Comments_f.svg
-          excerpt: Automatically detect identity hate, insult, obscene, severe toxic, threat or toxic content in SM comments using our out-of-the-box Spark NLP Multiclassifier DL.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_MULTILABEL_TOXIC/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_MULTILABEL_TOXIC.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ABSA_Inference.ipynb        
         - title: Detect cyberbullying in tweets
           id: detect_cyberbullying_in_tweets
           image: 
@@ -87,19 +73,19 @@ data:
             url: https://demo.johnsnowlabs.com/public/SENTIMENT_EN_CYBERBULLYING/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_CYBERBULLYING.ipynb
-        - title: Analyze sentiment in financial news
-          id: analyze_sentiment_financial_news 
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_CYBERBULLYING.ipynb        
+        - title: Identify Emotions in texts
+          id: identify_emotions_texts  
           image: 
               src: /assets/images/Analyze_sentiment_in_financial_news.svg
           image2: 
               src: /assets/images/Analyze_sentiment_in_financial_news_f.svg
-          excerpt: This demo shows how sentiment can be identified (neutral, positive or negative) in financial news.
+          excerpt: 'This demo shows how to classify English texts as one of these emotion categories: Surprise, Joy, Anger, Love, Fear or Sadness.' 
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/public/SENTIMENT_EN_FINANCE/
+            url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_EMOTION/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_FINANCE.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb
 ---

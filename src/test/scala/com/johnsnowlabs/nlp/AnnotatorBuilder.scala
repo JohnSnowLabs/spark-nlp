@@ -25,27 +25,27 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.Suite
 import org.scalatest.flatspec.AnyFlatSpec
 
-/**
- * Generates different Annotator pipeline paths
- * Place to add different annotator constructions
- */
+/** Generates different Annotator pipeline paths Place to add different annotator constructions */
 object AnnotatorBuilder extends AnyFlatSpec {
   this: Suite =>
 
-  def withDocumentAssembler(dataset: Dataset[Row], cleanupMode: String = "disabled"): Dataset[Row] = {
+  def withDocumentAssembler(
+      dataset: Dataset[Row],
+      cleanupMode: String = "disabled"): Dataset[Row] = {
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setCleanupMode(cleanupMode)
     documentAssembler.transform(dataset)
   }
 
-  def withDocumentNormalizer(dataset: Dataset[Row],
-                             cleanupMode: String = "disabled",
-                             action: String = "clean",
-                             patterns: Array[String] = Array("<[^>]*>"),
-                             replacement: String = "",
-                             policy: String = "pretty_all",
-                             encoding: String = "disable"): DataFrame = {
+  def withDocumentNormalizer(
+      dataset: Dataset[Row],
+      cleanupMode: String = "disabled",
+      action: String = "clean",
+      patterns: Array[String] = Array("<[^>]*>"),
+      replacement: String = "",
+      policy: String = "pretty_all",
+      encoding: String = "disable"): DataFrame = {
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -60,7 +60,8 @@ object AnnotatorBuilder extends AnyFlatSpec {
       .setPolicy(policy)
       .setEncoding(encoding)
 
-    val docPatternRemoverPipeline = new Pipeline().setStages(Array(documentAssembler, documentNormalizer))
+    val docPatternRemoverPipeline =
+      new Pipeline().setStages(Array(documentAssembler, documentNormalizer))
 
     docPatternRemoverPipeline.fit(dataset).transform(dataset)
   }
@@ -70,7 +71,9 @@ object AnnotatorBuilder extends AnyFlatSpec {
       .setOutputCol("token")
       .fit(dataset)
     if (sbd)
-      regexTokenizer.setInputCols(Array("sentence")).transform(withFullPragmaticSentenceDetector(dataset))
+      regexTokenizer
+        .setInputCols(Array("sentence"))
+        .transform(withFullPragmaticSentenceDetector(dataset))
     else
       regexTokenizer.setInputCols(Array("document")).transform(dataset)
   }
@@ -109,7 +112,10 @@ object AnnotatorBuilder extends AnyFlatSpec {
     lemmatizer.fit(dataset).transform(tokenized)
   }
 
-  def withFullTextMatcher(dataset: Dataset[Row], caseSensitive: Boolean = true, sbd: Boolean = true): Dataset[Row] = {
+  def withFullTextMatcher(
+      dataset: Dataset[Row],
+      caseSensitive: Boolean = true,
+      sbd: Boolean = true): Dataset[Row] = {
     val entityExtractor = new TextMatcher()
       .setInputCols(if (sbd) "sentence" else "document", "token")
       .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.TEXT)
@@ -120,7 +126,10 @@ object AnnotatorBuilder extends AnyFlatSpec {
     entityExtractor.fit(data).transform(data)
   }
 
-  def withFullBigTextMatcher(dataset: Dataset[Row], caseSensitive: Boolean = true, sbd: Boolean = true): Dataset[Row] = {
+  def withFullBigTextMatcher(
+      dataset: Dataset[Row],
+      caseSensitive: Boolean = true,
+      sbd: Boolean = true): Dataset[Row] = {
     val entityExtractor = new BigTextMatcher()
       .setInputCols(if (sbd) "sentence" else "document", "token")
       .setStoragePath("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.TEXT)
@@ -143,7 +152,11 @@ object AnnotatorBuilder extends AnyFlatSpec {
   def withFullPOSTagger(dataset: Dataset[Row]): Dataset[Row] = {
     if (posTagger == null) {
 
-      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/110CYL067.txt", "|", "tags")
+      val trainingPerceptronDF = POS().readDataset(
+        ResourceHelper.spark,
+        "src/test/resources/anc-pos-corpus-small/110CYL067.txt",
+        "|",
+        "tags")
 
       posTagger = new PerceptronApproach()
         .setInputCols(Array("sentence", "token"))
@@ -158,7 +171,11 @@ object AnnotatorBuilder extends AnyFlatSpec {
 
   def withRegexMatcher(dataset: Dataset[Row], strategy: String): Dataset[Row] = {
     val regexMatcher = new RegexMatcher()
-      .setExternalRules(ExternalResource("src/test/resources/regex-matcher/rules.txt", ReadAs.TEXT, Map("delimiter" -> ",")))
+      .setExternalRules(
+        ExternalResource(
+          "src/test/resources/regex-matcher/rules.txt",
+          ReadAs.TEXT,
+          Map("delimiter" -> ",")))
       .setStrategy(strategy)
       .setInputCols(Array("document"))
       .setOutputCol("regex")
@@ -189,7 +206,11 @@ object AnnotatorBuilder extends AnyFlatSpec {
     sentimentDetector
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("sentiment")
-      .setDictionary(ExternalResource("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ReadAs.TEXT, Map("delimiter" -> ",")))
+      .setDictionary(
+        ExternalResource(
+          "src/test/resources/sentiment-corpus/default-sentiment-dict.txt",
+          ReadAs.TEXT,
+          Map("delimiter" -> ",")))
     sentimentDetector.fit(data).transform(data)
   }
 
@@ -214,12 +235,7 @@ object AnnotatorBuilder extends AnyFlatSpec {
       .setPruneCorpus(0)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        sentimentDetector
-      ))
+      .setStages(Array(documentAssembler, sentenceDetector, tokenizer, sentimentDetector))
 
     pipeline.fit(dataset).transform(dataset)
 
@@ -244,12 +260,7 @@ object AnnotatorBuilder extends AnyFlatSpec {
       .setDictionary("src/test/resources/spell/words.txt")
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer,
-        normalizer,
-        spellChecker
-      ))
+      .setStages(Array(documentAssembler, tokenizer, normalizer, spellChecker))
     val trainingDataSet = getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
     val predictionDataSet = withFullNormalizer(dataSet)
     val model = pipeline.fit(trainingDataSet)
@@ -325,12 +336,12 @@ object AnnotatorBuilder extends AnyFlatSpec {
   }
 
   /* generate a set of random embeddings from tokens in dataset
-  *  rowText is the column containing the text.
-  *  returns the path of the file
-  *
-  *  usage,
-  *  val embeddingsPath = generateRandomEmbeddings(dataset, "sentence", 4)
-  * */
+   *  rowText is the column containing the text.
+   *  returns the path of the file
+   *
+   *  usage,
+   *  val embeddingsPath = generateRandomEmbeddings(dataset, "sentence", 4)
+   * */
   private def generateRandomEmbeddings(dataset: Dataset[Row], rowText: String, dim: Int) = {
     import org.apache.spark.sql.functions._
 
@@ -339,9 +350,12 @@ object AnnotatorBuilder extends AnyFlatSpec {
     val filename = s"${rowText}_${dim}.txt"
     val pw = new PrintWriter(new File(filename))
 
-    val tokens = dataset.toDF().select(col(rowText)).
-      collect().flatMap(row => row.getString(0).split(" ")).
-      distinct
+    val tokens = dataset
+      .toDF()
+      .select(col(rowText))
+      .collect()
+      .flatMap(row => row.getString(0).split(" "))
+      .distinct
 
     def randomDoubleArrayStr = (1 to dim).map { _ => random.nextDouble }.mkString(" ")
 
@@ -357,4 +371,3 @@ object AnnotatorBuilder extends AnyFlatSpec {
   }
 
 }
-

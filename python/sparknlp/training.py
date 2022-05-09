@@ -142,7 +142,8 @@ class CoNLL(ExtendedJavaWrapper):
         """
         jSession = spark._jsparkSession
 
-        jdf = self._java_obj.readDataset(jSession, path, read_as, partitions, spark.sparkContext._getJavaStorageLevel(storage_level))
+        jdf = self._java_obj.readDataset(jSession, path, read_as, partitions,
+                                         spark.sparkContext._getJavaStorageLevel(storage_level))
         return DataFrame(jdf, spark._wrapped)
 
 
@@ -186,8 +187,25 @@ class CoNLLU(ExtendedJavaWrapper):
     +---------------------------------------+----------------------------------------------+---------------------------------------------+------------------------------+--------------------------------------------+
     """
 
-    def __init__(self, explodeSentences=True):
-        super(CoNLLU, self).__init__("com.johnsnowlabs.nlp.training.CoNLLU", explodeSentences)
+    def __init__(self,
+                 textCol='text',
+                 documentCol='document',
+                 sentenceCol='sentence',
+                 formCol='form',
+                 uposCol='upos',
+                 xposCol='xpos',
+                 lemmaCol='lemma',
+                 explodeSentences=True
+                 ):
+        super(CoNLLU, self).__init__("com.johnsnowlabs.nlp.training.CoNLLU",
+                                     textCol,
+                                     documentCol,
+                                     sentenceCol,
+                                     formCol,
+                                     uposCol,
+                                     xposCol,
+                                     lemmaCol,
+                                     explodeSentences)
 
     def readDataset(self, spark, path, read_as=ReadAs.TEXT):
         """Reads the dataset from an external resource.

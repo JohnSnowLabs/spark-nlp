@@ -35,7 +35,8 @@ class JsonParserTest extends AnyFlatSpec {
   }
 
   it should "raise an error when JSON file has a wrong format" in {
-    val stream = ResourceHelper.getResourceStream("src/test/resources/entity-ruler/patterns_with_error.json")
+    val stream =
+      ResourceHelper.getResourceStream("src/test/resources/entity-ruler/patterns_with_error.json")
     val jsonContent = Source.fromInputStream(stream).mkString
 
     assertThrows[Exception] {

@@ -16,145 +16,161 @@
 
 package com.johnsnowlabs.nlp.annotators.ld.dl
 
-import java.io.File
-
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, Param, StringArrayParam}
+import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
+import java.io.File
 import scala.collection.immutable.ListMap
 
-/**
- * Language Identification and Detection by using CNN and RNN architectures in TensorFlow.
- *
- * `LanguageDetectorDL` is an annotator that detects the language of documents or sentences depending on the inputCols.
- * The models are trained on large datasets such as Wikipedia and Tatoeba.
- * Depending on the language (how similar the characters are), the LanguageDetectorDL works
- * best with text longer than 140 characters.
- * The output is a language code in [[https://en.wikipedia.org/wiki/List_of_Wikipedias Wiki Code style]].
- *
- * Pretrained models can be loaded with `pretrained` of the companion object:
- * {{{
- * Val languageDetector = LanguageDetectorDL.pretrained()
- *   .setInputCols("sentence")
- *   .setOutputCol("language")
- * }}}
- * The default model is `"ld_wiki_tatoeba_cnn_21"`, default language is `"xx"` (meaning multi-lingual),
- * if no values are provided.
- * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Language+Detection Models Hub]].
- *
- * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/language-detection/Language_Detection_and_Indentification.ipynb Spark NLP Workshop]]
- * And the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDLTestSpec.scala LanguageDetectorDLTestSpec]].
- *
- * ==Example==
- * {{{
- * import spark.implicits._
- * import com.johnsnowlabs.nlp.base.DocumentAssembler
- * import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
- * import org.apache.spark.ml.Pipeline
- *
- * val documentAssembler = new DocumentAssembler()
- *   .setInputCol("text")
- *   .setOutputCol("document")
- *
- * val languageDetector = LanguageDetectorDL.pretrained()
- *   .setInputCols("document")
- *   .setOutputCol("language")
- *
- * val pipeline = new Pipeline()
- *   .setStages(Array(
- *     documentAssembler,
- *     languageDetector
- *   ))
- *
- * val data = Seq(
- *   "Spark NLP is an open-source text processing library for advanced natural language processing for the Python, Java and Scala programming languages.",
- *   "Spark NLP est une bibliothèque de traitement de texte open source pour le traitement avancé du langage naturel pour les langages de programmation Python, Java et Scala.",
- *   "Spark NLP ist eine Open-Source-Textverarbeitungsbibliothek für fortgeschrittene natürliche Sprachverarbeitung für die Programmiersprachen Python, Java und Scala."
- * ).toDF("text")
- * val result = pipeline.fit(data).transform(data)
- *
- * result.select("language.result").show(false)
- * +------+
- * |result|
- * +------+
- * |[en]  |
- * |[fr]  |
- * |[de]  |
- * +------+
- * }}}
- *
- * @groupname anno Annotator types
- * @groupdesc anno Required input and expected output annotator types
- * @groupname Ungrouped Members
- * @groupname param Parameters
- * @groupname setParam Parameter setters
- * @groupname getParam Parameter getters
- * @groupname Ungrouped Members
- * @groupprio param  1
- * @groupprio anno  2
- * @groupprio Ungrouped 3
- * @groupprio setParam  4
- * @groupprio getParam  5
- * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
- * */
+/** Language Identification and Detection by using CNN and RNN architectures in TensorFlow.
+  *
+  * `LanguageDetectorDL` is an annotator that detects the language of documents or sentences
+  * depending on the inputCols. The models are trained on large datasets such as Wikipedia and
+  * Tatoeba. Depending on the language (how similar the characters are), the LanguageDetectorDL
+  * works best with text longer than 140 characters. The output is a language code in
+  * [[https://en.wikipedia.org/wiki/List_of_Wikipedias Wiki Code style]].
+  *
+  * Pretrained models can be loaded with `pretrained` of the companion object:
+  * {{{
+  * Val languageDetector = LanguageDetectorDL.pretrained()
+  *   .setInputCols("sentence")
+  *   .setOutputCol("language")
+  * }}}
+  * The default model is `"ld_wiki_tatoeba_cnn_21"`, default language is `"xx"` (meaning
+  * multi-lingual), if no values are provided. For available pretrained models please see the
+  * [[https://nlp.johnsnowlabs.com/models?task=Language+Detection Models Hub]].
+  *
+  * For extended examples of usage, see the
+  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/language-detection/Language_Detection_and_Indentification.ipynb Spark NLP Workshop]]
+  * And the
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDLTestSpec.scala LanguageDetectorDLTestSpec]].
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val languageDetector = LanguageDetectorDL.pretrained()
+  *   .setInputCols("document")
+  *   .setOutputCol("language")
+  *
+  * val pipeline = new Pipeline()
+  *   .setStages(Array(
+  *     documentAssembler,
+  *     languageDetector
+  *   ))
+  *
+  * val data = Seq(
+  *   "Spark NLP is an open-source text processing library for advanced natural language processing for the Python, Java and Scala programming languages.",
+  *   "Spark NLP est une bibliothèque de traitement de texte open source pour le traitement avancé du langage naturel pour les langages de programmation Python, Java et Scala.",
+  *   "Spark NLP ist eine Open-Source-Textverarbeitungsbibliothek für fortgeschrittene natürliche Sprachverarbeitung für die Programmiersprachen Python, Java und Scala."
+  * ).toDF("text")
+  * val result = pipeline.fit(data).transform(data)
+  *
+  * result.select("language.result").show(false)
+  * +------+
+  * |result|
+  * +------+
+  * |[en]  |
+  * |[fr]  |
+  * |[de]  |
+  * +------+
+  * }}}
+  *
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 class LanguageDetectorDL(override val uid: String)
-  extends AnnotatorModel[LanguageDetectorDL]
+    extends AnnotatorModel[LanguageDetectorDL]
     with HasSimpleAnnotate[LanguageDetectorDL]
     with WriteTensorflowModel {
 
   def this() = this(Identifiable.randomUID("LANGUAGE_DETECTOR_DL"))
 
   /** Alphabet used to feed the TensorFlow model for prediction
-   *
-   * @group param
-   * */
+    *
+    * @group param
+    */
   val alphabet: MapFeature[String, Int] = new MapFeature(this, "alphabet")
 
   /** Language used to map prediction to ISO 639-1 language codes
-   *
-   * @group param
-   * */
+    *
+    * @group param
+    */
   val language: MapFeature[String, Int] = new MapFeature(this, "language")
 
-  /** The minimum threshold for the final result, otherwise it will be either `"unk"` or the value set in
-   * `thresholdLabel` (Default: `0.1f`).
-   * Value is between 0.0 to 1.0. Try to set this lower if your text is hard to predict
-   *
-   * @group param
-   * */
-  val threshold = new FloatParam(this, "threshold", "The minimum threshold for the final result otherwise it will be either Unknown or the value set in thresholdLabel.")
+  /** The minimum threshold for the final result, otherwise it will be either `"unk"` or the value
+    * set in `thresholdLabel` (Default: `0.1f`). Value is between 0.0 to 1.0. Try to set this
+    * lower if your text is hard to predict
+    *
+    * @group param
+    */
+  val threshold = new FloatParam(
+    this,
+    "threshold",
+    "The minimum threshold for the final result otherwise it will be either Unknown or the value set in thresholdLabel.")
 
   /** Value for the classification, if confidence is less than `threshold` (Default: `"unk"`).
-   *
-   * @group param
-   * */
-  val thresholdLabel = new Param[String](this, "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is Unknown.")
+    *
+    * @group param
+    */
+  val thresholdLabel = new Param[String](
+    this,
+    "thresholdLabel",
+    "In case the score is less than threshold, what should be the label. Default is Unknown.")
 
   /** Output average of sentences instead of one output per sentence (Default: `true`).
-   *
-   * @group param
-   * */
-  val coalesceSentences = new BooleanParam(this, "coalesceSentences", "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to true.")
+    *
+    * @group param
+    */
+  val coalesceSentences = new BooleanParam(
+    this,
+    "coalesceSentences",
+    "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to true.")
 
-  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
-   *
-   * @group param
-   * */
-  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  /** ConfigProto from tensorflow, serialized into byte array. Get with
+    * config_proto.SerializeToString()
+    *
+    * @group param
+    */
+  val configProtoBytes = new IntArrayParam(
+    this,
+    "configProtoBytes",
+    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** Languages the model was trained with.
-   *
-   * @group param
-   */
-  val languages = new StringArrayParam(this, "languages", "keep an internal copy of languages for Python")
+    *
+    * @group param
+    */
+  val languages =
+    new StringArrayParam(this, "languages", "keep an internal copy of languages for Python")
 
   /** @group setParam */
   def setLanguage(value: Map[String, Int]): this.type = {
@@ -180,7 +196,8 @@ class LanguageDetectorDL(override val uid: String)
   def setCoalesceSentences(value: Boolean): this.type = set(coalesceSentences, value)
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): LanguageDetectorDL.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): LanguageDetectorDL.this.type =
+    set(this.configProtoBytes, bytes)
 
   /** @group getParam */
   def getLanguage: Array[String] = {
@@ -206,8 +223,7 @@ class LanguageDetectorDL(override val uid: String)
     outputCol -> "language",
     threshold -> 0.1f,
     thresholdLabel -> "unk",
-    coalesceSentences -> true
-  )
+    coalesceSentences -> true)
 
   private var _model: Option[Broadcast[TensorflowLD]] = None
 
@@ -224,21 +240,21 @@ class LanguageDetectorDL(override val uid: String)
             tensorflow,
             configProtoBytes = getConfigProtoBytes,
             ListMap($$(language).toSeq.sortBy(_._2): _*),
-            ListMap($$(alphabet).toSeq.sortBy(_._2): _*)
-          )
-        )
-      )
+            ListMap($$(alphabet).toSeq.sortBy(_._2): _*))))
     }
 
     this
   }
 
-  /**
-   * Takes a document and annotations and produces new annotations of this annotator's annotation type
-   *
-   * @param annotations Annotations that correspond to inputAnnotationCols generated by previous annotators if any
-   * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
-   */
+  /** Takes a document and annotations and produces new annotations of this annotator's annotation
+    * type
+    *
+    * @param annotations
+    *   Annotations that correspond to inputAnnotationCols generated by previous annotators if any
+    * @return
+    *   any number of annotations processed for every input annotation. Not necessary one to one
+    *   relationship
+    */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = SentenceSplit.unpack(annotations)
     val nonEmptySentences = sentences.filter(_.content.nonEmpty)
@@ -247,25 +263,34 @@ class LanguageDetectorDL(override val uid: String)
         nonEmptySentences,
         $(threshold),
         $(thresholdLabel),
-        $(coalesceSentences)
-      )
+        $(coalesceSentences))
     } else {
       Seq.empty[Annotation]
     }
   }
 
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
+    * type
+    */
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT)
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.LANGUAGE
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflow, "_ld", LanguageDetectorDL.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(
+      path,
+      spark,
+      getModelIfNotSet.tensorflow,
+      "_ld",
+      LanguageDetectorDL.tfFile,
+      configProtoBytes = getConfigProtoBytes)
   }
 
 }
 
-trait ReadablePretrainedLanguageDetectorDLModel extends ParamsAndFeaturesReadable[LanguageDetectorDL] with HasPretrained[LanguageDetectorDL] {
+trait ReadablePretrainedLanguageDetectorDLModel
+    extends ParamsAndFeaturesReadable[LanguageDetectorDL]
+    with HasPretrained[LanguageDetectorDL] {
   override val defaultModelName: Some[String] = Some("ld_wiki_tatoeba_cnn_21")
   override val defaultLang: String = "xx"
 
@@ -274,9 +299,11 @@ trait ReadablePretrainedLanguageDetectorDLModel extends ParamsAndFeaturesReadabl
 
   override def pretrained(name: String): LanguageDetectorDL = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): LanguageDetectorDL = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): LanguageDetectorDL =
+    super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): LanguageDetectorDL = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): LanguageDetectorDL =
+    super.pretrained(name, lang, remoteLoc)
 }
 
 trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
@@ -302,10 +329,7 @@ trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
     val savedModel = new File(folder, "saved_model.pb")
     require(f.exists, s"Folder $folder not found")
     require(f.isDirectory, s"File $folder is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $folder"
-    )
+    require(savedModel.exists(), s"savedModel file saved_model.pb not found in folder $folder")
 
     val alphabetPath = new File(folder + "/assets", "alphabet.txt")
     val languagePath = new File(folder + "/assets", "language.txt")
@@ -315,13 +339,16 @@ trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
     require(alphabetPath.exists(), s"Alphabet file alphabet.txt not found in folder $folder")
     require(languagePath.exists(), s"Language file language.txt not found in folder $folder")
 
-    val alphabetResource = new ExternalResource(alphabetPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val alphabetResource =
+      new ExternalResource(alphabetPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val alphabets = ResourceHelper.parseLines(alphabetResource).zipWithIndex.toMap
 
-    val languageResource = new ExternalResource(languagePath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val languageResource =
+      new ExternalResource(languagePath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val languages = ResourceHelper.parseLines(languageResource).zipWithIndex.toMap
 
-    val (wrapper, _) = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
+    val (wrapper, _) =
+      TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
 
     new LanguageDetectorDL()
       .setAlphabet(alphabets)
@@ -330,8 +357,9 @@ trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
   }
 }
 
-
-/**
- * This is the companion object of [[LanguageDetectorDL]]. Please refer to that class for the documentation.
- */
-object LanguageDetectorDL extends ReadablePretrainedLanguageDetectorDLModel with ReadLanguageDetectorDLTensorflowModel
+/** This is the companion object of [[LanguageDetectorDL]]. Please refer to that class for the
+  * documentation.
+  */
+object LanguageDetectorDL
+    extends ReadablePretrainedLanguageDetectorDLModel
+    with ReadLanguageDetectorDLTensorflowModel

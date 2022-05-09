@@ -101,5 +101,19 @@ data:
             url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_UR_NEWS/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_UR_NEWS.ipynb       
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_UR_NEWS.ipynb   
+        - title: Lemmatizer for Languages of India
+          id: lemmatizer_languages_india
+          image: 
+              src: /assets/images/Lemmatizer_for_Languages_of_India.svg
+          image2: 
+              src: /assets/images/Lemmatizer_for_Languages_of_India_f.svg
+          excerpt: This demo shows how to lemmatize documents of Indian languages.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/LEMMATIZER_INDIAN/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb   
 ---

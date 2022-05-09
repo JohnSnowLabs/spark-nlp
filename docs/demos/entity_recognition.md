@@ -2,22 +2,36 @@
 layout: demopage
 title: Spark NLP in Action
 full_width: true
-permalink: /analyze_financial_models
+permalink: /entity_recognition
 key: demo
 license: false
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Healthcare 
-      excerpt: Analyze Financial Information
+    - title: Spark NLP for Finance and Legal 
+      excerpt: Entity Recognition
       secheader: yes
       secheader:
-        - title: Spark NLP for Healthcare
-          subtitle: Analyze Financial Information
-          activemenu: analyze_financial_models
+        - title: Spark NLP for Finance and Legal
+          subtitle: Entity Recognition
+          activemenu: entity_recognition
       source: yes
       source: 
+        - title: Recognize Ticker Alias in Financial texts
+          id: recognize_ticker_alias_in_financial_texts 
+          image: 
+              src: /assets/images/Recognize_ticker_alias_in_financial_texts.svg
+          image2: 
+              src: /assets/images/Recognize_ticker_alias_in_financial_texts_f.svg
+          excerpt: This demo shows how to extract ticker alias from financial texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_TICKER/ 
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
         - title: Detect legal entities in German
           id: detect_legal_entities_german
           image: 
@@ -73,5 +87,5 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_PROFESSIONS_ES/ 
           - text: Colab Netbook
             type: blue_btn
-            url:        
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_PROFESSIONS_ES.ipynb
 ---

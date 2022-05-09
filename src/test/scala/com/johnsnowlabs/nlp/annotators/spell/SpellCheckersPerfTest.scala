@@ -44,23 +44,20 @@ class SpellCheckersPerfTest extends AnyFlatSpec {
     .setInputCols("token", "spell")
 
   val emptyDataSet = PipelineModels.dummyDataset
-  val corpusDataSetInit = AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
+  val corpusDataSetInit =
+    AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
   val corpusDataSet = corpusDataSetInit.as[String].collect()
 
   "Norvig pipeline" should "be fast" taggedAs SlowTest in {
 
-    val spell = NorvigSweetingModel.pretrained()
+    val spell = NorvigSweetingModel
+      .pretrained()
       .setInputCols("token")
       .setOutputCol("spell")
       .setDoubleVariants(true)
 
     val recursivePipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer,
-        spell,
-        finisher
-      ))
+      .setStages(Array(documentAssembler, tokenizer, spell, finisher))
 
     val spellmodel = recursivePipeline.fit(emptyDataSet)
     val spellplight = new LightPipeline(spellmodel)
@@ -78,12 +75,7 @@ class SpellCheckersPerfTest extends AnyFlatSpec {
       .setOutputCol("spell")
 
     val recursivePipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer,
-        spell,
-        finisher
-      ))
+      .setStages(Array(documentAssembler, tokenizer, spell, finisher))
 
     val spellmodel = recursivePipeline.fit(corpusDataSetInit)
     val spellplight = new LightPipeline(spellmodel)
@@ -104,12 +96,7 @@ class SpellCheckersPerfTest extends AnyFlatSpec {
       .setOutputCol("spell")
 
     val recursivePipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer,
-        spell,
-        finisher
-      ))
+      .setStages(Array(documentAssembler, tokenizer, spell, finisher))
 
     val spellmodel = recursivePipeline.fit(Seq.empty[String].toDF("text"))
     val spellplight = new LightPipeline(spellmodel)
@@ -121,4 +108,3 @@ class SpellCheckersPerfTest extends AnyFlatSpec {
   }
 
 }
-
