@@ -1,2 +1,4 @@
-docs/en/nlp_server/release_notes.md
-docs/en/nlp_server/release_notes.md
+.github/workflows/create_search_index.yml
+docs/_plugins/search_index.rb
+.github/workflows/create_search_index.yml
+docs/_plugins/search_index.rb
