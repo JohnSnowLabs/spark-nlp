@@ -1,4 +1,2 @@
-docs/_includes/article-info-author.html
-docs/_sass/components/_article-info.scss
-docs/_includes/article-info-author.html
-docs/_sass/components/_article-info.scss
+docs/en/nlp_server/release_notes.md
+docs/en/nlp_server/release_notes.md
