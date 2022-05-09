@@ -5,7 +5,7 @@ author: John Snow Labs
 name: bert_ner_roberta_base_finetuned_cluener2020_chinese
 date: 2022-05-09
 tags: [bert, ner, token_classification, zh, open_source]
-task: Part of Speech Tagging
+task: Named Entity Recognition
 language: zh
 edition: Spark NLP 3.4.2
 spark_version: 3.0
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Named Entity Recognition model model, uploaded to Hugging Face, adapted and imported into Spark NLP. `roberta-base-finetuned-cluener2020-chinese` is a Chinese model orginally trained by `uer`.
+Pretrained Named Entity Recognition model, uploaded to Hugging Face, adapted and imported into Spark NLP. `roberta-base-finetuned-cluener2020-chinese` is a Chinese model orginally trained by `uer`.
 
 ## Predicted Entities
 
