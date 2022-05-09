@@ -21,7 +21,7 @@ Pretrained Named Entity Recognition model model, uploaded to Hugging Face, adapt
 
 ## Predicted Entities
 
-`game`, `address`, `book`, `movie`, `[PAD]`, `government`, `name`, `scene`, `company`, `position`, `organization`
+`game`, `address`, `book`, `movie`, `government`, `name`, `scene`, `company`, `position`, `organization`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
