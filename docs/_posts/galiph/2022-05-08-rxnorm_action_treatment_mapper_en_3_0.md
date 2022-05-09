@@ -1,6 +1,6 @@
 ---
 layout: model
-title: rxnorm_action_treatment_mapper
+title: Mapping RxNorm Codes with Corresponding Actions and Treatments
 author: John Snow Labs
 name: rxnorm_action_treatment_mapper
 date: 2022-05-08
