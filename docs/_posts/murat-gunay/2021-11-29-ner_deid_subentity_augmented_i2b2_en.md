@@ -20,6 +20,8 @@ use_language_switcher: "Python-Scala-Java"
 Named Entity Recognition model that finds Protected Health Information (PHI) for deidentification purposes. 
 This NER model is trained with a reviewed version of the re-augmented 2014 i2b2 Deid dataset, and detects up to 23 entity types.
 
+We sticked to official annotation guideline (AG) for 2014 i2b2 Deid challenge while annotating new datasets for this model. All the details regarding the nuances and explanations for AG can be found here [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4978170/](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4978170/)
+
 ## Predicted Entities
 
 `MEDICALRECORD`, `ORGANIZATION`, `DOCTOR`, `USERNAME`, `PROFESSION`, `HEALTHPLAN`, `URL`, `CITY`, `DATE`, `LOCATION-OTHER`, `STATE`, `PATIENT`, `DEVICE`, `COUNTRY`, `ZIP`, `PHONE`, `HOSPITAL`, `EMAIL`, `IDNUM`, `SREET`, `BIOID`, `FAX`, `AGE`

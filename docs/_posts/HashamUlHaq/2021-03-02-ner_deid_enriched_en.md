@@ -19,6 +19,8 @@ use_language_switcher: "Python-Scala-Java"
 
 De-identification NER (Enriched) is a Named Entity Recognition model that annotates text to find protected health information that may need to be de-identified. The entities it annotates are Age, City, Country, Date, Doctor, Hospital, Idnum, Medicalrecord, Organization, Patient, Phone, Profession, State, Street, Username, and Zip. The model is trained with the `embeddings_clinical` word embeddings model, so be sure to use the same embeddings in the pipeline.
 
+We sticked to official annotation guideline (AG) for 2014 i2b2 Deid challenge while annotating new datasets for this model. All the details regarding the nuances and explanations for AG can be found here [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4978170/](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4978170/)
+
 ## Predicted Entities
 
 `Age`, `City`, `Country`, `Date`, `Doctor`, `Hospital`, `Idnum`, `Medicalrecord`, `Organization`, `Patient`, `Phone`, `Profession`, `State`, `Street`, `Username`, `Zip`

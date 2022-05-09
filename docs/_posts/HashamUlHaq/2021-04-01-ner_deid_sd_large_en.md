@@ -19,6 +19,8 @@ use_language_switcher: "Python-Scala-Java"
 
 Detect PHI in text for de-identification using pretrained NER model.
 
+We sticked to official annotation guideline (AG) for 2014 i2b2 Deid challenge while annotating new datasets for this model. All the details regarding the nuances and explanations for AG can be found here [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4978170/](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4978170/)
+
 ## Predicted Entities
 
 `PROFESSION`, `CONTACT`, `DATE`, `NAME`, `AGE`, `ID`, `LOCATION`
