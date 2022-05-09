@@ -17,7 +17,9 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Detect PHI like Name, Date, Age etc in medical text for de-identification
+Detect PHI like Name, Date, Age etc in medical text for de-identification.
+
+We sticked to official annotation guideline (AG) for 2014 i2b2 Deid challenge while annotating new datasets for this model. All the details regarding the nuances and explanations for AG can be found here [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4978170/](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4978170/)
 
 ## Predicted Entities
 
