@@ -1,2 +1,4 @@
-docs/en/nlp_server/release_notes.md
-docs/en/nlp_server/release_notes.md
+docs/_frontend/src/models/FilterForm/FilterForm.js
+docs/_plugins/search_index.rb
+docs/_frontend/src/models/FilterForm/FilterForm.js
+docs/_plugins/search_index.rb
