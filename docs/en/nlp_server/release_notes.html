@@ -528,7 +528,76 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Release Notes"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="nlp-server-060">NLP Server 0.6.0</h2>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="nlp-server-061">NLP Server 0.6.1</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Fields</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Name</td>
+      <td>NLP Server</td>
+    </tr>
+    <tr>
+      <td>Version</td>
+      <td><code class="language-plaintext highlighter-rouge">0.6.1</code></td>
+    </tr>
+    <tr>
+      <td>Type</td>
+      <td>Patch</td>
+    </tr>
+    <tr>
+      <td>Release Date</td>
+      <td>2022-05-06</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br /></p>
+
+<h3 id="overview">Overview</h3>
+
+<p>We are excited to release NLP Server v0.6.1! We are continually committed towards improving the experience for our users and making our product reliable and easy to use.</p>
+
+<p>This release focuses on improving the stability of the NLP Server and cleaning up some annoying bugs. To enhance the user experience, the product now provides interactive and informative responses to the users.</p>
+
+<p>The improvements and bug fixes are mentioned in their respective sections below.</p>
+
+<p><br /></p>
+
+<h3 id="key-information">Key Information</h3>
+
+<ol>
+  <li>For smooth and optimal performance, it is recommended to use an instance with 8 core CPU, and 32GB RAM specifications.</li>
+  <li>NLP Server is available on both <a href="/#">AWS</a> and <a href="/#">Azure marketplace</a>.</li>
+</ol>
+
+<p><br /></p>
+
+<h3 id="other-improvements">Other Improvements</h3>
+
+<ol>
+  <li>Support for new models for Lemmatizers, Parts of Speech Taggers, and Word2Vec Embeddings for over 66 languages, with 20 languages being covered for the first time by NLP Server, including ancient and exotic languages like Ancient Greek, Old Russian, Old French and much more.</li>
+</ol>
+
+<p><br /></p>
+
+<h3 id="bug-fixes">Bug Fixes</h3>
+
+<ol>
+  <li>The prediction job runs in an infinite loop when using certain spells. Now after 3 retries it aborts the process and informs users appropriately.</li>
+  <li>Issue when running lang spell for language classification.</li>
+  <li>The prediction job runs in an infinite loop when incorrect data format is selected for a given input data.</li>
+  <li>The API request for processing spell didn’t work when format parameter was not provided. Now it uses a default value in such case.</li>
+  <li>Users were unable to login to their MYJSL account from NLP Server.</li>
+  <li>Proper response when there is issue in internet connectivity when running spell.</li>
+</ol>
+
+<h2 id="nlp-server-060">NLP Server 0.6.0</h2>
 
 <table>
   <thead>
@@ -559,7 +628,7 @@
 
 <p><br /></p>
 
-<h3 id="overview">Overview</h3>
+<h3 id="overview-1">Overview</h3>
 
 <p>We are excited to release NLP Server v0.6.0! This new release comes with exciting new features and improvements that extend and enhance the capabilities of the NLP Server.</p>
 
@@ -572,7 +641,7 @@ As such the NLP Server becomes an easy and quick tool for testing our trained mo
 
 <p><br /></p>
 
-<h3 id="key-information">Key Information</h3>
+<h3 id="key-information-1">Key Information</h3>
 
 <ol>
   <li>For a smooth and optimal performance, it is recommended to use an instance with 8 core CPU, and 32GB RAM specifications</li>
@@ -593,7 +662,7 @@ As such the NLP Server becomes an easy and quick tool for testing our trained mo
 
 <p><br /></p>
 
-<h3 id="other-improvements">Other Improvements</h3>
+<h3 id="other-improvements-1">Other Improvements</h3>
 
 <ol>
   <li>Now users can chain multiple spells together to analyze the input data. The order of operation on the input data will be in the sequence of the spell chain from left to right.</li>
@@ -602,7 +671,7 @@ As such the NLP Server becomes an easy and quick tool for testing our trained mo
 
 <p><br /></p>
 
-<h3 id="bug-fixes">Bug Fixes</h3>
+<h3 id="bug-fixes-1">Bug Fixes</h3>
 
 <ol>
   <li>Not found error seen when running predictions using certain spells.</li>
@@ -635,7 +704,7 @@ As such the NLP Server becomes an easy and quick tool for testing our trained mo
   <li>Support for floating licenses. Users can now take advantage of the floating license flexibility and use those inside of the NLP Server.</li>
 </ul>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2022-04-06T00:00:00+00:00">Apr 06, 2022</time>
+      <time itemprop="dateModified" datetime="2022-05-06T00:00:00+00:00">May 06, 2022</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
