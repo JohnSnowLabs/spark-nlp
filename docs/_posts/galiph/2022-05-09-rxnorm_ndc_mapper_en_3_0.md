@@ -113,10 +113,11 @@ val pipeline = Pipeline().setStages(Array(document_assembler,
 ## Results
 
 ```bash
-|    | ner_chunk                          | rxnorm_code   | Package NDC    | Product NDC    |
-|---:|:-----------------------------------|:--------------|:---------------|:---------------|
-|  0 | ['doxepin hydrochloride 50 MG/ML'] | ['1000091']   | ['00378-8117'] | ['00378-8117'] |
-|  1 | ['macadamia nut 100 MG/ML']        | ['212433']    | ['00064-2120'] | ['00064-2120'] |
+
+|    | ner_chunk                          | rxnorm_code   | Package NDC       | Product NDC    |
+|---:|:-----------------------------------|:--------------|:------------------|:---------------|
+|  0 | ['doxepin hydrochloride 50 MG/ML'] | ['1000091']   | ['00378-8117-45'] | ['00378-8117'] |
+|  1 | ['macadamia nut 100 MG/ML']        | ['212433']    | ['00064-2120-08'] | ['00064-2120'] |
 
 ```
 
