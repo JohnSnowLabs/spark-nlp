@@ -35,11 +35,11 @@ The improvements and bug fixes are mentioned in their respective sections below.
 ### Key Information
 
 1. For smooth and optimal performance, it is recommended to use an instance with 8 core CPU, and 32GB RAM specifications. 
-2. NLP Server is available on both [AWS](/#) and [Azure marketplace](/#).
+2. NLP Server is available on both [AWS](https://aws.amazon.com/marketplace/pp/prodview-4ohxjejvg7vwm) and Azure marketplace.
 
 <br>
 
-### Other Improvements
+### Improvements
 
 1. Support for new models for Lemmatizers, Parts of Speech Taggers, and Word2Vec Embeddings for over 66 languages, with 20 languages being covered for the first time by NLP Server, including ancient and exotic languages like Ancient Greek, Old Russian, Old French and much more.
 
