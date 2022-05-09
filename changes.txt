@@ -1,4 +1,4 @@
-docs/_frontend/src/models/FilterForm/FilterForm.js
-docs/_plugins/search_index.rb
-docs/_frontend/src/models/FilterForm/FilterForm.js
-docs/_plugins/search_index.rb
+docs/_includes/article-info-author.html
+docs/_sass/components/_article-info.scss
+docs/_includes/article-info-author.html
+docs/_sass/components/_article-info.scss
