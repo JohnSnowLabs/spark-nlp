@@ -19,31 +19,16 @@ package com.johnsnowlabs.collections
 import org.scalatest.flatspec.AnyFlatSpec
 import com.johnsnowlabs.tags.FastTest
 
-
 class SearchTrieSpec extends AnyFlatSpec {
-  val trie: SearchTrie = SearchTrie(
-    Array(
-      Array("a", "b", "a", "b", "a"),
-      Array("a", "a", "a")
-    ), caseSensitive = false
-  )
+  val trie: SearchTrie =
+    SearchTrie(Array(Array("a", "b", "a", "b", "a"), Array("a", "a", "a")), caseSensitive = false)
 
   val aTrie: SearchTrie = SearchTrie(
-    Array(
-      Array("a", "a", "a", "a", "a"),
-      Array("a", "a", "a"),
-      Array("a", "a"),
-      Array("a")
-    ), caseSensitive = false
-  )
+    Array(Array("a", "a", "a", "a", "a"), Array("a", "a", "a"), Array("a", "a"), Array("a")),
+    caseSensitive = false)
 
-  val btrie: SearchTrie = SearchTrie(
-    Array(
-      Array("a", "b", "a", "b"),
-      Array("b", "a", "a")
-    ), caseSensitive = false
-  )
-
+  val btrie: SearchTrie =
+    SearchTrie(Array(Array("a", "b", "a", "b"), Array("b", "a", "a")), caseSensitive = false)
 
   "SearchTrie" should "create correct encode words" taggedAs FastTest in {
     assert(trie.vocabulary.size == 2)

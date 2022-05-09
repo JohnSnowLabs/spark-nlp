@@ -140,9 +140,12 @@ public class DependencyInstance implements Serializable {
 
     private static Pattern puncRegex = Pattern.compile("[\\p{Punct}]+", Pattern.UNICODE_CHARACTER_CLASS);
 
-    public DependencyInstance() {}
+    public DependencyInstance() {
+    }
 
-    public DependencyInstance(int length) { this.length = length; }
+    public DependencyInstance(int length) {
+        this.length = length;
+    }
 
     public DependencyInstance(String[] forms) {
         this.length = forms.length;
@@ -151,7 +154,7 @@ public class DependencyInstance implements Serializable {
         this.depRels = new String[length];
     }
 
-    public DependencyInstance(String[] forms, String[] uPosTags,String[] xPosTags, int[] heads) {
+    public DependencyInstance(String[] forms, String[] uPosTags, String[] xPosTags, int[] heads) {
         this.length = forms.length;
         this.forms = forms;
         this.heads = heads;
@@ -159,7 +162,7 @@ public class DependencyInstance implements Serializable {
         this.xPosTags = xPosTags;
     }
 
-    public DependencyInstance(String[] forms, String[] uPosTags,String[] xPosTags, int[] heads, String[] depRels) {
+    public DependencyInstance(String[] forms, String[] uPosTags, String[] xPosTags, int[] heads, String[] depRels) {
         this(forms, uPosTags, xPosTags, heads);
         this.depRels = depRels;
     }
@@ -199,32 +202,33 @@ public class DependencyInstance implements Serializable {
         xPosTagIds = new int[length];
 
         for (int i = 0; i < length; ++i) {
-            //TODO: Check here how the dictioaries are set
             formIds[i] = dicts.lookupIndex(WORD, "form=" + normalize(forms[i]));
             uPosTagIds[i] = dicts.lookupIndex(POS, "pos=" + uPosTags[i]);
             xPosTagIds[i] = dicts.lookupIndex(POS, "cpos=" + xPosTags[i]);
-            dependencyLabelIds[i] = dicts.lookupIndex(DEP_LABEL, depRels[i]) - 1;	// zero-based
+            dependencyLabelIds[i] = dicts.lookupIndex(DEP_LABEL, depRels[i]) - 1;    // zero-based
         }
 
         if (lemmas != null) {
             lemmaIds = new int[length];
             for (int i = 0; i < length; ++i)
-                lemmaIds[i] = dicts.lookupIndex(WORD, "lemma="+normalize(lemmas[i]));
+                lemmaIds[i] = dicts.lookupIndex(WORD, "lemma=" + normalize(lemmas[i]));
         }
 
         featIds = new int[length][];
-        for (int i = 0; i < length; ++i) if (feats[i] != null) {
-            featIds[i] = new int[feats[i].length];
-            for (int j = 0; j < feats[i].length; ++j)
-                featIds[i][j] = dicts.lookupIndex(POS, "feat="+feats[i][j]);
-        }
+        for (int i = 0; i < length; ++i)
+            if (feats[i] != null) {
+                featIds[i] = new int[feats[i].length];
+                for (int j = 0; j < feats[i].length; ++j)
+                    featIds[i][j] = dicts.lookupIndex(POS, "feat=" + feats[i][j]);
+            }
 
         if (dicts.getDictionarySize(WORD_VEC) > 0) {
             wordVecIds = new int[length];
             for (int i = 0; i < length; ++i) {
                 int wvid = dicts.lookupIndex(WORD_VEC, forms[i]);
                 if (wvid <= 0) wvid = dicts.lookupIndex(WORD_VEC, forms[i].toLowerCase());
-                if (wvid > 0) wordVecIds[i] = wvid; else wordVecIds[i] = -1;
+                if (wvid > 0) wordVecIds[i] = wvid;
+                else wordVecIds[i] = -1;
             }
         }
 
@@ -236,8 +240,7 @@ public class DependencyInstance implements Serializable {
                 String cpos = coarseMap.get(uPosTags[i]);
                 if ((cpos.equals("CONJ")) && conjWord.contains(forms[i])) {
                     specialPos[i] = SpecialPos.C;
-                }
-                else if (cpos.equals("ADP"))
+                } else if (cpos.equals("ADP"))
                     specialPos[i] = SpecialPos.P;
                 else if (cpos.equals("."))
                     specialPos[i] = SpecialPos.PNX;
@@ -245,15 +248,14 @@ public class DependencyInstance implements Serializable {
                     specialPos[i] = SpecialPos.V;
                 else
                     specialPos[i] = SpecialPos.OTHER;
-            }
-            else {
+            } else {
                 specialPos[i] = getSpecialPos(forms[i], uPosTags[i]);
             }
         }
     }
 
     private String normalize(String s) {
-        if(s!=null && s.matches("[0-9]+|[0-9]+\\.[0-9]+|[0-9]+[0-9,]+"))
+        if (s != null && s.matches("[0-9]+|[0-9]+\\.[0-9]+|[0-9]+[0-9,]+"))
             return "<num>";
         return s;
     }

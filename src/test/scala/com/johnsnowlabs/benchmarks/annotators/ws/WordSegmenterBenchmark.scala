@@ -32,7 +32,8 @@ class WordSegmenterBenchmark extends AnyFlatSpec {
 
   private val trainingDataSetFile = "src/test/resources/word-segmenter/chinese_train.utf8"
   private val testingDataSetFile = "src/test/resources/word-segmenter/chinese_test.utf8"
-  private val groundTruthDataSetFile = "src/test/resources/word-segmenter/chinese_ground_truth.utf8"
+  private val groundTruthDataSetFile =
+    "src/test/resources/word-segmenter/chinese_ground_truth.utf8"
 
   private val nIterationsList = List(3, 5, 7)
   private val frequencyThresholdList = List(10, 20, 30)
@@ -47,12 +48,19 @@ class WordSegmenterBenchmark extends AnyFlatSpec {
     nIterationsList.foreach { nIterations =>
       frequencyThresholdList.foreach { frequencyThreshold =>
         ambiguityThresholdList.foreach { ambiguityThreshold =>
-          val parameters = s"nIterations = $nIterations frequencyThresholdList = $frequencyThreshold ambiguityThreshold = $ambiguityThreshold"
+          val parameters =
+            s"nIterations = $nIterations frequencyThresholdList = $frequencyThreshold ambiguityThreshold = $ambiguityThreshold"
           println(parameters)
-          val metrics = benchMarkWordSegmenter(nIterations, frequencyThreshold, ambiguityThreshold)
+          val metrics =
+            benchMarkWordSegmenter(nIterations, frequencyThreshold, ambiguityThreshold)
           println(s"Precision = ${metrics._1}  Recall = ${metrics._2}  FScore = ${metrics._3}")
-          val accuracyMetrics = AccuracyByParameter(nIterations, frequencyThreshold, ambiguityThreshold,
-            metrics._1, metrics._2, metrics._3)
+          val accuracyMetrics = AccuracyByParameter(
+            nIterations,
+            frequencyThreshold,
+            ambiguityThreshold,
+            metrics._1,
+            metrics._2,
+            metrics._3)
           accuracyByParameters = accuracyMetrics :: accuracyByParameters
         }
       }
@@ -64,7 +72,8 @@ class WordSegmenterBenchmark extends AnyFlatSpec {
     val nIterations = 7
     val frequencyThreshold = 30
     val ambiguityThreshold = 0.99
-    val parameters = s"nIterations = $nIterations frequencyThresholdList = $frequencyThreshold ambiguityThreshold = $ambiguityThreshold"
+    val parameters =
+      s"nIterations = $nIterations frequencyThresholdList = $frequencyThreshold ambiguityThreshold = $ambiguityThreshold"
     println(parameters)
     val metrics = benchMarkWordSegmenter(nIterations, frequencyThreshold, ambiguityThreshold)
     println(s"Precision = ${metrics._1}  Recall = ${metrics._2}  FScore = ${metrics._3}")
@@ -86,9 +95,11 @@ class WordSegmenterBenchmark extends AnyFlatSpec {
     println(s"Precision = ${metrics._1}  Recall = ${metrics._2}  FScore = ${metrics._3}")
   }
 
-  private def benchMarkWordSegmenter(nIterations: Int, frequencyThreshold: Int, ambiguityThreshold: Double,
-                                     exportMetricsBySentence: Boolean = false):
-  (Double, Double, Double) = {
+  private def benchMarkWordSegmenter(
+      nIterations: Int,
+      frequencyThreshold: Int,
+      ambiguityThreshold: Double,
+      exportMetricsBySentence: Boolean = false): (Double, Double, Double) = {
     val trainingDataSet = POS().readDataset(ResourceHelper.spark, trainingDataSetFile)
 
     val wordSegmenter = new WordSegmenterApproach()
@@ -105,22 +116,31 @@ class WordSegmenterBenchmark extends AnyFlatSpec {
     evaluateModel(pipelineModel, exportMetricsBySentence)
   }
 
-  private def evaluateModel(pipelineModel: PipelineModel, exportMetricsBySentence: Boolean = false): (Double, Double, Double) = {
-    val testingDataSet = ResourceHelper.spark.read.text(testingDataSetFile)
+  private def evaluateModel(
+      pipelineModel: PipelineModel,
+      exportMetricsBySentence: Boolean = false): (Double, Double, Double) = {
+    val testingDataSet = ResourceHelper.spark.read
+      .text(testingDataSetFile)
       .withColumnRenamed("value", "text")
     val tokenizerDataSet = pipelineModel.transform(testingDataSet)
     tokenizerDataSet.select("token.result").show(1, truncate = false)
 
-    val predictedTokensBySentences = tokenizerDataSet.select("token.result").rdd.map { row =>
-      val resultSeq: Seq[String] = row.get(0).asInstanceOf[mutable.WrappedArray[String]]
-      resultSeq.toList
-    }.collect().toList
+    val predictedTokensBySentences = tokenizerDataSet
+      .select("token.result")
+      .rdd
+      .map { row =>
+        val resultSeq: Seq[String] = row.get(0).asInstanceOf[mutable.WrappedArray[String]]
+        resultSeq.toList
+      }
+      .collect()
+      .toList
       .filter(predictedTokens => predictedTokens.nonEmpty)
 
     val realTokensBySentence = getGroundTruthTokens.filter(realTokens => realTokens.nonEmpty)
-    val metricsBySentences = predictedTokensBySentences.zipWithIndex.map { case (predictedTokens, index) =>
-      val realTokens = realTokensBySentence(index)
-      computeMetrics(index, predictedTokens, realTokens)
+    val metricsBySentences = predictedTokensBySentences.zipWithIndex.map {
+      case (predictedTokens, index) =>
+        val realTokens = realTokensBySentence(index)
+        computeMetrics(index, predictedTokens, realTokens)
     }
 
     if (exportMetricsBySentence) {
@@ -134,21 +154,31 @@ class WordSegmenterBenchmark extends AnyFlatSpec {
   }
 
   private def getGroundTruthTokens: List[List[String]] = {
-    val externalResource = ExternalResource(groundTruthDataSetFile, ReadAs.TEXT, Map("format" -> "text"))
-    val groundTruthTokens = ResourceHelper.parseLines(externalResource)
-      .map(groundTruth => groundTruth.split(" ").filter(token => token != "").toList).toList
+    val externalResource =
+      ExternalResource(groundTruthDataSetFile, ReadAs.TEXT, Map("format" -> "text"))
+    val groundTruthTokens = ResourceHelper
+      .parseLines(externalResource)
+      .map(groundTruth => groundTruth.split(" ").filter(token => token != "").toList)
+      .toList
     groundTruthTokens
   }
 
-  private def computeMetrics(index: Int, predictedTokens: List[String], realTokens: List[String]): Metrics = {
+  private def computeMetrics(
+      index: Int,
+      predictedTokens: List[String],
+      realTokens: List[String]): Metrics = {
     val realPositives = realTokens.length.toDouble
-    val truePositives = realTokens.map(realToken => predictedTokens.contains(realToken))
-      .count(positive => positive).toDouble
+    val truePositives = realTokens
+      .map(realToken => predictedTokens.contains(realToken))
+      .count(positive => positive)
+      .toDouble
     val falsePositive = predictedTokens.length.toDouble - truePositives
 
     val recall = truePositives / realPositives
     val precision = truePositives / (truePositives + falsePositive)
-    val fScore = if ((precision + recall) == 0.0) 0.0 else 2.0 * ((precision * recall) / (precision + recall))
+    val fScore =
+      if ((precision + recall) == 0.0) 0.0
+      else 2.0 * ((precision * recall) / (precision + recall))
     Metrics(index, precision, recall, fScore)
   }
 
@@ -171,8 +201,10 @@ class WordSegmenterBenchmark extends AnyFlatSpec {
   }
 
   private def exportFile(dataFrame: DataFrame, fileName: String): Unit = {
-    dataFrame.coalesce(1)
-      .write.format("csv")
+    dataFrame
+      .coalesce(1)
+      .write
+      .format("csv")
       .option("header", "true")
       .save(fileName)
   }

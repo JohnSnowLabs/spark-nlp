@@ -22,12 +22,10 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 import scala.util.matching.Regex
 
-
-/**
-  * This annotator matches a pattern of part-of-speech tags in order to return meaningful phrases from document.
-  * Extracted part-of-speech tags are mapped onto the sentence, which can then be parsed by regular expressions.
-  * The part-of-speech tags are wrapped by angle brackets `<>` to be easily distinguishable in the text itself.
-  * This example sentence will result in the form:
+/** This annotator matches a pattern of part-of-speech tags in order to return meaningful phrases
+  * from document. Extracted part-of-speech tags are mapped onto the sentence, which can then be
+  * parsed by regular expressions. The part-of-speech tags are wrapped by angle brackets `<>` to
+  * be easily distinguishable in the text itself. This example sentence will result in the form:
   * {{{
   * "Peter Pipers employees are picking pecks of pickled peppers."
   * "<NNP><NNP><NNS><VBP><VBG><NNS><IN><JJ><NNS><.>"
@@ -39,11 +37,14 @@ import scala.util.matching.Regex
   *   .setOutputCol("chunk")
   *   .setRegexParsers(Array("<NNP>+", "<NNS>+"))
   * }}}
-  * When defining the regular expressions, tags enclosed in angle brackets are treated as groups, so here specifically
-  * `"<NNP>+"` means 1 or more nouns in succession. Additional patterns can also be set with `addRegexParsers`.
+  * When defining the regular expressions, tags enclosed in angle brackets are treated as groups,
+  * so here specifically `"<NNP>+"` means 1 or more nouns in succession. Additional patterns can
+  * also be set with `addRegexParsers`.
   *
-  * For more extended examples see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb Spark NLP Workshop]]
-  * and the  [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ChunkerTestSpec.scala ChunkerTestSpec]].
+  * For more extended examples see the
+  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb Spark NLP Workshop]]
+  * and the
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ChunkerTestSpec.scala ChunkerTestSpec]].
   *
   * ==Example==
   * {{{
@@ -97,10 +98,14 @@ import scala.util.matching.Regex
   * |[chunk, 52, 58, peppers, [sentence -> 0, chunk -> 3], []]    |
   * +-------------------------------------------------------------+
   * }}}
-  * @see [[com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel PerceptronModel]] for Part-Of-Speech tagging
-  * @param uid internal uid required to generate writable annotators
+  * @see
+  *   [[com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel PerceptronModel]] for
+  *   Part-Of-Speech tagging
+  * @param uid
+  *   internal uid required to generate writable annotators
   * @groupname anno Annotator types
-  * @groupdesc anno Required input and expected output annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
   * @groupname Ungrouped Members
   * @groupname param Parameters
   * @groupname setParam Parameter setters
@@ -111,39 +116,45 @@ import scala.util.matching.Regex
   * @groupprio Ungrouped 3
   * @groupprio setParam  4
   * @groupprio getParam  5
-  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
-  **/
-class Chunker(override val uid: String) extends AnnotatorModel[Chunker] with HasSimpleAnnotate[Chunker] {
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
+class Chunker(override val uid: String)
+    extends AnnotatorModel[Chunker]
+    with HasSimpleAnnotate[Chunker] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
   /** an array of grammar based chunk parsers
     *
     * @group param
-    **/
-  val regexParsers = new StringArrayParam(this, "regexParsers", "an array of grammar based chunk parsers")
+    */
+  val regexParsers =
+    new StringArrayParam(this, "regexParsers", "an array of grammar based chunk parsers")
 
   /** Output annotator type : CHUNK
     *
     * @group anno
-    **/
+    */
   override val outputAnnotatorType: AnnotatorType = CHUNK
+
   /** Input annotator type : DOCUMENT, POS
     *
     * @group anno
-    **/
+    */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, POS)
 
   /** A list of regex patterns to match chunks, for example: Array(“‹DT›?‹JJ›*‹NN›”)
     *
     * @group setParam
-    **/
+    */
   def setRegexParsers(value: Array[String]): Chunker = set(regexParsers, value)
 
   /** adds a pattern to the current list of chunk patterns, for example: “‹DT›?‹JJ›*‹NN›”
     *
     * @group setParam
-    **/
+    */
   def addRegexParser(value: String): Chunker = {
     set(regexParsers, get(regexParsers).getOrElse(Array.empty[String]) :+ value)
   }
@@ -151,25 +162,28 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] with Has
   /** A list of regex patterns to match chunks, for example: Array(“‹DT›?‹JJ›*‹NN›”)
     *
     * @group getParam
-    **/
+    */
   def getRegexParsers: Array[String] = $(regexParsers)
 
   def this() = this(Identifiable.randomUID("CHUNKER"))
 
   /** @group param */
   private lazy val replacements = Map("<" -> "(?:<", ">" -> ">)", "|" -> ">|<")
+
   /** @group param */
   private lazy val POSTagPatterns: Array[Regex] = {
     getRegexParsers.map(regexParser => replaceRegexParser(regexParser))
   }
 
   private def replaceRegexParser(regexParser: String): Regex = {
-    replacements.foldLeft(regexParser)((accumulatedParser, keyValueReplace) =>
-      accumulatedParser.replaceAllLiterally(keyValueReplace._1, keyValueReplace._2)).r
+    replacements
+      .foldLeft(regexParser)((accumulatedParser, keyValueReplace) =>
+        accumulatedParser.replaceAllLiterally(keyValueReplace._1, keyValueReplace._2))
+      .r
   }
 
   private def patternMatchIndexes(pattern: Regex, text: String): List[(Int, Int)] = {
-    pattern.findAllMatchIn(text).map(index => (index.start, index.end )).toList
+    pattern.findAllMatchIn(text).map(index => (index.start, index.end)).toList
   }
 
   private def patternMatchFirstIndex(pattern: Regex, text: String): List[Int] =
@@ -182,20 +196,24 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] with Has
     indexAnnotation
   }
 
-  private def getPhrase(indexAnnotation: List[Int], annotations: Seq[Annotation]): Seq[Annotation] = {
+  private def getPhrase(
+      indexAnnotation: List[Int],
+      annotations: Seq[Annotation]): Seq[Annotation] = {
     val annotation = indexAnnotation.map(index => annotations.apply(index))
     annotation
   }
 
-  private def getChunkPhrases(POSTagPattern: Regex, POSFormatSentence: String, annotations: Seq[Annotation]):
-  Option[Array[Seq[Annotation]]] = {
+  private def getChunkPhrases(
+      POSTagPattern: Regex,
+      POSFormatSentence: String,
+      annotations: Seq[Annotation]): Option[Array[Seq[Annotation]]] = {
     val rangeMatches = patternMatchIndexes(POSTagPattern, POSFormatSentence)
-    if (rangeMatches.isEmpty){
+    if (rangeMatches.isEmpty) {
       None
     }
     val indexLeftTags = patternMatchFirstIndex("<".r, POSFormatSentence)
     val indexRightTags = patternMatchFirstIndex(">".r, POSFormatSentence)
-    val indexTags = indexLeftTags zip indexRightTags //merge two sequential collections
+    val indexTags = indexLeftTags zip indexRightTags // merge two sequential collections
     val indexAnnotations = rangeMatches.map(range => getIndexAnnotation(range, indexTags))
     Some(indexAnnotations.map(indexAnnotation => getPhrase(indexAnnotation, annotations)).toArray)
   }
@@ -204,24 +222,24 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] with Has
 
     val sentences = annotations.filter(_.annotatorType == AnnotatorType.DOCUMENT)
 
-    sentences.zipWithIndex.flatMap { case(sentence, sentenceIndex) =>
-
+    sentences.zipWithIndex.flatMap { case (sentence, sentenceIndex) =>
       val sentencePos = annotations.filter(pos =>
         pos.annotatorType == AnnotatorType.POS &&
           pos.begin >= sentence.begin &&
           pos.end <= sentence.end)
 
-      val POSFormatSentence = sentencePos.map(annotation => "<"+annotation.result+">")
-        .mkString(" ").replaceAll("\\s","")
+      val POSFormatSentence = sentencePos
+        .map(annotation => "<" + annotation.result + ">")
+        .mkString(" ")
+        .replaceAll("\\s", "")
 
-      val chunkPhrases = POSTagPatterns.flatMap(POSTagPattern =>
-        getChunkPhrases(POSTagPattern, POSFormatSentence, sentencePos)).flatten
+      val chunkPhrases = POSTagPatterns
+        .flatMap(POSTagPattern => getChunkPhrases(POSTagPattern, POSFormatSentence, sentencePos))
+        .flatten
 
-      val chunkAnnotations = chunkPhrases.zipWithIndex.map{ case (phrase, idx) =>
-        val result = sentence.result.substring(
-          phrase.head.begin - sentence.begin,
-          phrase.last.end - sentence.begin + 1
-        )
+      val chunkAnnotations = chunkPhrases.zipWithIndex.map { case (phrase, idx) =>
+        val result = sentence.result
+          .substring(phrase.head.begin - sentence.begin, phrase.last.end - sentence.begin + 1)
         val start = phrase.head.begin
         val end = phrase.last.end
         Annotation(
@@ -229,8 +247,7 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] with Has
           start,
           end,
           result,
-          Map("sentence" -> sentenceIndex.toString, "chunk" -> idx.toString)
-        )
+          Map("sentence" -> sentenceIndex.toString, "chunk" -> idx.toString))
       }
 
       chunkAnnotations
@@ -240,7 +257,6 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] with Has
 
 }
 
-/**
- * This is the companion object of [[Chunker]]. Please refer to that class for the documentation.
- */
+/** This is the companion object of [[Chunker]]. Please refer to that class for the documentation.
+  */
 object Chunker extends DefaultParamsReadable[Chunker]

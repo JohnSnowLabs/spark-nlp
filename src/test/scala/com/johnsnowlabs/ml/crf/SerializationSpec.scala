@@ -21,7 +21,6 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io._
 
-
 class SerializationSpec extends AnyFlatSpec {
   val dataset = TestDatasets.small
   val metadata = dataset.metadata

@@ -19,7 +19,6 @@ package com.johnsnowlabs.ml.crf
 import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
 
-
 class DatasetSpec extends AnyFlatSpec {
 
   "DatasetReader" should "correct calculate transit freaquences" taggedAs FastTest in {
@@ -40,7 +39,6 @@ class DatasetSpec extends AnyFlatSpec {
     assert(frequencies == Seq(1, 2, 1))
   }
 
-
   "DatasetReader" should "correct read fill attrs metadata" taggedAs FastTest in {
     val dataset = DatasetReader.encodeDataset(TestDatasets.doubleText)
     val metadata = dataset.metadata
@@ -54,7 +52,6 @@ class DatasetSpec extends AnyFlatSpec {
     assert(metadata.attr2Features(1).toSet == Set(AttrFeature(1, 1, 2)))
     assert(metadata.attr2Features(3).toSet == Set(AttrFeature(3, 3, 2), AttrFeature(4, 3, 1)))
   }
-
 
   "DatasetReader" should "correct fill Dataset features" taggedAs FastTest in {
     val dataset = DatasetReader.encodeDataset(TestDatasets.doubleText)

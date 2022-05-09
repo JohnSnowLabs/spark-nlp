@@ -71,14 +71,9 @@ class RobertaTokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
     "s d",
     "Ġun amb",
     "Ġgo od",
-    "Ġ 3"
-  ).map(_.split(" ")).map { case Array(c1, c2) => (c1, c2) }.zipWithIndex.toMap
+    "Ġ 3").map(_.split(" ")).map { case Array(c1, c2) => (c1, c2) }.zipWithIndex.toMap
 
-  val tokenizer: BpeTokenizer = BpeTokenizer.forModel(
-    "roberta",
-    merges,
-    vocab
-  )
+  val tokenizer: BpeTokenizer = BpeTokenizer.forModel("roberta", merges, vocab)
 
   override val replaceCharBeforeAssertion: Some[String] = Some("Ġ")
 
@@ -86,15 +81,14 @@ class RobertaTokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
     tokenizer = tokenizer,
     text = "I unambigouosly good 3Asd!",
     Array("I", "Ġunamb", "ig", "ou", "os", "ly", "Ġgood", "Ġ3", "As", "d", "!"),
-    Array(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)
-  )
+    Array(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13))
 
   it should behave like correctBpeTokenizerInFringeSituations(tokenizer = tokenizer)
 
   it should behave like correctBpeTokenizerSpecialTokens(
     tokenizer = tokenizer,
     text = "I unambigouosly <mask> good 3Asd <mask>",
-    expected = Array("I", "Ġunamb", "ig", "ou", "os", "ly", "<mask>", "Ġgood", "Ġ3", "As", "d", "<mask>"),
-    expectedIds = Array(3, 4, 5, 6, 7, 8, 2, 9, 10, 11, 12, 2)
-  )
+    expected =
+      Array("I", "Ġunamb", "ig", "ou", "os", "ly", "<mask>", "Ġgood", "Ġ3", "As", "d", "<mask>"),
+    expectedIds = Array(3, 4, 5, 6, 7, 8, 2, 9, 10, 11, 12, 2))
 }

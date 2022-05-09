@@ -19,13 +19,14 @@ package com.johnsnowlabs.nlp
 import org.apache.spark.internal.Logging
 import org.apache.spark.ml.param.ParamMap
 import org.apache.spark.ml.util.{Identifiable, MLWritable, MLWriter}
-import org.apache.spark.ml.{Estimator, Model, Pipeline, PipelineModel, PipelineStage, Transformer}
+import org.apache.spark.ml._
 import org.apache.spark.sql.types.StructType
 import org.apache.spark.sql.{DataFrame, Dataset}
 
 import scala.collection.mutable.ListBuffer
 
-class RecursivePipeline(override val uid: String, baseStages: Array[PipelineStage]) extends Pipeline {
+class RecursivePipeline(override val uid: String, baseStages: Array[PipelineStage])
+    extends Pipeline {
 
   def this() = this(Identifiable.randomUID("RECURSIVE_PIPELINE"), Array.empty)
 
@@ -36,11 +37,15 @@ class RecursivePipeline(override val uid: String, baseStages: Array[PipelineStag
   this.setStages(baseStages)
 
   /** Workaround to PipelineModel being private in Spark */
-  private def createPipeline(dataset: Dataset[_], transformers: Array[Transformer]): PipelineModel = {
+  private def createPipeline(
+      dataset: Dataset[_],
+      transformers: Array[Transformer]): PipelineModel = {
     new Pipeline(uid).setStages(transformers).fit(dataset)
   }
 
-  /** Code Duplication for Spark ML. This is not a good practice, but stages logic is tightly coupled on fit and PipelineModel is private[ml] */
+  /** Code Duplication for Spark ML. This is not a good practice, but stages logic is tightly
+    * coupled on fit and PipelineModel is private[ml]
+    */
   override def fit(dataset: Dataset[_]): PipelineModel = {
     transformSchema(dataset.schema, logging = true)
     val theStages = $(stages)
@@ -58,7 +63,9 @@ class RecursivePipeline(override val uid: String, baseStages: Array[PipelineStag
       if (index <= indexOfLastEstimator) {
         val transformer = stage match {
           case estimator: HasRecursiveFit[_] =>
-            estimator.recursiveFit(curDataset, new Pipeline(uid).setStages(transformers.toArray).fit(dataset))
+            estimator.recursiveFit(
+              curDataset,
+              new Pipeline(uid).setStages(transformers.toArray).fit(dataset))
           case estimator: Estimator[_] =>
             estimator.fit(curDataset)
           case t: Transformer =>
@@ -82,7 +89,9 @@ class RecursivePipeline(override val uid: String, baseStages: Array[PipelineStag
 }
 
 class RecursivePipelineModel(override val uid: String, innerPipeline: PipelineModel)
-  extends Model[RecursivePipelineModel] with MLWritable with Logging {
+    extends Model[RecursivePipelineModel]
+    with MLWritable
+    with Logging {
 
   def this(pipeline: PipelineModel) = this(pipeline.uid, pipeline)
 
@@ -100,11 +109,13 @@ class RecursivePipelineModel(override val uid: String, innerPipeline: PipelineMo
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     transformSchema(dataset.schema, logging = true)
-    innerPipeline.stages.foldLeft(dataset.toDF)((cur, transformer) => transformer match {
-      case t: HasRecursiveTransform[_] => t.recursiveTransform(cur, createRecursiveAnnotators(dataset))
-      case t: AnnotatorModel[_] if t.getLazyAnnotator => cur
-      case t: Transformer => t.transform(cur)
-    })
+    innerPipeline.stages.foldLeft(dataset.toDF)((cur, transformer) =>
+      transformer match {
+        case t: HasRecursiveTransform[_] =>
+          t.recursiveTransform(cur, createRecursiveAnnotators(dataset))
+        case t: AnnotatorModel[_] if t.getLazyAnnotator => cur
+        case t: Transformer => t.transform(cur)
+      })
   }
 
   override def transformSchema(schema: StructType): StructType = {

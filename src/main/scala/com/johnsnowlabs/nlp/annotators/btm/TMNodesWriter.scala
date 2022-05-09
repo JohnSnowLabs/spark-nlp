@@ -16,13 +16,12 @@
 
 package com.johnsnowlabs.nlp.annotators.btm
 
-import java.io.{ByteArrayOutputStream, ObjectOutputStream}
-
 import com.johnsnowlabs.storage.{RocksDBConnection, StorageBatchWriter}
 
-class TMNodesWriter(
-                    override protected val connection: RocksDBConnection
-                  ) extends StorageBatchWriter[TrieNode] {
+import java.io.{ByteArrayOutputStream, ObjectOutputStream}
+
+class TMNodesWriter(override protected val connection: RocksDBConnection)
+    extends StorageBatchWriter[TrieNode] {
 
   def toBytes(content: TrieNode): Array[Byte] = {
     val stream: ByteArrayOutputStream = new ByteArrayOutputStream()

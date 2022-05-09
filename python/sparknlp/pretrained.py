@@ -65,6 +65,9 @@ class ResourceDownloader(object):
                 t1.join()
 
             return reader(classname=None, java_model=j_obj)
+    @staticmethod
+    def downloadModelDirectly(name, remote_loc="public/models"):
+        _internal._DownloadModelDirectly(name, remote_loc).apply()
 
     @staticmethod
     def downloadPipeline(name, language, remote_loc=None):

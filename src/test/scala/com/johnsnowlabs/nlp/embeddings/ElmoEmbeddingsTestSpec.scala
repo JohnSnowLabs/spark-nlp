@@ -31,8 +31,7 @@ class ElmoEmbeddingsTestSpec extends AnyFlatSpec {
     System.out.println("Working Directory = " + System.getProperty("user.dir"))
     val data = Seq(
       "I like pancakes in the summer. I hate ice cream in winter.",
-      "If I had asked people what they wanted, they would have said faster horses"
-    ).toDF("text")
+      "If I had asked people what they wanted, they would have said faster horses").toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -46,7 +45,8 @@ class ElmoEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val elmoSavedModel = ElmoEmbeddings.pretrained()
+    val elmoSavedModel = ElmoEmbeddings
+      .pretrained()
       .setPoolingLayer("word_emb")
       .setInputCols(Array("token", "document"))
       .setOutputCol("embeddings")
@@ -55,12 +55,7 @@ class ElmoEmbeddingsTestSpec extends AnyFlatSpec {
 
     val embeddings = ElmoEmbeddings.load("./tmp_elmo_tf")
 
-    val pipeline = new Pipeline().setStages(Array(
-      document,
-      sentence,
-      tokenizer,
-      embeddings
-    ))
+    val pipeline = new Pipeline().setStages(Array(document, sentence, tokenizer, embeddings))
 
     val elmoDDD = pipeline.fit(data).transform(data)
 

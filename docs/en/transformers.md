@@ -5,7 +5,7 @@ seotitle: Spark NLP
 title: Transformers
 permalink: /docs/en/transformers
 key: docs-transformers
-modify_date: "2022-01-01"
+modify_date: "2022-05-05"
 use_language_switcher: "Python-Scala-Java"
 show_nav: true
 sidebar:
@@ -27,7 +27,7 @@ sidebar:
 
 ### Overview
 
-We have extended support for `HuggingFace` 🤗   and `TF Hub` exported models since `3.1.0` to equivalent Spark NLP 🚀 annotators. Starting this release, you can easily use the `saved_model` feature in HuggingFace within a few lines of codes and import any `BERT`, `DistilBERT`, `RoBERTa`, `XLM-RoBERTa`, `Longformer`, `BertForTokenClassification`, `DistilBertForTokenClassification`, `AlbertForTokenClassification`, `RoBertaForTokenClassification`, `XlmRoBertaForTokenClassification`, `XlnetForTokenClassification`,  `LongformerForTokenClassification`, `BertForSequenceClassification`, `DistilBertForSequenceClassification`, `AlbertForSequenceClassification`, `RoBertaForSequenceClassification`, `XlmRoBertaForSequenceClassification`, `XlnetForSequenceClassification`,  `LongformerForSequenceClassification`  models to Spark NLP. We will work on the remaining annotators and extend this support to the rest with each release 😊
+We have extended support for `HuggingFace` 🤗   and `TF Hub` exported models since `3.1.0` to equivalent Spark NLP 🚀 annotators. Starting this release, you can easily use the `saved_model` feature in HuggingFace within a few lines of codes and import any `BERT`, `DistilBERT`, `CamemBERT`, `RoBERTa`, `DeBERTa`, `XLM-RoBERTa`, `Longformer`, `BertForTokenClassification`, `DistilBertForTokenClassification`, `AlbertForTokenClassification`, `RoBertaForTokenClassification`, `DeBertaForTokenClassification`, `XlmRoBertaForTokenClassification`, `XlnetForTokenClassification`,  `LongformerForTokenClassification`, `BertForSequenceClassification`, `DistilBertForSequenceClassification`, `AlbertForSequenceClassification`, `RoBertaForSequenceClassification`, `DeBertaForSequenceClassification`, `XlmRoBertaForSequenceClassification`, `XlnetForSequenceClassification`,  `LongformerForSequenceClassification`  models to Spark NLP. We will work on the remaining annotators and extend this support to the rest with each release 😊
 
 ### Compatibility
 
@@ -47,7 +47,9 @@ Spark NLP | TF Hub | HuggingFace | Model Architecture
 BertEmbeddings |  ✅  |  ✅  |  BERT - Small BERT - ELECTRA
 BertSentenceEmbeddings |  ✅  | ✅   | BERT - Small BERT - ELECTRA
 DistilBertEmbeddings|   |  ✅   | DistilBERT
+CamemBertEmbeddings|   |  ✅   | CamemBERT
 RoBertaEmbeddings |   | ✅   | RoBERTa - DistilRoBERTa
+DeBertaEmbeddings |   | ✅   | DeBERTa-v2 - DeBERTa-v3
 XlmRoBertaEmbeddings |   | ✅   | XLM-RoBERTa
 AlbertEmbeddings | ✅  |  ✅   |  ALBERT
 XlnetEmbeddings |   | ✅  |  XLNet
@@ -58,6 +60,7 @@ BertForTokenClassification |   | ✅  |  [TFBertForTokenClassification](https://
 DistilBertForTokenClassification |   | ✅  |  [TFDistilBertForTokenClassification](https://huggingface.co/docs/transformers/model_doc/distilbert#transformers.TFDistilBertForTokenClassification)
 AlbertForTokenClassification |   | ✅  |  [TFAlbertForTokenClassification](https://huggingface.co/docs/transformers/model_doc/albert#transformers.TFAlbertForTokenClassification)
 RoBertaForTokenClassification |   | ✅  |  [TFRobertaForTokenClassification](https://huggingface.co/docs/transformers/model_doc/roberta#transformers.TFRobertaForTokenClassification)
+DeBertaForTokenClassification |   | ✅  |  [TFDebertaV2ForTokenClassification](https://huggingface.co/docs/transformers/model_doc/deberta-v2#transformers.TFDebertaV2ForTokenClassification)
 XlmRoBertaForTokenClassification |   | ✅  |  [TFXLMRobertaForTokenClassification](https://huggingface.co/docs/transformers/model_doc/xlmroberta#transformers.TFXLMRobertaForTokenClassification)
 XlnetForTokenClassification |   | ✅  |  [TFXLNetForTokenClassificationet](https://huggingface.co/docs/transformers/model_doc/xlnet#transformers.TFXLNetForTokenClassificationet)
 LongformerForTokenClassification |   | ✅  |  [TFLongformerForTokenClassification](https://huggingface.co/docs/transformers/model_doc/longformer#transformers.TFLongformerForTokenClassification)
@@ -65,6 +68,7 @@ BertForSequenceClassification |   | ✅  |  [TFBertForSequenceClassification](ht
 DistilBertForSequenceClassification |   | ✅  |  [TFDistilBertForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/distilbert#transformers.TFDistilBertForSequenceClassification)
 AlbertForSequenceClassification |   | ✅  |  [TFAlbertForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/albert#transformers.TFAlbertForSequenceClassification)
 RoBertaForSequenceClassification |   | ✅  |  [TFRobertaForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/roberta#transformers.TFRobertaForSequenceClassification)
+DeBertaForSequenceClassification |   | ✅  |  [TFDebertaV2ForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/deberta-v2#transformers.TFDebertaV2ForSequenceClassification)
 XlmRoBertaForSequenceClassification |   | ✅  |  [TFXLMRobertaForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/xlmroberta#transformers.TFXLMRobertaForSequenceClassification)
 XlnetForSequenceClassification |   | ✅  |  [TFXLNetForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/xlnet#transformers.TFXLNetForSequenceClassification)
 LongformerForSequenceClassification |   | ✅  |  [TFLongformerForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/longformer#transformers.TFLongformerForSequenceClassification)
@@ -81,7 +85,9 @@ Spark NLP | HuggingFace Notebooks | Colab
 BertEmbeddings |  [HuggingFace in Spark NLP - BERT](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT.ipynb)
 BertSentenceEmbeddings | [HuggingFace in Spark NLP - BERT Sentence](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb)
 DistilBertEmbeddings| [HuggingFace in Spark NLP - DistilBERT](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb)
+CamemBertEmbeddings| [HuggingFace in Spark NLP - CamemBERT](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20CamemBERT.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20CamemBERT.ipynb)
 RoBertaEmbeddings | [HuggingFace in Spark NLP - RoBERTa](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb)
+DeBertaEmbeddings | [HuggingFace in Spark NLP - DeBERTa](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DeBERTa.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DeBERTa.ipynb)
 XlmRoBertaEmbeddings | [HuggingFace in Spark NLP - XLM-RoBERTa](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb)
 AlbertEmbeddings | [HuggingFace in Spark NLP - ALBERT](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ALBERT.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ALBERT.ipynb)
 XlnetEmbeddings|[HuggingFace in Spark NLP - XLNet](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLNet.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLNet.ipynb)
@@ -97,6 +103,7 @@ AlbertForSequenceClassification |[HuggingFace in Spark NLP - AlbertForSequenceCl
 RoBertaForSequenceClassification |[HuggingFace in Spark NLP - RoBertaForSequenceClassification](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForSequenceClassification.ipynb)
 XlmRoBertaForSequenceClassification |[HuggingFace in Spark NLP - XlmRoBertaForSequenceClassification](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XlmRoBertaForSequenceClassification.ipynb)
 XlnetForSequenceClassification |[HuggingFace in Spark NLP - XlnetForSequenceClassification](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XlnetForSequenceClassification.ipynb)
+LongformerForSequenceClassification |[HuggingFace in Spark NLP - LongformerForSequenceClassification](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20LongformerForSequenceClassification.ipynb)
 
 #### TF Hub to Spark NLP
 

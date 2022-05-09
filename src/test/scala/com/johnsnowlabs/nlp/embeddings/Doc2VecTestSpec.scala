@@ -22,12 +22,10 @@ import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
-
-import org.apache.spark.sql.functions.{explode, when}
-import org.apache.spark.mllib.evaluation.{BinaryClassificationMetrics, MulticlassMetrics}
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.mllib.evaluation.{BinaryClassificationMetrics, MulticlassMetrics}
+import org.apache.spark.sql.functions.{explode, when}
 import org.scalatest.flatspec.AnyFlatSpec
-
 
 class Doc2VecTestSpec extends AnyFlatSpec {
 
@@ -43,8 +41,7 @@ class Doc2VecTestSpec extends AnyFlatSpec {
       "carbon emissions have come down without impinging on our growth .\\u2009.\\u2009.",
       "the ",
       "  ",
-      " "
-    ).toDF("text")
+      " ").toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -68,14 +65,9 @@ class Doc2VecTestSpec extends AnyFlatSpec {
       .setOutputCol("sentence_embeddings")
       .setMaxSentenceLength(512)
       .setStorageRef("my_awesome_doc2vec")
+      .setEnableCaching(true)
 
-    val pipeline = new Pipeline().setStages(Array(
-      document,
-      setence,
-      tokenizer,
-      stops,
-      doc2Vec
-    ))
+    val pipeline = new Pipeline().setStages(Array(document, setence, tokenizer, stops, doc2Vec))
 
     val pipelineModel = pipeline.fit(ddd)
     val pipelineDF = pipelineModel.transform(ddd)
@@ -83,18 +75,19 @@ class Doc2VecTestSpec extends AnyFlatSpec {
     pipelineDF.select("sentence_embeddings").show()
 
     pipelineModel.write.overwrite().save("./tmp_pipeline_doc2vec")
-    pipelineModel.stages.last.asInstanceOf[Doc2VecModel].write.overwrite().save("./tmp_doc2vec_model")
+    pipelineModel.stages.last
+      .asInstanceOf[Doc2VecModel]
+      .write
+      .overwrite()
+      .save("./tmp_doc2vec_model")
 
-    val loadedDoc2Vec = Doc2VecModel.load("./tmp_doc2vec_model")
+    val loadedDoc2Vec = Doc2VecModel
+      .load("./tmp_doc2vec_model")
       .setInputCols("token")
       .setOutputCol("sentence_embeddings")
 
-    val loadedPipeline = new Pipeline().setStages(Array(
-      document,
-      setence,
-      tokenizer,
-      loadedDoc2Vec
-    ))
+    val loadedPipeline =
+      new Pipeline().setStages(Array(document, setence, tokenizer, loadedDoc2Vec))
 
     loadedPipeline.fit(ddd).transform(ddd).select("sentence_embeddings").show()
 
@@ -110,8 +103,7 @@ class Doc2VecTestSpec extends AnyFlatSpec {
       "TORONTO 1996-08-21",
       " carbon emissions have come down without impinging on our growth . . .",
       "carbon emissions have come down without impinging on our growth .\\u2009.\\u2009.",
-      "the "
-    ).toDF("text")
+      "the ").toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -141,20 +133,21 @@ class Doc2VecTestSpec extends AnyFlatSpec {
       .setMaxSentenceLength(512)
       .setStorageRef("my_awesome_doc2vec")
 
-    val pipeline = new Pipeline().setStages(Array(
-      document,
-      setence,
-      tokenizerDocument,
-      tokenizerSentence,
-      doc2VecDocument,
-      doc2VecSentence
-    ))
+    val pipeline = new Pipeline().setStages(
+      Array(
+        document,
+        setence,
+        tokenizerDocument,
+        tokenizerSentence,
+        doc2VecDocument,
+        doc2VecSentence))
 
     val pipelineModel = pipeline.fit(ddd)
     val pipelineDF = pipelineModel.transform(ddd)
 
     val totalSentences = pipelineDF.select(explode($"sentence.result")).count.toInt
-    val totalSentEmbeddings = pipelineDF.select(explode($"sentence_embeddings.embeddings")).count.toInt
+    val totalSentEmbeddings =
+      pipelineDF.select(explode($"sentence_embeddings.embeddings")).count.toInt
 
     println(s"total sentences: $totalSentences")
     println(s"total sentence embeddings: $totalSentEmbeddings")
@@ -162,7 +155,8 @@ class Doc2VecTestSpec extends AnyFlatSpec {
     assert(totalSentences == totalSentEmbeddings)
 
     val totalDocs = pipelineDF.select(explode($"document.result")).count.toInt
-    val totalDocEmbeddings = pipelineDF.select(explode($"document_embeddings.embeddings")).count.toInt
+    val totalDocEmbeddings =
+      pipelineDF.select(explode($"document_embeddings.embeddings")).count.toInt
 
     println(s"total documents: $totalDocs")
     println(s"total document embeddings: $totalDocEmbeddings")
@@ -173,8 +167,12 @@ class Doc2VecTestSpec extends AnyFlatSpec {
   "Doc2VecModel" should "Benchmark" taggedAs SlowTest in {
 
     val conll = CoNLL()
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train").repartition(12)
-    val test_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testa").repartition(12)
+    val training_data = conll
+      .readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+      .repartition(12)
+    val test_data = conll
+      .readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testa")
+      .repartition(12)
 
     println(training_data.count())
 
@@ -190,14 +188,16 @@ class Doc2VecTestSpec extends AnyFlatSpec {
       .setSeed(42)
       .setStorageRef("doc2vec_conll_03")
 
-    val pipeline = new Pipeline().setStages(Array(
-      doc2Vec
-    ))
+    val pipeline = new Pipeline().setStages(Array(doc2Vec))
 
     val pipelineModel = pipeline.fit(training_data)
 
     Benchmark.time("Time to save Doc2Vec results") {
-      pipelineModel.transform(training_data).write.mode("overwrite").parquet("./tmp_doc2vec_pipeline")
+      pipelineModel
+        .transform(training_data)
+        .write
+        .mode("overwrite")
+        .parquet("./tmp_doc2vec_pipeline")
     }
 
     Benchmark.time("Time to save Doc2Vec results") {
@@ -236,7 +236,8 @@ class Doc2VecTestSpec extends AnyFlatSpec {
       .setOutputCol("normalized")
       .setLowercase(true)
 
-    val stops = StopWordsCleaner.pretrained()
+    val stops = StopWordsCleaner
+      .pretrained()
       .setInputCols("normalized")
       .setOutputCol("cleanedToken")
 
@@ -262,14 +263,8 @@ class Doc2VecTestSpec extends AnyFlatSpec {
       .setDropout(0.5f)
     //      .setValidationSplit(0.2f)
 
-    val pipeline = new Pipeline().setStages(Array(
-      document,
-      tokenizer,
-      norm,
-      stops,
-      doc2Vec,
-      docClassifier
-    ))
+    val pipeline =
+      new Pipeline().setStages(Array(document, tokenizer, norm, stops, doc2Vec, docClassifier))
 
     val pipelineModel = pipeline.fit(train)
     val pipelineDF = pipelineModel.transform(test)
@@ -280,7 +275,8 @@ class Doc2VecTestSpec extends AnyFlatSpec {
     println("count of tmpDF: ", tmpDF.count)
     tmpDF.show(2)
 
-    val newDF = tmpDF.select("label", "cat")
+    val newDF = tmpDF
+      .select("label", "cat")
       .withColumn("original", when($"label" === 0, 0d).otherwise(1d))
       .withColumn("prediction", when($"cat" === 0, 0d).otherwise(1d))
 
