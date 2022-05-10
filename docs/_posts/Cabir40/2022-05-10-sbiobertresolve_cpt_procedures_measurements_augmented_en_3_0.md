@@ -24,7 +24,7 @@ This model maps medical entities to CPT codes using Sentence Bert Embeddings. Th
 `CPT Codes`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_CPT/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_cpt_procedures_measurements_augmented_en_3.5.1_3.0_1652168576968.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -58,7 +58,7 @@ ner = MedicalNerModel.pretrained("ner_jsl", "en", "clinical/models") \
 ner_converter = NerConverterInternal()\
     .setInputCols(["sentence", "token", "ner"])\
     .setOutputCol("ner_chunk")\
-    .setWhiteList(["procedure", "test", "Imaging_Technique", "External_body_part_or_region", "Internal_organ_or_component"])
+    .setWhiteList(["Procedure", "Test"])
 
 c2doc = Chunk2Doc()\
     .setInputCols("ner_chunk")\
@@ -121,7 +121,7 @@ val ner = MedicalNerModel.pretrained("ner_jsl", "en", "clinical/models")
 val ner_converter = new NerConverterInternal()
       .setInputCols(Array("sentence", "token", "ner"))
       .setOutputCol("ner_chunk")
-      .setWhiteList(Array("procedure", "test", "Imaging_Technique", "External_body_part_or_region", "Internal_organ_or_component"))
+      .setWhiteList(Array("Procedure", "Test"))
 
 val c2doc = new Chunk2Doc()
       .setInputCols("ner_chunk")
