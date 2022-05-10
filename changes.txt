@@ -1,4 +1,2 @@
-.github/workflows/create_search_index.yml
-docs/_plugins/search_index.rb
-.github/workflows/create_search_index.yml
-docs/_plugins/search_index.rb
+docs/en/install.md
+docs/en/install.md
