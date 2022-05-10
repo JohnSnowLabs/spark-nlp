@@ -25,7 +25,7 @@ This model maps medical entities to CPT codes using Sentence Bert Embeddings. Th
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_CPT/){:.button.button-orange}
-<button class="button button-orange" disabled>Open in Colab</button>
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/22.CPT_Entity_Resolver.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_cpt_procedures_measurements_augmented_en_3.5.1_3.0_1652168576968.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
