@@ -15,16 +15,38 @@
 """Module containing all available Annotators of Spark NLP and their base
 classes.
 """
+# New Annotators need to be imported here
+from sparknlp.annotator.classifier_dl import *
+from sparknlp.annotator.embeddings import *
+from sparknlp.annotator.er import *
+from sparknlp.annotator.keyword_extraction import *
+from sparknlp.annotator.ld_dl import *
+from sparknlp.annotator.matcher import *
+from sparknlp.annotator.ner import *
+from sparknlp.annotator.dependency import *
+from sparknlp.annotator.pos import *
+from sparknlp.annotator.sentence import *
+from sparknlp.annotator.sentiment import *
+from sparknlp.annotator.seq2seq import *
+from sparknlp.annotator.spell_check import *
+from sparknlp.annotator.token import *
+from sparknlp.annotator.ws import *
+from sparknlp.annotator.chunker import *
+from sparknlp.annotator.document_normalizer import *
+from sparknlp.annotator.graph_extraction import *
+from sparknlp.annotator.lemmatizer import *
+from sparknlp.annotator.n_gram_generator import *
+from sparknlp.annotator.normalizer import *
+from sparknlp.annotator.stemmer import *
+from sparknlp.annotator.stop_words_cleaner import *
 
-import sys
-
-from sparknlp.common import *
-
-# Do NOT delete. Looks redundant but this is key work around for python 2 support.
 if sys.version_info[0] == 2:
-    from sparknlp.base import DocumentAssembler, Finisher, EmbeddingsFinisher, TokenAssembler
+    raise ImportError(
+        "Spark NLP for Python 2.x is deprecated since version >= 4.0. "
+        "Please use an older versions to use it with this Python version."
+    )
 else:
-    import com.johnsnowlabs.nlp
+    __import__("com.johnsnowlabs.nlp")
 
 annotators = sys.modules[__name__]
 pos = sys.modules[__name__]
