@@ -7,7 +7,7 @@ date: 2022-05-10
 tags: [bc2gm, ner, biomedical, gene_protein, gene, protein, en, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.4.1
+edition: Spark NLP for Healthcare 3.5.1
 spark_version: 3.0
 supported: true
 article_header:
@@ -28,7 +28,7 @@ This model has been trained to extract genes/proteins from a medical text.
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_biomedical_bc2gm_en_3.4.1_3.0_1652184014650.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_biomedical_bc2gm_en_3.5.1_3.0_1652184014650.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -96,7 +96,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|ner_biomedical_bc2gm|
-|Compatibility:|Spark NLP for Healthcare 3.4.1+|
+|Compatibility:|Spark NLP for Healthcare 3.5.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|
