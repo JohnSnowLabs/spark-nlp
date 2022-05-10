@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect Gene/Protein (BC2GM)
+title: Detect Genes/Proteins (BC2GM) in Medical Texts
 author: John Snow Labs
 name: ner_biomedical_bc2gm
 date: 2022-05-10
