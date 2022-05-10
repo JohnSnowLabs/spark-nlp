@@ -63,7 +63,7 @@ val embed = WordEmbeddingsModel.pretrained("embeddings_clinical" ,"en", "clinica
 	.setOutputCol("word_embeddings")
 
 val model = MedicalNerModel.pretrained("ner_biomedical_bc2gm", "en", "clinical/models")
-	.setInputCols("sentence", "token", "word_embeddings")
+	.setInputCols(Array("sentence", "token", "word_embeddings"))
 	.setOutputCol("ner")
 
 val ner_converter = new NerConverter()
