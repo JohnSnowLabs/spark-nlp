@@ -7,7 +7,7 @@ date: 2022-05-11
 tags: [chunk_mapper, en, licensed, ndc]
 task: Chunk Mapping
 language: en
-edition: Spark NLP for Healthcare 3.5.0
+edition: Spark NLP for Healthcare 3.5.1
 spark_version: 3.0
 supported: true
 article_header:
