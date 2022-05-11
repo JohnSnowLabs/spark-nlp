@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Lemma UD model for English (lemma_hiencs)
+title: Lemma UD model for Hindi_English (lemma_hiencs)
 author: John Snow Labs
 name: lemma_hiencs
 date: 2022-05-01
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Lemmatizer model (`lemma_hiencs`) trained on Universal Dependencies 2.9 (UD_English-HIENCS) in English language.
+Pretrained Lemmatizer model (`lemma_hiencs`) trained on Universal Dependencies 2.9 (UD_Hindi_English-HIENCS) in English language.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -96,5 +96,5 @@ val result = pipeline.fit(data).transform(data)
 
 ## References
 
-Model is trained on Universal Dependencies (treebank 2.9) `UD_English-HIENCS`
-[https://github.com/UniversalDependencies/UD_English-HIENCS](https://github.com/UniversalDependencies/UD_English-HIENCS)
+Model is trained on Universal Dependencies (treebank 2.9) `UD_Hindi_English-HIENCS`
+[https://github.com/UniversalDependencies/UD_Hindi_English-HIENCS](https://github.com/UniversalDependencies/UD_Hindi_English-HIENCS)
