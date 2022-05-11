@@ -74,13 +74,16 @@ object Dependencies {
   val greexVersion = "1.0"
   val greex = "com.navigamez" % "greex" % greexVersion
 
+  /** json4s-ext must match the version of json4s-jackson from spark-core. The spark-core 3.2.x
+    * release comes with json4s-jackson 3.7.0-M11 and spark-core 3.1.x comes with 3.7.0-M5
+    */
   val json4sVersion: String = if (is_spark30 == "true") "3.7.0-M5" else "3.7.0-M11"
   val json4s = "org.json4s" %% "json4s-ext" % json4sVersion
 
   val junitVersion = "4.13.2"
   val junit = "junit" % "junit" % junitVersion % Test
 
-  val tensorflowVersion = "0.4.1-rc1"
+  val tensorflowVersion = "0.4.1"
 
   val tensorflowGPU = "com.johnsnowlabs.nlp" %% "tensorflow-gpu" % tensorflowVersion
   val tensorflowCPU = "com.johnsnowlabs.nlp" %% "tensorflow-cpu" % tensorflowVersion
