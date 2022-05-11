@@ -84,33 +84,33 @@ res= model.transform(test_data)
 
 ```
 ```scala
-val document_assembler = new DocumentAssembler()\
-         .setInputCol("text")\
+val document_assembler = new DocumentAssembler()
+         .setInputCol("text")
          .setOutputCol("document")
 
-val sentence_detector = new SentenceDetector()\
-         .setInputCols(Array("document"))\
+val sentence_detector = new SentenceDetector()
+         .setInputCols(Array("document"))
          .setOutputCol("sentence")
 
-val tokenizer = new Tokenizer()\
-         .setInputCols("sentence")\
+val tokenizer = new Tokenizer()
+         .setInputCols("sentence")
          .setOutputCol("token")
 
-val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-         .setInputCols(Array("sentence", "token"))\
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+         .setInputCols(Array("sentence", "token"))
          .setOutputCol("embeddings")
 
-val abbr_ner = MedicalNerModel.pretrained('ner_abbreviation_clinical', 'en', 'clinical/models') \
-         .setInputCols(Array("sentence", "token", "embeddings")) \
+val abbr_ner = MedicalNerModel.pretrained("ner_abbreviation_clinical", "en", "clinical/models") 
+         .setInputCols(Array("sentence", "token", "embeddings")) 
          .setOutputCol("abbr_ner")
 
-val abbr_converter = NerConverter() \
-         .setInputCols(Array("sentence", "token", "abbr_ner")) \
-         .setOutputCol("abbr_ner_chunk")\
+val abbr_converter = NerConverter() 
+         .setInputCols(Array("sentence", "token", "abbr_ner")) 
+         .setOutputCol("abbr_ner_chunk")
 
-val chunkerMapper = ChunkMapperModel.pretrained("abbreviation_mapper", "en", "clinical/models")\
-         .setInputCols(Array("abbr_ner_chunk"))\
-         .setOutputCol("mappings")\
+val chunkerMapper = ChunkMapperModel.pretrained("abbreviation_mapper", "en", "clinical/models")
+         .setInputCols(Array("abbr_ner_chunk"))
+         .setOutputCol("mappings")
          .setRel("definition") 
 
 val pipeline = new Pipeline().setStages(Array(document_assembler,
