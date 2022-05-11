@@ -64,7 +64,7 @@ jupyter notebook
 
 #### Start Spark NLP Session from python
 
-If you need to manually start SparkSession because you have other configuraations and `sparknlp.start()` is not including them, you can manually start the SparkSession:
+If you need to manually start SparkSession because you have other configurations and `sparknlp.start()` is not including them, you can manually start the SparkSession:
 
 ```python
 spark = SparkSession.builder \
@@ -509,8 +509,6 @@ gcloud dataproc clusters create ${CLUSTER_NAME} \
 2. On an existing one, you need to install spark-nlp and spark-nlp-display packages from PyPI.
 
 3. Now, you can attach your notebook to the cluster and use the Spark NLP!
-
-</div>
 
 ## Amazon Linux 2 Support
 
