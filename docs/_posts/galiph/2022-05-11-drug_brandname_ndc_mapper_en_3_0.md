@@ -39,7 +39,7 @@ document_assembler = DocumentAssembler()\
       .setInputCol("text")\
       .setOutputCol("chunk")
 
-chunkerMapper= ChunkMapperModel.load(f"/content/{extract_dir}")\
+chunkerMapper = ChunkMapperModel.pretrained("drug_brandname_ndc_mapper", "en", "clinical/models")\
       .setInputCols(["chunk"])\
       .setOutputCol("ndc")\
       .setRel("Strength_NDC") 
@@ -58,7 +58,7 @@ val document_assembler = DocumentAssembler()\
       .setInputCol("text")\
       .setOutputCol("chunk")
 
-val chunkerMapper_product = chunkerMapper= ChunkMapperModel.load(f"/content/{extract_dir}")\
+val chunkerMapper = ChunkMapperModel.pretrained("drug_brandname_ndc_mapper", "en", "clinical/models")\
       .setInputCols(["chunk"])\
       .setOutputCol("ndc")\
       .setRel("Strength_NDC") 
