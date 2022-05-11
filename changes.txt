@@ -1,2 +1,2 @@
-docs/_posts/maziyarpanahi/2022-04-01-pos_hiencs_qhe_3_0.md
-docs/_posts/maziyarpanahi/2022-04-01-pos_hiencs_qhe_3_0.md
+docs/_posts/maziyarpanahi/2022-05-01-lemma_hiencs_qhe_3_0.md
+docs/_posts/maziyarpanahi/2022-05-01-lemma_hiencs_qhe_3_0.md
