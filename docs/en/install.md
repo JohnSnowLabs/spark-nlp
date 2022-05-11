@@ -64,7 +64,7 @@ jupyter notebook
 
 #### Start Spark NLP Session from python
 
-If you need to manually start SparkSession because you have other configuraations and `sparknlp.start()` is not including them, you can manually start the SparkSession:
+If you need to manually start SparkSession because you have other configurations and `sparknlp.start()` is not including them, you can manually start the SparkSession:
 
 ```python
 spark = SparkSession.builder \
