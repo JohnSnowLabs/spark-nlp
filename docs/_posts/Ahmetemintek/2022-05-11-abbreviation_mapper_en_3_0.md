@@ -85,8 +85,8 @@ res= model.transform(test_data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()\
-         .setInputCol('text')\
-         .setOutputCol('document')
+         .setInputCol("text")\
+         .setOutputCol("document")
 
 val sentence_detector = new SentenceDetector()\
          .setInputCols(Array("document"))\
@@ -134,12 +134,12 @@ val res= pipeline.fit(test_data).transform(test_data)
 ## Results
 
 ```bash
-+----------------+---------------------------------------------------+
-|ner_chunk |mapping_result                               |
-+----------------+---------------------------------------------------+
-|CBC            |complete blood count                   |
-|HIV             |human immunodeficiency virus  |
-+---------------+----------------------------------------------------+
++----------+------------------------------+
+|ner_chunk |mapping_result                |
++----------+------------------------------+
+|CBC       |complete blood count          |
+|HIV       |human immunodeficiency virus  |
++----------+------------------------------+
 ```
 
 {:.model-param}
