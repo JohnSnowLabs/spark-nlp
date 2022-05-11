@@ -147,6 +147,8 @@ lazy val typedDependencyParserDependencies = Seq(junit)
 val tensorflowDependencies: Seq[sbt.ModuleID] =
   if (is_gpu.equals("true"))
     Seq(tensorflowGPU)
+  else if (is_m1.equals("true"))
+    Seq(tensorflowM1)
   else
     Seq(tensorflowCPU)
 
