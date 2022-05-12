@@ -21,7 +21,7 @@ import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.spell.context.LangModelSentence
 import org.tensorflow.Graph
 
-import scala.collection.JavaConversions.asScalaBuffer
+import scala.collection.JavaConverters._
 
 class TensorflowSpell(val tensorflow: TensorflowWrapper, val verboseLevel: Verbose.Value)
     extends Logging
@@ -169,17 +169,17 @@ class TensorflowSpell(val tensorflow: TensorflowWrapper, val verboseLevel: Verbo
           .feed(initialLearningRateKey, tensors.createTensor(initialRate))
           .run()
 
-        val loss = tfResponse.lift(0) match {
+        val loss = tfResponse.asScala.headOption match {
           case Some(e) => e
           case _ => throw new IllegalArgumentException("Error in TF loss extraction")
         }
 
-        val gs = tfResponse.lift(1) match {
+        val gs = tfResponse.asScala.lift(1) match {
           case Some(e) => e
           case _ => throw new IllegalArgumentException("Error in TF gs extraction")
         }
 
-        val clr = tfResponse.lift(2) match {
+        val clr = tfResponse.asScala.lift(2) match {
           case Some(e) => e
           case _ => throw new IllegalArgumentException("Error in TF clr extraction")
         }

@@ -21,21 +21,23 @@ import com.johnsnowlabs.nlp.annotator.RecursiveTokenizer
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{PrefixedToken, SuffixedToken}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
 import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, LightPipeline, SparkAccessor}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.commons.io.FileUtils
-import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.sql.DataFrame
 import org.junit.Assert.assertEquals
 import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io._
+import scala.collection.JavaConverters._
 
 class ContextSpellCheckerTestSpec extends AnyFlatSpec {
 
   trait Scope extends WeightedLevenshtein {
-    val weights = Map("1" -> Map("l" -> 0.5f), "!" -> Map("l" -> 0.4f), "F" -> Map("P" -> 0.2f))
+    val weights: Map[String, Map[String, Float]] =
+      Map("1" -> Map("l" -> 0.5f), "!" -> Map("l" -> 0.4f), "F" -> Map("P" -> 0.2f))
   }
 
   trait distFile extends WeightedLevenshtein {
@@ -87,22 +89,23 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
 
   }
   "ContextSpellchker" should "return correct order" taggedAs SlowTest in new distFile {
-    val data = Seq("It was a cold. The country was white withh snow .").toDF("text")
-    val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
-    val sentenceDetector =
+    val data: DataFrame = Seq("It was a cold. The country was white withh snow .").toDF("text")
+    val documentAssembler: DocumentAssembler =
+      new DocumentAssembler().setInputCol("text").setOutputCol("document")
+    val sentenceDetector: SentenceDetector =
       new SentenceDetector().setInputCols("document").setOutputCol("sentences")
-    val tokenizer = new Tokenizer().setInputCols("sentences").setOutputCol("tokens")
-    val spell_checker = ContextSpellCheckerModel
+    val tokenizer: Tokenizer = new Tokenizer().setInputCols("sentences").setOutputCol("tokens")
+    val spell_checker: ContextSpellCheckerModel = ContextSpellCheckerModel
       .pretrained()
       .setInputCols("tokens")
       .setOutputCol("corrected_tokens")
-    val pipeline = new Pipeline()
+    val pipeline: PipelineModel = new Pipeline()
       .setStages(Array(documentAssembler, sentenceDetector, tokenizer, spell_checker))
       .fit(data)
 
-    val output_df = pipeline.transform(data)
+    val output_df: DataFrame = pipeline.transform(data)
 
-    val annotation = Annotation.collect(output_df, "corrected_tokens").flatten
+    val annotation: Array[Annotation] = Annotation.collect(output_df, "corrected_tokens").flatten
     assertEquals("It", annotation.head.result)
     assertEquals("was", annotation(1).result)
     assertEquals("a", annotation(2).result)
@@ -371,8 +374,8 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
       .fit(data)
     val result = pipeline.transform(data)
     val checked = result.select("checked").as[Array[Annotation]].collect
-    val firstSent = checked.head.filter(_.metadata.get("sentence").get == "0").map(_.result)
-    val secondSent = checked.head.filter(_.metadata.get("sentence").get == "1").map(_.result)
+    val firstSent = checked.head.filter(_.metadata("sentence") == "0").map(_.result)
+    val secondSent = checked.head.filter(_.metadata("sentence") == "1").map(_.result)
 
     assert(firstSent.contains("half"))
     assert(secondSent.contains("swept"))
@@ -418,12 +421,10 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
 
   "a model" should "serialize properly" taggedAs SlowTest in {
 
-    import scala.collection.JavaConversions._
-
     val ocrSpellModel = ContextSpellCheckerModel.pretrained()
     assert(
-      ocrSpellModel.specialTransducers.getOrDefault.size == 5,
-      "default pretrained should come with 5 classes")
+      ocrSpellModel.specialTransducers.getOrDefault.size == 4,
+      "default pretrained should come with 4 classes")
 
     // now we update the classes, and persist/unpersist the model
     ocrSpellModel.setSpecialClassesTransducers(Seq(new DateToken, new NumberToken))
@@ -437,40 +438,42 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
     assert(
       sortedTransducers.head.generateTransducer
         .transduce("10710/2018", 1)
+        .asScala
         .map(_.term())
+        .toSeq
         .contains("10/10/2018"))
 
     assert(sortedTransducers(1).label == "_NUM_")
     assert(
       sortedTransducers(1).generateTransducer
         .transduce("50,C00", 1)
+        .asScala
         .map(_.term())
+        .toSeq
         .contains("50,000"))
 
     val trellis = Array(
       Array.fill(6)(("the", 0.8, "the")),
       Array.fill(6)(("end", 1.2, "end")),
       Array.fill(6)((".", 1.2, ".")))
-    val (decoded, cost) = loadedModel.decodeViterbi(trellis)
+    val (decoded, _) = loadedModel.decodeViterbi(trellis)
     assert(decoded.deep.equals(Array("the", "end", ".").deep))
 
   }
 
   "number classes" should "recognize different number patterns" taggedAs FastTest in {
-    import scala.collection.JavaConversions._
     val number = new NumberToken
     val transducer = number.generateTransducer
 
-    assert(transducer.transduce("100.3").toList.exists(_.distance == 0))
+    assert(transducer.transduce("100.3").asScala.toList.exists(_.distance == 0))
     assert(number.separate("$40,000").equals(number.label))
   }
 
   "date classes" should "recognize different date and time formats" taggedAs FastTest in {
-    import scala.collection.JavaConversions._
     val date = new DateToken
     val transducer = date.generateTransducer
 
-    assert(transducer.transduce("10/25/1982").toList.exists(_.distance == 0))
+    assert(transducer.transduce("10/25/1982").asScala.toList.exists(_.distance == 0))
     assert(date.separate("10/25/1982").equals(date.label))
   }
 
