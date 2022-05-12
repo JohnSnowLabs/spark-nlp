@@ -4,7 +4,7 @@ title: Sentence Entity Resolver for Billable ICD10-CM HCC Codes (sbiobertresolve
 author: John Snow Labs
 name: sbiobertresolve_icd10cm_slim_billable_hcc
 date: 2022-05-11
-tags: [licenced, en, clinical, icd10, entity_resolution, licensed]
+tags: [licensed, en, clinical, icd10, entity_resolution]
 task: Entity Resolution
 language: en
 edition: Spark NLP for Healthcare 3.5.1
