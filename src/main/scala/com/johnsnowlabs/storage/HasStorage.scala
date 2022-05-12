@@ -30,7 +30,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 import java.nio.file.{Files, Paths, StandardCopyOption}
 import java.util.UUID
 
-trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSensitiveProperties {
+trait HasStorage extends HasStorageRef with HasInMemoryStorage with HasCaseSensitiveProperties {
 
   protected val databases: Array[Database.Name]
 
@@ -199,7 +199,7 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
   private var preloaded = false
 
   def indexStorage(fitDataset: Dataset[_], resource: Option[ExternalResource]): Unit = {
-    if (!preloaded) {
+    if (!preloaded && ! $(enableInMemoryStorage)) {
       preloaded = true
       require(isDefined(storageRef), missingRefMsg)
       preload(fitDataset, resource, fitDataset.sparkSession, databases)

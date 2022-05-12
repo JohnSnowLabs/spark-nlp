@@ -171,7 +171,6 @@ class WordEmbeddings(override val uid: String)
     this,
     "writeBufferSize",
     "Buffer size limit before dumping to disk storage while writing")
-  setDefault(writeBufferSize, 10000)
 
   /** Buffer size limit before dumping to disk storage while writing.
     *
@@ -196,17 +195,33 @@ class WordEmbeddings(override val uid: String)
     */
   def setReadCacheSize(value: Int): this.type = set(readCacheSize, value)
 
+  setDefault(writeBufferSize -> 10000)
+
   override def train(
       dataset: Dataset[_],
       recursivePipeline: Option[PipelineModel]): WordEmbeddingsModel = {
+
     val model = new WordEmbeddingsModel()
       .setInputCols($(inputCols))
-      .setStorageRef($(storageRef))
       .setDimension($(dimension))
       .setCaseSensitive($(caseSensitive))
 
     if (isSet(readCacheSize))
       model.setReadCacheSize($(readCacheSize))
+
+    if ($(enableInMemoryStorage)) {
+      $(storagePath).readAs match {
+        case ReadAs.TEXT =>
+          val embeddingsIndex = WordEmbeddingsTextIndexer.index($(storagePath).path)
+          model.setWordVectors(embeddingsIndex)
+        case ReadAs.BINARY =>
+          val embeddingsIndex = WordEmbeddingsBinaryIndexer.index($(storagePath).path)
+          model.setWordVectors(embeddingsIndex)
+        case _ =>
+          throw new IllegalArgumentException(
+            "Invalid WordEmbeddings read format. Must be either TEXT or BINARY")
+      }
+    }
 
     model
   }
@@ -217,6 +232,7 @@ class WordEmbeddings(override val uid: String)
       readAs: Option[ReadAs.Value],
       writers: Map[Database.Name, StorageWriter[_]],
       readOptions: Option[Map[String, String]]): Unit = {
+
     val writer = writers.values.headOption
       .getOrElse(
         throw new IllegalArgumentException("Received empty WordEmbeddingsWriter from locators"))

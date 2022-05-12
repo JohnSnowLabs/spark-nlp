@@ -23,8 +23,7 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.storage.Database.Name
 import com.johnsnowlabs.storage._
-import com.johnsnowlabs.util.spark.SparkUtil
-import com.johnsnowlabs.util.{JsonParser, Version}
+import com.johnsnowlabs.util.JsonParser
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.BooleanParam
 import org.apache.spark.ml.util.Identifiable
@@ -186,13 +185,6 @@ class EntityRulerApproach(override val uid: String)
     "sentenceMatch",
     "Whether to find match at sentence level. True: sentence level. False: token level")
 
-  /** Whether to use RocksDB storage to serialize patterns (Default: `true`).
-    *
-    * @group param
-    */
-  val useStorage =
-    new BooleanParam(this, "useStorage", "Whether to use RocksDB storage to serialize patterns")
-
   /** @group setParam */
   def setEnablePatternRegex(value: Boolean): this.type = set(enablePatternRegex, value)
 
@@ -205,14 +197,10 @@ class EntityRulerApproach(override val uid: String)
 
   def setSentenceMatch(value: Boolean): this.type = set(sentenceMatch, value)
 
-  /** @group setParam */
-  def setUseStorage(value: Boolean): this.type = set(useStorage, value)
-
   setDefault(
     storagePath -> ExternalResource("", ReadAs.TEXT, Map()),
     patternsResource -> null,
     enablePatternRegex -> false,
-    useStorage -> true,
     sentenceMatch -> false)
 
   private val AVAILABLE_FORMATS = Array("JSON", "JSONL", "CSV")
@@ -223,11 +211,10 @@ class EntityRulerApproach(override val uid: String)
 
     val entityRuler = new EntityRulerModel()
 
-    if ($(useStorage)) {
+    if (! $(enableInMemoryStorage)) {
       entityRuler
         .setStorageRef($(storageRef))
         .setEnablePatternRegex($(enablePatternRegex))
-        .setUseStorage($(useStorage))
         .setSentenceMatch($(sentenceMatch))
 
     } else {
@@ -243,15 +230,13 @@ class EntityRulerApproach(override val uid: String)
       }
       val entityRulerFeatures = EntityRulerFeatures(patterns, regexPatterns)
       entityRuler
-        .setUseStorage($(useStorage))
         .setEntityRulerFeatures(entityRulerFeatures)
     }
 
     if ($(enablePatternRegex) || $(sentenceMatch)) {
       entityRuler.setRegexEntities(entities)
     }
-    entityRuler
-
+    entityRuler.setEnableInMemoryStorage($(enableInMemoryStorage))
   }
 
   /** Input annotator types: DOCUMENT, TOKEN
@@ -274,27 +259,25 @@ class EntityRulerApproach(override val uid: String)
       writers: Map[Name, StorageWriter[_]],
       readOptions: Option[Map[String, String]]): Unit = {
 
-    if ($(useStorage)) {
-      validateParameters()
+    validateParameters()
 
-      var storageWriter: StorageReadWriter[_] = null
+    var storageWriter: StorageReadWriter[_] = null
 
-      if ($(enablePatternRegex) || $(sentenceMatch)) {
-        storageWriter = writers(Database.ENTITY_REGEX_PATTERNS)
-          .asInstanceOf[RegexPatternsReadWriter]
-      } else {
-        storageWriter = writers(Database.ENTITY_PATTERNS).asInstanceOf[PatternsReadWriter]
-      }
+    if ($(enablePatternRegex) || $(sentenceMatch)) {
+      storageWriter = writers(Database.ENTITY_REGEX_PATTERNS)
+        .asInstanceOf[RegexPatternsReadWriter]
+    } else {
+      storageWriter = writers(Database.ENTITY_PATTERNS).asInstanceOf[PatternsReadWriter]
+    }
 
-      resourceFormats match {
-        case "JSON&TEXT" => storePatternsFromJson(Some(storageWriter))
-        case "JSONL&TEXT" => storePatternsFromJsonl(Some(storageWriter))
-        case "JSON&SPARK" => storePatternsFromJSONDataFrame(Some(storageWriter), "JSON")
-        case "JSONL&SPARK" => storePatternsFromJSONDataFrame(Some(storageWriter), "JSONL")
-        case "CSV&TEXT" => storePatternsFromCSV(storageWriter)
-        case "CSV&SPARK" => storeEntityPatternsFromCSVDataFrame(Some(storageWriter))
-        case _ @format => throw new IllegalArgumentException(s"format $format not available")
-      }
+    resourceFormats match {
+      case "JSON&TEXT" => storePatternsFromJson(Some(storageWriter))
+      case "JSONL&TEXT" => storePatternsFromJsonl(Some(storageWriter))
+      case "JSON&SPARK" => storePatternsFromJSONDataFrame(Some(storageWriter), "JSON")
+      case "JSONL&SPARK" => storePatternsFromJSONDataFrame(Some(storageWriter), "JSONL")
+      case "CSV&TEXT" => storePatternsFromCSV(storageWriter)
+      case "CSV&SPARK" => storeEntityPatternsFromCSVDataFrame(Some(storageWriter))
+      case _ @format => throw new IllegalArgumentException(s"format $format not available")
     }
 
   }
@@ -453,7 +436,6 @@ class EntityRulerApproach(override val uid: String)
       fieldId: Array[StructField]): DataFrame = {
 
     val spark = patternsDataFrame.sparkSession
-    val sparkVersion = Version.parse(spark.version).toFloat
 
     if (fieldId.nonEmpty) {
       val patternsWithIdDataFrame =
@@ -502,12 +484,6 @@ class EntityRulerApproach(override val uid: String)
     database match {
       case Database.ENTITY_PATTERNS => new PatternsReadWriter(connection)
       case Database.ENTITY_REGEX_PATTERNS => new RegexPatternsReadWriter(connection)
-    }
-  }
-
-  override def indexStorage(fitDataset: Dataset[_], resource: Option[ExternalResource]): Unit = {
-    if ($(useStorage)) {
-      super.indexStorage(fitDataset, resource)
     }
   }
 

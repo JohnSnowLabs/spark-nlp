@@ -19,6 +19,7 @@ package com.johnsnowlabs.nlp.embeddings
 import org.slf4j.LoggerFactory
 
 import java.io.{BufferedInputStream, ByteArrayOutputStream, DataInputStream, FileInputStream}
+import scala.collection.mutable
 import scala.io.Source
 
 object WordEmbeddingsTextIndexer {
@@ -42,9 +43,25 @@ object WordEmbeddingsTextIndexer {
     index(lines, writer)
     sourceFile.close()
   }
+
+  def index(source: String): Map[String, Array[Float]] = {
+
+    val sourceFile = Source.fromFile(source)("UTF-8")
+    val lines = sourceFile.getLines()
+
+    val embeddingsIndex = lines.map { line =>
+      val items = line.split(" ")
+      val word = items(0)
+      val embeddings = items.drop(1).map(i => i.toFloat)
+      (word, embeddings)
+    }.toMap
+
+    embeddingsIndex
+  }
+
 }
 
-object WordEmbeddingsBinaryIndexer {
+object WordEmbeddingsBinaryIndexer extends ReadsFromBytes {
 
   private val logger = LoggerFactory.getLogger("WordEmbeddings")
 
@@ -55,10 +72,11 @@ object WordEmbeddingsBinaryIndexer {
       val numWords = Integer.parseInt(readString(source))
       val vecSize = Integer.parseInt(readString(source))
 
-      // File Body
-      for (i <- 0 until numWords) {
-        val word = readString(source)
+      source.readByte()
 
+      // File Body
+      for (_ <- 0 until numWords) {
+        val word = readString(source)
         // Unit Vector
         val vector = readFloatVector(source, vecSize, writer)
         writer.add(word, vector)
@@ -79,6 +97,27 @@ object WordEmbeddingsBinaryIndexer {
     } finally {
       ds.close()
     }
+  }
+
+  def index(source: String): Map[String, Array[Float]] = {
+
+    val dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(source), 1 << 15))
+    val numWords = Integer.parseInt(readString(dataInputStream))
+    val vecSize = Integer.parseInt(readString(dataInputStream))
+
+    val embeddingsIndex = mutable.Map[String, Array[Float]]()
+    for (_ <- 0 until numWords) {
+      val word = readString(dataInputStream)
+      // Read Bytes
+      val vectorBuffer = Array.fill[Byte](4 * vecSize)(0)
+      dataInputStream.read(vectorBuffer)
+      // Unit Vector
+      val vector = fromBytes(vectorBuffer)
+      embeddingsIndex(word) = vector
+    }
+
+    logger.info(s"Loaded $numWords words, vector size $vecSize")
+    embeddingsIndex.toMap
   }
 
   /** Read a string from the binary model (System default should be UTF-8): */
@@ -112,4 +151,5 @@ object WordEmbeddingsBinaryIndexer {
     // Convert Bytes to Floats
     indexer.fromBytes(vectorBuffer)
   }
+
 }

@@ -338,7 +338,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     tokenizer.setExceptions(Array("John Snow"))
     val externalResource =
       ExternalResource(s"$testPath/patterns.json", ReadAs.TEXT, Map("format" -> "json"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, usageStorage = false)
+    val entityRulerPipeline = getEntityRulerPipeline(externalResource, enableMemoryStorage = true)
     val expectedEntities = Array(
       Seq(
         Annotation(CHUNK, 0, 8, "John Snow", Map("entity" -> "PERSON", "sentence" -> "0")),
@@ -358,7 +358,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
       ReadAs.TEXT,
       Map("format" -> "csv", "delimiter" -> "\\|"))
     val entityRulerPipeline =
-      getEntityRulerPipeline(externalResource, regexPatterns = true, usageStorage = false)
+      getEntityRulerPipeline(externalResource, regexPatterns = true, enableMemoryStorage = true)
     val expectedEntities = Array(
       Seq(
         Annotation(CHUNK, 0, 8, "John Snow", Map("entity" -> "PERSON", "sentence" -> "0")),
@@ -377,7 +377,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
       s"$testPath/patterns.csv",
       ReadAs.SPARK,
       Map("format" -> "csv", "delimiter" -> "|"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, usageStorage = false)
+    val entityRulerPipeline = getEntityRulerPipeline(externalResource, enableMemoryStorage = true)
     val expectedEntities = Array(
       Seq(
         Annotation(CHUNK, 0, 8, "John Snow", Map("entity" -> "PERSON", "sentence" -> "0")),
@@ -394,7 +394,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     tokenizer.setExceptions(Array("John Snow"))
     val externalResource =
       ExternalResource(s"$testPath/patterns.json", ReadAs.SPARK, Map("format" -> "json"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, usageStorage = false)
+    val entityRulerPipeline = getEntityRulerPipeline(externalResource, enableMemoryStorage = true)
     val expectedEntities = Array(
       Seq(
         Annotation(CHUNK, 0, 8, "John Snow", Map("entity" -> "PERSON", "sentence" -> "0")),
@@ -411,7 +411,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     tokenizer.setExceptions(Array("John Snow"))
     val externalResource =
       ExternalResource(s"$testPath/patterns.jsonl", ReadAs.TEXT, Map("format" -> "jsonl"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, usageStorage = false)
+    val entityRulerPipeline = getEntityRulerPipeline(externalResource, enableMemoryStorage = true)
     val expectedEntities = Array(
       Seq(
         Annotation(
@@ -438,7 +438,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     tokenizer.setExceptions(Array("John Snow"))
     val externalResource =
       ExternalResource(s"$testPath/patterns.jsonl", ReadAs.SPARK, Map("format" -> "jsonl"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, usageStorage = false)
+    val entityRulerPipeline = getEntityRulerPipeline(externalResource, enableMemoryStorage = true)
     val expectedEntities = Array(
       Seq(
         Annotation(
@@ -466,7 +466,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val externalResource =
       ExternalResource(s"$testPath/regex_patterns.json", ReadAs.TEXT, Map("format" -> "json"))
     val entityRulerPipeline =
-      getEntityRulerPipeline(externalResource, regexPatterns = true, usageStorage = false)
+      getEntityRulerPipeline(externalResource, regexPatterns = true, enableMemoryStorage = true)
     val expectedEntities = Array(
       Seq(
         Annotation(
@@ -490,7 +490,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
       ReadAs.TEXT,
       Map("format" -> "csv", "delimiter" -> "\\|"))
     val entityRulerPipeline =
-      getEntityRulerPipeline(externalResource, regexPatterns = true, usageStorage = false)
+      getEntityRulerPipeline(externalResource, regexPatterns = true, enableMemoryStorage = true)
     val expectedEntities = Array(
       Seq(Annotation(CHUNK, 5, 16, "Eddard Stark", Map("entity" -> "PERSON", "sentence" -> "0"))))
 
@@ -508,7 +508,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
       ReadAs.SPARK,
       Map("format" -> "csv", "delimiter" -> "|"))
     val entityRulerPipeline =
-      getEntityRulerPipeline(externalResource, regexPatterns = true, usageStorage = false)
+      getEntityRulerPipeline(externalResource, regexPatterns = true, enableMemoryStorage = true)
     val expectedEntities = Array(
       Seq(Annotation(CHUNK, 5, 16, "Eddard Stark", Map("entity" -> "PERSON", "sentence" -> "0"))))
 
@@ -524,7 +524,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val externalResource =
       ExternalResource(s"$testPath/regex_patterns.json", ReadAs.SPARK, Map("format" -> "json"))
     val entityRulerPipeline =
-      getEntityRulerPipeline(externalResource, regexPatterns = true, usageStorage = false)
+      getEntityRulerPipeline(externalResource, regexPatterns = true, enableMemoryStorage = true)
     val expectedEntities = Array(
       Seq(
         Annotation(
@@ -546,7 +546,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val externalResource =
       ExternalResource(s"$testPath/regex_patterns.jsonl", ReadAs.TEXT, Map("format" -> "jsonl"))
     val entityRulerPipeline =
-      getEntityRulerPipeline(externalResource, regexPatterns = true, usageStorage = false)
+      getEntityRulerPipeline(externalResource, regexPatterns = true, enableMemoryStorage = true)
     val expectedEntities = Array(
       Seq(Annotation(CHUNK, 5, 16, "Eddard Stark", Map("entity" -> "PERSON", "sentence" -> "0"))))
 
@@ -562,7 +562,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val externalResource =
       ExternalResource(s"$testPath/regex_patterns.jsonl", ReadAs.SPARK, Map("format" -> "jsonl"))
     val entityRulerPipeline =
-      getEntityRulerPipeline(externalResource, regexPatterns = true, usageStorage = false)
+      getEntityRulerPipeline(externalResource, regexPatterns = true, enableMemoryStorage = true)
     val expectedEntities = Array(
       Seq(Annotation(CHUNK, 5, 16, "Eddard Stark", Map("entity" -> "PERSON", "sentence" -> "0"))))
 
@@ -575,7 +575,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
   private def getEntityRulerPipeline(
       externalResource: ExternalResource,
       regexPatterns: Boolean = false,
-      usageStorage: Boolean = true): PipelineModel = {
+      enableMemoryStorage: Boolean = false): PipelineModel = {
 
     val entityRuler = new EntityRulerApproach()
       .setInputCols("document", "token")
@@ -585,7 +585,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
         externalResource.readAs,
         externalResource.options)
       .setEnablePatternRegex(regexPatterns)
-      .setUseStorage(usageStorage)
+      .setEnableInMemoryStorage(enableMemoryStorage)
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, entityRuler))
     val entityRulerPipeline = pipeline.fit(emptyDataSet)
@@ -630,7 +630,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
       .setOutputCol("entities")
       .setPatternsResource(s"$testPath/regex_patterns.json", readAs = ReadAs.TEXT)
       .setEnablePatternRegex(true)
-      .setUseStorage(false)
+      .setEnableInMemoryStorage(true)
     val entityRulerModel = entityRuler.fit(emptyDataSet)
     val expectedEntities = Array(
       Seq(
@@ -668,7 +668,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
         externalResource.readAs,
         externalResource.options)
       .setEnablePatternRegex(regexPatterns)
-      .setUseStorage(useStorage)
+      .setEnableInMemoryStorage(useStorage)
       .setSentenceMatch(true)
 
     val pipeline =

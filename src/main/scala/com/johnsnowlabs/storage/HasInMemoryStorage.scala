@@ -18,17 +18,17 @@ package com.johnsnowlabs.storage
 
 import org.apache.spark.ml.param.{BooleanParam, Params}
 
-trait HasExcludableStorage extends Params {
+trait HasInMemoryStorage extends Params {
 
-  val includeStorage: BooleanParam = new BooleanParam(
+  val enableInMemoryStorage: BooleanParam = new BooleanParam(
     this,
-    "includeStorage",
-    "whether to include indexed storage in trained model")
+    "enableInMemoryStorage",
+    "whether to include indexed storage in disk or in memory")
 
-  def setIncludeStorage(value: Boolean): this.type = set(includeStorage, value)
+  def setEnableInMemoryStorage(value: Boolean): this.type = set(enableInMemoryStorage, value)
 
-  def getIncludeStorage: Boolean = $(includeStorage)
+  def getEnableInMemoryStorage: Boolean = $(enableInMemoryStorage)
 
-  setDefault(includeStorage, true)
+  setDefault(enableInMemoryStorage, false)
 
 }

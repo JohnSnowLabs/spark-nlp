@@ -18,12 +18,12 @@ package com.johnsnowlabs.storage
 
 import org.apache.spark.sql.SparkSession
 
-trait HasStorageModel extends HasStorageReader with HasExcludableStorage {
+trait HasStorageModel extends HasStorageReader with HasInMemoryStorage {
 
   protected val databases: Array[Database.Name]
 
   def serializeStorage(path: String, spark: SparkSession): Unit = {
-    if ($(includeStorage))
+    if (! $(enableInMemoryStorage))
       saveStorage(path, spark, withinStorage = true)
   }
 
@@ -38,7 +38,7 @@ trait HasStorageModel extends HasStorageReader with HasExcludableStorage {
   }
 
   def deserializeStorage(path: String, spark: SparkSession): Unit = {
-    if ($(includeStorage))
+    if (! $(enableInMemoryStorage))
       databases.foreach(database => {
         StorageHelper.load(path, spark, database.toString, $(storageRef), withinStorage = true)
       })

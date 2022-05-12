@@ -24,7 +24,6 @@ import com.johnsnowlabs.storage.Database.{ENTITY_PATTERNS, ENTITY_REGEX_PATTERNS
 import com.johnsnowlabs.storage._
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.SparkSession
 import org.slf4j.{Logger, LoggerFactory}
 
 /** Instantiated model of the [[EntityRulerApproach]]. For usage and examples see the
@@ -61,9 +60,6 @@ class EntityRulerModel(override val uid: String)
   private[er] val enablePatternRegex =
     new BooleanParam(this, "enablePatternRegex", "Enables regex pattern match")
 
-  private[er] val useStorage =
-    new BooleanParam(this, "useStorage", "Whether to use RocksDB storage to serialize patterns")
-
   private[er] val regexEntities =
     new StringArrayParam(this, "regexEntities", "entities defined in regex patterns")
 
@@ -84,8 +80,6 @@ class EntityRulerModel(override val uid: String)
 
   private[er] def setEntityRulerFeatures(value: EntityRulerFeatures): this.type =
     set(entityRulerFeatures, value)
-
-  private[er] def setUseStorage(value: Boolean): this.type = set(useStorage, value)
 
   private[er] def setSentenceMatch(value: Boolean): this.type = set(sentenceMatch, value)
 
@@ -117,14 +111,15 @@ class EntityRulerModel(override val uid: String)
 
     if ($(enablePatternRegex)) {
       val regexPatternsReader =
-        if ($(useStorage))
+        if (! $(enableInMemoryStorage))
           Some(getReader(Database.ENTITY_REGEX_PATTERNS).asInstanceOf[RegexPatternsReader])
         else None
       annotatedEntities =
         annotateEntitiesFromRegexPatterns(tokenizedWithSentences, regexPatternsReader)
     } else {
       val patternsReader =
-        if ($(useStorage)) Some(getReader(Database.ENTITY_PATTERNS).asInstanceOf[PatternsReader])
+        if (! $(enableInMemoryStorage))
+          Some(getReader(Database.ENTITY_PATTERNS).asInstanceOf[PatternsReader])
         else None
       annotatedEntities = annotateEntitiesFromPatterns(tokenizedWithSentences, patternsReader)
     }
@@ -134,7 +129,7 @@ class EntityRulerModel(override val uid: String)
 
   private def getAnnotationBySentence(annotations: Seq[Annotation]): Seq[Annotation] = {
     val patternsReader =
-      if ($(useStorage))
+      if (! $(enableInMemoryStorage))
         Some(getReader(Database.ENTITY_REGEX_PATTERNS).asInstanceOf[RegexPatternsReader])
       else None
     val sentences = SentenceSplit.unpack(annotations)
@@ -290,18 +285,6 @@ class EntityRulerModel(override val uid: String)
       .toMap
 
     entityMetadata
-  }
-
-  override def deserializeStorage(path: String, spark: SparkSession): Unit = {
-    if ($(useStorage)) {
-      super.deserializeStorage(path: String, spark: SparkSession)
-    }
-  }
-
-  override def onWrite(path: String, spark: SparkSession): Unit = {
-    if ($(useStorage)) {
-      super.onWrite(path, spark)
-    }
   }
 
   protected val databases: Array[Name] = EntityRulerModel.databases
