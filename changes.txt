@@ -1,2 +1,2 @@
-docs/_posts/galiph/2022-04-23-sbiobertresolve_rxnorm_action_treatment_en_2_4.md
-docs/_posts/galiph/2022-04-23-sbiobertresolve_rxnorm_action_treatment_en_2_4.md
+docs/_posts/galiph/2022-05-11-drug_brandname_ndc_mapper_en_3_0.md
+docs/_posts/galiph/2022-05-11-drug_brandname_ndc_mapper_en_3_0.md
