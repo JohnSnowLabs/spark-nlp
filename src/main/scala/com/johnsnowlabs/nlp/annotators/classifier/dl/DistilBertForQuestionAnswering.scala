@@ -115,7 +115,7 @@ class DistilBertForQuestionAnswering(override val uid: String)
     */
   def this() = this(Identifiable.randomUID("DistilBertForQuestionAnswering"))
 
-  /** Input Annotator Types: DOCUMENT, TOKEN
+  /** Input Annotator Types: DOCUMENT, DOCUMENT
     *
     * @group anno
     */
@@ -253,11 +253,7 @@ class DistilBertForQuestionAnswering(override val uid: String)
         .toSeq
 
       if (documents.nonEmpty) {
-        getModelIfNotSet.predictSpan(
-          documents,
-          $(batchSize),
-          $(maxSentenceLength),
-          $(caseSensitive))
+        getModelIfNotSet.predictSpan(documents, $(maxSentenceLength), $(caseSensitive))
       } else {
         Seq.empty[Annotation]
       }
@@ -280,7 +276,7 @@ class DistilBertForQuestionAnswering(override val uid: String)
 trait ReadablePretrainedDistilBertForQAModel
     extends ParamsAndFeaturesReadable[DistilBertForQuestionAnswering]
     with HasPretrained[DistilBertForQuestionAnswering] {
-  override val defaultModelName: Some[String] = Some("distilbert_base_sequence_classifier_imdb")
+  override val defaultModelName: Some[String] = Some("distilbert_base_cased_qa_squad2")
 
   /** Java compliant-overrides */
   override def pretrained(): DistilBertForQuestionAnswering = super.pretrained()

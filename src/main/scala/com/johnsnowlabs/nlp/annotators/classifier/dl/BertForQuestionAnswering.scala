@@ -114,7 +114,7 @@ class BertForQuestionAnswering(override val uid: String)
     */
   def this() = this(Identifiable.randomUID("BertForQuestionAnswering"))
 
-  /** Input Annotator Types: DOCUMENT, TOKEN
+  /** Input Annotator Types: DOCUMENT, DOCUMENT
     *
     * @group anno
     */
@@ -254,11 +254,7 @@ class BertForQuestionAnswering(override val uid: String)
         .toSeq
 
       if (documents.nonEmpty) {
-        getModelIfNotSet.predictSpan(
-          documents,
-          $(batchSize),
-          $(maxSentenceLength),
-          $(caseSensitive))
+        getModelIfNotSet.predictSpan(documents, $(maxSentenceLength), $(caseSensitive))
       } else {
         Seq.empty[Annotation]
       }
