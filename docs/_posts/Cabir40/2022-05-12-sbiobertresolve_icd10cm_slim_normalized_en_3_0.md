@@ -4,7 +4,7 @@ title: ICD10CM Sentence Entity Resolver (Slim, normalized)
 author: John Snow Labs
 name: sbiobertresolve_icd10cm_slim_normalized
 date: 2022-05-12
-tags: [licenced, clinical, en, entity_resolution, icd10, licensed]
+tags: [licensed, clinical, en, entity_resolution, icd10]
 task: Entity Resolution
 language: en
 edition: Spark NLP for Healthcare 3.5.1
@@ -168,7 +168,7 @@ val results = resolver_pipeline.fit(data).transform(data)
 |                        poor appetite|PROBLEM|   R63.0|poor appetite [Anorexia]:::patient dissatisfied with nutrition regime [Persons...|R63.0:::Z76.89:::R53.1:::R10.9:::R45.81:::R44.8:...|
 |                             vomiting|PROBLEM|   R11.1|vomiting [Vomiting]:::vomiting [Vomiting, unspecified]:::intermittent vomiting...|R11.1:::R11.10:::R11:::G43.A:::G43.A0:::R11.0:::...|
 |        a respiratory tract infection|PROBLEM|   J06.9|upper respiratory tract infection [Acute upper respiratory infection, unspecif...|J06.9:::T17:::T17.9:::J04.10:::J22:::J98.8:::J98.9.|
-+-------------------------------------+-------+--------+----------------------------------------------------------------------------------------------------+---------------------------------------------------+
++-------------------------------------+-------+--------+---------------------------------------------------------------------------------+---------------------------------------------------+
 ```
 
 {:.model-param}
