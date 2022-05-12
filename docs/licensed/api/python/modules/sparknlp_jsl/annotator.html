@@ -140,6 +140,9 @@
 <span class="kn">import</span> <span class="nn">sparknlp.annotator</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">ExtendedJavaWrapper</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Estimator</span><span class="p">,</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.util</span> <span class="kn">import</span> <span class="n">DefaultParamsWritable</span><span class="p">,</span> <span class="n">DefaultParamsReadable</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">functions</span> <span class="k">as</span> <span class="n">F</span>
 
 <span class="c1"># Do NOT delete. Looks redundant but this is key work around for python 2 support.</span>
 <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
@@ -435,8 +438,8 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
-        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">AssertionLogRegModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">AssertionLogRegModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                 <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div>
 
 
@@ -568,6 +571,8 @@
 <span class="sd">        Max length for an input sentence.</span>
 <span class="sd">    graphFolder</span>
 <span class="sd">        Folder path that contain external graph files</span>
+<span class="sd">    graphFile</span>
+<span class="sd">        Graph file name to use</span>
 <span class="sd">    configProtoBytes</span>
 <span class="sd">        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()</span>
 <span class="sd">    validationSplit</span>
@@ -653,6 +658,9 @@
 
     <span class="n">graphFolder</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;graphFolder&quot;</span><span class="p">,</span> <span class="s2">&quot;Folder path that contain external graph files&quot;</span><span class="p">,</span>
                         <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="n">graphFile</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;graphFile&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;Path that contains the external graph file. When specified, the provided file will be used, and no graph search will happen.&quot;</span><span class="p">,</span>
+                      <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
     <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
                              <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
@@ -695,6 +703,16 @@
 <span class="sd">            Folder path that contain external graph files.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">graphFolder</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AssertionDLApproach.setGraphFile"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.AssertionDLApproach.html#sparknlp_jsl.annotator.AssertionDLApproach.setGraphFile">[docs]</a>    <span class="k">def</span> <span class="nf">setGraphFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets path that contains the external graph file. When specified, the provided file will be used, and no graph search will happen.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Path that contains the external graph file. When specified, the provided file will be used, and no graph search will happen.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">graphFile</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.AssertionDLApproach.html#sparknlp_jsl.annotator.AssertionDLApproach.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets  ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()`.</span>
@@ -1030,8 +1048,8 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
-        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">AssertionDLModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">AssertionDLModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                 <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div>
 
 
@@ -1655,8 +1673,8 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
-        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">SentenceEntityResolverModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">SentenceEntityResolverModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                 <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div>
 
 
@@ -3111,7 +3129,7 @@
 
     <span class="n">jsonPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                      <span class="s2">&quot;jsonPath&quot;</span><span class="p">,</span>
-                     <span class="s2">&quot;Path to json file with rules&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;Path to json file with regex rules. This parameter can also detect JSON format&quot;</span><span class="p">,</span>
                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
 
     <span class="n">caseSensitive</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
@@ -3128,6 +3146,11 @@
                        <span class="s2">&quot;dictionary&quot;</span><span class="p">,</span>
                        <span class="s2">&quot;Path to dictionary file in tsv or csv format&quot;</span><span class="p">,</span>
                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+
+    <span class="n">optionalContextRules</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                 <span class="s2">&quot;optionalContextRules&quot;</span><span class="p">,</span>
+                                 <span class="s2">&quot;When set to true, it will output regex match regardless of context matches&quot;</span><span class="p">,</span>
+                                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -3180,6 +3203,9 @@
         <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;delimiter&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">}</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">dictionary</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">options</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="nf">setOptionalContextRules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">optionalContextRules</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">ContextualParserModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
@@ -3260,11 +3286,6 @@
 <span class="sd">    +-------------------------------------------------------------------------------------------------------------------------+</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">jsonPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-                     <span class="s2">&quot;jsonPath&quot;</span><span class="p">,</span>
-                     <span class="s2">&quot;Path to json file with rules&quot;</span><span class="p">,</span>
-                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
-
     <span class="n">caseSensitive</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                           <span class="s2">&quot;caseSensitive&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;Whether to use case sensitive when matching values&quot;</span><span class="p">,</span>
@@ -3280,16 +3301,6 @@
             <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
             <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
         <span class="p">)</span>
-
-<div class="viewcode-block" id="ContextualParserModel.setJsonPath"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ContextualParserModel.html#sparknlp_jsl.annotator.ContextualParserModel.setJsonPath">[docs]</a>    <span class="k">def</span> <span class="nf">setJsonPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets path to json file with rules</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : str</span>
-<span class="sd">            Path to json file with rules</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">jsonPath</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ContextualParserModel.setCaseSensitive"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ContextualParserModel.html#sparknlp_jsl.annotator.ContextualParserModel.setCaseSensitive">[docs]</a>    <span class="k">def</span> <span class="nf">setCaseSensitive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets whether to use case sensitive when matching values</span>
@@ -3581,8 +3592,8 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
-        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">DocumentLogRegClassifierModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">DocumentLogRegClassifierModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                 <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div>
 
 
@@ -3863,8 +3874,8 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
-        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">GenericClassifierModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">GenericClassifierModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                 <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div>
 
 
@@ -4109,8 +4120,8 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
-        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">ChunkMergeModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">ChunkMergeModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                 <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div>
 
 
@@ -5045,8 +5056,8 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
-        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">RelationExtractionDLModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">RelationExtractionDLModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                 <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div>
 
 
@@ -6383,9 +6394,9 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;ner_clinical&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="s2">&quot;clinical/models&quot;</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
-        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">MedicalNerModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
-                                                <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">MedicalNerModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+                                                        <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="DateNormalizer"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.DateNormalizer.html#sparknlp_jsl.annotator.DateNormalizer">[docs]</a><span class="k">class</span> <span class="nc">DateNormalizer</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
@@ -6492,7 +6503,8 @@
 <span class="sd">        value : int</span>
 <span class="sd">            The anchor month for relative dates</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">anchorDateMonth</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+        <span class="n">normalized_value</span> <span class="o">=</span> <span class="n">value</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">anchorDateMonth</span><span class="o">=</span><span class="n">normalized_value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DateNormalizer.setAnchorDateDay"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.DateNormalizer.html#sparknlp_jsl.annotator.DateNormalizer.setAnchorDateDay">[docs]</a>    <span class="k">def</span> <span class="nf">setAnchorDateDay</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets an anchor day of the day for the relative dates such as a day</span>
@@ -6688,10 +6700,9 @@
 
 <div class="viewcode-block" id="BertSentenceChunkEmbeddings.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.BertSentenceChunkEmbeddings.html#sparknlp_jsl.annotator.BertSentenceChunkEmbeddings.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sent_small_bert_L2_768&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
-
-        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">BertSentenceChunkEmbeddings</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
-                                                <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">BertSentenceChunkEmbeddings</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+                                                        <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div>
 <div class="viewcode-block" id="BertSentenceChunkEmbeddings.load"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.BertSentenceChunkEmbeddings.html#sparknlp_jsl.annotator.BertSentenceChunkEmbeddings.load">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
         <span class="kn">from</span> <span class="nn">sparknlp_jsl.internal</span> <span class="kn">import</span> <span class="n">_BertSentenceEmbeddingsToBertSentenceChunkEmbeddingsLoader</span>
@@ -7124,8 +7135,8 @@
 
 <div class="viewcode-block" id="ChunkKeyPhraseExtraction.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sbert_jsl_medium_uncased&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="s2">&quot;clinical/models&quot;</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
-        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">ChunkKeyPhraseExtraction</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">ChunkKeyPhraseExtraction</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                 <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>
 
 
@@ -7377,8 +7388,8 @@
 <span class="sd">        MedicalBertForTokenClassifier</span>
 <span class="sd">            The restored model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
-        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">MedicalBertForTokenClassifier</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">MedicalBertForTokenClassifier</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                 <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>
 
 
@@ -7571,8 +7582,8 @@
 <span class="sd">        MedicalBertForSequenceClassification</span>
 <span class="sd">            The restored model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
-        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">MedicalBertForSequenceClassification</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">MedicalBertForSequenceClassification</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                 <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>
 
 
@@ -7776,8 +7787,8 @@
 <span class="sd">        MedicalBertForTokenClassifier</span>
 <span class="sd">            The restored model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
-        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">MedicalDistilBertForSequenceClassification</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">MedicalDistilBertForSequenceClassification</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                 <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>
 
 
@@ -7946,9 +7957,8 @@
 
 <div class="viewcode-block" id="EntityChunkEmbeddings.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.EntityChunkEmbeddings.html#sparknlp_jsl.annotator.EntityChunkEmbeddings.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sbiobert_base_cased_mli&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="s2">&quot;clinical/models&quot;</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
-
-        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">EntityChunkEmbeddings</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">EntityChunkEmbeddings</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                 <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>
 <div class="viewcode-block" id="ChunkMapperApproach"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach">[docs]</a><span class="k">class</span> <span class="nc">ChunkMapperApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -8031,9 +8041,9 @@
 <span class="sd">        ChunkMapperModel</span>
 <span class="sd">            The restored model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
-        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">ChunkMapperModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
-                                                <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">ChunkMapperModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+                                                        <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>
 
 <div class="viewcode-block" id="ZeroShotRelationExtractionModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ZeroShotRelationExtractionModel.html#sparknlp_jsl.annotator.ZeroShotRelationExtractionModel">[docs]</a><span class="k">class</span> <span class="nc">ZeroShotRelationExtractionModel</span><span class="p">(</span><span class="n">MedicalBertForSequenceClassification</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -8173,9 +8183,8 @@
 
 <div class="viewcode-block" id="ZeroShotRelationExtractionModel.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ZeroShotRelationExtractionModel.html#sparknlp_jsl.annotator.ZeroShotRelationExtractionModel.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="s2">&quot;clinical/models&quot;</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
-
-        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">ZeroShotRelationExtractionModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">ZeroShotRelationExtractionModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                 <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ZeroShotRelationExtractionModel.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ZeroShotRelationExtractionModel.html#sparknlp_jsl.annotator.ZeroShotRelationExtractionModel.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -8198,6 +8207,374 @@
         <span class="n">jModel</span> <span class="o">=</span> <span class="n">_ZeroShotRelationExtractionModelLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
         <span class="k">return</span> <span class="n">ZeroShotRelationExtractionModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div></div>
 
+
+<div class="viewcode-block" id="MedicalGraphBuilderModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilderModel.html#sparknlp_jsl.annotator.MedicalGraphBuilderModel">[docs]</a><span class="k">class</span> <span class="nc">MedicalGraphBuilderModel</span><span class="p">(</span><span class="n">Model</span><span class="p">,</span> <span class="n">DefaultParamsWritable</span><span class="p">,</span> <span class="n">DefaultParamsReadable</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">dataset</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder">[docs]</a><span class="k">class</span> <span class="nc">MedicalGraphBuilder</span><span class="p">(</span><span class="n">Estimator</span><span class="p">,</span> <span class="n">DefaultParamsWritable</span><span class="p">,</span> <span class="n">DefaultParamsReadable</span><span class="p">):</span>
+
+    <span class="n">modelName</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                        <span class="s2">&quot;modelName&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;Model name&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="n">labelColumn</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                        <span class="s2">&quot;labelColumn&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;Labels&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="n">inputCols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                      <span class="s2">&quot;inputCols&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;Input columns&quot;</span><span class="p">,</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+
+    <span class="n">graphFolder</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;graphFolder&quot;</span><span class="p">,</span> <span class="s2">&quot;Folder path that contain external graph files&quot;</span><span class="p">,</span>
+                        <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="n">graphFile</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;graphFile&quot;</span><span class="p">,</span> <span class="s2">&quot;Graph file name. If empty, default name is generated.&quot;</span><span class="p">,</span>
+                        <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="n">hiddenUnitsNumber</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">&quot;hiddenUnitsNumber&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Number of hidden units, used in AssertionDLApproach and MedicalNerAprroach&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">hiddenLayers</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">&quot;hiddenLayers&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;A list of hidden layer sizes, used in RelationExtractionApproach&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
+
+    <span class="n">maxSequenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">&quot;maxSequenceLength&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Maximal sequence length, used in AssertionDLApproach&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">hiddenAct</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">&quot;hiddenAct&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Activation function for hidden layers, used in RelationExtractionApproach. Possible value are: relu, sigmoid, tanh, linear&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="n">hiddenActL2</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                      <span class="s2">&quot;hiddenActL2&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;L2 regularization of hidden layer activations, used in RelationExtractionApproach.&quot;</span><span class="p">,</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">hiddenWeightsL2</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                        <span class="s2">&quot;hiddenWeightsL2&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;L2 regularization of hidden layer weights, used in RelationExtractionApproach.&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">batchNorm</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                            <span class="s2">&quot;batchNorm&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;Batch normalization, used in RelationExtractionApproach.&quot;</span><span class="p">,</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+<div class="viewcode-block" id="MedicalGraphBuilder.setHiddenAct"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.setHiddenAct">[docs]</a>    <span class="k">def</span> <span class="nf">setHiddenAct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Activation function for hidden layers, used in RelationExtractionApproach.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : string</span>
+<span class="sd">            Activation function for hidden layers, used in RelationExtractionApproach.</span>
+<span class="sd">            Possible value are: relu, sigmoid, tanh, linear</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">hiddenAct</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.getHiddenAct"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.getHiddenAct">[docs]</a>    <span class="k">def</span> <span class="nf">getHiddenAct</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Activation function for hidden layers, used in RelationExtractionApproach.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hiddenAct</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.setHiddenActL2"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.setHiddenActL2">[docs]</a>    <span class="k">def</span> <span class="nf">setHiddenActL2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;L2 regularization of hidden layer weights, used in RelationExtractionApproach</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : boolean</span>
+<span class="sd">            L2 regularization of hidden layer activations, used in RelationExtractionApproach</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">hiddenActL2</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.getHiddenActL2"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.getHiddenActL2">[docs]</a>    <span class="k">def</span> <span class="nf">getHiddenActL2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;L2 regularization of hidden layer activations, used in RelationExtractionApproach&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hiddenActL2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.setHiddenWeightsL2"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.setHiddenWeightsL2">[docs]</a>    <span class="k">def</span> <span class="nf">setHiddenWeightsL2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;L2 regularization of hidden layer weights, used in RelationExtractionApproach</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : boolean</span>
+<span class="sd">            L2 regularization of hidden layer weights, used in RelationExtractionApproach</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">hiddenWeightsL2</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.getHiddenWeightsL2"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.getHiddenWeightsL2">[docs]</a>    <span class="k">def</span> <span class="nf">getHiddenWeightsL2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;L2 regularization of hidden layer weights, used in RelationExtractionApproach&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hiddenWeightsL2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.setBatchNorm"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.setBatchNorm">[docs]</a>    <span class="k">def</span> <span class="nf">setBatchNorm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Batch normalization, used in RelationExtractionApproach.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : boolean</span>
+<span class="sd">            Batch normalization for RelationExtractionApproach</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">batchNorm</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.getBatchNorm"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.getBatchNorm">[docs]</a>    <span class="k">def</span> <span class="nf">getBatchNorm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Batch normalization, used in RelationExtractionApproach.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">batchNorm</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.setHiddenLayers"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.setHiddenLayers">[docs]</a>    <span class="k">def</span> <span class="nf">setHiddenLayers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A list of hidden layer sizes for RelationExtractionApproach</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        *value : int</span>
+<span class="sd">            A list of hidden layer sizes for RelationExtractionApproach</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">hiddenLayers</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.getHiddenLayers"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.getHiddenLayers">[docs]</a>    <span class="k">def</span> <span class="nf">getHiddenLayers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gets the list of hiudden layer sizes for RelationExtractionApproach.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hiddenLayers</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.setMaxSequenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.setMaxSequenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSequenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the maximum sequence length for AssertionDLApproach</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Maximum sequence length for AssertionDLApproach</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSequenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.getMaxSequenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.getMaxSequenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">getMaxSequenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gets the maximum sequence length for AssertionDLApproach.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxSequenceLength</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.setHiddenUnitsNumber"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.setHiddenUnitsNumber">[docs]</a>    <span class="k">def</span> <span class="nf">setHiddenUnitsNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the number of hidden units for AssertionDLApproach and MedicalNerApproach</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Number of hidden units for AssertionDLApproach and MedicalNerApproach</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">hiddenUnitsNumber</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.getHiddenUnitsNumber"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.getHiddenUnitsNumber">[docs]</a>    <span class="k">def</span> <span class="nf">getHiddenUnitsNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gets the number of hidden units for AssertionDLApproach and MedicalNerApproach.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hiddenUnitsNumber</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.setModelName"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.setModelName">[docs]</a>    <span class="k">def</span> <span class="nf">setModelName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the model name</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Model name</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">modelName</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.getModelName"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.getModelName">[docs]</a>    <span class="k">def</span> <span class="nf">getModelName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gets the name of the model.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">modelName</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.setLabelColumn"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.setLabelColumn">[docs]</a>    <span class="k">def</span> <span class="nf">setLabelColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the name of the column for data labels.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Column for data labels</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">labelColumn</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.getLabelColumn"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.getLabelColumn">[docs]</a>    <span class="k">def</span> <span class="nf">getLabelColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gets the name of the label column.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labelColumn</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.setInputCols"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.setInputCols">[docs]</a>    <span class="k">def</span> <span class="nf">setInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets column names of input annotations.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        *value : str</span>
+<span class="sd">            Input columns for the annotator</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.getInputCols"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.getInputCols">[docs]</a>    <span class="k">def</span> <span class="nf">getInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gets current column names of input annotations.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputCols</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.setGraphFolder"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.setGraphFolder">[docs]</a>    <span class="k">def</span> <span class="nf">setGraphFolder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets folder path that contain external graph files.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : srt</span>
+<span class="sd">            Folder path that contain external graph files.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">graphFolder</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.getGraphFolder"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.getGraphFolder">[docs]</a>    <span class="k">def</span> <span class="nf">getGraphFolder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gets the graph folder.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graphFolder</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.setGraphFile"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.setGraphFile">[docs]</a>    <span class="k">def</span> <span class="nf">setGraphFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the graph file name.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : srt</span>
+<span class="sd">            Greaph file name. If set to &quot;auto&quot;, then the graph builder will use the model specific default graph</span>
+<span class="sd">            file name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">graphFile</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalGraphBuilder.getGraphFile"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalGraphBuilder.html#sparknlp_jsl.annotator.MedicalGraphBuilder.getGraphFile">[docs]</a>    <span class="k">def</span> <span class="nf">getGraphFile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gets the graph file name.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graphFile</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">.training</span> <span class="kn">import</span> <span class="n">tf_graph</span><span class="p">,</span> <span class="n">tf_graph_1x</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getModelName</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">model_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getModelName</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No model name specified in MedicalGraphBuilder. Use setModelName to select a model.&quot;</span><span class="p">)</span>
+        <span class="n">model_names</span> <span class="o">=</span> <span class="n">tf_graph</span><span class="o">.</span><span class="n">get_models</span><span class="p">()</span>
+        <span class="n">build_params</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s2">&quot;ner_dl&quot;</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">sparknlp_jsl.internal</span> <span class="kn">import</span> <span class="n">_MedicalNerGraphBuilder</span>
+
+            <span class="n">params_java</span> <span class="o">=</span> <span class="n">_MedicalNerGraphBuilder</span><span class="p">(</span>
+                <span class="n">dataset</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">getInputCols</span><span class="p">(),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">getLabelColumn</span><span class="p">())</span><span class="o">.</span><span class="n">_java_obj</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">params_java</span><span class="o">.</span><span class="n">toString</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)))</span>
+            <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;ntags&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;embeddings_dim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;nchars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;is_medical&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenUnitsNumber</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;lstm_size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenUnitsNumber</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s2">&quot;assertion_dl&quot;</span><span class="p">:</span>
+            <span class="n">labels_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getLabelColumn</span><span class="p">())</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+            <span class="n">embeddings_dim</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">dataset</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">fields</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputCols</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="s2">&quot;annotatorType&quot;</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;annotatorType&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;word_embeddings&quot;</span><span class="p">:</span>
+                            <span class="n">embeddings_dim</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;dimension&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">embeddings_dim</span><span class="p">:</span>
+                <span class="k">raise</span><span class="p">(</span><span class="s2">&quot;Can&#39;t infer embeddings dimension.&quot;</span><span class="p">)</span>
+            <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;n_classes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels_count</span>
+            <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;feat_size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">embeddings_dim</span>
+            <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;max_seq_len&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenUnitsNumber</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;n_hidden&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenUnitsNumber</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMaxSequenceLength</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;max_seq_len&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMaxSequenceLength</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s2">&quot;relation_extraction&quot;</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">sparknlp_jsl.internal</span> <span class="kn">import</span> <span class="n">_RelationExtractionGraphBuilder</span>
+
+            <span class="n">labels_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getLabelColumn</span><span class="p">())</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+            <span class="n">params_java</span> <span class="o">=</span> <span class="n">_RelationExtractionGraphBuilder</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+            <span class="n">feature_vector_dim</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">params_java</span><span class="p">)</span>
+            <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;input_dim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">feature_vector_dim</span>
+            <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;output_dim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels_count</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenLayers</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;hidden_layers&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenLayers</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenAct</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;hidden_act&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenAct</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenActL2</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;hidden_act_l2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenActL2</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenWeightsL2</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;hidden_weights_l2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenWeightsL2</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getBatchNorm</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;batch_norm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getBatchNorm</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s2">&quot;generic_classifier&quot;</span><span class="p">:</span>
+            <span class="n">feature_column</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputCols</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">feature_vector_annos</span> <span class="o">=</span> <span class="n">dataset</span>\
+                    <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">feature_column</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>\
+                    <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">feature_column</span><span class="p">)</span>\
+                    <span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="n">feature_column</span><span class="p">]</span>
+                <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;input_dim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">feature_vector_annos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">embeddings</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">raise</span><span class="p">(</span><span class="s2">&quot;Can&#39;t infer the size of the Generic Clasasier input feature vector&quot;</span><span class="p">)</span>
+            <span class="n">labels_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getLabelColumn</span><span class="p">())</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+            <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;output_dim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels_count</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenLayers</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;hidden_layers&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenLayers</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenAct</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;hidden_act&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenAct</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenActL2</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;hidden_act_l2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenActL2</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenWeightsL2</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;hidden_weights_l2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenWeightsL2</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getBatchNorm</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;batch_norm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getBatchNorm</span><span class="p">()</span>
+
+        <span class="k">elif</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No model name specified.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">models</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">model_names</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported model. Support models are: </span><span class="si">{</span><span class="n">models</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">graph_file</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGraphFile</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">graph_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGraphFile</span><span class="p">()</span>
+
+        <span class="n">graph_folder</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGraphFolder</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">graph_folder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGraphFolder</span><span class="p">()</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Medical Graph Builder configuration:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model name: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model_name</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Graph folder: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">graph_folder</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Graph file name: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">graph_file</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Build params: &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">build_params</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">tf_graph</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">build_params</span><span class="o">=</span><span class="n">build_params</span><span class="p">,</span> <span class="n">model_location</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getGraphFolder</span><span class="p">(),</span> <span class="n">model_filename</span><span class="o">=</span><span class="n">graph_file</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Can&#39;t build the tensorflow graph with TF 2 graph factory, attempting TF 1.15 factory&quot;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">tf_graph_1x</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">build_params</span><span class="o">=</span><span class="n">build_params</span><span class="p">,</span> <span class="n">model_location</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getGraphFolder</span><span class="p">())</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The tensorflow graphs can&#39;t be build.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">MedicalGraphBuilderModel</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MedicalGraphBuilder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">modelName</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">labelColumn</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">inputCols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">graphFolder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">graphFile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">hiddenUnitsNumber</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">hiddenLayers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">maxSequenceLength</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">hiddenAct</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">hiddenActL2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">hiddenWeightsL2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">batchNorm</span><span class="o">=</span><span class="kc">None</span>
+        <span class="p">)</span></div>
 </pre></div>
 
               </div>

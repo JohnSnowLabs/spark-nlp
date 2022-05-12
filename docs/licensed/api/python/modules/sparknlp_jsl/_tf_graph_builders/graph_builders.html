@@ -326,7 +326,8 @@
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="nf">get_model_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;blstm_34_32_30_</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">.pb&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="k">return</span> <span class="s2">&quot;blstm_</span><span class="si">{}</span><span class="s2">_32_30_</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">.pb&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_build_param</span><span class="p">(</span><span class="s2">&quot;n_hidden&quot;</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_build_param</span><span class="p">(</span><span class="s2">&quot;feat_size&quot;</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_build_param</span><span class="p">(</span><span class="s2">&quot;n_classes&quot;</span><span class="p">)</span>
         <span class="p">)</span>

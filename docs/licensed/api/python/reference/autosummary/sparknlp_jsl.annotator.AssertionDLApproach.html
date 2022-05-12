@@ -296,6 +296,16 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.MedicalGraphBuilder.html">
+     sparknlp_jsl.annotator.MedicalGraphBuilder
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.MedicalGraphBuilderModel.html">
+     sparknlp_jsl.annotator.MedicalGraphBuilderModel
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.MedicalNerApproach.html">
      sparknlp_jsl.annotator.MedicalNerApproach
     </a>
@@ -614,6 +624,8 @@ the <code class="docutils literal notranslate"><span class="pre">end</span></cod
 </dd>
 <dt><strong>graphFolder</strong></dt><dd><p>Folder path that contain external graph files</p>
 </dd>
+<dt><strong>graphFile</strong></dt><dd><p>Graph file name to use</p>
+</dd>
 <dt><strong>configProtoBytes</strong></dt><dd><p>ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()</p>
 </dd>
 <dt><strong>validationSplit</strong></dt><dd><p>Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.</p>
@@ -771,52 +783,55 @@ the <code class="docutils literal notranslate"><span class="pre">end</span></cod
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setEvaluationLogExtended" title="sparknlp_jsl.annotator.AssertionDLApproach.setEvaluationLogExtended"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEvaluationLogExtended</span></code></a>(v)</p></td>
 <td><p>Creates a Annotation from a Spark <cite>Row</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setGraphFolder" title="sparknlp_jsl.annotator.AssertionDLApproach.setGraphFolder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setGraphFolder</span></code></a>(p)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setGraphFile" title="sparknlp_jsl.annotator.AssertionDLApproach.setGraphFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setGraphFile</span></code></a>(value)</p></td>
+<td><p>Sets path that contains the external graph file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setGraphFolder" title="sparknlp_jsl.annotator.AssertionDLApproach.setGraphFolder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setGraphFolder</span></code></a>(p)</p></td>
 <td><p>Sets folder path that contain external graph files.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setIncludeConfidence" title="sparknlp_jsl.annotator.AssertionDLApproach.setIncludeConfidence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setIncludeConfidence</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setIncludeConfidence" title="sparknlp_jsl.annotator.AssertionDLApproach.setIncludeConfidence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setIncludeConfidence</span></code></a>(value)</p></td>
 <td><p>Sets if you waht to include confidence scores in annotation metadata.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setInputCols" title="sparknlp_jsl.annotator.AssertionDLApproach.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setInputCols" title="sparknlp_jsl.annotator.AssertionDLApproach.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
 <td><p>Sets column names of input annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setLabelCol" title="sparknlp_jsl.annotator.AssertionDLApproach.setLabelCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLabelCol</span></code></a>(label)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setLabelCol" title="sparknlp_jsl.annotator.AssertionDLApproach.setLabelCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLabelCol</span></code></a>(label)</p></td>
 <td><p>Set a column with one label per document.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setLazyAnnotator" title="sparknlp_jsl.annotator.AssertionDLApproach.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setLazyAnnotator" title="sparknlp_jsl.annotator.AssertionDLApproach.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
 <td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setLearningRate" title="sparknlp_jsl.annotator.AssertionDLApproach.setLearningRate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLearningRate</span></code></a>(lamda)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setLearningRate" title="sparknlp_jsl.annotator.AssertionDLApproach.setLearningRate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLearningRate</span></code></a>(lamda)</p></td>
 <td><p>Set a learning rate for the optimization process</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setMaxSentLen" title="sparknlp_jsl.annotator.AssertionDLApproach.setMaxSentLen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxSentLen</span></code></a>(length)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setMaxSentLen" title="sparknlp_jsl.annotator.AssertionDLApproach.setMaxSentLen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxSentLen</span></code></a>(length)</p></td>
 <td><p>Set the max length for an input sentence.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setOutputCol" title="sparknlp_jsl.annotator.AssertionDLApproach.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setOutputCol" title="sparknlp_jsl.annotator.AssertionDLApproach.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
 <td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setOutputLogsPath" title="sparknlp_jsl.annotator.AssertionDLApproach.setOutputLogsPath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputLogsPath</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setOutputLogsPath" title="sparknlp_jsl.annotator.AssertionDLApproach.setOutputLogsPath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputLogsPath</span></code></a>(value)</p></td>
 <td><p>Sets folder path that contain external graph files.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setParamValue" title="sparknlp_jsl.annotator.AssertionDLApproach.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setParamValue" title="sparknlp_jsl.annotator.AssertionDLApproach.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
 <td><p>Sets the value of a parameter.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setScopeWindow" title="sparknlp_jsl.annotator.AssertionDLApproach.setScopeWindow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setScopeWindow</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setScopeWindow" title="sparknlp_jsl.annotator.AssertionDLApproach.setScopeWindow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setScopeWindow</span></code></a>(value)</p></td>
 <td><p>Sets the scope of the window of the assertion expression</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setStartCol" title="sparknlp_jsl.annotator.AssertionDLApproach.setStartCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStartCol</span></code></a>(s)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setStartCol" title="sparknlp_jsl.annotator.AssertionDLApproach.setStartCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStartCol</span></code></a>(s)</p></td>
 <td><p>Set a column that contains the token number for the start of the target</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setTestDataset" title="sparknlp_jsl.annotator.AssertionDLApproach.setTestDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTestDataset</span></code></a>(path[, read_as, options])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setTestDataset" title="sparknlp_jsl.annotator.AssertionDLApproach.setTestDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTestDataset</span></code></a>(path[, read_as, options])</p></td>
 <td><p>Sets path to test dataset.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setValidationSplit" title="sparknlp_jsl.annotator.AssertionDLApproach.setValidationSplit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setValidationSplit</span></code></a>(v)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setValidationSplit" title="sparknlp_jsl.annotator.AssertionDLApproach.setValidationSplit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setValidationSplit</span></code></a>(v)</p></td>
 <td><p>Set Choose the proportion of training dataset to be validated against the model on each Epoch.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setVerbose" title="sparknlp_jsl.annotator.AssertionDLApproach.setVerbose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setVerbose</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.setVerbose" title="sparknlp_jsl.annotator.AssertionDLApproach.setVerbose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setVerbose</span></code></a>(value)</p></td>
 <td><p>Sets level of verbosity during training.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.write" title="sparknlp_jsl.annotator.AssertionDLApproach.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.write" title="sparknlp_jsl.annotator.AssertionDLApproach.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
 <td><p>Returns an MLWriter instance for this ML instance.</p></td>
 </tr>
 </tbody>
@@ -848,49 +863,52 @@ the <code class="docutils literal notranslate"><span class="pre">end</span></cod
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getter_attrs</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graphFolder</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graphFile</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">includeConfidence</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graphFolder</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inputCols</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">includeConfidence</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">label</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inputCols</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">lazyAnnotator</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">label</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">learningRate</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">lazyAnnotator</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">maxSentLen</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">learningRate</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outputCol</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">maxSentLen</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outputLogsPath</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outputCol</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.params" title="sparknlp_jsl.annotator.AssertionDLApproach.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outputLogsPath</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.AssertionDLApproach.params" title="sparknlp_jsl.annotator.AssertionDLApproach.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
 <td><p>Returns all params ordered by name.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">scopeWindow</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">scopeWindow</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">startCol</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">startCol</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">testDataset</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">testDataset</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validationSplit</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validationSplit</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">verbose</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">verbose</span></code></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -1191,6 +1209,20 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>v</strong><span class="classifier">bool</span></dt><dd><p>Evaluation log extended.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.AssertionDLApproach.setGraphFile">
+<span class="sig-name descname"><span class="pre">setGraphFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#AssertionDLApproach.setGraphFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.AssertionDLApproach.setGraphFile" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets path that contains the external graph file. When specified, the provided file will be used, and no graph search will happen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Path that contains the external graph file. When specified, the provided file will be used, and no graph search will happen.</p>
 </dd>
 </dl>
 </dd>
