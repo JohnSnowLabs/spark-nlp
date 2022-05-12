@@ -17,9 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model maps extracted clinical entities to ICD-10-CM codes using `sbiobert_base_cased_mli` sentence bert embeddings. In this model, synonyms having low cosine similarity to unnormalized terms are dropped. It returns the official resolution text within the brackets and also provides HCC information of the codes in all_k_aux_labels parameter in the metadata. This column can be divided to get further details: billable status || hcc status || hcc score. 
-
-Outputs billable ICD codes. In the result, look for `all_k_aux_labels` parameter in the metadata to get HCC status. The HCC status can be divided to get further information: `billable status`, `hcc status`, and `hcc score`. For example, if HCC status is resolved like `1||1||19` which means the `billable status` is 1, `hcc status` is 1, and `hcc score` is 19.
+This model maps extracted clinical entities to ICD-10-CM codes using `sbiobert_base_cased_mli` sentence bert embeddings. In this model, synonyms having low cosine similarity to unnormalized terms are dropped. It returns the official resolution text within the brackets and also provides billable and HCC information of the codes in `all_k_aux_labels` parameter in the metadata. This column can be divided to get further details: `billable status` || `hcc status` || `hcc score`. For example, if `all_k_aux_labels` is like `1||1||19` which means the `billable status` is 1, `hcc status` is 1, and `hcc score` is 19.
 
 ## Predicted Entities
 
