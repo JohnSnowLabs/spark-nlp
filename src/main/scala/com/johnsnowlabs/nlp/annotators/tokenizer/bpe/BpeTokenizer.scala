@@ -98,10 +98,7 @@ private[nlp] abstract class BpeTokenizer(
     word
   }
 
-  protected def getTokenPieces(
-      indToken: IndexedToken,
-      word: Array[String],
-      processedToken: String): Array[TokenPiece] = {
+  protected def getTokenPieces(indToken: IndexedToken, word: Array[String]): Array[TokenPiece] = {
     var currentIndex = indToken.begin
     val wordIndexes = word.map((subWord: String) => {
       val startIndex = currentIndex
@@ -129,7 +126,7 @@ private[nlp] abstract class BpeTokenizer(
         // Set unknown id if not found
         val subWordId: Int = vocab.getOrElse(processedSubWord, specialTokens.unk.id)
 
-        TokenPiece(subWord, processedToken, subWordId, isWordStart, indexes._1, indexes._2)
+        TokenPiece(subWord, indToken.token.trim(), subWordId, isWordStart, indexes._1, indexes._2)
 
       }
     result
@@ -156,7 +153,7 @@ private[nlp] abstract class BpeTokenizer(
       else
         word = performMerges(word, pairs)
 
-      getTokenPieces(indToken, word, processedToken)
+      getTokenPieces(indToken, word)
     } catch {
       case _: java.util.NoSuchElementException =>
         Array(

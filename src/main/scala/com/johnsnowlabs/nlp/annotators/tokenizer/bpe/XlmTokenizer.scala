@@ -112,6 +112,6 @@ private[nlp] class XlmTokenizer(
       word = word.map(_.replace("</w>", ""))
     }
 
-    getTokenPieces(indToken, word, processedToken)
+    getTokenPieces(indToken, word)
   }
 }
