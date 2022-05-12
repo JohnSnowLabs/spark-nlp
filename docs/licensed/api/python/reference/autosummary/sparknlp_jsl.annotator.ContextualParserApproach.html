@@ -296,6 +296,16 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.MedicalGraphBuilder.html">
+     sparknlp_jsl.annotator.MedicalGraphBuilder
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.MedicalGraphBuilderModel.html">
+     sparknlp_jsl.annotator.MedicalGraphBuilderModel
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.MedicalNerApproach.html">
      sparknlp_jsl.annotator.MedicalNerApproach
     </a>
@@ -738,16 +748,19 @@ columns the possible matches.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.ContextualParserApproach.setLazyAnnotator" title="sparknlp_jsl.annotator.ContextualParserApproach.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
 <td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.ContextualParserApproach.setOutputCol" title="sparknlp_jsl.annotator.ContextualParserApproach.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOptionalContextRules</span></code>(value)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.ContextualParserApproach.setOutputCol" title="sparknlp_jsl.annotator.ContextualParserApproach.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
 <td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.ContextualParserApproach.setParamValue" title="sparknlp_jsl.annotator.ContextualParserApproach.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.ContextualParserApproach.setParamValue" title="sparknlp_jsl.annotator.ContextualParserApproach.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
 <td><p>Sets the value of a parameter.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.ContextualParserApproach.setPrefixAndSuffixMatch" title="sparknlp_jsl.annotator.ContextualParserApproach.setPrefixAndSuffixMatch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPrefixAndSuffixMatch</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.ContextualParserApproach.setPrefixAndSuffixMatch" title="sparknlp_jsl.annotator.ContextualParserApproach.setPrefixAndSuffixMatch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPrefixAndSuffixMatch</span></code></a>(value)</p></td>
 <td><p>Sets whether to match both prefix and suffix to annotate the hit</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.ContextualParserApproach.write" title="sparknlp_jsl.annotator.ContextualParserApproach.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.ContextualParserApproach.write" title="sparknlp_jsl.annotator.ContextualParserApproach.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
 <td><p>Returns an MLWriter instance for this ML instance.</p></td>
 </tr>
 </tbody>
@@ -773,13 +786,16 @@ columns the possible matches.</p>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">lazyAnnotator</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outputCol</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">optionalContextRules</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.ContextualParserApproach.params" title="sparknlp_jsl.annotator.ContextualParserApproach.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outputCol</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.ContextualParserApproach.params" title="sparknlp_jsl.annotator.ContextualParserApproach.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
 <td><p>Returns all params ordered by name.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">prefixAndSuffixMatch</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">prefixAndSuffixMatch</span></code></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
