@@ -12,7 +12,7 @@ version := "4.0.0"
 
 (ThisBuild / scalacOptions) += "-target:jvm-1.8"
 
-scalacOptions ++= Seq("-unchecked", "-feature", "-language:implicitConversions")
+scalacOptions ++= Seq("-unchecked", "-feature", "-deprecation", "-language:implicitConversions")
 
 (Compile / doc / scalacOptions) ++= Seq(
   "-groups",
