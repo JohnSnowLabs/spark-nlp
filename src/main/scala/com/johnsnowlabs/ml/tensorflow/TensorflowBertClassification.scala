@@ -17,9 +17,9 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
-import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
+import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
@@ -68,9 +68,9 @@ class TensorflowBertClassification(
             val content = if (caseSensitive) token.token else token.token.toLowerCase()
             val sentenceBegin = token.begin
             val sentenceEnd = token.end
-            val sentenceInedx = tokenIndex.sentenceIndex
+            val sentenceIndex = tokenIndex.sentenceIndex
             val result = basicTokenizer.tokenize(
-              Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
+              Sentence(content, sentenceBegin, sentenceEnd, sentenceIndex))
             if (result.nonEmpty) result.head else IndexedToken("")
         }
       val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token)).take(maxSeqLength)
@@ -96,9 +96,9 @@ class TensorflowBertClassification(
         tokens.flatMap(token => encoder.encode(token))
       } else {
         // now we can lowercase the tokens since we have the original form already
-        val normailzedTokens =
+        val normalizedTokens =
           tokens.map(x => IndexedToken(x.token.toLowerCase(), x.begin, x.end))
-        val normalizedWordPiece = normailzedTokens.flatMap(token => encoder.encode(token))
+        val normalizedWordPiece = normalizedTokens.flatMap(token => encoder.encode(token))
 
         normalizedWordPiece.map { t =>
           val orgToken = tokens
