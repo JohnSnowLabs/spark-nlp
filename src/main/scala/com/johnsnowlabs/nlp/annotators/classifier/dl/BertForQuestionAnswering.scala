@@ -34,8 +34,8 @@ import java.io.File
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
   * val spanClassifier = BertForQuestionAnswering.pretrained()
-  *   .setInputCols("token", "document")
-  *   .setOutputCol("label")
+  *   .setInputCols(Array("document_question", "document_context"))
+  *   .setOutputCol("answer")
   * }}}
   * The default model is `"bert_base_cased_qa_squad2"`, if no name is provided.
   *
@@ -55,8 +55,8 @@ import java.io.File
   * import org.apache.spark.ml.Pipeline
   *
   * val document = new MultiDocumentAssembler()
-  * setInputCols("question", "context")
-  * setOutputCols("document_question", "document_context")
+  *   .setInputCols("question", "context")
+  *   .setOutputCols("document_question", "document_context")
   *
   * val questionAnswering = BertForQuestionAnswering.pretrained()
   *   .setInputCols(Array("document_question", "document_context"))
@@ -121,11 +121,11 @@ class BertForQuestionAnswering(override val uid: String)
   override val inputAnnotatorTypes: Array[String] =
     Array(AnnotatorType.DOCUMENT, AnnotatorType.DOCUMENT)
 
-  /** Output Annotator Types: DOCUMENT
+  /** Output Annotator Types: CHUNK
     *
     * @group anno
     */
-  override val outputAnnotatorType: AnnotatorType = AnnotatorType.DOCUMENT
+  override val outputAnnotatorType: AnnotatorType = AnnotatorType.CHUNK
 
   /** @group setParam */
   def sentenceStartTokenId: Int = {
