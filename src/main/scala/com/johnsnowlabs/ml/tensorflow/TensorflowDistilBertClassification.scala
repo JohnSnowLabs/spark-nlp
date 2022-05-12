@@ -84,7 +84,35 @@ class TensorflowDistilBertClassification(
       docs: Seq[Annotation],
       maxSeqLength: Int,
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
-    Seq.empty[WordpieceTokenizedSentence]
+
+    // we need the original form of the token
+    // let's lowercase if needed right before the encoding
+    val basicTokenizer = new BasicTokenizer(caseSensitive = true, hasBeginEnd = false)
+    val encoder = new WordpieceEncoder(vocabulary)
+    val sentences = docs.map { s => Sentence(s.result, s.begin, s.end, 0) }
+
+    sentences.map { sentence =>
+      val tokens = basicTokenizer.tokenize(sentence)
+
+      val wordpieceTokens = if (caseSensitive) {
+        tokens.flatMap(token => encoder.encode(token))
+      } else {
+        // now we can lowercase the tokens since we have the original form already
+        val normailzedTokens =
+          tokens.map(x => IndexedToken(x.token.toLowerCase(), x.begin, x.end))
+        val normalizedWordPiece = normailzedTokens.flatMap(token => encoder.encode(token))
+
+        normalizedWordPiece.map { t =>
+          val orgToken = tokens
+            .find(org => t.begin == org.begin && t.isWordStart)
+            .map(x => x.token)
+            .getOrElse(t.token)
+          TokenPiece(t.wordpiece, orgToken, t.pieceId, t.isWordStart, t.begin, t.end)
+        }
+      }
+
+      WordpieceTokenizedSentence(wordpieceTokens)
+    }
   }
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
@@ -95,7 +123,6 @@ class TensorflowDistilBertClassification(
 
     val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
     val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
-    val segmentBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
 
     // [nb of encoded sentences , maxSentenceLength]
     val shape = Array(batch.length.toLong, maxSentenceLength)
@@ -105,7 +132,6 @@ class TensorflowDistilBertClassification(
         val offset = idx * maxSentenceLength
         tokenBuffers.offset(offset).write(sentence)
         maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
-        segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
       }
 
     val session = tensorflowWrapper.getTFSessionWithSignature(
@@ -155,7 +181,6 @@ class TensorflowDistilBertClassification(
 
     val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
     val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
-    val segmentBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
 
     // [nb of encoded sentences , maxSentenceLength]
     val shape = Array(batch.length.toLong, maxSentenceLength)
@@ -165,7 +190,6 @@ class TensorflowDistilBertClassification(
         val offset = idx * maxSentenceLength
         tokenBuffers.offset(offset).write(sentence)
         maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
-        segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
       }
 
     val session = tensorflowWrapper.getTFSessionWithSignature(
@@ -212,7 +236,66 @@ class TensorflowDistilBertClassification(
   }
 
   def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {
-    (Array.empty[Array[Float]], Array.empty[Array[Float]])
+    val tensors = new TensorResources()
+
+    val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
+    val batchLength = batch.length
+
+    val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+    val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+
+    // [nb of encoded sentences , maxSentenceLength]
+    val shape = Array(batch.length.toLong, maxSentenceLength)
+
+    batch.zipWithIndex
+      .foreach { case (sentence, idx) =>
+        val offset = idx * maxSentenceLength
+        tokenBuffers.offset(offset).write(sentence)
+        maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
+      }
+
+    val session = tensorflowWrapper.getTFSessionWithSignature(
+      configProtoBytes = configProtoBytes,
+      savedSignatures = signatures,
+      initAllTables = false)
+    val runner = session.runner
+
+    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
+    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
+
+    runner
+      .feed(
+        _tfDistilBertSignatures.getOrElse(
+          ModelSignatureConstants.InputIds.key,
+          "missing_input_id_key"),
+        tokenTensors)
+      .feed(
+        _tfDistilBertSignatures.getOrElse(
+          ModelSignatureConstants.AttentionMask.key,
+          "missing_input_mask_key"),
+        maskTensors)
+      .fetch(_tfDistilBertSignatures
+        .getOrElse(ModelSignatureConstants.EndLogitsOutput.key, "missing_end_logits_key"))
+      .fetch(_tfDistilBertSignatures
+        .getOrElse(ModelSignatureConstants.StartLogitsOutput.key, "missing_start_logits_key"))
+
+    val outs = runner.run().asScala
+    val endLogits = TensorResources.extractFloats(outs.head)
+    val startLogits = TensorResources.extractFloats(outs.last)
+
+    outs.foreach(_.close())
+    tensors.clearSession(outs)
+    tensors.clearTensors()
+
+    val endDim = endLogits.length / batchLength
+    val endScores: Array[Array[Float]] =
+      endLogits.grouped(endDim).map(scores => calculateSoftmax(scores)).toArray
+
+    val startDim = startLogits.length / batchLength
+    val startScores: Array[Array[Float]] =
+      startLogits.grouped(startDim).map(scores => calculateSoftmax(scores)).toArray
+
+    (startScores, endScores)
   }
 
   def findIndexedToken(
