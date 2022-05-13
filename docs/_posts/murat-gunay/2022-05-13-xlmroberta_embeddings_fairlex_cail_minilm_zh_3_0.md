@@ -4,7 +4,7 @@ title: Chinese XLMRoBerta Embeddings (from coastalcph)
 author: John Snow Labs
 name: xlmroberta_embeddings_fairlex_cail_minilm
 date: 2022-05-13
-tags: [zh, open_source, xlm_roberta, embeddings]
+tags: [zh, open_source, xlm_roberta, embeddings, fairlex]
 task: Embeddings
 language: zh
 edition: Spark NLP 3.4.4
