@@ -139,8 +139,8 @@ lazy val utilDependencies = Seq(
   liblevenshtein
     exclude ("com.google.guava", "guava")
     exclude ("org.apache.commons", "commons-lang3"),
-  greex,
-  json4s)
+  greex
+)
 
 lazy val typedDependencyParserDependencies = Seq(junit)
 
