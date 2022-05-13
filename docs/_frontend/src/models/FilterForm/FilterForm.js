@@ -3,6 +3,23 @@ import './FilterForm.css';
 
 const { createElement: e } = React;
 
+const compareEditions = (a, b) => {
+  const getPriority = (edition) => {
+    const products = ['Spark NLP', 'Spark NLP for Healthcare', 'Spark OCR'];
+    const index = products.indexOf(edition);
+    if (index !== -1) {
+      return index - products.length;
+    }
+    if (edition.includes('Spark NLP for Healthcare')) {
+      return 1;
+    }
+    if (edition.includes('Spark NLP')) {
+      return 0;
+    }
+    return 2;
+  };
+  return getPriority(a) - getPriority(b);
+};
 const FilterForm = ({ onSubmit, isLoading, meta, params }) => {
   let tasks = [];
   let languages = [];
@@ -10,12 +27,7 @@ const FilterForm = ({ onSubmit, isLoading, meta, params }) => {
   if (meta && meta.aggregations) {
     ({ tasks, languages, editions } = meta.aggregations);
   }
-  editions.sort((a, b) => {
-    if (a.indexOf('Healthcare') !== -1 && b.indexOf('Healthcare') === -1) {
-      return 1;
-    }
-    return 0;
-  });
+  editions.sort(compareEditions);
 
   let task;
   let language;
@@ -103,47 +115,28 @@ const FilterForm = ({ onSubmit, isLoading, meta, params }) => {
             },
           },
           editions
-            .map((edition) =>
-              e('option', { key: edition, value: edition }, edition)
-            )
+            .map((edition) => {
+              if (
+                edition == 'Spark NLP' ||
+                edition == 'Spark NLP for Healthcare' ||
+                edition == 'Spark OCR'
+              ) {
+                let new_edition = `All ${edition} versions`;
+                return e(
+                  'option',
+                  { key: new_edition, value: edition },
+                  new_edition
+                );
+              } else {
+                return e('option', { key: edition, value: edition }, edition);
+              }
+            })
             .reduce(
               (acc, item) => {
-                if (
-                  item.key !== 'Spark NLP' &&
-                  item.key !== 'Spark NLP for Healthcare' &&
-                  item.key !== 'Spark OCR'
-                ) {
-                  acc.push(item);
-                }
+                acc.push(item);
                 return acc;
               },
-              [
-                e('option', { key: 'all', value: '' }, 'All versions'),
-                e(
-                  'option',
-                  {
-                    key: 'All Spark NLP versions',
-                    value: 'Spark NLP',
-                  },
-                  'All Spark NLP versions'
-                ),
-                e(
-                  'option',
-                  {
-                    key: 'All Spark OCR versions',
-                    value: 'Spark OCR',
-                  },
-                  'All Spark OCR versions'
-                ),
-                e(
-                  'option',
-                  {
-                    key: 'All Spark NLP for Healthcare versions',
-                    value: 'Spark NLP for Healthcare',
-                  },
-                  'All Spark NLP for Healthcare versions'
-                ),
-              ]
+              [e('option', { key: 'all', value: '' }, 'All versions')]
             )
         ),
       ]),
