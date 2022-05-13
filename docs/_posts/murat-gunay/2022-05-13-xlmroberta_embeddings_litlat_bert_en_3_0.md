@@ -4,7 +4,7 @@ title: English XLMRoBerta Embeddings (from EMBEDDIA)
 author: John Snow Labs
 name: xlmroberta_embeddings_litlat_bert
 date: 2022-05-13
-tags: [en, open_source, xlm_roberta, embeddings]
+tags: [en, open_source, xlm_roberta, embeddings, litlat]
 task: Embeddings
 language: en
 edition: Spark NLP 3.4.4
