@@ -565,4 +565,11 @@ package object annotator {
       extends ReadablePretrainedDistilBertForQAModel
       with ReadDistilBertForQATensorflowModel
 
+  type RoBertaForQuestionAnswering =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForQuestionAnswering
+
+  object RoBertaForQuestionAnswering
+      extends ReadablePretrainedRoBertaForQAModel
+      with ReadRoBertaForQATensorflowModel
+
 }
