@@ -4,7 +4,7 @@ title: Multilingual XLMRoBerta Embeddings (from castorini)
 author: John Snow Labs
 name: xlmroberta_embeddings_afriberta_base
 date: 2022-05-13
-tags: [ha, yo, ig, am, so, open_source, xlm_roberta, embeddings, xx]
+tags: [ha, yo, ig, am, so, open_source, xlm_roberta, embeddings, xx, afriberta]
 task: Embeddings
 language: xx
 edition: Spark NLP 3.4.4
