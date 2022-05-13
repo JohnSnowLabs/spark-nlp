@@ -4,7 +4,7 @@ title: Multilingual XLMRoBerta Embeddings (from hfl)
 author: John Snow Labs
 name: xlmroberta_embeddings_cino_base_v2
 date: 2022-05-13
-tags: [zh, ko, open_source, xlm_roberta, embeddings, xx]
+tags: [zh, ko, open_source, xlm_roberta, embeddings, xx, cino]
 task: Embeddings
 language: xx
 edition: Spark NLP 3.4.4
