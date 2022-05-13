@@ -4,7 +4,7 @@ title: Multilingual XLMRoBerta Embeddings (from coastalcph)
 author: John Snow Labs
 name: xlmroberta_embeddings_fairlex_fscs_minilm
 date: 2022-05-13
-tags: [fr, de, it, open_source, xlm_roberta, embeddings, xx]
+tags: [fr, de, it, open_source, xlm_roberta, embeddings, xx, fairlex]
 task: Embeddings
 language: xx
 edition: Spark NLP 3.4.4
