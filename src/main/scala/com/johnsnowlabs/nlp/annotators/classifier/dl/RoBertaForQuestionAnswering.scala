@@ -18,11 +18,10 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
+import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
@@ -41,7 +40,7 @@ import java.io.File
   * The default model is `"roberta_base_qa_squad2"`, if no name is provided.
   *
   * For available pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
+  * [[https://nlp.johnsnowlabs.com/models?task=Question+Answering Models Hub]].
   *
   * To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]]. and the
@@ -242,11 +241,7 @@ class RoBertaForQuestionAnswering(override val uid: String)
     *
     * @group setParam
     */
-  override def setCaseSensitive(value: Boolean): this.type = {
-    if (get(caseSensitive).isEmpty)
-      set(this.caseSensitive, value)
-    this
-  }
+  override def setCaseSensitive(value: Boolean): this.type = set(this.caseSensitive, value)
 
   setDefault(batchSize -> 8, maxSentenceLength -> 128, caseSensitive -> true)
 
@@ -266,7 +261,11 @@ class RoBertaForQuestionAnswering(override val uid: String)
         .toSeq
 
       if (documents.nonEmpty) {
-        getModelIfNotSet.predictSpan(documents, $(maxSentenceLength), $(caseSensitive))
+        getModelIfNotSet.predictSpan(
+          documents,
+          $(maxSentenceLength),
+          $(caseSensitive),
+          MergeTokenStrategy.vocab)
       } else {
         Seq.empty[Annotation]
       }

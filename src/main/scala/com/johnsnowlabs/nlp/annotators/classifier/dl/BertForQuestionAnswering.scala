@@ -228,11 +228,7 @@ class BertForQuestionAnswering(override val uid: String)
     *
     * @group setParam
     */
-  override def setCaseSensitive(value: Boolean): this.type = {
-    if (get(caseSensitive).isEmpty)
-      set(this.caseSensitive, value)
-    this
-  }
+  override def setCaseSensitive(value: Boolean): this.type = set(this.caseSensitive, value)
 
   setDefault(batchSize -> 4, maxSentenceLength -> 512, caseSensitive -> true)
 
@@ -254,7 +250,11 @@ class BertForQuestionAnswering(override val uid: String)
         .toSeq
 
       if (documents.nonEmpty) {
-        getModelIfNotSet.predictSpan(documents, $(maxSentenceLength), $(caseSensitive))
+        getModelIfNotSet.predictSpan(
+          documents,
+          $(maxSentenceLength),
+          $(caseSensitive),
+          MergeTokenStrategy.vocab)
       } else {
         Seq.empty[Annotation]
       }
