@@ -152,7 +152,8 @@ trait TensorflowForClassification {
   def predictSpan(
       documents: Seq[Annotation],
       maxSentenceLength: Int,
-      caseSensitive: Boolean): Seq[Annotation] = {
+      caseSensitive: Boolean,
+      mergeTokenStrategy: String = MergeTokenStrategy.vocab): Seq[Annotation] = {
 
     val questionAnnot = Seq(documents.head)
     val contextAnnot = documents.drop(1)
@@ -175,8 +176,20 @@ trait TensorflowForClassification {
     val allTokenPieces =
       wordPieceTokenizedQuestion.head.tokens ++ wordPieceTokenizedContext.flatMap(x => x.tokens)
     val decodedAnswer = allTokenPieces.slice(startIndex._2 - 2, endIndex._2 - 1)
-    val content = decodedAnswer.filter(_.isWordStart).map(x => x.token).mkString(" ")
-    // "Hi" + Array.fill(0)(" ").mkString("") + "John!"
+    val content =
+      mergeTokenStrategy match {
+        case MergeTokenStrategy.vocab =>
+          decodedAnswer.filter(_.isWordStart).map(x => x.token).mkString(" ")
+        case MergeTokenStrategy.sentencePiece =>
+          val token = ""
+          decodedAnswer
+            .map(x =>
+              if (x.isWordStart) " " + token + x.token
+              else token + x.token)
+            .mkString("")
+            .trim
+      }
+
     Seq(
       Annotation(
         annotatorType = AnnotatorType.CHUNK,
@@ -310,5 +323,12 @@ trait TensorflowForClassification {
       tokenizedSentences: Seq[TokenizedSentence],
       sentence: (WordpieceTokenizedSentence, Int),
       tokenPiece: TokenPiece): Option[IndexedToken]
+
+}
+
+object MergeTokenStrategy {
+
+  val vocab = "vocab"
+  val sentencePiece = "sp"
 
 }
