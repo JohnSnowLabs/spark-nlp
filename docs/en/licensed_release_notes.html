@@ -664,12 +664,12 @@
   <li><strong>Listing Clinical Pretrained Pipelines:</strong></li>
 </ul>
 
-<pre><code class="language-Python">from sparknlp_jsl.pretrained import InternalResourceDownloader
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
 
-InternalResourceDownloader.showPrivatePipelines("en")
-</code></pre>
+<span class="n">InternalResourceDownloader</span><span class="p">.</span><span class="n">showPrivatePipelines</span><span class="p">(</span><span class="s">"en"</span><span class="p">)</span>
+</code></pre></div></div>
 
-<pre><code class="language-Bash">+--------------------------------------------------------+------+---------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------------------------------------------+------+---------+
 | Pipeline                                               | lang | version |
 +--------------------------------------------------------+------+---------+
 | clinical_analysis                                      |  en  | 2.4.0   |
@@ -689,7 +689,7 @@ InternalResourceDownloader.showPrivatePipelines("en")
 | snomed_umls_mapping                                    |  en  | 3.0.2   |
 | ...                                                    |  ... | ...     |
 +--------------------------------------------------------+------+---------+
-</code></pre>
+</code></pre></div></div>
 
 <h4 id="new-ner_biomedical_bc2gm-ner-model">New <code class="language-plaintext highlighter-rouge">ner_biomedical_bc2gm</code> NER Model</h4>
 
