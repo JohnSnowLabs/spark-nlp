@@ -39,7 +39,7 @@ tokenizer = Tokenizer() \
     .setInputCols("document") \
     .setOutputCol("token")
   
-embeddings = XlmRoBertaEmbeddings.pretrained("xlmroberta_embeddings_xlm_roberta_base_uk","uk") \
+embeddings = XlmRoBertaEmbeddings.pretrained("xlmroberta_embeddings_xlm_roberta_base","uk") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings")
     
@@ -58,7 +58,7 @@ val tokenizer = new Tokenizer()
     .setInputCols(Array("document"))
     .setOutputCol("token")
 
-val embeddings = XlmRoBertaEmbeddings.pretrained("xlmroberta_embeddings_xlm_roberta_base_uk","uk") 
+val embeddings = XlmRoBertaEmbeddings.pretrained("xlmroberta_embeddings_xlm_roberta_base","uk") 
     .setInputCols(Array("document", "token")) 
     .setOutputCol("embeddings")
 
