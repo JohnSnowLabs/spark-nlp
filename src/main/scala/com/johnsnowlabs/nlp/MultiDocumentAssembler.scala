@@ -25,73 +25,77 @@ import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import com.johnsnowlabs.nlp.AnnotatorType._
 
-/**
- * Prepares data into a format that is processable by Spark NLP. This is the entry point for every Spark NLP pipeline.
- * The `MultiDocumentAssembler` can read either a `String` column or an `Array[String]`. Additionally, [[MultiDocumentAssembler.setCleanupMode]]
- * can be used to pre-process the text (Default: `disabled`). For possible options please refer the parameters section.
- *
- * For more extended examples on document pre-processing see the
- * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb Spark NLP Workshop]].
- *
- * ==Example==
- * {{{
- * import spark.implicits._
- * import com.johnsnowlabs.nlp.MultiDocumentAssembler
- *
- * val data = Seq("Spark NLP is an open-source text processing library.").toDF("text")
- * val multiDocumentAssembler = new MultiDocumentAssembler().setInputCols("text").setOutputCols("document")
- *
- * val result = multiDocumentAssembler.transform(data)
- *
- * result.select("document").show(false)
- * +----------------------------------------------------------------------------------------------+
- * |document                                                                                      |
- * +----------------------------------------------------------------------------------------------+
- * |[[document, 0, 51, Spark NLP is an open-source text processing library., [sentence -> 0], []]]|
- * +----------------------------------------------------------------------------------------------+
- *
- * result.select("document").printSchema
- * root
- *  |-- document: array (nullable = true)
- *  |    |-- element: struct (containsNull = true)
- *  |    |    |-- annotatorType: string (nullable = true)
- *  |    |    |-- begin: integer (nullable = false)
- *  |    |    |-- end: integer (nullable = false)
- *  |    |    |-- result: string (nullable = true)
- *  |    |    |-- metadata: map (nullable = true)
- *  |    |    |    |-- key: string
- *  |    |    |    |-- value: string (valueContainsNull = true)
- *  |    |    |-- embeddings: array (nullable = true)
- *  |    |    |    |-- element: float (containsNull = false)
- * }}}
- *
- * @param uid required uid for storing annotator to disk
- * @groupname anno Annotator types
- * @groupdesc anno Required input and expected output annotator types
- * @groupname Ungrouped Members
- * @groupname param Parameters
- * @groupname setParam Parameter setters
- * @groupname getParam Parameter getters
- * @groupname Ungrouped Members
- * @groupprio param  1
- * @groupprio anno  2
- * @groupprio Ungrouped 3
- * @groupprio setParam  4
- * @groupprio getParam  5
- * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
- */
+/** Prepares data into a format that is processable by Spark NLP. This is the entry point for
+  * every Spark NLP pipeline. The `MultiDocumentAssembler` can read either a `String` column or an
+  * `Array[String]`. Additionally, [[MultiDocumentAssembler.setCleanupMode]] can be used to
+  * pre-process the text (Default: `disabled`). For possible options please refer the parameters
+  * section.
+  *
+  * For more extended examples on document pre-processing see the
+  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb Spark NLP Workshop]].
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.MultiDocumentAssembler
+  *
+  * val data = Seq("Spark NLP is an open-source text processing library.").toDF("text")
+  * val multiDocumentAssembler = new MultiDocumentAssembler().setInputCols("text").setOutputCols("document")
+  *
+  * val result = multiDocumentAssembler.transform(data)
+  *
+  * result.select("document").show(false)
+  * +----------------------------------------------------------------------------------------------+
+  * |document                                                                                      |
+  * +----------------------------------------------------------------------------------------------+
+  * |[[document, 0, 51, Spark NLP is an open-source text processing library., [sentence -> 0], []]]|
+  * +----------------------------------------------------------------------------------------------+
+  *
+  * result.select("document").printSchema
+  * root
+  *  |-- document: array (nullable = true)
+  *  |    |-- element: struct (containsNull = true)
+  *  |    |    |-- annotatorType: string (nullable = true)
+  *  |    |    |-- begin: integer (nullable = false)
+  *  |    |    |-- end: integer (nullable = false)
+  *  |    |    |-- result: string (nullable = true)
+  *  |    |    |-- metadata: map (nullable = true)
+  *  |    |    |    |-- key: string
+  *  |    |    |    |-- value: string (valueContainsNull = true)
+  *  |    |    |-- embeddings: array (nullable = true)
+  *  |    |    |    |-- element: float (containsNull = false)
+  * }}}
+  *
+  * @param uid
+  *   required uid for storing annotator to disk
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 class MultiDocumentAssembler(override val uid: String)
-  extends Transformer
+    extends Transformer
     with DefaultParamsWritable
     with HasOutputAnnotatorType {
 
   def this() = this(Identifiable.randomUID("MultiDocumentAssembler"))
 
-  /**
-   * Output Annotator Type: DOCUMENT
-   *
-   * @group anno
-   */
+  /** Output Annotator Type: DOCUMENT
+    *
+    * @group anno
+    */
   override val outputAnnotatorType: AnnotatorType = DOCUMENT
 
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)
@@ -100,112 +104,92 @@ class MultiDocumentAssembler(override val uid: String)
 
   val EMPTY_STR = ""
 
-  /**
-   * Name of input annotation cols
-   *
-   * @group param
-   */
+  /** Name of input annotation cols
+    *
+    * @group param
+    */
   val inputCols: StringArrayParam =
     new StringArrayParam(this, "inputCols", "Name of input annotation cols")
 
-  /**
-   * @group setParam
-   */
+  /** @group setParam */
   def setInputCols(value: Array[String]): this.type = set(inputCols, value)
 
-  /**
-   * @group setParam
-   */
+  /** @group setParam */
   def setInputCols(value: String*): this.type = setInputCols(value.toArray)
 
-  /**
-   * @group getParam
-   */
+  /** @group getParam */
   def getInputCols: Array[String] = $(inputCols)
 
-  /**
-   *
-   * @group param
-   */
+  /** @group param */
   val outputCols: StringArrayParam =
     new StringArrayParam(this, "outputCols", "Name of output cols")
 
-  /**
-   * @group setParam
-   */
+  /** @group setParam */
   def setOutputCols(value: Array[String]): this.type = set(outputCols, value)
 
-  /**
-   * @group setParam
-   */
+  /** @group setParam */
   def setOutputCols(value: String*): this.type = setOutputCols(value.toArray)
 
-  /**
-   * @group getParam
-   */
+  /** @group getParam */
   def getOutputCols: Array[String] = get(outputCols).getOrElse(getInputCols.map("finished_" + _))
 
-  /**
-   * Id column for row reference
-   *
-   * @group param
-   */
+  /** Id column for row reference
+    *
+    * @group param
+    */
   val idCol: Param[String] = new Param[String](this, "idCol", "id column for row reference")
 
-  /**
-   * Metadata for document column
-   *
-   * @group param
-   */
-  val metadataCol: Param[String] = new Param[String](this, "metadataCol", "metadata for document column")
+  /** Metadata for document column
+    *
+    * @group param
+    */
+  val metadataCol: Param[String] =
+    new Param[String](this, "metadataCol", "metadata for document column")
 
-  /**
-   * cleanupMode can take the following values:
-   *   - `disabled`: keep original. Useful if need to head back to source later
-   *   - `inplace`: newlines and tabs into whitespaces, not stringified ones, don't trim
-   *   - `inplace_full`: newlines and tabs into whitespaces, including stringified, don't trim
-   *   - `shrink`: all whitespaces, newlines and tabs to a single whitespace, but not stringified, do trim
-   *   - `shrink_full`: all whitespaces, newlines and tabs to a single whitespace, stringified ones too, trim all
-   *   - `each`: newlines and tabs to one whitespace each
-   *   - `each_full`: newlines and tabs, stringified ones too, to one whitespace each
-   *   - `delete_full`: remove stringified newlines and tabs (replace with nothing)
-   *
-   * @group param
-   */
-  val cleanupMode: Param[String] = new Param[String](this, "cleanupMode", "possible values: " +
-    "disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full")
+  /** cleanupMode can take the following values:
+    *   - `disabled`: keep original. Useful if need to head back to source later
+    *   - `inplace`: newlines and tabs into whitespaces, not stringified ones, don't trim
+    *   - `inplace_full`: newlines and tabs into whitespaces, including stringified, don't trim
+    *   - `shrink`: all whitespaces, newlines and tabs to a single whitespace, but not
+    *     stringified, do trim
+    *   - `shrink_full`: all whitespaces, newlines and tabs to a single whitespace, stringified
+    *     ones too, trim all
+    *   - `each`: newlines and tabs to one whitespace each
+    *   - `each_full`: newlines and tabs, stringified ones too, to one whitespace each
+    *   - `delete_full`: remove stringified newlines and tabs (replace with nothing)
+    *
+    * @group param
+    */
+  val cleanupMode: Param[String] = new Param[String](
+    this,
+    "cleanupMode",
+    "possible values: " +
+      "disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full")
 
-  setDefault(
-    cleanupMode -> "disabled"
-  )
+  setDefault(cleanupMode -> "disabled")
 
-  /**
-   * Id column for row reference
-   *
-   * @group setParam
-   */
+  /** Id column for row reference
+    *
+    * @group setParam
+    */
   def setIdCol(value: String): this.type = set(idCol, value)
 
-  /**
-   * Id column for row reference
-   *
-   * @group getParam
-   */
+  /** Id column for row reference
+    *
+    * @group getParam
+    */
   def getIdCol: String = $(idCol)
 
-  /**
-   * Metadata for document column
-   *
-   * @group setParam
-   */
+  /** Metadata for document column
+    *
+    * @group setParam
+    */
   def setMetadataCol(value: String): this.type = set(metadataCol, value)
 
-
-  /**
-   * cleanupMode to pre-process text
-   *
-   * @group setParam
-   */
+  /** cleanupMode to pre-process text
+    *
+    * @group setParam
+    */
   def setCleanupMode(v: String): this.type = {
     v.trim.toLowerCase() match {
       case "disabled" => set(cleanupMode, "disabled")
@@ -216,23 +200,22 @@ class MultiDocumentAssembler(override val uid: String)
       case "each" => set(cleanupMode, "each")
       case "each_full" => set(cleanupMode, "each_full")
       case "delete_full" => set(cleanupMode, "delete_full")
-      case b => throw new IllegalArgumentException(s"Special Character Cleanup supports only: " +
-        s"disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full. Received: $b")
+      case b =>
+        throw new IllegalArgumentException(s"Special Character Cleanup supports only: " +
+          s"disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full. Received: $b")
     }
   }
 
-  /**
-   * cleanupMode to pre-process text
-   *
-   * @group getParam
-   */
+  /** cleanupMode to pre-process text
+    *
+    * @group getParam
+    */
   def getCleanupMode: String = $(cleanupMode)
 
-  /**
-   * Metadata for document column
-   *
-   * @group getParam
-   */
+  /** Metadata for document column
+    *
+    * @group getParam
+    */
   def getMetadataCol: String = $(metadataCol)
 
   private[nlp] def assemble(text: String, metadata: Map[String, String]): Seq[Annotation] = {
@@ -248,17 +231,19 @@ class MultiDocumentAssembler(override val uid: String)
       case "each" => _text.replaceAll("\\s[\\n\\t]", " ")
       case "each_full" => _text.replaceAll("\\s(?:\\n|\\t|(?:\\\\r)?(?:\\\\n)|(?:\\\\t))", " ")
       case "delete_full" => _text.trim.replaceAll("(?:\\\\r)?(?:\\\\n)|(?:\\\\t)", "")
-      case b => throw new IllegalArgumentException(s"Special Character Cleanup supports only: " +
-        s"disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full. Received: $b")
+      case b =>
+        throw new IllegalArgumentException(s"Special Character Cleanup supports only: " +
+          s"disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full. Received: $b")
     }
     try {
-      Seq(Annotation(outputAnnotatorType, 0, possiblyCleaned.length - 1, possiblyCleaned, metadata))
+      Seq(
+        Annotation(outputAnnotatorType, 0, possiblyCleaned.length - 1, possiblyCleaned, metadata))
     } catch {
       case _: Exception =>
         /*
-        * when there is a null in the row
-        * it outputs an empty Annotation
-        * */
+         * when there is a null in the row
+         * it outputs an empty Annotation
+         * */
         Seq.empty[Annotation]
     }
 
@@ -275,9 +260,8 @@ class MultiDocumentAssembler(override val uid: String)
       assemble(text, metadata ++ Map("id" -> id, "sentence" -> "0"))
   }
 
-  private def dfAssembleOnlyId: UserDefinedFunction = udf {
-    (text: String, id: String) =>
-      assemble(text, Map("id" -> id, "sentence" -> "0"))
+  private def dfAssembleOnlyId: UserDefinedFunction = udf { (text: String, id: String) =>
+    assemble(text, Map("id" -> id, "sentence" -> "0"))
   }
 
   private def dfAssembleNoId: UserDefinedFunction = udf {
@@ -285,20 +269,24 @@ class MultiDocumentAssembler(override val uid: String)
       assemble(text, metadata ++ Map("sentence" -> "0"))
   }
 
-  private def dfAssembleNoExtras: UserDefinedFunction = udf {
-    text: String =>
-      assemble(text, Map("sentence" -> "0"))
+  private def dfAssembleNoExtras: UserDefinedFunction = udf { text: String =>
+    assemble(text, Map("sentence" -> "0"))
   }
 
-  private def dfAssemblyFromArray: UserDefinedFunction = udf {
-    texts: Seq[String] => assembleFromArray(texts)
+  private def dfAssemblyFromArray: UserDefinedFunction = udf { texts: Seq[String] =>
+    assembleFromArray(texts)
   }
 
   /** requirement for pipeline transformation validation. It is called on fit() */
   override final def transformSchema(schema: StructType): StructType = {
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", outputAnnotatorType)
-    val outputColsStructure = getOutputCols.map(outpuCol => StructField(outpuCol, ArrayType(Annotation.dataType), nullable = false, metadataBuilder.build))
+    val outputColsStructure = getOutputCols.map(outpuCol =>
+      StructField(
+        outpuCol,
+        ArrayType(Annotation.dataType),
+        nullable = false,
+        metadataBuilder.build))
     val outputFields = schema.fields ++ outputColsStructure
 
     StructType(outputFields)
@@ -307,42 +295,32 @@ class MultiDocumentAssembler(override val uid: String)
   override def transform(dataset: Dataset[_]): DataFrame = {
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
     metadataBuilder.putString("annotatorType", outputAnnotatorType)
-    require(getInputCols.length == getOutputCols.length, "inputCols and outputCols length must match")
+    require(
+      getInputCols.length == getOutputCols.length,
+      "inputCols and outputCols length must match")
     val cols = getInputCols.zip(getOutputCols)
     var flattened = dataset
     cols.foreach { case (inputCol, outputCol) =>
       flattened = {
         val documentAnnotations =
-          if (flattened.schema.fields.find(_.name == inputCol)
-            .getOrElse(throw new IllegalArgumentException(s"Dataset does not have any '$inputCol' column"))
-            .dataType == ArrayType(StringType, containsNull = false))
-            dfAssemblyFromArray(
-              flattened.col(inputCol)
-            )
+          if (flattened.schema.fields
+              .find(_.name == inputCol)
+              .getOrElse(throw new IllegalArgumentException(
+                s"Dataset does not have any '$inputCol' column"))
+              .dataType == ArrayType(StringType, containsNull = false))
+            dfAssemblyFromArray(flattened.col(inputCol))
           else if (get(idCol).isDefined && get(metadataCol).isDefined)
             dfAssemble(
               flattened.col(inputCol),
               flattened.col(getIdCol),
-              flattened.col(getMetadataCol)
-            )
+              flattened.col(getMetadataCol))
           else if (get(idCol).isDefined)
-            dfAssembleOnlyId(
-              flattened.col(inputCol),
-              flattened.col(getIdCol)
-            )
+            dfAssembleOnlyId(flattened.col(inputCol), flattened.col(getIdCol))
           else if (get(metadataCol).isDefined)
-            dfAssembleNoId(
-              flattened.col(inputCol),
-              flattened.col(getMetadataCol)
-            )
+            dfAssembleNoId(flattened.col(inputCol), flattened.col(getMetadataCol))
           else
-            dfAssembleNoExtras(
-              flattened.col(inputCol)
-            )
-        flattened.withColumn(
-          outputCol,
-          documentAnnotations.as(outputCol, metadataBuilder.build)
-        )
+            dfAssembleNoExtras(flattened.col(inputCol))
+        flattened.withColumn(outputCol, documentAnnotations.as(outputCol, metadataBuilder.build))
       }
 
     }
@@ -350,10 +328,7 @@ class MultiDocumentAssembler(override val uid: String)
   }
 }
 
-/**
- * This is the companion object of [[MultiDocumentAssembler]]. Please refer to that class for the documentation.
- */
+/** This is the companion object of [[MultiDocumentAssembler]]. Please refer to that class for the
+  * documentation.
+  */
 object MultiDocumentAssembler extends DefaultParamsReadable[MultiDocumentAssembler]
-
-
-
