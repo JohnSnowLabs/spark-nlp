@@ -136,13 +136,13 @@ InternalResourceDownloader.showPrivateModels("AssertionDLModel")
 
 + **Listing Clinical Pretrained Pipelines:**
 
-```Python
+```python
 from sparknlp_jsl.pretrained import InternalResourceDownloader
 
 InternalResourceDownloader.showPrivatePipelines("en")
 ```
 
-```Bash
+```bash
 +--------------------------------------------------------+------+---------+
 | Pipeline                                               | lang | version |
 +--------------------------------------------------------+------+---------+
