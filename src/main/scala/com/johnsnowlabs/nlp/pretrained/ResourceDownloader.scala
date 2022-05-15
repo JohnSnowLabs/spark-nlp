@@ -640,7 +640,8 @@ object PythonResourceDownloader {
     "DistilBertForQuestionAnswering" -> DistilBertForQuestionAnswering,
     "RoBertaForQuestionAnswering" -> RoBertaForQuestionAnswering,
     "XlmRoBertaForQuestionAnswering" -> XlmRoBertaForQuestionAnswering,
-    "DeBertaForQuestionAnswering" -> DeBertaForQuestionAnswering)
+    "DeBertaForQuestionAnswering" -> DeBertaForQuestionAnswering,
+    "AlbertForQuestionAnswering" -> AlbertForQuestionAnswering)
 
   def downloadModel(
       readerStr: String,
