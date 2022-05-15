@@ -585,4 +585,11 @@ package object annotator {
   object DeBertaForQuestionAnswering
       extends ReadablePretrainedDeBertaForQAModel
       with ReadDeBertaForQATensorflowModel
+
+  type AlbertForQuestionAnswering =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForQuestionAnswering
+
+  object AlbertForQuestionAnswering
+      extends ReadablePretrainedAlbertForQAModel
+      with ReadAlbertForQATensorflowModel
 }
