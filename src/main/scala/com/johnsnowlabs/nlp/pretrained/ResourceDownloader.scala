@@ -638,7 +638,9 @@ object PythonResourceDownloader {
     "CamemBertEmbeddings" -> CamemBertEmbeddings,
     "BertForQuestionAnswering" -> BertForQuestionAnswering,
     "DistilBertForQuestionAnswering" -> DistilBertForQuestionAnswering,
-    "RoBertaForQuestionAnswering" -> RoBertaForQuestionAnswering)
+    "RoBertaForQuestionAnswering" -> RoBertaForQuestionAnswering,
+    "XlmRoBertaForQuestionAnswering" -> XlmRoBertaForQuestionAnswering,
+    "DeBertaForQuestionAnswering" -> DeBertaForQuestionAnswering)
 
   def downloadModel(
       readerStr: String,
