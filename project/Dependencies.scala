@@ -9,6 +9,7 @@ object Dependencies {
 
   val is_gpu: String = System.getProperty("is_gpu", "false")
   val is_opt: String = System.getProperty("is_opt", "false")
+  val is_m1: String = System.getProperty("is_m1", "false")
   val is_spark30: String = System.getProperty("is_spark30", "false")
   val is_spark32: String = System.getProperty("is_spark32", "false")
 
@@ -24,6 +25,8 @@ object Dependencies {
       "spark-nlp-gpu"
     } else if (is_gpu.equals("false") && is_spark30.equals("true")) {
       "spark-nlp-spark30"
+    } else if (is_m1.equals("true")) {
+      "spark-nlp-m1"
     } else {
       "spark-nlp"
     }
@@ -71,17 +74,20 @@ object Dependencies {
   val greexVersion = "1.0"
   val greex = "com.navigamez" % "greex" % greexVersion
 
+  /** json4s-ext must match the version of json4s-jackson from spark-core. The spark-core 3.2.x
+    * release comes with json4s-jackson 3.7.0-M11 and spark-core 3.1.x comes with 3.7.0-M5
+    */
   val json4sVersion: String = if (is_spark30 == "true") "3.7.0-M5" else "3.7.0-M11"
   val json4s = "org.json4s" %% "json4s-ext" % json4sVersion
 
   val junitVersion = "4.13.2"
   val junit = "junit" % "junit" % junitVersion % Test
 
-  val tensorflowGPUVersion = "0.4.0"
-  val tensorflowGPU = "com.johnsnowlabs.nlp" %% "tensorflow-gpu" % tensorflowGPUVersion
+  val tensorflowVersion = "0.4.1"
 
-  val tensorflowCPUVersion = "0.4.0"
-  val tensorflowCPU = "com.johnsnowlabs.nlp" %% "tensorflow-cpu" % tensorflowCPUVersion
+  val tensorflowGPU = "com.johnsnowlabs.nlp" %% "tensorflow-gpu" % tensorflowVersion
+  val tensorflowCPU = "com.johnsnowlabs.nlp" %% "tensorflow-cpu" % tensorflowVersion
+  val tensorflowM1 = "com.johnsnowlabs.nlp" %% "tensorflow-m1" % tensorflowVersion
 
   /** ------- Dependencies end  ------- */
 }
