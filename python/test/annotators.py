@@ -2409,8 +2409,7 @@ class CamemBertEmbeddingsTestSpec(unittest.TestCase):
 
         tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
 
-        embeddings = CamemBertEmbeddings\
-            .loadSavedModel("/Users/maziyar/Downloads/camembert-base-ccnet", SparkContextForTest.spark)\
+        embeddings = CamemBertEmbeddings.pretrained() \
             .setInputCols(["token", "document"]) \
             .setOutputCol("camembert_embeddings")
 
