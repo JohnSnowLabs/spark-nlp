@@ -641,7 +641,8 @@ object PythonResourceDownloader {
     "RoBertaForQuestionAnswering" -> RoBertaForQuestionAnswering,
     "XlmRoBertaForQuestionAnswering" -> XlmRoBertaForQuestionAnswering,
     "DeBertaForQuestionAnswering" -> DeBertaForQuestionAnswering,
-    "AlbertForQuestionAnswering" -> AlbertForQuestionAnswering)
+    "AlbertForQuestionAnswering" -> AlbertForQuestionAnswering,
+    "LongformerForQuestionAnswering" -> LongformerForQuestionAnswering)
 
   def downloadModel(
       readerStr: String,
