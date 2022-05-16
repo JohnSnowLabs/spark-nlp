@@ -94,7 +94,7 @@ class TensorflowRoBertaClassification(
       val sentenceEnd = sentence.end
       val sentenceIndex = sentence.index
 
-      // TODO: we should implement dedicated tokenize and tokenizeSubText methods for full sentences
+      // TODO: we should implement dedicated the tokenize and tokenizeSubText methods for full a sentence rather than token by token
       val indexedTokens =
         bpeTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceIndex))
 
