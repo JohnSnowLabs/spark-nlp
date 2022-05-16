@@ -41,6 +41,22 @@ class ResourceDownloaderSpec extends AnyFlatSpec {
     assert(deserialized == resource)
   }
 
+  "CloudResourceMetadata with category" should "serialize and deserialize correctly" taggedAs FastTest in {
+    val resource = new ResourceMetadata(
+      "name",
+      Some("en"),
+      Some(Version(1, 2, 3)),
+      Some(Version(5, 4, 3)),
+      true,
+      new Timestamp(123213),
+      category = Some(ResourceType.MODEL.toString))
+
+    val json = ResourceMetadata.toJson(resource)
+    val deserialized = ResourceMetadata.parseJson(json)
+
+    assert(deserialized == resource)
+  }
+
   "CloudResourceDownloader" should "choose the newest Spark version" taggedAs FastTest in {
     val sparkNLPVersion = Version(1, 2, 3)
     val sparkVersion = Version(3, 4, 5)

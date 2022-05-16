@@ -51,7 +51,7 @@ object TrainingHelper {
       true,
       timestamp,
       true,
-      category = category)
+      category = Some(category.get.toString))
 
     // 3. Save model to file
     val file = Paths.get(folder, meta.key).toString.replaceAllLiterally("\\", "/")

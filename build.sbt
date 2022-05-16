@@ -2,7 +2,7 @@ import Dependencies._
 import Resolvers.m2Resolvers
 import sbtassembly.MergeStrategy
 
-name := getPackageName(is_spark30, is_gpu)
+name := getPackageName(is_m1, is_gpu)
 
 organization := "com.johnsnowlabs.nlp"
 
@@ -139,8 +139,7 @@ lazy val utilDependencies = Seq(
   liblevenshtein
     exclude ("com.google.guava", "guava")
     exclude ("org.apache.commons", "commons-lang3"),
-  greex,
-  json4s)
+  greex)
 
 lazy val typedDependencyParserDependencies = Seq(junit)
 
