@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Named Entity Recognition Entity Recognition (from lucifermorninstar011)
+title: English Named Entity Recognition (from lucifermorninstar011)
 author: John Snow Labs
 name: distilbert_ner_autotrain_defector_ner_846726994
 date: 2022-05-16
