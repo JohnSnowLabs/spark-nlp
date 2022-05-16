@@ -30,7 +30,7 @@ This model maps clinical entities and concepts (like drugs/ingredients) to RxNor
 
 ## How to use
 
-
+```sbiobertresolve_rxnorm_augmented``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_posology``` as NER model. ```DRUG``` set in ```.setWhiteList()```.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

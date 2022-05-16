@@ -30,7 +30,7 @@ This model maps clinical entities to Medical Subject Heading (MeSH) codes using 
 
 ## How to use
 
-
+```sbiobertresolve_mesh``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_clinical``` as NER model. No need to set ```.setWhiteList()```.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

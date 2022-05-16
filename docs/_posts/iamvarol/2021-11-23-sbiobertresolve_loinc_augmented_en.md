@@ -30,6 +30,8 @@ This model maps extracted clinical NER entities to LOINC codes using `sbiobert_b
 
 ## How to use
 
+```sbiobertresolve_loinc_augmented``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_jsl``` as NER model. ```Test, BMI, HDL, LDL, Medical_Device, Temperature,
+Total_Cholesterol, Triglycerides, Blood_Pressure``` set in ```.setWhiteList()```.
 
 
 <div class="tabs-box" markdown="1">

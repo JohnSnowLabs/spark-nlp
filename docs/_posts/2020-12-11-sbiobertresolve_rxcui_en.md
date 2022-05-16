@@ -31,6 +31,9 @@ RxCUI Codes and their normalized definition with ``sbiobert_base_cased_mli`` emb
 
 {:.h2_title}
 ## How to use 
+
+```sbiobertresolve_rxcui``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_posology``` as NER model. ```DRUG``` set in ```.setWhiteList()```.
+
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}

@@ -30,6 +30,12 @@ Snomed Codes and their normalized definition with `sbiobert_base_cased_mli` embe
 
 ## How to use
 
+```sbiobertresolve_snomed_bodyStructure``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_jsl``` as NER model. ```Disease_Syndrome_Disorder, 
+External_body_part_or_region``` set in ```.setWhiteList()```.
+
+```sbiobertresolve_snomed_bodyStructure``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_jsl``` as NER model. No need to set ```.setWhiteList()```.
+
+Merge ner_jsl and ner_anatomy_coarse model chunks.
 
 
 <div class="tabs-box" markdown="1">

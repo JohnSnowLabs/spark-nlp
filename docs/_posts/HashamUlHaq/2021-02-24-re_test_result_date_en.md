@@ -32,8 +32,20 @@ Relation extraction between lab test names, their findings, measurements, result
 
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, PerceptronModel, DependencyParserModel, WordEmbeddingsModel, NerDLModel, NerConverter, RelationExtractionModel
 
+
+ In the table below, `re_test_result_date` RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.
+
+
+
+ |       RE MODEL      |                     RE MODEL LABES                     | NER MODEL | RE PAIRS                                                                                                                                                                                                                                                                                                                                 |
+ |:-------------------:|:------------------------------------------------------:|:---------:|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+ | re_test_result_date | is_finding_of, <br>is_result_of, <br>is_date_of, <br>O |  ner_jsl  | [“test-test_result”, <br>“test_result-test”,<br>“test-date”, “date-test”,<br>“test-imagingfindings”, <br>“imagingfindings-test”,<br>“test-ekg_findings”, <br>“ekg_findings-test”,<br>“date-test_result”, <br>“test_result-date”,<br>“date-imagingfindings”, <br>“imagingfindings-date”,<br>“date-ekg_findings”, <br>“ekg_findings-date”] |
+
+
+
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 ner_tagger = sparknlp.annotators.NerDLModel()\
     .pretrained('jsl_ner_wip_clinical',"en","clinical/models")\

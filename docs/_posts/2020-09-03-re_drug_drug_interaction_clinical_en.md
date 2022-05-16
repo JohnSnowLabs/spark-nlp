@@ -28,7 +28,15 @@ Relation Extraction model based on syntactic features using deep learning. This 
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_drug_drug_interaction_clinical_en_2.5.5_2.4_1599156924424.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
-## How to use 
+## How to use
+
+In the table below, `re_drug_drug_interaction_clinical` RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.
+
+ |              RE MODEL             | RE MODEL LABES                                                       |   NER MODEL  | RE PAIRS      |
+ |:---------------------------------:|-----------------------------------------------------------------------|:------------:|---------------|
+ | re_drug_drug_interaction_clinical | DDI-advise,<br>DDI-effect,<br>DDI-mechanism,<br>DDI-int,<br>DDI-false | ner_posology | [“drug-drug”] |
+
+ 
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
