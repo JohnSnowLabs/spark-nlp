@@ -3,28 +3,20 @@ import sbt._
 object Dependencies {
 
   /** ------- Spark version start ------- */
-  // Spark 3.0.x and 3.1.x are similar
-  val spark30Ver = "3.1.3"
   val spark32Ver = "3.2.1"
 
   val is_gpu: String = System.getProperty("is_gpu", "false")
   val is_opt: String = System.getProperty("is_opt", "false")
   val is_m1: String = System.getProperty("is_m1", "false")
-  val is_spark30: String = System.getProperty("is_spark30", "false")
-  val is_spark32: String = System.getProperty("is_spark32", "false")
 
-  val sparkVer: String = getSparkVersion(is_spark30)
+  val sparkVer: String = getSparkVersion
 
   /** ------- Spark version end ------- */
 
   /** Package attributes */
-  def getPackageName(is_spark30: String, is_gpu: String): String = {
-    if (is_gpu.equals("true") && is_spark30.equals("true")) {
-      "spark-nlp-gpu-spark30"
-    } else if (is_gpu.equals("true") && is_spark30.equals("false")) {
+  def getPackageName(is_m1: String, is_gpu: String): String = {
+    if (is_gpu.equals("true")) {
       "spark-nlp-gpu"
-    } else if (is_gpu.equals("false") && is_spark30.equals("true")) {
-      "spark-nlp-spark30"
     } else if (is_m1.equals("true")) {
       "spark-nlp-m1"
     } else {
@@ -32,9 +24,8 @@ object Dependencies {
     }
   }
 
-  def getSparkVersion(is_spark30: String): String = {
-    if (is_spark30 == "true") spark30Ver
-    else spark32Ver
+  def getSparkVersion: String = {
+    spark32Ver
   }
 
   def getJavaTarget(is_spark30: String, is_spark32: String): String = {
