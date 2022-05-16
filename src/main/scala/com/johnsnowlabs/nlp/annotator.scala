@@ -592,4 +592,12 @@ package object annotator {
   object AlbertForQuestionAnswering
       extends ReadablePretrainedAlbertForQAModel
       with ReadAlbertForQATensorflowModel
+
+  type LongformerForQuestionAnswering =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForQuestionAnswering
+
+  object LongformerForQuestionAnswering
+      extends ReadablePretrainedLongformerForQAModel
+      with ReadLongformerForQATensorflowModel
+
 }
