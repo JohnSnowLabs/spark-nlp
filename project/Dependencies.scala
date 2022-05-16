@@ -3,28 +3,20 @@ import sbt._
 object Dependencies {
 
   /** ------- Spark version start ------- */
-  // Spark 3.0.x and 3.1.x are similar
-  val spark30Ver = "3.1.3"
   val spark32Ver = "3.2.1"
 
   val is_gpu: String = System.getProperty("is_gpu", "false")
   val is_opt: String = System.getProperty("is_opt", "false")
   val is_m1: String = System.getProperty("is_m1", "false")
-  val is_spark30: String = System.getProperty("is_spark30", "false")
-  val is_spark32: String = System.getProperty("is_spark32", "false")
 
-  val sparkVer: String = getSparkVersion(is_spark30)
+  val sparkVer: String = getSparkVersion
 
   /** ------- Spark version end ------- */
 
   /** Package attributes */
-  def getPackageName(is_spark30: String, is_gpu: String): String = {
-    if (is_gpu.equals("true") && is_spark30.equals("true")) {
-      "spark-nlp-gpu-spark30"
-    } else if (is_gpu.equals("true") && is_spark30.equals("false")) {
+  def getPackageName(is_m1: String, is_gpu: String): String = {
+    if (is_gpu.equals("true")) {
       "spark-nlp-gpu"
-    } else if (is_gpu.equals("false") && is_spark30.equals("true")) {
-      "spark-nlp-spark30"
     } else if (is_m1.equals("true")) {
       "spark-nlp-m1"
     } else {
@@ -32,9 +24,8 @@ object Dependencies {
     }
   }
 
-  def getSparkVersion(is_spark30: String): String = {
-    if (is_spark30 == "true") spark30Ver
-    else spark32Ver
+  def getSparkVersion: String = {
+    spark32Ver
   }
 
   def getJavaTarget(is_spark30: String, is_spark32: String): String = {
@@ -73,12 +64,6 @@ object Dependencies {
 
   val greexVersion = "1.0"
   val greex = "com.navigamez" % "greex" % greexVersion
-
-  /** json4s-ext must match the version of json4s-jackson from spark-core. The spark-core 3.2.x
-    * release comes with json4s-jackson 3.7.0-M11 and spark-core 3.1.x comes with 3.7.0-M5
-    */
-  val json4sVersion: String = if (is_spark30 == "true") "3.7.0-M5" else "3.7.0-M11"
-  val json4s = "org.json4s" %% "json4s-ext" % json4sVersion
 
   val junitVersion = "4.13.2"
   val junit = "junit" % "junit" % junitVersion % Test

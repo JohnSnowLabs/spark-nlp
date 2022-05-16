@@ -129,7 +129,9 @@ class ResourceDownloaderMetaSpec extends AnyFlatSpec with BeforeAndAfter {
     })
     assert(
       allModels.length == mockResourceDownloader.resources.count(
-        _.category.getOrElse(ResourceType.NOT_DEFINED).equals(ResourceType.MODEL)))
+        _.category
+          .getOrElse(ResourceType.NOT_DEFINED.toString)
+          .equals(ResourceType.MODEL.toString)))
 
     val allContextSpell = extractTableContent(captureOutput {
       ResourceDownloader.showPublicModels("TestAnnotator")
