@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained XLMRoBERTa Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `xlm-roberta-base-uk` is a Ukrainian model orginally trained by `ukr-models`.
+Pretrained XLMRoBERTa Embeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `xlm-roberta-base-uk` is a Ukrainian model orginally trained by `ukr-models`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
