@@ -428,10 +428,15 @@
 
 <h2 id="how-to-use">How to use</h2>
 
+<p><code class="language-plaintext highlighter-rouge">sbiobertresolve_cpt_procedures_measurements_augmented</code> resolver model must be used with <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> as embeddings <code class="language-plaintext highlighter-rouge">ner_jsl</code> as NER model. <code class="language-plaintext highlighter-rouge">Procedure</code> set in <code class="language-plaintext highlighter-rouge">.setWhiteList()</code>.
+ <code class="language-plaintext highlighter-rouge">sbiobertresolve_cpt_procedures_measurements_augmented</code> resolver model must be used with <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> as embeddings <code class="language-plaintext highlighter-rouge">ner_measurements_clinical</code> as NER model. <code class="language-plaintext highlighter-rouge">Measurements</code> set in <code class="language-plaintext highlighter-rouge">.setWhiteList()</code>.
+ Merge ner_jsl and ner_measurements_clinical model chunks.</p>
+
 <div class="tabs-box">
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
       <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>

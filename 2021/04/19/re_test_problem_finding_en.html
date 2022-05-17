@@ -428,10 +428,32 @@
 
 <h2 id="how-to-use">How to use</h2>
 
+<p>In the table below, <code class="language-plaintext highlighter-rouge">re_test_problem_finding</code> RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">RE MODEL</th>
+      <th style="text-align: center">RE MODEL LABES</th>
+      <th style="text-align: center">NER MODEL</th>
+      <th>RE PAIRS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">re_test_problem_finding</td>
+      <td style="text-align: center">0,1</td>
+      <td style="text-align: center">ner_jsl</td>
+      <td>[“test-cerebrovascular_disease”, <br />“cerebrovascular_disease-test”,<br />“test-communicable_disease”, <br />“communicable_disease-test”,<br />“test-diabetes”, “diabetes-test”,<br />“test-disease_syndrome_disorder”, <br />“disease_syndrome_disorder-test”,<br />“test-heart_disease”, <br />“heart_disease-test”,<br />“test-hyperlipidemia”, <br />“hyperlipidemia-test”,<br />“test-hypertension”, <br />“hypertension-test”,<br />“test-injury_or_poisoning”, <br />“injury_or_poisoning-test”,<br />“test-kidney_disease”, <br />“kidney_disease-test”,<br />“test-obesity”, <br />“obesity-test”,<br />“test-oncological”, <br />“oncological-test”,<br />“test-psychological_condition”, <br />“psychological_condition-test”,<br />“test-symptom”, “symptom-test”,<br />“ekg_findings-disease_syndrome_disorder”,<br />“disease_syndrome_disorder-ekg_findings”,<br />“ekg_findings-heart_disease”, <br />“heart_disease-ekg_findings”,<br />“ekg_findings-symptom”, <br />“symptom-ekg_findings”,<br />“imagingfindings-cerebrovascular_disease”, <br />“cerebrovascular_disease-imagingfindings”,<br />“imagingfindings-communicable_disease”, <br />“communicable_disease-imagingfindings”,<br />“imagingfindings-disease_syndrome_disorder”, <br />“disease_syndrome_disorder-imagingfindings”,<br />“imagingfindings-heart_disease”, <br />“heart_disease-imagingfindings”,<br />“imagingfindings-hyperlipidemia”, <br />“hyperlipidemia-imagingfindings”,<br />“imagingfindings-hypertension”, <br />“hypertension-imagingfindings”,<br />“imagingfindings-injury_or_poisoning”, <br />“injury_or_poisoning-imagingfindings”,<br />“imagingfindings-kidney_disease”, <br />“kidney_disease-imagingfindings”,<br />“imagingfindings-oncological”, <br />“oncological-imagingfindings”,<br />“imagingfindings-psychological_condition”, <br />“psychological_condition-imagingfindings”,<br />“imagingfindings-symptom”, <br />“symptom-imagingfindings”,<br />“vs_finding-cerebrovascular_disease”, <br />“cerebrovascular_disease-vs_finding”,<br />“vs_finding-communicable_disease”, <br />“communicable_disease-vs_finding”,<br />“vs_finding-diabetes”, <br />“diabetes-vs_finding”,<br />“vs_finding-disease_syndrome_disorder”, <br />“disease_syndrome_disorder-vs_finding”,<br />“vs_finding-heart_disease”, <br />“heart_disease-vs_finding”,<br />“vs_finding-hyperlipidemia”, <br />“hyperlipidemia-vs_finding”,<br />“vs_finding-hypertension”, <br />“hypertension-vs_finding”,<br />“vs_finding-injury_or_poisoning”, <br />“injury_or_poisoning-vs_finding”,<br />“vs_finding-kidney_disease”, <br />“kidney_disease-vs_finding”,<br />“vs_finding-obesity”, <br />“obesity-vs_finding”,<br />“vs_finding-oncological”, <br />“oncological-vs_finding”,<br />“vs_finding-overweight”, <br />“overweight-vs_finding”,<br />“vs_finding-psychological_condition”, <br />“psychological_condition-vs_finding”,<br />“vs_finding-symptom”, “symptom-vs_finding”]</td>
+    </tr>
+  </tbody>
+</table>
+
 <div class="tabs-box">
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ner_tagger</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">annotators</span><span class="p">.</span><span class="n">NerDLModel</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'jsl_ner_wip_clinical'</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">)</span>\

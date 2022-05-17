@@ -436,10 +436,13 @@
 
 <h2 id="how-to-use">How to use</h2>
 
+<p><code class="language-plaintext highlighter-rouge">sbiobertresolve_HPO</code> resolver model must be used with <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> as embeddings <code class="language-plaintext highlighter-rouge">ner_human_phenotype_gene_clinical</code> as NER model. No need to <code class="language-plaintext highlighter-rouge">.setWhiteList()</code>.</p>
+
 <div class="tabs-box">
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">chunk2doc</span> <span class="o">=</span> <span class="n">Chunk2Doc</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_doc"</span><span class="p">)</span>
 
 <span class="n">sbert_embedder</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span>\

@@ -430,10 +430,32 @@
 
 <p>Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, PerceptronModel, DependencyParserModel, WordEmbeddingsModel, NerDLModel, NerConverter, RelationExtractionModel</p>
 
+<p>In the table below, <code class="language-plaintext highlighter-rouge">re_test_result_date</code> RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">RE MODEL</th>
+      <th style="text-align: center">RE MODEL LABES</th>
+      <th style="text-align: center">NER MODEL</th>
+      <th>RE PAIRS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">re_test_result_date</td>
+      <td style="text-align: center">is_finding_of, <br />is_result_of, <br />is_date_of, <br />O</td>
+      <td style="text-align: center">ner_jsl</td>
+      <td>[“test-test_result”, <br />“test_result-test”,<br />“test-date”, “date-test”,<br />“test-imagingfindings”, <br />“imagingfindings-test”,<br />“test-ekg_findings”, <br />“ekg_findings-test”,<br />“date-test_result”, <br />“test_result-date”,<br />“date-imagingfindings”, <br />“imagingfindings-date”,<br />“date-ekg_findings”, <br />“ekg_findings-date”]</td>
+    </tr>
+  </tbody>
+</table>
+
 <div class="tabs-box">
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ner_tagger</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">annotators</span><span class="p">.</span><span class="n">NerDLModel</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'jsl_ner_wip_clinical'</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">)</span>\

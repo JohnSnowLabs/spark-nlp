@@ -428,6 +428,27 @@
 
 <h2 id="how-to-use">How to use</h2>
 
+<p>In the table below, <code class="language-plaintext highlighter-rouge">re_bodypart_proceduretest</code> RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">RE MODEL</th>
+      <th style="text-align: center">RE MODEL LABES</th>
+      <th style="text-align: center">NER MODEL</th>
+      <th>RE PAIRS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">re_bodypart_proceduretest</td>
+      <td style="text-align: center">0,1</td>
+      <td style="text-align: center">ner_jsl</td>
+      <td>[“external_body_part_or_region-test”,<br />“test-external_body_part_or_region”,<br />“internal_organ_or_component-test”,<br />“test-internal_organ_or_component”,<br />“external_body_part_or_region-procedure”,<br />“procedure-external_body_part_or_region”,<br />“procedure-internal_organ_or_component”,<br />“internal_organ_or_component-procedure”]</td>
+    </tr>
+  </tbody>
+</table>
+
 <p>Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, PerceptronModel, DependencyParserModel, WordEmbeddingsModel, NerDLModel, NerConverter, RelationExtractionModel.</p>
 
 <div class="tabs-box">
