@@ -43,33 +43,36 @@ class HasStorageRef:
         """
         return self.getOrDefault("storageRef")
 
-class HasExcludableStorage:
-    includeStorage = Param(Params._dummy(),
-                           "includeStorage",
-                           "whether to include indexed storage in trained model",
-                           typeConverter=TypeConverters.toBoolean)
 
-    def setIncludeStorage(self, value):
-        """Sets whether to include indexed storage in trained model.
+class HasInMemoryStorage:
+
+    enableInMemoryStorage = Param(Params._dummy(),
+                                  "enableInMemoryStorage",
+                                  "whether to include indexed storage in disk or in memory",
+                                  typeConverter=TypeConverters.toBoolean)
+
+    def setEnableInMemoryStorage(self, value):
+        """Sets whether to include indexed storage in disk or in memory.
 
         Parameters
         ----------
         value : bool
-            Whether to include indexed storage in trained model
+            Whether to include indexed storage in disk or in memory
         """
-        return self._set(includeStorage=value)
+        return self._set(enableInMemoryStorage=value)
 
-    def getIncludeStorage(self):
-        """Gets whether to include indexed storage in trained model.
+    def getEnableInMemoryStorage(self):
+        """Gets whether to include indexed storage in disk or in memory
 
         Returns
         -------
         bool
-            Whether to include indexed storage in trained model
+            Whether to include indexed storage in disk or in memory
         """
-        return self.getOrDefault("includeStorage")
+        return self.getOrDefault("enableInMemoryStorage")
 
-class HasStorageModel(HasStorageRef, HasCaseSensitiveProperties, HasExcludableStorage):
+
+class HasStorageModel(HasStorageRef, HasCaseSensitiveProperties, HasInMemoryStorage):
 
     def saveStorage(self, path, spark):
         """Saves the current model to storage.
@@ -93,7 +96,8 @@ class HasStorageModel(HasStorageRef, HasCaseSensitiveProperties, HasExcludableSt
         for database in databases:
             _internal._StorageHelper(path, spark, database, storage_ref, within_storage=False)
 
-class HasStorage(HasStorageRef, HasCaseSensitiveProperties, HasExcludableStorage):
+
+class HasStorage(HasStorageRef, HasCaseSensitiveProperties, HasInMemoryStorage):
     storagePath = Param(Params._dummy(),
                         "storagePath",
                         "path to file",

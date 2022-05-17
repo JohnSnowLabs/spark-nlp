@@ -101,7 +101,8 @@ object WordEmbeddingsBinaryIndexer extends ReadsFromBytes {
 
   def index(source: String): Map[String, Array[Float]] = {
 
-    val dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(source), 1 << 15))
+    val dataInputStream = new DataInputStream(
+      new BufferedInputStream(new FileInputStream(source), 1 << 15))
     val numWords = Integer.parseInt(readString(dataInputStream))
     val vecSize = Integer.parseInt(readString(dataInputStream))
 

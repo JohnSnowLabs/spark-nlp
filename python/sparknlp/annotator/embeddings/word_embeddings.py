@@ -156,6 +156,7 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
     def _create_model(self, java_model):
         return WordEmbeddingsModel(java_model=java_model)
 
+
 class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageModel):
     """Word Embeddings lookup annotator that maps tokens to vectors
 
