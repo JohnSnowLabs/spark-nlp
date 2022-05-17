@@ -75,7 +75,7 @@ class AlbertForQuestionAnswering(AnnotatorModel,
     ...     documentAssembler,
     ...     spanClassifier
     ... ])
-    >>> data = spark.createDataFrame([["What's my name?"],["My name is Clara and I live in Berkeley."]]).toDF("text")
+    >>> data = spark.createDataFrame([["What's my name?", "My name is Clara and I live in Berkeley."]]).toDF("question", "context")
     >>> result = pipeline.fit(data).transform(data)
     >>> result.select("answer.result").show(truncate=False)
     +--------------------+
@@ -93,11 +93,13 @@ class AlbertForQuestionAnswering(AnnotatorModel,
 
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
-                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with "
+                             "config_proto.SerializeToString()",
                              TypeConverters.toListInt)
 
     coalesceSentences = Param(Params._dummy(), "coalesceSentences",
-                              "Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.",
+                              "Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per "
+                              "document by averaging probabilities in all sentences.",
                               TypeConverters.toBoolean)
 
     def setConfigProtoBytes(self, b):
