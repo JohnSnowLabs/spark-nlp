@@ -16,9 +16,6 @@ import unittest
 import shutil
 import tempfile
 
-from sparknlp.common import RegexRule
-from sparknlp.util import *
-
 from sparknlp.base import *
 from sparknlp.annotator import *
 
