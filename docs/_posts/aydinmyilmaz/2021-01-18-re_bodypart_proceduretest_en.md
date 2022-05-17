@@ -30,6 +30,17 @@ Relation extraction between body parts entites ['Internal_organ_or_component','E
 
 ## How to use
 
+In the table below, `re_bodypart_proceduretest` RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.
+
+
+
+|          RE MODEL         | RE MODEL LABES | NER MODEL | RE PAIRS |
+|:-------------------------:|:--------------:|:---------:|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| re_bodypart_proceduretest |       0,1      |  ner_jsl  | [“external_body_part_or_region-test”,<br>“test-external_body_part_or_region”,<br>“internal_organ_or_component-test”,<br>“test-internal_organ_or_component”,<br>“external_body_part_or_region-procedure”,<br>“procedure-external_body_part_or_region”,<br>“procedure-internal_organ_or_component”,<br>“internal_organ_or_component-procedure”] |
+
+
+
+
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, PerceptronModel, DependencyParserModel, WordEmbeddingsModel, NerDLModel, NerConverter, RelationExtractionModel.
 
 <div class="tabs-box" markdown="1">

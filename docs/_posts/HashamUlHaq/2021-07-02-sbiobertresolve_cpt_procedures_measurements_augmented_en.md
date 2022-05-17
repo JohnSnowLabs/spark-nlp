@@ -31,9 +31,13 @@ CPT codes and their descriptions.
 ## How to use
 
 
+ ```sbiobertresolve_cpt_procedures_measurements_augmented``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_jsl``` as NER model. ```Procedure``` set in ```.setWhiteList()```.
+ ```sbiobertresolve_cpt_procedures_measurements_augmented``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_measurements_clinical``` as NER model. ```Measurements``` set in ```.setWhiteList()```.
+ Merge ner_jsl and ner_measurements_clinical model chunks.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
       .setInputCol("text")\

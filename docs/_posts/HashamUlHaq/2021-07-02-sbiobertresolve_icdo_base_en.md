@@ -33,10 +33,11 @@ ICD-O Codes and their normalized definition with `sbiobert_base_cased_mli` embed
 
 ## How to use
 
-
+```sbiobertresolve_icdo_base``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_jsl``` as NER model. ```Oncologocal``` set in ```.setWhiteList()```.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 ...
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")

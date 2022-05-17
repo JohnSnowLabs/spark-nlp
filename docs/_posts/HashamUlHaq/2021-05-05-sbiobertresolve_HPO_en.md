@@ -36,10 +36,11 @@ This model returns Human Phenotype Ontology (HPO) codes for phenotypic abnormali
 
 ## How to use
 
-
+```sbiobertresolve_HPO``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_human_phenotype_gene_clinical``` as NER model. No need to ```.setWhiteList()```.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 

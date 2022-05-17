@@ -31,10 +31,11 @@ Outputs 7-digit billable ICD codes. In the result, look for `aux_label` paramete
 
 ## How to use
 
-
+```sbiobertresolve_icd10cm_augmented_billable_hcc``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_clinical``` as NER model. ```PROBLEM``` set in ```.setWhiteList()```.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
   .setInputCol("text")\
