@@ -14,8 +14,6 @@
 
 import unittest
 
-from pyspark.sql import DataFrame
-
 from sparknlp.annotator import *
 from sparknlp.base import *
 from sparknlp.functions import map_annotations_cols, map_annotations_col
@@ -44,7 +42,6 @@ class FunctionMapColumnsTestSpec(unittest.TestCase):
         sentence_detector_dl = SentenceDetector().setInputCols(["text_tail"]).setOutputCol("sentence")
         mapped_sentence = sentence_detector_dl.transform(mapped)
         mapped_sentence.show(truncate=False)
-
 
 
 class FunctionMapColumnTestSpec(unittest.TestCase):
