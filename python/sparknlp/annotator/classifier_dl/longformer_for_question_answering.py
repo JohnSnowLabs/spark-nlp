@@ -75,7 +75,7 @@ class LongformerForQuestionAnswering(AnnotatorModel,
     ...     documentAssembler,
     ...     spanClassifier
     ... ])
-    >>> data = spark.createDataFrame([["What's my name?"],["My name is Clara and I live in Berkeley."]]).toDF("text")
+    >>> data = spark.createDataFrame([["What's my name?", "My name is Clara and I live in Berkeley."]]).toDF("question", "context")
     >>> result = pipeline.fit(data).transform(data)
     >>> result.select("answer.result").show(truncate=False)
     +--------------------+
