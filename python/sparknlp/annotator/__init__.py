@@ -42,8 +42,8 @@ from sparknlp.annotator.stop_words_cleaner import *
 
 if sys.version_info[0] == 2:
     raise ImportError(
-        "Spark NLP for Python 2.x is deprecated since version >= 4.0. "
-        "Please use an older versions to use it with this Python version."
+        "Spark NLP only supports Python 3.6 and above. "
+        "Please use Python 3.6 or above that is compatible with both Spark NLP and PySpark"
     )
 else:
     __import__("com.johnsnowlabs.nlp")
