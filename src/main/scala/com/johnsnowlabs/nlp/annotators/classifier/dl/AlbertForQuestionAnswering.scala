@@ -66,7 +66,7 @@ import java.io.File
   * val questionAnswering = AlbertForQuestionAnswering.pretrained()
   *   .setInputCols(Array("document_question", "document_context"))
   *   .setOutputCol("answer")
-  *   .setCaseSensitive(true)
+  *   .setCaseSensitive(false)
   *
   * val pipeline = new Pipeline().setStages(Array(
   *   document,
