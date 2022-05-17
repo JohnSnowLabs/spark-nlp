@@ -21,17 +21,16 @@ import org.apache.spark.sql.SparkSession
 object SparkNLP {
 
   val currentVersion = "4.0.0"
-  val MavenSpark32 = s"com.johnsnowlabs.nlp:spark-nlp_2.12:$currentVersion"
-  val MavenGpuSpark32 = s"com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:$currentVersion"
-  val MavenSpark30 = s"com.johnsnowlabs.nlp:spark-nlp-spark30_2.12:$currentVersion"
-  val MavenGpuSpark30 = s"com.johnsnowlabs.nlp:spark-nlp-gpu-spark30_2.12:$currentVersion"
+  val MavenSpark3 = s"com.johnsnowlabs.nlp:spark-nlp_2.12:$currentVersion"
+  val MavenGpuSpark3 = s"com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:$currentVersion"
+  val MavenSparkM1 = s"com.johnsnowlabs.nlp:spark-nlp-m1_2.12:$currentVersion"
 
   /** Start SparkSession with Spark NLP
     *
     * @param gpu
     *   start Spark NLP with GPU
-    * @param spark30
-    *   start Spark NLP on Apache Spark 3.2.x
+    * @param m1
+    *   start Spark NLP with M1
     * @param memory
     *   set driver memory for SparkSession
     * @param cache_folder
@@ -47,7 +46,7 @@ object SparkNLP {
     */
   def start(
       gpu: Boolean = false,
-      spark30: Boolean = false,
+      m1: Boolean = false,
       memory: String = "16G",
       cache_folder: String = "",
       log_folder: String = "",
@@ -62,14 +61,12 @@ object SparkNLP {
       .config("spark.kryoserializer.buffer.max", "2000M")
       .config("spark.driver.maxResultSize", "0")
 
-    if (gpu & spark30) {
-      build.config("spark.jars.packages", MavenGpuSpark30)
-    } else if (spark30) {
-      build.config("spark.jars.packages", MavenSpark30)
+    if (m1) {
+      build.config("spark.jars.packages", MavenSparkM1)
     } else if (gpu) {
-      build.config("spark.jars.packages", MavenGpuSpark32)
+      build.config("spark.jars.packages", MavenGpuSpark3)
     } else {
-      build.config("spark.jars.packages", MavenSpark32)
+      build.config("spark.jars.packages", MavenSpark3)
     }
 
     if (cache_folder.nonEmpty)
