@@ -40,7 +40,7 @@ suite.addTest(ChunkDocSerializingTestSpec())
 
 suite.addTest(PragmaticSBDTestSpec())
 suite.addTest(PragmaticScorerTestSpec())
-# suite.addTest(PipelineTestSpec())  # TODO
+suite.addTest(PipelineTestSpec())
 suite.addTest(SpellCheckerTestSpec())
 suite.addTest(NorvigSweetingModelTestSpec())
 suite.addTest(SymmetricDeleteTestSpec())
@@ -67,6 +67,7 @@ suite.addTest(EntityRulerTestSpec())
 suite.addTest(Doc2VecTestSpec())
 suite.addTest(AlbertForTokenClassificationTestSpec())
 suite.addTest(Word2VecTestSpec())
+suite.addTest(MultiDocumentAssemblerTestSpec())
 
 # Should be locally tested
 # suite.addTest(ElmoEmbeddingsTestSpec())
@@ -96,9 +97,10 @@ suite.addTest(Word2VecTestSpec())
 # suite.addTest(GetClassesTestSpec())
 # suite.addTest(GPT2TransformerTextGenerationTestSpec())
 # suite.addTest(DeBertaForSequenceClassificationTestSpec())
-# suite.addTest(DeBertaForTokenClassificationTestSpec())  # TODO
-# suite.addTest(CamemBertEmbeddingsTestSpec())  # TODO
-#
+# suite.addTest(DeBertaForTokenClassificationTestSpec())
+# suite.addTest(CamemBertEmbeddingsTestSpec())
+# suite.addTest(QuestionAnsweringTestSpec())
+
 # # Misc tests
 suite.addTest(UtilitiesTestSpec())
 suite.addTest(SerializersTestSpec())
@@ -110,7 +112,6 @@ suite.addTest(FunctionMapColumnTestSpec())
 
 
 if __name__ == '__main__':
-
     runner = unittest.TextTestRunner()
     result = runner.run(suite)
     sys.exit(not result.wasSuccessful())
