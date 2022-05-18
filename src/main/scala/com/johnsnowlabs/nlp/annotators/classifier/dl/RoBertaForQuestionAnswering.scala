@@ -106,8 +106,7 @@ class RoBertaForQuestionAnswering(override val uid: String)
     extends AnnotatorModel[RoBertaForQuestionAnswering]
     with HasBatchedAnnotate[RoBertaForQuestionAnswering]
     with WriteTensorflowModel
-    with HasCaseSensitiveProperties
-    with HasClassifierActivationProperties {
+    with HasCaseSensitiveProperties {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type

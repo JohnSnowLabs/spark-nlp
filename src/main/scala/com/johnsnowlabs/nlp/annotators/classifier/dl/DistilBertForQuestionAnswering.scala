@@ -106,8 +106,7 @@ class DistilBertForQuestionAnswering(override val uid: String)
     extends AnnotatorModel[DistilBertForQuestionAnswering]
     with HasBatchedAnnotate[DistilBertForQuestionAnswering]
     with WriteTensorflowModel
-    with HasCaseSensitiveProperties
-    with HasClassifierActivationProperties {
+    with HasCaseSensitiveProperties {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
