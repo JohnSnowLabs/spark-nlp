@@ -107,8 +107,7 @@ class LongformerForQuestionAnswering(override val uid: String)
     extends AnnotatorModel[LongformerForQuestionAnswering]
     with HasBatchedAnnotate[LongformerForQuestionAnswering]
     with WriteTensorflowModel
-    with HasCaseSensitiveProperties
-    with HasClassifierActivationProperties {
+    with HasCaseSensitiveProperties {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type

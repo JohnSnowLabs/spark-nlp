@@ -111,8 +111,7 @@ class DeBertaForQuestionAnswering(override val uid: String)
     with HasBatchedAnnotate[DeBertaForQuestionAnswering]
     with WriteTensorflowModel
     with WriteSentencePieceModel
-    with HasCaseSensitiveProperties
-    with HasClassifierActivationProperties {
+    with HasCaseSensitiveProperties {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
