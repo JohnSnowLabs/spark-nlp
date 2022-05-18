@@ -530,12 +530,6 @@ class PipelineTestSpec(unittest.TestCase):
         pipe_path = "file:///" + os.getcwd() + "/tmp_pipeline"
         pipeline.write().overwrite().save(pipe_path)
         loaded_pipeline = Pipeline.read().load(pipe_path)
-        token_after_save = model.transform(self.data).select("token_views").take(1)[0].token_views.split("@")[2]
-        lemma_after_save = model.transform(self.data).select("lemma_views").take(1)[0].lemma_views.split("@")[2]
-        assert token_before_save == "sad"
-        assert lemma_before_save == "unsad"
-        assert token_after_save == token_before_save
-        assert lemma_after_save == lemma_before_save
         pipeline_model = loaded_pipeline.fit(self.data)
         pipeline_model.transform(self.data).show()
         pipeline_model.write().overwrite().save(pipe_path)
@@ -2421,3 +2415,41 @@ class CamemBertEmbeddingsTestSpec(unittest.TestCase):
 
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
+
+
+class MultiDocumentAssemblerTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.spark.createDataFrame([
+            ["First document", "Second document"],
+        ]).toDF("text1", "text2")
+
+    def runTest(self):
+        document_assembler = MultiDocumentAssembler().setInputCols(["text1", "text2"]).setOutputCols(
+            ["document1", "document2"])
+
+        pipeline = Pipeline(stages=[document_assembler])
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
+
+
+class QuestionAnsweringTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.spark.createDataFrame(
+            [["What's my name?", "My name is Clara and I live in Berkeley."]]).toDF("question", "context")
+
+    def runTest(self):
+        document_assembler = MultiDocumentAssembler().setInputCols(["question", "context"]).setOutputCols(
+            ["document_question", "document_context"])
+        spanClassifier = XlmRoBertaForQuestionAnswering \
+            .pretrained() \
+            .setInputCols(["document_question", "document_context"]) \
+            .setOutputCol("answer") \
+            .setCaseSensitive(False)
+
+        pipeline = Pipeline(stages=[document_assembler, spanClassifier])
+        model = pipeline.fit(self.data)
+        model.write().overwrite().save("./tmp_qa_pipeline_model")
+        loaded_pipeline: PipelineModel = PipelineModel.read().load("./tmp_qa_pipeline_model")
+        loaded_pipeline.transform(self.data).select("answer.result").show()
