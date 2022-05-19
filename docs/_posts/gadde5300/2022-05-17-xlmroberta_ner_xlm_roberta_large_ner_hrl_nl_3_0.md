@@ -49,7 +49,7 @@ tokenizer = Tokenizer() \
 
 tokenClassifier = XlmRoBertaForTokenClassification.pretrained("xlmroberta_ner_xlm_roberta_large_ner_hrl","nl") \
     .setInputCols(["sentence", "token"]) \
-    .setOutputCol("pos")
+    .setOutputCol("ner")
 
 pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier])
 
@@ -72,7 +72,7 @@ val tokenizer = new Tokenizer()
 
 val tokenClassifier = XlmRoBertaForTokenClassification.pretrained("xlmroberta_ner_xlm_roberta_large_ner_hrl","nl") 
     .setInputCols(Array("sentence", "token")) 
-    .setOutputCol("pos")
+    .setOutputCol("ner")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler,sentenceDetector, tokenizer, tokenClassifier))
 
