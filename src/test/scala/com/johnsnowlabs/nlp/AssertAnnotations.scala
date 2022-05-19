@@ -28,21 +28,23 @@ object AssertAnnotations {
     val begin = columnName + ".begin"
     val end = columnName + ".end"
     val annotatorType = columnName + ".annotatorType"
-    dataSet.select(result, metadata, begin,  end, annotatorType).rdd.map{ row=>
+    dataSet.select(result, metadata, begin,  end, annotatorType).rdd.map { row =>
       val resultSeq: Seq[String] = row.getAs[String]("result").asInstanceOf[mutable.WrappedArray[String]]
       val metadataSeq: Seq[Map[String, String]] =
         row.getAs[Map[String, String]]("metadata").asInstanceOf[mutable.WrappedArray[Map[String, String]]]
       val beginSeq: Seq[Int] = row.getAs[Int]("begin").asInstanceOf[mutable.WrappedArray[Int]]
       val endSeq: Seq[Int] = row.getAs[Int]("end").asInstanceOf[mutable.WrappedArray[Int]]
       val annotatorTypeSeq: Seq[String] = row.getAs[String]("annotatorType").asInstanceOf[mutable.WrappedArray[String]]
-      resultSeq.zipWithIndex.map{ case (token, index) =>
+      resultSeq.zipWithIndex.map { case (token, index) =>
         val annotatorType = annotatorTypeSeq(index)
         Annotation(annotatorType, beginSeq(index), endSeq(index), token, metadataSeq(index))
       }
     }.collect()
   }
 
-  def assertFields(expectedResult: Array[Seq[Annotation]], actualResult: Array[Seq[Annotation]]): Unit = {
+  def assertFields(
+      expectedResult: Array[Seq[Annotation]],
+      actualResult: Array[Seq[Annotation]]): Unit = {
     expectedResult.zipWithIndex.foreach { case (expectedAnnotationDocument, indexDocument) =>
       val actualDocument = actualResult(indexDocument)
       expectedAnnotationDocument.zipWithIndex.foreach { case (expectedAnnotation, index) =>

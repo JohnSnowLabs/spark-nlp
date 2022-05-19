@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -146,6 +146,10 @@
                         <a class="class" href="BertSentenceEmbeddings.html" title="Sentence-level embeddings using BERT."></a>
                         <a href="BertSentenceEmbeddings.html" title="Sentence-level embeddings using BERT.">BertSentenceEmbeddings</a>
                       </li><li class="current-entities indented4">
+                        <a class="object" href="CamemBertEmbeddings$.html" title="This is the companion object of CamemBertEmbeddings."></a>
+                        <a class="class" href="CamemBertEmbeddings.html" title="The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot."></a>
+                        <a href="CamemBertEmbeddings.html" title="The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot.">CamemBertEmbeddings</a>
+                      </li><li class="current-entities indented4">
                         <a class="object" href="ChunkEmbeddings$.html" title="This is the companion object of ChunkEmbeddings."></a>
                         <a class="class" href="ChunkEmbeddings.html" title="This annotator utilizes WordEmbeddings, BertEmbeddings etc."></a>
                         <a href="ChunkEmbeddings.html" title="This annotator utilizes WordEmbeddings, BertEmbeddings etc.">ChunkEmbeddings</a>
@@ -199,6 +203,10 @@
                         <a href="ReadBertTensorflowModel.html" title="">ReadBertTensorflowModel</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
+                        <a class="trait" href="ReadCamemBertTensorflowModel.html" title=""></a>
+                        <a href="ReadCamemBertTensorflowModel.html" title="">ReadCamemBertTensorflowModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
                         <a class="trait" href="ReadDeBertaTensorflowModel.html" title=""></a>
                         <a href="ReadDeBertaTensorflowModel.html" title="">ReadDeBertaTensorflowModel</a>
                       </li><li class="current-entities indented4">
@@ -249,6 +257,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedBertSentenceModel.html" title=""></a>
                         <a href="ReadablePretrainedBertSentenceModel.html" title="">ReadablePretrainedBertSentenceModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedCamemBertModel.html" title=""></a>
+                        <a href="ReadablePretrainedCamemBertModel.html" title="">ReadablePretrainedCamemBertModel</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedDeBertaModel.html" title=""></a>
@@ -395,27 +407,34 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>DistilBERT is a small, fast, cheap and light Transformer model trained by distilling BERT base. It has 40% less parameters than
-<code>bert-base-uncased</code>, runs 60% faster while preserving over 95% of BERT's performances as measured on the GLUE language understanding benchmark.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = DistilBertEmbeddings.pretrained()
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>DistilBERT is a small, fast, cheap and light Transformer model trained by distilling BERT
+base. It has 40% less parameters than <code>bert-base-uncased</code>, runs 60% faster while preserving
+over 95% of BERT's performances as measured on the GLUE language understanding benchmark.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = DistilBertEmbeddings.pretrained()
   .setInputCols(<span class="lit">"document"</span>, <span class="lit">"token"</span>)
-  .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>The default model is <code>&quot;distilbert_base_cased&quot;</code>, if no name is provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb" target="_blank">Spark NLP Workshop</a>
-and the <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/DistilBertEmbeddingsTestSpec.scala" target="_blank">DistilBertEmbeddingsTestSpec</a>.
-Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
-example shows how to import them <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a>.</p><p>The DistilBERT model was proposed in the paper
-<a href="https://arxiv.org/abs/1910.01108" target="_blank">DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter</a>.</p><p><b>Paper Abstract:</b></p><p><i>As Transfer Learning from large-scale pre-trained models becomes more prevalent in Natural Language Processing (NLP),
-operating these large models in on-the-edge and/or under constrained computational training or inference budgets
-remains challenging. In this work, we propose a method to pre-train a smaller general-purpose language representation
-model, called DistilBERT, which can then be fine-tuned with good performances on a wide range of tasks like its larger
-counterparts. While most prior work investigated the use of distillation for building task-specific models, we leverage
-knowledge distillation during the pretraining phase and show that it is possible to reduce the size of a BERT model by
-40%, while retaining 97% of its language understanding capabilities and being 60% faster. To leverage the inductive
-biases learned by larger models during pretraining, we introduce a triple loss combining language modeling,
-distillation and cosine-distance losses. Our smaller, faster and lighter model is cheaper to pre-train and we
-demonstrate its capabilities for on-device computations in a proof-of-concept experiment and a comparative on-device
-study.</i></p><p>Tips:</p><ul><li>DistilBERT doesn't have <code>:obj:token_type_ids</code>, you don't need to indicate which token belongs to which segment. Just
-    separate your segments with the separation token <code>:obj:tokenizer.sep_token</code> (or <code>:obj:[SEP]</code>).</li><li>DistilBERT doesn't have options to select the input positions (<code>:obj:position_ids</code> input). This could be added if
-    necessary though, just let us know if you need this option.</li></ul><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+  .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>The default model is <code>&quot;distilbert_base_cased&quot;</code>, if no name is provided. For available
+pretrained models please see the
+<a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb" target="_blank">Spark NLP Workshop</a>
+and the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/DistilBertEmbeddingsTestSpec.scala" target="_blank">DistilBertEmbeddingsTestSpec</a>.
+To see which models are compatible and how to import them see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a>.</p><p>The DistilBERT model was proposed in the paper
+<a href="https://arxiv.org/abs/1910.01108" target="_blank">DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter</a>.</p><p><b>Paper Abstract:</b></p><p><i>As Transfer Learning from large-scale pre-trained models becomes more prevalent in Natural
+Language Processing (NLP), operating these large models in on-the-edge and/or under
+constrained computational training or inference budgets remains challenging. In this work, we
+propose a method to pre-train a smaller general-purpose language representation model, called
+DistilBERT, which can then be fine-tuned with good performances on a wide range of tasks like
+its larger counterparts. While most prior work investigated the use of distillation for
+building task-specific models, we leverage knowledge distillation during the pretraining phase
+and show that it is possible to reduce the size of a BERT model by 40%, while retaining 97% of
+its language understanding capabilities and being 60% faster. To leverage the inductive biases
+learned by larger models during pretraining, we introduce a triple loss combining language
+modeling, distillation and cosine-distance losses. Our smaller, faster and lighter model is
+cheaper to pre-train and we demonstrate its capabilities for on-device computations in a
+proof-of-concept experiment and a comparative on-device study.</i></p><p>Tips:</p><ul><li>DistilBERT doesn't have <code>:obj:token_type_ids</code>, you don't need to indicate which token
+    belongs to which segment. Just separate your segments with the separation token
+    <code>:obj:tokenizer.sep_token</code> (or <code>:obj:[SEP]</code>).</li><li>DistilBERT doesn't have options to select the input positions (<code>:obj:position_ids</code> input).
+    This could be added if necessary though, just let us know if you need this option.</li></ul><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
 <span class="kw">import</span> com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings
@@ -461,9 +480,13 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
 |[<span class="num">0.328085333108902</span>,-<span class="num">0.06269335001707077</span>,-<span class="num">0.017595693469047546</span>,-<span class="num">0.024373905733</span>...|
 |[<span class="num">0.15617232024669647</span>,<span class="num">0.2967822253704071</span>,<span class="num">0.22324979305267334</span>,-<span class="num">0.04568954557180</span>...|
 |[<span class="num">0.45411425828933716</span>,<span class="num">0.01173491682857275</span>,<span class="num">0.190129816532135</span>,<span class="num">0.1178255230188369</span>...|
-+--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="../annotators/classifier/dl/DistilBertForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForTokenClassification">DistilBertForTokenClassification</a>
-     for DistilBertEmbeddings with a token classification layer on top</p></span><span class="cmt"><p><a href="../annotators/classifier/dl/DistilBertForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForSequenceClassification">DistilBertForSequenceClassification</a>
-     for DistilBertEmbeddings with a sequence classification layer on top</p></span><span class="cmt"><p><a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer based embeddings</p></span></dd></dl><div class="toggleContainer block">
++--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
+  <a href="../annotators/classifier/dl/DistilBertForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForTokenClassification">DistilBertForTokenClassification</a>
+  for DistilBertEmbeddings with a token classification layer on top</p></span><span class="cmt"><p>
+  <a href="../annotators/classifier/dl/DistilBertForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForSequenceClassification">DistilBertForSequenceClassification</a>
+  for DistilBertEmbeddings with a sequence classification layer on top</p></span><span class="cmt"><p>
+  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
+  transformer based embeddings</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -528,7 +551,9 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
         <span class="name">DistilBertEmbeddings</span><span class="params">()</span>
       </span>
       
-      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator type</p></div></div>
+      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator
+type
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings"></a><a id="&lt;init&gt;:DistilBertEmbeddings"></a>
       <span class="permalink">
@@ -565,10 +590,10 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
         <span class="name">AnnotationContent</span><span class="result alias"> = <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="org.apache.spark.sql.Row">Row</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">internal types to show Rows as a relevant StructType
-Should be deleted once Spark releases UserDefinedTypes to @developerAPI
-</p><div class="fullcomment"><div class="comment cmt"><p>internal types to show Rows as a relevant StructType
-Should be deleted once Spark releases UserDefinedTypes to @developerAPI
+      <p class="shortcomment cmt">internal types to show Rows as a relevant StructType Should be deleted once Spark releases
+UserDefinedTypes to @developerAPI
+</p><div class="fullcomment"><div class="comment cmt"><p>internal types to show Rows as a relevant StructType Should be deleted once Spark releases
+UserDefinedTypes to @developerAPI
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotatorType.AnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="AnnotatorType=String"></a><a id="AnnotatorType:AnnotatorType"></a>
@@ -785,9 +810,14 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">batchAnnotate</span><span class="params">(<span name="batchedAnnotations">batchedAnnotations: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]]</span>
       </span>
       
-      <p class="shortcomment cmt">takes a document and annotations and produces new annotations of this annotator's annotation type
-</p><div class="fullcomment"><div class="comment cmt"><p>takes a document and annotations and produces new annotations of this annotator's annotation type
-</p></div><dl class="paramcmts block"><dt class="param">batchedAnnotations</dt><dd class="cmt"><p>Annotations that correspond to inputAnnotationCols generated by previous annotators if any</p></dd><dt>returns</dt><dd class="cmt"><p>any number of annotations processed for every input annotation. Not necessary one to one relationship</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings">DistilBertEmbeddings</a> → <a href="../HasBatchedAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotate">HasBatchedAnnotate</a></dd></dl></div>
+      <p class="shortcomment cmt">takes a document and annotations and produces new annotations of this annotator's annotation
+type
+</p><div class="fullcomment"><div class="comment cmt"><p>takes a document and annotations and produces new annotations of this annotator's annotation
+type
+</p></div><dl class="paramcmts block"><dt class="param">batchedAnnotations</dt><dd class="cmt"><p>
+  Annotations that correspond to inputAnnotationCols generated by previous annotators if any</p></dd><dt>returns</dt><dd class="cmt"><p>
+  any number of annotations processed for every input annotation. Not necessary one to one
+  relationship</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings">DistilBertEmbeddings</a> → <a href="../HasBatchedAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotate">HasBatchedAnnotate</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasBatchedAnnotate#batchProcess" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="batchProcess(rows:Iterator[_]):Iterator[org.apache.spark.sql.Row]"></a><a id="batchProcess(Iterator[_]):Iterator[Row]"></a>
       <span class="permalink">
@@ -926,7 +956,8 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">configProtoBytes</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntArrayParam">IntArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">ConfigProto from tensorflow, serialized into byte array.</p><div class="fullcomment"><div class="comment cmt"><p>ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+      <p class="shortcomment cmt">ConfigProto from tensorflow, serialized into byte array.</p><div class="fullcomment"><div class="comment cmt"><p>ConfigProto from tensorflow, serialized into byte array. Get with
+config_proto.SerializeToString()
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.RawAnnotator#copy" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="copy(extra:org.apache.spark.ml.param.ParamMap):M"></a><a id="copy(ParamMap):DistilBertEmbeddings"></a>
@@ -1631,10 +1662,10 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">inputCols</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
-</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
+      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
+</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isDefined(Param[_]):Boolean"></a>
@@ -2426,9 +2457,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setDimension</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings">DistilBertEmbeddings</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Set Embeddings dimensions for the DistilBERT model.</p><div class="fullcomment"><div class="comment cmt"><p>Set Embeddings dimensions for the DistilBERT model.
-Only possible to set this when the first time is saved
-dimension is not changeable, it comes from DistilBERT config file.
+      <p class="shortcomment cmt">Set Embeddings dimensions for the DistilBERT model.</p><div class="fullcomment"><div class="comment cmt"><p>Set Embeddings dimensions for the DistilBERT model. Only possible to set this when the first
+time is saved dimension is not changeable, it comes from DistilBERT config file.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings">DistilBertEmbeddings</a> → <a href="HasEmbeddingsProperties.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):DistilBertEmbeddings.this.type"></a>
@@ -2689,12 +2719,15 @@ dimension is not changeable, it comes from DistilBERT config file.
       </span>
       
       <p class="shortcomment cmt">Given requirements are met, this applies ML transformation within a Pipeline or stand-alone
-Output annotation will be generated as a new column, previous annotations are still available separately
-metadata is built at schema level to record annotations structural information outside its content
+Output annotation will be generated as a new column, previous annotations are still
+available separately metadata is built at schema level to record annotations structural
+information outside its content
 </p><div class="fullcomment"><div class="comment cmt"><p>Given requirements are met, this applies ML transformation within a Pipeline or stand-alone
-Output annotation will be generated as a new column, previous annotations are still available separately
-metadata is built at schema level to record annotations structural information outside its content
-</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p><span class="extype" name="Dataset[Row">Dataset[Row</span>]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a> → Transformer</dd></dl></div>
+Output annotation will be generated as a new column, previous annotations are still
+available separately metadata is built at schema level to record annotations structural
+information outside its content
+</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>
+  <span class="extype" name="Dataset[Row">Dataset[Row</span>]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a> → Transformer</dd></dl></div>
     </li><li name="org.apache.spark.ml.Transformer#transform" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="transform(dataset:org.apache.spark.sql.Dataset[_],paramMap:org.apache.spark.ml.param.ParamMap):org.apache.spark.sql.DataFrame"></a><a id="transform(Dataset[_],ParamMap):DataFrame"></a>
       <span class="permalink">
@@ -2808,7 +2841,9 @@ metadata is built at schema level to record annotations structural information o
       </span>
       
       <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.
-</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>
+  to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>
+  True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.storage.HasStorageRef#validateStorageRef" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="validateStorageRef(dataset:org.apache.spark.sql.Dataset[_],inputCols:Array[String],annotatorType:String):Unit"></a><a id="validateStorageRef(Dataset[_],Array[String],String):Unit"></a>
       <span class="permalink">
@@ -3089,7 +3124,9 @@ metadata is built at schema level to record annotations structural information o
         <div id="groupedMembers">
         <div class="group" name="param">
               <h3>Parameters</h3>
-              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
+              <div class="comment cmt"><p>
+  A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  parameter values through setters and getters, respectively.</p></div>
             </div><div class="group" name="Ungrouped">
               <h3>Members</h3>
               

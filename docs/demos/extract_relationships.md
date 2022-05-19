@@ -131,7 +131,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb
-        - title: Identify Relations Between Drugs and ADE
+        - title: Identify Relations Between Drugs and Adversary Events
           id: identify_relations_between_drugs_and_ade
           image: 
               src: /assets/images/Identify_relations_between_drugs_and_ade.svg

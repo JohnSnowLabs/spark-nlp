@@ -23,7 +23,6 @@ import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
-
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.functions.{col, explode, size}
@@ -35,22 +34,22 @@ class RoBertaSentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
   "RoBertaSentenceEmbeddings" should "produce consistent embeddings" taggedAs SlowTest in {
 
-    val testData = ResourceHelper.spark.createDataFrame(Seq(
-
-      (1, "John loves apples."),
-      (2, "Mary loves oranges. John loves Mary.")
-
-    )).toDF("id", "text")
+    val testData = ResourceHelper.spark
+      .createDataFrame(
+        Seq((1, "John loves apples."), (2, "Mary loves oranges. John loves Mary.")))
+      .toDF("id", "text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
 
-    val sentence = SentenceDetectorDLModel.pretrained()
+    val sentence = SentenceDetectorDLModel
+      .pretrained()
       .setInputCols("document")
       .setOutputCol("sentence")
 
-    val embeddings = RoBertaSentenceEmbeddings.pretrained()
+    val embeddings = RoBertaSentenceEmbeddings
+      .pretrained()
       .setInputCols(Array("sentence"))
       .setOutputCol("sentence_embeddings")
       .setMaxSentenceLength(32)
@@ -62,13 +61,29 @@ class RoBertaSentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
     results.foreach(row => {
       val rowI = row.get(0)
-      row.get(1).asInstanceOf[mutable.WrappedArray[GenericRowWithSchema]].zipWithIndex.foreach(t => {
-        print("%1$-3s\t%2$-3s\t%3$-30s\t".format(rowI.toString, t._2.toString, t._1.getString(3)))
-        println(t._1.get(5).asInstanceOf[mutable.WrappedArray[Float]].slice(0, 5).map("%1$-7.3f".format(_)).mkString(" "))
-      })
+      row
+        .get(1)
+        .asInstanceOf[mutable.WrappedArray[GenericRowWithSchema]]
+        .zipWithIndex
+        .foreach(t => {
+          print(
+            "%1$-3s\t%2$-3s\t%3$-30s\t".format(rowI.toString, t._2.toString, t._1.getString(3)))
+          println(
+            t._1
+              .get(5)
+              .asInstanceOf[mutable.WrappedArray[Float]]
+              .slice(0, 5)
+              .map("%1$-7.3f".format(_))
+              .mkString(" "))
+        })
     })
 
-    model.stages(2).asInstanceOf[RoBertaSentenceEmbeddings].write.overwrite().save("./tmp_sent_roberta_base")
+    model
+      .stages(2)
+      .asInstanceOf[RoBertaSentenceEmbeddings]
+      .write
+      .overwrite()
+      .save("./tmp_sent_roberta_base")
 
     val loadedEmbeddings = RoBertaSentenceEmbeddings.load("./tmp_sent_roberta_base")
     val pipeline2 = new Pipeline().setStages(Array(document, sentence, loadedEmbeddings))
@@ -79,10 +94,12 @@ class RoBertaSentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
   "RoBertaSentenceEmbeddings" should "correctly work with empty tokens" taggedAs SlowTest in {
 
-    val testData = ResourceHelper.spark.createDataFrame(Seq(
-      (1, "This is my first sentence. This is my second."),
-      (2, "This is my third sentence. This is my forth.")
-    )).toDF("id", "text")
+    val testData = ResourceHelper.spark
+      .createDataFrame(
+        Seq(
+          (1, "This is my first sentence. This is my second."),
+          (2, "This is my third sentence. This is my forth.")))
+      .toDF("id", "text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -92,12 +109,12 @@ class RoBertaSentenceEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols("document")
       .setOutputCol("sentence")
 
-    val embeddings = RoBertaSentenceEmbeddings.pretrained()
+    val embeddings = RoBertaSentenceEmbeddings
+      .pretrained()
       .setInputCols("sentence")
       .setOutputCol("sentence_embeddings")
       .setCaseSensitive(false)
       .setMaxSentenceLength(32)
-
 
     val pipeline = new Pipeline().setStages(Array(document, sentence, embeddings))
 
@@ -112,9 +129,11 @@ class RoBertaSentenceEmbeddingsTestSpec extends AnyFlatSpec {
     import ResourceHelper.spark.implicits._
 
     val conll = CoNLL()
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+    val training_data =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
-    val embeddings = RoBertaSentenceEmbeddings.pretrained()
+    val embeddings = RoBertaSentenceEmbeddings
+      .pretrained()
       .setInputCols("sentence")
       .setOutputCol("sentence_embeddings")
       .setCaseSensitive(false)
@@ -122,9 +141,7 @@ class RoBertaSentenceEmbeddingsTestSpec extends AnyFlatSpec {
       .setBatchSize(16)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        embeddings
-      ))
+      .setStages(Array(embeddings))
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
     Benchmark.time("Time to save RoBertaSentenceEmbeddings results") {
@@ -132,15 +149,22 @@ class RoBertaSentenceEmbeddingsTestSpec extends AnyFlatSpec {
     }
 
     println("missing tokens/embeddings: ")
-    pipelineDF.withColumn("sentence_size", size(col("sentence")))
+    pipelineDF
+      .withColumn("sentence_size", size(col("sentence")))
       .withColumn("token_size", size(col("token")))
       .withColumn("embed_size", size(col("sentence_embeddings")))
       .where(col("sentence_size") =!= col("embed_size"))
-      .select("sentence_size", "token_size", "embed_size", "token.result", "sentence_embeddings.result")
+      .select(
+        "sentence_size",
+        "token_size",
+        "embed_size",
+        "token.result",
+        "sentence_embeddings.result")
       .show(false)
 
     val totalSentences = pipelineDF.select(explode($"sentence.result")).count.toInt
-    val totalEmbeddings = pipelineDF.select(explode($"sentence_embeddings.embeddings")).count.toInt
+    val totalEmbeddings =
+      pipelineDF.select(explode($"sentence_embeddings.embeddings")).count.toInt
 
     println(s"total sentences: $totalSentences")
     println(s"total embeddings: $totalEmbeddings")
@@ -152,9 +176,7 @@ class RoBertaSentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
     import ResourceHelper.spark.implicits._
 
-    val ddd = Seq(
-      "Something is weird on the notebooks, something is happening."
-    ).toDF("text")
+    val ddd = Seq("Something is weird on the notebooks, something is happening.").toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -164,7 +186,8 @@ class RoBertaSentenceEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val embeddings = RoBertaSentenceEmbeddings.pretrained()
+    val embeddings = RoBertaSentenceEmbeddings
+      .pretrained()
       .setInputCols("document")
       .setOutputCol("sentence_embeddings")
 

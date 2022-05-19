@@ -25,16 +25,15 @@ trait StemmerBehaviors { this: AnyFlatSpec =>
 
   def fullStemmerPipeline(dataset: => Dataset[Row]) {
     "A Stemmer Annotator" should "successfully transform data" taggedAs FastTest in {
-      AnnotatorBuilder.withFullStemmer(dataset)
-        .collect.foreach {
-        row =>
-          row.getSeq[Row](2)
-            .map(Annotation(_))
-            .foreach {
-              case stem: Annotation if stem.annotatorType == AnnotatorType.TOKEN =>
-                println(stem, stem.result)
-              case _ => ()
-            }
+      AnnotatorBuilder.withFullStemmer(dataset).collect.foreach { row =>
+        row
+          .getSeq[Row](2)
+          .map(Annotation(_))
+          .foreach {
+            case stem: Annotation if stem.annotatorType == AnnotatorType.TOKEN =>
+              println(stem, stem.result)
+            case _ => ()
+          }
       }
     }
   }

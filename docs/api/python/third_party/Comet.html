@@ -6,29 +6,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Comet - A meta machine learning platform &#8212; Spark NLP 3.4.2 documentation</title>
+    <title>Comet - A meta machine learning platform &#8212; Spark NLP 3.4.4 documentation</title>
     
-    <link href="../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
+
     
-    <link rel="stylesheet"
-      href="../static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+  <link rel="stylesheet"
+    href="../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" type="text/css" href="../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../static/css/custom.css" />
     
-    <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
     <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js"></script>
     <script src="../static/jquery.js"></script>
     <script src="../static/underscore.js"></script>
@@ -46,7 +43,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -157,7 +154,7 @@
               
               <div class="toc-item">
                 
-<div class="tocsection onthispage pt-5 pb-3">
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
     <i class="fas fa-list"></i> On this page
 </div>
 
@@ -215,7 +212,7 @@
               <div>
                 
   <section id="comet-a-meta-machine-learning-platform">
-<h1>Comet - A meta machine learning platform<a class="headerlink" href="#comet-a-meta-machine-learning-platform" title="Permalink to this headline">¶</a></h1>
+<h1>Comet - A meta machine learning platform<a class="headerlink" href="#comet-a-meta-machine-learning-platform" title="Permalink to this headline">#</a></h1>
 <p><a class="reference external" href="https://www.comet.ml/">Comet</a> is a meta machine learning platform
 designed to help AI practitioners and teams build reliable machine learning
 models for real-world applications by streamlining the machine learning
@@ -228,13 +225,13 @@ pipeline parameters and NER visualization made with sparknlp-display.</p>
 CometLogger reads the log file generated during the training process.</p>
 <p>For more examples see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/logging/Comet_SparkNLP_Intergration.ipynb">Spark NLP Workshop</a></p>
 <section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">#</a></h2>
 <p>To use the comet logger, you need to set up an account and install comet.</p>
 <p>See <a class="reference external" href="https://www.comet.ml/docs/quick-start/">Quick Start - Comet.ml</a> for more
 information.</p>
 </section>
 <section id="using-comet-with-spark-nlp">
-<h2>Using Comet with Spark NLP<a class="headerlink" href="#using-comet-with-spark-nlp" title="Permalink to this headline">¶</a></h2>
+<h2>Using Comet with Spark NLP<a class="headerlink" href="#using-comet-with-spark-nlp" title="Permalink to this headline">#</a></h2>
 <p>Comet can be used to monitor the training process of an annotator. Loss,
 training accuracy, validation accuracy etc. can be submitted to Comet and will
 be available for inspection on the web interface.</p>
@@ -295,7 +292,7 @@ interface with</p>
 </div>
 </section>
 <section id="logging-pipeline-parameters">
-<h2>Logging Pipeline Parameters<a class="headerlink" href="#logging-pipeline-parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Logging Pipeline Parameters<a class="headerlink" href="#logging-pipeline-parameters" title="Permalink to this headline">#</a></h2>
 <p>The pipeline model contains the annotators of Spark NLP, that were
 fitted to a dataframe.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">logger</span><span class="o">.</span><span class="n">log_pipeline_parameters</span><span class="p">(</span><span class="n">pipeline_model</span><span class="p">)</span>
@@ -303,7 +300,7 @@ fitted to a dataframe.</p>
 </div>
 </section>
 <section id="logging-evaluation-metrics">
-<h2>Logging Evaluation Metrics<a class="headerlink" href="#logging-evaluation-metrics" title="Permalink to this headline">¶</a></h2>
+<h2>Logging Evaluation Metrics<a class="headerlink" href="#logging-evaluation-metrics" title="Permalink to this headline">#</a></h2>
 <p>In this example, sklearn is used to retrieve the metrics.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MultiLabelBinarizer</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span>
@@ -330,7 +327,7 @@ metrics directly with</p>
 </div>
 </section>
 <section id="logging-visualizations">
-<h2>Logging Visualizations<a class="headerlink" href="#logging-visualizations" title="Permalink to this headline">¶</a></h2>
+<h2>Logging Visualizations<a class="headerlink" href="#logging-visualizations" title="Permalink to this headline">#</a></h2>
 <p>Visualizations from Spark NLP Display can also be submitted to comet.</p>
 <p>This example has NER chunks (NER extracted by e.g. <a class="reference internal" href="../reference/autosummary/sparknlp.annotator.NerDLModel.html#sparknlp.annotator.NerDLModel" title="sparknlp.annotator.NerDLModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerDLModel</span></code></a>
 and converted by a <a class="reference internal" href="../reference/autosummary/sparknlp.annotator.NerConverter.html#sparknlp.annotator.NerConverter" title="sparknlp.annotator.NerConverter"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerConverter</span></code></a>) extracted in the colum
@@ -350,7 +347,7 @@ and converted by a <a class="reference internal" href="../reference/autosummary/
 <p>The visualizations will then be available in comet.</p>
 </section>
 <section id="running-an-offline-experiment">
-<h2>Running An Offline Experiment<a class="headerlink" href="#running-an-offline-experiment" title="Permalink to this headline">¶</a></h2>
+<h2>Running An Offline Experiment<a class="headerlink" href="#running-an-offline-experiment" title="Permalink to this headline">#</a></h2>
 <p>Experiments can also be defined to be run offline:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">comet_ml</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">OUTPUT_LOG_PATH</span> <span class="o">=</span> <span class="s2">&quot;./run&quot;</span>
@@ -391,8 +388,9 @@ Comet.</p>
       </div>
     </div>
   
-    <script src="../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -403,7 +401,7 @@ Comet.</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
 </p>
     </div>
     

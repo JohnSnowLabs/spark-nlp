@@ -6,29 +6,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Pretrained Pipelines &#8212; Spark NLP 3.4.2 documentation</title>
+    <title>Pretrained Pipelines &#8212; Spark NLP 3.4.4 documentation</title>
     
-    <link href="../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
+
     
-    <link rel="stylesheet"
-      href="../static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+  <link rel="stylesheet"
+    href="../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" type="text/css" href="../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../static/css/custom.css" />
     
-    <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
     <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js"></script>
     <script src="../static/jquery.js"></script>
     <script src="../static/underscore.js"></script>
@@ -46,7 +43,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -182,7 +179,7 @@
               
               <div class="toc-item">
                 
-<div class="tocsection onthispage pt-5 pb-3">
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
     <i class="fas fa-list"></i> On this page
 </div>
 
@@ -232,11 +229,11 @@
               <div>
                 
   <section id="pretrained-pipelines">
-<h1>Pretrained Pipelines<a class="headerlink" href="#pretrained-pipelines" title="Permalink to this headline">¶</a></h1>
+<h1>Pretrained Pipelines<a class="headerlink" href="#pretrained-pipelines" title="Permalink to this headline">#</a></h1>
 <p>Spark NLP offers a variety of pretrained pipelines that will help you get started, and get a sense
 of how the library works. We are constantly working on improving the available content.</p>
 <section id="downloading-and-using-a-pretrained-pipeline">
-<h2>Downloading and using a pretrained pipeline<a class="headerlink" href="#downloading-and-using-a-pretrained-pipeline" title="Permalink to this headline">¶</a></h2>
+<h2>Downloading and using a pretrained pipeline<a class="headerlink" href="#downloading-and-using-a-pretrained-pipeline" title="Permalink to this headline">#</a></h2>
 <p>In this example, Explain Document ML (<code class="docutils literal notranslate"><span class="pre">&quot;explain_document_ml&quot;</span></code>) is a pretrained pipeline that does a
 little bit of everything NLP related.</p>
 <p>Pretrained Pipelines can be used as a Spark ML Pipeline or a Spark NLP Light pipeline.</p>
@@ -250,7 +247,7 @@ take longer since it downloads the pretrained pipeline from our servers!</p>
 </pre></div>
 </div>
 <section id="as-a-spark-ml-pipeline">
-<h3>As a Spark ML Pipeline<a class="headerlink" href="#as-a-spark-ml-pipeline" title="Permalink to this headline">¶</a></h3>
+<h3>As a Spark ML Pipeline<a class="headerlink" href="#as-a-spark-ml-pipeline" title="Permalink to this headline">#</a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;We are very happy about Spark NLP&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">explain_document_pipeline</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(pos)&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -263,7 +260,7 @@ take longer since it downloads the pretrained pipeline from our servers!</p>
 </div>
 </section>
 <section id="as-a-spark-nlp-lightpipeline">
-<h3>As a Spark NLP LightPipeline<a class="headerlink" href="#as-a-spark-nlp-lightpipeline" title="Permalink to this headline">¶</a></h3>
+<h3>As a Spark NLP LightPipeline<a class="headerlink" href="#as-a-spark-nlp-lightpipeline" title="Permalink to this headline">#</a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">explain_document_pipeline</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;We are very happy about Spark NLP&quot;</span><span class="p">)</span>
 <span class="go">{&#39;document&#39;: [&#39;We are very happy about Spark NLP&#39;],</span>
 <span class="go"> &#39;lemmas&#39;: [&#39;We&#39;, &#39;be&#39;, &#39;very&#39;, &#39;happy&#39;, &#39;about&#39;, &#39;Spark&#39;, &#39;NLP&#39;],</span>
@@ -277,7 +274,7 @@ take longer since it downloads the pretrained pipeline from our servers!</p>
 </section>
 </section>
 <section id="available-pipelines">
-<h2>Available Pipelines<a class="headerlink" href="#available-pipelines" title="Permalink to this headline">¶</a></h2>
+<h2>Available Pipelines<a class="headerlink" href="#available-pipelines" title="Permalink to this headline">#</a></h2>
 <p>Please see the <a class="reference external" href="https://nlp.johnsnowlabs.com/docs/en/pipelines">Pipelines Page</a> for all available pipelines.</p>
 </section>
 </section>
@@ -310,8 +307,9 @@ take longer since it downloads the pretrained pipeline from our servers!</p>
       </div>
     </div>
   
-    <script src="../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -322,7 +320,7 @@ take longer since it downloads the pretrained pipeline from our servers!</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
 </p>
     </div>
     

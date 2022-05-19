@@ -70,11 +70,30 @@
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "analyze_medical_text_german" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/analyze_medical_text_german">Analyze Medical Texts in German</a>
       </li>
-      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "analyze_financial_models" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-        <a href="/analyze_financial_models">Analyze Financial Models</a>
-      </li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "medical_risk_scoring" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/medical_risk_scoring">Medical Risk Scoring</a>
+      </li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "classify_medical_texts" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/classify_medical_texts">Classify Medical Texts</a>
+      </li>
+      <li><strong>Spark NLP for Finance and Legal</strong></li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "entity_recognition" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/entity_recognition">Entity Recognition</a>
+      </li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "sentiment_analysis" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/sentiment_analysis">Sentiment Analysis</a>
+      </li>
+      <li data-hide="hide" {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "deidentification_legal" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/deidentification_legal">De-identification</a>
+      </li>
+      <li data-hide="hide" {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "relation_extraction" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/relation_extraction">Relation Extraction</a>
+      </li>
+      <li data-hide="hide" {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "table_extraction" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/table_extraction">Table Extraction</a>
+      </li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "text_classification" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/text_classification">Text Classification</a>
       </li>
       <li><strong>Spark OCR</strong></li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "extract_text_from_documents" %} class="active"  {% endif %} {% endfor %} {% endif %} >

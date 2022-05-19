@@ -64,25 +64,16 @@ class DependencyParserModelTestSpec extends AnyFlatSpec with DependencyParserBeh
     .setNumberOfIterations(15)
 
   private val pipelineTreeBank = new Pipeline()
-    .setStages(Array(
-      documentAssembler,
-      sentenceDetector,
-      tokenizer,
-      posTagger,
-      dependencyParserTreeBank
-    ))
+    .setStages(
+      Array(documentAssembler, sentenceDetector, tokenizer, posTagger, dependencyParserTreeBank))
 
   private val pipelineConllU = new Pipeline()
-    .setStages(Array(
-      documentAssembler,
-      sentenceDetector,
-      tokenizer,
-      posTagger,
-      dependencyParserConllU
-    ))
+    .setStages(
+      Array(documentAssembler, sentenceDetector, tokenizer, posTagger, dependencyParserConllU))
 
   def getPerceptronModel: PerceptronModel = {
-    val perceptronTagger = PerceptronModel.pretrained()
+    val perceptronTagger = PerceptronModel
+      .pretrained()
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("pos")
     perceptronTagger
@@ -95,14 +86,15 @@ class DependencyParserModelTestSpec extends AnyFlatSpec with DependencyParserBeh
 
   def saveModel(model: MLWriter, modelFilePath: String): Unit = {
     model.overwrite().save(modelFilePath)
-    assertResult(true){
+    assertResult(true) {
       Files.exists(Paths.get(modelFilePath))
     }
   }
 
   "DependencyParser" should "A Dependency Parser (trained through TreeBank format file)" taggedAs SlowTest in {
     val testDataSet: Dataset[Row] =
-      AnnotatorBuilder.withTreeBankDependencyParser(DataBuilder.basicDataBuild(ContentProvider.depSentence))
+      AnnotatorBuilder.withTreeBankDependencyParser(
+        DataBuilder.basicDataBuild(ContentProvider.depSentence))
     initialAnnotations(testDataSet)
   }
 
@@ -133,8 +125,7 @@ class DependencyParserModelTestSpec extends AnyFlatSpec with DependencyParserBeh
       val testDataSet = Seq(
         "So what happened?",
         "It should continue to be defanged.",
-        "That too was stopped."
-      ).toDS.toDF("text")
+        "That too was stopped.").toDS.toDF("text")
       relationshipsBetweenWordsPredictor(testDataSet, pipelineConllU)
     }
 

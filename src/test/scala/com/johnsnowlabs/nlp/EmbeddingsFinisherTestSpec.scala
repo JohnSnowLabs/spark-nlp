@@ -29,7 +29,9 @@ class EmbeddingsFinisherTestSpec extends AnyFlatSpec {
 
   "EmbeddingsFinisher" should "correctly transform embeddings into array of floats for Spark ML" taggedAs FastTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
+    val smallCorpus = ResourceHelper.spark.read
+      .option("header", "true")
+      .csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -44,7 +46,8 @@ class EmbeddingsFinisherTestSpec extends AnyFlatSpec {
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
-    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(smallCorpus)
+    val embeddings = AnnotatorBuilder
+      .getGLoveEmbeddings(smallCorpus)
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
@@ -61,14 +64,14 @@ class EmbeddingsFinisherTestSpec extends AnyFlatSpec {
       .setCleanAnnotations(false)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentence,
-        tokenizer,
-        embeddings,
-        embeddingsSentence,
-        embeddingsFinisher
-      ))
+      .setStages(
+        Array(
+          documentAssembler,
+          sentence,
+          tokenizer,
+          embeddings,
+          embeddingsSentence,
+          embeddingsFinisher))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
     /*
@@ -85,12 +88,14 @@ class EmbeddingsFinisherTestSpec extends AnyFlatSpec {
 
     pipelineDF.printSchema()
     explodedVectors.printSchema()
-    */
+     */
   }
 
   "EmbeddingsFinisher" should "correctly transform embeddings into Vectors and normalize it by Spark ML" taggedAs FastTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
+    val smallCorpus = ResourceHelper.spark.read
+      .option("header", "true")
+      .csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -105,7 +110,8 @@ class EmbeddingsFinisherTestSpec extends AnyFlatSpec {
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
-    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(smallCorpus)
+    val embeddings = AnnotatorBuilder
+      .getGLoveEmbeddings(smallCorpus)
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
@@ -131,16 +137,16 @@ class EmbeddingsFinisherTestSpec extends AnyFlatSpec {
       .setP(1.0)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentence,
-        tokenizer,
-        embeddings,
-        embeddingsSentence,
-        embeddingsFinisher,
-        explodeVectors,
-        vectorNormalizer
-      ))
+      .setStages(
+        Array(
+          documentAssembler,
+          sentence,
+          tokenizer,
+          embeddings,
+          embeddingsSentence,
+          embeddingsFinisher,
+          explodeVectors,
+          vectorNormalizer))
 
     val pipelineModel = pipeline.fit(smallCorpus)
     val pielineDF = pipelineModel.transform(smallCorpus)
@@ -158,7 +164,7 @@ class EmbeddingsFinisherTestSpec extends AnyFlatSpec {
     pielineDF.select("features").show(2)
 
     pielineDF.select("normFeatures").show(2)
-    */
+     */
   }
 
 }

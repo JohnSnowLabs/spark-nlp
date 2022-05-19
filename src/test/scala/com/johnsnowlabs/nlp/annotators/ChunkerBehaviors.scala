@@ -31,17 +31,24 @@ import org.scalatest.flatspec.AnyFlatSpec
 trait ChunkerBehaviors {
   this: AnyFlatSpec =>
 
-  case class SentenceParams(sentence: String, POSFormatSentence: Array[String],
-                            regexParser: Array[String], correctChunkPhrases: Array[String])
+  case class SentenceParams(
+      sentence: String,
+      POSFormatSentence: Array[String],
+      regexParser: Array[String],
+      correctChunkPhrases: Array[String])
 
   def testChunkingWithTrainedPOS(document: Array[String]): Unit = {
     it should "successfully transform a trained POS tagger annotator" taggedAs FastTest in {
       import SparkAccessor.spark.implicits._
-      val data = AnnotatorBuilder.withFullPragmaticSentenceDetector(AnnotatorBuilder.withDocumentAssembler(
-        SparkAccessor.spark.sparkContext.parallelize(document).toDF("text")
-      ))
+      val data = AnnotatorBuilder.withFullPragmaticSentenceDetector(
+        AnnotatorBuilder.withDocumentAssembler(
+          SparkAccessor.spark.sparkContext.parallelize(document).toDF("text")))
 
-      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "|", "tags")
+      val trainingPerceptronDF = POS().readDataset(
+        ResourceHelper.spark,
+        "src/test/resources/anc-pos-corpus-small/",
+        "|",
+        "tags")
       val tokenized = AnnotatorBuilder.withTokenizer(data, sbd = false)
 
       val trainedTagger: PerceptronModel =
@@ -69,10 +76,13 @@ trait ChunkerBehaviors {
     it should "successfully transform POS tagger annotator with pipeline" taggedAs FastTest in {
       import SparkAccessor.spark.implicits._
       val data = AnnotatorBuilder.withDocumentAssembler(
-        SparkAccessor.spark.sparkContext.parallelize(document).toDF("text")
-      )
+        SparkAccessor.spark.sparkContext.parallelize(document).toDF("text"))
 
-      val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "|", "tags")
+      val trainingPerceptronDF = POS().readDataset(
+        ResourceHelper.spark,
+        "src/test/resources/anc-pos-corpus-small/",
+        "|",
+        "tags")
 
       val documentAssembler = new DocumentAssembler()
         .setInputCol("text")
@@ -101,14 +111,7 @@ trait ChunkerBehaviors {
         .setInputCols("chunk")
 
       val pipeline = new Pipeline()
-        .setStages(Array(
-          documentAssembler,
-          sentence,
-          tokenizer,
-          POSTag,
-          chunker,
-          finisher
-        ))
+        .setStages(Array(documentAssembler, sentence, tokenizer, POSTag, chunker, finisher))
 
       val model = pipeline.fit(trainingPerceptronDF)
       val transform = model.transform(data)
@@ -144,49 +147,49 @@ trait ChunkerBehaviors {
       .setInputCols("chunks")
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentence,
-        tokenizer,
-        manualTrainedPos,
-        chunker,
-        finisher
-      ))
+      .setStages(
+        Array(documentAssembler, sentence, tokenizer, manualTrainedPos, chunker, finisher))
 
     val model = pipeline.fit(dataset)
     model
   }
 
-  def testUserInputPOSTags(sentence: Array[String], path: String, regexParser: Array[String]): Unit = {
+  def testUserInputPOSTags(
+      sentence: Array[String],
+      path: String,
+      regexParser: Array[String]): Unit = {
     it should "successfully generate chunk phrases from a regex parser" taggedAs FastTest in {
       import SparkAccessor.spark.implicits._
       val testData = AnnotatorBuilder.withDocumentAssembler(
-        SparkAccessor.spark.sparkContext.parallelize(sentence).toDF("text")
-      )
+        SparkAccessor.spark.sparkContext.parallelize(sentence).toDF("text"))
 
       val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, path, "|", "tags")
 
       val model = this.chunkerModelBuilder(trainingPerceptronDF, regexParser)
       val transform = model.transform(testData)
-      //transform.show(false)
+      // transform.show(false)
       assert(transform.select("finished_chunks").count() > 0)
     }
   }
 
-  def testRegexDoesNotMatch(sentence: Array[String], path: String, regexParser: Array[String]): Unit = {
+  def testRegexDoesNotMatch(
+      sentence: Array[String],
+      path: String,
+      regexParser: Array[String]): Unit = {
     it should "successfully generate empty chunk phrases from a regex parser" taggedAs FastTest in {
       import SparkAccessor.spark.implicits._
 
       val testData = AnnotatorBuilder.withDocumentAssembler(
-        SparkAccessor.spark.sparkContext.parallelize(sentence).toDF("text")
-      )
+        SparkAccessor.spark.sparkContext.parallelize(sentence).toDF("text"))
 
       val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, path, "|", "tags")
 
-
       val model = this.chunkerModelBuilder(trainingPerceptronDF, regexParser)
-      val finished_chunks = model.transform(testData).select("finished_chunks").collect().map(row =>
-        row.get(0).asInstanceOf[Seq[String]].toList)
+      val finished_chunks = model
+        .transform(testData)
+        .select("finished_chunks")
+        .collect()
+        .map(row => row.get(0).asInstanceOf[Seq[String]].toList)
       finished_chunks.map(row => assert(row.isEmpty))
     }
   }
@@ -198,23 +201,24 @@ trait ChunkerBehaviors {
 
       for (phrase <- phrases) {
 
-        val tokensLabelsDF = Seq((
-          phrase.sentence, phrase.POSFormatSentence)
-        ).toDF("sentence", "labels")
+        val tokensLabelsDF = Seq((phrase.sentence, phrase.POSFormatSentence))
+          .toDF("sentence", "labels")
           .withColumn("tokens", split($"sentence", " "))
 
         val trainingPerceptronDF = POS().readFromDataframe(tokensLabelsDF)
 
         val dataSeq = Seq((phrase.sentence, phrase.POSFormatSentence, phrase.correctChunkPhrases))
-        val data = SparkAccessor.spark.sparkContext.parallelize(dataSeq).toDF("text", "tags", "correct_chunks")
+        val data = SparkAccessor.spark.sparkContext
+          .parallelize(dataSeq)
+          .toDF("text", "tags", "correct_chunks")
 
         val model = this.chunkerModelBuilder(trainingPerceptronDF, phrase.regexParser)
 
         var transform = model.transform(data)
-        //transform.show(false)
+        // transform.show(false)
 
-        transform = transform.withColumn("equal_chunks",
-          col("correct_chunks") === col("finished_chunks"))
+        transform =
+          transform.withColumn("equal_chunks", col("correct_chunks") === col("finished_chunks"))
 
         val equalChunks = transform.select("equal_chunks").collect()
         for (equalChunk <- equalChunks) {
@@ -238,9 +242,11 @@ trait ChunkerBehaviors {
 
       val model = this.chunkerModelBuilder(trainingPerceptronDF, regexParser)
 
-      val finished_chunks = model.transform(dataset).select("finished_chunks").collect().map(row =>
-        row.get(0).asInstanceOf[Seq[String]].toList
-      )
+      val finished_chunks = model
+        .transform(dataset)
+        .select("finished_chunks")
+        .collect()
+        .map(row => row.get(0).asInstanceOf[Seq[String]].toList)
       finished_chunks.map(row => assert(row.nonEmpty))
 
     }

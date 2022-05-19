@@ -42,7 +42,7 @@ words_embedder = WordEmbeddingsModel() \
     .setInputCols(["sentences", "tokens"]) \
     .setOutputCol("embeddings")
 
-ner_tagger = NerDLModel() \
+ner_tagger = MedicalNerModel() \
     .pretrained("ner_ade_clinical", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens", "embeddings"]) \
     .setOutputCol("ner_tags")

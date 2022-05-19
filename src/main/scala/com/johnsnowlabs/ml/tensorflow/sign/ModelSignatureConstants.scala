@@ -18,44 +18,30 @@ package com.johnsnowlabs.ml.tensorflow.sign
 
 import scala.util.matching.Regex
 
-
-/**
- * Based on BERT SavedModel reference, for instance:
- *
- * signature_def['serving_default']:
- * The given SavedModel SignatureDef contains the following input(s):
- *
- * inputs['attention_mask'] tensor_info:
- * dtype: DT_INT32
- * shape: (-1, -1)
- * name: serving_default_attention_mask:0
- *
- * inputs['input_ids'] tensor_info:
- * dtype: DT_INT32
- * shape: (-1, -1)
- * name: serving_default_input_ids:0
- *
- * inputs['token_type_ids'] tensor_info:
- * dtype: DT_INT32
- * shape: (-1, -1)
- * name: serving_default_token_type_ids:0
- *
- * The given SavedModel SignatureDef contains the following output(s):
- *
- * outputs['last_hidden_state'] tensor_info:
- * dtype: DT_FLOAT
- * shape: (-1, -1, 768)
- * name: StatefulPartitionedCall:0
- *
- * outputs['pooler_output'] tensor_info:
- * dtype: DT_FLOAT
- * shape: (-1, 768)
- * name: StatefulPartitionedCall:1
- *
- * Method name is: tensorflow/serving/predict*
- */
-
-
+/** Based on BERT SavedModel reference, for instance:
+  *
+  * signature_def['serving_default']: The given SavedModel SignatureDef contains the following
+  * input(s):
+  *
+  * inputs['attention_mask'] tensor_info: dtype: DT_INT32 shape: (-1, -1) name:
+  * serving_default_attention_mask:0
+  *
+  * inputs['input_ids'] tensor_info: dtype: DT_INT32 shape: (-1, -1) name:
+  * serving_default_input_ids:0
+  *
+  * inputs['token_type_ids'] tensor_info: dtype: DT_INT32 shape: (-1, -1) name:
+  * serving_default_token_type_ids:0
+  *
+  * The given SavedModel SignatureDef contains the following output(s):
+  *
+  * outputs['last_hidden_state'] tensor_info: dtype: DT_FLOAT shape: (-1, -1, 768) name:
+  * StatefulPartitionedCall:0
+  *
+  * outputs['pooler_output'] tensor_info: dtype: DT_FLOAT shape: (-1, 768) name:
+  * StatefulPartitionedCall:1
+  *
+  * Method name is: tensorflow/serving/predict*
+  */
 object ModelSignatureConstants {
 
   sealed trait TFInfoDescriptor {
@@ -176,11 +162,24 @@ object ModelSignatureConstants {
     override val key: String = "logits"
     override val value: String = "StatefulPartitionedCall:0"
   }
+
+  case object EndLogitsOutput extends TFInfoNameMapper {
+    override val key: String = "end_logits"
+    override val value: String = "StatefulPartitionedCall:0"
+  }
+
+  case object StartLogitsOutput extends TFInfoNameMapper {
+    override val key: String = "start_logits"
+    override val value: String = "StatefulPartitionedCall:1"
+  }
+
   /** Retrieve signature patterns for a given provider
-   *
-   * @param modelProvider : the provider library that built the model and the signatures
-   * @return reference keys array of signature patterns for a given provider
-   * */
+    *
+    * @param modelProvider
+    *   : the provider library that built the model and the signatures
+    * @return
+    *   reference keys array of signature patterns for a given provider
+    */
   def getSignaturePatterns(modelProvider: String): Array[Regex] = {
     val referenceKeys = modelProvider match {
       case "TF1" =>
@@ -204,7 +203,8 @@ object ModelSignatureConstants {
           "(token_type)(.*)(ids)".r,
           "(last_hidden_state)".r)
 
-      case _ => throw new Exception("Unknown model provider! Please provide one in between TF1 or TF2.")
+      case _ =>
+        throw new Exception("Unknown model provider! Please provide one in between TF1 or TF2.")
     }
     referenceKeys
   }

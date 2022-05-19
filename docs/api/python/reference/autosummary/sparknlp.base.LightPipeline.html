@@ -6,29 +6,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>sparknlp.base.LightPipeline &#8212; Spark NLP 3.4.2 documentation</title>
+    <title>sparknlp.base.LightPipeline &#8212; Spark NLP 3.4.4 documentation</title>
     
-    <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
+
     
-    <link rel="stylesheet"
-      href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+  <link rel="stylesheet"
+    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
     
-    <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
     <script src="../../static/underscore.js"></script>
@@ -46,7 +43,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -186,6 +183,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.CamemBertEmbeddings.html">
+     sparknlp.annotator.CamemBertEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.ChunkEmbeddings.html">
      sparknlp.annotator.ChunkEmbeddings
     </a>
@@ -238,6 +240,16 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.DeBertaEmbeddings.html">
      sparknlp.annotator.DeBertaEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DeBertaForSequenceClassification.html">
+     sparknlp.annotator.DeBertaForSequenceClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DeBertaForTokenClassification.html">
+     sparknlp.annotator.DeBertaForTokenClassification
     </a>
    </li>
    <li class="toctree-l2">
@@ -882,10 +894,10 @@
               <div>
                 
   <section id="sparknlp-base-lightpipeline">
-<h1>sparknlp.base.LightPipeline<a class="headerlink" href="#sparknlp-base-lightpipeline" title="Permalink to this headline">¶</a></h1>
+<h1>sparknlp.base.LightPipeline<a class="headerlink" href="#sparknlp-base-lightpipeline" title="Permalink to this headline">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.base.LightPipeline">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sparknlp.base.</span></span><span class="sig-name descname"><span class="pre">LightPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipelineModel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parse_embeddings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#LightPipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.LightPipeline" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sparknlp.base.</span></span><span class="sig-name descname"><span class="pre">LightPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipelineModel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parse_embeddings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#LightPipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.LightPipeline" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Creates a LightPipeline from a Spark PipelineModel.</p>
 <p>LightPipeline is a Spark NLP specific Pipeline class equivalent to Spark
@@ -926,7 +938,7 @@ directly outputs the results.</p>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
-<table class="longtable table autosummary">
+<table class="autosummary longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -954,7 +966,7 @@ directly outputs the results.</p>
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.LightPipeline.annotate">
-<span class="sig-name descname"><span class="pre">annotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#LightPipeline.annotate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.LightPipeline.annotate" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">annotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#LightPipeline.annotate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.LightPipeline.annotate" title="Permalink to this definition">#</a></dt>
 <dd><p>Annotates the data provided, extracting the results.</p>
 <p>The data should be either a list or a str.</p>
 <dl class="field-list simple">
@@ -985,7 +997,7 @@ directly outputs the results.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.LightPipeline.fullAnnotate">
-<span class="sig-name descname"><span class="pre">fullAnnotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#LightPipeline.fullAnnotate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.LightPipeline.fullAnnotate" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fullAnnotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#LightPipeline.fullAnnotate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.LightPipeline.fullAnnotate" title="Permalink to this definition">#</a></dt>
 <dd><p>Annotates the data provided into <cite>Annotation</cite> type results.</p>
 <p>The data should be either a list or a str.</p>
 <dl class="field-list simple">
@@ -1023,7 +1035,7 @@ directly outputs the results.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.LightPipeline.getIgnoreUnsupported">
-<span class="sig-name descname"><span class="pre">getIgnoreUnsupported</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#LightPipeline.getIgnoreUnsupported"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.LightPipeline.getIgnoreUnsupported" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getIgnoreUnsupported</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#LightPipeline.getIgnoreUnsupported"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.LightPipeline.getIgnoreUnsupported" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets whether to ignore unsupported AnnotatorModels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -1037,7 +1049,7 @@ directly outputs the results.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.LightPipeline.setIgnoreUnsupported">
-<span class="sig-name descname"><span class="pre">setIgnoreUnsupported</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#LightPipeline.setIgnoreUnsupported"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.LightPipeline.setIgnoreUnsupported" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setIgnoreUnsupported</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#LightPipeline.setIgnoreUnsupported"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.LightPipeline.setIgnoreUnsupported" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether to ignore unsupported AnnotatorModels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1057,7 +1069,7 @@ directly outputs the results.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.LightPipeline.transform">
-<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#LightPipeline.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.LightPipeline.transform" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#LightPipeline.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.LightPipeline.transform" title="Permalink to this definition">#</a></dt>
 <dd><p>Transforms a dataframe provided with the stages of the LightPipeline.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
@@ -1107,8 +1119,9 @@ directly outputs the results.</p>
       </div>
     </div>
   
-    <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -1119,7 +1132,7 @@ directly outputs the results.</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
 </p>
     </div>
     

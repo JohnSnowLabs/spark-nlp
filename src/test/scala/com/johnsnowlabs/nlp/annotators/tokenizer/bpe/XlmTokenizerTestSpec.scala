@@ -16,10 +16,8 @@
 
 package com.johnsnowlabs.nlp.annotators.tokenizer.bpe
 
-import com.johnsnowlabs.nlp.annotators.common.{Sentence, TokenPiece}
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.nlp.annotators.common.TokenPiece
 import org.scalatest.flatspec.AnyFlatSpec
-
 
 class XlmTokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
   val vocab: Map[String, Int] =
@@ -48,8 +46,7 @@ class XlmTokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
       "3",
       "as",
       "d</w>",
-      "!</w>"
-    ).zipWithIndex.toMap
+      "!</w>").zipWithIndex.toMap
 
   val merges: Map[(String, String), Int] = Array(
     "u n",
@@ -71,15 +68,15 @@ class XlmTokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
     "go od</w>",
     "bi g",
     "s d</w>",
-    "o o"
-  ).map(_.split(" ")).map { case Array(c1, c2) => (c1, c2) }.zipWithIndex.toMap
+    "o o").map(_.split(" ")).map { case Array(c1, c2) => (c1, c2) }.zipWithIndex.toMap
 
   val tokenizer: BpeTokenizer = BpeTokenizer.forModel("xlm", merges, vocab)
 
-  override def assertEncodedCorrectly(text: String,
-                                     encoded: Array[TokenPiece],
-                                     expected: Array[String],
-                                     expectedIds: Array[Int]): Unit = {
+  override def assertEncodedCorrectly(
+      text: String,
+      encoded: Array[TokenPiece],
+      expected: Array[String],
+      expectedIds: Array[Int]): Unit = {
     assert(encoded.length == expected.length)
 
     for (i <- encoded.indices) {
@@ -96,15 +93,25 @@ class XlmTokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
     tokenizer = tokenizer,
     text = "I unambigouosly good 3Asd!",
     expected = Array("i", "un", "ambi", "gou", "os", "ly", "good", "3", "as", "d", "!"),
-    expectedIds = Array(14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24)
-  )
+    expectedIds = Array(14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24))
 
   it should behave like correctBpeTokenizerInFringeSituations(tokenizer = tokenizer)
 
   it should behave like correctBpeTokenizerSpecialTokens(
     tokenizer = tokenizer,
     text = "I unambigouosly <special1> good 3Asd <special1>",
-    expected = Array("i", "un", "ambi", "gou", "os", "ly", "<special1>", "good",  "3", "as", "d", "<special1>"),
-    expectedIds = Array(14, 15, 16, 17, 18, 19, 5, 20, 21, 22, 23, 5)
-  )
+    expected = Array(
+      "i",
+      "un",
+      "ambi",
+      "gou",
+      "os",
+      "ly",
+      "<special1>",
+      "good",
+      "3",
+      "as",
+      "d",
+      "<special1>"),
+    expectedIds = Array(14, 15, 16, 17, 18, 19, 5, 20, 21, 22, 23, 5))
 }

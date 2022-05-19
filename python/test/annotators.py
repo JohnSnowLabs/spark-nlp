@@ -114,7 +114,7 @@ class LemmatizerWithTrainingDataSetTestSpec(unittest.TestCase):
 
     def runTest(self):
         test_dataset = self.spark.createDataFrame([["So what happened?"]]).toDF("text")
-        train_dataset = CoNLLU().readDataset(self.spark, self.conllu_file)
+        train_dataset = CoNLLU(lemmaCol="lemma_train").readDataset(self.spark, self.conllu_file)
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
@@ -123,8 +123,11 @@ class LemmatizerWithTrainingDataSetTestSpec(unittest.TestCase):
             .setOutputCol("token")
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
+            .setFormCol("form") \
+            .setLemmaCol("lemma_train") \
             .setOutputCol("lemma")
 
+        train_dataset.show()
         pipeline = Pipeline(stages=[document_assembler, tokenizer, lemmatizer])
         pipeline.fit(train_dataset).transform(test_dataset).show()
 
@@ -527,12 +530,6 @@ class PipelineTestSpec(unittest.TestCase):
         pipe_path = "file:///" + os.getcwd() + "/tmp_pipeline"
         pipeline.write().overwrite().save(pipe_path)
         loaded_pipeline = Pipeline.read().load(pipe_path)
-        token_after_save = model.transform(self.data).select("token_views").take(1)[0].token_views.split("@")[2]
-        lemma_after_save = model.transform(self.data).select("lemma_views").take(1)[0].lemma_views.split("@")[2]
-        assert token_before_save == "sad"
-        assert lemma_before_save == "unsad"
-        assert token_after_save == token_before_save
-        assert lemma_after_save == lemma_before_save
         pipeline_model = loaded_pipeline.fit(self.data)
         pipeline_model.transform(self.data).show()
         pipeline_model.write().overwrite().save(pipe_path)
@@ -1502,6 +1499,76 @@ class SentenceDetectorDLTestSpec(unittest.TestCase):
         model.transform(self.data).show()
 
 
+class SentenceDetectorDLExtraParamsTestSpec(unittest.TestCase):
+    def runTest(self):
+        sampleText = """
+            A dog loves going out on a walk, eating and sleeping in front of the fireplace. 
+            This how a dog lives. 
+            It's great!
+        """.strip()
+        data_df = SparkContextForTest.spark.createDataFrame([[sampleText]]).toDF("text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        sentence_detector = SentenceDetectorDLModel.pretrained() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentences") \
+            .setMaxLength(35) \
+            .setMinLength(15) \
+            .setCustomBounds([","])
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector
+        ])
+        model = pipeline.fit(data_df)
+        results = model.transform(data_df).selectExpr("explode(sentences)").collect()
+        print(results)
+        self.assertEqual(len(results), 2)
+
+        sentence_detector \
+            .setUseCustomBoundsOnly(True) \
+            .setMinLength(0) \
+            .setMaxLength(1000) \
+            .setCustomBounds([","])
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector
+        ])
+        model = pipeline.fit(data_df)
+        results = model.transform(data_df).selectExpr("explode(sentences)").collect()
+        print(results)
+        self.assertEqual(len(results), 2)
+
+        impossible_penultimates = sentence_detector.getImpossiblePenultimates()
+
+        sentence_detector \
+            .setUseCustomBoundsOnly(False) \
+            .setMinLength(0) \
+            .setMaxLength(1000) \
+            .setCustomBounds([]) \
+            .setImpossiblePenultimates(impossible_penultimates + ["fireplace"])
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector
+        ])
+        model = pipeline.fit(data_df)
+        results = model.transform(data_df).selectExpr("explode(sentences)").collect()
+        print(results)
+        self.assertEqual(len(results), 2)
+
+        sentence_detector \
+            .setUseCustomBoundsOnly(False) \
+            .setMinLength(0) \
+            .setMaxLength(1000) \
+            .setCustomBounds([]) \
+            .setImpossiblePenultimates(impossible_penultimates)
+
+
 class WordSegmenterTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -2268,3 +2335,121 @@ class Word2VecTestSpec(unittest.TestCase):
         model.write().overwrite().save("./tmp_model")
         loaded_model = model.load("./tmp_model")
         loaded_model.transform(self.data).show()
+
+
+class DeBertaForSequenceClassificationTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        doc_classifier = DeBertaForSequenceClassification \
+            .pretrained() \
+            .setInputCols(["document", "token"]) \
+            .setOutputCol("class")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            doc_classifier
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
+
+
+class DeBertaForTokenClassificationTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        doc_classifier = DeBertaForTokenClassification \
+            .pretrained() \
+            .setInputCols(["document", "token"]) \
+            .setOutputCol("class")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            doc_classifier
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
+
+
+class CamemBertEmbeddingsTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        embeddings = CamemBertEmbeddings.pretrained() \
+            .setInputCols(["token", "document"]) \
+            .setOutputCol("camembert_embeddings")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            embeddings
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
+
+
+class MultiDocumentAssemblerTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.spark.createDataFrame([
+            ["First document", "Second document"],
+        ]).toDF("text1", "text2")
+
+    def runTest(self):
+        document_assembler = MultiDocumentAssembler().setInputCols(["text1", "text2"]).setOutputCols(
+            ["document1", "document2"])
+
+        pipeline = Pipeline(stages=[document_assembler])
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
+
+
+class QuestionAnsweringTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.spark.createDataFrame(
+            [["What's my name?", "My name is Clara and I live in Berkeley."]]).toDF("question", "context")
+
+    def runTest(self):
+        document_assembler = MultiDocumentAssembler().setInputCols(["question", "context"]).setOutputCols(
+            ["document_question", "document_context"])
+        spanClassifier = XlmRoBertaForQuestionAnswering \
+            .pretrained() \
+            .setInputCols(["document_question", "document_context"]) \
+            .setOutputCol("answer") \
+            .setCaseSensitive(False)
+
+        pipeline = Pipeline(stages=[document_assembler, spanClassifier])
+        model = pipeline.fit(self.data)
+        model.write().overwrite().save("./tmp_qa_pipeline_model")
+        loaded_pipeline: PipelineModel = PipelineModel.read().load("./tmp_qa_pipeline_model")
+        loaded_pipeline.transform(self.data).select("answer.result").show()

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.EmbeddingsFinisher</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.EmbeddingsFinisher" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.EmbeddingsFinisher" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.nlp.EmbeddingsFinisher</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.nlp.EmbeddingsFinisher" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.nlp.EmbeddingsFinisher" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -230,6 +230,10 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.johnsnowlabs.nlp">nlp</a></dd></dl></div>
     </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="ActivationFunction$.html" title=""></a>
+                        <a href="ActivationFunction$.html" title="">ActivationFunction</a>
+                      </li><li class="current-entities indented3">
                         <a class="object" href="Annotation$.html" title=""></a>
                         <a class="class" href="Annotation.html" title="represents annotator's output parts and their details"></a>
                         <a href="Annotation.html" title="represents annotator's output parts and their details">Annotation</a>
@@ -291,6 +295,10 @@
                         <a href="HasCaseSensitiveProperties.html" title="">HasCaseSensitiveProperties</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="trait" href="HasClassifierActivationProperties.html" title=""></a>
+                        <a href="HasClassifierActivationProperties.html" title="">HasClassifierActivationProperties</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="trait" href="HasEnableCachingProperties.html" title=""></a>
                         <a href="HasEnableCachingProperties.html" title="">HasEnableCachingProperties</a>
                       </li><li class="current-entities indented3">
@@ -303,8 +311,8 @@
                         <a href="HasInputAnnotationCols.html" title="">HasInputAnnotationCols</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="trait" href="HasMultipleInputAnnotationCols.html" title="Trait  used to create annotators with input columns of variable length."></a>
-                        <a href="HasMultipleInputAnnotationCols.html" title="Trait  used to create annotators with input columns of variable length.">HasMultipleInputAnnotationCols</a>
+                        <a class="trait" href="HasMultipleInputAnnotationCols.html" title="Trait used to create annotators with input columns of variable length."></a>
+                        <a href="HasMultipleInputAnnotationCols.html" title="Trait used to create annotators with input columns of variable length.">HasMultipleInputAnnotationCols</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="trait" href="HasOutputAnnotationCol.html" title=""></a>
@@ -399,13 +407,12 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Extracts embeddings from Annotations into a more easily usable form.</p><p>This is useful for example:
-<a href="embeddings/WordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings">WordEmbeddings</a>,
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Extracts embeddings from Annotations into a more easily usable form.</p><p>This is useful for example: <a href="embeddings/WordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings">WordEmbeddings</a>,
 <a href="embeddings/BertEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertEmbeddings">BertEmbeddings</a>,
 <a href="embeddings/SentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a> and
-<a href="embeddings/ChunkEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings">ChunkEmbeddings</a>.</p><p>By using <code>EmbeddingsFinisher</code> you can easily transform your embeddings into array of floats or vectors which are
-compatible with Spark ML functions such as LDA, K-mean, Random Forest classifier or any other functions that require
-<code>featureCol</code>.</p><p>For more extended examples see the
+<a href="embeddings/ChunkEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings">ChunkEmbeddings</a>.</p><p>By using <code>EmbeddingsFinisher</code> you can easily transform your embeddings into array of floats or
+vectors which are compatible with Spark ML functions such as LDA, K-mean, Random Forest
+classifier or any other functions that require <code>featureCol</code>.</p><p>For more extended examples see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.1_Text_classification_examples_in_SparkML_SparkNLP.ipynb" target="_blank">Spark NLP Workshop</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
 <span class="kw">import</span> com.johnsnowlabs.nlp.{DocumentAssembler, EmbeddingsFinisher}
@@ -466,7 +473,8 @@ resultWithSize.show(<span class="num">5</span>, <span class="num">80</span>)
 | <span class="num">100</span>|[<span class="num">0.08621499687433243</span>,-<span class="num">0.15772999823093414</span>,-<span class="num">0.06067200005054474</span>,<span class="num">0.395359992980</span>...|
 | <span class="num">100</span>|[-<span class="num">0.4970499873161316</span>,<span class="num">0.7164199948310852</span>,<span class="num">0.40119001269340515</span>,-<span class="num">0.05761000141501</span>...|
 | <span class="num">100</span>|[-<span class="num">0.08170200139284134</span>,<span class="num">0.7159299850463867</span>,-<span class="num">0.20677000284194946</span>,<span class="num">0.0295659992843</span>...|
-+----+--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="Finisher.html" class="extype" name="com.johnsnowlabs.nlp.Finisher">Finisher</a> for finishing Strings</p></span></dd></dl><div class="toggleContainer block">
++----+--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
+  <a href="Finisher.html" class="extype" name="com.johnsnowlabs.nlp.Finisher">Finisher</a> for finishing Strings</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -547,7 +555,8 @@ resultWithSize.show(<span class="num">5</span>, <span class="num">80</span>)
         <span class="name">EmbeddingsFinisher</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>required uid for storing annotator to disk</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>
+  required uid for storing annotator to disk</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -1949,7 +1958,9 @@ resultWithSize.show(<span class="num">5</span>, <span class="num">80</span>)
         <div id="groupedMembers">
         <div class="group" name="param">
               <h3>Parameters</h3>
-              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
+              <div class="comment cmt"><p>
+  A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  parameter values through setters and getters, respectively.</p></div>
             </div><div class="group" name="Ungrouped">
               <h3>Members</h3>
               

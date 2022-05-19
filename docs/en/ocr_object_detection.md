@@ -15,7 +15,7 @@ sidebar:
 ## ImageHandwrittenDetector
 
 `ImageHandwrittenDetector` is a DL model for detect handwritten text on the image.
-It based on Cascade Region-based CNN network.
+It's based on Cascade Region-based CNN network.
 
 Detector support following labels:
  - 'signature'
@@ -139,8 +139,8 @@ display_images(data, "image_with_regions")
 
 ## ImageTextDetector
 
-`ImageTextDetector` is a DL model for detect text on the image.
-It based on CRAFT network architecture.
+`ImageTextDetector` is a DL model for detecting text on the image.
+It's based on CRAFT network architecture.
 
 
 #### Input Columns

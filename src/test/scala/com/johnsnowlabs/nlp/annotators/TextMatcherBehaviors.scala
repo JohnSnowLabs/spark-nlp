@@ -25,17 +25,19 @@ trait TextMatcherBehaviors { this: AnyFlatSpec =>
 
   def fullTextMatcher(dataset: => Dataset[Row]) {
     "An TextMatcher Annotator" should "successfully transform data" taggedAs FastTest in {
-      AnnotatorBuilder.withFullTextMatcher(dataset)
-        .collect().foreach {
-        row =>
-          row.getSeq[Row](3)
+      AnnotatorBuilder
+        .withFullTextMatcher(dataset)
+        .collect()
+        .foreach { row =>
+          row
+            .getSeq[Row](3)
             .map(Annotation(_))
             .foreach {
               case entity: Annotation if entity.annotatorType == "entity" =>
                 println(entity, entity.end)
               case _ => ()
             }
-      }
+        }
     }
   }
 }

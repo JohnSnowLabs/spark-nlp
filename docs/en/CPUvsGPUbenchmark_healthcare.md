@@ -146,11 +146,30 @@ You will experiment big GPU improvements in the following cases:
 </div>
 <div class="h3-box" markdown="1">
 
+### MultiGPU Inference on Databricks
+In this part, we will give you an idea on how to choose appropriate hardware specifications for Databricks. Here is a few different hardwares, their prices, as well as their performance:
+![image](https://user-images.githubusercontent.com/25952802/158796429-78ec52b1-c036-4a9c-89c2-d3d1f395f71d.png)
+
+Apparently, GPU hardware is the cheapest among them although it performs the best. Let's see how overall performance looks like:
+
+![image](https://user-images.githubusercontent.com/25952802/158799106-8ee03a8b-8590-49ae-9657-b9663b915324.png)
+
+Figure above clearly shows us that GPU should be the first option of ours. 
+
+In conclusion, please find the best specifications for your use case since these benchmarks might depend on dataset size, inference batch size, quickness, pricing and so on.
+
+Please refer to this video for further info: https://events.johnsnowlabs.com/webinar-speed-optimization-benchmarks-in-spark-nlp-3-making-the-most-of-modern-hardware?hsCtaTracking=a9bb6358-92bd-4cf3-b97c-e76cb1dfb6ef%7C4edba435-1adb-49fc-83fd-891a7506a417
+
 ### MultiGPU training
-Right now, we don't support multigpu training (1 model in different GPUs in parallel), but you can train different models in different GPU.
+Currently, we don't support multiGPU training, meaning training 1 model in different GPUs in parallel. However, you can train different models in different GPUs.
 
 </div>
 <div class="h3-box" markdown="1">
+
+### MultiGPU inference
+Spark NLP can carry out MultiGPU inference if GPUs are in different cluster nodes. For example, if you have a cluster with different GPUs, you can repartition your data to match the number of GPU nodes and then coalesce to retrieve the results back to the master node. 
+
+Currently, inference on multiple GPUs on the same machine is not supported.
 
 ### Where to look for more information about Training
 Please, take a look at the [Spark NLP](https://nlp.johnsnowlabs.com/docs/en/training) and [Spark NLP for Healthcare](https://nlp.johnsnowlabs.com/docs/en/licensed_training) Training sections, and feel free to reach us out in case you want to maximize the performance on your GPU.

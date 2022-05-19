@@ -305,13 +305,20 @@ Then you need to write that piece of code to load the credentials that you creat
 ```python
 
 import json
+import os
 
 from google.colab import files
 
 license_keys = files.upload()
 
 with open(list(license_keys.keys())[0]) as f:
-    license_keys = json.load(f)
+  license_keys = json.load(f)
+
+# Defining license key-value pairs as local variables
+locals().update(license_keys)
+
+# Adding license key-value pairs to environment variables
+os.environ.update(license_keys)
 ```
 
 ```sh
@@ -319,12 +326,9 @@ with open(list(license_keys.keys())[0]) as f:
 !wget https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/jsl_colab_setup.sh
 ```
 
-This script comes with the two options to define `pyspark`,`spark-nlp` and `spark-nlp-jsl` versions via options:
 
 ```sh
-# -p is for pyspark
-# -s is for spark-nlp
-# by default they are set to the latest
+# -p is for pyspark (by default 3.1.1)
 !bash jsl_colab_setup.sh
 ```
 

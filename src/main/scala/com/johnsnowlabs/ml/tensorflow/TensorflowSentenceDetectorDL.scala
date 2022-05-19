@@ -18,19 +18,19 @@ package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.util.io.OutputHelper
+import org.apache.spark.ml.util.Identifiable
 import org.tensorflow.Graph
+import org.tensorflow.proto.framework.GraphDef
 
 import scala.collection.JavaConverters._
 import scala.util.Random
-import org.apache.spark.ml.util.Identifiable
-import org.tensorflow.proto.framework.GraphDef
 
 class TensorflowSentenceDetectorDL(
-                                    val model: TensorflowWrapper,
-                                    val verboseLevel: Verbose.Value = Verbose.All,
-                                    val outputLogsPath: Option[String] = None
-                                  )
-  extends Serializable with Logging {
+    val model: TensorflowWrapper,
+    val verboseLevel: Verbose.Value = Verbose.All,
+    val outputLogsPath: Option[String] = None)
+    extends Serializable
+    with Logging {
 
   private val initKey = "init"
   private val inputsKey = "inputs"
@@ -79,27 +79,25 @@ class TensorflowSentenceDetectorDL(
   }
 
   def train(
-             features: Array[Array[Float]],
-             labels: Array[Array[Float]],
-             batchSize: Int,
-             epochsNumber: Int,
-             learningRate: Float = 0.001f,
-             validationSplit: Float = 0.0f,
-             classWeights: Array[Float],
-             dropout: Float = 0.0f,
-             configProtoBytes: Option[Array[Byte]] = None,
-             uuid: String = Identifiable.randomUID("annotator")
-           ): Unit = {
+      features: Array[Array[Float]],
+      labels: Array[Array[Float]],
+      batchSize: Int,
+      epochsNumber: Int,
+      learningRate: Float = 0.001f,
+      validationSplit: Float = 0.0f,
+      classWeights: Array[Float],
+      dropout: Float = 0.0f,
+      configProtoBytes: Option[Array[Byte]] = None,
+      uuid: String = Identifiable.randomUID("annotator")): Unit = {
 
     model.createSession(configProtoBytes).runner.addTarget(initKey).run()
 
-    val outputClassWeights = classWeights.padTo(_outputDim, 0.0F)
+    val outputClassWeights = classWeights.padTo(_outputDim, 0.0f)
 
     val zippedDataset = features
       .map(x => x.padTo(_inputDim, 0.0f))
-      .zip(
-        labels.map(x => x.padTo(_outputDim, 0.0f))
-      ).toSeq
+      .zip(labels.map(x => x.padTo(_outputDim, 0.0f)))
+      .toSeq
 
     val allData = Random.shuffle(zippedDataset)
 
@@ -137,7 +135,9 @@ class TensorflowSentenceDetectorDL(
         val classWeightsTensor = tensors.createTensor(outputClassWeights)
         val dropoutTensor = tensors.createTensor(dropout)
 
-        val calculated = model.getTFSession(configProtoBytes).runner
+        val calculated = model
+          .getTFSession(configProtoBytes)
+          .runner
           .feed(inputsKey, inputTensor)
           .feed(targetsKey, labelTensor)
           .feed(learningRateKey, lrTensor)
@@ -158,10 +158,17 @@ class TensorflowSentenceDetectorDL(
 
       if (validationSplit > 0.0) {
         val (validationFeatures, validationLabels) = validationDataset.toArray.unzip
-        val (_, valid_acc) = internalPredict(validationFeatures, validationLabels, configProtoBytes, outputClassWeights)
+        val (_, valid_acc) = internalPredict(
+          validationFeatures,
+          validationLabels,
+          configProtoBytes,
+          outputClassWeights)
         val endTime = (System.nanoTime() - time) / 1e9
-        println(f"Epoch $epoch/$epochsNumber\t$endTime%.2fs\tLoss: $loss\tACC: $acc\tValidation ACC: $valid_acc")
-        logMessage(f"Epoch $epoch/$epochsNumber\t$endTime%.2fs\tLoss: $loss\tACC: $acc\tValidation ACC: $valid_acc", uuid)
+        println(
+          f"Epoch $epoch/$epochsNumber\t$endTime%.2fs\tLoss: $loss\tACC: $acc\tValidation ACC: $valid_acc")
+        logMessage(
+          f"Epoch $epoch/$epochsNumber\t$endTime%.2fs\tLoss: $loss\tACC: $acc\tValidation ACC: $valid_acc",
+          uuid)
       } else {
         val endTime = (System.nanoTime() - time) / 1e9
         println(f"Epoch $epoch/$epochsNumber\t$endTime%.2fs\tLoss: $loss\tACC: $acc")
@@ -177,11 +184,10 @@ class TensorflowSentenceDetectorDL(
   }
 
   protected def internalPredict(
-                                 features: Array[Array[Float]],
-                                 labels: Array[Array[Float]],
-                                 configProtoBytes: Option[Array[Byte]] = None,
-                                 classWeights: Array[Float]
-                               ): (Float, Float) = {
+      features: Array[Array[Float]],
+      labels: Array[Array[Float]],
+      configProtoBytes: Option[Array[Byte]] = None,
+      classWeights: Array[Float]): (Float, Float) = {
 
     val tensors = new TensorResources()
 
@@ -189,7 +195,9 @@ class TensorflowSentenceDetectorDL(
     val labelTensor = tensors.createTensor(labels)
     val classWeightsTensor = tensors.createTensor(classWeights)
 
-    val calculated = model.getTFSession(configProtoBytes).runner
+    val calculated = model
+      .getTFSession(configProtoBytes)
+      .runner
       .feed(inputsKey, inputTensor)
       .feed(targetsKey, labelTensor)
       .feed(classWeightsKey, classWeightsTensor)
@@ -206,13 +214,15 @@ class TensorflowSentenceDetectorDL(
   }
 
   def predict(
-               features: Array[Array[Float]],
-               configProtoBytes: Option[Array[Byte]] = None): (Array[Long], Array[Float]) = {
+      features: Array[Array[Float]],
+      configProtoBytes: Option[Array[Byte]] = None): (Array[Long], Array[Float]) = {
 
     val tensors = new TensorResources()
     val inputTensor = tensors.createTensor(features.map(x => x.padTo(_inputDim, 0.0f)))
 
-    val calculated = model.getTFSession(configProtoBytes).runner
+    val calculated = model
+      .getTFSession(configProtoBytes)
+      .runner
       .feed(inputsKey, inputTensor)
       .fetch(predictionsKey)
       .fetch(outputsKey)
@@ -226,6 +236,5 @@ class TensorflowSentenceDetectorDL(
 
     (prediction, confidence)
   }
-
 
 }
