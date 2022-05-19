@@ -49,7 +49,7 @@ tokenizer = Tokenizer() \
 
 tokenClassifier = BertForTokenClassification.pretrained("bert_ner_NCBI_BC5CDR_disease","en") \
     .setInputCols(["sentence", "token"]) \
-    .setOutputCol("pos")
+    .setOutputCol("ner")
 
 pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier])
 
@@ -72,7 +72,7 @@ val tokenizer = new Tokenizer()
 
 val tokenClassifier = BertForTokenClassification.pretrained("bert_ner_NCBI_BC5CDR_disease","en") 
     .setInputCols(Array("sentence", "token")) 
-    .setOutputCol("pos")
+    .setOutputCol("ner")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler,sentenceDetector, tokenizer, tokenClassifier))
 

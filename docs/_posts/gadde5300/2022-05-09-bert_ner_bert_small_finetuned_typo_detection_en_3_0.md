@@ -49,7 +49,7 @@ tokenizer = Tokenizer() \
 
 tokenClassifier = BertForTokenClassification.pretrained("bert_ner_bert_small_finetuned_typo_detection","en") \
     .setInputCols(["sentence", "token"]) \
-    .setOutputCol("pos")
+    .setOutputCol("ner")
 
 pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier])
 
@@ -72,7 +72,7 @@ val tokenizer = new Tokenizer()
 
 val tokenClassifier = BertForTokenClassification.pretrained("bert_ner_bert_small_finetuned_typo_detection","en") 
     .setInputCols(Array("sentence", "token")) 
-    .setOutputCol("pos")
+    .setOutputCol("ner")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler,sentenceDetector, tokenizer, tokenClassifier))
 
