@@ -49,7 +49,7 @@ tokenizer = Tokenizer() \
 
 tokenClassifier = DistilBertForTokenClassification.pretrained("distilbert_ner_distilbert_base_multilingual_cased_masakhaner","ig") \
     .setInputCols(["sentence", "token"]) \
-    .setOutputCol("pos")
+    .setOutputCol("ner")
 
 pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier])
 
@@ -72,7 +72,7 @@ val tokenizer = new Tokenizer()
 
 val tokenClassifier = DistilBertForTokenClassification.pretrained("distilbert_ner_distilbert_base_multilingual_cased_masakhaner","ig") 
     .setInputCols(Array("sentence", "token")) 
-    .setOutputCol("pos")
+    .setOutputCol("ner")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler,sentenceDetector, tokenizer, tokenClassifier))
 
