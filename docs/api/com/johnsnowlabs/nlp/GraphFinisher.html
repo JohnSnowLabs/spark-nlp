@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.GraphFinisher</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.GraphFinisher" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.GraphFinisher" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.nlp.GraphFinisher</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.nlp.GraphFinisher" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.nlp.GraphFinisher" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -230,6 +230,10 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.johnsnowlabs.nlp">nlp</a></dd></dl></div>
     </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="ActivationFunction$.html" title=""></a>
+                        <a href="ActivationFunction$.html" title="">ActivationFunction</a>
+                      </li><li class="current-entities indented3">
                         <a class="object" href="Annotation$.html" title=""></a>
                         <a class="class" href="Annotation.html" title="represents annotator's output parts and their details"></a>
                         <a href="Annotation.html" title="represents annotator's output parts and their details">Annotation</a>
@@ -291,6 +295,10 @@
                         <a href="HasCaseSensitiveProperties.html" title="">HasCaseSensitiveProperties</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="trait" href="HasClassifierActivationProperties.html" title=""></a>
+                        <a href="HasClassifierActivationProperties.html" title="">HasClassifierActivationProperties</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="trait" href="HasEnableCachingProperties.html" title=""></a>
                         <a href="HasEnableCachingProperties.html" title="">HasEnableCachingProperties</a>
                       </li><li class="current-entities indented3">
@@ -303,8 +311,8 @@
                         <a href="HasInputAnnotationCols.html" title="">HasInputAnnotationCols</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="trait" href="HasMultipleInputAnnotationCols.html" title="Trait  used to create annotators with input columns of variable length."></a>
-                        <a href="HasMultipleInputAnnotationCols.html" title="Trait  used to create annotators with input columns of variable length.">HasMultipleInputAnnotationCols</a>
+                        <a class="trait" href="HasMultipleInputAnnotationCols.html" title="Trait used to create annotators with input columns of variable length."></a>
+                        <a href="HasMultipleInputAnnotationCols.html" title="Trait used to create annotators with input columns of variable length.">HasMultipleInputAnnotationCols</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="trait" href="HasOutputAnnotationCol.html" title=""></a>
@@ -397,9 +405,10 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Helper class to convert the knowledge graph from GraphExtraction into a generic format, such as RDF.</p><h4>Example</h4><p>This is a continuation of the example of
-<a href="annotators/GraphExtraction.html" class="extype" name="com.johnsnowlabs.nlp.annotators.GraphExtraction">GraphExtraction</a>. To see how the graph is extracted, see the
-documentation of that class.</p><pre><span class="kw">import</span> com.johnsnowlabs.nlp.GraphFinisher
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Helper class to convert the knowledge graph from GraphExtraction into a generic format, such
+as RDF.</p><h4>Example</h4><p>This is a continuation of the example of
+<a href="annotators/GraphExtraction.html" class="extype" name="com.johnsnowlabs.nlp.annotators.GraphExtraction">GraphExtraction</a>. To see how the graph is
+extracted, see the documentation of that class.</p><pre><span class="kw">import</span> com.johnsnowlabs.nlp.GraphFinisher
 
 <span class="kw">val</span> graphFinisher = <span class="kw">new</span> GraphFinisher()
   .setInputCol(<span class="lit">"graph"</span>)
@@ -412,7 +421,8 @@ finishedResult.select(<span class="lit">"text"</span>, <span class="lit">"graph_
 |text                                                 |graph_finished                                                         |
 +-----------------------------------------------------+-----------------------------------------------------------------------+
 |You and John prefer the morning flight through Denver|[[(prefer,nsubj,morning), (morning,flat,flight), (flight,flat,Denver)]]|
-+-----------------------------------------------------+-----------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="annotators/GraphExtraction.html" class="extype" name="com.johnsnowlabs.nlp.annotators.GraphExtraction">GraphExtraction</a> to extract the graph.</p></span></dd></dl><div class="toggleContainer block">
++-----------------------------------------------------+-----------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
+  <a href="annotators/GraphExtraction.html" class="extype" name="com.johnsnowlabs.nlp.annotators.GraphExtraction">GraphExtraction</a> to extract the graph.</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -493,7 +503,8 @@ finishedResult.select(<span class="lit">"text"</span>, <span class="lit">"graph_
         <span class="name">GraphFinisher</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>required uid for storing annotator to disk</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>
+  required uid for storing annotator to disk</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -1830,7 +1841,9 @@ finishedResult.select(<span class="lit">"text"</span>, <span class="lit">"graph_
         <div id="groupedMembers">
         <div class="group" name="param">
               <h3>Parameters</h3>
-              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
+              <div class="comment cmt"><p>
+  A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  parameter values through setters and getters, respectively.</p></div>
             </div><div class="group" name="Ungrouped">
               <h3>Members</h3>
               

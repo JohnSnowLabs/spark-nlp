@@ -16,7 +16,6 @@
 
 package com.johnsnowlabs.util
 
-
 case class Version(parts: List[Int]) {
 
   override def toString: String = {
@@ -32,7 +31,9 @@ case class Version(parts: List[Int]) {
       case 1 => parts.head.toString
       case 2 => f"${parts.head.toString}.${parts(1).toString}"
       case 3 => f"${parts.head.toString}.${parts(1).toString}${parts(2).toString}"
-      case _ => throw new UnsupportedOperationException(f"Cannot cast to float version ${this.toString()}")
+      case _ =>
+        throw new UnsupportedOperationException(
+          f"Cannot cast to float version ${this.toString()}")
     }
     versionString.toFloat
   }
@@ -45,7 +46,9 @@ object Version {
   def isInteger(str: String): Boolean = str.nonEmpty && str.forall(c => Character.isDigit(c))
 
   def parse(str: String): Version = {
-    val parts = str.replaceAll("-rc\\d", "").split('.')
+    val parts = str
+      .replaceAll("-rc\\d", "")
+      .split('.')
       .takeWhile(p => isInteger(p))
       .map(p => p.toInt)
       .toList
@@ -55,18 +58,20 @@ object Version {
 
   def isCompatible(current: Version, found: Version): Boolean = isCompatible(current, Some(found))
 
-  /**
-   * Checks weather found version could be used with current version
-   *
-   * @param current Version of current library
-   * @param found   Version of library of found resource
-   * @return True ar False
-   *
-   *         Examples (current) and (found):
-   *         1.2.3 and 1.2   => True
-   *         1.2   and 1.2.3 => False (found more specific version)    *
-   *         1.2   and None  => True  (found version that could be used with all versions)
-   */
+  /** Checks weather found version could be used with current version
+    *
+    * @param current
+    *   Version of current library
+    * @param found
+    *   Version of library of found resource
+    * @return
+    *   True ar False
+    *
+    * Examples (current) and (found):
+    * 1.2.3 and 1.2 => True
+    * 1.2 and 1.2.3 => False (found more specific version) *
+    * 1.2 and None => True (found version that could be used with all versions)
+    */
   def isCompatible(current: Version, found: Option[Version]): Boolean = {
     found.forall { f =>
       val cParts = current.parts
@@ -84,8 +89,7 @@ object Version {
           else if (c > t && previousWasBigger.isEmpty) {
             previousWasBigger = Some(true)
             true
-          }
-          else {
+          } else {
             previousWasBigger = Some(false)
             false
           }

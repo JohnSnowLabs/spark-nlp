@@ -23,22 +23,20 @@ import scala.collection.mutable.ListBuffer
 import scala.util.matching.Regex
 
 class Gpt2Tokenizer(
-                     merges: Map[(String, String), Int],
-                     vocab: Map[String, Int],
-                     specialTokens: SpecialTokens,
-                     padWithSentenceTokens: Boolean = true,
-                     prependString: String = ""
-                   ) extends BpeTokenizer(merges, vocab, specialTokens, padWithSentenceTokens) {
+    merges: Map[(String, String), Int],
+    vocab: Map[String, Int],
+    specialTokens: SpecialTokens,
+    padWithSentenceTokens: Boolean = true,
+    prependString: String = "")
+    extends BpeTokenizer(merges, vocab, specialTokens, padWithSentenceTokens) {
 
-  /**
-   * Mapping for bytes to a different set of unicode characters (especially white spaces).
-   * This improved model performance for gpt-2
-   */
+  /** Mapping for bytes to a different set of unicode characters (especially white spaces). This
+    * improved model performance for gpt-2
+    */
   private val bytesToUnicodeMapping: Map[Int, String] = {
-    val bytes: ListBuffer[Int] = ListBuffer.range(
-      '!',
-      '~' + 1
-    ) ++ ListBuffer.range('¡', '¬' + 1) ++ ListBuffer.range('®', 'ÿ' + 1)
+    val bytes: ListBuffer[Int] =
+      ListBuffer.range('!', '~' + 1) ++ ListBuffer.range('¡', '¬' + 1) ++ ListBuffer
+        .range('®', 'ÿ' + 1)
     val characters: ListBuffer[Int] = bytes.clone
     var n = 0
     for (b <- 0 to 256) {
@@ -52,32 +50,37 @@ class Gpt2Tokenizer(
   }
 
   // Differs from Transformers, space is always prepended.
-  //FIX: Space should not be prepended to all tokens, but to the beginning of the text only. Otherwise token
+  // FIX: Space should not be prepended to all tokens, but to the beginning of the text only. Otherwise token
   // such as '.' get space prepended and they should not.
-  override val prependForPieceId: Option[String] = if (prependString.nonEmpty) Some(prependString) else None
+  override val prependForPieceId: Option[String] =
+    if (prependString.nonEmpty) Some(prependString) else None
 
   private val decoderVocab = vocab.map(x => (x._2, x._1))
 
-  private val unicodeToByteMapping: Map[String, Int] = bytesToUnicodeMapping.map(x => (x._2, x._1))
+  private val unicodeToByteMapping: Map[String, Int] =
+    bytesToUnicodeMapping.map(x => (x._2, x._1))
 
   override def preProcessTokenForBpe(token: String): String = {
     token.foldLeft("")(_ + bytesToUnicodeMapping(_))
   }
 
-  val splitPattern: Regex = raw"""'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+""".r
+  val splitPattern: Regex =
+    raw"""'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+""".r
 
   override def tokenizeSubText(text: String, indexOffset: Int): Array[IndexedToken] = {
     // split pattern based on gpt2's bpe tokenizer
     splitPattern
-      .findAllMatchIn(if (prependForPieceId.isDefined || text.startsWith(" ")) text else " " + text) //Prepend space to the beginning of text
-      .map(
-        tok => IndexedToken(tok.matched, tok.start + indexOffset, tok.end + indexOffset - 1)
-      )
+      .findAllMatchIn(if (prependForPieceId.isDefined || text.startsWith(" ")) text
+      else " " + text) // Prepend space to the beginning of text
+      .map(tok => IndexedToken(tok.matched, tok.start + indexOffset, tok.end + indexOffset - 1))
       .toArray
   }
 
   def decodeTokens(tokens: Array[Int]): String = {
-    val text = tokens.map(token => decoderVocab(token)).filter(x => !specialTokens.contains(x)).mkString("")
+    val text = tokens
+      .map(token => decoderVocab(token))
+      .filter(x => !specialTokens.contains(x))
+      .mkString("")
     val bytes = text.map(x => unicodeToByteMapping(x.toString)).map(x => x.toByte).toArray
     new String(bytes, Charset.forName("UTF-8"))
   }

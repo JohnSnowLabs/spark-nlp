@@ -6,29 +6,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>sparknlp.functions.map_annotations_col &#8212; Spark NLP 3.4.2 documentation</title>
+    <title>sparknlp.functions.map_annotations_col &#8212; Spark NLP 3.4.4 documentation</title>
     
-    <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
+
     
-    <link rel="stylesheet"
-      href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+  <link rel="stylesheet"
+    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
     
-    <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
     <script src="../../static/underscore.js"></script>
@@ -46,7 +43,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -186,6 +183,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.CamemBertEmbeddings.html">
+     sparknlp.annotator.CamemBertEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.ChunkEmbeddings.html">
      sparknlp.annotator.ChunkEmbeddings
     </a>
@@ -238,6 +240,16 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.DeBertaEmbeddings.html">
      sparknlp.annotator.DeBertaEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DeBertaForSequenceClassification.html">
+     sparknlp.annotator.DeBertaForSequenceClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DeBertaForTokenClassification.html">
+     sparknlp.annotator.DeBertaForTokenClassification
     </a>
    </li>
    <li class="toctree-l2">
@@ -882,10 +894,10 @@
               <div>
                 
   <section id="sparknlp-functions-map-annotations-col">
-<h1>sparknlp.functions.map_annotations_col<a class="headerlink" href="#sparknlp-functions-map-annotations-col" title="Permalink to this headline">¶</a></h1>
+<h1>sparknlp.functions.map_annotations_col<a class="headerlink" href="#sparknlp-functions-map-annotations-col" title="Permalink to this headline">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="sparknlp.functions.map_annotations_col">
-<span class="sig-prename descclassname"><span class="pre">sparknlp.functions.</span></span><span class="sig-name descname"><span class="pre">map_annotations_col</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyspark.sql.dataframe.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotatyon_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.types.DataType.html#pyspark.sql.types.DataType" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.types.DataType</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">ArrayType(StructType(List(StructField(annotatorType,</span> <span class="pre">StringType,</span> <span class="pre">false),</span> <span class="pre">StructField(begin,</span> <span class="pre">IntegerType,</span> <span class="pre">false),</span> <span class="pre">StructField(end,</span> <span class="pre">IntegerType,</span> <span class="pre">false),</span> <span class="pre">StructField(result,</span> <span class="pre">StringType,</span> <span class="pre">false),</span> <span class="pre">StructField(metadata,</span> <span class="pre">MapType(StringType,</span> <span class="pre">StringType,</span> <span class="pre">true),</span> <span class="pre">false),</span> <span class="pre">StructField(embeddings,</span> <span class="pre">ArrayType(FloatType,</span> <span class="pre">true),</span> <span class="pre">false))),</span> <span class="pre">true)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/functions.html#map_annotations_col"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.functions.map_annotations_col" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">sparknlp.functions.</span></span><span class="sig-name descname"><span class="pre">map_annotations_col</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyspark.sql.dataframe.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotatyon_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.types.DataType.html#pyspark.sql.types.DataType" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.types.DataType</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">ArrayType(StructType(List(StructField(annotatorType,</span> <span class="pre">StringType,</span> <span class="pre">false),</span> <span class="pre">StructField(begin,</span> <span class="pre">IntegerType,</span> <span class="pre">false),</span> <span class="pre">StructField(end,</span> <span class="pre">IntegerType,</span> <span class="pre">false),</span> <span class="pre">StructField(result,</span> <span class="pre">StringType,</span> <span class="pre">false),</span> <span class="pre">StructField(metadata,</span> <span class="pre">MapType(StringType,</span> <span class="pre">StringType,</span> <span class="pre">true),</span> <span class="pre">false),</span> <span class="pre">StructField(embeddings,</span> <span class="pre">ArrayType(FloatType,</span> <span class="pre">true),</span> <span class="pre">false))),</span> <span class="pre">true)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/functions.html#map_annotations_col"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.functions.map_annotations_col" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a Spark UDF to map over a column of Annotation results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -974,8 +986,9 @@
       </div>
     </div>
   
-    <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -986,7 +999,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
 </p>
     </div>
     

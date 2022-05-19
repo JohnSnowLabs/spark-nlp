@@ -59,14 +59,12 @@ class NerDatasetEncoder(val params: DatasetEncoderParams) extends Serializable {
     if (maxSentenceLength == 0)
       return NerBatch.empty
 
-    val wordLengths = sentences.map {
-      sentence =>
-        val lengths = sentence.tokens.map(word => word.wordpiece.length)
-        Range(0, maxSentenceLength)
-          .map { idx => getOrElse(lengths, idx, 0) }
-          .toArray
+    val wordLengths = sentences.map { sentence =>
+      val lengths = sentence.tokens.map(word => word.wordpiece.length)
+      Range(0, maxSentenceLength).map { idx =>
+        getOrElse(lengths, idx, 0)
+      }.toArray
     }
-
 
     assert(wordLengths.flatten.nonEmpty, "")
     if (wordLengths.flatten.isEmpty) {
@@ -92,9 +90,9 @@ class NerDatasetEncoder(val params: DatasetEncoderParams) extends Serializable {
         val sentence = sentences(i)
         Range(0, maxSentenceLength).map { j =>
           val word = (if (j < sentence.tokens.length)
-            sentence.tokens(j).wordpiece
-          else
-            "").toCharArray
+                        sentence.tokens(j).wordpiece
+                      else
+                        "").toCharArray
 
           Range(0, maxWordLength).map { k =>
             val char = getOrElse(word, k, Char.MinValue)
@@ -118,16 +116,16 @@ class NerDatasetEncoder(val params: DatasetEncoderParams) extends Serializable {
       wordLengths,
       sentenceLengths,
       maxSentenceLength,
-      isWordStart
-    )
+      isWordStart)
   }
 
-  /**
-   * Converts Tag names to Identifiers
-   *
-   * @param tags batches of labels/classes for each sentence/document
-   * @return batches of tag ids for each sentence/document
-   */
+  /** Converts Tag names to Identifiers
+    *
+    * @param tags
+    *   batches of labels/classes for each sentence/document
+    * @return
+    *   batches of tag ids for each sentence/document
+    */
   def encodeTags(tags: Array[Array[String]]): Array[Array[Int]] = {
     val batchSize = tags.length
     val maxSentence = tags.map(t => t.length).max
@@ -140,80 +138,99 @@ class NerDatasetEncoder(val params: DatasetEncoderParams) extends Serializable {
     }.toArray
   }
 
-  /**
-   * Converts Tag Identifiers to Source Names
-   *
-   * @param tagIds Tag Ids encoded for Tensorflow Model.
-   * @return Tag names
-   */
+  /** Converts Tag Identifiers to Source Names
+    *
+    * @param tagIds
+    *   Tag Ids encoded for Tensorflow Model.
+    * @return
+    *   Tag names
+    */
   def decodeOutputData(tagIds: Array[Int]): Array[String] = {
     tagIds.map(id => getOrElse(tags, id, params.defaultTag))
   }
 
-  /**
-   * Converts Tensorflow tags output to 2-dimensional Array with shape: (Batch, Sentence Length).
-   *
-   * @param predictedTags  2-dimensional tensor in plain array
-   * @param allTags        All original tags
-   * @param sentenceLength Every sentence length (number of words).
-   * @return List of tags for each sentence
-   */
-  def convertBatchTags(predictedTags: Array[String],
-                       allTags: Array[String],
-                       sentenceLength: Array[Int],
-                       prob: Option[Seq[Array[Float]]],
-                       includeAllConfidenceScores: Boolean
-                      ): Array[Array[(String, Option[Array[Map[String, String]]])]] = {
+  /** Converts Tensorflow tags output to 2-dimensional Array with shape: (Batch, Sentence Length).
+    *
+    * @param predictedTags
+    *   2-dimensional tensor in plain array
+    * @param allTags
+    *   All original tags
+    * @param sentenceLength
+    *   Every sentence length (number of words).
+    * @return
+    *   List of tags for each sentence
+    */
+  def convertBatchTags(
+      predictedTags: Array[String],
+      allTags: Array[String],
+      sentenceLength: Array[Int],
+      prob: Option[Seq[Array[Float]]],
+      includeAllConfidenceScores: Boolean)
+      : Array[Array[(String, Option[Array[Map[String, String]]])]] = {
 
     val sentences = sentenceLength.length
     val maxSentenceLength = predictedTags.length / sentences
 
     Range(0, sentences).map { i =>
-      Range(0, sentenceLength(i)).map { j => {
-        val index = i * maxSentenceLength + j
-        val metaWithProb: Option[Array[Map[String, String]]] = if (prob.isDefined) {
-          if (includeAllConfidenceScores) {
-            Some(allTags
-              .zipWithIndex
-              .map {
-                case (t, i) => Map(
-                  t -> prob
-                    .map(_ (index))
-                    .getOrElse(Array.empty[String])
-                    .lift(i)
-                    .getOrElse(0.0f)
-                    .toString)
-              })
-          } else {
-            Some(Array(Map("confidence" -> prob.map(_ (index)).getOrElse(Array.empty[String]).lift(0).getOrElse(0.0f).toString)))
-          }
-        } else None
+      Range(0, sentenceLength(i)).map { j =>
+        {
+          val index = i * maxSentenceLength + j
+          val metaWithProb: Option[Array[Map[String, String]]] = if (prob.isDefined) {
+            if (includeAllConfidenceScores) {
+              Some(
+                allTags.zipWithIndex
+                  .map { case (t, i) =>
+                    Map(
+                      t -> prob
+                        .map(_(index))
+                        .getOrElse(Array.empty[String])
+                        .lift(i)
+                        .getOrElse(0.0f)
+                        .toString)
+                  })
+            } else {
+              Some(
+                Array(
+                  Map(
+                    "confidence" -> prob
+                      .map(_(index))
+                      .getOrElse(Array.empty[String])
+                      .lift(0)
+                      .getOrElse(0.0f)
+                      .toString)))
+            }
+          } else None
 
-        (predictedTags(index), metaWithProb)
-      }
+          (predictedTags(index), metaWithProb)
+        }
       }.toArray
     }.toArray
   }
 }
 
-/**
- * Batch that contains data in Tensorflow input format.
- *
- * @param wordEmbeddings  Word vector representation. Shape: Batch x Max Sentence Length x Embeddings Dim
- * @param charIds         Char ids for every word in every sentence. Shape: Batch x Max Sentence Length x Max Word length
- * @param wordLengths     Word Length of every sentence. Shape: Batch x Max Sentence Length
- * @param sentenceLengths Length of every batch sentence. Shape: Batch
- * @param maxLength       Max length of sentence
- * @param isWordStart     Is current wordpiece is token start? Shape: Batch x Max Sentence Length
- */
+/** Batch that contains data in Tensorflow input format.
+  *
+  * @param wordEmbeddings
+  *   Word vector representation. Shape: Batch x Max Sentence Length x Embeddings Dim
+  * @param charIds
+  *   Char ids for every word in every sentence. Shape: Batch x Max Sentence Length x Max Word
+  *   length
+  * @param wordLengths
+  *   Word Length of every sentence. Shape: Batch x Max Sentence Length
+  * @param sentenceLengths
+  *   Length of every batch sentence. Shape: Batch
+  * @param maxLength
+  *   Max length of sentence
+  * @param isWordStart
+  *   Is current wordpiece is token start? Shape: Batch x Max Sentence Length
+  */
 class NerBatch(
-                val wordEmbeddings: Array[Array[Array[Float]]],
-                val charIds: Array[Array[Array[Int]]],
-                val wordLengths: Array[Array[Int]],
-                val sentenceLengths: Array[Int],
-                val maxLength: Int,
-                val isWordStart: Array[Array[Boolean]]
-              ) {
+    val wordEmbeddings: Array[Array[Array[Float]]],
+    val charIds: Array[Array[Array[Int]]],
+    val wordLengths: Array[Array[Int]],
+    val sentenceLengths: Array[Int],
+    val maxLength: Int,
+    val isWordStart: Array[Array[Boolean]]) {
   def batchSize: Int = wordEmbeddings.length
 }
 
@@ -221,21 +238,22 @@ object NerBatch {
   def empty = new NerBatch(Array.empty, Array.empty, Array.empty, Array.empty, 0, Array.empty)
 }
 
-/**
- *
- * @param tags          list of unique tags
- * @param chars         list of unique characters
- * @param emptyVector   list of embeddings
- * @param embeddingsDim dimension of embeddings
- * @param defaultTag    the default tag
- */
-case class DatasetEncoderParams
-(
-  tags: List[String],
-  chars: List[Char],
-  emptyVector: List[Float],
-  embeddingsDim: Int,
-  defaultTag: String = "O"
-) {
+/** @param tags
+  *   list of unique tags
+  * @param chars
+  *   list of unique characters
+  * @param emptyVector
+  *   list of embeddings
+  * @param embeddingsDim
+  *   dimension of embeddings
+  * @param defaultTag
+  *   the default tag
+  */
+case class DatasetEncoderParams(
+    tags: List[String],
+    chars: List[Char],
+    emptyVector: List[Float],
+    embeddingsDim: Int,
+    defaultTag: String = "O") {
   val emptyEmbeddings: Array[Float] = emptyVector.toArray
 }

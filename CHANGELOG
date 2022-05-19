@@ -1,4 +1,45 @@
 ========
+3.4.4
+========
+----------------
+New Features
+----------------
+* **NEW:** Introducing **DeBertaForTokenClassification** annotator in Spark NLP 🚀. `DeBertaForTokenClassification` can load DeBERTa v2&v3 models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `DebertaV2ForTokenClassification` for **PyTorch** or `TFDebertaV2ForTokenClassification` for **TensorFlow** models in HuggingFace
+* **NEW:** Introducing **CamemBertEmbeddings** annotator in Spark NLP 🚀
+* Add support for BatchAnnotate to UniversalSentenceEncoder
+
+----------------
+Bug Fixes & Enhancements
+----------------
+* Optimizing Tokenizer performance up to 400% when there is exceptions list
+* Support latest PySpark releases in Colab, Kaggle, and SageMaker scripts
+* Removing trove4j dependency
+* Fix bug that caused get input/output/LazyAnnotator to return None
+* Fix DeBertaForSequenceClassification in Python failing to load pretrained models
+
+========
+3.4.3
+========
+----------------
+New Features
+----------------
+* **NEW:** Introducing **DeBertaForSequenceClassification** annotator in Spark NLP 🚀. `DeBertaForSequenceClassification` can load DeBERTa v2&v3 models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using `DebertaForSequenceClassification` for **PyTorch** or `TFDebertaForSequenceClassification` for **TensorFlow** models in HuggingFace
+* New multi-label feature in all SequenceForClassification. The following annotators now have the option to switch to sigmoid activation function instead of softmax for the output layer: AlbertForSequenceClassification, BertForSequenceClassification, DeBertaForSequenceClassification, DistilBertForSequenceClassification, LongformerForSequenceClassification, RoBertaForSequenceClassification, XlmRoBertaForSequenceClassification, and XlnetForSequenceClassification
+* New minLength, maxLength, splitLength, customBounds, and useCustomBoundsOnly parameters in SentenceDetectorDL
+* New impossiblePenultimates feature in SentenceDetectorDLModel
+* New feature to set names for columns in CoNLLU class: textCol, documentCol, sentenceCol, formCol, uposCol, xposCol, and lemmaCol
+* New formCol and lemmaCol parameters in Lemmatizer annotator
+* Add new functionality to download and extract models from S3 via direct link
+
+----------------
+Bug Fixes & Enhancements
+----------------
+* Fix and train new English spell checker models for Spark NLP 3.4.1 on Spark 3.x and 2.x
+* Update SentenceDetector documentation
+* Add a missing notebook to demonstrate training a WordSegmenterApproach annotator for word segmentation
+
+
+========
 3.4.2
 ========
 ----------------

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowUSE</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowUSE" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowUSE" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowUSE</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowUSE" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowUSE" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -239,12 +239,20 @@
                         <a href="TensorflowBertClassification.html" title="">TensorflowBertClassification</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
+                        <a class="class" href="TensorflowCamemBert.html" title="The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot."></a>
+                        <a href="TensorflowCamemBert.html" title="The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot.">TensorflowCamemBert</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
                         <a class="class" href="TensorflowClassifier.html" title=""></a>
                         <a href="TensorflowClassifier.html" title="">TensorflowClassifier</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="class" href="TensorflowDeBerta.html" title=""></a>
                         <a href="TensorflowDeBerta.html" title="">TensorflowDeBerta</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="TensorflowDeBertaClassification.html" title=""></a>
+                        <a href="TensorflowDeBertaClassification.html" title="">TensorflowDeBertaClassification</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="class" href="TensorflowDistilBert.html" title="The DistilBERT model was proposed in the paper DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter https://arxiv.org/abs/1910.01108."></a>
@@ -365,7 +373,10 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoderTestSpec.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoderTestSpec.scala</a> for further reference on how to use this API.
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for
+text classification, semantic similarity, clustering and other natural language tasks.</p><p>See
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoderTestSpec.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoderTestSpec.scala</a>
+for further reference on how to use this API.
 </p></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
@@ -431,10 +442,12 @@
         <span class="name">TensorflowUSE</span><span class="params">(<span name="tensorflow">tensorflow: <a href="TensorflowWrapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</a></span>, <span name="configProtoBytes">configProtoBytes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]] = <span class="symbol">None</span></span>, <span name="loadSP">loadSP: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">tensorflow</dt><dd class="cmt"><p>USE Model wrapper with TensorFlow Wrapper</p></dd><dt class="param">configProtoBytes</dt><dd class="cmt"><p>Configuration for TensorFlow session
-                        Sources :
-                        <a href="https://arxiv.org/abs/1803.11175" target="_blank">https://arxiv.org/abs/1803.11175</a>
-                        <a href="https://tfhub.dev/google/universal-sentence-encoder/2" target="_blank">https://tfhub.dev/google/universal-sentence-encoder/2</a></p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">tensorflow</dt><dd class="cmt"><p>
+  USE Model wrapper with TensorFlow Wrapper</p></dd><dt class="param">configProtoBytes</dt><dd class="cmt"><p>
+  Configuration for TensorFlow session
+Sources :
+<a href="https://arxiv.org/abs/1803.11175" target="_blank">https://arxiv.org/abs/1803.11175</a>
+<a href="https://tfhub.dev/google/universal-sentence-encoder/2" target="_blank">https://tfhub.dev/google/universal-sentence-encoder/2</a></p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -696,9 +709,9 @@
               
         </dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowUSE#predict" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="predict(sentences:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence]):Seq[com.johnsnowlabs.nlp.Annotation]"></a><a id="predict(Seq[Sentence]):Seq[Annotation]"></a>
+      <a id="predict(sentences:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence],batchSize:Int):Seq[com.johnsnowlabs.nlp.Annotation]"></a><a id="predict(Seq[Sentence],Int):Seq[Annotation]"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowUSE.html#predict(sentences:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence]):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowUSE.html#predict(sentences:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence],batchSize:Int):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -707,7 +720,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">predict</span><span class="params">(<span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/Sentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.Sentence">Sentence</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
+        <span class="name">predict</span><span class="params">(<span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/Sentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.Sentence">Sentence</a>]</span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
       </span>
       
       

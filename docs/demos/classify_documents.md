@@ -102,32 +102,46 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_QUESTIONPAIRS.ipynb
-        - title: Identify sentiments in German texts.
-          id: identify_sentiments_German_texts 
+        - title: Identify Antisemitic Texts
+          id: identify_antisemitic_texts  
           image: 
-              src: /assets/images/Identify_sentiments_in_Geman_texts.svg
+              src: /assets/images/Identify_Antisemitic_texts.svg
           image2: 
-              src: /assets/images/Identify_sentiments_in_Geman_texts_f.svg
-          excerpt: This demo shows whether the sentiments are positive or negative in German texts. 
+              src: /assets/images/Identify_Antisemitic_texts_f.svg
+          excerpt: This demo shows how to identify if a text contains antisemitic content or not.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/public/SENTIMENT_DE/
+            url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_ANTISEMITISM/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_De_SENTIMENT.ipynb
-        - title: Identify sentiments in French texts.
-          id: identify_sentiments_french_texts 
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb  
+        - title: Identify Hate Speech Texts
+          id: identify_hate_speech_texts  
           image: 
-              src: /assets/images/Identify_sentiments_in_French_texts.svg
+              src: /assets/images/Identify_whether_pairs_of_questions_are_semantically_similar.svg
           image2: 
-              src: /assets/images/Identify_sentiments_in_French_texts_f.svg
-          excerpt: This demo shows whether the sentiments are positive or negative in French texts. 
+              src: /assets/images/Identify_whether_pairs_of_questions_are_semantically_similar_f.svg
+          excerpt: This model identifies if the text contains Hate speech, Offensive, Normal contents.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/public/SENTIMENT_FR/
+            url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_HATEXPLAIN/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_Fr_Sentiment.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb
+        - title: Classify English News
+          id: classify_english_news  
+          image: 
+              src: /assets/images/Classify_English_News.svg
+          image2: 
+              src: /assets/images/Classify_English_News_f.svg
+          excerpt: This demo shows how to classify English news into World, Sports, Business or Sci/Tech categories.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_EN_NEWS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb            
 ---

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -211,8 +211,10 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Trains a Symmetric Delete spelling correction algorithm.
-Retrieves tokens and utilizes distance metrics to compute possible derived words.</p><p>Inspired by <a href="https://github.com/wolfgarbe/SymSpell" target="_blank">SymSpell</a>.</p><p>For instantiated/pretrained models, see <a href="SymmetricDeleteModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel">SymmetricDeleteModel</a>.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModelTestSpec.scala" target="_blank">SymmetricDeleteModelTestSpec</a> for further reference.</p><h4>Example</h4><p>In this example, the dictionary <code>&quot;words.txt&quot;</code> has the form of</p><pre>...
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Trains a Symmetric Delete spelling correction algorithm. Retrieves tokens and utilizes
+distance metrics to compute possible derived words.</p><p>Inspired by <a href="https://github.com/wolfgarbe/SymSpell" target="_blank">SymSpell</a>.</p><p>For instantiated/pretrained models, see <a href="SymmetricDeleteModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel">SymmetricDeleteModel</a>.</p><p>See
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModelTestSpec.scala" target="_blank">SymmetricDeleteModelTestSpec</a>
+for further reference.</p><h4>Example</h4><p>In this example, the dictionary <code>&quot;words.txt&quot;</code> has the form of</p><pre>...
 gummy
 gummic
 gummier
@@ -242,7 +244,11 @@ gummiferous
   spellChecker
 ))
 
-<span class="kw">val</span> pipelineModel = pipeline.fit(trainingData)</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="../norvig/NorvigSweetingApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach">NorvigSweetingApproach</a> for an alternative approach to spell checking</p></span><span class="cmt"><p><a href="../context/ContextSpellCheckerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a> for a DL based approach</p></span></dd></dl><div class="toggleContainer block">
+<span class="kw">val</span> pipelineModel = pipeline.fit(trainingData)</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
+  <a href="../norvig/NorvigSweetingApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach">NorvigSweetingApproach</a>
+  for an alternative approach to spell checking</p></span><span class="cmt"><p>
+  <a href="../context/ContextSpellCheckerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>
+  for a DL based approach</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -584,7 +590,8 @@ gummiferous
         <span class="name">deletesThreshold</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Minimum frequency of corrections a word needs to have to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>Minimum frequency of corrections a word needs to have to be considered from training. Increase if training set is LARGE (Default: <code>0</code>).
+      <p class="shortcomment cmt">Minimum frequency of corrections a word needs to have to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>Minimum frequency of corrections a word needs to have to be considered from training.
+Increase if training set is LARGE (Default: <code>0</code>).
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach#derivedWordDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="derivedWordDistances(wordFrequencies:List[(String,Long)],maxEditDistance:Int):Map[String,(List[String],Long)]"></a><a id="derivedWordDistances(List[(String,Long)],Int):Map[String,(List[String],Long)]"></a>
@@ -601,8 +608,7 @@ gummiferous
         <span class="name">derivedWordDistances</span><span class="params">(<span name="wordFrequencies">wordFrequencies: <span class="extype" name="scala.List">List</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Long">Long</span>)]</span>, <span name="maxEditDistance">maxEditDistance: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, (<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>], <span class="extype" name="scala.Long">Long</span>)]</span>
       </span>
       
-      <p class="shortcomment cmt">Computes derived words from a frequency of words
-</p>
+      <p class="shortcomment cmt">Computes derived words from a frequency of words</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach#description" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="description:String"></a>
       <span class="permalink">
@@ -634,7 +640,8 @@ gummiferous
         <span class="name">dictionary</span><span class="result">: <a href="../../param/ExternalResourceParam.html" class="extype" name="com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam">ExternalResourceParam</a></span>
       </span>
       
-      <p class="shortcomment cmt">Optional dictionary of properly written words.</p><div class="fullcomment"><div class="comment cmt"><p>Optional dictionary of properly written words. If provided, significantly boosts spell checking performance.</p><p>Needs <code>&quot;tokenPattern&quot;</code> (Default: <code>\S+</code>) for parsing the resource.</p><h4>Example</h4><pre>...
+      <p class="shortcomment cmt">Optional dictionary of properly written words.</p><div class="fullcomment"><div class="comment cmt"><p>Optional dictionary of properly written words. If provided, significantly boosts spell
+checking performance.</p><p>Needs <code>&quot;tokenPattern&quot;</code> (Default: <code>\S+</code>) for parsing the resource.</p><h4>Example</h4><pre>...
 gummy
 gummic
 gummier
@@ -875,7 +882,8 @@ gummiferous
         <span class="name">frequencyThreshold</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Minimum frequency of words to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>Minimum frequency of words to be considered from training. Increase if training set is LARGE (Default: <code>0</code>).
+      <p class="shortcomment cmt">Minimum frequency of words to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>Minimum frequency of words to be considered from training. Increase if training set is LARGE
+(Default: <code>0</code>).
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#get" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="get[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a><a id="get[T](Param[T]):Option[T]"></a>
@@ -943,9 +951,7 @@ gummiferous
         <span class="name">getDeletes</span><span class="params">(<span name="word">word: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="med">med: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Given a word, derive strings with up to maxEditDistance characters
-deleted
-</p>
+      <p class="shortcomment cmt">Given a word, derive strings with up to maxEditDistance characters deleted</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#getDeletesThreshold" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getDeletesThreshold:Int"></a>
       <span class="permalink">
@@ -961,7 +967,8 @@ deleted
         <span class="name">getDeletesThreshold</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       
-      <p class="shortcomment cmt">Minimum frequency of corrections a word needs to have to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>Minimum frequency of corrections a word needs to have to be considered from training. Increase if training set is LARGE (Default: <code>0</code>).
+      <p class="shortcomment cmt">Minimum frequency of corrections a word needs to have to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>Minimum frequency of corrections a word needs to have to be considered from training.
+Increase if training set is LARGE (Default: <code>0</code>).
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#getDupsLimit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getDupsLimit:Int"></a>
@@ -995,7 +1002,8 @@ deleted
         <span class="name">getFrequencyThreshold</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       
-      <p class="shortcomment cmt">Minimum frequency of words to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>Minimum frequency of words to be considered from training. Increase if training set is LARGE (Default: <code>0</code>).
+      <p class="shortcomment cmt">Minimum frequency of words to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>Minimum frequency of words to be considered from training. Increase if training set is LARGE
+(Default: <code>0</code>).
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#getInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getInputCols:Array[String]"></a>
@@ -1211,10 +1219,10 @@ deleted
         <span class="name">inputCols</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
-</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
+      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
+</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isDefined(Param[_]):Boolean"></a>
@@ -1834,7 +1842,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setDeletesThreshold</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach">SymmetricDeleteApproach</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Minimum frequency of corrections a word needs to have to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>Minimum frequency of corrections a word needs to have to be considered from training. Increase if training set is LARGE (Default: <code>0</code>).
+      <p class="shortcomment cmt">Minimum frequency of corrections a word needs to have to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>Minimum frequency of corrections a word needs to have to be considered from training.
+Increase if training set is LARGE (Default: <code>0</code>).
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach#setDictionary" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setDictionary(path:String,tokenPattern:String,readAs:com.johnsnowlabs.nlp.util.io.ReadAs.Format,options:Map[String,String]):SymmetricDeleteApproach.this.type"></a><a id="setDictionary(String,String,Format,Map[String,String]):SymmetricDeleteApproach.this.type"></a>
@@ -1851,10 +1860,11 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setDictionary</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="tokenPattern">tokenPattern: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;\\S+&quot;</span></span>, <span name="readAs">readAs: <a href="../../../util/io/ReadAs$.html#Format=com.johnsnowlabs.nlp.util.io.ReadAs.Value" class="extmbr" name="com.johnsnowlabs.nlp.util.io.ReadAs.Format">Format</a> = <span class="symbol"><span class="name"><a href="../../../../../index.html">ReadAs.TEXT</a></span></span></span>, <span name="options">options: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">Map(&quot;format&quot; -&gt; &quot;text&quot;)</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach">SymmetricDeleteApproach</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Path to file with properly spelled words, <code>tokenPattern</code> is the regex pattern to identify them in text,
-readAs can be <code>ReadAs.TEXT</code> or <code>ReadAs.SPARK</code>, with options passed to Spark reader if the latter is set.</p><div class="fullcomment"><div class="comment cmt"><p>Path to file with properly spelled words, <code>tokenPattern</code> is the regex pattern to identify them in text,
-readAs can be <code>ReadAs.TEXT</code> or <code>ReadAs.SPARK</code>, with options passed to Spark reader if the latter is set.
-Dictionary needs <code>tokenPattern</code> regex for separating words.
+      <p class="shortcomment cmt">Path to file with properly spelled words, <code>tokenPattern</code> is the regex pattern to identify
+them in text, readAs can be <code>ReadAs.TEXT</code> or <code>ReadAs.SPARK</code>, with options passed to Spark
+reader if the latter is set.</p><div class="fullcomment"><div class="comment cmt"><p>Path to file with properly spelled words, <code>tokenPattern</code> is the regex pattern to identify
+them in text, readAs can be <code>ReadAs.TEXT</code> or <code>ReadAs.SPARK</code>, with options passed to Spark
+reader if the latter is set. Dictionary needs <code>tokenPattern</code> regex for separating words.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach#setDictionary" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setDictionary(value:com.johnsnowlabs.nlp.util.io.ExternalResource):SymmetricDeleteApproach.this.type"></a><a id="setDictionary(ExternalResource):SymmetricDeleteApproach.this.type"></a>
@@ -1871,9 +1881,9 @@ Dictionary needs <code>tokenPattern</code> regex for separating words.
         <span class="name">setDictionary</span><span class="params">(<span name="value">value: <a href="../../../util/io/ExternalResource.html" class="extype" name="com.johnsnowlabs.nlp.util.io.ExternalResource">ExternalResource</a></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach">SymmetricDeleteApproach</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">External dictionary already in the form of <span class="extype" name="ExternalResource">ExternalResource</span>, for which the Map member <code>options</code>
-has an entry defined for <code>&quot;tokenPattern&quot;</code>.</p><div class="fullcomment"><div class="comment cmt"><p>External dictionary already in the form of <span class="extype" name="ExternalResource">ExternalResource</span>, for which the Map member <code>options</code>
-has an entry defined for <code>&quot;tokenPattern&quot;</code>.</p><h4>Example</h4><pre><span class="kw">val</span> resource = ExternalResource(
+      <p class="shortcomment cmt">External dictionary already in the form of <span class="extype" name="ExternalResource">ExternalResource</span>, for which the Map member
+<code>options</code> has an entry defined for <code>&quot;tokenPattern&quot;</code>.</p><div class="fullcomment"><div class="comment cmt"><p>External dictionary already in the form of <span class="extype" name="ExternalResource">ExternalResource</span>, for which the Map member
+<code>options</code> has an entry defined for <code>&quot;tokenPattern&quot;</code>.</p><h4>Example</h4><pre><span class="kw">val</span> resource = ExternalResource(
   <span class="lit">"src/test/resources/spell/words.txt"</span>,
   ReadAs.TEXT,
   <span class="std">Map</span>(<span class="lit">"tokenPattern"</span> -&gt; <span class="lit">"\\S+"</span>)
@@ -1915,7 +1925,8 @@ has an entry defined for <code>&quot;tokenPattern&quot;</code>.</p><h4>Example</
         <span class="name">setFrequencyThreshold</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach">SymmetricDeleteApproach</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Minimum frequency of words to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>Minimum frequency of words to be considered from training. Increase if training set is LARGE (Default: <code>0</code>)
+      <p class="shortcomment cmt">Minimum frequency of words to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>Minimum frequency of words to be considered from training. Increase if training set is LARGE
+(Default: <code>0</code>)
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):SymmetricDeleteApproach.this.type"></a>
@@ -2168,7 +2179,9 @@ has an entry defined for <code>&quot;tokenPattern&quot;</code>.</p><h4>Example</
       </span>
       
       <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.
-</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>
+  to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>
+  True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
@@ -2304,10 +2317,13 @@ has an entry defined for <code>&quot;tokenPattern&quot;</code>.</p><h4>Example</
         <div id="groupedMembers">
         <div class="group" name="param">
               <h3>Parameters</h3>
-              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
+              <div class="comment cmt"><p>
+  A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  parameter values through setters and getters, respectively.</p></div>
             </div><div class="group" name="anno">
               <h3>Annotator types</h3>
-              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+              <div class="comment cmt"><p>
+  Required input and expected output annotator types</p></div>
             </div><div class="group" name="Ungrouped">
               <h3>Members</h3>
               

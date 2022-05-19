@@ -16,7 +16,6 @@
 
 package com.johnsnowlabs.nlp.annotators.spell.symmetric
 
-
 import org.scalatest.flatspec.AnyFlatSpec
 
 class SymmetricDeleteModelTestSpec extends AnyFlatSpec with SymmetricDeleteBehaviors {
@@ -76,5 +75,5 @@ class SymmetricDeleteModelTestSpec extends AnyFlatSpec with SymmetricDeleteBehav
     it should behave like trainSpellCheckerModelFromFit
 
     it should behave like raiseErrorWhenWrongColumnIsSent
-  */
+   */
 }

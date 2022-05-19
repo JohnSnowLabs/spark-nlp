@@ -16,16 +16,13 @@
 
 package com.johnsnowlabs.nlp.annotators.sentence_detector_dl
 
-import org.apache.spark.ml.util.Identifiable
-
-import scala.collection.mutable.{ArrayBuffer, Map}
-import scala.util.Random
-import java.io.PrintWriter
-
 import org.apache.spark.ml.param.Param
-
-import scala.io.Source
+import org.apache.spark.ml.util.Identifiable
 import org.json4s.jackson.Serialization
+
+import java.io.PrintWriter
+import scala.collection.mutable.{ArrayBuffer, Map}
+import scala.io.Source
 
 class SentenceDetectorDLEncoder extends Serializable {
 
@@ -36,7 +33,7 @@ class SentenceDetectorDLEncoder extends Serializable {
   protected val eosChars = Array('.', ':', '?', '!', ';')
   protected val eosCandidatesPattern = "[\\.:?!;\\n]".r
 
-  private var freqMap =  Map[Char, Int]()
+  private var freqMap = Map[Char, Int]()
 
   def getSkipChars = this.skipChars
 
@@ -55,9 +52,9 @@ class SentenceDetectorDLEncoder extends Serializable {
 
   def saveVocabulary(filename: String) = {
     new PrintWriter(filename) {
-        write(getVocabularyJSON)
-        close()
-      }
+      write(getVocabularyJSON)
+      close()
+    }
   }
 
   def loadVocabulary(filename: String) = {
@@ -73,27 +70,26 @@ class SentenceDetectorDLEncoder extends Serializable {
 
       val json = Source.fromFile(filename).getLines().mkString("\n")
 
-      Serialization.read[List[(String, Int)]](json).foreach(
-        v => {
-          if (!freqMap.contains(v._1(0))){
+      Serialization
+        .read[List[(String, Int)]](json)
+        .foreach(v => {
+          if (!freqMap.contains(v._1(0))) {
             freqMap(v._1(0)) = i
             i += 1
           }
-        }
-      )
+        })
     })
   }
 
   def buildVocabulary(trainingTextData: String): Unit = {
 
-    trainingTextData.foreach(
-      ch => {
-        if (!freqMap.contains(ch)) {freqMap(ch) = 0}
-        freqMap(ch) += 1
-      }
-    )
+    trainingTextData.foreach(ch => {
+      if (!freqMap.contains(ch)) { freqMap(ch) = 0 }
+      freqMap(ch) += 1
+    })
 
-    val boundedMinFreq = scala.math.max(freqMap.values.toArray.sorted.reverse.take(300).min, minFreq)
+    val boundedMinFreq =
+      scala.math.max(freqMap.values.toArray.sorted.reverse.take(300).min, minFreq)
     freqMap = freqMap.retain((ch, n) => (n > boundedMinFreq))
 
     val charIds = freqMap.keysIterator.toList
@@ -112,7 +108,7 @@ class SentenceDetectorDLEncoder extends Serializable {
 
     while (j < text.length && rightContext.length < windowSize * 3) {
 
-      if (!((rightContext.length == 0) && skipChars.contains(text(j)))){
+      if (!((rightContext.length == 0) && skipChars.contains(text(j)))) {
         rightContext = rightContext + text(j)
       }
 
@@ -129,7 +125,7 @@ class SentenceDetectorDLEncoder extends Serializable {
 
     while (j > 0 && leftContext.length < windowSize * 3) {
 
-      if (!((leftContext.length == 0) && skipChars.contains(text(j)))){
+      if (!((leftContext.length == 0) && skipChars.contains(text(j)))) {
         leftContext = leftContext + text(j)
       }
 
@@ -162,7 +158,7 @@ class SentenceDetectorDLEncoder extends Serializable {
       } else {
 
         if (ch == '\n') {
-          //positive example
+          // positive example
 
           if (eosChar.isDefined) {
             examples.append((1.0f, leftContext + eosChar.get + rightContext))
@@ -174,7 +170,7 @@ class SentenceDetectorDLEncoder extends Serializable {
 
         } else if (!skipChars.contains(ch)) {
           if (eosChar.isDefined) {
-            //negative example
+            // negative example
             examples.append((0.0f, leftContext + eosChar.get + rightContext))
           } else if (scala.math.random < probNL) {
             examples.append((0.0f, getLeftContext(text, i) + '\n' + getRightContext(text, i - 1)))
@@ -193,24 +189,28 @@ class SentenceDetectorDLEncoder extends Serializable {
       .unzip
   }
 
-  def getEOSPositions(text: String, impossiblePenultimates: Array[String] = Array()): Iterator[(Int, Array[Float])] = {
+  def getEOSPositions(
+      text: String,
+      impossiblePenultimates: Array[String] = Array()): Iterator[(Int, Array[Float])] = {
 
-
-    eosCandidatesPattern.findAllMatchIn(text)
+    eosCandidatesPattern
+      .findAllMatchIn(text)
       .map(m => m.start)
-      .map(
-        pos => {
-          //get context and get rid of multiple spaces
-          val leftC = getLeftContext(text, pos)
-          val rightC = getRightContext(text, pos)
+      .map(pos => {
+        // get context and get rid of multiple spaces
+        val leftC = getLeftContext(text, pos)
+        val rightC = getRightContext(text, pos)
 
-          if (impossiblePenultimates.find(penultimate => leftC.endsWith(penultimate)).isDefined){
-            (-1, "")
-          } else {
-            (pos, leftC.slice(leftC.length - windowSize, leftC.length) + text(pos) + rightC.slice(0, windowSize + 1))
-          }
+        if (impossiblePenultimates.exists(penultimate =>
+            leftC.endsWith(penultimate) || text.slice(0, pos).trim.endsWith(penultimate))) {
+          (-1, "")
+        } else {
+          (
+            pos,
+            leftC.slice(leftC.length - windowSize, leftC.length) + text(pos) + rightC
+              .slice(0, windowSize + 1))
         }
-      )
+      })
       .filter(p => p._1 >= 0)
       .map(ex => (ex._1, ex._2.map(ch => encodeChar(ch)).toArray))
   }
@@ -220,7 +220,7 @@ class SentenceDetectorDLEncoder extends Serializable {
 object SentenceDetectorDLEncoder extends SentenceDetectorDLEncoder
 
 class SentenceDetectorDLEncoderParam(parent: Identifiable, name: String, doc: String)
-  extends Param[SentenceDetectorDLEncoder](parent, name, doc) {
+    extends Param[SentenceDetectorDLEncoder](parent, name, doc) {
 
   override def jsonEncode(encoder: SentenceDetectorDLEncoder): String = {
     implicit val formats = org.json4s.DefaultFormats

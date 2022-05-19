@@ -88,4 +88,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.2.Clinical_Deidentification_in_Spanish.ipynb
+        - title: Detect PHI for Deidentification in Spanish
+          id: detect_phi_deidentification_spanish    
+          image: 
+              src: /assets/images/Detect_risk_factors.svg
+          image2: 
+              src: /assets/images/Detect_risk_factors_f.svg
+          excerpt: This demo shows how to detect Protected Health Information (PHI) that may need to be deidentified in Spanish.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_DEID_ES/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.2.Clinical_Deidentification_in_Spanish.ipynb
 ---

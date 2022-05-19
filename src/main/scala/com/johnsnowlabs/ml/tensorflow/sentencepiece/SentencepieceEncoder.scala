@@ -18,38 +18,40 @@ package com.johnsnowlabs.ml.tensorflow.sentencepiece
 
 import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence, TokenPiece}
 
-/**
- *
- * @param spp             StencePieceWrapper loaded from either from disk or a saved Spark NLP model
- * @param caseSensitive   whether it cares about uppercase or lowercases
- * @param delimiterId     what is the part prefix id
- * @param pieceIdFromZero whether or not pieceId should be as is or plus 1
- */
-private[ml] class SentencepieceEncoder
-(
-  spp: SentencePieceWrapper,
-  caseSensitive: Boolean,
-  delimiterId: Int = 13,
-  pieceIdFromZero: Boolean = false
-) {
-  /**
-   *
-   * @param token IndexedToken input that is used for encoding to piece tokens and piece ids
-   * @return Array of TokenPiece which are piece tokens with piece ids
-   */
+/** @param spp
+  *   StencePieceWrapper loaded from either from disk or a saved Spark NLP model
+  * @param caseSensitive
+  *   whether it cares about uppercase or lowercases
+  * @param delimiterId
+  *   what is the part prefix id
+  * @param pieceIdFromZero
+  *   whether or not pieceId should be as is or plus 1
+  */
+private[ml] class SentencepieceEncoder(
+    spp: SentencePieceWrapper,
+    caseSensitive: Boolean,
+    delimiterId: Int = 13,
+    pieceIdOffset: Int = 0) {
+
+  /** @param token
+    *   IndexedToken input that is used for encoding to piece tokens and piece ids
+    * @return
+    *   Array of TokenPiece which are piece tokens with piece ids
+    */
   def encode(token: IndexedToken): Array[TokenPiece] = {
 
     val text = token.token
     var start = 0
     var end = text.length
-    val normalizedDelimiterId = if (pieceIdFromZero) delimiterId + 1 else delimiterId
+    val normalizedDelimiterId = delimiterId + pieceIdOffset
 
     val tokenContent = if (caseSensitive) token.token else token.token.toLowerCase()
     val wordPieces = spp.getSppModel.encodeAsPieces(tokenContent).toArray.map(x => x.toString)
     val encodedIds = spp.getSppModel.encodeAsIds(tokenContent)
-    val pieceIds = if (pieceIdFromZero) encodedIds.map(x => x + 1) else encodedIds
+    val pieceIds = encodedIds.map(x => x + pieceIdOffset)
     wordPieces.zip(pieceIds).filter(id => id._2 != normalizedDelimiterId).map { piece =>
-      val tokenPiece = TokenPiece(piece._1, token.token, piece._2, start == 0, token.begin + start, token.end)
+      val tokenPiece =
+        TokenPiece(piece._1, token.token, piece._2, start == 0, token.begin + start, token.end)
       start = end
       end = text.length
       tokenPiece
@@ -60,17 +62,26 @@ private[ml] class SentencepieceEncoder
 
     val text = sentence.content.take(maxLength)
     var start = 0
-    var end = text.length
-    val normalizedDelimiterId = if (pieceIdFromZero) delimiterId + 1 else delimiterId
+    var end = 0
+    val normalizedDelimiterId = delimiterId + pieceIdOffset
 
-    val sentContent = if (caseSensitive) sentence.content else sentence.content.toLowerCase()
+    val sentContent = if (caseSensitive) text else text.toLowerCase()
     val wordPieces = spp.getSppModel.encodeAsPieces(sentContent).toArray.map(x => x.toString)
     val encodedIds = spp.getSppModel.encodeAsIds(sentContent)
-    val pieceIds = if (pieceIdFromZero) encodedIds.map(x => x + 1) else encodedIds
+    val delimiterPiece = spp.getSppModel.idToPiece(normalizedDelimiterId)
+    val pieceIds = encodedIds.map(x => x + pieceIdOffset)
     wordPieces.zip(pieceIds).filter(id => id._2 != normalizedDelimiterId).map { piece =>
-      val tokenPiece = TokenPiece(piece._1, sentContent, piece._2, start == 0, sentence.start + start, sentence.end)
-      start = end
-      end = text.length
+      val cleanToken = piece._1.replace(delimiterPiece, "")
+      end = end + cleanToken.length - 1
+      val tokenPiece =
+        TokenPiece(
+          piece._1,
+          cleanToken,
+          piece._2,
+          piece._1.startsWith(delimiterPiece),
+          start,
+          end)
+      start = end + 1
       tokenPiece
     }
   }

@@ -19,10 +19,7 @@ package com.johnsnowlabs.nlp.util
 import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
 
-/** Inspired on
-  * Lucas Torri
-  * https://gist.github.com/lucastorri/138acfdd5f9903e5cf8e3cc1e7cbb8e7
-  * */
+/** Inspired on Lucas Torri https://gist.github.com/lucastorri/138acfdd5f9903e5cf8e3cc1e7cbb8e7 */
 class LfuCacheTestSpec extends AnyFlatSpec {
 
   "A LfuCache" should "automatically adjust to new content" taggedAs FastTest in {
@@ -30,7 +27,6 @@ class LfuCacheTestSpec extends AnyFlatSpec {
     val size = 10
     val lfu = new LfuCache[Int, Int](size)
     lfu.get(3)
-
 
     lfu.getOrElseUpdate(0, 5)
     lfu.get(5)
@@ -60,15 +56,9 @@ class LfuCacheTestSpec extends AnyFlatSpec {
 
     val lfu = new LfuCache[String, Double](5)
 
-    val iv = Seq(
-      ("a", 234.5),
-      ("b", 345.6),
-      ("c", 456.7),
-      ("d", 567.8),
-      ("e", 678.9)
-    )
+    val iv = Seq(("a", 234.5), ("b", 345.6), ("c", 456.7), ("d", 567.8), ("e", 678.9))
 
-    iv.foreach{case (i, v) => lfu.getOrElseUpdate(i, v)}
+    iv.foreach { case (i, v) => lfu.getOrElseUpdate(i, v) }
 
     assert(lfu.getSize == 5, "Wrong initial size")
 
@@ -90,7 +80,9 @@ class LfuCacheTestSpec extends AnyFlatSpec {
     assert(lfu.get("even newer").isDefined, "Recently added key is not in the lfu!")
 
     assert(lfu.get("c").isEmpty, "value 'c' should not be in lfu since it was never used")
-    assert(lfu.get("r").isEmpty, "value 'd' should not be in lfu since it was rarely queried (once)")
+    assert(
+      lfu.get("r").isEmpty,
+      "value 'd' should not be in lfu since it was rarely queried (once)")
   }
 
 }

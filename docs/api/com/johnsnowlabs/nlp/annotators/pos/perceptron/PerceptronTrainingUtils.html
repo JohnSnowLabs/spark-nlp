@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils</title>
-          <meta name="description" content="Spark NLP 3.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils" />
-          <meta name="keywords" content="Spark NLP 3.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -378,11 +378,14 @@
         <span class="name">buildTagBook</span><span class="params">(<span name="taggedSentences">taggedSentences: <span class="extype" name="scala.Array">Array</span>[<a href="../../common/TaggedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.TaggedSentence">TaggedSentence</a>]</span>, <span name="frequencyThreshold">frequencyThreshold: <span class="extype" name="scala.Int">Int</span></span>, <span name="ambiguityThreshold">ambiguityThreshold: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Finds very frequent tags on a word in training, and marks them as non ambiguous based on tune parameters
-ToDo: Move such parameters to configuration
-</p><div class="fullcomment"><div class="comment cmt"><p>Finds very frequent tags on a word in training, and marks them as non ambiguous based on tune parameters
-ToDo: Move such parameters to configuration
-</p></div><dl class="paramcmts block"><dt class="param">taggedSentences</dt><dd class="cmt"><p>Takes entire tagged sentences to find frequent tags</p></dd><dt class="param">frequencyThreshold</dt><dd class="cmt"><p>How many times at least a tag on a word to be marked as frequent</p></dd><dt class="param">ambiguityThreshold</dt><dd class="cmt"><p>How much percentage of total amount of words are covered to be marked as frequent</p></dd></dl></div>
+      <p class="shortcomment cmt">Finds very frequent tags on a word in training, and marks them as non ambiguous based on
+tune parameters ToDo: Move such parameters to configuration
+</p><div class="fullcomment"><div class="comment cmt"><p>Finds very frequent tags on a word in training, and marks them as non ambiguous based on
+tune parameters ToDo: Move such parameters to configuration
+</p></div><dl class="paramcmts block"><dt class="param">taggedSentences</dt><dd class="cmt"><p>
+  Takes entire tagged sentences to find frequent tags</p></dd><dt class="param">frequencyThreshold</dt><dd class="cmt"><p>
+  How many times at least a tag on a word to be marked as frequent</p></dd><dt class="param">ambiguityThreshold</dt><dd class="cmt"><p>
+  How much percentage of total amount of words are covered to be marked as frequent</p></dd></dl></div>
     </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a><a id="clone():AnyRef"></a>
       <span class="permalink">
@@ -476,8 +479,7 @@ ToDo: Move such parameters to configuration
         <span class="name">generatesTagBook</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="../../common/TaggedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.TaggedSentence">TaggedSentence</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Generates TagBook, which holds all the word to tags mapping that are not ambiguous
-</p>
+      <p class="shortcomment cmt">Generates TagBook, which holds all the word to tags mapping that are not ambiguous</p>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
@@ -633,8 +635,7 @@ ToDo: Move such parameters to configuration
         <span class="name">trainPerceptron</span><span class="params">(<span name="nIterations">nIterations: <span class="extype" name="scala.Int">Int</span></span>, <span name="initialModel">initialModel: <a href="TrainingPerceptronLegacy.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.TrainingPerceptronLegacy">TrainingPerceptronLegacy</a></span>, <span name="taggedSentences">taggedSentences: <span class="extype" name="scala.Array">Array</span>[<a href="../../common/TaggedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.TaggedSentence">TaggedSentence</a>]</span>, <span name="taggedWordBook">taggedWordBook: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="AveragedPerceptron.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.AveragedPerceptron">AveragedPerceptron</a></span>
       </span>
       
-      <p class="shortcomment cmt">Iterates for training
-</p>
+      <p class="shortcomment cmt">Iterates for training</p>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">

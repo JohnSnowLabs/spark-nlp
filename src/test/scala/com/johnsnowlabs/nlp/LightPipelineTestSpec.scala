@@ -34,8 +34,11 @@ class LightPipelineTestSpec extends AnyFlatSpec {
   def fixtureWithNormalizer = new {
     import SparkAccessor.spark.implicits._
 
-    val data: Dataset[Row] = ContentProvider.parquetData.limit(1000)
-      .withColumn("sentiment_label", when($"sentiment".isNull or $"sentiment" === 0, "negative").otherwise("positive"))
+    val data: Dataset[Row] = ContentProvider.parquetData
+      .limit(1000)
+      .withColumn(
+        "sentiment_label",
+        when($"sentiment".isNull or $"sentiment" === 0, "negative").otherwise("positive"))
 
     val documentAssembler: DocumentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -65,14 +68,14 @@ class LightPipelineTestSpec extends AnyFlatSpec {
       .setPruneCorpus(0)
 
     val pipeline: Pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        normalizer,
-        spellChecker,
-        sentimentDetector
-      ))
+      .setStages(
+        Array(
+          documentAssembler,
+          sentenceDetector,
+          tokenizer,
+          normalizer,
+          spellChecker,
+          sentimentDetector))
 
     lazy val model: PipelineModel = pipeline.fit(data)
 
@@ -85,8 +88,11 @@ class LightPipelineTestSpec extends AnyFlatSpec {
   def fixtureWithoutNormalizer = new {
     import SparkAccessor.spark.implicits._
 
-    val data: Dataset[Row] = ContentProvider.parquetData.limit(1000)
-      .withColumn("sentiment_label", when($"sentiment".isNull or $"sentiment" === 0, "negative").otherwise("positive"))
+    val data: Dataset[Row] = ContentProvider.parquetData
+      .limit(1000)
+      .withColumn(
+        "sentiment_label",
+        when($"sentiment".isNull or $"sentiment" === 0, "negative").otherwise("positive"))
 
     val documentAssembler: DocumentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -112,13 +118,8 @@ class LightPipelineTestSpec extends AnyFlatSpec {
       .setPruneCorpus(0)
 
     val pipeline: Pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        spellChecker,
-        sentimentDetector
-      ))
+      .setStages(
+        Array(documentAssembler, sentenceDetector, tokenizer, spellChecker, sentimentDetector))
 
     lazy val model: PipelineModel = pipeline.fit(data)
 
@@ -129,7 +130,8 @@ class LightPipelineTestSpec extends AnyFlatSpec {
   }
 
   "An LightPipeline with normalizer" should "annotate for each annotator" taggedAs FastTest in {
-    val annotations = new LightPipeline(fixtureWithNormalizer.model).fullAnnotate(fixtureWithNormalizer.textArray)
+    val annotations =
+      new LightPipeline(fixtureWithNormalizer.model).fullAnnotate(fixtureWithNormalizer.textArray)
     annotations.foreach { mapAnnotations =>
       mapAnnotations.values.foreach { annotations =>
         annotations.foreach { annotation =>
@@ -141,7 +143,8 @@ class LightPipelineTestSpec extends AnyFlatSpec {
   }
 
   it should "annotate for each string in the text array" taggedAs FastTest in {
-    val annotations = new LightPipeline(fixtureWithNormalizer.model).annotate(fixtureWithNormalizer.textArray)
+    val annotations =
+      new LightPipeline(fixtureWithNormalizer.model).annotate(fixtureWithNormalizer.textArray)
     assert(fixtureWithNormalizer.textArray.length == annotations.length)
   }
 
@@ -167,7 +170,8 @@ class LightPipelineTestSpec extends AnyFlatSpec {
   }
 
   "An LightPipeline without normalizer" should "annotate for each annotator" taggedAs FastTest in {
-    val annotations = new LightPipeline(fixtureWithoutNormalizer.model).fullAnnotate(fixtureWithoutNormalizer.textArray)
+    val annotations = new LightPipeline(fixtureWithoutNormalizer.model)
+      .fullAnnotate(fixtureWithoutNormalizer.textArray)
     annotations.foreach { mapAnnotations =>
       mapAnnotations.values.foreach { annotations =>
         assert(annotations.nonEmpty)
@@ -180,7 +184,8 @@ class LightPipelineTestSpec extends AnyFlatSpec {
   }
 
   it should "annotate for each string in the text array" taggedAs FastTest in {
-    val annotations = new LightPipeline(fixtureWithoutNormalizer.model).annotate(fixtureWithoutNormalizer.textArray)
+    val annotations = new LightPipeline(fixtureWithoutNormalizer.model)
+      .annotate(fixtureWithoutNormalizer.textArray)
     assert(fixtureWithoutNormalizer.textArray.length == annotations.length)
   }
 
@@ -194,12 +199,14 @@ class LightPipelineTestSpec extends AnyFlatSpec {
   }
 
   it should "run faster than a traditional pipelineWithoutNormalizer" taggedAs SlowTest in {
-    val t1: Double = Benchmark.measure("Time to collect SparkML pipelineWithoutNormalizer results") {
-      fixtureWithoutNormalizer.model.transform(fixtureWithoutNormalizer.textDF).collect
-    }
+    val t1: Double =
+      Benchmark.measure("Time to collect SparkML pipelineWithoutNormalizer results") {
+        fixtureWithoutNormalizer.model.transform(fixtureWithoutNormalizer.textDF).collect
+      }
 
     val t2: Double = Benchmark.measure("Time to collect LightPipeline results in parallel") {
-      new LightPipeline(fixtureWithoutNormalizer.model).annotate(fixtureWithoutNormalizer.textArray)
+      new LightPipeline(fixtureWithoutNormalizer.model)
+        .annotate(fixtureWithoutNormalizer.textArray)
     }
 
     assert(t1 > t2)

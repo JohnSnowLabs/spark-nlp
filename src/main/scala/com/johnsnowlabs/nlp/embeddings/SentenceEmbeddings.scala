@@ -20,20 +20,20 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, SENTENCE_EMBEDDINGS, WORD_E
 import com.johnsnowlabs.nlp.annotators.common.{SentenceSplit, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasSimpleAnnotate}
 import com.johnsnowlabs.storage.HasStorageRef
-
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
-/** Converts the results from [[WordEmbeddings]], [[BertEmbeddings]], or [[ElmoEmbeddings]] into sentence
-  * or document embeddings by either summing up or averaging all the word embeddings in a sentence or a document
-  * (depending on the inputCols).
+/** Converts the results from [[WordEmbeddings]], [[BertEmbeddings]], or [[ElmoEmbeddings]] into
+  * sentence or document embeddings by either summing up or averaging all the word embeddings in a
+  * sentence or a document (depending on the inputCols).
   *
   * This can be configured with `setPoolingStrategy`, which either be `"AVERAGE"` or `"SUM"`.
   *
   * For more extended examples see the
   * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.1_Text_classification_examples_in_SparkML_SparkNLP.ipynb Spark NLP Workshop]].
-  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddingsTestSpec.scala SentenceEmbeddingsTestSpec]].
+  * and the
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddingsTestSpec.scala SentenceEmbeddingsTestSpec]].
   *
   * ==Example==
   * {{{
@@ -89,7 +89,8 @@ import org.apache.spark.sql.{DataFrame, Dataset}
   * }}}
   *
   * @groupname anno Annotator types
-  * @groupdesc anno Required input and expected output annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
   * @groupname Ungrouped Members
   * @groupname param Parameters
   * @groupname setParam Parameter setters
@@ -100,10 +101,12 @@ import org.apache.spark.sql.{DataFrame, Dataset}
   * @groupprio Ungrouped 3
   * @groupprio setParam  4
   * @groupprio getParam  5
-  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
-  **/
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 class SentenceEmbeddings(override val uid: String)
-  extends AnnotatorModel[SentenceEmbeddings]
+    extends AnnotatorModel[SentenceEmbeddings]
     with HasSimpleAnnotate[SentenceEmbeddings]
     with HasEmbeddingsProperties
     with HasStorageRef {
@@ -111,37 +114,42 @@ class SentenceEmbeddings(override val uid: String)
   /** Output annotator type : SENTENCE_EMBEDDINGS
     *
     * @group anno
-    **/
+    */
   override val outputAnnotatorType: AnnotatorType = SENTENCE_EMBEDDINGS
+
   /** Input annotator type : DOCUMENT, WORD_EMBEDDINGS
     *
     * @group anno
-    **/
+    */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, WORD_EMBEDDINGS)
+
   /** Number of embedding dimensions (Default: `100`)
     *
     * @group param
-    **/
+    */
   override val dimension = new IntParam(this, "dimension", "Number of embedding dimensions")
 
   /** Number of embedding dimensions (Default: `100`)
     *
     * @group getParam
-    **/
+    */
   override def getDimension: Int = $(dimension)
 
-  /** Choose how you would like to aggregate Word Embeddings to Sentence Embeddings (Default: `"AVERAGE"`).
-    * Can either be `"AVERAGE"` or `"SUM"`.
+  /** Choose how you would like to aggregate Word Embeddings to Sentence Embeddings (Default:
+    * `"AVERAGE"`). Can either be `"AVERAGE"` or `"SUM"`.
     *
     * @group param
-    **/
-  val poolingStrategy = new Param[String](this, "poolingStrategy", "Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM")
+    */
+  val poolingStrategy = new Param[String](
+    this,
+    "poolingStrategy",
+    "Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM")
 
-  /** Choose how you would like to aggregate Word Embeddings to Sentence Embeddings (Default: `"AVERAGE"`).
-    * Can either be `"AVERAGE"` or `"SUM"`.
+  /** Choose how you would like to aggregate Word Embeddings to Sentence Embeddings (Default:
+    * `"AVERAGE"`). Can either be `"AVERAGE"` or `"SUM"`.
     *
     * @group setParam
-    **/
+    */
   def setPoolingStrategy(strategy: String): this.type = {
     strategy.toLowerCase() match {
       case "average" => set(poolingStrategy, "AVERAGE")
@@ -154,33 +162,33 @@ class SentenceEmbeddings(override val uid: String)
     inputCols -> Array(DOCUMENT, WORD_EMBEDDINGS),
     outputCol -> "sentence_embeddings",
     poolingStrategy -> "AVERAGE",
-    dimension -> 100
-  )
+    dimension -> 100)
 
   /** Internal constructor to submit a random UID */
   def this() = this(Identifiable.randomUID("SENTENCE_EMBEDDINGS"))
 
-  private def calculateSentenceEmbeddings(matrix : Array[Array[Float]]):Array[Float] = {
+  private def calculateSentenceEmbeddings(matrix: Array[Array[Float]]): Array[Float] = {
     val res = Array.ofDim[Float](matrix(0).length)
     setDimension(matrix(0).length)
 
-    matrix(0).indices.foreach {
-      j =>
-        matrix.indices.foreach {
-          i =>
-            res(j) += matrix(i)(j)
-        }
-        if($(poolingStrategy) == "AVERAGE")
-          res(j) /= matrix.length
+    matrix(0).indices.foreach { j =>
+      matrix.indices.foreach { i =>
+        res(j) += matrix(i)(j)
+      }
+      if ($(poolingStrategy) == "AVERAGE")
+        res(j) /= matrix.length
     }
     res
   }
 
-  /**
-    * takes a document and annotations and produces new annotations of this annotator's annotation type
+  /** takes a document and annotations and produces new annotations of this annotator's annotation
+    * type
     *
-    * @param annotations Annotations that correspond to inputAnnotationCols generated by previous annotators if any
-    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
+    * @param annotations
+    *   Annotations that correspond to inputAnnotationCols generated by previous annotators if any
+    * @return
+    *   any number of annotations processed for every input annotation. Not necessary one to one
+    *   relationship
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = SentenceSplit.unpack(annotations)
@@ -188,15 +196,14 @@ class SentenceEmbeddings(override val uid: String)
     val embeddingsSentences = WordpieceEmbeddingsSentence.unpack(annotations)
 
     sentences.map { sentence =>
+      val embeddings =
+        embeddingsSentences.filter(embeddings => embeddings.sentenceId == sentence.index)
 
-      val embeddings = embeddingsSentences.filter(embeddings => embeddings.sentenceId == sentence.index)
-
-      val sentenceEmbeddings = embeddings.flatMap {
-        tokenEmbedding =>
-          val allEmbeddings = tokenEmbedding.tokens.map { token =>
-            token.embeddings
-          }
-          calculateSentenceEmbeddings(allEmbeddings)
+      val sentenceEmbeddings = embeddings.flatMap { tokenEmbedding =>
+        val allEmbeddings = tokenEmbedding.tokens.map { token =>
+          token.embeddings
+        }
+        calculateSentenceEmbeddings(allEmbeddings)
       }.toArray
 
       Annotation(
@@ -204,27 +211,32 @@ class SentenceEmbeddings(override val uid: String)
         begin = sentence.start,
         end = sentence.end,
         result = sentence.content,
-        metadata = Map("sentence" -> sentence.index.toString,
+        metadata = Map(
+          "sentence" -> sentence.index.toString,
           "token" -> sentence.content,
           "pieceId" -> "-1",
-          "isWordStart" -> "true"
-        ),
-        embeddings = sentenceEmbeddings
-      )
+          "isWordStart" -> "true"),
+        embeddings = sentenceEmbeddings)
     }
   }
   override protected def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
-    val ref = HasStorageRef.getStorageRefFromInput(dataset, $(inputCols), AnnotatorType.WORD_EMBEDDINGS)
+    val ref =
+      HasStorageRef.getStorageRefFromInput(dataset, $(inputCols), AnnotatorType.WORD_EMBEDDINGS)
     if (get(storageRef).isEmpty)
       setStorageRef(ref)
     dataset
   }
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    dataset.withColumn(getOutputCol, wrapSentenceEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
+    dataset.withColumn(
+      getOutputCol,
+      wrapSentenceEmbeddingsMetadata(
+        dataset.col(getOutputCol),
+        $(dimension),
+        Some($(storageRef))))
   }
 }
 
-/**
- * This is the companion object of [[SentenceEmbeddings]]. Please refer to that class for the documentation.
- */
+/** This is the companion object of [[SentenceEmbeddings]]. Please refer to that class for the
+  * documentation.
+  */
 object SentenceEmbeddings extends DefaultParamsReadable[SentenceEmbeddings]

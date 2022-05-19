@@ -16,30 +16,33 @@
 
 package com.johnsnowlabs.ml.tensorflow
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.common._
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
 import scala.collection.JavaConverters._
 import scala.collection.immutable.ListMap
 import scala.collection.mutable
 
-/**
- * Language Identification and Detection by using CNNs and RNNs architectures in TensowrFlow
- *
- * The models are trained on large datasets such as Wikipedia and Tatoeba
- * The output is a language code in Wiki Code style: https://en.wikipedia.org/wiki/List_of_Wikipedias
- *
- * @param tensorflow       LanguageDetectorDL Model wrapper with TensorFlow Wrapper
- * @param configProtoBytes Configuration for TensorFlow session
- * @param orderedLanguages ordered ListMap of language codes detectable by this trained model
- * @param orderedAlphabets ordered ListMap of alphabets to be used to encode the inputs
- *
- * */
-class TensorflowLD(val tensorflow: TensorflowWrapper,
-                   configProtoBytes: Option[Array[Byte]] = None,
-                   orderedLanguages: ListMap[String, Int],
-                   orderedAlphabets: ListMap[String, Int]
-                  ) extends Serializable {
+/** Language Identification and Detection by using CNNs and RNNs architectures in TensowrFlow
+  *
+  * The models are trained on large datasets such as Wikipedia and Tatoeba The output is a
+  * language code in Wiki Code style: https://en.wikipedia.org/wiki/List_of_Wikipedias
+  *
+  * @param tensorflow
+  *   LanguageDetectorDL Model wrapper with TensorFlow Wrapper
+  * @param configProtoBytes
+  *   Configuration for TensorFlow session
+  * @param orderedLanguages
+  *   ordered ListMap of language codes detectable by this trained model
+  * @param orderedAlphabets
+  *   ordered ListMap of alphabets to be used to encode the inputs
+  */
+class TensorflowLD(
+    val tensorflow: TensorflowWrapper,
+    configProtoBytes: Option[Array[Byte]] = None,
+    orderedLanguages: ListMap[String, Int],
+    orderedAlphabets: ListMap[String, Int])
+    extends Serializable {
 
   private val inputKey = "inputs:0"
   private val outputKey = "output/Softmax:0"
@@ -98,12 +101,10 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
   }
 
   def predict(
-               documents: Seq[Sentence],
-               threshold: Float = 0.01f,
-               thresholdLabel: String = "unk",
-               coalesceSentences: Boolean = false
-             ): Array[Annotation] = {
-
+      documents: Seq[Sentence],
+      threshold: Float = 0.01f,
+      thresholdLabel: String = "unk",
+      coalesceSentences: Boolean = false): Array[Annotation] = {
 
     val sentences = encode(documents)
 
@@ -114,7 +115,8 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
     val outputs = scores.map(x => x.zip(langLabels))
 
     if (coalesceSentences) {
-      val avgScores = outputs.flatMap(x => x.toList).groupBy(_._2).mapValues(_.map(_._1).sum / outputs.length)
+      val avgScores =
+        outputs.flatMap(x => x.toList).groupBy(_._2).mapValues(_.map(_._1).sum / outputs.length)
       val maxResult = avgScores.maxBy(_._2)
       val finalLabel = if (maxResult._2 >= threshold) maxResult._1 else thresholdLabel
 
@@ -124,9 +126,8 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
           begin = documents.head.start,
           end = documents.last.end,
           result = finalLabel,
-          metadata = Map("sentence" -> documents.head.index.toString) ++ avgScores.flatMap(x => Map(x._1 -> x._2.toString))
-        )
-      )
+          metadata = Map("sentence" -> documents.head.index.toString) ++ avgScores.flatMap(x =>
+            Map(x._1 -> x._2.toString))))
 
     } else {
       outputs.zip(documents).map { case (score, sentence) =>
@@ -138,10 +139,9 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
           begin = sentence.start,
           end = sentence.end,
           result = finalLabel,
-          metadata = Map("sentence" -> sentence.index.toString) ++ score.flatMap(x => Map(x._2 -> x._1.toString))
-        )
+          metadata = Map("sentence" -> sentence.index.toString) ++ score.flatMap(x =>
+            Map(x._2 -> x._1.toString)))
       }
     }
   }
 }
-

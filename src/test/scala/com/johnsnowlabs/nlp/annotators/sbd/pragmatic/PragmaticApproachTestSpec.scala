@@ -37,7 +37,8 @@ class PragmaticApproachBigTestSpec extends AnyFlatSpec {
 
     val data = ContentProvider.parquetData
 
-    val mergedSentences = data.limit(1000)
+    val mergedSentences = data
+      .limit(1000)
       .withColumn("gid", bround(rand(5), 7))
       .groupBy("gid")
       .agg(concat_ws(". ", collect_list($"text")).as("text"))
@@ -71,7 +72,8 @@ class PragmaticApproachBigTestSpec extends AnyFlatSpec {
 
     val date2 = new Date().getTime
     tokenizedFromDisk.transform(sentenced).take("my_sbd_sentences", 5000)
-    info(s"collect 5000 SBD sentences from disk took: ${(new Date().getTime - date2) / 1000} seconds")
+    info(
+      s"collect 5000 SBD sentences from disk took: ${(new Date().getTime - date2) / 1000} seconds")
 
     /** Process from memory */
 
@@ -82,11 +84,13 @@ class PragmaticApproachBigTestSpec extends AnyFlatSpec {
 
     val date3 = new Date().getTime
     //    tokenizedFromDisk.transform(sentencedFromMemory).show
-    info(s"20 Show sample of SBD from Memory took: ${(new Date().getTime - date3) / 1000} seconds")
+    info(
+      s"20 Show sample of SBD from Memory took: ${(new Date().getTime - date3) / 1000} seconds")
 
     val date4 = new Date().getTime
     tokenizedFromDisk.transform(sentencedFromMemory).take("my_sbd_sentences", 5000)
-    info(s"collect 5000 SBD sentences from memory took: ${(new Date().getTime - date4) / 1000} seconds")
+    info(
+      s"collect 5000 SBD sentences from memory took: ${(new Date().getTime - date4) / 1000} seconds")
 
     /** Flatten test */
     tokenizedFromDisk
@@ -105,17 +109,14 @@ class PragmaticApproachTestSpec extends AnyFlatSpec with PragmaticDetectionBehav
   val generalParagraph = ContentProvider.sbdTestParagraph
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
     generalParagraph.replace("@@", ""),
-    generalParagraph.split("@@").map(_.trim)
-  )
+    generalParagraph.split("@@").map(_.trim))
 
   "an isolated pragmatic detector" should behave like isolatedPDReadScore(
     generalParagraph.replace("@@", ""),
-    generalParagraph.split("@@").map(_.trim)
-  )
+    generalParagraph.split("@@").map(_.trim))
 
   "a spark based pragmatic detector" should behave like sparkBasedSentenceDetector(
-    DataBuilder.basicDataBuild(ContentProvider.sbdTestParagraph)
-  )
+    DataBuilder.basicDataBuild(ContentProvider.sbdTestParagraph))
 
   "A Pragmatic SBD" should "be readable and writable" taggedAs Tag("LinuxOnly") in {
     val pragmaticDetector = new SentenceDetector()
@@ -133,7 +134,10 @@ class PragmaticApproachTestSpec extends AnyFlatSpec with PragmaticDetectionBehav
     import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
     val data = Seq("This is one sentence. This is another sentence. Third sentence.").toDF("text")
     val document = new DocumentAssembler().setInputCol("text").setOutputCol("document")
-    val sentence = new SentenceDetector().setInputCols("document").setOutputCol("sentence").setExplodeSentences(true)
+    val sentence = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+      .setExplodeSentences(true)
 
     val doc = document.transform(data)
     val sen = sentence.transform(doc)
@@ -148,203 +152,287 @@ class PragmaticApproachTestSpec extends AnyFlatSpec with PragmaticDetectionBehav
 
   }
 
-  /**
-   * Golden Rules from Pragmatic Sentence Detector
-   * https://github.com/diasks2/pragmatic_segmenter
-   */
+  /** Golden Rules from Pragmatic Sentence Detector https://github.com/diasks2/pragmatic_segmenter
+    */
 
-  //Custom bounds test
-  val simpleCustomBoundsAns = Array("Here now", "This is Jimmy", "Stop me here.", "And here", "Goodbye")
+  // Custom bounds test
+  val simpleCustomBoundsAns =
+    Array("Here now", "This is Jimmy", "Stop me here.", "And here", "Goodbye")
   val simpleCustomBounds = "Here now%%This is Jimmy%%Stop me here. And here%%Goodbye"
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(simpleCustomBounds, simpleCustomBoundsAns, Array("%%"))
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    simpleCustomBounds,
+    simpleCustomBoundsAns,
+    Array("%%"))
 
-  //Simple period to end sentence
+  // Simple period to end sentence
   val simplePeriodAns = Array("Hello World.", "My name is Jonas.")
   val simplePeriod = "Hello World. My name is Jonas."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(simplePeriod, simplePeriodAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    simplePeriod,
+    simplePeriodAns)
 
-  //Question mark to end sentence
+  // Question mark to end sentence
   val questionMarkAns = Array("What is your name?", "My name is Jonas.")
   val questionMark = "What is your name? My name is Jonas."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(questionMark, questionMarkAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    questionMark,
+    questionMarkAns)
 
-  //Exclamation point to end sentence
+  // Exclamation point to end sentence
   val exclamationAns = Array("There it is!", "I found it.")
   val exclamation = "There it is! I found it."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(exclamation, exclamationAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    exclamation,
+    exclamationAns)
 
-  //One letter upper case abbreviations
+  // One letter upper case abbreviations
   val upperAbbrAns = Array("My name is Jonas E. Smith.")
   val upperAbbr = "My name is Jonas E. Smith."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(upperAbbr, upperAbbrAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    upperAbbr,
+    upperAbbrAns)
 
-  //One letter lower case abbreviations
+  // One letter lower case abbreviations
   val lowerAbbrAns = Array("Please turn to p. 55.")
   val lowerAbbr = "Please turn to p. 55."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(lowerAbbr, lowerAbbrAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    lowerAbbr,
+    lowerAbbrAns)
 
-  //Two letter lower case abbreviations in the middle of a sentence
+  // Two letter lower case abbreviations in the middle of a sentence
   val twoLowerAbbrAns = Array("Were Jane and co. at the party?")
   val twoLowerAbbr = "Were Jane and co. at the party?"
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(twoLowerAbbr, twoLowerAbbrAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    twoLowerAbbr,
+    twoLowerAbbrAns)
 
-  //Two letter upper case abbreviations in the middle of a sentence
+  // Two letter upper case abbreviations in the middle of a sentence
   val twoUpperAbbrAns = Array("They closed the deal with Pitt, Briggs & Co. at noon.")
   val twoUpperAbbr = "They closed the deal with Pitt, Briggs & Co. at noon."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(twoUpperAbbr, twoUpperAbbrAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    twoUpperAbbr,
+    twoUpperAbbrAns)
 
-  //Two letter lower case abbreviations at the end of a sentence
+  // Two letter lower case abbreviations at the end of a sentence
   val twoLowerAbbrEndAns = Array("Let's ask Jane and co.", "They should know.")
   val twoLowerAbbrEnd = "Let's ask Jane and co. They should know."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(twoLowerAbbrEnd, twoLowerAbbrEndAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    twoLowerAbbrEnd,
+    twoLowerAbbrEndAns)
 
-  //Two letter upper case abbreviations at the end of a sentence
-  val twoUpperAbbrEndAns = Array("They closed the deal with Pitt, Briggs & Co.", "It closed yesterday.")
+  // Two letter upper case abbreviations at the end of a sentence
+  val twoUpperAbbrEndAns =
+    Array("They closed the deal with Pitt, Briggs & Co.", "It closed yesterday.")
   val twoUpperAbbrEnd = "They closed the deal with Pitt, Briggs & Co. It closed yesterday."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(twoUpperAbbrEnd, twoUpperAbbrEndAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    twoUpperAbbrEnd,
+    twoUpperAbbrEndAns)
 
-  //Two letter (prepositive) abbreviations
+  // Two letter (prepositive) abbreviations
   val twoPrepositiveAns = Array("I can see Mt. Fuji from here.")
   val twoPrepositive = "I can see Mt. Fuji from here."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(twoPrepositive, twoPrepositiveAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    twoPrepositive,
+    twoPrepositiveAns)
 
-  //Two letter (prepositive & postpositive) abbreviations
+  // Two letter (prepositive & postpositive) abbreviations
   val prepepostAns = Array("St. Michael's Church is on 5th st. near the light.")
   val prepepost = "St. Michael's Church is on 5th st. near the light."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(prepepost, prepepostAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    prepepost,
+    prepepostAns)
 
-  //Possesive two letter abbreviations
+  // Possesive two letter abbreviations
   val possessiveAns = Array("That is JFK Jr.'s book.")
   val possessive = "That is JFK Jr.'s book."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(possessive, possessiveAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    possessive,
+    possessiveAns)
 
-  //Number as non sentence boundary
+  // Number as non sentence boundary
   val numberNonSentAns = Array("She has $100.00 in her bag.")
   val numberNonSent = "She has $100.00 in her bag."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(numberNonSent, numberNonSentAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    numberNonSent,
+    numberNonSentAns)
 
-  //Number as sentence boundary
+  // Number as sentence boundary
   val numberSentAns = Array("She has $100.00.", "It is in her bag.")
   val numberSent = "She has $100.00. It is in her bag."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(numberSent, numberSentAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    numberSent,
+    numberSentAns)
 
-  //Parenthetical inside sentence
-  val parentsAns = Array("He teaches science (He previously worked for 5 years as an engineer.) at the local " +
-    "University.")
-  val parents = "He teaches science (He previously worked for 5 years as an engineer.) at the local University."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(parents, parentsAns)
+  // Parenthetical inside sentence
+  val parentsAns = Array(
+    "He teaches science (He previously worked for 5 years as an engineer.) at the local " +
+      "University.")
+  val parents =
+    "He teaches science (He previously worked for 5 years as an engineer.) at the local University."
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    parents,
+    parentsAns)
 
-  //Single quotations inside sentence
+  // Single quotations inside sentence
   val singleQuotAns = Array("She turned to him, 'This is great.' she said.")
   val singleQuot = "She turned to him, 'This is great.' she said."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(singleQuot, singleQuotAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    singleQuot,
+    singleQuotAns)
 
-  //Don't protect period between two words that contain apostrophes
+  // Don't protect period between two words that contain apostrophes
   val twoApostrophesAns = Array("We don't want to ignore this period.", "Isn't it right?")
   val twoApostrophes = "We don't want to ignore this period. Isn't it right?"
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(twoApostrophes, twoApostrophesAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    twoApostrophes,
+    twoApostrophesAns)
 
-  //Double quotations inside sentence
+  // Double quotations inside sentence
   val doubleQuotAns = Array("She turned to him, \"This is great.\" she said.")
   val doubleQuot = "She turned to him, \"This is great.\" she said."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(doubleQuot, doubleQuotAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    doubleQuot,
+    doubleQuotAns)
 
-  //Double punctuation (exclamation point)
+  // Double punctuation (exclamation point)
   val doublePunctAns = Array("Hello!!", "Long time no see.")
   val doublePunct = "Hello!! Long time no see."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(doublePunct, doublePunctAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    doublePunct,
+    doublePunctAns)
 
-  //Triple punctuation (exclamation point)
+  // Triple punctuation (exclamation point)
   val triplePunctAns = Array("ART!!!")
   val triplePunct = "ART!!!"
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(triplePunct, triplePunctAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    triplePunct,
+    triplePunctAns)
 
-  //Double punctuation (question mark)
+  // Double punctuation (question mark)
   val doublePunctQuestAns = Array("Hello??", "Who is there?")
   val doublePunctQuest = "Hello?? Who is there?"
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(doublePunctQuest, doublePunctQuestAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    doublePunctQuest,
+    doublePunctQuestAns)
 
-  //Double punctuation (exclamation point / question mark)
+  // Double punctuation (exclamation point / question mark)
   val doublePunctExcQuestAns = Array("Hello!?", "Is that you?")
   val doublePunctExcQuest = "Hello!? Is that you?"
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(doublePunctExcQuest, doublePunctExcQuestAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    doublePunctExcQuest,
+    doublePunctExcQuestAns)
 
-  //Double punctuation (question mark / exclamation point)
+  // Double punctuation (question mark / exclamation point)
   val doublePunctQuestExcAns = Array("Hello?!", "Is that you?")
   val doublePunctQuestExc = "Hello?! Is that you?"
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(doublePunctQuestExc, doublePunctQuestExcAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    doublePunctQuestExc,
+    doublePunctQuestExcAns)
 
-  //List (period followed by parens and no period to end item)
+  // List (period followed by parens and no period to end item)
   val listParensAns = Array("1.) The first item", "2.) The second item")
   val listParens = "1.) The first item 2.) The second item"
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(listParens, listParensAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    listParens,
+    listParensAns)
 
-  //List (period followed by parens and period to end item)
+  // List (period followed by parens and period to end item)
   val listParensPeriodAns = Array("1.) The first item.", "2.) The second item.")
   val listParensPeriod = "1.) The first item. 2.) The second item."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(listParensPeriod, listParensPeriodAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    listParensPeriod,
+    listParensPeriodAns)
 
-  //List (parens and period to end item)
+  // List (parens and period to end item)
   val listParensPeriodEndAns = Array("1) The first item.", "2) The second item.")
   val listParensPeriodEnd = "1) The first item. 2) The second item."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(listParensPeriodEnd, listParensPeriodEndAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    listParensPeriodEnd,
+    listParensPeriodEndAns)
 
-  //Errant newline in the middle of a sentence (PDF)
+  // Errant newline in the middle of a sentence (PDF)
   val errantNewlineAns = Array("This is a sentence\ncut off in the middle because pdf.")
   val errantNewline = "This is a sentence\ncut off in the middle because pdf."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(errantNewline, errantNewlineAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    errantNewline,
+    errantNewlineAns)
 
-  //Named entities with an exclamation point
+  // Named entities with an exclamation point
   val namedEntitiesAns = Array("She works at Yahoo!", "in the accounting department.")
   val namedEntities = "She works at Yahoo! in the accounting department."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(namedEntities, namedEntitiesAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    namedEntities,
+    namedEntitiesAns)
 
-  //Ellipsis at end of quotation
-  val ellipsisAns = Array("Thoreau argues that by simplifying one’s life, \"the laws of the universe will " +
-    "appear less complex. . . .\"")
-  val ellipsis = "Thoreau argues that by simplifying one’s life, \"the laws of the universe will appear less " +
-    "complex. . . .\""
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(ellipsis, ellipsisAns)
+  // Ellipsis at end of quotation
+  val ellipsisAns = Array(
+    "Thoreau argues that by simplifying one’s life, \"the laws of the universe will " +
+      "appear less complex. . . .\"")
+  val ellipsis =
+    "Thoreau argues that by simplifying one’s life, \"the laws of the universe will appear less " +
+      "complex. . . .\""
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    ellipsis,
+    ellipsisAns)
 
-  //Ellipsis with square brackets
-  val ellipsisSquareBrAns = Array("\"Bohr [...] used the analogy of parallel stairways [...]\" (Smith 55).")
+  // Ellipsis with square brackets
+  val ellipsisSquareBrAns = Array(
+    "\"Bohr [...] used the analogy of parallel stairways [...]\" (Smith 55).")
   val ellipsisSquareBr = "\"Bohr [...] used the analogy of parallel stairways [...]\" (Smith 55)."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(ellipsisSquareBr, ellipsisSquareBrAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    ellipsisSquareBr,
+    ellipsisSquareBrAns)
 
-  //Multi-period abbreviations in the middle of a sentence
+  // Multi-period abbreviations in the middle of a sentence
   val multiperAns = Array("I visited the U.S.A. last year.")
   val multiper = "I visited the U.S.A. last year."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(multiper, multiperAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    multiper,
+    multiperAns)
 
-  //Multi-period abbreviations at the end of a sentence
+  // Multi-period abbreviations at the end of a sentence
   val multiperEndAns = Array("I live in the E.U.", "How about you?")
   val multiperEnd = "I live in the E.U. How about you?"
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(multiperEnd, multiperEndAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    multiperEnd,
+    multiperEndAns)
 
-  //U.S. as sentence boundary
+  // U.S. as sentence boundary
   val USBoundAns = Array("I live in the U.S.", "How about you?")
   val USBound = "I live in the U.S. How about you?"
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(USBound, USBoundAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    USBound,
+    USBoundAns)
 
-  //U.S. as non sentence boundary with next word capitalized
+  // U.S. as non sentence boundary with next word capitalized
   val USBoundNextCapAns = Array("I work for the U.S. government in Virginia.")
   val USBoundNextCap = "I work for the U.S. government in Virginia."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(USBoundNextCap, USBoundNextCapAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    USBoundNextCap,
+    USBoundNextCapAns)
 
-  //U.S. as non sentence boundary
+  // U.S. as non sentence boundary
   val USNonSentenceAns = Array("I have lived in the U.S. for 20 years.")
   val USNonSentence = "I have lived in the U.S. for 20 years."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(USNonSentence, USNonSentenceAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    USNonSentence,
+    USNonSentenceAns)
 
-  //Colon should not break sentence
+  // Colon should not break sentence
   val ColonNotBreakAns = Array("Right upper lobe wedge resection: Negative for malignancy")
   val ColonNotBreak = "Right upper lobe wedge resection: Negative for malignancy"
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(ColonNotBreak, ColonNotBreakAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    ColonNotBreak,
+    ColonNotBreakAns)
 
   // Colon should not break sence with new lines
-  val ColonNotBreakNLAns = Array("9. Right upper lobe wedge resection: Negative for malignancy.", "Normal lung.")
-  val ColonNotBreakNL = "9. Right upper lobe wedge resection: Negative for malignancy. Normal lung."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(ColonNotBreakNL, ColonNotBreakNLAns)
+  val ColonNotBreakNLAns =
+    Array("9. Right upper lobe wedge resection: Negative for malignancy.", "Normal lung.")
+  val ColonNotBreakNL =
+    "9. Right upper lobe wedge resection: Negative for malignancy. Normal lung."
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    ColonNotBreakNL,
+    ColonNotBreakNLAns)
 
   /*
   //A.M. / P.M. as non sentence boundary and sentence boundary
@@ -352,17 +440,22 @@ class PragmaticApproachTestSpec extends AnyFlatSpec with PragmaticDetectionBehav
     "then went to the store.")
   val AMPM = "At 5 a.m. Mr. Smith went to the bank. He left the bank at 6 P.M. Mr. Smith then went to the store."
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(AMPM, AMPMAns)
-  */
+   */
 
-  //Email addresses
+  // Email addresses
   val emailAns = Array("Her email is Jane.Doe@example.com.", "I sent her an email.")
   val email = "Her email is Jane.Doe@example.com. I sent her an email."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(email, emailAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    email,
+    emailAns)
 
-  //Web addresses
-  val webAns = Array("The site is: https://www.example.50.com/new-site/awesome_content.html.", "Please check " +
-    "it out.")
-  val web = "The site is: https://www.example.50.com/new-site/awesome_content.html. Please check it out."
+  // Web addresses
+  val webAns = Array(
+    "The site is: https://www.example.50.com/new-site/awesome_content.html.",
+    "Please check " +
+      "it out.")
+  val web =
+    "The site is: https://www.example.50.com/new-site/awesome_content.html. Please check it out."
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(web, webAns)
 
   /*
@@ -370,34 +463,41 @@ class PragmaticApproachTestSpec extends AnyFlatSpec with PragmaticDetectionBehav
   val doubleQuotEndAns = Array("She turned to him, \"This is great.\"", "She held the book out to show him.")
   val doubleQuotEnd = "She turned to him, \"This is great.\" She held the book out to show him."
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(doubleQuotEnd, doubleQuotEndAns)
-  */
+   */
 
   /*
   //List (parens and no period to end item)
   val listParensNoPeriodAns = Array("1) The first item", "2) The second item")
   val listParensNoPeriod = "1) The first item 2) The second item"
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(listParensNoPeriod, listParensNoPeriodAns)
-  */
+   */
 
-  //List (period to mark list and no period to end item)
+  // List (period to mark list and no period to end item)
   val listPeriodMarkAns = Array("1. The first item", "2. The second item")
   val listPeriodMark = "1. The first item 2. The second item"
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(listPeriodMark, listPeriodMarkAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    listPeriodMark,
+    listPeriodMarkAns)
 
-  //List (period to mark list and period to end item)
+  // List (period to mark list and period to end item)
   val listPeriodMarkEndAns = Array("1. The first item.", "2. The second item.")
   val listPeriodMarkEnd = "1. The first item. 2. The second item."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(listPeriodMarkEnd, listPeriodMarkEndAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    listPeriodMarkEnd,
+    listPeriodMarkEndAns)
 
-  //List (period to mark list and period to end item)
-  val veryLongAns = Array("This is a so long sentence that it will end up being cut off in different pieces because otherwise " +
-    "I don't know how to end a sentence really I need some help getting this sentence to continue for some really really REALLY long time although",
-    "we should be almost there this part should become the second sentence, thanks."
-  )
+  // List (period to mark list and period to end item)
+  val veryLongAns = Array(
+    "This is a so long sentence that it will end up being cut off in different pieces because otherwise " +
+      "I don't know how to end a sentence really I need some help getting this sentence to continue for some really really REALLY long time although",
+    "we should be almost there this part should become the second sentence, thanks.")
   val veryLong = "This is a so long sentence that it will end up being cut off in different pieces because otherwise I don't " +
     "know how to end a sentence really I need some help getting this sentence to continue for some really really REALLY long " +
     "time although we should be almost there this part should become the second sentence, thanks."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResultTag(veryLong, veryLongAns, splitLength = Some(240))
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResultTag(
+    veryLong,
+    veryLongAns,
+    splitLength = Some(240))
 
   /*
   //List with bullet
@@ -414,7 +514,7 @@ class PragmaticApproachTestSpec extends AnyFlatSpec with PragmaticDetectionBehav
   val listAlphaAns = Array("a. The first item", "b. The second item", "c. The third list item")
   val listAlpha = "a. The first item b. The second item c. The third list item"
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(listAlpha, listAlphaAns)
-  */
+   */
 
   /*
   //Errant newline in the middle of a sentence
@@ -431,7 +531,7 @@ class PragmaticApproachTestSpec extends AnyFlatSpec with PragmaticDetectionBehav
   val geoCoordsAns = Array("You can find it at N°. 1026.253.553.", "That is where the treasure is.")
   val geoCoords = "You can find it at N°. 1026.253.553. That is where the treasure is."
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(geoCoords, geoCoordsAns)
-  */
+   */
 
   /*
   //Ellipsis as sentence boundary (standard ellipsis rules)
@@ -442,14 +542,14 @@ class PragmaticApproachTestSpec extends AnyFlatSpec with PragmaticDetectionBehav
     "indicate the omission with ellipsis marks (preceded and followed by a space) and then indicate the" +
     "end of the sentence with a period . . . . Next sentence."
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(ellipsisBoundary, ellipsisBoundaryAns)
-  */
+   */
 
   /*
   //I as a sentence boundary and I as an abbreviation
   val IConfusingAns = Array("We make a good team, you and I.", "Did you see Albert I. Jones yesterday?")
   val IConfusing = "We make a good team, you and I. Did you see Albert I. Jones yesterday?"
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(IConfusing, IConfusingAns)
-  */
+   */
 
   /*
   //Ellipsis as sentence boundary (non-standard ellipsis rules)
@@ -476,15 +576,21 @@ class PragmaticApproachTestSpec extends AnyFlatSpec with PragmaticDetectionBehav
     "1,000.", "That is a lot.")
   val noWhiteSpace = "Hello world.Today is Tuesday.Mr. Smith went to the store and bought 1,000.That is a lot."
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(noWhiteSpace, noWhiteSpaceAns)
-  */
+   */
 
-  //German characters use case
+  // German characters use case
   val germanAns = Array("Mit dieser Nachricht erhalten Sie unsere Auftragsbestätigung.")
   val german = "Mit dieser Nachricht erhalten Sie unsere Auftragsbestätigung."
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(german, germanAns)
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    german,
+    germanAns)
 
   // Matched content with group matching escaped (rare)
-  val escapedAns = Array("\"The 'man' in the back said '$everyone attack\" and it turned into a ballroom blitz.\"")
-  val escaped = "\"The 'man' in the back said '$everyone attack\" and it turned into a ballroom blitz.\""
-  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(escaped, escapedAns)
+  val escapedAns = Array(
+    "\"The 'man' in the back said '$everyone attack\" and it turned into a ballroom blitz.\"")
+  val escaped =
+    "\"The 'man' in the back said '$everyone attack\" and it turned into a ballroom blitz.\""
+  "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
+    escaped,
+    escapedAns)
 }
