@@ -74,4 +74,32 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/12.Named_Entity_Disambiguation.ipynb
+        - title: Normalize Section Headers of the Visit Summary 
+          id: normalize_section_headers_visit_summary 
+          image: 
+              src: /assets/images/Normalize_Section_Headers_of_the_Visit_Summary.svg
+          image2: 
+              src: /assets/images/Normalize_Section_Headers_of_the_Visit_Summary_f.svg
+          excerpt: This demo maps Section Headers of the clinical visit data to their normalized versions.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NORMALIZED_SECTION_HEADER_MAPPER/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/26.Chunk_Mapping.ipynb
+        - title: Extract Chunk Key Phrases 
+          id: extract_chunk_key_phrases  
+          image: 
+              src: /assets/images/Extract_Chunk_Key_Phrases.svg
+          image2: 
+              src: /assets/images/Extract_Chunk_Key_Phrases_f.svg
+          excerpt: This demo shows how Chunk Key Phrases in medical texts can be extracted automatically using Spark NLP models.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/CHUNK_KEYWORD_EXTRACTOR/ 
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/9.Chunk_Key_Phrase_Extraction.ipynb
 ---

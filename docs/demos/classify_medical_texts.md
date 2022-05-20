@@ -46,4 +46,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/21.Gender_Classifier.ipynb
+        - title: Detect ADE-related texts
+          id: detect_ade_related_texts   
+          image: 
+              src: /assets/images/Detect_ADE_related_texts.svg
+          image2: 
+              src: /assets/images/Detect_ADE_related_texts_f.svg
+          excerpt: This model classifies texts as containing or not containing adverse drug events description.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/CLASSIFICATION_ADE/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/16.Adverse_Drug_Event_ADE_NER_and_Classifier.ipynb
 ---

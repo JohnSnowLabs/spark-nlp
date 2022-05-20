@@ -103,7 +103,6 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb
         - title: Detect relations between chemicals and proteins
-          hide: yes
           id: detect_relations_between_chemicals_and_proteins
           image: 
               src: /assets/images/Detect_relations_between_chemicals_and_proteins.svg
@@ -116,7 +115,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/RE_CHEM_PROT/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CHEM_PROT.ipynb
         - title: Identify relations between scale items and measurements according to NIHSS
           id: identify_relations_between_scale_items_their_measurements_according
           image: 
@@ -142,6 +141,20 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/RE_ADE/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb
+        - title: Extract relations between drugs and proteins 
+          id: extract_relations_between_drugs_proteins 
+          image: 
+              src: /assets/images/Extract_relations_between_drugs_and_proteins.svg
+          image2: 
+              src: /assets/images/Extract_relations_between_drugs_and_proteins_f.svg
+          excerpt: This model detects interactions between chemical compounds/drugs and genes/proteins.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/RE_DRUG_PROT/
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb
