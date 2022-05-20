@@ -56,9 +56,6 @@ object Dependencies {
   val rocksdbjniVersion = "6.29.5"
   val rocksdbjni = "org.rocksdb" % "rocksdbjni" % rocksdbjniVersion
 
-  val rocksdbjniM1Version = "6.29.4.1"
-  val rocksdbjniM1 = "org.rocksdb" % "rocksdbjni" % rocksdbjniM1Version
-
   val awsjavasdkbundleVersion = "1.11.828"
   val awsjavasdkbundle = "com.amazonaws" % "aws-java-sdk-bundle" % awsjavasdkbundleVersion
 
