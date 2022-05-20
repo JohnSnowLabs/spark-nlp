@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+import com.johnsnowlabs.nlp.LightPipeline
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
@@ -44,6 +45,8 @@ class DistilBertForQuestionAnsweringTestSpec extends AnyFlatSpec {
       ("What areas did Beyonce compete in when she was growing up?", beyonceContext),
       ("When did Beyonce leave Destiny's Child and become a solo singer?", beyonceContext),
       ("What was the first album Beyoncé released as a solo artist?", beyonceContext))
+
+    val testDF = ddd
       .toDF("question", "context")
       .repartition(1)
 
@@ -60,12 +63,29 @@ class DistilBertForQuestionAnsweringTestSpec extends AnyFlatSpec {
 
     val pipeline = new Pipeline().setStages(Array(document, questionAnswering))
 
-    val pipelineModel = pipeline.fit(ddd)
-    val pipelineDF = pipelineModel.transform(ddd)
+    val pipelineModel = pipeline.fit(testDF)
+    val lightPipeline = new LightPipeline(pipelineModel)
+
+    // DataFrame transform
+    val pipelineDF = pipelineModel.transform(testDF)
+
+    // DataFrame Benchmark
+    Benchmark.measure(
+      iterations = 5,
+      forcePrint = true,
+      description = "Time to save QA pipeline") {
+      pipelineDF.select("answer.result").write.mode("overwrite").parquet("./tmp_qa_pipeline")
+    }
 
     pipelineDF.show(false)
     pipelineDF.select("answer").show(false)
     pipelineDF.select("answer.result").show(false)
+
+    // LightPipeline annotate
+    ddd.foreach(r => {
+      val actualResult = lightPipeline.annotate(r._1, r._2)
+      println(actualResult("answer").head)
+    })
 
   }
 
