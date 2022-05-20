@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish Named Entity Recognition (from `hackathon-pln-es`)
+title: Laws Spanish Named Entity Recognition (from `hackathon-pln-es`)
 author: John Snow Labs
 name: roberta_ner_jurisbert_finetuning_ner
 date: 2022-05-20
