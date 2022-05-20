@@ -4,7 +4,7 @@ title: Spanish Text Classification (from `hackathon-pln-es`)
 author: John Snow Labs
 name: roberta_jurisbert_clas_art_convencion_americana_dh
 date: 2022-05-20
-tags: [roberta, ner, text_classification, es, open_source]
+tags: [roberta,  text_classification, es, open_source]
 task: Text Classification
 language: es
 edition: Spark NLP 3.4.4
@@ -35,7 +35,9 @@ Pretrained RoBertaForSequenceClassification model, adapted from Hugging Face and
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler() \        .setInputCol("text") \        .setOutputCol("document")
+documentAssembler = DocumentAssembler() \
+       .setInputCol("text") \        
+       .setOutputCol("document")
 
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
        .setInputCols(["document"])\
@@ -57,8 +59,8 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler() 
-.setInputCol("text") 
-.setOutputCol("document")
+       .setInputCol("text") 
+       .setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
        .setInputCols(Array("document"))
