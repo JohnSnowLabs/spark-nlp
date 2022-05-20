@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NODE, TOKEN}
-import com.johnsnowlabs.nlp.annotators.{SparkSessionTest, Tokenizer}
+import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN}
+import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import org.scalatest.flatspec.AnyFlatSpec
 
 class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
@@ -29,15 +29,17 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
     val actualOutput2 = AssertAnnotations.getActualResult(result, "output2")
     val actualResultToken = AssertAnnotations.getActualResult(result, "token")
 
-    val expectedOutput1 = Array(Seq(Annotation(DOCUMENT, 0, input1.length - 1, input1, Map("sentence" -> "0"))))
-    val expectedOutput2 = Array(Seq(Annotation(DOCUMENT, 0, input2.length - 1, input2, Map("sentence" -> "0"))))
-    val expectedResultToken = Array(Seq(
-      Annotation(TOKEN, 0, 3, "This", Map("sentence" -> "0")),
-      Annotation(TOKEN, 5, 6, "is", Map("sentence" -> "0")),
-      Annotation(TOKEN, 8, 10, "the", Map("sentence" -> "0")),
-      Annotation(TOKEN, 12, 17, "second", Map("sentence" -> "0")),
-      Annotation(TOKEN, 19, 23, "input", Map("sentence" -> "0"))
-    ))
+    val expectedOutput1 =
+      Array(Seq(Annotation(DOCUMENT, 0, input1.length - 1, input1, Map("sentence" -> "0"))))
+    val expectedOutput2 =
+      Array(Seq(Annotation(DOCUMENT, 0, input2.length - 1, input2, Map("sentence" -> "0"))))
+    val expectedResultToken = Array(
+      Seq(
+        Annotation(TOKEN, 0, 3, "This", Map("sentence" -> "0")),
+        Annotation(TOKEN, 5, 6, "is", Map("sentence" -> "0")),
+        Annotation(TOKEN, 8, 10, "the", Map("sentence" -> "0")),
+        Annotation(TOKEN, 12, 17, "second", Map("sentence" -> "0")),
+        Annotation(TOKEN, 19, 23, "input", Map("sentence" -> "0"))))
 
     AssertAnnotations.assertFields(actualOutput1, expectedOutput1)
     AssertAnnotations.assertFields(actualOutput2, expectedOutput2)
@@ -51,22 +53,22 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
 
     tokenizer.setInputCols("output2").setOutputCol("token")
 
-    val pipelineModel = pipeline.setStages(Array(multiDocumentAssembler, tokenizer)).fit(twoInputDataset)
+    val pipelineModel =
+      pipeline.setStages(Array(multiDocumentAssembler, tokenizer)).fit(twoInputDataset)
 
     val lightPipeline = new LightPipeline(pipelineModel)
     val actualResult = lightPipeline.fullAnnotate(input1, input2)
 
     val expectedResult =
       Map(
-      "output1" -> List(Annotation(DOCUMENT, 0, input1.length - 1, input1, Map())),
-      "output2" -> List(Annotation(DOCUMENT, 0, input2.length - 1, input2, Map())),
-      "token" -> List(
+        "output1" -> List(Annotation(DOCUMENT, 0, input1.length - 1, input1, Map())),
+        "output2" -> List(Annotation(DOCUMENT, 0, input2.length - 1, input2, Map())),
+        "token" -> List(
           Annotation(TOKEN, 0, 3, "This", Map("sentence" -> "0")),
           Annotation(TOKEN, 5, 6, "is", Map("sentence" -> "0")),
           Annotation(TOKEN, 8, 10, "the", Map("sentence" -> "0")),
           Annotation(TOKEN, 12, 17, "second", Map("sentence" -> "0")),
-          Annotation(TOKEN, 19, 23, "input", Map("sentence" -> "0")))
-      )
+          Annotation(TOKEN, 19, 23, "input", Map("sentence" -> "0"))))
 
     assert(actualResult.keySet == expectedResult.keySet)
     AssertAnnotations.assertFields(expectedResult.values.toArray, actualResult.values.toArray)
@@ -80,7 +82,8 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
 
     tokenizer.setInputCols("output2").setOutputCol("token")
 
-    val pipelineModel = pipeline.setStages(Array(multiDocumentAssembler, tokenizer)).fit(twoInputDataset)
+    val pipelineModel =
+      pipeline.setStages(Array(multiDocumentAssembler, tokenizer)).fit(twoInputDataset)
 
     val lightPipeline = new LightPipeline(pipelineModel)
     val actualResult = lightPipeline.annotate(input1, input2)
@@ -89,8 +92,7 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
       Map(
         "output1" -> List(input1),
         "output2" -> List(input2),
-        "token" -> List("This", "is", "the", "second", "input")
-      )
+        "token" -> List("This", "is", "the", "second", "input"))
 
     assert(actualResult.keySet == expectedResult.keySet)
     assert(actualResult.values.toList == expectedResult.values.toList)
@@ -109,14 +111,15 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
     val actualOutput = AssertAnnotations.getActualResult(result, "output")
     val actualResultToken = AssertAnnotations.getActualResult(result, "token")
 
-    val expectedOutput = Array(Seq(Annotation(DOCUMENT, 0, input1.length - 1, input1, Map("sentence" -> "0"))))
-    val expectedResultToken = Array(Seq(
-      Annotation(TOKEN, 0, 3, "This", Map("sentence" -> "0")),
-      Annotation(TOKEN, 5, 6, "is", Map("sentence" -> "0")),
-      Annotation(TOKEN, 8, 10, "the", Map("sentence" -> "0")),
-      Annotation(TOKEN, 12, 16, "first", Map("sentence" -> "0")),
-      Annotation(TOKEN, 18, 22, "input", Map("sentence" -> "0"))
-    ))
+    val expectedOutput =
+      Array(Seq(Annotation(DOCUMENT, 0, input1.length - 1, input1, Map("sentence" -> "0"))))
+    val expectedResultToken = Array(
+      Seq(
+        Annotation(TOKEN, 0, 3, "This", Map("sentence" -> "0")),
+        Annotation(TOKEN, 5, 6, "is", Map("sentence" -> "0")),
+        Annotation(TOKEN, 8, 10, "the", Map("sentence" -> "0")),
+        Annotation(TOKEN, 12, 16, "first", Map("sentence" -> "0")),
+        Annotation(TOKEN, 18, 22, "input", Map("sentence" -> "0"))))
 
     AssertAnnotations.assertFields(actualOutput, expectedOutput)
     AssertAnnotations.assertFields(actualResultToken, expectedResultToken)
@@ -141,9 +144,7 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
           Annotation(TOKEN, 5, 6, "is", Map("sentence" -> "0")),
           Annotation(TOKEN, 8, 10, "the", Map("sentence" -> "0")),
           Annotation(TOKEN, 12, 16, "first", Map("sentence" -> "0")),
-          Annotation(TOKEN, 18, 22, "input", Map("sentence" -> "0"))
-        )
-      )
+          Annotation(TOKEN, 18, 22, "input", Map("sentence" -> "0"))))
 
     assert(actualResult.keySet == expectedResult.keySet)
     AssertAnnotations.assertFields(expectedResult.values.toArray, actualResult.values.toArray)
@@ -162,14 +163,10 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
     val actualResult = lightPipeline.annotate(input1)
 
     val expectedResult =
-      Map(
-        "output" -> List(input1),
-        "token" -> List("This", "is", "the", "first", "input")
-      )
+      Map("output" -> List(input1), "token" -> List("This", "is", "the", "first", "input"))
 
     assert(actualResult.keySet == expectedResult.keySet)
     assert(actualResult.values.toList == expectedResult.values.toList)
   }
-
 
 }
