@@ -35,7 +35,9 @@ Pretrained RobertaForTokenClassification model, adapted from Hugging Face and cu
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler() \.setInputCol("text") \.setOutputCol("document")
+documentAssembler = DocumentAssembler() \
+       .setInputCol("text") \
+       .setOutputCol("document")
 
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
        .setInputCols(["document"])\
@@ -57,8 +59,8 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler() 
-.setInputCol("text") 
-.setOutputCol("document")
+       .setInputCol("text") 
+       .setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
        .setInputCols(Array("document"))
