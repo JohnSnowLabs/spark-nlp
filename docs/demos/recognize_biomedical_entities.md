@@ -129,5 +129,19 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_DRUG_PROT/
           - text: Colab Netbook
             type: blue_btn
-            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb      
+            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb   
+        - title: Detect Drug Chemicals 
+          id: detect_drug_chemicals   
+          image: 
+              src: /assets/images/Detect_Drug_Chemicals.svg
+          image2: 
+              src: /assets/images/Detect_Drug_Chemicals_f.svg
+          excerpt: Automatically identify drug chemicals in clinical documents using the pretrained Spark NLP clinical models.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_DRUGS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DRUGS.ipynb
 ---
