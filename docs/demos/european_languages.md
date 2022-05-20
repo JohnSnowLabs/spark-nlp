@@ -243,6 +243,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_DE_NEWS.ipynb
         - title: Detect Legal entities in Portuguese
+          hide: yes
           id: detect_legal_entities_portuguese 
           image: 
               src: /assets/images/Detect_Legal_entities_in_Portuguese.svg
