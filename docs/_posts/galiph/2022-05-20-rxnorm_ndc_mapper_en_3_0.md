@@ -106,7 +106,7 @@ val pipeline = Pipeline().setStages(Array(document_assembler,
 ```bash
 |    | ner_chunk                                 | rxnorm_code   | Package NDC       | Product NDC    |
 |---:|:------------------------------------------|:--------------|:------------------|:---------------|
-|  0 | ['doxycycline hyclate 50 MG Oral Tablet'] | ['1652674']   | ['62135-0625-60'] | ['46708-0499'] |
+|  0 | ['doxycycline hyclate 50 MG Oral Tablet'] | ['1652674']   | ['62135-0625-60'] | ['62135-0625'] |
 |  1 | ['macadamia nut 100 MG/ML']               | ['212433']    | ['00187-1474-08'] | ['00187-1474'] |
 ```
 
