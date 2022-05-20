@@ -53,7 +53,7 @@ object Dependencies {
   val typesafeVersion = "1.4.2"
   val typesafe = "com.typesafe" % "config" % typesafeVersion
 
-  val rocksdbjniVersion = "6.5.3"
+  val rocksdbjniVersion = "6.29.5"
   val rocksdbjni = "org.rocksdb" % "rocksdbjni" % rocksdbjniVersion
 
   val awsjavasdkbundleVersion = "1.11.603"
