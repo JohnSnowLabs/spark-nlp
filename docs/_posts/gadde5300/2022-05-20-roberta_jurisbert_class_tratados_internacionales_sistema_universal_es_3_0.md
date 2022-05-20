@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish Text Classification (from `hackathon-pln-es`)
+title: Law Spanish Text Classification (from `hackathon-pln-es`)
 author: John Snow Labs
 name: roberta_jurisbert_class_tratados_internacionales_sistema_universal
 date: 2022-05-20
