@@ -26,6 +26,7 @@ from test.util import SparkSessionForTest
 from pyspark.ml.feature import SQLTransformer
 from pyspark.ml.clustering import KMeans
 from pyspark.sql.functions import split
+from pyspark.sql.types import StructType,StructField, StringType
 
 
 class BasicAnnotatorsTestSpec(unittest.TestCase):
@@ -2431,6 +2432,25 @@ class MultiDocumentAssemblerTestSpec(unittest.TestCase):
         pipeline = Pipeline(stages=[document_assembler])
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
+
+
+class MultiDocumentAssemblerLightPipelineTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        schema = StructType([StructField('text', StringType(), True)])
+        self.empty_df = SparkContextForTest.spark.createDataFrame([], schema)
+
+    def runTest(self):
+        document_assembler = MultiDocumentAssembler().setInputCols(["text1", "text2"]).setOutputCols(
+            ["document1", "document2"])
+
+        pipeline = Pipeline(stages=[document_assembler])
+        model = pipeline.fit(self.empty_df)
+        light_pipeline = LightPipeline(model)
+        full_annotate = light_pipeline.fullAnnotate("First document", "Second document")
+        assert len(full_annotate) > 0
+        annotate = light_pipeline.annotate("First document", "Second document")
+        assert len(annotate) > 0
 
 
 class QuestionAnsweringTestSpec(unittest.TestCase):

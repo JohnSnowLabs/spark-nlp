@@ -68,6 +68,7 @@ suite.addTest(Doc2VecTestSpec())
 suite.addTest(AlbertForTokenClassificationTestSpec())
 suite.addTest(Word2VecTestSpec())
 suite.addTest(MultiDocumentAssemblerTestSpec())
+suite.addTest(MultiDocumentAssemblerLightPipelineTestSpec())
 
 # Should be locally tested
 # suite.addTest(ElmoEmbeddingsTestSpec())
