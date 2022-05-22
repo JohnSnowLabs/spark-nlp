@@ -146,6 +146,8 @@ sparknlp-healthcare:
         url: /docs/en/licensed_release_notes
       - title: Cluster Speed Benchmarks
         url: /docs/en/benchmark
+      - title: CPU NER Benchmarks
+        url: /docs/en/cpu-ner-benchmark
       - title: GPU vs CPU benchmarks
         url: /docs/en/CPUvsGPUbenchmark_healthcare
       - title: Best Practices Using Pretrained Models Together
