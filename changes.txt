@@ -1,2 +1,4 @@
-docs/_posts/C-K-Loan/2021-03-23-explain_document_ml_en.md
-docs/_posts/C-K-Loan/2021-03-23-explain_document_ml_en.md
+docs/_data/navigation.yml
+docs/en/CPU_NER_Benchmarks.md
+docs/_data/navigation.yml
+docs/en/CPU_NER_Benchmarks.md
