@@ -20,8 +20,10 @@ import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasSimpleAnnotate}
 import org.apache.spark.ml.param.{BooleanParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.sql.Row
 
 import java.nio.charset.{Charset, StandardCharsets}
+import scala.util.{Failure, Success, Try}
 import scala.xml.XML
 
 /** Annotator which normalizes raw text from tagged text, e.g. scraped web pages or xml documents,
@@ -359,9 +361,6 @@ class DocumentNormalizer(override val uid: String)
       policy: String,
       lowercase: Boolean,
       encoding: String): String = {
-    require(
-      !text.isEmpty && !action.isEmpty && patterns.length > 0 && !patterns(
-        0).isEmpty && !policy.isEmpty)
 
     val processedWithActionPatterns: String = policy match {
       case "all" => withAllFormatter(text, action, patterns, replacement)
@@ -394,9 +393,9 @@ class DocumentNormalizer(override val uid: String)
     }
   }
 
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    annotations.map { annotation =>
-      val cleanedDoc =
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = annotations.map {
+    annotation =>
+      Try(
         applyDocumentNormalization(
           annotation.result,
           getAction,
@@ -404,15 +403,17 @@ class DocumentNormalizer(override val uid: String)
           getReplacement,
           getPolicy,
           getLowercase,
-          getEncoding)
-
-      Annotation(
-        DOCUMENT,
-        annotation.begin,
-        cleanedDoc.length - 1,
-        cleanedDoc,
-        annotation.metadata)
-    }
+          getEncoding)) match {
+        case Success(cleanedDoc) =>
+          Annotation(
+            DOCUMENT,
+            annotation.begin,
+            cleanedDoc.length - 1,
+            cleanedDoc,
+            annotation.metadata)
+        case Failure(_) =>
+          Annotation.apply(Row.empty) // Seq.empty[Annotation].head
+      }
   }
 }
 
