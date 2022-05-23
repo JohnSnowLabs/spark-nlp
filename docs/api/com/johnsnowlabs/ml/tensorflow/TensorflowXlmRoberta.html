@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.0 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowXlmRoberta</title>
-          <meta name="description" content="Spark NLP 3.4.0 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowXlmRoberta" />
-          <meta name="keywords" content="Spark NLP 3.4.0 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowXlmRoberta" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowXlmRoberta</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowXlmRoberta" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowXlmRoberta" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -239,8 +239,20 @@
                         <a href="TensorflowBertClassification.html" title="">TensorflowBertClassification</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
+                        <a class="class" href="TensorflowCamemBert.html" title="The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot."></a>
+                        <a href="TensorflowCamemBert.html" title="The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot.">TensorflowCamemBert</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
                         <a class="class" href="TensorflowClassifier.html" title=""></a>
                         <a href="TensorflowClassifier.html" title="">TensorflowClassifier</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="TensorflowDeBerta.html" title=""></a>
+                        <a href="TensorflowDeBerta.html" title="">TensorflowDeBerta</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="TensorflowDeBertaClassification.html" title=""></a>
+                        <a href="TensorflowDeBertaClassification.html" title="">TensorflowDeBertaClassification</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="class" href="TensorflowDistilBert.html" title="The DistilBERT model was proposed in the paper DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter https://arxiv.org/abs/1910.01108."></a>
@@ -361,26 +373,30 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Sentence-level embeddings using XLM-RoBERTa. The XLM-RoBERTa model was proposed in <b>Unsupervised Cross-lingual Representation Learning at Scale</b>
-<a href="https://arxiv.org/abs/1911.02116" target="_blank">https://arxiv.org/abs/1911.02116</a> by Alexis Conneau, Kartikay Khandelwal, Naman Goyal, Vishrav Chaudhary, Guillaume
-Wenzek, Francisco GuzmÃ¡n, Edouard Grave, Myle Ott, Luke Zettlemoyer and Veselin Stoyanov. It is based on Facebook's
-RoBERTa model released in 2019. It is a large multi-lingual language model, trained on 2.5TB of filtered CommonCrawl
-data.</p><p>The abstract from the paper is the following:</p><p>This paper shows that pretraining multilingual language models at scale leads to significant performance gains for a
-wide range of cross-lingual transfer tasks. We train a Transformer-based masked language model on one hundred
-languages, using more than two terabytes of filtered CommonCrawl data. Our model, dubbed XLM-R, significantly
-outperforms multilingual BERT (mBERT) on a variety of cross-lingual benchmarks, including +13.8% average accuracy on
-XNLI, +12.3% average F1 score on MLQA, and +2.1% average F1 score on NER. XLM-R performs particularly well on
-low-resource languages, improving 11.8% in XNLI accuracy for Swahili and 9.2% for Urdu over the previous XLM model. We
-also present a detailed empirical evaluation of the key factors that are required to achieve these gains, including the
-trade-offs between (1) positive transfer and capacity dilution and (2) the performance of high and low resource
-languages at scale. Finally, we show, for the first time, the possibility of multilingual modeling without sacrificing
-per-language performance; XLM-Ris very competitive with strong monolingual models on the GLUE and XNLI benchmarks. We
-will make XLM-R code, data, and models publicly available.</p><p>Tips:</p><p>- XLM-RoBERTa is a multilingual model trained on 100 different languages. Unlike some XLM multilingual models, it does
-not require <b>lang</b> parameter to understand which language is used, and should be able to determine the correct
-language from the input ids.
-- This implementation is the same as RoBERTa. Refer to the <a href="../../nlp/embeddings/RoBertaEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.RoBertaEmbeddings">com.johnsnowlabs.nlp.embeddings.RoBertaEmbeddings</a> for usage examples
-as well as the information relative to the inputs and outputs.
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Sentence-level embeddings using XLM-RoBERTa. The XLM-RoBERTa model was proposed in
+<b>Unsupervised Cross-lingual Representation Learning at Scale</b>
+<a href="https://arxiv.org/abs/1911.02116" target="_blank">https://arxiv.org/abs/1911.02116</a> by Alexis Conneau, Kartikay Khandelwal, Naman Goyal,
+Vishrav Chaudhary, Guillaume Wenzek, Francisco GuzmÃ¡n, Edouard Grave, Myle Ott, Luke
+Zettlemoyer and Veselin Stoyanov. It is based on Facebook's RoBERTa model released in 2019. It
+is a large multi-lingual language model, trained on 2.5TB of filtered CommonCrawl data.</p><p>The abstract from the paper is the following:</p><p>This paper shows that pretraining multilingual language models at scale leads to significant
+performance gains for a wide range of cross-lingual transfer tasks. We train a
+Transformer-based masked language model on one hundred languages, using more than two
+terabytes of filtered CommonCrawl data. Our model, dubbed XLM-R, significantly outperforms
+multilingual BERT (mBERT) on a variety of cross-lingual benchmarks, including +13.8% average
+accuracy on XNLI, +12.3% average F1 score on MLQA, and +2.1% average F1 score on NER. XLM-R
+performs particularly well on low-resource languages, improving 11.8% in XNLI accuracy for
+Swahili and 9.2% for Urdu over the previous XLM model. We also present a detailed empirical
+evaluation of the key factors that are required to achieve these gains, including the
+trade-offs between (1) positive transfer and capacity dilution and (2) the performance of high
+and low resource languages at scale. Finally, we show, for the first time, the possibility of
+multilingual modeling without sacrificing per-language performance; XLM-Ris very competitive
+with strong monolingual models on the GLUE and XNLI benchmarks. We will make XLM-R code, data,
+and models publicly available.</p><p>Tips:</p><ul><li>XLM-RoBERTa is a multilingual model trained on 100 different languages. Unlike some XLM
+    multilingual models, it does not require <b>lang</b> parameter to understand which language
+    is used, and should be able to determine the correct language from the input ids.</li><li>This implementation is the same as RoBERTa. Refer to the
+    <a href="../../nlp/embeddings/RoBertaEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.RoBertaEmbeddings">com.johnsnowlabs.nlp.embeddings.RoBertaEmbeddings</a> for usage examples as well as the
+    information relative to the inputs and outputs.
+</li></ul></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -445,7 +461,12 @@ as well as the information relative to the inputs and outputs.
         <span class="name">TensorflowXlmRoberta</span><span class="params">(<span name="tensorflowWrapper">tensorflowWrapper: <a href="TensorflowWrapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</a></span>, <span name="spp">spp: <a href="sentencepiece/SentencePieceWrapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper">SentencePieceWrapper</a></span>, <span name="caseSensitive">caseSensitive: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="configProtoBytes">configProtoBytes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]] = <span class="symbol">None</span></span>, <span name="signatures">signatures: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]] = <span class="symbol">None</span></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">tensorflowWrapper</dt><dd class="cmt"><p>XlmRoberta Model wrapper with TensorFlowWrapper</p></dd><dt class="param">spp</dt><dd class="cmt"><p>XlmRoberta SentencePiece model with SentencePieceWrapper</p></dd><dt class="param">caseSensitive</dt><dd class="cmt"><p>Whether or not the tokenizer should be lowercase</p></dd><dt class="param">configProtoBytes</dt><dd class="cmt"><p>Configuration for TensorFlow session</p></dd><dt class="param">signatures</dt><dd class="cmt"><p>Model's inputs and output(s) signatures</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">tensorflowWrapper</dt><dd class="cmt"><p>
+  XlmRoberta Model wrapper with TensorFlowWrapper</p></dd><dt class="param">spp</dt><dd class="cmt"><p>
+  XlmRoberta SentencePiece model with SentencePieceWrapper</p></dd><dt class="param">caseSensitive</dt><dd class="cmt"><p>
+  Whether or not the tokenizer should be lowercase</p></dd><dt class="param">configProtoBytes</dt><dd class="cmt"><p>
+  Configuration for TensorFlow session</p></dd><dt class="param">signatures</dt><dd class="cmt"><p>
+  Model's inputs and output(s) signatures</p></dd></dl></div>
     </li></ol>
             </div>
 

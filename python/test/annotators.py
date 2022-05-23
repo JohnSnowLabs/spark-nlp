@@ -114,7 +114,7 @@ class LemmatizerWithTrainingDataSetTestSpec(unittest.TestCase):
 
     def runTest(self):
         test_dataset = self.spark.createDataFrame([["So what happened?"]]).toDF("text")
-        train_dataset = CoNLLU().readDataset(self.spark, self.conllu_file)
+        train_dataset = CoNLLU(lemmaCol="lemma_train").readDataset(self.spark, self.conllu_file)
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
@@ -123,8 +123,11 @@ class LemmatizerWithTrainingDataSetTestSpec(unittest.TestCase):
             .setOutputCol("token")
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
+            .setFormCol("form") \
+            .setLemmaCol("lemma_train") \
             .setOutputCol("lemma")
 
+        train_dataset.show()
         pipeline = Pipeline(stages=[document_assembler, tokenizer, lemmatizer])
         pipeline.fit(train_dataset).transform(test_dataset).show()
 
@@ -154,6 +157,33 @@ class TokenizerTestSpec(unittest.TestCase):
         finished = finisher.transform(tokenized)
         print(finished.first()['token_out'])
         self.assertEqual(len(finished.first()['token_out']), 4)
+
+
+class TokenizerWithExceptionsTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.session = SparkContextForTest.spark
+
+    def runTest(self):
+        data = self.session.createDataFrame(
+            [("My friend moved to New York. She likes it. Frank visited New York, and didn't like it.",)], ["text"])
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
+            .setOutputCol("token") \
+            .setExceptionsPath(path="file:///" + os.getcwd() + "/../src/test/resources/token_exception_list.txt")
+        finisher = Finisher() \
+            .setInputCols(["token"]) \
+            .setOutputCols(["token_out"]) \
+            .setOutputAsArray(True)
+        assembled = document_assembler.transform(data)
+        tokenized = tokenizer.fit(assembled).transform(assembled)
+        finished = finisher.transform(tokenized)
+        # print(finished.first()['token_out'])
+        self.assertEqual((finished.first()['token_out']).index("New York."), 4)
+        self.assertEqual((finished.first()['token_out']).index("New York,"), 11)
 
 
 class ChunkTokenizerTestSpec(unittest.TestCase):
@@ -310,6 +340,41 @@ class DocumentNormalizerSpec(unittest.TestCase):
         ds = doc_normalizer_pipeline.fit(df).transform(df)
 
         ds.select("normalizedDocument").show()
+
+
+class RegexTokenizerTestSpec(unittest.TestCase):
+    def setUp(self) -> None:
+        self.data = SparkSessionForTest.spark.createDataFrame(
+            [["AL 123456!, TX 54321-4444, AL :55555-4444, 12345-4444, 12345"]]
+        ).toDF("text")
+
+    def runTest(self) -> None:
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+
+        pattern = "^(\\s+)|(?=[\\s+\"\'\|:;<=>!?~{}*+,$)\(&%\\[\\]])|(?<=[\\s+\"\'\|:;<=>!?~{}*+,$)\(&%\\[\\]])|(?=\.$)"
+
+        regex_tok = RegexTokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("regex_token") \
+            .setPattern(pattern) \
+            .setTrimWhitespace(False) \
+            .setPreservePosition(True)
+
+        pipeline = Pipeline().setStages([document_assembler, sentence_detector, regex_tok])
+
+        pipeline_model = pipeline.fit(self.data)
+
+        pipe_path = "file:///" + os.getcwd() + "/tmp_regextok_pipeline"
+        pipeline_model.write().overwrite().save(pipe_path)
+
+        loaded_pipeline: PipelineModel = PipelineModel.read().load(pipe_path)
+        loaded_pipeline.transform(self.data).show()
 
 
 class PerceptronApproachTestSpec(unittest.TestCase):
@@ -1440,6 +1505,76 @@ class SentenceDetectorDLTestSpec(unittest.TestCase):
         model.transform(self.data).show()
 
 
+class SentenceDetectorDLExtraParamsTestSpec(unittest.TestCase):
+    def runTest(self):
+        sampleText = """
+            A dog loves going out on a walk, eating and sleeping in front of the fireplace. 
+            This how a dog lives. 
+            It's great!
+        """.strip()
+        data_df = SparkContextForTest.spark.createDataFrame([[sampleText]]).toDF("text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        sentence_detector = SentenceDetectorDLModel.pretrained() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentences") \
+            .setMaxLength(35) \
+            .setMinLength(15) \
+            .setCustomBounds([","])
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector
+        ])
+        model = pipeline.fit(data_df)
+        results = model.transform(data_df).selectExpr("explode(sentences)").collect()
+        print(results)
+        self.assertEqual(len(results), 2)
+
+        sentence_detector \
+            .setUseCustomBoundsOnly(True) \
+            .setMinLength(0) \
+            .setMaxLength(1000) \
+            .setCustomBounds([","])
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector
+        ])
+        model = pipeline.fit(data_df)
+        results = model.transform(data_df).selectExpr("explode(sentences)").collect()
+        print(results)
+        self.assertEqual(len(results), 2)
+
+        impossible_penultimates = sentence_detector.getImpossiblePenultimates()
+
+        sentence_detector \
+            .setUseCustomBoundsOnly(False) \
+            .setMinLength(0) \
+            .setMaxLength(1000) \
+            .setCustomBounds([]) \
+            .setImpossiblePenultimates(impossible_penultimates + ["fireplace"])
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector
+        ])
+        model = pipeline.fit(data_df)
+        results = model.transform(data_df).selectExpr("explode(sentences)").collect()
+        print(results)
+        self.assertEqual(len(results), 2)
+
+        sentence_detector \
+            .setUseCustomBoundsOnly(False) \
+            .setMinLength(0) \
+            .setMaxLength(1000) \
+            .setCustomBounds([]) \
+            .setImpossiblePenultimates(impossible_penultimates)
+
+
 class WordSegmenterTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -2036,6 +2171,7 @@ class Doc2VecTestSpec(unittest.TestCase):
             .setNumPartitions(1) \
             .setMaxIter(2) \
             .setSeed(42) \
+            .setEnableCaching(True) \
             .setStorageRef("doc2vec_aclImdb")
 
         pipeline = Pipeline(stages=[document_assembler, tokenizer, doc2vec])
@@ -2197,6 +2333,7 @@ class Word2VecTestSpec(unittest.TestCase):
             .setNumPartitions(1) \
             .setMaxIter(2) \
             .setSeed(42) \
+            .setEnableCaching(True) \
             .setStorageRef("doc2vec_aclImdb")
 
         pipeline = Pipeline(stages=[document_assembler, tokenizer, doc2vec])
@@ -2205,3 +2342,82 @@ class Word2VecTestSpec(unittest.TestCase):
         loaded_model = model.load("./tmp_model")
         loaded_model.transform(self.data).show()
 
+
+class DeBertaForSequenceClassificationTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        doc_classifier = DeBertaForSequenceClassification \
+            .pretrained() \
+            .setInputCols(["document", "token"]) \
+            .setOutputCol("class")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            doc_classifier
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
+
+
+class DeBertaForTokenClassificationTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        doc_classifier = DeBertaForTokenClassification \
+            .pretrained() \
+            .setInputCols(["document", "token"]) \
+            .setOutputCol("class")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            doc_classifier
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
+
+
+class CamemBertEmbeddingsTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        embeddings = CamemBertEmbeddings.pretrained() \
+            .setInputCols(["token", "document"]) \
+            .setOutputCol("camembert_embeddings")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            embeddings
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()

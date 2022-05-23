@@ -28,10 +28,11 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class LongformerEmbeddingsTestSpec extends AnyFlatSpec {
 
-
   "LongformerEmbeddings" should "correctly work with empty tokens" taggedAs SlowTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header", "true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
+    val smallCorpus = ResourceHelper.spark.read
+      .option("header", "true")
+      .csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -44,21 +45,18 @@ class LongformerEmbeddingsTestSpec extends AnyFlatSpec {
     val stopWordsCleaner = new StopWordsCleaner()
       .setInputCols("token")
       .setOutputCol("cleanTokens")
-      .setStopWords(Array("this", "is", "my", "document", "sentence", "second", "first", ",", "."))
+      .setStopWords(
+        Array("this", "is", "my", "document", "sentence", "second", "first", ",", "."))
       .setCaseSensitive(false)
 
-    val embeddings = LongformerEmbeddings.pretrained()
+    val embeddings = LongformerEmbeddings
+      .pretrained()
       .setInputCols("document", "cleanTokens")
       .setOutputCol("embeddings")
       .setCaseSensitive(true)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer,
-        stopWordsCleaner,
-        embeddings
-      ))
+      .setStages(Array(documentAssembler, tokenizer, stopWordsCleaner, embeddings))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
     Benchmark.time("Time to save BertEmbeddings results") {
@@ -70,9 +68,11 @@ class LongformerEmbeddingsTestSpec extends AnyFlatSpec {
     import ResourceHelper.spark.implicits._
 
     val conll = CoNLL()
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+    val training_data =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
-    val embeddings = LongformerEmbeddings.pretrained()
+    val embeddings = LongformerEmbeddings
+      .pretrained()
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(true)
@@ -80,9 +80,7 @@ class LongformerEmbeddingsTestSpec extends AnyFlatSpec {
       .setBatchSize(12)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        embeddings
-      ))
+      .setStages(Array(embeddings))
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
     Benchmark.time("Time to save LongformerEmbeddings results") {
@@ -90,7 +88,8 @@ class LongformerEmbeddingsTestSpec extends AnyFlatSpec {
     }
 
     println("missing tokens/embeddings: ")
-    pipelineDF.withColumn("sentence_size", size(col("sentence")))
+    pipelineDF
+      .withColumn("sentence_size", size(col("sentence")))
       .withColumn("token_size", size(col("token")))
       .withColumn("embed_size", size(col("embeddings")))
       .where(col("token_size") =!= col("embed_size"))
@@ -111,9 +110,7 @@ class LongformerEmbeddingsTestSpec extends AnyFlatSpec {
 
     import ResourceHelper.spark.implicits._
 
-    val ddd = Seq(
-      "This is just a simple sentence for the testing purposes!"
-    ).toDF("text")
+    val ddd = Seq("This is just a simple sentence for the testing purposes!").toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -123,7 +120,8 @@ class LongformerEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val embeddings = LongformerEmbeddings.pretrained()
+    val embeddings = LongformerEmbeddings
+      .pretrained()
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(true)
@@ -140,7 +138,11 @@ class LongformerEmbeddingsTestSpec extends AnyFlatSpec {
     }
 
     Benchmark.time("Time to save LongformerEmbeddings model") {
-      pipelineModel.stages.last.asInstanceOf[LongformerEmbeddings].write.overwrite().save("./tmp_longformer_model")
+      pipelineModel.stages.last
+        .asInstanceOf[LongformerEmbeddings]
+        .write
+        .overwrite()
+        .save("./tmp_longformer_model")
     }
 
     val loadedPipelineModel = PipelineModel.load("./tmp_longformer_pipeline")
@@ -160,8 +162,8 @@ class LongformerEmbeddingsTestSpec extends AnyFlatSpec {
       "EU rejects German call to boycott British lamb .",
       "TORONTO 1996-08-21",
       " carbon emissions have come down without impinging on our growth . . .",
-      "carbon emissions have come down without impinging on our growth .\\u2009.\\u2009."
-    ).toDF("text")
+      "carbon emissions have come down without impinging on our growth .\\u2009.\\u2009.").toDF(
+      "text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -171,7 +173,8 @@ class LongformerEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val embeddings = LongformerEmbeddings.pretrained()
+    val embeddings = LongformerEmbeddings
+      .pretrained()
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(true)

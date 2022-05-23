@@ -2,8 +2,12 @@
 # Created by https://www.gitignore.io/api/sbt,java,scala,python,eclipse,intellij,intellij+all
 
 **/docs/**
+docs/**
 **/*.min.js
 **/*.js
+**/*.py
+python/**
+**/python/**
 
 ### Eclipse ###
 

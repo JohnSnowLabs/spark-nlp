@@ -26,11 +26,11 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, Dataset}
 import org.scalatest.flatspec.AnyFlatSpec
 
-
 trait SymmetricDeleteBehaviors {
   this: AnyFlatSpec =>
 
-  private val trainDataSet = AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
+  private val trainDataSet =
+    AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
   private val predictionDataSet = ContentProvider.parquetData.limit(500)
 
   private val documentAssembler = new DocumentAssembler()
@@ -50,11 +50,7 @@ trait SymmetricDeleteBehaviors {
     .setInputCols("spell")
 
   private val pipeline = new Pipeline()
-    .setStages(Array(
-      documentAssembler,
-      tokenizer,
-      spell
-    ))
+    .setStages(Array(documentAssembler, tokenizer, spell))
 
   private val CAPITAL = 'C'
 
@@ -72,10 +68,7 @@ trait SymmetricDeleteBehaviors {
       .setOutputCol("token")
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer
-      ))
+      .setStages(Array(documentAssembler, tokenizer))
 
     pipeline.fit(emptyDataSet).transform(corpusDataSet)
   }
@@ -127,7 +120,6 @@ trait SymmetricDeleteBehaviors {
     }
   }
 
-
   def testBigPipeline(): Unit = {
     s"a SymSpellChecker without dictionary" should "successfully correct words" taggedAs FastTest in {
 
@@ -136,12 +128,7 @@ trait SymmetricDeleteBehaviors {
         .setOutputCol("spell")
 
       val pipeline = new Pipeline()
-        .setStages(Array(
-          documentAssembler,
-          tokenizer,
-          spell,
-          finisher
-        ))
+        .setStages(Array(documentAssembler, tokenizer, spell, finisher))
 
       val model = pipeline.fit(trainDataSet)
 
@@ -153,12 +140,7 @@ trait SymmetricDeleteBehaviors {
     s"a SymSpellChecker annotator with a dictionary" should "successfully correct words" taggedAs FastTest in {
 
       val pipeline = new Pipeline()
-        .setStages(Array(
-          documentAssembler,
-          tokenizer,
-          spell,
-          finisher
-        ))
+        .setStages(Array(documentAssembler, tokenizer, spell, finisher))
 
       val model = pipeline.fit(trainDataSet)
 
@@ -171,47 +153,45 @@ trait SymmetricDeleteBehaviors {
     s"a SymSpellChecker annotator with pipeline of individual words with dictionary" should
       "successfully correct words with good accuracy" taggedAs FastTest in {
 
-      val path = "src/test/resources/spell/misspelled_words.csv"
-      val predictionDataSet = SparkAccessor.spark.read.format("csv").option("header", "true").load(path)
+        val path = "src/test/resources/spell/misspelled_words.csv"
+        val predictionDataSet =
+          SparkAccessor.spark.read.format("csv").option("header", "true").load(path)
 
-      val model = pipeline.fit(trainDataSet.select(trainDataSet.col("text").as("misspell")))
+        val model = pipeline.fit(trainDataSet.select(trainDataSet.col("text").as("misspell")))
 
-      Benchmark.time("with dictionary") { //to measure processing time
-        var correctedData = model.transform(predictionDataSet)
-        correctedData = correctedData.withColumn("prediction",
-          when(col("word") === col("finished_spell"), 1).otherwise(0))
-        val rightCorrections = correctedData.filter(col("prediction") === 1).count()
-        val wrongCorrections = correctedData.filter(col("prediction") === 0).count()
-        printf("Right Corrections: %d \n", rightCorrections)
-        printf("Wrong Corrections: %d \n", wrongCorrections)
-        val accuracy = rightCorrections.toFloat / (rightCorrections + wrongCorrections).toFloat
-        printf("Accuracy: %f\n", accuracy)
+        Benchmark.time("with dictionary") { // to measure processing time
+          var correctedData = model.transform(predictionDataSet)
+          correctedData = correctedData.withColumn(
+            "prediction",
+            when(col("word") === col("finished_spell"), 1).otherwise(0))
+          val rightCorrections = correctedData.filter(col("prediction") === 1).count()
+          val wrongCorrections = correctedData.filter(col("prediction") === 0).count()
+          printf("Right Corrections: %d \n", rightCorrections)
+          printf("Wrong Corrections: %d \n", wrongCorrections)
+          val accuracy = rightCorrections.toFloat / (rightCorrections + wrongCorrections).toFloat
+          printf("Accuracy: %f\n", accuracy)
+        }
       }
-    }
   }
 
   def testLoadModel(): Unit = {
     s"a SymSpellChecker annotator with load model of" should
       "successfully correct words" taggedAs FastTest in {
-      val predictionDataSet = Seq("Hello World").toDS.toDF("text")
+        val predictionDataSet = Seq("Hello World").toDS.toDF("text")
 
-      val spell = new SymmetricDeleteApproach()
-        .setInputCols(Array("token"))
-        .setOutputCol("spell")
+        val spell = new SymmetricDeleteApproach()
+          .setInputCols(Array("token"))
+          .setOutputCol("spell")
 
-      val pipeline = new Pipeline()
-        .setStages(Array(
-          documentAssembler,
-          tokenizer,
-          spell
-        ))
+        val pipeline = new Pipeline()
+          .setStages(Array(documentAssembler, tokenizer, spell))
 
-      val model = pipeline.fit(trainDataSet)
-      model.write.overwrite.save("./tmp_symspell")
-      val modelSymSpell = PipelineModel.load("./tmp_symspell")
+        val model = pipeline.fit(trainDataSet)
+        model.write.overwrite.save("./tmp_symspell")
+        val modelSymSpell = PipelineModel.load("./tmp_symspell")
 
-      assert(modelSymSpell.transform(predictionDataSet).isInstanceOf[DataFrame])
-    }
+        assert(modelSymSpell.transform(predictionDataSet).isInstanceOf[DataFrame])
+      }
   }
 
   def testEmptyDataset(): Unit = {
@@ -228,12 +208,7 @@ trait SymmetricDeleteBehaviors {
         .setIncludeMetadata(false)
 
       val pipeline = new Pipeline()
-        .setStages(Array(
-          documentAssembler,
-          tokenizer,
-          spell,
-          finisher
-        ))
+        .setStages(Array(documentAssembler, tokenizer, spell, finisher))
 
       import SparkAccessor.spark.implicits._
 
@@ -277,12 +252,7 @@ trait SymmetricDeleteBehaviors {
         .setInputCols("spell")
 
       val pipeline = new Pipeline()
-        .setStages(Array(
-          documentAssembler,
-          tokenizer,
-          spell,
-          finisher
-        ))
+        .setStages(Array(documentAssembler, tokenizer, spell, finisher))
 
       val model = pipeline.fit(trainDataSet)
 
@@ -316,7 +286,8 @@ trait SymmetricDeleteBehaviors {
 
   def raiseErrorWhenWrongColumnIsSent(): Unit = {
     "" should "raise an error when dataset without array annotation is used" in {
-      val trainDataSet = AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
+      val trainDataSet =
+        AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
       val expectedErrorMessage = "Train dataset must have an array annotation type column"
       val spell = new SymmetricDeleteApproach()
         .setInputCols(Array("text"))
@@ -343,12 +314,7 @@ trait SymmetricDeleteBehaviors {
         .setInputCols("spell")
 
       val pipeline = new Pipeline()
-        .setStages(Array(
-          documentAssembler,
-          tokenizer,
-          spell,
-          finisher
-        ))
+        .setStages(Array(documentAssembler, tokenizer, spell, finisher))
 
       val uniqueWordsTrain = Seq("Only unique words.").toDF("text")
       val model = pipeline.fit(uniqueWordsTrain)

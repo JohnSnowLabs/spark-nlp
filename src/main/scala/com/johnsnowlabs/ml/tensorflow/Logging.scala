@@ -34,7 +34,11 @@ trait Logging {
     }
   }
 
-  protected def outputLog(value: => String, uuid: String, shouldLog: Boolean, outputLogsPath: String): Unit = {
+  protected def outputLog(
+      value: => String,
+      uuid: String,
+      shouldLog: Boolean,
+      outputLogsPath: String): Unit = {
     if (shouldLog) {
       OutputHelper.writeAppend(uuid, value, outputLogsPath)
     }

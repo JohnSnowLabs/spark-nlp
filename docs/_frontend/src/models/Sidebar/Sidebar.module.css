@@ -14,3 +14,11 @@
 .control:not(:last-child) {
   margin-bottom: 20px;
 }
+
+.radioContainers {
+  flex-direction: column;
+}
+
+.radioContainers .radio {
+  display: block;
+}

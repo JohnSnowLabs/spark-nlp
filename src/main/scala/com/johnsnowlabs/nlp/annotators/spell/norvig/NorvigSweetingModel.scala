@@ -18,117 +18,128 @@ package com.johnsnowlabs.nlp.annotators.spell.norvig
 
 import com.johnsnowlabs.nlp.annotators.spell.util.Utilities
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable, HasSimpleAnnotate}
+import com.johnsnowlabs.nlp._
 import org.apache.spark.ml.util.Identifiable
 import org.slf4j.LoggerFactory
 
 import scala.collection.immutable.HashSet
 
-
-/** This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary.
- * Inspired by Norvig model and [[https://github.com/wolfgarbe/SymSpell SymSpell]].
- *
- * The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate generation and
- * dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of magnitude faster
- * (than the standard approach with deletes + transposes + replaces + inserts) and language independent.
- *
- * This is the instantiated model of the [[NorvigSweetingApproach]].
- * For training your own model, please see the documentation of that class.
- *
- * Pretrained models can be loaded with `pretrained` of the companion object:
- * {{{
- * val spellChecker = NorvigSweetingModel.pretrained()
- *   .setInputCols("token")
- *   .setOutputCol("spell")
- *   .setDoubleVariants(true)
- * }}}
- * The default model is `"spellcheck_norvig"`, if no name is provided.
- * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Spell+Check Models Hub]].
- *
- *
- * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb Spark NLP Workshop]]
- * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala NorvigSweetingTestSpec]].
- *
- * ==Example==
- * {{{
- * import spark.implicits._
- * import com.johnsnowlabs.nlp.base.DocumentAssembler
- * import com.johnsnowlabs.nlp.annotators.Tokenizer
- * import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
- *
- * import org.apache.spark.ml.Pipeline
- *
- * val documentAssembler = new DocumentAssembler()
- *   .setInputCol("text")
- *   .setOutputCol("document")
- *
- * val tokenizer = new Tokenizer()
- *   .setInputCols("document")
- *   .setOutputCol("token")
- *
- * val spellChecker = NorvigSweetingModel.pretrained()
- *   .setInputCols("token")
- *   .setOutputCol("spell")
- *
- * val pipeline = new Pipeline().setStages(Array(
- *   documentAssembler,
- *   tokenizer,
- *   spellChecker
- * ))
- *
- * val data = Seq("somtimes i wrrite wordz erong.").toDF("text")
- * val result = pipeline.fit(data).transform(data)
- * result.select("spell.result").show(false)
- * +--------------------------------------+
- * |result                                |
- * +--------------------------------------+
- * |[sometimes, i, write, words, wrong, .]|
- * +--------------------------------------+
- * }}}
- *
- * @see [[com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel SymmetricDeleteModel]] for an alternative approach to spell checking
- * @see [[com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel ContextSpellCheckerModel]] for a DL based approach
- * @groupname anno Annotator types
- * @groupdesc anno Required input and expected output annotator types
- * @groupname Ungrouped Members
- * @groupname param Parameters
- * @groupname setParam Parameter setters
- * @groupname getParam Parameter getters
- * @groupname Ungrouped Members
- * @groupprio param  1
- * @groupprio anno  2
- * @groupprio Ungrouped 3
- * @groupprio setParam  4
- * @groupprio getParam  5
- * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
- * */
-class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[NorvigSweetingModel] with HasSimpleAnnotate[NorvigSweetingModel] with NorvigSweetingParams {
+/** This annotator retrieves tokens and makes corrections automatically if not found in an English
+  * dictionary. Inspired by Norvig model and [[https://github.com/wolfgarbe/SymSpell SymSpell]].
+  *
+  * The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate
+  * generation and dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of
+  * magnitude faster (than the standard approach with deletes + transposes + replaces + inserts)
+  * and language independent.
+  *
+  * This is the instantiated model of the [[NorvigSweetingApproach]]. For training your own model,
+  * please see the documentation of that class.
+  *
+  * Pretrained models can be loaded with `pretrained` of the companion object:
+  * {{{
+  * val spellChecker = NorvigSweetingModel.pretrained()
+  *   .setInputCols("token")
+  *   .setOutputCol("spell")
+  *   .setDoubleVariants(true)
+  * }}}
+  * The default model is `"spellcheck_norvig"`, if no name is provided. For available pretrained
+  * models please see the [[https://nlp.johnsnowlabs.com/models?task=Spell+Check Models Hub]].
+  *
+  * For extended examples of usage, see the
+  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb Spark NLP Workshop]]
+  * and the
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala NorvigSweetingTestSpec]].
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotators.Tokenizer
+  * import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
+  *
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val tokenizer = new Tokenizer()
+  *   .setInputCols("document")
+  *   .setOutputCol("token")
+  *
+  * val spellChecker = NorvigSweetingModel.pretrained()
+  *   .setInputCols("token")
+  *   .setOutputCol("spell")
+  *
+  * val pipeline = new Pipeline().setStages(Array(
+  *   documentAssembler,
+  *   tokenizer,
+  *   spellChecker
+  * ))
+  *
+  * val data = Seq("somtimes i wrrite wordz erong.").toDF("text")
+  * val result = pipeline.fit(data).transform(data)
+  * result.select("spell.result").show(false)
+  * +--------------------------------------+
+  * |result                                |
+  * +--------------------------------------+
+  * |[sometimes, i, write, words, wrong, .]|
+  * +--------------------------------------+
+  * }}}
+  *
+  * @see
+  *   [[com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel SymmetricDeleteModel]]
+  *   for an alternative approach to spell checking
+  * @see
+  *   [[com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel ContextSpellCheckerModel]]
+  *   for a DL based approach
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
+class NorvigSweetingModel(override val uid: String)
+    extends AnnotatorModel[NorvigSweetingModel]
+    with HasSimpleAnnotate[NorvigSweetingModel]
+    with NorvigSweetingParams {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  /**
-   * Annotator reference id. Used to identify elements in metadata or to refer to this annotator type
-   */
-
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
+    * type
+    */
   def this() = this(Identifiable.randomUID("SPELL"))
 
   private val logger = LoggerFactory.getLogger("NorvigApproach")
 
   /** Output annotator type : TOKEN
-   *
-   * @group anno
-   * */
+    *
+    * @group anno
+    */
   override val outputAnnotatorType: AnnotatorType = TOKEN
+
   /** Input annotator type : TOKEN
-   *
-   * @group anno
-   * */
+    *
+    * @group anno
+    */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   /** Number of words in the dictionary
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   protected val wordCount: MapFeature[String, Long] = new MapFeature(this, "wordCount")
 
   /** @group getParam */
@@ -156,11 +167,7 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
         token.begin,
         token.end,
         verifiedWord._1,
-        Map(
-          "confidence" -> verifiedWord._2.toString,
-          "sentence" -> token.metadata("sentence")
-        )
-      )
+        Map("confidence" -> verifiedWord._2.toString, "sentence" -> token.metadata("sentence")))
     }
   }
 
@@ -189,16 +196,18 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
 
   private def getShortCircuitSuggestion(word: String): Option[String] = {
     if (Utilities.reductions(word, $(reductLimit)).exists(allWords.contains)) Some(word)
-    else if (Utilities.getVowelSwaps(word, $(vowelSwapLimit)).exists(allWords.contains)) Some(word)
+    else if (Utilities.getVowelSwaps(word, $(vowelSwapLimit)).exists(allWords.contains))
+      Some(word)
     else if (Utilities.variants(word).exists(allWords.contains)) Some(word)
     else if (both(word).exists(allWords.contains)) Some(word)
-    else if ($(doubleVariants) && computeDoubleVariants(word).exists(allWords.contains)) Some(word)
+    else if ($(doubleVariants) && computeDoubleVariants(word).exists(allWords.contains))
+      Some(word)
     else None
   }
 
   /** variants of variants of a word */
-  def computeDoubleVariants(word: String): List[String] = Utilities.variants(word).flatMap(variant =>
-    Utilities.variants(variant))
+  def computeDoubleVariants(word: String): List[String] =
+    Utilities.variants(word).flatMap(variant => Utilities.variants(variant))
 
   private def getSuggestion(word: String): (Option[String], Double) = {
     if (allWords.contains(word)) {
@@ -226,7 +235,8 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
     if (value < frequencyBoundaryValues._1) {
       return 0
     }
-    val normalizedValue = (value - frequencyBoundaryValues._1).toDouble / (frequencyBoundaryValues._2 - frequencyBoundaryValues._1).toDouble
+    val normalizedValue =
+      (value - frequencyBoundaryValues._1).toDouble / (frequencyBoundaryValues._2 - frequencyBoundaryValues._1).toDouble
     BigDecimal(normalizedValue).setScale(4, BigDecimal.RoundingMode.HALF_UP).toDouble
   }
 
@@ -244,32 +254,43 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   }
 
   private def both(word: String): List[String] = {
-    Utilities.reductions(word, $(reductLimit)).flatMap(reduction => Utilities.getVowelSwaps(reduction, $(vowelSwapLimit)))
+    Utilities
+      .reductions(word, $(reductLimit))
+      .flatMap(reduction => Utilities.getVowelSwaps(reduction, $(vowelSwapLimit)))
   }
 
   def getSortedWordsByFrequency(words: List[String], input: String): List[(String, Long)] = {
     val filteredWords = words.withFilter(_.length >= input.length)
-    val sortedWordsByFrequency = filteredWords.map(word => (word, compareFrequencies(word)))
-      .sortWith(_._2 > _._2).take($(intersections))
+    val sortedWordsByFrequency = filteredWords
+      .map(word => (word, compareFrequencies(word)))
+      .sortWith(_._2 > _._2)
+      .take($(intersections))
     logger.debug(s"recommended by frequency: ${sortedWordsByFrequency.mkString(", ")}")
     sortedWordsByFrequency
   }
 
-  private def compareFrequencies(value: String): Long = Utilities.getFrequency(value, $$(wordCount))
+  private def compareFrequencies(value: String): Long =
+    Utilities.getFrequency(value, $$(wordCount))
 
   def getSortedWordsByHamming(words: List[String], input: String): List[(String, Long)] = {
-    val sortedWordByHamming = words.map(word => (word, compareHammers(input)(word)))
-      .sortBy(_._2).takeRight($(intersections))
+    val sortedWordByHamming = words
+      .map(word => (word, compareHammers(input)(word)))
+      .sortBy(_._2)
+      .takeRight($(intersections))
     logger.debug(s"recommended by hamming: ${sortedWordByHamming.mkString(", ")}")
     sortedWordByHamming
   }
 
-  private def compareHammers(input: String)(value: String): Long = Utilities.computeHammingDistance(input, value)
+  private def compareHammers(input: String)(value: String): Long =
+    Utilities.computeHammingDistance(input, value)
 
-  def getResult(wordsByFrequency: List[(String, Long)], wordsByHamming: List[(String, Long)], input: String):
-  (String, Double) = {
+  def getResult(
+      wordsByFrequency: List[(String, Long)],
+      wordsByHamming: List[(String, Long)],
+      input: String): (String, Double) = {
     var recommendation: (Option[String], Double) = (None, 0)
-    val intersectWords = wordsByFrequency.map(word => word._1).intersect(wordsByHamming.map(word => word._1))
+    val intersectWords =
+      wordsByFrequency.map(word => word._1).intersect(wordsByHamming.map(word => word._1))
     if (wordsByFrequency.isEmpty && wordsByHamming.isEmpty) {
       logger.debug("no intersection or frequent words found")
       recommendation = (Some(input), 0)
@@ -278,17 +299,21 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
       recommendation = getRecommendation(wordsByFrequency, wordsByHamming)
     } else if (intersectWords.nonEmpty) {
       logger.debug("hammer and frequency recommendations found")
-      val frequencyAndHammingRecommendation = getFrequencyAndHammingRecommendation(wordsByFrequency, wordsByHamming,
-        intersectWords)
-      recommendation = (frequencyAndHammingRecommendation._1, frequencyAndHammingRecommendation._2)
+      val frequencyAndHammingRecommendation =
+        getFrequencyAndHammingRecommendation(wordsByFrequency, wordsByHamming, intersectWords)
+      recommendation =
+        (frequencyAndHammingRecommendation._1, frequencyAndHammingRecommendation._2)
     } else {
       logger.debug("no intersection of hammer and frequency")
-      recommendation = getFrequencyOrHammingRecommendation(wordsByFrequency, wordsByHamming, input)
+      recommendation =
+        getFrequencyOrHammingRecommendation(wordsByFrequency, wordsByHamming, input)
     }
     (recommendation._1.getOrElse(input), recommendation._2)
   }
 
-  private def getRecommendation(wordsByFrequency: List[(String, Long)], wordsByHamming: List[(String, Long)]) = {
+  private def getRecommendation(
+      wordsByFrequency: List[(String, Long)],
+      wordsByHamming: List[(String, Long)]) = {
     if (wordsByFrequency.nonEmpty) {
       getResultByFrequency(wordsByFrequency)
     } else {
@@ -296,9 +321,10 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
     }
   }
 
-  private def getFrequencyAndHammingRecommendation(wordsByFrequency: List[(String, Long)],
-                                                   wordsByHamming: List[(String, Long)],
-                                                   intersectWords: List[String]): (Option[String], Double) = {
+  private def getFrequencyAndHammingRecommendation(
+      wordsByFrequency: List[(String, Long)],
+      wordsByHamming: List[(String, Long)],
+      intersectWords: List[String]): (Option[String], Double) = {
     val wordsByFrequencyAndHamming = intersectWords.map { word =>
       val frequency = wordsByFrequency.find(_._1 == word).get._2
       val hamming = wordsByHamming.find(_._1 == word).get._2
@@ -309,7 +335,8 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
     val bestRecommendations = wordsByFrequencyAndHamming.filter(word =>
       word._2 == bestFrequencyValue && word._3 == bestHammingValue)
     if (bestRecommendations.nonEmpty) {
-      val result = (Utilities.getRandomValueFromList(bestRecommendations),
+      val result = (
+        Utilities.getRandomValueFromList(bestRecommendations),
         Utilities.computeConfidenceValue(bestRecommendations))
       (Some(result._1.get._1), result._2)
     } else {
@@ -324,17 +351,23 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   def getResultByFrequency(wordsByFrequency: List[(String, Long)]): (Option[String], Double) = {
     val bestFrequencyValue = wordsByFrequency.maxBy(_._2)._2
     val bestRecommendations = wordsByFrequency.filter(_._2 == bestFrequencyValue).map(_._1)
-    (Utilities.getRandomValueFromList(bestRecommendations), Utilities.computeConfidenceValue(bestRecommendations))
+    (
+      Utilities.getRandomValueFromList(bestRecommendations),
+      Utilities.computeConfidenceValue(bestRecommendations))
   }
 
   def getResultByHamming(wordsByHamming: List[(String, Long)]): (Option[String], Double) = {
     val bestHammingValue = wordsByHamming.minBy(_._2)._2
     val bestRecommendations = wordsByHamming.filter(_._2 == bestHammingValue).map(_._1)
-    (Utilities.getRandomValueFromList(bestRecommendations), Utilities.computeConfidenceValue(bestRecommendations))
+    (
+      Utilities.getRandomValueFromList(bestRecommendations),
+      Utilities.computeConfidenceValue(bestRecommendations))
   }
 
-  def getFrequencyOrHammingRecommendation(wordsByFrequency: List[(String, Long)], wordsByHamming: List[(String, Long)],
-                                          input: String): (Option[String], Double) = {
+  def getFrequencyOrHammingRecommendation(
+      wordsByFrequency: List[(String, Long)],
+      wordsByHamming: List[(String, Long)],
+      input: String): (Option[String], Double) = {
     val frequencyResult: String = getResultByFrequency(wordsByFrequency)._1.getOrElse(input)
     val hammingResult: String = getResultByHamming(wordsByHamming)._1.getOrElse(input)
     var result = List(frequencyResult, hammingResult)
@@ -349,7 +382,9 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
 
 }
 
-trait ReadablePretrainedNorvig extends ParamsAndFeaturesReadable[NorvigSweetingModel] with HasPretrained[NorvigSweetingModel] {
+trait ReadablePretrainedNorvig
+    extends ParamsAndFeaturesReadable[NorvigSweetingModel]
+    with HasPretrained[NorvigSweetingModel] {
   override val defaultModelName = Some("spellcheck_norvig")
 
   /** Java compliant-overrides */
@@ -357,12 +392,14 @@ trait ReadablePretrainedNorvig extends ParamsAndFeaturesReadable[NorvigSweetingM
 
   override def pretrained(name: String): NorvigSweetingModel = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): NorvigSweetingModel = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): NorvigSweetingModel =
+    super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): NorvigSweetingModel = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): NorvigSweetingModel =
+    super.pretrained(name, lang, remoteLoc)
 }
 
-/**
- * This is the companion object of [[NorvigSweetingModel]]. Please refer to that class for the documentation.
- */
+/** This is the companion object of [[NorvigSweetingModel]]. Please refer to that class for the
+  * documentation.
+  */
 object NorvigSweetingModel extends ReadablePretrainedNorvig

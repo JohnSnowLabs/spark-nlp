@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.DateMatcherTranslator</title>
-          <meta name="description" content="Spark NLP 3.4.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.DateMatcherTranslator" />
-          <meta name="keywords" content="Spark NLP 3.4.0 ScalaDoc com.johnsnowlabs.nlp.annotators.DateMatcherTranslator" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.DateMatcherTranslator</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.DateMatcherTranslator" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.nlp.annotators.DateMatcherTranslator" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -498,7 +498,7 @@
                         <a class="class" href="RecursiveTokenizer.html" title="Tokenizes raw text recursively based on a handful of definable rules."></a>
                         <a href="RecursiveTokenizer.html" title="Tokenizes raw text recursively based on a handful of definable rules.">RecursiveTokenizer</a>
                       </li><li class="current-entities indented4">
-                        <span class="separator"></span>
+                        <a class="object" href="RecursiveTokenizerModel$.html" title=""></a>
                         <a class="class" href="RecursiveTokenizerModel.html" title="Instantiated model of the RecursiveTokenizer."></a>
                         <a href="RecursiveTokenizerModel.html" title="Instantiated model of the RecursiveTokenizer.">RecursiveTokenizerModel</a>
                       </li><li class="current-entities indented4">
@@ -1005,7 +1005,9 @@
       
       <p class="shortcomment cmt">Load available language keys to process further matches
 </p><div class="fullcomment"><div class="comment cmt"><p>Load available language keys to process further matches
-</p></div><dl class="paramcmts block"><dt class="param">text</dt><dd class="cmt"><p>: text to match language against.</p></dd><dt>returns</dt><dd class="cmt"><p>a map containing the matching languages.</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">text</dt><dd class="cmt"><p>
+  : text to match language against.</p></dd><dt>returns</dt><dd class="cmt"><p>
+  a map containing the matching languages.</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherTranslator#adjustPlurality" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="adjustPlurality(text:String):String"></a><a id="adjustPlurality(String):String"></a>
       <span class="permalink">
@@ -1037,8 +1039,13 @@
         <span class="name">applyTranslation</span><span class="params">(<span name="translatedIndexedToken">translatedIndexedToken: <span class="extype" name="scala.Array">Array</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>)]</span>, <span name="text">text: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      <p class="shortcomment cmt">Apply translation switching token where an index has been translated using the dictionary matching.</p><div class="fullcomment"><div class="comment cmt"><p>Apply translation switching token where an index has been translated using the dictionary matching.
-</p></div><dl class="paramcmts block"><dt class="param">translatedIndexedToken</dt><dd class="cmt"><p>: the translated index token to replace in text.</p></dd><dt class="param">text</dt><dd class="cmt"><p>: the original text where translation is applied.</p></dd><dt>returns</dt><dd class="cmt"><p>the text translated using token replacement.</p></dd></dl></div>
+      <p class="shortcomment cmt">Apply translation switching token where an index has been translated using the dictionary
+matching.</p><div class="fullcomment"><div class="comment cmt"><p>Apply translation switching token where an index has been translated using the dictionary
+matching.
+</p></div><dl class="paramcmts block"><dt class="param">translatedIndexedToken</dt><dd class="cmt"><p>
+  : the translated index token to replace in text.</p></dd><dt class="param">text</dt><dd class="cmt"><p>
+  : the original text where translation is applied.</p></dd><dt>returns</dt><dd class="cmt"><p>
+  the text translated using token replacement.</p></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
@@ -1251,7 +1258,9 @@
       </span>
       
       <p class="shortcomment cmt">Load dictionary from supported language repository.</p><div class="fullcomment"><div class="comment cmt"><p>Load dictionary from supported language repository.
-</p></div><dl class="paramcmts block"><dt class="param">language</dt><dd class="cmt"><p>the language dictionary to load. Default is English.</p></dd><dt>returns</dt><dd class="cmt"><p>a map containing the language dictionary or throws an exception.</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">language</dt><dd class="cmt"><p>
+  the language dictionary to load. Default is English.</p></dd><dt>returns</dt><dd class="cmt"><p>
+  a map containing the language dictionary or throws an exception.</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherTranslator#matchIndexedToken" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="matchIndexedToken:(DateMatcherTranslator.this.DateMatcherIndexedToken,Map[String,Any])=&gt;DateMatcherTranslator.this.DateMatcherIndexedToken"></a><a id="matchIndexedToken:(DateMatcherIndexedToken,Map[String,Any])⇒DateMatcherIndexedToken"></a>
       <span class="permalink">
@@ -1354,7 +1363,9 @@
       </span>
       
       <p class="shortcomment cmt">Process date matches with the source language.</p><div class="fullcomment"><div class="comment cmt"><p>Process date matches with the source language.
-</p></div><dl class="paramcmts block"><dt class="param">text</dt><dd class="cmt"><p>: the text to detect.</p></dd><dt>returns</dt><dd class="cmt"><p>the detected language as tuple of matched languages with their frequency.</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">text</dt><dd class="cmt"><p>
+  : the text to detect.</p></dd><dt>returns</dt><dd class="cmt"><p>
+  the detected language as tuple of matched languages with their frequency.</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherTranslator#searchKeyFromValuesMatch" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="searchKeyFromValuesMatch(dictionary:Map[String,Any],k:String,toBeReplaced:String):(String,String)"></a><a id="searchKeyFromValuesMatch(Map[String,Any],String,String):(String,String)"></a>
       <span class="permalink">
@@ -1435,7 +1446,10 @@
       </span>
       
       <p class="shortcomment cmt">Translate the text from source language to destination language.</p><div class="fullcomment"><div class="comment cmt"><p>Translate the text from source language to destination language.
-</p></div><dl class="paramcmts block"><dt class="param">sourceLanguage</dt><dd class="cmt"><p>the source language.</p></dd><dt class="param">destination</dt><dd class="cmt"><p>the destination language.</p></dd><dt>returns</dt><dd class="cmt"><p>the translated text from source language to destination language.</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">sourceLanguage</dt><dd class="cmt"><p>
+  the source language.</p></dd><dt class="param">destination</dt><dd class="cmt"><p>
+  the destination language.</p></dd><dt>returns</dt><dd class="cmt"><p>
+  the translated text from source language to destination language.</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherTranslator#translateBySentence" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="translateBySentence(text:String,sourceLanguageInfo:Map[String,Set[String]],policy:com.johnsnowlabs.nlp.annotators.DateMatcherTranslatorPolicy):String"></a><a id="translateBySentence(String,Map[String,Set[String]],DateMatcherTranslatorPolicy):String"></a>
       <span class="permalink">
@@ -1452,7 +1466,10 @@
       </span>
       
       <p class="shortcomment cmt">Translate sentence from source info.</p><div class="fullcomment"><div class="comment cmt"><p>Translate sentence from source info.
-</p></div><dl class="paramcmts block"><dt class="param">text</dt><dd class="cmt"><p>: sentence to translate.</p></dd><dt class="param">sourceLanguageInfo</dt><dd class="cmt"><p>: the source info map.</p></dd><dt>returns</dt><dd class="cmt"><p>the translated sentence.</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">text</dt><dd class="cmt"><p>
+  : sentence to translate.</p></dd><dt class="param">sourceLanguageInfo</dt><dd class="cmt"><p>
+  : the source info map.</p></dd><dt>returns</dt><dd class="cmt"><p>
+  the translated sentence.</p></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">

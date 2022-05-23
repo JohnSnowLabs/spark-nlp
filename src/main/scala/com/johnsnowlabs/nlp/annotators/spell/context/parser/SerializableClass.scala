@@ -16,19 +16,19 @@
 
 package com.johnsnowlabs.nlp.annotators.spell.context.parser
 
-import java.io.{ObjectInputStream, ObjectOutputStream}
-import com.esotericsoftware.kryo.KryoSerializable
+import com.esotericsoftware.kryo.{Kryo, KryoSerializable}
 import com.esotericsoftware.kryo.io.{Input, Output}
 import com.github.liblevenshtein.proto.LibLevenshteinProtos.DawgNode
 import com.github.liblevenshtein.serialization.PlainTextSerializer
 import com.github.liblevenshtein.transducer.{Candidate, ITransducer, Transducer}
-import com.esotericsoftware.kryo.Kryo
+
+import java.io.{ObjectInputStream, ObjectOutputStream}
 
 trait SerializableClass extends Serializable with KryoSerializable {
-  this:SpecialClassParser =>
+  this: SpecialClassParser =>
 
   // these are for standard Java serialization
-  def deserializeTransducer(aInputStream:ObjectInputStream) = {
+  def deserializeTransducer(aInputStream: ObjectInputStream) = {
     aInputStream.defaultReadObject()
     val serializer = new PlainTextSerializer
     val size = aInputStream.readInt()
@@ -37,7 +37,7 @@ trait SerializableClass extends Serializable with KryoSerializable {
     serializer.deserialize(classOf[Transducer[DawgNode, Candidate]], bytes)
   }
 
-  def serializeTransducer(aOutputStream:ObjectOutputStream, t:ITransducer[Candidate])= {
+  def serializeTransducer(aOutputStream: ObjectOutputStream, t: ITransducer[Candidate]) = {
     aOutputStream.defaultWriteObject()
     val serializer = new PlainTextSerializer
     val transBytes = serializer.serialize(t)
@@ -51,6 +51,8 @@ trait SerializableClass extends Serializable with KryoSerializable {
     val transBytes = serializer.serialize(transducer)
     output.writeInt(transBytes.length)
     output.write(transBytes)
+    output.writeInt(maxDist)
+    output.writeString(label)
   }
 
   def read(kryo: Kryo, input: Input): Unit = {
@@ -59,5 +61,7 @@ trait SerializableClass extends Serializable with KryoSerializable {
     val bytes = new Array[Byte](size)
     input.read(bytes)
     transducer = serializer.deserialize(classOf[Transducer[DawgNode, Candidate]], bytes)
+    maxDist = input.readInt()
+    label = input.readString()
   }
 }

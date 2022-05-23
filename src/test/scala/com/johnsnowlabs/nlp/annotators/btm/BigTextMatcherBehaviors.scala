@@ -25,17 +25,19 @@ trait BigTextMatcherBehaviors { this: AnyFlatSpec =>
 
   def fullBigTextMatcher(dataset: => Dataset[Row]) {
     "An BigTextMatcher Annotator" should "successfully transform data" taggedAs FastTest in {
-      AnnotatorBuilder.withFullBigTextMatcher(dataset)
-        .collect().foreach {
-        row =>
-          row.getSeq[Row](3)
+      AnnotatorBuilder
+        .withFullBigTextMatcher(dataset)
+        .collect()
+        .foreach { row =>
+          row
+            .getSeq[Row](3)
             .map(Annotation(_))
             .foreach {
               case entity: Annotation if entity.annotatorType == "entity" =>
                 println(entity, entity.end)
               case _ => ()
             }
-      }
+        }
     }
   }
 }

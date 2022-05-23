@@ -49,6 +49,28 @@ const Sidebar = ({ meta, params, onSubmit }) => {
           }}
         />
       </div>
+
+      <div className={styles.control}>
+        <RadioGroup
+          value={params.sort || 'date'}
+          onChange={(value) => {
+            onSubmit({ sort: value });
+          }}
+        >
+          <label>Sort By:</label>
+          <div className={styles.radioContainers}>
+            <Radio value="date" className={styles.radio}>
+              Date
+            </Radio>
+            <Radio value="views" className={styles.radio}>
+              Views
+            </Radio>
+            <Radio value="downloads" className={styles.radio}>
+              Downloads
+            </Radio>
+          </div>
+        </RadioGroup>
+      </div>
     </div>
   );
 };

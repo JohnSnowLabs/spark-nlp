@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.0 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowElmo</title>
-          <meta name="description" content="Spark NLP 3.4.0 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowElmo" />
-          <meta name="keywords" content="Spark NLP 3.4.0 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowElmo" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowElmo</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowElmo" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowElmo" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -239,8 +239,20 @@
                         <a href="TensorflowBertClassification.html" title="">TensorflowBertClassification</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
+                        <a class="class" href="TensorflowCamemBert.html" title="The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot."></a>
+                        <a href="TensorflowCamemBert.html" title="The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot.">TensorflowCamemBert</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
                         <a class="class" href="TensorflowClassifier.html" title=""></a>
                         <a href="TensorflowClassifier.html" title="">TensorflowClassifier</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="TensorflowDeBerta.html" title=""></a>
+                        <a href="TensorflowDeBerta.html" title="">TensorflowDeBerta</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="TensorflowDeBertaClassification.html" title=""></a>
+                        <a href="TensorflowDeBertaClassification.html" title="">TensorflowDeBertaClassification</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="class" href="TensorflowDistilBert.html" title="The DistilBERT model was proposed in the paper DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter https://arxiv.org/abs/1910.01108."></a>
@@ -361,8 +373,14 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Embeddings from a language model trained on the 1 Billion Word Benchmark.</p><p>Note that this is a very computationally expensive module compared to word embedding modules that only perform embedding lookups.
-The use of an accelerator is recommended.</p><p><b>word_emb</b>: the character-based word representations with shape [batch_size, max_length, 512].  == word_emb</p><p><b>lstm_outputs1</b>: the first LSTM hidden state with shape [batch_size, max_length, 1024]. === lstm_outputs1</p><p><b>lstm_outputs2</b>: the second LSTM hidden state with shape [batch_size, max_length, 1024]. === lstm_outputs2</p><p><b>elmo</b>: the weighted sum of the 3 layers, where the weights are trainable. This tensor has shape [batch_size, max_length, 1024]  == elmo</p><p>See <span class="extype" name="">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddingsTestSpec.scala </span> for further reference on how to use this API.
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Embeddings from a language model trained on the 1 Billion Word Benchmark.</p><p>Note that this is a very computationally expensive module compared to word embedding modules
+that only perform embedding lookups. The use of an accelerator is recommended.</p><p><b>word_emb</b>: the character-based word representations with shape [batch_size, max_length,
+512]. == word_emb</p><p><b>lstm_outputs1</b>: the first LSTM hidden state with shape [batch_size, max_length, 1024].
+\=== lstm_outputs1</p><p><b>lstm_outputs2</b>: the second LSTM hidden state with shape [batch_size, max_length, 1024].
+\=== lstm_outputs2</p><p><b>elmo</b>: the weighted sum of the 3 layers, where the weights are trainable. This tensor has
+shape [batch_size, max_length, 1024] == elmo</p><p>See
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddingsTestSpec.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddingsTestSpec.scala</a>
+for further reference on how to use this API.
 </p></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
@@ -428,10 +446,13 @@ The use of an accelerator is recommended.</p><p><b>word_emb</b>: the character-b
         <span class="name">TensorflowElmo</span><span class="params">(<span name="tensorflow">tensorflow: <a href="TensorflowWrapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</a></span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="configProtoBytes">configProtoBytes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]] = <span class="symbol">None</span></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">tensorflow</dt><dd class="cmt"><p>Elmo Model wrapper with TensorFlow Wrapper</p></dd><dt class="param">batchSize</dt><dd class="cmt"><p>size of batch</p></dd><dt class="param">configProtoBytes</dt><dd class="cmt"><p>Configuration for TensorFlow session
-                        Sources  :
-                        <a href="https://tfhub.dev/google/elmo/3" target="_blank">https://tfhub.dev/google/elmo/3</a>
-                        <a href="https://arxiv.org/abs/1802.05365" target="_blank">https://arxiv.org/abs/1802.05365</a></p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">tensorflow</dt><dd class="cmt"><p>
+  Elmo Model wrapper with TensorFlow Wrapper</p></dd><dt class="param">batchSize</dt><dd class="cmt"><p>
+  size of batch</p></dd><dt class="param">configProtoBytes</dt><dd class="cmt"><p>
+  Configuration for TensorFlow session
+Sources :
+<a href="https://tfhub.dev/google/elmo/3" target="_blank">https://tfhub.dev/google/elmo/3</a>
+<a href="https://arxiv.org/abs/1802.05365" target="_blank">https://arxiv.org/abs/1802.05365</a></p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -618,8 +639,13 @@ The use of an accelerator is recommended.</p><p><b>word_emb</b>: the character-b
         <span class="name">getDimensions</span><span class="result">: (<span class="extype" name="scala.Predef.String">String</span>) ⇒ <span class="extype" name="scala.Int">Int</span></span>
       </span>
       
-      <p class="shortcomment cmt">word_emb: the character-based word representations with shape [batch_size, max_length, 512].</p><div class="fullcomment"><div class="comment cmt"><p>word_emb: the character-based word representations with shape [batch_size, max_length, 512].  == 512</p><p>lstm_outputs1: the first LSTM hidden state with shape [batch_size, max_length, 1024]. === 1024</p><p>lstm_outputs2: the second LSTM hidden state with shape [batch_size, max_length, 1024]. === 1024</p><p>elmo: the weighted sum of the 3 layers, where the weights are trainable. This tensor has shape [batch_size, max_length, 1024]  == 1024
-</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>The dimension of chosen layer</p></dd></dl></div>
+      <p class="shortcomment cmt">word_emb: the character-based word representations with shape [batch_size, max_length, 512].</p><div class="fullcomment"><div class="comment cmt"><p>word_emb: the character-based word representations with shape [batch_size, max_length, 512].
+\== 512</p><p>lstm_outputs1: the first LSTM hidden state with shape [batch_size, max_length, 1024]. ===
+1024</p><p>lstm_outputs2: the second LSTM hidden state with shape [batch_size, max_length, 1024]. ===
+1024</p><p>elmo: the weighted sum of the 3 layers, where the weights are trainable. This tensor has
+shape [batch_size, max_length, 1024] == 1024
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+  The dimension of chosen layer</p></dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <span class="permalink">
@@ -724,9 +750,15 @@ The use of an accelerator is recommended.</p><p><b>word_emb</b>: the character-b
         <span class="name">predict</span><span class="params">(<span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/TokenizedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.TokenizedSentence">TokenizedSentence</a>]</span>, <span name="poolingLayer">poolingLayer: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/WordpieceEmbeddingsSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence">WordpieceEmbeddingsSentence</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Calculate the embeddigns for a sequence of Tokens and create WordPieceEmbeddingsSentence objects from them
-</p><div class="fullcomment"><div class="comment cmt"><p>Calculate the embeddigns for a sequence of Tokens and create WordPieceEmbeddingsSentence objects from them
-</p></div><dl class="paramcmts block"><dt class="param">sentences</dt><dd class="cmt"><p>A sequence of Tokenized Sentences for which embeddings will be calculated</p></dd><dt class="param">poolingLayer</dt><dd class="cmt"><p>Define which output layer you want from the model word_emb, lstm_outputs1, lstm_outputs2, elmo. See https://tfhub.dev/google/elmo/3 for reference</p></dd><dt>returns</dt><dd class="cmt"><p>A Seq of WordpieceEmbeddingsSentence, one element for each input sentence</p></dd></dl></div>
+      <p class="shortcomment cmt">Calculate the embeddigns for a sequence of Tokens and create WordPieceEmbeddingsSentence
+objects from them
+</p><div class="fullcomment"><div class="comment cmt"><p>Calculate the embeddigns for a sequence of Tokens and create WordPieceEmbeddingsSentence
+objects from them
+</p></div><dl class="paramcmts block"><dt class="param">sentences</dt><dd class="cmt"><p>
+  A sequence of Tokenized Sentences for which embeddings will be calculated</p></dd><dt class="param">poolingLayer</dt><dd class="cmt"><p>
+  Define which output layer you want from the model word_emb, lstm_outputs1, lstm_outputs2,
+  elmo. See https://tfhub.dev/google/elmo/3 for reference</p></dd><dt>returns</dt><dd class="cmt"><p>
+  A Seq of WordpieceEmbeddingsSentence, one element for each input sentence</p></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -759,9 +791,13 @@ The use of an accelerator is recommended.</p><p><b>word_emb</b>: the character-b
       </span>
       
       <p class="shortcomment cmt">Tag a seq of TokenizedSentences, will get the embeddings according to key.</p><div class="fullcomment"><div class="comment cmt"><p>Tag a seq of TokenizedSentences, will get the embeddings according to key.
-</p></div><dl class="paramcmts block"><dt class="param">batch</dt><dd class="cmt"><p>The Tokens for which we calculate embeddings</p></dd><dt class="param">embeddingsKey</dt><dd class="cmt"><p>Specification of the output embedding for Elmo</p></dd><dt class="param">dimension</dt><dd class="cmt"><p>Elmo's embeddings dimension: either 512 or 1024</p></dd><dt>returns</dt><dd class="cmt"><p>The Embeddings Vector.
-        For each Seq Element we have a Sentence, and for each sentence we have an Array for each of its words.
-        Each of its words gets a float array to represent its Embeddings</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">batch</dt><dd class="cmt"><p>
+  The Tokens for which we calculate embeddings</p></dd><dt class="param">embeddingsKey</dt><dd class="cmt"><p>
+  Specification of the output embedding for Elmo</p></dd><dt class="param">dimension</dt><dd class="cmt"><p>
+  Elmo's embeddings dimension: either 512 or 1024</p></dd><dt>returns</dt><dd class="cmt"><p>
+  The Embeddings Vector. For each Seq Element we have a Sentence, and for each sentence we
+  have an Array for each of its words. Each of its words gets a float array to represent its
+  Embeddings</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowElmo#tensorflow" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper"></a><a id="tensorflow:TensorflowWrapper"></a>
       <span class="permalink">

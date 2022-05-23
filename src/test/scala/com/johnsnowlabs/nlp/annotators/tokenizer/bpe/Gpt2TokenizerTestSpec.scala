@@ -32,8 +32,7 @@ class Gpt2TokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
       "Ġ3",
       "As",
       "d",
-      "!"
-    ).zipWithIndex.toMap
+      "!").zipWithIndex.toMap
 
   val merges: Map[(String, String), Int] = Array(
     "o u",
@@ -63,15 +62,10 @@ class Gpt2TokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
     "Ġun amb",
     "Ġgo od",
     "Ġ 3",
-    "Ġ I"
-  ).map(_.split(" ")).map { case Array(c1, c2) => (c1, c2) }.zipWithIndex.toMap
+    "Ġ I").map(_.split(" ")).map { case Array(c1, c2) => (c1, c2) }.zipWithIndex.toMap
 
   val modelType: String = "gpt2"
-  val tokenizer: BpeTokenizer = BpeTokenizer.forModel(
-    modelType,
-    merges,
-    vocab
-  )
+  val tokenizer: BpeTokenizer = BpeTokenizer.forModel(modelType, merges, vocab)
 
   override val replaceCharBeforeAssertion: Some[String] = Some("Ġ")
 
@@ -79,15 +73,25 @@ class Gpt2TokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
     tokenizer = tokenizer,
     text = " I unambigouosly good 3Asd!",
     expected = Array("ĠI", "Ġunamb", "ig", "ou", "os", "ly", "Ġgood", "Ġ3", "As", "d", "!"),
-    expectedIds = Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
-  )
+    expectedIds = Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11))
 
   it should behave like correctBpeTokenizerInFringeSituations(tokenizer = tokenizer)
 
   it should behave like correctBpeTokenizerSpecialTokens(
     tokenizer = tokenizer,
     text = " I unambigouosly <|endoftext|> good 3Asd <|endoftext|>",
-    expected = Array("ĠI", "Ġunamb", "ig", "ou", "os", "ly", "<|endoftext|>", "Ġgood", "Ġ3", "As", "d", "<|endoftext|>"),
-    expectedIds = Array(1, 2, 3, 4, 5, 6, 0, 7, 8, 9, 10, 0)
-  )
+    expected = Array(
+      "ĠI",
+      "Ġunamb",
+      "ig",
+      "ou",
+      "os",
+      "ly",
+      "<|endoftext|>",
+      "Ġgood",
+      "Ġ3",
+      "As",
+      "d",
+      "<|endoftext|>"),
+    expectedIds = Array(1, 2, 3, 4, 5, 6, 0, 7, 8, 9, 10, 0))
 }

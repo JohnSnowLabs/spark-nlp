@@ -57,8 +57,7 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       repetitionPenalty = 0f,
       noRepeatNgramSize = 0,
       randomSeed = Option(0L),
-      ignoreTokenIds = Array(0)
-    )
+      ignoreTokenIds = Array(0))
   }
 
   sessionWarmup()
@@ -81,7 +80,7 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     val maxSentenceLength = sequencesLength.max // - curLen
 
     val numReturn_sequences = 1
-    //from config
+    // from config
     val vocab_size = 32128
 
     var effectiveBatch_size = 1
@@ -91,13 +90,12 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     if (doSample) {
       effectiveBatch_size = batch.length * numReturn_sequences
       effectiveBatch_mult = numReturn_sequences
-    }
-    else {
+    } else {
       effectiveBatch_size = batch.length
       effectiveBatch_mult = 1
     }
 
-    //Run encoder
+    // Run encoder
     val tensorEncoder = new TensorResources()
     val inputDim = batch.length * maxSentenceLength
 
@@ -130,13 +128,15 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     val encoderOuts = runner.run().asScala
     val encoderOutsFloats = TensorResources.extractFloats(encoderOuts.head)
     val dim = encoderOutsFloats.length / inputDim
-    val encoderOutsBatch = encoderOutsFloats.grouped(dim).toArray.grouped(maxSentenceLength).toArray
+    val encoderOutsBatch =
+      encoderOutsFloats.grouped(dim).toArray.grouped(maxSentenceLength).toArray
 
     encoderOuts.foreach(_.close())
 
-    //Run decoder
+    // Run decoder
     val decoderEncoderStateTensorResources = new TensorResources()
-    val decoderEncoderStateBuffers = decoderEncoderStateTensorResources.createFloatBuffer(batch.length * maxSentenceLength * dim)
+    val decoderEncoderStateBuffers =
+      decoderEncoderStateTensorResources.createFloatBuffer(batch.length * maxSentenceLength * dim)
     batch.zipWithIndex.foreach { case (_, index) =>
       var offset = index * maxSentenceLength * dim
       encoderOutsBatch(index).foreach(encoderOutput => {
@@ -149,8 +149,22 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       Array(batch.length.toLong, maxSentenceLength, dim),
       decoderEncoderStateBuffers)
 
-    val modelOutputs = generateNoBeamSearch(batch, decoderEncoderStateTensors, encoderAttentionMaskTensors, maxOutputLength, minOutputLength, doSample,
-      temperature, topK, topP, repetitionPenalty, noRepeatNgramSize, effectiveBatch_size, vocab_size, randomSeed, session,
+    val modelOutputs = generateNoBeamSearch(
+      batch,
+      decoderEncoderStateTensors,
+      encoderAttentionMaskTensors,
+      maxOutputLength,
+      minOutputLength,
+      doSample,
+      temperature,
+      topK,
+      topP,
+      repetitionPenalty,
+      noRepeatNgramSize,
+      effectiveBatch_size,
+      vocab_size,
+      randomSeed,
+      session,
       ignoreTokenIds)
 
     tensorEncoder.clearTensors()
@@ -177,10 +191,9 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
                            ignoreTokenIds: Array[Int] = Array()
                           ): Array[Array[Int]] = {
 
-    /**
-     * Generate sequences for each example without beam search (numBeams == 1). All returned sequence are generated
-     * independently.
-     * */
+    /** Generate sequences for each example without beam search (numBeams == 1). All returned
+      * sequence are generated independently.
+      */
     var decoderInputs = inputIds.map(_ => Array(this.paddingTokenId)).toArray
 
     var curLen = decoderInputs(0).length
@@ -220,48 +233,66 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
         .fetch(_tfT5Signatures.getOrElse(ModelSignatureConstants.DecoderOutput.key, "missing_output_0"))
 
       val decoderOuts = runner.run().asScala
-      val decoderOutputs = TensorResources.extractFloats(decoderOuts.head).grouped(vocab_size).toArray.grouped(decoderInputLength).toArray
+      val decoderOutputs = TensorResources
+        .extractFloats(decoderOuts.head)
+        .grouped(vocab_size)
+        .toArray
+        .grouped(decoderInputLength)
+        .toArray
       var nextTokenLogits = for (decoderOutput <- decoderOutputs) yield decoderOutput.last
 
       nextTokenLogits = nextTokenLogits.map(logits => {
-        logits.indices.map(i => {
-          if (ignoreTokenIds.contains(i)) Float.MinValue else logits(i)
-        }).toArray
+        logits.indices
+          .map(i => {
+            if (ignoreTokenIds.contains(i)) Float.MinValue else logits(i)
+          })
+          .toArray
       })
 
       // repetition penalty from CTRL paper (https://arxiv.org/abs/1909.05858)
       if (repetitionPenalty != 1.0) {
-        nextTokenLogits = createNextTokenLogitsPenalties(
-          decoderInputs, nextTokenLogits, repetitionPenalty
-        )
+        nextTokenLogits =
+          createNextTokenLogitsPenalties(decoderInputs, nextTokenLogits, repetitionPenalty)
       }
 
       if (noRepeatNgramSize > 0) {
         // calculate a list of banned tokens to prevent repetitively generating the same ngrams
         // from fairseq: https://github.com/pytorch/fairseq/blob/a07cb6f40480928c9e0548b737aadd36ee66ac76/fairseq/sequence_generator.py#L345
-        val bannedTokens = calcBannedNgramTokens(decoderInputs, batch_size, noRepeatNgramSize, curLen)
+        val bannedTokens =
+          calcBannedNgramTokens(decoderInputs, batch_size, noRepeatNgramSize, curLen)
         // create bannedTokens boolean mask
         var bannedTokensIndicesMask = Array.empty[IndexedSeq[Boolean]]
         for (bannedTokensSlice <- bannedTokens) {
           bannedTokensIndicesMask = bannedTokensIndicesMask :+
-            (for (token <- 0 until vocab_size) yield if (bannedTokensSlice.contains(token)) true else false)
+            (for (token <- 0 until vocab_size)
+              yield if (bannedTokensSlice.contains(token)) true else false)
         }
         if (!bannedTokensIndicesMask.isEmpty)
-          nextTokenLogits = for ((nextTokenLogit, bannedTokensIndexMask) <- nextTokenLogits.zip(bannedTokensIndicesMask)) yield setTensorByIndicesToValue(
-            nextTokenLogit, bannedTokensIndexMask, Float.NegativeInfinity
-          )
+          nextTokenLogits =
+            for ((nextTokenLogit, bannedTokensIndexMask) <- nextTokenLogits.zip(
+                bannedTokensIndicesMask))
+              yield setTensorByIndicesToValue(
+                nextTokenLogit,
+                bannedTokensIndexMask,
+                Float.NegativeInfinity)
       }
 
       // set eos token prob to zero if minLength is not reached
       if (!eosTokenId.isNaN && curLen < minOutputLength) {
         // create eosTokenId boolean mask
-        val isTokenLogit_eosToken = for (token <- 0 until vocab_size) yield if (token == eosTokenId) true else false
+        val isTokenLogit_eosToken =
+          for (token <- 0 until vocab_size)
+            yield if (token == eosTokenId) true else false
 
         val eosTokenIndices_mask = Array.fill(batch_size)(isTokenLogit_eosToken)
 
-        nextTokenLogits = for ((nextTokenLogit, bannedTokensIndex_mask) <- nextTokenLogits.zip(eosTokenIndices_mask)) yield setTensorByIndicesToValue(
-          nextTokenLogit, bannedTokensIndex_mask, Float.NegativeInfinity
-        )
+        nextTokenLogits =
+          for ((nextTokenLogit, bannedTokensIndex_mask) <- nextTokenLogits.zip(
+              eosTokenIndices_mask))
+            yield setTensorByIndicesToValue(
+              nextTokenLogit,
+              bannedTokensIndex_mask,
+              Float.NegativeInfinity)
       }
 
       var nextToken = Array.ofDim[Int](decoderInputs.length)
@@ -269,13 +300,14 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       if (doSample) {
         // Temperature (higher temperature => more likely to sample low probability tokens)
         if (temperature != 1.0)
-          nextTokenLogits = for (nextTokenLogit <- nextTokenLogits) yield nextTokenLogit.map(_ / temperature.toFloat)
+          nextTokenLogits =
+            for (nextTokenLogit <- nextTokenLogits)
+              yield nextTokenLogit.map(_ / temperature.toFloat)
         // Top-p/top-k filtering
         nextTokenLogits = topKTopPFiltering(nextTokenLogits, topK, topP)
         // Sample
         nextToken = nextTokenLogits.map(input => categoricalSample(input, randomSeed))
-      }
-      else {
+      } else {
         // Greedy decoding
         nextToken = nextTokenLogits.map(input => input.indexOf(input.max))
       }
@@ -283,14 +315,17 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
 
       // update generations and finished sentences
       if (!eosTokenId.isNaN)
-      // pad finished sentences if eos_token_id exist
-        tokensToAdd = nextToken.zip(unfinishedSents).map(x => x._1 * x._2 + paddingTokenId * (1 - x._2))
+        // pad finished sentences if eos_token_id exist
+        tokensToAdd =
+          nextToken.zip(unfinishedSents).map(x => x._1 * x._2 + paddingTokenId * (1 - x._2))
       else
         tokensToAdd = nextToken
 
-      decoderInputs = decoderInputs.zip(tokensToAdd).map(x => {
-        x._1 ++ Array(x._2)
-      })
+      decoderInputs = decoderInputs
+        .zip(tokensToAdd)
+        .map(x => {
+          x._1 ++ Array(x._2)
+        })
       decoderOuts.foreach(_.close())
 
       curLen += 1
@@ -298,12 +333,16 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       if (!eosTokenId.isNaN) {
         val eosInSents = tokensToAdd.map(x => if (x == eosTokenId) 1 else 0)
         // if sentence is unfinished and the token to add is eos, sent_lengths is filled with current length
-        val isSentsUnfinishedAndTokenToAddIsEos = unfinishedSents.zip(eosInSents).map(x => x._1 * x._2)
+        val isSentsUnfinishedAndTokenToAddIsEos =
+          unfinishedSents.zip(eosInSents).map(x => x._1 * x._2)
 
-        sentLengths = sentLengths.zip(isSentsUnfinishedAndTokenToAddIsEos).map(x => x._1 * (1 - x._2) + curLen * x._2)
+        sentLengths = sentLengths
+          .zip(isSentsUnfinishedAndTokenToAddIsEos)
+          .map(x => x._1 * (1 - x._2) + curLen * x._2)
 
         // unfinishedSents is set to zero if eos in sentence
-        unfinishedSents = unfinishedSents.zip(isSentsUnfinishedAndTokenToAddIsEos).map(x => x._1 - x._2)
+        unfinishedSents =
+          unfinishedSents.zip(isSentsUnfinishedAndTokenToAddIsEos).map(x => x._1 - x._2)
       }
 
       tensorDecoder.clearTensors()
@@ -312,9 +351,8 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
 
       // stop when there is a eos in each sentence, or if we exceed the maximum length
       //      stopDecoder = curLen < maxOutputLength || unfinishedSents.max == 0
-      stopDecoder = (
-        !decoderInputs.exists(o => !o.contains(this.eosTokenId))
-          || (decoderInputs.head.length > maxOutputLength))
+      stopDecoder = (!decoderInputs.exists(o => !o.contains(this.eosTokenId))
+        || (decoderInputs.head.length > maxOutputLength))
 
     }
     decoderInputs
@@ -331,23 +369,29 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
         var logitPenalty = 1.0
         if (logits(i)(prevInputId) < 0) {
           logitPenalty = repetitionPenalty
-        }
-        else {
+        } else {
           logitPenalty = 1 / repetitionPenalty
         }
-        nextTokenLogit = nextTokenLogit.updated(prevInputId, (logitPenalty * nextTokenLogit(prevInputId)).toFloat)
+        nextTokenLogit = nextTokenLogit.updated(
+          prevInputId.toInt,
+          (logitPenalty * nextTokenLogit(prevInputId.toInt)).toFloat)
       }
       nextTokenLogits(i) = nextTokenLogit
     }
     nextTokenLogits
   }
 
-  private def calcBannedNgramTokens(prevInputIds: Seq[Array[Int]], numHypos: Int, noRepeatNgramSize: Int, curLen: Int): Array[Array[Int]] = {
+  private def calcBannedNgramTokens(
+      prevInputIds: Seq[Array[Long]],
+      numHypos: Int,
+      noRepeatNgramSize: Int,
+      curLen: Int): Array[Array[Long]] = {
     // based on fairseq for noRepeatNgram in beam_search
     if (curLen + 1 < noRepeatNgramSize)
-    // return no banned tokens if we haven't generated noRepeatNgram_size tokens yet
-      return Array.ofDim[Int](numHypos, 0)
-    val generatedNgrams = Array.tabulate(numHypos)(_ => mutable.Map.empty[IndexedSeq[Int], List[Int]])
+      // return no banned tokens if we haven't generated noRepeatNgram_size tokens yet
+      return Array.ofDim[Long](numHypos, 0)
+    val generatedNgrams =
+      Array.tabulate(numHypos)(_ => mutable.Map.empty[IndexedSeq[Long], List[Long]])
     for (idx <- 0 until numHypos) {
       val genTokens = prevInputIds(idx)
       val generatedNgram = generatedNgrams(idx)
@@ -355,32 +399,46 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       for (ngramInd <- ngramArrays.last.indices) {
         val ngram = for (e <- ngramArrays) yield e(ngramInd)
         val prevNgramTuple = ngram.dropRight(1)
-        generatedNgram(prevNgramTuple) = generatedNgram.getOrElse(prevNgramTuple, List.empty[Int]) :+ ngram.last
+        generatedNgram(prevNgramTuple) =
+          generatedNgram.getOrElse(prevNgramTuple, List.empty[Long]) :+ ngram.last
       }
     }
-    (for (hypoIdx <- 0 until numHypos) yield getGeneratedNgrams(prevInputIds, generatedNgrams, hypoIdx, curLen, noRepeatNgramSize)).toArray
+    (for (hypoIdx <- 0 until numHypos)
+      yield getGeneratedNgrams(
+        prevInputIds,
+        generatedNgrams,
+        hypoIdx,
+        curLen,
+        noRepeatNgramSize)).toArray
   }
 
-  def getGeneratedNgrams(prevInputIds: Seq[Array[Int]], generatedNgrams: Array[mutable.Map[IndexedSeq[Int], List[Int]]], hypoIdx: Int, curLen: Int, noRepeatNgramSize: Int): Array[Int] = {
+  def getGeneratedNgrams(
+      prevInputIds: Seq[Array[Long]],
+      generatedNgrams: Array[mutable.Map[IndexedSeq[Long], List[Long]]],
+      hypoIdx: Int,
+      curLen: Int,
+      noRepeatNgramSize: Int): Array[Long] = {
     // Before decoding the next token, prevent decoding of ngrams that have already appeared
     val startIdx = curLen + 1 - noRepeatNgramSize
     val ngramIdx = prevInputIds(hypoIdx).slice(startIdx, curLen)
     generatedNgrams(hypoIdx).getOrElse(ngramIdx, List.empty[Int]).toArray
   }
 
-  private def topKTopPFiltering(logits: Array[Array[Float]], topK: Int, topP: Double, filterValue: Float = Float.NegativeInfinity, minTokensToKeep: Int = 1): Array[Array[Float]] = {
-    /**
-     * Filter a distribution of logits using top-k and/or nucleus (top-p) filtering
-     * *
-     * Args:
-     * logits: logits distribution shape (batch size, vocabulary size)
-     * if topK > 0: keep only top k tokens with highest probability (top-k filtering).
-     * if topP < 1.0: keep the top tokens with cumulative probability >= topP (nucleus filtering).
-     * Nucleus filtering is described in Holtzman et al. (http://arxiv.org/abs/1904.09751)
-     * Make sure we keep at least minTokensToKeep per batch example in the output
-     * From: https://gist.github.com/thomwolf/1a5a29f6962089e871b94cbd09daf317
-     * */
+  private def topKTopPFiltering(
+      logits: Array[Array[Float]],
+      topK: Int,
+      topP: Double,
+      filterValue: Float = Float.NegativeInfinity,
+      minTokensToKeep: Int = 1): Array[Array[Float]] = {
 
+    /** Filter a distribution of logits using top-k and/or nucleus (top-p) filtering * Args:
+      * logits: logits distribution shape (batch size, vocabulary size) if topK > 0: keep only top
+      * k tokens with highest probability (top-k filtering). if topP < 1.0: keep the top tokens
+      * with cumulative probability >= topP (nucleus filtering). Nucleus filtering is described in
+      * Holtzman et al. (http://arxiv.org/abs/1904.09751) Make sure we keep at least
+      * minTokensToKeep per batch example in the output From:
+      * https://gist.github.com/thomwolf/1a5a29f6962089e871b94cbd09daf317
+      */
     var logitsUpd = logits
     val logitsShape = Array(logits.length, logits(0).length)
 
@@ -389,11 +447,13 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
 
       /** Remove all tokens with a probability less than the last token of the top-k */
       val removeLimit = logits(0).sortWith(_ > _).take(topKup).min
-      val indicesToRemove = for (logit <- logits) yield for (elem <- logit) yield if (elem < removeLimit) true else false
+      val indicesToRemove =
+        for (logit <- logits)
+          yield for (elem <- logit) yield if (elem < removeLimit) true else false
 
-      logitsUpd = for ((nextTokenLogit, indexToRemove) <- logits.zip(indicesToRemove)) yield setTensorByIndicesToValue(
-        nextTokenLogit, indexToRemove, Float.NegativeInfinity
-      )
+      logitsUpd =
+        for ((nextTokenLogit, indexToRemove) <- logits.zip(indicesToRemove))
+          yield setTensorByIndicesToValue(nextTokenLogit, indexToRemove, Float.NegativeInfinity)
     }
     if (topP < 1.0) {
       val (sortedLogits, sortedIndices) = logits(0).zipWithIndex.sorted.reverse.unzip
@@ -401,22 +461,35 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       val cumulativeProbs = scanLeft(softmax(sortedLogits))(0.0)(_ + _).drop(1)
 
       /** Remove tokens with cumulative probability above the threshold (token with 0 are kept) */
-      var sortedIndicesToRemove = for (prob <- cumulativeProbs) yield if (prob > topP) true else false
+      var sortedIndicesToRemove =
+        for (prob <- cumulativeProbs)
+          yield if (prob > topP) true else false
 
       if (minTokensToKeep > 1) {
-        /** Keep at least minTokensToKeep (set to minTokensToKeep-1 because we add the first one below) */
-        sortedIndicesToRemove = List.fill(sortedIndicesToRemove.take(minTokensToKeep).length)(false) ++ sortedIndicesToRemove.drop(minTokensToKeep)
+
+        /** Keep at least minTokensToKeep (set to minTokensToKeep-1 because we add the first one
+          * below)
+          */
+        sortedIndicesToRemove = List.fill(sortedIndicesToRemove.take(minTokensToKeep).length)(
+          false) ++ sortedIndicesToRemove.drop(minTokensToKeep)
       }
 
       /** Shift the indices to the right to keep also the first token above the threshold */
-      sortedIndicesToRemove = sortedIndicesToRemove.takeRight(1) ++ sortedIndicesToRemove.dropRight(1)
-      sortedIndicesToRemove = List.fill(sortedIndicesToRemove.take(1).length)(false) ++ sortedIndicesToRemove.drop(1)
+      sortedIndicesToRemove = sortedIndicesToRemove.takeRight(1) ++ sortedIndicesToRemove
+        .dropRight(1)
+      sortedIndicesToRemove =
+        List.fill(sortedIndicesToRemove.take(1).length)(false) ++ sortedIndicesToRemove
+          .drop(1)
 
       /** scatter sorted tensors to original indexing */
       val indicesToRemove = scatterValuesOnBatchIndices(sortedIndicesToRemove, sortedIndices)
-      logitsUpd = for ((nextTokenLogit, indexToRemove) <- logits.zip(IndexedSeq.fill(logits.length)(indicesToRemove))) yield setTensorByIndicesToValue(
-        nextTokenLogit, indexToRemove.toIndexedSeq, Float.NegativeInfinity
-      )
+      logitsUpd =
+        for ((nextTokenLogit, indexToRemove) <- logits.zip(
+            IndexedSeq.fill(logits.length)(indicesToRemove)))
+          yield setTensorByIndicesToValue(
+            nextTokenLogit,
+            indexToRemove.toIndexedSeq,
+            Float.NegativeInfinity)
     }
     logitsUpd
   }
@@ -424,7 +497,9 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
   private def scanLeft[a, b](xs: Iterable[a])(s: b)(f: (b, a) => b) =
     xs.foldLeft(List(s))((acc, x) => f(acc.head, x) :: acc).reverse
 
-  private def scatterValuesOnBatchIndices(values: List[Boolean], batchIndices: Array[Int]): List[Boolean] = {
+  private def scatterValuesOnBatchIndices(
+      values: List[Boolean],
+      batchIndices: Array[Int]): List[Boolean] = {
     // scatter values to pair indices
     val (_, initArray) = batchIndices.zip(values).sorted.unzip
     initArray.toList
@@ -436,12 +511,16 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     expElem.map(_ / total).map(_.toFloat)
   }
 
-  private def setTensorByIndicesToValue(prevInputIds: Array[Float], indices: IndexedSeq[Boolean], value: Float): Array[Float] = {
+  private def setTensorByIndicesToValue(
+      prevInputIds: Array[Float],
+      indices: IndexedSeq[Boolean],
+      value: Float): Array[Float] = {
     for ((inputId, index) <- prevInputIds.zip(indices)) yield if (index) value else inputId
   }
 
   private def categoricalSample(dist: Array[Float], randomSeed: Option[Long]): Int = {
-    val (distFiltered, indices) = dist.zipWithIndex.filter { case (elem, index) => !elem.isInfinite }.sorted.unzip
+    val (distFiltered, indices) =
+      dist.zipWithIndex.filter { case (elem, index) => !elem.isInfinite }.sorted.unzip
 
     if (distFiltered.length == 1)
       return indices(0)

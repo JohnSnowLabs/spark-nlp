@@ -31,35 +31,7 @@ data:
             url:  https://demo.johnsnowlabs.com/public/NER_HINDI_ENGLISH/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_HINDI_ENGLISH.ipynb
-        - title: Recognize entities in Urdu text
-          id: recognize_entities_in_urdu_text
-          image: 
-              src: /assets/images/Flag_of_Pakistan.png
-          image2: 
-              src: /assets/images/Flag_of_Pakistan.png
-          excerpt: Recognize Persons, Locations and other entities using an out of the box pretrained Deep Learning model and language specific embeddings.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/public/NER_UR/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb        
-        - title: Analyze sentiment in Urdu movie reviews
-          id: analyze_sentiment_in_urdu_movie_reviews
-          image: 
-              src: /assets/images/Flag_of_Pakistan.png
-          image2: 
-              src: /assets/images/Flag_of_Pakistan.png
-          excerpt: Detect the general sentiment expressed in a movie review or tweet by using our pretrained Spark NLP sentiment analysis model for Urdu language.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/public/SENTIMENT_UR/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN.ipynb        
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_HINDI_ENGLISH.ipynb                
         - title: Recognize Entities in Bengali
           id: recognize_entities_in_bengali
           image: 
@@ -101,5 +73,47 @@ data:
             url:  https://demo.johnsnowlabs.com/public/INDIAN_TRANSLATION_PUNJABI/
           - text: Colab Netbook
             type: blue_btn
-            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_PIPELINES_MODELS.ipynb        
+            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_PIPELINES_MODELS.ipynb
+        - title: Urdu news classifier 
+          id: urdu_news_classifier  
+          image: 
+              src: /assets/images/Urdu_news_classifier.svg
+          image2: 
+              src: /assets/images/Urdu_news_classifier_f.svg
+          excerpt: This demo shows how to classify Urdu news into different categories, such as Science, Entertainment, etc.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_UR_NEWS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_UR_NEWS.ipynb
+        - title: Urdu fake news classifier
+          id: urdu_fake_news_classifier
+          image: 
+              src: /assets/images/Urdu_fake_news.svg
+          image2: 
+              src: /assets/images/Urdu_fake_news_f.svg
+          excerpt: This demo shows how to detect fake Urdu news.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_UR_NEWS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_UR_NEWS.ipynb   
+        - title: Lemmatizer for Languages of India
+          id: lemmatizer_languages_india
+          image: 
+              src: /assets/images/Lemmatizer_for_Languages_of_India.svg
+          image2: 
+              src: /assets/images/Lemmatizer_for_Languages_of_India_f.svg
+          excerpt: This demo shows how to lemmatize documents of Indian languages.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/LEMMATIZER_INDIAN/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb   
 ---

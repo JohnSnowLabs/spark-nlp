@@ -24,42 +24,47 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
 
-
 trait NormalizerBehaviors { this: AnyFlatSpec =>
 
   def fullNormalizerPipeline(dataset: => Dataset[Row]) {
     "A Normalizer Annotator" should "successfully transform data" taggedAs FastTest in {
-    AnnotatorBuilder.withFullNormalizer(dataset)
-      .collect().foreach {
-      row =>
-        row.getSeq[Row](4)
-          .map(Annotation(_))
-          .foreach {
-            case stem: Annotation if stem.annotatorType == AnnotatorType.TOKEN =>
-              assert(stem.result.nonEmpty, "Annotation result exists")
-            case _ =>
-          }
-      }
+      AnnotatorBuilder
+        .withFullNormalizer(dataset)
+        .collect()
+        .foreach { row =>
+          row
+            .getSeq[Row](4)
+            .map(Annotation(_))
+            .foreach {
+              case stem: Annotation if stem.annotatorType == AnnotatorType.TOKEN =>
+                assert(stem.result.nonEmpty, "Annotation result exists")
+              case _ =>
+            }
+        }
     }
   }
 
   def lowercasingNormalizerPipeline(dataset: => Dataset[Row]) {
     "A case-sensitive Normalizer Annotator" should "successfully transform data" taggedAs FastTest in {
-    AnnotatorBuilder.withCaseSensitiveNormalizer(dataset)
-      .collect().foreach {
-      row =>
-        val tokens = row.getSeq[Row](3).map(Annotation(_)).filterNot(a => a.result == "." || a.result == ",")
-        val normalizedAnnotations = row.getSeq[Row](4).map(Annotation(_))
-        normalizedAnnotations.foreach {
-          case nToken: Annotation if nToken.annotatorType == AnnotatorType.TOKEN =>
-            assert(nToken.result.nonEmpty, "Annotation result exists")
-          case _ =>
+      AnnotatorBuilder
+        .withCaseSensitiveNormalizer(dataset)
+        .collect()
+        .foreach { row =>
+          val tokens = row
+            .getSeq[Row](3)
+            .map(Annotation(_))
+            .filterNot(a => a.result == "." || a.result == ",")
+          val normalizedAnnotations = row.getSeq[Row](4).map(Annotation(_))
+          normalizedAnnotations.foreach {
+            case nToken: Annotation if nToken.annotatorType == AnnotatorType.TOKEN =>
+              assert(nToken.result.nonEmpty, "Annotation result exists")
+            case _ =>
+          }
+          normalizedAnnotations.zip(tokens).foreach {
+            case (nToken: Annotation, token: Annotation) =>
+              assert(nToken.result == token.result.replaceAll("[^a-zA-Z]", ""))
+          }
         }
-        normalizedAnnotations.zip(tokens).foreach {
-          case (nToken: Annotation, token: Annotation) =>
-            assert(nToken.result == token.result.replaceAll("[^a-zA-Z]", ""))
-        }
-      }
     }
   }
 
@@ -78,8 +83,11 @@ trait NormalizerBehaviors { this: AnyFlatSpec =>
         .setInputCols(Array("token"))
         .setOutputCol("normalized")
         .setLowercase(true)
-        .setSlangDictionary(ExternalResource("src/test/resources/spell/slangs.txt",
-                            ReadAs.TEXT, Map("delimiter" -> ",")))
+        .setSlangDictionary(
+          ExternalResource(
+            "src/test/resources/spell/slangs.txt",
+            ReadAs.TEXT,
+            Map("delimiter" -> ",")))
 
       val finisher = new Finisher()
         .setInputCols("normalized")
@@ -89,19 +97,17 @@ trait NormalizerBehaviors { this: AnyFlatSpec =>
         .setValueSplitSymbol("#")
 
       val pipeline = new Pipeline()
-        .setStages(Array(
-          documentAssembler,
-          tokenizer,
-          normalizer,
-          finisher
-        ))
+        .setStages(Array(documentAssembler, tokenizer, normalizer, finisher))
 
       val model = pipeline.fit(DataBuilder.basicDataBuild("dummy"))
       val transform = model.transform(dataset)
-      val normalizedWords = transform.select("normalized_gt",
-        "finished_normalized").map(r => (r.getString(0), r.getString(1))).collect.toSeq
+      val normalizedWords = transform
+        .select("normalized_gt", "finished_normalized")
+        .map(r => (r.getString(0), r.getString(1)))
+        .collect
+        .toSeq
 
-      normalizedWords.foreach( words => {
+      normalizedWords.foreach(words => {
         assert(words._1 == words._2)
       })
     }
@@ -132,23 +138,20 @@ trait NormalizerBehaviors { this: AnyFlatSpec =>
         .setValueSplitSymbol("#")
 
       val pipeline = new Pipeline()
-        .setStages(Array(
-          documentAssembler,
-          tokenizer,
-          normalizer,
-          finisher
-        ))
+        .setStages(Array(documentAssembler, tokenizer, normalizer, finisher))
 
       val model = pipeline.fit(DataBuilder.basicDataBuild("dummy"))
       val transform = model.transform(dataset)
-      val normalizedWords = transform.select("normalized_gt",
-        "finished_normalized").map(r => (r.getString(0), r.getString(1))).collect.toSeq
+      val normalizedWords = transform
+        .select("normalized_gt", "finished_normalized")
+        .map(r => (r.getString(0), r.getString(1)))
+        .collect
+        .toSeq
 
-      normalizedWords.foreach( words => {
+      normalizedWords.foreach(words => {
         assert(words._1 == words._2)
       })
     }
   }
-
 
 }

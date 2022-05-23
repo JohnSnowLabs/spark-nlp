@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer</title>
-          <meta name="description" content="Spark NLP 3.4.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer" />
-          <meta name="keywords" content="Spark NLP 3.4.0 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -215,32 +215,38 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>GPT-2: the OpenAI Text-To-Text Transformer</p><p>GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million
-web pages. GPT-2 is trained with a simple objective: predict the next word, given all of the previous words within
-some text. The diversity of the dataset causes this simple goal to contain naturally occurring demonstrations of
-many tasks across diverse domains. GPT-2 is a direct scale-up of GPT, with more than 10X the parameters and trained
-on more than 10X the amount of data.</p><p>GPT-2 displays a broad set of capabilities, including the ability to generate conditional synthetic text samples of
-unprecedented quality, where we prime the model with an input and have it generate a lengthy continuation. In
-addition, GPT-2 outperforms other language models trained on specific domains (like Wikipedia, news, or books)
-without needing to use these domain-specific training datasets. On language tasks like question answering, reading
-comprehension, summarization, and translation, GPT-2 begins to learn these tasks from the raw text, using no
-task-specific training data. While scores on these downstream tasks are far from state-of-the-art, they suggest
-that the tasks can benefit from unsupervised techniques, given sufficient (unlabeled) data and compute.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> gpt2 = GPT2Transformer.pretrained()
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>GPT-2: the OpenAI Text-To-Text Transformer</p><p>GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a
+dataset of 8 million web pages. GPT-2 is trained with a simple objective: predict the next
+word, given all of the previous words within some text. The diversity of the dataset causes
+this simple goal to contain naturally occurring demonstrations of many tasks across diverse
+domains. GPT-2 is a direct scale-up of GPT, with more than 10X the parameters and trained on
+more than 10X the amount of data.</p><p>GPT-2 displays a broad set of capabilities, including the ability to generate conditional
+synthetic text samples of unprecedented quality, where we prime the model with an input and
+have it generate a lengthy continuation. In addition, GPT-2 outperforms other language models
+trained on specific domains (like Wikipedia, news, or books) without needing to use these
+domain-specific training datasets. On language tasks like question answering, reading
+comprehension, summarization, and translation, GPT-2 begins to learn these tasks from the raw
+text, using no task-specific training data. While scores on these downstream tasks are far
+from state-of-the-art, they suggest that the tasks can benefit from unsupervised techniques,
+given sufficient (unlabeled) data and compute.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> gpt2 = GPT2Transformer.pretrained()
   .setInputCols(<span class="lit">"document"</span>)
-  .setOutputCol(<span class="lit">"generation"</span>)</pre><p>The default model is <code>&quot;gpt2&quot;</code>, if no name is provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?q=gpt2" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/GPT2TestSpec.scala" target="_blank">GPT2TestSpec</a>.</p><p><b>Sources:</b></p><ul><li><a href="https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf" target="_blank">Language Models are Unsupervised Multitask Learners</a></li><li><a href="https://github.com/openai/gpt-2" target="_blank">https://github.com/openai/gpt-2</a></li></ul><p><b>Paper Abstract:</b></p><p><i>Natural language processing tasks, such as question answering, machine translation, reading comprehension, and
-summarization, are typically approached with supervised learning on taskspecific datasets. We demonstrate that
-language models begin to learn these tasks without any explicit supervision when trained on a new dataset
-of millions of webpages called WebText. When conditioned on a document plus questions, the answers generated by
-the language model reach F1 on the CoQA dataset - matching or exceeding the performance of 3 out of 4 baseline
-systems without using the 127,000+ training examples. The capacity of the language model is essential to the
-success of zero-shot task transfer and increasing it improves performance in a log-linear fashion across tasks.
-Our largest model, GPT-2, is a 1.5B parameter Transformer that achieves state of the art results on 7 out of 8
-tested language modeling datasets in a zero-shot setting but still underfits WebText. Samples from the model
-reflect these improvements and contain coherent paragraphs of text. These findings suggest a promising path
-towards building language processing systems which learn to perform tasks from their naturally occurring
-demonstrations.</i></p><p><b>Note:</b></p><p>This is a very computationally expensive module especially on larger sequence.
-The use of an accelerator such as GPU is recommended.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+  .setOutputCol(<span class="lit">"generation"</span>)</pre><p>The default model is <code>&quot;gpt2&quot;</code>, if no name is provided. For available pretrained models please
+see the <a href="https://nlp.johnsnowlabs.com/models?q=gpt2" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/GPT2TestSpec.scala" target="_blank">GPT2TestSpec</a>.</p><p><b>Sources:</b></p><ul><li><a href="https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf" target="_blank">Language Models are Unsupervised Multitask Learners</a></li><li><a href="https://github.com/openai/gpt-2" target="_blank">https://github.com/openai/gpt-2</a></li></ul><p><b>Paper Abstract:</b></p><p><i>Natural language processing tasks, such as question answering, machine translation, reading
+comprehension, and summarization, are typically approached with supervised learning on
+taskspecific datasets. We demonstrate that language models begin to learn these tasks without
+any explicit supervision when trained on a new dataset of millions of webpages called WebText.
+When conditioned on a document plus questions, the answers generated by the language model
+reach F1 on the CoQA dataset - matching or exceeding the performance of 3 out of 4 baseline
+systems without using the 127,000+ training examples. The capacity of the language model is
+essential to the success of zero-shot task transfer and increasing it improves performance in
+a log-linear fashion across tasks. Our largest model, GPT-2, is a 1.5B parameter Transformer
+that achieves state of the art results on 7 out of 8 tested language modeling datasets in a
+zero-shot setting but still underfits WebText. Samples from the model reflect these
+improvements and contain coherent paragraphs of text. These findings suggest a promising path
+towards building language processing systems which learn to perform tasks from their naturally
+occurring demonstrations.</i></p><p><b>Note:</b></p><p>This is a very computationally expensive module especially on larger sequence. The use of an
+accelerator such as GPU is recommended.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
@@ -351,7 +357,8 @@ results.select(<span class="lit">"generation.result"</span>).show(truncate = <sp
         <span class="name">GPT2Transformer</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>required uid for storing annotator to disk</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>
+  required uid for storing annotator to disk</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -372,10 +379,10 @@ results.select(<span class="lit">"generation.result"</span>).show(truncate = <sp
         <span class="name">AnnotationContent</span><span class="result alias"> = <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="org.apache.spark.sql.Row">Row</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">internal types to show Rows as a relevant StructType
-Should be deleted once Spark releases UserDefinedTypes to @developerAPI
-</p><div class="fullcomment"><div class="comment cmt"><p>internal types to show Rows as a relevant StructType
-Should be deleted once Spark releases UserDefinedTypes to @developerAPI
+      <p class="shortcomment cmt">internal types to show Rows as a relevant StructType Should be deleted once Spark releases
+UserDefinedTypes to @developerAPI
+</p><div class="fullcomment"><div class="comment cmt"><p>internal types to show Rows as a relevant StructType Should be deleted once Spark releases
+UserDefinedTypes to @developerAPI
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotatorType.AnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="AnnotatorType=String"></a><a id="AnnotatorType:AnnotatorType"></a>
@@ -592,9 +599,14 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">batchAnnotate</span><span class="params">(<span name="batchedAnnotations">batchedAnnotations: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<a href="../../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Seq">Seq</span>[<a href="../../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]]</span>
       </span>
       
-      <p class="shortcomment cmt">takes a document and annotations and produces new annotations of this annotator's annotation type
-</p><div class="fullcomment"><div class="comment cmt"><p>takes a document and annotations and produces new annotations of this annotator's annotation type
-</p></div><dl class="paramcmts block"><dt class="param">batchedAnnotations</dt><dd class="cmt"><p>Annotations that correspond to inputAnnotationCols generated by previous annotators if any</p></dd><dt>returns</dt><dd class="cmt"><p>any number of annotations processed for every input annotation. Not necessary one to one relationship</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer">GPT2Transformer</a> → <a href="../../HasBatchedAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotate">HasBatchedAnnotate</a></dd></dl></div>
+      <p class="shortcomment cmt">takes a document and annotations and produces new annotations of this annotator's annotation
+type
+</p><div class="fullcomment"><div class="comment cmt"><p>takes a document and annotations and produces new annotations of this annotator's annotation
+type
+</p></div><dl class="paramcmts block"><dt class="param">batchedAnnotations</dt><dd class="cmt"><p>
+  Annotations that correspond to inputAnnotationCols generated by previous annotators if any</p></dd><dt>returns</dt><dd class="cmt"><p>
+  any number of annotations processed for every input annotation. Not necessary one to one
+  relationship</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer">GPT2Transformer</a> → <a href="../../HasBatchedAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotate">HasBatchedAnnotate</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasBatchedAnnotate#batchProcess" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="batchProcess(rows:Iterator[_]):Iterator[org.apache.spark.sql.Row]"></a><a id="batchProcess(Iterator[_]):Iterator[Row]"></a>
       <span class="permalink">
@@ -715,7 +727,8 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">configProtoBytes</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntArrayParam">IntArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">ConfigProto from tensorflow, serialized into byte array.</p><div class="fullcomment"><div class="comment cmt"><p>ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+      <p class="shortcomment cmt">ConfigProto from tensorflow, serialized into byte array.</p><div class="fullcomment"><div class="comment cmt"><p>ConfigProto from tensorflow, serialized into byte array. Get with
+config_proto.SerializeToString()
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.RawAnnotator#copy" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="copy(extra:org.apache.spark.ml.param.ParamMap):M"></a><a id="copy(ParamMap):GPT2Transformer"></a>
@@ -1501,10 +1514,10 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">inputCols</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
-</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
+      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
+</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isDefined(Param[_]):Boolean"></a>
@@ -2046,8 +2059,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">repetitionPenalty</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.DoubleParam">DoubleParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">The parameter for repetition penalty (Default: <code>1.0</code>).</p><div class="fullcomment"><div class="comment cmt"><p>The parameter for repetition penalty (Default: <code>1.0</code>).
-<code>1.0</code> means no penalty. See <a href="https://arxiv.org/pdf/1909.05858.pdf" target="_blank">this paper</a> for more details.
+      <p class="shortcomment cmt">The parameter for repetition penalty (Default: <code>1.0</code>).</p><div class="fullcomment"><div class="comment cmt"><p>The parameter for repetition penalty (Default: <code>1.0</code>). <code>1.0</code> means no penalty. See
+<a href="https://arxiv.org/pdf/1909.05858.pdf" target="_blank">this paper</a> for more details.
 </p></div></div>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
@@ -2702,7 +2715,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">topK</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">The number of highest probability vocabulary tokens to keep for top-k-filtering (Default: <code>50</code>)
+      <p class="shortcomment cmt">The number of highest probability vocabulary tokens to keep for top-k-filtering (Default:
+<code>50</code>)
 </p>
     </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer#topP" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="topP:org.apache.spark.ml.param.DoubleParam"></a><a id="topP:DoubleParam"></a>
@@ -2719,8 +2733,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">topP</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.DoubleParam">DoubleParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">If set to float &lt; <code>1.0</code>, only the most probable tokens with probabilities that add up to <code>topP</code> or higher are kept
-for generation (Default: <code>1.0</code>)
+      <p class="shortcomment cmt">If set to float &lt; <code>1.0</code>, only the most probable tokens with probabilities that add up to
+<code>topP</code> or higher are kept for generation (Default: <code>1.0</code>)
 </p>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorModel#transform" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="transform(dataset:org.apache.spark.sql.Dataset[_]):org.apache.spark.sql.DataFrame"></a><a id="transform(Dataset[_]):DataFrame"></a>
@@ -2738,12 +2752,15 @@ for generation (Default: <code>1.0</code>)
       </span>
       
       <p class="shortcomment cmt">Given requirements are met, this applies ML transformation within a Pipeline or stand-alone
-Output annotation will be generated as a new column, previous annotations are still available separately
-metadata is built at schema level to record annotations structural information outside its content
+Output annotation will be generated as a new column, previous annotations are still
+available separately metadata is built at schema level to record annotations structural
+information outside its content
 </p><div class="fullcomment"><div class="comment cmt"><p>Given requirements are met, this applies ML transformation within a Pipeline or stand-alone
-Output annotation will be generated as a new column, previous annotations are still available separately
-metadata is built at schema level to record annotations structural information outside its content
-</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p><span class="extype" name="Dataset[Row">Dataset[Row</span>]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a> → Transformer</dd></dl></div>
+Output annotation will be generated as a new column, previous annotations are still
+available separately metadata is built at schema level to record annotations structural
+information outside its content
+</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>
+  <span class="extype" name="Dataset[Row">Dataset[Row</span>]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a> → Transformer</dd></dl></div>
     </li><li name="org.apache.spark.ml.Transformer#transform" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="transform(dataset:org.apache.spark.sql.Dataset[_],paramMap:org.apache.spark.ml.param.ParamMap):org.apache.spark.sql.DataFrame"></a><a id="transform(Dataset[_],ParamMap):DataFrame"></a>
       <span class="permalink">
@@ -2857,7 +2874,9 @@ metadata is built at schema level to record annotations structural information o
       </span>
       
       <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.
-</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>
+  to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>
+  True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer#vocabulary" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="vocabulary:com.johnsnowlabs.nlp.serialization.MapFeature[String,Int]"></a><a id="vocabulary:MapFeature[String,Int]"></a>
       <span class="permalink">
@@ -3084,7 +3103,9 @@ metadata is built at schema level to record annotations structural information o
         <div id="groupedMembers">
         <div class="group" name="param">
               <h3>Parameters</h3>
-              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
+              <div class="comment cmt"><p>
+  A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  parameter values through setters and getters, respectively.</p></div>
             </div><div class="group" name="Ungrouped">
               <h3>Members</h3>
               

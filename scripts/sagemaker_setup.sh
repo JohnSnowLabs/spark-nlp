@@ -1,14 +1,14 @@
 #!/bin/bash
 
+# Default values for pyspark, spark-nlp, and SPARK_HOME
+SPARKNLP="4.0.0"
+PYSPARK="3.2.1"
+
 echo "Setup SageMaker for PySpark $PYSPARK and Spark NLP $SPARKNLP"
 
 # Java setup on SageMaker
 JAVA_8=$(alternatives --display java | grep 'jre-1.8.0-openjdk.x86_64/bin/java' | cut -d' ' -f1)
 sudo alternatives --set java $JAVA_8
-
-# Default values for pyspark, spark-nlp, and SPARK_HOME
-SPARKNLP="3.4.0"
-PYSPARK="3.1.2"
 
 SPARK_FOLDER_NAME="spark-$PYSPARK-bin-hadoop2.7"
 LOCAL_ROOT_DIR="/home/ec2-user/SageMaker"

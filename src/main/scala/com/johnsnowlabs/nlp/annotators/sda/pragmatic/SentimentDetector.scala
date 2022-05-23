@@ -25,19 +25,21 @@ import org.apache.spark.ml.param.{BooleanParam, DoubleParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
-/**
-  * Trains a rule based sentiment detector, which calculates a score based on predefined keywords.
+/** Trains a rule based sentiment detector, which calculates a score based on predefined keywords.
   *
-  * A dictionary of predefined sentiment keywords must be provided with `setDictionary`, where each line is a word
-  * delimited to its class (either `positive` or `negative`).
-  * The dictionary can be set in either in the form of a delimited text file or directly as an
+  * A dictionary of predefined sentiment keywords must be provided with `setDictionary`, where
+  * each line is a word delimited to its class (either `positive` or `negative`). The dictionary
+  * can be set in either in the form of a delimited text file or directly as an
   * [[com.johnsnowlabs.nlp.util.io.ExternalResource ExternalResource]].
   *
-  * By default, the sentiment score will be assigned labels `"positive"` if the score is `>= 0`, else `"negative"`.
-  * To retrieve the raw sentiment scores, `enableScore` needs to be set to `true`.
+  * By default, the sentiment score will be assigned labels `"positive"` if the score is `>= 0`,
+  * else `"negative"`. To retrieve the raw sentiment scores, `enableScore` needs to be set to
+  * `true`.
   *
-  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dictionary-sentiment/sentiment.ipynb Spark NLP Workshop]]
-  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/PragmaticSentimentTestSpec.scala SentimentTestSpec]].
+  * For extended examples of usage, see the
+  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dictionary-sentiment/sentiment.ipynb Spark NLP Workshop]]
+  * and the
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/PragmaticSentimentTestSpec.scala SentimentTestSpec]].
   *
   * ==Example==
   * In this example, the dictionary `default-sentiment-dict.txt` has the form of
@@ -99,10 +101,14 @@ import org.apache.spark.sql.Dataset
   * +----------+  //  +------+
   * }}}
   *
-  * @see [[com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach ViveknSentimentApproach]] for an alternative approach to sentiment extraction
-  * @param uid internal uid needed for saving annotator to disk
+  * @see
+  *   [[com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach ViveknSentimentApproach]]
+  *   for an alternative approach to sentiment extraction
+  * @param uid
+  *   internal uid needed for saving annotator to disk
   * @groupname anno Annotator types
-  * @groupdesc anno Required input and expected output annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
   * @groupname Ungrouped Members
   * @groupname param Parameters
   * @groupname setParam Parameter setters
@@ -113,19 +119,23 @@ import org.apache.spark.sql.Dataset
   * @groupprio Ungrouped 3
   * @groupprio setParam  4
   * @groupprio getParam  5
-  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
   */
-class SentimentDetector(override val uid: String) extends AnnotatorApproach[SentimentDetectorModel] {
+class SentimentDetector(override val uid: String)
+    extends AnnotatorApproach[SentimentDetectorModel] {
 
   /** Output annotation type : SENTIMENT
     *
     * @group anno
-    **/
+    */
   override val outputAnnotatorType: AnnotatorType = SENTIMENT
+
   /** Input annotation type : TOKEN, DOCUMENT
     *
     * @group anno
-    **/
+    */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
 
   /** Rule based sentiment detector */
@@ -136,33 +146,56 @@ class SentimentDetector(override val uid: String) extends AnnotatorApproach[Sent
   /** Multiplier for positive sentiments (Default: `1.0`)
     *
     * @group param
-    **/
-  val positiveMultiplier = new DoubleParam(this, "positiveMultiplier", "multiplier for positive sentiments. Defaults 1.0")
+    */
+  val positiveMultiplier = new DoubleParam(
+    this,
+    "positiveMultiplier",
+    "multiplier for positive sentiments. Defaults 1.0")
+
   /** Multiplier for negative sentiments (Default: `-1.0`)
     *
     * @group param
-    **/
-  val negativeMultiplier = new DoubleParam(this, "negativeMultiplier", "multiplier for negative sentiments. Defaults -1.0")
+    */
+  val negativeMultiplier = new DoubleParam(
+    this,
+    "negativeMultiplier",
+    "multiplier for negative sentiments. Defaults -1.0")
+
   /** Multiplier for increment sentiments (Default: `2.0`)
     *
     * @group param
-    **/
-  val incrementMultiplier = new DoubleParam(this, "incrementMultiplier", "multiplier for increment sentiments. Defaults 2.0")
+    */
+  val incrementMultiplier = new DoubleParam(
+    this,
+    "incrementMultiplier",
+    "multiplier for increment sentiments. Defaults 2.0")
+
   /** Multiplier for decrement sentiments (Default: `-2.0`)
     *
     * @group param
-    **/
-  val decrementMultiplier = new DoubleParam(this, "decrementMultiplier", "multiplier for decrement sentiments. Defaults -2.0")
+    */
+  val decrementMultiplier = new DoubleParam(
+    this,
+    "decrementMultiplier",
+    "multiplier for decrement sentiments. Defaults -2.0")
+
   /** Multiplier for revert sentiments (Default: `-1.0`)
     *
     * @group param
-    **/
-  val reverseMultiplier = new DoubleParam(this, "reverseMultiplier", "multiplier for revert sentiments. Defaults -1.0")
-  /** If true, score will show as the double value, else will output string `"positive"` or `"negative"` (Default: `false`)
+    */
+  val reverseMultiplier =
+    new DoubleParam(this, "reverseMultiplier", "multiplier for revert sentiments. Defaults -1.0")
+
+  /** If true, score will show as the double value, else will output string `"positive"` or
+    * `"negative"` (Default: `false`)
     *
     * @group param
-    **/
-  val enableScore = new BooleanParam(this, "enableScore", "If true, score will show as the double value, else will output string \"positive\" or \"negative\". Defaults false")
+    */
+  val enableScore = new BooleanParam(
+    this,
+    "enableScore",
+    "If true, score will show as the double value, else will output string \"positive\" or \"negative\". Defaults false")
+
   /** Delimited file with a list sentiment tags per word (either `positive` or `negative`).
     * Requires '`delimiter`' in `options`.
     * ==Example==
@@ -175,8 +208,11 @@ class SentimentDetector(override val uid: String) extends AnnotatorApproach[Sent
     * where the '`delimiter`' options was set with `Map("delimiter" -> ",")`
     *
     * @group param
-    * */
-  val dictionary = new ExternalResourceParam(this, "dictionary", "delimited file with a list sentiment tags per word. Requires 'delimiter' in options")
+    */
+  val dictionary = new ExternalResourceParam(
+    this,
+    "dictionary",
+    "delimited file with a list sentiment tags per word. Requires 'delimiter' in options")
 
   setDefault(
     positiveMultiplier -> 1.0,
@@ -184,65 +220,72 @@ class SentimentDetector(override val uid: String) extends AnnotatorApproach[Sent
     incrementMultiplier -> 2.0,
     decrementMultiplier -> -2.0,
     reverseMultiplier -> -1.0,
-    enableScore -> false
-  )
+    enableScore -> false)
 
   /** Multiplier for positive sentiments (Default: `1.0`)
     *
     * @group param
-    **/
+    */
   def setPositiveMultiplier(v: Double): this.type = set(positiveMultiplier, v)
 
   /** Multiplier for negative sentiments (Default: `-1.0`)
     *
     * @group param
-    **/
+    */
   def setNegativeMultiplier(v: Double): this.type = set(negativeMultiplier, v)
 
   /** Multiplier for increment sentiments (Default: `2.0`)
     *
     * @group param
-    **/
+    */
   def setIncrementMultiplier(v: Double): this.type = set(incrementMultiplier, v)
 
   /** Multiplier for decrement sentiments (Default: `-2.0`)
     *
     * @group param
-    **/
+    */
   def setDecrementMultiplier(v: Double): this.type = set(decrementMultiplier, v)
 
   /** Multiplier for revert sentiments (Default: `-1.0`)
     *
     * @group param
-    **/
+    */
   def setReverseMultiplier(v: Double): this.type = set(reverseMultiplier, v)
 
-  /** If true, score will show as the double value, else will output string `"positive"` or `"negative"` (Default: `false`)
+  /** If true, score will show as the double value, else will output string `"positive"` or
+    * `"negative"` (Default: `false`)
     *
     * @group param
-    **/
+    */
   def setEnableScore(v: Boolean): this.type = set(enableScore, v)
 
-  /** Delimited file with a list sentiment tags per word. Requires 'delimiter' in options. Dictionary needs 'delimiter' in order to separate words from sentiment tags
+  /** Delimited file with a list sentiment tags per word. Requires 'delimiter' in options.
+    * Dictionary needs 'delimiter' in order to separate words from sentiment tags
     *
     * @group param
-    **/
+    */
   def setDictionary(value: ExternalResource): this.type = {
-    require(value.options.contains("delimiter"), "dictionary needs 'delimiter' in order to separate words from sentiment tags")
+    require(
+      value.options.contains("delimiter"),
+      "dictionary needs 'delimiter' in order to separate words from sentiment tags")
     set(dictionary, value)
   }
 
-  /** Delimited file with a list sentiment tags per word. Requires 'delimiter' in options. Dictionary needs 'delimiter' in order to separate words from sentiment tags
+  /** Delimited file with a list sentiment tags per word. Requires 'delimiter' in options.
+    * Dictionary needs 'delimiter' in order to separate words from sentiment tags
     *
     * @group param
-    **/
-  def setDictionary(path: String,
-                    delimiter: String,
-                    readAs: ReadAs.Format,
-                    options: Map[String, String] = Map("format" -> "text")): this.type =
+    */
+  def setDictionary(
+      path: String,
+      delimiter: String,
+      readAs: ReadAs.Format,
+      options: Map[String, String] = Map("format" -> "text")): this.type =
     set(dictionary, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): SentimentDetectorModel = {
+  override def train(
+      dataset: Dataset[_],
+      recursivePipeline: Option[PipelineModel]): SentimentDetectorModel = {
     new SentimentDetectorModel()
       .setIncrementMultipler($(incrementMultiplier))
       .setDecrementMultipler($(decrementMultiplier))
@@ -254,7 +297,8 @@ class SentimentDetector(override val uid: String) extends AnnotatorApproach[Sent
   }
 
 }
-/**
- * This is the companion object of [[SentimentDetector]]. Please refer to that class for the documentation.
- */
+
+/** This is the companion object of [[SentimentDetector]]. Please refer to that class for the
+  * documentation.
+  */
 object SentimentDetector extends DefaultParamsReadable[SentimentDetector]

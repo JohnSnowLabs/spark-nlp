@@ -21,6 +21,13 @@ docker run --pull=always -p 5000:5000 johnsnowlabs/nlp-server:latest
 ```
 This will check if the latest docker image is available on your local machine and if not it will automatically download and run it. 
 
+If you want to keep downloaded models between restarts of the docker image, you can mount a volume.
+```shell
+mkdir /var/cache_pretrained
+chown 1000:1000 /var/cache_pretrained
+docker run --pull=always -v /var/cache_pretrained:/home/johnsnowlabs/cache_pretrained -p 5000:5000 johnsnowlabs/nlp-server:latest
+```
+
 ## Deploy on AWS
 
 The steps you need to follow for deploying NLP Server on AWS are illustrated below. First make sure you have a valid AWS account and log in to AWS Marketplace using your credentials. 

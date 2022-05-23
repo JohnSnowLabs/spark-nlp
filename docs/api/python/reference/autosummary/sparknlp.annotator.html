@@ -6,10 +6,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>sparknlp.annotator &#8212; Spark NLP 3.4.0 documentation</title>
+    <title>sparknlp.annotator &#8212; Spark NLP 3.4.4 documentation</title>
     
-  <link href="../../static/css/theme.css" rel="stylesheet">
-  <link href="../../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -19,15 +20,11 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/css/blank.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
     
-  <link rel="preload" as="script" href="../../static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
@@ -46,7 +43,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -123,7 +120,8 @@
           
             
             <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+            <div class="col-12 col-md-3 bd-sidebar">
+              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -185,6 +183,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.CamemBertEmbeddings.html">
+     sparknlp.annotator.CamemBertEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.ChunkEmbeddings.html">
      sparknlp.annotator.ChunkEmbeddings
     </a>
@@ -232,6 +235,21 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.DateMatcherUtils.html">
      sparknlp.annotator.DateMatcherUtils
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DeBertaEmbeddings.html">
+     sparknlp.annotator.DeBertaEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DeBertaForSequenceClassification.html">
+     sparknlp.annotator.DeBertaForSequenceClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DeBertaForTokenClassification.html">
+     sparknlp.annotator.DeBertaForTokenClassification
     </a>
    </li>
    <li class="toctree-l2">
@@ -840,6 +858,9 @@
 
   </div>
 </nav>
+              </div>
+              <div class="sidebar-end-items">
+              </div>
             </div>
             
           
@@ -873,11 +894,11 @@
               <div>
                 
   <section id="module-sparknlp.annotator">
-<span id="sparknlp-annotator"></span><h1>sparknlp.annotator<a class="headerlink" href="#module-sparknlp.annotator" title="Permalink to this headline">¶</a></h1>
+<span id="sparknlp-annotator"></span><h1>sparknlp.annotator<a class="headerlink" href="#module-sparknlp.annotator" title="Permalink to this headline">#</a></h1>
 <p>Module containing all available Annotators of Spark NLP and their base
 classes.</p>
 <p class="rubric">Classes</p>
-<table class="longtable table autosummary">
+<table class="autosummary longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -910,35 +931,47 @@ classes.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.BigTextMatcherModel.html#sparknlp.annotator.BigTextMatcherModel" title="sparknlp.annotator.BigTextMatcherModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BigTextMatcherModel</span></code></a></p></td>
 <td><p>Instantiated model of the BigTextMatcher.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.ChunkEmbeddings.html#sparknlp.annotator.ChunkEmbeddings" title="sparknlp.annotator.ChunkEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkEmbeddings</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.CamemBertEmbeddings.html#sparknlp.annotator.CamemBertEmbeddings" title="sparknlp.annotator.CamemBertEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CamemBertEmbeddings</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.ChunkEmbeddings.html#sparknlp.annotator.ChunkEmbeddings" title="sparknlp.annotator.ChunkEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkEmbeddings</span></code></a></p></td>
 <td><p>This annotator utilizes WordEmbeddings, BertEmbeddings etc.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.ChunkTokenizer.html#sparknlp.annotator.ChunkTokenizer" title="sparknlp.annotator.ChunkTokenizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkTokenizer</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.ChunkTokenizer.html#sparknlp.annotator.ChunkTokenizer" title="sparknlp.annotator.ChunkTokenizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkTokenizer</span></code></a></p></td>
 <td><p>Tokenizes and flattens extracted NER chunks.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.ChunkTokenizerModel.html#sparknlp.annotator.ChunkTokenizerModel" title="sparknlp.annotator.ChunkTokenizerModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkTokenizerModel</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.ChunkTokenizerModel.html#sparknlp.annotator.ChunkTokenizerModel" title="sparknlp.annotator.ChunkTokenizerModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkTokenizerModel</span></code></a></p></td>
 <td><p>Instantiated model of the ChunkTokenizer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.Chunker.html#sparknlp.annotator.Chunker" title="sparknlp.annotator.Chunker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Chunker</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.Chunker.html#sparknlp.annotator.Chunker" title="sparknlp.annotator.Chunker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Chunker</span></code></a></p></td>
 <td><p>This annotator matches a pattern of part-of-speech tags in order to return meaningful phrases from document.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.ClassifierDLApproach.html#sparknlp.annotator.ClassifierDLApproach" title="sparknlp.annotator.ClassifierDLApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ClassifierDLApproach</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.ClassifierDLApproach.html#sparknlp.annotator.ClassifierDLApproach" title="sparknlp.annotator.ClassifierDLApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ClassifierDLApproach</span></code></a></p></td>
 <td><p>Trains a ClassifierDL for generic Multi-class Text Classification.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.ClassifierDLModel.html#sparknlp.annotator.ClassifierDLModel" title="sparknlp.annotator.ClassifierDLModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ClassifierDLModel</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.ClassifierDLModel.html#sparknlp.annotator.ClassifierDLModel" title="sparknlp.annotator.ClassifierDLModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ClassifierDLModel</span></code></a></p></td>
 <td><p>ClassifierDL for generic Multi-class Text Classification.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.ContextSpellCheckerApproach.html#sparknlp.annotator.ContextSpellCheckerApproach" title="sparknlp.annotator.ContextSpellCheckerApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ContextSpellCheckerApproach</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.ContextSpellCheckerApproach.html#sparknlp.annotator.ContextSpellCheckerApproach" title="sparknlp.annotator.ContextSpellCheckerApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ContextSpellCheckerApproach</span></code></a></p></td>
 <td><p>Trains a deep-learning based Noisy Channel Model Spell Algorithm.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.ContextSpellCheckerModel.html#sparknlp.annotator.ContextSpellCheckerModel" title="sparknlp.annotator.ContextSpellCheckerModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ContextSpellCheckerModel</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.ContextSpellCheckerModel.html#sparknlp.annotator.ContextSpellCheckerModel" title="sparknlp.annotator.ContextSpellCheckerModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ContextSpellCheckerModel</span></code></a></p></td>
 <td><p>Implements a deep-learning based Noisy Channel Model Spell Algorithm.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.DateMatcher.html#sparknlp.annotator.DateMatcher" title="sparknlp.annotator.DateMatcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DateMatcher</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.DateMatcher.html#sparknlp.annotator.DateMatcher" title="sparknlp.annotator.DateMatcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DateMatcher</span></code></a></p></td>
 <td><p>Matches standard date formats into a provided format Reads from different forms of date and time expressions and converts them to a provided date format.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.DateMatcherUtils.html#sparknlp.annotator.DateMatcherUtils" title="sparknlp.annotator.DateMatcherUtils"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DateMatcherUtils</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.DateMatcherUtils.html#sparknlp.annotator.DateMatcherUtils" title="sparknlp.annotator.DateMatcherUtils"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DateMatcherUtils</span></code></a></p></td>
 <td><p>Base class for DateMatcher Annotators</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.DeBertaEmbeddings.html#sparknlp.annotator.DeBertaEmbeddings" title="sparknlp.annotator.DeBertaEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DeBertaEmbeddings</span></code></a></p></td>
+<td><p>The DeBERTa model was proposed in DeBERTa: Decoding-enhanced BERT with Disentangled Attention by Pengcheng He, Xiaodong Liu, Jianfeng Gao, Weizhu Chen It is based on Google’s BERT model released in 2018 and Facebook’s RoBERTa model released in 2019.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.DeBertaForSequenceClassification.html#sparknlp.annotator.DeBertaForSequenceClassification" title="sparknlp.annotator.DeBertaForSequenceClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DeBertaForSequenceClassification</span></code></a></p></td>
+<td><p>DeBertaForSequenceClassification can load DeBERTa v2 &amp; v3 Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.DeBertaForTokenClassification.html#sparknlp.annotator.DeBertaForTokenClassification" title="sparknlp.annotator.DeBertaForTokenClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DeBertaForTokenClassification</span></code></a></p></td>
+<td><p>DeBertaForTokenClassification can load DeBERTa v2&amp;v3 Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.DependencyParserApproach.html#sparknlp.annotator.DependencyParserApproach" title="sparknlp.annotator.DependencyParserApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DependencyParserApproach</span></code></a></p></td>
 <td><p>Trains an unlabeled parser that finds a grammatical relations between two words in a sentence.</p></td>
@@ -1079,7 +1112,7 @@ classes.</p>
 <td><p>Sentence-level embeddings using RoBERTa.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.SentenceDetector.html#sparknlp.annotator.SentenceDetector" title="sparknlp.annotator.SentenceDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentenceDetector</span></code></a></p></td>
-<td><p>Annotator that detects sentence boundaries using any provided approach.</p></td>
+<td><p>Annotator that detects sentence boundaries using regular expressions.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.SentenceDetectorDLApproach.html#sparknlp.annotator.SentenceDetectorDLApproach" title="sparknlp.annotator.SentenceDetectorDLApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentenceDetectorDLApproach</span></code></a></p></td>
 <td><p>Trains an annotator that detects sentence boundaries using a deep learning approach.</p></td>
@@ -1201,7 +1234,7 @@ classes.</p>
               
               
               <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
+<div class='prev-next-area'>
     <a class='left-prev' id="prev-link" href="../index.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -1224,7 +1257,8 @@ classes.</p>
       </div>
     </div>
   
-  <script src="../../static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
 <footer class="footer mt-5 mt-md-0">
   <div class="container">
     
@@ -1236,7 +1270,7 @@ classes.</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
 </p>
     </div>
     

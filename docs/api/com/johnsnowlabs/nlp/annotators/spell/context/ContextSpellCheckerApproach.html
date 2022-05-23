@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach</title>
-          <meta name="description" content="Spark NLP 3.4.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach" />
-          <meta name="keywords" content="Spark NLP 3.4.0 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -241,11 +241,17 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Trains a deep-learning based Noisy Channel Model Spell Algorithm.
-Correction candidates are extracted combining context information and word information.</p><p>For instantiated/pretrained models, see <a href="ContextSpellCheckerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel">ContextSpellCheckerModel</a>.</p><p>Spell Checking is a sequence to sequence mapping problem. Given an input sequence, potentially containing a
-certain number of errors, <code>ContextSpellChecker</code> will rank correction sequences according to three things:</p><ol class="decimal"><li>Different correction candidates for each word — <b>word level</b>.</li><li>The surrounding text of each word, i.e. it’s context — <b>sentence level</b>.</li><li>The relative cost of different correction candidates according to the edit operations at the character level it requires — <b>subword level</b>.</li></ol><p>For an in-depth explanation of the module see the article <a href="https://medium.com/spark-nlp/applying-context-aware-spell-checking-in-spark-nlp-3c29c46963bc" target="_blank">Applying Context Aware Spell Checking in Spark NLP</a>.</p><p>For extended examples of usage, see the article <a href="https://towardsdatascience.com/training-a-contextual-spell-checker-for-italian-language-66dda528e4bf" target="_blank">Training a Contextual Spell Checker for Italian Language</a>,
-the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/5.TrainingContextSpellChecker.ipynb" target="_blank">Spark NLP Workshop</a>
-and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerTestSpec.scala" target="_blank">ContextSpellCheckerTestSpec</a>.</p><h4>Example</h4><p>For this example, we use the first Sherlock Holmes book as the training dataset.</p><pre><span class="kw">import</span> spark.implicits._
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Trains a deep-learning based Noisy Channel Model Spell Algorithm. Correction candidates are
+extracted combining context information and word information.</p><p>For instantiated/pretrained models, see <a href="ContextSpellCheckerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel">ContextSpellCheckerModel</a>.</p><p>Spell Checking is a sequence to sequence mapping problem. Given an input sequence, potentially
+containing a certain number of errors, <code>ContextSpellChecker</code> will rank correction sequences
+according to three things:</p><ol class="decimal"><li>Different correction candidates for each word — <b>word level</b>.</li><li>The surrounding text of each word, i.e. it’s context — <b>sentence level</b>.</li><li>The relative cost of different correction candidates according to the edit operations at
+     the character level it requires — <b>subword level</b>.</li></ol><p>For an in-depth explanation of the module see the article
+<a href="https://medium.com/spark-nlp/applying-context-aware-spell-checking-in-spark-nlp-3c29c46963bc" target="_blank">Applying Context Aware Spell Checking in Spark NLP</a>.</p><p>For extended examples of usage, see the article
+<a href="https://towardsdatascience.com/training-a-contextual-spell-checker-for-italian-language-66dda528e4bf" target="_blank">Training a Contextual Spell Checker for Italian Language</a>,
+the
+<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/5.TrainingContextSpellChecker.ipynb" target="_blank">Spark NLP Workshop</a>
+and the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerTestSpec.scala" target="_blank">ContextSpellCheckerTestSpec</a>.</p><h4>Example</h4><p>For this example, we use the first Sherlock Holmes book as the training dataset.</p><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach
@@ -279,9 +285,11 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 <span class="kw">val</span> path = <span class="lit">"src/test/resources/spell/sherlockholmes.txt"</span>
 <span class="kw">val</span> dataset = spark.sparkContext.textFile(path)
   .toDF(<span class="lit">"text"</span>)
-<span class="kw">val</span> pipelineModel = pipeline.fit(dataset)</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="../norvig/NorvigSweetingApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach">NorvigSweetingApproach</a>
-     and <a href="../symmetric/SymmetricDeleteApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach">SymmetricDeleteApproach</a>
-     for alternative approaches to spell checking</p></span></dd></dl><div class="toggleContainer block">
+<span class="kw">val</span> pipelineModel = pipeline.fit(dataset)</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
+  <a href="../norvig/NorvigSweetingApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach">NorvigSweetingApproach</a>
+  and
+  <a href="../symmetric/SymmetricDeleteApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach">SymmetricDeleteApproach</a>
+  for alternative approaches to spell checking</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -346,7 +354,9 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
         <span class="name">ContextSpellCheckerApproach</span><span class="params">()</span>
       </span>
       
-      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator type</p></div></div>
+      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator
+type
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach"></a><a id="&lt;init&gt;:ContextSpellCheckerApproach"></a>
       <span class="permalink">
@@ -362,7 +372,8 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
         <span class="name">ContextSpellCheckerApproach</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>required uid for storing annotator to disk</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>
+  required uid for storing annotator to disk</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -568,7 +579,10 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
       </span>
       
       <p class="shortcomment cmt">Adds a new class of words to correct, based on regex.</p><div class="fullcomment"><div class="comment cmt"><p>Adds a new class of words to correct, based on regex.
-</p></div><dl class="paramcmts block"><dt class="param">usrLabel</dt><dd class="cmt"><p>Name of the class</p></dd><dt class="param">usrRegex</dt><dd class="cmt"><p>Regex to add</p></dd><dt class="param">userDist</dt><dd class="cmt"><p>Maximal distance to the word</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">usrLabel</dt><dd class="cmt"><p>
+  Name of the class</p></dd><dt class="param">usrRegex</dt><dd class="cmt"><p>
+  Regex to add</p></dd><dt class="param">userDist</dt><dd class="cmt"><p>
+  Maximal distance to the word</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#addVocabClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="addVocabClass(usrLabel:String,vocabList:java.util.ArrayList[String],userDist:Int):ContextSpellCheckerApproach.this.type"></a><a id="addVocabClass(String,ArrayList[String],Int):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
@@ -585,7 +599,10 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
       </span>
       
       <p class="shortcomment cmt">Adds a new class of words to correct, based on a vocabulary.</p><div class="fullcomment"><div class="comment cmt"><p>Adds a new class of words to correct, based on a vocabulary.
-</p></div><dl class="paramcmts block"><dt class="param">usrLabel</dt><dd class="cmt"><p>Name of the class</p></dd><dt class="param">vocabList</dt><dd class="cmt"><p>Vocabulary as a list</p></dd><dt class="param">userDist</dt><dd class="cmt"><p>Maximal distance to the word</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">usrLabel</dt><dd class="cmt"><p>
+  Name of the class</p></dd><dt class="param">vocabList</dt><dd class="cmt"><p>
+  Vocabulary as a list</p></dd><dt class="param">userDist</dt><dd class="cmt"><p>
+  Maximal distance to the word</p></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
@@ -697,7 +714,8 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
         <span class="name">classCount</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Double">Double</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Min number of times the word need to appear in corpus to not be considered of a special class (Default: <code>15.0</code>).</p>
+      <p class="shortcomment cmt">Min number of times the word need to appear in corpus to not be considered of a special
+class (Default: <code>15.0</code>).</p>
     </li><li name="org.apache.spark.ml.param.Params#clear" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clear(param:org.apache.spark.ml.param.Param[_]):Params.this.type"></a><a id="clear(Param[_]):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
@@ -785,7 +803,8 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
         <span class="name">configProtoBytes</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntArrayParam">IntArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Configproto from tensorflow, serialized into byte array.</p><div class="fullcomment"><div class="comment cmt"><p>Configproto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+      <p class="shortcomment cmt">Configproto from tensorflow, serialized into byte array.</p><div class="fullcomment"><div class="comment cmt"><p>Configproto from tensorflow, serialized into byte array. Get with
+config_proto.SerializeToString()
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#copy" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="copy(extra:org.apache.spark.ml.param.ParamMap):org.apache.spark.ml.Estimator[M]"></a><a id="copy(ParamMap):Estimator[ContextSpellCheckerModel]"></a>
@@ -1493,10 +1512,10 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
         <span class="name">inputCols</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
-</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
+      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
+</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isDefined(Param[_]):Boolean"></a>
@@ -1577,7 +1596,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">languageModelClasses</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Int">Int</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Number of classes to use during factorization of the softmax output in the LM (Default: <code>2000</code>).</p>
+      <p class="shortcomment cmt">Number of classes to use during factorization of the softmax output in the LM (Default:
+<code>2000</code>).</p>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#lazyAnnotator" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="lazyAnnotator:org.apache.spark.ml.param.BooleanParam"></a><a id="lazyAnnotator:BooleanParam"></a>
       <span class="permalink">
@@ -1882,7 +1902,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">maxWindowLen</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Maximum size for the window used to remember history prior to every correction (Default: <code>5</code>).</p>
+      <p class="shortcomment cmt">Maximum size for the window used to remember history prior to every correction (Default:
+<code>5</code>).</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#minCount" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="minCount:org.apache.spark.ml.param.Param[Double]"></a><a id="minCount:Param[Double]"></a>
       <span class="permalink">
@@ -2718,7 +2739,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">tradeoff</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Float">Float</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Tradeoff between the cost of a word error and a transition in the language model (Default: <code>18.0f</code>).</p>
+      <p class="shortcomment cmt">Tradeoff between the cost of a word error and a transition in the language model (Default:
+<code>18.0f</code>).</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#train" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="train(dataset:org.apache.spark.sql.Dataset[_],recursivePipeline:Option[org.apache.spark.ml.PipelineModel]):com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel"></a><a id="train(Dataset[_],Option[PipelineModel]):ContextSpellCheckerModel"></a>
       <span class="permalink">
@@ -2802,7 +2824,9 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.
-</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>
+  to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>
+  True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#validationFraction" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="validationFraction:org.apache.spark.ml.param.FloatParam"></a><a id="validationFraction:FloatParam"></a>
       <span class="permalink">
@@ -3004,10 +3028,13 @@ AnnotatorType is used both as input and output columns if not specified
         <div id="groupedMembers">
         <div class="group" name="param">
               <h3>Parameters</h3>
-              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
+              <div class="comment cmt"><p>
+  A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  parameter values through setters and getters, respectively.</p></div>
             </div><div class="group" name="anno">
               <h3>Annotator types</h3>
-              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+              <div class="comment cmt"><p>
+  Required input and expected output annotator types</p></div>
             </div><div class="group" name="Ungrouped">
               <h3>Members</h3>
               

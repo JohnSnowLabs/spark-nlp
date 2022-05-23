@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.0 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowDistilBert</title>
-          <meta name="description" content="Spark NLP 3.4.0 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowDistilBert" />
-          <meta name="keywords" content="Spark NLP 3.4.0 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowDistilBert" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowDistilBert</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowDistilBert" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowDistilBert" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -239,8 +239,20 @@
                         <a href="TensorflowBertClassification.html" title="">TensorflowBertClassification</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
+                        <a class="class" href="TensorflowCamemBert.html" title="The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot."></a>
+                        <a href="TensorflowCamemBert.html" title="The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot.">TensorflowCamemBert</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
                         <a class="class" href="TensorflowClassifier.html" title=""></a>
                         <a href="TensorflowClassifier.html" title="">TensorflowClassifier</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="TensorflowDeBerta.html" title=""></a>
+                        <a href="TensorflowDeBerta.html" title="">TensorflowDeBerta</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="TensorflowDeBertaClassification.html" title=""></a>
+                        <a href="TensorflowDeBertaClassification.html" title="">TensorflowDeBertaClassification</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="class" href="" title="The DistilBERT model was proposed in the paper DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter https://arxiv.org/abs/1910.01108."></a>
@@ -361,23 +373,27 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>The DistilBERT model was proposed in the paper <b>DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter</b>
-<a href="https://arxiv.org/abs/1910.01108" target="_blank">https://arxiv.org/abs/1910.01108</a>.
-DistilBERT is a small, fast, cheap and light Transformer model trained by distilling BERT base. It has 40% less parameters than
-<code>bert-base-uncased</code>, runs 60% faster while preserving over 95% of BERT's performances as measured on the GLUE language understanding benchmark.</p><p>The abstract from the paper is the following:</p><p>As Transfer Learning from large-scale pre-trained models becomes more prevalent in Natural Language Processing (NLP),
-operating these large models in on-the-edge and/or under constrained computational training or inference budgets
-remains challenging. In this work, we propose a method to pre-train a smaller general-purpose language representation
-model, called DistilBERT, which can then be fine-tuned with good performances on a wide range of tasks like its larger
-counterparts. While most prior work investigated the use of distillation for building task-specific models, we leverage
-knowledge distillation during the pretraining phase and show that it is possible to reduce the size of a BERT model by
-40%, while retaining 97% of its language understanding capabilities and being 60% faster. To leverage the inductive
-biases learned by larger models during pretraining, we introduce a triple loss combining language modeling,
-distillation and cosine-distance losses. Our smaller, faster and lighter model is cheaper to pre-train and we
-demonstrate its capabilities for on-device computations in a proof-of-concept experiment and a comparative on-device
-study.</p><p>Tips:</p><p>- DistilBERT doesn't have :obj:<code>token_type_ids</code>, you don't need to indicate which token belongs to which segment. Just
-separate your segments with the separation token :obj:<code>tokenizer.sep_token</code> (or :obj:<code>[SEP]</code>).</p><p>- DistilBERT doesn't have options to select the input positions (:obj:<code>position_ids</code> input). This could be added if
-necessary though, just let us know if you need this option.
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>The DistilBERT model was proposed in the paper <b>DistilBERT, a distilled version of BERT:
+smaller, faster, cheaper and lighter</b> <a href="https://arxiv.org/abs/1910.01108" target="_blank">https://arxiv.org/abs/1910.01108</a>. DistilBERT is a
+small, fast, cheap and light Transformer model trained by distilling BERT base. It has 40%
+less parameters than <code>bert-base-uncased</code>, runs 60% faster while preserving over 95% of BERT's
+performances as measured on the GLUE language understanding benchmark.</p><p>The abstract from the paper is the following:</p><p>As Transfer Learning from large-scale pre-trained models becomes more prevalent in Natural
+Language Processing (NLP), operating these large models in on-the-edge and/or under
+constrained computational training or inference budgets remains challenging. In this work, we
+propose a method to pre-train a smaller general-purpose language representation model, called
+DistilBERT, which can then be fine-tuned with good performances on a wide range of tasks like
+its larger counterparts. While most prior work investigated the use of distillation for
+building task-specific models, we leverage knowledge distillation during the pretraining phase
+and show that it is possible to reduce the size of a BERT model by 40%, while retaining 97% of
+its language understanding capabilities and being 60% faster. To leverage the inductive biases
+learned by larger models during pretraining, we introduce a triple loss combining language
+modeling, distillation and cosine-distance losses. Our smaller, faster and lighter model is
+cheaper to pre-train and we demonstrate its capabilities for on-device computations in a
+proof-of-concept experiment and a comparative on-device study.</p><p>Tips:</p><ul><li>DistilBERT doesn't have :obj:<code>token_type_ids</code>, you don't need to indicate which token
+    belongs to which segment. Just separate your segments with the separation token
+    :obj:<code>tokenizer.sep_token</code> (or :obj:<code>[SEP]</code>).</li><li>DistilBERT doesn't have options to select the input positions (:obj:<code>position_ids</code> input).
+    This could be added if necessary though, just let us know if you need this option.
+</li></ul></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -442,7 +458,11 @@ necessary though, just let us know if you need this option.
         <span class="name">TensorflowDistilBert</span><span class="params">(<span name="tensorflowWrapper">tensorflowWrapper: <a href="TensorflowWrapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</a></span>, <span name="sentenceStartTokenId">sentenceStartTokenId: <span class="extype" name="scala.Int">Int</span></span>, <span name="sentenceEndTokenId">sentenceEndTokenId: <span class="extype" name="scala.Int">Int</span></span>, <span name="configProtoBytes">configProtoBytes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]] = <span class="symbol">None</span></span>, <span name="signatures">signatures: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]] = <span class="symbol">None</span></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">tensorflowWrapper</dt><dd class="cmt"><p>Bert Model wrapper with TensorFlow Wrapper</p></dd><dt class="param">sentenceStartTokenId</dt><dd class="cmt"><p>Id of sentence start Token</p></dd><dt class="param">sentenceEndTokenId</dt><dd class="cmt"><p>Id of sentence end Token.</p></dd><dt class="param">configProtoBytes</dt><dd class="cmt"><p>Configuration for TensorFlow session</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">tensorflowWrapper</dt><dd class="cmt"><p>
+  Bert Model wrapper with TensorFlow Wrapper</p></dd><dt class="param">sentenceStartTokenId</dt><dd class="cmt"><p>
+  Id of sentence start Token</p></dd><dt class="param">sentenceEndTokenId</dt><dd class="cmt"><p>
+  Id of sentence end Token.</p></dd><dt class="param">configProtoBytes</dt><dd class="cmt"><p>
+  Configuration for TensorFlow session</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -814,7 +834,9 @@ necessary though, just let us know if you need this option.
         <span class="name">tagSequence</span><span class="params">(<span name="batch">batch: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">batch</dt><dd class="cmt"><p>batches of sentences</p></dd><dt>returns</dt><dd class="cmt"><p>batches of vectors for each sentence</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">batch</dt><dd class="cmt"><p>
+  batches of sentences</p></dd><dt>returns</dt><dd class="cmt"><p>
+  batches of vectors for each sentence</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowDistilBert#tensorflowWrapper" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="tensorflowWrapper:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper"></a><a id="tensorflowWrapper:TensorflowWrapper"></a>
       <span class="permalink">

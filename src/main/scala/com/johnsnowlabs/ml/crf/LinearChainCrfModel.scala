@@ -16,12 +16,14 @@
 
 package com.johnsnowlabs.ml.crf
 
-import VectorMath._
-import com.johnsnowlabs.nlp.annotators.param.{SerializedAnnotatorComponent, WritableAnnotatorComponent}
-
+import com.johnsnowlabs.ml.crf.VectorMath._
+import com.johnsnowlabs.nlp.annotators.param.{
+  SerializedAnnotatorComponent,
+  WritableAnnotatorComponent
+}
 
 class LinearChainCrfModel(val weights: Array[Float], val metadata: DatasetMetadata)
-  extends WritableAnnotatorComponent {
+    extends WritableAnnotatorComponent {
 
   val labels = metadata.label2Id.size
 
@@ -82,35 +84,27 @@ class LinearChainCrfModel(val weights: Array[Float], val metadata: DatasetMetada
   override def serialize: SerializedLinearChainCrfModel = {
     SerializedLinearChainCrfModel(
       weights.toList,
-      metadata.serialize.asInstanceOf[SerializedDatasetMetadata]
-    )
+      metadata.serialize.asInstanceOf[SerializedDatasetMetadata])
   }
 
-  /**
-    * Removes features with weights less then minW
-    * @param minW Minimum weight to keep features
-    * @return Shrinked model
+  /** Removes features with weights less then minW
+    * @param minW
+    *   Minimum weight to keep features
+    * @return
+    *   Shrinked model
     */
   def shrink(minW: Float): LinearChainCrfModel = {
-    val (filteredWeights, featureIds) = weights.zipWithIndex.filter(p => Math.abs(p._1) >= minW).unzip
+    val (filteredWeights, featureIds) =
+      weights.zipWithIndex.filter(p => Math.abs(p._1) >= minW).unzip
     val filteredMeta = metadata.filterFeatures(featureIds)
     new LinearChainCrfModel(filteredWeights, filteredMeta)
   }
 
 }
 
-case class SerializedLinearChainCrfModel
-(
-  weights: Seq[Float],
-  metadata: SerializedDatasetMetadata
-)
-  extends SerializedAnnotatorComponent[LinearChainCrfModel]
-{
+case class SerializedLinearChainCrfModel(weights: Seq[Float], metadata: SerializedDatasetMetadata)
+    extends SerializedAnnotatorComponent[LinearChainCrfModel] {
   override def deserialize: LinearChainCrfModel = {
-    new LinearChainCrfModel(
-      weights.toArray,
-      metadata.deserialize
-    )
+    new LinearChainCrfModel(weights.toArray, metadata.deserialize)
   }
 }
-

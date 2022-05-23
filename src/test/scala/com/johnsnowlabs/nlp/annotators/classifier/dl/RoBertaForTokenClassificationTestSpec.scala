@@ -37,8 +37,7 @@ class RoBertaForTokenClassificationTestSpec extends AnyFlatSpec {
       "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London",
       "Rare Hendrix song draft sells for almost $17,000.",
       "EU rejects German call to boycott British lamb .",
-      "TORONTO 1996-08-21"
-    ).toDF("text")
+      "TORONTO 1996-08-21").toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -48,7 +47,8 @@ class RoBertaForTokenClassificationTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val tokenClassifier = RoBertaForTokenClassification.pretrained()
+    val tokenClassifier = RoBertaForTokenClassification
+      .pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("label")
       .setCaseSensitive(true)
@@ -83,8 +83,7 @@ class RoBertaForTokenClassificationTestSpec extends AnyFlatSpec {
       "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London",
       "Rare Hendrix song draft sells for almost $17,000.",
       "EU rejects German call to boycott British lamb .",
-      "TORONTO 1996-08-21"
-    ).toDF("text")
+      "TORONTO 1996-08-21").toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -94,7 +93,8 @@ class RoBertaForTokenClassificationTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val tokenClassifier = RoBertaForTokenClassification.pretrained()
+    val tokenClassifier = RoBertaForTokenClassification
+      .pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("label")
       .setCaseSensitive(true)
@@ -111,7 +111,11 @@ class RoBertaForTokenClassificationTestSpec extends AnyFlatSpec {
     }
 
     Benchmark.time("Time to save RoBertaForTokenClassification model") {
-      pipelineModel.stages.last.asInstanceOf[RoBertaForTokenClassification].write.overwrite().save("./tmp_robertafortoken_model")
+      pipelineModel.stages.last
+        .asInstanceOf[RoBertaForTokenClassification]
+        .write
+        .overwrite()
+        .save("./tmp_robertafortoken_model")
     }
 
     val loadedPipelineModel = PipelineModel.load("./tmp_robertafortoken_pipeline")
@@ -125,17 +129,17 @@ class RoBertaForTokenClassificationTestSpec extends AnyFlatSpec {
   "RoBertaForTokenClassification" should "benchmark test" taggedAs SlowTest in {
 
     val conll = CoNLL()
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+    val training_data =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
-    val tokenClassifier = RoBertaForTokenClassification.pretrained()
+    val tokenClassifier = RoBertaForTokenClassification
+      .pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("ner")
       .setCaseSensitive(true)
 
     val pipeline = new Pipeline()
-      .setStages(Array(
-        tokenClassifier
-      ))
+      .setStages(Array(tokenClassifier))
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
     Benchmark.time("Time to save RoBertaForTokenClassification results") {
@@ -143,7 +147,8 @@ class RoBertaForTokenClassificationTestSpec extends AnyFlatSpec {
     }
 
     println("missing tokens/tags: ")
-    pipelineDF.withColumn("sentence_size", size(col("sentence")))
+    pipelineDF
+      .withColumn("sentence_size", size(col("sentence")))
       .withColumn("token_size", size(col("token")))
       .withColumn("ner_size", size(col("ner")))
       .where(col("token_size") =!= col("ner_size"))
