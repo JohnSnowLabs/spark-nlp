@@ -77,11 +77,11 @@ result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sen
 
 ```scala
 ...
-val c2doc = Chunk2Doc()
+val c2doc = new Chunk2Doc()
     .setInputCols(Array("ner_chunk"))
     .setOutputCol("sentence")    
    
-val chunk_tokenizer = Tokenizer()
+val chunk_tokenizer = new Tokenizer()
     .setInputCols("sentence")
     .setOutputCol("token")
   
@@ -89,7 +89,7 @@ val chunk_word_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedica
     .setInputCols(Array("sentence", "token"))
     .setOutputCol("ner_chunk_word_embeddings")
 
-val chunk_embeddings = SentenceEmbeddings()
+val chunk_embeddings = new SentenceEmbeddings()
     .setInputCols(Array("sentence", "ner_chunk_word_embeddings"))
     .setOutputCol("ner_chunk_embeddings")
     .setPoolingStrategy("AVERAGE")

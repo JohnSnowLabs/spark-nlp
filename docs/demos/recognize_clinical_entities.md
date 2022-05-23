@@ -246,4 +246,60 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+        - title: Extract neurologic deficits related to NIH Stroke Scale (NIHSS)
+          id: extract_neurologic_deficits_relatedNIH_stroke_scale 
+          image: 
+              src: /assets/images/Extract_neurologic_deficits_related_NIH_Stroke_Scale.svg
+          image2: 
+              src: /assets/images/Extract_neurologic_deficits_related_NIH_Stroke_Scale_f.svg
+          excerpt: This demo shows how neurologic deficits can be extracted in accordance with their NIH Stroke Scale using a Spark NLP Healthcare NER model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_NIHSS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+        - title: Recognize Clinical Abbreviations and Acronyms
+          id: recognize_clinical_abbreviations_and_acronyms
+          image: 
+              src: /assets/images/Recognize_clinical_abbreviations_and_acronyms.svg
+          image2: 
+              src: /assets/images/Recognize_clinical_abbreviations_and_acronyms_f.svg
+          excerpt: This demo shows how to extract clinical abbreviations and acronyms from medical texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_ABBREVIATION/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+        - title: Recognize Concepts in Drug Development Trials
+          id: recognize_concepts_in_drug_development_trials
+          image: 
+              src: /assets/images/Recognize_concepts_in_drug_development_trials.svg
+          image2: 
+              src: /assets/images/Recognize_concepts_in_drug_development_trials_f.svg
+          excerpt: This demo shows how to extract concepts related to drug development including Trial Groups, End Points and Hazard Ratio.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_DRUGS_DEVELOPMENT_TRIALS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
+        - title: Extract conditions and benefits from drug reviews
+          id: extract_conditions_benefits_drug_reviews 
+          image: 
+              src: /assets/images/Extract_conditions_and_benefits_from_drug_reviews.svg
+          image2: 
+              src: /assets/images/Extract_conditions_and_benefits_from_drug_reviews_f.svg
+          excerpt: This model shows how to extract conditions and benefits from drug reviews.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_SUPPLEMENT_CLINICAL/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
 ---

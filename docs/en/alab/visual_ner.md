@@ -6,7 +6,7 @@ seotitle: Visual NER | John Snow Labs
 title: Visual NER
 permalink: /docs/en/alab/visual_ner
 key: docs-training
-modify_date: "2021-11-11"
+modify_date: "2022-04-05"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
@@ -43,3 +43,12 @@ After import, the task becomes available on the `Tasks Page`. The title of the n
 <img class="image image--xl" src="/assets/images/annotation_lab/2.3.0/import_pdf_2.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 On the labeling page, the PDF file is displayed with pagination so that annotators can annotate on the PDF document one page at a time.
+
+
+## OCR and Visual NER servers
+
+Just like (preannotation servers)[], Annotation Lab 3.0.0 also supports the deployment of multiple OCR servers. If a user has uploaded a Spark OCR license, be it airgap or floating, OCR inference is enabled. 
+
+To create a Visual NER project, users have to deploy at least one OCR server. Any OCR server can perform preannotation. To select the OCR server, users have to go to the Import page, toggle the OCR option and from the popup, choose one of the available OCR servers. In no suitable OCR server is available, one can be created by choosing the “Create Server” option.
+
+![ocr_dialog](https://user-images.githubusercontent.com/26042994/161700598-fd2c8887-3bf9-4c71-9cb2-c47fc065a42a.gif)

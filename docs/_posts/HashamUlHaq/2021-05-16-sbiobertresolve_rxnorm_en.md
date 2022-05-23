@@ -26,7 +26,7 @@ Predicts RxNorm Codes and their normalized definition for each chunk.
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_RXNORM/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_rxnorm_en_3.0.4_3.0_1621189503630.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_rxnorm_en_3.0.4_2.4_1621189503630.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -37,12 +37,12 @@ Predicts RxNorm Codes and their normalized definition for each chunk.
 ```python
 ...
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
- 
+
 sbert_embedder = BertSentenceEmbeddings\
      .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
      .setInputCols(["ner_chunk_doc"])\
      .setOutputCol("sbert_embeddings")
- 
+
 rxnorm_resolver = SentenceEntityResolverModel\
      .pretrained("sbiobertresolve_rxnorm","en", "clinical/models") \
      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
@@ -58,12 +58,12 @@ results = nlpPipeline.fit(data).transform(data)
 ```scala
 ...
 val chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
- 
+
 val sbert_embedder = BertSentenceEmbeddings
      .pretrained("sbiobert_base_cased_mli","en","clinical/models")
      .setInputCols(Array("ner_chunk_doc"))
      .setOutputCol("sbert_embeddings")
- 
+
 val rxnorm_resolver = SentenceEntityResolverModel
      .pretrained("sbiobertresolve_rxnorm","en", "clinical/models")
      .setInputCols(Array("ner_chunk", "sbert_embeddings"))

@@ -16,18 +16,18 @@
 
 package com.johnsnowlabs.nlp.annotators.parser.typdep.feature;
 
-import com.johnsnowlabs.nlp.annotators.parser.typdep.util.Collector;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.DependencyInstance;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.LowRankTensor;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.Parameters;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.Alphabet;
+import com.johnsnowlabs.nlp.annotators.parser.typdep.util.Collector;
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.FeatureVector;
-import gnu.trove.set.hash.TIntHashSet;
-import gnu.trove.set.hash.TLongHashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.HashSet;
 
 import static com.johnsnowlabs.nlp.annotators.parser.typdep.feature.FeatureTemplate.Arc.*;
 import static com.johnsnowlabs.nlp.annotators.parser.typdep.feature.FeatureTemplate.Word.*;
@@ -102,15 +102,17 @@ public class SyntacticFeatureFactory implements Serializable {
     public int getNumberWordFeatures() {
         return numberWordFeatures;
     }
+
     private boolean stoppedGrowth;
-    private transient TLongHashSet featureHashSet;
+    private transient HashSet<Long> featureHashSet;
+
     private Alphabet wordAlphabet;        // the alphabet of word features (e.g. \phi_h, \phi_m)
 
     public SyntacticFeatureFactory() {
         wordAlphabet = new Alphabet();
 
         stoppedGrowth = false;
-        featureHashSet = new TLongHashSet(100000);
+        featureHashSet = new HashSet<>(100000);
 
         numberWordFeatures = 0;
         numberLabeledArcFeatures = (int) ((1L << (BITS - 2)) - 1);
@@ -122,19 +124,21 @@ public class SyntacticFeatureFactory implements Serializable {
     }
 
     public void checkCollisions() {
-        long[] codes = featureHashSet.toArray();
+        Long[] codes = Arrays.copyOf(featureHashSet.toArray(), featureHashSet.toArray().length, Long[].class);
+
         int nfeats = codes.length;
         int ncols = 0;
-        TIntHashSet idhash = new TIntHashSet();
+        HashSet<Integer> newIdHash = new HashSet<>();
         for (long code : codes) {
             int id = hashcode2int(code) & numberLabeledArcFeatures;
-            if (idhash.contains(id))
+            if (newIdHash.contains(id))
                 ++ncols;
-            else
-                idhash.add(id);
+            else {
+                newIdHash.add(id);
+            }
         }
 
-        if(logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled()) {
             logger.debug(String.format("Hash collision: %.4f%% (%d / %d)%n",
                     ncols / (nfeats + 1e-30) * 100,
                     ncols,
@@ -181,7 +185,7 @@ public class SyntacticFeatureFactory implements Serializable {
         return h;
     }
 
-    private final int rotl32(int a, int b, int c){
+    private final int rotl32(int a, int b, int c) {
         return (a << b) | (a >>> c);
     }
 
@@ -1324,7 +1328,7 @@ public class SyntacticFeatureFactory implements Serializable {
 
     public void fillParameters(LowRankTensor tensor, LowRankTensor tensor2, Parameters params) {
 
-        long[] codes = featureHashSet.toArray();
+        Long[] codes = Arrays.copyOf(featureHashSet.toArray(), featureHashSet.toArray().length, Long[].class);
         clearFeatureHashSet();
         int[] x = new int[5];
 

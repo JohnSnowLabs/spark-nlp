@@ -23,7 +23,11 @@ const toSearchString = (params) => {
             acc.append(k, v);
           });
           break;
-
+        case 'sort':
+          if (params[k] !== 'date') {
+            acc.append(k, params[k]);
+          }
+          break;
         default:
           acc.append(k, params[k]);
           break;
@@ -47,6 +51,7 @@ const fromSearchString = () => {
     'supported',
     'type',
     'tags',
+    'sort',
     'predicted_entities',
   ].forEach((key) => {
     if (!searchParams.has(key)) {

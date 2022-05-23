@@ -21,6 +21,7 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
+import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.feature.{Normalizer, SQLTransformer}
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -28,7 +29,9 @@ class EmbeddingsFinisherTestSpec extends AnyFlatSpec {
 
   "EmbeddingsFinisher" should "correctly transform embeddings into array of floats for Spark ML" taggedAs FastTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
+    val smallCorpus = ResourceHelper.spark.read
+      .option("header", "true")
+      .csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -43,7 +46,8 @@ class EmbeddingsFinisherTestSpec extends AnyFlatSpec {
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
-    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(smallCorpus)
+    val embeddings = AnnotatorBuilder
+      .getGLoveEmbeddings(smallCorpus)
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
@@ -59,15 +63,15 @@ class EmbeddingsFinisherTestSpec extends AnyFlatSpec {
       .setOutputAsVector(false)
       .setCleanAnnotations(false)
 
-    val pipeline = new RecursivePipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentence,
-        tokenizer,
-        embeddings,
-        embeddingsSentence,
-        embeddingsFinisher
-      ))
+    val pipeline = new Pipeline()
+      .setStages(
+        Array(
+          documentAssembler,
+          sentence,
+          tokenizer,
+          embeddings,
+          embeddingsSentence,
+          embeddingsFinisher))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
     /*
@@ -84,12 +88,14 @@ class EmbeddingsFinisherTestSpec extends AnyFlatSpec {
 
     pipelineDF.printSchema()
     explodedVectors.printSchema()
-    */
+     */
   }
 
   "EmbeddingsFinisher" should "correctly transform embeddings into Vectors and normalize it by Spark ML" taggedAs FastTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
+    val smallCorpus = ResourceHelper.spark.read
+      .option("header", "true")
+      .csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -104,7 +110,8 @@ class EmbeddingsFinisherTestSpec extends AnyFlatSpec {
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
-    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(smallCorpus)
+    val embeddings = AnnotatorBuilder
+      .getGLoveEmbeddings(smallCorpus)
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
@@ -129,17 +136,17 @@ class EmbeddingsFinisherTestSpec extends AnyFlatSpec {
       .setOutputCol("normFeatures")
       .setP(1.0)
 
-    val pipeline = new RecursivePipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentence,
-        tokenizer,
-        embeddings,
-        embeddingsSentence,
-        embeddingsFinisher,
-        explodeVectors,
-        vectorNormalizer
-      ))
+    val pipeline = new Pipeline()
+      .setStages(
+        Array(
+          documentAssembler,
+          sentence,
+          tokenizer,
+          embeddings,
+          embeddingsSentence,
+          embeddingsFinisher,
+          explodeVectors,
+          vectorNormalizer))
 
     val pipelineModel = pipeline.fit(smallCorpus)
     val pielineDF = pipelineModel.transform(smallCorpus)
@@ -157,7 +164,7 @@ class EmbeddingsFinisherTestSpec extends AnyFlatSpec {
     pielineDF.select("features").show(2)
 
     pielineDF.select("normFeatures").show(2)
-    */
+     */
   }
 
 }

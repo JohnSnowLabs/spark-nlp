@@ -21,7 +21,7 @@ import org.apache.spark.util.AccumulatorV2
 import scala.collection.mutable.{Map => MMap}
 
 class LongMapAccumulator(defaultMap: MMap[String, Long] = MMap.empty[String, Long])
-  extends AccumulatorV2[(String, Long), Map[String, Long]] {
+    extends AccumulatorV2[(String, Long), Map[String, Long]] {
 
   private var mmap = defaultMap
 

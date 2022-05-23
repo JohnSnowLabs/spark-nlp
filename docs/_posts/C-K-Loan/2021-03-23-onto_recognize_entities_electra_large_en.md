@@ -34,9 +34,9 @@ The onto_recognize_entities_electra_large is a pretrained pipeline that we can u
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 
-from sparknlp.pretrained import PretrainedPipelinein
+from sparknlp.pretrained import PretrainedPipeline
 pipeline = PretrainedPipeline('onto_recognize_entities_electra_large', lang = 'en')
-annotations =  pipeline.fullAnnotate(""Hello from John Snow Labs ! "")[0]
+annotations =  pipeline.fullAnnotate("Hello from John Snow Labs!")[0]
 annotations.keys()
 
 ```

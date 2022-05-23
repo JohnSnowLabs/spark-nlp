@@ -71,3 +71,20 @@ val result = pipeline.fit(Seq.empty[String]).transform(data)
 |Input Labels:|[sentence, token, embeddings]|
 |Output Labels:|[ner]|
 |Language:|en|
+
+
+## Benchmarking
+```bash
+
+              precision    recall  f1-score   support
+
+       B-ADE       0.46      0.79      0.58      3582
+      B-DRUG       0.90      0.62      0.74     11763
+       I-ADE       0.45      0.76      0.56      4309
+      I-DRUG       0.96      0.26      0.41      7654
+           O       0.96      0.98      0.97    303457
+
+    accuracy                           0.94    330765
+   macro avg       0.75      0.68      0.65    330765
+weighted avg       0.95      0.94      0.94    330765
+```

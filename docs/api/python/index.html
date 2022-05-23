@@ -6,10 +6,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Spark NLP Documentation &#8212; Spark NLP 3.4.0 documentation</title>
+    <title>Spark NLP Documentation &#8212; Spark NLP 3.4.4 documentation</title>
     
-  <link href="static/css/theme.css" rel="stylesheet">
-  <link href="static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -19,15 +20,11 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="static/css/blank.css" />
     <link rel="stylesheet" type="text/css" href="static/css/custom.css" />
     
-  <link rel="preload" as="script" href="static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
     <script data-url_root="./" id="documentation_options" src="static/documentation_options.js"></script>
     <script src="static/jquery.js"></script>
@@ -45,7 +42,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -122,7 +119,8 @@
           
             
             <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+            <div class="col-12 col-md-3 bd-sidebar">
+              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -130,6 +128,9 @@
     
   </div>
 </nav>
+              </div>
+              <div class="sidebar-end-items">
+              </div>
             </div>
             
           
@@ -140,7 +141,7 @@
               
               <div class="toc-item">
                 
-<div class="tocsection onthispage pt-5 pb-3">
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
     <i class="fas fa-list"></i> On this page
 </div>
 
@@ -173,12 +174,12 @@
               <div>
                 
   <section id="spark-nlp-documentation">
-<h1>Spark NLP Documentation<a class="headerlink" href="#spark-nlp-documentation" title="Permalink to this headline">¶</a></h1>
+<h1>Spark NLP Documentation<a class="headerlink" href="#spark-nlp-documentation" title="Permalink to this headline">#</a></h1>
 <p><a class="reference external" href="https://nlp.johnsnowlabs.com/">Main Page</a> | <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp">GitHub</a> | <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/issues">Issues</a> | <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop">Workshop</a> | <a class="reference external" href="https://nlp.johnsnowlabs.com/models">Models Hub</a></p>
 <p>Welcome to Spark NLP’s Python documentation! This page contains information how to use the
 library with examples.</p>
 <section id="content">
-<h2>Content<a class="headerlink" href="#content" title="Permalink to this headline">¶</a></h2>
+<h2>Content<a class="headerlink" href="#content" title="Permalink to this headline">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started/index.html">Getting Started</a><ul>
@@ -232,7 +233,8 @@ library with examples.</p>
       </div>
     </div>
   
-  <script src="static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
 <footer class="footer mt-5 mt-md-0">
   <div class="container">
     
@@ -244,7 +246,7 @@ library with examples.</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
 </p>
     </div>
     

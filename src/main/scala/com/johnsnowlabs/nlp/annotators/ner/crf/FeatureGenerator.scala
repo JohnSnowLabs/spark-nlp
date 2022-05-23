@@ -21,22 +21,35 @@ import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, WordpieceEmbeddin
 
 import scala.collection.mutable
 
-
-/**
-  * Generates features for CrfBasedNer
-  */
+/** Generates features for CrfBasedNer */
 case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
 
   val shapeEncoding = Map(
-    '.' -> '.', ',' -> '.',
-    ':' -> ':', ';' -> ':', '?' -> ':', '!' -> ':',
-    '-' -> '-', '+' -> '-', '*' -> '-', '/' -> '-', '=' -> '-', '|' -> '-', '_' -> '-', '%' -> '-',
-    '(' -> '(', '{' -> '(', '[' -> '(', '<' -> '(',
-    ')' -> ')', '}' -> ')', ']' -> ')', '>' -> ')'
-  )
+    '.' -> '.',
+    ',' -> '.',
+    ':' -> ':',
+    ';' -> ':',
+    '?' -> ':',
+    '!' -> ':',
+    '-' -> '-',
+    '+' -> '-',
+    '*' -> '-',
+    '/' -> '-',
+    '=' -> '-',
+    '|' -> '-',
+    '_' -> '-',
+    '%' -> '-',
+    '(' -> '(',
+    '{' -> '(',
+    '[' -> '(',
+    '<' -> '(',
+    ')' -> ')',
+    '}' -> ')',
+    ']' -> ')',
+    '>' -> ')')
 
   def getShape(token: String) = {
-    token.map(c =>{
+    token.map(c => {
       if (c.isLower)
         'L'
       else if (c.isUpper)
@@ -87,14 +100,12 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
         remove(TokenType.AllDigit)
         remove(TokenType.AllSymbol)
         remove(TokenType.AllDigitSymbol)
-      }
-      else if (c.isDigit || digitDelims.contains(c)) {
+      } else if (c.isDigit || digitDelims.contains(c)) {
         remove(TokenType.AllUpper)
         remove(TokenType.AllSymbol)
         remove(TokenType.AllUpperSymbol)
         remove(TokenType.AllLetter)
-      }
-      else if (c.isLower) {
+      } else if (c.isLower) {
         remove(TokenType.AllUpper)
         remove(TokenType.AllDigit)
         remove(TokenType.AllSymbol)
@@ -102,8 +113,7 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
         remove(TokenType.AllUpperSymbol)
         remove(TokenType.AllDigitSymbol)
         remove(TokenType.AllUpperDigitSymbol)
-      }
-      else {
+      } else {
         remove(TokenType.AllUpper)
         remove(TokenType.AllDigit)
         remove(TokenType.AllUpperDigit)
@@ -188,7 +198,6 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
     f("s3") = getSuffix(token, 3)
     f("s4") = getSuffix(token, 4)
 
-
     f("dl") = isDigitOrPredicate(token, c => c.isLetter).toString
     f("d-") = isDigitOrPredicate(token, c => c == '-').toString
     f("d/") = isDigitOrPredicate(token, c => c == '/').toString
@@ -220,12 +229,13 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
     getName(source, idx1) + "|" + getName(source, idx2)
   }
 
-  def generate(taggedSentence: TaggedSentence,
-               wordpieceEmbeddingsSentence: WordpieceEmbeddingsSentence): TextSentenceAttrs = {
+  def generate(
+      taggedSentence: TaggedSentence,
+      wordpieceEmbeddingsSentence: WordpieceEmbeddingsSentence): TextSentenceAttrs = {
 
     val wordFeatures = taggedSentence.words
       .zip(taggedSentence.tags)
-      .map{case (word, tag) =>
+      .map { case (word, tag) =>
         val f = fillFeatures(word)
         f("pos") = tag
         f
@@ -238,7 +248,8 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
       .filter(t => t.isWordStart)
       .map(t => t.embeddings)
 
-    assert(embeddings.length == wordsList.length,
+    assert(
+      embeddings.length == wordsList.length,
       "Mismatched embedding tokens and sentence tokens. Make sure you are properly " +
         "linking tokens and embeddings to the same inputCol DOCUMENT annotator")
 
@@ -246,21 +257,22 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
       val pairAttrs = (-window until window)
         .filter(j => isInRange(i + j, words) && isInRange(i + j + 1, words))
         .flatMap(j =>
-          pairs.map{name =>
+          pairs.map { name =>
             val feature = getName(name, j, j + 1)
             val value1 = wordFeatures(i + j).getOrElse(name, "")
             val value2 = wordFeatures(i + j + 1).getOrElse(name, "")
             (feature, value1 + "|" + value2)
-          }
-        ).toArray
+          })
+        .toArray
 
       val unoAttrs = (-window to window)
         .filter(j => isInRange(i + j, words))
-        .flatMap{j =>
-          wordFeatures(i + j).map{case(name, value) =>
+        .flatMap { j =>
+          wordFeatures(i + j).map { case (name, value) =>
             (getName(name, j), value)
           }
-        }.toArray
+        }
+        .toArray
 
       val dictAttrs = dictFeatures.get(wordsList).map((getName("dt", i), _))
       wordsList = wordsList.tail
@@ -280,12 +292,11 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
     TextSentenceAttrs(attrs)
   }
 
-  def generateDataset(sentences:
-                      TraversableOnce[(TextSentenceLabels, TaggedSentence, WordpieceEmbeddingsSentence)])
-  : CrfDataset = {
+  def generateDataset(sentences: TraversableOnce[
+    (TextSentenceLabels, TaggedSentence, WordpieceEmbeddingsSentence)]): CrfDataset = {
     val textDataset = sentences
       .filter(p => p._2.words.length > 0)
-      .map{case (labels, sentence, withEmbeddings) =>
+      .map { case (labels, sentence, withEmbeddings) =>
         val textSentence = generate(sentence, withEmbeddings)
         (labels, textSentence)
       }
@@ -293,9 +304,10 @@ case class FeatureGenerator(dictFeatures: DictionaryFeatures) {
     DatasetReader.encodeDataset(textDataset)
   }
 
-  def generate(sentence: TaggedSentence,
-               withEmbeddings: WordpieceEmbeddingsSentence,
-               metadata: DatasetMetadata): Instance = {
+  def generate(
+      sentence: TaggedSentence,
+      withEmbeddings: WordpieceEmbeddingsSentence,
+      metadata: DatasetMetadata): Instance = {
     val attrSentence = generate(sentence, withEmbeddings)
 
     DatasetReader.encodeSentence(attrSentence, metadata)

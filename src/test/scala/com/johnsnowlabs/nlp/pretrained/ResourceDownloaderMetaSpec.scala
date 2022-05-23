@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.pretrained
 
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.Version
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.BeforeAndAfter
@@ -62,8 +62,7 @@ class ResourceDownloaderMetaSpec extends AnyFlatSpec with BeforeAndAfter {
       ResourceType.MODEL,
       annotator = Some("TestAnnotator"),
       lang = Some("en"),
-      Some(Version.parse("2.5.1"))
-    )
+      Some(Version.parse("2.5.1")))
     assert(resources.length == 1)
     assert(resources.head.split(":")(0).equals("anno1"))
 
@@ -73,8 +72,7 @@ class ResourceDownloaderMetaSpec extends AnyFlatSpec with BeforeAndAfter {
       ResourceType.MODEL,
       None,
       lang = Some("tst"),
-      Some(Version.parse("2.5.1"))
-    )
+      Some(Version.parse("2.5.1")))
     assert(resources.length == 1)
     assert(resources.head.split(":")(0).equals("anno_missing"))
 
@@ -84,8 +82,7 @@ class ResourceDownloaderMetaSpec extends AnyFlatSpec with BeforeAndAfter {
       ResourceType.MODEL,
       annotator = Some("TestAnnotator"),
       None,
-      Some(Version.parse("2.5.1"))
-    )
+      Some(Version.parse("2.5.1")))
     assert(resources.length == 1)
     assert(resources.head.split(":")(0).equals("anno1"))
 
@@ -94,8 +91,7 @@ class ResourceDownloaderMetaSpec extends AnyFlatSpec with BeforeAndAfter {
       folder = "public/models",
       ResourceType.MODEL,
       annotator = Some("AlbertEmbeddings"),
-      lang = Some("en")
-    )
+      lang = Some("en"))
     assert(resources.length == 2)
     assert(resources.forall(_.startsWith("albert")))
     assert(resources.head.split(":")(1).equals("en"))
@@ -104,8 +100,7 @@ class ResourceDownloaderMetaSpec extends AnyFlatSpec with BeforeAndAfter {
     resources = ResourceDownloader.listPretrainedResources(
       folder = "public/models",
       ResourceType.MODEL,
-      annotator = Some("TestAnnotator")
-    )
+      annotator = Some("TestAnnotator"))
     assert(resources.length == 3)
     assert(resources.forall(_.startsWith("anno")))
 
@@ -114,8 +109,7 @@ class ResourceDownloaderMetaSpec extends AnyFlatSpec with BeforeAndAfter {
       folder = "public/models",
       ResourceType.MODEL,
       None,
-      lang = Some("de")
-    )
+      lang = Some("de"))
     assert(resources.length == 2)
     assert(resources.head.split(":")(1).equals("de"))
 
@@ -125,42 +119,34 @@ class ResourceDownloaderMetaSpec extends AnyFlatSpec with BeforeAndAfter {
       ResourceType.MODEL,
       None,
       None,
-      Some(Version.parse("2.4.0"))
-    )
+      Some(Version.parse("2.4.0")))
     assert(resources.length == 3)
   }
 
   it should "have various interfaces for showPublicModels" in {
-    val allModels = extractTableContent(
-      captureOutput {
-        ResourceDownloader.showPublicModels()
-      }
-    )
-    assert(allModels.length == mockResourceDownloader.resources.count(
-      _.category.getOrElse(ResourceType.NOT_DEFINED).equals(ResourceType.MODEL)
-    ))
+    val allModels = extractTableContent(captureOutput {
+      ResourceDownloader.showPublicModels()
+    })
+    assert(
+      allModels.length == mockResourceDownloader.resources.count(
+        _.category
+          .getOrElse(ResourceType.NOT_DEFINED.toString)
+          .equals(ResourceType.MODEL.toString)))
 
-    val allContextSpell = extractTableContent(
-      captureOutput {
-        ResourceDownloader.showPublicModels("TestAnnotator")
-      }
-    )
+    val allContextSpell = extractTableContent(captureOutput {
+      ResourceDownloader.showPublicModels("TestAnnotator")
+    })
     assert(allContextSpell.length == 3)
     assert(allContextSpell.forall(_.contains("anno")))
 
-    val itContextSpell = extractTableContent(
-      captureOutput {
-        ResourceDownloader.showPublicModels("TestAnnotator", "de")
-      }
-    )
+    val itContextSpell = extractTableContent(captureOutput {
+      ResourceDownloader.showPublicModels("TestAnnotator", "de")
+    })
     assert(itContextSpell.length == 1)
 
-
-    val enContextSpell = extractTableContent(
-      captureOutput {
-        ResourceDownloader.showPublicModels("TestAnnotator", "en", "2.5.1")
-      }
-    )
+    val enContextSpell = extractTableContent(captureOutput {
+      ResourceDownloader.showPublicModels("TestAnnotator", "en", "2.5.1")
+    })
     assert(enContextSpell.length == 1)
 
   }
@@ -169,8 +155,10 @@ class ResourceDownloaderMetaSpec extends AnyFlatSpec with BeforeAndAfter {
     val stream = captureOutput {
       ResourceDownloader.showAvailableAnnotators()
     }
-    val allAnnotators: Set[String] = mockResourceDownloader.resources.map(_.annotator.getOrElse(""))
-      .toSet.filter { a => !a.equals("") }
+    val allAnnotators: Set[String] =
+      mockResourceDownloader.resources.map(_.annotator.getOrElse("")).toSet.filter { a =>
+        !a.equals("")
+      }
     val annotatorsInOutput: Set[String] = stream.split("\n").toSet
     assert(allAnnotators.diff(annotatorsInOutput).isEmpty)
     assert(annotatorsInOutput.diff(allAnnotators).isEmpty)
@@ -195,57 +183,46 @@ class ResourceDownloaderMetaSpec extends AnyFlatSpec with BeforeAndAfter {
     assert(noAnnoFieldFilter.head.equals("anno_not_missing:tst:2.5.4"))
 
   }
+  it should "should download a model and unzip file" taggedAs SlowTest in {
+    ResourceDownloader.defaultDownloader = realDefaultDownloader
+    ResourceDownloader.publicDownloader = realPublicDownloader
+    ResourceDownloader.communityDownloader = realCommunityDownloader
+    ResourceDownloader.downloadModelDirectly(
+      "public/models/bert_base_cased_es_3.2.2_3.0_1630999631885.zip")
+  }
 
   it should "be able to list from online metadata" in {
     ResourceDownloader.defaultDownloader = realDefaultDownloader
     ResourceDownloader.publicDownloader = realPublicDownloader
     ResourceDownloader.communityDownloader = realCommunityDownloader
 
-    assert(extractTableContent(
-      captureOutput {
-        ResourceDownloader.showPublicModels()
-      }
-    ).nonEmpty)
-    assert(extractTableContent(
-      captureOutput {
-        ResourceDownloader.showPublicModels("NerDLModel")
-      }
-    ).nonEmpty)
-    assert(extractTableContent(
-      captureOutput {
-        ResourceDownloader.showPublicModels("NerDLModel", "en")
-      }
-    ).nonEmpty)
-    assert(extractTableContent(
-      captureOutput {
-        ResourceDownloader.showPublicModels("NerDLModel", "en", "2.5.0")
-      }
-    ).nonEmpty)
-    assert(extractTableContent(
-      captureOutput {
-        ResourceDownloader.showAvailableAnnotators()
-      }
-    ).nonEmpty)
-    assert(extractTableContent(
-      captureOutput {
-        ResourceDownloader.showPublicPipelines()
-      }
-    ).nonEmpty)
-    assert(extractTableContent(
-      captureOutput {
-        ResourceDownloader.showPublicPipelines("en")
-      }
-    ).nonEmpty)
-    assert(extractTableContent(
-      captureOutput {
-        ResourceDownloader.showPublicPipelines("en", "2.5.0")
-      }
-    ).nonEmpty)
-    assert(extractTableContent(
-      captureOutput {
-        ResourceDownloader.showUnCategorizedResources("en")
-      }
-    ).nonEmpty)
+    assert(extractTableContent(captureOutput {
+      ResourceDownloader.showPublicModels()
+    }).nonEmpty)
+    assert(extractTableContent(captureOutput {
+      ResourceDownloader.showPublicModels("NerDLModel")
+    }).nonEmpty)
+    assert(extractTableContent(captureOutput {
+      ResourceDownloader.showPublicModels("NerDLModel", "en")
+    }).nonEmpty)
+    assert(extractTableContent(captureOutput {
+      ResourceDownloader.showPublicModels("NerDLModel", "en", "2.5.0")
+    }).nonEmpty)
+    assert(extractTableContent(captureOutput {
+      ResourceDownloader.showAvailableAnnotators()
+    }).nonEmpty)
+    assert(extractTableContent(captureOutput {
+      ResourceDownloader.showPublicPipelines()
+    }).nonEmpty)
+    assert(extractTableContent(captureOutput {
+      ResourceDownloader.showPublicPipelines("en")
+    }).nonEmpty)
+    assert(extractTableContent(captureOutput {
+      ResourceDownloader.showPublicPipelines("en", "2.5.0")
+    }).nonEmpty)
+    assert(extractTableContent(captureOutput {
+      ResourceDownloader.showUnCategorizedResources("en")
+    }).nonEmpty)
   }
 
 }

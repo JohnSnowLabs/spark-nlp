@@ -25,7 +25,7 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Predicted Entities 
-Persons-`PER`, Locations-`LOC`, Organizations-`ORG`, Miscellaneous-`MISC`.
+`PER`, `LOC`, `ORG`, `MISC`
 
 ## How to use 
 

@@ -6,12 +6,156 @@ seotitle: Release Notes | John Snow Labs
 title: Release Notes
 permalink: /docs/en/alab/release_notes
 key: docs-training
-modify_date: "2021-11-11"
+modify_date: "2022-04-05"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
     nav: annotation-lab
 ---
+
+## 3.1.0
+
+Release date: **04-05-2022**
+
+We are very excited to release Annotation Lab v3.1.0 which includes support for training large documents, improvements for Visual NER Projects, security fixes and stabilizations. Here are the highlights:
+
+### Highlights
+
+- Support Training of large documents. Spark NLP feature called Memory Optimization Approach is enabled when the training data is greater then 5MB which enables training of model on machines with lower memory resources.
+- Improvements in Visual NER Projects:
+  - Users can provide title in the input JSON along with the URL for tasks to import. This sets the title of the task accordingly.
+  - JSON export for the Visual NER projects contains both chunk and token-level annotations.
+  - Sample tasks can be imported into the Visual NER project using any available OCR server (created by another project).
+  - Multi-chunk annotation can be done without changing the start token when the end token is the last word on the document.
+  - For Visual NER project, users can export tasks in the VOC format for multi-page tasks with/without completions.
+- During restoring backup file in the previous versions, the SECRETS (kubernetes) of the old machine needed manual transfer to the target machine. With v3.1.0, all the SECRETS are backed-up automatically along with database backup and hence they are restored without any hassle.
+- Integration with my.johnsnowlabs.com, this means the available licenses can be easily imported by Admin users of Annotation Lab without having to download or copy them manually.
+- The maximum number of words/tokens that can be set in a single page in labeling screen is now limited to 1000.
+- For a large number of multiple relations, the previous version of Annotation Lab used Prev and Next identifiers which was not optimal for mapping to the correct pairs. For increased usability and clarity , the pair connections now use numerical values.
+- While creating new (Contextual Parser) Rules using dictionary, the uploaded CSV file is validated based on: CSV should not contain any null values, CSV should either be a single row or single column.
+- Admin users are now able to remove unused licenses. 
+
+## 3.0.1 
+
+Release date: **12-04-2022**
+
+Annotation Lab v3.0.1 includes some CVE issues are fixed along with application bug fixes
+
+### Bug Fixes 
+- When licensed model is trained, label "label" was added to prediction entities
+- Expired license icon is seen after the user enters new floating license
+- In airgaped machine, deployed licensed preannotation server is shown as open source in active-servers page
+
+## 3.0.0
+
+Release date: **06-04-2022**
+
+We are very excited to release Annotation Lab 3.0.0 with support for Floating Licenses and for parallel training and preannotation jobs, created on demand by Project Owners and Managers across various projects. Below are more details about the release.
+
+### Highlights
+
+- Annotation Lab now supports [floating licenses](/docs/en/alab/byol#support-for-floating-licenses) with different scopes (ocr: training, ocr: inference, healthcare: inference, healthcare: training). Depending on the scope of the available license, users can perform model training and/or deploy preannotation servers. Licenses are a must only for training Spark NLP for Healthcare models and for deploying Spark NLP for Healthcare models as preannotation servers.
+- [Parallel Trainings](/docs/en/alab/active_learning#deploy-a-new-training-job) and [Preannotations](/docs/en/alab/preannotations#start-preannotation). Annotation Lab now offers support for running model training and document preannotation across multiple projects and/or teams in parallel. If the infrastructure dedicated to the Annotation Lab includes sufficient resources, each team/project can run smoothly without being blocked.
+- On demand deployment of preannotation servers and training jobs:
+  - [Deploy a new training job](/docs/en/alab/active_learning#deploy-a-new-training-job)
+  - [Deploy a new preannotation server](/docs/en/alab/preannotations#start-preannotation)
+  - [OCR and Visual NER servers](/docs/en/alab/visual_ner#ocr-and-visual-ner-servers)
+- The infrastucture page now hosts a new tab for managing [preannotation, training and OCR servers.](/docs/en/alab/infrastructure#management-of-preannotation-and-training-servers)
+- New options available on [preannotate](/docs/en/alab/preannotations#start-preannotation) action. 
+- Updates for the [license page](/docs/en/alab/byol#license-page). 
+
+## 2.8.0
+
+Release date: **19-03-2022**
+
+Annotation Lab 2.8.0 simplifies the annotation workflows, adds dynamic pagination features, supports cross-page NER annotation and relation definition for text projects, adds UI features for infrastructure configuration and backup, updates the way the analytics dashboards are processed, offers improved support for rules and support for model training in German and Spanish.
+
+### Highlights
+
+New features offered by Annotation Lab:
+- [Dynamic Task Pagination](/docs/en/alab/import#dynamic-task-pagination) replaced the `<pagebreak>` style pagination. 
+- [Cross Page Annotation](/docs/en/alab/annotation#cross-page-annotation) is now supported for NER and Relation annotations. 
+- [Simplified workflow](/docs/en/alab/annotation#simplified-workflow) are now supported for simpler projects. Furthermore, overall work progress has been added on the Labeling Page. 
+- [Infrastucture](/docs/en/alab/infrastructure) used for preannotation and training can now be configured from the Annotation Lab UI.
+- Support for [training German and Spanish models](/docs/en/alab/active_learning#train-german-and-spanish-models). 
+- Some [changes in Analytics Dashboard](/docs/en/alab/analytics#disabled-analytics) were implemented. By default, the Analytics dashboard page is now disabled. Users can request Admin to enable the Analytics page. The refresh of the charts is done manually.
+- [Import & Export Rules](/docs/en/alab/models_hub#import-and-export-rules) from the Model Hub page.
+- [Download model dependencies](/docs/en/alab/models_hub#download-of-model-dependencies) is now automatic. 
+- The [project configuration box](/docs/en/alab/settings#project-configuration-box) can now be edited in full screen mode. 
+- [Trim leading and ending spaces in annotated chunks](/docs/en/alab/annotation#trim-leading-and-ending-spaces-in-annotated-chunks).
+- [Reserved words](/docs/en/alab/project_setup#reserved-words-cannot-be-used-in-project-names) cannot be used in project names.
+- Task numbering now start from 1.
+- 'a' was removed as hotkey for VisualNER multi-chunk selection. Going forward only use 'shift' key for chunk selection. 
+- Only alphanumeric characters can be used as the Task Tag Names.
+- Allow the export of tasks without completions. 
+
+### Bug Fixes
+
+- On the Labeling Page, the following issues related to completions were identified and fixed:
+  - In the Visual NER Project, when an annotator clicks on the Next button to load the next available task, the PDF was not correctly loaded and the text selection doesn't work properly. 
+  - Shortcut keys were not working when creating new completions.
+  - It happened that completions were no longer visible after creating relations. 
+- Previously, after each project configuration edit, when validating the correctness of the configuration the cursor position was reset to the end of the config file. The user had to manually move the cursor back to its previous position to continue editing. Now, the cursor position is saved so that the editing can continue with ease.
+- Removing a user from the "UserAdmins" group was not possible. This has been fixed. Any user can be added or removed from the "UserAdmins". 
+- In previous versions, choosing an already existing name for the current project did not show any error messages. Now, an error message appears on the right side of the screen asking users to choose another name for the project.
+- In the previous version, when a user was deleted and a new user with the same name was created through Keycloak, on the next login the UI did not load. Now, this issue was fixed. 
+- Validations were added to Swagger API for completions data such that random values could not be added to completion data via API.
+- Previously, when a rule was edited, previously deployed preannotation pipelines using the edited rules were not updated to use the latest version of the rule. Now the user is notified about the edited rule via an alert message "Redeploy preannotation server to apply these changes" on the rule edit form so that the users can redeploy the preannotation model. 
+
+## 2.7.2 
+
+Release date: **28-02-2022**
+
+Annotation Lab v2.7.2 includes Visual NER improvements 
+
+### Bug Fixes 
+- The text token in Visual NER project were missing in some cases when the labeling setting "Select regions after creating" was disabled. Now the setting is always enabled when labeling a Visual NER project. 
+- Previously, without any changes made by the user on the configuration page "unsaved changes" message used to pop up. Now, the message only pops up when there is an unsaved configuration change. 
+
+## 2.7.1
+
+Release date: **22-02-2022**
+ 
+Annotation Lab v2.7.1 introduces an upgrade to K3s v1.22.4 and support for Redhat. It also includes improvements and fixes for identified bug. Below are the highlights of this release. 
+
+### Highlights 
+- For new installations, Annotation Lab is now installed on top of K3s v1.22.4. In near future we will provide similar support for existing installations. AWS market place also runs using the upgraded version. 
+- With this release Annotation lab can be installed on RedHat servers. 
+- Annotation lab 2.7.1 included release version of Spark NLP 3.4.1 and Spark NLP for Healthcare 
+
+### Bug Fixes 
+- In the previous release, saving Visual NER project configuration took a long time. With this release, the issue has been fixed and the Visual NER project can be created instantly. 
+- Due to a bug in Relation Constraint, all the relations we visible when the UI was refreshed. This issue has been resolved and only a valid list of relations is shown after the UI is refreshed. 
+- Previously, labels with spaces at the end were considered different. This has been fixed such that the label name with or without space at the end is treated as the same label. 
+- Importing multiple images as a zip file was not working correctly in the case of Visual NER. This  issue was fixed.
+- This version also fixes issues in Transfer Learning/Fine Tuning some NER models. 
+
+## 2.7.0
+
+Release date: **17-02-2022**
+
+Annotation Lab 2.7.0 is here! This is another feature reach release from John Snow Labs - Annotation Lab Team. It is powered by the latest Spark NLP and Spark NLP for Healthcare libraries and offers improved support for Rule Base Annotation. With the upgrade of Spark NLP libraries, the Models Hub page inside the application gets more than 100 new models for English along with the introduction of Spanish and German models. In Visual NER projects it is now easier to annotate cross line chunks. As always, there are many security and stabilizations shipped.
+
+### Highlights
+- Annotation Lab 2.7.0 includes Spark NLP 3.4.1 and Spark NLP for Healthcare. Model training is now significantly faster and issues related to Rule-based annotation have been solved. The Models Hub has increased the list of models and old incompatible models are now marked as "incompatible". If there are any incompatible models downloaded on the machine, we recommend deleting them.
+- Spanish and German Models have been added to Models Hub. In previous versions of the Annotation Lab, the Models Hub only offered English language models. But from version 2.7.0, models for two other languages are included as well, namely Spanish and German. It is possible to download or upload these models and use them for preannotation, in the same way as for English language models.
+
+- Rule-Based Annotation improvement. Rule-based annotation, introduced in 2.6.0 with limited options, was improved in this release. The Rule creation UI form was simplified and extended, and help tips were added on each field. While creating a rule, the user can define the scope of the rule as being `sentence` or `document`. A new toggle parameter `Complete Match Regex` is added to the rules. It can be toggled on to preannotate the entity that exactly matches the regex or dictionary value regardless of the `Match Scope`. Also case-sensitive is always true (and hence the toggle is hidden in this case) for REGEX while the case-sensitive toggle for dictionary can be toggled on or off. Users can now download the uploaded dictionary of an existing rule. In the previous release, if a dictionary-based rule was defined with an invalid CSV file, the preannotation server would crash and would only recover when the rule was removed from the configuration. This issue has been fixed and it is also possible to upload both vertical and horizontal CSV files consisting of multi-token dictionary values.
+
+- Flexible annotations for Visual NER Projects. The chunk annotation feature added to Visual NER projects, allows the annotation of several consecutive tokens as one chunk. It also supports multiple lines selection. Users can now select multiple tokens and annotate them together in Visual NER Projects. The label assigned to a connected group can be updated. This change will apply to all regions in the group.
+
+- Constraints for relation labeling can be defined. While annotating projects with `Relations` between `Entities`, defining constraints (the direction, the domain, the co-domain) of relations is important. Annotation Lab 2.7.0 offers a way to define such constraints by editing the Project Configuration. The Project Owner or Project Managers can specify which `Relation` needs to be bound to which `Labels` and in which direction. This will hide some Relations in Labeling Page for NER Labels which will simplify the annotation process and will avoid the creation of any incorrect relations in the scope of the project.
+
+### Security
+Security issues related to SQL Injection Vulnerability and Host Header Attack were fixed in this release.
+
+### Bug Fixes
+- Issues related to chunk annotation; Incorrect bounding boxes, Multiple stacking of bounding boxes, Inconsistent IDs of the regions, unchanged labels of one connected region to other were identified and fixed and annotators can now select multiple tokens at once and annotate them as a single chunk
+- In the previous release, after an Assertion Status model was trained, it would get deployed without the NER model and hence the preannotation was not working as expected. Going forward, the trained Assertion Model cannot be deployed for projects without a NER model. For this to happen, the "Yes" button in the confirmation box for deploying an assertion model right after training is enabled only when the Project Configuration consists of at least one NER model.
+- A bug in the default Project templates (Project Setup page) was preventing users to create projects using “Conditional classification” and “Pairwise comparison" templates. These default Project templates can be used with no trouble as any other 40+ default templates.
+- Reviewers were able to view unassigned submitted tasks via the "Next" button on the Labeling page. This bug is also fixed now and the reviewers can only see tasks that are assigned to them both on the Task List page or while navigating through the "Next" button.
+- For better user experience, the labeling page has been optimized and the tasks on the page render quicker than in previous versions. When adding a user to the UserAdmins group, the delay in enabling the checkbox has been fixed.
+
 ## 2.6.0
 Annotation Lab v2.6.0 improves the performance of the `Project Setup` page, adds a "View as" option in the `Labeling` Page, improves the layout of OCR-ed documents, adds the option to stop training and model server deployment from UI. Many more cool features are also delivered in this version to enhance usability and stabilize the product. Here are details of features and bug fixes included in this release.
 

@@ -1,4 +1,90 @@
 ========
+3.4.4
+========
+----------------
+New Features
+----------------
+* **NEW:** Introducing **DeBertaForTokenClassification** annotator in Spark NLP 🚀. `DeBertaForTokenClassification` can load DeBERTa v2&v3 models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `DebertaV2ForTokenClassification` for **PyTorch** or `TFDebertaV2ForTokenClassification` for **TensorFlow** models in HuggingFace
+* **NEW:** Introducing **CamemBertEmbeddings** annotator in Spark NLP 🚀
+* Add support for BatchAnnotate to UniversalSentenceEncoder
+
+----------------
+Bug Fixes & Enhancements
+----------------
+* Optimizing Tokenizer performance up to 400% when there is exceptions list
+* Support latest PySpark releases in Colab, Kaggle, and SageMaker scripts
+* Removing trove4j dependency
+* Fix bug that caused get input/output/LazyAnnotator to return None
+* Fix DeBertaForSequenceClassification in Python failing to load pretrained models
+
+========
+3.4.3
+========
+----------------
+New Features
+----------------
+* **NEW:** Introducing **DeBertaForSequenceClassification** annotator in Spark NLP 🚀. `DeBertaForSequenceClassification` can load DeBERTa v2&v3 models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using `DebertaForSequenceClassification` for **PyTorch** or `TFDebertaForSequenceClassification` for **TensorFlow** models in HuggingFace
+* New multi-label feature in all SequenceForClassification. The following annotators now have the option to switch to sigmoid activation function instead of softmax for the output layer: AlbertForSequenceClassification, BertForSequenceClassification, DeBertaForSequenceClassification, DistilBertForSequenceClassification, LongformerForSequenceClassification, RoBertaForSequenceClassification, XlmRoBertaForSequenceClassification, and XlnetForSequenceClassification
+* New minLength, maxLength, splitLength, customBounds, and useCustomBoundsOnly parameters in SentenceDetectorDL
+* New impossiblePenultimates feature in SentenceDetectorDLModel
+* New feature to set names for columns in CoNLLU class: textCol, documentCol, sentenceCol, formCol, uposCol, xposCol, and lemmaCol
+* New formCol and lemmaCol parameters in Lemmatizer annotator
+* Add new functionality to download and extract models from S3 via direct link
+
+----------------
+Bug Fixes & Enhancements
+----------------
+* Fix and train new English spell checker models for Spark NLP 3.4.1 on Spark 3.x and 2.x
+* Update SentenceDetector documentation
+* Add a missing notebook to demonstrate training a WordSegmenterApproach annotator for word segmentation
+
+
+========
+3.4.2
+========
+----------------
+New Features
+----------------
+* Introducing DeBertaEmbeddings annotator. DeBERTa (Decoding-enhanced BERT with disentangled attention) improves the BERT and RoBERTa models using two novel techniques. Compared to RoBERTa-Large, a DeBERTa model trained on half of the training data performs consistently better on a wide range of NLP tasks, achieving improvements on MNLI by +0.9% (90.2% vs. 91.1%), on SQuAD v2.0 by +2.3% (88.4% vs. 90.7%) and RACE by +3.6% (83.2% vs. 86.8%).
+This annotator is compatible with all the models trained/fine-tuned by using `DebertaV2Model` for **PyTorch** or `TFDebertaV2Model` for **TensorFlow** models (DeBERTa-v2 & DeBERTa-v3) in HuggingFace
+* Introducing a new param enableCaching in Doc2VecApproach and Word2VecApproach which if enabled speeds up the training
+* Support Databricks runtime 10.3, 10.3 ML, and 10.3 ML & GPU
+* Support EMR emr-5.34.0 and emr-6.5.0
+
+----------------
+Bug Fixes
+----------------
+* Fix bestModelMetric param when the set value was ignored https://github.com/JohnSnowLabs/spark-nlp/pull/6978
+
+
+========
+3.4.1
+========
+----------------
+New Features & Enhancements
+----------------
+* Implement TF Session warmup for MarianTransformer, T5Transformer, and GPT2Transformer annotators. The first inference for these annotators used to take between 15-20 seconds, now with the warmup session all the inferences including the first time will be the same https://github.com/JohnSnowLabs/spark-nlp/pull/6773
+* Add bestModelMetric param to choose between Micro-average or Macro-average for best model https://github.com/JohnSnowLabs/spark-nlp/pull/6749
+* Add trimWhitespace and preservePosition params to RegexTokenizer https://github.com/JohnSnowLabs/spark-nlp/pull/6806
+* Add a new `setSentenceMatchAdd` param to EntityRuler to match entities across documents/sentences and not just tokens https://github.com/JohnSnowLabs/spark-nlp/pull/6841
+* Add support spark32 and real_time_output flags in sparknlp.start() function at the same time https://github.com/JohnSnowLabs/spark-nlp/pull/6822
+
+----------------
+Bug Fixes
+----------------
+* Fix random NullPointerException when using TensorFlow models without Kyro serialization https://github.com/JohnSnowLabs/spark-nlp/pull/6741
+* Fix RecursiveTokenizerModel not being readable in a saved Pipeline https://github.com/JohnSnowLabs/spark-nlp/pull/6748
+* Fix ContextSpellCheckerApproach not being trained on Databricks https://github.com/JohnSnowLabs/spark-nlp/pull/6750
+* Fix ContextSpellCheckerModel wrong order of tokens it's used with Sentence Detectors https://github.com/JohnSnowLabs/spark-nlp/pull/6799
+* Fix GraphExtraction when fullAnnotate and document are used at the same time https://github.com/JohnSnowLabs/spark-nlp/pull/6845
+* Fix Word2VecModel being cast to Doc2VecModel by mistake https://github.com/JohnSnowLabs/spark-nlp/pull/6849
+* Fix broken sentence indexing in BertEmbeddings that impacted SentenceEmbeddings for text classification https://github.com/JohnSnowLabs/spark-nlp/pull/6867
+* Fix missing setExceotionsPath param in Tokenizer when it's used in Python https://github.com/JohnSnowLabs/spark-nlp/pull/6868
+* Fix the wrong metrics being mentioned when useBestModel was enabled. The documentation said Micro-averaged F1 but in fact, it was Macro-average F1. (this option is now available to choose which metric to be tracked)
+* Update broken slow unit tests https://github.com/JohnSnowLabs/spark-nlp/pull/6767
+
+
+========
 3.4.0
 ========
 ----------------

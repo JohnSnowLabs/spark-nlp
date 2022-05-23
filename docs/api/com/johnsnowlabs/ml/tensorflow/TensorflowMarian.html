@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.0 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowMarian</title>
-          <meta name="description" content="Spark NLP 3.4.0 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowMarian" />
-          <meta name="keywords" content="Spark NLP 3.4.0 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowMarian" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowMarian</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowMarian" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowMarian" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -239,8 +239,20 @@
                         <a href="TensorflowBertClassification.html" title="">TensorflowBertClassification</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
+                        <a class="class" href="TensorflowCamemBert.html" title="The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot."></a>
+                        <a href="TensorflowCamemBert.html" title="The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot.">TensorflowCamemBert</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
                         <a class="class" href="TensorflowClassifier.html" title=""></a>
                         <a href="TensorflowClassifier.html" title="">TensorflowClassifier</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="TensorflowDeBerta.html" title=""></a>
+                        <a href="TensorflowDeBerta.html" title="">TensorflowDeBerta</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="TensorflowDeBertaClassification.html" title=""></a>
+                        <a href="TensorflowDeBertaClassification.html" title="">TensorflowDeBertaClassification</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="class" href="TensorflowDistilBert.html" title="The DistilBERT model was proposed in the paper DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter https://arxiv.org/abs/1910.01108."></a>
@@ -361,10 +373,13 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>MarianTransformer: Fast Neural Machine Translation</p><p>MarianTransformer uses models trained by MarianNMT.</p><p>Marian is an efficient, free Neural Machine Translation framework written in pure C++ with minimal dependencies.
-It is mainly being developed by the Microsoft Translator team. Many academic (most notably the University of Edinburgh and in the past the Adam Mickiewicz University in Poznań) and commercial contributors help with its development.</p><p>It is currently the engine behind the Microsoft Translator Neural Machine Translation services and being deployed by many companies, organizations and research projects (see below for an incomplete list).</p><p><b>Sources</b> :
-MarianNMT <a href="https://marian-nmt.github.io/" target="_blank">https://marian-nmt.github.io/</a>
-Marian: Fast Neural Machine Translation in C++ <a href="https://www.aclweb.org/anthology/P18-4020/" target="_blank">https://www.aclweb.org/anthology/P18-4020/</a>
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>MarianTransformer: Fast Neural Machine Translation</p><p>MarianTransformer uses models trained by MarianNMT.</p><p>Marian is an efficient, free Neural Machine Translation framework written in pure C++ with
+minimal dependencies. It is mainly being developed by the Microsoft Translator team. Many
+academic (most notably the University of Edinburgh and in the past the Adam Mickiewicz
+University in Poznań) and commercial contributors help with its development.</p><p>It is currently the engine behind the Microsoft Translator Neural Machine Translation services
+and being deployed by many companies, organizations and research projects (see below for an
+incomplete list).</p><p><b>Sources</b> : MarianNMT <a href="https://marian-nmt.github.io/" target="_blank">https://marian-nmt.github.io/</a> Marian: Fast Neural Machine
+Translation in C++ <a href="https://www.aclweb.org/anthology/P18-4020/" target="_blank">https://www.aclweb.org/anthology/P18-4020/</a>
 </p></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
@@ -430,7 +445,11 @@ Marian: Fast Neural Machine Translation in C++ <a href="https://www.aclweb.org/a
         <span class="name">TensorflowMarian</span><span class="params">(<span name="tensorflow">tensorflow: <a href="TensorflowWrapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</a></span>, <span name="sppSrc">sppSrc: <a href="sentencepiece/SentencePieceWrapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper">SentencePieceWrapper</a></span>, <span name="sppTrg">sppTrg: <a href="sentencepiece/SentencePieceWrapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper">SentencePieceWrapper</a></span>, <span name="configProtoBytes">configProtoBytes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]] = <span class="symbol">None</span></span>, <span name="signatures">signatures: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]] = <span class="symbol">None</span></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">tensorflow</dt><dd class="cmt"><p>LanguageDetectorDL Model wrapper with TensorFlow Wrapper</p></dd><dt class="param">sppSrc</dt><dd class="cmt"><p>Contains the vocabulary for the target language.</p></dd><dt class="param">sppTrg</dt><dd class="cmt"><p>Contains the vocabulary for the source language</p></dd><dt class="param">configProtoBytes</dt><dd class="cmt"><p>Configuration for TensorFlow session</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">tensorflow</dt><dd class="cmt"><p>
+  LanguageDetectorDL Model wrapper with TensorFlow Wrapper</p></dd><dt class="param">sppSrc</dt><dd class="cmt"><p>
+  Contains the vocabulary for the target language.</p></dd><dt class="param">sppTrg</dt><dd class="cmt"><p>
+  Contains the vocabulary for the source language</p></dd><dt class="param">configProtoBytes</dt><dd class="cmt"><p>
+  Configuration for TensorFlow session</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -751,12 +770,18 @@ Marian: Fast Neural Machine Translation in C++ <a href="https://www.aclweb.org/a
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">predict</span><span class="params">(<span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">10</span></span>, <span name="maxInputLength">maxInputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxOutputLength">maxOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="vocabs">vocabs: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="langId">langId: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="ignoreTokenIds">ignoreTokenIds: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>] = <span class="symbol">Array()</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
+        <span class="name">predict</span><span class="params">(<span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1</span></span>, <span name="maxInputLength">maxInputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxOutputLength">maxOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="vocabs">vocabs: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="langId">langId: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="ignoreTokenIds">ignoreTokenIds: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>] = <span class="symbol">Array()</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
       </span>
       
       <p class="shortcomment cmt">generate seq2seq via encoding, generating, and decoding
 </p><div class="fullcomment"><div class="comment cmt"><p>generate seq2seq via encoding, generating, and decoding
-</p></div><dl class="paramcmts block"><dt class="param">sentences</dt><dd class="cmt"><p>none empty Annotation</p></dd><dt class="param">batchSize</dt><dd class="cmt"><p>size of baches to be process at the same time</p></dd><dt class="param">maxInputLength</dt><dd class="cmt"><p>maximum length for input</p></dd><dt class="param">maxOutputLength</dt><dd class="cmt"><p>maximum length for output</p></dd><dt class="param">vocabs</dt><dd class="cmt"><p>list of all vocabs</p></dd><dt class="param">langId</dt><dd class="cmt"><p>language id for multi-lingual models</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">sentences</dt><dd class="cmt"><p>
+  none empty Annotation</p></dd><dt class="param">batchSize</dt><dd class="cmt"><p>
+  size of baches to be process at the same time</p></dd><dt class="param">maxInputLength</dt><dd class="cmt"><p>
+  maximum length for input</p></dd><dt class="param">maxOutputLength</dt><dd class="cmt"><p>
+  maximum length for output</p></dd><dt class="param">vocabs</dt><dd class="cmt"><p>
+  list of all vocabs</p></dd><dt class="param">langId</dt><dd class="cmt"><p>
+  language id for multi-lingual models</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowMarian#sppSrc" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="sppSrc:com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper"></a><a id="sppSrc:SentencePieceWrapper"></a>
       <span class="permalink">

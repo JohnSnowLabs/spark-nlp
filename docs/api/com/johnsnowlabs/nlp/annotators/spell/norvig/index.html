@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.spell.norvig</title>
-          <meta name="description" content="Spark NLP 3.4.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.norvig" />
-          <meta name="keywords" content="Spark NLP 3.4.0 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.norvig" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.spell.norvig</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.norvig" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.norvig" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -307,12 +307,18 @@
         <a title="Trains annotator, that retrieves tokens and makes corrections automatically if not found in an English dictionary." href="NorvigSweetingApproach.html"><span class="name">NorvigSweetingApproach</span></a><span class="result"> extends <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="NorvigSweetingModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel">NorvigSweetingModel</a>] with <a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></span>
       </span>
       
-      <p class="shortcomment cmt">Trains annotator, that retrieves tokens and makes corrections automatically if not found in an English dictionary.</p><div class="fullcomment"><div class="comment cmt"><p>Trains annotator, that retrieves tokens and makes corrections automatically if not found in an English dictionary.</p><p>The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate generation and
-dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of magnitude faster
-(than the standard approach with deletes + transposes + replaces + inserts) and language independent.
-A dictionary of correct spellings must be provided with <code>setDictionary</code> either in the form of a text file or directly
-as an <a href="../../../util/io/ExternalResource.html" class="extype" name="com.johnsnowlabs.nlp.util.io.ExternalResource">ExternalResource</a>, where each word is parsed by a regex pattern.</p><p>Inspired by Norvig model and <a href="https://github.com/wolfgarbe/SymSpell" target="_blank">SymSpell</a>.</p><p>For instantiated/pretrained models, see <a href="NorvigSweetingModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel">NorvigSweetingModel</a>.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb" target="_blank">Spark NLP Workshop</a>
-and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala" target="_blank">NorvigSweetingTestSpec</a>.</p><h4>Example</h4><p>In this example, the dictionary <code>&quot;words.txt&quot;</code> has the form of</p><pre>...
+      <p class="shortcomment cmt">Trains annotator, that retrieves tokens and makes corrections automatically if not found in an
+English dictionary.</p><div class="fullcomment"><div class="comment cmt"><p>Trains annotator, that retrieves tokens and makes corrections automatically if not found in an
+English dictionary.</p><p>The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate
+generation and dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of
+magnitude faster (than the standard approach with deletes + transposes + replaces + inserts)
+and language independent. A dictionary of correct spellings must be provided with
+<code>setDictionary</code> either in the form of a text file or directly as an
+<a href="../../../util/io/ExternalResource.html" class="extype" name="com.johnsnowlabs.nlp.util.io.ExternalResource">ExternalResource</a>, where each word is parsed
+by a regex pattern.</p><p>Inspired by Norvig model and <a href="https://github.com/wolfgarbe/SymSpell" target="_blank">SymSpell</a>.</p><p>For instantiated/pretrained models, see <a href="NorvigSweetingModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel">NorvigSweetingModel</a>.</p><p>For extended examples of usage, see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb" target="_blank">Spark NLP Workshop</a>
+and the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala" target="_blank">NorvigSweetingTestSpec</a>.</p><h4>Example</h4><p>In this example, the dictionary <code>&quot;words.txt&quot;</code> has the form of</p><pre>...
 gummy
 gummic
 gummier
@@ -342,7 +348,11 @@ gummiferous
   spellChecker
 ))
 
-<span class="kw">val</span> pipelineModel = pipeline.fit(trainingData)</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="../symmetric/SymmetricDeleteApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach">SymmetricDeleteApproach</a> for an alternative approach to spell checking</p></span><span class="cmt"><p><a href="../context/ContextSpellCheckerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a> for a DL based approach</p></span></dd></dl></div>
+<span class="kw">val</span> pipelineModel = pipeline.fit(trainingData)</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
+  <a href="../symmetric/SymmetricDeleteApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach">SymmetricDeleteApproach</a>
+  for an alternative approach to spell checking</p></span><span class="cmt"><p>
+  <a href="../context/ContextSpellCheckerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>
+  for a DL based approach</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="NorvigSweetingModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel]withNorvigSweetingParams"></a><a id="NorvigSweetingModel:NorvigSweetingModel"></a>
       <span class="permalink">
@@ -358,16 +368,20 @@ gummiferous
         <a title="This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary." href="NorvigSweetingModel.html"><span class="name">NorvigSweetingModel</span></a><span class="result"> extends <a href="../../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="NorvigSweetingModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel">NorvigSweetingModel</a>] with <a href="../../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="NorvigSweetingModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel">NorvigSweetingModel</a>] with <a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></span>
       </span>
       
-      <p class="shortcomment cmt">This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary.</p><div class="fullcomment"><div class="comment cmt"><p>This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary.
-Inspired by Norvig model and <a href="https://github.com/wolfgarbe/SymSpell" target="_blank">SymSpell</a>.</p><p>The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate generation and
-dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of magnitude faster
-(than the standard approach with deletes + transposes + replaces + inserts) and language independent.</p><p>This is the instantiated model of the <a href="NorvigSweetingApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach">NorvigSweetingApproach</a>.
-For training your own model, please see the documentation of that class.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> spellChecker = NorvigSweetingModel.pretrained()
+      <p class="shortcomment cmt">This annotator retrieves tokens and makes corrections automatically if not found in an English
+dictionary.</p><div class="fullcomment"><div class="comment cmt"><p>This annotator retrieves tokens and makes corrections automatically if not found in an English
+dictionary. Inspired by Norvig model and <a href="https://github.com/wolfgarbe/SymSpell" target="_blank">SymSpell</a>.</p><p>The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate
+generation and dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of
+magnitude faster (than the standard approach with deletes + transposes + replaces + inserts)
+and language independent.</p><p>This is the instantiated model of the <a href="NorvigSweetingApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach">NorvigSweetingApproach</a>. For training your own model,
+please see the documentation of that class.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> spellChecker = NorvigSweetingModel.pretrained()
   .setInputCols(<span class="lit">"token"</span>)
   .setOutputCol(<span class="lit">"spell"</span>)
-  .setDoubleVariants(<span class="kw">true</span>)</pre><p>The default model is <code>&quot;spellcheck_norvig&quot;</code>, if no name is provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Spell+Check" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb" target="_blank">Spark NLP Workshop</a>
-and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala" target="_blank">NorvigSweetingTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+  .setDoubleVariants(<span class="kw">true</span>)</pre><p>The default model is <code>&quot;spellcheck_norvig&quot;</code>, if no name is provided. For available pretrained
+models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Spell+Check" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb" target="_blank">Spark NLP Workshop</a>
+and the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala" target="_blank">NorvigSweetingTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
@@ -399,7 +413,11 @@ result.select(<span class="lit">"spell.result"</span>).show(<span class="kw">fal
 |result                                |
 +--------------------------------------+
 |[sometimes, i, write, words, wrong, .]|
-+--------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="../symmetric/SymmetricDeleteModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel">SymmetricDeleteModel</a> for an alternative approach to spell checking</p></span><span class="cmt"><p><a href="../context/ContextSpellCheckerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel">ContextSpellCheckerModel</a> for a DL based approach</p></span></dd></dl></div>
++--------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
+  <a href="../symmetric/SymmetricDeleteModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel">SymmetricDeleteModel</a>
+  for an alternative approach to spell checking</p></span><span class="cmt"><p>
+  <a href="../context/ContextSpellCheckerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel">ContextSpellCheckerModel</a>
+  for a DL based approach</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="NorvigSweetingParamsextendsParams"></a><a id="NorvigSweetingParams:NorvigSweetingParams"></a>
       <span class="permalink">
@@ -415,7 +433,9 @@ result.select(<span class="lit">"spell.result"</span>).show(<span class="kw">fal
         <a title="These are the configs for the NorvigSweeting model" href="NorvigSweetingParams.html"><span class="name">NorvigSweetingParams</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.param.Params">Params</span></span>
       </span>
       
-      <p class="shortcomment cmt">These are the configs for the NorvigSweeting model</p><div class="fullcomment"><div class="comment cmt"><p>These are the configs for the NorvigSweeting model</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala</a> for further reference on how to use this API
+      <p class="shortcomment cmt">These are the configs for the NorvigSweeting model</p><div class="fullcomment"><div class="comment cmt"><p>These are the configs for the NorvigSweeting model</p><p>See
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala</a>
+for further reference on how to use this API
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="ReadablePretrainedNorvigextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel]"></a><a id="ReadablePretrainedNorvig:ReadablePretrainedNorvig"></a>
@@ -456,7 +476,8 @@ result.select(<span class="lit">"spell.result"</span>).show(<span class="kw">fal
         <a title="This is the companion object of NorvigSweetingApproach." href="NorvigSweetingApproach$.html"><span class="name">NorvigSweetingApproach</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="NorvigSweetingApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach">NorvigSweetingApproach</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
-      <p class="shortcomment cmt">This is the companion object of <a href="NorvigSweetingApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach">NorvigSweetingApproach</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="NorvigSweetingApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach">NorvigSweetingApproach</a>. Please refer to that class for the documentation.
+      <p class="shortcomment cmt">This is the companion object of <a href="NorvigSweetingApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach">NorvigSweetingApproach</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="NorvigSweetingApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach">NorvigSweetingApproach</a>. Please refer to that class for the
+documentation.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="NorvigSweetingModel"></a><a id="NorvigSweetingModel:NorvigSweetingModel"></a>
@@ -473,7 +494,8 @@ result.select(<span class="lit">"spell.result"</span>).show(<span class="kw">fal
         <a title="This is the companion object of NorvigSweetingModel." href="NorvigSweetingModel$.html"><span class="name">NorvigSweetingModel</span></a><span class="result"> extends <a href="ReadablePretrainedNorvig.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig">ReadablePretrainedNorvig</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
-      <p class="shortcomment cmt">This is the companion object of <a href="NorvigSweetingModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel">NorvigSweetingModel</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="NorvigSweetingModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel">NorvigSweetingModel</a>. Please refer to that class for the documentation.
+      <p class="shortcomment cmt">This is the companion object of <a href="NorvigSweetingModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel">NorvigSweetingModel</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="NorvigSweetingModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel">NorvigSweetingModel</a>. Please refer to that class for the
+documentation.
 </p></div></div>
     </li>
               </ol>

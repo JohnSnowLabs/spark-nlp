@@ -26,7 +26,7 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.Clinical_DeIdentification.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_subentity_augmented_en_3.2.0_2.4_1630671569402.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_subentity_augmented_en_3.2.0_3.0_1630671569402.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -59,8 +59,8 @@ val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en"
       .setInputCols(Array("sentence", "token"))
       .setOutputCol("embeddings")
 
-val deid_ner = MedicalNerModel.pretrained("ner_deid_subentity_augmented", "en", "clinical/models") 
-      .setInputCols(Array("sentence", "token", "embeddings")) 
+val deid_ner = MedicalNerModel.pretrained("ner_deid_subentity_augmented", "en", "clinical/models")
+      .setInputCols(Array("sentence", "token", "embeddings"))
       .setOutputCol("ner")
 
 val ner_converter = NerConverter()

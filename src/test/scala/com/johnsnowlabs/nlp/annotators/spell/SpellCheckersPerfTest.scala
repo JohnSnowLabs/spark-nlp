@@ -22,9 +22,9 @@ import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach
 import com.johnsnowlabs.nlp.base._
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.{Benchmark, PipelineModels}
+import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 //ResourceHelper.spark
@@ -32,35 +32,32 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
 
 class SpellCheckersPerfTest extends AnyFlatSpec {
 
-  val documentAssembler = new DocumentAssembler().
-    setInputCol("text").
-    setOutputCol("document")
+  val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
 
-  val tokenizer = new Tokenizer().
-    setInputCols(Array("document")).
-    setOutputCol("token")
+  val tokenizer = new Tokenizer()
+    .setInputCols(Array("document"))
+    .setOutputCol("token")
 
-  val finisher = new Finisher().
-    setInputCols("token", "spell")
+  val finisher = new Finisher()
+    .setInputCols("token", "spell")
 
   val emptyDataSet = PipelineModels.dummyDataset
-  val corpusDataSetInit = AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
+  val corpusDataSetInit =
+    AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
   val corpusDataSet = corpusDataSetInit.as[String].collect()
 
   "Norvig pipeline" should "be fast" taggedAs SlowTest in {
 
-    val spell = NorvigSweetingModel.pretrained().
-      setInputCols("token").
-      setOutputCol("spell").
-      setDoubleVariants(true)
+    val spell = NorvigSweetingModel
+      .pretrained()
+      .setInputCols("token")
+      .setOutputCol("spell")
+      .setDoubleVariants(true)
 
-    val recursivePipeline = new RecursivePipeline().
-      setStages(Array(
-        documentAssembler,
-        tokenizer,
-        spell,
-        finisher
-      ))
+    val recursivePipeline = new Pipeline()
+      .setStages(Array(documentAssembler, tokenizer, spell, finisher))
 
     val spellmodel = recursivePipeline.fit(emptyDataSet)
     val spellplight = new LightPipeline(spellmodel)
@@ -77,13 +74,8 @@ class SpellCheckersPerfTest extends AnyFlatSpec {
       .setInputCols("token")
       .setOutputCol("spell")
 
-    val recursivePipeline = new RecursivePipeline().
-      setStages(Array(
-        documentAssembler,
-        tokenizer,
-        spell,
-        finisher
-      ))
+    val recursivePipeline = new Pipeline()
+      .setStages(Array(documentAssembler, tokenizer, spell, finisher))
 
     val spellmodel = recursivePipeline.fit(corpusDataSetInit)
     val spellplight = new LightPipeline(spellmodel)
@@ -103,13 +95,8 @@ class SpellCheckersPerfTest extends AnyFlatSpec {
       .setInputCols("token")
       .setOutputCol("spell")
 
-    val recursivePipeline = new RecursivePipeline().
-      setStages(Array(
-        documentAssembler,
-        tokenizer,
-        spell,
-        finisher
-      ))
+    val recursivePipeline = new Pipeline()
+      .setStages(Array(documentAssembler, tokenizer, spell, finisher))
 
     val spellmodel = recursivePipeline.fit(Seq.empty[String].toDF("text"))
     val spellplight = new LightPipeline(spellmodel)
@@ -121,4 +108,3 @@ class SpellCheckersPerfTest extends AnyFlatSpec {
   }
 
 }
-

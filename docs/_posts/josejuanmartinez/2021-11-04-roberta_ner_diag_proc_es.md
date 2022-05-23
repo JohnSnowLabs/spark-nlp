@@ -80,7 +80,7 @@ test_sentence = 'Mujer de 28 años con antecedentes de diabetes mellitus gestaci
 res = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
 ```scala
-val documentAssembler = DocumentAssembler()
+val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
 
@@ -88,11 +88,11 @@ val sentenceDetector = SentenceDetectorDLModel.pretrained()
     .setInputCols(Array("document"))
     .setOutputCol("sentence")
 
-val tokenizer = Tokenizer()
+val tokenizer = new Tokenizer()
     .setInputCols("sentence")
     .setOutputCol("token")
 
-val embeddings =  RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
+val embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
     .setInputCols(Array("sentence", "token"))
     .setOutputCol("embeddings")
 
@@ -100,7 +100,7 @@ val ner = MedicalNerModel.pretrained("roberta_ner_diag_proc", "es", "clinical/mo
     .setInputCols(Array("sentence", "token", "embeddings"))
     .setOutputCol("ner")
 
-val ner_converter = NerConverter()
+val ner_converter = new NerConverter()
     .setInputCols(Array("sentence", "token", "ner"))
     .setOutputCol("ner_chunk")
 

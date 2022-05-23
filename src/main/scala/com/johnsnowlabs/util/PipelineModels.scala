@@ -20,7 +20,6 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.ml.{Pipeline, PipelineModel, Transformer}
 import org.apache.spark.sql.DataFrame
 
-
 object PipelineModels {
 
   lazy val dummyDataset: DataFrame = {

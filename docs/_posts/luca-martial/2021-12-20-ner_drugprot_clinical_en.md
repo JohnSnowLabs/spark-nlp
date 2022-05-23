@@ -7,7 +7,7 @@ date: 2021-12-20
 tags: [ner, clinical, drugprot, en, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.3.3
+edition: Spark NLP for Healthcare 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
@@ -24,8 +24,8 @@ This model detects chemical compounds/drugs and genes/proteins in medical text a
 `GENE`, `CHEMICAL`, `GENE_AND_CHEMICAL`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DRUG_PROT/){:.button.button-orange}
+[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_drugprot_clinical_en_3.3.3_3.0_1639989110299.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -87,7 +87,7 @@ val result = pipeline.fit(Seq.empty[EXAMPLE_TEXT]).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|ner_drugprot_clinical|
-|Compatibility:|Spark NLP for Healthcare 3.3.3+|
+|Compatibility:|Spark NLP for Healthcare 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

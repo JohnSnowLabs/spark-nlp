@@ -25,11 +25,11 @@ import org.apache.spark.ml.param.{BooleanParam, IntParam, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
-/**
-  * Annotator that cleans out tokens. Requires stems, hence tokens.
-  * Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary
+/** Annotator that cleans out tokens. Requires stems, hence tokens. Removes all dirty characters
+  * from text following a regex pattern and transforms words based on a provided dictionary
   *
-  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb Spark NLP Workshop]].
+  * For extended examples of usage, see the
+  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb Spark NLP Workshop]].
   *
   * ==Example==
   * {{{
@@ -69,9 +69,11 @@ import org.apache.spark.sql.Dataset
   * |[john, and, peter, are, brothers, however, they, dont, support, each, other, that, much]|
   * +----------------------------------------------------------------------------------------+
   * }}}
-  * @param uid required internal uid for saving annotator
+  * @param uid
+  *   required internal uid for saving annotator
   * @groupname anno Annotator types
-  * @groupdesc anno Required input and expected output annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
   * @groupname Ungrouped Members
   * @groupname param Parameters
   * @groupname setParam Parameter setters
@@ -82,7 +84,9 @@ import org.apache.spark.sql.Dataset
   * @groupprio Ungrouped 3
   * @groupprio setParam  4
   * @groupprio getParam  5
-  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
   */
 class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerModel] {
 
@@ -101,20 +105,24 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
     */
   override val inputAnnotatorTypes: Array[String] = Array(TOKEN)
 
-  /** Normalization regex patterns which match will be removed from token (Default: `Array("[^\\pL+]")`)
+  /** Normalization regex patterns which match will be removed from token (Default:
+    * `Array("[^\\pL+]")`)
     *
     * @group param
     */
-  val cleanupPatterns = new StringArrayParam(this, "cleanupPatterns", "Normalization regex patterns which match will be removed from token")
+  val cleanupPatterns = new StringArrayParam(
+    this,
+    "cleanupPatterns",
+    "Normalization regex patterns which match will be removed from token")
 
-  /**
-    * Normalization regex patterns which match will be removed from token (Default: `Array("[^\\pL+]")`)
+  /** Normalization regex patterns which match will be removed from token (Default:
+    * `Array("[^\\pL+]")`)
     * @group getParam
     */
   def getCleanupPatterns: Array[String] = $(cleanupPatterns)
 
-  /**
-    * Normalization regex patterns which match will be removed from token (Default: `Array("[^\\pL+]")`)
+  /** Normalization regex patterns which match will be removed from token (Default:
+    * `Array("[^\\pL+]")`)
     * @group setParam
     */
   def setCleanupPatterns(value: Array[String]): this.type = set(cleanupPatterns, value)
@@ -123,16 +131,17 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
     *
     * @group param
     */
-  val lowercase = new BooleanParam(this, "lowercase", "Whether to convert strings to lowercase (Default: `false`)")
+  val lowercase = new BooleanParam(
+    this,
+    "lowercase",
+    "Whether to convert strings to lowercase (Default: `false`)")
 
-  /**
-    * Whether to convert strings to lowercase (Default: `false`)
+  /** Whether to convert strings to lowercase (Default: `false`)
     * @group getParam
     */
   def getLowercase: Boolean = $(lowercase)
 
-  /**
-    * Whether to convert strings to lowercase (Default: `false`)
+  /** Whether to convert strings to lowercase (Default: `false`)
     * @group setParam
     */
   def setLowercase(value: Boolean): this.type = set(lowercase, value)
@@ -141,41 +150,46 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
     *
     * @group param
     */
-  val slangDictionary = new ExternalResourceParam(this, "slangDictionary", "Delimited file with list of custom words to be manually corrected")
+  val slangDictionary = new ExternalResourceParam(
+    this,
+    "slangDictionary",
+    "Delimited file with list of custom words to be manually corrected")
 
-  /**
-    * Delimited file with list of custom words to be manually corrected
+  /** Delimited file with list of custom words to be manually corrected
     * @group setParam
     */
   def setSlangDictionary(value: ExternalResource): this.type = {
-    require(value.options.contains("delimiter"), "slang dictionary is a delimited text. needs 'delimiter' in options")
+    require(
+      value.options.contains("delimiter"),
+      "slang dictionary is a delimited text. needs 'delimiter' in options")
     set(slangDictionary, value)
   }
 
-  /**
-    * Delimited file with list of custom words to be manually corrected
+  /** Delimited file with list of custom words to be manually corrected
     * @group setParam
     */
-  def setSlangDictionary(path: String,
-                         delimiter: String,
-                         readAs: ReadAs.Format = ReadAs.TEXT,
-                         options: Map[String, String] = Map("format" -> "text")): this.type =
+  def setSlangDictionary(
+      path: String,
+      delimiter: String,
+      readAs: ReadAs.Format = ReadAs.TEXT,
+      options: Map[String, String] = Map("format" -> "text")): this.type =
     set(slangDictionary, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
 
   /** Whether or not to be case sensitive to match slangs (Default: `false`)
     *
     * @group param
     */
-  val slangMatchCase = new BooleanParam(this, "slangMatchCase", "Whether or not to be case sensitive to match slangs. Defaults to false.")
+  val slangMatchCase = new BooleanParam(
+    this,
+    "slangMatchCase",
+    "Whether or not to be case sensitive to match slangs. Defaults to false.")
 
-  /**
-    * Whether or not to be case sensitive to match slangs (Default: `false`)
+  /** Whether or not to be case sensitive to match slangs (Default: `false`)
     * @group setParam
     */
   def setSlangMatchCase(value: Boolean): this.type = set(slangMatchCase, value)
 
-  /**
-    * Whether or not to be case sensitive to match slangs (Default: `false`)
+  /** Whether or not to be case sensitive to match slangs (Default: `false`)
     * @group getParam
     */
   def getSlangMatchCase: Boolean = $(slangMatchCase)
@@ -186,8 +200,7 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
     */
   val minLength = new IntParam(this, "minLength", "Set the minimum allowed length for each token")
 
-  /**
-    * Set the minimum allowed length for each token (Default: `0`)
+  /** Set the minimum allowed length for each token (Default: `0`)
     * @group setParam
     */
   def setMinLength(value: Int): this.type = {
@@ -196,12 +209,10 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
     set(minLength, value)
   }
 
-  /**
-    * Set the minimum allowed length for each token (Default: `0`)
+  /** Set the minimum allowed length for each token (Default: `0`)
     * @group getParam
     */
   def getMinLength: Int = $(minLength)
-
 
   /** Set the maximum allowed length for each token
     *
@@ -209,20 +220,20 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
     */
   val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed length for each token")
 
-  /**
-    * Set the maximum allowed length for each token
+  /** Set the maximum allowed length for each token
     * @group setParam
     */
   def setMaxLength(value: Int): this.type = {
-    require(value >= ${
-      minLength
-    }, "maxLength must be greater equal than minLength")
+    require(
+      value >= $ {
+        minLength
+      },
+      "maxLength must be greater equal than minLength")
     require(value.isValidInt, "minLength must be Int")
     set(maxLength, value)
   }
 
-  /**
-    * Set the maximum allowed length for each token
+  /** Set the maximum allowed length for each token
     * @group getParam
     */
   def getMaxLength: Int = $(maxLength)
@@ -231,12 +242,13 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
     lowercase -> false,
     cleanupPatterns -> Array("[^\\pL+]"),
     slangMatchCase -> false,
-    minLength -> 0
-  )
+    minLength -> 0)
 
   def this() = this(Identifiable.randomUID("NORMALIZER"))
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): NormalizerModel = {
+  override def train(
+      dataset: Dataset[_],
+      recursivePipeline: Option[PipelineModel]): NormalizerModel = {
 
     val loadSlangs = if (get(slangDictionary).isDefined) {
       val parsed = ResourceHelper.parseKeyValueText($(slangDictionary))
@@ -244,8 +256,7 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
         parsed.mapValues(_.trim)
       else
         parsed.map { case (k, v) => (k.toLowerCase, v.trim) }
-    }
-    else
+    } else
       Map.empty[String, String]
 
     val raw = new NormalizerModel()
@@ -263,7 +274,7 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
 
 }
 
-/**
- * This is the companion object of [[Normalizer]]. Please refer to that class for the documentation.
- */
+/** This is the companion object of [[Normalizer]]. Please refer to that class for the
+  * documentation.
+  */
 object Normalizer extends DefaultParamsReadable[Normalizer]

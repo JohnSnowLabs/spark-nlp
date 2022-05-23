@@ -41,8 +41,8 @@ class GraphBuilderTest extends AnyFlatSpec {
     val graph = new GraphBuilder(numberOfVertices)
     val expectedAdjacentVertices = Set(1, 4)
 
-    graph.addEdge(0,1)
-    graph.addEdge(0,4)
+    graph.addEdge(0, 1)
+    graph.addEdge(0, 4)
     val actualAdjacentVertices = graph.getAdjacentVertices(0)
 
     assert(actualAdjacentVertices == expectedAdjacentVertices)
@@ -71,8 +71,8 @@ class GraphBuilderTest extends AnyFlatSpec {
   it should "return true if an edge exists" in {
     val numberOfVertices = 5
     val graph = new GraphBuilder(numberOfVertices)
-    graph.addEdge(1,4)
-    graph.addEdge(3,2)
+    graph.addEdge(1, 4)
+    graph.addEdge(3, 2)
 
     assert(graph.edgeExists(1, 4))
     assert(graph.edgeExists(3, 2))
@@ -81,7 +81,7 @@ class GraphBuilderTest extends AnyFlatSpec {
   it should "return false if an edge does not exist" in {
     val numberOfVertices = 3
     val graph = new GraphBuilder(numberOfVertices)
-    graph.addEdge(0,1)
+    graph.addEdge(0, 1)
 
     assert(!graph.edgeExists(1, 1))
   }
@@ -113,7 +113,7 @@ class GraphBuilderTest extends AnyFlatSpec {
 
   }
 
-  it should "raise an error when trying to find paths on graph without edges" in{
+  it should "raise an error when trying to find paths on graph without edges" in {
     val graph = new GraphBuilder(1)
 
     assertThrows[IllegalArgumentException] {
@@ -124,12 +124,12 @@ class GraphBuilderTest extends AnyFlatSpec {
   private def getTestGraph: GraphBuilder = {
     val numberOfVertices = 7
     val graph = new GraphBuilder(numberOfVertices)
-    graph.addEdge(0,1)
-    graph.addEdge(0,2)
-    graph.addEdge(1,3)
-    graph.addEdge(1,4)
-    graph.addEdge(2,5)
-    graph.addEdge(4,6)
+    graph.addEdge(0, 1)
+    graph.addEdge(0, 2)
+    graph.addEdge(1, 3)
+    graph.addEdge(1, 4)
+    graph.addEdge(2, 5)
+    graph.addEdge(4, 6)
 
     graph
   }

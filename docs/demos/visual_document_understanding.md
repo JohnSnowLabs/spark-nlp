@@ -32,20 +32,6 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOCRVisualDocumentClassifier.ipynb
-        # - title: Signature Detection
-        #   id: extract_signatures 
-        #   image: 
-        #       src: /assets/images/Extract_Signatures.svg
-        #   image2: 
-        #       src: /assets/images/Extract_Signatures_c.svg
-        #   excerpt: This demo shows how handwritten signatures can be extracted from image/pdf documents using Spark OCR.
-        #   actions:
-        #   - text: Live Demo
-        #     type: normal
-        #     url: https://demo.johnsnowlabs.com/ocr/DETECT_SIGNATURES/
-        #   - text: Colab Netbook
-        #     type: blue_btn
-        #     url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/3.6.0/jupyter/SparkOcrImageSignatureDetection.ipynb
         - title: Extract Data from Scanned Invoices
           id: extract_entities_from_visual_documents  
           image: 
@@ -87,5 +73,33 @@ data:
             url: https://demo.johnsnowlabs.com/ocr/PDF_TEXT_NER/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TEXT_NER.ipynb     
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TEXT_NER.ipynb
+        - title: Extract brands from visual documents
+          id: extract_brands_from_visual_documents 
+          image: 
+              src: /assets/images/Extract_brands_from_visual_documents.svg
+          image2: 
+              src: /assets/images/Extract_brands_from_visual_documents_f.svg
+          excerpt: This demo shows how brands from image can be detected using Spark OCR.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/ocr/BRAND_EXTRACTION/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOcrImageBrandsExtraction.ipynb  
+        - title: Form Recognition
+          id: form_recognition 
+          image: 
+              src: /assets/images/Detect_sentences_in_text.svg
+          image2: 
+              src: /assets/images/Detect_sentences_in_text_f.svg
+          excerpt: This demo shows how to perceive data in forms as key-value pairs.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/ocr/FORM_RECOGNITION/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/FormRecognition/SparkOcrFormRecognition.ipynb
 ---

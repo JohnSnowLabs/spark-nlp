@@ -33,28 +33,42 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
 
   def transform(dataFrame: Dataset[_]): DataFrame = pipelineModel.transform(dataFrame)
 
-  def fullAnnotate(target: String, startWith: Map[String, Seq[Annotation]] = Map.empty[String, Seq[Annotation]]): Map[String, Seq[Annotation]] = {
+  def fullAnnotate(
+      target: String,
+      startWith: Map[String, Seq[Annotation]] = Map.empty[String, Seq[Annotation]])
+      : Map[String, Seq[Annotation]] = {
     getStages.foldLeft(startWith)((annotations, transformer) => {
       transformer match {
         case documentAssembler: DocumentAssembler =>
-          annotations.updated(documentAssembler.getOutputCol, documentAssembler.assemble(target, Map.empty[String, String]))
+          annotations.updated(
+            documentAssembler.getOutputCol,
+            documentAssembler.assemble(target, Map.empty[String, String]))
         case lazyAnnotator: AnnotatorModel[_] if lazyAnnotator.getLazyAnnotator => annotations
         case recursiveAnnotator: HasRecursiveTransform[_] with AnnotatorModel[_] =>
           val combinedAnnotations =
-            recursiveAnnotator.getInputCols.foldLeft(Seq.empty[Annotation])((inputs, name) => inputs ++ annotations.getOrElse(name, Nil))
-          annotations.updated(recursiveAnnotator.getOutputCol, recursiveAnnotator.annotate(combinedAnnotations, pipelineModel))
+            recursiveAnnotator.getInputCols.foldLeft(Seq.empty[Annotation])((inputs, name) =>
+              inputs ++ annotations.getOrElse(name, Nil))
+          annotations.updated(
+            recursiveAnnotator.getOutputCol,
+            recursiveAnnotator.annotate(combinedAnnotations, pipelineModel))
         case batchedAnnotator: AnnotatorModel[_] with HasBatchedAnnotate[_] =>
-          val combinedAnnotations = batchedAnnotator.getInputCols.foldLeft(Array.empty[Annotation])((inputs, name) => inputs ++ annotations.getOrElse(name, Nil))
+          val combinedAnnotations =
+            batchedAnnotator.getInputCols.foldLeft(Array.empty[Annotation])((inputs, name) =>
+              inputs ++ annotations.getOrElse(name, Nil))
           // Benchmarks proved that parallel execution in LightPipeline gains more speed than batching entries (which require non parallel collections)
-          annotations.updated(batchedAnnotator.getOutputCol, batchedAnnotator.batchAnnotate(Seq(combinedAnnotations)).head)
+          annotations.updated(
+            batchedAnnotator.getOutputCol,
+            batchedAnnotator.batchAnnotate(Seq(combinedAnnotations)).head)
         case annotator: AnnotatorModel[_] with HasSimpleAnnotate[_] =>
           var inputCols = annotator.getInputCols
           if (annotator.optionalInputAnnotatorTypes.nonEmpty) {
-            val optionalColumns = getOptionalAnnotatorsOutputCols(annotator.optionalInputAnnotatorTypes)
+            val optionalColumns =
+              getOptionalAnnotatorsOutputCols(annotator.optionalInputAnnotatorTypes)
             inputCols = inputCols ++ optionalColumns
           }
           val combinedAnnotations =
-            inputCols.foldLeft(Seq.empty[Annotation])((inputs, name) => inputs ++ annotations.getOrElse(name, Nil))
+            inputCols.foldLeft(Seq.empty[Annotation])((inputs, name) =>
+              inputs ++ annotations.getOrElse(name, Nil))
           annotations.updated(annotator.getOutputCol, annotator.annotate(combinedAnnotations))
         case finisher: Finisher =>
           annotations.filterKeys(finisher.getInputCols.contains)
@@ -63,8 +77,10 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
           annotations.updated(graphFinisher.getOutputCol, annotated)
         case rawModel: RawAnnotator[_] =>
           if (ignoreUnsupported) annotations
-          else throw new IllegalArgumentException(s"model ${rawModel.uid} does not support LightPipeline." +
-            s" Call setIgnoreUnsupported(boolean) on LightPipeline to ignore")
+          else
+            throw new IllegalArgumentException(
+              s"model ${rawModel.uid} does not support LightPipeline." +
+                s" Call setIgnoreUnsupported(boolean) on LightPipeline to ignore")
         case pipeline: PipelineModel =>
           new LightPipeline(pipeline, parseEmbeddingsVectors).fullAnnotate(target, annotations)
         case _ => annotations
@@ -72,16 +88,21 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
     })
   }
 
-  private def getOptionalAnnotatorsOutputCols(optionalInputAnnotatorTypes: Array[String]): Array[String] = {
+  private def getOptionalAnnotatorsOutputCols(
+      optionalInputAnnotatorTypes: Array[String]): Array[String] = {
     val optionalColumns = getStages
       .filter(stage => stage.isInstanceOf[AnnotatorModel[_]])
-      .filter(stage => optionalInputAnnotatorTypes.contains(stage.asInstanceOf[AnnotatorModel[_]].outputAnnotatorType))
+      .filter(stage =>
+        optionalInputAnnotatorTypes.contains(
+          stage.asInstanceOf[AnnotatorModel[_]].outputAnnotatorType))
       .map(stage => stage.asInstanceOf[AnnotatorModel[_]].getOutputCol)
 
     optionalColumns
   }
 
-  private def getGraphFinisherOutput(annotations: Map[String, Seq[Annotation]], graphFinisher: GraphFinisher): Seq[Annotation] = {
+  private def getGraphFinisherOutput(
+      annotations: Map[String, Seq[Annotation]],
+      graphFinisher: GraphFinisher): Seq[Annotation] = {
     val result = getStages
       .filter(stage => stage.isInstanceOf[GraphFinisher])
       .map(stage => stage.asInstanceOf[GraphFinisher].getInputCol)
@@ -93,46 +114,61 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
   }
 
   def fullAnnotate(targets: Array[String]): Array[Map[String, Seq[Annotation]]] = {
-    targets.par.map(target => {
-      fullAnnotate(target)
-    }).toArray
+    targets.par
+      .map(target => {
+        fullAnnotate(target)
+      })
+      .toArray
   }
 
   def fullAnnotateJava(target: String): java.util.Map[String, java.util.List[JavaAnnotation]] = {
-    fullAnnotate(target).mapValues(_.map(aa =>
-      JavaAnnotation(aa.annotatorType, aa.begin, aa.end, aa.result, aa.metadata.asJava)).asJava).asJava
+    fullAnnotate(target)
+      .mapValues(_.map(aa =>
+        JavaAnnotation(aa.annotatorType, aa.begin, aa.end, aa.result, aa.metadata.asJava)).asJava)
+      .asJava
   }
 
-  def fullAnnotateJava(targets: java.util.ArrayList[String]): java.util.List[java.util.Map[String, java.util.List[JavaAnnotation]]] = {
-    targets.asScala.par.map(target => {
-      fullAnnotateJava(target)
-    }).toList.asJava
+  def fullAnnotateJava(targets: java.util.ArrayList[String])
+      : java.util.List[java.util.Map[String, java.util.List[JavaAnnotation]]] = {
+    targets.asScala.par
+      .map(target => {
+        fullAnnotateJava(target)
+      })
+      .toList
+      .asJava
   }
 
   def annotate(target: String): Map[String, Seq[String]] = {
     fullAnnotate(target).mapValues(_.map(a => {
       a.annotatorType match {
-        case AnnotatorType.WORD_EMBEDDINGS |
-              AnnotatorType.SENTENCE_EMBEDDINGS if parseEmbeddingsVectors => a.embeddings.mkString(" ")
+        case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS
+            if parseEmbeddingsVectors =>
+          a.embeddings.mkString(" ")
         case _ => a.result
       }
     }))
   }
 
   def annotate(targets: Array[String]): Array[Map[String, Seq[String]]] = {
-    targets.par.map(target => {
-      annotate(target)
-    }).toArray
+    targets.par
+      .map(target => {
+        annotate(target)
+      })
+      .toArray
   }
 
   def annotateJava(target: String): java.util.Map[String, java.util.List[String]] = {
     annotate(target).mapValues(_.asJava).asJava
   }
 
-  def annotateJava(targets: java.util.ArrayList[String]): java.util.List[java.util.Map[String, java.util.List[String]]] = {
-    targets.asScala.par.map(target => {
-      annotateJava(target)
-    }).toList.asJava
+  def annotateJava(targets: java.util.ArrayList[String])
+      : java.util.List[java.util.Map[String, java.util.List[String]]] = {
+    targets.asScala.par
+      .map(target => {
+        annotateJava(target)
+      })
+      .toList
+      .asJava
   }
 
 }

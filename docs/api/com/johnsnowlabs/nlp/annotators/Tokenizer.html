@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.Tokenizer</title>
-          <meta name="description" content="Spark NLP 3.4.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.Tokenizer" />
-          <meta name="keywords" content="Spark NLP 3.4.0 ScalaDoc com.johnsnowlabs.nlp.annotators.Tokenizer" />
+          <title>Spark NLP 3.4.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.Tokenizer</title>
+          <meta name="description" content="Spark NLP 3.4.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.Tokenizer" />
+          <meta name="keywords" content="Spark NLP 3.4.4 ScalaDoc com.johnsnowlabs.nlp.annotators.Tokenizer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -498,7 +498,7 @@
                         <a class="class" href="RecursiveTokenizer.html" title="Tokenizes raw text recursively based on a handful of definable rules."></a>
                         <a href="RecursiveTokenizer.html" title="Tokenizes raw text recursively based on a handful of definable rules.">RecursiveTokenizer</a>
                       </li><li class="current-entities indented4">
-                        <span class="separator"></span>
+                        <a class="object" href="RecursiveTokenizerModel$.html" title=""></a>
                         <a class="class" href="RecursiveTokenizerModel.html" title="Instantiated model of the RecursiveTokenizer."></a>
                         <a href="RecursiveTokenizerModel.html" title="Instantiated model of the RecursiveTokenizer.">RecursiveTokenizerModel</a>
                       </li><li class="current-entities indented4">
@@ -575,9 +575,12 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Tokenizes raw text in document type columns into TokenizedSentence .</p><p>This class represents a non fitted tokenizer. Fitting it will cause the internal RuleFactory to construct the rules for tokenizing from the input configuration.</p><p>Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.</p><p>For extended examples of usage see the
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Tokenizes raw text in document type columns into TokenizedSentence .</p><p>This class represents a non fitted tokenizer. Fitting it will cause the internal RuleFactory
+to construct the rules for tokenizing from the input configuration.</p><p>Identifies tokens with tokenization open standards. A few rules will help customizing it if
+defaults do not fit user needs.</p><p>For extended examples of usage see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>
-and <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala" target="_blank">Tokenizer test class</a></p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+and
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala" target="_blank">Tokenizer test class</a></p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
@@ -680,7 +683,8 @@ result.selectExpr(<span class="lit">"token.result"</span>).show(<span class="kw"
         <span class="name">Tokenizer</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>required uid for storing annotator to disk</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>
+  required uid for storing annotator to disk</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -805,7 +809,8 @@ result.selectExpr(<span class="lit">"token.result"</span>).show(<span class="kw"
         <span class="name">addContextChars</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Add one character string to rip off from tokens, such as parenthesis or question marks.</p><div class="fullcomment"><div class="comment cmt"><p>Add one character string to rip off from tokens, such as parenthesis or question marks. Ignored if using prefix, infix or suffix patterns.
+      <p class="shortcomment cmt">Add one character string to rip off from tokens, such as parenthesis or question marks.</p><div class="fullcomment"><div class="comment cmt"><p>Add one character string to rip off from tokens, such as parenthesis or question marks.
+Ignored if using prefix, infix or suffix patterns.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#addException" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="addException(value:String):Tokenizer.this.type"></a><a id="addException(String):Tokenizer.this.type"></a>
@@ -839,7 +844,8 @@ result.selectExpr(<span class="lit">"token.result"</span>).show(<span class="kw"
         <span class="name">addInfixPattern</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Add an extension pattern regex with groups to the top of thsetExceptionse rules (will target first, from more specific to the more general).</p>
+      <p class="shortcomment cmt">Add an extension pattern regex with groups to the top of thsetExceptionse rules (will target
+first, from more specific to the more general).</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#addSplitChars" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="addSplitChars(v:String):Tokenizer.this.type"></a><a id="addSplitChars(String):Tokenizer.this.type"></a>
       <span class="permalink">
@@ -855,7 +861,8 @@ result.selectExpr(<span class="lit">"token.result"</span>).show(<span class="kw"
         <span class="name">addSplitChars</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">One character string to split tokens inside, such as hyphens.</p><div class="fullcomment"><div class="comment cmt"><p>One character string to split tokens inside, such as hyphens. Ignored if using infix, prefix or suffix patterns.
+      <p class="shortcomment cmt">One character string to split tokens inside, such as hyphens.</p><div class="fullcomment"><div class="comment cmt"><p>One character string to split tokens inside, such as hyphens. Ignored if using infix, prefix
+or suffix patterns.
 </p></div></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
@@ -904,7 +911,9 @@ result.selectExpr(<span class="lit">"token.result"</span>).show(<span class="kw"
         <span class="name">buildRuleFactory</span><span class="result">: <a href="../util/regex/RuleFactory.html" class="extype" name="com.johnsnowlabs.nlp.util.regex.RuleFactory">RuleFactory</a></span>
       </span>
       
-      <p class="shortcomment cmt">Build rule factory which combines all defined parameters to build regex that is applied to tokens</p>
+      <p class="shortcomment cmt">Build rule factory which combines all defined parameters to build regex that is applied to
+tokens
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#caseSensitiveExceptions" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="caseSensitiveExceptions:org.apache.spark.ml.param.BooleanParam"></a><a id="caseSensitiveExceptions:BooleanParam"></a>
       <span class="permalink">
@@ -993,8 +1002,8 @@ result.selectExpr(<span class="lit">"token.result"</span>).show(<span class="kw"
         <span class="name">contextChars</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Character list used to separate from token boundaries
-(Default: <code>Array(&quot;.&quot;, &quot;,&quot;, &quot;;&quot;, &quot;:&quot;, &quot;!&quot;, &quot;?&quot;, &quot;*&quot;, &quot;-&quot;, &quot;(&quot;, &quot;)&quot;, &quot;\&quot;&quot;, &quot;'&quot;)</code>)</p>
+      <p class="shortcomment cmt">Character list used to separate from token boundaries (Default: <code>Array(&quot;.&quot;, &quot;,&quot;, &quot;;&quot;, &quot;:&quot;,
+&quot;!&quot;, &quot;?&quot;, &quot;*&quot;, &quot;-&quot;, &quot;(&quot;, &quot;)&quot;, &quot;\&quot;&quot;, &quot;'&quot;)</code>)</p>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#copy" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="copy(extra:org.apache.spark.ml.param.ParamMap):org.apache.spark.ml.Estimator[M]"></a><a id="copy(ParamMap):Estimator[TokenizerModel]"></a>
       <span class="permalink">
@@ -1362,7 +1371,8 @@ result.selectExpr(<span class="lit">"token.result"</span>).show(<span class="kw"
         <span class="name">getContextChars</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">List of 1 character string to rip off from tokens, such as parenthesis or question marks.</p><div class="fullcomment"><div class="comment cmt"><p>List of 1 character string to rip off from tokens, such as parenthesis or question marks. Ignored if using prefix, infix or suffix patterns.
+      <p class="shortcomment cmt">List of 1 character string to rip off from tokens, such as parenthesis or question marks.</p><div class="fullcomment"><div class="comment cmt"><p>List of 1 character string to rip off from tokens, such as parenthesis or question marks.
+Ignored if using prefix, infix or suffix patterns.
 </p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#getDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getDefault[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a><a id="getDefault[T](Param[T]):Option[T]"></a>
@@ -1411,7 +1421,8 @@ result.selectExpr(<span class="lit">"token.result"</span>).show(<span class="kw"
         <span class="name">getInfixPatterns</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Add an extension pattern regex with groups to the top of the rules (will target first, from more specific to the more general).</p>
+      <p class="shortcomment cmt">Add an extension pattern regex with groups to the top of the rules (will target first, from
+more specific to the more general).</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#getInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getInputCols:Array[String]"></a>
       <span class="permalink">
@@ -1539,7 +1550,9 @@ result.selectExpr(<span class="lit">"token.result"</span>).show(<span class="kw"
         <span class="name">getPrefixPattern</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      <p class="shortcomment cmt">Regex to identify subtokens that come in the beginning of the token.</p><div class="fullcomment"><div class="comment cmt"><p>Regex to identify subtokens that come in the beginning of the token. Regex has to start with \\A and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
+      <p class="shortcomment cmt">Regex to identify subtokens that come in the beginning of the token.</p><div class="fullcomment"><div class="comment cmt"><p>Regex to identify subtokens that come in the beginning of the token. Regex has to start with
+\\A and must contain groups (). Each group will become a separate token within the prefix.
+Defaults to non-letter characters. e.g. quotes or parenthesis
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getSplitChars" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getSplitChars:Array[String]"></a>
@@ -1556,7 +1569,8 @@ result.selectExpr(<span class="lit">"token.result"</span>).show(<span class="kw"
         <span class="name">getSplitChars</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">List of 1 character string to split tokens inside, such as hyphens.</p><div class="fullcomment"><div class="comment cmt"><p>List of 1 character string to split tokens inside, such as hyphens. Ignored if using infix, prefix or suffix patterns.
+      <p class="shortcomment cmt">List of 1 character string to split tokens inside, such as hyphens.</p><div class="fullcomment"><div class="comment cmt"><p>List of 1 character string to split tokens inside, such as hyphens. Ignored if using infix,
+prefix or suffix patterns.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getSplitPattern" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getSplitPattern:String"></a>
@@ -1573,7 +1587,8 @@ result.selectExpr(<span class="lit">"token.result"</span>).show(<span class="kw"
         <span class="name">getSplitPattern</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      <p class="shortcomment cmt">List of 1 character string to split tokens inside, such as hyphens.</p><div class="fullcomment"><div class="comment cmt"><p>List of 1 character string to split tokens inside, such as hyphens. Ignored if using infix, prefix or suffix patterns.
+      <p class="shortcomment cmt">List of 1 character string to split tokens inside, such as hyphens.</p><div class="fullcomment"><div class="comment cmt"><p>List of 1 character string to split tokens inside, such as hyphens. Ignored if using infix,
+prefix or suffix patterns.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getSuffixPattern" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getSuffixPattern:String"></a>
@@ -1590,7 +1605,9 @@ result.selectExpr(<span class="lit">"token.result"</span>).show(<span class="kw"
         <span class="name">getSuffixPattern</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      <p class="shortcomment cmt">Regex to identify subtokens that are in the end of the token.</p><div class="fullcomment"><div class="comment cmt"><p>Regex to identify subtokens that are in the end of the token. Regex has to end with \\z and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
+      <p class="shortcomment cmt">Regex to identify subtokens that are in the end of the token.</p><div class="fullcomment"><div class="comment cmt"><p>Regex to identify subtokens that are in the end of the token. Regex has to end with \\z and
+must contain groups (). Each group will become a separate token within the prefix. Defaults
+to non-letter characters. e.g. quotes or parenthesis
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getTargetPattern" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getTargetPattern:String"></a>
@@ -1607,7 +1624,8 @@ result.selectExpr(<span class="lit">"token.result"</span>).show(<span class="kw"
         <span class="name">getTargetPattern</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      <p class="shortcomment cmt">Basic regex rule to identify a candidate for tokenization.</p><div class="fullcomment"><div class="comment cmt"><p>Basic regex rule to identify a candidate for tokenization. Defaults to \\S+ which means anything not a space
+      <p class="shortcomment cmt">Basic regex rule to identify a candidate for tokenization.</p><div class="fullcomment"><div class="comment cmt"><p>Basic regex rule to identify a candidate for tokenization. Defaults to \\S+ which means
+anything not a space
 </p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a><a id="hasDefault[T](Param[T]):Boolean"></a>
@@ -1675,7 +1693,8 @@ result.selectExpr(<span class="lit">"token.result"</span>).show(<span class="kw"
         <span class="name">infixPatterns</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Regex patterns that match tokens within a single target.</p><div class="fullcomment"><div class="comment cmt"><p>Regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults</p><p>Infix patterns must use regex group. Notice each group will result in separate token</p><p><b>Example:</b></p><pre><span class="kw">import</span> org.apache.spark.ml.Pipeline
+      <p class="shortcomment cmt">Regex patterns that match tokens within a single target.</p><div class="fullcomment"><div class="comment cmt"><p>Regex patterns that match tokens within a single target. groups identify different
+sub-tokens. multiple defaults</p><p>Infix patterns must use regex group. Notice each group will result in separate token</p><p><b>Example:</b></p><pre><span class="kw">import</span> org.apache.spark.ml.Pipeline
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
 <span class="kw">import</span> com.johnsnowlabs.nlp.DocumentAssembler
 
@@ -1748,10 +1767,10 @@ result.selectExpr(<span class="lit">"token.result"</span>).show(<span class="kw"
         <span class="name">inputCols</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
-</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator
-AnnotatorType is used both as input and output columns if not specified
+      <p class="shortcomment cmt">columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
+</p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator AnnotatorType is used both
+as input and output columns if not specified
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isDefined(Param[_]):Boolean"></a>
@@ -2226,7 +2245,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">prefixPattern</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Regex with groups and begins with \\A to match target prefix.</p><div class="fullcomment"><div class="comment cmt"><p>Regex with groups and begins with \\A to match target prefix. Overrides contextCharacters Param
+      <p class="shortcomment cmt">Regex with groups and begins with \\A to match target prefix.</p><div class="fullcomment"><div class="comment cmt"><p>Regex with groups and begins with \\A to match target prefix. Overrides contextCharacters
+Param
 </p></div></div>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
@@ -2335,7 +2355,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setContextChars</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">List of 1 character string to rip off from tokens, such as parenthesis or question marks.</p><div class="fullcomment"><div class="comment cmt"><p>List of 1 character string to rip off from tokens, such as parenthesis or question marks. Ignored if using prefix, infix or suffix patterns.
+      <p class="shortcomment cmt">List of 1 character string to rip off from tokens, such as parenthesis or question marks.</p><div class="fullcomment"><div class="comment cmt"><p>List of 1 character string to rip off from tokens, such as parenthesis or question marks.
+Ignored if using prefix, infix or suffix patterns.
 </p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a><a id="setDefault(ParamPair[_]*):Tokenizer.this.type"></a>
@@ -2384,7 +2405,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setExceptions</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">List of tokens to not alter at all.</p><div class="fullcomment"><div class="comment cmt"><p>List of tokens to not alter at all. Allows composite tokens like two worded tokens that the user may not want to split.
+      <p class="shortcomment cmt">List of tokens to not alter at all.</p><div class="fullcomment"><div class="comment cmt"><p>List of tokens to not alter at all. Allows composite tokens like two worded tokens that the
+user may not want to split.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setExceptionsPath" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="setExceptionsPath(path:String,readAs:com.johnsnowlabs.nlp.util.io.ReadAs.Format,options:Map[String,String]):Tokenizer.this.type"></a><a id="setExceptionsPath(String,Format,Map[String,String]):Tokenizer.this.type"></a>
@@ -2418,7 +2440,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setInfixPatterns</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Set a list of Regex patterns that match tokens within a single target.</p><div class="fullcomment"><div class="comment cmt"><p>Set a list of Regex patterns that match tokens within a single target. Groups identify different sub-tokens. multiple defaults</p></div></div>
+      <p class="shortcomment cmt">Set a list of Regex patterns that match tokens within a single target.</p><div class="fullcomment"><div class="comment cmt"><p>Set a list of Regex patterns that match tokens within a single target. Groups identify
+different sub-tokens. multiple defaults</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):Tokenizer.this.type"></a>
       <span class="permalink">
@@ -2530,7 +2553,9 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setPrefixPattern</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Regex to identify subtokens that come in the beginning of the token.</p><div class="fullcomment"><div class="comment cmt"><p>Regex to identify subtokens that come in the beginning of the token. Regex has to start with \\A and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
+      <p class="shortcomment cmt">Regex to identify subtokens that come in the beginning of the token.</p><div class="fullcomment"><div class="comment cmt"><p>Regex to identify subtokens that come in the beginning of the token. Regex has to start with
+\\A and must contain groups (). Each group will become a separate token within the prefix.
+Defaults to non-letter characters. e.g. quotes or parenthesis
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setSplitChars" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setSplitChars(v:Array[String]):Tokenizer.this.type"></a><a id="setSplitChars(Array[String]):Tokenizer.this.type"></a>
@@ -2547,7 +2572,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setSplitChars</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">List of 1 character string to split tokens inside, such as hyphens.</p><div class="fullcomment"><div class="comment cmt"><p>List of 1 character string to split tokens inside, such as hyphens. Ignored if using infix, prefix or suffix patterns.
+      <p class="shortcomment cmt">List of 1 character string to split tokens inside, such as hyphens.</p><div class="fullcomment"><div class="comment cmt"><p>List of 1 character string to split tokens inside, such as hyphens. Ignored if using infix,
+prefix or suffix patterns.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setSplitPattern" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setSplitPattern(value:String):Tokenizer.this.type"></a><a id="setSplitPattern(String):Tokenizer.this.type"></a>
@@ -2580,7 +2606,9 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setSuffixPattern</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Regex to identify subtokens that are in the end of the token.</p><div class="fullcomment"><div class="comment cmt"><p>Regex to identify subtokens that are in the end of the token. Regex has to end with \\z and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
+      <p class="shortcomment cmt">Regex to identify subtokens that are in the end of the token.</p><div class="fullcomment"><div class="comment cmt"><p>Regex to identify subtokens that are in the end of the token. Regex has to end with \\z and
+must contain groups (). Each group will become a separate token within the prefix. Defaults
+to non-letter characters. e.g. quotes or parenthesis
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setTargetPattern" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setTargetPattern(value:String):Tokenizer.this.type"></a><a id="setTargetPattern(String):Tokenizer.this.type"></a>
@@ -2630,7 +2658,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">splitPattern</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Pattern to separate from the inside of tokens.</p><div class="fullcomment"><div class="comment cmt"><p>Pattern to separate from the inside of tokens. takes priority over splitChars.</p><p>This pattern will be applied to the tokens which where extracted with the target pattern previously</p><p><b> Example:</b></p><pre><span class="kw">import</span> org.apache.spark.ml.Pipeline
+      <p class="shortcomment cmt">Pattern to separate from the inside of tokens.</p><div class="fullcomment"><div class="comment cmt"><p>Pattern to separate from the inside of tokens. takes priority over splitChars.</p><p>This pattern will be applied to the tokens which where extracted with the target pattern
+previously</p><p><b> Example:</b></p><pre><span class="kw">import</span> org.apache.spark.ml.Pipeline
 
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
 
@@ -2658,7 +2687,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">suffixPattern</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Regex with groups and ends with \\z to match target suffix.</p><div class="fullcomment"><div class="comment cmt"><p>Regex with groups and ends with \\z to match target suffix. Overrides contextCharacters Param
+      <p class="shortcomment cmt">Regex with groups and ends with \\z to match target suffix.</p><div class="fullcomment"><div class="comment cmt"><p>Regex with groups and ends with \\z to match target suffix. Overrides contextCharacters
+Param
 </p></div></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
@@ -2691,14 +2721,18 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">targetPattern</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Pattern to grab from text as token candidates.</p><div class="fullcomment"><div class="comment cmt"><p>Pattern to grab from text as token candidates. (Default: <code>&quot;\\S+&quot;</code>)</p><p>Defaults to: &quot;\\S+&quot; which means anything not a space will be matched and considered as a token candidate, This will cause text to be split on on white spaces to yield token candidates.</p><p>This rule will be added to the BREAK_PATTERN varaible, which is used to yield token candidates.</p><pre><span class="kw">import</span> org.apache.spark.ml.Pipeline
+      <p class="shortcomment cmt">Pattern to grab from text as token candidates.</p><div class="fullcomment"><div class="comment cmt"><p>Pattern to grab from text as token candidates. (Default: <code>&quot;\\S+&quot;</code>)</p><p>Defaults to: &quot;\\S+&quot; which means anything not a space will be matched and considered as a
+token candidate, This will cause text to be split on on white spaces to yield token
+candidates.</p><p>This rule will be added to the BREAK_PATTERN varaible, which is used to yield token
+candidates.</p><pre><span class="kw">import</span> org.apache.spark.ml.Pipeline
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
 <span class="kw">import</span> com.johnsnowlabs.nlp.DocumentAssembler
 
 <span class="kw">val</span> textDf = sqlContext.sparkContext.parallelize(<span class="std">Array</span>(<span class="lit">"I only consider lowercase characters and NOT UPPERCASED and only the numbers 0,1, to 7 as tokens but not 8 or 9"</span>)).toDF(<span class="lit">"text"</span>)
 <span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"sentences"</span>)
 <span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer().setInputCols(<span class="lit">"sentences"</span>).setOutputCol(<span class="lit">"tokens"</span>).setTargetPattern(<span class="lit">"a-z-0-7"</span>)
-<span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(documentAssembler, tokenizer)).fit(textDf).transform(textDf).select(<span class="lit">"tokens.result"</span>).show(<span class="kw">false</span>)</pre><p>This will yield: <code>only, consider, lowercase, characters, and, and, only, the, numbers, 0, 1, to, 7, as, tokens, but, not, or</code></p></div></div>
+<span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(documentAssembler, tokenizer)).fit(textDf).transform(textDf).select(<span class="lit">"tokens.result"</span>).show(<span class="kw">false</span>)</pre><p>This will yield: <code>only, consider, lowercase, characters, and, and, only, the, numbers, 0, 1,
+to, 7, as, tokens, but, not, or</code></p></div></div>
     </li><li name="org.apache.spark.ml.util.Identifiable#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <span class="permalink">
@@ -2730,7 +2764,10 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">train</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>, <span name="recursivePipeline">recursivePipeline: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.ml.PipelineModel">PipelineModel</span>]</span>)</span><span class="result">: <a href="TokenizerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.TokenizerModel">TokenizerModel</a></span>
       </span>
       
-      <p class="shortcomment cmt">Clears out rules and constructs a new rule for every combination of rules provided .</p><div class="fullcomment"><div class="comment cmt"><p>Clears out rules and constructs a new rule for every combination of rules provided . The strategy is to catch one token per regex group. User may add its own groups if needs targets to be tokenized separately from the rest</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a> → <a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+      <p class="shortcomment cmt">Clears out rules and constructs a new rule for every combination of rules provided .</p><div class="fullcomment"><div class="comment cmt"><p>Clears out rules and constructs a new rule for every combination of rules provided . The
+strategy is to catch one token per regex group. User may add its own groups if needs targets
+to be tokenized separately from the rest
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a> → <a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#transformSchema" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="transformSchema(schema:org.apache.spark.sql.types.StructType):org.apache.spark.sql.types.StructType"></a><a id="transformSchema(StructType):StructType"></a>
       <span class="permalink">
@@ -2798,7 +2835,9 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.
-</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>
+  to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>
+  True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
@@ -2932,10 +2971,13 @@ AnnotatorType is used both as input and output columns if not specified
         <div id="groupedMembers">
         <div class="group" name="param">
               <h3>param</h3>
-              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
+              <div class="comment cmt"><p>
+  A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  parameter values through setters and getters, respectively.</p></div>
             </div><div class="group" name="anno">
               <h3>Annotator types</h3>
-              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+              <div class="comment cmt"><p>
+  Required input and expected output annotator types</p></div>
             </div><div class="group" name="Ungrouped">
               <h3>Members</h3>
               

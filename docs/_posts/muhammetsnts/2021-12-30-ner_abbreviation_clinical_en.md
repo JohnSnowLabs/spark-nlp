@@ -24,7 +24,7 @@ This model is trained to extract clinical abbreviations and acronyms in text.
 `ABBR`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_ABBREVIATION/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_abbreviation_clinical_en_3.3.4_2.4_1640852436967.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

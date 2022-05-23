@@ -21,9 +21,9 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.util.io.ReadAs
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
-
 
 class TextMatcherTestSpec extends AnyFlatSpec with TextMatcherBehaviors {
 
@@ -33,29 +33,64 @@ class TextMatcherTestSpec extends AnyFlatSpec with TextMatcherBehaviors {
   }
 
   "A TextMatcher" should "extract entities with and without sentences" taggedAs SlowTest in {
-    val dataset = DataBuilder.basicDataBuild("Hello dolore magna aliqua. Lorem ipsum dolor. sit in laborum")
+    val dataset =
+      DataBuilder.basicDataBuild("Hello dolore magna aliqua. Lorem ipsum dolor. sit in laborum")
     val result = AnnotatorBuilder.withFullTextMatcher(dataset)
     val resultNoSentence = AnnotatorBuilder.withFullTextMatcher(dataset, sbd = false)
-    val resultNoSentenceNoCase = AnnotatorBuilder.withFullTextMatcher(dataset, sbd = false, caseSensitive = false)
+    val resultNoSentenceNoCase =
+      AnnotatorBuilder.withFullTextMatcher(dataset, sbd = false, caseSensitive = false)
     val extractedSentenced = Annotation.collect(result, "entity").flatten.toSeq
     val extractedNoSentence = Annotation.collect(resultNoSentence, "entity").flatten.toSeq
-    val extractedNoSentenceNoCase = Annotation.collect(resultNoSentenceNoCase, "entity").flatten.toSeq
+    val extractedNoSentenceNoCase =
+      Annotation.collect(resultNoSentenceNoCase, "entity").flatten.toSeq
 
     val expectedSentenced = Seq(
-      Annotation(CHUNK, 6, 24, "dolore magna aliqua", Map("entity"->"entity", "sentence" -> "0", "chunk" -> "0")),
-      Annotation(CHUNK, 53, 59, "laborum", Map("entity"->"entity", "sentence" -> "2", "chunk" -> "1"))
-    )
+      Annotation(
+        CHUNK,
+        6,
+        24,
+        "dolore magna aliqua",
+        Map("entity" -> "entity", "sentence" -> "0", "chunk" -> "0")),
+      Annotation(
+        CHUNK,
+        53,
+        59,
+        "laborum",
+        Map("entity" -> "entity", "sentence" -> "2", "chunk" -> "1")))
 
     val expectedNoSentence = Seq(
-      Annotation(CHUNK, 6, 24, "dolore magna aliqua", Map("entity"->"entity", "sentence" -> "0", "chunk" -> "0")),
-      Annotation(CHUNK, 53, 59, "laborum", Map("entity"->"entity", "sentence" -> "0", "chunk" -> "1"))
-    )
+      Annotation(
+        CHUNK,
+        6,
+        24,
+        "dolore magna aliqua",
+        Map("entity" -> "entity", "sentence" -> "0", "chunk" -> "0")),
+      Annotation(
+        CHUNK,
+        53,
+        59,
+        "laborum",
+        Map("entity" -> "entity", "sentence" -> "0", "chunk" -> "1")))
 
     val expectedNoSentenceNoCase = Seq(
-      Annotation(CHUNK, 6, 24, "dolore magna aliqua", Map("entity"->"entity", "sentence" -> "0", "chunk" -> "0")),
-      Annotation(CHUNK, 27, 48, "Lorem ipsum dolor. sit", Map("entity"->"entity", "sentence" -> "0", "chunk" -> "1")),
-      Annotation(CHUNK, 53, 59, "laborum", Map("entity"->"entity", "sentence" -> "0", "chunk" -> "2"))
-    )
+      Annotation(
+        CHUNK,
+        6,
+        24,
+        "dolore magna aliqua",
+        Map("entity" -> "entity", "sentence" -> "0", "chunk" -> "0")),
+      Annotation(
+        CHUNK,
+        27,
+        48,
+        "Lorem ipsum dolor. sit",
+        Map("entity" -> "entity", "sentence" -> "0", "chunk" -> "1")),
+      Annotation(
+        CHUNK,
+        53,
+        59,
+        "laborum",
+        Map("entity" -> "entity", "sentence" -> "0", "chunk" -> "2")))
 
     assert(extractedSentenced == expectedSentenced)
     assert(extractedNoSentence == expectedNoSentence)
@@ -96,20 +131,16 @@ class TextMatcherTestSpec extends AnyFlatSpec with TextMatcherBehaviors {
       .setAnnotationSplitSymbol("@")
       .setValueSplitSymbol("#")
 
-    val recursivePipeline = new RecursivePipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        entityExtractor,
-        finisher
-      ))
+    val recursivePipeline = new Pipeline()
+      .setStages(Array(documentAssembler, sentenceDetector, tokenizer, entityExtractor, finisher))
 
     assert(recursivePipeline.fit(data).transform(data).filter("finished_entity == ''").count > 0)
   }
 
   "A Recursive Pipeline TextMatcher" should "extract entities from dataset without context chars" taggedAs FastTest in {
-    val data = SparkAccessor.spark.createDataFrame(Seq(("LEFT PROSTATE (CORE blah BIOPSIES) jeje",""))).toDF("text","none")
+    val data = SparkAccessor.spark
+      .createDataFrame(Seq(("LEFT PROSTATE (CORE blah BIOPSIES) jeje", "")))
+      .toDF("text", "none")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -122,8 +153,28 @@ class TextMatcherTestSpec extends AnyFlatSpec with TextMatcherBehaviors {
     val tokenizer = new Tokenizer()
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
-      .setContextChars(Array(".", ",", ";", ":", "!", "?", "*", "-", "\"", "'","(",")","+","-"))
-      .setSplitChars(Array("'","\"",",", "/"," ",".","|","@","#","%","&","\\$","\\[","\\]","\\(","\\)","-",";"))
+      .setContextChars(
+        Array(".", ",", ";", ":", "!", "?", "*", "-", "\"", "'", "(", ")", "+", "-"))
+      .setSplitChars(
+        Array(
+          "'",
+          "\"",
+          ",",
+          "/",
+          " ",
+          ".",
+          "|",
+          "@",
+          "#",
+          "%",
+          "&",
+          "\\$",
+          "\\[",
+          "\\]",
+          "\\(",
+          "\\)",
+          "-",
+          ";"))
 
     val entityExtractor = new TextMatcher()
       .setInputCols("sentence", "token")
@@ -138,20 +189,20 @@ class TextMatcherTestSpec extends AnyFlatSpec with TextMatcherBehaviors {
       .setAnnotationSplitSymbol("@")
       .setValueSplitSymbol("#")
 
-    val recursivePipeline = new RecursivePipeline()
-      .setStages(Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        entityExtractor,
-        finisher
-      ))
+    val recursivePipeline = new Pipeline()
+      .setStages(Array(documentAssembler, sentenceDetector, tokenizer, entityExtractor, finisher))
 
-    assert(recursivePipeline.fit(data).transform(data).filter("finished_entity == 'CORE blah BIOPSIES'").count > 0)
+    assert(
+      recursivePipeline
+        .fit(data)
+        .transform(data)
+        .filter("finished_entity == 'CORE blah BIOPSIES'")
+        .count > 0)
   }
 
   val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)
 
-  "A full Normalizer pipeline with latin content" should behave like fullTextMatcher(latinBodyData)
+  "A full Normalizer pipeline with latin content" should behave like fullTextMatcher(
+    latinBodyData)
 
 }

@@ -24,7 +24,7 @@ This model maps extracted medical entities to SNOMED codes for the German langua
 `SNOMED Codes`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_SNOMED_DE/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/14.German_Healthcare_Models.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbertresolve_snomed_de_3.2.2_2.4_1631826969583.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

@@ -33,8 +33,8 @@ Next section describes the transformers that deal with PDF files with the purpos
 {:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
-| splitPage | bool | true | whether it needed to split document to pages |
-| textStripper | | TextStripperType.PDF_TEXT_STRIPPER | 
+| splitPage | bool | true | Whether it needed to split document to pages |
+| textStripper | | TextStripperType.PDF_TEXT_STRIPPER | Extract unstructured text
 | sort | bool | false | Sort text during extraction with TextStripperType.PDF_LAYOUT_STRIPPER |
 | partitionNum | int| 0 | Force repartition dataframe if set to value more than 0. |
 | onlyPageNum | bool | false | Extract only page numbers. |
@@ -117,8 +117,8 @@ data.select("pagenum", "text").show()
 
 `PdfToImage` renders PDF to an image. To be used with scanned PDF documents.
 Output dataframe contains `total_pages` field with total number of pages.
-For process pdf with big number of pages prefer to split pdf by setting `splitNumBatch` param.
-Number of partitions should be equal number of cores/executors.
+For process pdf with a big number of pages prefer to split pdf by setting `splitNumBatch` param.
+Number of partitions should be equal to number of cores/executors.
 
 ##### Input Columns
 
@@ -228,7 +228,7 @@ column and create multipage PDF document.
 
 **Example:**
 
-Read images and store it as single page PDF documents.
+Read images and store them as single page PDF documents.
 
 
 <div class="tabs-box pt0" markdown="1">
@@ -289,8 +289,8 @@ pdf_df.select("content").show()
 
 ### TextToPdf
 
-`TextToPdf` renders ocr results to PDF document as text layout. Each symbol will render to same position
-with same font size as in original image or PDF.
+`TextToPdf` renders ocr results to PDF document as text layout. Each symbol will render to the same position
+with the same font size as in original image or PDF.
 If dataframe contains few records for same origin path, it groups image by origin
 column and create multipage PDF document.
 
@@ -1088,7 +1088,7 @@ data.select("tables").show()
 
 ### PptToPdf
 
-`PptToPdf` convert PPT and PPTX document to PDF document.
+`PptToPdf` convert PPT and PPTX documents to PDF document.
 
 ##### Input Columns
 
@@ -1364,14 +1364,14 @@ data.select("image").show()
 
 `GPUImageTransformer` allows to run image pre-processing operations on GPU.
 
-It supports following operations:
+It supports the following operations:
 - Scaling
 - Otsu thresholding
 - Huang thresholding
 - Erosion
 - Dilation
 
-`GPUImageTransformer` allows to add few operations. For add  operations need to call
+`GPUImageTransformer` allows to add few operations. To add operations you need to call
 one of the methods with params:
 
 {:.table-model-big}
@@ -1474,7 +1474,7 @@ display_images(result, "transformed_image")
 
 ### ImageBinarizer
 
-`ImageBinarizer` transforms image to binary color schema by threshold.
+`ImageBinarizer` transforms image to binary color schema, based on threshold.
 
 ##### Input Columns
 
@@ -1559,11 +1559,11 @@ data.show()
 ### ImageAdaptiveBinarizer
 
 Supported Methods:
-- OTSU
+- OTSU.  Returns a single intensity threshold that separate pixels into two classes, foreground and background.
 - Gaussian local thresholding. Thresholds the image using a locally adaptive threshold that is computed
  using a local square region centered on each pixel.  The threshold is equal to the gaussian weighted sum 
  of the surrounding pixels times the scale.
-- Sauvola
+- Sauvola. Is a Local thresholding technique that are useful for images where the background is not uniform.
 
 
 #### Input Columns
@@ -1976,23 +1976,36 @@ data.storeImage("corrected_image")
 ```
 
 ```python
+from pyspark.ml import PipelineModel
 from sparkocr.transformers import *
+from sparkocr.utils import display_images
 
-val imagePath = "path to image"
+imagePath = "path to image"
 
-// Read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
+# Read image file as binary file
+df = spark.read \
+    .format("binaryFile") \
+    .load(imagePath) 
 
-val transformer = new ImageSkewCorrector()
-  .setInputCol("image")
-  .setOutputCol("corrected_image")
-  .setAutomaticSkewCorrection(true)
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
 
-val data = transformer.transform(df)
-data.show()
+skew_corrector = ImageSkewCorrector() \
+    .setInputCol("image") \
+    .setOutputCol("corrected_image") \
+    .setAutomaticSkewCorrection(True)
+
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    skew_corrector
+])
+
+data = pipeline.transform(df)
+
+display_images(data, "corrected_image")
 ```
 
 </div>
@@ -2134,12 +2147,12 @@ data.select("path", "noiselevel").show()
 
 **python only**
 
-`ImageRemoveObjects` for remove background objects.
-It support removing:
-- objects less then elements of font with _minSizeFont_ size
-- objects less then _minSizeObject_
-- holes less then _minSizeHole_
-- objects more then _maxSizeObject_
+`ImageRemoveObjects` to remove background objects.
+It supports removing:
+- objects less than elements of font with _minSizeFont_ size
+- objects less than _minSizeObject_
+- holes less than _minSizeHole_
+- objects more than _maxSizeObject_
 
 #### Input Columns
 
@@ -2492,7 +2505,7 @@ data.show()
 
 ### ImageSplitRegions
 
-`ImageSplitRegions` splits image to regions.
+`ImageSplitRegions` splits image into regions.
 
 #### Input Columns
 
@@ -2951,6 +2964,117 @@ late ideas in other designers, and they borrow and adapt ideas from
 others. One could almost say they feed on and grow on ideas.
 ```
 
+### ImageToTextV2
+
+`ImageToTextV2` is based on the transformers architecture, and combines CV and NLP
+ in one model. It is a visual encoder-decoder model. The Encoder is based on ViT, 
+ and the decoder on RoBERTa model.
+
+`ImageToTextV2` can work on CPU, but GPU is preferred in order to achieve acceptable performance.
+
+`ImageToTextV2` can receive regions representing single line texts, or regions coming from a text detection model.
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCols | Array[string] | [image] | Can use as input image struct ([Image schema](ocr_structures#image-schema))  and regions. |
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| lineTolerance | integer | 15 | Line tolerance in pixels. It's used for grouping text regions by lines. |
+| borderWidth | integer | 5 | A value of more than 0 enables to border text regions with width equal to the value of the parameter. |
+| spaceWidth | integer | 10 | A value of more than 0 enables to add white spaces between words on the image. |
+
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | text | Recognized text |
+
+**Example:**
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+not implemented
+```
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+text_detector = ImageTextDetectorV2 \
+    .pretrained("image_text_detector_v2", "en", "clinical/ocr") \
+    .setInputCol("image") \
+    .setOutputCol("text_regions") \
+    .setWithRefiner(True) \
+    .setSizeThreshold(20)
+
+ocr = ImageToTextV2.pretrained("ocr_base_printed", "en", "clinical/ocr") \
+    .setInputCols(["image", "text_regions"]) \
+    .setOutputCol("text")
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    text_detector,
+    ocr
+])
+
+data = pipeline.transform(df)
+data.show()
+```
+
+</div>
+
+
+**Image:**
+
+![image](/assets/images/ocr/text_detection1.png)
+
+**Output:**
+
+```
+STARBUCKS STORE #10208
+11302 EUCLID AVENUE
+CLEVELAND, OH (216) 229-0749
+CHK 664290
+12/07/2014 06:43 PM
+1912003 DRAWER: 2. REG: 2
+VT PEP MOCHA 4.95
+SBUX CARD 4.95
+XXXXXXXXXXXX3228
+SUBTOTAL $4.95
+TOTAL $4.95
+CHANGE DUE $0.00
+---- CHECK CLOSED
+12/07/2014 06:43 PM
+SBUX CARD X3228 NEW BALANCE: 37.45
+CARD IS REGISTERED
+```
+
+
+
 ### ImageToTextPdf
 
 `ImageToTextPdf` runs OCR for input image, render recognized text to 
@@ -3344,7 +3468,7 @@ Next section describes the extra transformers
 
 ### PositionFinder
 
-`PositionFinder` find position of input text entities in original document.
+`PositionFinder` find the position of input text entities in the original document.
 
 #### Input Columns
 
@@ -3635,7 +3759,7 @@ results.show()
 ### FoundationOneReportParser
 
 `FoundationOneReportParser` is a transformer for parsing FoundationOne reports.
-Current implementation support parsing patient info, genomic, biomarker findings and gene lists
+Current implementation supports parsing patient info, genomic, biomarker findings and gene lists
 from appendix.
 Output format is json.
 
