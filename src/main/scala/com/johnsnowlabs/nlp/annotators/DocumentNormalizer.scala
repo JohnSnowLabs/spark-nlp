@@ -20,7 +20,6 @@ import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasSimpleAnnotate}
 import org.apache.spark.ml.param.{BooleanParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.Row
 
 import java.nio.charset.{Charset, StandardCharsets}
 import scala.util.{Failure, Success, Try}
@@ -412,7 +411,7 @@ class DocumentNormalizer(override val uid: String)
             cleanedDoc,
             annotation.metadata)
         case Failure(_) =>
-          Annotation.apply(Row.empty) // Seq.empty[Annotation].head
+          Annotation.apply("")
       }
   }
 }
