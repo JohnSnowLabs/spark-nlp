@@ -13,11 +13,14 @@
 #  limitations under the License.
 import unittest
 
+import pytest
+
 from sparknlp.annotator import *
 from sparknlp.base import *
 from test.util import SparkSessionForTest
 
 
+@pytest.mark.fast
 class DocumentNormalizerSpec(unittest.TestCase):
 
     def setUp(self):
