@@ -29,7 +29,7 @@ class DeBertaForTokenClassification(AnnotatorModel,
     ...     .setInputCols(["token", "document"]) \\
     ...     .setOutputCol("label")
 
-    The default model is ``"deberta_xsmall_token_classifier_conll03"``, if no name is
+    The default model is ``"deberta_v3_xsmall_token_classifier_conll03"``, if no name is
     provided.
 
     For available pretrained models please see the `Models Hub
@@ -162,14 +162,14 @@ class DeBertaForTokenClassification(AnnotatorModel,
         return DeBertaForTokenClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="deberta_xsmall_token_classifier_conll03", lang="en", remote_loc=None):
+    def pretrained(name="deberta_v3_xsmall_token_classifier_conll03", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
             Name of the pretrained model, by default
-            "deberta_xsmall_token_classifier_conll03"
+            "deberta_v3_xsmall_token_classifier_conll03"
             lang : str, optional
             Language of the pretrained model, by default "en"
             remote_loc : str, optional

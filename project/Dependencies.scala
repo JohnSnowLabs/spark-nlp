@@ -53,10 +53,10 @@ object Dependencies {
   val typesafeVersion = "1.4.2"
   val typesafe = "com.typesafe" % "config" % typesafeVersion
 
-  val rocksdbjniVersion = "6.5.3"
+  val rocksdbjniVersion = "6.29.5"
   val rocksdbjni = "org.rocksdb" % "rocksdbjni" % rocksdbjniVersion
 
-  val awsjavasdkbundleVersion = "1.11.603"
+  val awsjavasdkbundleVersion = "1.11.828"
   val awsjavasdkbundle = "com.amazonaws" % "aws-java-sdk-bundle" % awsjavasdkbundleVersion
 
   val liblevenshteinVersion = "3.0.0"
@@ -68,7 +68,7 @@ object Dependencies {
   val junitVersion = "4.13.2"
   val junit = "junit" % "junit" % junitVersion % Test
 
-  val tensorflowVersion = "0.4.1"
+  val tensorflowVersion = "0.4.2"
 
   val tensorflowGPU = "com.johnsnowlabs.nlp" %% "tensorflow-gpu" % tensorflowVersion
   val tensorflowCPU = "com.johnsnowlabs.nlp" %% "tensorflow-cpu" % tensorflowVersion
