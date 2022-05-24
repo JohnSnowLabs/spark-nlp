@@ -59,7 +59,7 @@ embeddings = annotator
 
 
 def start(gpu=False,
-          spark30=False,
+          m1=False,
           memory="16G",
           cache_folder="",
           log_folder="",
@@ -72,7 +72,7 @@ def start(gpu=False,
 
     .. code-block:: python
         :param gpu: start Spark NLP with GPU
-        :param spark30: start Spark NLP on Apache Spark 3.0.x or 3.1.x
+        :param m1: start Spark NLP with M1 support on macOS
         :param memory: set driver memory for SparkSession
         :param cache_folder: The location to download and extract pretrained Models and Pipelines
         :param log_folder: The location to save logs from annotators during training such as NerDLApproach,
@@ -97,8 +97,8 @@ def start(gpu=False,
     ----------
     gpu : bool, optional
         Whether to enable GPU acceleration (must be set up correctly), by default False
-    spark30 : bool, optional
-        Whether to use the Spark 3.0.x or 3.1.x version of Spark NLP, by default False
+    m1 : bool, optional
+        Whether to enable M1 support for macOS
     memory : str, optional
         How much memory to allocate for the Spark driver, by default "16G"
     real_time_output : bool, optional
@@ -120,12 +120,11 @@ def start(gpu=False,
             self.master, self.app_name = "local[*]", "Spark NLP"
             self.serializer, self.serializer_max_buffer = "org.apache.spark.serializer.KryoSerializer", "2000M"
             self.driver_max_result_size = "0"
-            # Spark NLP on Apache Spark 3.2.x
-            self.maven_spark32 = "com.johnsnowlabs.nlp:spark-nlp_2.12:{}".format(current_version)
-            self.maven_gpu_spark32 = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:{}".format(current_version)
-            # Spark NLP on Apache Spark 3.0.x/3.1.x
-            self.maven_spark30 = "com.johnsnowlabs.nlp:spark-nlp-spark30_2.12:{}".format(current_version)
-            self.maven_gpu_spark30 = "com.johnsnowlabs.nlp:spark-nlp-gpu-spark30_2.12:{}".format(current_version)
+            # Spark NLP on CPU or GPU
+            self.maven_spark3 = "com.johnsnowlabs.nlp:spark-nlp_2.12:{}".format(current_version)
+            self.maven_gpu_spark3 = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:{}".format(current_version)
+            # Spark NLP on M1
+            self.maven_m1 = "com.johnsnowlabs.nlp:spark-nlp-m1_2.12:{}".format(current_version)
 
     def start_without_realtime_output():
         builder = SparkSession.builder \
@@ -136,14 +135,12 @@ def start(gpu=False,
             .config("spark.kryoserializer.buffer.max", spark_nlp_config.serializer_max_buffer) \
             .config("spark.driver.maxResultSize", spark_nlp_config.driver_max_result_size)
 
-        if gpu and spark30:
-            builder.config("spark.jars.packages", spark_nlp_config.maven_gpu_spark30)
-        elif spark30:
-            builder.config("spark.jars.packages", spark_nlp_config.maven_spark30)
+        if m1:
+            builder.config("spark.jars.packages", spark_nlp_config.maven_m1)
         elif gpu:
-            builder.config("spark.jars.packages", spark_nlp_config.maven_gpu_spark32)
+            builder.config("spark.jars.packages", spark_nlp_config.maven_gpu_spark3)
         else:
-            builder.config("spark.jars.packages", spark_nlp_config.maven_spark32)
+            builder.config("spark.jars.packages", spark_nlp_config.maven_spark3)
 
         if cache_folder != '':
             builder.config("spark.jsl.settings.pretrained.cache_folder", cache_folder)
@@ -167,14 +164,12 @@ def start(gpu=False,
                 spark_conf.set("spark.kryoserializer.buffer.max", spark_nlp_config.serializer_max_buffer)
                 spark_conf.set("spark.driver.maxResultSize", spark_nlp_config.driver_max_result_size)
 
-                if spark30:
-                    spark_conf.set("spark.jars.packages", spark_nlp_config.maven_spark30)
-                elif gpu and spark30:
-                    spark_conf.set("spark.jars.packages", spark_nlp_config.maven_gpu_spark30)
+                if m1:
+                    spark_conf.set("spark.jars.packages", spark_nlp_config.maven_m1)
                 elif gpu:
-                    spark_conf.set("spark.jars.packages", spark_nlp_config.maven_gpu_spark32)
+                    spark_conf.set("spark.jars.packages", spark_nlp_config.maven_gpu_spark3)
                 else:
-                    spark_conf.set("spark.jars.packages", spark_nlp_config.maven_spark32)
+                    spark_conf.set("spark.jars.packages", spark_nlp_config.maven_spark3)
 
                 if cache_folder != '':
                     spark_conf.config("spark.jsl.settings.pretrained.cache_folder", cache_folder)
