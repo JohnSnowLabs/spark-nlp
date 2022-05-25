@@ -26,6 +26,8 @@ on:
       - '**.yml'
     branches:
       - 'master'
+      - '*release*'
+      - 'release/**'
       - 'main'
 
 jobs:

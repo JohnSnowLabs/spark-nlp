@@ -28,8 +28,8 @@ object Dependencies {
     spark32Ver
   }
 
-  def getJavaTarget(is_spark30: String, is_spark32: String): String = {
-    if (is_spark30.equals("true") || is_spark32.equals("true")) {
+  def getJavaTarget(is_spark32: String): String = {
+    if (is_spark32.equals("true")) {
       "-target:jvm-1.8"
     } else {
       ""
@@ -37,7 +37,7 @@ object Dependencies {
   }
 
   /** ------- Scala version start ------- */
-  lazy val scala212 = "2.12.10"
+  lazy val scala212 = "2.12.15"
   lazy val scalaVer: String = scala212
 
   lazy val supportedScalaVersions: Seq[String] = List(scala212)
