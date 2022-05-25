@@ -28,8 +28,8 @@ object Dependencies {
     spark32Ver
   }
 
-  def getJavaTarget(is_spark30: String, is_spark32: String): String = {
-    if (is_spark30.equals("true") || is_spark32.equals("true")) {
+  def getJavaTarget(is_spark32: String): String = {
+    if (is_spark32.equals("true")) {
       "-target:jvm-1.8"
     } else {
       ""
@@ -37,7 +37,7 @@ object Dependencies {
   }
 
   /** ------- Scala version start ------- */
-  lazy val scala212 = "2.12.10"
+  lazy val scala212 = "2.12.15"
   lazy val scalaVer: String = scala212
 
   lazy val supportedScalaVersions: Seq[String] = List(scala212)
@@ -53,10 +53,10 @@ object Dependencies {
   val typesafeVersion = "1.4.2"
   val typesafe = "com.typesafe" % "config" % typesafeVersion
 
-  val rocksdbjniVersion = "6.5.3"
+  val rocksdbjniVersion = "6.29.5"
   val rocksdbjni = "org.rocksdb" % "rocksdbjni" % rocksdbjniVersion
 
-  val awsjavasdkbundleVersion = "1.11.603"
+  val awsjavasdkbundleVersion = "1.11.828"
   val awsjavasdkbundle = "com.amazonaws" % "aws-java-sdk-bundle" % awsjavasdkbundleVersion
 
   val liblevenshteinVersion = "3.0.0"
@@ -68,7 +68,7 @@ object Dependencies {
   val junitVersion = "4.13.2"
   val junit = "junit" % "junit" % junitVersion % Test
 
-  val tensorflowVersion = "0.4.1"
+  val tensorflowVersion = "0.4.2"
 
   val tensorflowGPU = "com.johnsnowlabs.nlp" %% "tensorflow-gpu" % tensorflowVersion
   val tensorflowCPU = "com.johnsnowlabs.nlp" %% "tensorflow-cpu" % tensorflowVersion

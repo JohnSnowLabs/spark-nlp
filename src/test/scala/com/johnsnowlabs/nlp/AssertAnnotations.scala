@@ -28,23 +28,36 @@ object AssertAnnotations {
     val begin = columnName + ".begin"
     val end = columnName + ".end"
     val annotatorType = columnName + ".annotatorType"
+    val embeddings = columnName + ".embeddings"
+
     dataSet
-      .select(result, metadata, begin, end, annotatorType)
+      .select(result, metadata, begin, end, annotatorType, embeddings)
       .rdd
       .map { row =>
         val resultSeq: Seq[String] =
           row.getAs[String]("result").asInstanceOf[mutable.WrappedArray[String]]
-        val metadataSeq: Seq[Map[String, String]] =
-          row
-            .getAs[Map[String, String]]("metadata")
-            .asInstanceOf[mutable.WrappedArray[Map[String, String]]]
+        val metadataSeq: Seq[Map[String, String]] = row
+          .getAs[Map[String, String]]("metadata")
+          .asInstanceOf[mutable.WrappedArray[Map[String, String]]]
         val beginSeq: Seq[Int] = row.getAs[Int]("begin").asInstanceOf[mutable.WrappedArray[Int]]
         val endSeq: Seq[Int] = row.getAs[Int]("end").asInstanceOf[mutable.WrappedArray[Int]]
-        val annotatorTypeSeq: Seq[String] =
-          row.getAs[String]("annotatorType").asInstanceOf[mutable.WrappedArray[String]]
+        val annotatorTypeSeq: Seq[String] = row
+          .getAs[String]("annotatorType")
+          .asInstanceOf[mutable.WrappedArray[String]]
+        val embeddings: Seq[Seq[Float]] = row
+          .getAs[Seq[Float]]("embeddings")
+          .asInstanceOf[mutable.WrappedArray[Seq[Float]]]
+
         resultSeq.zipWithIndex.map { case (token, index) =>
           val annotatorType = annotatorTypeSeq(index)
-          Annotation(annotatorType, beginSeq(index), endSeq(index), token, metadataSeq(index))
+          val embedding = embeddings(index).toArray
+          Annotation(
+            annotatorType,
+            beginSeq(index),
+            endSeq(index),
+            token,
+            metadataSeq(index),
+            embedding)
         }
       }
       .collect()

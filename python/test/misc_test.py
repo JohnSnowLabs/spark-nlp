@@ -12,17 +12,17 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-import unittest
 import shutil
 import tempfile
+import unittest
 
-from sparknlp.common import RegexRule
-from sparknlp.util import *
+import pytest
 
-from sparknlp.base import *
 from sparknlp.annotator import *
+from sparknlp.base import *
 
 
+@pytest.mark.fast
 class UtilitiesTestSpec(unittest.TestCase):
 
     @staticmethod
@@ -31,6 +31,7 @@ class UtilitiesTestSpec(unittest.TestCase):
         assert (regex_rule.rule() == "\w+")
 
 
+@pytest.mark.fast
 class SerializersTestSpec(unittest.TestCase):
     def setUp(self):
         self.test_dir = tempfile.mkdtemp()

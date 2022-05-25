@@ -13,9 +13,12 @@
 #  limitations under the License.
 import unittest
 
+import pytest
+
 from sparknlp.pretrained import ResourceDownloader
 
 
+@pytest.mark.fast
 class ResourceDownloaderShowTestSpec(unittest.TestCase):
 
     def runTest(self):
