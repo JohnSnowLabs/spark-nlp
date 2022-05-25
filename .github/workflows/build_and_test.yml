@@ -42,7 +42,8 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
-          java-version: 8
+          java-version: '8'
+          cache: 'sbt'
       - name: Install Python 3.7
         uses: actions/setup-python@v2
         with:
@@ -80,7 +81,8 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
-          java-version: 8
+          java-version: '8'
+          cache: 'sbt'
       - name: Install Python 3.7
         uses: actions/setup-python@v2
         with:
@@ -113,7 +115,8 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
-          java-version: 8
+          java-version: '8'
+          cache: 'sbt'
       - name: Install Python 3.7
         uses: actions/setup-python@v2
         with:
