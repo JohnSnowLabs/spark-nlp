@@ -29,6 +29,7 @@ import com.johnsnowlabs.ml.tensorflow.{
 }
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.serialization.MapFeature
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.Identifiable
@@ -372,12 +373,10 @@ class T5Transformer(override val uid: String)
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
-
-  /**
-   * It contains TF model signatures for the laded saved model
-   *
-   * @group param
-   * */
+  /** It contains TF model signatures for the laded saved model
+    *
+    * @group param
+    */
   val signatures = new MapFeature[String, String](model = this, name = "signatures")
 
   /** @group setParam */
@@ -393,7 +392,10 @@ class T5Transformer(override val uid: String)
   private var _model: Option[Broadcast[TensorflowT5]] = None
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tfWrapper: TensorflowWrapper, spp: SentencePieceWrapper): this.type = {
+  def setModelIfNotSet(
+      spark: SparkSession,
+      tfWrapper: TensorflowWrapper,
+      spp: SentencePieceWrapper): this.type = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
@@ -401,10 +403,7 @@ class T5Transformer(override val uid: String)
             tfWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
-            signatures = getSignatures
-          )
-        )
-      )
+            signatures = getSignatures)))
     }
     this
   }
@@ -527,7 +526,12 @@ trait ReadT5TransformerTensorflowModel extends ReadTensorflowModel with ReadSent
     require(savedModel.exists(), s"savedModel file saved_model.pb not found in folder $folder")
     require(sppModel.exists(), s"SentencePiece model not found in folder $sppModelPath")
 
-    val (wrapper, signatures) = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = false)
+    val (wrapper, signatures) = TensorflowWrapper.read(
+      folder,
+      zipped = false,
+      useBundle = true,
+      tags = Array("serve"),
+      initAllTables = false)
     val spp = SentencePieceWrapper.read(sppModel.toString)
 
     val _signatures = signatures match {
