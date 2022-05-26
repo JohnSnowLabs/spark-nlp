@@ -148,6 +148,11 @@ object ModelSignatureConstants {
     override val value: String = "decoder_encoder_state:0"
   }
 
+  case object DecoderEncoderAttentionMask extends TFInfoNameMapper {
+    override val key: String = "decoder_encoder_attention_mask"
+    override val value: String = "decoder_decoder_encoder_attention_mask:0:0"
+  }
+
   case object DecoderAttentionMask extends TFInfoNameMapper {
     override val key: String = "decoder_attention_mask"
     override val value: String = "decoder_decoder_attention_mask:0"
