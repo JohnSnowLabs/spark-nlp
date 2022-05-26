@@ -29,6 +29,7 @@ import com.johnsnowlabs.ml.tensorflow.{
 }
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.serialization.MapFeature
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.Identifiable
@@ -372,23 +373,43 @@ class T5Transformer(override val uid: String)
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
-  private var _tfModel: Option[Broadcast[TensorflowT5]] = None
+  /** It contains TF model signatures for the laded saved model
+    *
+    * @group param
+    */
+  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+
+  /** @group setParam */
+  def setSignatures(value: Map[String, String]): this.type = {
+    if (get(signatures).isEmpty)
+      set(signatures, value)
+    this
+  }
+
+  /** @group getParam */
+  def getSignatures: Option[Map[String, String]] = get(this.signatures)
+
+  private var _model: Option[Broadcast[TensorflowT5]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
       tfWrapper: TensorflowWrapper,
       spp: SentencePieceWrapper): this.type = {
-    if (_tfModel.isEmpty) {
-      _tfModel = Some(
+    if (_model.isEmpty) {
+      _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowT5(tfWrapper, spp, configProtoBytes = getConfigProtoBytes)))
+          new TensorflowT5(
+            tfWrapper,
+            spp,
+            configProtoBytes = getConfigProtoBytes,
+            signatures = getSignatures)))
     }
     this
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowT5 = _tfModel.get.value
+  def getModelIfNotSet: TensorflowT5 = _model.get.value
 
   setDefault(
     task -> "",
@@ -505,11 +526,22 @@ trait ReadT5TransformerTensorflowModel extends ReadTensorflowModel with ReadSent
     require(savedModel.exists(), s"savedModel file saved_model.pb not found in folder $folder")
     require(sppModel.exists(), s"SentencePiece model not found in folder $sppModelPath")
 
-    val (wrapper, _) =
-      TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
+    val (wrapper, signatures) = TensorflowWrapper.read(
+      folder,
+      zipped = false,
+      useBundle = true,
+      tags = Array("serve"),
+      initAllTables = false)
     val spp = SentencePieceWrapper.read(sppModel.toString)
 
-    val t5model = new T5Transformer().setModelIfNotSet(spark, wrapper, spp)
+    val _signatures = signatures match {
+      case Some(s) => s
+      case None => throw new Exception("Cannot load signature definitions from model!")
+    }
+
+    val t5model = new T5Transformer()
+      .setSignatures(_signatures)
+      .setModelIfNotSet(spark, wrapper, spp)
 
     t5model
   }
