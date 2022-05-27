@@ -63,11 +63,11 @@ val documenter = new DocumentAssembler()
     .setInputCol("text") 
     .setOutputCol("document")
 
-val bert_sent = new BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_base_cased", "en")
+val bert_sent = BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_base_cased", "en")
     .setInputCols("document")
     .setOutputCol("sentence_embeddings")
 
-val classifier_dl = new ClassifierDLModel.pretrained("rct_binary_classifier_biobert", "en", "clinical/models")
+val classifier_dl = ClassifierDLModel.pretrained("rct_binary_classifier_biobert", "en", "clinical/models")
     .setInputCols(Array("sentence_embeddings"))
     .setOutputCol("class")
 
