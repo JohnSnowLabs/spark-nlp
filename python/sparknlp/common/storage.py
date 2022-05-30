@@ -11,6 +11,8 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+"""Contains utility classes for handling storage."""
+
 from pyspark.ml.param import Param, Params, TypeConverters
 
 from sparknlp.common.utils import ExternalResource
@@ -43,6 +45,7 @@ class HasStorageRef:
         """
         return self.getOrDefault("storageRef")
 
+
 class HasExcludableStorage:
     includeStorage = Param(Params._dummy(),
                            "includeStorage",
@@ -69,6 +72,7 @@ class HasExcludableStorage:
         """
         return self.getOrDefault("includeStorage")
 
+
 class HasStorageModel(HasStorageRef, HasCaseSensitiveProperties, HasExcludableStorage):
 
     def saveStorage(self, path, spark):
@@ -92,6 +96,7 @@ class HasStorageModel(HasStorageRef, HasCaseSensitiveProperties, HasExcludableSt
     def loadStorages(path, spark, storage_ref, databases):
         for database in databases:
             _internal._StorageHelper(path, spark, database, storage_ref, within_storage=False)
+
 
 class HasStorage(HasStorageRef, HasCaseSensitiveProperties, HasExcludableStorage):
     storagePath = Param(Params._dummy(),

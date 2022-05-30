@@ -11,7 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-
+"""Module of common base classes for Spark NLP annotators."""
 from sparknlp.common.annotator_approach import *
 from sparknlp.common.annotator_model import *
 from sparknlp.common.annotator_properties import *
