@@ -1,4 +1,2 @@
-docs/_data/navigation.yml
-docs/en/CPU_NER_Benchmarks.md
-docs/_data/navigation.yml
-docs/en/CPU_NER_Benchmarks.md
+docs/_posts/HashamUlHaq/2021-02-19-t5_base_mediqa_mnli_en.md
+docs/_posts/HashamUlHaq/2021-02-19-t5_base_mediqa_mnli_en.md
