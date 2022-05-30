@@ -18,6 +18,7 @@ package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
+import com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
 import com.johnsnowlabs.nlp.annotators.er.EntityRulerModel
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
@@ -635,7 +636,8 @@ object PythonResourceDownloader {
     "DeBertaEmbeddings" -> DeBertaEmbeddings,
     "DeBertaForSequenceClassification" -> DeBertaForSequenceClassification,
     "DeBertaForTokenClassification" -> DeBertaForTokenClassification,
-    "CamemBertEmbeddings" -> CamemBertEmbeddings)
+    "CamemBertEmbeddings" -> CamemBertEmbeddings,
+    "SpanBertCorefModel" -> SpanBertCorefModel)
 
   def downloadModel(
       readerStr: String,
