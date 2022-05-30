@@ -73,7 +73,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_DEID_DE/
           - text: Colab Netbook
             type: blue_btn
-            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.1.Clinical_Deidentification_in_German.ipynb  
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.1.Clinical_Deidentification_in_German.ipynb  
         - title: Deidentify German Medical texts
           id: deidentify_german_medical_texts   
           image: 

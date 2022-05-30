@@ -73,7 +73,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_CELLULAR/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_NER.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CELLULAR.ipynb
         - title: Detect chemical compounds
           id: detect_chemical_compounds
           image: 
@@ -87,7 +87,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_CHEMICALS/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_NER.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CHEMICALS.ipynb
         - title: Detect bacteria, plants, animals or general species
           id: detect_bacteria
           image: 
@@ -101,7 +101,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_BACTERIAL_SPECIES/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_NER.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BACTERIAL_SPECIES.ipynb
         - title: Detect Genomic Variant Information
           id: detect_genomic_variant_information 
           image: 
