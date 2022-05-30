@@ -38,7 +38,7 @@ and will be loaded with Spark:
 
 >>> smallCorpus = spark.read.option("header","True").csv("src/test/resources/classifier/sentiment.csv")
 
-Then we declare the :class:`sparknlp.annotator.ClassifierDLApproach` that is going to be trained in the pipeline. Note that in this case,
+Then we declare the :class:`.ClassifierDLApproach` that is going to be trained in the pipeline. Note that in this case,
 the Annotator also requires a label column, set with ``setLabelColumn("label")``, to classify the text.
 
 >>> docClassifier = ClassifierDLApproach() \
@@ -99,7 +99,7 @@ First we need to declare all the prerequisite steps:
 ...    .setInputCols("document") \
 ...    .setOutputCol("sentence_embeddings")
 
-Here we use a pretrained :class:`sparknlp.annotator.ClassifierDLModel`. Your trained approach from the previous example could
+Here we use a pretrained :class:`.ClassifierDLModel`. Your trained approach from the previous example could
 also be inserted.
 
 >>> sarcasmDL = ClassifierDLModel.pretrained("classifierdl_use_sarcasm") \

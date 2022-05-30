@@ -11,6 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+"""Module of Spark NLP internal classes for annotator development."""
 from pyspark.ml import PipelineModel
 
 from sparknlp.internal.annotator_java_ml import *
