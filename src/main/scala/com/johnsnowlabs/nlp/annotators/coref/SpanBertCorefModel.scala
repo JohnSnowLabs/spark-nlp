@@ -1,9 +1,29 @@
 package com.johnsnowlabs.nlp.annotators.coref
 
-import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowSpanBertCoref, TensorflowWrapper, WriteTensorflowModel}
-import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence, TokenPiece, TokenizedSentence, TokenizedWithSentence, WordpieceTokenizedSentence}
+import com.johnsnowlabs.ml.tensorflow.{
+  ReadTensorflowModel,
+  TensorflowSpanBertCoref,
+  TensorflowWrapper,
+  WriteTensorflowModel
+}
+import com.johnsnowlabs.nlp.annotators.common.{
+  IndexedToken,
+  Sentence,
+  TokenPiece,
+  TokenizedSentence,
+  TokenizedWithSentence,
+  WordpieceTokenizedSentence
+}
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasCaseSensitiveProperties, HasPretrained, HasSimpleAnnotate, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp.{
+  Annotation,
+  AnnotatorModel,
+  AnnotatorType,
+  HasCaseSensitiveProperties,
+  HasPretrained,
+  HasSimpleAnnotate,
+  ParamsAndFeaturesReadable
+}
 import com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
@@ -17,7 +37,7 @@ import org.slf4j.{Logger, LoggerFactory}
 import java.io.File
 
 class SpanBertCorefModel(override val uid: String)
-  extends AnnotatorModel[SpanBertCorefModel]
+    extends AnnotatorModel[SpanBertCorefModel]
     with HasSimpleAnnotate[SpanBertCorefModel]
     with WriteTensorflowModel
     with HasEmbeddingsProperties
@@ -26,7 +46,8 @@ class SpanBertCorefModel(override val uid: String)
 
   def this() = this(Identifiable.randomUID("SPANBERTCOREFMODEL"))
 
-  override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT)
+  override val inputAnnotatorTypes: Array[String] =
+    Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.CATEGORY
 
   def sentenceStartTokenId: Int = {
@@ -37,7 +58,6 @@ class SpanBertCorefModel(override val uid: String)
   def sentenceEndTokenId: Int = {
     $$(vocabulary)("[SEP]")
   }
-
 
   /** Vocabulary used to encode the words to ids with WordPieceEncoder
     *
@@ -105,8 +125,8 @@ class SpanBertCorefModel(override val uid: String)
   setDefault(maxSentenceLength -> 128, caseSensitive -> true)
 
   def setModelIfNotSet(
-                        spark: SparkSession,
-                        tensorflowWrapper: TensorflowWrapper): SpanBertCorefModel = {
+      spark: SparkSession,
+      tensorflowWrapper: TensorflowWrapper): SpanBertCorefModel = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
@@ -152,6 +172,10 @@ class SpanBertCorefModel(override val uid: String)
     val tokenizedSentences = tokenizeSentence(sentencesWithRow).toArray
     val inputIds = tokenizedSentences.map(x => x.tokens.map(_.pieceId))
 
+    if (inputIds.map(x => x.length).sum < 2) {
+      return Seq()
+    }
+
     val predictedClusters = getModelIfNotSet.predict(inputIds = inputIds, maxSegmentLength = 384)
 
     def getTokensFromSpan(span: ((Int, Int), (Int, Int))): Array[TokenPiece] = {
@@ -162,9 +186,10 @@ class SpanBertCorefModel(override val uid: String)
       if (sentence1 == sentence2) {
         tokenizedSentences(sentence1).tokens.slice(tokenStart, tokenEnd + 1)
       } else {
-        (tokenizedSentences(sentence1).tokens.slice(tokenStart, tokenizedSentences(sentence1).tokens.length - 1)
+        (tokenizedSentences(sentence1).tokens
+          .slice(tokenStart, tokenizedSentences(sentence1).tokens.length - 1)
           ++
-          tokenizedSentences(sentence2).tokens.slice(0, tokenEnd + 1))
+            tokenizedSentences(sentence2).tokens.slice(0, tokenEnd + 1))
       }
     }
 
@@ -177,36 +202,40 @@ class SpanBertCorefModel(override val uid: String)
 //              getTokensFromSpan(xy).map(x => (if (x.isWordStart) " " else "") + x.wordpiece.replaceFirst("##", "") ).mkString("").trim,
 //            ).mkString(", ")))
 //    }
-      predictedClusters.flatMap(
-        cluster => {
-          val spans = cluster.map(xy => getTokensFromSpan(xy))
+    predictedClusters.flatMap(cluster => {
+      val spans = cluster.map(xy => getTokensFromSpan(xy))
 
-          spans.zipWithIndex.flatMap {
-            case (span1, span1Id) =>
-              spans.zipWithIndex.filter(_._2 > span1Id).map(_._1).map {
-                span2 =>
-                  val minSpanBegin = scala.math.min(span1.head.begin, span2.head.begin)
-                  val maxSpanEnd = scala.math.min(span1.last.end, span2.last.end)
+      spans.zipWithIndex.flatMap { case (span1, span1Id) =>
+        spans.zipWithIndex
+          .filter(_._2 > span1Id)
+          .map(_._1)
+          .map { span2 =>
+            val minSpanBegin = scala.math.min(span1.head.begin, span2.head.begin)
+            val maxSpanEnd = scala.math.min(span1.last.end, span2.last.end)
 
-                  new Annotation(
-                    annotatorType = AnnotatorType.CATEGORY,
-                    begin = minSpanBegin,
-                    end = maxSpanEnd,
-                    metadata = Map(
-                      "entity1" -> "COREFSPAN",
-                      "entity2" -> "COREFSPAN",
-                      "entity1_begin" -> span1.head.begin.toString,
-                      "entity1_end" -> span2.head.begin.toString,
-                      "entity2_begin" -> span1.head.begin.toString,
-                      "entity2_end" -> span2.head.begin.toString,
-                      "chunk1" -> span1.map(x => (if (x.isWordStart) " " else "") + x.wordpiece.replaceFirst("##", "") ).mkString("").trim,
-                      "chunk2" -> span2.map(x => (if (x.isWordStart) " " else "") + x.wordpiece.replaceFirst("##", "") ).mkString("").trim
-                    ),
-                    result = "COREF"
-                  )
-              }
+            new Annotation(
+              annotatorType = AnnotatorType.CATEGORY,
+              begin = minSpanBegin,
+              end = maxSpanEnd,
+              metadata = Map(
+                "entity1" -> "COREFSPAN",
+                "entity2" -> "COREFSPAN",
+                "entity1_begin" -> span1.head.begin.toString,
+                "entity1_end" -> span2.head.begin.toString,
+                "entity2_begin" -> span1.head.begin.toString,
+                "entity2_end" -> span2.head.begin.toString,
+                "chunk1" -> span1
+                  .map(x => (if (x.isWordStart) " " else "") + x.wordpiece.replaceFirst("##", ""))
+                  .mkString("")
+                  .trim,
+                "chunk2" -> span2
+                  .map(x => (if (x.isWordStart) " " else "") + x.wordpiece.replaceFirst("##", ""))
+                  .mkString("")
+                  .trim),
+              result = "COREF")
           }
-        })
+      }
+    })
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
@@ -222,7 +251,7 @@ class SpanBertCorefModel(override val uid: String)
 }
 
 trait ReadablePretrainedSpanBertCorefModel
-  extends ParamsAndFeaturesReadable[SpanBertCorefModel]
+    extends ParamsAndFeaturesReadable[SpanBertCorefModel]
     with HasPretrained[SpanBertCorefModel] {
   override val defaultModelName: Some[String] = Some("")
 
@@ -291,7 +320,8 @@ trait ReadSpanBertCorefTensorflowModel extends ReadTensorflowModel {
 /** This is the companion object of [[BertEmbeddings]]. Please refer to that class for the
   * documentation.
   */
-object SpanBertCorefModel extends ReadablePretrainedSpanBertCorefModel with ReadSpanBertCorefTensorflowModel {
+object SpanBertCorefModel
+    extends ReadablePretrainedSpanBertCorefModel
+    with ReadSpanBertCorefTensorflowModel {
   private[SpanBertCorefModel] val logger: Logger = LoggerFactory.getLogger("SpanBertCorefModel")
 }
-
