@@ -59,7 +59,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_TRAFFIC_DE/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_NER.ipynb         
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_TRAFFIC_DE.ipynb         
         - title: Detect professions and occupations in Spanish texts
           id: detect_professions_occupations_Spanish_texts 
           image: 

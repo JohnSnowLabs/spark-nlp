@@ -31,7 +31,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_RADIOLOGY
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_RADIOLOGY.ipynb
         - title: Detect Anatomical and Observation Entities in Chest Radiology Reports
           id: detect_anatomical_observation_entities_chest_radiology_reports 
           image: 
@@ -45,7 +45,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_CHEXPERT/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CHEXPERT.ipynb
         - title: Assign an assertion status (confirmed, suspected or negative) to Image Findings
           id: identify_assertion_status_image_findings_Radiology  
           image: 
@@ -59,7 +59,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ASSERTION_RADIOLOGY/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ASSERTION_RADIOLOGY.ipynb
         - title: Identify relations between problems, tests and findings
           id: identify_relations_between_problems_tests_findings  
           image: 
@@ -73,5 +73,5 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/RE_RADIOLOGY/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_RADIOLOGY.ipynb
 ---

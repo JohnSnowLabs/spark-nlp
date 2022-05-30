@@ -31,7 +31,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ER_SNOMED
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_SNOMED.ipynb        
+            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_SNOMED.ipynb        
         - title: Map clinical terminology to ICD-10-CM taxonomy
           id: icd10-cm_coding
           image: 
@@ -45,7 +45,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb
+            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb
         - title: Map drug terminology to RxNorm taxonomy
           id: rxnorm_coding
           image: 
@@ -59,37 +59,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ER_RXNORM/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_RXNORM.ipynb
-        - title: Resolve drugs to RXNORM-NDC codes
-          hide: yes
-          id: rxnorm_ndc_coding
-          image: 
-              src: /assets/images/Resolve_drugs_to_RXNORM-NDC_codes.svg
-          image2: 
-              src: /assets/images/Resolve_drugs_to_RXNORM-NDC_codes_f.svg
-          excerpt: This demo shows how the extracted drugs can be mapped to RxNorm-NDC codes using Spark NLP for Healhtcare sentence resolvers. 
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ER_RXNORM_NDC/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb#scrollTo=GfkA9JcNnp4w
-        - title: Logical Observation Identifiers Names and Codes (LOINC)
-          hide: yes
-          id: logical-observation-identifiers-names-and-codes
-          image: 
-              src: /assets/images/Detect_drugs_and_prescriptions.svg
-          image2: 
-              src: /assets/images/Detect_drugs_and_prescriptions_f.svg
-          excerpt: Map clinical NER entities to Logical Observation Identifiers Names and Codes (LOINC) using our pre-trained model.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ER_LOINC/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb
+            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_RXNORM.ipynb              
         - title: Map healthcare codes between taxonomies
           id: logical-observation-identifiers-names-and-codes
           image: 
@@ -117,21 +87,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ER_LOINC/
           - text: Colab Netbook
             type: blue_btn
-            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb    
-        - title: Extract Hierarchical Condition Categories billable codes using ICD-10-CM taxonomy
-          id: resolve_clinical_entities_codes_loinc
-          image: 
-              src: /assets/images/Sentence_Entity_Resolver_for_billable_ICD10-CM_HCC.svg
-          image2: 
-              src: /assets/images/Sentence_Entity_Resolver_for_billable_ICD10-CM_HCC_f.svg
-          excerpt: This demo shows how the extracted medical entities can be mapped to Hierarchical Condition Categories billable codes, using the ICD10-CM taxonomy.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_LOINC.ipynb        
         - title: Resolve Clinical Health Information using the HPO taxonomy
           id: resolve_clinical_health_information_using_hpo_taxonomy 
           image: 
@@ -145,7 +101,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ER_HPO/
           - text: Colab Netbook
             type: blue_btn
-            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_HPO.ipynb
         - title: Resolve Clinical Health Information using the MeSH taxonomy
           id: resolve_clinical_health_information_using_mesh_taxonomy 
           image: 
@@ -159,7 +115,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ER_MSH/
           - text: Colab Netbook
             type: blue_btn
-            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_MSH.ipynb
         - title: Resolve Clinical Findings using the UMLS CUI taxonomy
           id: resolve_clinical_health_information_using_umls_cui_taxonomy 
           image: 
@@ -173,7 +129,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ER_UMLS_CUI/
           - text: Colab Netbook
             type: blue_btn
-            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_UMLS_CUI.ipynb
         - title: Map clinical terminology to HCPCS taxonomy
           id: map_clinical_terminology_hcpcs_taxonomy  
           image: 
@@ -201,7 +157,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ER_NDC/
           - text: Colab Netbook
             type: blue_btn
-            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_NDC.ipynb#scrollTo=dnJ9X-mbEOMr
         - title: Resolve Clinical Abbreviations and Acronyms
           id: resolve_clinical_abbreviations_acronyms    
           image: 
@@ -215,7 +171,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ER_CLINICAL_ABBREVIATION_ACRONYM/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_CLINICAL_ABBREVIATION_ACRONYM.ipynb
         - title: Resolve Drug Class using RxNorm taxonomy
           id: resolve_drug_class_using_rxnorm_taxonomy     
           image: 
@@ -229,7 +185,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ER_RXNORM_DRUG_CLASS/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_RXNORM_DRUG_CLASS.ipynb
         - title: Resolve Drug & Substance using the UMLS CUI taxonomy
           id: resolve_drug_Substance_using_umls_cui_taxonomy      
           image: 
@@ -243,7 +199,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ER_UMLS_CUI_DRUG_SUBSTANCE/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_UMLS_CUI_DRUG_SUBSTANCE.ipynb
         - title: Resolve Clinical Procedures using CPT taxonomy
           id: resolve_clinical_procedures_cpt_taxonomy       
           image: 
@@ -257,5 +213,5 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ER_CPT/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_CPT.ipynb
 ---
