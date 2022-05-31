@@ -28,6 +28,20 @@ We are very excited to announce the release of Annotation Lab v3.2.0 which inclu
 - Network Policies have been implemented which specify how a pod is allowed to communicate with various network "entities" over the network. The entities that are required to function in Annotation Lab were clearly identified and only traffic coming from them is now allowed.
 - Support for airgap licenses with scope, previously airgap licenses with scopes were misrecognized as floating licenses.
 - Upgraded Spark NLP and Spark NLP for Health Care v3.4.1 and Spark OCR v3.12.0 
+
+
+## 3.1.1
+
+Release date: **09-05-2022**
+
+We are very excited to announce the release of Annotation Lab v3.1.1 which includes Support excel import, CVE fixes and stabilization. Here are the highlights:
+
+### Highlights
+- Fix more CVEs of docker images
+- Change ClusterRole and ClusterRolebinding to Role and Rolebinding for backup
+- When a trained model is deployed by active learning, "active-learning" is seen in Deployedby column
+- Fix for visibility icon used for connected words
+
  
 ## 3.1.0
 
