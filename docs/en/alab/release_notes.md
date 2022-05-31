@@ -12,7 +12,23 @@ show_nav: true
 sidebar:
     nav: annotation-lab
 ---
+## 3.2.0
 
+Release date: **31-05-2022**
+
+We are very excited to announce the release of Annotation Lab v3.2.0 which includes new and exciting features such as Project cloning and Project backup, Evaluation of Pretrained Models, and Search feature in the Visual NER Project. Support for Multiple files import, ability to view statuses of Model Servers and Training Jobs, and prioritization of completions for CONLL export. Spark NLP and Spark OCR libraries were also upgraded, and some security fixes and stabilizations were also implemented. Here are the highlights:
+
+### Highlights
+
+- It is possible to perform the import/export of an entire Project. All project-related items (tasks, project configuration, project members, task assignments) can be imported/exported. In addition, users can clone an existing project as well.
+- Evaluate Named Entity Models, project Owner and/or Manager can now test and evaluate annotated tasks against the Pretrained NER models in the Training & Active Learning Settings tab, configured NER models will be tested against the tasks tagged as test.
+- Statuses of Training and Preannotation Server, new column, status, is added to the server page that gives the status of training and preannotation servers. Also if any issues are encountered during server initialization, those are displayed on mouse-over the status value.
+- Import Multiple Files, Project Owners or Managers can now upload multiple files at once to bulk
+- Prioritize Annotators For Data Export, when multiple completions are available for the same task, the CONLL export will include completions from higher priority members
+- Network Policies have been implemented which specify how a pod is allowed to communicate with various network "entities" over the network. The entities that are required to function in Annotation Lab were clearly identified and only traffic coming from them is now allowed.
+- Support for airgap licenses with scope, previously airgap licenses with scopes were misrecognized as floating licenses.
+- Upgraded Spark NLP and Spark NLP for Health Care v3.4.1 and Spark OCR v3.12.0 
+ 
 ## 3.1.0
 
 Release date: **04-05-2022**
