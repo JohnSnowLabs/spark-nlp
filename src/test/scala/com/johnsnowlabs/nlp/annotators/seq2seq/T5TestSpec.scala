@@ -46,7 +46,7 @@ class T5TestSpec extends AnyFlatSpec {
       .setOutputCol("questions")
 
     val t5 = T5Transformer
-      .pretrained("t5_small")
+      .pretrained("google_t5_small_ssm_nq")
       .setInputCols(Array("questions"))
       .setOutputCol("answers")
 
@@ -535,7 +535,7 @@ class T5TestSpec extends AnyFlatSpec {
 
     val t5 = T5Transformer
       .pretrained("t5_small")
-      .setTask("summarize:")
+      .setTask("translate:")
       .setInputCols(Array("documents"))
       .setMaxOutputLength(200)
       .setOutputCol("translations")
@@ -550,6 +550,41 @@ class T5TestSpec extends AnyFlatSpec {
     val collected = results.selectExpr("explode(translations.result)").collect().head.getString(0)
     val expected = "Das ist gut."
     assert(collected == expected, "translation should be correct")
+  }
+
+  "Pretrained models" should "be saved and loaded correctly" taggedAs SlowTest in {
+    val testData =
+      ResourceHelper.spark.createDataFrame(Seq((1, "That is good."))).toDF("id", "text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("documents")
+
+    val t5 = T5Transformer
+      .pretrained("t5_small")
+      .setTask("translate:")
+      .setInputCols(Array("documents"))
+      .setMaxOutputLength(200)
+      .setOutputCol("translations")
+
+    t5.setTask("translate English to German:")
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, t5))
+
+    val model = pipeline.fit(testData)
+    val results = model.transform(testData).cache()
+
+    results.selectExpr("explode(translations.result)").collect().head.getString(0)
+
+    model.stages.last.asInstanceOf[T5Transformer].write.overwrite().save("./tmp_t5_model")
+
+    val t5Loaded = T5Transformer.load("./tmp_t5_model")
+
+    val pipeline2 = new Pipeline().setStages(Array(documentAssembler, t5Loaded))
+    val model2 = pipeline2.fit(testData)
+    val results2 = model2.transform(testData)
+
+    results2.select("documents.result", "translations.result").show(truncate = false)
   }
 
 }
