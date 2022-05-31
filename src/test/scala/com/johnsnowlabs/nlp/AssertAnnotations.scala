@@ -16,7 +16,6 @@
 
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import org.apache.spark.sql.Dataset
 
 import scala.collection.mutable
@@ -65,8 +64,8 @@ object AssertAnnotations {
   }
 
   def assertFields(
-      expectedResult: Array[Seq[Annotation]],
-      actualResult: Array[Seq[Annotation]]): Unit = {
+                    expectedResult: Array[Seq[Annotation]],
+                    actualResult: Array[Seq[Annotation]]): Unit = {
     expectedResult.zipWithIndex.foreach { case (expectedAnnotationDocument, indexDocument) =>
       val actualDocument = actualResult(indexDocument)
       expectedAnnotationDocument.zipWithIndex.foreach { case (expectedAnnotation, index) =>

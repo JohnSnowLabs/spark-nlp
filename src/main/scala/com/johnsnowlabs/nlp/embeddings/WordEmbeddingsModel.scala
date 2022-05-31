@@ -18,7 +18,11 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, TokenizedWithSentence, WordpieceEmbeddingsSentence}
+import com.johnsnowlabs.nlp.annotators.common.{
+  TokenPieceEmbeddings,
+  TokenizedWithSentence,
+  WordpieceEmbeddingsSentence
+}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
 import com.johnsnowlabs.storage.Database.Name
 import com.johnsnowlabs.storage._
