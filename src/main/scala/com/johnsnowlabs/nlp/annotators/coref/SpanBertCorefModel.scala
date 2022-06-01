@@ -29,7 +29,7 @@ import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{IntArrayParam, IntParam}
+import org.apache.spark.ml.param.{IntArrayParam, IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 import org.slf4j.{Logger, LoggerFactory}
@@ -120,9 +120,67 @@ class SpanBertCorefModel(override val uid: String)
 
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
+
+  val _textGenres: Array[String] = Array(
+    "bc", // Broadcast conversation, default
+    "bn", // Broadcast news
+    "mz", //
+    "nw", // News wire
+    "pt", // Pivot text: Old Testament and New Testament text
+    "tc", // Telephone conversation
+    "wb" // Web data
+  )
+
+  /** Text genre, one of the following values: `bc`: Broadcast conversation, default `bn:
+    * Broadcast news `nw`: News wire `pt`: Pivot text: Old Testament and New Testament text `tc`:
+    * Telephone conversation `wb`: Web data
+    *
+    * @group param
+    */
+  val textGenre =
+    new Param[String](
+      this,
+      "textGenre",
+      s"Text genre, one of %s. Default is 'bc'.".format(
+        _textGenres.map("\"" + _ + "\"").mkString(", ")))
+
+  /** @group setParam */
+  def setTextGenre(value: String): this.type = {
+    require(
+      Array().contains(value.toLowerCase),
+      s"Text text genre must be one of %s".format(
+        _textGenres.map("\"" + _ + "\"").mkString(", ")))
+    set(textGenre, value.toLowerCase)
+    this
+  }
+
+  /** @group getParam */
+  def getTextGenre: String = $(textGenre)
+
+  /** Max segment length to process (Read-only, depends on model)
+    *
+    * @group param
+    */
+  val maxSegmentLength = new IntParam(this, "maxSegmentLength", "Maximum segment length")
+
+  /** @group setParam */
+  def setMaxSegmentLength(value: Int): this.type = {
+    if (get(maxSegmentLength).isEmpty)
+      set(maxSegmentLength, value)
+    this
+  }
+
+  /** @group getParam */
+  def getMaxSegmentLength: Int = $(maxSegmentLength)
+
   private var _model: Option[Broadcast[TensorflowSpanBertCoref]] = None
 
-  setDefault(maxSentenceLength -> 128, caseSensitive -> true)
+  setDefault(
+    maxSentenceLength -> 512,
+    caseSensitive -> true,
+    textGenre -> _textGenres(0)
+//    maxSegmentLength -> 384,
+  )
 
   def setModelIfNotSet(
       spark: SparkSession,
@@ -176,7 +234,10 @@ class SpanBertCorefModel(override val uid: String)
       return Seq()
     }
 
-    val predictedClusters = getModelIfNotSet.predict(inputIds = inputIds, maxSegmentLength = 384)
+    val predictedClusters = getModelIfNotSet.predict(
+      inputIds = inputIds,
+      genre = _textGenres.indexOf($(textGenre)),
+      maxSegmentLength = $(maxSegmentLength))
 
     def getTokensFromSpan(span: ((Int, Int), (Int, Int))): Array[TokenPiece] = {
       val sentence1 = span._1._1
