@@ -21,7 +21,7 @@ Pretrained Named Entity Recognition model, uploaded to Hugging Face, adapted and
 
 ## Predicted Entities
 
-`Interactive`, `AcademicTerms`, `InformationChange`, `MetadiscourseCohesive`, `FirstPerson`, `InformationPlace`, `Updates`, `InformationChangePositive`, `Reasoning`, `PublicTerms`, `Citation`, `Future`, `CitationHedged`, `InformationExposition`, `Contingent`, `Strategic`, `PAD`, `CitationAuthority`, `Facilitate`, `Positive`, `ConfidenceHigh`, `InformationStates`, `AcademicWritingMoves`, `Uncertainty`, `SyntacticComplexity`, `Responsibility`, `Character`, `Narrative`, `MetadiscourseInteractive`, `InformationTopics`, `ConfidenceLow`, `ConfidenceHedged`, `ForceStressed`, `Negative`, `InformationChangeNegative`, `Description`, `Inquiry`, `InformationReportVerbs`
+`Interactive`, `AcademicTerms`, `InformationChange`, `MetadiscourseCohesive`, `FirstPerson`, `InformationPlace`, `Updates`, `InformationChangeneritive`, `Reasoning`, `PublicTerms`, `Citation`, `Future`, `CitationHedged`, `InformationExnerition`, `Contingent`, `Strategic`, `PAD`, `CitationAuthority`, `Facilitate`, `Positive`, `ConfidenceHigh`, `InformationStates`, `AcademicWritingMoves`, `Uncertainty`, `SyntacticComplexity`, `Responsibility`, `Character`, `Narrative`, `MetadiscourseInteractive`, `InformationTopics`, `ConfidenceLow`, `ConfidenceHedged`, `ForceStressed`, `Negative`, `InformationChangeNegative`, `Description`, `Inquiry`, `InformationReportVerbs`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -49,7 +49,7 @@ tokenizer = Tokenizer() \
 
 tokenClassifier = BertForTokenClassification.pretrained("bert_ner_docusco_bert","en") \
     .setInputCols(["sentence", "token"]) \
-    .setOutputCol("pos")
+    .setOutputCol("ner")
 
 pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier])
 
@@ -72,7 +72,7 @@ val tokenizer = new Tokenizer()
 
 val tokenClassifier = BertForTokenClassification.pretrained("bert_ner_docusco_bert","en") 
     .setInputCols(Array("sentence", "token")) 
-    .setOutputCol("pos")
+    .setOutputCol("ner")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler,sentenceDetector, tokenizer, tokenClassifier))
 

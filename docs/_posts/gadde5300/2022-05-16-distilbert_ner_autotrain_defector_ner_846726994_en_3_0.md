@@ -26,7 +26,7 @@ Pretrained Named Entity Recognition model, adapted from Hugging Face and curated
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_ner_autotrain_defector_ner_846726994_en_3.4.2_3.0_1652721588037.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_ner_autotrain_defector_ner_846726994_en_3.4.2_3.0_1652719415807.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -49,7 +49,7 @@ tokenizer = Tokenizer() \
 
 tokenClassifier = DistilBertForTokenClassification.pretrained("distilbert_ner_autotrain_defector_ner_846726994","en") \
     .setInputCols(["sentence", "token"]) \
-    .setOutputCol("pos")
+    .setOutputCol("ner")
 
 pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier])
 
@@ -72,7 +72,7 @@ val tokenizer = new Tokenizer()
 
 val tokenClassifier = DistilBertForTokenClassification.pretrained("distilbert_ner_autotrain_defector_ner_846726994","en") 
     .setInputCols(Array("sentence", "token")) 
-    .setOutputCol("pos")
+    .setOutputCol("ner")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler,sentenceDetector, tokenizer, tokenClassifier))
 
