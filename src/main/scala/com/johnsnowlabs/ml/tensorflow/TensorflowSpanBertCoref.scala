@@ -18,6 +18,7 @@ class TensorflowSpanBertCoref(
 
   def predict(
       inputIds: Array[Array[Int]],
+      genre: Int,
       maxSegmentLength: Int): Array[Array[((Int, Int), (Int, Int))]] = {
     val tensors = new TensorResources()
 

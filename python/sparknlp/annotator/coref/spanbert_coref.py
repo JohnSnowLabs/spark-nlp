@@ -30,6 +30,16 @@ class SpanBertCorefModel(AnnotatorModel,
                               "Max sentence length to process",
                               typeConverter=TypeConverters.toInt)
 
+    maxSegmentLength = Param(Params._dummy(),
+                              "maxSegmentLength",
+                              "Max segment length",
+                              typeConverter=TypeConverters.toInt)
+
+    textGenre = Param(Params._dummy(),
+                             "textGenre",
+                             "Text genre, one of ('bc', 'bn', 'mz', 'nw', 'pt','tc', 'wb')",
+                             typeConverter=TypeConverters.toString)
+
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
@@ -55,6 +65,32 @@ class SpanBertCorefModel(AnnotatorModel,
         """
         return self._set(maxSentenceLength=value)
 
+    def setMaxSegmentLength(self, value):
+        """Sets max segment length
+
+        Parameters
+        ----------
+        value : int
+            Max segment length
+        """
+        return self._set(maxSegmentLength=value)
+
+    def setTextGenre(self, value):
+        """ Text genre, one of the following values:
+            `bc`: Broadcast conversation, default
+            `bn: Broadcast news
+            `nw`: News wire
+            `pt`: Pivot text: Old Testament and New Testament text
+            `tc`: Telephone conversation
+            `wb`: Web data
+
+        Parameters
+        ----------
+        value : string
+            Text genre code, default is 'bc'
+        """
+        return self._set(textGenre=value)
+
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel", java_model=None):
         super(SpanBertCorefModel, self).__init__(
@@ -63,7 +99,8 @@ class SpanBertCorefModel(AnnotatorModel,
         )
         self._setDefault(
             maxSentenceLength=512,
-            caseSensitive=True
+            caseSensitive=True,
+            textGenre="bc"
         )
 
     @staticmethod

@@ -21,6 +21,7 @@ class SpanBertCorefModelSpec extends AnyFlatSpec {
   "SpanBertCoref" should "load TF graph" taggedAs SlowTest in {
     SpanBertCorefModel
       .loadSavedModel("/tmp/coref_tf1", spark)
+      .setMaxSegmentLength(384)
       .setCaseSensitive(true)
       .write
       .overwrite
