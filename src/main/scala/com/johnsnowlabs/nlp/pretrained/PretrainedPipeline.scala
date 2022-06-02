@@ -95,8 +95,13 @@ case class PretrainedPipeline(
 
   def annotate(target: String): Map[String, Seq[String]] = lightModel.annotate(target)
 
-  def annotate(target: Array[String]): Array[Map[String, Seq[String]]] =
-    lightModel.annotate(target)
+  def annotate(target: Array[String]): Array[Map[String, Seq[String]]] = lightModel.annotate(target)
+
+  def annotateJava(target: String): java.util.Map[String, java.util.List[String]] = lightModel.annotateJava(target)
+
+  def annotateJava(targets: java.util.ArrayList[String]): java.util.List[java.util.Map[String, java.util.List[String]]] = {
+    lightModel.annotateJava(targets)
+  }
 
   def transform(dataFrame: DataFrame): DataFrame = model.transform(dataFrame)
 
