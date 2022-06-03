@@ -22,7 +22,7 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_qa_fpdm_bert_FT_new_newsqa_en_4.0.0_3.0_1654186635970.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_qa_fpdm_bert_FT_new_newsqa_en_4.0.0_3.0_1654187801317.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
