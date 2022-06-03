@@ -336,7 +336,7 @@ moved to separate Spark OCR library.
 </div>
 <ul class="pagination">
     <li>
-        <strong>Versions 2.0.0</strong>
+        <strong>Versions 1.0.0</strong>
     </li>
     <li>
         <a href="ocr_release_notes">Versions 3.0.0</a>
