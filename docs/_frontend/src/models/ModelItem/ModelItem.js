@@ -1,7 +1,7 @@
+import React from 'react';
 import ModelItemTag from '../ModelItemTag';
+import { addNamingConventions } from './utils';
 import './ModelItem.css';
-
-const { createElement: e } = React;
 
 const ModelItem = ({
   title,
@@ -26,62 +26,42 @@ const ModelItem = ({
 
   let label;
   if (deprecated) {
-    label = e(
-      'div',
-      { key: 'deprecated', className: 'model-item__deprecated' },
-      'Deprecated'
-    );
+    label = <div className="model-item__deprecated">Deprecated</div>;
   } else if (supported) {
-    label = e(
-      'div',
-      { key: 'supported', className: 'model-item__supported' },
-      'Supported'
-    );
+    label = <div className="model-item__supported">Supported</div>;
   }
 
-  return e(
-    'div',
-    { className: 'cell cell--12 cell--md-6 cell--lg-4' },
-    e('div', { className: 'model-item' }, [
-      label,
-      e(
-        'div',
-        { key: 'header', className: 'model-item__header' },
-        e('a', { href: url, className: 'model-item__title', title }, title)
-      ),
-      e('div', { key: 'content', className: 'model-item__content' }, [
-        body &&
-          e('div', {
-            key: 'body',
-            className: 'model-item__highlight',
-            dangerouslySetInnerHTML: { __html: body },
-          }),
-        e(ModelItemTag, {
-          key: 'date',
-          icon: 'calendar-alt',
-          name: 'Date',
-          value: getDisplayedDate(),
-        }),
-        e(ModelItemTag, {
-          key: 'task',
-          icon: 'edit',
-          name: 'Task',
-          value: Array.isArray(task) ? task.join(', ') : task,
-        }),
-        e(ModelItemTag, {
-          key: 'language',
-          icon: 'flag',
-          name: 'Language',
-          value: language,
-        }),
-        e(ModelItemTag, {
-          key: 'edition',
-          icon: 'clone',
-          name: 'Edition',
-          value: edition,
-        }),
-      ]),
-    ])
+  return (
+    <div className="cell cell--12 cell--md-6 cell--lg-4">
+      <div className="model-item">
+        {label}
+        <div className="model-item__header">
+          <a href={url} className="model-item__title">
+            {addNamingConventions(title)}
+          </a>
+        </div>
+        <div className="model-item__content">
+          {body && (
+            <div
+              className="model-item__highlight"
+              dangerouslySetInnerHTML={{ __html: body }}
+            />
+          )}
+          <ModelItemTag
+            icon="calendar-alt"
+            name="Date"
+            value={getDisplayedDate()}
+          />
+          <ModelItemTag
+            icon="edit"
+            name="task"
+            value={Array.isArray(task) ? task.join(', ') : task}
+          />
+          <ModelItemTag icon="flag" name="Language" value={language} />
+          <ModelItemTag icon="clone" name="Edition" value={edition} />
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -1,8 +1,7 @@
+import React, { useState, useEffect } from 'react';
 import Form from '../Form';
 import ModelItem from '../ModelItem';
 import ModelItemList from '../ModelItemList';
-
-const { createElement: e, useState, useEffect } = React;
 
 const SEARCH_ORIGIN = 'https://search.modelshub.johnsnowlabs.com';
 
@@ -53,6 +52,7 @@ const fromSearchString = () => {
     'tags',
     'sort',
     'predicted_entities',
+    'page',
   ].forEach((key) => {
     if (!searchParams.has(key)) {
       return;
@@ -177,25 +177,27 @@ const App = () => {
       {
         let children;
         if (state.context.data.length > 0) {
-          children = state.context.data.map((item) =>
-            e(ModelItem, { key: item.url, ...item })
-          );
+          children = state.context.data.map((item) => (
+            <ModelItem key={item.url} {...item} />
+          ));
         } else {
-          children = e(
-            'div',
-            { className: 'model-items__no-results' },
-            'Sorry, but there are no results. Try other filtering options.'
+          children = (
+            <div className="model-items__no-results">
+              Sorry, but there are no results. Try other filtering options.
+            </div>
           );
         }
-        result = e(ModelItemList, {
-          key: 'model-items',
-          meta: state.context.meta,
-          params: state.context.params,
-          onSubmit: handleSubmit,
-          onPageChange: handlePageChange,
-          onSupportedToggle: handleSupportedToggle,
-          children,
-        });
+        result = (
+          <ModelItemList
+            meta={state.context.meta}
+            params={state.context.params}
+            onSubmit={handleSubmit}
+            onPageChange={handlePageChange}
+            onSupportedToggle={handleSupportedToggle}
+          >
+            {children}
+          </ModelItemList>
+        );
       }
       break;
 
@@ -206,16 +208,17 @@ const App = () => {
       break;
   }
 
-  return e(React.Fragment, null, [
-    e(Form, {
-      key: 0,
-      onSubmit: handleSubmit,
-      isLoading: state.value === 'loading',
-      params: state.context.params,
-      meta: state.context.meta,
-    }),
-    result,
-  ]);
+  return (
+    <>
+      <Form
+        onSubmit={handleSubmit}
+        isLoading={state.value === 'loading'}
+        params={state.context.params}
+        meta={state.context.meta}
+      />
+      {result}
+    </>
+  );
 };
 
 export default App;
