@@ -140,10 +140,10 @@ class WordEmbeddingsTestSpec extends AnyFlatSpec with SparkSessionTest {
     val actualEmbeddings = AssertAnnotations.getActualResult(embeddingsDataset, "embeddings")
     AssertAnnotations.assertFields(expectedEmbeddings, actualEmbeddings)
 
-    val actualEmbeddingsInMemory = AssertAnnotations.getActualResult(embeddingsInMemoryDataset, "embeddings")
+    val actualEmbeddingsInMemory =
+      AssertAnnotations.getActualResult(embeddingsInMemoryDataset, "embeddings")
     AssertAnnotations.assertFields(expectedEmbeddings, actualEmbeddingsInMemory)
   }
-
 
   private def getExpectedEmbeddings: Array[Seq[Annotation]] = {
     val expectedEmbeddings = Array(
