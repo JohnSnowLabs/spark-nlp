@@ -9,9 +9,9 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Spark NLP</title><meta name="description" content="High Performance NLP with Apache Spark
+<!-- End Google Tag Manager --><title>Spark OCR | John Snow Labs</title><meta name="description" content="High Performance NLP with Apache Spark
 ">
-<link rel="canonical" href="/docs/en/release_notes"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<link rel="canonical" href="/docs/en/ocr_release_notes_2"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -388,7 +388,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU benchmarks</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2 active"><a href="/docs/en/release_notes">Release Notes</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark OCR</li><li class="toc-h2"><a href="/docs/en/ocr">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/ocr_install">Installation</a></li><li class="toc-h2"><a href="/docs/en/version_compatibility">Version Compatibility</a></li><li class="toc-h2"><a href="/docs/en/ocr_pipeline_components">Pipeline components</a></li><li class="toc-h2"><a href="/docs/en/ocr_table_recognition">Table recognition</a></li><li class="toc-h2"><a href="/docs/en/ocr_visual_document_understanding">Visual document understanding</a></li><li class="toc-h2"><a href="/docs/en/ocr_object_detection">Object detection</a></li><li class="toc-h2"><a href="/docs/en/ocr_structures">Structures and helpers</a></li><li class="toc-h2"><a href="/docs/en/ocr_release_notes">Release notes</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59JLR64"
@@ -519,595 +519,390 @@
 <!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/Article"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-nav"><div class="main-docs">
   <ul class="breadcrambs">
     <li><a href="/docs">Documentation</a></li>
-    <li>Spark NLP release notes</li>
+    <li>Spark OCR release notes</li>
   </ul>
-</div></div><header class="main-docs"><h1>Spark NLP release notes</h1></header><span class="split-space">&nbsp;</span>
+</div></div><header class="main-docs"><h1>Spark OCR release notes</h1></header><span class="split-space">&nbsp;</span>
           <a class="edit-on-github"
             title="Edit on Github"
-            href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/en/release_notes.md">
-            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP release notes"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
+            href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/en/ocr_release_notes_2.md">
+            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark OCR release notes"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h3 id="340">3.4.0</h3>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="1110">1.11.0</h2>
 
-<h4 id="john-snow-labs-spark-nlp-340-new-openai-gpt-2-new-albert-xlnet-roberta-xlm-roberta-and-longformer-for-sequence-classification-support-for-spark-32-new-distributed-word2vec-extend-support-to-more-databricks--emr-runtimes-new-state-of-the-art-transformer-models-bug-fixes-and-lots-more">John Snow Labs Spark-NLP 3.4.0: New OpenAI GPT-2, new ALBERT, XLNet, RoBERTa, XLM-RoBERTa, and Longformer for Sequence Classification, support for Spark 3.2, new distributed Word2Vec, extend support to more Databricks &amp; EMR runtimes, new state-of-the-art transformer models, bug fixes, and lots more!</h4>
+<p>Release date: 25-02-2021</p>
 
-<p>Overview</p>
+<h4 id="overview">Overview</h4>
 
-<p>We are very excited to release Spark NLP 3.4.0! This has been one of the biggest releases we have ever done and we are so proud to share this with our community at the dawn of 2022! 🎉</p>
+<p>Support German, French, Spanish and Russian languages.
+Improving <a href="ocr_pipeline_components#positionsfinder">PositionsFinder</a> and ImageToText for better support de-identification.</p>
 
-<p>Spark NLP 3.4.0 extends the support for Apache Spark 3.2.x major releases on Scala 2.12. We now support all 5 major Apache Spark and PySpark releases of 2.3.x, 2.4.x, 3.0.x, 3.1.x, and 3.2.x at once helping our community to migrate from earlier Apache Spark versions to newer releases without being worried about Spark NLP end of life support. We also extend support for new Databricks and EMR instances on Spark 3.2.x clusters.</p>
-
-<p>This release also comes with a brand new GPT2Transformer using OpenAI GPT-2 models for prediction at scale,  new ALBERT, XLNet, RoBERTa, XLM-RoBERTa, and Longformer annotators to use existing or fine-tuned models for Sequence Classification, new distributed and trainable Word2Vec annotators, new state-of-the-art transformer models in many languages, a new param to useBestModel in NerDL during training, bug fixes, and lots more!</p>
-
-<p>As always, we would like to thank our community for their feedback, questions, and feature requests.</p>
-
-<p>Major features and improvements</p>
+<h4 id="new-features">New Features</h4>
 
 <ul>
-  <li><strong>NEW:</strong> Introducing <strong>GPT2Transformer</strong> annotator in Spark NLP 🚀  for Text Generation purposes. <code class="language-plaintext highlighter-rouge">GPT2Transformer</code> uses OpenAI GPT-2 models from HuggingFace 🤗  for prediction at scale in Spark NLP 🚀 . <code class="language-plaintext highlighter-rouge">GPT-2</code> is a transformer model trained on a very large corpus of English data in a self-supervised fashion. This means it was trained on the raw texts only, with no humans labelling them in any way (which is why it can use lots of publicly available data) with an automatic process to generate inputs and labels from those texts. More precisely, it was trained to guess the next word in sentences</li>
-  <li><strong>NEW:</strong> Introducing <strong>RoBertaForSequenceClassification</strong> annotator in Spark NLP 🚀. <code class="language-plaintext highlighter-rouge">RoBertaForSequenceClassification</code> can load RoBERTa Models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using <code class="language-plaintext highlighter-rouge">RobertaForSequenceClassification</code> for <strong>PyTorch</strong> or <code class="language-plaintext highlighter-rouge">TFRobertaForSequenceClassification</code> for <strong>TensorFlow</strong> models in HuggingFace 🤗</li>
-  <li><strong>NEW:</strong> Introducing <strong>XlmRoBertaForSequenceClassification</strong> annotator in Spark NLP 🚀. <code class="language-plaintext highlighter-rouge">XlmRoBertaForSequenceClassification</code> can load XLM-RoBERTa Models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using <code class="language-plaintext highlighter-rouge">XLMRobertaForSequenceClassification</code> for <strong>PyTorch</strong> or <code class="language-plaintext highlighter-rouge">TFXLMRobertaForSequenceClassification</code> for <strong>TensorFlow</strong> models in HuggingFace 🤗</li>
-  <li><strong>NEW:</strong> Introducing <strong>LongformerForSequenceClassification</strong> annotator in Spark NLP 🚀. <code class="language-plaintext highlighter-rouge">LongformerForSequenceClassification</code> can load ALBERT Models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using <code class="language-plaintext highlighter-rouge">LongformerForSequenceClassification</code> for <strong>PyTorch</strong> or <code class="language-plaintext highlighter-rouge">TFLongformerForSequenceClassification</code> for <strong>TensorFlow</strong> models in HuggingFace 🤗</li>
-  <li><strong>NEW:</strong> Introducing <strong>AlbertForSequenceClassification</strong> annotator in Spark NLP 🚀. <code class="language-plaintext highlighter-rouge">AlbertForSequenceClassification</code> can load ALBERT Models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using <code class="language-plaintext highlighter-rouge">AlbertForSequenceClassification</code> for <strong>PyTorch</strong> or <code class="language-plaintext highlighter-rouge">TFAlbertForSequenceClassification</code> for <strong>TensorFlow</strong> models in HuggingFace 🤗</li>
-  <li><strong>NEW:</strong> Introducing <strong>XlnetForSequenceClassification</strong> annotator in Spark NLP 🚀. <code class="language-plaintext highlighter-rouge">XlnetForSequenceClassification</code> can load XLNet Models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using <code class="language-plaintext highlighter-rouge">XLNetForSequenceClassification</code> for <strong>PyTorch</strong> or <code class="language-plaintext highlighter-rouge">TFXLNetForSequenceClassification</code> for <strong>TensorFlow</strong> models in HuggingFace 🤗</li>
-  <li><strong>NEW:</strong> Introducing trainable and distributed Word2Vec annotators based on Word2Vec in Spark ML. You can train Word2Vec in a cluster on multiple machines to handle large-scale datasets and use the trained model for token-level classifications such as NerDL</li>
-  <li>Introducing <code class="language-plaintext highlighter-rouge">useBestModel</code> param in NerDLApproach annotator. This param in the NerDLApproach preserves and restores the model that has achieved the best performance at the end of the training. The priority is metrics from testDataset (micro F1), metrics from validationSplit (micro F1), and if none is set it will keep track of loss during the training</li>
-  <li>Support Apache Spark and PySpark 3.2.x on Scala 2.12. Spark NLP by default is shipped for Spark 3.0.x/3.1.x, but now you have <code class="language-plaintext highlighter-rouge">spark-nlp-spark32</code> and <code class="language-plaintext highlighter-rouge">spark-nlp-gpu-spark32</code> packages</li>
-  <li>Adding a new param to sparknlp.start() function in Python for Apache Spark 3.2.x (<code class="language-plaintext highlighter-rouge">spark32=True</code>)</li>
-  <li>Update Colab and Kaggle scripts for faster setup. We no longer need to remove Java 11 in order to install Java 8 since Spark NLP works on Java 11. This makes the installation of Spark NLP on Colab and Kaggle as fast as <code class="language-plaintext highlighter-rouge">pip install spark-nlp pyspark==3.1.2</code></li>
-  <li>Add new scripts/notebook to generate custom TensroFlow graphs for <code class="language-plaintext highlighter-rouge">ContextSpellCheckerApproach</code> annotator</li>
-  <li>Add a new <code class="language-plaintext highlighter-rouge">graphFolder</code> param to <code class="language-plaintext highlighter-rouge">ContextSpellCheckerApproach</code> annotator. This param allows to train ContextSpellChecker from a custom made TensorFlow graph</li>
-  <li>Support DBFS file system in <code class="language-plaintext highlighter-rouge">graphFolder</code> param. Starting Spark NLP 3.4.0 you can point NerDLApproach or ContextSpellCheckerApproach to a TF graph hosted on Databricks</li>
-  <li>Add a new feature to all classifiers (<code class="language-plaintext highlighter-rouge">ForTokenClassification</code> and <code class="language-plaintext highlighter-rouge">ForSequenceClassification</code>) to retrieve classes from the pretrained models
-```python
-sequenceClassifier = XlmRoBertaForSequenceClassification <br />
-    .pretrained(‘xlm_roberta_base_sequence_classifier_ag_news’, ‘en’) <br />
-    .setInputCols([‘token’, ‘document’]) <br />
-    .setOutputCol(‘class’)</li>
+  <li>Loading model data from S3 in <a href="ocr_pipeline_components#imagetotext">ImageToText</a>.</li>
+  <li>Added support German, French, Spanish, Russian languages in <a href="ocr_pipeline_components#imagetotext">ImageToText</a>.</li>
+  <li>Added different OCR model types: Base, Best, Fast in <a href="ocr_pipeline_components#imagetotext">ImageToText</a>.</li>
 </ul>
 
-<p>print(sequenceClassifier.getClasses())</p>
+<h4 id="enhancements">Enhancements</h4>
 
-<p>#Sports, Business, World, Sci/Tech</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-* Add `inputFormats` param to DateMatcher and MultiDateMatcher annotators. DateMatcher and MultiDateMatcher can now define a list of acceptable input formats via date patterns to search in the text. Consequently, the output format will be defining the output pattern for the unique output format.
-
-```python
-date_matcher = DateMatcher() \
-    .setInputCols(['document']) \
-    .setOutputCol("date") \
-    .setInputFormats(["yyyy", "yyyy/dd/MM", "MM/yyyy"]) \
-    .setOutputFormat("yyyyMM") \ #previously called `.setDateFormat`
-    .setSourceLanguage("en")
-
-</code></pre></div></div>
 <ul>
-  <li>Enable batch processing in T5Transformer and MarianTransformer annotators</li>
-  <li>Add Schema to <code class="language-plaintext highlighter-rouge">readDataset</code> in CoNLL() class</li>
-  <li>Welcoming 6x new Databricks runtimes to our Spark NLP family:
+  <li>Added spaces symbols to the output positions in the <a href="ocr_pipeline_components#imagetotext">ImageToText</a> transformer.</li>
+  <li>Eliminate python-levensthein from dependencies for simplify installation.</li>
+</ul>
+
+<h4 id="bugfixes">Bugfixes</h4>
+
+<ul>
+  <li>Fixed issue with extracting coordinates in  in <a href="ocr_pipeline_components#imagetotext">ImageToText</a>.</li>
+  <li>Fixed loading model data on cluster in yarn mode.</li>
+</ul>
+
+<h4 id="new-notebooks">New notebooks</h4>
+
+<ul>
+  <li><a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/1.11.0/jupyter/SparkOcrLanguagesSupport.ipynb">Languages Support</a></li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/1.11.0/jupyter/SparkOcrImageDeIdentification.ipynb">Image DeIdentification</a></li>
+</ul>
+
+<h2 id="1100">1.10.0</h2>
+
+<p>Release date: 20-01-2021</p>
+
+<h4 id="overview-1">Overview</h4>
+
+<p>Support Microsoft Docx documents.</p>
+
+<h4 id="new-features-1">New Features</h4>
+
+<ul>
+  <li>Added <a href="ocr_pipeline_components#doctotext">DocToText</a> transformer for extract text
+from DOCX documents.</li>
+  <li>Added <a href="ocr_pipeline_components#doctotexttable">DocToTextTable</a> transformer for extract
+table data from DOCX documents.</li>
+  <li>Added <a href="ocr_pipeline_components#doctopdf">DocToPdf</a> transformer for convert DOCX
+ documents to PDF format.</li>
+</ul>
+
+<h4 id="bugfixes-1">Bugfixes</h4>
+
+<ul>
+  <li>Fixed issue with loading model data on some cluster configurations</li>
+</ul>
+
+<h2 id="190">1.9.0</h2>
+
+<p>Release date: 11-12-2020</p>
+
+<h4 id="overview-2">Overview</h4>
+
+<p>Extension of  FoundationOne report parser and support HOCR output format.</p>
+
+<h4 id="new-features-2">New Features</h4>
+
+<ul>
+  <li>Added <a href="ocr_pipeline_components#imagetohocr">ImageToHocr</a> transformer for recognize text from image and store it to HOCR format.</li>
+  <li>Added parsing gene lists from ‘Appendix’ in <a href="ocr_pipeline_components#foundationonereportparser">FoundationOneReportParser</a> transformer.</li>
+</ul>
+
+<h2 id="180">1.8.0</h2>
+
+<p>Release date: 20-11-2020</p>
+
+<h4 id="overview-3">Overview</h4>
+
+<p>Optimisation performance for processing multipage PDF documents.
+Support up to 10k pages per document.</p>
+
+<h4 id="new-features-3">New Features</h4>
+
+<ul>
+  <li>Added <a href="ocr_pipeline_components#imageadaptivebinarizer">ImageAdaptiveBinarizer</a> Scala transformer with support:
     <ul>
-      <li>Databricks 10.0</li>
-      <li>Databricks 10.0 ML GPU</li>
-      <li>Databricks 10.1</li>
-      <li>Databricks 10.1 ML GPU</li>
-      <li>Databricks 10.2</li>
-      <li>Databricks 10.2 ML GPU</li>
+      <li>Gaussian local thresholding</li>
+      <li>Otsu thresholding</li>
+      <li>Sauvola local thresholding</li>
     </ul>
   </li>
-  <li>Welcoming 3x new EMR 6.x series to our Spark NLP family:
+  <li>Added possibility to split pdf to small documents for optimize processing in <a href="ocr_pipeline_components#pdftoimage">PdfToImage</a>.</li>
+</ul>
+
+<h4 id="enhancements-1">Enhancements</h4>
+
+<ul>
+  <li>Added applying binarization in <a href="ocr_pipeline_components#pdftoimage">PdfToImage</a> for optimize memory usage.</li>
+  <li>Added <code class="language-plaintext highlighter-rouge">pdfCoordinates</code> param to the <a href="ocr_pipeline_components#imagetotext">ImageToText</a> transformer.</li>
+  <li>Added ‘total_pages’ field to the <a href="ocr_pipeline_components#pdftoimage">PdfToImage</a> transformer.</li>
+  <li>Added different splitting strategies to the <a href="ocr_pipeline_components#pdftoimage">PdfToImage</a> transformer.</li>
+  <li>Simplified paging <a href="ocr_pipeline_components#pdftoimage">PdfToImage</a> when run it with splitting to small PDF.</li>
+  <li>Added params to the <a href="ocr_pipeline_components#pdftotext">PdfToText</a> for disable extra functionality.</li>
+  <li>Added <code class="language-plaintext highlighter-rouge">master_url</code> param to the python <a href="ocr_install#using-start-function">start</a> function.</li>
+</ul>
+
+<h2 id="170">1.7.0</h2>
+
+<p>Release date: 22-09-2020</p>
+
+<h4 id="overview-4">Overview</h4>
+
+<p>Support Spark 2.3.3.</p>
+
+<h4 id="bugfixes-2">Bugfixes</h4>
+
+<ul>
+  <li>Restored read JPEG2000 image</li>
+</ul>
+
+<h2 id="160">1.6.0</h2>
+
+<p>Release date: 05-09-2020</p>
+
+<h4 id="overview-5">Overview</h4>
+
+<p>Support parsing data from tables for selectable PDFs.</p>
+
+<h4 id="new-features-4">New Features</h4>
+
+<ul>
+  <li>Added <a href="ocr_pipeline_components#pdftotexttable">PdfToTextTable</a> transformer for extract tables from Pdf document per each page.</li>
+  <li>Added <a href="ocr_pipeline_components#imagecropper">ImageCropper</a> transformer for crop images.</li>
+  <li>Added <a href="ocr_pipeline_components#imagebrandstotext">ImageBrandsToText</a> transformer for detect text in defined areas.</li>
+</ul>
+
+<h2 id="150">1.5.0</h2>
+
+<p>Release date: 22-07-2020</p>
+
+<h4 id="overview-6">Overview</h4>
+
+<p>FoundationOne report parsing support.</p>
+
+<h4 id="enhancements-2">Enhancements</h4>
+
+<ul>
+  <li>Optimized memory usage during image processing</li>
+</ul>
+
+<h4 id="new-features-5">New Features</h4>
+
+<ul>
+  <li>Added <a href="ocr_pipeline_components#foundationonereportparser">FoundationOneReportParser</a> which support parsing patient info,
+genomic and biomarker findings.</li>
+</ul>
+
+<h2 id="140">1.4.0</h2>
+
+<p>Release date: 23-06-2020</p>
+
+<h4 id="overview-7">Overview</h4>
+
+<p>Added support Dicom format and improved support image morphological operations.</p>
+
+<h4 id="enhancements-3">Enhancements</h4>
+
+<ul>
+  <li>Updated <a href="ocr_install#using-start-function">start</a> function. Improved support Spark NLP internal.</li>
+  <li><code class="language-plaintext highlighter-rouge">ImageMorphologyOpening</code> and <code class="language-plaintext highlighter-rouge">ImageErosion</code> are removed.</li>
+  <li>Improved existing transformers for support de-identification Dicom documents.</li>
+  <li>Added possibility to draw filled rectangles to <a href="ocr_pipeline_components#imagedrawregions">ImageDrawRegions</a>.</li>
+</ul>
+
+<h4 id="new-features-6">New Features</h4>
+
+<ul>
+  <li>Support reading and writing Dicom documents.</li>
+  <li>Added <a href="ocr_pipeline_components#imagemorphologyoperation">ImageMorphologyOperation</a> transformer which support:
+ erosion, dilation, opening and closing operations.</li>
+</ul>
+
+<h4 id="bugfixes-3">Bugfixes</h4>
+
+<ul>
+  <li>Fixed issue in <a href="ocr_pipeline_components#imagetotext">ImageToText</a> related to extraction coordinates.</li>
+</ul>
+
+<h2 id="130">1.3.0</h2>
+
+<p>Release date: 22-05-2020</p>
+
+<h4 id="overview-8">Overview</h4>
+
+<p>New functionality for de-identification problem.</p>
+
+<h4 id="enhancements-4">Enhancements</h4>
+
+<ul>
+  <li>Renamed TesseractOCR to ImageToText.</li>
+  <li>Simplified installation.</li>
+  <li>Added check license from <code class="language-plaintext highlighter-rouge">SPARK_NLP_LICENSE</code> env varibale.</li>
+</ul>
+
+<h4 id="new-features-7">New Features</h4>
+
+<ul>
+  <li>Support storing for binaryFormat. Added support storing Image and PDF files.</li>
+  <li>Support selectable pdf for <a href="ocr_pipeline_components#texttopdf">TextToPdf</a> transformer.</li>
+  <li>Added <a href="ocr_pipeline_components#updatetextposition">UpdateTextPosition</a> transformer.</li>
+</ul>
+
+<h2 id="120">1.2.0</h2>
+
+<p>Release date: 08-04-2020</p>
+
+<h4 id="overview-9">Overview</h4>
+
+<p>Improved support Databricks and processing selectable pdfs.</p>
+
+<h4 id="enhancements-5">Enhancements</h4>
+
+<ul>
+  <li>Adapted Spark OCR for run on Databricks.</li>
+  <li>Added rewriting positions in <a href="ocr_pipeline_components#imagetotext">ImageToText</a> when run together with PdfToText.</li>
+  <li>Added ‘positionsCol’ param to <a href="ocr_pipeline_components#imagetotext">ImageToText</a>.</li>
+  <li>Improved support Spark NLP. Changed <a href="/ocr_install#using-start-function">start</a> function.</li>
+</ul>
+
+<h4 id="new-features-8">New Features</h4>
+
+<ul>
+  <li>Added <a href="ocr_structures#showimages">showImage</a> implicit to Dataframe for display images in Scala Databricks notebooks.</li>
+  <li>Added <a href="ocr_structures#display_images">display_images</a> function for display images in Python Databricks notebooks.</li>
+  <li>Added propagation selectable pdf file in <a href="ocr_pipeline_components#texttopdf">TextToPdf</a>. Added ‘inputContent’ param to ‘TextToPdf’.</li>
+</ul>
+
+<h2 id="112">1.1.2</h2>
+
+<p>Release date: 09-03-2020</p>
+
+<h4 id="overview-10">Overview</h4>
+
+<p>Minor improvements and fixes</p>
+
+<h4 id="enhancements-6">Enhancements</h4>
+
+<ul>
+  <li>Improved messages during license validation</li>
+</ul>
+
+<h4 id="bugfixes-4">Bugfixes</h4>
+
+<ul>
+  <li>Fixed dependencies issue</li>
+</ul>
+
+<h2 id="111">1.1.1</h2>
+
+<p>Release date: 06-03-2020</p>
+
+<h4 id="overview-11">Overview</h4>
+
+<p>Integration with license server.</p>
+
+<h4 id="enhancements-7">Enhancements</h4>
+
+<ul>
+  <li>Added license validation. License can be set in following waysq:
     <ul>
-      <li>EMR 5.33.1 (Apache Spark 2.4.7 / Hadoop 2.10.1)</li>
-      <li>EMR 6.3.1 (Apache Spark 3.1.1 / Hadoop 3.2.1)</li>
-      <li>EMR 6.4.0 (Apache Spark 3.1.2 / Hadoop 3.2.1)</li>
+      <li>Environment variable. Set variable ‘JSL_OCR_LICENSE’.</li>
+      <li>System property. Set property ‘jsl.sparkocr.settings.license’.</li>
+      <li>Application.conf file. Set property ‘jsl.sparkocr.settings.license’.</li>
+    </ul>
+  </li>
+  <li>Added auto renew license using jsl license server.</li>
+</ul>
+
+<h2 id="110">1.1.0</h2>
+
+<p>Release date: 03-03-2020</p>
+
+<h4 id="overview-12">Overview</h4>
+
+<p>This release contains improvements for preprocessing image before run OCR and
+added possibility to store results to PDF for keep original formatting.</p>
+
+<h4 id="new-features-9">New Features</h4>
+
+<ul>
+  <li>Added auto calculation maximum size of objects for removing in <code class="language-plaintext highlighter-rouge">ImageRemoveObjects</code>.
+This improvement avoids to remove <code class="language-plaintext highlighter-rouge">.</code> and affect symbols with dots (<code class="language-plaintext highlighter-rouge">i</code>, <code class="language-plaintext highlighter-rouge">!</code>, <code class="language-plaintext highlighter-rouge">?</code>).
+Added <code class="language-plaintext highlighter-rouge">minSizeFont</code> param to <code class="language-plaintext highlighter-rouge">ImageRemoveObjects</code> transformer for
+activate this functional.</li>
+  <li>Added <code class="language-plaintext highlighter-rouge">ocrParams</code> parameter to <code class="language-plaintext highlighter-rouge">ImageToText</code> transformer for set any
+ocr params.</li>
+  <li>Added extraction font size in <code class="language-plaintext highlighter-rouge">ImageToText</code></li>
+  <li>Added <code class="language-plaintext highlighter-rouge">TextToPdf</code> transformer for render text with positions to pdf file.</li>
+</ul>
+
+<h4 id="enhancements-8">Enhancements</h4>
+
+<ul>
+  <li>Added setting resolution in <code class="language-plaintext highlighter-rouge">ImageToText</code>. And added <code class="language-plaintext highlighter-rouge">ignoreResolution</code> param with
+default <code class="language-plaintext highlighter-rouge">true</code> value to <code class="language-plaintext highlighter-rouge">ImageToText</code> transformer for back compatibility.</li>
+  <li>Added parsing resolution from image metadata in <code class="language-plaintext highlighter-rouge">BinaryToImage</code> transformer.</li>
+  <li>Added storing resolution in <code class="language-plaintext highlighter-rouge">PdfToImage</code> transformer.</li>
+  <li>Added resolution field to Image schema.</li>
+  <li>Updated ‘start’ function for set ‘PYSPARK_PYTHON’ env variable.</li>
+  <li>Improve auto-scaling/skew correction:
+    <ul>
+      <li>improved access to images values</li>
+      <li>removing unnecessary copies of images</li>
+      <li>adding more test cases</li>
+      <li>improving auto-correlation in auto-scaling.</li>
     </ul>
   </li>
 </ul>
 
-<p><strong>For more details please check the official <a href="https://github.com/JohnSnowLabs/spark-nlp/releases/tag/3.4.0">release notes</a></strong></p>
+<h2 id="100">1.0.0</h2>
 
-<h3 id="334">3.3.4</h3>
+<p>Release date: 12-02-2020</p>
 
-<h4 id="john-snow-labs-spark-nlp-334-patch-release">John Snow Labs Spark-NLP 3.3.4: Patch release</h4>
+<h4 id="overview-13">Overview</h4>
 
-<p><strong>For more details please check the official <a href="https://github.com/JohnSnowLabs/spark-nlp/releases/tag/3.3.4">release notes</a></strong></p>
+<p>Spark NLP OCR functionality was reimplemented as set of Spark ML transformers and
+moved to separate Spark OCR library.</p>
 
-<h3 id="333">3.3.3</h3>
-
-<h4 id="john-snow-labs-spark-nlp-333-new-distilbert-for-sequence-classification-new-trainable-and-distributed-doc2vec-bert-improvements-on-gpu-new-state-of-the-art-distilbert-models-for-topic-and-sentiment-detection-enhancements-and-bug-fixes">John Snow Labs Spark-NLP 3.3.3: New DistilBERT for Sequence Classification, new trainable and distributed Doc2Vec, BERT improvements on GPU, new state-of-the-art DistilBERT models for topic and sentiment detection, enhancements, and bug fixes!</h4>
-
-<p><strong>For more details please check the official <a href="https://github.com/JohnSnowLabs/spark-nlp/releases/tag/3.3.3">release notes</a></strong></p>
-
-<h3 id="332">3.3.2</h3>
-
-<h4 id="john-snow-labs-spark-nlp-332-new-bert-for-sequence-classification-cometml-logging-integration-new-state-of-the-art-bert-topic-and-sentiment-detection-models-and-bug-fixes">John Snow Labs Spark-NLP 3.3.2: New BERT for Sequence Classification, Comet.ml logging integration, new state-of-the-art BERT topic and sentiment detection models, and bug fixes!</h4>
-
-<p><strong>For more details please check the official <a href="https://github.com/JohnSnowLabs/spark-nlp/releases/tag/3.3.2">release notes</a></strong></p>
-
-<h3 id="331">3.3.1</h3>
-
-<h4 id="john-snow-labs-spark-nlp-331-new-entityruler-annotator-better-integration-with-tokenclassification-annotators-new-state-of-the-art-xlm-roberta-models-in-african-languages-and-bug-fixes">John Snow Labs Spark-NLP 3.3.1: New EntityRuler annotator, better integration with TokenClassification annotators, new state-of-the-art XLM-RoBERTa models in African Languages, and bug fixes!</h4>
-
-<p><strong>For more details please check the official <a href="https://github.com/JohnSnowLabs/spark-nlp/releases/tag/3.3.1">release notes</a></strong></p>
-
-<h3 id="330">3.3.0</h3>
-
-<h4 id="john-snow-labs-spark-nlp-330-new-albert-xlnet-roberta-xlm-roberta-and-longformer-for-token-classification-50x-times-faster-to-save-models-new-ways-to-discover-pretrained-models-and-pipelines-new-state-of-the-art-models-and-lots-more">John Snow Labs Spark-NLP 3.3.0: New ALBERT, XLNet, RoBERTa, XLM-RoBERTa, and Longformer for Token Classification, 50x times faster to save models, new ways to discover pretrained models and pipelines, new state-of-the-art models, and lots more!</h4>
-
-<p>Overview</p>
-
-<p>We are very excited to release Spark NLP 🚀 3.3.0! This release comes with new ALBERT, XLNet, RoBERTa, XLM-RoBERTa, and Longformer existing or fine-tuned models for Token Classification on HuggingFace 🤗 , up to 50x times faster saving Spark NLP models &amp; pipelines, no more 2G limitation for the size of imported TensorFlow models, lots of new functions to filter and display pretrained models &amp; pipelines inside Spark NLP, bug fixes, and more!</p>
-
-<p>We are proud to say Spark NLP 3.3.0 is still compatible across all major releases of Apache Spark used locally, by all Cloud providers such as EMR, and all managed services such as Databricks. The major releases of Apache Spark include Apache Spark 3.0.x/3.1.x (<code class="language-plaintext highlighter-rouge">spark-nlp</code>), Apache Spark 2.4.x (<code class="language-plaintext highlighter-rouge">spark-nlp-spark24</code>), and Apache Spark 2.3.x (<code class="language-plaintext highlighter-rouge">spark-nlp-spark23</code>).</p>
-
-<p>As always, we would like to thank our community for their feedback, questions, and feature requests.</p>
-
-<p>Major features and improvements</p>
+<h4 id="new-features-10">New Features</h4>
 
 <ul>
-  <li><strong>NEW:</strong> Starting Spark NLP 3.3.0 release there will be <code class="language-plaintext highlighter-rouge">no limitation of size</code> when you import TensorFlow models! You can now import TF Hub &amp; HuggingFace models larger than 2 Gigabytes of size.</li>
-  <li><strong>NEW:</strong> Up to <strong>50x faster</strong> saving Spark NLP models and pipelines!  We have improved the way we package TensorFlow SavedModel while saving Spark NLP models &amp; pipelines. For instance, it used to take up to 10 minutes to save the <code class="language-plaintext highlighter-rouge">xlm_roberta_base</code> model before Spark NLP 3.3.0, and now it only takes up to 15 seconds!</li>
-  <li><strong>NEW:</strong> Introducing <strong>AlbertForTokenClassification</strong> annotator in Spark NLP 🚀. <code class="language-plaintext highlighter-rouge">AlbertForTokenClassification</code> can load ALBERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using <code class="language-plaintext highlighter-rouge">AlbertForTokenClassification</code> or <code class="language-plaintext highlighter-rouge">TFAlbertForTokenClassification</code> in HuggingFace 🤗</li>
-  <li><strong>NEW:</strong> Introducing <strong>XlnetForTokenClassification</strong> annotator in Spark NLP 🚀. <code class="language-plaintext highlighter-rouge">XlnetForTokenClassification</code> can load XLNet Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using <code class="language-plaintext highlighter-rouge">XLNetForTokenClassificationet</code> or <code class="language-plaintext highlighter-rouge">TFXLNetForTokenClassificationet</code> in HuggingFace 🤗</li>
-  <li><strong>NEW:</strong> Introducing <strong>RoBertaForTokenClassification</strong> annotator in Spark NLP 🚀. <code class="language-plaintext highlighter-rouge">RoBertaForTokenClassification</code> can load RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using <code class="language-plaintext highlighter-rouge">RobertaForTokenClassification</code> or <code class="language-plaintext highlighter-rouge">TFRobertaForTokenClassification</code> in HuggingFace 🤗</li>
-  <li><strong>NEW:</strong> Introducing <strong>XlmRoBertaForTokenClassification</strong> annotator in Spark NLP 🚀. <code class="language-plaintext highlighter-rouge">XlmRoBertaForTokenClassification</code> can load XLM-RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using <code class="language-plaintext highlighter-rouge">XLMRobertaForTokenClassification</code> or <code class="language-plaintext highlighter-rouge">TFXLMRobertaForTokenClassification</code> in HuggingFace 🤗</li>
-  <li><strong>NEW:</strong> Introducing <strong>LongformerForTokenClassification</strong> annotator in Spark NLP 🚀. <code class="language-plaintext highlighter-rouge">LongformerForTokenClassification</code> can load Longformer Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using <code class="language-plaintext highlighter-rouge">LongformerForTokenClassification</code> or <code class="language-plaintext highlighter-rouge">TFLongformerForTokenClassification</code> in HuggingFace 🤗</li>
-  <li><strong>NEW:</strong> Introducing new ResourceDownloader functions to easily look for pretrained models &amp; pipelines inside Spark NLP (Python and Scala). You can filter models or pipelines via <code class="language-plaintext highlighter-rouge">language</code>, <code class="language-plaintext highlighter-rouge">version</code>, or the name of the <code class="language-plaintext highlighter-rouge">annotator</code></li>
+  <li>Added extraction coordinates of each symbol in ImageToText</li>
+  <li>Added ImageDrawRegions transformer</li>
+  <li>Added ImageToPdf transformer</li>
+  <li>Added ImageMorphologyOpening transformer</li>
+  <li>Added ImageRemoveObjects transformer</li>
+  <li>Added ImageAdaptiveThresholding transformer</li>
 </ul>
 
-<p><strong>For more details please check the official <a href="https://github.com/JohnSnowLabs/spark-nlp/releases/tag/3.3.0">release notes</a></strong></p>
-
-<h3 id="323">3.2.3</h3>
-
-<h4 id="john-snow-labs-spark-nlp-323-new-transformers-and-training-documentation-improved-graphextraction-new-japanese-models-new-multilingual-transformer-models-enhancements-and-bug-fixes">John Snow Labs Spark-NLP 3.2.3: New Transformers and Training documentation, Improved GraphExtraction, new Japanese models, new multilingual Transformer models, enhancements, and bug fixes</h4>
-
-<p>Overview</p>
-
-<p>We are pleased to release Spark NLP 🚀 3.2.3! This release comes with new and completed documentation for all Transformers and Trainable annotators in Spark NLP, new Japanese NER and Embeddings models, new multilingual Transformer models, code enhancements, and bug fixes.</p>
-
-<p>As always, we would like to thank our community for their feedback, questions, and feature requests.</p>
-
-<p>New Features</p>
+<h4 id="enhancements-9">Enhancements</h4>
 
 <ul>
-  <li>Add delimiter feature to CoNLL() class to support other delimiters in CoNLL files https://github.com/JohnSnowLabs/spark-nlp/pull/5934</li>
-  <li>Add support for IOB in addition to IOB2 format in GraphExtraction annotator https://github.com/JohnSnowLabs/spark-nlp/pull/6101</li>
-  <li>Change YakeModel output type from KEYWORD to CHUNK to have more available features after the YakeModel annotator such as Chunk2Doc or ChunkEmbeddings https://github.com/JohnSnowLabs/spark-nlp/pull/6065</li>
-  <li>Welcoming <a href="https://docs.databricks.com/release-notes/runtime/9.0.html">Databricks Runtime 9.0</a>, 9.0 ML, and 9.0 ML with GPU</li>
-  <li>A new and completed <a href="https://nlp.johnsnowlabs.com/docs/en/transformers">Transformer page</a>
-    <ul>
-      <li>description</li>
-      <li>default model’s name</li>
-      <li>link to Models Hub</li>
-      <li>link to notebook on Spark NLP Workshop</li>
-      <li>link to Python APIs</li>
-      <li>link to Scala APIs</li>
-      <li>link to source code and unit test</li>
-      <li>Examples in Python and Scala for
-        <ul>
-          <li>Prediction</li>
-          <li>Training</li>
-          <li>Raw Embeddings</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>A new and completed <a href="https://nlp.johnsnowlabs.com/docs/en/training">Training page</a>
-    <ul>
-      <li>Training Datasets</li>
-      <li>Text Processing</li>
-      <li>Spell Checkers</li>
-      <li>Token Classification</li>
-      <li>Text Classification</li>
-      <li>External Trainable Models</li>
-    </ul>
-  </li>
+  <li>Reimplement main functionality as Spark ML transformers</li>
+  <li>Moved DrawRectangle functionality to PdfDrawRegions transformer</li>
+  <li>Added ‘start’ function with support SparkMonitor initialization</li>
+  <li>Moved PositionFinder to Spark OCR</li>
 </ul>
 
-<p><strong>For more details please check the official <a href="https://github.com/JohnSnowLabs/spark-nlp/releases/tag/3.2.3">release notes</a></strong></p>
-
-<h3 id="322">3.2.2</h3>
-
-<h4 id="john-snow-labs-spark-nlp-322-models-hub-for-the-community-by-the-community-new-roberta-and-xlm-roberta-sentence-embeddings-40-new-models-in-20-languages-bug-fixes-and-more">John Snow Labs Spark-NLP 3.2.2: Models Hub for the community by the community, new RoBERTa and XLM-RoBERTa Sentence Embeddings, 40 new models in 20 languages, bug fixes, and more!</h4>
-
-<p>Overview</p>
-
-<p>We are pleased to release Spark NLP 🚀 3.2.2! This release comes with accessible Models Hub to our community to host their models and pipelines for free, new RoBERTa and XLM-RoBERTa Sentence Embeddings, over 40 new models and pipelines in 20+ languages, bug fixes, and more</p>
-
-<p>As always, we would like to thank our community for their feedback, questions, and feature requests.</p>
-
-<p>New Features</p>
+<h4 id="bugfixes-5">Bugfixes</h4>
 
 <ul>
-  <li>A new RoBertaSentenceEmbeddings annotator for sentence embeddings used in SentimentDL, ClassifierDL, and MultiClassifierDL annotators</li>
-  <li>A new XlmRoBertaSentenceEmbeddings annotator for sentence embeddings used in SentimentDL, ClassifierDL, and MultiClassifierDL annotators</li>
-  <li>Add support for AWS MFA via Spark NLP configuration</li>
-  <li>Add new AWS configs to Spark NLP configuration when using a private S3 bucket to store logs for training models or access TF graphs needed in NerDLApproach
-    <ul>
-      <li>spark.jsl.settings.aws.credentials.access_key_id</li>
-      <li>spark.jsl.settings.aws.credentials.secret_access_key</li>
-      <li>spark.jsl.settings.aws.credentials.session_token</li>
-      <li>spark.jsl.settings.aws.s3_bucket</li>
-      <li>spark.jsl.settings.aws.region</li>
-    </ul>
-  </li>
+  <li>Fixed bug with transforming complex pdf to image</li>
 </ul>
-
-<p>Models Hub for the community, by the community</p>
-
-<p>Serve Your Spark NLP Models for Free! You can host and share your Spark NLP models &amp; pipelines publicly with everyone to reuse them with one line of code!</p>
-
-<p>We are opening Models Hub to everyone to upload their models and pipelines, showcase their work, and share them with others.</p>
-
-<p>Please visit the following page for more information: <a href="https://modelshub.johnsnowlabs.com/">https://modelshub.johnsnowlabs.com/</a></p>
-
-<p><img src="https://user-images.githubusercontent.com/5762953/131699383-96fe7637-3a1b-460e-bf4a-43b44c815951.png" alt="image" /></p>
-
-<p><strong>For more details please check the official <a href="https://github.com/JohnSnowLabs/spark-nlp/releases/tag/3.2.2">release notes</a></strong></p>
-<h3 id="321">3.2.1</h3>
-
-<h4 id="john-snow-labs-spark-nlp-321-patch-release">John Snow Labs Spark-NLP 3.2.1: Patch release</h4>
-
-<p>Patch release</p>
-
-<ul>
-  <li>Fix <code class="language-plaintext highlighter-rouge">unsupported model</code> error in pretrained function for <strong>LongformerEmbeddings</strong>, <strong>BertForTokenClassification</strong>, and <strong>DistilBertForTokenClassification</strong> https://github.com/JohnSnowLabs/spark-nlp/issues/5947</li>
-</ul>
-
-<p><strong>For more details please check the official <a href="https://github.com/JohnSnowLabs/spark-nlp/releases/tag/3.2.3">release notes</a></strong></p>
-<h3 id="320">3.2.0</h3>
-
-<h4 id="john-snow-labs-spark-nlp-320-new-longformer-embeddings-bert-and-distilbert-for-token-classification-graphexctraction-spark-nlp-configurations-new-state-of-the-art-multilingual-ner-models-and-lots-more">John Snow Labs Spark-NLP 3.2.0: New Longformer embeddings, BERT and DistilBERT for Token Classification, GraphExctraction, Spark NLP Configurations, new state-of-the-art multilingual NER models, and lots more!</h4>
-
-<p>Overview</p>
-
-<p>We are very excited to release Spark NLP 🚀 3.2.0! This is a big release with new Longformer models for long documents, BertForTokenClassification &amp; DistilBertForTokenClassification for existing or fine-tuned models on HuggingFace, GraphExctraction &amp; GraphFinisher to find relevant relationships between words, support for multilingual Date Matching, new Pydoc for Python APIs, and so many more!</p>
-
-<p>As always, we would like to thank our community for their feedback, questions, and feature requests.</p>
-
-<p>Major features and improvements</p>
-
-<ul>
-  <li><strong>NEW:</strong> Introducing <strong>LongformerEmbeddings</strong> annotator. <code class="language-plaintext highlighter-rouge">Longformer</code> is a transformer model for long documents. Longformer is a BERT-like model started from the RoBERTa checkpoint and pretrained for MLM on long documents. It supports sequences of length up to 4,096.</li>
-</ul>
-
-<p>We have trained two NER models based on Longformer Base and Large embeddings:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">Model</th>
-      <th style="text-align: left">Accuracy</th>
-      <th style="text-align: left">F1 Test</th>
-      <th style="text-align: left">F1 Dev</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">ner_conll_longformer_base_4096</td>
-      <td style="text-align: left">94.75%</td>
-      <td style="text-align: left">90.09</td>
-      <td style="text-align: left">94.22</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">ner_conll_longformer_large_4096</td>
-      <td style="text-align: left">95.79%</td>
-      <td style="text-align: left">91.25</td>
-      <td style="text-align: left">94.82</td>
-    </tr>
-  </tbody>
-</table>
-
-<ul>
-  <li><strong>NEW:</strong> Introducing <strong>BertForTokenClassification</strong> annotator. <code class="language-plaintext highlighter-rouge">BertForTokenClassification</code> can load BERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using <code class="language-plaintext highlighter-rouge">BertForTokenClassification</code> or <code class="language-plaintext highlighter-rouge">TFBertForTokenClassification</code> in HuggingFace 🤗</li>
-  <li><strong>NEW:</strong> Introducing <strong>DistilBertForTokenClassification</strong> annotator. <code class="language-plaintext highlighter-rouge">DistilBertForTokenClassification</code> can load BERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using <code class="language-plaintext highlighter-rouge">DistilBertForTokenClassification</code> or <code class="language-plaintext highlighter-rouge">TFDistilBertForTokenClassification</code> in HuggingFace 🤗</li>
-  <li><strong>NEW:</strong> Introducing <strong>GraphExctraction</strong> and <strong>GraphFinisher</strong> annotators to extract a dependency graph between entities. The <strong>GraphExtraction</strong> class takes e.g. extracted entities from a <code class="language-plaintext highlighter-rouge">NerDLModel</code> and creates a dependency tree that describes how the entities relate to each other. For that, a triple store format is used. Nodes represent the entities and the edges represent the relations between those entities. The graph can then be used to find relevant relationships between words</li>
-  <li><strong>NEW:</strong> Introducing support for multilingual <strong>DateMatcher</strong> and <strong>MultiDateMatcher</strong> annotators. These two annotators will support <strong>English</strong>, <strong>French</strong>, <strong>Italian</strong>, <strong>Spanish</strong>, <strong>German</strong>, and <strong>Portuguese</strong> languages</li>
-  <li><strong>NEW:</strong> Introducing new <strong>Python APIs</strong> and fully documented <strong>Pydoc</strong></li>
-  <li><strong>NEW:</strong> Introducing new <strong>Spark NLP configurations</strong> via spark.conf() by deprecating <code class="language-plaintext highlighter-rouge">application.conf</code> usage. You can easily change Spark NLP configurations in SparkSession. For more examples please visti <a href="https://github.com/JohnSnowLabs/spark-nlp#spark-nlp-configuration">Spark NLP Configuration</a></li>
-  <li>Add support for Amazon S3 to <code class="language-plaintext highlighter-rouge">log_folder</code> Spark NLP config and <code class="language-plaintext highlighter-rouge">outputLogsPath</code> param in <code class="language-plaintext highlighter-rouge">NerDLApproach</code>, <code class="language-plaintext highlighter-rouge">ClassifierDlApproach</code>, <code class="language-plaintext highlighter-rouge">MultiClassifierDlApproach</code>, and <code class="language-plaintext highlighter-rouge">SentimentDlApproach</code> annotators</li>
-  <li>Added examples to all Spark NLP Scaladoc</li>
-  <li>Added examples to all Spark NLP Pydoc</li>
-  <li>Welcoming new Databricks runtimes to our Spark NLP family:
-    <ul>
-      <li>Databricks 8.4 ML &amp; GPU</li>
-    </ul>
-  </li>
-  <li>Fix printing a wrong version return in sparknlp.version()</li>
-</ul>
-
-<p><strong>For more details please check the official <a href="https://github.com/JohnSnowLabs/spark-nlp/releases/tag/3.2.0">release notes</a></strong></p>
-<h3 id="313">3.1.3</h3>
-
-<h4 id="john-snow-labs-spark-nlp-313-tf-hub-support-new-multilingual-ner-models-for-40-languages-state-of-the-art-multilingual-sentence-embeddings-for-100-languages-and-bug-fixes">John Snow Labs Spark-NLP 3.1.3: TF Hub support, new multilingual NER models for 40 languages, state-of-the-art multilingual sentence embeddings for 100+ languages, and bug fixes!</h4>
-
-<p>Overview</p>
-
-<p>We are pleased to release Spark NLP 🚀  3.1.3! In this release, we bring notebooks to easily import models for BERT and ALBERT models from TF Hub into Spark NLP, new multilingual NER models for 40 languages with a fine-tuned XLM-RoBERTa model, and new state-of-the-art document/sentence embeddings models for English and 100+ languages!</p>
-
-<p>As always, we would like to thank our community for their feedback, questions, and feature requests.</p>
-
-<p>New Features</p>
-
-<ul>
-  <li>Support BERT models from TF Hub to Spark NLP</li>
-  <li>Support BERT for sentence embeddings from TF Hub to Spark NLP</li>
-  <li>Support ALBERT models from TF Hub to Spark NLP</li>
-  <li>Welcoming new Databricks 8.4 / 8.4 ML/GPU runtimes to Spark NLP platforms</li>
-</ul>
-
-<p><strong>For more details please check the official <a href="https://github.com/JohnSnowLabs/spark-nlp/releases/tag/3.1.3">release notes</a></strong></p>
-<h3 id="312">3.1.2</h3>
-
-<h4 id="john-snow-labs-spark-nlp-312-new-and-improved-xlnet-with-support-for-external-transformers-better-documentation-bug-fixes-and-other-improvements">John Snow Labs Spark-NLP 3.1.2: New and improved XLNet with support for external Transformers, better documentation, bug fixes, and other improvements!</h4>
-
-<p>Overview</p>
-
-<p>We are pleased to release Spark NLP 🚀  3.1.2! We have a new and much-improved XLNet annotator with support for HuggingFace 🤗  models in Spark NLP. We managed to make XlnetEmbeddings almost 5x times faster on GPU compare to prior releases!</p>
-
-<p>As always, we would like to thank our community for their feedback, questions, and feature requests.</p>
-
-<p>New Features</p>
-
-<ul>
-  <li>Migrate XlnetEmbeddings to TensorFlow v2. This allows the importing of HuggingFace XLNet models to Spark NLP</li>
-  <li>Migrate XlnetEmbeddings to BatchAnnotate to allow better performance on accelerated hardware such as GPU</li>
-  <li>Dynamically extract special tokens from SentencePiece model in XlmRoBertaEmbeddings</li>
-  <li>Add setIncludeAllConfidenceScores param in NerDLModel to merge confidence scores per label to only predicted label</li>
-  <li>Fully updated <a href="https://nlp.johnsnowlabs.com/docs/en/annotators">Annotators page</a> with full examples in Python and Scala</li>
-  <li>Fully update <a href="https://nlp.johnsnowlabs.com/docs/en/transformers">Transformers page</a> for all the transformers in Spark NLP</li>
-</ul>
-
-<p><strong>For more details please check the official <a href="https://github.com/JohnSnowLabs/spark-nlp/releases/tag/3.1.3">release notes</a></strong></p>
-<h3 id="311">3.1.1</h3>
-
-<h4 id="john-snow-labs-spark-nlp-311-new-and-improved-albert-with-support-for-external-transformers-real-time-metrics-in-python-notebooks-bug-fixes-and-many-more-improvements">John Snow Labs Spark-NLP 3.1.1: New and improved ALBERT with support for external Transformers, real-time metrics in Python notebooks, bug fixes, and many more improvements!</h4>
-
-<p>Overview</p>
-
-<p>We are pleased to release Spark NLP 🚀  3.1.1! We have a new and much-improved ALBERT annotator with support for HuggingFace 🤗  models in Spark NLP. We managed to make AlbertEmbeddings almost 7x times faster on GPU compare to prior releases!</p>
-
-<p>As always, we would like to thank our community for their feedback, questions, and feature requests.</p>
-
-<p>New Features</p>
-
-<ul>
-  <li>Migrate AlbertEmbeddings to TensorFlow v2. This allows the importing of HuggingFace ALBERT models to Spark NLP</li>
-  <li>Migrate AlbertEmbeddings to BatchAnnotate to allow better performance on accelerated hardware such as GPU</li>
-  <li>Enable stdout/stderr in real-time for child processes via <code class="language-plaintext highlighter-rouge">sparknlp.start()</code>. Thanks to PySpark 3.x, this is now possible with <code class="language-plaintext highlighter-rouge">sparknlp.start(real_time_output=True)</code> to have the outputs of Spark NLP (such as metrics during training) right in your Jupyter, Colab, and Kaggle notebooks.</li>
-  <li>Complete examples for all annotators in Scaladoc APIs https://github.com/JohnSnowLabs/spark-nlp/pull/5668</li>
-</ul>
-
-<p><strong>For more details please check the official <a href="https://github.com/JohnSnowLabs/spark-nlp/releases/tag/3.1.2">release notes</a></strong></p>
-
-<h3 id="310">3.1.0</h3>
-
-<h4 id="john-snow-labs-spark-nlp-310-over-2600-new-models-and-pipelines-in-200-languages-new-distilbert-roberta-and-xlm-roberta-transformers-support-for-external-transformers-and-lots-more">John Snow Labs Spark-NLP 3.1.0: Over 2600+ new models and pipelines in 200+ languages, new DistilBERT, RoBERTa, and XLM-RoBERTa transformers, support for external Transformers, and lots more!</h4>
-
-<p>Overview</p>
-
-<p>We are very excited to release Spark NLP 🚀  3.1.0! This is one of our biggest releases with lots of models, pipelines, and groundworks for future features that we are so proud to share it with our community.</p>
-
-<p>Spark NLP 3.1.0 comes with over 2600+ new pretrained models and pipelines in over 200+ languages, new DistilBERT, RoBERTa, and XLM-RoBERTa annotators, support for HuggingFace 🤗 (Autoencoding) models in Spark NLP, and extends support for new Databricks and EMR instances.</p>
-
-<p>As always, we would like to thank our community for their feedback, questions, and feature requests.</p>
-
-<p>Major features and improvements</p>
-
-<ul>
-  <li><strong>NEW:</strong> Introducing DistiBertEmbeddings annotator. DistilBERT is a small, fast, cheap, and light Transformer model trained by distilling BERT base. It has 40% fewer parameters than <code class="language-plaintext highlighter-rouge">bert-base-uncased</code>, runs 60% faster while preserving over 95% of BERT’s performances</li>
-  <li><strong>NEW:</strong> Introducing RoBERTaEmbeddings annotator. RoBERTa (Robustly Optimized BERT-Pretraining Approach) models deliver state-of-the-art performance on NLP/NLU tasks and a sizable performance improvement on the GLUE benchmark. With a score of 88.5, RoBERTa reached the top position on the GLUE leaderboard</li>
-  <li><strong>NEW:</strong> Introducing XlmRoBERTaEmbeddings annotator. XLM-RoBERTa (Unsupervised Cross-lingual Representation Learning at Scale) is a large multi-lingual language model, trained on 2.5TB of filtered CommonCrawl data with 100 different languages. It also outperforms multilingual BERT (mBERT) on a variety of cross-lingual benchmarks, including +13.8% average accuracy on XNLI, +12.3% average F1 score on MLQA, and +2.1% average F1 score on NER. XLM-R performs particularly well on low-resource languages, improving 11.8% in XNLI accuracy for Swahili and 9.2% for Urdu over the previous XLM model</li>
-  <li><strong>NEW:</strong> Introducing support for HuggingFace exported models in equivalent Spark NLP annotators. Starting this release, you can easily use the <code class="language-plaintext highlighter-rouge">saved_model</code> feature in HuggingFace within a few lines of codes and import any BERT, DistilBERT, RoBERTa, and XLM-RoBERTa models to Spark NLP. We will work on the remaining annotators and extend this support to the rest with each release - For more information please visit <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">this discussion</a></li>
-  <li><strong>NEW:</strong> Migrate MarianTransformer to BatchAnnotate to control the throughput when you are on accelerated hardware such as GPU to fully utilize it</li>
-  <li>Upgrade to TensorFlow v2.4.1 with native support for Java to take advantage of many optimizations for CPU/GPU and new features/models introduced in TF v2.x</li>
-  <li>Update to CUDA11 and cuDNN 8.0.2 for GPU support</li>
-  <li>Implement ModelSignatureManager to automatically detect inputs, outputs, save and restore tensors from SavedModel in TF v2. This allows Spark NLP 3.1.x to extend support for external Encoders such as HuggingFace and TF Hub (coming soon!)</li>
-  <li>Implement a new BPE tokenizer for RoBERTa and XLM models. This tokenizer will use the custom tokens from <code class="language-plaintext highlighter-rouge">Tokenizer</code> or <code class="language-plaintext highlighter-rouge">RegexTokenizer</code> and generates token pieces, encodes, and decodes the results</li>
-  <li>Welcoming new Databricks runtimes to our Spark NLP family:
-    <ul>
-      <li>Databricks 8.1 ML &amp; GPU</li>
-      <li>Databricks 8.2 ML &amp; GPU</li>
-      <li>Databricks 8.3 ML &amp; GPU</li>
-    </ul>
-  </li>
-  <li>Welcoming a new EMR 6.x series to our Spark NLP family:
-    <ul>
-      <li>EMR 6.3.0 (Apache Spark 3.1.1 / Hadoop 3.2.1)</li>
-    </ul>
-  </li>
-  <li>Added examples to Spark NLP Scaladoc</li>
-</ul>
-
-<p><strong>For more details please check the official <a href="https://github.com/JohnSnowLabs/spark-nlp/releases/tag/3.1.0">release notes</a></strong></p>
-<h3 id="303">3.0.3</h3>
-
-<h4 id="john-snow-labs-spark-nlp-303-new-t5-features-for-longer-and-more-accurate-text-generation-new-multi-lingual-models--pipelines-bug-fixes-and-other-improvements">John Snow Labs Spark-NLP 3.0.3: New T5 features for longer and more accurate text generation, new multi-lingual models &amp; pipelines, bug fixes, and other improvements!</h4>
-
-<p>Overview</p>
-
-<p>We are glad to release Spark NLP 3.0.3! We have added some new features to our T5 Transformer annotator to help with longer and more accurate text generation, trained some new multi-lingual models and pipelines in <code class="language-plaintext highlighter-rouge">Farsi</code>, <code class="language-plaintext highlighter-rouge">Hebrew</code>, <code class="language-plaintext highlighter-rouge">Korean</code>, and <code class="language-plaintext highlighter-rouge">Turkish</code>, and fixed some bugs in this release.</p>
-
-<p>As always, we would like to thank our community for their feedback, questions, and feature requests.</p>
-
-<p>New Features</p>
-
-<ul>
-  <li>Add 6 new features to T5Transformer for longer and better text generation
-    <ul>
-      <li>doSample: Whether or not to use sampling; use greedy decoding otherwise</li>
-      <li>temperature: The value used to module the next token probabilities</li>
-      <li>topK: The number of highest probability vocabulary tokens to keep for top-k-filtering</li>
-      <li>topP: If set to float &lt; 1, only the most probable tokens with probabilities that add up to <code class="language-plaintext highlighter-rouge">top_p</code> or higher are kept for generation</li>
-      <li>repetitionPenalty: The parameter for repetition penalty. 1.0 means no penalty. See <a href="https://arxiv.org/abs/1909.05858">CTRL: A Conditional Transformer Language Model for Controllable Generation</a> paper for more details</li>
-      <li>noRepeatNgramSize: If set to int &gt; 0, all ngrams of that size can only occur once</li>
-    </ul>
-  </li>
-  <li>Spark NLP 3.0.3 is compatible with the new Databricks 8.2 (ML) runtime</li>
-  <li>Spark NLP 3.0.3 is compatible with the new EMR 5.33.0 (with Zeppelin 0.9.0) release</li>
-</ul>
-
-<p><strong>For more details please check the official <a href="https://github.com/JohnSnowLabs/spark-nlp/releases/tag/3.0.3">release notes</a></strong></p>
-<h3 id="302">3.0.2</h3>
-
-<h4 id="john-snow-labs-spark-nlp-302-new-multilingual-models-confidence-scores-for-entities-and-all-ner-tags-first-support-for-community-models-bug-fixes-and-other-improvements">John Snow Labs Spark-NLP 3.0.2: New multilingual models, confidence scores for entities and all NER tags, first support for community models, bug fixes, and other improvements!</h4>
-
-<p>Overview</p>
-
-<p>We are glad to release Spark NLP 3.0.2! We have added some new features, improvements, trained some new multi-lingual models, and fixed some bugs in this release.</p>
-
-<p>As always, we would like to thank our community for their feedback, questions, and feature requests.</p>
-
-<p>New Features</p>
-
-<ul>
-  <li>Experimental support for community models and pipelines (uploaded by users) https://github.com/JohnSnowLabs/spark-nlp/pull/2743</li>
-  <li>Provide confidence scores for all available tags in NerDLModel and NerCrfModel https://github.com/JohnSnowLabs/spark-nlp/pull/2760</li>
-</ul>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># NerDLModel and NerCrfModel before 3.0.2
-</span><span class="p">[[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">LOC</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">Japan</span><span class="p">,</span> <span class="n">confidence</span> <span class="o">-&gt;</span> <span class="mf">0.9998</span><span class="p">],</span> <span class="p">[]]</span>
-
-<span class="c1"># Now in Spark NLP 3.0.2
-</span><span class="p">[[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">LOC</span><span class="p">,</span> <span class="p">[</span><span class="n">B</span><span class="o">-</span><span class="n">LOC</span> <span class="o">-&gt;</span> <span class="mf">0.9998</span><span class="p">,</span> <span class="n">I</span><span class="o">-</span><span class="n">ORG</span> <span class="o">-&gt;</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">I</span><span class="o">-</span><span class="n">MISC</span> <span class="o">-&gt;</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">I</span><span class="o">-</span><span class="n">LOC</span> <span class="o">-&gt;</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">I</span><span class="o">-</span><span class="n">PER</span> <span class="o">-&gt;</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">MISC</span> <span class="o">-&gt;</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">ORG</span> <span class="o">-&gt;</span> <span class="mf">1.0E-4</span><span class="p">,</span> <span class="n">word</span> <span class="o">-&gt;</span> <span class="n">Japan</span><span class="p">,</span> <span class="n">O</span> <span class="o">-&gt;</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">PER</span> <span class="o">-&gt;</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[]]</span>
-</code></pre></div></div>
-<ul>
-  <li>Calculate confidence score for entities in NerConverter https://github.com/JohnSnowLabs/spark-nlp/pull/2784
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="n">chunk</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="n">Barack</span> <span class="n">Obama</span><span class="p">,</span> <span class="p">[</span><span class="n">entity</span> <span class="o">-&gt;</span> <span class="n">PERSON</span><span class="p">,</span> <span class="n">sentence</span> <span class="o">-&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">chunk</span> <span class="o">-&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">confidence</span> <span class="o">-&gt;</span> <span class="mf">0.94035</span><span class="p">]</span>
-</code></pre></div>    </div>
-  </li>
-</ul>
-
-<p><strong>For more details please check the official <a href="https://github.com/JohnSnowLabs/spark-nlp/releases/tag/3.0.2">release notes</a></strong></p>
-
-<h3 id="301">3.0.1</h3>
-
-<h4 id="john-snow-labs-spark-nlp-301-new-parameters-in-normalizer-bug-fixes-and-other-improvements">John Snow Labs Spark-NLP 3.0.1: New parameters in Normalizer, bug fixes and other improvements!</h4>
-
-<p>Overview</p>
-
-<p>We are glad to release Spark NLP 3.0.1! We have made some improvements, added 1 line bash script to set up Google Colab and Kaggle kernel for Spark NLP 3.x, and improved our Models Hub filtering to help our community to have easier access to over 1300 pretrained models and pipelines in over 200+ languages.</p>
-
-<p>As always, we would like to thank our community for their feedback, questions, and feature requests.</p>
-
-<p>New Features</p>
-
-<ul>
-  <li>Add minLength and maxLength parameters to Normalizer annotator https://github.com/JohnSnowLabs/spark-nlp/pull/2614</li>
-  <li>1 line to setup <a href="https://github.com/JohnSnowLabs/spark-nlp#google-colab-notebook">Google Colab</a></li>
-  <li>1 line to setup <a href="https://github.com/JohnSnowLabs/spark-nlp#kaggle-kernel">Kaggle Kernel</a></li>
-</ul>
-
-<p>Enhancements</p>
-
-<ul>
-  <li>Adjust shading rule for amazon AWS to support sub-projects from Spark NLP Fat JAR https://github.com/JohnSnowLabs/spark-nlp/pull/2613</li>
-  <li>Fix the missing variables in BertSentenceEmbeddings https://github.com/JohnSnowLabs/spark-nlp/pull/2615</li>
-  <li>Restrict loading Sentencepiece ops only to supported models https://github.com/JohnSnowLabs/spark-nlp/pull/2623</li>
-  <li>improve dependency management and resolvers https://github.com/JohnSnowLabs/spark-nlp/pull/2479</li>
-</ul>
-
-<p><strong>For more details please check the official <a href="https://github.com/JohnSnowLabs/spark-nlp/releases/tag/3.0.1">release notes</a></strong></p>
-
-<h3 id="300">3.0.0</h3>
-
-<h4 id="john-snow-labs-spark-nlp-300-supporting-spark-3x-scala-212-more-databricks-runtimes-more-emr-versions-performance-improvements--lots-more">John Snow Labs Spark-NLP 3.0.0: Supporting Spark 3.x, Scala 2.12, more Databricks runtimes, more EMR versions, performance improvements &amp; lots more</h4>
-
-<p>Overview</p>
-
-<p>We are very excited to release Spark NLP 3.0.0! This has been one of the biggest releases we have ever done and we are so proud to share this with our community.</p>
-
-<p>Spark NLP 3.0.0 extends the support for Apache Spark 3.0.x and 3.1.x major releases on Scala 2.12 with both Hadoop 2.7. and 3.2. We will support all 4 major Apache Spark and PySpark releases of 2.3.x, 2.4.x, 3.0.x, and 3.1.x helping the community to migrate from earlier Apache Spark versions to newer releases without being worried about Spark NLP support.</p>
-
-<p>As always, we would like to thank our community for their feedback, questions, and feature requests.</p>
-
-<p>New Features</p>
-
-<ul>
-  <li>Support for Apache Spark and PySpark 3.0.x on Scala 2.12</li>
-  <li>Support for Apache Spark and PySpark 3.1.x on Scala 2.12</li>
-  <li>Migrate to TensorFlow v2.3.1 with native support for Java to take advantage of many optimizations for CPU/GPU and new features/models introduced in TF v2.x</li>
-  <li>Welcoming 9x new Databricks runtimes to our Spark NLP family:
-    <ul>
-      <li>Databricks 7.3</li>
-      <li>Databricks 7.3 ML GPU</li>
-      <li>Databricks 7.4</li>
-      <li>Databricks 7.4 ML GPU</li>
-      <li>Databricks 7.5</li>
-      <li>Databricks 7.5 ML GPU</li>
-      <li>Databricks 7.6</li>
-      <li>Databricks 7.6 ML GPU</li>
-      <li>Databricks 8.0</li>
-      <li>Databricks 8.0 ML (there is no GPU in 8.0)</li>
-      <li>Databricks 8.1 Beta</li>
-    </ul>
-  </li>
-  <li>Welcoming 2x new EMR 6.x series to our Spark NLP family:
-    <ul>
-      <li>EMR 6.1.0 (Apache Spark 3.0.0 / Hadoop 3.2.1)</li>
-      <li>EMR 6.2.0 (Apache Spark 3.0.1 / Hadoop 3.2.1)</li>
-    </ul>
-  </li>
-  <li>Starting Spark NLP 3.0.0 the default packages  for CPU and GPU will be based on Apache Spark 3.x and Scala 2.12 (<code class="language-plaintext highlighter-rouge">spark-nlp</code> and <code class="language-plaintext highlighter-rouge">spark-nlp-gpu</code> will be compatible only with Apache Spark 3.x and Scala 2.12)</li>
-  <li>Starting Spark NLP 3.0.0 we have two new packages to support Apache Spark 2.4.x and Scala 2.11 (<code class="language-plaintext highlighter-rouge">spark-nlp-spark24</code> and <code class="language-plaintext highlighter-rouge">spark-nlp-gpu-spark24</code>)</li>
-  <li>Spark NLP 3.0.0 still is and will be compatible with Apache Spark 2.3.x and Scala 2.11 (<code class="language-plaintext highlighter-rouge">spark-nlp-spark23</code> and <code class="language-plaintext highlighter-rouge">spark-nlp-gpu-spark23</code>)</li>
-  <li>Adding a new param to sparknlp.start() function in Python for Apache Spark 2.4.x (<code class="language-plaintext highlighter-rouge">spark24=True</code>)</li>
-  <li>Adding a new param to adjust Driver memory in sparknlp.start() function (<code class="language-plaintext highlighter-rouge">memory="16G"</code>)</li>
-</ul>
-
-<p>Performance Improvements</p>
-
-<p>Introducing a new batch annotation technique implemented in Spark NLP 3.0.0 for <code class="language-plaintext highlighter-rouge">NerDLModel</code>, <code class="language-plaintext highlighter-rouge">BertEmbeddings</code>, and <code class="language-plaintext highlighter-rouge">BertSentenceEmbeddings</code> annotators to radically improve prediction/inferencing performance. From now on the <code class="language-plaintext highlighter-rouge">batchSize</code> for these annotators means the number of rows that can be fed into the models for prediction instead of sentences per row. You can control the throughput when you are on accelerated hardware such as GPU to fully utilize it.</p>
-
-<p><strong>Performance achievements by using Spark NLP 3.0.0 vs. Spark NLP 2.7.x on CPU and GPU:</strong></p>
-
-<p>(Performed on a Databricks cluster)</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Spark NLP 3.0.0 vs. 2.7.x</th>
-      <th>PySpark 3.x on CPU</th>
-      <th>PySpark 3.x on GPU</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>BertEmbeddings (bert-base)</td>
-      <td>+10%</td>
-      <td>+550% (6.6x)</td>
-    </tr>
-    <tr>
-      <td>BertEmbeddings (bert-large)</td>
-      <td>+12%.</td>
-      <td>+690% (7.9x)</td>
-    </tr>
-    <tr>
-      <td>NerDLModel</td>
-      <td>+185%</td>
-      <td>+327% (4.2x)</td>
-    </tr>
-  </tbody>
-</table>
-
-<p><strong>For more details please check the official <a href="https://github.com/JohnSnowLabs/spark-nlp/releases/tag/3.0.0">release notes</a></strong></p>
 
 <div class="prev_ver h3-box">
 
-  <h2 id="previos-versions">Previos versions</h2>
+  <h2 id="next-versions">Next versions</h2>
 
 </div>
-
 <ul class="pagination">
     <li>
-        <a href="release_notes_2">Versions 2.0.0</a>
+        <strong>Versions 1.0.0</strong>
     </li>
     <li>
-        <strong>Versions 3.0.0</strong>
+        <a href="ocr_release_notes">Versions 3.0.0</a>
     </li>
 </ul>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2022-01-06T00:00:00+00:00">Jan 06, 2022</time>
+      <time itemprop="dateModified" datetime="2020-04-08T00:00:00+00:00">Apr 08, 2020</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -1233,7 +1028,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/third-party-projects">Third Party Projects</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/ocr_release_notes">Release notes</a></div></div></div>
 
 </div>
 </div>
