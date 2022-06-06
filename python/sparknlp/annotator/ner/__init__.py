@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 """Module of annotators for named entity recognition."""
-from sparknlp.annotator.ner.ner import *
+from sparknlp.annotator.ner.ner_approach import *
 from sparknlp.annotator.ner.ner_converter import *
 from sparknlp.annotator.ner.ner_crf import *
 from sparknlp.annotator.ner.ner_dl import *
