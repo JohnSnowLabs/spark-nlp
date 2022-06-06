@@ -14,7 +14,7 @@
 """Contains classes for NerCrf."""
 
 from sparknlp.common import *
-from sparknlp.annotator.ner import NerApproach
+from sparknlp.annotator.ner.ner_approach import NerApproach
 
 
 class NerCrfApproach(AnnotatorApproach, NerApproach):
