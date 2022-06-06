@@ -68,9 +68,9 @@ class TensorflowRoBertaClassification(
             val content = if (caseSensitive) token.token else token.token.toLowerCase()
             val sentenceBegin = token.begin
             val sentenceEnd = token.end
-            val sentenceInedx = tokenIndex.sentenceIndex
+            val sentenceIndex = tokenIndex.sentenceIndex
             val result =
-              bpeTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
+              bpeTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceIndex))
             if (result.nonEmpty) result.head else IndexedToken("")
         }
       val wordpieceTokens =
