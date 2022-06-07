@@ -34,13 +34,16 @@ object SparkNLP {
     * @param memory
     *   set driver memory for SparkSession
     * @param cache_folder
-    *   The location to download and extract pretrained Models and Pipelines
+    *   The location to download and extract pretrained Models and Pipelines (by default, it will
+    *   be in the users home directory under `cache_pretrained`.)
     * @param log_folder
-    *   The location to save logs from annotators during training such as NerDLApproach,
-    *   ClassifierDLApproach, SentimentDLApproach, MultiClassifierDLApproach, etc.
-    * @param cluster_tmp_dir
     *   The location to use on a cluster for temporarily files such as unpacking indexes for
-    *   WordEmbeddings
+    *   WordEmbeddings. By default, this locations is the location of `hadoop.tmp.dir` set via
+    *   Hadoop configuration for Apache Spark. NOTE: `S3` is not supported and it must be local,
+    *   HDFS, or DBFS.
+    * @param cluster_tmp_dir
+    *   The location to save logs from annotators during training (By default, it will be in
+    *   the users home directory under `annotator_logs`.)
     * @return
     *   SparkSession
     */
