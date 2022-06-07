@@ -90,6 +90,17 @@ def start(gpu=False,
         Whether to enable M1 support for macOS
     memory : str, optional
         How much memory to allocate for the Spark driver, by default "16G"
+    cache_folder : str, optional
+        The location to download and extract pretrained Models and Pipelines. If not
+        set, it will be in the users home directory under `cache_pretrained`.
+    log_folder : str, optional
+        The location to use on a cluster for temporarily files such as unpacking indexes
+        for WordEmbeddings. By default, this locations is the location of
+        `hadoop.tmp.dir` set via Hadoop configuration for Apache Spark. NOTE: `S3` is
+        not supported and it must be local, HDFS, or DBFS.
+    cluster_tmp_dir : str, optional
+        The location to save logs from annotators during training. If not set, it will
+        be in the users home directory under `annotator_logs`.
     real_time_output : bool, optional
         Whether to output in real time, by default False
     output_level : int, optional
