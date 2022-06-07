@@ -1,14 +1,2 @@
-docs/_sass/custom.scss
-docs/en/licensed_release_notes.md
-docs/en/licensed_release_notes_2.md
-docs/en/ocr_release_notes.md
-docs/en/ocr_release_notes_2.md
-docs/en/release_notes.md
-docs/en/release_notes_2.md
-docs/_sass/custom.scss
-docs/en/licensed_release_notes.md
-docs/en/licensed_release_notes_2.md
-docs/en/ocr_release_notes.md
-docs/en/ocr_release_notes_2.md
-docs/en/release_notes.md
-docs/en/release_notes_2.md
+docs/en/nlp_server/release_notes.md
+docs/en/nlp_server/release_notes.md
