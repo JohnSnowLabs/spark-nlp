@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.annotator._
+import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
@@ -26,9 +27,9 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
-class Word2VecTestSpec extends AnyFlatSpec {
+class Word2VecTestSpec extends AnyFlatSpec with SparkSessionTest {
 
-  import ResourceHelper.spark.implicits._
+  import spark.implicits._
 
   "Word2VecApproach" should "train, save, and load back the saved model" taggedAs FastTest in {
 
@@ -44,18 +45,6 @@ class Word2VecTestSpec extends AnyFlatSpec {
       "  ",
       " ").toDF("text")
 
-    val document = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-
-    val setence = new SentenceDetector()
-      .setInputCols("document")
-      .setOutputCol("sentence")
-
-    val tokenizer = new Tokenizer()
-      .setInputCols(Array("sentence"))
-      .setOutputCol("token")
-
     val stops = new StopWordsCleaner()
       .setInputCols("token")
       .setOutputCol("cleanedToken")
@@ -68,7 +57,8 @@ class Word2VecTestSpec extends AnyFlatSpec {
       .setStorageRef("my_awesome_word2vec")
       .setEnableCaching(true)
 
-    val pipeline = new Pipeline().setStages(Array(document, setence, tokenizer, stops, Word2Vec))
+    val pipeline = new Pipeline().setStages(
+      Array(documentAssembler, sentenceDetector, tokenizer, stops, Word2Vec))
 
     val pipelineModel = pipeline.fit(ddd)
     val pipelineDF = pipelineModel.transform(ddd)
@@ -88,7 +78,8 @@ class Word2VecTestSpec extends AnyFlatSpec {
       .setOutputCol("embeddings")
 
     val loadedPipeline =
-      new Pipeline().setStages(Array(document, setence, tokenizer, loadedWord2Vec))
+      new Pipeline().setStages(
+        Array(documentAssembler, sentenceDetector, tokenizer, loadedWord2Vec))
 
     loadedPipeline.fit(ddd).transform(ddd).select("embeddings").show()
 
@@ -167,18 +158,10 @@ class Word2VecTestSpec extends AnyFlatSpec {
 
     println("count of training dataset: ", trainingData.count)
 
-    val document = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-
     val sentence = SentenceDetectorDLModel
       .pretrained()
       .setInputCols(Array("document"))
       .setOutputCol("sentence")
-
-    val tokenizer = new Tokenizer()
-      .setInputCols(Array("sentence"))
-      .setOutputCol("token")
 
     val word2vec = new Word2VecApproach()
       .setInputCols("token")
@@ -208,7 +191,8 @@ class Word2VecTestSpec extends AnyFlatSpec {
       .setEvaluationLogExtended(true)
 
     val pipeline =
-      new Pipeline().setStages(Array(document, sentence, tokenizer, word2vec, nerClassifier))
+      new Pipeline().setStages(
+        Array(documentAssembler, sentence, tokenizer, word2vec, nerClassifier))
 
     val pipelineModel = pipeline.fit(trainingData)
     val pipelineDF = pipelineModel.transform(trainingData)
@@ -216,4 +200,5 @@ class Word2VecTestSpec extends AnyFlatSpec {
     pipelineDF.select("text", "ner.result").show()
 
   }
+
 }

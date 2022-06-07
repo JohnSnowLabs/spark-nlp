@@ -63,9 +63,9 @@ class TensorflowXlnetClassification(
       new SentencepieceEncoder(spp, caseSensitive, delimiterId = sentencePieceDelimiterId)
 
     val sentenceTokenPieces = sentences.map { s =>
-      val shrinkedSentence = s.indexedTokens.take(maxSeqLength - 2)
+      val trimmedSentence = s.indexedTokens.take(maxSeqLength - 2)
       val wordpieceTokens =
-        shrinkedSentence.flatMap(token => encoder.encode(token)).take(maxSeqLength)
+        trimmedSentence.flatMap(token => encoder.encode(token)).take(maxSeqLength)
       WordpieceTokenizedSentence(wordpieceTokens)
     }
     sentenceTokenPieces

@@ -30,7 +30,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 import java.nio.file.{Files, Paths, StandardCopyOption}
 import java.util.UUID
 
-trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSensitiveProperties {
+trait HasStorage extends HasStorageRef with HasStorageOptions with HasCaseSensitiveProperties {
 
   protected val databases: Array[Database.Name]
 
