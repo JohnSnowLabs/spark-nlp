@@ -19,7 +19,7 @@ TOKEN
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[NormalizerModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.NormalizerModel.html)
+[NormalizerModel](/api/python/reference/autosummary/sparknlp/annotator/normalizer/index.html#sparknlp.annotator.normalizer.NormalizerModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -124,7 +124,7 @@ result.selectExpr("normalized.result").show(truncate = false)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[Normalizer](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.Normalizer.html)
+[Normalizer](/api/python/reference/autosummary/sparknlp/annotator/normalizer/index.html#sparknlp.annotator.normalizer.Normalizer)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

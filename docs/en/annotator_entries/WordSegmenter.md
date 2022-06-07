@@ -100,7 +100,7 @@ result.select("token.result").show(false)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[WordSegmenterModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.WordSegmenterModel.html)
+[WordSegmenterModel](/api/python/reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -213,7 +213,7 @@ val pipelineModel = pipeline.fit(trainingDataSet)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[WordSegmenterApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.WordSegmenterApproach.html)
+[WordSegmenterApproach](/api/python/reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}
