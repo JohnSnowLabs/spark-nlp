@@ -471,13 +471,14 @@ class T5Transformer(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(
+    writeTensorflowModelV2(
       path,
       spark,
       getModelIfNotSet.tensorflow,
       "_t5",
       T5Transformer.tfFile,
-      configProtoBytes = getConfigProtoBytes)
+      configProtoBytes = getConfigProtoBytes,
+      savedSignatures = getSignatures)
     writeSentencePieceModel(path, spark, getModelIfNotSet.spp, "_t5", T5Transformer.sppFile)
 
   }
@@ -507,7 +508,12 @@ trait ReadT5TransformerTensorflowModel extends ReadTensorflowModel with ReadSent
   override val sppFile: String = "t5_spp"
 
   def readTensorflow(instance: T5Transformer, path: String, spark: SparkSession): Unit = {
-    val tf = readTensorflowModel(path, spark, "_t5_tf")
+    val tf = readTensorflowModel(
+      path,
+      spark,
+      "_t5_tf",
+      savedSignatures = instance.getSignatures,
+      initAllTables = false)
     val spp = readSentencePieceModel(path, spark, "_t5_spp", sppFile)
     instance.setModelIfNotSet(spark, tf, spp)
   }

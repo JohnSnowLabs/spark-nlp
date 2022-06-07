@@ -16,7 +16,6 @@
 
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import org.apache.spark.sql.Dataset
 
 import scala.collection.mutable

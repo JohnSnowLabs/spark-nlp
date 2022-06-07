@@ -199,11 +199,13 @@ class WordEmbeddings(override val uid: String)
   override def train(
       dataset: Dataset[_],
       recursivePipeline: Option[PipelineModel]): WordEmbeddingsModel = {
+
     val model = new WordEmbeddingsModel()
       .setInputCols($(inputCols))
       .setStorageRef($(storageRef))
       .setDimension($(dimension))
       .setCaseSensitive($(caseSensitive))
+      .setEnableInMemoryStorage($(enableInMemoryStorage))
 
     if (isSet(readCacheSize))
       model.setReadCacheSize($(readCacheSize))

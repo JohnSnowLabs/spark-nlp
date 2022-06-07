@@ -17,19 +17,20 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN, WORD_EMBEDDINGS}
+import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.{
   TokenPieceEmbeddings,
   TokenizedWithSentence,
   WordpieceEmbeddingsSentence
 }
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
-import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.storage.Database.Name
-import com.johnsnowlabs.storage.{Database, HasStorageModel, RocksDBConnection, StorageReadable}
+import com.johnsnowlabs.storage._
+import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.IntParam
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.functions.{col, udf}
-import org.apache.spark.sql.{DataFrame, Row}
+import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
 /** Word Embeddings lookup annotator that maps tokens to vectors
   *
@@ -148,7 +149,8 @@ class WordEmbeddingsModel(override val uid: String)
     with HasSimpleAnnotate[WordEmbeddingsModel]
     with HasEmbeddingsProperties
     with HasStorageModel
-    with ParamsAndFeaturesWritable {
+    with ParamsAndFeaturesWritable
+    with ReadsFromBytes {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -184,6 +186,19 @@ class WordEmbeddingsModel(override val uid: String)
     */
   def setReadCacheSize(value: Int): this.type = set(readCacheSize, value)
 
+  private var memoryStorage: Option[Broadcast[Map[BytesKey, Array[Byte]]]] = None
+
+  def getInMemoryStorage: Map[BytesKey, Array[Byte]] = memoryStorage.get.value
+
+  override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
+    if (this.memoryStorage.isEmpty && $(enableInMemoryStorage)) {
+      val storageReader = getReader(Database.EMBEDDINGS)
+      val memoryStorage = storageReader.exportStorageToMap()
+      this.memoryStorage = Some(dataset.sparkSession.sparkContext.broadcast(memoryStorage))
+    }
+    dataset
+  }
+
   /** Takes a document and annotations and produces new annotations of this annotator's annotation
     * type
     *
@@ -196,22 +211,52 @@ class WordEmbeddingsModel(override val uid: String)
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = TokenizedWithSentence.unpack(annotations)
     val withEmbeddings = sentences.map { s =>
-      val tokens = s.indexedTokens.map { token =>
-        val vectorOption = getReader(Database.EMBEDDINGS).lookup(token.token)
+      val tokens = s.indexedTokens.map { indexedToken =>
+        val (embeddings, zeroArray) = retrieveEmbeddings(indexedToken.token)
         TokenPieceEmbeddings(
-          token.token,
-          token.token,
+          indexedToken.token,
+          indexedToken.token,
           -1,
           isWordStart = true,
-          vectorOption,
-          getReader(Database.EMBEDDINGS).emptyValue,
-          token.begin,
-          token.end)
+          embeddings,
+          zeroArray,
+          indexedToken.begin,
+          indexedToken.end)
       }
       WordpieceEmbeddingsSentence(tokens, s.sentenceIndex)
     }
 
     WordpieceEmbeddingsSentence.pack(withEmbeddings)
+  }
+
+  def retrieveEmbeddings(token: String): (Option[Array[Float]], Array[Float]) = {
+    if ($(enableInMemoryStorage)) {
+      val zeroArray = Array.fill[Float]($(dimension))(0f)
+      var embeddings: Option[Array[Float]] = None
+
+      lazy val resultLower =
+        getInMemoryStorage.getOrElse(new BytesKey(token.trim.toLowerCase.getBytes()), Array())
+      lazy val resultUpper =
+        getInMemoryStorage.getOrElse(new BytesKey(token.trim.toUpperCase.getBytes()), Array())
+      lazy val resultExact =
+        getInMemoryStorage.getOrElse(new BytesKey(token.trim.getBytes()), Array())
+
+      if (resultExact.nonEmpty) {
+        embeddings = Some(fromBytes(resultExact))
+      } else if (! $(caseSensitive) && resultLower.nonEmpty) {
+        embeddings = Some(fromBytes(resultLower))
+      } else if (! $(caseSensitive) && resultUpper.nonEmpty) {
+        embeddings = Some(fromBytes(resultUpper))
+      }
+
+      (embeddings, zeroArray)
+
+    } else {
+      val storageReader = getReader(Database.EMBEDDINGS)
+      val embeddings = storageReader.lookup(token)
+      val zeroArray: Array[Float] = storageReader.emptyValue
+      (embeddings, zeroArray)
+    }
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
@@ -220,7 +265,7 @@ class WordEmbeddingsModel(override val uid: String)
       wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
   }
 
-  private def bufferSizeFormula = {
+  private def bufferSizeFormula: Int = {
     scala.math
       .min( // LRU Cache Size, pick the smallest value up to 50k to reduce memory blue print as dimension grows
         (100.0 / $(dimension)) * 200000,
@@ -244,6 +289,7 @@ class WordEmbeddingsModel(override val uid: String)
 trait ReadablePretrainedWordEmbeddings
     extends StorageReadable[WordEmbeddingsModel]
     with HasPretrained[WordEmbeddingsModel] {
+
   override val databases: Array[Name] = Array(Database.EMBEDDINGS)
   override val defaultModelName: Option[String] = Some("glove_100d")
 

@@ -18,7 +18,7 @@ package com.johnsnowlabs.storage
 
 import org.apache.spark.ml.param.{BooleanParam, Params}
 
-trait HasExcludableStorage extends Params {
+trait HasStorageOptions extends Params {
 
   val includeStorage: BooleanParam = new BooleanParam(
     this,
@@ -29,6 +29,15 @@ trait HasExcludableStorage extends Params {
 
   def getIncludeStorage: Boolean = $(includeStorage)
 
-  setDefault(includeStorage, true)
+  val enableInMemoryStorage: BooleanParam = new BooleanParam(
+    this,
+    "enableInMemoryStorage",
+    "whether to load whole indexed storage in memory (in-memory lookup)")
+
+  def setEnableInMemoryStorage(value: Boolean): this.type = set(enableInMemoryStorage, value)
+
+  def getEnableInMemoryStorage: Boolean = $(enableInMemoryStorage)
+
+  setDefault(includeStorage -> true, enableInMemoryStorage -> false)
 
 }

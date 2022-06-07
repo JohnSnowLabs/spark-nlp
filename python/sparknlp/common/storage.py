@@ -46,7 +46,8 @@ class HasStorageRef:
         return self.getOrDefault("storageRef")
 
 
-class HasExcludableStorage:
+class HasStorageOptions:
+
     includeStorage = Param(Params._dummy(),
                            "includeStorage",
                            "whether to include indexed storage in trained model",
@@ -72,8 +73,21 @@ class HasExcludableStorage:
         """
         return self.getOrDefault("includeStorage")
 
+    def setEnableInMemoryStorage(self, value):
+        """Sets whether to load whole indexed storage in memory (in-memory lookup)
 
-class HasStorageModel(HasStorageRef, HasCaseSensitiveProperties, HasExcludableStorage):
+        Parameters
+        ----------
+        value : bool
+            Whether to load whole indexed storage in memory (in-memory lookup)
+        """
+        return self._set(enableInMemoryStorage=value)
+
+    def getEnableInMemoryStorage(self):
+        return self.getOrDefault("enableInMemoryStorage")
+
+
+class HasStorageModel(HasStorageRef, HasCaseSensitiveProperties, HasStorageOptions):
 
     def saveStorage(self, path, spark):
         """Saves the current model to storage.
@@ -98,7 +112,7 @@ class HasStorageModel(HasStorageRef, HasCaseSensitiveProperties, HasExcludableSt
             _internal._StorageHelper(path, spark, database, storage_ref, within_storage=False)
 
 
-class HasStorage(HasStorageRef, HasCaseSensitiveProperties, HasExcludableStorage):
+class HasStorage(HasStorageRef, HasCaseSensitiveProperties, HasStorageOptions):
     storagePath = Param(Params._dummy(),
                         "storagePath",
                         "path to file",
