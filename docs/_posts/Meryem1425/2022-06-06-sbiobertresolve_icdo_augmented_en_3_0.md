@@ -21,7 +21,7 @@ This model maps extracted clinical entities to ICD-O codes using `sbiobert_base_
 
 ## Predicted Entities
 
-
+`ICD-O Codes`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
