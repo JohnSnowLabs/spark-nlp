@@ -71,17 +71,6 @@ def start(gpu=False,
     The default parameters would result in the equivalent of:
 
     .. code-block:: python
-        :param gpu: start Spark NLP with GPU
-        :param m1: start Spark NLP with M1 support on macOS
-        :param memory: set driver memory for SparkSession
-        :param cache_folder: The location to download and extract pretrained Models and Pipelines
-        :param log_folder: The location to save logs from annotators during training such as NerDLApproach,
-            ClassifierDLApproach, SentimentDLApproach, MultiClassifierDLApproach, etc.
-        :param cluster_tmp_dir: The location to use on a cluster for temporarily files
-        :param output_level: int, optional
-            Output level for logs, by default 1
-        :param real_time_output:
-        :substitutions:
 
         SparkSession.builder \\
             .appName("Spark NLP") \\
