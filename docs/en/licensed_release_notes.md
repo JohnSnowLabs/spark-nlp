@@ -162,28 +162,35 @@ chunkerMapperapproach = ChunkMapperApproach() \
 
 ...
 
-sentences = "The patient was given Warfarina Lusa"
+sentences = [["""The patient was given Warfarina Lusa and amlodipine 10 mg, coumadin 5 mg.
+                 The patient was given, Coumadin"""]]
 ```
 
 `setLowerCase(True)` *Results* :
 
 ```bash
-+-----+---+--------------+-------------+
-|begin|end|         chunk|     mappings|
-+-----+---+--------------+-------------+
-|   22| 35|Warfarina Lusa|Anticoagulant|
-+-----+---+--------------+-------------+
++------------------------+-----------+
+|chunk                   |mapped     |
++------------------------+-----------+
+|Warfarina Lusa          |540228     |
+|amlodipine              |329526     |
+|coumadin                |202421     |
+|Coumadin                |202421     |
++------------------------+-----------+
 
 ```
 
 `setLowerCase(False)` *Results* :
 
 ```bash
-+-----+---+--------------+--------+
-|begin|end|         chunk|mappings|
-+-----+---+--------------+--------+
-|   22| 35|Warfarina Lusa|    NONE|
-+-----+---+--------------+--------+
++------------------------+-----------+
+|chunk                   |mapped     |
++------------------------+-----------+
+|Warfarina Lusa          |NONE       |
+|amlodipine              |329526     |
+|coumadin                |202421     |
+|Coumadin                |NONE       |
++------------------------+-----------+
 ```
 
 ##### Return Multiple Relations At a Time In ChunkMapper Models Via `setRels()` Parameter
