@@ -1,2 +1,2 @@
-docs/en/nlp_server/release_notes.md
-docs/en/nlp_server/release_notes.md
+docs/en/licensed_release_notes.md
+docs/en/licensed_release_notes.md

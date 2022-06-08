@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>ICD10CM Sentence Entity Resolver (Slim, normalized)- Spark NLP Model</title><meta name="description" content="DescriptionThis model maps clinical entities and concepts to ICD10 CM codes using sbiobert_base_cased_mli Sentence Bert Embeddings. In this model, synonyms h...">
-<link rel="canonical" href="/2022/05/12/sbiobertresolve_icd10cm_slim_normalized_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Sentence Entity Resolver for ICD-O (sbiobertresolve_icdo_augmented)- Spark NLP Model</title><meta name="description" content="DescriptionThis model maps extracted clinical entities to ICD-O codes using sbiobert_base_cased_mli Sentence BERT Embeddings. Given an oncological entity fou...">
+<link rel="canonical" href="/2022/06/06/sbiobertresolve_icdo_augmented_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,25 +406,25 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/Cabir40/2022-05-12-sbiobertresolve_icd10cm_slim_normalized_en_3_0.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/Meryem1425/2022-06-06-sbiobertresolve_icdo_augmented_en_3_0.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>May 12, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-05-12T00:00:00+00:00"></div><header class="main-docs"><h1>ICD10CM Sentence Entity Resolver (Slim, normalized)</h1></header></div><meta itemprop="headline" content="ICD10CM Sentence Entity Resolver (Slim, normalized)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>licensed</li><li>clinical</li><li>en</li><li>entity_resolution</li><li>icd10</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-05-12T00:00:00+00:00">
-    <meta itemprop="keywords" content="licensed,clinical,en,entity_resolution,icd10"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jun 06, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-06T00:00:00+00:00"></div><header class="main-docs"><h1>Sentence Entity Resolver for ICD-O (sbiobertresolve_icdo_augmented)</h1></header></div><meta itemprop="headline" content="Sentence Entity Resolver for ICD-O (sbiobertresolve_icdo_augmented)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>licensed</li><li>clinical</li><li>en</li><li>icdo</li><li>entity_resolution</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-06T00:00:00+00:00">
+    <meta itemprop="keywords" content="licensed,clinical,en,icdo,entity_resolution"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model maps clinical entities and concepts to ICD10 CM codes using <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> Sentence Bert Embeddings. In this model, synonyms having low cosine similarity to unnormalized terms are dropped, making the model slim. It also returns the official resolution text within the brackets inside the metadata</p>
+<p>This model maps extracted clinical entities to ICD-O codes using <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> Sentence BERT Embeddings. Given an oncological entity found in the text (via NER models like <code class="language-plaintext highlighter-rouge">ner_jsl</code>), it returns top terms and resolutions along with the corresponding ICD-O codes to present more granularity with respect to body parts mentioned. It also returns the original <code class="language-plaintext highlighter-rouge">Topography</code> and <code class="language-plaintext highlighter-rouge">Histology</code>  codes, and their descriptions.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">ICD10 CM Codes</code></p>
+<p><code class="language-plaintext highlighter-rouge">ICD-O Codes</code></p>
 
-<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM/" class="button button-orange">Live Demo</a>
-<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_icd10cm_slim_normalized_en_3.5.1_3.0_1652337920061.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<button class="button button-orange" disabled="">Open in Colab</button>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_icdo_augmented_en_3.5.2_3.0_1654546345691.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -446,16 +446,16 @@
 
 <span class="n">word_embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"word_embeddings"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"word_embeddings"</span><span class="p">])</span>\
+<span class="n">ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_jsl"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
 
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">"PROBLEM"</span><span class="p">])</span>
+    <span class="p">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">"Oncological"</span><span class="p">])</span>
 
 <span class="n">c2doc</span> <span class="o">=</span> <span class="n">Chunk2Doc</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>\
@@ -464,13 +464,13 @@
 <span class="n">sbert_embedder</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk_doc"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
     
-<span class="n">icd_resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_icd10cm_slim_normalized"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+<span class="n">resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_icdo_augmented"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"icd_code"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"resolution"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setReturnCosineDistances</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
     
 <span class="n">resolver_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
     <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
@@ -482,12 +482,12 @@
         <span class="n">ner_converter</span><span class="p">,</span>
         <span class="n">c2doc</span><span class="p">,</span>
         <span class="n">sbert_embedder</span><span class="p">,</span>
-        <span class="n">icd_resolver</span>
+        <span class="n">resolver</span>
   <span class="p">])</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">resolver_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with acute hepatitis and obesity , presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting. Two weeks prior to presentation, she was treated with a five-day course of amoxicillin for a respiratory tract infection."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"TRAF6 is a putative oncogene in a variety of cancers including  urothelial cancer , and malignant melanoma. WWP2 appears to regulate the expression of the well characterized tumor and tensin homolog (PTEN) in endometroid adenocarcinoma and squamous cell carcinoma."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
@@ -505,16 +505,16 @@
 
 <span class="k">val</span> <span class="nv">word_embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"word_embeddings"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"word_embeddings"</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_jsl"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
       <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverterInternal</span><span class="o">()</span>
       <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span>
       <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setWhiteList</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"PROBLEM"</span><span class="o">))</span>
+      <span class="o">.</span><span class="py">setWhiteList</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"Oncological"</span><span class="o">))</span>
 
 <span class="k">val</span> <span class="nv">c2doc</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Chunk2Doc</span><span class="o">()</span>
       <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
@@ -523,13 +523,12 @@
 <span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nv">BertSentenceEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"ner_chunk_doc"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="nc">False</span><span class="o">)</span>
+
     
-<span class="k">val</span> <span class="nv">resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_icd10cm_slim_normalized"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_icdo_augmented"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"icd_code"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"resolution"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setReturnCosineDistances</span><span class="o">(</span><span class="nc">True</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">resolver_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PipelineModel</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> 
                                                             <span class="n">sentenceDetectorDL</span><span class="o">,</span> 
@@ -541,7 +540,7 @@
                                                             <span class="n">sbert_embedder</span><span class="o">,</span> 
                                                             <span class="n">resolver</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with acute hepatitis and obesity , presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting. Two weeks prior to presentation, she was treated with a five-day course of amoxicillin for a respiratory tract infection."</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"""TRAF6 is a putative oncogene in a variety of cancers including  urothelial cancer , and malignant melanoma. WWP2 appears to regulate the expression of the well characterized tumor and tensin homolog (PTEN) in endometroid adenocarcinoma and squamous cell carcinoma."""</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">results</span> <span class="k">=</span> <span class="nv">resolver_pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
@@ -549,21 +548,17 @@
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------------------------------------+-------+--------+---------------------------------------------------------------------------------+---------------------------------------------------+
-|                                chunk| entity|icd_code|                                                                all_k_resolutions|                                        all_k_codes|
-+-------------------------------------+-------+--------+---------------------------------------------------------------------------------+---------------------------------------------------+
-|        gestational diabetes mellitus|PROBLEM|   E11.9|gestational diabetes mellitus <span class="o">[</span>Type 2 diabetes mellitus without complications]...|E11.9:::O24.41:::O24.919:::O24.419:::O24.439:::....|
-|subsequent <span class="nb">type </span>two diabetes mellitus|PROBLEM|  O24.11|pre-existing <span class="nb">type </span>2 diabetes mellitus <span class="o">[</span>Pre-existing <span class="nb">type </span>2 diabetes mellitus, ...|O24.11:::E11.8:::E11.9:::E11:::E13.9:::E11.3:::....|
-|                                 T2DM|PROBLEM|   E11.9|t2dm <span class="o">[</span>Type 2 diabetes mellitus without complications]:::gm&gt;2 <span class="o">[</span>GM2 gangliosidos...|E11.9:::E75.00:::H35.89:::F80.0:::R44.8:::M79.89...|
-|             HTG-induced pancreatitis|PROBLEM| F10.988|alcohol-induced pancreatitis <span class="o">[</span>Alcohol use, unspecified with other alcohol-indu...|F10.988:::K85.9:::K85.3:::K85:::K85.2:::K85.8:::...|
-|                      acute hepatitis|PROBLEM|   B17.9|acute hepatitis <span class="o">[</span>Acute viral hepatitis, unspecified]:::acute hepatitis <span class="o">[</span>Acute ...|B17.9:::K72.0:::B15.9:::B15:::B17.2:::Z03.89:::....|
-|                              obesity|PROBLEM|   E66.8|abdominal obesity <span class="o">[</span>Other obesity]:::overweight and obesity <span class="o">[</span>Overweight and obe...|E66.8:::E66:::E66.01:::E66.9:::Z91.89:::E66.3:::...|
-|                             polyuria|PROBLEM|     R35|polyuria <span class="o">[</span>Polyuria]:::nocturnal polyuria <span class="o">[</span>Nocturnal polyuria]:::other polyuria...|R35:::R35.81:::R35.89:::R31:::R30.0:::E72.01:::....|
-|                           polydipsia|PROBLEM|   R63.1|polydipsia <span class="o">[</span>Polydipsia]:::psychogenic polydipsia <span class="o">[</span>Other impulse disorders]:::p...|R63.1:::F63.89:::O40.9XX0:::O40:::G47.50:::G47.5...|
-|                        poor appetite|PROBLEM|   R63.0|poor appetite <span class="o">[</span>Anorexia]:::patient dissatisfied with nutrition regime <span class="o">[</span>Persons...|R63.0:::Z76.89:::R53.1:::R10.9:::R45.81:::R44.8:...|
-|                             vomiting|PROBLEM|   R11.1|vomiting <span class="o">[</span>Vomiting]:::vomiting <span class="o">[</span>Vomiting, unspecified]:::intermittent vomiting...|R11.1:::R11.10:::R11:::G43.A:::G43.A0:::R11.0:::...|
-|        a respiratory tract infection|PROBLEM|   J06.9|upper respiratory tract infection <span class="o">[</span>Acute upper respiratory infection, unspecif...|J06.9:::T17:::T17.9:::J04.10:::J22:::J98.8:::J98.9.|
-+-------------------------------------+-------+--------+---------------------------------------------------------------------------------+---------------------------------------------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------------+-----------+---------+---------------------------------------------------------------------------+---------------------------------------------------------------------------+
+|                     chunk|     entity|icdo_code|                                                          all_k_resolutions|                                                                all_k_codes|
++--------------------------+-----------+---------+---------------------------------------------------------------------------+---------------------------------------------------------------------------+
+|                   cancers|Oncological|   8000/3|cancer:::carcinoma:::carcinomatosis:::neoplasms:::ceruminous carcinoma::...|8000/3:::8010/3:::8010/9:::800:::8420/3:::8140/3:::8010/3-C76.0:::8010/6...|
+|         urothelial cancer|Oncological|   8120/3|urothelial carcinoma:::urothelial carcinoma <span class="k">in </span>situ of urinary system:::...|8120/3:::8120/2-C68.9:::8010/3-C68.9:::8130/3-C68.9:::8070/3-C68.9:::813...|
+|        malignant melanoma|Oncological|   8720/3|malignant melanoma:::malignant melanoma, of skin:::malignant melanoma, o...|8720/3:::8720/3-C44.9:::8720/3-C06.9:::8720/3-C69.9:::8721/3:::8720/3-C0...|
+|                     tumor|Oncological|   8000/1|tumor:::tumorlet:::tumor cells:::askin tumor:::tumor, secondary:::pilar ...|8000/1:::8040/1:::8001/1:::9365/3:::8000/6:::8103/0:::9364/3:::8940/0:::...|
+|endometroid adenocarcinoma|Oncological|   8380/3|endometrioid adenocarcinoma:::endometrioid adenoma:::scirrhous adenocarc...|8380/3:::8380/0:::8141/3-C54.1:::8560/3-C54.1:::8260/3-C54.1:::8380/3-C5...|
+|   squamous cell carcinoma|Oncological|   8070/3|squamous cell carcinoma:::verrucous squamous cell carcinoma:::squamous c...|8070/3:::8051/3:::8070/2:::8052/3:::8070/3-C44.5:::8075/3:::8560/3:::807...|
++--------------------------+-----------+---------+---------------------------------------------------------------------------+---------------------------------------------------------------------------+
+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -572,11 +567,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>sbiobertresolve_icd10cm_slim_normalized</td>
+      <td>sbiobertresolve_icdo_augmented</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 3.5.1+</td>
+      <td>Spark NLP for Healthcare 3.5.2+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -592,7 +587,7 @@
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[icd10cm_code]</td>
+      <td>[icdo_code]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -600,7 +595,7 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>846.3 MB</td>
+      <td>175.7 MB</td>
     </tr>
     <tr>
       <td>Case sensitive:</td>
@@ -608,7 +603,11 @@
     </tr>
   </tbody>
 </table>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-05-12T00:00:00+00:00"><!-- start custom article footer snippet -->
+
+<h2 id="references">References</h2>
+
+<p>Trained on ICD-O Histology Behaviour dataset with sbiobert_base_cased_mli sentence embeddings. https://apps.who.int/iris/bitstream/handle/10665/96612/9789241548496_eng.pdf</p>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-06-06T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -733,7 +732,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/05/11/ner_biomedical_bc2gm_en_2_4.html">Detect Genes/Proteins (BC2GM) in Medical Texts</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/05/20/rxnorm_ndc_mapper_en_3_0.html">Mapping RxNorm Codes with Corresponding National Drug Codes</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/06/06/rct_binary_classifier_use_pipeline_en_3_0.html">RCT Binary Classifier (USE) Pipeline</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/06/07/rxnorm_mapper_en_3_0.html">Mapping Entities with Corresponding RxNorm Codes</a></div></div></div>
 
 </div>
 </div>
