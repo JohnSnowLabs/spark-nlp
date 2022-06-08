@@ -47,11 +47,15 @@ class HasStorageRef:
 
 
 class HasStorageOptions:
-
     includeStorage = Param(Params._dummy(),
                            "includeStorage",
                            "whether to include indexed storage in trained model",
                            typeConverter=TypeConverters.toBoolean)
+
+    enableInMemoryStorage = Param(Params._dummy(),
+                                  "enableInMemoryStorage",
+                                  "whether to load whole indexed storage in memory (in-memory lookup)",
+                                  typeConverter=TypeConverters.toBoolean)
 
     def setIncludeStorage(self, value):
         """Sets whether to include indexed storage in trained model.
@@ -143,4 +147,3 @@ class HasStorage(HasStorageRef, HasCaseSensitiveProperties, HasStorageOptions):
             path to file
         """
         return self.getOrDefault("storagePath")
-

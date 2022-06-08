@@ -107,7 +107,7 @@ class WordEmbeddingsTestSpec extends AnyFlatSpec with SparkSessionTest {
     loadedPipeline2.transform(clinicalWords).show(1)
   }
 
-  it should "work for in-memory and disk storage alike" in {
+  it should "work for in-memory and disk storage alike" taggedAs FastTest in {
 
     documentAssembler
       .setInputCol("word")
