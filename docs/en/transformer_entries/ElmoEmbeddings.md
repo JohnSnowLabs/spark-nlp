@@ -64,7 +64,7 @@ WORD_EMBEDDINGS
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[ElmoEmbeddings](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.ElmoEmbeddings.html)
+[ElmoEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/elmo_embeddings/index.html#sparknlp.annotator.embeddings.elmo_embeddings.ElmoEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}
