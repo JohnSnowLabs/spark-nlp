@@ -11,7 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-
+"""Contains classes for the Normalizer."""
 from sparknlp.common import *
 
 
@@ -180,6 +180,7 @@ class Normalizer(AnnotatorApproach):
 
     def _create_model(self, java_model):
         return NormalizerModel(java_model=java_model)
+
 
 class NormalizerModel(AnnotatorModel):
     """Instantiated Model of the Normalizer.

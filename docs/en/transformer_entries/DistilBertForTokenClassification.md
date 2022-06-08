@@ -33,7 +33,7 @@ NAMED_ENTITY
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[DistilBertForTokenClassification](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.DistilBertForTokenClassification.html)
+[DistilBertForTokenClassification](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/distil_bert_for_token_classification/index.html#sparknlp.annotator.classifier_dl.distil_bert_for_token_classification.DistilBertForTokenClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}

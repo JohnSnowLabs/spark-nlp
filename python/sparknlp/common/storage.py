@@ -11,6 +11,8 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+"""Contains utility classes for handling storage."""
+
 from pyspark.ml.param import Param, Params, TypeConverters
 
 from sparknlp.common.utils import ExternalResource
@@ -50,11 +52,6 @@ class HasStorageOptions:
                            "includeStorage",
                            "whether to include indexed storage in trained model",
                            typeConverter=TypeConverters.toBoolean)
-
-    enableInMemoryStorage = Param(Params._dummy(),
-                                  "enableInMemoryStorage",
-                                  "whether to load whole indexed storage in memory (in-memory lookup)",
-                                  typeConverter=TypeConverters.toBoolean)
 
     def setIncludeStorage(self, value):
         """Sets whether to include indexed storage in trained model.
