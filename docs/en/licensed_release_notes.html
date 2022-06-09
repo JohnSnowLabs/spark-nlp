@@ -534,7 +534,7 @@
 
 <ul>
   <li>New <code class="language-plaintext highlighter-rouge">rxnorm_mapper</code> model</li>
-  <li>New <code class="language-plaintext highlighter-rouge">ChunkMapperFiltererModel</code> annotator to filter <code class="language-plaintext highlighter-rouge">ChunkMapperModel</code> results</li>
+  <li>New <code class="language-plaintext highlighter-rouge">ChunkMapperFilterer</code> annotator to filter <code class="language-plaintext highlighter-rouge">ChunkMapperModel</code> results</li>
   <li>New features
     <ul>
       <li>Add the <code class="language-plaintext highlighter-rouge">setReplaceLabels</code> parameter that allows replacing the non-conventional labels without using an external source file in the <code class="language-plaintext highlighter-rouge">NerConverterInternal()</code>.</li>
@@ -577,13 +577,13 @@
  +------------------------------+---------------+
 </code></pre></div></div>
 
-<h4 id="new-chunkmapperfilterermodel-annotator-to-filter-chunkmappermodel-results">New <code class="language-plaintext highlighter-rouge">ChunkMapperFiltererModel</code> Annotator to Filter <code class="language-plaintext highlighter-rouge">ChunkMapperModel</code> Results</h4>
-<p><code class="language-plaintext highlighter-rouge">ChunkMapperFiltererModel</code> annotator allows filtering of the chunks that were passed through the <code class="language-plaintext highlighter-rouge">ChunkMapperModel</code>.
+<h4 id="new-chunkmapperfilterer-annotator-to-filter-chunkmappermodel-results">New <code class="language-plaintext highlighter-rouge">ChunkMapperFilterer</code> Annotator to Filter <code class="language-plaintext highlighter-rouge">ChunkMapperModel</code> Results</h4>
+<p><code class="language-plaintext highlighter-rouge">ChunkMapperFilterer</code> annotator allows filtering of the chunks that were passed through the <code class="language-plaintext highlighter-rouge">ChunkMapperModel</code>.
 If <code class="language-plaintext highlighter-rouge">setReturnCriteria()</code> is set as <code class="language-plaintext highlighter-rouge">"success"</code>, only the chunks which are mapped by <code class="language-plaintext highlighter-rouge">ChunkMapperModel</code> are returned. Otherwise, if <code class="language-plaintext highlighter-rouge">setReturnCriteria()</code> is set as <code class="language-plaintext highlighter-rouge">"fail"</code>, only the chunks which are not mapped by ChunkMapperModel are returned.</p>
 
 <p><em>Example</em> :</p>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
-<span class="n">cfModel</span> <span class="o">=</span> <span class="n">ChunkMapperFiltererModel</span><span class="p">()</span> \
+<span class="n">cfModel</span> <span class="o">=</span> <span class="n">ChunkMapperFilterer</span><span class="p">()</span> \
             <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span><span class="s">"mappings"</span><span class="p">])</span> \
             <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"chunks_filtered"</span><span class="p">)</span>\
             <span class="p">.</span><span class="n">setReturnCriteria</span><span class="p">(</span><span class="s">"success"</span><span class="p">)</span> <span class="c1">#or "fail"
@@ -671,8 +671,8 @@ If <code class="language-plaintext highlighter-rouge">setReturnCriteria()</code>
 </span>
 <span class="p">...</span>
 
-<span class="n">sentences</span> <span class="o">=</span> <span class="p">[[</span><span class="s">"""The patient was given Warfarina Lusa and amlodipine 10 mg, coumadin 5 mg.
-                 The patient was given, Coumadin"""</span><span class="p">]]</span>
+<span class="n">sentences</span> <span class="o">=</span> <span class="p">[[</span><span class="s">"""The patient was given Warfarina lusa and amlodipine 10 mg, coumadin 5 mg.
+                 The patient was given Coumadin"""</span><span class="p">]]</span>
 </code></pre></div></div>
 
 <p><code class="language-plaintext highlighter-rouge">setLowerCase(True)</code> <em>Results</em> :</p>
@@ -680,7 +680,7 @@ If <code class="language-plaintext highlighter-rouge">setReturnCriteria()</code>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------------------+-----------+
 |chunk                   |mapped     |
 +------------------------+-----------+
-|Warfarina Lusa          |540228     |
+|Warfarina lusa          |540228     |
 |amlodipine              |329526     |
 |coumadin                |202421     |
 |Coumadin                |202421     |
@@ -693,10 +693,10 @@ If <code class="language-plaintext highlighter-rouge">setReturnCriteria()</code>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------------------+-----------+
 |chunk                   |mapped     |
 +------------------------+-----------+
-|Warfarina Lusa          |NONE       |
+|Warfarina lusa          |NONE       |
 |amlodipine              |329526     |
-|coumadin                |202421     |
-|Coumadin                |NONE       |
+|coumadin                |NONE       |
+|Coumadin                |202421     |
 +------------------------+-----------+
 </code></pre></div></div>
 
@@ -718,12 +718,12 @@ If <code class="language-plaintext highlighter-rouge">setReturnCriteria()</code>
 
 <p><em>Results</em> :</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----+---+--------------+---------+---------+
-|begin|end|        entity| mappings| relation|
-+-----+---+--------------+---------+---------+
-|   22| 35|Warfarina Lusa|Analgesic|   action|
-|   22| 35|Warfarina Lusa| diabetes|treatment|
-+-----+---+--------------+---------+---------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----+---+--------------+-------------+---------+
+|begin|end|        entity|     mappings| relation|
++-----+---+--------------+-------------+---------+
+|   22| 35|Warfarina Lusa|Anticoagulant|   action|
+|   22| 35|Warfarina Lusa|Heart Disease|treatment|
++-----+---+--------------+-------------+---------+
 </code></pre></div></div>
 
 <h5 id="filter-the-multi-token-chunks-separated-with-whitespace-in-chunkmapperapproach-and-chunkmappermodel-by-setallowmultitokenchunk-parameter">Filter the Multi-Token Chunks Separated With Whitespace in <code class="language-plaintext highlighter-rouge">ChunkMapperApproach</code> and <code class="language-plaintext highlighter-rouge">ChunkMapperModel</code> by <code class="language-plaintext highlighter-rouge">setAllowMultiTokenChunk()</code> Parameter</h5>
@@ -755,12 +755,12 @@ If <code class="language-plaintext highlighter-rouge">setReturnCriteria()</code>
 
 <p><code class="language-plaintext highlighter-rouge">setAllowMultiTokenChunk(True)</code> <em>Results</em> :</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----+---+--------------+---------+---------+
-|begin|end|         chunk| mappings| relation|
-+-----+---+--------------+---------+---------+
-|   22| 35|Warfarina Lusa|Analgesic|   action|
-|   22| 35|Warfarina Lusa| diabetes|treatment|
-+-----+---+--------------+---------+---------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----+---+--------------+-------------+---------+
+|begin|end|         chunk|     mappings| relation|
++-----+---+--------------+-------------+---------+
+|   22| 35|Warfarina Lusa|Anticoagulant|   action|
+|   22| 35|Warfarina Lusa|Heart Disease|treatment|
++-----+---+--------------+-------------+---------+
 </code></pre></div></div>
 
 <h4 id="new-license-validation-policies-in-license-validator">New License Validation Policies in License Validator</h4>
@@ -785,7 +785,7 @@ If <code class="language-plaintext highlighter-rouge">setReturnCriteria()</code>
   <li><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb">Clinical Named Entity Recognition Notebook</a> <br />
  <code class="language-plaintext highlighter-rouge">.setReplaceLabels</code> parameter example was added.</li>
   <li><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/26.Chunk_Mapping.ipynb">Chunk Mapping Notebook</a> <br />
- New case sensitivity, selecting multiple relations, filtering multi-token chunks and <code class="language-plaintext highlighter-rouge">ChunkMapperFiltererModel</code> features were added.</li>
+ New case sensitivity, selecting multiple relations, filtering multi-token chunks and <code class="language-plaintext highlighter-rouge">ChunkMapperFilterer</code> features were added.</li>
 </ul>
 
 <h4 id="list-of-recently-updated-models">List of Recently Updated Models</h4>
@@ -1037,9 +1037,9 @@ If <code class="language-plaintext highlighter-rouge">setReturnCriteria()</code>
 <p><em>Example:</em></p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>input <span class="o">=</span> <span class="o">[</span><span class="s2">"""Gravid with estimated fetal weight of 6-6/12 pounds.
-            LABORATORY DATA: Laboratory tests include a CBC which is normal. 
+            LABORATORY DATA: Laboratory tests include a CBC which is normal.
             HIV: Negative. One-Hour Glucose: 117. Group B strep has not been done as yet."""</span><span class="o">]</span>
-           
+
 <span class="o">&gt;&gt;</span> output:
 +------------+----------------------------+
 |Abbreviation|Definition                  |
@@ -1058,7 +1058,7 @@ If <code class="language-plaintext highlighter-rouge">setReturnCriteria()</code>
 <p><em>Example:</em></p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>input <span class="o">=</span> <span class="o">[</span><span class="s1">'Sinequan 150 MG'</span>, <span class="s1">'Zonalon 50 mg'</span><span class="o">]</span>
-           
+
 <span class="o">&gt;&gt;</span> output:
 +---------------+------------+---------------+
 |chunk          |rxnorm_code |Action         |
@@ -1077,7 +1077,7 @@ If <code class="language-plaintext highlighter-rouge">setReturnCriteria()</code>
 <p><em>Example:</em></p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>input <span class="o">=</span> <span class="o">[</span><span class="s1">'doxepin hydrochloride 50 MG/ML'</span>, <span class="s1">'macadamia nut 100 MG/ML'</span><span class="o">]</span>
-           
+
 <span class="o">&gt;&gt;</span> output:
 +------------------------------+------------+------------+
 |chunk                         |rxnorm_code |Product NDC |
