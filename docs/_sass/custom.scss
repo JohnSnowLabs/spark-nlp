@@ -2096,6 +2096,16 @@ code {
 	display: flex;
 	justify-content: center;
 	margin: 0;
+	&.pagination_big {
+		flex-wrap: wrap;
+		li {
+			padding: 0 !important;
+			margin: 0 3px;
+			&.active a {
+				color: #ff8a00;
+			}
+		}
+	}
 	li {
 		margin: 0 15px;
 		list-style-type: none;
