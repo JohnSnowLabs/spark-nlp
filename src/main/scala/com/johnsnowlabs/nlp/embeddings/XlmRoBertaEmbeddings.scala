@@ -277,20 +277,31 @@ class XlmRoBertaEmbeddings(override val uid: String)
     *   relationship
     */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations
-      .map(annotations => TokenizedWithSentence.unpack(annotations).toArray)
-      .toArray
+    // Unpack annotations and zip each sentence to the index or the row it belongs to
+    val sentencesWithRow = batchedAnnotations.zipWithIndex
+      .flatMap { case (annotations, i) =>
+        TokenizedWithSentence.unpack(annotations).toArray.map(x => (x, i))
+      }
 
-    /*Return empty if the real tokens are empty*/
-    if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
+    val sentenceWordEmbeddings =
+      getModelIfNotSet.predict(sentencesWithRow.map(_._1), $(batchSize), $(maxSentenceLength))
 
-      val embeddings =
-        getModelIfNotSet.predict(tokenizedSentences, $(batchSize), $(maxSentenceLength))
-      WordpieceEmbeddingsSentence.pack(embeddings)
+    // Group resulting annotations by rows. If there are not sentences in a given row, return empty sequence
+    batchedAnnotations.indices.map(rowIndex => {
+      val rowEmbeddings = sentenceWordEmbeddings
+        // zip each annotation with its corresponding row index
+        .zip(sentencesWithRow)
+        // select the sentences belonging to the current row
+        .filter(_._2._2 == rowIndex)
+        // leave the annotation only
+        .map(_._1)
+
+      if (rowEmbeddings.nonEmpty)
+        WordpieceEmbeddingsSentence.pack(rowEmbeddings)
+      else
+        Seq.empty[Annotation]
     })
-    else {
-      Seq(Seq.empty[Annotation])
-    }
+
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
