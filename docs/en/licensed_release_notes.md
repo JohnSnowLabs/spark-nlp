@@ -162,8 +162,8 @@ chunkerMapperapproach = ChunkMapperApproach() \
 
 ...
 
-sentences = [["""The patient was given Warfarina Lusa and amlodipine 10 mg, coumadin 5 mg.
-                 The patient was given, Coumadin"""]]
+sentences = [["""The patient was given Warfarina lusa and amlodipine 10 mg, coumadin 5 mg.
+                 The patient was given Coumadin"""]]
 ```
 
 `setLowerCase(True)` *Results* :
@@ -172,7 +172,7 @@ sentences = [["""The patient was given Warfarina Lusa and amlodipine 10 mg, coum
 +------------------------+-----------+
 |chunk                   |mapped     |
 +------------------------+-----------+
-|Warfarina Lusa          |540228     |
+|Warfarina lusa          |540228     |
 |amlodipine              |329526     |
 |coumadin                |202421     |
 |Coumadin                |202421     |
@@ -186,10 +186,10 @@ sentences = [["""The patient was given Warfarina Lusa and amlodipine 10 mg, coum
 +------------------------+-----------+
 |chunk                   |mapped     |
 +------------------------+-----------+
-|Warfarina Lusa          |NONE       |
+|Warfarina lusa          |NONE       |
 |amlodipine              |329526     |
-|coumadin                |202421     |
-|Coumadin                |NONE       |
+|coumadin                |NONE       |
+|Coumadin                |202421     |
 +------------------------+-----------+
 ```
 
