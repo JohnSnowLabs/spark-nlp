@@ -129,6 +129,7 @@ class TensorflowClassifier(
         tensors.clearTensors()
       }
       acc /= (trainDatasetSeq.length / batchSize)
+      acc = acc.min(1.0f).max(0.0f)
 
       if (validationSplit > 0.0) {
         val validationAccuracy =
