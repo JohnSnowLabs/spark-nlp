@@ -72,15 +72,15 @@ import java.io.File
   * val result = pipeline.fit(data).transform(data)
   *
   * result.select("label.result").show(false)
-  * ---------------------+
-  * result               |
-  * ---------------------+
-  * [Clara]              |
-  * +--------------------+
+  * +---------------------+
+  * |result               |
+  * +---------------------+
+  * |[Clara]              |
+  * ++--------------------+
   * }}}
   *
   * @see
-  *   [[BertForQuestionAnswering]] for span-level classification
+  *   [[BertForSequenceClassification]] for span-level classification
   * @see
   *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
   *   transformer based classifiers
@@ -163,7 +163,7 @@ class BertForQuestionAnswering(override val uid: String)
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
-  /** Max sentence length to process (Default: `128`)
+  /** Max sentence length to process (Default: `512`)
     *
     * @group param
     */
@@ -224,7 +224,7 @@ class BertForQuestionAnswering(override val uid: String)
   /** @group getParam */
   def getModelIfNotSet: TensorflowBertClassification = _model.get.value
 
-  /** Whether to lowercase tokens or not
+  /** Whether to lowercase tokens or not (Default: `true`).
     *
     * @group setParam
     */

@@ -77,15 +77,15 @@ import java.io.File
   * val result = pipeline.fit(data).transform(data)
   *
   * result.select("label.result").show(false)
-  * ---------------------+
-  * result               |
-  * ---------------------+
-  * [Clara]              |
-  * +--------------------+
+  * +---------------------+
+  * |result               |
+  * +---------------------+
+  * |[Clara]              |
+  * ++--------------------+
   * }}}
   *
   * @see
-  *   [[AlbertForQuestionAnswering]] for sequence-level classification
+  *   [[AlbertForSequenceClassification]] for sequence-level classification
   * @see
   *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
   *   transformer based classifiers
@@ -210,7 +210,7 @@ class AlbertForQuestionAnswering(override val uid: String)
   /** @group getParam */
   def getModelIfNotSet: TensorflowAlbertClassification = _model.get.value
 
-  /** Whether to lowercase tokens or not
+  /** Whether to lowercase tokens or not (Default: `false`).
     *
     * @group setParam
     */

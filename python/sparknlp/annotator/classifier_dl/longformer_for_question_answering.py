@@ -52,7 +52,7 @@ class LongformerForQuestionAnswering(AnnotatorModel,
         memory, by default 8
     caseSensitive
         Whether to ignore case in tokens for embeddings matching, by default
-        True
+        False
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     maxSentenceLength
