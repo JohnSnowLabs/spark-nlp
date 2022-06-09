@@ -9,9 +9,9 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Spark OCR | John Snow Labs</title><meta name="description" content="High Performance NLP with Apache Spark
+<!-- End Google Tag Manager --><title>Spark NLP</title><meta name="description" content="High Performance NLP with Apache Spark
 ">
-<link rel="canonical" href="/docs/en/ocr_release_notes_2"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<link rel="canonical" href="/docs/en/spark_nlp_versions/release_notes_2_6_4"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -388,7 +388,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark OCR</li><li class="toc-h2"><a href="/docs/en/ocr">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/ocr_install">Installation</a></li><li class="toc-h2"><a href="/docs/en/version_compatibility">Version Compatibility</a></li><li class="toc-h2"><a href="/docs/en/ocr_pipeline_components">Pipeline components</a></li><li class="toc-h2"><a href="/docs/en/ocr_table_recognition">Table recognition</a></li><li class="toc-h2"><a href="/docs/en/ocr_visual_document_understanding">Visual document understanding</a></li><li class="toc-h2"><a href="/docs/en/ocr_object_detection">Object detection</a></li><li class="toc-h2"><a href="/docs/en/ocr_structures">Structures and helpers</a></li><li class="toc-h2"><a href="/docs/en/ocr_release_notes">Release notes</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU benchmarks</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59JLR64"
@@ -519,390 +519,85 @@
 <!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/Article"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-nav"><div class="main-docs">
   <ul class="breadcrambs">
     <li><a href="/docs">Documentation</a></li>
-    <li>Spark OCR release notes</li>
+    <li>Spark NLP release notes 2.6.4</li>
   </ul>
-</div></div><header class="main-docs"><h1>Spark OCR release notes</h1></header><span class="split-space">&nbsp;</span>
+</div></div><header class="main-docs"><h1>Spark NLP release notes 2.6.4</h1></header><span class="split-space">&nbsp;</span>
           <a class="edit-on-github"
             title="Edit on Github"
-            href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/en/ocr_release_notes_2.md">
-            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark OCR release notes"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
+            href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/en/spark_nlp_versions/release_notes_2_6_4.md">
+            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP release notes 2.6.4"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="1110">1.11.0</h2>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h3 id="264">2.6.4</h3>
 
-<p>Release date: 25-02-2021</p>
+<h4 id="john-snow-labs-spark-nlp-264-a-few-bug-fixes-and-other-improvements">John Snow Labs Spark-NLP 2.6.4: A few bug fixes and other improvements!</h4>
 
-<h4 id="overview">Overview</h4>
-
-<p>Support German, French, Spanish and Russian languages.
-Improving <a href="ocr_pipeline_components#positionsfinder">PositionsFinder</a> and ImageToText for better support de-identification.</p>
-
-<h4 id="new-features">New Features</h4>
-
-<ul>
-  <li>Loading model data from S3 in <a href="ocr_pipeline_components#imagetotext">ImageToText</a>.</li>
-  <li>Added support German, French, Spanish, Russian languages in <a href="ocr_pipeline_components#imagetotext">ImageToText</a>.</li>
-  <li>Added different OCR model types: Base, Best, Fast in <a href="ocr_pipeline_components#imagetotext">ImageToText</a>.</li>
-</ul>
-
-<h4 id="enhancements">Enhancements</h4>
-
-<ul>
-  <li>Added spaces symbols to the output positions in the <a href="ocr_pipeline_components#imagetotext">ImageToText</a> transformer.</li>
-  <li>Eliminate python-levensthein from dependencies for simplify installation.</li>
-</ul>
-
-<h4 id="bugfixes">Bugfixes</h4>
-
-<ul>
-  <li>Fixed issue with extracting coordinates in  in <a href="ocr_pipeline_components#imagetotext">ImageToText</a>.</li>
-  <li>Fixed loading model data on cluster in yarn mode.</li>
-</ul>
-
-<h4 id="new-notebooks">New notebooks</h4>
-
-<ul>
-  <li><a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/1.11.0/jupyter/SparkOcrLanguagesSupport.ipynb">Languages Support</a></li>
-  <li><a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/1.11.0/jupyter/SparkOcrImageDeIdentification.ipynb">Image DeIdentification</a></li>
-</ul>
-
-<h2 id="1100">1.10.0</h2>
-
-<p>Release date: 20-01-2021</p>
-
-<h4 id="overview-1">Overview</h4>
-
-<p>Support Microsoft Docx documents.</p>
-
-<h4 id="new-features-1">New Features</h4>
-
-<ul>
-  <li>Added <a href="ocr_pipeline_components#doctotext">DocToText</a> transformer for extract text
-from DOCX documents.</li>
-  <li>Added <a href="ocr_pipeline_components#doctotexttable">DocToTextTable</a> transformer for extract
-table data from DOCX documents.</li>
-  <li>Added <a href="ocr_pipeline_components#doctopdf">DocToPdf</a> transformer for convert DOCX
- documents to PDF format.</li>
-</ul>
-
-<h4 id="bugfixes-1">Bugfixes</h4>
-
-<ul>
-  <li>Fixed issue with loading model data on some cluster configurations</li>
-</ul>
-
-<h2 id="190">1.9.0</h2>
-
-<p>Release date: 11-12-2020</p>
-
-<h4 id="overview-2">Overview</h4>
-
-<p>Extension of  FoundationOne report parser and support HOCR output format.</p>
-
-<h4 id="new-features-2">New Features</h4>
-
-<ul>
-  <li>Added <a href="ocr_pipeline_components#imagetohocr">ImageToHocr</a> transformer for recognize text from image and store it to HOCR format.</li>
-  <li>Added parsing gene lists from ‘Appendix’ in <a href="ocr_pipeline_components#foundationonereportparser">FoundationOneReportParser</a> transformer.</li>
-</ul>
-
-<h2 id="180">1.8.0</h2>
-
-<p>Release date: 20-11-2020</p>
-
-<h4 id="overview-3">Overview</h4>
-
-<p>Optimisation performance for processing multipage PDF documents.
-Support up to 10k pages per document.</p>
-
-<h4 id="new-features-3">New Features</h4>
-
-<ul>
-  <li>Added <a href="ocr_pipeline_components#imageadaptivebinarizer">ImageAdaptiveBinarizer</a> Scala transformer with support:
-    <ul>
-      <li>Gaussian local thresholding</li>
-      <li>Otsu thresholding</li>
-      <li>Sauvola local thresholding</li>
-    </ul>
-  </li>
-  <li>Added possibility to split pdf to small documents for optimize processing in <a href="ocr_pipeline_components#pdftoimage">PdfToImage</a>.</li>
-</ul>
-
-<h4 id="enhancements-1">Enhancements</h4>
-
-<ul>
-  <li>Added applying binarization in <a href="ocr_pipeline_components#pdftoimage">PdfToImage</a> for optimize memory usage.</li>
-  <li>Added <code class="language-plaintext highlighter-rouge">pdfCoordinates</code> param to the <a href="ocr_pipeline_components#imagetotext">ImageToText</a> transformer.</li>
-  <li>Added ‘total_pages’ field to the <a href="ocr_pipeline_components#pdftoimage">PdfToImage</a> transformer.</li>
-  <li>Added different splitting strategies to the <a href="ocr_pipeline_components#pdftoimage">PdfToImage</a> transformer.</li>
-  <li>Simplified paging <a href="ocr_pipeline_components#pdftoimage">PdfToImage</a> when run it with splitting to small PDF.</li>
-  <li>Added params to the <a href="ocr_pipeline_components#pdftotext">PdfToText</a> for disable extra functionality.</li>
-  <li>Added <code class="language-plaintext highlighter-rouge">master_url</code> param to the python <a href="ocr_install#using-start-function">start</a> function.</li>
-</ul>
-
-<h2 id="170">1.7.0</h2>
-
-<p>Release date: 22-09-2020</p>
-
-<h4 id="overview-4">Overview</h4>
-
-<p>Support Spark 2.3.3.</p>
-
-<h4 id="bugfixes-2">Bugfixes</h4>
-
-<ul>
-  <li>Restored read JPEG2000 image</li>
-</ul>
-
-<h2 id="160">1.6.0</h2>
-
-<p>Release date: 05-09-2020</p>
-
-<h4 id="overview-5">Overview</h4>
-
-<p>Support parsing data from tables for selectable PDFs.</p>
-
-<h4 id="new-features-4">New Features</h4>
-
-<ul>
-  <li>Added <a href="ocr_pipeline_components#pdftotexttable">PdfToTextTable</a> transformer for extract tables from Pdf document per each page.</li>
-  <li>Added <a href="ocr_pipeline_components#imagecropper">ImageCropper</a> transformer for crop images.</li>
-  <li>Added <a href="ocr_pipeline_components#imagebrandstotext">ImageBrandsToText</a> transformer for detect text in defined areas.</li>
-</ul>
-
-<h2 id="150">1.5.0</h2>
-
-<p>Release date: 22-07-2020</p>
-
-<h4 id="overview-6">Overview</h4>
-
-<p>FoundationOne report parsing support.</p>
-
-<h4 id="enhancements-2">Enhancements</h4>
-
-<ul>
-  <li>Optimized memory usage during image processing</li>
-</ul>
-
-<h4 id="new-features-5">New Features</h4>
-
-<ul>
-  <li>Added <a href="ocr_pipeline_components#foundationonereportparser">FoundationOneReportParser</a> which support parsing patient info,
-genomic and biomarker findings.</li>
-</ul>
-
-<h2 id="140">1.4.0</h2>
-
-<p>Release date: 23-06-2020</p>
-
-<h4 id="overview-7">Overview</h4>
-
-<p>Added support Dicom format and improved support image morphological operations.</p>
-
-<h4 id="enhancements-3">Enhancements</h4>
-
-<ul>
-  <li>Updated <a href="ocr_install#using-start-function">start</a> function. Improved support Spark NLP internal.</li>
-  <li><code class="language-plaintext highlighter-rouge">ImageMorphologyOpening</code> and <code class="language-plaintext highlighter-rouge">ImageErosion</code> are removed.</li>
-  <li>Improved existing transformers for support de-identification Dicom documents.</li>
-  <li>Added possibility to draw filled rectangles to <a href="ocr_pipeline_components#imagedrawregions">ImageDrawRegions</a>.</li>
-</ul>
-
-<h4 id="new-features-6">New Features</h4>
-
-<ul>
-  <li>Support reading and writing Dicom documents.</li>
-  <li>Added <a href="ocr_pipeline_components#imagemorphologyoperation">ImageMorphologyOperation</a> transformer which support:
- erosion, dilation, opening and closing operations.</li>
-</ul>
-
-<h4 id="bugfixes-3">Bugfixes</h4>
-
-<ul>
-  <li>Fixed issue in <a href="ocr_pipeline_components#imagetotext">ImageToText</a> related to extraction coordinates.</li>
-</ul>
-
-<h2 id="130">1.3.0</h2>
-
-<p>Release date: 22-05-2020</p>
-
-<h4 id="overview-8">Overview</h4>
-
-<p>New functionality for de-identification problem.</p>
-
-<h4 id="enhancements-4">Enhancements</h4>
-
-<ul>
-  <li>Renamed TesseractOCR to ImageToText.</li>
-  <li>Simplified installation.</li>
-  <li>Added check license from <code class="language-plaintext highlighter-rouge">SPARK_NLP_LICENSE</code> env varibale.</li>
-</ul>
-
-<h4 id="new-features-7">New Features</h4>
-
-<ul>
-  <li>Support storing for binaryFormat. Added support storing Image and PDF files.</li>
-  <li>Support selectable pdf for <a href="ocr_pipeline_components#texttopdf">TextToPdf</a> transformer.</li>
-  <li>Added <a href="ocr_pipeline_components#updatetextposition">UpdateTextPosition</a> transformer.</li>
-</ul>
-
-<h2 id="120">1.2.0</h2>
-
-<p>Release date: 08-04-2020</p>
-
-<h4 id="overview-9">Overview</h4>
-
-<p>Improved support Databricks and processing selectable pdfs.</p>
-
-<h4 id="enhancements-5">Enhancements</h4>
-
-<ul>
-  <li>Adapted Spark OCR for run on Databricks.</li>
-  <li>Added rewriting positions in <a href="ocr_pipeline_components#imagetotext">ImageToText</a> when run together with PdfToText.</li>
-  <li>Added ‘positionsCol’ param to <a href="ocr_pipeline_components#imagetotext">ImageToText</a>.</li>
-  <li>Improved support Spark NLP. Changed <a href="/ocr_install#using-start-function">start</a> function.</li>
-</ul>
-
-<h4 id="new-features-8">New Features</h4>
-
-<ul>
-  <li>Added <a href="ocr_structures#showimages">showImage</a> implicit to Dataframe for display images in Scala Databricks notebooks.</li>
-  <li>Added <a href="ocr_structures#display_images">display_images</a> function for display images in Python Databricks notebooks.</li>
-  <li>Added propagation selectable pdf file in <a href="ocr_pipeline_components#texttopdf">TextToPdf</a>. Added ‘inputContent’ param to ‘TextToPdf’.</li>
-</ul>
-
-<h2 id="112">1.1.2</h2>
-
-<p>Release date: 09-03-2020</p>
-
-<h4 id="overview-10">Overview</h4>
-
-<p>Minor improvements and fixes</p>
-
-<h4 id="enhancements-6">Enhancements</h4>
-
-<ul>
-  <li>Improved messages during license validation</li>
-</ul>
-
-<h4 id="bugfixes-4">Bugfixes</h4>
-
-<ul>
-  <li>Fixed dependencies issue</li>
-</ul>
-
-<h2 id="111">1.1.1</h2>
-
-<p>Release date: 06-03-2020</p>
-
-<h4 id="overview-11">Overview</h4>
-
-<p>Integration with license server.</p>
-
-<h4 id="enhancements-7">Enhancements</h4>
-
-<ul>
-  <li>Added license validation. License can be set in following waysq:
-    <ul>
-      <li>Environment variable. Set variable ‘JSL_OCR_LICENSE’.</li>
-      <li>System property. Set property ‘jsl.sparkocr.settings.license’.</li>
-      <li>Application.conf file. Set property ‘jsl.sparkocr.settings.license’.</li>
-    </ul>
-  </li>
-  <li>Added auto renew license using jsl license server.</li>
-</ul>
-
-<h2 id="110">1.1.0</h2>
-
-<p>Release date: 03-03-2020</p>
-
-<h4 id="overview-12">Overview</h4>
-
-<p>This release contains improvements for preprocessing image before run OCR and
-added possibility to store results to PDF for keep original formatting.</p>
-
-<h4 id="new-features-9">New Features</h4>
-
-<ul>
-  <li>Added auto calculation maximum size of objects for removing in <code class="language-plaintext highlighter-rouge">ImageRemoveObjects</code>.
-This improvement avoids to remove <code class="language-plaintext highlighter-rouge">.</code> and affect symbols with dots (<code class="language-plaintext highlighter-rouge">i</code>, <code class="language-plaintext highlighter-rouge">!</code>, <code class="language-plaintext highlighter-rouge">?</code>).
-Added <code class="language-plaintext highlighter-rouge">minSizeFont</code> param to <code class="language-plaintext highlighter-rouge">ImageRemoveObjects</code> transformer for
-activate this functional.</li>
-  <li>Added <code class="language-plaintext highlighter-rouge">ocrParams</code> parameter to <code class="language-plaintext highlighter-rouge">ImageToText</code> transformer for set any
-ocr params.</li>
-  <li>Added extraction font size in <code class="language-plaintext highlighter-rouge">ImageToText</code></li>
-  <li>Added <code class="language-plaintext highlighter-rouge">TextToPdf</code> transformer for render text with positions to pdf file.</li>
-</ul>
-
-<h4 id="enhancements-8">Enhancements</h4>
-
-<ul>
-  <li>Added setting resolution in <code class="language-plaintext highlighter-rouge">ImageToText</code>. And added <code class="language-plaintext highlighter-rouge">ignoreResolution</code> param with
-default <code class="language-plaintext highlighter-rouge">true</code> value to <code class="language-plaintext highlighter-rouge">ImageToText</code> transformer for back compatibility.</li>
-  <li>Added parsing resolution from image metadata in <code class="language-plaintext highlighter-rouge">BinaryToImage</code> transformer.</li>
-  <li>Added storing resolution in <code class="language-plaintext highlighter-rouge">PdfToImage</code> transformer.</li>
-  <li>Added resolution field to Image schema.</li>
-  <li>Updated ‘start’ function for set ‘PYSPARK_PYTHON’ env variable.</li>
-  <li>Improve auto-scaling/skew correction:
-    <ul>
-      <li>improved access to images values</li>
-      <li>removing unnecessary copies of images</li>
-      <li>adding more test cases</li>
-      <li>improving auto-correlation in auto-scaling.</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="100">1.0.0</h2>
-
-<p>Release date: 12-02-2020</p>
-
-<h4 id="overview-13">Overview</h4>
-
-<p>Spark NLP OCR functionality was reimplemented as set of Spark ML transformers and
-moved to separate Spark OCR library.</p>
-
-<h4 id="new-features-10">New Features</h4>
-
-<ul>
-  <li>Added extraction coordinates of each symbol in ImageToText</li>
-  <li>Added ImageDrawRegions transformer</li>
-  <li>Added ImageToPdf transformer</li>
-  <li>Added ImageMorphologyOpening transformer</li>
-  <li>Added ImageRemoveObjects transformer</li>
-  <li>Added ImageAdaptiveThresholding transformer</li>
-</ul>
-
-<h4 id="enhancements-9">Enhancements</h4>
-
-<ul>
-  <li>Reimplement main functionality as Spark ML transformers</li>
-  <li>Moved DrawRectangle functionality to PdfDrawRegions transformer</li>
-  <li>Added ‘start’ function with support SparkMonitor initialization</li>
-  <li>Moved PositionFinder to Spark OCR</li>
-</ul>
-
-<h4 id="bugfixes-5">Bugfixes</h4>
-
-<ul>
-  <li>Fixed bug with transforming complex pdf to image</li>
-</ul>
+<p><strong>For more details please check the official <a href="https://github.com/JohnSnowLabs/spark-nlp/releases/tag/2.6.4">release notes</a></strong></p>
 
 <div class="prev_ver h3-box">
 
-  <h2 id="next-versions">Next versions</h2>
+  <h2 id="versions">Versions</h2>
 
 </div>
+
 <ul class="pagination">
     <li>
-        <strong>Versions 1.0.0</strong>
+        <a href="release_notes_2_6_3">Version 2.6.3</a>
     </li>
     <li>
-        <a href="ocr_release_notes">Versions 3.0.0</a>
+        <strong>Version 2.6.4</strong>
+    </li>
+    <li>
+        <a href="release_notes_2_6_5">Version 2.6.5</a>
     </li>
 </ul>
+
+<ul class="pagination pagination_big">
+  <li><a href="release_notes_3_4_0">3.4.0</a></li>
+  <li><a href="release_notes_3_3_4">3.3.4</a></li>
+  <li><a href="release_notes_3_3_3">3.3.3</a></li>
+  <li><a href="release_notes_3_3_2">3.3.2</a></li>
+  <li><a href="release_notes_3_3_1">3.3.1</a></li>
+  <li><a href="release_notes_3_3_0">3.3.0</a></li>
+  <li><a href="release_notes_3_2_3">3.2.3</a></li>
+  <li><a href="release_notes_3_2_2">3.2.2</a></li>
+  <li><a href="release_notes_3_2_1">3.2.1</a></li>
+  <li><a href="release_notes_3_2_0">3.2.0</a></li>
+  <li><a href="release_notes_3_1_3">3.1.3</a></li>
+  <li><a href="release_notes_3_1_2">3.1.2</a></li>
+  <li><a href="release_notes_3_1_1">3.1.1</a></li>
+  <li><a href="release_notes_3_1_0">3.1.0</a></li>
+  <li><a href="release_notes_3_0_3">3.0.3</a></li>
+  <li><a href="release_notes_3_0_2">3.0.2</a></li>
+  <li><a href="release_notes_3_0_1">3.0.1</a></li>
+  <li><a href="release_notes_3_0_0">3.0.0</a></li>
+  <li><a href="release_notes_2_7_5">2.7.5</a></li>
+  <li><a href="release_notes_2_7_4">2.7.4</a></li>
+  <li><a href="release_notes_2_7_3">2.7.3</a></li>
+  <li><a href="release_notes_2_7_2">2.7.2</a></li>
+  <li><a href="release_notes_2_7_1">2.7.1</a></li>
+  <li><a href="release_notes_2_7_0">2.7.0</a></li>
+  <li><a href="release_notes_2_6_5">2.6.5</a></li>
+  <li class="active"><a href="release_notes_2_6_4">2.6.4</a></li>
+  <li><a href="release_notes_2_6_3">2.6.3</a></li>
+  <li><a href="release_notes_2_6_2">2.6.2</a></li>
+  <li><a href="release_notes_2_6_1">2.6.1</a></li>
+  <li><a href="release_notes_2_6_0">2.6.0</a></li>
+  <li><a href="release_notes_2_5_5">2.5.5</a></li>
+  <li><a href="release_notes_2_5_4">2.5.4</a></li>
+  <li><a href="release_notes_2_5_3">2.5.3</a></li>
+  <li><a href="release_notes_2_5_2">2.5.2</a></li>
+  <li><a href="release_notes_2_5_1">2.5.1</a></li>
+  <li><a href="release_notes_2_5_0">2.5.0</a></li>
+  <li><a href="release_notes_2_4_5">2.4.5</a></li>
+  <li><a href="release_notes_2_4_4">2.4.4</a></li>
+  <li><a href="release_notes_2_4_3">2.4.3</a></li>
+  <li><a href="release_notes_2_4_2">2.4.2</a></li>
+  <li><a href="release_notes_2_4_1">2.4.1</a></li>
+  <li><a href="release_notes_2_4_0">2.4.0</a></li>
+</ul>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2020-04-08T00:00:00+00:00">Apr 08, 2020</time>
+      <time itemprop="dateModified" datetime="2022-01-06T00:00:00+00:00">Jan 06, 2022</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -1028,7 +723,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/ocr_release_notes">Release notes</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/release_notes">Release Notes</a></div></div></div>
 
 </div>
 </div>

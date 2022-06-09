@@ -6671,6 +6671,13 @@ code {
   display: flex;
   justify-content: center;
   margin: 0; }
+  .pagination.pagination_big {
+    flex-wrap: wrap; }
+    .pagination.pagination_big li {
+      padding: 0 !important;
+      margin: 0 3px; }
+      .pagination.pagination_big li.active a {
+        color: #ff8a00; }
   .pagination li {
     margin: 0 15px;
     list-style-type: none; }
