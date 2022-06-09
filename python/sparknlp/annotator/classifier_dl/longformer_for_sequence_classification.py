@@ -56,10 +56,14 @@ class LongformerForSequenceClassification(AnnotatorModel,
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     maxSentenceLength
-        Max sentence length to process, by default 128
+        Max sentence length to process, by default 4096
     coalesceSentences
-        Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging
-        probabilities in all sentences.
+        Instead of 1 class per sentence (if inputCols is `sentence`) output
+        1 class per document by averaging probabilities in all sentences, by 
+        default False.
+    activation
+        Whether to calculate logits via Softmax or Sigmoid, by default
+        `"softmax"`.
 
     Examples
     --------

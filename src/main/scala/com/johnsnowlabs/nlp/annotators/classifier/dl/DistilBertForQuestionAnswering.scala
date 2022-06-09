@@ -27,9 +27,9 @@ import org.apache.spark.sql.SparkSession
 
 import java.io.File
 
-/** DistilBertForQuestionAnswering can load Bert Models with a span classification head on top for
-  * extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states
-  * output to compute span start logits and span end logits).
+/** DistilBertForQuestionAnswering can load DistilBert Models with a span classification head on
+  * top for extractive question-answering tasks like SQuAD (a linear layer on top of the
+  * hidden-states output to compute span start logits and span end logits).
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
@@ -71,15 +71,15 @@ import java.io.File
   * val result = pipeline.fit(data).transform(data)
   *
   * result.select("label.result").show(false)
-  * ---------------------+
-  * result               |
-  * ---------------------+
-  * [Clara]              |
-  * +--------------------+
+  * +---------------------+
+  * |result               |
+  * +---------------------+
+  * |[Clara]              |
+  * ++--------------------+
   * }}}
   *
   * @see
-  *   [[DistilBertForQuestionAnswering]] for sequence-level classification
+  *   [[DistilBertForSequenceClassification]] for sequence-level classification
   * @see
   *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
   *   transformer based classifiers
@@ -223,7 +223,7 @@ class DistilBertForQuestionAnswering(override val uid: String)
   /** @group getParam */
   def getModelIfNotSet: TensorflowDistilBertClassification = _model.get.value
 
-  /** Whether to lowercase tokens or not
+  /** Whether to lowercase tokens or not (Default: `true`).
     *
     * @group setParam
     */

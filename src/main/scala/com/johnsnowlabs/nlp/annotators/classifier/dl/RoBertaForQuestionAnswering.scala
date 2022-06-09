@@ -71,15 +71,15 @@ import java.io.File
   * val result = pipeline.fit(data).transform(data)
   *
   * result.select("label.result").show(false)
-  * ---------------------+
-  * result               |
-  * ---------------------+
-  * [Clara]              |
-  * +--------------------+
+  * +---------------------+
+  * |result               |
+  * +---------------------+
+  * |[Clara]              |
+  * ++--------------------+
   * }}}
   *
   * @see
-  *   [[RoBertaForQuestionAnswering]] for sequence-level classification
+  *   [[RoBertaForSequenceClassification]] for sequence-level classification
   * @see
   *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
   *   transformer based classifiers
@@ -236,7 +236,7 @@ class RoBertaForQuestionAnswering(override val uid: String)
   /** @group getParam */
   def getModelIfNotSet: TensorflowRoBertaClassification = _model.get.value
 
-  /** Whether to lowercase tokens or not
+  /** Whether to lowercase tokens or not (Default: `true`).
     *
     * @group setParam
     */
