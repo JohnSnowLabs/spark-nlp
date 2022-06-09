@@ -16,7 +16,7 @@ sidebar:
 #### Highlights
 
 + New `rxnorm_mapper` model
-+ New `ChunkMapperFiltererModel` annotator to filter `ChunkMapperModel` results
++ New `ChunkMapperFilterer` annotator to filter `ChunkMapperModel` results
 + New features
   - Add the `setReplaceLabels` parameter that allows replacing the non-conventional labels without using an external source file in the `NerConverterInternal()`.
   - Case sensitivity can be set in `ChunkMapperApproach` and `ChunkMapperModel` through `setLowerCase()` parameter.
@@ -57,14 +57,14 @@ sample_text = "The patient was given Zyrtec 10 MG, Adapin 10 MG Oral Capsule, Se
  +------------------------------+---------------+
 ```
 
-#### New `ChunkMapperFiltererModel` Annotator to Filter `ChunkMapperModel` Results
-`ChunkMapperFiltererModel` annotator allows filtering of the chunks that were passed through the `ChunkMapperModel`.
+#### New `ChunkMapperFilterer` Annotator to Filter `ChunkMapperModel` Results
+`ChunkMapperFilterer` annotator allows filtering of the chunks that were passed through the `ChunkMapperModel`.
 If `setReturnCriteria()` is set as `"success"`, only the chunks which are mapped by `ChunkMapperModel` are returned. Otherwise, if `setReturnCriteria()` is set as `"fail"`, only the chunks which are not mapped by ChunkMapperModel are returned.
 
 *Example* :
 ```python
 ...
-cfModel = ChunkMapperFiltererModel() \
+cfModel = ChunkMapperFilterer() \
             .setInputCols(["ner_chunk","mappings"]) \
             .setOutputCol("chunks_filtered")\
             .setReturnCriteria("success") #or "fail"
@@ -162,8 +162,8 @@ chunkerMapperapproach = ChunkMapperApproach() \
 
 ...
 
-sentences = [["""The patient was given Warfarina Lusa and amlodipine 10 mg, coumadin 5 mg.
-                 The patient was given, Coumadin"""]]
+sentences = [["""The patient was given Warfarina lusa and amlodipine 10 mg, coumadin 5 mg.
+                 The patient was given Coumadin"""]]
 ```
 
 `setLowerCase(True)` *Results* :
@@ -172,7 +172,7 @@ sentences = [["""The patient was given Warfarina Lusa and amlodipine 10 mg, coum
 +------------------------+-----------+
 |chunk                   |mapped     |
 +------------------------+-----------+
-|Warfarina Lusa          |540228     |
+|Warfarina lusa          |540228     |
 |amlodipine              |329526     |
 |coumadin                |202421     |
 |Coumadin                |202421     |
@@ -186,10 +186,10 @@ sentences = [["""The patient was given Warfarina Lusa and amlodipine 10 mg, coum
 +------------------------+-----------+
 |chunk                   |mapped     |
 +------------------------+-----------+
-|Warfarina Lusa          |NONE       |
+|Warfarina lusa          |NONE       |
 |amlodipine              |329526     |
-|coumadin                |202421     |
-|Coumadin                |NONE       |
+|coumadin                |NONE       |
+|Coumadin                |202421     |
 +------------------------+-----------+
 ```
 
@@ -213,12 +213,12 @@ sample_text = "The patient was given Warfarina Lusa."
 *Results* :
 
 ```bash
-+-----+---+--------------+---------+---------+
-|begin|end|        entity| mappings| relation|
-+-----+---+--------------+---------+---------+
-|   22| 35|Warfarina Lusa|Analgesic|   action|
-|   22| 35|Warfarina Lusa| diabetes|treatment|
-+-----+---+--------------+---------+---------+
++-----+---+--------------+-------------+---------+
+|begin|end|        entity|     mappings| relation|
++-----+---+--------------+-------------+---------+
+|   22| 35|Warfarina Lusa|Anticoagulant|   action|
+|   22| 35|Warfarina Lusa|Heart Disease|treatment|
++-----+---+--------------+-------------+---------+
 ```
 
 ##### Filter the Multi-Token Chunks Separated With Whitespace in `ChunkMapperApproach` and `ChunkMapperModel` by `setAllowMultiTokenChunk()` Parameter
@@ -253,12 +253,12 @@ sample_text = "The patient was given Warfarina Lusa"
 `setAllowMultiTokenChunk(True)` *Results* :
 
 ```bash
-+-----+---+--------------+---------+---------+
-|begin|end|         chunk| mappings| relation|
-+-----+---+--------------+---------+---------+
-|   22| 35|Warfarina Lusa|Analgesic|   action|
-|   22| 35|Warfarina Lusa| diabetes|treatment|
-+-----+---+--------------+---------+---------+
++-----+---+--------------+-------------+---------+
+|begin|end|         chunk|     mappings| relation|
++-----+---+--------------+-------------+---------+
+|   22| 35|Warfarina Lusa|Anticoagulant|   action|
+|   22| 35|Warfarina Lusa|Heart Disease|treatment|
++-----+---+--------------+-------------+---------+
 ```
 
 
@@ -282,7 +282,7 @@ We fixed some issues in `AnnotationToolJsonReader` tool, `DrugNormalizer` and `C
 + [Clinical Named Entity Recognition Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb) <br/>
  `.setReplaceLabels` parameter example was added.
 + [Chunk Mapping Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/26.Chunk_Mapping.ipynb) <br/>
- New case sensitivity, selecting multiple relations, filtering multi-token chunks and `ChunkMapperFiltererModel` features were added.
+ New case sensitivity, selecting multiple relations, filtering multi-token chunks and `ChunkMapperFilterer` features were added.
 
 #### List of Recently Updated Models
 
