@@ -1,17 +1,21 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Index &#8212; Spark NLP 3.3.0 documentation</title>
-    
-  <!-- Loaded before other Sphinx assets -->
-  <link href="static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
 
-    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
   <link rel="stylesheet"
     href="static/vendor/fontawesome/5.13.0/css/all.min.css">
   <link rel="preload" as="font" type="font/woff2" crossorigin
@@ -21,46 +25,54 @@
 
     <link rel="stylesheet" type="text/css" href="static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="static/css/custom.css" />
-    
+
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
 
     <script data-url_root="./" id="documentation_options" src="static/documentation_options.js"></script>
     <script src="static/jquery.js"></script>
     <script src="static/underscore.js"></script>
+    <script src="static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="static/doctools.js"></script>
     <script src="static/toggleprompt.js"></script>
     <link rel="shortcut icon" href="static/fav.ico"/>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
 
     
-    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
 
   <div id="navbar-start">
     
     
+  
 
-<a class="navbar-brand" href="index.html">
-  <img src="static/logo.png" class="logo" alt="logo">
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+    <img src="static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
 </a>
-
-
     
   </div>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+    <span class="fas fa-bars"></span>
   </button>
 
   
@@ -90,6 +102,14 @@
     <div id="navbar-end">
       
       <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
         <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
       </ul>
       </div>
@@ -100,13 +120,13 @@
     </nav>
     
 
-    <div class="container-xl">
-      <div class="row">
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
           
-            
-            <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar">
-              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -114,26 +134,25 @@
     
   </div>
 </nav>
-              </div>
-              <div class="sidebar-end-items">
-              </div>
-            </div>
-            
-          
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
 
           
-          <div class="d-none d-xl-block col-xl-2 bd-toc">
-            
-          </div>
-          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+</div>
+
 
           
           
-            
-          
-          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+          <div class="bd-content col-12 col-md-9 col-xl-7">
               
-              <div>
+              <article class="bd-article" role="main">
                 
 
 <h1 id="index">Index</h1>
@@ -215,6 +234,8 @@
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach">ChunkMapperApproach (class in sparknlp_jsl.annotator)</a>
 </li>
+      <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer">ChunkMapperFilterer (class in sparknlp_jsl.annotator)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel">ChunkMapperModel (class in sparknlp_jsl.annotator)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMergeApproach.html#sparknlp_jsl.annotator.ChunkMergeApproach">ChunkMergeApproach (class in sparknlp_jsl.annotator)</a>
@@ -251,6 +272,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.clear">(sparknlp_jsl.annotator.ChunkKeyPhraseExtraction method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.clear">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.clear">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.clear">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
@@ -316,6 +339,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.clear">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.clear">(sparknlp_jsl.annotator.ResolverMerger method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.clear">(sparknlp_jsl.annotator.Router method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.SentenceEntityResolverApproach.html#sparknlp_jsl.annotator.SentenceEntityResolverApproach.clear">(sparknlp_jsl.annotator.SentenceEntityResolverApproach method)</a>
@@ -367,6 +392,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.copy">(sparknlp_jsl.annotator.ChunkKeyPhraseExtraction method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.copy">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.copy">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.copy">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
@@ -431,6 +458,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RelationExtractionModel.html#sparknlp_jsl.annotator.RelationExtractionModel.copy">(sparknlp_jsl.annotator.RelationExtractionModel method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.copy">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.copy">(sparknlp_jsl.annotator.ResolverMerger method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.copy">(sparknlp_jsl.annotator.Router method)</a>
 </li>
@@ -502,6 +531,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.explainParam">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.explainParam">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.explainParam">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMergeApproach.html#sparknlp_jsl.annotator.ChunkMergeApproach.explainParam">(sparknlp_jsl.annotator.ChunkMergeApproach method)</a>
@@ -566,6 +597,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.explainParam">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.explainParam">(sparknlp_jsl.annotator.ResolverMerger method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.explainParam">(sparknlp_jsl.annotator.Router method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.SentenceEntityResolverApproach.html#sparknlp_jsl.annotator.SentenceEntityResolverApproach.explainParam">(sparknlp_jsl.annotator.SentenceEntityResolverApproach method)</a>
@@ -607,6 +640,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.explainParams">(sparknlp_jsl.annotator.ChunkKeyPhraseExtraction method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.explainParams">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.explainParams">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.explainParams">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
@@ -672,6 +707,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.explainParams">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.explainParams">(sparknlp_jsl.annotator.ResolverMerger method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.explainParams">(sparknlp_jsl.annotator.Router method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.SentenceEntityResolverApproach.html#sparknlp_jsl.annotator.SentenceEntityResolverApproach.explainParams">(sparknlp_jsl.annotator.SentenceEntityResolverApproach method)</a>
@@ -715,6 +752,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.extractParamMap">(sparknlp_jsl.annotator.ChunkKeyPhraseExtraction method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.extractParamMap">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.extractParamMap">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.extractParamMap">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
@@ -779,6 +818,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RelationExtractionModel.html#sparknlp_jsl.annotator.RelationExtractionModel.extractParamMap">(sparknlp_jsl.annotator.RelationExtractionModel method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.extractParamMap">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.extractParamMap">(sparknlp_jsl.annotator.ResolverMerger method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.extractParamMap">(sparknlp_jsl.annotator.Router method)</a>
 </li>
@@ -992,6 +1033,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.getInputCols">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.getInputCols">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.getInputCols">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMergeApproach.html#sparknlp_jsl.annotator.ChunkMergeApproach.getInputCols">(sparknlp_jsl.annotator.ChunkMergeApproach method)</a>
@@ -1054,6 +1097,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.getInputCols">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.getInputCols">(sparknlp_jsl.annotator.ResolverMerger method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.getInputCols">(sparknlp_jsl.annotator.Router method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.SentenceEntityResolverApproach.html#sparknlp_jsl.annotator.SentenceEntityResolverApproach.getInputCols">(sparknlp_jsl.annotator.SentenceEntityResolverApproach method)</a>
@@ -1099,6 +1144,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.getLazyAnnotator">(sparknlp_jsl.annotator.ChunkKeyPhraseExtraction method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.getLazyAnnotator">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.getLazyAnnotator">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.getLazyAnnotator">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
@@ -1162,6 +1209,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.getLazyAnnotator">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.getLazyAnnotator">(sparknlp_jsl.annotator.ResolverMerger method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.getLazyAnnotator">(sparknlp_jsl.annotator.Router method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.SentenceEntityResolverApproach.html#sparknlp_jsl.annotator.SentenceEntityResolverApproach.getLazyAnnotator">(sparknlp_jsl.annotator.SentenceEntityResolverApproach method)</a>
@@ -1203,6 +1252,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.getOrDefault">(sparknlp_jsl.annotator.ChunkKeyPhraseExtraction method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.getOrDefault">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.getOrDefault">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.getOrDefault">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
@@ -1268,6 +1319,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.getOrDefault">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.getOrDefault">(sparknlp_jsl.annotator.ResolverMerger method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.getOrDefault">(sparknlp_jsl.annotator.Router method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.SentenceEntityResolverApproach.html#sparknlp_jsl.annotator.SentenceEntityResolverApproach.getOrDefault">(sparknlp_jsl.annotator.SentenceEntityResolverApproach method)</a>
@@ -1311,6 +1364,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.getOutputCol">(sparknlp_jsl.annotator.ChunkKeyPhraseExtraction method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.getOutputCol">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.getOutputCol">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.getOutputCol">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
@@ -1374,6 +1429,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.getOutputCol">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.getOutputCol">(sparknlp_jsl.annotator.ResolverMerger method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.getOutputCol">(sparknlp_jsl.annotator.Router method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.SentenceEntityResolverApproach.html#sparknlp_jsl.annotator.SentenceEntityResolverApproach.getOutputCol">(sparknlp_jsl.annotator.SentenceEntityResolverApproach method)</a>
@@ -1411,6 +1468,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.getParam">(sparknlp_jsl.annotator.ChunkKeyPhraseExtraction method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.getParam">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.getParam">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.getParam">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
@@ -1476,6 +1535,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.getParam">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.getParam">(sparknlp_jsl.annotator.ResolverMerger method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.getParam">(sparknlp_jsl.annotator.Router method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.SentenceEntityResolverApproach.html#sparknlp_jsl.annotator.SentenceEntityResolverApproach.getParam">(sparknlp_jsl.annotator.SentenceEntityResolverApproach method)</a>
@@ -1517,6 +1578,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.getParamValue">(sparknlp_jsl.annotator.ChunkKeyPhraseExtraction method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.getParamValue">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.getParamValue">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.getParamValue">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
@@ -1580,6 +1643,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.getParamValue">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.getParamValue">(sparknlp_jsl.annotator.ResolverMerger method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.getParamValue">(sparknlp_jsl.annotator.Router method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.SentenceEntityResolverApproach.html#sparknlp_jsl.annotator.SentenceEntityResolverApproach.getParamValue">(sparknlp_jsl.annotator.SentenceEntityResolverApproach method)</a>
@@ -1641,6 +1706,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.hasDefault">(sparknlp_jsl.annotator.ChunkKeyPhraseExtraction method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.hasDefault">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.hasDefault">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.hasDefault">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
@@ -1706,6 +1773,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.hasDefault">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.hasDefault">(sparknlp_jsl.annotator.ResolverMerger method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.hasDefault">(sparknlp_jsl.annotator.Router method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.SentenceEntityResolverApproach.html#sparknlp_jsl.annotator.SentenceEntityResolverApproach.hasDefault">(sparknlp_jsl.annotator.SentenceEntityResolverApproach method)</a>
@@ -1749,6 +1818,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.hasParam">(sparknlp_jsl.annotator.ChunkKeyPhraseExtraction method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.hasParam">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.hasParam">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.hasParam">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
@@ -1814,6 +1885,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.hasParam">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.hasParam">(sparknlp_jsl.annotator.ResolverMerger method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.hasParam">(sparknlp_jsl.annotator.Router method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.SentenceEntityResolverApproach.html#sparknlp_jsl.annotator.SentenceEntityResolverApproach.hasParam">(sparknlp_jsl.annotator.SentenceEntityResolverApproach method)</a>
@@ -1863,6 +1936,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.isDefined">(sparknlp_jsl.annotator.ChunkKeyPhraseExtraction method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.isDefined">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.isDefined">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.isDefined">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
@@ -1928,6 +2003,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.isDefined">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.isDefined">(sparknlp_jsl.annotator.ResolverMerger method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.isDefined">(sparknlp_jsl.annotator.Router method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.SentenceEntityResolverApproach.html#sparknlp_jsl.annotator.SentenceEntityResolverApproach.isDefined">(sparknlp_jsl.annotator.SentenceEntityResolverApproach method)</a>
@@ -1971,6 +2048,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.isSet">(sparknlp_jsl.annotator.ChunkKeyPhraseExtraction method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.isSet">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.isSet">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.isSet">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
@@ -2036,6 +2115,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.isSet">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.isSet">(sparknlp_jsl.annotator.ResolverMerger method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.isSet">(sparknlp_jsl.annotator.Router method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.SentenceEntityResolverApproach.html#sparknlp_jsl.annotator.SentenceEntityResolverApproach.isSet">(sparknlp_jsl.annotator.SentenceEntityResolverApproach method)</a>
@@ -2083,6 +2164,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.load">(sparknlp_jsl.annotator.ChunkKeyPhraseExtraction class method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.load">(sparknlp_jsl.annotator.ChunkMapperApproach class method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.load">(sparknlp_jsl.annotator.ChunkMapperFilterer class method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.load">(sparknlp_jsl.annotator.ChunkMapperModel class method)</a>
 </li>
@@ -2147,6 +2230,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RelationExtractionModel.html#sparknlp_jsl.annotator.RelationExtractionModel.load">(sparknlp_jsl.annotator.RelationExtractionModel class method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.load">(sparknlp_jsl.annotator.RENerChunksFilter class method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.load">(sparknlp_jsl.annotator.ResolverMerger class method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.load">(sparknlp_jsl.annotator.Router class method)</a>
 </li>
@@ -2283,6 +2368,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.params">(sparknlp_jsl.annotator.ChunkMapperApproach property)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.params">(sparknlp_jsl.annotator.ChunkMapperFilterer property)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.params">(sparknlp_jsl.annotator.ChunkMapperModel property)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMergeApproach.html#sparknlp_jsl.annotator.ChunkMergeApproach.params">(sparknlp_jsl.annotator.ChunkMergeApproach property)</a>
@@ -2346,6 +2433,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RelationExtractionModel.html#sparknlp_jsl.annotator.RelationExtractionModel.params">(sparknlp_jsl.annotator.RelationExtractionModel property)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.params">(sparknlp_jsl.annotator.RENerChunksFilter property)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.params">(sparknlp_jsl.annotator.ResolverMerger property)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.params">(sparknlp_jsl.annotator.Router property)</a>
 </li>
@@ -2419,6 +2508,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.read">(sparknlp_jsl.annotator.ChunkMapperApproach class method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.read">(sparknlp_jsl.annotator.ChunkMapperFilterer class method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.read">(sparknlp_jsl.annotator.ChunkMapperModel class method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMergeApproach.html#sparknlp_jsl.annotator.ChunkMergeApproach.read">(sparknlp_jsl.annotator.ChunkMergeApproach class method)</a>
@@ -2483,6 +2574,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.read">(sparknlp_jsl.annotator.RENerChunksFilter class method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.read">(sparknlp_jsl.annotator.ResolverMerger class method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.read">(sparknlp_jsl.annotator.Router class method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.SentenceEntityResolverApproach.html#sparknlp_jsl.annotator.SentenceEntityResolverApproach.read">(sparknlp_jsl.annotator.SentenceEntityResolverApproach class method)</a>
@@ -2509,6 +2602,8 @@
       <li><a href="reference/autosummary/sparknlp_jsl._tf_graph_builders.graph_builders.RelationExtractionTFGraphBuilder.html#sparknlp_jsl._tf_graph_builders.graph_builders.RelationExtractionTFGraphBuilder">RelationExtractionTFGraphBuilder (class in sparknlp_jsl._tf_graph_builders.graph_builders)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter">RENerChunksFilter (class in sparknlp_jsl.annotator)</a>
+</li>
+      <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger">ResolverMerger (class in sparknlp_jsl.annotator)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router">Router (class in sparknlp_jsl.annotator)</a>
 </li>
@@ -2546,6 +2641,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.save">(sparknlp_jsl.annotator.ChunkKeyPhraseExtraction method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.save">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.save">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.save">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
@@ -2611,6 +2708,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.save">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.save">(sparknlp_jsl.annotator.ResolverMerger method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.save">(sparknlp_jsl.annotator.Router method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.SentenceEntityResolverApproach.html#sparknlp_jsl.annotator.SentenceEntityResolverApproach.save">(sparknlp_jsl.annotator.SentenceEntityResolverApproach method)</a>
@@ -2660,6 +2759,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.set">(sparknlp_jsl.annotator.ChunkKeyPhraseExtraction method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.set">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.set">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.set">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
@@ -2725,6 +2826,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.set">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.set">(sparknlp_jsl.annotator.ResolverMerger method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.set">(sparknlp_jsl.annotator.Router method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.SentenceEntityResolverApproach.html#sparknlp_jsl.annotator.SentenceEntityResolverApproach.set">(sparknlp_jsl.annotator.SentenceEntityResolverApproach method)</a>
@@ -2740,6 +2843,12 @@
       </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl.annotator.CommonResolverParams.html#sparknlp_jsl.annotator.CommonResolverParams.setAllDistancesMetadata">setAllDistancesMetadata() (sparknlp_jsl.annotator.CommonResolverParams method)</a>
 </li>
+      <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.setAllowMultiTokenChunk">setAllowMultiTokenChunk() (sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
+
+      <ul>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.setAllowMultiTokenChunk">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl.annotator.CommonResolverParams.html#sparknlp_jsl.annotator.CommonResolverParams.setAlternatives">setAlternatives() (sparknlp_jsl.annotator.CommonResolverParams method)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl.annotator.DateNormalizer.html#sparknlp_jsl.annotator.DateNormalizer.setAnchorDateDay">setAnchorDateDay() (sparknlp_jsl.annotator.DateNormalizer method)</a>
@@ -3133,6 +3242,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.setInputCols">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.setInputCols">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.setInputCols">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMergeApproach.html#sparknlp_jsl.annotator.ChunkMergeApproach.setInputCols">(sparknlp_jsl.annotator.ChunkMergeApproach method)</a>
@@ -3194,6 +3305,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RelationExtractionModel.html#sparknlp_jsl.annotator.RelationExtractionModel.setInputCols">(sparknlp_jsl.annotator.RelationExtractionModel method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.setInputCols">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.setInputCols">(sparknlp_jsl.annotator.ResolverMerger method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.setInputCols">(sparknlp_jsl.annotator.Router method)</a>
 </li>
@@ -3295,6 +3408,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.setLazyAnnotator">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.setLazyAnnotator">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.setLazyAnnotator">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMergeApproach.html#sparknlp_jsl.annotator.ChunkMergeApproach.setLazyAnnotator">(sparknlp_jsl.annotator.ChunkMergeApproach method)</a>
@@ -3357,6 +3472,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.setLazyAnnotator">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.setLazyAnnotator">(sparknlp_jsl.annotator.ResolverMerger method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.setLazyAnnotator">(sparknlp_jsl.annotator.Router method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.SentenceEntityResolverApproach.html#sparknlp_jsl.annotator.SentenceEntityResolverApproach.setLazyAnnotator">(sparknlp_jsl.annotator.SentenceEntityResolverApproach method)</a>
@@ -3382,6 +3499,12 @@
       </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl.annotator.MedicalNerApproach.html#sparknlp_jsl.annotator.MedicalNerApproach.setLogPrefix">setLogPrefix() (sparknlp_jsl.annotator.MedicalNerApproach method)</a>
 </li>
+      <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.setLowerCase">setLowerCase() (sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
+
+      <ul>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.setLowerCase">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl.annotator.DrugNormalizer.html#sparknlp_jsl.annotator.DrugNormalizer.setLowercase">setLowercase() (sparknlp_jsl.annotator.DrugNormalizer method)</a>
 </li>
       <li><a href="reference/autosummary/sparknlp_jsl.annotator.MedicalNerApproach.html#sparknlp_jsl.annotator.MedicalNerApproach.setLr">setLr() (sparknlp_jsl.annotator.MedicalNerApproach method)</a>
@@ -3474,6 +3597,12 @@
       </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl.annotator.TFGraphBuilder.html#sparknlp_jsl.annotator.TFGraphBuilder.setModelName">setModelName() (sparknlp_jsl.annotator.TFGraphBuilder method)</a>
 </li>
+      <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.setMultivaluesRelations">setMultivaluesRelations() (sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
+
+      <ul>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.setMultivaluesRelations">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/autosummary/sparknlp_jsl.annotator.NerDisambiguator.html#sparknlp_jsl.annotator.NerDisambiguator.setNarrowWithApproximateMatching">setNarrowWithApproximateMatching() (sparknlp_jsl.annotator.NerDisambiguator method)</a>
 
       <ul>
@@ -3547,6 +3676,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.setOutputCol">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.setOutputCol">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.setOutputCol">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMergeApproach.html#sparknlp_jsl.annotator.ChunkMergeApproach.setOutputCol">(sparknlp_jsl.annotator.ChunkMergeApproach method)</a>
@@ -3609,6 +3740,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.setOutputCol">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.setOutputCol">(sparknlp_jsl.annotator.ResolverMerger method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.setOutputCol">(sparknlp_jsl.annotator.Router method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.SentenceEntityResolverApproach.html#sparknlp_jsl.annotator.SentenceEntityResolverApproach.setOutputCol">(sparknlp_jsl.annotator.SentenceEntityResolverApproach method)</a>
@@ -3660,6 +3793,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.setParamValue">(sparknlp_jsl.annotator.ChunkKeyPhraseExtraction method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.setParamValue">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.setParamValue">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.setParamValue">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
@@ -3722,6 +3857,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RelationExtractionModel.html#sparknlp_jsl.annotator.RelationExtractionModel.setParamValue">(sparknlp_jsl.annotator.RelationExtractionModel method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.setParamValue">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.setParamValue">(sparknlp_jsl.annotator.ResolverMerger method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.setParamValue">(sparknlp_jsl.annotator.Router method)</a>
 </li>
@@ -3810,6 +3947,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.NerConverterInternal.html#sparknlp_jsl.annotator.NerConverterInternal.setReplaceDictResource">(sparknlp_jsl.annotator.NerConverterInternal method)</a>
 </li>
       </ul></li>
+      <li><a href="reference/autosummary/sparknlp_jsl.annotator.NerConverterInternal.html#sparknlp_jsl.annotator.NerConverterInternal.setReplaceLabels">setReplaceLabels() (sparknlp_jsl.annotator.NerConverterInternal method)</a>
+</li>
       <li><a href="reference/autosummary/sparknlp_jsl.annotator.DeIdentification.html#sparknlp_jsl.annotator.DeIdentification.setReturnEntityMappings">setReturnEntityMappings() (sparknlp_jsl.annotator.DeIdentification method)</a>
 
       <ul>
@@ -3997,6 +4136,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.transform">(sparknlp_jsl.annotator.ChunkKeyPhraseExtraction method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.transform">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.transform">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMergeModel.html#sparknlp_jsl.annotator.ChunkMergeModel.transform">(sparknlp_jsl.annotator.ChunkMergeModel method)</a>
@@ -4045,6 +4186,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.transform">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.transform">(sparknlp_jsl.annotator.ResolverMerger method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.transform">(sparknlp_jsl.annotator.Router method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.SentenceEntityResolverModel.html#sparknlp_jsl.annotator.SentenceEntityResolverModel.transform">(sparknlp_jsl.annotator.SentenceEntityResolverModel method)</a>
@@ -4088,6 +4231,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.uid">(sparknlp_jsl.annotator.ChunkKeyPhraseExtraction attribute)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.uid">(sparknlp_jsl.annotator.ChunkMapperApproach attribute)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.uid">(sparknlp_jsl.annotator.ChunkMapperFilterer attribute)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.uid">(sparknlp_jsl.annotator.ChunkMapperModel attribute)</a>
 </li>
@@ -4153,6 +4298,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.uid">(sparknlp_jsl.annotator.RENerChunksFilter attribute)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.uid">(sparknlp_jsl.annotator.ResolverMerger attribute)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.uid">(sparknlp_jsl.annotator.Router attribute)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.SentenceEntityResolverApproach.html#sparknlp_jsl.annotator.SentenceEntityResolverApproach.uid">(sparknlp_jsl.annotator.SentenceEntityResolverApproach attribute)</a>
@@ -4200,6 +4347,8 @@
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.write">(sparknlp_jsl.annotator.ChunkKeyPhraseExtraction method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperApproach.html#sparknlp_jsl.annotator.ChunkMapperApproach.write">(sparknlp_jsl.annotator.ChunkMapperApproach method)</a>
+</li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperFilterer.html#sparknlp_jsl.annotator.ChunkMapperFilterer.write">(sparknlp_jsl.annotator.ChunkMapperFilterer method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.ChunkMapperModel.html#sparknlp_jsl.annotator.ChunkMapperModel.write">(sparknlp_jsl.annotator.ChunkMapperModel method)</a>
 </li>
@@ -4265,6 +4414,8 @@
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.RENerChunksFilter.html#sparknlp_jsl.annotator.RENerChunksFilter.write">(sparknlp_jsl.annotator.RENerChunksFilter method)</a>
 </li>
+        <li><a href="reference/autosummary/sparknlp_jsl.annotator.ResolverMerger.html#sparknlp_jsl.annotator.ResolverMerger.write">(sparknlp_jsl.annotator.ResolverMerger method)</a>
+</li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.Router.html#sparknlp_jsl.annotator.Router.write">(sparknlp_jsl.annotator.Router method)</a>
 </li>
         <li><a href="reference/autosummary/sparknlp_jsl.annotator.SentenceEntityResolverApproach.html#sparknlp_jsl.annotator.SentenceEntityResolverApproach.write">(sparknlp_jsl.annotator.SentenceEntityResolverApproach method)</a>
@@ -4295,37 +4446,41 @@
 
 
 
-              </div>
+              </article>
               
+
               
-              <!-- Previous / next buttons -->
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
 <div class='prev-next-area'>
 </div>
+              </footer>
               
-          </main>
+          </div>
           
-
       </div>
     </div>
+
+  
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-<footer class="footer mt-5 mt-md-0">
-  <div class="container">
-    
-    <div class="footer-item">
-      <p class="copyright">
+  <script src="static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
     &copy; Copyright 2021, John Snow Labs.<br>
 </p>
-    </div>
-    
-    <div class="footer-item">
-      <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
-</p>
-    </div>
-    
   </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.1.<br>
+</p>
+  </div>
+  
+</div>
 </footer>
   </body>
 </html>
