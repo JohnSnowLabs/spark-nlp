@@ -40,7 +40,7 @@ Document Image Transformer (DiT) model for document classification. The model wa
             .setImageType(ImageType.TYPE_3BYTE_BGR)
 
         doc_class = VisualDocumentClassifierV3() \
-            .pretrained("dit_base_finetuned_rvlcdip", "en", "public/ocr/models") \
+            .pretrained("dit_base_finetuned_rvlcdip", "en", "clinical/ocr") \
             .setInputCols(["image"]) \
             .setOutputCol("label")
 
@@ -55,7 +55,7 @@ Document Image Transformer (DiT) model for document classification. The model wa
     bin2imTransformer.setImageType(ImageType.TYPE_3BYTE_BGR)
 
     val visualDocumentClassifier = VisualDocumentClassifierv3
-        .pretrained("dit_base_finetuned_rvlcdip", "en", "public/ocr/models")
+        .pretrained("dit_base_finetuned_rvlcdip", "en", "clinical/ocr")
         .setInputCols(Array("image"))
 
     val pipeline = new Pipeline()
