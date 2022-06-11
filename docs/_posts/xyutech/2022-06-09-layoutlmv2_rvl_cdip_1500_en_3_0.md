@@ -50,7 +50,7 @@ This model uses LayoutLMv2 to classify documents. It was trained on subset of RV
             .setOutputCol("token")
 
         doc_class = VisualDocumentClassifierV2() \
-            .pretrained("layoutlmv2_rvl_cdip_1500", "en", "public/ocr/models") \
+            .pretrained("layoutlmv2_rvl_cdip_1500", "en", "clinical/ocr") \
             .setInputCols(["token", "image"]) \
             .setOutputCol("label")
 
@@ -76,7 +76,7 @@ This model uses LayoutLMv2 to classify documents. It was trained on subset of RV
       .setOutputCol("token")
 
     val visualDocumentClassifier = VisualDocumentClassifierv2
-        .pretrained("layoutlmv2_rvl_cdip_1500", "en", "public/ocr/models")
+        .pretrained("layoutlmv2_rvl_cdip_1500", "en", "clinical/ocr")
         .setInputCols(Array("token", "image"))
 
     val pipeline = new Pipeline()
