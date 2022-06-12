@@ -109,7 +109,7 @@ result.select("label.result").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[DistilBertForSequenceClassification](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.DistilBertForSequenceClassification.html)
+[DistilBertForSequenceClassification](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/distil_bert_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.DistilBertForSequenceClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}

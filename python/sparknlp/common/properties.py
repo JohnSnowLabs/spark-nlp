@@ -11,6 +11,8 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+"""Contains classes for Annotator properties."""
+
 from pyspark.ml.param import Param, Params, TypeConverters
 
 
@@ -36,6 +38,7 @@ class HasBatchedAnnotate:
             Current batch size
         """
         return self.getOrDefault("batchSize")
+
 
 class HasCaseSensitiveProperties:
     caseSensitive = Param(Params._dummy(),
@@ -63,6 +66,7 @@ class HasCaseSensitiveProperties:
         """
         return self.getOrDefault(self.caseSensitive)
 
+
 class HasClassifierActivationProperties:
     activation = Param(Params._dummy(),
                        "activation",
@@ -88,6 +92,8 @@ class HasClassifierActivationProperties:
             Whether to calculate logits via Softmax or Sigmoid. Default is Softmax
         """
         return self.getOrDefault(self.activation)
+
+
 class HasEmbeddingsProperties(Params):
     dimension = Param(Params._dummy(),
                       "dimension",
@@ -107,6 +113,7 @@ class HasEmbeddingsProperties(Params):
     def getDimension(self):
         """Gets embeddings dimension."""
         return self.getOrDefault(self.dimension)
+
 
 class HasEnableCachingProperties:
     enableCaching = Param(Params._dummy(),
@@ -133,4 +140,3 @@ class HasEnableCachingProperties:
             Whether to enable caching DataFrames or RDDs during the training
         """
         return self.getOrDefault(self.enableCaching)
-

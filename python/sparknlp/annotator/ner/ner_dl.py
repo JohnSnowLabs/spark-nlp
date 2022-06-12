@@ -11,10 +11,12 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+"""Contains classes for NerDL."""
+
 import sys
 
 from sparknlp.common import *
-from sparknlp.annotator.ner import NerApproach
+from sparknlp.annotator.ner.ner_approach import NerApproach
 
 
 class NerDLApproach(AnnotatorApproach, NerApproach):

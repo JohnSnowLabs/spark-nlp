@@ -90,7 +90,7 @@ root
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[DocumentAssembler](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.base.DocumentAssembler.html)
+[DocumentAssembler](/api/python/reference/autosummary/sparknlp/base/document_assembler/index.html#sparknlp.base.document_assembler.DocumentAssembler)
 {%- endcapture -%}
 
 {%- capture source_link -%}

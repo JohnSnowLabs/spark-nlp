@@ -193,7 +193,7 @@ nerOverwriter.transform(result).selectExpr("explode(ner_overwritten)").show(fals
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[NerOverwriter](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.NerOverwriter.html)
+[NerOverwriter](/api/python/reference/autosummary/sparknlp/annotator/ner/ner_overwriter/index.html#sparknlp.annotator.ner.ner_overwriter.NerOverwriter)
 {%- endcapture -%}
 
 {%- capture source_link -%}

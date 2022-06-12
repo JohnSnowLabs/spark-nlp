@@ -64,7 +64,7 @@ jupyter notebook
 
 #### Start Spark NLP Session from python
 
-If you need to manually start SparkSession because you have other configuraations and `sparknlp.start()` is not including them, you can manually start the SparkSession:
+If you need to manually start SparkSession because you have other configurations and `sparknlp.start()` is not including them, you can manually start the SparkSession:
 
 ```python
 spark = SparkSession.builder \
@@ -235,6 +235,85 @@ Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https:/
 
 If you are interested, there is a simple SBT project for Spark NLP to guide you on how to use it in your projects [Spark NLP SBT Starter](https://github.com/maziyarpanahi/spark-nlp-starter)
 
+## Installation for M1 Macs
+
+Starting from version 4.0.0, Spark NLP has experimental support for M1 macs.
+
+Make sure the following prerequisites are met:
+
+1. An M1 compiled java version needs to be installed. For example to install the Zulu
+    Java 11 JDK head to [Download Azul JDKs](https://www.azul.com/downloads/?version=java-11-lts&os=macos&architecture=arm-64-bit&package=jdk) and install that java version.
+
+    Running `java -version` should produce a result, which contains `aarch64`
+    or `mixed mode` as the architecture:
+    ```shell
+    johnsnow@m1mac ~ % java -version
+    openjdk version "11.0.13" 2021-10-19 LTS
+    OpenJDK Runtime Environment Zulu11.52+13-CA (build 11.0.13+8-LTS)
+    OpenJDK 64-Bit Server VM Zulu11.52+13-CA (build 11.0.13+8-LTS, mixed mode)
+    ```
+
+    The environment variable `JAVA_HOME` should also be set to this java version. You
+    can check this by running `echo $JAVA_HOME` in your terminal. If it is not set,
+    you can set it by adding `export JAVA_HOME=$(/usr/libexec/java_home)` to your
+    `~/.zshrc` file.
+
+### Scala and Java
+
+Adding Spark NLP to your Scala or Java project is easy:
+
+Simply change to dependency coordinates to `spark-nlp-m1` and add the dependency to your
+project.
+
+How to do this is mentioned above: [Scala And Java](#scala-and-java)
+
+So for example for Spark NLP with Apache Spark 3.0.x and 3.1.x you will end up with
+maven coordinates like these:
+
+```xml
+<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp -->
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-m1_2.12</artifactId>
+    <version>4.0.0</version>
+</dependency>
+```
+
+or in case of sbt:
+
+```scala
+// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-m1" % "4.0.0"
+```
+
+If everything went well, you can now start Spark NLP with the `m1` flag set to `true`:
+
+
+```scala
+import com.johnsnowlabs.nlp.SparkNLP
+
+val spark = SparkNLP.start(m1 = true)
+```
+
+### Python
+
+First, make sure you have a recent Python 3 installation.
+
+```bash
+johnsnow@m1mac ~ % python3 --version
+Python 3.9.13
+```
+
+Then we can install the dependency as described in the [Python section](#python).
+It is also recommended to use a virtual environment for this.
+
+If everything went well, you can now start Spark NLP with the `m1` flag set to `True`:
+
+```python
+import sparknlp
+
+spark = sparknlp.start(m1=True)
+```
 
 ## Google Colab Notebook
 

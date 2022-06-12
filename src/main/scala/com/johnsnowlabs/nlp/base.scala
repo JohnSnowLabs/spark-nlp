@@ -24,6 +24,10 @@ package object base {
 
   object DocumentAssembler extends DefaultParamsReadable[DocumentAssembler]
 
+  type MultiDocumentAssembler = com.johnsnowlabs.nlp.MultiDocumentAssembler
+
+  object MultiDocumentAssembler extends DefaultParamsReadable[MultiDocumentAssembler]
+
   type TokenAssembler = com.johnsnowlabs.nlp.TokenAssembler
 
   object TokenAssembler extends DefaultParamsReadable[TokenAssembler]
