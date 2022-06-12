@@ -39,6 +39,7 @@ class HasBatchedAnnotate:
         """
         return self.getOrDefault("batchSize")
 
+
 class HasCaseSensitiveProperties:
     caseSensitive = Param(Params._dummy(),
                           "caseSensitive",
@@ -65,6 +66,7 @@ class HasCaseSensitiveProperties:
         """
         return self.getOrDefault(self.caseSensitive)
 
+
 class HasClassifierActivationProperties:
     activation = Param(Params._dummy(),
                        "activation",
@@ -90,6 +92,8 @@ class HasClassifierActivationProperties:
             Whether to calculate logits via Softmax or Sigmoid. Default is Softmax
         """
         return self.getOrDefault(self.activation)
+
+
 class HasEmbeddingsProperties(Params):
     dimension = Param(Params._dummy(),
                       "dimension",
@@ -109,6 +113,7 @@ class HasEmbeddingsProperties(Params):
     def getDimension(self):
         """Gets embeddings dimension."""
         return self.getOrDefault(self.dimension)
+
 
 class HasEnableCachingProperties:
     enableCaching = Param(Params._dummy(),
@@ -135,4 +140,3 @@ class HasEnableCachingProperties:
             Whether to enable caching DataFrames or RDDs during the training
         """
         return self.getOrDefault(self.enableCaching)
-

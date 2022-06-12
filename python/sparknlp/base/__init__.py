@@ -16,6 +16,7 @@
 from sparknlp.base.chunk2_doc import *
 from sparknlp.base.doc2_chunk import *
 from sparknlp.base.document_assembler import *
+from sparknlp.base.multi_document_assembler import *
 from sparknlp.base.embeddings_finisher import *
 from sparknlp.base.finisher import *
 from sparknlp.base.graph_finisher import *

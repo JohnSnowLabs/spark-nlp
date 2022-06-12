@@ -59,8 +59,9 @@ class DeBertaForSequenceClassification(AnnotatorModel,
     maxSentenceLength
         Max sentence length to process, by default 128
     coalesceSentences
-        Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging
-        probabilities in all sentences.
+        Instead of 1 class per sentence (if inputCols is `sentence`) output
+        1 class per document by averaging probabilities in all sentences, by 
+        default False.
 
     Examples
     --------
