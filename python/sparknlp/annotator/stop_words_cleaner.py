@@ -50,7 +50,7 @@ class StopWordsCleaner(AnnotatorModel):
     stopWords
         The words to be filtered out, by default english stopwords from Spark ML
     caseSensitive
-        Whether to do a case sensitive, by default False
+        Whether to consider case, by default False
     locale
         Locale of the input. ignored when case sensitive, by default locale of
         the JVM

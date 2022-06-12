@@ -20,7 +20,7 @@ import org.apache.spark.ml.param.Param
 
 trait HasClassifierActivationProperties extends ParamsAndFeaturesWritable {
 
-  /** Whether to enable caching DataFrames or RDDs during the training
+  /** Whether to enable caching DataFrames or RDDs during the training (Default depends on model).
     *
     * @group param
     */
