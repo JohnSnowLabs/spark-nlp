@@ -142,7 +142,7 @@ result.selectExpr("explode(chunk) as result").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[Chunker](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.Chunker.html)
+[Chunker](/api/python/reference/autosummary/sparknlp/annotator/chunker/index.html#sparknlp.annotator.chunker.Chunker)
 {%- endcapture -%}
 
 {%- capture source_link -%}

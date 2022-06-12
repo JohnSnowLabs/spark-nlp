@@ -11,6 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+"""Contains classes for DeBertaForSequenceClassification."""
 
 from sparknlp.common import *
 
@@ -58,8 +59,9 @@ class DeBertaForSequenceClassification(AnnotatorModel,
     maxSentenceLength
         Max sentence length to process, by default 128
     coalesceSentences
-        Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging
-        probabilities in all sentences.
+        Instead of 1 class per sentence (if inputCols is `sentence`) output
+        1 class per document by averaging probabilities in all sentences, by 
+        default False.
 
     Examples
     --------

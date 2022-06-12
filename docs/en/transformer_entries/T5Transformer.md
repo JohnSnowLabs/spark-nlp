@@ -145,7 +145,7 @@ result.select("summaries.result").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[T5Transformer](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.T5Transformer.html)
+[T5Transformer](/api/python/reference/autosummary/sparknlp/annotator/seq2seq/t5_transformer/index.html#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer)
 {%- endcapture -%}
 
 {%- capture source_link -%}

@@ -11,6 +11,8 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+"""Contains classes for Chunk2Doc."""
+
 from pyspark import keyword_only
 from sparknlp.internal import AnnotatorTransformer
 

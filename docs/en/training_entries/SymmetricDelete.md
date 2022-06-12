@@ -100,7 +100,7 @@ val pipelineModel = pipeline.fit(trainingData)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[SymmetricDeleteApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.SymmetricDeleteApproach.html)
+[SymmetricDeleteApproach](/api/python/reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

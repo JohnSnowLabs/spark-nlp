@@ -125,7 +125,7 @@ result.selectExpr("explode(pos) as pos").show(false)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[PerceptronModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.PerceptronModel.html)
+[PerceptronModel](/api/python/reference/autosummary/sparknlp/annotator/pos/perceptron/index.html#sparknlp.annotator.pos.perceptron.PerceptronModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -270,7 +270,7 @@ result.selectExpr("pos.result").show(false)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[PerceptronApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.PerceptronApproach.html)
+[PerceptronApproach](/api/python/reference/autosummary/sparknlp/annotator/pos/perceptron/index.html#sparknlp.annotator.pos.perceptron.PerceptronApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

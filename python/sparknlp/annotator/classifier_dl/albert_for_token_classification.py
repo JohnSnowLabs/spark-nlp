@@ -11,6 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+"""Contains classes for AlbertForTokenClassification."""
 
 from sparknlp.common import *
 
@@ -51,7 +52,7 @@ class AlbertForTokenClassification(AnnotatorModel,
         memory, by default 8
     caseSensitive
         Whether to ignore case in tokens for embeddings matching, by default
-        True
+        False
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     maxSentenceLength

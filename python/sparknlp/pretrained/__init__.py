@@ -11,7 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-
+"""Module for pretrained pipelines and resources."""
 from sparknlp.pretrained.pretrained_pipeline import *
 from sparknlp.pretrained.resource_downloader import *
 from sparknlp.pretrained.utils import *

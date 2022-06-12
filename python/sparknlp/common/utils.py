@@ -11,6 +11,8 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+"""Contains utilities for annotators."""
+
 from sparknlp.common.read_as import ReadAs
 import sparknlp.internal as _internal
 
@@ -30,6 +32,7 @@ def ExternalResource(path, read_as=ReadAs.TEXT, options={}):
         Options to read the resource, by default {}
     """
     return _internal._ExternalResource(path, read_as, options).apply()
+
 
 def RegexRule(rule, identifier):
     return _internal._RegexRule(rule, identifier).apply()
