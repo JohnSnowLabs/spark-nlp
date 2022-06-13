@@ -26,6 +26,11 @@ const data = {
   uncased: 'This model does not differentiate between lowercase and uppercase.',
   normalized:
     'In-house standardization and normalization of input and output labels.',
+  base: 'Standard version of the model, used as a starting point to create bigger (large) and smaller (small, xsmall, etc) versions of the model.',
+  xsmall:
+    'Even smaller than small. Uses a very reduced size of embeddings to provide with better performance.',
+  tuned:
+    'Model finetuned by John Snow Labs on public and inhouse datasets, to provide better accuracy.',
 };
 
 export const addNamingConventions = (title) => {
