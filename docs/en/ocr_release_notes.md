@@ -11,6 +11,30 @@ sidebar:
     nav: spark-ocr
 ---
 
+## 3.13.0
+
+we are glad to announce that Spark OCR 3.13.0 has been released!.
+This release focuses around VisualDocumentNer models, adding ability to fine-tune, fixing bugs, and to leverage the Annotation Lab to generate training data.
+
+#### New Features
+
+*VisualDocumentNerV21:
+  * Now you can fine tune models VisualDocumentNerV21 models on your own dataset.
+  
+*AlabReaders: 
+  * New class to allow training data from the Annotation Lab to be imported into Spark OCR. Currently, the reader supports Visual Ner only.
+
+
+#### Bug Fixes
+
+* Feature extraction on VisualDocumentNer has been improved.
+
+#### New notebooks
+
+* [SparkOcrFormRecognitionFineTuning.ipynb](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.13.0-release-candidate/jupyter/FormRecognition/SparkOcrFormRecognitionFineTuning.ipynb), end to end example on Visual Document Ner Fine-Tuning.
+* [Databricks notebooks](https://github.com/JohnSnowLabs/spark-ocr-workshop/tree/master/databricks) on Github Spark-OCR Workshop repository have been updated, and fixed.
+
+
 ## 3.12.0
 
 Release date: 14-04-2022
