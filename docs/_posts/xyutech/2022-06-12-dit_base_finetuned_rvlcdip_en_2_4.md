@@ -21,7 +21,7 @@ Document Image Transformer (DiT) model for document classification. The model wa
 
 ## Predicted Entities
 
-
+`letter`, `form`, `email`, `handwritten`, `advertisement`, `scientific report`, `scientific publication`, `specification`, `file folder`, `news article`, `budget`, `invoice`, `presentation`, `questionnaire`, `resume`, `memo`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
