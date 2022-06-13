@@ -1,2 +1,2 @@
-docs/_frontend/src/models/ModelItem/utils.js
-docs/_frontend/src/models/ModelItem/utils.js
+docs/en/ocr_release_notes.md
+docs/en/ocr_release_notes.md
