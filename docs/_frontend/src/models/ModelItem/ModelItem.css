@@ -131,3 +131,14 @@
 .model-item__tag-value {
   color: #1e77b7;
 }
+
+.model-item__recommended{
+  color: #ffffff;
+  background-color: #fc872e;
+  border-radius: 50%;
+  padding: 5px;
+  right: 15px;
+  top: 15px;
+  font-size: 12px;
+  position: absolute;
+}

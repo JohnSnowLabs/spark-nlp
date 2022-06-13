@@ -267,6 +267,7 @@ Jekyll::Hooks.register :posts, :post_render do |post|
 
   supported = !!post.data['supported']
   deprecated = !!post.data['deprecated']
+  recommended = !!post.data['recommended']
   model = {
     id: "#{post.data['name']}_#{post.data['language']}_#{post.data['edition']}_#{post.data["spark_version"]}",
     name: post.data['name'],
@@ -282,7 +283,8 @@ Jekyll::Hooks.register :posts, :post_render do |post|
     supported: supported && !deprecated,
     deprecated: deprecated,
     body: body,
-    url: post.url
+    url: post.url,
+    recommended: recommended
   }
 
   uniq = "#{post.data['name']}_#{post.data['language']}"
@@ -377,6 +379,9 @@ unless ENV['ELASTICSEARCH_URL'].to_s.empty?
             },
             "downloads": {
               "type": "integer"
+            },
+            "recommended": {
+              "type": "boolean"
             }
         }
       }
