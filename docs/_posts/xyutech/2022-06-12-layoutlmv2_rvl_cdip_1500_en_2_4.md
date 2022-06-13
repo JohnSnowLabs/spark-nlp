@@ -21,7 +21,7 @@ This model uses LayoutLMv2 to classify documents. It was trained on subset of RV
 
 ## Predicted Entities
 
-
+`advertisement`, `budget`, `email`, `file_folder`, `form`, `handwritten`, `invoice`, `letter`, `memo`, `news_article`, `presentation`, `questionnaire`, `resume`, `scientific_publication`, `scientific_report`, `specification`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
