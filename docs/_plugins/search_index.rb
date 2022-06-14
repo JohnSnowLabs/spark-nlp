@@ -290,7 +290,6 @@ Jekyll::Hooks.register :posts, :post_render do |post|
   uniq_to_models_mapping[uniq] << model
   editions.add(edition_short) unless edition_short.empty?
   uniq_for_indexing << uniq if changed_filenames.include?(post.basename)
-  changed_filenames.delete(post.basename)
 
   key = model[:id]
   name_language_editions_sparkversion_to_models_mapping[key] = [] unless name_language_editions_sparkversion_to_models_mapping.has_key? key
@@ -389,6 +388,16 @@ Jekyll::Hooks.register :site, :post_render do |site|
   force_reindex = editions_changed?(editions)
   bulk_indexer = BulkIndexer.new(client)
 
+  # remove renamed or deleted posts from the index
+  if client
+    changed_urls = changed_filenames.map do |filename|
+      filename.gsub! /\A(\d{4})-(\d{2})-(\d{2})-(\w+)\.md\z/, '/\1/\2/\3/\4.html'
+    end.compact
+    unless changed_urls.empty?
+      client.delete_by_query index: 'models', body: {query: {bool: {must: {terms: {url: changed_urls}}}}}
+    end
+  end
+
   uniq_to_models_mapping.each do |uniq, items|
     items.sort_by! { |v| v[:edition_short] }
     model_editions = items.map { |v| v[:edition_short] }.uniq
@@ -430,15 +439,6 @@ Jekyll::Hooks.register :site, :post_render do |site|
   end
   bulk_indexer.execute
 
-  # remove renamed or deleted posts from the index
-  if client
-    changed_filenames.map do |filename|
-      filename.gsub! /\A(\d{4})-(\d{2})-(\d{2})-(\w+)\.md\z/, '/\1/\2/\3/\4.html'
-    end.compact.each do |url|
-      puts "Removing #{url}..."
-      client.delete_by_query index: 'models', body: {query: {term: {url: url}}}
-    end
-  end
 end
 
 Jekyll::Hooks.register :site, :post_write do |site|

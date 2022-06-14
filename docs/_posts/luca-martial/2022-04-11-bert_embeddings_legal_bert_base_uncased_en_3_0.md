@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal English Bert Embeddings (from nlpaueb)
+title: Legal English Bert Embeddings (Base Uncased)
 author: John Snow Labs
 name: bert_embeddings_legal_bert_base_uncased
 date: 2022-04-11
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Legal Pretrained Bert Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `legal-bert-base-uncased` is a English model orginally trained by `nlpaueb`.
+Legal Pretrained Bert Embeddings model, trained with uncased text, uploaded to Hugging Face, adapted and imported into Spark NLP. `legal-bert-base-uncased` is a English model orginally trained by `nlpaueb`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
