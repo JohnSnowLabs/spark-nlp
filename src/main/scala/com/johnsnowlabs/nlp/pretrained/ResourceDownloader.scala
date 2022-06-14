@@ -636,7 +636,9 @@ object PythonResourceDownloader {
     "Doc2VecModel" -> Doc2VecModel,
     "Word2VecModel" -> Word2VecModel,
     "DeBertaEmbeddings" -> DeBertaEmbeddings,
-    "SpanBertCorefModel" -> SpanBertCorefModel)
+    "DeBertaForSequenceClassification" -> DeBertaForSequenceClassification,
+    "DeBertaForTokenClassification" -> DeBertaForTokenClassification,
+    "SpanBertCorefModel" -> SpanBertCorefModel,
     "CamemBertEmbeddings" -> CamemBertEmbeddings,
     "AlbertForQuestionAnswering" -> AlbertForQuestionAnswering,
     "BertForQuestionAnswering" -> BertForQuestionAnswering,
@@ -645,7 +647,6 @@ object PythonResourceDownloader {
     "LongformerForQuestionAnswering" -> LongformerForQuestionAnswering,
     "RoBertaForQuestionAnswering" -> RoBertaForQuestionAnswering,
     "XlmRoBertaForQuestionAnswering" -> XlmRoBertaForQuestionAnswering)
-
 
   def downloadModel(
       readerStr: String,
