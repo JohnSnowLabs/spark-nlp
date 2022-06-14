@@ -143,7 +143,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ER_HCPCS/
           - text: Colab Netbook
             type: blue_btn
-            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_HCPCS.ipynb
         - title: Resolve Clinical Health Information using the NDC taxonomy
           id: resolve_clinical_health_information_using_ndc_taxonomy   
           image: 

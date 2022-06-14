@@ -60,5 +60,5 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_BIOMARKER/
           - text: Colab Netbook
             type: blue_btn
-            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BIOMARKER.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BIOMARKER.ipynb
 ---

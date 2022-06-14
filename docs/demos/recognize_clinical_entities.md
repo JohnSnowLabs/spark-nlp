@@ -31,22 +31,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL
           - text: Colab Netbook
             type: blue_btn
-            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
-        - title: Detect signs and symptoms
-          hide: yes
-          id: detect_signs_and_symptoms
-          image: 
-              src: /assets/images/Detect_signs_and_symptoms.svg
-          image2: 
-              src: /assets/images/Detect_signs_and_symptoms_f.svg
-          excerpt: Automatically identify <b>Signs</b> and <b>Symptoms</b> in clinical documents using two of our pretrained Spark NLP clinical models.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_SIGN_SYMP/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_SIGN_SYMP.ipynb
+            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb        
         - title: Detect diagnosis and procedures
           id: detect_diagnosis_and_procedures
           image: 
@@ -160,7 +145,6 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_RISK_FACTORS.ipynb 
         - title: Detect Drug Chemicals (Bert For Token Classification) 
-          hide: yes
           id: detect_drug_chemicals
           image: 
               src: /assets/images/Detect_Drug_Chemicals.svg
@@ -257,7 +241,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_DRUGS_DEVELOPMENT_TRIALS/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DRUGS_DEVELOPMENT_TRIALS.ipynb
         - title: Extract conditions and benefits from drug reviews
           id: extract_conditions_benefits_drug_reviews 
           image: 
