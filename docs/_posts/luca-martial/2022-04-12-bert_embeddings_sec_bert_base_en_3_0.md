@@ -21,8 +21,8 @@ Financial Pretrained BERT Embeddings model, uploaded to Hugging Face, adapted an
 
 If you are interested in Financial Embeddings, take a look also at these two models:
 
-[sec-num](https://nlp.johnsnowlabs.com/2022/04/12/bert_embeddings_sec_bert_num_en_3_0.html): Same as Bert Base but we replace every number token with a [NUM] pseudo-token handling all numeric expressions in a uniform manner, disallowing their fragmentation).
-[sec-shape](https://nlp.johnsnowlabs.com/2022/04/12/bert_embeddings_sec_bert_sh_en_3_0.html): Same as Bert Base but we replace numbers with pseudo-tokens that represent the number’s shape, so numeric expressions (of known shapes) are no longer fragmented, e.g., '53.2' becomes '[XX.X]' and '40,200.5' becomes '[XX,XXX.X]'.
+- [sec-num](https://nlp.johnsnowlabs.com/2022/04/12/bert_embeddings_sec_bert_num_en_3_0.html): Same as Bert Base but we replace every number token with a [NUM] pseudo-token handling all numeric expressions in a uniform manner, disallowing their fragmentation).
+- [sec-shape](https://nlp.johnsnowlabs.com/2022/04/12/bert_embeddings_sec_bert_sh_en_3_0.html): Same as Bert Base but we replace numbers with pseudo-tokens that represent the number’s shape, so numeric expressions (of known shapes) are no longer fragmented, e.g., '53.2' becomes '[XX.X]' and '40,200.5' becomes '[XX,XXX.X]'.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
