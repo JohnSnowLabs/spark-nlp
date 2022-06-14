@@ -1,6 +1,6 @@
 ---
 layout: model
-title: GPT2 text-to-text model
+title: GPT2 text-to-text model (Medium)
 author: John Snow Labs
 name: gpt2_medium
 date: 2021-12-03
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-GPT-2 displays a broad set of capabilities, including the ability to generate conditional synthetic text samples of unprecedented quality, where the model is primed with an input and it generates a lengthy continuation.
+GPT-2 displays a broad set of capabilities, including the ability to generate conditional synthetic text samples of unprecedented quality, where the model is primed with an input and it generates a lengthy continuation. This is a medium model, being the base model also available in Models Hub.
 
 ## Predicted Entities
 
