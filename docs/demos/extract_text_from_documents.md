@@ -73,7 +73,7 @@ data:
             url: https://demo.johnsnowlabs.com/ocr/DOCX_TO_TEXT
           - text: Colab Netbook
             type: blue_btn
-            url: https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOcrDocToText.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/DOCX_TO_TEXT.ipynb
         - title: Extract text from Powerpoint slides
           id: extract-text-from-power-point-slides 
           image: 
