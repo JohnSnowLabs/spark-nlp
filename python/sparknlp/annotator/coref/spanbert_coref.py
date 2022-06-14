@@ -204,13 +204,13 @@ class SpanBertCorefModel(AnnotatorModel,
         return SpanBertCorefModel(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="spanbert_base_coref_model", lang="en", remote_loc=None):
+    def pretrained(name="spanbert_base_coref", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "small_bert_L2_768"
+            Name of the pretrained model, by default "spanbert_base_coref"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
