@@ -528,12 +528,48 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark OCR release notes"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="3130">3.13.0</h2>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="3140">3.14.0</h2>
 
-<p>we are glad to announce that Spark OCR 3.13.0 has been released!.
-This release focuses around VisualDocumentNer models, adding ability to fine-tune, fixing bugs, and to leverage the Annotation Lab to generate training data.</p>
+<p>Release date: 13-06-2022</p>
+
+<h4 id="overview">Overview</h4>
+
+<p>We are glad to announce that Spark OCR 3.14.0 has been released!.
+This release focuses around Visual Document Classification models, native Image Preprocessing on the JVM, and bug fixes.</p>
 
 <h4 id="new-features">New Features</h4>
+
+<p>*VisualDocumentClassifierv2:</p>
+<ul>
+  <li>New annotator for classifying documents based on multimodal(text + images) features.</li>
+</ul>
+
+<p>*VisualDocumentClassifierv3:</p>
+<ul>
+  <li>New annotator for classifying documents based on image features.</li>
+</ul>
+
+<p>*ImageTransformer:</p>
+<ul>
+  <li>New transformer that provides different image transformations on the JVM. Supported transforms are Scaling, Adaptive Thresholding, Median Blur, Dilation, Erosion, and Object Removal.</li>
+</ul>
+
+<h4 id="new-notebooks">New notebooks</h4>
+
+<ul>
+  <li><a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.14.0-release-candidate/jupyter/SparkOCRVisualDocumentClassifierv2.ipynb">SparkOCRVisualDocumentClassifierv2.ipynb</a>, example of Visual Document Classification using multimodal (text + visual) features.</li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.14.0-release-candidate/jupyter/SparkOCRVisualDocumentClassifierv3.ipynb">SparkOCRVisualDocumentClassifierv3.ipynb</a>, example of Visual Document Classification using only visual features.</li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.14.0-release-candidate/jupyter/SparkOCRCPUImageOperations.ipynb">SparkOCRCPUImageOperations.ipynb</a>, example of ImageTransformer.</li>
+</ul>
+
+<h2 id="3130">3.13.0</h2>
+
+<p>Release date: 25-05-2022</p>
+
+<p>We are glad to announce that Spark OCR 3.13.0 has been released!.
+This release focuses around VisualDocumentNer models, adding ability to fine-tune, fixing bugs, and to leverage the Annotation Lab to generate training data.</p>
+
+<h4 id="new-features-1">New Features</h4>
 
 <p>*VisualDocumentNerV21:</p>
 <ul>
@@ -551,7 +587,7 @@ This release focuses around VisualDocumentNer models, adding ability to fine-tun
   <li>Feature extraction on VisualDocumentNer has been improved.</li>
 </ul>
 
-<h4 id="new-notebooks">New notebooks</h4>
+<h4 id="new-notebooks-1">New notebooks</h4>
 
 <ul>
   <li><a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.13.0-release-candidate/jupyter/FormRecognition/SparkOcrFormRecognitionFineTuning.ipynb">SparkOcrFormRecognitionFineTuning.ipynb</a>, end to end example on Visual Document Ner Fine-Tuning.</li>
@@ -562,11 +598,11 @@ This release focuses around VisualDocumentNer models, adding ability to fine-tun
 
 <p>Release date: 14-04-2022</p>
 
-<h4 id="overview">Overview</h4>
+<h4 id="overview-1">Overview</h4>
 <p>We’re glad to announce that Spark OCR 3.12.0 has been released!
 This release comes with new models for Handwritten Text Recognition, Spark 3.2 support, bug fixes, and notebook examples.</p>
 
-<h4 id="new-features-1">New Features</h4>
+<h4 id="new-features-2">New Features</h4>
 
 <ul>
   <li>Added to the ImageTextDetectorV2:
@@ -623,7 +659,7 @@ ocr_base_handwritten: Text recognition base model for handwritten text based on 
   <li>display_table() function failing to display tables coming from digital PDFs.</li>
 </ul>
 
-<h4 id="new-notebooks-1">New notebooks</h4>
+<h4 id="new-notebooks-2">New notebooks</h4>
 
 <ul>
   <li><a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3120-release-candidate/jupyter/TextRecognition/SparkOcrImageToTextV2OutputFormats.ipynb">SparkOcrImageToTextV2OutputFormats.ipynb</a>, different output formats for ImageToTextV2.</li>
