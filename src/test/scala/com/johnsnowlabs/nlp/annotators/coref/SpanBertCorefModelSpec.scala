@@ -54,7 +54,8 @@ class SpanBertCorefModelSpec extends AnyFlatSpec {
       .setOutputCol("tokens")
 
     val corefs = SpanBertCorefModel
-      .load("/tmp/spanbertcoref")
+      .load("/models/sparknlp/spanbertcoref")
+      .setMaxSegmentLength(384)
       .setInputCols(Array("sentences", "tokens"))
       .setOutputCol("corefs")
 

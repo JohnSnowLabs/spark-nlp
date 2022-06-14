@@ -47,9 +47,9 @@ class SpanBertCorefTestSpec(unittest.TestCase):
             .setOutputCol("tokens")
 
         coref = SpanBertCorefModel() \
-            .load("/tmp/spanbertcoref") \
+            .load("/models/sparknlp/spanbertcoref") \
             .setInputCols(["sentences", "tokens"]) \
-            .setOutputCol("coref_rels")
+            .setOutputCol("corefs")
 
         pipeline = Pipeline(stages=[
             document_assembler,
@@ -60,5 +60,5 @@ class SpanBertCorefTestSpec(unittest.TestCase):
 
         model = pipeline.fit(self.data)
 
-        model.transform(self.data).select("text", "coref_rels").show(truncate=False)
+        model.transform(self.data).select("text", "corefs").show(truncate=False)
 
