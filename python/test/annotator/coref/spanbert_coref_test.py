@@ -21,13 +21,15 @@ from sparknlp.base import *
 from test.util import SparkSessionForTest
 
 
-@pytest.mark.fast
+@pytest.mark.slow
 class SpanBertCorefTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.data = SparkSessionForTest.spark.createDataFrame([
-            ["Meanwhile Prime Minister Ehud Barak told Israeli television he doubts a peace deal can be reached before Israel''s February 6th election. He said he will now focus on suppressing Palestinian violence."],
-            ["John loves Mary because she knows how to treat him. She is also fond of him. John said something to Mary but she didn't respond to him."],
+            [
+                "Meanwhile Prime Minister Ehud Barak told Israeli television he doubts a peace deal can be reached before Israel''s February 6th election. He said he will now focus on suppressing Palestinian violence."],
+            [
+                "John loves Mary because she knows how to treat him. She is also fond of him. John said something to Mary but she didn't respond to him."],
             ["the "],
             ["  "],
             [" "]
@@ -65,4 +67,3 @@ class SpanBertCorefTestSpec(unittest.TestCase):
             .selectExpr("explode(corefs) AS coref") \
             .selectExpr("coref.result as token", "coref.metadata") \
             .show(truncate=False)
-
