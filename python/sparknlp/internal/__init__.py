@@ -401,3 +401,4 @@ class _StorageHelper(ExtendedJavaWrapper):
 class _SpanBertCorefLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_SpanBertCorefLoader, self).__init__("com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel.loadSavedModel", path, jspark)
+
