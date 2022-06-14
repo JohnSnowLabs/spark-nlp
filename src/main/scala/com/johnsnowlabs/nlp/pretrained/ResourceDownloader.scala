@@ -638,7 +638,6 @@ object PythonResourceDownloader {
     "DeBertaEmbeddings" -> DeBertaEmbeddings,
     "DeBertaForSequenceClassification" -> DeBertaForSequenceClassification,
     "DeBertaForTokenClassification" -> DeBertaForTokenClassification,
-    "SpanBertCorefModel" -> SpanBertCorefModel,
     "CamemBertEmbeddings" -> CamemBertEmbeddings,
     "AlbertForQuestionAnswering" -> AlbertForQuestionAnswering,
     "BertForQuestionAnswering" -> BertForQuestionAnswering,
@@ -646,7 +645,8 @@ object PythonResourceDownloader {
     "DistilBertForQuestionAnswering" -> DistilBertForQuestionAnswering,
     "LongformerForQuestionAnswering" -> LongformerForQuestionAnswering,
     "RoBertaForQuestionAnswering" -> RoBertaForQuestionAnswering,
-    "XlmRoBertaForQuestionAnswering" -> XlmRoBertaForQuestionAnswering)
+    "XlmRoBertaForQuestionAnswering" -> XlmRoBertaForQuestionAnswering,
+    "SpanBertCorefModel" -> SpanBertCorefModel)
 
   def downloadModel(
       readerStr: String,

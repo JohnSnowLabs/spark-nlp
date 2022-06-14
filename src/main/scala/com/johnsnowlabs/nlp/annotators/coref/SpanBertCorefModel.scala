@@ -13,12 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.johnsnowlabs.nlp.annotators.coref
+
+import com.johnsnowlabs.ml.tensorflow.{
+  ReadTensorflowModel,
+  TensorflowSpanBertCoref,
+  TensorflowWrapper,
+  WriteTensorflowModel
+}
+import com.johnsnowlabs.nlp.annotators.common._
+import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
+import com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties
+import com.johnsnowlabs.nlp.serialization.MapFeature
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.storage.HasStorageRef
+import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.ml.param.{IntArrayParam, IntParam, Param}
+import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.sql.SparkSession
+import org.slf4j.{Logger, LoggerFactory}
+
+import java.io.File
 
 /** A coreference resolution model based on SpanBert
   *
-  * A coreference resolution model identifies expressions which refer to the same entity in a text. For example,
-  * given a sentence "John told Mary he would like to borrow a book from her." the model will link "he" to "John" and "her"
-  * to "Mary".
+  * A coreference resolution model identifies expressions which refer to the same entity in a
+  * text. For example, given a sentence "John told Mary he would like to borrow a book from her."
+  * the model will link "he" to "John" and "her" to "Mary".
   *
   * This model is based on SpanBert, which is fine-tuned on the OntoNotes 5.0 data set.
   *
@@ -101,44 +123,6 @@
   *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
   *   parameter values through setters and getters, respectively.
   */
-package com.johnsnowlabs.nlp.annotators.coref
-
-import com.johnsnowlabs.ml.tensorflow.{
-  ReadTensorflowModel,
-  TensorflowSpanBertCoref,
-  TensorflowWrapper,
-  WriteTensorflowModel
-}
-import com.johnsnowlabs.nlp.annotators.common.{
-  IndexedToken,
-  Sentence,
-  TokenPiece,
-  TokenizedSentence,
-  TokenizedWithSentence,
-  WordpieceTokenizedSentence
-}
-import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
-import com.johnsnowlabs.nlp.{
-  Annotation,
-  AnnotatorModel,
-  AnnotatorType,
-  HasCaseSensitiveProperties,
-  HasPretrained,
-  HasSimpleAnnotate,
-  ParamsAndFeaturesReadable
-}
-import com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties
-import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.storage.HasStorageRef
-import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{IntArrayParam, IntParam, Param}
-import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.SparkSession
-import org.slf4j.{Logger, LoggerFactory}
-
-import java.io.File
-
 class SpanBertCorefModel(override val uid: String)
     extends AnnotatorModel[SpanBertCorefModel]
     with HasSimpleAnnotate[SpanBertCorefModel]
@@ -234,7 +218,7 @@ class SpanBertCorefModel(override val uid: String)
     "wb" // Web data
   )
 
-  /** Text genre, one of the following values: `bc`: Broadcast conversation, default `bn:
+  /** Text genre, one of the following values: `bc`: Broadcast conversation, default `bn`:
     * Broadcast news `nw`: News wire `pt`: Pivot text: Old Testament and New Testament text `tc`:
     * Telephone conversation `wb`: Web data
     *
@@ -484,7 +468,7 @@ trait ReadSpanBertCorefTensorflowModel extends ReadTensorflowModel {
   }
 }
 
-/** This is the companion object of [[BertEmbeddings]]. Please refer to that class for the
+/** This is the companion object of [[SpanBertCorefModel]]. Please refer to that class for the
   * documentation.
   */
 object SpanBertCorefModel

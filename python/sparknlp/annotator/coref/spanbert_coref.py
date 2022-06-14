@@ -196,7 +196,7 @@ class SpanBertCorefModel(AnnotatorModel,
 
         Returns
         -------
-        BertEmbeddings
+        SpanBertCorefModel
             The restored model
         """
         from sparknlp.internal import _SpanBertCorefLoader
@@ -219,7 +219,7 @@ class SpanBertCorefModel(AnnotatorModel,
 
         Returns
         -------
-        BertEmbeddings
+        SpanBertCorefModel
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
