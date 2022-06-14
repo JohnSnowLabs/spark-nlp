@@ -25,7 +25,7 @@ class SpanBertCorefModelSpec extends AnyFlatSpec {
     SpanBertCorefModel.load("./tmp_spanbertcoref")
   }
 
-  "SpanBertCoref" should "process some text" taggedAs FastTest in {
+  "SpanBertCoref" should "process some text" taggedAs SlowTest in {
     val data = Seq("John told Mary he would like to borrow a book from her.")
       .toDF("text")
 
