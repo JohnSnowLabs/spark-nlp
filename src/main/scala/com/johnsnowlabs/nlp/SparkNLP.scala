@@ -42,8 +42,8 @@ object SparkNLP {
     *   Hadoop configuration for Apache Spark. NOTE: `S3` is not supported and it must be local,
     *   HDFS, or DBFS.
     * @param cluster_tmp_dir
-    *   The location to save logs from annotators during training (By default, it will be in
-    *   the users home directory under `annotator_logs`.)
+    *   The location to save logs from annotators during training (By default, it will be in the
+    *   users home directory under `annotator_logs`.)
     * @return
     *   SparkSession
     */
