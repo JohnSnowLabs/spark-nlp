@@ -11,6 +11,8 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+"""Contains classes for the Finisher."""
+
 from pyspark import keyword_only
 from pyspark.ml.param import TypeConverters, Params, Param
 from sparknlp.internal import AnnotatorTransformer

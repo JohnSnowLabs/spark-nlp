@@ -558,6 +558,56 @@ package object annotator {
   type SpanBertCorefModel = com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
 
   object SpanBertCorefModel
-      extends ReadablePretrainedSpanBertCorefModel
+    extends ReadablePretrainedSpanBertCorefModel
       with ReadSpanBertCorefTensorflowModel
+
+  type BertForQuestionAnswering =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.BertForQuestionAnswering
+
+  object BertForQuestionAnswering
+      extends ReadablePretrainedBertForQAModel
+      with ReadBertForQATensorflowModel
+
+  type DistilBertForQuestionAnswering =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForQuestionAnswering
+
+  object DistilBertForQuestionAnswering
+      extends ReadablePretrainedDistilBertForQAModel
+      with ReadDistilBertForQATensorflowModel
+
+  type RoBertaForQuestionAnswering =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForQuestionAnswering
+
+  object RoBertaForQuestionAnswering
+      extends ReadablePretrainedRoBertaForQAModel
+      with ReadRoBertaForQATensorflowModel
+
+  type XlmRoBertaForQuestionAnswering =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForQuestionAnswering
+
+  object XlmRoBertaForQuestionAnswering
+      extends ReadablePretrainedXlmRoBertaForQAModel
+      with ReadXlmRoBertaForQATensorflowModel
+
+  type DeBertaForQuestionAnswering =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForQuestionAnswering
+
+  object DeBertaForQuestionAnswering
+      extends ReadablePretrainedDeBertaForQAModel
+      with ReadDeBertaForQATensorflowModel
+
+  type AlbertForQuestionAnswering =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForQuestionAnswering
+
+  object AlbertForQuestionAnswering
+      extends ReadablePretrainedAlbertForQAModel
+      with ReadAlbertForQATensorflowModel
+
+  type LongformerForQuestionAnswering =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForQuestionAnswering
+
+  object LongformerForQuestionAnswering
+      extends ReadablePretrainedLongformerForQAModel
+      with ReadLongformerForQATensorflowModel
+
 }

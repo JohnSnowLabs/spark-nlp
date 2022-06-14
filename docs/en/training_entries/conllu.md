@@ -66,7 +66,7 @@ conllDataSet.selectExpr("text", "form.result as form", "upos.result as upos", "x
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[CoNLLU](/api/python/reference/autosummary/sparknlp.training.CoNLLU.html)
+[CoNLLU](/api/python/reference/autosummary/sparknlp/training/conllu/index.html#sparknlp.training.conllu.CoNLLU)
 {%- endcapture -%}
 
 {%- capture source_link -%}

@@ -289,9 +289,9 @@ class BertEmbeddings(override val uid: String)
             val content = if ($(caseSensitive)) token.token else token.token.toLowerCase()
             val sentenceBegin = token.begin
             val sentenceEnd = token.end
-            val sentenceInedx = tokenIndex.sentenceIndex
+            val sentenceIndex = tokenIndex.sentenceIndex
             val result = basicTokenizer.tokenize(
-              Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
+              Sentence(content, sentenceBegin, sentenceEnd, sentenceIndex))
             if (result.nonEmpty) result.head else IndexedToken("")
         }
       val wordpieceTokens =
