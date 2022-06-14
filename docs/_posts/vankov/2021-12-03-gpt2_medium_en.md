@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-GPT-2 displays a broad set of capabilities, including the ability to generate conditional synthetic text samples of unprecedented quality, where the model is primed with an input and it generates a lengthy continuation. This is a medium model, being the base model also available in Models Hub.
+GPT-2 displays a broad set of capabilities, including the ability to generate conditional synthetic text samples of unprecedented quality, where the model is primed with an input and it generates a lengthy continuation. This is the medium model (smaller than Base). Other models (base, large) are also available in [Models Hub](https://nlp.johnsnowlabs.com/models?task=Text+Generation)
 
 ## Predicted Entities
 
