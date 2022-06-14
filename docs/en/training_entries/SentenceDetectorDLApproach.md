@@ -100,7 +100,7 @@ val model = pipeline.fit(trainingData)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[SentenceDetectorDLApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.SentenceDetectorDLApproach.html)
+[SentenceDetectorDLApproach](/api/python/reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

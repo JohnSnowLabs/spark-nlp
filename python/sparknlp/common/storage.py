@@ -11,6 +11,8 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+"""Contains utility classes for handling storage."""
+
 from pyspark.ml.param import Param, Params, TypeConverters
 
 from sparknlp.common.utils import ExternalResource
@@ -45,7 +47,6 @@ class HasStorageRef:
 
 
 class HasStorageOptions:
-
     includeStorage = Param(Params._dummy(),
                            "includeStorage",
                            "whether to include indexed storage in trained model",
@@ -146,4 +147,3 @@ class HasStorage(HasStorageRef, HasCaseSensitiveProperties, HasStorageOptions):
             path to file
         """
         return self.getOrDefault("storagePath")
-

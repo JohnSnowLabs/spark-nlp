@@ -20,7 +20,7 @@ TOKEN
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[RecursiveTokenizerModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.RecursiveTokenizerModel.html)
+[RecursiveTokenizerModel](/api/python/reference/autosummary/sparknlp/annotator/token/recursive_tokenizer/index.html#sparknlp.annotator.token.recursive_tokenizer.RecursiveTokenizerModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -115,7 +115,7 @@ result.select("token.result").show(false)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[RecursiveTokenizer](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.RecursiveTokenizer.html)
+[RecursiveTokenizer](/api/python/reference/autosummary/sparknlp/annotator/token/recursive_tokenizer/index.html#sparknlp.annotator.token.recursive_tokenizer.RecursiveTokenizer)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

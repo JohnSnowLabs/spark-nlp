@@ -179,10 +179,11 @@ class LongformerForSequenceClassification(override val uid: String)
   def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)
 
   /** Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document
-    * by averaging probabilities in all sentences. Due to max sequence length limit in almost all
-    * transformer models such as BERT (512 tokens), this parameter helps feeding all the sentences
-    * into the model and averaging all the probabilities for the entire document instead of
-    * probabilities per sentence. (Default: true)
+    * by averaging probabilities in all sentences (Default: `false`).
+    *
+    * Due to max sequence length limit in almost all transformer models such as BERT (512 tokens),
+    * this parameter helps feeding all the sentences into the model and averaging all the
+    * probabilities for the entire document instead of probabilities per sentence.
     *
     * @group param
     */
@@ -214,7 +215,7 @@ class LongformerForSequenceClassification(override val uid: String)
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
-  /** Max sentence length to process (Default: `128`)
+  /** Max sentence length to process (Default: `4096`)
     *
     * @group param
     */
@@ -277,7 +278,7 @@ class LongformerForSequenceClassification(override val uid: String)
   /** @group getParam */
   def getModelIfNotSet: TensorflowRoBertaClassification = _model.get.value
 
-  /** Whether to lowercase tokens or not
+  /** Whether to lowercase tokens or not (Default: `true`).
     *
     * @group setParam
     */

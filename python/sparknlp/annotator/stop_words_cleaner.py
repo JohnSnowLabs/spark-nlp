@@ -11,7 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-
+"""Contains classes for the StopWordsCleaner."""
 from sparknlp.common import *
 
 
@@ -50,7 +50,7 @@ class StopWordsCleaner(AnnotatorModel):
     stopWords
         The words to be filtered out, by default english stopwords from Spark ML
     caseSensitive
-        Whether to do a case sensitive, by default False
+        Whether to consider case, by default False
     locale
         Locale of the input. ignored when case sensitive, by default locale of
         the JVM

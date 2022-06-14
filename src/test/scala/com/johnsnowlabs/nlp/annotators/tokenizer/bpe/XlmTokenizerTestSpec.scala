@@ -16,8 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.tokenizer.bpe
 
-import com.johnsnowlabs.nlp.annotators.common.{Sentence, TokenPiece}
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.nlp.annotators.common.TokenPiece
 import org.scalatest.flatspec.AnyFlatSpec
 
 class XlmTokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {

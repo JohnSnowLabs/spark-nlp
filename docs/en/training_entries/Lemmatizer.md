@@ -136,7 +136,7 @@ result.selectExpr("lemma.result").show(false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[Lemmatizer](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.Lemmatizer.html)
+[Lemmatizer](/api/python/reference/autosummary/sparknlp/annotator/lemmatizer/index.html#sparknlp.annotator.lemmatizer.Lemmatizer)
 {%- endcapture -%}
 
 {%- capture source_link -%}

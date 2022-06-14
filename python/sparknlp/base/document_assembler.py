@@ -11,6 +11,8 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+"""Contains classes for the DocumentAssembler."""
+
 from pyspark import keyword_only
 from pyspark.ml.param import TypeConverters, Params, Param
 from sparknlp.internal import AnnotatorTransformer
@@ -44,9 +46,6 @@ class DocumentAssembler(AnnotatorTransformer):
         Name of String type column for row id.
     metadataCol
         Name of Map type column with metadata information
-    calculationsCol
-        Name of float vector map column to use for embeddings and other
-        representations.
     cleanupMode
         How to cleanup the document , by default disabled.
         Possible values: ``disabled, inplace, inplace_full, shrink, shrink_full,
@@ -85,7 +84,6 @@ class DocumentAssembler(AnnotatorTransformer):
     outputCol = Param(Params._dummy(), "outputCol", "output column name", typeConverter=TypeConverters.toString)
     idCol = Param(Params._dummy(), "idCol", "column for setting an id to such string in row", typeConverter=TypeConverters.toString)
     metadataCol = Param(Params._dummy(), "metadataCol", "String to String map column to use as metadata", typeConverter=TypeConverters.toString)
-    calculationsCol = Param(Params._dummy(), "calculationsCol", "String to Float vector map column to use as embeddigns and other representations", typeConverter=TypeConverters.toString)
     cleanupMode = Param(Params._dummy(), "cleanupMode", "possible values: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full", typeConverter=TypeConverters.toString)
     name = 'DocumentAssembler'
 
@@ -136,17 +134,6 @@ class DocumentAssembler(AnnotatorTransformer):
         ----------
         value : str
             Name of the metadata column
-        """
-        return self._set(metadataCol=value)
-
-    def setCalculationsCol(self, value):
-        """Sets name of float vector map column to use for embeddings and other
-        representations.
-
-        Parameters
-        ----------
-        value : str
-            Name of the calculations column
         """
         return self._set(metadataCol=value)
 

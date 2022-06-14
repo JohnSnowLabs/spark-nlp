@@ -11,6 +11,8 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+"""Contains classes for WordEmbeddings."""
+
 
 from sparknlp.common import *
 
@@ -155,6 +157,7 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
 
     def _create_model(self, java_model):
         return WordEmbeddingsModel(java_model=java_model)
+
 
 class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageModel):
     """Word Embeddings lookup annotator that maps tokens to vectors

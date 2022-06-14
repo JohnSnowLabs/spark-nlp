@@ -17,7 +17,8 @@ import subprocess
 import threading
 from pyspark.sql import SparkSession
 from sparknlp import annotator
-from sparknlp.base import DocumentAssembler, Finisher, EmbeddingsFinisher, TokenAssembler, Chunk2Doc, Doc2Chunk
+from sparknlp.base import DocumentAssembler, MultiDocumentAssembler, Finisher, EmbeddingsFinisher, TokenAssembler, \
+    Chunk2Doc, Doc2Chunk
 from pyspark.conf import SparkConf
 from pyspark.context import SparkContext
 from pyspark.java_gateway import launch_gateway
@@ -72,17 +73,6 @@ def start(gpu=False,
     The default parameters would result in the equivalent of:
 
     .. code-block:: python
-        :param gpu: start Spark NLP with GPU
-        :param m1: start Spark NLP with M1 support on macOS
-        :param memory: set driver memory for SparkSession
-        :param cache_folder: The location to download and extract pretrained Models and Pipelines
-        :param log_folder: The location to save logs from annotators during training such as NerDLApproach,
-            ClassifierDLApproach, SentimentDLApproach, MultiClassifierDLApproach, etc.
-        :param cluster_tmp_dir: The location to use on a cluster for temporarily files
-        :param output_level: int, optional
-            Output level for logs, by default 1
-        :param real_time_output:
-        :substitutions:
 
         SparkSession.builder \\
             .appName("Spark NLP") \\
@@ -102,6 +92,17 @@ def start(gpu=False,
         Whether to enable M1 support for macOS
     memory : str, optional
         How much memory to allocate for the Spark driver, by default "16G"
+    cache_folder : str, optional
+        The location to download and extract pretrained Models and Pipelines. If not
+        set, it will be in the users home directory under `cache_pretrained`.
+    log_folder : str, optional
+        The location to use on a cluster for temporarily files such as unpacking indexes
+        for WordEmbeddings. By default, this locations is the location of
+        `hadoop.tmp.dir` set via Hadoop configuration for Apache Spark. NOTE: `S3` is
+        not supported and it must be local, HDFS, or DBFS.
+    cluster_tmp_dir : str, optional
+        The location to save logs from annotators during training. If not set, it will
+        be in the users home directory under `annotator_logs`.
     real_time_output : bool, optional
         Whether to output in real time, by default False
     output_level : int, optional

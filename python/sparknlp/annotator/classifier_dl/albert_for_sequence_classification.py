@@ -11,6 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+"""Contains classes concerning AlbertForSequenceClassification."""
 
 from sparknlp.common import *
 
@@ -52,14 +53,18 @@ class AlbertForSequenceClassification(AnnotatorModel,
         memory, by default 8
     caseSensitive
         Whether to ignore case in tokens for embeddings matching, by default
-        True
+        False
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     maxSentenceLength
         Max sentence length to process, by default 128
     coalesceSentences
-        Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging
-        probabilities in all sentences.
+        Instead of 1 class per sentence (if inputCols is `sentence`) output
+        1 class per document by averaging probabilities in all sentences, by 
+        default False.
+    activation
+        Whether to calculate logits via Softmax or Sigmoid, by default
+        `"softmax"`.
 
     Examples
     --------
