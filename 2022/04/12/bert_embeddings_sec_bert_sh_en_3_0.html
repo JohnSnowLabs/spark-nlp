@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Financial English BERT Embeddings (from nlpaueb)- Spark NLP Model</title><meta name="description" content="DescriptionPretrained Financial BERT Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. sec-bert-shape is a English model orgin...">
+<!-- End Google Tag Manager --><title>Financial English BERT Embeddings (Number shape masking)- Spark NLP Model</title><meta name="description" content="DescriptionPretrained Financial BERT Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. sec-bert-shape is a English model orgin...">
 <link rel="canonical" href="/2022/04/12/bert_embeddings_sec_bert_sh_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -411,12 +411,19 @@
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Apr 12, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-12T00:00:00+00:00"></div><header class="main-docs"><h1>Financial English BERT Embeddings (from nlpaueb)</h1></header></div><meta itemprop="headline" content="Financial English BERT Embeddings (from nlpaueb)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>bert</li><li>embeddings</li><li>en</li><li>open_source</li><li>financial</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-12T00:00:00+00:00">
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-12T00:00:00+00:00"></div><header class="main-docs"><h1>Financial English BERT Embeddings (Number shape masking)</h1></header></div><meta itemprop="headline" content="Financial English BERT Embeddings (Number shape masking)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>bert</li><li>embeddings</li><li>en</li><li>open_source</li><li>financial</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-12T00:00:00+00:00">
     <meta itemprop="keywords" content="bert,embeddings,en,open_source,financial"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Pretrained Financial BERT Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. <code class="language-plaintext highlighter-rouge">sec-bert-shape</code> is a English model orginally trained by <code class="language-plaintext highlighter-rouge">nlpaueb</code>.</p>
+<p>Pretrained Financial BERT Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. <code class="language-plaintext highlighter-rouge">sec-bert-shape</code> is a English model orginally trained by <code class="language-plaintext highlighter-rouge">nlpaueb</code>.This model is the same as Bert Base but we replace numbers with pseudo-tokens that represent the number’s shape, so numeric expressions (of known shapes) are no longer fragmented, e.g., ‘53.2’ becomes ‘[XX.X]’ and ‘40,200.5’ becomes ‘[XX,XXX.X]’.</p>
+
+<p>If you are interested in Financial Embeddings, take a look also at these two models:</p>
+
+<ul>
+  <li><a href="https://nlp.johnsnowlabs.com/2022/04/12/bert_embeddings_sec_bert_base_en_3_0.html">sec-base</a>: Same as BERT Base but trained with financial documents.</li>
+  <li><a href="https://nlp.johnsnowlabs.com/2022/04/12/bert_embeddings_sec_bert_num_en_3_0.html">sec-num</a>: Same as Bert sec-base but we replace every number token with a [NUM] pseudo-token handling all numeric expressions in a uniform manner, disallowing their fragmentation).</li>
+</ul>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
@@ -642,7 +649,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/04/12/bert_embeddings_sec_bert_num_en_3_0.html">Financial English BERT Embeddings (from nlpaueb)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/04/12/distilbert_embeddings_BERTino_it_3_0.html">Italian DistilBERT Embeddings (from indigo-ai)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/04/12/bert_embeddings_sec_bert_num_en_3_0.html">Financial English BERT Embeddings (Number masking)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/04/12/distilbert_embeddings_BERTino_it_3_0.html">Italian DistilBERT Embeddings (from indigo-ai)</a></div></div></div>
 
 </div>
 </div>

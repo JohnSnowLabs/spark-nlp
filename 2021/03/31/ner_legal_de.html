@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Detect Legal Entities in German- Spark NLP Model</title><meta name="description" content="DescriptionThis model can be used to detect legal entities in German text.Predicted EntitiesSTR, LIT, PER, EUN, VT, MRK, INN, UN, RS, ORG, GS, VS, LDS, GRT, ...">
+<!-- End Google Tag Manager --><title>Detect Legal Entities in German- Spark NLP Model</title><meta name="description" content="DescriptionThis model can be used to detect legal entities in German text, predicting up to 19 different labels:| tag	| meaning -----------------| AN	| Anwal...">
 <link rel="canonical" href="/2021/03/31/ner_legal_de.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -416,7 +416,29 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model can be used to detect legal entities in German text.</p>
+<p>This model can be used to detect legal entities in German text, predicting up to 19 different labels:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| tag	| meaning 
+-----------------
+| AN	| Anwalt 
+| EUN	| Europäische Norm 
+| GS	| Gesetz 
+| GRT	| Gericht 
+| INN	| Institution 
+| LD	| Land 
+| LDS	| Landschaft 
+| LIT	| Literatur 
+| MRK	| Marke 
+| ORG	| Organisation 
+| PER	| Person 
+| RR	| Richter 
+| RS	| Rechtssprechung 
+| ST	| Stadt 
+| STR	| Straße 
+| UN	| Unternehmen 
+| VO	| Verordnung 
+| VS	| Vorschrift 
+| VT	| Vertrag 
+</code></pre></div></div>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
