@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Financial English BERT Embeddings (number masking)
+title: Financial English BERT Embeddings (Number masking)
 author: John Snow Labs
 name: bert_embeddings_sec_bert_num
 date: 2022-04-12
