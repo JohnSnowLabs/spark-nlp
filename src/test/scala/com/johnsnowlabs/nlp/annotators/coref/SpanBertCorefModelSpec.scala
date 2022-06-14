@@ -48,7 +48,6 @@ class SpanBertCorefModelSpec extends AnyFlatSpec {
 
     val corefs = SpanBertCorefModel
       .pretrained()
-      .setMaxSegmentLength(384)
       .setInputCols(Array("sentences", "tokens"))
       .setOutputCol("corefs")
 

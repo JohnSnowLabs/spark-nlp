@@ -17,7 +17,7 @@
 /** A coreference resolution model based on SpanBert
   *
   * A coreference resolution model identifies expressions which refer to the same entity in a text. For example,
-  * give a sentence "John told Mary he would like to borrow a book from her." the model will link "he" to "John" and "her"
+  * given a sentence "John told Mary he would like to borrow a book from her." the model will link "he" to "John" and "her"
   * to "Mary".
   *
   * This model is based on SpanBert, which is fine-tuned on the OntoNotes 5.0 data set.
