@@ -48,7 +48,7 @@ class SpanBertCorefModel(override val uid: String)
 
   override val inputAnnotatorTypes: Array[String] =
     Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
-  override val outputAnnotatorType: AnnotatorType = AnnotatorType.CATEGORY
+  override val outputAnnotatorType: AnnotatorType = AnnotatorType.DEPENDENCY
 
   def sentenceStartTokenId: Int = {
     $$(vocabulary)("[CLS]")
@@ -239,18 +239,19 @@ class SpanBertCorefModel(override val uid: String)
       genre = _textGenres.indexOf($(textGenre)),
       maxSegmentLength = $(maxSegmentLength))
 
-    def getTokensFromSpan(span: ((Int, Int), (Int, Int))): Array[TokenPiece] = {
+    def getTokensFromSpan(span: ((Int, Int), (Int, Int))): Array[(TokenPiece, Int)] = {
       val sentence1 = span._1._1
       val sentence2 = span._2._1
       val tokenStart = span._1._2
       val tokenEnd = span._2._2
       if (sentence1 == sentence2) {
-        tokenizedSentences(sentence1).tokens.slice(tokenStart, tokenEnd + 1)
+        tokenizedSentences(sentence1).tokens.slice(tokenStart, tokenEnd + 1).map((_, sentence1))
       } else {
         (tokenizedSentences(sentence1).tokens
           .slice(tokenStart, tokenizedSentences(sentence1).tokens.length - 1)
+          .map((_, sentence1))
           ++
-            tokenizedSentences(sentence2).tokens.slice(0, tokenEnd + 1))
+            tokenizedSentences(sentence2).tokens.slice(0, tokenEnd + 1).map((_, sentence2)))
       }
     }
 
@@ -264,38 +265,40 @@ class SpanBertCorefModel(override val uid: String)
 //            ).mkString(", ")))
 //    }
     predictedClusters.flatMap(cluster => {
-      val spans = cluster.map(xy => getTokensFromSpan(xy))
 
-      spans.zipWithIndex.flatMap { case (span1, span1Id) =>
-        spans.zipWithIndex
-          .filter(_._2 > span1Id)
-          .map(_._1)
-          .map { span2 =>
-            val minSpanBegin = scala.math.min(span1.head.begin, span2.head.begin)
-            val maxSpanEnd = scala.math.min(span1.last.end, span2.last.end)
-
-            new Annotation(
-              annotatorType = AnnotatorType.CATEGORY,
-              begin = minSpanBegin,
-              end = maxSpanEnd,
-              metadata = Map(
-                "entity1" -> "COREFSPAN",
-                "entity2" -> "COREFSPAN",
-                "entity1_begin" -> span1.head.begin.toString,
-                "entity1_end" -> span2.head.begin.toString,
-                "entity2_begin" -> span1.head.begin.toString,
-                "entity2_end" -> span2.head.begin.toString,
-                "chunk1" -> span1
-                  .map(x => (if (x.isWordStart) " " else "") + x.wordpiece.replaceFirst("##", ""))
-                  .mkString("")
-                  .trim,
-                "chunk2" -> span2
-                  .map(x => (if (x.isWordStart) " " else "") + x.wordpiece.replaceFirst("##", ""))
-                  .mkString("")
-                  .trim),
-              result = "COREF")
-          }
-      }
+      val clusterSpans = cluster.map(xy => getTokensFromSpan(xy))
+      val clusterHeadSpan = clusterSpans.head
+      val clusterHeadSpanText = clusterHeadSpan
+        .map(x => (if (x._1.isWordStart) " " else "") + x._1.wordpiece.replaceFirst("##", ""))
+        .mkString("")
+        .trim
+      Array(
+        Annotation(
+          annotatorType = AnnotatorType.DEPENDENCY,
+          begin = clusterHeadSpan.head._1.begin,
+          end = clusterHeadSpan.last._1.end,
+          result = clusterHeadSpanText,
+          metadata = Map(
+            "head" -> "ROOT",
+            "head.begin" -> "-1",
+            "head.end" -> "-1",
+            "head.sentence" -> "-1",
+            "sentence" -> clusterHeadSpan.head._2.toString))) ++ clusterSpans.tail.map(span => {
+        Annotation(
+          annotatorType = AnnotatorType.DEPENDENCY,
+          begin = span.head._1.begin,
+          end = span.last._1.end,
+          result = span
+            .map(x => (if (x._1.isWordStart) " " else "") + x._1.wordpiece.replaceFirst("##", ""))
+            .mkString("")
+            .trim,
+          metadata = Map(
+            "head" -> clusterHeadSpanText,
+            "head.begin" -> clusterHeadSpan.head._1.begin.toString,
+            "head.end" -> clusterHeadSpan.last._1.end.toString,
+            "head.sentence" -> clusterHeadSpan.head._2.toString,
+            "sentence" -> span.head._2.toString))
+      })
     })
   }
 

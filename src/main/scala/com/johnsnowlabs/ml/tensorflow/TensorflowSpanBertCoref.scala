@@ -107,7 +107,7 @@ class TensorflowSpanBertCoref(
     val inputMaskTensors = tensors.createIntBufferTensor(inputIdsShape, inputMaskBuffer)
     val textLengthTensors = tensors.createIntBufferTensor(singleValueShape, textLengthBuffer)
     val speakerIdsTensors = tensors.createIntBufferTensor(inputIdsShape, speakerIdsBuffer)
-    val genreTensors = tensors.createTensor(1)
+    val genreTensors = tensors.createTensor(genre)
     val isTrainingTensors = tensors.createTensor(false)
     val goldStartsTensors = tensors.createIntBufferTensor(emptyShape, goldStartsBuffer)
     val goldEndTensors = tensors.createIntBufferTensor(emptyShape, goldEndsBuffer)

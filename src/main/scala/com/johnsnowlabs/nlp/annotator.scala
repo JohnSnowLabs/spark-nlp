@@ -558,7 +558,7 @@ package object annotator {
   type SpanBertCorefModel = com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
 
   object SpanBertCorefModel
-    extends ReadablePretrainedSpanBertCorefModel
+      extends ReadablePretrainedSpanBertCorefModel
       with ReadSpanBertCorefTensorflowModel
 
   type BertForQuestionAnswering =
