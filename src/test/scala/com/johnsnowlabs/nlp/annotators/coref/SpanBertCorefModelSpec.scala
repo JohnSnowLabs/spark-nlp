@@ -18,7 +18,7 @@ class SpanBertCorefModelSpec extends AnyFlatSpec {
 
   import spark.implicits._
 
-  "SpanBertCoref" should "load TF graph" taggedAs SlowTest in {
+  "SpanBertCoref" should "load TF graph" taggedAs SlowTest ignore {
     SpanBertCorefModel
       .loadSavedModel("/tmp/coref_tf1", spark)
       .setMaxSegmentLength(384)
@@ -29,16 +29,9 @@ class SpanBertCorefModelSpec extends AnyFlatSpec {
   }
 
   "SpanBertCoref" should "process some text" taggedAs FastTest in {
-    val ddd = Seq(
-      "Meanwhile Prime Minister Ehud Barak told Israeli television he doubts a peace deal can be reached before Israel's February 6th election. He said he will now focus on suppressing Palestinian violence.",
-      "John loves Mary because she knows how to treat him. She is also fond of him.",
-      "John said something to Mary but she didn't respond to him.",
-      " ",
-      "",
-      "hey",
-      "hey hey")
+    val data = Seq(
+      "John told Mary he would like to borrow a book from her.")
       .toDF("text")
-      .repartition(numPartitions = 1)
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -54,13 +47,16 @@ class SpanBertCorefModelSpec extends AnyFlatSpec {
       .setOutputCol("tokens")
 
     val corefs = SpanBertCorefModel
-      .load("/models/sparknlp/spanbertcoref")
+      .pretrained()
       .setMaxSegmentLength(384)
       .setInputCols(Array("sentences", "tokens"))
       .setOutputCol("corefs")
 
     val pipeline = new Pipeline().setStages(Array(document, sentencer, tokenizer, corefs))
 
-    pipeline.fit(ddd).transform(ddd).select("corefs").show(truncate = false)
+    val result = pipeline.fit(data).transform(data)
+
+    result.selectExpr("explode(corefs) as coref")
+      .selectExpr("coref.result as token", "coref.metadata").show(8, truncate = false)
   }
 }

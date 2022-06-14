@@ -47,7 +47,7 @@ class SpanBertCorefTestSpec(unittest.TestCase):
             .setOutputCol("tokens")
 
         coref = SpanBertCorefModel() \
-            .load("/models/sparknlp/spanbertcoref") \
+            .pretrained() \
             .setInputCols(["sentences", "tokens"]) \
             .setOutputCol("corefs")
 
@@ -60,5 +60,9 @@ class SpanBertCorefTestSpec(unittest.TestCase):
 
         model = pipeline.fit(self.data)
 
-        model.transform(self.data).select("text", "corefs").show(truncate=False)
+        model \
+            .transform(self.data) \
+            .selectExpr("explode(corefs) AS coref") \
+            .selectExpr("coref.result as token", "coref.metadata") \
+            .show(truncate=False)
 

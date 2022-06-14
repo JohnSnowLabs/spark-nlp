@@ -1,3 +1,106 @@
+/*
+ * Copyright 2017-2022 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/** A coreference resolution model based on SpanBert
+  *
+  * A coreference resolution model identifies expressions which refer to the same entity in a text. For example,
+  * give a sentence "John told Mary he would like to borrow a book from her." the model will link "he" to "John" and "her"
+  * to "Mary".
+  *
+  * This model is based on SpanBert, which is fine-tuned on the OntoNotes 5.0 data set.
+  *
+  * Pretrained models can be loaded with `pretrained` of the companion object:
+  * {{{
+  * val dependencyParserApproach = SpanBertCorefModel.pretrained()
+  *   .setInputCols("sentence", "token")
+  *   .setOutputCol("corefs")
+  * }}}
+  * The default model is `"spanbert_base_coref"`, if no name is provided. For available pretrained
+  * models please see the [[https://nlp.johnsnowlabs.com/models Models Hub]].
+  *
+  * '''Sources:'''
+  *   - [[https://github.com/mandarjoshi90/coref]]
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotators.Tokenizer
+  * import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+  * import com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel*
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val sentence = new SentenceDetector()
+  *   .setInputCols("document")
+  *   .setOutputCol("sentence")
+  *
+  * val tokenizer = new Tokenizer()
+  *   .setInputCols("sentence")
+  *   .setOutputCol("token")
+  *
+  * val corefResolution = SpanBertCorefModel.pretrained()
+  *   .setInputCols("sentence", "token")
+  *   .setOutputCol("corefs")
+  *
+  * val pipeline = new Pipeline().setStages(Array(
+  *   documentAssembler,
+  *   sentence,
+  *   tokenizer,
+  *   corefResolution
+  * ))
+  *
+  * val data = Seq(
+  *   "John told Mary he would like to borrow a book from her."
+  * ).toDF("text")
+  *
+  * val result = pipeline.fit(data).transform(data)
+  *
+  * result.selectExpr(""explode(corefs) AS coref"")
+  *   .selectExpr("coref.result as token", "coref.metadata").show(truncate = false)
+  * +-----+------------------------------------------------------------------------------------+
+  * |token|metadata                                                                            |
+  * +-----+------------------------------------------------------------------------------------+
+  * |John |{head.sentence -> -1, head -> ROOT, head.begin -> -1, head.end -> -1, sentence -> 0}|
+  * |he   |{head.sentence -> 0, head -> John, head.begin -> 0, head.end -> 3, sentence -> 0}   |
+  * |Mary |{head.sentence -> -1, head -> ROOT, head.begin -> -1, head.end -> -1, sentence -> 0}|
+  * |her  |{head.sentence -> 0, head -> Mary, head.begin -> 10, head.end -> 13, sentence -> 0} |
+  * +-----+------------------------------------------------------------------------------------+
+  * }}}
+  *
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 package com.johnsnowlabs.nlp.annotators.coref
 
 import com.johnsnowlabs.ml.tensorflow.{
@@ -317,7 +420,7 @@ class SpanBertCorefModel(override val uid: String)
 trait ReadablePretrainedSpanBertCorefModel
     extends ParamsAndFeaturesReadable[SpanBertCorefModel]
     with HasPretrained[SpanBertCorefModel] {
-  override val defaultModelName: Some[String] = Some("")
+  override val defaultModelName: Some[String] = Some("spanbert_base_coref")
 
   /** Java compliant-overrides */
   override def pretrained(): SpanBertCorefModel = super.pretrained()
