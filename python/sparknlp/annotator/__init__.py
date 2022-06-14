@@ -39,6 +39,7 @@ from sparknlp.annotator.n_gram_generator import *
 from sparknlp.annotator.normalizer import *
 from sparknlp.annotator.stemmer import *
 from sparknlp.annotator.stop_words_cleaner import *
+from sparknlp.annotator.coref import *
 
 if sys.version_info[0] == 2:
     raise ImportError(
@@ -78,3 +79,4 @@ sentence_detector_dl = sys.modules[__name__]
 seq2seq = sys.modules[__name__]
 ws = sys.modules[__name__]
 er = sys.modules[__name__]
+coref = sys.modules[__name__]

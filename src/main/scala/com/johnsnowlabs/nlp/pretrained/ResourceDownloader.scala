@@ -18,6 +18,7 @@ package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
+import com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
 import com.johnsnowlabs.nlp.annotators.er.EntityRulerModel
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
@@ -635,6 +636,8 @@ object PythonResourceDownloader {
     "Doc2VecModel" -> Doc2VecModel,
     "Word2VecModel" -> Word2VecModel,
     "DeBertaEmbeddings" -> DeBertaEmbeddings,
+    "DeBertaForSequenceClassification" -> DeBertaForSequenceClassification,
+    "DeBertaForTokenClassification" -> DeBertaForTokenClassification,
     "CamemBertEmbeddings" -> CamemBertEmbeddings,
     "AlbertForQuestionAnswering" -> AlbertForQuestionAnswering,
     "BertForQuestionAnswering" -> BertForQuestionAnswering,
@@ -642,7 +645,8 @@ object PythonResourceDownloader {
     "DistilBertForQuestionAnswering" -> DistilBertForQuestionAnswering,
     "LongformerForQuestionAnswering" -> LongformerForQuestionAnswering,
     "RoBertaForQuestionAnswering" -> RoBertaForQuestionAnswering,
-    "XlmRoBertaForQuestionAnswering" -> XlmRoBertaForQuestionAnswering)
+    "XlmRoBertaForQuestionAnswering" -> XlmRoBertaForQuestionAnswering,
+    "SpanBertCorefModel" -> SpanBertCorefModel)
 
   def downloadModel(
       readerStr: String,

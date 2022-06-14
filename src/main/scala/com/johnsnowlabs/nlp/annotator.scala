@@ -19,6 +19,10 @@ package com.johnsnowlabs.nlp
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel
 import com.johnsnowlabs.nlp.annotators.btm.ReadablePretrainedBigTextMatcher
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
+import com.johnsnowlabs.nlp.annotators.coref.{
+  ReadSpanBertCorefTensorflowModel,
+  ReadablePretrainedSpanBertCorefModel
+}
 import com.johnsnowlabs.nlp.annotators.er.ReadablePretrainedEntityRuler
 import com.johnsnowlabs.nlp.annotators.ld.dl.{
   ReadLanguageDetectorDLTensorflowModel,
@@ -550,6 +554,12 @@ package object annotator {
   object CamemBertEmbeddings
       extends ReadablePretrainedCamemBertModel
       with ReadCamemBertTensorflowModel
+
+  type SpanBertCorefModel = com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
+
+  object SpanBertCorefModel
+      extends ReadablePretrainedSpanBertCorefModel
+      with ReadSpanBertCorefTensorflowModel
 
   type BertForQuestionAnswering =
     com.johnsnowlabs.nlp.annotators.classifier.dl.BertForQuestionAnswering
