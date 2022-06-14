@@ -155,7 +155,7 @@ class TensorflowSpanBertCoref(
     val t_results = runner.run()
 
     val spanScoresRaw = TensorResources.extractFloats(t_results.get(0))
-    val numCandidateSpans = (spanScoresRaw.length / batchSize)
+    val numCandidateSpans = spanScoresRaw.length / batchSize
     val spanScores = spanScoresRaw.grouped(numCandidateSpans).toArray
     val candidateStarts =
       TensorResources.extractInts(t_results.get(1)).grouped(numCandidateSpans).toArray
@@ -299,7 +299,7 @@ class TensorflowSpanBertCoref(
         else if (candidateStarts(sentence_i)(x) > candidateStarts(sentence_i)(y))
           false
         else
-          (candidateEnds(sentence_i)(x) <= candidateEnds(sentence_i)(y))
+          candidateEnds(sentence_i)(x) <= candidateEnds(sentence_i)(y)
       }
       sortedSelectedCandidateIdx.padTo(
         maxNumOutputSpans,

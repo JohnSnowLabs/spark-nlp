@@ -398,7 +398,9 @@ class _StorageHelper(ExtendedJavaWrapper):
     def __init__(self, path, spark, database, storage_ref, within_storage):
         super(_StorageHelper, self).__init__("com.johnsnowlabs.storage.StorageHelper.load", path, spark._jsparkSession,
                                              database, storage_ref, within_storage)
+
+
 class _SpanBertCorefLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
-        super(_SpanBertCorefLoader, self).__init__("com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel.loadSavedModel", path, jspark)
-
+        super(_SpanBertCorefLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel.loadSavedModel", path, jspark)
