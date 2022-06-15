@@ -7,7 +7,7 @@ date: 2022-06-08
 tags: [es, open_source, distilbert, question_answering]
 task: Question Answering
 language: es
-edition: Spark NLP 3.4.4
+edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -17,12 +17,12 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `distillbert-base-spanish-uncased-finetuned-qa-tar` is a English model orginally trained by `CenIA`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `distillbert-base-spanish-uncased-finetuned-qa-tar` is a English model originally trained by `CenIA`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_qa_distillbert_base_spanish_uncased_finetuned_qa_tar_es_3.4.4_3.0_1654728163939.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_qa_distillbert_base_spanish_uncased_finetuned_qa_tar_es_4.0.0_3.0_1654728163939.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -70,7 +70,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|distilbert_qa_distillbert_base_spanish_uncased_finetuned_qa_tar|
-|Compatibility:|Spark NLP 3.4.4+|
+|Compatibility:|Spark NLP 4.0.0+|
 |License:|Open Source|
 |Edition:|Official|
 |Input Labels:|[document_question, document_context]|
