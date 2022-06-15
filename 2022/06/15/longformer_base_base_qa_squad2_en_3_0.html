@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>SpanBert Coreference Resolution- Spark NLP Model</title><meta name="description" content="DescriptionA coreference resolution model identifies expressions which refer to the same entity in a text. For example, given a sentence “John told Mary he w...">
-<link rel="canonical" href="/2022/06/14/spanbert_base_coref_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>English LongformerForQuestionAnswering model (from valhalla)- Spark NLP Model</title><meta name="description" content="DescriptionPretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. longfo...">
+<link rel="canonical" href="/2022/06/15/longformer_base_base_qa_squad2_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,23 +406,21 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/vankov/2022-06-14-spanbert_base_coref_en_3_0.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/murat-gunay/2022-06-15-longformer_base_base_qa_squad2_en_3_0.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jun 14, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-14T00:00:00+00:00"></div><header class="main-docs"><h1>SpanBert Coreference Resolution</h1></header></div><meta itemprop="headline" content="SpanBert Coreference Resolution"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-14T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jun 15, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-15T00:00:00+00:00"></div><header class="main-docs"><h1>English LongformerForQuestionAnswering model (from valhalla)</h1></header></div><meta itemprop="headline" content="English LongformerForQuestionAnswering model (from valhalla)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>open_source</li><li>longformer</li><li>question_answering</li><li>en</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-15T00:00:00+00:00">
+    <meta itemprop="keywords" content="open_source,longformer,question_answering,en"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>A coreference resolution model identifies expressions which refer to the same entity in a text. For example, given a sentence “John told Mary he would like to borrow a book from her.” the model will link “he” to “John” and “her” to “Mary”.  This model is based on SpanBert, which is fine-tuned on the OntoNotes 5.0 data set.</p>
-
-<h2 id="predicted-entities">Predicted Entities</h2>
+<p>Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. <code class="language-plaintext highlighter-rouge">longformer-base-4096-finetuned-squadv1</code> is a English model originally trained by <code class="language-plaintext highlighter-rouge">valhalla</code>.</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spanbert_base_coref_en_4.0.0_3.0_1655203982784.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/longformer_base_base_qa_squad2_en_4.0.0_3.0_1655292497074.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -430,42 +428,37 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"John told Mary he would like to borrow a book from her."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">().</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">]).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentences"</span><span class="p">)</span>
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">]).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"tokens"</span><span class="p">)</span>
-<span class="n">corefResolution</span> <span class="o">=</span> <span class="n">SpanBertCorefModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"spanbert_base_coref"</span><span class="p">).</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">]).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"corefs"</span><span class="p">)</span>
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">corefResolution</span><span class="p">])</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">MultiDocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+<span class="n">spanClassifier</span> <span class="o">=</span> <span class="n">LongformerForQuestionAnswering</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"longformer_base_base_qa_squad2"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">spanClassifier</span><span class="p">])</span>
 
-<span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">data</span><span class="p">).</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(corefs) AS coref"</span><span class="p">).</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"coref.result as token"</span><span class="p">,</span> <span class="s">"coref.metadata"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"What is my name?"</span><span class="p">,</span> <span class="s">"My name is Clara and I live in Berkeley."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"John told Mary he would like to borrow a book from her."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">document</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">().</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">).</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">sentencer</span> <span class="k">=</span> <span class="nc">SentenceDetector</span><span class="o">().</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">)).</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">().</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">)).</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"tokens"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">corefResolution</span> <span class="k">=</span> <span class="nv">SpanBertCorefModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"spanbert_base_coref"</span><span class="o">).</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">)).</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"corefs"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MultiDocumentAssembler</span><span class="o">()</span> 
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"question"</span><span class="o">,</span> <span class="s">"context"</span><span class="o">))</span> 
+      <span class="o">.</span><span class="py">setOutputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document_question"</span><span class="o">,</span> <span class="s">"document_context"</span><span class="o">))</span>
+ 
+<span class="k">val</span> <span class="nv">spanClassifer</span> <span class="k">=</span> <span class="nv">LongformerForQuestionAnswering</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"longformer_base_base_qa_squad2"</span><span class="o">,</span><span class="s">"en"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document</span><span class="o">,</span> <span class="n">sentencer</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">corefResolution</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">spanClassifier</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"What is my name?"</span><span class="o">,</span> <span class="s">"My name is Clara and I live in Berkeley."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"question"</span><span class="o">,</span> <span class="s">"context"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
-
-<span class="nv">result</span><span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"explode(corefs) as coref"</span><span class="o">).</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"coref.result as token"</span><span class="o">,</span> <span class="s">"coref.metadata"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
-
-<h2 id="results">Results</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----+------------------------------------------------------------------------------------+
-|token|metadata                                                                            |
-+-----+------------------------------------------------------------------------------------+
-|John |<span class="o">{</span>head.sentence -&gt; <span class="nt">-1</span>, <span class="nb">head</span> -&gt; ROOT, head.begin -&gt; <span class="nt">-1</span>, head.end -&gt; <span class="nt">-1</span>, sentence -&gt; 0<span class="o">}</span>|
-|he   |<span class="o">{</span>head.sentence -&gt; 0, <span class="nb">head</span> -&gt; John, head.begin -&gt; 0, head.end -&gt; 3, sentence -&gt; 0<span class="o">}</span>   |
-|Mary |<span class="o">{</span>head.sentence -&gt; <span class="nt">-1</span>, <span class="nb">head</span> -&gt; ROOT, head.begin -&gt; <span class="nt">-1</span>, head.end -&gt; <span class="nt">-1</span>, sentence -&gt; 0<span class="o">}</span>|
-|her  |<span class="o">{</span>head.sentence -&gt; 0, <span class="nb">head</span> -&gt; Mary, head.begin -&gt; 10, head.end -&gt; 13, sentence -&gt; 0<span class="o">}</span> |
-+-----+------------------------------------------------------------------------------------+
-</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -473,7 +466,7 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>spanbert_base_coref</td>
+      <td>longformer_base_base_qa_squad2</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
@@ -489,11 +482,11 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentences, tokens]</td>
+      <td>[document_question, document_context]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[corefs]</td>
+      <td>[answer]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -501,26 +494,23 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>566.3 MB</td>
+      <td>550.9 MB</td>
     </tr>
     <tr>
       <td>Case sensitive:</td>
       <td>true</td>
+    </tr>
+    <tr>
+      <td>Max sentence length:</td>
+      <td>512</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>OntoNotes 5.0</p>
-
-<h2 id="benchmarking">Benchmarking</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>F1 77.7
-
-https://github.com/mandarjoshi90/coref
-</code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-06-14T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>https://huggingface.co/valhalla/longformer-base-4096-finetuned-squadv1</p>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-06-15T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -645,7 +635,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/06/14/xlnet_large_token_classifier_conll03_pipeline_en_3_0.html">XLNet Large CoNLL-03 NER Pipeline</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/06/15/albert_base_qa_squad2_en_3_0.html">English AlbertForQuestionAnswering model (from twmkn9)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/06/15/distilbert_base_cased_qa_squad2_en_3_0.html">English DistilBertForQuestionAnswering model</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/06/15/roberta_base_qa_squad2_en_3_0.html">English RoBertaForQuestionAnswering model (from deepset)</a></div></div></div>
 
 </div>
 </div>
