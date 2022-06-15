@@ -19,6 +19,8 @@ use_language_switcher: "Python-Scala-Java"
 
 Detect sensitive information in text for de-identification using pretrained NER model.
 
+We sticked to official annotation guideline (AG) for 2014 i2b2 Deid challenge while annotating new datasets for this model. All the details regarding the nuances and explanations for AG can be found here [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4978170/](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4978170/)
+
 ## Predicted Entities
 
 `DOCTOR`, `PHONE`, `COUNTRY`, `MEDICALRECORD`, `STREET`, `CITY`, `PROFESSION`, `PATIENT`, `IDNUM`, `BIOID`, `HEALTHPLAN`, `HOSPITAL`, `USERNAME`, `OTHER`, `AGE`, `FAX`, `EMAIL`, `DATE`, `STATE`, `ZIP`, `URL`, `ORGANIZATION`, `DEVICE`

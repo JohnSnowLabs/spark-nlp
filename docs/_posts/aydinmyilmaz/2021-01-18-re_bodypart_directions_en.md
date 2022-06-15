@@ -30,6 +30,17 @@ Relation extraction between body parts entites [Internal_organ_or_component, Ext
 
 ## How to use
 
+In the table below, `re_bodypart_directions` RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.
+
+
+
+|        RE MODEL        | RE MODEL LABELS | NER MODEL |                                                                                     RE PAIRS                                                                                    |
+|:----------------------:|:---------------:|:---------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| re_bodypart_directions |       0,1       |  ner_jsl  | [“direction-external_body_part_or_region”,<br>“external_body_part_or_region-direction”,<br>“direction-internal_organ_or_component”,<br>“internal_organ_or_component-direction”] |
+
+
+
+
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python

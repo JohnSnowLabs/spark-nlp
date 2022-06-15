@@ -33,6 +33,14 @@ This model can be used to identify relations between genes and phenotypes. `1` :
 
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, PerceptronModel, DependencyParserModel, WordEmbeddingsModel, NerDLModel, NerConverter, RelationExtractionModel.
 
+
+In the table below, `re_human_phenotype_gene_clinical` RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.
+
+ |             RE MODEL             | RE MODEL LABES |             NER MODEL             | RE PAIRS                  |
+ |:--------------------------------:|:--------------:|:---------------------------------:|---------------------------|
+ | re_human_phenotype_gene_clinical |       0,1      | ner_human_phenotype_gene_clinical | [“No need to set pairs.”] |
+ 
+
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}

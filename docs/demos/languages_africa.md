@@ -31,7 +31,7 @@ data:
             url: https://demo.johnsnowlabs.com/public/AFRICAN_TRANSLATION_HAUSA/
           - text: Colab Netbook
             type: blue_btn
-            url:        
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/public/AFRICAN_TRANSLATION.ipynb
         - title: Translate text from Swahili to English
           id: translate-entities-in-swahili
           image: 
@@ -45,7 +45,7 @@ data:
             url: https://demo.johnsnowlabs.com/public/AFRICAN_TRANSLATION_SWAHILI/
           - text: Colab Netbook
             type: blue_btn
-            url: 
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/public/AFRICAN_TRANSLATION.ipynb
         - title: Translate text from Afrikaans to English
           id: translate-entities-in-afrikaans
           image: 
@@ -59,7 +59,7 @@ data:
             url:  https://demo.johnsnowlabs.com/public/AFRICAN_TRANSLATION_AFRIKAANS/
           - text: Colab Netbook
             type: blue_btn
-            url:   
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/public/AFRICAN_TRANSLATION.ipynb
         - title: Analyze sentiment in Swahili text
           id: analyze_sentiment_swahili_text 
           image: 

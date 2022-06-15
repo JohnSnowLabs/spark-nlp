@@ -27,6 +27,12 @@ This model can be used to identify temporal relationships among clinical events.
 
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, PerceptronModel, DependencyParserModel, WordEmbeddingsModel, NerDLModel, NerConverter, RelationExtractionModel.
 
+In the table below, `re_temporal_events_clinical` RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.
+
+ |           RE MODEL          |     RE MODEL LABES    |      NER MODEL      |          RE PAIRS         |
+ |:---------------------------:|:----------------------:|:-------------------:|:-------------------------:|
+ | re_temporal_events_clinical | AFTER, BEFORE, OVERLAP | ner_events_clinical | [“No need to set pairs.”] |
+
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}

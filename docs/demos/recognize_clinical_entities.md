@@ -31,22 +31,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL
           - text: Colab Netbook
             type: blue_btn
-            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
-        - title: Detect signs and symptoms
-          hide: yes
-          id: detect_signs_and_symptoms
-          image: 
-              src: /assets/images/Detect_signs_and_symptoms.svg
-          image2: 
-              src: /assets/images/Detect_signs_and_symptoms_f.svg
-          excerpt: Automatically identify <b>Signs</b> and <b>Symptoms</b> in clinical documents using two of our pretrained Spark NLP clinical models.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_SIGN_SYMP/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_SIGN_SYMP.ipynb
+            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb        
         - title: Detect diagnosis and procedures
           id: detect_diagnosis_and_procedures
           image: 
@@ -160,7 +145,6 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_RISK_FACTORS.ipynb 
         - title: Detect Drug Chemicals (Bert For Token Classification) 
-          hide: yes
           id: detect_drug_chemicals
           image: 
               src: /assets/images/Detect_Drug_Chemicals.svg
@@ -173,37 +157,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_BERT_TOKEN_CLASSIFIER/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
-        - title: Detect Wide Range of Clinical Entities (Bert For Token Classification) 
-          hide: yes
-          id: detect_wide_range_clinical_entities
-          image: 
-              src: /assets/images/Detect_Wide_Range_of_Clinical_Entities.svg
-          image2: 
-              src: /assets/images/Detect_Wide_Range_of_Clinical_Entities_f.svg
-          excerpt: This demo shows how clinical terminology can be extracted from medical texts using Spark NLP model which trained with BertForTokenClassifier. 
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_BERT_TOKEN_CLASSIFIER/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
-        - title: Detect Wide Range of More Generalized Clinical Entities (Bert For Token Classification) 
-          hide: yes
-          id: detect_wide_range_clinical_entities_more
-          image: 
-              src: /assets/images/Detect_Wide_Range.svg
-          image2: 
-              src: /assets/images/Detect_Wide_Range_f.svg
-          excerpt: This demo shows how clinical terminology can be extracted from medical texts using Spark NLP model which trained with BertForTokenClassifier. 
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_BERT_TOKEN_CLASSIFIER/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb  
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb          
         - title: Detect Covid-related clinical terminology 
           id: detect_covid_related_clinical_terminology
           image: 
@@ -217,7 +171,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_COVID/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_COVID.ipynb
         - title: Find available models for your clinical entities 
           id: ner_model_finder
           image: 
@@ -245,7 +199,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_CHEMD/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CHEMD.ipynb
         - title: Extract neurologic deficits related to NIH Stroke Scale (NIHSS)
           id: extract_neurologic_deficits_relatedNIH_stroke_scale 
           image: 
@@ -259,7 +213,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_NIHSS/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_NIHSS.ipynb
         - title: Recognize Clinical Abbreviations and Acronyms
           id: recognize_clinical_abbreviations_and_acronyms
           image: 
@@ -273,7 +227,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_ABBREVIATION/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_ABBREVIATION.ipynb
         - title: Recognize Concepts in Drug Development Trials
           id: recognize_concepts_in_drug_development_trials
           image: 
@@ -287,7 +241,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_DRUGS_DEVELOPMENT_TRIALS/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DRUGS_DEVELOPMENT_TRIALS.ipynb
         - title: Extract conditions and benefits from drug reviews
           id: extract_conditions_benefits_drug_reviews 
           image: 
@@ -301,5 +255,5 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_SUPPLEMENT_CLINICAL/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_SUPPLEMENT_CLINICAL.ipynb
 ---

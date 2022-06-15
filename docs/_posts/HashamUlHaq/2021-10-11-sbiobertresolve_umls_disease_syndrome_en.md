@@ -31,9 +31,12 @@ This model maps clinical entities to UMLS CUI codes. It is trained on `2021AB` U
 ## How to use
 
 
+ ```sbiobertresolve_umls_disease_syndrome``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_jsl``` as NER model. ```Cerebrovascular_Disease, Communicable_Disease, Diabetes,Disease_Syndrome_Disorder, Heart_Disease, Hyperlipidemia, Hypertension,Injury_or_Poisoning, Kidney_Disease, Obesity, Oncological, Overweight, Psychological_Condition, Symptom, VS_Finding, ImagingFindings, EKG_Findings``` set in ```.setWhiteList()```.
+
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 ...
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")

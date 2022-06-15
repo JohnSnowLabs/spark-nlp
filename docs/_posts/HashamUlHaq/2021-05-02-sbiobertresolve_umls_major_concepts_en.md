@@ -30,10 +30,12 @@ This model returns CUI (concept unique identifier) codes for `Clinical Findings`
 
 ## How to use
 
+```sbiobertresolve_umls_major_concepts``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_jsl``` as NER model. ```Cerebrovascular_Disease, Communicable_Disease, Diabetes, Disease_Syndrome_Disorder, Heart_Disease, Hyperlipidemia, Hypertension, Injury_or_Poisoning, Kidney_Disease, Medical-Device, Obesity, Oncological, Overweight, Psychological_Condition, Symptom, VS_Finding, ImagingFindings, EKG_Findings``` set in ```.setWhiteList()```.
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 ...
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")

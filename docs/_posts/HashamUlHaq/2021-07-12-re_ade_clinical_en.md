@@ -30,10 +30,16 @@ This model is capable of Relating Drugs and adverse reactions caused by them; It
 
 ## How to use
 
+In the table below, `re_ade_clinical` RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.
+
+ |     RE MODEL    | RE MODEL LABES |     NER MODEL    | RE PAIRS                     |
+ |:---------------:|:--------------:|:----------------:|------------------------------|
+ | re_ade_clinical |       0,1      | ner_ade_clinical | [“ade-drug”,<br> ”drug-ade”] |
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 ...
 

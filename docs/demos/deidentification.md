@@ -101,7 +101,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DEMOGRAPHICS.ipynb
         - title: Deidentify Clinical Notes in Different Languages
           id: deidentify_clinical_notes_different_languages
           image: 
@@ -115,5 +115,5 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_MULTI/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/Clinical_Deidentification_Multilingual.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT_MULTI.ipynb
 ---

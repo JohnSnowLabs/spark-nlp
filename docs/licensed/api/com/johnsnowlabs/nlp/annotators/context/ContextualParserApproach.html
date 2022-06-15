@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.5.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach</title>
-          <meta name="description" content="Spark NLP 3.5.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach" />
-          <meta name="keywords" content="Spark NLP 3.5.1 ScalaDoc com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach" />
+          <title>Spark NLP 3.5.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach</title>
+          <meta name="description" content="Spark NLP 3.5.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach" />
+          <meta name="keywords" content="Spark NLP 3.5.3 ScalaDoc com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.5.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.5.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -181,6 +181,10 @@
                         <span class="separator"></span>
                         <a class="class" href="MatchRegex.html" title=""></a>
                         <a href="MatchRegex.html" title="">MatchRegex</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="class" href="MatchRegexPerSentence.html" title=""></a>
+                        <a href="MatchRegexPerSentence.html" title="">MatchRegexPerSentence</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="MatchedToken.html" title=""></a>
@@ -953,9 +957,9 @@ columns the possible matches.</p>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach#getEntityDefinition" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getEntityDefinition(jsonContent:String):Option[com.johnsnowlabs.nlp.annotators.context.EntityDefinition]"></a><a id="getEntityDefinition(String):Option[EntityDefinition]"></a>
+      <a id="getEntityDefinition:Option[com.johnsnowlabs.nlp.annotators.context.EntityDefinition]"></a><a id="getEntityDefinition:Option[EntityDefinition]"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/context/ContextualParserApproach.html#getEntityDefinition(jsonContent:String):Option[com.johnsnowlabs.nlp.annotators.context.EntityDefinition]" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/context/ContextualParserApproach.html#getEntityDefinition:Option[com.johnsnowlabs.nlp.annotators.context.EntityDefinition]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -964,7 +968,7 @@ columns the possible matches.</p>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getEntityDefinition</span><span class="params">(<span name="jsonContent">jsonContent: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="EntityDefinition.html" class="extype" name="com.johnsnowlabs.nlp.annotators.context.EntityDefinition">EntityDefinition</a>]</span>
+        <span class="name">getEntityDefinition</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="EntityDefinition.html" class="extype" name="com.johnsnowlabs.nlp.annotators.context.EntityDefinition">EntityDefinition</a>]</span>
       </span>
       
       
@@ -1197,22 +1201,6 @@ columns the possible matches.</p>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.license.CheckLicense#isLp" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="isLp():Boolean"></a>
-      <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/context/ContextualParserApproach.html#isLp():Boolean" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">isLp</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CheckLicense</dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#isSet" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isSet(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isSet(Param[_]):Boolean"></a>
       <span class="permalink">
@@ -1556,6 +1544,22 @@ columns the possible matches.</p>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnnotatorApproach</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach#optionalContextRules" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="optionalContextRules:org.apache.spark.ml.param.BooleanParam"></a><a id="optionalContextRules:BooleanParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/context/ContextualParserApproach.html#optionalContextRules:org.apache.spark.ml.param.BooleanParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">optionalContextRules</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#optionalInputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="optionalInputAnnotatorTypes:Array[String]"></a>
       <span class="permalink">
@@ -1846,6 +1850,22 @@ the possible matches.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CanBeLazy</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach#setOptionalContextRules" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setOptionalContextRules(value:Boolean):ContextualParserApproach.this.type"></a><a id="setOptionalContextRules(Boolean):ContextualParserApproach.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/context/ContextualParserApproach.html#setOptionalContextRules(value:Boolean):ContextualParserApproach.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setOptionalContextRules</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach">ContextualParserApproach</a>.this.type</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a><a id="setOutputCol(String):ContextualParserApproach.this.type"></a>
       <span class="permalink">

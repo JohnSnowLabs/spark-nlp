@@ -32,6 +32,12 @@ Detect interactions between chemical compounds/drugs and genes/proteins using Sp
 
 ## How to use
 
+In the table below, `re_drugprot_clinical` RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.
+
+
+|       RE MODEL       |                                                                                 RE MODEL LABES                                                                                |       NER MODEL       | RE PAIRS                                                                               |
+|:--------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------:|----------------------------------------------------------------------------------------|
+| re_drugprot_clinical | INHIBITOR, <br>DIRECT-REGULATOR, <br>SUBSTRATE, <br>ACTIVATOR, <br>INDIRECT-UPREGULATOR, <br>INDIRECT-DOWNREGULATOR, <br>ANTAGONIST, <br>PRODUCT-OF, <br>PART-OF, <br>AGONIST | ner_drugprot_clinical | [“checmical-gene”, <br>“chemical-gene_and_chemical”, <br>“gene_and_chemical-gene”]<br> |
 
 
 <div class="tabs-box" markdown="1">

@@ -589,8 +589,6 @@ gcloud dataproc clusters create ${CLUSTER_NAME} \
 
 3. Now, you can attach your notebook to the cluster and use the Spark NLP!
 
-</div>
-
 ## Amazon Linux 2 Support
 
 ```bash

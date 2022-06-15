@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Part of Speech UD model for English (pos_hiencs)
+title: Part of Speech UD model for Hindi-English (pos_hiencs)
 author: John Snow Labs
 name: pos_hiencs
 date: 2022-04-01
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Part of Speech model (`pos_hiencs`) trained on Universal Dependencies 2.9 (UD_English-HIENCS) in English language.
+Pretrained Part of Speech model (`pos_hiencs`) trained on Universal Dependencies 2.9 (UD_Hindi_English-HIENCS) in English language.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -97,6 +97,6 @@ val result = pipeline.fit(data).transform(data)
 
 ## References
 
-Model is trained on Universal Dependencies (treebank 2.9) `UD_English-HIENCS`
+Model is trained on Universal Dependencies (treebank 2.9) `UD_Hindi_English-HIENCS`
 
-[https://github.com/UniversalDependencies/UD_English-HIENCS](https://github.com/UniversalDependencies/UD_English-HIENCS)
+[https://github.com/UniversalDependencies/UD_Hindi_English-HIENCS](https://github.com/UniversalDependencies/UD_Hindi_English-HIENCS)

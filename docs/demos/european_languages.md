@@ -46,20 +46,6 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_FR.ipynb
-        - title: Recognize entities in German text
-          id: recognize_entities_in_german_text
-          image: 
-              src: /assets/images/German_flag.svg
-          image2: 
-              src: /assets/images/German_flag.svg
-          excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using an out of the box pretrained Deep Learning model and GloVe word embeddings (glove_300d).
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_DE/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_DE.ipynb
         - title: Recognize entities in Italian text
           id: recognize_entities_in_italian_text
           image: 
@@ -241,21 +227,7 @@ data:
             url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_DE_NEWS/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_DE_NEWS.ipynb
-        - title: Detect Legal entities in Portuguese
-          id: detect_legal_entities_portuguese 
-          image: 
-              src: /assets/images/Detect_Legal_entities_in_Portuguese.svg
-          image2: 
-              src: /assets/images/Detect_Legal_entities_in_Portuguese_c.svg
-          excerpt: This demo shows how legal entities in Portuguese can be detected automatically using NER model.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_LENER/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_PT.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_DE_NEWS.ipynb        
         - title: Analyze sentiment in French texts
           id: analyze_sentiment_french_texts  
           image: 
