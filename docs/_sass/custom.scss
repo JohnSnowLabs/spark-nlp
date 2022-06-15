@@ -2091,6 +2091,30 @@ code {
 	font-weight: 300 !important;
 }
 
+.pagination {
+	list-style-type: none;
+	display: flex;
+	justify-content: center;
+	margin: 0;
+	&.pagination_big {
+		flex-wrap: wrap;
+		li {
+			padding: 0 !important;
+			margin: 0 3px;
+			&.active a {
+				color: #ff8a00;
+			}
+		}
+	}
+	li {
+		margin: 0 15px;
+		list-style-type: none;
+		&:before {
+			display: none !important;
+		}
+	}
+}
+
 .docs-wrapper {
 	margin: 0 auto;
 	width: 850px;

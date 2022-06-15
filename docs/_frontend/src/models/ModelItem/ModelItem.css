@@ -75,16 +75,19 @@
 }
 
 .model-item__title {
-  height: 34px;
+  min-height: 40px;
   font-family: Montserrat, sans-serif;
   font-weight: bold;
   font-size: 14px;
-  line-height: 17px;
+  line-height: 20px;
   box-sizing: content-box;
-  overflow: hidden;
   display: block;
   color: #0098da !important;
   word-wrap: break-word;
+
+  &:hover {
+    text-decoration: none !important;
+  }
 }
 
 .model-item__content {

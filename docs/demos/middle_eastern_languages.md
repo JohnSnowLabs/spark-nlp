@@ -45,7 +45,7 @@ data:
             url: https://demo.johnsnowlabs.com/public/NER_AR/ 
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/public/NER_AR.ipynb
         - title: Recognize entities in Urdu text
           id: recognize_entities_in_urdu_text
           image: 
@@ -59,7 +59,7 @@ data:
             url: https://demo.johnsnowlabs.com/public/NER_UR/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb        
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/public/NER_UR.ipynb     
         - title: Analyze sentiment in Urdu movie reviews
           id: analyze_sentiment_in_urdu_movie_reviews
           image: 
@@ -101,7 +101,7 @@ data:
             url: https://demo.johnsnowlabs.com/public/NER_HE/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/public/NER_HE.ipynb
         - title: Turkish News Classifier
           id: turkish_news_classifier
           image: 
