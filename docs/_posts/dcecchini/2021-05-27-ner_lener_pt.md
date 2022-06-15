@@ -10,6 +10,7 @@ language: pt
 edition: Spark NLP for Healthcare 2.7.3
 spark_version: 2.4
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
