@@ -303,14 +303,14 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
       spark,
       getModelIfNotSet.tensorflowWrapper,
       "_xlm_roberta_classification",
-      XlmRoBertaForTokenClassification.tfFile,
+      XlmRoBertaForSequenceClassification.tfFile,
       configProtoBytes = getConfigProtoBytes)
     writeSentencePieceModel(
       path,
       spark,
       getModelIfNotSet.spp,
       "_xlmroberta",
-      XlmRoBertaForTokenClassification.sppFile)
+      XlmRoBertaForSequenceClassification.sppFile)
   }
 }
 

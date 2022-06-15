@@ -34,7 +34,7 @@ The explain_document_ml is a pretrained pipeline that we can use to process text
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 
-from sparknlp.pretrained import PretrainedPipelinein
+from sparknlp.pretrained import PretrainedPipeline
 pipeline = PretrainedPipeline('explain_document_ml', lang = 'en')
 annotations =  pipeline.fullAnnotate(""Hello from John Snow Labs ! "")[0]
 annotations.keys()

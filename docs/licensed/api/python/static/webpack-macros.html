@@ -14,16 +14,16 @@
 
 {% macro head_pre_assets() %}
   <!-- Loaded before other Sphinx assets -->
-  <link href="{{ pathto('static/styles/theme.css', 1) }}?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="{{ pathto('static/styles/pydata-sphinx-theme.css', 1) }}?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="{{ pathto('static/styles/theme.css', 1) }}?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="{{ pathto('static/styles/pydata-sphinx-theme.css', 1) }}?digest=92025949c220c2e29695" rel="stylesheet">
 {% endmacro %}
 
 {% macro head_js_preload() %}
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="{{ pathto('static/scripts/pydata-sphinx-theme.js', 1) }}?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="{{ pathto('static/scripts/pydata-sphinx-theme.js', 1) }}?digest=92025949c220c2e29695">
 {% endmacro %}
 
 {% macro body_post() %}
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="{{ pathto('static/scripts/pydata-sphinx-theme.js', 1) }}?digest=1999514e3f237ded88cf"></script>
+  <script src="{{ pathto('static/scripts/pydata-sphinx-theme.js', 1) }}?digest=92025949c220c2e29695"></script>
 {% endmacro %}

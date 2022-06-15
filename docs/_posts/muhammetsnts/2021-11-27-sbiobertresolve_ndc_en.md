@@ -30,7 +30,7 @@ This model maps clinical entities and concepts (like drugs/ingredients) to [Nati
 
 ## How to use
 
-
+```sbiobertresolve_ndc``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_posology_greedy``` as NER model. ```DRUG``` set in ```.setWhiteList()```.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

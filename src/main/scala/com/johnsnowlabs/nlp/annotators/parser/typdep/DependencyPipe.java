@@ -167,10 +167,10 @@ public class DependencyPipe implements Serializable {
 
         types = new String[dictionariesSet.getDictionarySize(DEP_LABEL)];
         Dictionary labelDict = dictionariesSet.getDictionary(DEP_LABEL);
-        Object[] keys = labelDict.toArray();
-        for (Object key : keys) {
+        String[] keys = labelDict.newToArray();
+        for (String key : keys) {
             int id = labelDict.lookupIndex(key);
-            types[id - 1] = (String) key;
+            types[id - 1] = key;
         }
 
         if (logger.isDebugEnabled()) {

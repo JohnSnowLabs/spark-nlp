@@ -27,7 +27,7 @@ trait HasClassifierActivationProperties extends ParamsAndFeaturesWritable {
   val activation: Param[String] = new Param(
     this,
     "activation",
-    "Whether to calcuate logits via Softmax or Sigmoid. Default is Softmax")
+    "Whether to calculate logits via Softmax or Sigmoid. Default is Softmax")
 
   setDefault(activation, ActivationFunction.softmax)
 

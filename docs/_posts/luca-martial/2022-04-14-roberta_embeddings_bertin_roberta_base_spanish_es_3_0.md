@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish RoBERTa Embeddings (from bertin-project)
+title: Spanish RoBERTa Embeddings (Bertin Base)
 author: John Snow Labs
 name: roberta_embeddings_bertin_roberta_base_spanish
 date: 2022-04-14
@@ -10,6 +10,7 @@ language: es
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -17,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained RoBERTa Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `bertin-roberta-base-spanish` is a Spanish model orginally trained by `bertin-project`.
+Pretrained RoBERTa Embeddings model for Spanish Language, trained within the Bertin project. Other non-base Bertin models can be found [here](https://nlp.johnsnowlabs.com/models?q=bertin). The model was uploaded to Hugging Face, adapted and imported into Spark NLP. `bertin-roberta-base-spanish` is a Spanish model orginally trained by `bertin-project`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

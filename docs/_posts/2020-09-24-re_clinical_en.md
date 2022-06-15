@@ -42,6 +42,14 @@ Relation Extraction model based on syntactic features using deep learning. Model
 {:.h2_title}
 ## How to use 
 
+In the table below, `re_clinical` RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.
+
+ |   RE MODEL  | RE MODEL LABES                        |   NER MODEL  | RE PAIRS                  |
+ |:-----------:|----------------------------------------|:------------:|---------------------------|
+ | re_clinical | TrIP,TrWP,TrCP,TrAP,TrAP,TeRP,TeCP,PIP | ner_clinical | [“No need to set pairs.”] |
+
+ 
+
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}

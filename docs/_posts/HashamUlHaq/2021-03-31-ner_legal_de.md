@@ -10,6 +10,7 @@ language: de
 edition: Spark NLP for Healthcare 3.0.0
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -17,7 +18,30 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model can be used to detect legal entities in German text.
+This model can be used to detect legal entities in German text, predicting up to 19 different labels:
+```
+| tag	| meaning 
+-----------------
+| AN	| Anwalt 
+| EUN	| Europäische Norm 
+| GS	| Gesetz 
+| GRT	| Gericht 
+| INN	| Institution 
+| LD	| Land 
+| LDS	| Landschaft 
+| LIT	| Literatur 
+| MRK	| Marke 
+| ORG	| Organisation 
+| PER	| Person 
+| RR	| Richter 
+| RS	| Rechtssprechung 
+| ST	| Stadt 
+| STR	| Straße 
+| UN	| Unternehmen 
+| VO	| Verordnung 
+| VS	| Vorschrift 
+| VT	| Vertrag 
+```
 
 ## Predicted Entities
 

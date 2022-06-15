@@ -5,11 +5,54 @@ seotitle: NLP Server | John Snow Labs
 title: Release Notes
 permalink: /docs/en/nlp_server/release_notes
 key: docs-nlp-server
-modify_date: "2022-04-06"
+modify_date: "2022-05-06"
 show_nav: true
 sidebar:
     nav: nlp-server
 ---
+
+## NLP Server 0.6.1
+
+Fields | Details
+--- | ---
+Name | NLP Server
+Version | `0.6.1`
+Type | Patch
+Release Date | 2022-05-06
+
+<br>
+
+### Overview
+
+We are excited to release NLP Server v0.6.1! We are continually committed towards improving the experience for our users and making our product reliable and easy to use.  
+
+This release focuses on improving the stability of the NLP Server and cleaning up some annoying bugs. To enhance the user experience, the product now provides interactive and informative responses to the users.  
+
+The improvements and bug fixes are mentioned in their respective sections below.
+
+<br>
+
+### Key Information
+
+1. For smooth and optimal performance, it is recommended to use an instance with 8 core CPU, and 32GB RAM specifications. 
+2. NLP Server is available on both [AWS](https://aws.amazon.com/marketplace/pp/prodview-4ohxjejvg7vwm) and Azure marketplace.
+
+<br>
+
+### Improvements
+
+1. Support for new models for Lemmatizers, Parts of Speech Taggers, and Word2Vec Embeddings for over 66 languages, with 20 languages being covered for the first time by NLP Server, including ancient and exotic languages like Ancient Greek, Old Russian, Old French and much more.
+
+<br>
+
+### Bug Fixes
+
+1. The prediction job runs in an infinite loop when using certain spells. Now after 3 retries it aborts the process and informs users appropriately.
+2. Issue when running lang spell for language classification.
+3. The prediction job runs in an infinite loop when incorrect data format is selected for a given input data.
+4. The API request for processing spell didn’t work when format parameter was not provided. Now it uses a default value in such case.
+5. Users were unable to login to their MYJSL account from NLP Server.
+6. Proper response when there is issue in internet connectivity when running spell.
 
 ## NLP Server 0.6.0
 

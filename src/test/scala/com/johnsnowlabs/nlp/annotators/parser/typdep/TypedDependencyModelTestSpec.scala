@@ -120,7 +120,7 @@ class TypedDependencyModelTestSpec extends AnyFlatSpec {
         "That too was stopped.").toDS.toDF("text")
       val typedDependencyParserDataFrame = model.transform(testDataSet)
       // typedDependencyParserDataFrame.collect()
-      // typedDependencyParserDataFrame.select("labdep").show(false)
+//      typedDependencyParserDataFrame.select("labdep").show(false)
       assert(typedDependencyParserModel.isInstanceOf[TypedDependencyParserModel])
       assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
 
@@ -145,13 +145,13 @@ class TypedDependencyModelTestSpec extends AnyFlatSpec {
         Seq("It should continue to be defanged. " + "That too was stopped.").toDS.toDF("text")
       val typedDependencyParserDataFrame = model.transform(testDataSet)
       // typedDependencyParserDataFrame.collect()
-      // typedDependencyParserDataFrame.select("labdep").show(false)
+//      typedDependencyParserDataFrame.select("labdep").show(false)
       assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
 
     }
 
   "A typed dependency parser model (trained with CoNLL-U) with finisher in its pipeline" should
-    "predict a labeled relationship between words in each sentence" ignore {
+    "predict a labeled relationship between words in each sentence" in {
       import SparkAccessor.spark.implicits._
 
       val finisher = new Finisher().setInputCols("labdep")
@@ -175,7 +175,7 @@ class TypedDependencyModelTestSpec extends AnyFlatSpec {
         "That too was stopped.").toDS.toDF("text")
       val typedDependencyParserDataFrame = model.transform(testDataSet)
       // typedDependencyParserDataFrame.collect()
-      // typedDependencyParserDataFrame.show(false)
+//      typedDependencyParserDataFrame.show(false)
       assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
 
     }

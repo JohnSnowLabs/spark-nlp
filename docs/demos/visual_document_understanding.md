@@ -87,7 +87,7 @@ data:
             url: https://demo.johnsnowlabs.com/ocr/BRAND_EXTRACTION/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOcrImageBrandsExtraction.ipynb  
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/BRAND_EXTRACTION.ipynb
         - title: Form Recognition
           id: form_recognition 
           image: 

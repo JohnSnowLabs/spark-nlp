@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Financial English BERT Embeddings (from nlpaueb)
+title: Financial English BERT Embeddings (Number shape masking)
 author: John Snow Labs
 name: bert_embeddings_sec_bert_sh
 date: 2022-04-12
@@ -17,7 +17,12 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Financial BERT Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `sec-bert-shape` is a English model orginally trained by `nlpaueb`.
+Pretrained Financial BERT Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `sec-bert-shape` is a English model orginally trained by `nlpaueb`.This model is the same as Bert Base but we replace numbers with pseudo-tokens that represent the number’s shape, so numeric expressions (of known shapes) are no longer fragmented, e.g., '53.2' becomes '[XX.X]' and '40,200.5' becomes '[XX,XXX.X]'.
+
+If you are interested in Financial Embeddings, take a look also at these two models:
+
+- [sec-base](https://nlp.johnsnowlabs.com/2022/04/12/bert_embeddings_sec_bert_base_en_3_0.html): Same as BERT Base but trained with financial documents.
+- [sec-num](https://nlp.johnsnowlabs.com/2022/04/12/bert_embeddings_sec_bert_num_en_3_0.html): Same as Bert sec-base but we replace every number token with a [NUM] pseudo-token handling all numeric expressions in a uniform manner, disallowing their fragmentation).
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

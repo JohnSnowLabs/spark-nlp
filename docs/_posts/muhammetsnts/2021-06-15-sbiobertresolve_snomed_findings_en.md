@@ -30,7 +30,7 @@ Snomed Codes and their normalized definition with `sbiobert_base_cased_mli` embe
 
 ## How to use
 
-
+```sbiobertresolve_snomed_findings``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_clinical``` as NER model. No need to set ```.setWhiteList()```.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

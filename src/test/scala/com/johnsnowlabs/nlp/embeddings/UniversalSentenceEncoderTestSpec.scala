@@ -19,6 +19,7 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.EmbeddingsFinisher
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
+import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
@@ -201,6 +202,64 @@ class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
       .save("./tmp_tfhub_use_multi")
     UniversalSentenceEncoder.load("./tmp_tfhub_use_multi")
 
+  }
+
+  "UniversalSentenceEncoder" should "benchmark test" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val conll = CoNLL()
+    val training_data =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+
+    val embeddings = UniversalSentenceEncoder
+      .pretrained()
+      .setInputCols("sentence")
+      .setOutputCol("embeddings")
+
+    Array(2, 4, 8, 16, 32, 128).foreach(b => {
+      embeddings.setBatchSize(b)
+
+      val pipeline = new Pipeline()
+        .setStages(Array(embeddings))
+
+      val pipelineModel = pipeline.fit(training_data)
+      val pipelineDF = pipelineModel.transform(training_data)
+
+      println(
+        s"batch size: ${pipelineModel.stages(0).asInstanceOf[UniversalSentenceEncoder].getBatchSize}")
+
+      Benchmark.measure(
+        iterations = 5,
+        forcePrint = true,
+        description = "Time to save pipeline") {
+        pipelineDF.write.mode("overwrite").parquet("./tmp_use_sentence_embeddings")
+      }
+    })
+
+    // Test for missing values
+    val pipeline = new Pipeline()
+      .setStages(Array(embeddings))
+
+    val pipelineModel = pipeline.fit(training_data)
+    val pipelineDF = pipelineModel.transform(training_data)
+
+    println("missing tokens/embeddings: ")
+    pipelineDF
+      .withColumn("sentence_size", size(col("sentence")))
+      .withColumn("token_size", size(col("token")))
+      .withColumn("embed_size", size(col("embeddings")))
+      .where(col("sentence_size") =!= col("embed_size"))
+      .select("sentence_size", "token_size", "embed_size", "token.result", "embeddings.result")
+      .show(false)
+
+    val totalSentences = pipelineDF.select(explode($"sentence.result")).count.toInt
+    val totalEmbeddings = pipelineDF.select(explode($"embeddings.embeddings")).count.toInt
+
+    println(s"total sentences: $totalSentences")
+    println(s"total embeddings: $totalEmbeddings")
+
+    assert(totalSentences == totalEmbeddings)
   }
 
 }

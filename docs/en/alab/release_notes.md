@@ -12,7 +12,69 @@ show_nav: true
 sidebar:
     nav: annotation-lab
 ---
+## 3.2.0
 
+Release date: **31-05-2022**
+
+We are very excited to announce the release of Annotation Lab v3.2.0 which includes new and exciting features such as Project cloning and Project backup, Evaluation of Pretrained Models, and Search feature in the Visual NER Project. Support for Multiple files import, ability to view statuses of Model Servers and Training Jobs, and prioritization of completions for CONLL export. Spark NLP and Spark OCR libraries were also upgraded, and some security fixes and stabilizations were also implemented. Here are the highlights:
+
+### Highlights
+
+- Import/export of an entire Project. All project-related items (tasks, project configuration, project members, task assignments) can be imported/exported. In addition, users can also clone an existing project.
+- Evaluate Named Entity Models. Project Owner and/or Manager can now test and evaluate annotated tasks against the Pretrained NER models in the Training & Active Learning Settings tab, configured NER models will be tested against the tasks tagged as test.
+- Statuses of Training and Preannotation Server. A new column, status, is added to the server page that gives the status of training and preannotation servers. Also if any issues are encountered during server initialization, those are displayed on mouse-over the status value.
+- Import Multiple Files. Project Owners or Managers can now upload multiple files at once in bulk.
+- Prioritize Annotators For Data Export. When multiple completions are available for the same task, the CONLL export will include completions from higher priority members.
+- Network Policies have been implemented which specify how a pod is allowed to communicate with various network "entities" over the network. The entities that are required to function in Annotation Lab were clearly identified and only traffic coming from them is now allowed.
+- Support for airgap licenses with scope. Previously airgap licenses with scopes were missrecognized as floating licenses.
+- Upgraded Spark NLP and Spark NLP for Health Care v3.4.1 and Spark OCR v3.12.0 
+
+
+## 3.1.1
+
+Release date: **09-05-2022**
+
+We are very excited to announce the release of Annotation Lab v3.1.1 which includes Support excel import, CVE fixes and stabilization. Here are the highlights:
+
+### Highlights
+- Fix more CVEs of docker images
+- Change ClusterRole and ClusterRolebinding to Role and Rolebinding for backup
+- When a trained model is deployed by active learning, "active-learning" is seen in Deployedby column
+- Fix for visibility icon used for connected words
+
+ 
+## 3.1.0
+
+Release date: **04-05-2022**
+
+We are very excited to release Annotation Lab v3.1.0 which includes support for training large documents, improvements for Visual NER Projects, security fixes and stabilizations. Here are the highlights:
+
+### Highlights
+
+- Support Training of large documents. Spark NLP feature called Memory Optimization Approach is enabled when the training data is greater then 5MB which enables training of model on machines with lower memory resources.
+- Improvements in Visual NER Projects:
+  - Users can provide title in the input JSON along with the URL for tasks to import. This sets the title of the task accordingly.
+  - JSON export for the Visual NER projects contains both chunk and token-level annotations.
+  - Sample tasks can be imported into the Visual NER project using any available OCR server (created by another project).
+  - Multi-chunk annotation can be done without changing the start token when the end token is the last word on the document.
+  - For Visual NER project, users can export tasks in the VOC format for multi-page tasks with/without completions.
+- During restoring backup file in the previous versions, the SECRETS (kubernetes) of the old machine needed manual transfer to the target machine. With v3.1.0, all the SECRETS are backed-up automatically along with database backup and hence they are restored without any hassle.
+- Integration with my.johnsnowlabs.com, this means the available licenses can be easily imported by Admin users of Annotation Lab without having to download or copy them manually.
+- The maximum number of words/tokens that can be set in a single page in labeling screen is now limited to 1000.
+- For a large number of multiple relations, the previous version of Annotation Lab used Prev and Next identifiers which was not optimal for mapping to the correct pairs. For increased usability and clarity , the pair connections now use numerical values.
+- While creating new (Contextual Parser) Rules using dictionary, the uploaded CSV file is validated based on: CSV should not contain any null values, CSV should either be a single row or single column.
+- Admin users are now able to remove unused licenses. 
+
+## 3.0.1 
+
+Release date: **12-04-2022**
+
+Annotation Lab v3.0.1 includes some CVE issues are fixed along with application bug fixes
+
+### Bug Fixes 
+- When licensed model is trained, label "label" was added to prediction entities
+- Expired license icon is seen after the user enters new floating license
+- In airgaped machine, deployed licensed preannotation server is shown as open source in active-servers page
 
 ## 3.0.0
 

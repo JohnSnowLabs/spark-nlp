@@ -30,10 +30,11 @@ This model maps clinical entities to UMLS CUI codes. It is trained on `2021AB` U
 
 ## How to use
 
-
+```sbiobertresolve_umls_clinical_drugs``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_posology``` as NER model. ```DRUG``` set in ```.setWhiteList()```.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 ...
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")

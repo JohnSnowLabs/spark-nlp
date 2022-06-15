@@ -27,11 +27,16 @@ def compatible_editions(editions, model_editions, edition)
   outdated_editions = ['Spark NLP 2.1', 'Spark NLP for Healthcare 2.0']
   return edition if outdated_editions.include? edition
 
-  for_healthcare = edition.include?('Healthcare')
-  editions = editions.select do |v|
-    for_healthcare == v.include?('Healthcare') && !outdated_editions.include?(v)
+  if edition.include?('Healthcare')
+    selection_lambda = lambda {|v| v.include?('Healthcare') && !outdated_editions.include?(v)}
+  elsif edition.include?('OCR')
+    selection_lambda = lambda {|v| v.include?('OCR')}
+  else
+    selection_lambda = lambda {|v| !v.include?('Healthcare') && !v.include?('OCR')}
   end
-  model_editions = model_editions.select { |v| for_healthcare == v.include?('Healthcare') }
+
+  editions = editions.select &selection_lambda
+  model_editions = model_editions.select &selection_lambda
 
   curr_index = model_editions.index(edition)
   return edition if curr_index.nil?
@@ -101,6 +106,59 @@ class Extractor
     nil
   end
 
+  def benchmarking_results(post_url)
+    if @content.include? '## Benchmarking'
+      m = /## Benchmarking(\r\n|\r|\n)+```bash(.*?)```/m.match(@content)
+      if m
+        buf = m[2].strip
+        # Using an external tool, to parse table information
+        cmd = "echo '#{buf}' | parse-markdown-table --format list"
+        result =`#{cmd}`
+        benchmarking_data = {}
+        begin
+          benchmarking_data = JSON.parse(result)
+          # Add validation for labels
+          if not benchmarking_data['headers'].include?('label')
+            print("Failed to parse the Benchmarking section (the label header is missing) #{post_url}\n")
+            return nil
+          else
+            rows = benchmarking_data["rows"]
+            headers = benchmarking_data["headers"]
+            return_data = []
+            for i in 0..rows.length()-1
+                row_data = {}
+                
+                for j in 0..headers.length()-1
+                    if headers[j] == ""
+                        next
+                    end
+                    unless rows[i][j].end_with?("--") || rows[i][j].end_with?("--:")
+                        key = headers[j]
+                        
+                        if headers[j] == "label"
+                            key = "name"
+                        end
+                        row_data[key] =  rows[i][j]
+                    end
+                    
+                end
+                unless row_data.empty?
+                    return_data << row_data
+                end
+            end
+            return return_data
+          end
+        rescue JSON::ParserError => e
+          print("Failed to parse the Benchmarking section (invalid syntax) #{post_url}\n")
+        end
+      else
+        print("Failed to parse the Benchmarking section (invalid section) #{post_url}\n")
+      end
+    end
+    nil
+  end
+
+
   private
 
   def comma_separated_predicted_entities(buf)
@@ -143,6 +201,7 @@ uniq_to_models_mapping = {}
 uniq_for_indexing = Set.new
 name_language_editions_sparkversion_to_models_mapping = {}
 models_json = {}
+models_benchmarking_json = {}
 
 changed_filenames = []
 
@@ -183,6 +242,11 @@ Jekyll::Hooks.register :posts, :pre_render do |post|
     predicted_entities: extractor.predicted_entities || [],
     type: doc_type,
   }
+
+  benchmarking_info = extractor.benchmarking_results(post.url)
+  if benchmarking_info
+    models_benchmarking_json[post.url] = benchmarking_info
+  end
 end
 
 Jekyll::Hooks.register :posts, :post_render do |post|
@@ -226,7 +290,6 @@ Jekyll::Hooks.register :posts, :post_render do |post|
   uniq_to_models_mapping[uniq] << model
   editions.add(edition_short) unless edition_short.empty?
   uniq_for_indexing << uniq if changed_filenames.include?(post.basename)
-  changed_filenames.delete(post.basename)
 
   key = model[:id]
   name_language_editions_sparkversion_to_models_mapping[key] = [] unless name_language_editions_sparkversion_to_models_mapping.has_key? key
@@ -325,6 +388,16 @@ Jekyll::Hooks.register :site, :post_render do |site|
   force_reindex = editions_changed?(editions)
   bulk_indexer = BulkIndexer.new(client)
 
+  # remove renamed or deleted posts from the index
+  if client
+    changed_urls = changed_filenames.map do |filename|
+      filename.gsub! /\A(\d{4})-(\d{2})-(\d{2})-(\w+)\.md\z/, '/\1/\2/\3/\4.html'
+    end.compact
+    unless changed_urls.empty?
+      client.delete_by_query index: 'models', body: {query: {bool: {must: {terms: {url: changed_urls}}}}}
+    end
+  end
+
   uniq_to_models_mapping.each do |uniq, items|
     items.sort_by! { |v| v[:edition_short] }
     model_editions = items.map { |v| v[:edition_short] }.uniq
@@ -366,18 +439,12 @@ Jekyll::Hooks.register :site, :post_render do |site|
   end
   bulk_indexer.execute
 
-  # remove renamed or deleted posts from the index
-  if client
-    changed_filenames.map do |filename|
-      filename.gsub! /\A(\d{4})-(\d{2})-(\d{2})-(\w+)\.md\z/, '/\1/\2/\3/\4.html'
-    end.compact.each do |url|
-      puts "Removing #{url}..."
-      client.delete_by_query index: 'models', body: {query: {term: {url: url}}}
-    end
-  end
 end
 
 Jekyll::Hooks.register :site, :post_write do |site|
   filename = File.join(site.config['destination'], 'models.json')
   File.write(filename, models_json.values.to_json)
+
+  benchmarking_filename = File.join(site.config['destination'], 'benchmarking.json')
+  File.write(benchmarking_filename, models_benchmarking_json.to_json)
 end

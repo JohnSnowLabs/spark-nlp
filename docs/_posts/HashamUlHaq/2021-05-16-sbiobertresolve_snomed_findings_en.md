@@ -30,10 +30,11 @@ Predicts Snomed Codes and their normalized definition for each chunk.
 
 ## How to use
 
-
+```sbiobertresolve_snomed_findings``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_clinical``` as NER model. No need to set ```.setWhiteList()```.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 ...
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")

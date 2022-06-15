@@ -31,6 +31,9 @@ ICD10-PCS Codes and their normalized definition with ``sbiobert_base_cased_mli``
 
 {:.h2_title}
 ## How to use 
+
+```sbiobertresolve_icd10pcs``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_jsl``` as NER model. ```Procedure``` set in ```.setWhiteList()```.
+
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
