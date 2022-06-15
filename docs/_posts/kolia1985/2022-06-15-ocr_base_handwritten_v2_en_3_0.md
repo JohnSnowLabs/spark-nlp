@@ -7,7 +7,7 @@ date: 2022-06-15
 tags: [en, licensed]
 task: OCR Text Detection & Recognition
 language: en
-edition: Spark OCR 3.12.0
+edition: Spark OCR 3.4.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -26,7 +26,7 @@ Ocr base model for recognise handwritten text based on TrOcr architecture.  The 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/ocr_base_handwritten_v2_en_3.12.0_3.0_1655294038165.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/ocr_base_handwritten_v2_en_3.4.0_3.0_1655299331379.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -57,7 +57,7 @@ print(result[0].text)
 |---|---|
 |Model Name:|ocr_base_handwritten_v2|
 |Type:|ocr|
-|Compatibility:|Spark OCR 3.12.0+|
+|Compatibility:|Spark OCR 3.4.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|
