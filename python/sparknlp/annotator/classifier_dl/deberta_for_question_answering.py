@@ -29,7 +29,7 @@ class DeBertaForQuestionAnswering(AnnotatorModel,
     ...     .setInputCols(["document_question", "document_context"]) \\
     ...     .setOutputCol("answer")
 
-    The default model is ``"deverta_v3_xsmall_qa_squad2"``, if no name is
+    The default model is ``"deberta_v3_xsmall_qa_squad2"``, if no name is
     provided.
 
     For available pretrained models please see the `Models Hub
@@ -154,14 +154,14 @@ class DeBertaForQuestionAnswering(AnnotatorModel,
         return DeBertaForQuestionAnswering(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="deverta_v3_xsmall_qa_squad2", lang="en", remote_loc=None):
+    def pretrained(name="deberta_v3_xsmall_qa_squad2", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
             Name of the pretrained model, by default
-            "deverta_v3_xsmall_qa_squad2"
+            "deberta_v3_xsmall_qa_squad2"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
