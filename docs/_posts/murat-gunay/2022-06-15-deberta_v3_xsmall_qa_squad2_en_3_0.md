@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `deberta-v3-xsmall-squad2` is a English model orginally trained by `nbroad`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `deberta-v3-xsmall-squad2` is a English model originally trained by `nbroad`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
