@@ -7,7 +7,7 @@ date: 2022-06-09
 tags: [question_answering, distilbert, pt, open_source]
 task: Question Answering
 language: pt
-edition: Spark NLP 3.4.4
+edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `distilbert-multi-finedtuned-squad-pt` is a Portuguese model orginally trained by `mrm8488`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `distilbert-multi-finedtuned-squad-pt` is a Portuguese model originally trained by `mrm8488`.
 
 ## Predicted Entities
 
@@ -26,7 +26,7 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_qa_multi_finedtuned_squad_pt_3.4.4_3.0_1654758698273.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_qa_multi_finedtuned_squad_pt_4.0.0_3.0_1654758698273.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -70,7 +70,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|distilbert_qa_multi_finedtuned_squad|
-|Compatibility:|Spark NLP 3.4.4+|
+|Compatibility:|Spark NLP 4.0.0+|
 |License:|Open Source|
 |Edition:|Official|
 |Input Labels:|[document_question, document_context]|
