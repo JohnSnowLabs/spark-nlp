@@ -631,9 +631,9 @@ Run the following code in Kaggle Kernel and start using spark-nlp right away.
 
 3. In `Libraries` tab inside your cluster you need to follow these steps:
 
-    3.1. Install New -> PyPI -> `spark-nlp==4.0.0` -> Install
+   3.1. Install New -> PyPI -> `spark-nlp==4.0.0` -> Install
 
-    3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:4.0.0` -> Install
+   3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:4.0.0` -> Install
 
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
