@@ -41,7 +41,7 @@ import java.io.File
   *   .setInputCols(Array("document_question", "document_context"))
   *   .setOutputCol("answer")
   * }}}
-  * The default model is `"deverta_v3_xsmall_qa_squad2"`, if no name is provided.
+  * The default model is `"deberta_v3_xsmall_qa_squad2"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://nlp.johnsnowlabs.com/models?task=Question+Answering Models Hub]].
@@ -265,7 +265,7 @@ class DeBertaForQuestionAnswering(override val uid: String)
 trait ReadablePretrainedDeBertaForQAModel
     extends ParamsAndFeaturesReadable[DeBertaForQuestionAnswering]
     with HasPretrained[DeBertaForQuestionAnswering] {
-  override val defaultModelName: Some[String] = Some("deverta_v3_xsmall_qa_squad2")
+  override val defaultModelName: Some[String] = Some("deberta_v3_xsmall_qa_squad2")
 
   /** Java compliant-overrides */
   override def pretrained(): DeBertaForQuestionAnswering = super.pretrained()
