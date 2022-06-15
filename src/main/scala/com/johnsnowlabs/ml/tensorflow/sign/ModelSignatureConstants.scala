@@ -148,6 +148,11 @@ object ModelSignatureConstants {
     override val value: String = "decoder_encoder_state:0"
   }
 
+  case object DecoderEncoderAttentionMask extends TFInfoNameMapper {
+    override val key: String = "decoder_encoder_attention_mask"
+    override val value: String = "decoder_decoder_encoder_attention_mask:0:0"
+  }
+
   case object DecoderAttentionMask extends TFInfoNameMapper {
     override val key: String = "decoder_attention_mask"
     override val value: String = "decoder_decoder_attention_mask:0"
@@ -161,6 +166,16 @@ object ModelSignatureConstants {
   case object LogitsOutput extends TFInfoNameMapper {
     override val key: String = "logits"
     override val value: String = "StatefulPartitionedCall:0"
+  }
+
+  case object EndLogitsOutput extends TFInfoNameMapper {
+    override val key: String = "end_logits"
+    override val value: String = "StatefulPartitionedCall:0"
+  }
+
+  case object StartLogitsOutput extends TFInfoNameMapper {
+    override val key: String = "start_logits"
+    override val value: String = "StatefulPartitionedCall:1"
   }
 
   /** Retrieve signature patterns for a given provider

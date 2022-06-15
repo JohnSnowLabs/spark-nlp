@@ -110,23 +110,6 @@ class ResourceMedataTest extends AnyFlatSpec {
     assert(versions.get.libVersion.get == expectedSparkNLPVersion)
   }
 
-  it should "get model with spark==2.4 and spark-nlp==2.4.0 when spark==2.4 and spark-nlp==2.4.5" in {
-    val resourcePath = "src/test/resources/resource-downloader/test_example1.json"
-    val mockResourceDownloader: MockResourceDownloader = new MockResourceDownloader(resourcePath)
-    val resourceMetadata = mockResourceDownloader.resources
-    val resourceRequest = ResourceRequest(
-      "bert_base_cased",
-      libVersion = Version(List(2, 4, 5)),
-      sparkVersion = Version(List(2, 4)))
-    val expectedSparkNLPVersion = Version(List(2, 4, 0))
-    val expectedSparkVersion = Version(List(2, 4))
-
-    val versions = ResourceMetadata.resolveResource(resourceMetadata, resourceRequest)
-
-    assert(versions.get.sparkVersion.get == expectedSparkVersion)
-    assert(versions.get.libVersion.get == expectedSparkNLPVersion)
-  }
-
   it should "get model with spark==3.0 and sparknlp==2.4.5 when spark==3.0 and spark-nlp==2.4.5" in {
     val resourcePath = "src/test/resources/resource-downloader/test_example1.json"
     val mockResourceDownloader: MockResourceDownloader = new MockResourceDownloader(resourcePath)
@@ -137,23 +120,6 @@ class ResourceMedataTest extends AnyFlatSpec {
       sparkVersion = Version(List(3, 0)))
     val expectedSparkNLPVersion = Version(List(2, 4, 5))
     val expectedSparkVersion = Version(List(3, 0))
-
-    val versions = ResourceMetadata.resolveResource(resourceMetadata, resourceRequest)
-
-    assert(versions.get.sparkVersion.get == expectedSparkVersion)
-    assert(versions.get.libVersion.get == expectedSparkNLPVersion)
-  }
-
-  it should "get model with spark==2.4 and spark-nlp==3.3.0 when spark==2.4 and spark-nlp==3.3.0" in {
-    val resourcePath = "src/test/resources/resource-downloader/test_models_same_time.json"
-    val mockResourceDownloader: MockResourceDownloader = new MockResourceDownloader(resourcePath)
-    val resourceMetadata = mockResourceDownloader.resources
-    val resourceRequest = ResourceRequest(
-      "bert_base_cased",
-      libVersion = Version(List(3, 3, 0)),
-      sparkVersion = Version(List(2, 4)))
-    val expectedSparkNLPVersion = Version(List(3, 3, 0))
-    val expectedSparkVersion = Version(List(2, 4))
 
     val versions = ResourceMetadata.resolveResource(resourceMetadata, resourceRequest)
 
@@ -196,23 +162,6 @@ class ResourceMedataTest extends AnyFlatSpec {
 
   }
 
-  it should "get model with spark==2.4 and spark-nlp==3.3.0 when spark==2.4 and spark-nlp==3.3.0 and newest model version is 3.0" in {
-    val resourcePath = "src/test/resources/resource-downloader/test_bert_v3_newest.json"
-    val mockResourceDownloader: MockResourceDownloader = new MockResourceDownloader(resourcePath)
-    val resourceMetadata = mockResourceDownloader.resources
-    val resourceRequest = ResourceRequest(
-      "bert_base_cased",
-      libVersion = Version(List(3, 3, 0)),
-      sparkVersion = Version(List(2, 4)))
-    val expectedSparkNLPVersion = Version(List(3, 3, 0))
-    val expectedSparkVersion = Version(List(2, 4))
-
-    val versions = ResourceMetadata.resolveResource(resourceMetadata, resourceRequest)
-
-    assert(versions.get.sparkVersion.get == expectedSparkVersion)
-    assert(versions.get.libVersion.get == expectedSparkNLPVersion)
-  }
-
   it should "get model with spark==3.0 and spark-nlp==3.3.0 when spark==3.0 and spark-nlp==3.3.0 and newest model version is 2.4" in {
     val resourcePath = "src/test/resources/resource-downloader/test_bert_v2_newest.json"
     val mockResourceDownloader: MockResourceDownloader = new MockResourceDownloader(resourcePath)
@@ -223,23 +172,6 @@ class ResourceMedataTest extends AnyFlatSpec {
       sparkVersion = Version(List(3, 0)))
     val expectedSparkNLPVersion = Version(List(3, 3, 0))
     val expectedSparkVersion = Version(List(3, 0))
-
-    val versions = ResourceMetadata.resolveResource(resourceMetadata, resourceRequest)
-
-    assert(versions.get.sparkVersion.get == expectedSparkVersion)
-    assert(versions.get.libVersion.get == expectedSparkNLPVersion)
-  }
-
-  it should "get model with spark==2.4 and spark-nlp==3.3.0 when spark==2.4 and spark-nlp==3.3.0 and newest model version is 2.4" in {
-    val resourcePath = "src/test/resources/resource-downloader/test_bert_v2_newest.json"
-    val mockResourceDownloader: MockResourceDownloader = new MockResourceDownloader(resourcePath)
-    val resourceMetadata = mockResourceDownloader.resources
-    val resourceRequest = ResourceRequest(
-      "bert_base_cased",
-      libVersion = Version(List(3, 3, 0)),
-      sparkVersion = Version(List(2, 4)))
-    val expectedSparkNLPVersion = Version(List(3, 3, 0))
-    val expectedSparkVersion = Version(List(2, 4))
 
     val versions = ResourceMetadata.resolveResource(resourceMetadata, resourceRequest)
 

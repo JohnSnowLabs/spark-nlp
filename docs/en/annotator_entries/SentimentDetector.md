@@ -32,7 +32,7 @@ SENTIMENT
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[SentimentDetectorModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.SentimentDetectorModel.html)
+[SentimentDetectorModel](/api/python/reference/autosummary/sparknlp/annotator/sentiment/sentiment_detector/index.html#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetectorModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -185,7 +185,7 @@ result.selectExpr("sentimentScore.result").show(false)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[SentimentDetector](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.SentimentDetector.html)
+[SentimentDetector](/api/python/reference/autosummary/sparknlp/annotator/sentiment/sentiment_detector/index.html#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

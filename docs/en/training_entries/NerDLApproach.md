@@ -131,7 +131,7 @@ val pipelineModel = pipeline.fit(trainingData)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[NerDLApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.NerDLApproach.html)
+[NerDLApproach](/api/python/reference/autosummary/sparknlp/annotator/ner/ner_dl/index.html#sparknlp.annotator.ner.ner_dl.NerDLApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

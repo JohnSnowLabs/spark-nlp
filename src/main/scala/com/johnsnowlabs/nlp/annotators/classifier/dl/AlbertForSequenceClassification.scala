@@ -155,10 +155,11 @@ class AlbertForSequenceClassification(override val uid: String)
   }
 
   /** Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document
-    * by averaging probabilities in all sentences. Due to max sequence length limit in almost all
-    * transformer models such as BERT (512 tokens), this parameter helps feeding all the sentences
-    * into the model and averaging all the probabilities for the entire document instead of
-    * probabilities per sentence. (Default: true)
+    * by averaging probabilities in all sentences (Default: `false`).
+    *
+    * Due to max sequence length limit in almost all transformer models such as BERT (512 tokens),
+    * this parameter helps feeding all the sentences into the model and averaging all the
+    * probabilities for the entire document instead of probabilities per sentence.
     *
     * @group param
     */
@@ -250,7 +251,7 @@ class AlbertForSequenceClassification(override val uid: String)
   /** @group getParam */
   def getModelIfNotSet: TensorflowAlbertClassification = _model.get.value
 
-  /** Whether to lowercase tokens or not
+  /** Whether to lowercase tokens or not (Default: `false`).
     *
     * @group setParam
     */

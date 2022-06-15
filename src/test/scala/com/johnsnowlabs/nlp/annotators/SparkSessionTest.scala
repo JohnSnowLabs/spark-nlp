@@ -29,8 +29,10 @@ trait SparkSessionTest extends BeforeAndAfterAll { this: Suite =>
   val tokenizerPipeline = new Pipeline()
   val tokenizerWithSentencePipeline = new Pipeline()
   val documentAssembler = new DocumentAssembler()
+  val sentenceDetector = new SentenceDetector()
   val tokenizer = new Tokenizer()
   val emptyDataSet: Dataset[_] = PipelineModels.dummyDataset
+  val pipeline = new Pipeline()
 
   override def beforeAll(): Unit = {
     super.beforeAll()
@@ -39,7 +41,6 @@ trait SparkSessionTest extends BeforeAndAfterAll { this: Suite =>
     tokenizer.setInputCols("document").setOutputCol("token")
     tokenizerPipeline.setStages(Array(documentAssembler, tokenizer))
 
-    val sentenceDetector = new SentenceDetector()
     sentenceDetector.setInputCols("document").setOutputCol("sentence")
     val tokenizerWithSentence = new Tokenizer()
     tokenizerWithSentence.setInputCols("sentence").setOutputCol("token")

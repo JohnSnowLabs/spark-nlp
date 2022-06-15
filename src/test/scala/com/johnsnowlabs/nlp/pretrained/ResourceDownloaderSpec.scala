@@ -41,6 +41,22 @@ class ResourceDownloaderSpec extends AnyFlatSpec {
     assert(deserialized == resource)
   }
 
+  "CloudResourceMetadata with category" should "serialize and deserialize correctly" taggedAs FastTest in {
+    val resource = new ResourceMetadata(
+      "name",
+      Some("en"),
+      Some(Version(1, 2, 3)),
+      Some(Version(5, 4, 3)),
+      true,
+      new Timestamp(123213),
+      category = Some(ResourceType.MODEL.toString))
+
+    val json = ResourceMetadata.toJson(resource)
+    val deserialized = ResourceMetadata.parseJson(json)
+
+    assert(deserialized == resource)
+  }
+
   "CloudResourceDownloader" should "choose the newest Spark version" taggedAs FastTest in {
     val sparkNLPVersion = Version(1, 2, 3)
     val sparkVersion = Version(3, 4, 5)
@@ -78,20 +94,6 @@ class ResourceDownloaderSpec extends AnyFlatSpec {
 
     assert(found.isDefined)
     assert(found.get == b.name_en_old)
-  }
-
-  "CloudResourceDownloader" should "allow download of model for 2.4 for 2.3 found resource" in {
-    val found = ResourceMetadata.resolveResource(
-      List(b.name_en_251_23),
-      ResourceRequest("name", Some("en"), "", Version(2, 5, 1), Version(2, 4, 4)))
-    assert(found.isDefined)
-  }
-
-  "CloudResourceDownloader" should "not allow download of model for 3 for 2.3 found resource" in {
-    val found = ResourceMetadata.resolveResource(
-      List(b.name_en_251_23),
-      ResourceRequest("name", Some("en"), "", Version(2, 5, 1), Version(3)))
-    assert(found.isEmpty)
   }
 
   "CloudResourceDownloader" should "allow download of model for 3.0.x on spark 3.x found resource" in {

@@ -16,31 +16,30 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.annotators.Tokenizer
-import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.AnnotatorType.WORD_EMBEDDINGS
+import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.util.io.{ReadAs, ResourceHelper}
+import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.sql.DataFrame
 import org.scalatest.flatspec.AnyFlatSpec
 
-class WordEmbeddingsTestSpec extends AnyFlatSpec {
+class WordEmbeddingsTestSpec extends AnyFlatSpec with SparkSessionTest {
+
+  val clinicalWords: DataFrame = spark.read
+    .option("header", "true")
+    .csv("src/test/resources/embeddings/clinical_words.txt")
 
   "Word Embeddings" should "correctly embed clinical words not embed non-existent words" taggedAs SlowTest in {
 
-    val words = ResourceHelper.spark.read
-      .option("header", "true")
-      .csv("src/test/resources/embeddings/clinical_words.txt")
-    val notWords = ResourceHelper.spark.read
+    val notWords = spark.read
       .option("header", "true")
       .csv("src/test/resources/embeddings/not_words.txt")
 
-    val documentAssembler = new DocumentAssembler()
+    documentAssembler
       .setInputCol("word")
       .setOutputCol("document")
-
-    val tokenizer = new Tokenizer()
-      .setInputCols(Array("document"))
-      .setOutputCol("token")
 
     val embeddings = WordEmbeddingsModel
       .pretrained()
@@ -51,7 +50,7 @@ class WordEmbeddingsTestSpec extends AnyFlatSpec {
     val pipeline = new Pipeline()
       .setStages(Array(documentAssembler, tokenizer, embeddings))
 
-    val wordsP = pipeline.fit(words).transform(words).cache()
+    val wordsP = pipeline.fit(clinicalWords).transform(clinicalWords).cache()
     val notWordsP = pipeline.fit(notWords).transform(notWords).cache()
 
     val wordsCoverage =
@@ -79,18 +78,9 @@ class WordEmbeddingsTestSpec extends AnyFlatSpec {
 
   "Word Embeddings" should "store and load from disk" taggedAs FastTest in {
 
-    val data =
-      ResourceHelper.spark.read
-        .option("header", "true")
-        .csv("src/test/resources/embeddings/clinical_words.txt")
-
-    val documentAssembler = new DocumentAssembler()
+    documentAssembler
       .setInputCol("word")
       .setOutputCol("document")
-
-    val tokenizer = new Tokenizer()
-      .setInputCols(Array("document"))
-      .setOutputCol("token")
 
     val embeddings = new WordEmbeddings()
       .setStoragePath("src/test/resources/random_embeddings_dim4.txt", ReadAs.TEXT)
@@ -102,19 +92,115 @@ class WordEmbeddingsTestSpec extends AnyFlatSpec {
     val pipeline = new Pipeline()
       .setStages(Array(documentAssembler, tokenizer, embeddings))
 
-    val model = pipeline.fit(data)
+    val model = pipeline.fit(clinicalWords)
 
     model.write.overwrite().save("./tmp_embeddings_pipeline")
 
-    model.transform(data).show(1)
+    model.transform(clinicalWords).show(1)
 
     val loadedPipeline1 = PipelineModel.load("./tmp_embeddings_pipeline")
 
-    loadedPipeline1.transform(data).show(1)
+    loadedPipeline1.transform(clinicalWords).show(1)
 
     val loadedPipeline2 = PipelineModel.load("./tmp_embeddings_pipeline")
 
-    loadedPipeline2.transform(data).show(1)
+    loadedPipeline2.transform(clinicalWords).show(1)
+  }
+
+  it should "work for in-memory and disk storage alike" taggedAs FastTest in {
+
+    documentAssembler
+      .setInputCol("word")
+      .setOutputCol("document")
+
+    val embeddings = new WordEmbeddings()
+      .setStoragePath("src/test/resources/random_embeddings_dim4.txt", ReadAs.TEXT)
+      .setDimension(4)
+      .setStorageRef("glove_4d")
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+
+    val embeddingsInMemory = new WordEmbeddings()
+      .setStoragePath("src/test/resources/random_embeddings_dim4.txt", ReadAs.TEXT)
+      .setDimension(4)
+      .setStorageRef("glove_4d")
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+      .setEnableInMemoryStorage(true)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, tokenizer, embeddings))
+    val embeddingsDataset = pipeline.fit(clinicalWords).transform(clinicalWords)
+
+    val pipelineInMemory = new Pipeline()
+      .setStages(Array(documentAssembler, tokenizer, embeddingsInMemory))
+    val embeddingsInMemoryDataset = pipelineInMemory.fit(clinicalWords).transform(clinicalWords)
+
+    val expectedEmbeddings = getExpectedEmbeddings
+    val actualEmbeddings = AssertAnnotations.getActualResult(embeddingsDataset, "embeddings")
+    AssertAnnotations.assertFields(expectedEmbeddings, actualEmbeddings)
+
+    val actualEmbeddingsInMemory =
+      AssertAnnotations.getActualResult(embeddingsInMemoryDataset, "embeddings")
+    AssertAnnotations.assertFields(expectedEmbeddings, actualEmbeddingsInMemory)
+  }
+
+  private def getExpectedEmbeddings: Array[Seq[Annotation]] = {
+    val expectedEmbeddings = Array(
+      Seq(
+        Annotation(
+          WORD_EMBEDDINGS,
+          0,
+          8,
+          "diagnosis",
+          Map(
+            "isOOV" -> "false",
+            "pieceId" -> "-1",
+            "isWordStart" -> "true",
+            "token" -> "diagnosis",
+            "sentence" -> "0"),
+          Array(0.9076976f, 0.13794145f, 0.7322122f, 0.37095428f))),
+      Seq(
+        Annotation(
+          WORD_EMBEDDINGS,
+          0,
+          6,
+          "obesity",
+          Map(
+            "isOOV" -> "true",
+            "pieceId" -> "-1",
+            "isWordStart" -> "true",
+            "token" -> "obesity",
+            "sentence" -> "0"),
+          Array(0.0f, 0.0f, 0.0f, 0.0f))),
+      Seq(
+        Annotation(
+          WORD_EMBEDDINGS,
+          0,
+          7,
+          "diabetes",
+          Map(
+            "isOOV" -> "false",
+            "pieceId" -> "-1",
+            "isWordStart" -> "true",
+            "token" -> "diabetes",
+            "sentence" -> "0"),
+          Array(0.5955276f, 0.01899012f, 0.43977284f, 0.8911282f))),
+      Seq(
+        Annotation(
+          WORD_EMBEDDINGS,
+          0,
+          8,
+          "chlamydia",
+          Map(
+            "isOOV" -> "true",
+            "pieceId" -> "-1",
+            "isWordStart" -> "true",
+            "token" -> "chlamydia",
+            "sentence" -> "0"),
+          Array(0.0f, 0.0f, 0.0f, 0.0f))))
+
+    expectedEmbeddings
   }
 
 }

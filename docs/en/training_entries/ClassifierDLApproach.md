@@ -121,7 +121,7 @@ val pipelineModel = pipeline.fit(smallCorpus)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[ClassifierDLApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.ClassifierDLApproach.html)
+[ClassifierDLApproach](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

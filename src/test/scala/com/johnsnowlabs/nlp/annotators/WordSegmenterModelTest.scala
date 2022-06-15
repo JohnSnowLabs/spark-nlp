@@ -101,7 +101,7 @@ class WordSegmenterModelTest extends AnyFlatSpec {
       TaggedWord("有", LEFT_BOUNDARY),
       TaggedWord("限", MIDDLE),
       TaggedWord("公", RIGHT_BOUNDARY),
-      TaggedWord("服", LEFT_BOUNDARY),
+      TaggedWord("服", SINGLE_WORD),
       TaggedWord("奥", LEFT_BOUNDARY),
       TaggedWord("田", RIGHT_BOUNDARY))
     val indexedTaggedWords = Array(
@@ -222,6 +222,58 @@ class WordSegmenterModelTest extends AnyFlatSpec {
 
     assert(actualWordSegments == expectedWordSegments)
 
+  }
+
+  "A Word Segmenter Japanese Model with single word at the end" should "build a word segment" taggedAs FastTest in {
+    val taggedWords = Array(
+      TaggedWord("表", LEFT_BOUNDARY),
+      TaggedWord("面", RIGHT_BOUNDARY),
+      TaggedWord("圧", LEFT_BOUNDARY),
+      TaggedWord("縮", RIGHT_BOUNDARY),
+      TaggedWord("応", RIGHT_BOUNDARY),
+      TaggedWord("力", SINGLE_WORD))
+    val indexedTaggedWords = Array(
+      IndexedTaggedWord("表", LEFT_BOUNDARY, 0, 0, None, Map("index" -> "0")),
+      IndexedTaggedWord("面", RIGHT_BOUNDARY, 1, 1, None, Map("index" -> "1")),
+      IndexedTaggedWord("圧", LEFT_BOUNDARY, 2, 2, None, Map("index" -> "2")),
+      IndexedTaggedWord("縮", RIGHT_BOUNDARY, 3, 3, None, Map("index" -> "3")),
+      IndexedTaggedWord("応", RIGHT_BOUNDARY, 4, 4, None, Map("index" -> "4")),
+      IndexedTaggedWord("力", SINGLE_WORD, 5, 5, None, Map("index" -> "5")))
+    val taggedSentences = Array(TaggedSentence(taggedWords, indexedTaggedWords))
+    val expectedWordSegments = Seq(
+      Annotation(TOKEN, 0, 1, "表面", Map("sentence" -> "0")),
+      Annotation(TOKEN, 2, 3, "圧縮", Map("sentence" -> "0")),
+      Annotation(TOKEN, 4, 4, "応", Map("sentence" -> "0")),
+      Annotation(TOKEN, 5, 5, "力", Map("sentence" -> "0")))
+
+    val actualWordSegments = new WordSegmenterModel().buildWordSegments(taggedSentences)
+
+    assert(actualWordSegments == expectedWordSegments)
+  }
+
+  "A Word Segmenter Japanese Model" should "build a word segment" taggedAs FastTest in {
+    val taggedWords = Array(
+      TaggedWord("表", LEFT_BOUNDARY),
+      TaggedWord("面", RIGHT_BOUNDARY),
+      TaggedWord("圧", LEFT_BOUNDARY),
+      TaggedWord("縮", MIDDLE),
+      TaggedWord("応", MIDDLE),
+      TaggedWord("力", RIGHT_BOUNDARY))
+    val indexedTaggedWords = Array(
+      IndexedTaggedWord("表", LEFT_BOUNDARY, 0, 0, None, Map("index" -> "0")),
+      IndexedTaggedWord("面", RIGHT_BOUNDARY, 1, 1, None, Map("index" -> "1")),
+      IndexedTaggedWord("圧", LEFT_BOUNDARY, 2, 2, None, Map("index" -> "2")),
+      IndexedTaggedWord("縮", MIDDLE, 3, 3, None, Map("index" -> "3")),
+      IndexedTaggedWord("応", MIDDLE, 4, 4, None, Map("index" -> "4")),
+      IndexedTaggedWord("力", RIGHT_BOUNDARY, 5, 5, None, Map("index" -> "5")))
+    val taggedSentences = Array(TaggedSentence(taggedWords, indexedTaggedWords))
+    val expectedWordSegments = Seq(
+      Annotation(TOKEN, 0, 1, "表面", Map("sentence" -> "0")),
+      Annotation(TOKEN, 2, 5, "圧縮応力", Map("sentence" -> "0")))
+
+    val actualWordSegments = new WordSegmenterModel().buildWordSegments(taggedSentences)
+
+    assert(actualWordSegments == expectedWordSegments)
   }
 
 }
