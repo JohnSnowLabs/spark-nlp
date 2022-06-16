@@ -19,7 +19,6 @@ export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 if [[ "$PYSPARK" == "3.2"* ]]; then
   PYSPARK="3.2.1"
   echo "Installing PySpark $PYSPARK and Spark NLP $SPARKNLP"
-  echo "Don't forget to use spark32=True inside sparknlp.start(spark32=True)"
 elif [[ "$PYSPARK" == "3.1"* ]]; then
   PYSPARK="3.1.3"
   echo "Installing PySpark $PYSPARK and Spark NLP $SPARKNLP"
