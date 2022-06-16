@@ -36,11 +36,8 @@ class RobertaTokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
       "d",
       "Ġ!",
       "<unk>",
-      "<pad>"
-      //        "ĠI",
-      //        "ĠAs",
-      //        "Ġ!",
-    ).zipWithIndex.toMap
+      "<pad>",
+      "I").zipWithIndex.toMap
 
   val merges: Map[(String, String), Int] = Array(
     "o u",
@@ -71,22 +68,25 @@ class RobertaTokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
     "Ġgo od",
     "Ġ 3").map(_.split(" ")).map { case Array(c1, c2) => (c1, c2) }.zipWithIndex.toMap
 
-  val tokenizer: BpeTokenizer = BpeTokenizer.forModel("roberta", merges, vocab)
+  override val modelType = "roberta"
 
   override val replaceCharBeforeAssertion: Some[String] = Some("Ġ")
 
   "RobertaTokenizer" should behave like correctBpeTokenizer(
-    tokenizer = tokenizer,
+    text = "I unambigouosly good 3Asd!",
+    Array("I", "Ġunamb", "ig", "ou", "os", "ly", "Ġgood", "Ġ3", "As", "d", "!"),
+    Array(16, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13))
+
+  "RobertaTokenizer" should behave like correctBpeTokenizerWithAddedPrefixSpace(
     text = "I unambigouosly good 3Asd!",
     Array("I", "Ġunamb", "ig", "ou", "os", "ly", "Ġgood", "Ġ3", "As", "d", "!"),
     Array(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13))
 
-  it should behave like correctBpeTokenizerInFringeSituations(tokenizer = tokenizer)
+  it should behave like correctBpeTokenizerInFringeSituations()
 
   it should behave like correctBpeTokenizerSpecialTokens(
-    tokenizer = tokenizer,
     text = "I unambigouosly <mask> good 3Asd <mask>",
     expected =
       Array("I", "Ġunamb", "ig", "ou", "os", "ly", "<mask>", "Ġgood", "Ġ3", "As", "d", "<mask>"),
-    expectedIds = Array(3, 4, 5, 6, 7, 8, 2, 9, 10, 11, 12, 2))
+    expectedIds = Array(16, 4, 5, 6, 7, 8, 2, 9, 10, 11, 12, 2))
 }

@@ -23,7 +23,13 @@ import org.scalatest.flatspec.AnyFlatSpec
 trait BpeTokenizerBehaviours {
   this: AnyFlatSpec =>
 
+  val modelType: String
+  val merges: Map[(String, String), Int]
+  val vocab: Map[String, Int]
   val replaceCharBeforeAssertion: Option[String] = None
+
+  lazy private val defaultTokenizer: BpeTokenizer =
+    BpeTokenizer.forModel(modelType, merges, vocab)
 
   protected def assertEncodedCorrectly(
       text: String,
@@ -57,70 +63,74 @@ trait BpeTokenizerBehaviours {
   }
 
   def correctBpeTokenizer(
-      tokenizer: BpeTokenizer,
       text: String,
       expected: Array[String],
       expectedIds: Array[Int]): Unit = {
 
     it should "encode words correctly" taggedAs FastTest in {
-      val (_, encoded: Array[TokenPiece]) = tokenizeAndEncode(tokenizer, text)
+      val (_, encoded: Array[TokenPiece]) = tokenizeAndEncode(defaultTokenizer, text)
       assertEncodedCorrectly(text, encoded, expected, expectedIds)
     }
 
     it should "add sentence padding correctly if requested" taggedAs FastTest in {
-      tokenizer.padWithSentenceTokens = true
+      val sentencePaddingTokenizer =
+        BpeTokenizer.forModel(modelType, merges, vocab, padWithSentenceTokens = true)
 
       val (tokenized: Array[IndexedToken], encoded: Array[TokenPiece]) =
-        tokenizeAndEncode(tokenizer, text)
+        tokenizeAndEncode(sentencePaddingTokenizer, text)
 
-      //      val textPadded = "<|endoftext|>I unambigouosly<|endoftext|>"
-      //      assertEncodedCorrectly(textPadded, encoded, expected, expectedIds)
+      assert(tokenized.head.token == sentencePaddingTokenizer.sentencePadding._1)
+      assert(tokenized.last.token == sentencePaddingTokenizer.sentencePadding._2)
 
-      assert(tokenized.head.token == tokenizer.sentencePadding._1)
-      assert(tokenized.last.token == tokenizer.sentencePadding._2)
-
-      assert(encoded.head.pieceId == tokenizer.specialTokens.sentenceStart.id)
-      assert(encoded.last.pieceId == tokenizer.specialTokens.sentenceEnd.id)
-
-      tokenizer.padWithSentenceTokens = false
+      assert(encoded.head.pieceId == sentencePaddingTokenizer.specialTokens.sentenceStart.id)
+      assert(encoded.last.pieceId == sentencePaddingTokenizer.specialTokens.sentenceEnd.id)
     }
-
   }
 
-  def correctBpeTokenizerInFringeSituations(
-      tokenizer: BpeTokenizer,
-      unknownTokenText: String = "???") {
+  def correctBpeTokenizerWithAddedPrefixSpace(
+      text: String,
+      expected: Array[String],
+      expectedIds: Array[Int]): Unit = {
+    it should "encode words correctly with added prefix" taggedAs FastTest in {
+      val addedPrefixTokenizer =
+        BpeTokenizer.forModel(modelType, merges, vocab, addPrefixSpace = true)
+
+      val (_, encoded: Array[TokenPiece]) = tokenizeAndEncode(addedPrefixTokenizer, text)
+      assertEncodedCorrectly(text, encoded, expected, expectedIds)
+    }
+  }
+
+  def correctBpeTokenizerInFringeSituations(unknownTokenText: String = "???"): Unit = {
     it should "handle empty sentences" taggedAs FastTest in {
       val text = " \n"
       val (tokenized: Array[IndexedToken], encoded: Array[TokenPiece]) =
-        tokenizeAndEncode(tokenizer, text)
+        tokenizeAndEncode(defaultTokenizer, text)
       assert(tokenized.isEmpty)
       assert(encoded.isEmpty)
     }
 
     it should "handle unknown words" taggedAs FastTest in {
       val text = unknownTokenText
-      val (_, encoded: Array[TokenPiece]) = tokenizeAndEncode(tokenizer, text)
+      val (_, encoded: Array[TokenPiece]) = tokenizeAndEncode(defaultTokenizer, text)
 
-      assert(encoded.forall(_.pieceId == tokenizer.specialTokens.unk.id))
+      assert(encoded.forall(_.pieceId == defaultTokenizer.specialTokens.unk.id))
     }
 
     it should "handle unknown byte encodings" taggedAs FastTest in {
       val text = "I unambigouosly \u8216"
-      val (_, encoded: Array[TokenPiece]) = tokenizeAndEncode(tokenizer, text)
+      val (_, encoded: Array[TokenPiece]) = tokenizeAndEncode(defaultTokenizer, text)
 
-      assert(encoded.last.pieceId == tokenizer.specialTokens.unk.id)
+      assert(encoded.last.pieceId == defaultTokenizer.specialTokens.unk.id)
     }
   }
 
   def correctBpeTokenizerSpecialTokens(
-      tokenizer: BpeTokenizer,
       text: String,
       expected: Array[String],
       expectedIds: Array[Int]): Unit = {
 
     it should "encode special tokens correctly" taggedAs FastTest in {
-      val (_, encoded: Array[TokenPiece]) = tokenizeAndEncode(tokenizer, text)
+      val (_, encoded: Array[TokenPiece]) = tokenizeAndEncode(defaultTokenizer, text)
       assertEncodedCorrectly(text, encoded, expected, expectedIds)
     }
   }
