@@ -4,7 +4,7 @@ title: Pipeline to Detect Cellular/Molecular Biology Entities
 author: John Snow Labs
 name: bert_token_classifier_ner_cellular_pipeline
 date: 2022-03-09
-tags: [cellular, ner, bert_for_token, en, licensed]
+tags: [cellular, ner, bert_for_token_classifier, en, licensed, clinical]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Healthcare 3.4.1
@@ -21,7 +21,7 @@ This pretrained pipeline is built on the top of [bert_token_classifier_ner_cellu
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_CELLULAR/){:.button.button-orange}
-[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CELLULAR.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_cellular_pipeline_en_3.4.1_3.0_1646826493144.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -30,15 +30,20 @@ This pretrained pipeline is built on the top of [bert_token_classifier_ner_cellu
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
+from sparknlp.pretrained import PretrainedPipeline
+
 cellular_pipeline = PretrainedPipeline("bert_token_classifier_ner_cellular_pipeline", "en", "clinical/models")
 
-cellular_pipeline.annotate("Detection of various other intracellular signaling proteins is also described. Genetic characterization of transactivation of the human T-cell leukemia virus type 1 promoter: Binding of Tax to Tax-responsive element 1 is mediated by the cyclic AMP-responsive members of the CREB/ATF family of transcription factors. To achieve a better understanding of the mechanism of transactivation by Tax of human T-cell leukemia virus type 1 Tax-responsive element 1 (TRE-1), we developed a genetic approach with Saccharomyces cerevisiae. We constructed a yeast reporter strain containing the lacZ gene under the control of the CYC1 promoter associated with three copies of TRE-1. Expression of either the cyclic AMP response element-binding protein (CREB) or CREB fused to the GAL4 activation domain (GAD) in this strain did not modify the expression of the reporter gene. Tax alone was also inactive.")
+cellular_pipeline.fullAnnotate("Detection of various other intracellular signaling proteins is also described. Genetic characterization of transactivation of the human T-cell leukemia virus type 1 promoter: Binding of Tax to Tax-responsive element 1 is mediated by the cyclic AMP-responsive members of the CREB/ATF family of transcription factors. To achieve a better understanding of the mechanism of transactivation by Tax of human T-cell leukemia virus type 1 Tax-responsive element 1 (TRE-1), we developed a genetic approach with Saccharomyces cerevisiae. We constructed a yeast reporter strain containing the lacZ gene under the control of the CYC1 promoter associated with three copies of TRE-1. Expression of either the cyclic AMP response element-binding protein (CREB) or CREB fused to the GAL4 activation domain (GAD) in this strain did not modify the expression of the reporter gene. Tax alone was also inactive.")
 ```
 ```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+
 val cellular_pipeline = new PretrainedPipeline("bert_token_classifier_ner_cellular_pipeline", "en", "clinical/models")
 
-cellular_pipeline.annotate("Detection of various other intracellular signaling proteins is also described. Genetic characterization of transactivation of the human T-cell leukemia virus type 1 promoter: Binding of Tax to Tax-responsive element 1 is mediated by the cyclic AMP-responsive members of the CREB/ATF family of transcription factors. To achieve a better understanding of the mechanism of transactivation by Tax of human T-cell leukemia virus type 1 Tax-responsive element 1 (TRE-1), we developed a genetic approach with Saccharomyces cerevisiae. We constructed a yeast reporter strain containing the lacZ gene under the control of the CYC1 promoter associated with three copies of TRE-1. Expression of either the cyclic AMP response element-binding protein (CREB) or CREB fused to the GAL4 activation domain (GAD) in this strain did not modify the expression of the reporter gene. Tax alone was also inactive.")
+cellular_pipeline.fullAnnotate("Detection of various other intracellular signaling proteins is also described. Genetic characterization of transactivation of the human T-cell leukemia virus type 1 promoter: Binding of Tax to Tax-responsive element 1 is mediated by the cyclic AMP-responsive members of the CREB/ATF family of transcription factors. To achieve a better understanding of the mechanism of transactivation by Tax of human T-cell leukemia virus type 1 Tax-responsive element 1 (TRE-1), we developed a genetic approach with Saccharomyces cerevisiae. We constructed a yeast reporter strain containing the lacZ gene under the control of the CYC1 promoter associated with three copies of TRE-1. Expression of either the cyclic AMP response element-binding protein (CREB) or CREB fused to the GAL4 activation domain (GAD) in this strain did not modify the expression of the reporter gene. Tax alone was also inactive.")
 ```
 </div>
 
@@ -91,3 +96,6 @@ cellular_pipeline.annotate("Detection of various other intracellular signaling p
 - MedicalBertForTokenClassifier
 - NerConverter
 - Finisher
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbOTk3MjU0MzUxLC0xMjQxMDg5OTddfQ==
+-->

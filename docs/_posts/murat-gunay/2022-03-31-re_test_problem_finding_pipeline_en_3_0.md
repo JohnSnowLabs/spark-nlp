@@ -15,36 +15,48 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 This pretrained pipeline is built on the top of [re_test_problem_finding](https://nlp.johnsnowlabs.com/2021/04/19/re_test_problem_finding_en.html) model.
 
+
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_RADIOLOGY/){:.button.button-orange}{:target="_blank"}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_RADIOLOGY.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_test_problem_finding_pipeline_en_3.4.1_3.0_1648733292407.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
 
 ## How to use
 
 
 
+
+
+
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
+from sparknlp.pretrained import PretrainedPipeline
+
 pipeline = PretrainedPipeline("re_test_problem_finding_pipeline", "en", "clinical/models")
 
-
-pipeline.annotate("Targeted biopsy of this lesion for histological correlation should be considered.")
+pipeline.fullAnnotate("Targeted biopsy of this lesion for histological correlation should be considered.")
 ```
 ```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+
 val pipeline = new PretrainedPipeline("re_test_problem_finding_pipeline", "en", "clinical/models")
 
-
-pipeline.annotate("Targeted biopsy of this lesion for histological correlation should be considered.")
+pipeline.fullAnnotate("Targeted biopsy of this lesion for histological correlation should be considered.")
 ```
 </div>
 
+
 ## Results
+
 
 ```bash
 | index | relations    | entity1      | chunk1              | entity2      |  chunk2 |
@@ -52,8 +64,10 @@ pipeline.annotate("Targeted biopsy of this lesion for histological correlation s
 | 0     | 1            | PROCEDURE    | biopsy              | SYMPTOM      |  lesion | 
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -65,7 +79,9 @@ pipeline.annotate("Targeted biopsy of this lesion for histological correlation s
 |Language:|en|
 |Size:|1.7 GB|
 
+
 ## Included Models
+
 
 - DocumentAssembler
 - SentenceDetector
@@ -76,3 +92,7 @@ pipeline.annotate("Targeted biopsy of this lesion for histological correlation s
 - NerConverter
 - DependencyParserModel
 - RelationExtractionModel
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTY2ODIwNTI0NiwtMzk5NjI4NzU4LC0xOT
+gzOTYyMDM3XX0=
+-->

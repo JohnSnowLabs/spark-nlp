@@ -15,36 +15,48 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 This pretrained pipeline is built on the top of [re_test_result_date](https://nlp.johnsnowlabs.com/2021/02/24/re_test_result_date_en.html) model.
 
+
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL_DATE/){:.button.button-orange}{:target="_blank"}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CLINICAL_DATE.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_test_result_date_pipeline_en_3.4.1_3.0_1648734076557.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
 
 ## How to use
 
 
 
+
+
+
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
+from sparknlp.pretrained import PretrainedPipeline
+
 pipeline = PretrainedPipeline("re_test_result_date_pipeline", "en", "clinical/models")
 
-
-pipeline.annotate("He was advised chest X-ray or CT scan after checking his SpO2 which was <= 93%")
+pipeline.fullAnnotate("He was advised chest X-ray or CT scan after checking his SpO2 which was <= 93%")
 ```
 ```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+
 val pipeline = new PretrainedPipeline("re_test_result_date_pipeline", "en", "clinical/models")
 
-
-pipeline.annotate("He was advised chest X-ray or CT scan after checking his SpO2 which was <= 93%")
+pipeline.fullAnnotate("He was advised chest X-ray or CT scan after checking his SpO2 which was <= 93%")
 ```
 </div>
 
+
 ## Results
+
 
 ```bash
 | index | relations    | entity1      | chunk1              | entity2      |  chunk2 |
@@ -54,8 +66,10 @@ pipeline.annotate("He was advised chest X-ray or CT scan after checking his SpO2
 | 2     | is_result_of | TEST         | SpO2                | MEASUREMENTS |  93%    |
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -67,7 +81,9 @@ pipeline.annotate("He was advised chest X-ray or CT scan after checking his SpO2
 |Language:|en|
 |Size:|1.7 GB|
 
+
 ## Included Models
+
 
 - DocumentAssembler
 - SentenceDetector
@@ -78,3 +94,8 @@ pipeline.annotate("He was advised chest X-ray or CT scan after checking his SpO2
 - NerConverter
 - DependencyParserModel
 - RelationExtractionModel
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTE1MDk1OTUwNjYsLTEwMDg0MTMxNywtMj
+g2MjE1ODE0LC0yMzIzOTUyNTcsMjEwODgzMDk1MSwxODgxMDA3
+ODE3LC03OTUzOTI3NzddfQ==
+-->

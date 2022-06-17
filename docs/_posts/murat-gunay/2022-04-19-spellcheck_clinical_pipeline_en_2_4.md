@@ -4,7 +4,7 @@ title: Medical Spell Checker Pipeline
 author: John Snow Labs
 name: spellcheck_clinical_pipeline
 date: 2022-04-19
-tags: [spellcheck, medical, medical_spell_check, spell_corrector, spell_pipeline, en, licensed]
+tags: [spellcheck, medical, medical_spell_check, spell_corrector, spell_pipeline, en, licensed, clinical]
 task: Spell Check
 language: en
 edition: Spark NLP for Healthcare 3.4.2
@@ -15,42 +15,56 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 This pretrained medical spellchecker pipeline is built on the top of [spellcheck_clinical](https://nlp.johnsnowlabs.com/2022/04/18/spellcheck_clinical_en_2_4.html) model. This pipeline is for PySpark 2.4.x users with SparkNLP 3.4.2 and above.
 
+
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/CONTEXTUAL_SPELL_CHECKER/){:.button.button-orange}
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/6.Clinical_Context_Spell_Checker.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CONTEXTUAL_SPELL_CHECKER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/spellcheck_clinical_pipeline_en_3.4.2_2.4_1650360182939.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
 
 ## How to use
 
 
 
+
+
+
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
+from sparknlp.pretrained import PretrainedPipeline
+
 pipeline = PretrainedPipeline("spellcheck_clinical_pipeline", "en", "clinical/models")
 example = ["Witth the hell of phisical terapy the patient was imbulated and on postoperative, the impatient tolerating a post curgical soft diet.",
            "With paint wel controlled on orall pain medications, she was discharged too reihabilitation facilitay.",
            "Abdomen is sort, nontender, and nonintended.",
            "Patient not showing pain or any wealth problems.",
            "No cute distress"]
-pipeline.annotate(example)
+pipeline.fullAnnotate(example)
 ```
 ```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+
 val pipeline = new PretrainedPipeline("spellcheck_clinical_pipeline", "en", "clinical/models")
 val example = Array("Witth the hell of phisical terapy the patient was imbulated and on postoperative, the impatient tolerating a post curgical soft diet.",
            "With paint wel controlled on orall pain medications, she was discharged too reihabilitation facilitay.",
            "Abdomen is sort, nontender, and nonintended.",
            "Patient not showing pain or any wealth problems.",
            "No cute distress")
-pipeline.annotate(example)
+pipeline.fullAnnotate(example)
 ```
 </div>
 
+
 ## Results
+
 
 ```bash
 [{'checked': ['With','the','cell','of','physical','therapy','the','patient','was','ambulated','and','on','postoperative',',','the','patient','tolerating','a','post','surgical','soft','diet','.'],
@@ -74,8 +88,10 @@ pipeline.annotate(example)
   'token': ['No', 'cute', 'distress']}]
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -87,8 +103,14 @@ pipeline.annotate(example)
 |Language:|en|
 |Size:|141.3 MB|
 
+
 ## Included Models
+
 
 - DocumentAssembler
 - TokenizerModel
 - ContextSpellCheckerModel
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTExNTMwMDMyMDYsLTEwMTg5Nzg5MiwtNT
+A4MTQ3ODk0LDg4NjQxNjMwOV19
+-->

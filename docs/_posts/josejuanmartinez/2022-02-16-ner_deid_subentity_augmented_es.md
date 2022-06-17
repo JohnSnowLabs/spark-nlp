@@ -15,24 +15,35 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 Named Entity Recognition annotators allow for a generic model to be trained by using a Deep Learning architecture (Char CNNs - BiLSTM - CRF - word embeddings) inspired on a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM,CNN. 
 
+
 Deidentification NER (Spanish) is a Named Entity Recognition model that annotates text to find protected health information that may need to be de-identified. It detects 17 entities, which is more than the previously released `ner_deid_subentity` model.
+
 
 This NER model is trained with a combination of custom datasets, Spanish 2002 conLL, MeddoProf and MeddoCan datasets, and includes several data augmentation mechanisms.
 
+
 ## Predicted Entities
 
+
 `PATIENT`, `HOSPITAL`, `DATE`, `ORGANIZATION`, `CITY`, `ID`, `STREET`, `USERNAME`, `SEX`, `EMAIL`, `ZIP`, `MEDICALRECORD`, `PROFESSION`, `PHONE`, `COUNTRY`, `DOCTOR`, `AGE`
+
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_subentity_augmented_es_3.3.4_3.0_1645006642756.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
@@ -47,17 +58,21 @@ sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx
         .setInputCols(["document"])\
         .setOutputCol("sentence")
 
+
 tokenizer = Tokenizer()\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
+
 
 embeddings = WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")\
 	.setInputCols(["sentence","token"])\
 	.setOutputCol("word_embeddings")
 
+
 clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_augmented", "es", "clinical/models")\
         .setInputCols(["sentence","token","word_embeddings"])\
         .setOutputCol("ner")
+
 
 nlpPipeline = Pipeline(stages=[
         documentAssembler,
@@ -66,11 +81,14 @@ nlpPipeline = Pipeline(stages=[
         embeddings,
         clinical_ner])
 
+
 text = ['''
 Antonio Miguel Martínez, varón de de 35 años de edad, de profesión auxiliar de enfermería y nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14 de Marzo y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos.
 ''']
 
+
 df = spark.createDataFrame([text]).toDF("text")
+
 
 results = nlpPipeline.fit(data).transform(data)
 ```
@@ -79,33 +97,43 @@ val documentAssembler = new DocumentAssembler()
         .setInputCol("text")
         .setOutputCol("document")
 
+
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","xx")
         .setInputCols(Array("document"))
         .setOutputCol("sentence")
+
 
 val tokenizer = new Tokenizer()
         .setInputCols(Array("sentence"))
         .setOutputCol("token")
 
+
 val embeddings = WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")
     .setInputCols(Array("sentence", "token"))
     .setOutputCol("embeddings")
+
 
 val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_augmented", "es", "clinical/models")
         .setInputCols(Array("sentence","token","embeddings"))
         .setOutputCol("ner")
 
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner))
+
 
 val text = "Antonio Miguel Martínez, varón de de 35 años de edad, de profesión auxiliar de enfermería y nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14 de Marzo y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos."
 
+
 val df = Seq(text).toDF("text")
+
 
 val results = pipeline.fit(data).transform(data)
 ```
 </div>
 
+
 ## Results
+
 
 ```bash
 +------------+------------+
@@ -169,8 +197,10 @@ val results = pipeline.fit(data).transform(data)
 +------------+------------+
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -183,19 +213,21 @@ val results = pipeline.fit(data).transform(data)
 |Language:|es|
 |Size:|15.0 MB|
 
+
 ## References
+
 
 - Internal JSL annotated corpus
 - [Spanish conLL](https://www.clips.uantwerpen.be/conll2002/ner/data/)
 - [MeddoProf](https://temu.bsc.es/meddoprof/data/)
 - [MeddoCan](https://temu.bsc.es/meddocan/)
 
+
 ## Benchmarking
 
+
 ```bash
-+-------------+------+-----+-----+------+---------+------+------+
 |       entity|    tp|   fp|   fn| total|precision|recall|    f1|
-+-------------+------+-----+-----+------+---------+------+------+
 |      PATIENT|2022.0|224.0|140.0|2162.0|   0.9003|0.9352|0.9174|
 |     HOSPITAL| 259.0| 35.0| 50.0| 309.0|    0.881|0.8382| 0.859|
 |         DATE|1023.0| 12.0| 12.0|1035.0|   0.9884|0.9884|0.9884|
@@ -213,17 +245,9 @@ val results = pipeline.fit(data).transform(data)
 |      COUNTRY| 505.0| 74.0| 82.0| 587.0|   0.8722|0.8603|0.8662|
 |       DOCTOR| 444.0| 26.0| 48.0| 492.0|   0.9447|0.9024|0.9231|
 |          AGE| 549.0| 15.0|  7.0| 556.0|   0.9734|0.9874|0.9804|
-+-------------+------+-----+-----+------+---------+------+------+
-
-+------------------+
-|             macro|
-+------------------+
-|0.9138425671563657|
-+------------------+
-
-+------------------+
-|             micro|
-+------------------+
-|0.8930166530131042|
-+------------------+
+|        macro|      |     |     |      |         |      |0.9138|
+|        micro|      |     |     |      |         |      |0.8930|
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbMTM2OTAzNzkyOF19
+-->

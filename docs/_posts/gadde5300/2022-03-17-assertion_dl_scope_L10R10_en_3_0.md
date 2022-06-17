@@ -15,20 +15,29 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 This model considers 10 tokens on the left and 10 tokens on the right side of the clinical entities extracted by NER models and assigns their assertion status based on their context in this scope.
 
+
 ## Predicted Entities
 
+
 `hypothetical`, `associated_with_someone_else`, `conditional`, `possible`, `absent`, `present`
+
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/assertion_dl_scope_L10R10_en_3.4.2_3.0_1647494736416.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
@@ -65,10 +74,15 @@ clinical_assertion = AssertionDLModel.pretrained("assertion_dl_scope_L10R10", "e
   
 nlpPipeline = Pipeline(stages=[document,sentenceDetector, token, word_embeddings,clinical_ner,ner_converter,  clinical_assertion])
 
+
 text = "Patient with severe fever and sore throat. He shows no stomach pain and he maintained on an epidural and PCA for pain control. He also became short of breath with climbing a flight of stairs. After CT, lung tumor located at the right lower lobe. Father with Alzheimer."
+
 
 data = spark.createDataFrame([[text]]).toDF("text")
 result = nlpPipeline.fit(data).transform(data)
+
+
+
 
 
 
@@ -105,11 +119,14 @@ val clinical_assertion = AssertionDLModel.pretrained("assertion_dl_scope_L10R10"
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, clinical_assertion))
 val data = Seq("Patient with severe fever and sore throat. He shows no stomach pain and he maintained on an epidural and PCA for pain control. He also became short of breath with climbing a flight of stairs. After CT, lung tumor located at the right lower lobe. Father with Alzheimer.").toDF("text")
 
+
 val result = pipeline.fit(data).transform(data)
 ```
 </div>
 
+
 ## Results
+
 
 ```bash
 +---------------+---------+----------------------------+
@@ -128,8 +145,10 @@ val result = pipeline.fit(data).transform(data)
 +---------------+---------+----------------------------+
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -142,24 +161,27 @@ val result = pipeline.fit(data).transform(data)
 |Language:|en|
 |Size:|1.4 MB|
 
+
 ## References
+
 
 Trained on 2010 i2b2/VA challenge on concepts, assertions, and relations in clinical text with ‘embeddings_clinical’. https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
 
+
 ## Benchmarking
 
-```bash
-Total test loss: 35.6458	                  
-Avg test loss: 0.2875
-|label                       |tp  |fp |fn |prec      |rec      |f1        |
-|----------------------------|----|---|---|----------|---------|----------|
-|absent                      |812 |48 |71 |0.94418603|0.9195923|0.93172693|
-|present                     |2463|127|141|0.9509652 |0.9458525|0.948402  |
-|conditional                 |25  |19 |28 |0.5681818 |0.4716981|0.5154639 |
-|associated_with_someone_else|36  |7  |9  |0.8372093 |0.8      |0.8181818 |
-|hypothetical                |147 |31 |28 |0.8258427 |0.84     |0.8328612 |
-|possible                    |159 |87 |42 |0.64634144|0.7910448|0.71140933|
 
-Macro-average	 prec: 0.79545444, rec: 0.79469794, f1: 0.795076
-Micro-average	 prec: 0.91946477, rec: 0.91946477, f1: 0.91946477
+```bash
+label                         tp    fp   fn   prec        rec        f1        
+absent                        812   48   71   0.94418603  0.9195923  0.93172693
+present                       2463  127  141  0.9509652   0.9458525  0.948402  
+conditional                   25    19   28   0.5681818   0.4716981  0.5154639 
+associated_with_someone_else  36    7    9    0.8372093   0.8        0.8181818 
+hypothetical                  147   31   28   0.8258427   0.84       0.8328612 
+possible                      159   87   42   0.64634144  0.7910448  0.71140933
+Macro-average	              -     -    -    0.79545444  0.7946979  0.795076  
+Micro-average	              -     -    -    0.91946477  0.9194648  0.91946477
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbMTA5MjcyMTIwMCwtNjY5NTk1MjUwXX0=
+-->
