@@ -49,38 +49,31 @@ document_assembler = DocumentAssembler()\
       .setInputCol('text')\
       .setOutputCol('document')
 
-
 sentence_detector = SentenceDetector()\
       .setInputCols(["document"])\
       .setOutputCol("sentence")
-
 
 tokenizer = Tokenizer()\
       .setInputCols("sentence")\
       .setOutputCol("token")
 
-
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
       .setInputCols(["sentence", "token"])\
       .setOutputCol("embeddings")
-
 
 #NER model to detect abbreviations in the text
 abbr_ner = MedicalNerModel.pretrained('ner_abbreviation_clinical', 'en', 'clinical/models') \
       .setInputCols(["sentence", "token", "embeddings"]) \
       .setOutputCol("abbr_ner")
 
-
 abbr_converter = NerConverter() \
       .setInputCols(["sentence", "token", "abbr_ner"]) \
       .setOutputCol("abbr_ner_chunk")\
-
 
 chunkerMapper = ChunkMapperModel.pretrained("abbreviation_mapper", "en", "clinical/models")\
       .setInputCols(["abbr_ner_chunk"])\
       .setOutputCol("mappings")\
       .setRel("definition") 
-
 
 pipeline = Pipeline().setStages([document_assembler,
                                  sentence_detector,
@@ -104,31 +97,25 @@ val document_assembler = new DocumentAssembler()
          .setInputCol("text")
          .setOutputCol("document")
 
-
 val sentence_detector = new SentenceDetector()
          .setInputCols(Array("document"))
          .setOutputCol("sentence")
-
 
 val tokenizer = new Tokenizer()
          .setInputCols("sentence")
          .setOutputCol("token")
 
-
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
          .setInputCols(Array("sentence", "token"))
          .setOutputCol("embeddings")
-
 
 val abbr_ner = MedicalNerModel.pretrained("ner_abbreviation_clinical", "en", "clinical/models") 
          .setInputCols(Array("sentence", "token", "embeddings")) 
          .setOutputCol("abbr_ner")
 
-
 val abbr_converter = NerConverter() 
          .setInputCols(Array("sentence", "token", "abbr_ner")) 
          .setOutputCol("abbr_ner_chunk")
-
 
 val chunkerMapper = ChunkMapperModel.pretrained("abbreviation_mapper", "en", "clinical/models")
          .setInputCols("abbr_ner_chunk")
@@ -137,7 +124,7 @@ val chunkerMapper = ChunkMapperModel.pretrained("abbreviation_mapper", "en", "cl
 
 
 val pipeline = new Pipeline().setStages(Array(
-								 document_assembler,
+				 document_assembler,
                                  sentence_detector,
                                  tokenizer, 
                                  word_embeddings,
