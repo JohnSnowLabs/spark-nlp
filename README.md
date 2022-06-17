@@ -144,7 +144,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 To use Spark NLP you need the following requirements:
 
 - Java 8 and 11
-- Apache Spark 3.2.x, 3.1.x, and 3.0.x
+- Apache Spark 3.3.x, 3.2.x, 3.1.x, 3.0.x
 
 **GPU (optional):**
 
@@ -210,17 +210,17 @@ For more examples, you can visit our dedicated [repository](https://github.com/J
 
 ## Apache Spark Support
 
-Spark NLP *4.0.0* has been built on top of Apache Spark 3.2 while fully supports Apache Spark 3.0.x, 3.1.x, and 3.2.x:
+Spark NLP *4.0.0* has been built on top of Apache Spark 3.2 while fully supports Apache Spark 3.0.x, 3.1.x, 3.2.x, and 3.3.x:
 
-| Spark NLP | Apache Spark 2.3.x | Apache Spark 2.4.x | Apache Spark 3.0.x | Apache Spark 3.1.x | Apache Spark 3.2.x |
-|-----------|--------------------|--------------------|--------------------|--------------------|--------------------|
-| 4.0.x     | NO                 | NO                 | YES                | YES                | YES                |
-| 3.4.x     | YES                | YES                | YES                | YES                | Partially          |
-| 3.3.x     | YES                | YES                | YES                | YES                | NO                 |
-| 3.2.x     | YES                | YES                | YES                | YES                | NO                 |
-| 3.1.x     | YES                | YES                | YES                | YES                | NO                 |
-| 3.0.x     | YES                | YES                | YES                | YES                | NO                 |
-| 2.7.x     | YES                | YES                | NO                 | NO                 | NO                 |
+| Spark NLP | Apache Spark 2.3.x | Apache Spark 2.4.x | Apache Spark 3.0.x | Apache Spark 3.1.x | Apache Spark 3.2.x | Apache Spark 3.3.x |
+|-----------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
+| 4.0.x     | NO                 | NO                 | YES                | YES                | YES                | YES                |
+| 3.4.x     | YES                | YES                | YES                | YES                | Partially          | N/A          |
+| 3.3.x     | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 3.2.x     | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 3.1.x     | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 3.0.x     | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 2.7.x     | YES                | YES                | NO                 | NO                 | NO                 | NO                 |
 
 - Starting 4.0.0 release, the default `spark-nlp` and `spark-nlp-gpu` packages are based on Scala 2.12.15 and Apache Spark 3.2 by default.
 
@@ -291,18 +291,18 @@ NOTE: The EMR 6.1.0 and 6.1.1 are not supported.
 
 This is a cheatsheet for corresponding Spark NLP Maven package to Apache Spark / PySpark major version:
 
-| Apache Spark | Spark NLP on CPU   | Spark NLP on GPU           | Spark NLP on M1           |
-|--------------|--------------------|----------------------------|---------------------------|
-| 3.0/3.1/3.2  | `spark-nlp`        | `spark-nlp-gpu`            | `spark-nlp-m1`            |
-|              | `sparknlp.start()` | `sparknlp.start(gpu=True)` | `sparknlp.start(m1=True)` |
+| Apache Spark     | Spark NLP on CPU   | Spark NLP on GPU           | Spark NLP on M1           |
+|------------------|--------------------|----------------------------|---------------------------|
+| 3.0/3.1/3.2/3.3  | `spark-nlp`        | `spark-nlp-gpu`            | `spark-nlp-m1`            |
+| Start Function   | `sparknlp.start()` | `sparknlp.start(gpu=True)` | `sparknlp.start(m1=True)` |
 
 ## Spark Packages
 
 ### Command line (requires internet connection)
 
-Spark NLP supports all major releases of Apache Spark 3.0.x, Apache Spark 3.1.x, and Apache Spark 3.2.x.
+Spark NLP supports all major releases of Apache Spark 3.0.x, Apache Spark 3.1.x, Apache Spark 3.2.x, and Apache Spark 3.3.x.
 
-#### Apache Spark 3.x (3.0.x, 3.1.x, and 3.2.x - Scala 2.12)
+#### Apache Spark 3.x (3.0.x, 3.1.x, 3.2.x, and 3.3.x - Scala 2.12)
 
 ```sh
 # CPU
@@ -353,11 +353,11 @@ spark-shell \
 
 ## Scala
 
-Spark NLP supports Scala 2.12.15 if you are using Apache Spark 3.0.x, 3.1.x, and 3.2.x versions. Our packages are deployed to Maven central. To add any of our packages as a dependency in your application you can follow these coordinates:
+Spark NLP supports Scala 2.12.15 if you are using Apache Spark 3.0.x, 3.1.x, 3.2.x, and 3.3.x versions. Our packages are deployed to Maven central. To add any of our packages as a dependency in your application you can follow these coordinates:
 
 ### Maven
 
-**spark-nlp** on Apache Spark 3.0.x, 3.1.x, and 3.2.x:
+**spark-nlp** on Apache Spark 3.0.x, 3.1.x, 3.2.x, and 3.3.x:
 
 ```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp -->
@@ -379,7 +379,6 @@ Spark NLP supports Scala 2.12.15 if you are using Apache Spark 3.0.x, 3.1.x, and
 </dependency>
 ```
 
-
 **spark-nlp-gpu:**
 
 ```xml
@@ -393,7 +392,7 @@ Spark NLP supports Scala 2.12.15 if you are using Apache Spark 3.0.x, 3.1.x, and
 
 ### SBT
 
-**spark-nlp** on Apache Spark 3.0.x, 3.1.x, and 3.2.x:
+**spark-nlp** on Apache Spark 3.0.x, 3.1.x, 3.2.x, and 3.3.x:
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
@@ -490,19 +489,19 @@ result = pipeline.annotate('The Mona Lisa is a 16th century oil painting created
 
 #### spark-nlp
 
-- FAT-JAR for CPU on Apache Spark 3.0.x, 3.1.x, and 3.2.x
+- FAT-JAR for CPU on Apache Spark 3.0.x, 3.1.x, 3.2.x, and 3.3.x
 
 ```bash
 sbt assembly
 ```
 
-- FAT-JAR for GPU on Apache Spark 3.0.x, 3.1.x, and 3.2.x
+- FAT-JAR for GPU on Apache Spark 3.0.x, 3.1.x, 3.2.x, and 3.3.x
 
 ```bash
 sbt -Dis_gpu=true assembly
 ```
 
-- FAT-JAR for M! on Apache Spark 3.0.x, 3.1.x, and 3.2.x
+- FAT-JAR for M! on Apache Spark 3.0.x, 3.1.x, 3.2.x, and 3.3.x
 
 ```bash
 sbt -Dis_m1=true assembly
@@ -1088,7 +1087,7 @@ spark = SparkSession.builder \
     .getOrCreate()
 ```
 
-- You can download provided Fat JARs from each [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases), please pay attention to pick the one that suits your environment depending on the device (CPU/GPU) and Apache Spark version (2.3.x, 2.4.x, and 3.x)
+- You can download provided Fat JARs from each [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases), please pay attention to pick the one that suits your environment depending on the device (CPU/GPU) and Apache Spark version (3.0.x, 3.1.x, 3.2.x, and 3.3.x)
 - If you are local, you can load the Fat JAR from your local FileSystem, however, if you are in a cluster setup you need to put the Fat JAR on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., `hdfs:///tmp/spark-nlp-assembly-4.0.0.jar`)
 
 Example of using pretrained Models and Pipelines in offline:
