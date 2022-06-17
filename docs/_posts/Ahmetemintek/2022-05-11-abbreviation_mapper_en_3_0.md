@@ -37,17 +37,13 @@ This pretrained model maps abbreviations and acronyms of medical regulatory acti
 ## How to use
 
 
-
-
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 document_assembler = DocumentAssembler()\
-      .setInputCol('text')\
-      .setOutputCol('document')
+      .setInputCol("text")\
+      .setOutputCol("document")
 
 sentence_detector = SentenceDetector()\
       .setInputCols(["document"])\
@@ -62,7 +58,7 @@ word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "c
       .setOutputCol("embeddings")
 
 #NER model to detect abbreviations in the text
-abbr_ner = MedicalNerModel.pretrained('ner_abbreviation_clinical', 'en', 'clinical/models') \
+abbr_ner = MedicalNerModel.pretrained("ner_abbreviation_clinical", "en", "clinical/models") \
       .setInputCols(["sentence", "token", "embeddings"]) \
       .setOutputCol("abbr_ner")
 
@@ -89,8 +85,8 @@ text = ["""Gravid with estimated fetal weight of 6-6/12 pounds.
            HIV: Negative. One-Hour Glucose: 117. Group B strep has not been done as yet."""]
 
 
-model = pipeline.fit(spark.createDataFrame([text]).toDF("text"))
-res= model.transform(test_data)
+data = spark.createDataFrame([text]).toDF("text")
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
@@ -138,10 +134,9 @@ val test_sentence = """Gravid with estimated fetal weight of 6-6/12 pounds.
                        HIV: Negative. One-Hour Glucose: 117. Group B strep has not been done as yet.""" 
 
 
-val test_data = Seq(test_sentence).toDS.toDF(“text”)
+val data = Seq(test_sentence).toDS.toDF("text")
 
-
-val res= pipeline.fit(test_data).transform(test_data)
+val res= pipeline.fit(data).transform(data)
 ```
 </div>
 
