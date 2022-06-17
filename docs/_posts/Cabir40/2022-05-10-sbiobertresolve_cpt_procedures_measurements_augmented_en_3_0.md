@@ -44,37 +44,30 @@ document_assembler = DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
 
-
 sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models") \
     .setInputCols(["document"])\
     .setOutputCol("sentence")
-
 
 tokenizer = Tokenizer()\
     .setInputCols(["sentence"])\
     .setOutputCol("token")
 
-
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
     .setInputCols(["sentence", "token"])\
     .setOutputCol("word_embeddings")
 
-
 ner = MedicalNerModel.pretrained("ner_jsl", "en", "clinical/models") \
     .setInputCols(["sentence", "token", "word_embeddings"]) \
     .setOutputCol("ner")\
-
 
 ner_converter = NerConverterInternal()\
     .setInputCols(["sentence", "token", "ner"])\
     .setOutputCol("ner_chunk")\
     .setWhiteList(["Procedure", "Test"])
 
-
 c2doc = Chunk2Doc()\
     .setInputCols("ner_chunk")\
     .setOutputCol("ner_chunk_doc") 
-
 
 sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en","clinical/models")\
     .setInputCols(["ner_chunk_doc"])\
@@ -98,8 +91,7 @@ resolver_pipeline = Pipeline(stages = [
         cpt_resolver
   ])
 
-
-model = resolver_pipeline.fit(spark.createDataFrame([['']]).toDF("text"))
+model = resolver_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 text='''She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. CT scan of the chest also revealed a large mediastinal lymph node. 
 We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. 
@@ -114,37 +106,30 @@ val document_assembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
 
-
 val sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")
       .setInputCols("document")
       .setOutputCol("sentence")
-
 
 val tokenizer = new Tokenizer()
       .setInputCols("sentence")
       .setOutputCol("token")
 
-
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
       .setInputCols(Array("sentence", "token"))
       .setOutputCol("word_embeddings")
 
-
 val ner = MedicalNerModel.pretrained("ner_jsl", "en", "clinical/models")
       .setInputCols(Array("sentence", "token", "word_embeddings"))
       .setOutputCol("ner")
-
 
 val ner_converter = new NerConverterInternal()
       .setInputCols(Array("sentence", "token", "ner"))
       .setOutputCol("ner_chunk")
       .setWhiteList(Array("Procedure", "Test"))
 
-
 val c2doc = new Chunk2Doc()
       .setInputCols("ner_chunk")
       .setOutputCol("ner_chunk_doc") 
-
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
       .setInputCols("ner_chunk_doc")
@@ -155,15 +140,13 @@ val cpt_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_cpt_p
       .setInputCols(Array("ner_chunk", "sentence_embeddings"))
       .setOutputCol("cpt_code")
       .setDistanceFunction("EUCLIDEAN")
-    
-
-
+   
 val resolver_pipeline = new PipelineModel().setStages(Array(
-										    document_assembler, 
+					    document_assembler, 
                                             sentenceDetectorDL, 
                                             tokenizer, 
                                             word_embeddings, 
-	                                        ner, 
+	                                    ner, 
                                             ner_converter,  
                                             c2doc, 
                                             sbert_embedder, 
