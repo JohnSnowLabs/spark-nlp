@@ -52,39 +52,33 @@ document_assembler = DocumentAssembler()\
 	.setInputCol("text")\
 	.setOutputCol("document")
 
-
 sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")\
 	.setInputCols(["document"])\
 	.setOutputCol("sentence")
 
-  
 tokenizer = Tokenizer()\
 	.setInputCols(["sentence"])\
 	.setOutputCol("token")
 
-  
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical" ,"en", "clinical/models")\
 	.setInputCols(["sentence","token"])\
 	.setOutputCol("embeddings")
-
 
 ner = MedicalNerModel.pretrained("ner_biomedical_bc2gm", "en", "clinical/models") \
 	.setInputCols(["sentence", "token", "embeddings"]) \
 	.setOutputCol("ner")
  
-
 ner_converter = NerConverter()\
 	.setInputCols(["sentence", "token", "ner"])\
 	.setOutputCol("ner_chunk")
-
   
 nlpPipeline = Pipeline(stages=[
 	document_aAssembler,
 	sentenceDetectorDL,
 	tokenizer,
 	word_embeddings,
-	ner,ner_converter])
-
+	ner,
+	ner_converter])
   
 data = spark.createDataFrame([["Immunohistochemical staining was positive for S-100 in all 9 cases stained, positive for HMB-45 in 9 (90%) of 10, and negative for cytokeratin in all 9 cases in which myxoid melanoma remained in the block after previous sections."]]).toDF("text")
 
@@ -95,32 +89,26 @@ val document_assembler = new Documentssembler()
 	.setInputCol("text")
 	.setOutputCol("document")
 
-
 val sentenceDetectorDL =
 SentenceDetectorDLModel.pretrained("sentenceetectorl_healthcare", "en", "clinical/models")
 	.setInputCols("document")
 	.setOutputCol("sentence")
 
-  
 val tokenizer = new Tokenizer()
 	.setInputCols("sentence")
 	.setOutputCol("token")
-
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical" ,"en", "clinical/models")
 	.setInputCols(Array("document","token"))
 	.setOutputCol("word_embeddings")
 
-
 val ner = MedicalNerModel.pretrained("ner_biomedical_bc2gm", "en", "clinical/models")
 	.setInputCols(Array("sentence", "token", "word_embeddings"))
 	.setOutputCol("ner")
 
-
 val ner_converter = new NerConverter()
 	.setInputCols(Array("sentence", "token", "ner"))
     .setOutputCol("ner_chunk")
-
 
 val pipeline = new Pipeline().setStages(Array(
 	document_assembler, 
@@ -128,7 +116,6 @@ val pipeline = new Pipeline().setStages(Array(
 	, tokenizer, 
 	word_embeddings, 
 	ner, ner_converter))
-
 
 val data = Seq("Immunohistochemical staining was positive for S-100 in all 9 cases stained, positive for HMB-45 in 9 (90%) of 10, and negative for cytokeratin in all 9 cases in which myxoid melanoma remained in the block after previous sections.").toDS.toDF("text")
 
