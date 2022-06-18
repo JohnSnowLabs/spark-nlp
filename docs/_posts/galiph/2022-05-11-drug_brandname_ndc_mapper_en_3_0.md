@@ -45,12 +45,10 @@ document_assembler = DocumentAssembler()\
       .setInputCol("text")\
       .setOutputCol("chunk")
 
-
 chunkerMapper = ChunkMapperModel.pretrained("drug_brandname_ndc_mapper", "en", "clinical/models")\
       .setInputCols(["chunk"])\
       .setOutputCol("ndc")\
       .setRel("Strength_NDC") 
-
 
 pipeline = Pipeline().setStages([document_assembler,
                                  chunkerMapper])  
@@ -66,15 +64,13 @@ val document_assembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("chunk")
 
-
 val chunkerMapper = ChunkMapperModel.pretrained("drug_brandname_ndc_mapper", "en", "clinical/models")
       .setInputCols("chunk")
       .setOutputCol("ndc")
       .setRel("Strength_NDC") 
 
-
 val pipeline = new Pipeline().setStages(Array(document_assembler,
-				                              chunkerMapper))
+				              chunkerMapper))
 
  val text_data = Seq("zytiga", "zyvana", "ZYVOX", "ZYTIGA").toDS.toDF("text")
  
