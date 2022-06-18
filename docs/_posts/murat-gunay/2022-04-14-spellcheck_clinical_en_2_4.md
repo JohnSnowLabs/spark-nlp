@@ -45,24 +45,20 @@ documentAssembler = DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
 
-
 tokenizer = Tokenizer()\
       .setInputCols(["document"])\
       .setOutputCol("token")\
       .setContextChars(["*", "-", "“", "(", "[", "\n", ".","\"", "”", ",", "?", ")", "]", "!", ";", ":", "'s", "’s"])
-
 
 spellModel = ContextSpellCheckerModel\
     .pretrained('spellcheck_clinical', 'en', 'clinical/models')\
     .setInputCols("token")\
     .setOutputCol("checked")
 
-
 pipeline = Pipeline(stages = [
-							documentAssembler, 
-							tokenizer, 
-							spellModel])
-
+			documentAssembler, 
+			tokenizer, 
+			spellModel])
 
 light_pipeline = LightPipeline(pipeline.fit(spark.createDataFrame([[""]]).toDF("text")))
 
@@ -72,7 +68,6 @@ example = ["Witth the hell of phisical terapy the patient was imbulated and on p
            "Patient not showing pain or any wealth problems.",
            "No cute distress"]
 
-
 result = light_pipeline.annotate(example)
 ```
 ```scala
@@ -80,25 +75,21 @@ val assembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
 
-
 val tokenizer = new Tokenizer()
       .setInputCols(Array("document"))
       .setOutputCol("token")
       .setContextChars(Array("*", "-", "“", "(", "[", "\n", ".","\"", "”", ",", "?", ")", "]", "!", ";", ":", "'s", "’s"))
-
 
  val spellChecker = ContextSpellCheckerModel.
       pretrained("spellcheck_clinical", "en", "clinical/models").
       setInputCols("token").
       setOutputCol("checked")
 
-
  val pipeline =  new Pipeline().setStages(Array(
-											 assembler, 
-											 tokenizer, 
-											 spellChecker))
-											 
-											 
+					 assembler, 
+					 tokenizer, 
+					 spellChecker))
+				 
  val light_pipeline = new LightPipeline(pipeline.fit(Seq("").toDF("text")))
  
  val text = Array("Witth the hell of phisical terapy the patient was imbulated and on postoperative, the impatient tolerating a post curgical soft diet.",
@@ -106,6 +97,7 @@ val tokenizer = new Tokenizer()
            "Abdomen is sort, nontender, and nonintended.",
            "Patient not showing pain or any wealth problems.",
            "No cute distress")
+	   
  val result = light_pipeline.annotate(text)
 ```
 </div>
