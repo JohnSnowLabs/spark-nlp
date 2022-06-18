@@ -49,7 +49,6 @@ document_assembler = DocumentAssembler()\
       .setInputCol('text')\
       .setOutputCol('ner_chunk')
 
-
 sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
       .setInputCols(["ner_chunk"])\
       .setOutputCol("sentence_embeddings")\
@@ -60,18 +59,15 @@ rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm
       .setOutputCol("rxnorm_code")\
       .setDistanceFunction("EUCLIDEAN")
 
-
 chunkerMapper_product = ChunkMapperModel.pretrained("rxnorm_ndc_mapper", "en", "clinical/models"))\
       .setInputCols(["rxnorm_code"])\
       .setOutputCol("Product NDC")\
       .setRel("Product NDC") 
 
-
 chunkerMapper_package = ChunkMapperModel.pretrained("rxnorm_ndc_mapper", "en", "clinical/models"))\
       .setInputCols(["rxnorm_code"])\
       .setOutputCol("Package NDC")\
       .setRel("Package NDC") 
-
 
 pipeline = Pipeline().setStages([document_assembler,
                                  sbert_embedder,
@@ -79,7 +75,6 @@ pipeline = Pipeline().setStages([document_assembler,
                                  chunkerMapper_product,
                                  chunkerMapper_package
                                  ])
-
 
 model = pipeline.fit(spark.createDataFrame([['']]).toDF('text')) 
 
@@ -92,7 +87,6 @@ val document_assembler = new DocumentAssembler()
       .setInputCol("text")\
       .setOutputCol("ner_chunk")
 
-
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en","clinical/models")
       .setInputCols("ner_chunk")
       .setOutputCol("sentence_embeddings")
@@ -103,27 +97,23 @@ val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rx
       .setOutputCol("rxnorm_code")
       .setDistanceFunction("EUCLIDEAN")
 
-
 val chunkerMapper_product = ChunkMapperModel.pretrained("rxnorm_ndc_mapper", "en", "clinical/models"))
       .setInputCols("rxnorm_code")
       .setOutputCol("Product NDC")
       .setRel("Product NDC")  
-
 
 val chunkerMapper_package = ChunkMapperModel.pretrained("rxnorm_ndc_mapper", "en", "clinical/models"))
       .setInputCols("rxnorm_code")
       .setOutputCol("Package NDC")
       .setRel("Package NDC") 
 
-
 val pipeline = new Pipeline().setStages(Array(
-								 document_assembler,
+				 document_assembler,
                                  sbert_embedder,
                                  rxnorm_resolver,
                                  chunkerMapper_product,
                                  chunkerMapper_package
                                  ))
-
 
  val text_data = Seq("doxepin hydrochloride 50 MG/ML", "macadamia nut 100 MG/ML").toDS.toDF("text")
  val res = pipeline.fit(text_data).transform(text_data)
@@ -136,12 +126,10 @@ val pipeline = new Pipeline().setStages(Array(
 
 ```bash
 
-
 |    | ner_chunk                          | rxnorm_code   | Package NDC       | Product NDC    |
 |---:|:-----------------------------------|:--------------|:------------------|:---------------|
 |  0 | ['doxepin hydrochloride 50 MG/ML'] | ['1000091']   | ['00378-8117-45'] | ['00378-8117'] |
 |  1 | ['macadamia nut 100 MG/ML']        | ['212433']    | ['00064-2120-08'] | ['00064-2120'] |
-
 
 ```
 
