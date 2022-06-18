@@ -42,23 +42,20 @@ documentAssembler = DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
 
-
 tokenizer = Tokenizer()\
       .setInputCols(["document"])\
       .setOutputCol("token")\
       .setContextChars(["*", "-", "“", "(", "[", "\n", ".","\"", "”", ",", "?", ")", "]", "!", ";", ":", "'s", "’s"])
-
 
 spellModel = ContextSpellCheckerModel\
     .pretrained('spellcheck_clinical', 'en', 'clinical/models')\
     .setInputCols("token")\
     .setOutputCol("checked")
 
-
-pipeline = Pipeline(stages = [
-					documentAssembler, 
-					tokenizer, 
-					spellModel])
+pipeline = Pipeline(stages = [		
+			documentAssembler, 
+			tokenizer, 
+			spellModel])
 
 light_pipeline = LightPipeline(pipeline.fit(spark.createDataFrame([[""]]).toDF("text")))
 
@@ -75,23 +72,20 @@ val assembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
 
-
 val tokenizer = new Tokenizer()
       .setInputCols(Array("document"))
       .setOutputCol("token")
       .setContextChars(Array("*", "-", "“", "(", "[", "\n", ".","\"", "”", ",", "?", ")", "]", "!", ";", ":", "'s", "’s"))
-
 
 val spellChecker = ContextSpellCheckerModel.
       pretrained("spellcheck_clinical", "en", "clinical/models").
       setInputCols("token").
       setOutputCol("checked")
 
-
 val pipeline =  new Pipeline().setStages(Array(
-										assembler, 
-										tokenizer, 
-										spellChecker))
+					assembler, 
+					tokenizer, 
+					spellChecker))
 
 val light_pipeline = new LightPipeline(pipeline.fit(Seq("").toDS.toDF("text")))
 
