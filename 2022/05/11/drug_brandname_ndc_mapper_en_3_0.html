@@ -411,8 +411,8 @@
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>May 11, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-05-11T00:00:00+00:00"></div><header class="main-docs"><h1>Mapping Drug Brand Names with Corresponding National Drug Codes</h1></header></div><meta itemprop="headline" content="Mapping Drug Brand Names with Corresponding National Drug Codes"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>chunk_mapper</li><li>en</li><li>licensed</li><li>ndc</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-05-11T00:00:00+00:00">
-    <meta itemprop="keywords" content="chunk_mapper,en,licensed,ndc"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-05-11T00:00:00+00:00"></div><header class="main-docs"><h1>Mapping Drug Brand Names with Corresponding National Drug Codes</h1></header></div><meta itemprop="headline" content="Mapping Drug Brand Names with Corresponding National Drug Codes"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>chunk_mapper</li><li>en</li><li>licensed</li><li>ndc</li><li>clinical</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-05-11T00:00:00+00:00">
+    <meta itemprop="keywords" content="chunk_mapper,en,licensed,ndc,clinical"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
@@ -421,7 +421,7 @@
 <h2 id="predicted-entities">Predicted Entities</h2>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/26.Chunk_Mapping.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
 <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/drug_brandname_ndc_mapper_en_3.5.1_3.0_1652259542096.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
@@ -430,6 +430,7 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
       <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"chunk"</span><span class="p">)</span>
@@ -446,21 +447,22 @@
 
 <span class="n">lp</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 
-<span class="n">res</span> <span class="o">=</span> <span class="n">lp</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">([</span><span class="s">"zytiga"</span><span class="p">,</span> <span class="s">"zyvana"</span><span class="p">,</span> <span class="s">"ZYVOX"</span><span class="p">,</span> <span class="s">"ZYTIGA"</span><span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">lp</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">([</span><span class="s">"zytiga"</span><span class="p">,</span> <span class="s">"zyvana"</span><span class="p">,</span> <span class="s">"ZYVOX"</span><span class="p">,</span> <span class="s">"ZYTIGA"</span><span class="p">])</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()\</span>
-      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)\</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"chunk"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">chunkerMapper</span> <span class="k">=</span> <span class="nv">ChunkMapperModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"drug_brandname_ndc_mapper"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)\</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">chunk</span><span class="err">"</span><span class="o">])\</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ndc"</span><span class="o">)\</span>
+<span class="k">val</span> <span class="nv">chunkerMapper</span> <span class="k">=</span> <span class="nv">ChunkMapperModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"drug_brandname_ndc_mapper"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"chunk"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ndc"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setRel</span><span class="o">(</span><span class="s">"Strength_NDC"</span><span class="o">)</span> 
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span>
-                                 <span class="n">chunkerMapper</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span>
+				              <span class="n">chunkerMapper</span><span class="o">))</span>
 
- <span class="k">val</span> <span class="nv">text_data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"zytiga"</span><span class="o">,</span> <span class="s">"zyvana"</span><span class="o">,</span> <span class="s">"ZYVOX"</span><span class="o">,</span> <span class="s">"ZYTIGA"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+ <span class="k">val</span> <span class="nv">text_data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"zytiga"</span><span class="o">,</span> <span class="s">"zyvana"</span><span class="o">,</span> <span class="s">"ZYVOX"</span><span class="o">,</span> <span class="s">"ZYTIGA"</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+ 
  <span class="k">val</span> <span class="nv">res</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">text_data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">text_data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
@@ -479,42 +481,19 @@
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
-<table class="table-model">
-  <tbody>
-    <tr>
-      <td>Model Name:</td>
-      <td>drug_brandname_ndc_mapper</td>
-    </tr>
-    <tr>
-      <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 3.5.1+</td>
-    </tr>
-    <tr>
-      <td>License:</td>
-      <td>Licensed</td>
-    </tr>
-    <tr>
-      <td>Edition:</td>
-      <td>Official</td>
-    </tr>
-    <tr>
-      <td>Input Labels:</td>
-      <td>[chunk]</td>
-    </tr>
-    <tr>
-      <td>Output Labels:</td>
-      <td>[mappings]</td>
-    </tr>
-    <tr>
-      <td>Language:</td>
-      <td>en</td>
-    </tr>
-    <tr>
-      <td>Size:</td>
-      <td>3.0 MB</td>
-    </tr>
-  </tbody>
-</table>
+<p>|—|—|
+|Model Name:|drug_brandname_ndc_mapper|
+|Compatibility:|Spark NLP for Healthcare 3.5.1+|
+|License:|Licensed|
+|Edition:|Official|
+|Input Labels:|[chunk]|
+|Output Labels:|[mappings]|
+|Language:|en|
+|Size:|3.0 MB|
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbMTg2NTk2NzA5MiwtODk5NTExMjkxLDc1MT
+czODEzXX0=
+--></p>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-05-11T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>

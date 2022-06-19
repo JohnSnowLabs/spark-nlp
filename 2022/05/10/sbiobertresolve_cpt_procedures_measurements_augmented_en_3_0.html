@@ -423,7 +423,7 @@
 <p><code class="language-plaintext highlighter-rouge">CPT Codes</code></p>
 
 <p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/ER_CPT/" class="button button-orange">Live Demo</a>
-<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/22.CPT_Entity_Resolver.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_CPT.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
 <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_cpt_procedures_measurements_augmented_en_3.5.1_3.0_1652168576968.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
@@ -432,6 +432,7 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
@@ -471,8 +472,7 @@
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"cpt_code"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
     
-<span class="n">resolver_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
-    <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
+<span class="n">resolver_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">document_assembler</span><span class="p">,</span>
         <span class="n">sentenceDetectorDL</span><span class="p">,</span>
         <span class="n">tokenizer</span><span class="p">,</span>
@@ -484,7 +484,7 @@
         <span class="n">cpt_resolver</span>
   <span class="p">])</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">resolver_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">resolver_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
 
 <span class="n">text</span><span class="o">=</span><span class="s">'''She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. CT scan of the chest also revealed a large mediastinal lymph node. 
 We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. 
@@ -532,17 +532,18 @@ At this time, chest tube placement for drainage of the fluid occurred and thorac
       <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span>
       <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"cpt_code"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
-    
+   
+<span class="k">val</span> <span class="nv">resolver_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PipelineModel</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+					    <span class="n">document_assembler</span><span class="o">,</span> 
+                                            <span class="n">sentenceDetectorDL</span><span class="o">,</span> 
+                                            <span class="n">tokenizer</span><span class="o">,</span> 
+                                            <span class="n">word_embeddings</span><span class="o">,</span> 
+	                                    <span class="n">ner</span><span class="o">,</span> 
+                                            <span class="n">ner_converter</span><span class="o">,</span>  
+                                            <span class="n">c2doc</span><span class="o">,</span> 
+                                            <span class="n">sbert_embedder</span><span class="o">,</span> 
+                                            <span class="n">cpt_resolver</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">resolver_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PipelineModel</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> 
-                                                            <span class="n">sentenceDetectorDL</span><span class="o">,</span> 
-                                                            <span class="n">tokenizer</span><span class="o">,</span> 
-                                                            <span class="n">word_embeddings</span><span class="o">,</span> 
-                                                            <span class="n">ner</span><span class="o">,</span> 
-                                                            <span class="n">ner_converter</span><span class="o">,</span>  
-                                                            <span class="n">c2doc</span><span class="o">,</span> 
-                                                            <span class="n">sbert_embedder</span><span class="o">,</span> 
-                                                            <span class="n">cpt_resolver</span><span class="o">))</span>
 
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. CT scan of the chest also revealed a large mediastinal lymph node. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy, which were performed, which revealed epithelioid malignant mesothelioma."</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
@@ -561,6 +562,7 @@ At this time, chest tube placement for drainage of the fluid occurred and thorac
 |drainage of the fluid|Procedure|   10140|Drainage of blood or fluid accumulation <span class="o">[</span>Incision and drainage of hematoma, seroma or fluid colle...|10140:::40800:::61108:::41006:::62180:::83986:::49082:::27030:::21502:::49323:::32554:::51040:::6...|
 |         thoracoscopy|Procedure| 1020900|Thoracoscopy <span class="o">[</span>Thoracoscopy]:::Thoracoscopy, surgical<span class="p">;</span> with control of traumatic hemorrhage | <span class="o">[</span>Hea...|                   1020900:::32654:::32668:::1006014:::35820:::32606:::32555:::31781:::31515:::29200|
 +---------------------+---------+--------+----------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------+
+
 
 </code></pre></div></div>
 
@@ -609,7 +611,10 @@ At this time, chest tube placement for drainage of the fluid occurred and thorac
 
 <h2 id="references">References</h2>
 
-<p>Trained on Current Procedural Terminology dataset with <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> sentence embeddings.</p>
+<p>Trained on Current Procedural Terminology dataset with <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> sentence embeddings.
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbMzkwMDEwNTIwLDE1Nzc1NjAxMzBdfQ==
+--></p>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-05-10T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>

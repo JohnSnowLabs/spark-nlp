@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Pipeline to Detect Problem, Test and Treatment- Spark NLP Model</title><meta name="description" content="DescriptionThis pretrained pipeline is built on the top of ner_healthcare model.Live DemoOpen in ColabDownloadHow to use         PythonScalaNLU  pipeline = P...">
+<!-- End Google Tag Manager --><title>Pipeline to Detect Problem, Test and Treatment- Spark NLP Model</title><meta name="description" content="DescriptionThis pretrained pipeline is built on the top of ner_healthcare model.Live DemoOpen in ColabDownloadHow to use         PythonScalaNLU  from sparknl...">
 <link rel="canonical" href="/2022/03/22/ner_healthcare_pipeline_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -411,15 +411,15 @@
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Mar 22, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-03-22T00:00:00+00:00"></div><header class="main-docs"><h1>Pipeline to Detect Problem, Test and Treatment</h1></header></div><meta itemprop="headline" content="Pipeline to Detect Problem, Test and Treatment"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>licensed</li><li>ner</li><li>healthcare</li><li>treatment</li><li>problem</li><li>test</li><li>en</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-03-22T00:00:00+00:00">
-    <meta itemprop="keywords" content="licensed,ner,healthcare,treatment,problem,test,en"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-03-22T00:00:00+00:00"></div><header class="main-docs"><h1>Pipeline to Detect Problem, Test and Treatment</h1></header></div><meta itemprop="headline" content="Pipeline to Detect Problem, Test and Treatment"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>licensed</li><li>ner</li><li>healthcare</li><li>treatment</li><li>problem</li><li>test</li><li>en</li><li>clinical</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-03-22T00:00:00+00:00">
+    <meta itemprop="keywords" content="licensed,ner,healthcare,treatment,problem,test,en,clinical"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
 <p>This pretrained pipeline is built on the top of <a href="https://nlp.johnsnowlabs.com/2021/04/21/ner_healthcare_en.html">ner_healthcare</a> model.</p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL/" class="button button-orange button-orange-trans arr button-icon">Live Demo</a>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb" class="button button-orange button-orange-trans arr button-icon">Open in Colab</a>
 <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_healthcare_pipeline_en_3.4.1_3.0_1647943495587.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
@@ -428,27 +428,42 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"ner_healthcare_pipeline"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
 
-<span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting . Two weeks prior to presentation , she was treated with a five-day course of amoxicillin for a respiratory tract infection . She was on metformin , glipizide , and dapagliflozin for T2DM and atorvastatin and gemfibrozil for HTG ."</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"ner_healthcare_pipeline"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
+
+<span class="n">pipeline</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">"A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting . Two weeks prior to presentation , she was treated with a five-day course of amoxicillin for a respiratory tract infection . She was on metformin , glipizide , and dapagliflozin for T2DM and atorvastatin and gemfibrozil for HTG ."</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"ner_healthcare_pipeline"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
 
-<span class="nv">pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting . Two weeks prior to presentation , she was treated with a five-day course of amoxicillin for a respiratory tract infection . She was on metformin , glipizide , and dapagliflozin for T2DM and atorvastatin and gemfibrozil for HTG ."</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"ner_healthcare_pipeline"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+
+<span class="nv">pipeline</span><span class="o">.</span><span class="py">fullAnnotate</span><span class="o">(</span><span class="s">"A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting . Two weeks prior to presentation , she was treated with a five-day course of amoxicillin for a respiratory tract infection . She was on metformin , glipizide , and dapagliflozin for T2DM and atorvastatin and gemfibrozil for HTG ."</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|   | chunk                         | ner_label |
-|---|-------------------------------|-----------|
-| 0 | a respiratory tract infection | PROBLEM   |
-| 1 | metformin                     | TREATMENT |
-| 2 | glipizide                     | TREATMENT |
-| 3 | dapagliflozin                 | TREATMENT |
-| 4 | T2DM                          | PROBLEM   |
-| 5 | atorvastatin                  | TREATMENT |
-| 6 | gemfibrozil                   | TREATMENT |
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------------------+---------+
+|chunks                       |entities |
++-----------------------------+---------+
+|gestational diabetes mellitus|PROBLEM  |
+|type two diabetes mellitus   |PROBLEM  |
+|HTG-induced pancreatitis     |PROBLEM  |
+|an acute hepatitis           |PROBLEM  |
+|obesity                      |PROBLEM  |
+|a body mass index            |TEST     |
+|BMI                          |TEST     |
+|polyuria                     |PROBLEM  |
+|polydipsia                   |PROBLEM  |
+|poor appetite                |PROBLEM  |
+|vomiting                     |PROBLEM  |
+|amoxicillin                  |TREATMENT|
+|a respiratory tract infection|PROBLEM  |
+|metformin                    |TREATMENT|
+|glipizide                    |TREATMENT|
++-----------------------------+---------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -494,7 +509,11 @@
   <li>TokenizerModel</li>
   <li>WordEmbeddingsModel</li>
   <li>MedicalNerModel</li>
-  <li>NerConverter</li>
+  <li>NerConverter
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTExMDQwNzgxNTYsNTYxMjk2MzA4LC0xND
+U3NDU1OTgxLC0zNTI5MDYxNTddfQ==
+--></li>
 </ul>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-03-22T00:00:00+00:00"><!-- start custom article footer snippet -->
 

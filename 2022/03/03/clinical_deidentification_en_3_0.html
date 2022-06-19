@@ -430,13 +430,16 @@
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
 
+
 <span class="n">deid_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"clinical_deidentification"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
+
 
 <span class="n">sample</span> <span class="o">=</span> <span class="s">"""Name : Hendrickson, Ora, Record date: 2093-01-13, # 719435.
 Dr. John Green, ID: 1231511863, IP 203.120.223.13.
 He is a 60-year-old male was admitted to the Day Hospital for cystectomy on 01/13/93.
 Patient's VIN : 1HGBH41JXMN109286, SSN #333-44-6666, Driver's license no:A334455B.
 Phone (302) 786-5227, 0295 Keats Street, San Francisco, E-MAIL: smith@gmail.com."""</span>
+
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">deid_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'masked'</span><span class="p">]))</span>
@@ -446,13 +449,16 @@ Phone (302) 786-5227, 0295 Keats Street, San Francisco, E-MAIL: smith@gmail.com.
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
 
+
 <span class="k">val</span> <span class="nv">deid_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"clinical_deidentification"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
+
 
 <span class="k">val</span> <span class="nv">sample</span> <span class="k">=</span> <span class="s">"""Name : Hendrickson, Ora, Record date: 2093-01-13, # 719435.
 Dr. John Green, ID: 1231511863, IP 203.120.223.13.
 He is a 60-year-old male was admitted to the Day Hospital for cystectomy on 01/13/93.
 Patient's VIN : 1HGBH41JXMN109286, SSN #333-44-6666, Driver's license no:A334455B.
 Phone (302) 786-5227, 0295 Keats Street, San Francisco, E-MAIL: smith@gmail.com."""</span>
+
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">deid_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="n">sample</span><span class="o">)</span>
 </code></pre></div>  </div>
@@ -468,6 +474,7 @@ He is a &lt;AGE&gt; male was admitted to the &lt;HOSPITAL&gt; <span class="k">fo
 Patient<span class="s1">'s VIN : &lt;VIN&gt;, SSN &lt;SSN&gt;, Driver'</span>s license &lt;DLN&gt;.
 Phone &lt;PHONE&gt;, &lt;STREET&gt;, &lt;CITY&gt;, E-MAIL: &lt;EMAIL&gt;.
 
+
 Masked with chars
 <span class="nt">------------------------------</span>
 Name : <span class="o">[</span><span class="k">**************</span><span class="o">]</span>, Record <span class="nb">date</span>: <span class="o">[</span><span class="k">********</span><span class="o">]</span>, <span class="c"># [****].</span>
@@ -476,6 +483,7 @@ He is a <span class="o">[</span><span class="k">*********</span><span class="o">
 Patient<span class="s1">'s VIN : [***************], SSN [**********], Driver'</span>s license <span class="o">[</span><span class="k">*********</span><span class="o">]</span><span class="nb">.</span>
 Phone <span class="o">[</span><span class="k">************</span><span class="o">]</span>, <span class="o">[</span><span class="k">***************</span><span class="o">]</span>, <span class="o">[</span><span class="k">***********</span><span class="o">]</span>, E-MAIL: <span class="o">[</span><span class="k">*************</span><span class="o">]</span><span class="nb">.</span>
 
+
 Masked with fixed length chars
 <span class="nt">------------------------------</span>
 Name : <span class="k">****</span>, Record <span class="nb">date</span>: <span class="k">****</span>, <span class="c"># ****.</span>
@@ -483,6 +491,7 @@ Dr. <span class="k">****</span>, ID<span class="k">****</span>, IP <span class="
 He is a <span class="k">****</span> male was admitted to the <span class="k">****</span> <span class="k">for </span>cystectomy on <span class="k">****</span><span class="nb">.</span>
 Patient<span class="s1">'s VIN : ****, SSN ****, Driver'</span>s license <span class="k">****</span><span class="nb">.</span>
 Phone <span class="k">****</span>, <span class="k">****</span>, <span class="k">****</span>, E-MAIL: <span class="k">****</span><span class="nb">.</span>
+
 
 Obfuscated
 <span class="nt">------------------------------</span>
@@ -554,7 +563,10 @@ Phone 74 617 042, 1407 west stassney lane, Edmonton, E-MAIL: Carliss@hotmail.com
   <li>DeIdentificationModel</li>
   <li>DeIdentificationModel</li>
   <li>DeIdentificationModel</li>
-  <li>Finisher</li>
+  <li>Finisher
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbMTEyNzczMjk3NV19
+--></li>
 </ul>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-03-03T00:00:00+00:00"><!-- start custom article footer snippet -->
 

@@ -411,8 +411,8 @@
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Apr 14, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-14T00:00:00+00:00"></div><header class="main-docs"><h1>Medical Spell Checker</h1></header></div><meta itemprop="headline" content="Medical Spell Checker"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>spellcheck</li><li>medical</li><li>medical_spell_checker</li><li>spell_checker</li><li>spelling_corrector</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-14T00:00:00+00:00">
-    <meta itemprop="keywords" content="spellcheck,medical,medical_spell_checker,spell_checker,spelling_corrector,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-14T00:00:00+00:00"></div><header class="main-docs"><h1>Medical Spell Checker</h1></header></div><meta itemprop="headline" content="Medical Spell Checker"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>spellcheck</li><li>medical</li><li>medical_spell_checker</li><li>spell_checker</li><li>spelling_corrector</li><li>en</li><li>licensed</li><li>clinical</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-14T00:00:00+00:00">
+    <meta itemprop="keywords" content="spellcheck,medical,medical_spell_checker,spell_checker,spelling_corrector,en,licensed,clinical"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
@@ -421,7 +421,7 @@
 <h2 id="predicted-entities">Predicted Entities</h2>
 
 <p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/CONTEXTUAL_SPELL_CHECKER/" class="button button-orange">Live Demo</a>
-<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/6.Clinical_Context_Spell_Checker.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainingstreamlit_notebooks/Hhealthcare/6.Clinical_Context_Spell_CheckerCONTEXTUAL_SPELL_CHECKER.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
 <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/spellcheck_clinical_en_3.4.1_2.4_1649926082521.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
@@ -430,6 +430,7 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
   <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
@@ -444,10 +445,12 @@
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"checked"</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span> <span class="o">=</span> <span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">spellModel</span><span class="p">])</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
+			<span class="n">documentAssembler</span><span class="p">,</span> 
+			<span class="n">tokenizer</span><span class="p">,</span> 
+			<span class="n">spellModel</span><span class="p">])</span>
 
-<span class="n">empty</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">lp</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty</span><span class="p">))</span>
+<span class="n">light_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)))</span>
 
 <span class="n">example</span> <span class="o">=</span> <span class="p">[</span><span class="s">"Witth the hell of phisical terapy the patient was imbulated and on postoperative, the impatient tolerating a post curgical soft diet."</span><span class="p">,</span>
            <span class="s">"With paint wel controlled on orall pain medications, she was discharged too reihabilitation facilitay."</span><span class="p">,</span>
@@ -455,7 +458,7 @@
            <span class="s">"Patient not showing pain or any wealth problems."</span><span class="p">,</span>
            <span class="s">"No cute distress"</span><span class="p">]</span>
 
-<span class="n">lp</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
       <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
@@ -471,15 +474,20 @@
       <span class="nf">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">).</span>
       <span class="nf">setOutputCol</span><span class="o">(</span><span class="s">"checked"</span><span class="o">)</span>
 
- <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span>  <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">spellChecker</span><span class="o">))</span>
- <span class="k">val</span> <span class="nv">empty_df</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">""</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
- <span class="k">val</span> <span class="nv">lp</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">LightPipeline</span><span class="o">(</span><span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">empty_df</span><span class="o">))</span>
+ <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span>  <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+					 <span class="n">assembler</span><span class="o">,</span> 
+					 <span class="n">tokenizer</span><span class="o">,</span> 
+					 <span class="n">spellChecker</span><span class="o">))</span>
+				 
+ <span class="k">val</span> <span class="nv">light_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">LightPipeline</span><span class="o">(</span><span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span><span class="s">""</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)))</span>
+ 
  <span class="k">val</span> <span class="nv">text</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">(</span><span class="s">"Witth the hell of phisical terapy the patient was imbulated and on postoperative, the impatient tolerating a post curgical soft diet."</span><span class="o">,</span>
            <span class="s">"With paint wel controlled on orall pain medications, she was discharged too reihabilitation facilitay."</span><span class="o">,</span>
            <span class="s">"Abdomen is sort, nontender, and nonintended."</span><span class="o">,</span>
            <span class="s">"Patient not showing pain or any wealth problems."</span><span class="o">,</span>
            <span class="s">"No cute distress"</span><span class="o">)</span>
- <span class="nv">lp</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="n">text</span><span class="o">)</span>
+	   
+ <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">light_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="n">text</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
@@ -547,7 +555,11 @@
 
 <h2 id="references">References</h2>
 
-<p>MTSamples, i2b2 clinical notes, and several specific medical corpora.</p>
+<p>MTSamples, i2b2 clinical notes, and several specific medical corpora.
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbNjQ4Mjc4ODYzLDIwMDg3MzA5NzYsLTE0MT
+c2MTMyMTVdfQ==
+--></p>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-04-14T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>

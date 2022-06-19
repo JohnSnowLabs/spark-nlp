@@ -411,8 +411,8 @@
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>May 08, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-05-08T00:00:00+00:00"></div><header class="main-docs"><h1>Mapping RxNorm Codes with Corresponding Actions and Treatments</h1></header></div><meta itemprop="headline" content="Mapping RxNorm Codes with Corresponding Actions and Treatments"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>chunk_mapper</li><li>rxnorm</li><li>action</li><li>treatment</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-05-08T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,chunk_mapper,rxnorm,action,treatment,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-05-08T00:00:00+00:00"></div><header class="main-docs"><h1>Mapping RxNorm Codes with Corresponding Actions and Treatments</h1></header></div><meta itemprop="headline" content="Mapping RxNorm Codes with Corresponding Actions and Treatments"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>chunk_mapper</li><li>rxnorm</li><li>action</li><li>treatment</li><li>licensed</li><li>clinical</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-05-08T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,chunk_mapper,rxnorm,action,treatment,licensed,clinical"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
@@ -423,7 +423,7 @@
 <p><code class="language-plaintext highlighter-rouge">action</code>, <code class="language-plaintext highlighter-rouge">treatment</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/26.Chunk_Mapping.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
 <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/rxnorm_action_treatment_mapper_en_3.5.1_3.0_1652043181565.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
@@ -432,9 +432,11 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
       <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'ner_chunk'</span><span class="p">)</span>
+
 
 <span class="n">sbert_embedder</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'sbiobert_base_cased_mli'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span><span class="s">'clinical/models'</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
@@ -446,15 +448,18 @@
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"rxnorm_code"</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
 
-<span class="n">chunkerMapper_action</span> <span class="o">=</span> <span class="n">ChunkMapperModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"rxnorm_action_treatment_mapper"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">))</span>\
+
+<span class="n">chunkerMapper_action</span> <span class="o">=</span> <span class="n">ChunkMapperModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"rxnorm_action_treatment_mapper"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"rxnorm_code"</span><span class="p">])</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"Action"</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setRel</span><span class="p">(</span><span class="s">"Action"</span><span class="p">)</span> 
 
-<span class="n">chunkerMapper_treatment</span> <span class="o">=</span> <span class="n">ChunkMapperModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"rxnorm_action_treatment_mapper"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">))</span>\
+
+<span class="n">chunkerMapper_treatment</span> <span class="o">=</span> <span class="n">ChunkMapperModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"rxnorm_action_treatment_mapper"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"rxnorm_code"</span><span class="p">])</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"Treatment"</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setRel</span><span class="p">(</span><span class="s">"Treatment"</span><span class="p">)</span> 
+
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">document_assembler</span><span class="p">,</span>
                                  <span class="n">sbert_embedder</span><span class="p">,</span>
@@ -463,47 +468,50 @@
                                  <span class="n">chunkerMapper_treatment</span>
                                  <span class="p">])</span>
 
+
 <span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">'text'</span><span class="p">))</span> 
 
-<span class="n">lp</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">light_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 
-<span class="n">res</span> <span class="o">=</span> <span class="n">lp</span><span class="p">.</span><span class="n">annotate</span><span class="p">([</span><span class="s">'Sinequan 150 MG'</span><span class="p">,</span> <span class="s">'Zonalon 50 mg'</span><span class="p">])</span>
-
+<span class="n">result</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">([</span><span class="s">'Sinequan 150 MG'</span><span class="p">,</span> <span class="s">'Zonalon 50 mg'</span><span class="p">])</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()\</span>
-      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)\</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nv">BertSentenceEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)\</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">))\</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)\</span>
+
+<span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nv">BertSentenceEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">))</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="nc">False</span><span class="o">)</span>
     
-<span class="k">val</span> <span class="nv">rxnorm_resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_rxnorm_augmented"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> <span class="o">\</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span> <span class="o">\</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"rxnorm_code"</span><span class="o">)\</span>
+<span class="k">val</span> <span class="nv">rxnorm_resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_rxnorm_augmented"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"rxnorm_code"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">chunkerMapper_action</span> <span class="k">=</span> <span class="nv">ChunkMapperModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"rxnorm_action_treatment_mapper"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">))\</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"rxnorm_code"</span><span class="o">)\</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"Action"</span><span class="o">)\</span>
+
+<span class="k">val</span> <span class="nv">chunkerMapper_action</span> <span class="k">=</span> <span class="nv">ChunkMapperModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"rxnorm_action_treatment_mapper"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">))</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"rxnorm_code"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"Action"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setRel</span><span class="o">(</span><span class="s">"Action"</span><span class="o">)</span> 
 
-<span class="k">val</span> <span class="nv">chunkerMapper_treatment</span> <span class="k">=</span> <span class="nv">ChunkMapperModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"rxnorm_action_treatment_mapper"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">))\</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"rxnorm_code"</span><span class="o">)\</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"Treatment"</span><span class="o">)\</span>
+
+<span class="k">val</span> <span class="nv">chunkerMapper_treatment</span> <span class="k">=</span> <span class="nv">ChunkMapperModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"rxnorm_action_treatment_mapper"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">))</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"rxnorm_code"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"Treatment"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setRel</span><span class="o">(</span><span class="s">"Treatment"</span><span class="o">)</span> 
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span>
                                  <span class="n">sbert_embedder</span><span class="o">,</span>
                                  <span class="n">rxnorm_resolver</span><span class="o">,</span>
                                  <span class="n">chunkerMapper_action</span><span class="o">,</span>
                                  <span class="n">chunkerMapper_treatment</span>
                                  <span class="o">))</span>
 
- <span class="k">val</span> <span class="nv">text_data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Sinequan 150 MG"</span><span class="o">,</span> <span class="s">"Zonalon 50 mg"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
-
+ <span class="k">val</span> <span class="nv">text_data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Sinequan 150 MG"</span><span class="o">,</span> <span class="s">"Zonalon 50 mg"</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
  <span class="k">val</span> <span class="nv">res</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">text_data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">text_data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
@@ -515,46 +523,23 @@
 |  0 | <span class="o">[</span><span class="s1">'Sinequan 150 MG'</span><span class="o">]</span> | <span class="o">[</span><span class="s1">'1000067'</span><span class="o">]</span>   | <span class="o">[</span><span class="s1">'Alcoholism'</span>, <span class="s1">'Depression'</span>, <span class="s1">'Neurosis'</span>, <span class="s1">'Anxiety&amp;Panic Attacks'</span>, <span class="s1">'Psychosis'</span><span class="o">]</span> | <span class="o">[</span><span class="s1">'Antidepressant'</span>, <span class="s1">'Anxiolytic'</span>, <span class="s1">'Psychoanaleptics'</span>, <span class="s1">'Sedative'</span><span class="o">]</span>       |
 |  1 | <span class="o">[</span><span class="s1">'Zonalon 50 mg'</span><span class="o">]</span>   | <span class="o">[</span><span class="s1">'103971'</span><span class="o">]</span>    | <span class="o">[</span><span class="s1">'Pain'</span><span class="o">]</span>                                                                       | <span class="o">[</span><span class="s1">'Analgesic'</span>, <span class="s1">'Analgesic (Opioid)'</span>, <span class="s1">'Analgetic'</span>, <span class="s1">'Opioid'</span>, <span class="s1">'Vitamins'</span><span class="o">]</span> |
 
+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
-<table class="table-model">
-  <tbody>
-    <tr>
-      <td>Model Name:</td>
-      <td>rxnorm_action_treatment_mapper</td>
-    </tr>
-    <tr>
-      <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 3.5.1+</td>
-    </tr>
-    <tr>
-      <td>License:</td>
-      <td>Licensed</td>
-    </tr>
-    <tr>
-      <td>Edition:</td>
-      <td>Official</td>
-    </tr>
-    <tr>
-      <td>Input Labels:</td>
-      <td>[chunk]</td>
-    </tr>
-    <tr>
-      <td>Output Labels:</td>
-      <td>[mappings]</td>
-    </tr>
-    <tr>
-      <td>Language:</td>
-      <td>en</td>
-    </tr>
-    <tr>
-      <td>Size:</td>
-      <td>19.3 MB</td>
-    </tr>
-  </tbody>
-</table>
+<p>|—|—|
+|Model Name:|rxnorm_action_treatment_mapper|
+|Compatibility:|Spark NLP for Healthcare 3.5.1+|
+|License:|Licensed|
+|Edition:|Official|
+|Input Labels:|[chunk]|
+|Output Labels:|[mappings]|
+|Language:|en|
+|Size:|19.3 MB|
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbMjA4MDQ2NDcyNywtMTE5NjM3NzMyOV19
+--></p>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-05-08T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
