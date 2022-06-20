@@ -24,16 +24,16 @@ sidebar:
 
 ### Overview
 
-We are excited to release NLP Server v0.7.1! We are continually committed towards improving the experience for our users and making our product reliable and easy to use.
+We are excited to release NLP Server v0.7.1! We are committed to continuously improve the experience for our users and make our product reliable and easy to use.
 
-This release focuses on cleaning up of a few bugs and improving the stability of the NLP Server.
+This release focuses on solving a few bugs and improving the stability of the NLP Server.
 
 <br>
 
 ### Key Information
 
 1. For smooth and optimal performance, it is recommended to use an instance with 8 core CPU, and 32GB RAM specifications.
-2. NLP Server is available on both [AWS](https://aws.amazon.com/marketplace/pp/prodview-4ohxjejvg7vwm) and [Azure](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/johnsnowlabsinc1646051154808.nlp_server) marketplace.
+2. NLP Server is available on both [AWS](https://aws.amazon.com/marketplace/pp/prodview-4ohxjejvg7vwm) and [Azure](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/johnsnowlabsinc1646051154808.nlp_server) marketplaces.
 
 <br>
 
