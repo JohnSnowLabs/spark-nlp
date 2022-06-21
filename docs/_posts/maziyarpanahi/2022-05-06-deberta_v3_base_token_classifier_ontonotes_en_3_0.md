@@ -1,6 +1,6 @@
 ---
 layout: model
-title: DeBERTa Token Classification Base - NER OntoNotes (deberta_v3_base_token_classifier_ontonotes)
+title: DeBERTa-based NER (Base, Ontonotes)
 author: John Snow Labs
 name: deberta_v3_base_token_classifier_ontonotes
 date: 2022-05-06
