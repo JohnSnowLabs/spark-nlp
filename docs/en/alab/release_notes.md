@@ -15,22 +15,21 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-## 3.2.0
+## 3.3.0
 
-Release date: **31-05-2022**
+Release date: **21-06-2022**
 
-We are very excited to announce the release of Annotation Lab v3.2.0 which includes new and exciting features such as Project cloning and Project backup, Evaluation of Pretrained Models, and Search feature in the Visual NER Project. Support for Multiple files import, ability to view statuses of Model Servers and Training Jobs, and prioritization of completions for CONLL export. Spark NLP and Spark OCR libraries were also upgraded, and some security fixes and stabilizations were also implemented. Here are the highlights:
+We are very excited to announce the release of Annotation Lab v3.3.0 which includes a highly requested new feature for displaying the confidence scores for NER preannotations as well as the ability to filter preannotations by confidence. Also, benchmarking data can now be checked for some of the models on the Models Hub page. This version also includes IAA charts for Visual NER Projects, upgrades of the Spark NLP libraries and fixes for some of the identified Common Vulnerabilities and Exposures (CVEs). Below are more details on the release content.
 
 ### Highlights
 
-- Import/export of an entire Project. All project-related items (tasks, project configuration, project members, task assignments) can be imported/exported. In addition, users can also clone an existing project.
-- Evaluate Named Entity Models. Project Owner and/or Manager can now test and evaluate annotated tasks against the Pretrained NER models in the Training & Active Learning Settings tab, configured NER models will be tested against the tasks tagged as test.
-- Statuses of Training and Preannotation Server. A new column, status, is added to the server page that gives the status of training and preannotation servers. Also if any issues are encountered during server initialization, those are displayed on mouse-over the status value.
-- Import Multiple Files. Project Owners or Managers can now upload multiple files at once in bulk.
-- Prioritize Annotators For Data Export. When multiple completions are available for the same task, the CONLL export will include completions from higher priority members.
-- Network Policies have been implemented which specify how a pod is allowed to communicate with various network "entities" over the network. The entities that are required to function in Annotation Lab were clearly identified and only traffic coming from them is now allowed.
-- Support for airgap licenses with scope. Previously airgap licenses with scopes were missrecognized as floating licenses.
-- Upgraded Spark NLP and Spark NLP for Health Care v3.4.1 and Spark OCR v3.12.0 
+- **Confidence Scores for Preannotations**. When running preannotations on a Text project, one extra piece of information is now present for the automatic annotations - the confidence score. This score is used to show the confidence the model has for each of the labeled chunks. It is calculated based on the benchmarking information of the model used to preannotate and on the score of each prediction. The confidence score is available when working on Named Entity Recognition, Relation, Assertion, and Classification projects and is also generated when using NER Rules. On the Labeling screen, when selecting the Prediction widget, users can see that all preannotation in the Results section now have a score assigned to them.
+- **IAA charts are now available for Visual NER Projects.** IAA (Inter-Annotator Agreement) charts were available only for text-based projects. With this release, Annotation Lab supports IAA charts for Visual NER project as well.
+- **Auto-save completions**. The work of annotators is now automatically saved behind the scenes. This way, the user does not risk losing his/her work in case of unforeseen events and does not have to frequently hit the Save/Update button.
+- **Improvement of UX for Active Learning**. Information about the previously triggered Active Learning is displayed along with the number of completions required for the next training. Also when the conditions that trigger active learning for a project using a healthcare model are met and all available licenses are in use, an error message appears on the Training and Active Learning page informing the user to make room for the new training server.
+- **Upgraded Spark NLP and Spark NLP for Healthcare v3.5.3 and Spark OCR v3.13.0.** With this we have also updated the list of supported models into the Models Hub page.
+- **Support for BertForSequenceClassification and MedicalBertForSequenceClassification models.** From this version on, support was added for BertForTokenClassification, MedicalBertForTokenClassifier, BertForSequenceClassification and MedicalBertForSequenceClassification.
+ 
 
 </div><div class="prev_ver h3-box" markdown="1">
 
@@ -39,6 +38,7 @@ We are very excited to announce the release of Annotation Lab v3.2.0 which inclu
 </div>
 
 <ul class="pagination owl-carousel pagination_big">
+    <li><a href="annotation_labs_releases/release_notes_3_3_0">3.3.0</a></li>
     <li><a href="annotation_labs_releases/release_notes_3_2_0">3.2.0</a></li>
     <li><a href="annotation_labs_releases/release_notes_3_1_1">3.1.1</a></li>
     <li><a href="annotation_labs_releases/release_notes_3_1_0">3.1.0</a></li>
