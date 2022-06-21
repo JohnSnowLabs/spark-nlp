@@ -110,49 +110,49 @@ class Extractor
     if @content.include? '## Benchmarking'
       m = /## Benchmarking(\r\n|\r|\n)+```bash(.*?)```/m.match(@content)
       if m
+
         buf = m[2].strip
-        # Using an external tool, to parse table information
-        cmd = "echo '#{buf}' | parse-markdown-table --format list"
-        result =`#{cmd}`
-        benchmarking_data = {}
-        begin
-          benchmarking_data = JSON.parse(result)
-          # Add validation for labels
-          if not benchmarking_data['headers'].include?('label')
-            print("Failed to parse the Benchmarking section (the label header is missing) #{post_url}\n")
-            return nil
+        lines = buf.split("\n")
+        col_index_to_header_mapping = {}
+        return_data = []
+        lines.each_with_index do |line, index|
+          if index == 0
+              # This is a header row
+              headers = line.split
+              if headers.include?('|')
+                if ENV["DEBUG"]
+                  print("Failed to parse the Benchmarking section (invalid syntax) #{post_url}\n")
+                end
+                return nil
+              end
+              unless headers.include?('label')
+                if ENV["DEBUG"]
+                  print("Failed to parse the Benchmarking section (the label header is missing) #{post_url}\n")
+                end
+                return nil
+              end
+              headers.each_with_index do |header, i|
+                  if header == 'label'
+                      header = 'name'
+                  end
+                  col_index_to_header_mapping[i] = header
+              end
           else
-            rows = benchmarking_data["rows"]
-            headers = benchmarking_data["headers"]
-            return_data = []
-            for i in 0..rows.length()-1
-                row_data = {}
-                
-                for j in 0..headers.length()-1
-                    if headers[j] == ""
-                        next
-                    end
-                    unless rows[i][j].end_with?("--") || rows[i][j].end_with?("--:")
-                        key = headers[j]
-                        
-                        if headers[j] == "label"
-                            key = "name"
-                        end
-                        row_data[key] =  rows[i][j]
-                    end
-                    
-                end
-                unless row_data.empty?
-                    return_data << row_data
-                end
-            end
-            return return_data
+              row_data = {}
+              values = line.split
+              values.each_with_index do |value, j|
+                  row_data[col_index_to_header_mapping[j]]=value
+              end
+              unless row_data.empty?
+                  return_data << row_data
+              end
           end
-        rescue JSON::ParserError => e
-          print("Failed to parse the Benchmarking section (invalid syntax) #{post_url}\n")
         end
+        return return_data
       else
-        print("Failed to parse the Benchmarking section (invalid section) #{post_url}\n")
+        if ENV['DEBUG']
+          print("Failed to parse the Benchmarking section (invalid section) #{post_url}\n")
+        end
       end
     end
     nil
