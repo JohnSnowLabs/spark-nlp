@@ -1,5 +1,443 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-06-21T14:12:14+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">English AlbertForQuestionAnswering model (from twmkn9)</title><link href="/2022/06/15/albert_base_qa_squad2_en_3_0.html" rel="alternate" type="text/html" title="English AlbertForQuestionAnswering model (from twmkn9)" /><published>2022-06-15T00:00:00+00:00</published><updated>2022-06-15T00:00:00+00:00</updated><id>/2022/06/15/albert_base_qa_squad2_en_3_0</id><content type="html" xml:base="/2022/06/15/albert_base_qa_squad2_en_3_0.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-06-21T14:34:35+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Clinical Deidentification Pipeline (Portuguese)</title><link href="/2022/06/21/clinical_deidentification_pt_3_0.html" rel="alternate" type="text/html" title="Clinical Deidentification Pipeline (Portuguese)" /><published>2022-06-21T00:00:00+00:00</published><updated>2022-06-21T00:00:00+00:00</updated><id>/2022/06/21/clinical_deidentification_pt_3_0</id><content type="html" xml:base="/2022/06/21/clinical_deidentification_pt_3_0.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This pipeline is trained with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;w2v_cc_300d&lt;/code&gt; portuguese embeddings and can be used to deidentify PHI information from medical texts in Spanish. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask, fake or obfuscate the following entities: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AGE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DATE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PROFESSION&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EMAIL&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ID&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COUNTRY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;STREET&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DOCTOR&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HOSPITAL&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PATIENT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;URL&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;IP&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ORGANIZATION&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PHONE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ZIP&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ACCOUNT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SSN&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PLATE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SEX&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;IPADDR&lt;/code&gt;&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/clinical_deidentification_pt_3.5.0_3.0_1655820388743.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.pretrained&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;deid_pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;clinical_deidentification&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;pt&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;sample&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Dados do paciente.
+Nome: Mauro.
+Apelido: Gonçalves.
+NIF: 368503.
+NISS: 26 63514095.
+Endereço: Calle Miguel Benitez 90.
+CÓDIGO POSTAL: 28016.
+Dados de cuidados.
+Data de nascimento: 03/03/1946.
+País: Portugal.
+Idade: 70 anos Sexo: M.
+Data de admissão: 12/12/2016.
+Doutor: Ignacio Navarro Cuéllar NºCol: 28 28 70973.
+Relatório clínico do paciente: Paciente de 70 anos, mineiro reformado, sem alergias medicamentosas conhecidas, que apresenta como história pessoal: acidente de trabalho antigo com fracturas vertebrais e das costelas; operado por doença de Dupuytren na mão direita e iliofemoral esquerda; Diabetes Mellitus tipo II, hipercolesterolemia e hiperuricemia; alcoolismo activo, fumador de 20 cigarros / dia.
+Foi encaminhado dos cuidados primários porque apresentou uma vez hematúria macroscópica pós-morte e depois microhaematúria persistente, com micturição normal.
+O exame físico mostrou um bom estado geral, com abdómen e genitália normais; o exame rectal foi compatível com adenoma de próstata de grau I/IV.
+A urinálise mostrou 4 glóbulos vermelhos/campo e 0-5 leucócitos/campo; o resto do sedimento estava normal.
+Hemograma normal; a bioquímica mostrou glicemia de 169 mg/dl e triglicéridos de 456 mg/dl; função hepática e renal normal. PSA de 1,16 ng/ml.
+A citologia da urina era repetidamente desconfiada por malignidade.
+A radiografia simples abdominal mostra alterações degenerativas na coluna lombar e calcificações vasculares tanto no hipocôndrio como na pélvis.
+A ecografia urológica revelou cistos corticais simples no rim direito, uma bexiga inalterada com boa capacidade e uma próstata com 30g de peso.
+O IVUS mostrou normofuncionalismo renal bilateral, calcificações na silhueta renal direita e ureteres artrosados com imagens de adição no terço superior de ambos os ureteres, relacionadas com pseudodiverticulose ureteral. O cistograma mostra uma bexiga com boa capacidade, mas com paredes trabeculadas em relação à bexiga de stress. A tomografia computorizada abdominal é normal.
+A cistoscopia revelou a existência de pequenos tumores na bexiga, e a ressecção transuretral foi realizada com o resultado anatomopatológico do carcinoma urotelial superficial da bexiga.
+Referido por: Miguel Santos - Avenida dos Aliados, 22 Portugal E-mail: nnavcu@hotmail.com.
+&quot;&quot;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;deid_pipeline&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sample&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.pretrained.PretrainedPipeline&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;deid_pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;clinical_deidentification&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;pt&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;sample&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Dados do paciente.
+Nome: Mauro.
+Apelido: Gonçalves.
+NIF: 368503.
+NISS: 26 63514095.
+Endereço: Calle Miguel Benitez 90.
+CÓDIGO POSTAL: 28016.
+Dados de cuidados.
+Data de nascimento: 03/03/1946.
+País: Portugal.
+Idade: 70 anos Sexo: M.
+Data de admissão: 12/12/2016.
+Doutor: Ignacio Navarro Cuéllar NºCol: 28 28 70973.
+Relatório clínico do paciente: Paciente de 70 anos, mineiro reformado, sem alergias medicamentosas conhecidas, que apresenta como história pessoal: acidente de trabalho antigo com fracturas vertebrais e das costelas; operado por doença de Dupuytren na mão direita e iliofemoral esquerda; Diabetes Mellitus tipo II, hipercolesterolemia e hiperuricemia; alcoolismo activo, fumador de 20 cigarros / dia.
+Foi encaminhado dos cuidados primários porque apresentou uma vez hematúria macroscópica pós-morte e depois microhaematúria persistente, com micturição normal.
+O exame físico mostrou um bom estado geral, com abdómen e genitália normais; o exame rectal foi compatível com adenoma de próstata de grau I/IV.
+A urinálise mostrou 4 glóbulos vermelhos/campo e 0-5 leucócitos/campo; o resto do sedimento estava normal.
+Hemograma normal; a bioquímica mostrou glicemia de 169 mg/dl e triglicéridos de 456 mg/dl; função hepática e renal normal. PSA de 1,16 ng/ml.
+A citologia da urina era repetidamente desconfiada por malignidade.
+A radiografia simples abdominal mostra alterações degenerativas na coluna lombar e calcificações vasculares tanto no hipocôndrio como na pélvis.
+A ecografia urológica revelou cistos corticais simples no rim direito, uma bexiga inalterada com boa capacidade e uma próstata com 30g de peso.
+O IVUS mostrou normofuncionalismo renal bilateral, calcificações na silhueta renal direita e ureteres artrosados com imagens de adição no terço superior de ambos os ureteres, relacionadas com pseudodiverticulose ureteral. O cistograma mostra uma bexiga com boa capacidade, mas com paredes trabeculadas em relação à bexiga de stress. A tomografia computorizada abdominal é normal.
+A cistoscopia revelou a existência de pequenos tumores na bexiga, e a ressecção transuretral foi realizada com o resultado anatomopatológico do carcinoma urotelial superficial da bexiga.
+Referido por: Miguel Santos - Avenida dos Aliados, 22 Portugal E-mail: nnavcu@hotmail.com&quot;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;deid_pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sample&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Masked with entity labels
+&lt;span class=&quot;nt&quot;&gt;------------------------------&lt;/span&gt;
+Dados &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &amp;lt;SEX&amp;gt;.
+Nome: &amp;lt;PATIENT&amp;gt;.
+Apelido: &amp;lt;PATIENT&amp;gt;.
+NIF: &amp;lt;ID&amp;gt;.
+NISS: &amp;lt;ID&amp;gt;.
+Endereço: &amp;lt;STREET&amp;gt;.
+CÓDIGO POSTAL: &amp;lt;ZIP&amp;gt;.
+Dados de cuidados.
+Data de nascimento: &amp;lt;DATE&amp;gt;.
+País: &amp;lt;COUNTRY&amp;gt;.
+Idade: &amp;lt;AGE&amp;gt; anos Sexo: &amp;lt;SEX&amp;gt;.
+Data de admissão: &amp;lt;DATE&amp;gt;.
+Doutor: &amp;lt;DOCTOR&amp;gt; Cuéllar NºCol: &amp;lt;ID&amp;gt; &amp;lt;ID&amp;gt; &amp;lt;ID&amp;gt;.
+Relatório clínico &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &amp;lt;SEX&amp;gt;: &amp;lt;SEX&amp;gt; de &amp;lt;AGE&amp;gt; anos, mineiro reformado, sem alergias medicamentosas conhecidas, que apresenta como história pessoal: acidente de trabalho antigo com fracturas vertebrais e das costelas&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; operado por doença de Dupuytren na mão direita e iliofemoral esquerda&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+Diabetes Mellitus tipo II, hipercolesterolemia e hiperuricemia&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; alcoolismo activo, fumador de 20 cigarros / dia.
+Foi encaminhado dos cuidados primários porque apresentou uma vez hematúria macroscópica pós-morte e depois microhaematúria persistente, com micturição normal.
+O exame físico mostrou um bom estado geral, com abdómen e genitália normais&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; o exame rectal foi compatível com adenoma de próstata de grau I/IV.
+A urinálise mostrou 4 glóbulos vermelhos/campo e 0-5 leucócitos/campo&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; o resto &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;sedimento estava normal.
+Hemograma normal&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; a bioquímica mostrou glicemia de 169 mg/dl e triglicér&amp;lt;SEX&amp;gt; de 456 mg/dl&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; função hepática e renal normal. PSA de 1,16 ng/ml.
+A citologia da urina era repetidamente desconfiada por malignidade.
+A radiografia simples abdominal mostra alterações degenerativas na coluna lombar e calcificações vasculares tanto no hipocôndrio como na pélvis.
+A ecografia urológica revelou cistos corticais simples no rim direito, uma bexiga inalterada com boa capacidade e uma próstata com 30g de peso.
+O IVUS mostrou normofuncionalismo renal bilateral, calcificações na silhueta renal direita e ureteres artrosados com imagens de adição no terço superior de ambos os ureteres, relacionadas com pseudodiverticulose ureteral. O cistograma mostra uma bexiga com boa capacidade, mas com paredes trabeculadas em relação à bexiga de stress.
+A tomografia computorizada abdominal é normal.
+A cistoscopia revelou a existência de pequenos tumores na bexiga, e a ressecção transuretral foi realizada com o resultado anatomopatológico &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;carcinoma urotelial superficial da bexiga.
+Referido por: &amp;lt;DOCTOR&amp;gt; - &amp;lt;STREET&amp;gt;, 22 &amp;lt;COUNTRY&amp;gt; E-mail: &amp;lt;EMAIL&amp;gt;.
+
+Masked with chars
+&lt;span class=&quot;nt&quot;&gt;------------------------------&lt;/span&gt;
+Dados &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;******&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+Nome: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;***&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+Apelido: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;*******&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+NIF: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;****&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+NISS: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;*********&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+Endereço: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;*********************&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+CÓDIGO POSTAL: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;***&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+Dados de cuidados.
+Data de nascimento: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;********&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+País: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;******&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+Idade: &lt;span class=&quot;k&quot;&gt;**&lt;/span&gt; anos Sexo: &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+Data de admissão: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;********&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+Doutor: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;*************&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; Cuéllar NºCol: &lt;span class=&quot;k&quot;&gt;**&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;**&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;***&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+Relatório clínico &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;******&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;******&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; de &lt;span class=&quot;k&quot;&gt;**&lt;/span&gt; anos, mineiro reformado, sem alergias medicamentosas conhecidas, que apresenta como história pessoal: acidente de trabalho antigo com fracturas vertebrais e das costelas&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; operado por doença de Dupuytren na mão direita e iliofemoral esquerda&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+Diabetes Mellitus tipo II, hipercolesterolemia e hiperuricemia&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; alcoolismo activo, fumador de 20 cigarros / dia.
+Foi encaminhado dos cuidados primários porque apresentou uma vez hematúria macroscópica pós-morte e depois microhaematúria persistente, com micturição normal.
+O exame físico mostrou um bom estado geral, com abdómen e genitália normais&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; o exame rectal foi compatível com adenoma de próstata de grau I/IV.
+A urinálise mostrou 4 glóbulos vermelhos/campo e 0-5 leucócitos/campo&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; o resto &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;sedimento estava normal.
+Hemograma normal&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; a bioquímica mostrou glicemia de 169 mg/dl e triglicér[&lt;span class=&quot;k&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; de 456 mg/dl&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; função hepática e renal normal. PSA de 1,16 ng/ml.
+A citologia da urina era repetidamente desconfiada por malignidade.
+A radiografia simples abdominal mostra alterações degenerativas na coluna lombar e calcificações vasculares tanto no hipocôndrio como na pélvis.
+A ecografia urológica revelou cistos corticais simples no rim direito, uma bexiga inalterada com boa capacidade e uma próstata com 30g de peso.
+O IVUS mostrou normofuncionalismo renal bilateral, calcificações na silhueta renal direita e ureteres artrosados com imagens de adição no terço superior de ambos os ureteres, relacionadas com pseudodiverticulose ureteral. O cistograma mostra uma bexiga com boa capacidade, mas com paredes trabeculadas em relação à bexiga de stress.
+A tomografia computorizada abdominal é normal.
+A cistoscopia revelou a existência de pequenos tumores na bexiga, e a ressecção transuretral foi realizada com o resultado anatomopatológico &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;carcinoma urotelial superficial da bexiga.
+Referido por: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;***********&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; - &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;*****************&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;, 22 &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;******&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; E-mail: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;****************&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+
+Masked with fixed length chars
+&lt;span class=&quot;nt&quot;&gt;------------------------------&lt;/span&gt;
+Dados &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+Nome: &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+Apelido: &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+NIF: &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+NISS: &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+Endereço: &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+CÓDIGO POSTAL: &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+Dados de cuidados.
+Data de nascimento: &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+País: &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+Idade: &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt; anos Sexo: &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+Data de admissão: &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+Doutor: &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt; Cuéllar NºCol: &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+Relatório clínico &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt;: &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt; de &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt; anos, mineiro reformado, sem alergias medicamentosas conhecidas, que apresenta como história pessoal: acidente de trabalho antigo com fracturas vertebrais e das costelas&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; operado por doença de Dupuytren na mão direita e iliofemoral esquerda&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+Diabetes Mellitus tipo II, hipercolesterolemia e hiperuricemia&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; alcoolismo activo, fumador de 20 cigarros / dia.
+Foi encaminhado dos cuidados primários porque apresentou uma vez hematúria macroscópica pós-morte e depois microhaematúria persistente, com micturição normal.
+O exame físico mostrou um bom estado geral, com abdómen e genitália normais&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; o exame rectal foi compatível com adenoma de próstata de grau I/IV.
+A urinálise mostrou 4 glóbulos vermelhos/campo e 0-5 leucócitos/campo&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; o resto &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;sedimento estava normal.
+Hemograma normal&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; a bioquímica mostrou glicemia de 169 mg/dl e triglicér&lt;span class=&quot;k&quot;&gt;****&lt;/span&gt; de 456 mg/dl&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; função hepática e renal normal. PSA de 1,16 ng/ml.
+A citologia da urina era repetidamente desconfiada por malignidade.
+A radiografia simples abdominal mostra alterações degenerativas na coluna lombar e calcificações vasculares tanto no hipocôndrio como na pélvis.
+A ecografia urológica revelou cistos corticais simples no rim direito, uma bexiga inalterada com boa capacidade e uma próstata com 30g de peso.
+O IVUS mostrou normofuncionalismo renal bilateral, calcificações na silhueta renal direita e ureteres artrosados com imagens de adição no terço superior de ambos os ureteres, relacionadas com pseudodiverticulose ureteral. O cistograma mostra uma bexiga com boa capacidade, mas com paredes trabeculadas em relação à bexiga de stress.
+A tomografia computorizada abdominal é normal.
+A cistoscopia revelou a existência de pequenos tumores na bexiga, e a ressecção transuretral foi realizada com o resultado anatomopatológico &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;carcinoma urotelial superficial da bexiga.
+Referido por: &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt; - &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt;, 22 &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt; E-mail: &lt;span class=&quot;k&quot;&gt;****&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+
+Obfuscated
+&lt;span class=&quot;nt&quot;&gt;------------------------------&lt;/span&gt;
+Dados &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;H..
+Nome: Marcos Alves.
+Apelido: Tiago Santos.
+NIF: 566-445.
+NISS: 134544332.
+Endereço: Rua de Santa María, 100.
+CÓDIGO POSTAL: 4099.
+Dados de cuidados.
+Data de nascimento: 31/03/1946.
+País: Espanha.
+Idade: 46 anos Sexo: Mulher.
+Data de admissão: 06/01/2017.
+Doutor: Carlos Melo Cuéllar NºCol: 134544332 134544332 124 445 311.
+Relatório clínico &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;H.: M. de 46 anos, mineiro reformado, sem alergias medicamentosas conhecidas, que apresenta como história pessoal: acidente de trabalho antigo com fracturas vertebrais e das costelas&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; operado por doença de Dupuytren na mão direita e iliofemoral esquerda&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+Diabetes Mellitus tipo II, hipercolesterolemia e hiperuricemia&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; alcoolismo activo, fumador de 20 cigarros / dia.
+Foi encaminhado dos cuidados primários porque apresentou uma vez hematúria macroscópica pós-morte e depois microhaematúria persistente, com micturição normal.
+O exame físico mostrou um bom estado geral, com abdómen e genitália normais&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; o exame rectal foi compatível com adenoma de próstata de grau I/IV.
+A urinálise mostrou 4 glóbulos vermelhos/campo e 0-5 leucócitos/campo&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; o resto &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;sedimento estava normal.
+Hemograma normal&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; a bioquímica mostrou glicemia de 169 mg/dl e triglicérHomen de 456 mg/dl&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; função hepática e renal normal. PSA de 1,16 ng/ml.
+A citologia da urina era repetidamente desconfiada por malignidade.
+A radiografia simples abdominal mostra alterações degenerativas na coluna lombar e calcificações vasculares tanto no hipocôndrio como na pélvis.
+A ecografia urológica revelou cistos corticais simples no rim direito, uma bexiga inalterada com boa capacidade e uma próstata com 30g de peso.
+O IVUS mostrou normofuncionalismo renal bilateral, calcificações na silhueta renal direita e ureteres artrosados com imagens de adição no terço superior de ambos os ureteres, relacionadas com pseudodiverticulose ureteral. O cistograma mostra uma bexiga com boa capacidade, mas com paredes trabeculadas em relação à bexiga de stress.
+A tomografia computorizada abdominal é normal.
+A cistoscopia revelou a existência de pequenos tumores na bexiga, e a ressecção transuretral foi realizada com o resultado anatomopatológico &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;carcinoma urotelial superficial da bexiga.
+Referido por: Carlos Melo - Avenida Dos Aliados, 56, 22 Espanha E-mail: maria.prado@jacob.com.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;clinical_deidentification&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP for Healthcare 3.5.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Licensed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;pt&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;1.3 GB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;DocumentAssembler&lt;/li&gt;
+  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
+  &lt;li&gt;TokenizerModel&lt;/li&gt;
+  &lt;li&gt;WordEmbeddingsModel&lt;/li&gt;
+  &lt;li&gt;MedicalNerModel&lt;/li&gt;
+  &lt;li&gt;NerConverter&lt;/li&gt;
+  &lt;li&gt;ContextualParserModel&lt;/li&gt;
+  &lt;li&gt;ContextualParserModel&lt;/li&gt;
+  &lt;li&gt;ContextualParserModel&lt;/li&gt;
+  &lt;li&gt;ContextualParserModel&lt;/li&gt;
+  &lt;li&gt;TextMatcherModel&lt;/li&gt;
+  &lt;li&gt;ContextualParserModel&lt;/li&gt;
+  &lt;li&gt;ContextualParserModel&lt;/li&gt;
+  &lt;li&gt;RegexMatcherModel&lt;/li&gt;
+  &lt;li&gt;RegexMatcherModel&lt;/li&gt;
+  &lt;li&gt;ChunkMergeModel&lt;/li&gt;
+  &lt;li&gt;DeIdentificationModel&lt;/li&gt;
+  &lt;li&gt;DeIdentificationModel&lt;/li&gt;
+  &lt;li&gt;DeIdentificationModel&lt;/li&gt;
+  &lt;li&gt;DeIdentificationModel&lt;/li&gt;
+  &lt;li&gt;Finisher&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="deid" /><category term="deidentification" /><category term="pt" /><category term="licensed" /><summary type="html">Description This pipeline is trained with w2v_cc_300d portuguese embeddings and can be used to deidentify PHI information from medical texts in Spanish. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask, fake or obfuscate the following entities: AGE, DATE, PROFESSION, EMAIL, ID, COUNTRY, STREET, DOCTOR, HOSPITAL, PATIENT, URL, IP, ORGANIZATION, PHONE, ZIP, ACCOUNT, SSN, PLATE, SEX and IPADDR Live Demo Open in Colab Download How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline deid_pipeline = PretrainedPipeline(&quot;clinical_deidentification&quot;, &quot;pt&quot;, &quot;clinical/models&quot;) sample = &quot;&quot;&quot;Dados do paciente. Nome: Mauro. Apelido: Gonçalves. NIF: 368503. NISS: 26 63514095. Endereço: Calle Miguel Benitez 90. CÓDIGO POSTAL: 28016. Dados de cuidados. Data de nascimento: 03/03/1946. País: Portugal. Idade: 70 anos Sexo: M. Data de admissão: 12/12/2016. Doutor: Ignacio Navarro Cuéllar NºCol: 28 28 70973. Relatório clínico do paciente: Paciente de 70 anos, mineiro reformado, sem alergias medicamentosas conhecidas, que apresenta como história pessoal: acidente de trabalho antigo com fracturas vertebrais e das costelas; operado por doença de Dupuytren na mão direita e iliofemoral esquerda; Diabetes Mellitus tipo II, hipercolesterolemia e hiperuricemia; alcoolismo activo, fumador de 20 cigarros / dia. Foi encaminhado dos cuidados primários porque apresentou uma vez hematúria macroscópica pós-morte e depois microhaematúria persistente, com micturição normal. O exame físico mostrou um bom estado geral, com abdómen e genitália normais; o exame rectal foi compatível com adenoma de próstata de grau I/IV. A urinálise mostrou 4 glóbulos vermelhos/campo e 0-5 leucócitos/campo; o resto do sedimento estava normal. Hemograma normal; a bioquímica mostrou glicemia de 169 mg/dl e triglicéridos de 456 mg/dl; função hepática e renal normal. PSA de 1,16 ng/ml. A citologia da urina era repetidamente desconfiada por malignidade. A radiografia simples abdominal mostra alterações degenerativas na coluna lombar e calcificações vasculares tanto no hipocôndrio como na pélvis. A ecografia urológica revelou cistos corticais simples no rim direito, uma bexiga inalterada com boa capacidade e uma próstata com 30g de peso. O IVUS mostrou normofuncionalismo renal bilateral, calcificações na silhueta renal direita e ureteres artrosados com imagens de adição no terço superior de ambos os ureteres, relacionadas com pseudodiverticulose ureteral. O cistograma mostra uma bexiga com boa capacidade, mas com paredes trabeculadas em relação à bexiga de stress. A tomografia computorizada abdominal é normal. A cistoscopia revelou a existência de pequenos tumores na bexiga, e a ressecção transuretral foi realizada com o resultado anatomopatológico do carcinoma urotelial superficial da bexiga. Referido por: Miguel Santos - Avenida dos Aliados, 22 Portugal E-mail: nnavcu@hotmail.com. &quot;&quot;&quot; result = deid_pipeline .annotate(sample) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val deid_pipeline = new PretrainedPipeline(&quot;clinical_deidentification&quot;, &quot;pt&quot;, &quot;clinical/models&quot;) sample = &quot;Dados do paciente. Nome: Mauro. Apelido: Gonçalves. NIF: 368503. NISS: 26 63514095. Endereço: Calle Miguel Benitez 90. CÓDIGO POSTAL: 28016. Dados de cuidados. Data de nascimento: 03/03/1946. País: Portugal. Idade: 70 anos Sexo: M. Data de admissão: 12/12/2016. Doutor: Ignacio Navarro Cuéllar NºCol: 28 28 70973. Relatório clínico do paciente: Paciente de 70 anos, mineiro reformado, sem alergias medicamentosas conhecidas, que apresenta como história pessoal: acidente de trabalho antigo com fracturas vertebrais e das costelas; operado por doença de Dupuytren na mão direita e iliofemoral esquerda; Diabetes Mellitus tipo II, hipercolesterolemia e hiperuricemia; alcoolismo activo, fumador de 20 cigarros / dia. Foi encaminhado dos cuidados primários porque apresentou uma vez hematúria macroscópica pós-morte e depois microhaematúria persistente, com micturição normal. O exame físico mostrou um bom estado geral, com abdómen e genitália normais; o exame rectal foi compatível com adenoma de próstata de grau I/IV. A urinálise mostrou 4 glóbulos vermelhos/campo e 0-5 leucócitos/campo; o resto do sedimento estava normal. Hemograma normal; a bioquímica mostrou glicemia de 169 mg/dl e triglicéridos de 456 mg/dl; função hepática e renal normal. PSA de 1,16 ng/ml. A citologia da urina era repetidamente desconfiada por malignidade. A radiografia simples abdominal mostra alterações degenerativas na coluna lombar e calcificações vasculares tanto no hipocôndrio como na pélvis. A ecografia urológica revelou cistos corticais simples no rim direito, uma bexiga inalterada com boa capacidade e uma próstata com 30g de peso. O IVUS mostrou normofuncionalismo renal bilateral, calcificações na silhueta renal direita e ureteres artrosados com imagens de adição no terço superior de ambos os ureteres, relacionadas com pseudodiverticulose ureteral. O cistograma mostra uma bexiga com boa capacidade, mas com paredes trabeculadas em relação à bexiga de stress. A tomografia computorizada abdominal é normal. A cistoscopia revelou a existência de pequenos tumores na bexiga, e a ressecção transuretral foi realizada com o resultado anatomopatológico do carcinoma urotelial superficial da bexiga. Referido por: Miguel Santos - Avenida dos Aliados, 22 Portugal E-mail: nnavcu@hotmail.com&quot; val result = deid_pipeline.annotate(sample) Results Masked with entity labels ------------------------------ Dados do &amp;lt;SEX&amp;gt;. Nome: &amp;lt;PATIENT&amp;gt;. Apelido: &amp;lt;PATIENT&amp;gt;. NIF: &amp;lt;ID&amp;gt;. NISS: &amp;lt;ID&amp;gt;. Endereço: &amp;lt;STREET&amp;gt;. CÓDIGO POSTAL: &amp;lt;ZIP&amp;gt;. Dados de cuidados. Data de nascimento: &amp;lt;DATE&amp;gt;. País: &amp;lt;COUNTRY&amp;gt;. Idade: &amp;lt;AGE&amp;gt; anos Sexo: &amp;lt;SEX&amp;gt;. Data de admissão: &amp;lt;DATE&amp;gt;. Doutor: &amp;lt;DOCTOR&amp;gt; Cuéllar NºCol: &amp;lt;ID&amp;gt; &amp;lt;ID&amp;gt; &amp;lt;ID&amp;gt;. Relatório clínico do &amp;lt;SEX&amp;gt;: &amp;lt;SEX&amp;gt; de &amp;lt;AGE&amp;gt; anos, mineiro reformado, sem alergias medicamentosas conhecidas, que apresenta como história pessoal: acidente de trabalho antigo com fracturas vertebrais e das costelas; operado por doença de Dupuytren na mão direita e iliofemoral esquerda; Diabetes Mellitus tipo II, hipercolesterolemia e hiperuricemia; alcoolismo activo, fumador de 20 cigarros / dia. Foi encaminhado dos cuidados primários porque apresentou uma vez hematúria macroscópica pós-morte e depois microhaematúria persistente, com micturição normal. O exame físico mostrou um bom estado geral, com abdómen e genitália normais; o exame rectal foi compatível com adenoma de próstata de grau I/IV. A urinálise mostrou 4 glóbulos vermelhos/campo e 0-5 leucócitos/campo; o resto do sedimento estava normal. Hemograma normal; a bioquímica mostrou glicemia de 169 mg/dl e triglicér&amp;lt;SEX&amp;gt; de 456 mg/dl; função hepática e renal normal. PSA de 1,16 ng/ml. A citologia da urina era repetidamente desconfiada por malignidade. A radiografia simples abdominal mostra alterações degenerativas na coluna lombar e calcificações vasculares tanto no hipocôndrio como na pélvis. A ecografia urológica revelou cistos corticais simples no rim direito, uma bexiga inalterada com boa capacidade e uma próstata com 30g de peso. O IVUS mostrou normofuncionalismo renal bilateral, calcificações na silhueta renal direita e ureteres artrosados com imagens de adição no terço superior de ambos os ureteres, relacionadas com pseudodiverticulose ureteral. O cistograma mostra uma bexiga com boa capacidade, mas com paredes trabeculadas em relação à bexiga de stress. A tomografia computorizada abdominal é normal. A cistoscopia revelou a existência de pequenos tumores na bexiga, e a ressecção transuretral foi realizada com o resultado anatomopatológico do carcinoma urotelial superficial da bexiga. Referido por: &amp;lt;DOCTOR&amp;gt; - &amp;lt;STREET&amp;gt;, 22 &amp;lt;COUNTRY&amp;gt; E-mail: &amp;lt;EMAIL&amp;gt;. Masked with chars ------------------------------ Dados do [******]. Nome: [***]. Apelido: [*******]. NIF: [****]. NISS: [*********]. Endereço: [*********************]. CÓDIGO POSTAL: [***]. Dados de cuidados. Data de nascimento: [********]. País: [******]. Idade: ** anos Sexo: *. Data de admissão: [********]. Doutor: [*************] Cuéllar NºCol: ** ** [***]. Relatório clínico do [******]: [******] de ** anos, mineiro reformado, sem alergias medicamentosas conhecidas, que apresenta como história pessoal: acidente de trabalho antigo com fracturas vertebrais e das costelas; operado por doença de Dupuytren na mão direita e iliofemoral esquerda; Diabetes Mellitus tipo II, hipercolesterolemia e hiperuricemia; alcoolismo activo, fumador de 20 cigarros / dia. Foi encaminhado dos cuidados primários porque apresentou uma vez hematúria macroscópica pós-morte e depois microhaematúria persistente, com micturição normal. O exame físico mostrou um bom estado geral, com abdómen e genitália normais; o exame rectal foi compatível com adenoma de próstata de grau I/IV. A urinálise mostrou 4 glóbulos vermelhos/campo e 0-5 leucócitos/campo; o resto do sedimento estava normal. Hemograma normal; a bioquímica mostrou glicemia de 169 mg/dl e triglicér[**] de 456 mg/dl; função hepática e renal normal. PSA de 1,16 ng/ml. A citologia da urina era repetidamente desconfiada por malignidade. A radiografia simples abdominal mostra alterações degenerativas na coluna lombar e calcificações vasculares tanto no hipocôndrio como na pélvis. A ecografia urológica revelou cistos corticais simples no rim direito, uma bexiga inalterada com boa capacidade e uma próstata com 30g de peso. O IVUS mostrou normofuncionalismo renal bilateral, calcificações na silhueta renal direita e ureteres artrosados com imagens de adição no terço superior de ambos os ureteres, relacionadas com pseudodiverticulose ureteral. O cistograma mostra uma bexiga com boa capacidade, mas com paredes trabeculadas em relação à bexiga de stress. A tomografia computorizada abdominal é normal. A cistoscopia revelou a existência de pequenos tumores na bexiga, e a ressecção transuretral foi realizada com o resultado anatomopatológico do carcinoma urotelial superficial da bexiga. Referido por: [***********] - [*****************], 22 [******] E-mail: [****************]. Masked with fixed length chars ------------------------------ Dados do ****. Nome: ****. Apelido: ****. NIF: ****. NISS: ****. Endereço: ****. CÓDIGO POSTAL: ****. Dados de cuidados. Data de nascimento: ****. País: ****. Idade: **** anos Sexo: ****. Data de admissão: ****. Doutor: **** Cuéllar NºCol: **** **** ****. Relatório clínico do ****: **** de **** anos, mineiro reformado, sem alergias medicamentosas conhecidas, que apresenta como história pessoal: acidente de trabalho antigo com fracturas vertebrais e das costelas; operado por doença de Dupuytren na mão direita e iliofemoral esquerda; Diabetes Mellitus tipo II, hipercolesterolemia e hiperuricemia; alcoolismo activo, fumador de 20 cigarros / dia. Foi encaminhado dos cuidados primários porque apresentou uma vez hematúria macroscópica pós-morte e depois microhaematúria persistente, com micturição normal. O exame físico mostrou um bom estado geral, com abdómen e genitália normais; o exame rectal foi compatível com adenoma de próstata de grau I/IV. A urinálise mostrou 4 glóbulos vermelhos/campo e 0-5 leucócitos/campo; o resto do sedimento estava normal. Hemograma normal; a bioquímica mostrou glicemia de 169 mg/dl e triglicér**** de 456 mg/dl; função hepática e renal normal. PSA de 1,16 ng/ml. A citologia da urina era repetidamente desconfiada por malignidade. A radiografia simples abdominal mostra alterações degenerativas na coluna lombar e calcificações vasculares tanto no hipocôndrio como na pélvis. A ecografia urológica revelou cistos corticais simples no rim direito, uma bexiga inalterada com boa capacidade e uma próstata com 30g de peso. O IVUS mostrou normofuncionalismo renal bilateral, calcificações na silhueta renal direita e ureteres artrosados com imagens de adição no terço superior de ambos os ureteres, relacionadas com pseudodiverticulose ureteral. O cistograma mostra uma bexiga com boa capacidade, mas com paredes trabeculadas em relação à bexiga de stress. A tomografia computorizada abdominal é normal. A cistoscopia revelou a existência de pequenos tumores na bexiga, e a ressecção transuretral foi realizada com o resultado anatomopatológico do carcinoma urotelial superficial da bexiga. Referido por: **** - ****, 22 **** E-mail: ****. Obfuscated ------------------------------ Dados do H.. Nome: Marcos Alves. Apelido: Tiago Santos. NIF: 566-445. NISS: 134544332. Endereço: Rua de Santa María, 100. CÓDIGO POSTAL: 4099. Dados de cuidados. Data de nascimento: 31/03/1946. País: Espanha. Idade: 46 anos Sexo: Mulher. Data de admissão: 06/01/2017. Doutor: Carlos Melo Cuéllar NºCol: 134544332 134544332 124 445 311. Relatório clínico do H.: M. de 46 anos, mineiro reformado, sem alergias medicamentosas conhecidas, que apresenta como história pessoal: acidente de trabalho antigo com fracturas vertebrais e das costelas; operado por doença de Dupuytren na mão direita e iliofemoral esquerda; Diabetes Mellitus tipo II, hipercolesterolemia e hiperuricemia; alcoolismo activo, fumador de 20 cigarros / dia. Foi encaminhado dos cuidados primários porque apresentou uma vez hematúria macroscópica pós-morte e depois microhaematúria persistente, com micturição normal. O exame físico mostrou um bom estado geral, com abdómen e genitália normais; o exame rectal foi compatível com adenoma de próstata de grau I/IV. A urinálise mostrou 4 glóbulos vermelhos/campo e 0-5 leucócitos/campo; o resto do sedimento estava normal. Hemograma normal; a bioquímica mostrou glicemia de 169 mg/dl e triglicérHomen de 456 mg/dl; função hepática e renal normal. PSA de 1,16 ng/ml. A citologia da urina era repetidamente desconfiada por malignidade. A radiografia simples abdominal mostra alterações degenerativas na coluna lombar e calcificações vasculares tanto no hipocôndrio como na pélvis. A ecografia urológica revelou cistos corticais simples no rim direito, uma bexiga inalterada com boa capacidade e uma próstata com 30g de peso. O IVUS mostrou normofuncionalismo renal bilateral, calcificações na silhueta renal direita e ureteres artrosados com imagens de adição no terço superior de ambos os ureteres, relacionadas com pseudodiverticulose ureteral. O cistograma mostra uma bexiga com boa capacidade, mas com paredes trabeculadas em relação à bexiga de stress. A tomografia computorizada abdominal é normal. A cistoscopia revelou a existência de pequenos tumores na bexiga, e a ressecção transuretral foi realizada com o resultado anatomopatológico do carcinoma urotelial superficial da bexiga. Referido por: Carlos Melo - Avenida Dos Aliados, 56, 22 Espanha E-mail: maria.prado@jacob.com. Model Information Model Name: clinical_deidentification Type: pipeline Compatibility: Spark NLP for Healthcare 3.5.0+ License: Licensed Edition: Official Language: pt Size: 1.3 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverter ContextualParserModel ContextualParserModel ContextualParserModel ContextualParserModel TextMatcherModel ContextualParserModel ContextualParserModel RegexMatcherModel RegexMatcherModel ChunkMergeModel DeIdentificationModel DeIdentificationModel DeIdentificationModel DeIdentificationModel Finisher</summary></entry><entry><title type="html">Detect concepts in drug development trials (BertForTokenClassification)</title><link href="/2022/06/18/bert_token_classifier_drug_development_trials_en_3_0.html" rel="alternate" type="text/html" title="Detect concepts in drug development trials (BertForTokenClassification)" /><published>2022-06-18T00:00:00+00:00</published><updated>2022-06-18T00:00:00+00:00</updated><id>/2022/06/18/bert_token_classifier_drug_development_trials_en_3_0</id><content type="html" xml:base="/2022/06/18/bert_token_classifier_drug_development_trials_en_3_0.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;It is a BertForTokenClassification NER model to identify concepts related to drug development including &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Trial Groups&lt;/code&gt; , Efficacy and Safety &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;End Points&lt;/code&gt; , &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hazard Ratio&lt;/code&gt;, and others in free text.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hazard_Ratio&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Confidence_Interval&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Patient_Count&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Trial_Group&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Patient_Group&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Duration&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Confidence_level&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;P_Value&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Confidence_Range&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;End_Point&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Follow_Up&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ADE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Value&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DATE&lt;/code&gt;&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;a href=&quot;https://demo.johnsnowlabs.com/healthcare/NER_DRUGS_DEVELOPMENT_TRIALS/&quot; class=&quot;button button-orange&quot;&gt;Live Demo&lt;/a&gt;
+&lt;a href=&quot;https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb&quot; class=&quot;button button-orange button-orange-trans co button-icon&quot;&gt;Open in Colab&lt;/a&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_drug_development_trials_en_3.4.1_3.0_1655578771078.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SentenceDetectorDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
+
+&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;tokenClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MedicalBertForTokenClassifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_drug_development_trials&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tokenClassifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;     
+
+&lt;span class=&quot;n&quot;&gt;test_sentence&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;In June 2003, the median overall survival  with and without topotecan were 4.0 and 3.6 months, respectively. The best complete response  ( CR ) , partial response  ( PR ) , stable disease and progressive disease were observed in 23, 63, 55 and 33 patients, respectively, with  topotecan,  and 11, 61, 66 and 32 patients, respectively, without topotecan.&quot;&quot;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;test_sentence&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sentenceDetector&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;SentenceDetectorDLModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tokenClassifier&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;BertForTokenClassification&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_drug_development_trials&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tokenClassifier&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;In June 2003, the median overall survival  with and without topotecan were 4.0 and 3.6 months, respectively. The best complete response  ( CR ) , partial response  ( PR ) , stable disease and progressive disease were observed in 23, 63, 55 and 33 patients, respectively, with  topotecan,  and 11, 61, 66 and 32 patients, respectively, without topotecan.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+-----------------+-------------+
+|chunk            |ner_label    |
++-----------------+-------------+
+|median           |Duration     |
+|overall survival |End_Point    |
+|with             |Trial_Group  |
+|without topotecan|Trial_Group  |
+|4.0              |Value        |
+|3.6 months       |Value        |
+|23               |Patient_Count|
+|63               |Patient_Count|
+|55               |Patient_Count|
+|33 patients      |Patient_Count|
+|topotecan        |Trial_Group  |
+|11               |Patient_Count|
+|61               |Patient_Count|
+|66               |Patient_Count|
+|32 patients      |Patient_Count|
+|without topotecan|Trial_Group  |
++-----------------+-------------+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;bert_token_classifier_drug_development_trials&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP for Healthcare 3.4.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Licensed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[sentence, token]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[ner]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;400.7 MB&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Case sensitive:&lt;/td&gt;
+      &lt;td&gt;true&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Max sentence length:&lt;/td&gt;
+      &lt;td&gt;256&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;Trained on data obtained from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;clinicaltrials.gov&lt;/code&gt; and annotated in-house.&lt;/p&gt;
+
+&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                B-ADE       0.50      0.33      0.40         3
+B-Confidence_Interval       0.46      1.00      0.63        12
+   B-Confidence_Range       1.00      0.98      0.99        42
+   B-Confidence_level       1.00      0.67      0.81        43
+               B-DATE       0.95      0.93      0.94        40
+           B-Duration       1.00      0.82      0.90        11
+          B-End_Point       0.91      0.98      0.95        54
+          B-Follow_Up       1.00      1.00      1.00         2
+       B-Hazard_Ratio       0.77      1.00      0.87        24
+            B-P_Value       1.00      0.56      0.71         9
+      B-Patient_Count       1.00      0.95      0.97        19
+      B-Patient_Group       0.79      0.63      0.70        43
+        B-Trial_Group       0.96      0.94      0.95       274
+              B-Value       0.98      0.83      0.90        77
+                I-ADE       0.71      1.00      0.83        12
+   I-Confidence_Range       0.98      1.00      0.99        43
+               I-DATE       0.95      1.00      0.98        60
+           I-Duration       1.00      1.00      1.00         1
+          I-End_Point       0.92      1.00      0.96        44
+          I-Follow_Up       1.00      1.00      1.00         2
+            I-P_Value       0.82      1.00      0.90        18
+      I-Patient_Count       0.00      0.00      0.00         0
+      I-Patient_Group       0.79      0.94      0.86       187
+        I-Trial_Group       0.92      0.90      0.91       156
+              I-Value       1.00      1.00      1.00        10
+                    O       0.98      0.98      0.98      2622
+
+             accuracy                           0.96      3808
+            macro avg       0.86      0.86      0.85      3808
+         weighted avg       0.96      0.96      0.96      3808
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="ner" /><category term="en" /><category term="bertfortokenclassification" /><category term="clinical" /><category term="licensed" /><summary type="html">Description It is a BertForTokenClassification NER model to identify concepts related to drug development including Trial Groups , Efficacy and Safety End Points , Hazard Ratio, and others in free text. Predicted Entities Hazard_Ratio, Confidence_Interval, Patient_Count, Trial_Group, Patient_Group, Duration, Confidence_level, P_Value, Confidence_Range, End_Point, Follow_Up, ADE, Value, DATE Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentenceDetector = SentenceDetectorDLModel.pretrained() \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;sentence&quot;) tokenizer = Tokenizer()\ .setInputCols(&quot;sentence&quot;)\ .setOutputCol(&quot;token&quot;) tokenClassifier = MedicalBertForTokenClassifier.pretrained(&quot;bert_token_classifier_drug_development_trials&quot;, &quot;en&quot;, &quot;clinical/models&quot;)\ .setInputCols(&quot;token&quot;, &quot;sentence&quot;)\ .setOutputCol(&quot;ner&quot;) ner_converter = NerConverter()\ .setInputCols([&quot;sentence&quot;,&quot;token&quot;,&quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter]) test_sentence = &quot;&quot;&quot;In June 2003, the median overall survival with and without topotecan were 4.0 and 3.6 months, respectively. The best complete response ( CR ) , partial response ( PR ) , stable disease and progressive disease were observed in 23, 63, 55 and 33 patients, respectively, with topotecan, and 11, 61, 66 and 32 patients, respectively, without topotecan.&quot;&quot;&quot; data = spark.createDataFrame([[test_sentence]]).toDF('text') result = pipeline.fit(data).transform(data) val documentAssembler = DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val sentenceDetector = SentenceDetectorDLModel.pretrained() .setInputCols(&quot;document&quot;) .setOutputCol(&quot;sentence&quot;) val tokenizer = new Tokenizer() .setInputCols(&quot;sentence&quot;) .setOutputCol(&quot;token&quot;) val tokenClassifier = BertForTokenClassification.pretrained(&quot;bert_token_classifier_drug_development_trials&quot;, &quot;en&quot;, &quot;clinical/models&quot;) .setInputCols(Array(&quot;token&quot;, &quot;sentence&quot;)) .setOutputCol(&quot;ner&quot;) val ner_converter = NerConverter() .setInputCols(Array(&quot;sentence&quot;,&quot;token&quot;,&quot;ner&quot;)) .setOutputCol(&quot;ner_chunk&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter)) val data = Seq(&quot;In June 2003, the median overall survival with and without topotecan were 4.0 and 3.6 months, respectively. The best complete response ( CR ) , partial response ( PR ) , stable disease and progressive disease were observed in 23, 63, 55 and 33 patients, respectively, with topotecan, and 11, 61, 66 and 32 patients, respectively, without topotecan.&quot;).toDF(&quot;text&quot;) val result = pipeline.fit(data).transform(data) Results +-----------------+-------------+ |chunk |ner_label | +-----------------+-------------+ |median |Duration | |overall survival |End_Point | |with |Trial_Group | |without topotecan|Trial_Group | |4.0 |Value | |3.6 months |Value | |23 |Patient_Count| |63 |Patient_Count| |55 |Patient_Count| |33 patients |Patient_Count| |topotecan |Trial_Group | |11 |Patient_Count| |61 |Patient_Count| |66 |Patient_Count| |32 patients |Patient_Count| |without topotecan|Trial_Group | +-----------------+-------------+ Model Information Model Name: bert_token_classifier_drug_development_trials Compatibility: Spark NLP for Healthcare 3.4.1+ License: Licensed Edition: Official Input Labels: [sentence, token] Output Labels: [ner] Language: en Size: 400.7 MB Case sensitive: true Max sentence length: 256 References Trained on data obtained from clinicaltrials.gov and annotated in-house. Benchmarking B-ADE 0.50 0.33 0.40 3 B-Confidence_Interval 0.46 1.00 0.63 12 B-Confidence_Range 1.00 0.98 0.99 42 B-Confidence_level 1.00 0.67 0.81 43 B-DATE 0.95 0.93 0.94 40 B-Duration 1.00 0.82 0.90 11 B-End_Point 0.91 0.98 0.95 54 B-Follow_Up 1.00 1.00 1.00 2 B-Hazard_Ratio 0.77 1.00 0.87 24 B-P_Value 1.00 0.56 0.71 9 B-Patient_Count 1.00 0.95 0.97 19 B-Patient_Group 0.79 0.63 0.70 43 B-Trial_Group 0.96 0.94 0.95 274 B-Value 0.98 0.83 0.90 77 I-ADE 0.71 1.00 0.83 12 I-Confidence_Range 0.98 1.00 0.99 43 I-DATE 0.95 1.00 0.98 60 I-Duration 1.00 1.00 1.00 1 I-End_Point 0.92 1.00 0.96 44 I-Follow_Up 1.00 1.00 1.00 2 I-P_Value 0.82 1.00 0.90 18 I-Patient_Count 0.00 0.00 0.00 0 I-Patient_Group 0.79 0.94 0.86 187 I-Trial_Group 0.92 0.90 0.91 156 I-Value 1.00 1.00 1.00 10 O 0.98 0.98 0.98 2622 accuracy 0.96 3808 macro avg 0.86 0.86 0.85 3808 weighted avg 0.96 0.96 0.96 3808</summary></entry><entry><title type="html">English AlbertForQuestionAnswering model (from twmkn9)</title><link href="/2022/06/15/albert_base_qa_squad2_en_3_0.html" rel="alternate" type="text/html" title="English AlbertForQuestionAnswering model (from twmkn9)" /><published>2022-06-15T00:00:00+00:00</published><updated>2022-06-15T00:00:00+00:00</updated><id>/2022/06/15/albert_base_qa_squad2_en_3_0</id><content type="html" xml:base="/2022/06/15/albert_base_qa_squad2_en_3_0.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;albert-base-v2-squad2&lt;/code&gt; is a English model originally trained by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;twmkn9&lt;/code&gt;.&lt;/p&gt;
 
@@ -735,162 +1173,4 @@
   &lt;li&gt;AlbertForTokenClassification&lt;/li&gt;
   &lt;li&gt;NerConverter&lt;/li&gt;
   &lt;li&gt;Finisher&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>ahmedlone127</name></author><category term="open_source" /><category term="ner" /><category term="token_classifier" /><category term="albert" /><category term="conll03" /><category term="en" /><summary type="html">Description This pretrained pipeline is built on the top of albert_large_token_classifier_conll03 model. Predicted Entities Live Demo Open in Colab Download How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;albert_large_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;) val pipeline = new PretrainedPipeline(&quot;albert_large_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)) Results +--------------+---------+ |chunk |ner_label| +--------------+---------+ |John |PER | |John Snow Labs|ORG | +--------------+---------+ Model Information Model Name: albert_large_token_classifier_conll03_pipeline Type: pipeline Compatibility: Spark NLP 4.0.0+ License: Open Source Edition: Community Language: en Size: 64.4 MB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel AlbertForTokenClassification NerConverter Finisher</summary></entry><entry><title type="html">ALBERT XLarge CoNNL-03 NER Pipeline</title><link href="/2022/06/14/albert_xlarge_token_classifier_conll03_pipeline_en_3_0.html" rel="alternate" type="text/html" title="ALBERT XLarge CoNNL-03 NER Pipeline" /><published>2022-06-14T00:00:00+00:00</published><updated>2022-06-14T00:00:00+00:00</updated><id>/2022/06/14/albert_xlarge_token_classifier_conll03_pipeline_en_3_0</id><content type="html" xml:base="/2022/06/14/albert_xlarge_token_classifier_conll03_pipeline_en_3_0.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2021/09/26/albert_xlarge_token_classifier_conll03_en.html&quot;&gt;albert_xlarge_token_classifier_conll03&lt;/a&gt; model.&lt;/p&gt;
-
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/community.johnsnowlabs.com/ahmedlone127/albert_xlarge_token_classifier_conll03_pipeline_en_4.0.0_3.0_1655219194773.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-+--------------+---------+
-|chunk         |ner_label|
-+--------------+---------+
-|John          |PER      |
-|John Snow Labs|ORG      |
-+--------------+---------+
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;albert_xlarge_token_classifier_conll03_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Community&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;206.5 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;AlbertForTokenClassification&lt;/li&gt;
-  &lt;li&gt;NerConverter&lt;/li&gt;
-  &lt;li&gt;Finisher&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>ahmedlone127</name></author><category term="open_source" /><category term="ner" /><category term="token_classifier" /><category term="albert" /><category term="conll03" /><category term="en" /><summary type="html">Description This pretrained pipeline is built on the top of albert_xlarge_token_classifier_conll03 model. Predicted Entities Live Demo Open in Colab Download How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;) val pipeline = new PretrainedPipeline(&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)) Results +--------------+---------+ |chunk |ner_label| +--------------+---------+ |John |PER | |John Snow Labs|ORG | +--------------+---------+ Model Information Model Name: albert_xlarge_token_classifier_conll03_pipeline Type: pipeline Compatibility: Spark NLP 4.0.0+ License: Open Source Edition: Community Language: en Size: 206.5 MB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel AlbertForTokenClassification NerConverter Finisher</summary></entry><entry><title type="html">Pipeline to Classify Texts into 4 News Categories</title><link href="/2022/06/14/bert_sequence_classifier_age_news_pipeline_en_3_0.html" rel="alternate" type="text/html" title="Pipeline to Classify Texts into 4 News Categories" /><published>2022-06-14T00:00:00+00:00</published><updated>2022-06-14T00:00:00+00:00</updated><id>/2022/06/14/bert_sequence_classifier_age_news_pipeline_en_3_0</id><content type="html" xml:base="/2022/06/14/bert_sequence_classifier_age_news_pipeline_en_3_0.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2021/11/07/bert_sequence_classifier_age_news_en.html&quot;&gt;bert_sequence_classifier_age_news_en&lt;/a&gt; which is imported from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HuggingFace&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/community.johnsnowlabs.com/ahmedlone127/bert_sequence_classifier_age_news_pipeline_en_4.0.0_3.0_1655212293047.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;news_pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_sequence_classifier_age_news_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;news_pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Microsoft has taken its first step into the metaverse.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;news_pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_sequence_classifier_age_news_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;nv&quot;&gt;news_pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Microsoft has taken its first step into the metaverse.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Sci/Tech'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;bert_sequence_classifier_age_news_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Community&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;42.4 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;BertForSequenceClassification&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>ahmedlone127</name></author><category term="ag_news" /><category term="news" /><category term="bert" /><category term="bert_sequence" /><category term="classification" /><category term="en" /><category term="open_source" /><summary type="html">Description This pretrained pipeline is built on the top of bert_sequence_classifier_age_news_en which is imported from HuggingFace. Predicted Entities Live Demo Open in Colab Download How to use PythonScalaNLU news_pipeline = PretrainedPipeline(&quot;bert_sequence_classifier_age_news_pipeline&quot;, lang = &quot;en&quot;) news_pipeline.annotate(&quot;Microsoft has taken its first step into the metaverse.&quot;) val news_pipeline = new PretrainedPipeline(&quot;bert_sequence_classifier_age_news_pipeline&quot;, lang = &quot;en&quot;) news_pipeline.annotate(&quot;Microsoft has taken its first step into the metaverse.&quot;) Results ['Sci/Tech'] Model Information Model Name: bert_sequence_classifier_age_news_pipeline Type: pipeline Compatibility: Spark NLP 4.0.0+ License: Open Source Edition: Community Language: en Size: 42.4 MB Included Models DocumentAssembler TokenizerModel BertForSequenceClassification</summary></entry></feed>
+&lt;/ul&gt;</content><author><name>ahmedlone127</name></author><category term="open_source" /><category term="ner" /><category term="token_classifier" /><category term="albert" /><category term="conll03" /><category term="en" /><summary type="html">Description This pretrained pipeline is built on the top of albert_large_token_classifier_conll03 model. Predicted Entities Live Demo Open in Colab Download How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;albert_large_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;) val pipeline = new PretrainedPipeline(&quot;albert_large_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)) Results +--------------+---------+ |chunk |ner_label| +--------------+---------+ |John |PER | |John Snow Labs|ORG | +--------------+---------+ Model Information Model Name: albert_large_token_classifier_conll03_pipeline Type: pipeline Compatibility: Spark NLP 4.0.0+ License: Open Source Edition: Community Language: en Size: 64.4 MB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel AlbertForTokenClassification NerConverter Finisher</summary></entry></feed>

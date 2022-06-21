@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>English XlmRoBertaForQuestionAnswering model (from deepset)- Spark NLP Model</title><meta name="description" content="DescriptionPretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. xlm-ro...">
-<link rel="canonical" href="/2022/06/15/xlm_roberta_base_qa_squad2_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Detect concepts in drug development trials (BertForTokenClassification)- Spark NLP Model</title><meta name="description" content="DescriptionIt is a BertForTokenClassification NER model to identify concepts related to drug development including Trial Groups , Efficacy and Safety End Poi...">
+<link rel="canonical" href="/2022/06/18/bert_token_classifier_drug_development_trials_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,21 +406,25 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/murat-gunay/2022-06-15-xlm_roberta_base_qa_squad2_en_3_0.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/HashamUlHaq/2022-06-18-bert_token_classifier_drug_development_trials_en_3_0.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jun 15, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-15T00:00:00+00:00"></div><header class="main-docs"><h1>English XlmRoBertaForQuestionAnswering model (from deepset)</h1></header></div><meta itemprop="headline" content="English XlmRoBertaForQuestionAnswering model (from deepset)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>open_source</li><li>xlmroberta</li><li>question_answering</li><li>en</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-15T00:00:00+00:00">
-    <meta itemprop="keywords" content="open_source,xlmroberta,question_answering,en"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jun 18, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-18T00:00:00+00:00"></div><header class="main-docs"><h1>Detect concepts in drug development trials (BertForTokenClassification)</h1></header></div><meta itemprop="headline" content="Detect concepts in drug development trials (BertForTokenClassification)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>ner</li><li>en</li><li>bertfortokenclassification</li><li>clinical</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-18T00:00:00+00:00">
+    <meta itemprop="keywords" content="ner,en,bertfortokenclassification,clinical,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. <code class="language-plaintext highlighter-rouge">xlm-roberta-base-squad2</code> is a English model originally trained by <code class="language-plaintext highlighter-rouge">deepset</code>.</p>
+<p>It is a BertForTokenClassification NER model to identify concepts related to drug development including <code class="language-plaintext highlighter-rouge">Trial Groups</code> , Efficacy and Safety <code class="language-plaintext highlighter-rouge">End Points</code> , <code class="language-plaintext highlighter-rouge">Hazard Ratio</code>, and others in free text.</p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/xlm_roberta_base_qa_squad2_en_4.0.0_3.0_1655293726154.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<h2 id="predicted-entities">Predicted Entities</h2>
+
+<p><code class="language-plaintext highlighter-rouge">Hazard_Ratio</code>, <code class="language-plaintext highlighter-rouge">Confidence_Interval</code>, <code class="language-plaintext highlighter-rouge">Patient_Count</code>, <code class="language-plaintext highlighter-rouge">Trial_Group</code>, <code class="language-plaintext highlighter-rouge">Patient_Group</code>, <code class="language-plaintext highlighter-rouge">Duration</code>, <code class="language-plaintext highlighter-rouge">Confidence_level</code>, <code class="language-plaintext highlighter-rouge">P_Value</code>, <code class="language-plaintext highlighter-rouge">Confidence_Range</code>, <code class="language-plaintext highlighter-rouge">End_Point</code>, <code class="language-plaintext highlighter-rouge">Follow_Up</code>, <code class="language-plaintext highlighter-rouge">ADE</code>, <code class="language-plaintext highlighter-rouge">Value</code>, <code class="language-plaintext highlighter-rouge">DATE</code></p>
+
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/NER_DRUGS_DEVELOPMENT_TRIALS/" class="button button-orange">Live Demo</a>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_drug_development_trials_en_3.4.1_3.0_1655578771078.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -428,37 +432,85 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">MultiDocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">spanClassifier</span> <span class="o">=</span> <span class="n">XlmRoBertaForQuestionAnswering</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"xlm_roberta_base_qa_squad2"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-    
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">spanClassifier</span><span class="p">])</span>
+<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> 
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"What is my name?"</span><span class="p">,</span> <span class="s">"My name is Clara and I live in Berkeley."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">MedicalBertForTokenClassifier</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_token_classifier_drug_development_trials"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"sentence"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span> 
+
+<span class="n">pipeline</span> <span class="o">=</span>  <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">sentenceDetector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">tokenClassifier</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">])</span>     
+
+<span class="n">test_sentence</span> <span class="o">=</span> <span class="s">"""In June 2003, the median overall survival  with and without topotecan were 4.0 and 3.6 months, respectively. The best complete response  ( CR ) , partial response  ( PR ) , stable disease and progressive disease were observed in 23, 63, 55 and 33 patients, respectively, with  topotecan,  and 11, 61, 66 and 32 patients, respectively, without topotecan."""</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">test_sentence</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MultiDocumentAssembler</span><span class="o">()</span> 
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"question"</span><span class="o">,</span> <span class="s">"context"</span><span class="o">))</span> 
-      <span class="o">.</span><span class="py">setOutputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document_question"</span><span class="o">,</span> <span class="s">"document_context"</span><span class="o">))</span>
- 
-<span class="k">val</span> <span class="nv">spanClassifer</span> <span class="k">=</span> <span class="nv">XlmRoBertaForQuestionAnswering</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"xlm_roberta_base_qa_squad2"</span><span class="o">,</span><span class="s">"en"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">spanClassifier</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">sentenceDetector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span> 
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"What is my name?"</span><span class="o">,</span> <span class="s">"My name is Clara and I live in Berkeley."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"question"</span><span class="o">,</span> <span class="s">"context"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">BertForTokenClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_token_classifier_drug_development_trials"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"sentence"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="nc">NerConverter</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span><span class="s">"token"</span><span class="o">,</span><span class="s">"ner"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span>  <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">sentenceDetector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">tokenClassifier</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"In June 2003, the median overall survival  with and without topotecan were 4.0 and 3.6 months, respectively. The best complete response  ( CR ) , partial response  ( PR ) , stable disease and progressive disease were observed in 23, 63, 55 and 33 patients, respectively, with  topotecan,  and 11, 61, 66 and 32 patients, respectively, without topotecan."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------+-------------+
+|chunk            |ner_label    |
++-----------------+-------------+
+|median           |Duration     |
+|overall survival |End_Point    |
+|with             |Trial_Group  |
+|without topotecan|Trial_Group  |
+|4.0              |Value        |
+|3.6 months       |Value        |
+|23               |Patient_Count|
+|63               |Patient_Count|
+|55               |Patient_Count|
+|33 patients      |Patient_Count|
+|topotecan        |Trial_Group  |
+|11               |Patient_Count|
+|61               |Patient_Count|
+|66               |Patient_Count|
+|32 patients      |Patient_Count|
+|without topotecan|Trial_Group  |
++-----------------+-------------+
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -466,15 +518,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>xlm_roberta_base_qa_squad2</td>
+      <td>bert_token_classifier_drug_development_trials</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 4.0.0+</td>
+      <td>Spark NLP for Healthcare 3.4.1+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -482,11 +534,11 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[document_question, document_context]</td>
+      <td>[sentence, token]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[answer]</td>
+      <td>[ner]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -494,23 +546,57 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>875.0 MB</td>
+      <td>400.7 MB</td>
     </tr>
     <tr>
       <td>Case sensitive:</td>
-      <td>false</td>
+      <td>true</td>
     </tr>
     <tr>
       <td>Max sentence length:</td>
-      <td>512</td>
+      <td>256</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>https://huggingface.co/deepset/xlm-roberta-base-squad2</p>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-06-15T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>Trained on data obtained from <code class="language-plaintext highlighter-rouge">clinicaltrials.gov</code> and annotated in-house.</p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                B-ADE       0.50      0.33      0.40         3
+B-Confidence_Interval       0.46      1.00      0.63        12
+   B-Confidence_Range       1.00      0.98      0.99        42
+   B-Confidence_level       1.00      0.67      0.81        43
+               B-DATE       0.95      0.93      0.94        40
+           B-Duration       1.00      0.82      0.90        11
+          B-End_Point       0.91      0.98      0.95        54
+          B-Follow_Up       1.00      1.00      1.00         2
+       B-Hazard_Ratio       0.77      1.00      0.87        24
+            B-P_Value       1.00      0.56      0.71         9
+      B-Patient_Count       1.00      0.95      0.97        19
+      B-Patient_Group       0.79      0.63      0.70        43
+        B-Trial_Group       0.96      0.94      0.95       274
+              B-Value       0.98      0.83      0.90        77
+                I-ADE       0.71      1.00      0.83        12
+   I-Confidence_Range       0.98      1.00      0.99        43
+               I-DATE       0.95      1.00      0.98        60
+           I-Duration       1.00      1.00      1.00         1
+          I-End_Point       0.92      1.00      0.96        44
+          I-Follow_Up       1.00      1.00      1.00         2
+            I-P_Value       0.82      1.00      0.90        18
+      I-Patient_Count       0.00      0.00      0.00         0
+      I-Patient_Group       0.79      0.94      0.86       187
+        I-Trial_Group       0.92      0.90      0.91       156
+              I-Value       1.00      1.00      1.00        10
+                    O       0.98      0.98      0.98      2622
+
+             accuracy                           0.96      3808
+            macro avg       0.86      0.86      0.85      3808
+         weighted avg       0.96      0.96      0.96      3808
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-06-18T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -635,7 +721,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/06/15/roberta_base_qa_squad2_en_3_0.html">English RoBertaForQuestionAnswering model (from deepset)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/06/18/bert_token_classifier_drug_development_trials_en_3_0.html">Detect concepts in drug development trials (BertForTokenClassification)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/06/15/xlm_roberta_base_qa_squad2_en_3_0.html">English XlmRoBertaForQuestionAnswering model (from deepset)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/06/21/clinical_deidentification_pt_3_0.html">Clinical Deidentification Pipeline (Portuguese)</a></div></div></div>
 
 </div>
 </div>
