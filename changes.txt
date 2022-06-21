@@ -1,4 +1,2 @@
-docs/_posts/HashamUlHaq/2022-06-18-bert_token_classifier_drug_development_trials_en_3_0.md
-docs/_posts/josejuanmartinez/2022-06-21-clinical_deidentification_pt_3_0.md
-docs/_posts/HashamUlHaq/2022-06-18-bert_token_classifier_drug_development_trials_en_3_0.md
-docs/_posts/josejuanmartinez/2022-06-21-clinical_deidentification_pt_3_0.md
+docs/_posts/josejuanmartinez/2022-04-14-clinical_deidentification_pt_3_0.md
+docs/_posts/josejuanmartinez/2022-04-14-clinical_deidentification_pt_3_0.md
