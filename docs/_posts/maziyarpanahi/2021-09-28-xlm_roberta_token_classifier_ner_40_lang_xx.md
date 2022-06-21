@@ -1,6 +1,6 @@
 ---
 layout: model
-title: XLM-RoBERTa Token Classification Base - NER XTREME (xlm_roberta_token_classifier_ner_40_lang)
+title: XLM-RoBERTa NER (Base, 40 languages)
 author: John Snow Labs
 name: xlm_roberta_token_classifier_ner_40_lang
 date: 2021-09-28
