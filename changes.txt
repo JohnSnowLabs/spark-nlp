@@ -1,2 +1,6 @@
-docs/_posts/josejuanmartinez/2022-04-14-clinical_deidentification_pt_3_0.md
-docs/_posts/josejuanmartinez/2022-04-14-clinical_deidentification_pt_3_0.md
+docs/en/alab/annotation_labs_releases/release_notes_3_2_0.md
+docs/en/alab/annotation_labs_releases/release_notes_3_3_0.md
+docs/en/alab/release_notes.md
+docs/en/alab/annotation_labs_releases/release_notes_3_2_0.md
+docs/en/alab/annotation_labs_releases/release_notes_3_3_0.md
+docs/en/alab/release_notes.md
