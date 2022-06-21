@@ -70,6 +70,17 @@ const Sidebar = ({ meta, params, onSubmit }) => {
             </Radio>
           </div>
         </RadioGroup>
+        <label>
+          <input
+            type="checkbox"
+            name="recommended"
+            checked={params.recommended}
+            onChange={(e) => {
+              onSubmit({ recommended: e.target.checked });
+            }}
+          />
+          <span>Show recommended first</span>
+        </label>
       </div>
     </div>
   );
