@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Clinical Deidentification (glove) with improved entities
+title: Clinical Deidentification (English, Glove, Augmented)
 author: John Snow Labs
 name: clinical_deidentification_glove_augmented
 date: 2022-03-22
