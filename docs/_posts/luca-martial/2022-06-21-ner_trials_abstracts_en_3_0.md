@@ -2,7 +2,7 @@
 layout: model
 title: Extract entities in clinical trial abstracts
 author: John Snow Labs
-name: ner_trials_abstracts
+name: ner_clinical_trials_abstracts
 date: 2022-06-21
 tags: [ner, clinical, en, licensed]
 task: Named Entity Recognition
@@ -53,7 +53,7 @@ embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical" ,"en", "clinic
         .setInputCols(["sentence","token"])\
         .setOutputCol("embeddings")
 
-clinical_ner = MedicalNerModel.pretrained("ner_trials_abstracts", "en", "clinical/models")\
+clinical_ner = MedicalNerModel.pretrained("ner_clinical_trials_abstracts", "en", "clinical/models")\
         .setInputCols(["sentence","token", "word_embeddings"])\
         .setOutputCol("ner")
 
@@ -87,7 +87,7 @@ val embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "cl
         .setInputCols(Array("sentence", "token"))
         .setOutputCol("embeddings")
 
-val clinical_ner = MedicalNerModel.pretrained("ner_trials_abstracts", "en", "clinical/models")
+val clinical_ner = MedicalNerModel.pretrained("ner_clinical_trials_abstracts", "en", "clinical/models")
         .setInputCols(Array("sentence","token","embeddings"))
         .setOutputCol("ner")
 
