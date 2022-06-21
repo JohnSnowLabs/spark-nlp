@@ -1,6 +1,6 @@
 ---
 layout: model
-title: RoBERTa Token Classification Base - NER OntoNotes (roberta_base_token_classifier_ontonotes)
+title: RoBERTa NER (Base, OntoNotes)
 author: John Snow Labs
 name: roberta_base_token_classifier_ontonotes
 date: 2021-09-26
