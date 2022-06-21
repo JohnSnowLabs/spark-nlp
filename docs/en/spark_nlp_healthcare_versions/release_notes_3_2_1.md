@@ -382,7 +382,7 @@ To see how to create TF Graphs, you can check here: [17.Graph_builder_for_DL_mod
     </li>
 </ul>
 
-<ul class="pagination pagination_big">
+<ul class="pagination owl-carousel pagination_big">
     <li><a href="release_notes_3_5_3">3.5.3</a></li>
     <li><a href="release_notes_3_5_2">3.5.2</a></li>
     <li><a href="release_notes_3_5_1">3.5.1</a></li>

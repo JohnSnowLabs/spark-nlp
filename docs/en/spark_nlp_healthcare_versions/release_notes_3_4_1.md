@@ -509,7 +509,7 @@ We prepared a speed benchmark table by running a clinical BERT For Token Classif
     </li>
 </ul>
 
-<ul class="pagination pagination_big">
+<ul class="pagination owl-carousel pagination_big">
     <li><a href="release_notes_3_5_3">3.5.3</a></li>
     <li><a href="release_notes_3_5_2">3.5.2</a></li>
     <li><a href="release_notes_3_5_1">3.5.1</a></li>

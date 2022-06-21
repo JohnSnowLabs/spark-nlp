@@ -305,8 +305,8 @@ For all Spark NLP for healthcare models, please check: [Models Hub Page](https:/
         <strong>Versions 3.5.3</strong>
     </li>
 </ul>
-<ul class="pagination pagination_big">
-    <li><a href="spark_nlp_healthcare_versions/release_notes_3_5_3">3.5.3</a></li>
+<ul class="pagination owl-carousel pagination_big">
+    <li class="active"><a href="spark_nlp_healthcare_versions/release_notes_3_5_3">3.5.3</a></li>
     <li><a href="spark_nlp_healthcare_versions/release_notes_3_5_2">3.5.2</a></li>
     <li><a href="spark_nlp_healthcare_versions/release_notes_3_5_1">3.5.1</a></li>
     <li><a href="spark_nlp_healthcare_versions/release_notes_3_5_0">3.5.0</a></li>
