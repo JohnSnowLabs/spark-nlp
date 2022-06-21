@@ -19,7 +19,12 @@ use_language_switcher: "Python-Scala-Java"
 
 Extract living species from clinical texts which is critical to scientific disciplines like medicine, biology, ecology/biodiversity, nutrition and agriculture. This model is trained with the `BertForTokenClassification` method from the `transformers` library and imported into Spark NLP.
 
-It is trained on the [LivingNER corpus] (https://zenodo.org/record/6642852#.YrH3_XZBy01) that is composed of clinical case reports extracted from miscellaneous medical specialties including COVID, oncology, infectious diseases, tropical medicine, urology, pediatrics, and others.
+It is trained on the [LivingNER](https://temu.bsc.es/livingner/2022/05/03/multilingual-corpus/) corpus that is composed of clinical case reports extracted from miscellaneous medical specialties including COVID, oncology, infectious diseases, tropical medicine, urology, pediatrics, and others.
+
+**NOTE :**
+- The text files were translated from Spanish with a neural machine translation system.
+- The annotations were translated with the same neural machine translation system.
+- The translated annotations were transferred to the translated text files using an annotation transfer technology.
 
 ## Predicted Entities
 
@@ -27,7 +32,7 @@ It is trained on the [LivingNER corpus] (https://zenodo.org/record/6642852#.YrH3
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Open Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_living_species_en_4.0.0_3.0_1655830020322.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -142,7 +147,7 @@ val result = pipeline.fit(data).transform(data)
 
 ## References
 
-[LivingNER dataset](https://zenodo.org/record/6642852#.YrH3_XZBy01)
+ [https://temu.bsc.es/livingner/2022/05/03/multilingual-corpus/](https://temu.bsc.es/livingner/2022/05/03/multilingual-corpus/)
 
 ## Benchmarking
 
