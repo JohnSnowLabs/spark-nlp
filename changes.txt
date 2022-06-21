@@ -1,4 +1,10 @@
-.github/workflows/create_search_index.yml
+docs/_frontend/src/models/App/App.js
+docs/_frontend/src/models/ModelItem/ModelItem.css
+docs/_frontend/src/models/ModelItem/ModelItem.js
+docs/_frontend/src/models/Sidebar/Sidebar.js
 docs/_plugins/search_index.rb
-.github/workflows/create_search_index.yml
+docs/_frontend/src/models/App/App.js
+docs/_frontend/src/models/ModelItem/ModelItem.css
+docs/_frontend/src/models/ModelItem/ModelItem.js
+docs/_frontend/src/models/Sidebar/Sidebar.js
 docs/_plugins/search_index.rb
