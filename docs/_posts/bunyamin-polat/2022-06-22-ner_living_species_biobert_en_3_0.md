@@ -41,6 +41,7 @@ It is trained on the [LivingNER](https://temu.bsc.es/livingner/2022/05/03/multil
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -77,7 +78,7 @@ pipeline = Pipeline(stages=[
 
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-data = spark.createDataFrame([["""One week after the first dose of ixekizumab, the patient developed fever and malaise. A nasopharyngeal swab was positive for SARS-CoV-2. Four days after symptom onset, he presented to the emergency department with dyspnoea and chest pain. Oxygen saturation was 90%; a chest ultrasound was consistent with bilateral interstitial pneumonia; chest X-ray showed no pulmonary opacities or pleural effusion. The patient was hospitalised and treated with 400 mg hydroxychloroquine twice daily orally on the first day, followed by 200 mg twice daily, 1 g ceftriaxone twice daily intramuscularly, and non-invasive continuous positive mechanical ventilation (CPP) in cycles of prone ventilation. Antivirals were not administered because of the risk of arrhythmia. Fever subsided after 14 days, allowing transition from CPAP to low-flow oxygen therapy. The patient was discharged after 22 days, with an oxygen saturation of 97% on gait test. Two repeat nasopharyngeal swabs for SARS-CoV-2 were negative 30 days after diagnosis."""]]).toDF("text")
+data = spark.createDataFrame([["""Patient aged 61 years; no known drug allergies, smoker of 63 packs/year, significant active alcoholism, recently diagnosed hypertension. He came to the emergency department approximately 4 days ago with a frontal headache coinciding with a diagnosis of hypertension, for which he was started on antihypertensive treatment. The family reported that they found him "slower" accompanied by behavioural alterations; with no other accompanying symptoms.Physical examination: Glasgow Glasgow 15; neurological examination without focality except for bradypsychia and disorientation in time, person and space. Afebrile. BP: 159/92; heart rate 70 and O2 Sat: 93%; abdominal examination revealed hepatomegaly of two finger widths with no other noteworthy findings. CBC: Legionella antigen and pneumococcus in urine negative."""]]).toDF("text")
 
 result = model.transform(data)
 ```
@@ -113,7 +114,7 @@ val pipeline = new PipelineModel().setStages(Array(document_assembler,
                                                   ner_model,
                                                   ner_converter))
 
-val data = Seq("""One week after the first dose of ixekizumab, the patient developed fever and malaise. A nasopharyngeal swab was positive for SARS-CoV-2. Four days after symptom onset, he presented to the emergency department with dyspnoea and chest pain. Oxygen saturation was 90%; a chest ultrasound was consistent with bilateral interstitial pneumonia; chest X-ray showed no pulmonary opacities or pleural effusion. The patient was hospitalised and treated with 400 mg hydroxychloroquine twice daily orally on the first day, followed by 200 mg twice daily, 1 g ceftriaxone twice daily intramuscularly, and non-invasive continuous positive mechanical ventilation (CPP) in cycles of prone ventilation. Antivirals were not administered because of the risk of arrhythmia. Fever subsided after 14 days, allowing transition from CPAP to low-flow oxygen therapy. The patient was discharged after 22 days, with an oxygen saturation of 97% on gait test. Two repeat nasopharyngeal swabs for SARS-CoV-2 were negative 30 days after diagnosis.""").toDS.toDF("text")
+val data = Seq("""Patient aged 61 years; no known drug allergies, smoker of 63 packs/year, significant active alcoholism, recently diagnosed hypertension. He came to the emergency department approximately 4 days ago with a frontal headache coinciding with a diagnosis of hypertension, for which he was started on antihypertensive treatment. The family reported that they found him "slower" accompanied by behavioural alterations; with no other accompanying symptoms.Physical examination: Glasgow Glasgow 15; neurological examination without focality except for bradypsychia and disorientation in time, person and space. Afebrile. BP: 159/92; heart rate 70 and O2 Sat: 93%; abdominal examination revealed hepatomegaly of two finger widths with no other noteworthy findings. CBC: Legionella antigen and pneumococcus in urine negative.""").toDS.toDF("text")
 
 result = model.fit(data).transform(data)
 ```
@@ -122,16 +123,15 @@ result = model.fit(data).transform(data)
 ## Results
 
 ```bash
-+----------+-------+
-|ner_chunk |label  |
-+----------+-------+
-|patient   |HUMAN  |
-|SARS-CoV-2|SPECIES|
-|patient   |HUMAN  |
-|Antivirals|SPECIES|
-|patient   |HUMAN  |
-|SARS-CoV-2|SPECIES|
-+----------+-------+
++------------+-------+
+|ner_chunk   |label  |
++------------+-------+
+|Patient     |HUMAN  |
+|family      |HUMAN  |
+|person      |HUMAN  |
+|Legionella  |SPECIES|
+|pneumococcus|SPECIES|
++------------+-------+
 ```
 
 {:.model-param}
