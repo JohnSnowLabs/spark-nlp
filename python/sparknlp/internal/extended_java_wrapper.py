@@ -15,9 +15,11 @@
 
 from pyspark import SparkContext
 from pyspark.ml.wrapper import JavaWrapper
+from pyspark.sql import DataFrame
 
 
 class ExtendedJavaWrapper(JavaWrapper):
+
     def __init__(self, java_obj, *args):
         super(ExtendedJavaWrapper, self).__init__(java_obj)
         self.sc = SparkContext._active_spark_context
@@ -50,3 +52,13 @@ class ExtendedJavaWrapper(JavaWrapper):
         java_array = self._new_java_array(pylist, self.sc._gateway.jvm.java.lang.Integer)
         return java_array
 
+    def spark_version(self):
+        major_version = self.sc.version[0]
+        minor_version = self.sc.version.split('.')[1:]
+        return float(major_version + '.' + "".join(minor_version))
+
+    def getDataFrame(self, spark, jdf):
+        if self.spark_version() >= 3.3:
+            return DataFrame(jdf, spark._getActiveSessionOrCreate())
+        else:
+            return DataFrame(jdf, spark._wrapped)
