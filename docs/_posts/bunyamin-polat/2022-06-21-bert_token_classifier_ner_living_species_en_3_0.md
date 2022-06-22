@@ -38,9 +38,9 @@ It is trained on the [LivingNER](https://temu.bsc.es/livingner/2022/05/03/multil
 ## How to use
 
 
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler() \
     .setInputCol("text") \
@@ -135,7 +135,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_ner_living_species|
-|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|Compatibility:|Spark NLP for Healthcare 4.0.0|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
