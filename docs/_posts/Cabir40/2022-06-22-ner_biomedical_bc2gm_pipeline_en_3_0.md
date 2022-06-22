@@ -17,9 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Named Entity recognition annotator allows for a generic model to be trained by utilizing a deep learning algorithm (Char CNNs - BiLSTM - CRF - word embeddings) inspired on a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM,CNN.
-
-This model has been trained to extract genes/proteins from a medical text.
+This pretrained pipeline is built on the top of [ner_biomedical_bc2gm](https://nlp.johnsnowlabs.com/2022/05/10/ner_biomedical_bc2gm_en_3_0.html) model.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
