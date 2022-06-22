@@ -4,7 +4,7 @@ title: Detect Living Species
 author: John Snow Labs
 name: bert_token_classifier_ner_living_species
 date: 2022-06-22
-tags: [en, ner, clinical, licensed, bertfortokenclassification, es]
+tags: [ner, clinical, licensed, bertfortokenclassification, es]
 task: Named Entity Recognition
 language: es
 edition: Spark NLP for Healthcare 3.5.3
