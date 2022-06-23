@@ -46,8 +46,8 @@ Pretrained named entity recognition deep learning model for clinical terminology
 
 ```python
 documentAssembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+       .setInputCol("text")\
+       .setOutputCol("document")
   
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
        .setInputCols(["document"])\
@@ -63,15 +63,15 @@ tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_n
        .setCaseSensitive(True)
 
 ner_converter = NerConverter()\
-  .setInputCols(["sentence","token","ner"])\
-  .setOutputCol("ner_chunk")
+       .setInputCols(["sentence","token","ner"])\
+       .setOutputCol("ner_chunk")
   
 pipeline =  Pipeline(stages=[
-						       documentAssembler,
-						       sentenceDetector,
-						       tokenizer,
-						       tokenClassifier,
-						       ner_converter])
+		       documentAssembler,
+		       sentenceDetector,
+		       tokenizer,
+		       tokenClassifier,
+		       ner_converter])
 						       
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -81,32 +81,32 @@ result = model.transform(spark.createDataFrame([[sample_text]]).toDF("text"))
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-		.setInputCol("text")
-		.setOutputCol("document")
+	.setInputCol("text")
+	.setOutputCol("document")
   
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
-		.setInputCols("document")
-		.setOutputCol("sentence")
+	.setInputCols("document")
+	.setOutputCol("sentence")
        
 val tokenizer = new Tokenizer()
-		.setInputCols("sentence")
-		.setOutputCol("token")
+	.setInputCols("sentence")
+	.setOutputCol("token")
 		
 val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_jsl", "en", "clinical/models")
-       .setInputCols(Array("token", "sentence"))
-       .setOutputCol("ner")
-       .setCaseSensitive(True)
+        .setInputCols(Array("token", "sentence"))
+        .setOutputCol("ner")
+        .setCaseSensitive(True)
 
 val ner_converter = new NerConverter()
-  .setInputCols(Array("sentence","token","ner"))
-  .setOutputCol("ner_chunk")
+  	.setInputCols(Array("sentence","token","ner"))
+  	.setOutputCol("ner_chunk")
   
 val pipeline =  new Pipeline().setStages(Array(
-												documentAssembler,
-												sentenceDetector,
-												tokenizer,
-												tokenClassifier,
-												ner_converter))
+				documentAssembler,
+				sentenceDetector,
+				tokenizer,
+				tokenClassifier,
+				ner_converter))
 												
 val sample_text = Seq("""The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby-girl also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.""").toDS.toDF("text")
 
