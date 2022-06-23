@@ -107,7 +107,7 @@ data = spark.createDataFrame([["Immunohistochemical staining was positive for S-
 result = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
-val document_assembler = new Documentssembler()
+val document_assembler = new DocumentAssembler()
 	.setInputCol("text")
 	.setOutputCol("document")
 	
@@ -130,14 +130,15 @@ val ner = MedicalNerModel.pretrained("ner_biomedical_bc2gm", "en", "clinical/mod
 
 val ner_converter = new NerConverter()
 	.setInputCols(Array("sentence", "token", "ner"))
-    .setOutputCol("ner_chunk")
+    	.setOutputCol("ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(
 	document_assembler, 
 	sentenceD_detectorDL, 
-	, tokenizer, 
+	tokenizer, 
 	word_embeddings, 
-	ner, ner_converter))
+	ner, 
+	ner_converter))
 
 val data = Seq("Immunohistochemical staining was positive for S-100 in all 9 cases stained, positive for HMB-45 in 9 (90%) of 10, and negative for cytokeratin in all 9 cases in which myxoid melanoma remained in the block after previous sections.").toDS.toDF("text")
 
