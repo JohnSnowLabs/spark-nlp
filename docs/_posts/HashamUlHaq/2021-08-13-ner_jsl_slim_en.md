@@ -49,7 +49,7 @@ documentAssembler = DocumentAssembler()\
 		.setInputCol("text")\
 		.setOutputCol("document")
 
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models") \
+sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models") \
 		.setInputCols(["document"]) \
 		.setOutputCol("sentence")
 
@@ -70,15 +70,15 @@ jsl_ner_converter = NerConverter() \
 		.setOutputCol("ner_chunk")
 
 jsl_ner_pipeline = Pipeline().setStages([
-													documentAssembler,
-													sentenceDetector,
-													tokenizer,
-													embeddings,
-													jsl_ner,
-													jsl_ner_converter])
+				documentAssembler,
+				sentenceDetector,
+				tokenizer,
+				embeddings,
+				jsl_ner,
+				jsl_ner_converter])
 
 
-jsl_ner_model = jsl_ner_pipeline.fit(spark.createDataFrame([['']]).toDF("text"))
+jsl_ner_model = jsl_ner_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 data = spark.createDataFrame([["""HISTORY: 30-year-old female presents for digital bilateral mammography secondary to a soft tissue lump palpated by the patient in the upper right shoulder. The patient has a family history of breast cancer within her mother at age 58. Patient denies personal history of breast cancer."""]]).toDF("text")
 
@@ -89,7 +89,7 @@ val documentAssembler = new DocumentAssembler()
 		.setInputCol("text")
 		.setOutputCol("document")
 
-val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
+val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")
 		.setInputCols("document") 
 		.setOutputCol("sentence")
 
@@ -99,7 +99,7 @@ val tokenizer = new Tokenizer()
 	
 val embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
 		.setInputCols(Array("sentence", "token"))
-	    .setOutputCol("embeddings")
+	    	.setOutputCol("embeddings")
   
 val jsl_ner = MedicalNerModel.pretrained("ner_jsl_slim", "en", "clinical/models")
 		.setInputCols(Array("sentence", "token", "embeddings"))
@@ -110,12 +110,12 @@ val jsl_ner_converter = new NerConverter()
 		.setOutputCol("ner_chunk")
  
 val jsl_ner_pipeline = new Pipeline().setStages(Array(
-											documentAssembler, 
-											sentenceDetector, 
-											tokenizer, 
-											embeddings, 
-											jsl_ner, 
-											jsl_ner_converter))
+					documentAssembler, 
+					sentenceDetector, 
+					tokenizer, 
+					embeddings, 
+					jsl_ner, 
+					jsl_ner_converter))
 
 
 val data = Seq("""HISTORY: 30-year-old female presents for digital bilateral mammography secondary to a soft tissue lump palpated by the patient in the upper right shoulder. The patient has a family history of breast cancer within her mother at age 58. Patient denies personal history of breast cancer.""").toDS.toDF("text")
