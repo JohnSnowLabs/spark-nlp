@@ -45,7 +45,7 @@ documentAssembler = DocumentAssembler()\
 	.setInputCol("text")\
 	.setOutputCol("document")
   
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
+sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")\
 	.setInputCols(["document"])\
 	.setOutputCol("sentence")
        
