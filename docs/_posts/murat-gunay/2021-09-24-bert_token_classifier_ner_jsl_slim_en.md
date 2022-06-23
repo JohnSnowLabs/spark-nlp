@@ -42,32 +42,32 @@ This is a pretrained named entity recognition deep learning model for clinical t
 
 ```python
 documentAssembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+	.setInputCol("text")\
+	.setOutputCol("document")
   
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
-       .setInputCols(["document"])\
-       .setOutputCol("sentence")
+	.setInputCols(["document"])\
+	.setOutputCol("sentence")
        
 tokenizer = Tokenizer()\
-       .setInputCols("sentence")\
-       .setOutputCol("token")
+	.setInputCols("sentence")\
+	.setOutputCol("token")
        
 tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_jsl_slim", "en", "clinical/models")\
-       .setInputCols("token", "sentence")\
-       .setOutputCol("ner")\
-       .setCaseSensitive(True)
+	.setInputCols("token", "sentence")\
+	.setOutputCol("ner")\
+	.setCaseSensitive(True)
 
 ner_converter = NerConverter()\
-  .setInputCols(["sentence","token","ner"])\
-  .setOutputCol("ner_chunk")
+	.setInputCols(["sentence","token","ner"])\
+	.setOutputCol("ner_chunk")
   
 pipeline =  Pipeline(stages=[
-						       documentAssembler,
-						       sentenceDetector,
-						       tokenizer,
-						       tokenClassifier,
-						       ner_converter])
+	       documentAssembler,
+	       sentenceDetector,
+	       tokenizer,
+	       tokenClassifier,
+	       ner_converter])
 						       
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -77,32 +77,32 @@ result = model.transform(spark.createDataFrame([[sample_text]]).toDF("text"))
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-		.setInputCol("text")
-		.setOutputCol("document")
+	.setInputCol("text")
+	.setOutputCol("document")
   
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
-		.setInputCols("document")
-		.setOutputCol("sentence")
+	.setInputCols("document")
+	.setOutputCol("sentence")
        
 val tokenizer = new Tokenizer()
-		.setInputCols("sentence")
-		.setOutputCol("token")
+	.setInputCols("sentence")
+	.setOutputCol("token")
 		
 val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_jsl_slim", "en", "clinical/models")
-       .setInputCols(Array("token", "sentence"))
-       .setOutputCol("ner")
-       .setCaseSensitive(True)
+	.setInputCols(Array("token", "sentence"))
+	.setOutputCol("ner")
+	.setCaseSensitive(True)
        
 val. ner_converter = new NerConverter()
-  .setInputCols(Array("sentence","token","ner"))
-  .setOutputCol("ner_chunk")
+	.setInputCols(Array("sentence","token","ner"))
+	.setOutputCol("ner_chunk")
   
 val pipeline =  new Pipeline().setStages(Array(
-												documentAssembler,
-												sentenceDetector,
-												tokenizer,
-												tokenClassifier,
-												ner_converter))
+			documentAssembler,
+			sentenceDetector,
+			tokenizer,
+			tokenClassifier,
+			ner_converter))
 												
 val sample_text = Seq("""HISTORY: 30-year-old female presents for digital bilateral mammography secondary to a soft tissue lump palpated by the patient in the upper right shoulder. The patient has a family history of breast cancer within her mother at age 58. Patient denies personal history of breast cancer.""").toDS.toDF("text")
 
@@ -159,7 +159,7 @@ Trained on data annotated by JSL.
 
 
 ```bash
-                      Label  precision    recall  f1-score   support
+                      label  precision    recall  f1-score   support
       B-Admission_Discharge       0.82      0.99      0.90       282
                       B-Age       0.88      0.83      0.85       576
                 B-Body_Part       0.84      0.91      0.87      8582
