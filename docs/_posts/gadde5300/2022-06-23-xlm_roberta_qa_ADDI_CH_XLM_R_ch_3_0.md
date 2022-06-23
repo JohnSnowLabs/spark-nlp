@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English XlmRoBertaForQuestionAnswering (from Gantenbein)
+title: Chamorro XlmRoBertaForQuestionAnswering (from Gantenbein)
 author: John Snow Labs
 name: xlm_roberta_qa_ADDI_CH_XLM_R
 date: 2022-06-23
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `ADDI-CH-XLM-R` is a English model originally trained by `Gantenbein`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `ADDI-CH-XLM-R` is a Chamorro model originally trained by `Gantenbein`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
