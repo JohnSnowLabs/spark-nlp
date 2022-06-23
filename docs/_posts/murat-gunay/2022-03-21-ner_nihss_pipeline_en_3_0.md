@@ -5,7 +5,7 @@ author: John Snow Labs
 name: ner_nihss_pipeline
 date: 2022-03-21
 tags: [licensed, ner, clinical, en]
-task: Named Entity Recognition
+task: [Named Entity Recognition, Pipeline Healthcare]
 language: en
 edition: Spark NLP for Healthcare 3.4.1
 spark_version: 3.0
@@ -15,34 +15,49 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 This pretrained pipeline is built on the top of [ner_nihss](https://nlp.johnsnowlabs.com/2021/11/15/ner_nihss_en.html) model.
 
+
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_NIHSS/){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_NIHSS.ipynb){:.button.button-orange.button-orange-trans.arr.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_nihss_pipeline_en_3.4.1_3.0_1647871076449.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
 
 ## How to use
 
 
 
+
+
+
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
+
 ```python
+from sparknlp.pretrained import PretrainedPipeline
+
 pipeline = PretrainedPipeline("ner_nihss_pipeline", "en", "clinical/models")
 
-pipeline.annotate("Abdomen , soft , nontender . NIH stroke scale on presentation was 23 to 24 for , one for consciousness , two for month and year and two for eye / grip , one to two for gaze , two for face , eight for motor , one for limited ataxia , one to two for sensory , three for best language and two for attention . On the neurologic examination the patient was intermittently.")
+pipeline.fullAnnotate("Abdomen , soft , nontender . NIH stroke scale on presentation was 23 to 24 for , one for consciousness , two for month and year and two for eye / grip , one to two for gaze , two for face , eight for motor , one for limited ataxia , one to two for sensory , three for best language and two for attention . On the neurologic examination the patient was intermittently.")
 ```
 ```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+
 val pipeline = new PretrainedPipeline("ner_nihss_pipeline", "en", "clinical/models")
 
-pipeline.annotate("Abdomen , soft , nontender . NIH stroke scale on presentation was 23 to 24 for , one for consciousness , two for month and year and two for eye / grip , one to two for gaze , two for face , eight for motor , one for limited ataxia , one to two for sensory , three for best language and two for attention . On the neurologic examination the patient was intermittently.")
+pipeline.fullAnnotate("Abdomen , soft , nontender . NIH stroke scale on presentation was 23 to 24 for , one for consciousness , two for month and year and two for eye / grip , one to two for gaze , two for face , eight for motor , one for limited ataxia , one to two for sensory , three for best language and two for attention . On the neurologic examination the patient was intermittently.")
 ```
 </div>
 
+
 ## Results
+
 
 ```bash
 |    | chunk              | entity                   |
@@ -70,8 +85,10 @@ pipeline.annotate("Abdomen , soft , nontender . NIH stroke scale on presentation
 | 20 | two                | Measurement              |
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -83,7 +100,9 @@ pipeline.annotate("Abdomen , soft , nontender . NIH stroke scale on presentation
 |Language:|en|
 |Size:|1.7 GB|
 
+
 ## Included Models
+
 
 - DocumentAssembler
 - SentenceDetectorDLModel
@@ -91,3 +110,6 @@ pipeline.annotate("Abdomen , soft , nontender . NIH stroke scale on presentation
 - WordEmbeddingsModel
 - MedicalNerModel
 - NerConverter
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbMTExMzEyNDEzNSwxNjIxNzkwMjM2XX0=
+-->
