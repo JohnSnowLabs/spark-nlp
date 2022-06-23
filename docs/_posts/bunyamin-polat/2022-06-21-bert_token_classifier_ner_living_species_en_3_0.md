@@ -32,7 +32,7 @@ It is trained on the [LivingNER](https://temu.bsc.es/livingner/2022/05/03/multil
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
+[Open Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_living_species_en_4.0.0_3.0_1655830020322.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -74,7 +74,7 @@ pipeline = Pipeline(stages=[
 
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-data = spark.createDataFrame([["""On 1 January 2020, a 42-year-old man was admitted to Union Hospital (Tongji Medical School, Wuhan, Hubei Province) with hyperthermia (39.6°C), cough and fatigue of one week's duration. On auscultation, bilateral breath sounds with moist rales were heard at the bases of both lungs. Laboratory tests showed leukocytopenia (leukocyte count: 2.88 3 109/L) and lymphocytosis (lymphocyte count: 0.90 3 109/L). The leukocyte count showed 56.6% neutrophils, 32.1% lymphocytes and 10.2% monocytes. Several additional analytical tests gave abnormal results, such as C-reactive protein (158.95 mg/L; normal range: 0-10 mg/L), erythrocyte sedimentation rate (38 mm/h; normal value: 20 mm/h), serum amyloid A protein (607.1 mg/L; normal value: 10 mg/L), aspartate aminotransferase (53 U/L; normal range: 8-40 U/L) and alanine aminotransferase (60 U/L; normal range: 5-40 U/L). Real-time fluorescence PCR of the patient's sputum was positive for 2019-nCoV nucleic acid. The patient was treated with antivirals (ganciclovir, oseltamivir) and anti-inflammatory drugs (meropenem, linezolid), with symptomatic treatment, from 1 January 2020 until his discharge on 25 January 2020. The consecutive imaging tests shown in the figure illustrate the patient's improvement after therapy."""]]).toDF("text")
+data = spark.createDataFrame([["""42-year-old woman with end-stage chronic kidney disease, secondary to lupus nephropathy, and on peritoneal dialysis. History of four episodes of bacterial peritonitis and change of Tenckhoff catheter six months prior to admission due to catheter dysfunction. Three peritoneal fluid samples during her hospitalisation tested positive for Fusarium spp. The patient responded favourably and continued outpatient treatment with voriconazole (4mg/kg every 12 hours orally). All three isolates were identified as species of the Fusarium solani complex. In vitro susceptibility to itraconazole, voriconazole and posaconazole, according to Clinical and Laboratory Standards Institute - CLSI (M38-A) methodology, showed a minimum inhibitory concentration (MIC) in all three isolates and for all three antifungals of >16 μg/mL."""]]).toDF("text")
 
 result = model.transform(data)
 ```
@@ -108,7 +108,7 @@ val pipeline = new PipelineModel().setStages(Array(
     ner_model,
     ner_converter))
 
-val data = Seq("On 1 January 2020, a 42-year-old man was admitted to Union Hospital (Tongji Medical School, Wuhan, Hubei Province) with hyperthermia (39.6°C), cough and fatigue of one week's duration. On auscultation, bilateral breath sounds with moist rales were heard at the bases of both lungs. Laboratory tests showed leukocytopenia (leukocyte count: 2.88 3 109/L) and lymphocytosis (lymphocyte count: 0.90 3 109/L). The leukocyte count showed 56.6% neutrophils, 32.1% lymphocytes and 10.2% monocytes. Several additional analytical tests gave abnormal results, such as C-reactive protein (158.95 mg/L; normal range: 0-10 mg/L), erythrocyte sedimentation rate (38 mm/h; normal value: 20 mm/h), serum amyloid A protein (607.1 mg/L; normal value: 10 mg/L), aspartate aminotransferase (53 U/L; normal range: 8-40 U/L) and alanine aminotransferase (60 U/L; normal range: 5-40 U/L). Real-time fluorescence PCR of the patient's sputum was positive for 2019-nCoV nucleic acid. The patient was treated with antivirals (ganciclovir, oseltamivir) and anti-inflammatory drugs (meropenem, linezolid), with symptomatic treatment, from 1 January 2020 until his discharge on 25 January 2020. The consecutive imaging tests shown in the figure illustrate the patient's improvement after therapy.").toDS.toDF("text")
+val data = Seq("""42-year-old woman with end-stage chronic kidney disease, secondary to lupus nephropathy, and on peritoneal dialysis. History of four episodes of bacterial peritonitis and change of Tenckhoff catheter six months prior to admission due to catheter dysfunction. Three peritoneal fluid samples during her hospitalisation tested positive for Fusarium spp. The patient responded favourably and continued outpatient treatment with voriconazole (4mg/kg every 12 hours orally). All three isolates were identified as species of the Fusarium solani complex. In vitro susceptibility to itraconazole, voriconazole and posaconazole, according to Clinical and Laboratory Standards Institute - CLSI (M38-A) methodology, showed a minimum inhibitory concentration (MIC) in all three isolates and for all three antifungals of >16 μg/mL.""").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
@@ -117,16 +117,17 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-+----------+-------+
-| ner_chunk|  label|
-+----------+-------+
-|       man|  HUMAN|
-| patient's|  HUMAN|
-| 2019-nCoV|SPECIES|
-|   patient|  HUMAN|
-|antivirals|SPECIES|
-| patient's|  HUMAN|
-+----------+-------+
++-----------------------+-------+
+|ner_chunk              |label  |
++-----------------------+-------+
+|woman                  |HUMAN  |
+|bacterial              |SPECIES|
+|Fusarium spp           |SPECIES|
+|patient                |HUMAN  |
+|species                |SPECIES|
+|Fusarium solani complex|SPECIES|
+|antifungals            |SPECIES|
++-----------------------+-------+
 ```
 
 {:.model-param}
