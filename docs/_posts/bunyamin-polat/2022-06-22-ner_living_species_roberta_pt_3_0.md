@@ -77,7 +77,7 @@ pipeline = Pipeline(stages=[
 
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-data = spark.createDataFrame([["""Uma menina de 11 anos que, depois de comer iogurte com amêndoas e amendoins, apresentou dispneia, disfagia, rinoconjuntivite, urticária e angioedema labial. Foi demonstrada tolerância ao leite, nozes, pistácios e sementes de girassol; o teste de exposição oral a outros frutos secos está pendente.Um rapaz de 8 anos que, após tomar amoxicilina e ibuprofeno para extracção de dentes, apresentou edema labial e urticária generalizada, tratada com dexclorferinamina e prednisona. Entre os episódios, o paciente teve uma ligeira erupção cutânea urinária. O paciente não assistiu a seguimentos subsequentes e não foram realizados testes de pele ou exposição."""]]).toDF("text")
+data = spark.createDataFrame([["""Mulher de 23 anos, de Capinota, Cochabamba, Bolívia. Ela está no nosso país há quatro anos. Frequentou o departamento de emergência obstétrica onde foi encontrada grávida de 37 semanas, com um colo dilatado de 5 cm e membranas rompidas. O obstetra de emergência realizou um teste de estreptococos negativo e solicitou um hemograma, glucose, bioquímica básica, HBV, HCV e serologia da sífilis."""]]).toDF("text")
 
 result = model.transform(data)
 ```
@@ -113,26 +113,25 @@ val pipeline = new PipelineModel().setStages(Array(document_assembler,
                                                   ner_model,
                                                   ner_converter))
 
-val data = Seq("""Uma menina de 11 anos que, depois de comer iogurte com amêndoas e amendoins, apresentou dispneia, disfagia, rinoconjuntivite, urticária e angioedema labial. Foi demonstrada tolerância ao leite, nozes, pistácios e sementes de girassol; o teste de exposição oral a outros frutos secos está pendente.Um rapaz de 8 anos que, após tomar amoxicilina e ibuprofeno para extracção de dentes, apresentou edema labial e urticária generalizada, tratada com dexclorferinamina e prednisona. Entre os episódios, o paciente teve uma ligeira erupção cutânea urinária. O paciente não assistiu a seguimentos subsequentes e não foram realizados testes de pele ou exposição.""").toDS.toDF("text")
+val data = Seq("""Mulher de 23 anos, de Capinota, Cochabamba, Bolívia. Ela está no nosso país há quatro anos. Frequentou o departamento de emergência obstétrica onde foi encontrada grávida de 37 semanas, com um colo dilatado de 5 cm e membranas rompidas. O obstetra de emergência realizou um teste de estreptococos negativo e solicitou um hemograma, glucose, bioquímica básica, HBV, HCV e serologia da sífilis.""").toDS.toDF("text")
 
-val result = model.fit(data).transform(data)
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 
 ## Results
 
 ```bash
-+---------+-------+
-|ner_chunk|label  |
-+---------+-------+
-|menina   |HUMAN  |
-|amêndoas |SPECIES|
-|amendoins|SPECIES|
-|girassol |SPECIES|
-|rapaz    |HUMAN  |
-|paciente |HUMAN  |
-|paciente |HUMAN  |
-+---------+-------+
++-------------+-------+
+|ner_chunk    |label  |
++-------------+-------+
+|Mulher       |HUMAN  |
+|grávida      |HUMAN  |
+|estreptococos|SPECIES|
+|HBV          |SPECIES|
+|HCV          |SPECIES|
+|sífilis      |SPECIES|
++-------------+-------+
 ```
 
 {:.model-param}
