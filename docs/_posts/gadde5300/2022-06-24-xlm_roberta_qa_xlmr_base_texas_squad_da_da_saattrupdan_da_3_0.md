@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `xlmr-base-texas-squad-da` is a English model originally trained by `saattrupdan`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `xlmr-base-texas-squad-da` is a Danish model originally trained by `saattrupdan`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
