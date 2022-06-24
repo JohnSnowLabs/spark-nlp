@@ -195,49 +195,30 @@ val results = pipeline.fit(data).transform(data)
 ## Benchmarking
 
 ```bash
-               label  precision    recall  f1-score   support
-               B-Age       0.93      0.81      0.87        16
-   B-AllocationRatio       1.00      1.00      1.00         8
-            B-Author       0.92      0.97      0.95       335
- B-BioAndMedicalUnit       0.97      0.92      0.94       522
-B-CTAnalysisApproach       1.00      0.80      0.89         5
-          B-CTDesign       0.95      0.97      0.96       231
-        B-Confidence       0.90      0.92      0.91       182
-           B-Country       0.95      0.89      0.92       113
-B-DisorderOrSyndrome       0.98      0.97      0.98       223
-         B-DoseValue       0.94      0.97      0.95       118
-              B-Drug       0.97      0.95      0.96      1109
-          B-DrugTime       0.95      0.90      0.93       186
-          B-Duration       0.88      0.88      0.88       101
-           B-Journal       0.96      0.94      0.95        54
-    B-NumberPatients       0.94      0.95      0.94       151
-              B-PMID       1.00      1.00      1.00        55
-            B-PValue       0.87      0.88      0.88       133
-B-PercentagePatients       0.92      0.92      0.92       105
-   B-PublicationYear       0.86      0.96      0.91        57
-         B-TimePoint       0.82      0.79      0.81       231
-             B-Value       0.90      0.89      0.90       407
-               I-Age       0.83      0.45      0.59        22
-   I-AllocationRatio       1.00      1.00      1.00        16
-            I-Author       0.93      0.88      0.90       454
- I-BioAndMedicalUnit       0.92      0.97      0.95       263
-I-CTAnalysisApproach       1.00      0.89      0.94        18
-          I-CTDesign       0.85      0.90      0.88       179
-        I-Confidence       0.96      0.95      0.95       717
-           I-Country       0.43      0.30      0.35        10
-I-DisorderOrSyndrome       1.00      0.98      0.99       345
-         I-DoseValue       0.97      0.96      0.96       145
-              I-Drug       0.82      0.81      0.82       181
-          I-DrugTime       0.99      0.80      0.88       191
-          I-Duration       0.89      0.84      0.86       170
-           I-Journal       0.94      0.93      0.93       121
-    I-NumberPatients       1.00      0.82      0.90        22
-            I-PValue       0.96      0.99      0.98       521
-I-PercentagePatients       0.93      0.92      0.93       130
-         I-TimePoint       0.85      0.69      0.76       283
-             I-Value       0.94      0.94      0.94       788
-                   O       0.98      0.98      0.98     21613
-            accuracy          -         -      0.96     30531
-           macro-avg       0.92      0.89      0.90     30531
-        weighted-avg       0.96      0.96      0.96     30531
+             label  precision    recall  f1-score   support
+               Age       0.88      0.61      0.72        38
+   AllocationRatio       1.00      1.00      1.00        24
+            Author       0.93      0.92      0.92       789
+ BioAndMedicalUnit       0.95      0.94      0.95       785
+CTAnalysisApproach       1.00      0.87      0.93        23
+          CTDesign       0.91      0.95      0.93       410
+        Confidence       0.95      0.95      0.95       899
+           Country       0.94      0.86      0.90       123
+DisorderOrSyndrome       0.99      0.98      0.99       568
+         DoseValue       0.96      0.97      0.97       263
+              Drug       0.96      0.95      0.96      1290
+          DrugTime       0.97      0.85      0.91       377
+          Duration       0.89      0.86      0.88       271
+           Journal       0.95      0.93      0.94       175
+    NumberPatients       0.95      0.94      0.94       173
+                 O       0.98      0.98      0.98     21613
+              PMID       1.00      1.00      1.00        55
+            PValue       0.97      0.99      0.98       654
+PercentagePatients       0.92      0.92      0.92       235
+   PublicationYear       0.86      0.96      0.91        57
+         TimePoint       0.85      0.75      0.80       514
+             Value       0.94      0.94      0.94      1195
+          accuracy          -         -      0.97     30531
+         macro-avg       0.94      0.91      0.93     30531
+      weighted-avg       0.97      0.97      0.97     30531
 ```
