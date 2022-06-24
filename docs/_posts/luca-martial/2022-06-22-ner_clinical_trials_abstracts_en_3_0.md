@@ -64,7 +64,7 @@ nlpPipeline = Pipeline(stages=[
         embeddings,
         clinical_ner])
 
-text = ["A one-year, randomised, multicentre trial comparing insulin glargine with NPH insulin in combination with oral agents in patients with type 2 diabetes."]
+text = ["A one-year, randomised, multicentre trial comparing insulin glargine with NPH insulin in combination with oral agents in patients with type 2 diabetes. In a multicentre, open, randomised study, 570 patients with Type 2 diabetes, aged 34 - 80 years, were treated for 52 weeks with insulin glargine or NPH insulin given once daily at bedtime."]
 
 df = spark.createDataFrame([text]).toDF("text")
 
@@ -93,7 +93,7 @@ val clinical_ner = MedicalNerModel.pretrained("ner_clinical_trials_abstracts", "
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner))
 
-val text = "A one-year, randomised, multicentre trial comparing insulin glargine with NPH insulin in combination with oral agents in patients with type 2 diabetes."
+val text = "A one-year, randomised, multicentre trial comparing insulin glargine with NPH insulin in combination with oral agents in patients with type 2 diabetes. In a multicentre, open, randomised study, 570 patients with Type 2 diabetes, aged 34 - 80 years, were treated for 52 weeks with insulin glargine or NPH insulin given once daily at bedtime."
 
 val data = Seq(text).toDF("text")
 
@@ -131,6 +131,45 @@ val results = pipeline.fit(data).transform(data)
 |       type|B-DisorderOrSyndrome|
 |          2|I-DisorderOrSyndrome|
 |   diabetes|I-DisorderOrSyndrome|
+|          .|                   O|
+|         In|                   O|
+|          a|                   O|
+|multicentre|          B-CTDesign|
+|          ,|                   O|
+|       open|          B-CTDesign|
+|          ,|                   O|
+| randomised|          B-CTDesign|
+|      study|                   O|
+|          ,|                   O|
+|        570|    B-NumberPatients|
+|   patients|                   O|
+|       with|                   O|
+|       Type|B-DisorderOrSyndrome|
+|          2|I-DisorderOrSyndrome|
+|   diabetes|I-DisorderOrSyndrome|
+|          ,|                   O|
+|       aged|                   O|
+|         34|               B-Age|
+|          -|                   O|
+|         80|               B-Age|
+|      years|                   O|
+|          ,|                   O|
+|       were|                   O|
+|    treated|                   O|
+|        for|                   O|
+|         52|          B-Duration|
+|      weeks|          I-Duration|
+|       with|                   O|
+|    insulin|              B-Drug|
+|   glargine|              I-Drug|
+|         or|                   O|
+|        NPH|              B-Drug|
+|    insulin|              I-Drug|
+|      given|                   O|
+|       once|          B-DrugTime|
+|      daily|          I-DrugTime|
+|         at|                   O|
+|    bedtime|          B-DrugTime|
 |          .|                   O|
 +-----------+--------------------+
 ```
