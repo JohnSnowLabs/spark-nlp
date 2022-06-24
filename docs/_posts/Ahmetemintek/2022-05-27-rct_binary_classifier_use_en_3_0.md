@@ -15,25 +15,31 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 This model is a USE based classifier that can classify if an article is a randomized clinical trial (RCT) or not.
 
+
 ## Predicted Entities
 
+
 `true`, `false`
+
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/rct_binary_classifier_use_en_3.4.2_3.0_1653676810143.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
-## How to use
 
+## How to use
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
         .setInputCol("text")\
@@ -73,23 +79,28 @@ val classifier_dl = ClassifierDLModel.pretrained("rct_binary_classifier_use", "e
 
 val use_clf_pipeline = new Pipeline().setStages(Array(documenter, use, classifier_dl))
 
-val data = Seq("""Abstract:Based on the American Society of Anesthesiologists' Practice Guidelines for Sedation and Analgesia by Non-Anesthesiologists (ASA-SED), a sedation training course aimed at improving medical safety was developed by the Japanese Association for Medical Simulation in 2011. This study evaluated the effect of debriefing on participants' perceptions of the essential points of the ASA-SED. A total of 38 novice doctors participated in the sedation training course during the research period. Of these doctors, 18 participated in the debriefing group, and 20 participated in non-debriefing group. Scoring of participants' guideline perceptions was conducted using an evaluation sheet (nine items, 16 points) created based on the ASA-SED. The debriefing group showed a greater perception of the ASA-SED, as reflected in the significantly higher scores on the evaluation sheet (median, 16 points) than the control group (median, 13 points; p < 0.05). No significant differences were identified before or during sedation, but the difference after sedation was significant (p < 0.05). Debriefing after sedation training courses may contribute to better perception of the ASA-SED, and may lead to enhanced attitudes toward medical safety during sedation and analgesia. """).toDF("text")
+val data = Seq("""Abstract:Based on the American Society of Anesthesiologists' Practice Guidelines for Sedation and Analgesia by Non-Anesthesiologists (ASA-SED), a sedation training course aimed at improving medical safety was developed by the Japanese Association for Medical Simulation in 2011. This study evaluated the effect of debriefing on participants' perceptions of the essential points of the ASA-SED. A total of 38 novice doctors participated in the sedation training course during the research period. Of these doctors, 18 participated in the debriefing group, and 20 participated in non-debriefing group. Scoring of participants' guideline perceptions was conducted using an evaluation sheet (nine items, 16 points) created based on the ASA-SED. The debriefing group showed a greater perception of the ASA-SED, as reflected in the significantly higher scores on the evaluation sheet (median, 16 points) than the control group (median, 13 points; p < 0.05). No significant differences were identified before or during sedation, but the difference after sedation was significant (p < 0.05). Debriefing after sedation training courses may contribute to better perception of the ASA-SED, and may lead to enhanced attitudes toward medical safety during sedation and analgesia. """).toDS.toDF("text")
 
 val result = use_clf_pipeline.fit(data).transform(data)
 ```
 </div>
 
+
 ## Results
+
 
 ```bash
 | text                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | rct  |
 |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------|
 |    Abstract:Based on the American Society of Anesthesiologists' Practice Guidelines for Sedation and Analgesia by Non-Anesthesiologists (ASA-SED), a sedation training course aimed at improving medical safety was developed by the Japanese Association for Medical Simulation in 2011. This study evaluated the effect of debriefing on participants' perceptions of the essential points of the ASA-SED. A total of 38 novice doctors participated in the sedation training course during the research period. Of these doctors, 18 participated in the debriefing group, and 20 participated in non-debriefing group. Scoring of participants' guideline perceptions was conducted using an evaluation sheet (nine items, 16 points) created based on the ASA-SED. The debriefing group showed a greater perception of the ASA-SED, as reflected in the significantly higher scores on the evaluation sheet (median, 16 points) than the control group (median, 13 points; p < 0.05). No significant differences were identified before or during sedation, but the difference after sedation was significant (p < 0.05). Debriefing after sedation training courses may contribute to better perception of the ASA-SED, and may lead to enhanced attitudes toward medical safety during sedation and analgesia.     | true |
 
+
 ```
+
 
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -102,19 +113,24 @@ val result = use_clf_pipeline.fit(data).transform(data)
 |Language:|en|
 |Size:|20.9 MB|
 
+
 ## References
+
 
 https://arxiv.org/abs/1710.06071
 
+
 ## Benchmarking
 
-```bash
-              precision    recall  f1-score   support
 
+```bash
+       label  precision    recall  f1-score   support
        false       0.84      0.80      0.82      2915
         true       0.78      0.82      0.80      2545
-
-    accuracy                           0.81      5460
-   macro avg       0.81      0.81      0.81      5460
-weighted avg       0.81      0.81      0.81      5460
+    accuracy       -         -         0.81      5460
+   macro-avg       0.81      0.81      0.81      5460
+weighted-avg       0.81      0.81      0.81      5460
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTQ1NjAxOTk1M119
+-->
