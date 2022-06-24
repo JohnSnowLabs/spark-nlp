@@ -54,7 +54,7 @@ embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical" ,"en", "clinic
         .setOutputCol("embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_clinical_trials_abstracts", "en", "clinical/models")\
-        .setInputCols(["sentence","token", "word_embeddings"])\
+        .setInputCols(["sentence","token", "embeddings"])\
         .setOutputCol("ner")
 
 nlpPipeline = Pipeline(stages=[
@@ -66,7 +66,7 @@ nlpPipeline = Pipeline(stages=[
 
 text = ["A one-year, randomised, multicentre trial comparing insulin glargine with NPH insulin in combination with oral agents in patients with type 2 diabetes. In a multicentre, open, randomised study, 570 patients with Type 2 diabetes, aged 34 - 80 years, were treated for 52 weeks with insulin glargine or NPH insulin given once daily at bedtime."]
 
-df = spark.createDataFrame([text]).toDF("text")
+data = spark.createDataFrame([text]).toDF("text")
 
 results = nlpPipeline.fit(data).transform(data)
 ```
