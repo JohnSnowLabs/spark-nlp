@@ -4,7 +4,7 @@ title: Spanish XlmRoBertaForQuestionAnswering (from saattrupdan)
 author: John Snow Labs
 name: xlm_roberta_qa_xlmr_base_texas_squad_es_es_saattrupdan
 date: 2022-06-24
-tags: [es, open_source, question_answering, xlmroberta, de]
+tags: [es, open_source, question_answering, xlmroberta]
 task: Question Answering
 language: de
 edition: Spark NLP 4.0.0
