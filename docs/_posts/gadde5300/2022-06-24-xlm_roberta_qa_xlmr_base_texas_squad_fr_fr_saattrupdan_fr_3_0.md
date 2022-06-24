@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish XlmRoBertaForQuestionAnswering (from saattrupdan)
+title: French XlmRoBertaForQuestionAnswering (from saattrupdan)
 author: John Snow Labs
 name: xlm_roberta_qa_xlmr_base_texas_squad_fr_fr_saattrupdan
 date: 2022-06-24
