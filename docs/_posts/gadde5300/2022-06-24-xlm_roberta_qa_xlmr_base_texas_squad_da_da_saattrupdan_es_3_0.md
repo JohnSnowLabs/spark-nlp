@@ -4,7 +4,7 @@ title: Danish XlmRoBertaForQuestionAnswering (from saattrupdan)
 author: John Snow Labs
 name: xlm_roberta_qa_xlmr_base_texas_squad_da_da_saattrupdan
 date: 2022-06-24
-tags: [da, open_source, question_answering, xlmroberta, es]
+tags: [da, open_source, question_answering, xlmroberta]
 task: Question Answering
 language: es
 edition: Spark NLP 4.0.0
