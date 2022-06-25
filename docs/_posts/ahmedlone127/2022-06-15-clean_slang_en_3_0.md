@@ -26,7 +26,7 @@ The clean_slang is a pretrained pipeline that we can use to process text with a 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/clean_slang_en_4.0.0_3.0_1655323105958.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/clean_slang_en_4.0.0_3.0_1655323050147.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
