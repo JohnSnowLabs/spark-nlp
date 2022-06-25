@@ -89,24 +89,24 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document_assembler = DocumentAssembler() 
-    .setInputCol('text') 
-    .setOutputCol('document')
+    .setInputCol("text") 
+    .setOutputCol("document")
 
 val tokenizer = Tokenizer() 
-    .setInputCols(['document']) 
-    .setOutputCol('token')
+    .setInputCols(["document"]) 
+    .setOutputCol("token")
 
 val embeddings = BertEmbeddings.pretrained("bert_portuguese_base_cased", "pt")
     .setInputCols("document", "token") 
     .setOutputCol("embeddings")
 
-val ner_model = NerDLModel.pretrained('ner_lener', 'pt') 
-    .setInputCols(['document', 'token', 'embeddings']) 
-    .setOutputCol('ner')
+val ner_model = NerDLModel.pretrained("ner_lener", "pt") 
+    .setInputCols(["document", "token", "embeddings"]) 
+    .setOutputCol("ner")
 
 val ner_converter = NerConverter() 
-    .setInputCols(['document', 'token', 'ner']) 
-    .setOutputCol('ner_chunk')
+    .setInputCols(["document", "token", "ner"]) 
+    .setOutputCol("ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, ner_model, ner_converter))
 
