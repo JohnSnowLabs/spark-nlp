@@ -15,29 +15,20 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
-
 ## Description
-
 
 The deep neural network architecture for assertion status detection in Spark NLP is based on a BiLSTM framework, and is a modified version of the architecture proposed by Fancellu et.al. (Fancellu, Lopez, and Webber 2016). Its goal is to classify the assertions made on given medical concepts as being present, absent, or possible in the patient, conditionally present in the patient under certain circumstances, hypothetically present in the patient at some future point, and mentioned in the patient report but associated with someoneelse (Uzuner et al. 2011).
 
-
 ## Predicted Entities
 
-
 `Present`, `Absent`, `Possible`, `Planned`, `Someoneelse`, `Past`, `Family`, `None`, `Hypotetical`
-
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/ASSERTION/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/assertion_jsl_en_3.1.2_2.4_1627139823450.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
-
 ## How to use
-
-
-
 
 
 
@@ -93,13 +84,10 @@ val result = pipeline.fit(data).transform(data)
 ```
 </div>
 
-
 ## Results
-
 
 ```bash
 The output is a dataframe with a sentence per row and an `assertion` column containing all of the assertion labels in the sentence. The assertion column also contains assertion character indices, and other metadata. To get only the entity chunks and assertion labels, without the metadata, select `ner_chunk.result` and `assertion.result` from your output dataframe.
-
 
 +-----------------------------------------+-----+---+----------------------------+-------+---------+
 |chunk                                    |begin|end|ner_label                   |sent_id|assertion|
@@ -127,10 +115,8 @@ The output is a dataframe with a sentence per row and an `assertion` column cont
 +-----------------------------------------+-----+---+----------------------------+-------+---------+
 ```
 
-
 {:.model-param}
 ## Model Information
-
 
 {:.table-model}
 |---|---|
@@ -142,15 +128,12 @@ The output is a dataframe with a sentence per row and an `assertion` column cont
 |Output Labels:|[assertion]|
 |Language:|en|
 
-
 ## Data Source
-
 
 Trained on 2010 i2b2/VA challenge on concepts, assertions, and relations in clinical text with ‘embeddings_clinical’. https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
 
 
 ## Benchmarking
-
 
 ```bash
 label          prec   rec    f1   
@@ -166,6 +149,3 @@ Hypothetical   0.722  0.810  0.763
 Macro-average  0.888  0.872  0.880
 Micro-average  0.908  0.908  0.908
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTQxMjg1MDExM119
--->
