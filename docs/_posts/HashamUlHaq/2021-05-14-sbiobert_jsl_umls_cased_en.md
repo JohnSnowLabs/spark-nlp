@@ -85,9 +85,9 @@ Tuned on MedNLI dataset
 
 
 ```bash
-MedNLI Acc:  Score
-Acc      0.758, 
-STS (cos): 0.651
+MedNLI   Score
+Acc      0.758 
+STS(cos) 0.651
 ```
 <!--stackedit_data:
 eyJoaXN0b3J5IjpbMTM0NjA1MzYyOF19
