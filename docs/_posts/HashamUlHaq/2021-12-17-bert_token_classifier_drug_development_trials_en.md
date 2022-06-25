@@ -5,7 +5,7 @@ author: John Snow Labs
 name: bert_token_classifier_drug_development_trials
 date: 2021-12-17
 tags: [en, ner, clinical, licensed, bertfortokenclassification]
-task: [Named Entity Recognition, Pipeline Healthcare]
+task: Named Entity Recognition
 language: en
 edition: Spark NLP for Healthcare 3.3.2
 spark_version: 3.0
@@ -15,29 +15,20 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
-
 ## Description
-
 
 It is a `BertForTokenClassification` NER model to identify concepts related to drug development including `Trial Groups` , `End Points` , `Hazard Ratio`, and other entities in free text.
 
-
 ## Predicted Entities
 
-
 `Patient_Count`, `Duration`, `End_Point`, `Value`, `Trial_Group`, `Hazard_Ratio`, `Total_Patients'`
-
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DRUGS_DEVELOPMENT_TRIALS/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_drug_development_trials_en_3.3.2_3.0_1639776838533.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
-
 ## How to use
-
-
-
 
 
 
@@ -80,9 +71,7 @@ val result = pipeline.fit(data).transform(data)
 ```
 </div>
 
-
 ## Results
-
 
 ```bash
 |    | chunk             | entity        |
@@ -109,7 +98,6 @@ val result = pipeline.fit(data).transform(data)
 {:.model-param}
 ## Model Information
 
-
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_drug_development_trials|
@@ -126,12 +114,10 @@ val result = pipeline.fit(data).transform(data)
 
 ## Data Source
 
-
 Trained on data obtained from `clinicaltrials.gov` and annotated in-house.
 
 
 ## Benchmarking
-
 
 ```bash
            label  precision  recall        f1   support
