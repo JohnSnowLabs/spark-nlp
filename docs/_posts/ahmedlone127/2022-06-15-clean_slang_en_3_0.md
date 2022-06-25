@@ -47,6 +47,15 @@ yo, what is wrong with ya?
 val pipeline = new PretrainedPipeline("clean_slang", lang = "en")
 val result = pipeline.fullAnnotate("Hello from John Snow Labs ! ")(0)
 ```
+
+{:.nlu-block}
+```python
+
+import nlu
+text = [""Hello from John Snow Labs ! ""]
+result_df = nlu.load('en.clean.slang').predict(text)
+result_df
+```
 </div>
 
 ## Results
