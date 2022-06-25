@@ -432,6 +432,7 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
 <span class="n">documenter</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
@@ -484,22 +485,23 @@
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documenter</span><span class="p">,</span> <span class="n">sentencer</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">pos_tagger</span><span class="p">,</span> <span class="n">words_embedder</span><span class="p">,</span> <span class="n">ner_tagger</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">,</span> <span class="n">dependency_parser</span><span class="p">,</span> <span class="n">re_ner_chunk_filter</span><span class="p">,</span> <span class="n">re_model</span><span class="p">])</span>
 
-<span class="n">text</span> <span class="o">=</span> <span class="s">"She has a retinal degeneration, hearing loss and renal failure, short stature, </span><span class="se">\
-</span><span class="s">Mutations in the SH3PXD2B gene coding for the Tks4 protein are responsible for the autosomal recessive."</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">"""She has a retinal degeneration, hearing loss and renal failure, short stature, Mutations in the SH3PXD2B gene coding for the Tks4 protein are responsible for the autosomal recessive."""</span>
 
 <span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
 <span class="n">p_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
 <span class="n">result</span> <span class="o">=</span> <span class="n">p_model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documenter</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documenter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
     <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">sentencer</span> <span class="k">=</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">sentencer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nv">sparknlp</span><span class="o">.</span><span class="py">annotators</span><span class="o">.</span><span class="py">Tokenizer</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"tokens"</span><span class="o">)</span>
 
@@ -517,7 +519,7 @@
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_tags"</span><span class="o">)</span> 
 
-<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="nc">NerConverter</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span>
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">,</span> <span class="s">"ner_tags"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunks"</span><span class="o">)</span>
 
@@ -542,8 +544,9 @@
     
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documenter</span><span class="o">,</span> <span class="n">sentencer</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">pos_tagger</span><span class="o">,</span> <span class="n">words_embedder</span><span class="o">,</span> <span class="n">ner_tagger</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">,</span> <span class="n">dependency_parser</span><span class="o">,</span> <span class="n">re_ner_chunk_filter</span><span class="o">,</span> <span class="n">re_model</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="err">"</span><span class="kt">She</span> <span class="kt">has</span> <span class="kt">a</span> <span class="kt">retinal</span> <span class="kt">degeneration</span>, <span class="kt">hearing</span> <span class="kt">loss</span> <span class="kt">and</span> <span class="kt">renal</span> <span class="kt">failure</span>, <span class="kt">short</span> <span class="kt">stature</span>, <span class="kt">\</span>
-<span class="kt">Mutations</span> <span class="kt">in</span> <span class="kt">the</span> <span class="kt">SH3PXD2B</span> <span class="kt">gene</span> <span class="kt">coding</span> <span class="kt">for</span> <span class="kt">the</span> <span class="kt">Tks4</span> <span class="kt">protein</span> <span class="kt">are</span> <span class="kt">responsible</span> <span class="kt">for</span> <span class="kt">the</span> <span class="kt">autosomal</span> <span class="kt">recessive.</span><span class="err">"</span><span class="o">].</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"""She has a retinal degeneration, hearing loss and renal failure, short stature, Mutations in the SH3PXD2B gene coding for the Tks4 protein are responsible for the autosomal recessive."""</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
@@ -598,8 +601,11 @@
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Relation           Recall Precision        F1   Support
 0                   0.922     0.908     0.915       129
 1                   0.831     0.855     0.843        71
-Avg.                0.877     0.882     0.879
+Avg.                0.877     0.882     0.879         -
 </code></pre></div></div>
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTg3Mzc2NTc2XX0=
+-->
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-07-24T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>

@@ -442,6 +442,7 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
@@ -471,13 +472,14 @@
 <span class="p">])</span>
 
 <span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'text'</span><span class="p">:</span> <span class="p">[</span><span class="s">"""diante do exposto , com fundamento nos artigos 32 , i , e 33 , da lei 8.443/1992 , submetem-se os autos à consideração superior , com posterior encaminhamento ao ministério público junto ao tcu e ao gabinete do relator , propondo : a ) conhecer do recurso e , no mérito , negar-lhe provimento ; b ) comunicar ao recorrente , ao superior tribunal militar e ao tribunal regional federal da 2ª região , a fim de fornecer subsídios para os processos judiciais 2001.34.00.024796-9 e 2003.34.00.044227-3 ; e aos demais interessados a deliberação que vier a ser proferida por esta corte ” ."""</span><span class="p">]}))</span>
+
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
     <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="ss">'tex</span><span class="n">t</span><span class="o">')</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="ss">'documen</span><span class="n">t</span><span class="o">')</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="kt">'document'</span><span class="o">])</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="ss">'toke</span><span class="n">n</span><span class="o">')</span>
 
@@ -489,12 +491,15 @@
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="kt">'document'</span>, <span class="kt">'token'</span>, <span class="kt">'embeddings'</span><span class="o">])</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="ss">'ne</span><span class="n">r</span><span class="o">')</span>
 
-<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="nc">NerConverter</span><span class="o">()</span> 
+<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span> 
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="kt">'document'</span>, <span class="kt">'token'</span>, <span class="kt">'ner'</span><span class="o">])</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="ss">'ner_chun</span><span class="n">k</span><span class="o">')</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">ner_model</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="err">"</span><span class="kt">diante</span> <span class="kt">do</span> <span class="kt">exposto</span> , <span class="kt">com</span> <span class="kt">fundamento</span> <span class="kt">nos</span> <span class="kt">artigos</span> <span class="err">32</span> , <span class="kt">i</span> , <span class="kt">e</span> <span class="err">33</span> , <span class="kt">da</span> <span class="kt">lei</span> <span class="err">8</span><span class="kt">.</span><span class="err">443</span><span class="kt">/</span><span class="err">1992</span> , <span class="kt">submetem-se</span> <span class="kt">os</span> <span class="kt">autos</span> <span class="kt">à</span> <span class="kt">consideração</span> <span class="kt">superior</span> , <span class="kt">com</span> <span class="kt">posterior</span> <span class="kt">encaminhamento</span> <span class="kt">ao</span> <span class="kt">ministério</span> <span class="kt">público</span> <span class="kt">junto</span> <span class="kt">ao</span> <span class="kt">tcu</span> <span class="kt">e</span> <span class="kt">ao</span> <span class="kt">gabinete</span> <span class="kt">do</span> <span class="kt">relator</span> , <span class="kt">propondo</span> <span class="kt">:</span> <span class="kt">a</span> <span class="o">)</span> <span class="n">conhecer</span> <span class="k">do</span> <span class="n">recurso</span> <span class="n">e</span> <span class="o">,</span> <span class="n">no</span> <span class="n">mérito</span> <span class="o">,</span> <span class="n">negar</span><span class="o">-</span><span class="n">lhe</span> <span class="n">provimento</span> <span class="o">;</span> <span class="n">b</span> <span class="o">)</span> <span class="n">comunicar</span> <span class="n">ao</span> <span class="n">recorrente</span> <span class="o">,</span> <span class="n">ao</span> <span class="n">superior</span> <span class="n">tribunal</span> <span class="n">militar</span> <span class="n">e</span> <span class="n">ao</span> <span class="n">tribunal</span> <span class="n">regional</span> <span class="n">federal</span> <span class="n">da</span> <span class="mi">2</span><span class="n">ª</span> <span class="n">região</span> <span class="o">,</span> <span class="n">a</span> <span class="n">fim</span> <span class="n">de</span> <span class="n">fornecer</span> <span class="n">subsídios</span> <span class="n">para</span> <span class="n">os</span> <span class="n">processos</span> <span class="n">judiciais</span> <span class="mf">2001.34</span><span class="o">.</span><span class="mf">00.024796</span><span class="o">-</span><span class="mi">9</span> <span class="n">e</span> <span class="mf">2003.34</span><span class="o">.</span><span class="mf">00.044227</span><span class="o">-</span><span class="mi">3</span> <span class="o">;</span> <span class="n">e</span> <span class="n">aos</span> <span class="n">demais</span> <span class="n">interessados</span> <span class="n">a</span> <span class="n">deliberação</span> <span class="n">que</span> <span class="n">vier</span> <span class="n">a</span> <span class="n">ser</span> <span class="n">proferida</span> <span class="n">por</span> <span class="n">esta</span> <span class="n">corte</span> <span class="err">”</span> <span class="o">.</span><span class="s">"].toDS.toDF("</span><span class="n">text</span><span class="err">"</span><span class="o">)).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"""diante do exposto , com fundamento nos artigos 32 , i , e 33 , da lei 8.443/1992 , submetem-se os autos à consideração superior , com posterior encaminhamento ao ministério público junto ao tcu e ao gabinete do relator , propondo : a ) conhecer do recurso e , no mérito , negar-lhe provimento ; b ) comunicar ao recorrente , ao superior tribunal militar e ao tribunal regional federal da 2ª região , a fim de fornecer subsídios para os processos judiciais 2001.34.00.024796-9 e 2003.34.00.044227-3 ; e aos demais interessados a deliberação que vier a ser proferida por esta corte"""</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
@@ -661,25 +666,27 @@ International Conference on the Computational Processing of Portuguese (PROPOR),
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|                  | precision | recall | f1-score | support |
-|------------------|-----------|--------|----------|---------|
-| B-JURISPRUDENCIA | 0.91      | 0.90   | 0.90     | 175     |
-| B-LEGISLACAO     | 0.94      | 0.95   | 0.94     | 347     |
-| B-LOCAL          | 0.65      | 0.70   | 0.67     | 40      |
-| B-ORGANIZACAO    | 0.91      | 0.86   | 0.89     | 441     |
-| B-PESSOA         | 0.95      | 0.95   | 0.95     | 221     |
-| B-TEMPO          | 0.90      | 0.89   | 0.90     | 176     |
-| I-JURISPRUDENCIA | 0.93      | 0.91   | 0.92     | 461     |
-| I-LEGISLACAO     | 0.96      | 0.95   | 0.96     | 2012    |
-| I-LOCAL          | 0.34      | 0.57   | 0.43     | 72      |
-| I-ORGANIZACAO    | 0.93      | 0.86   | 0.89     | 768     |
-| I-PESSOA         | 0.95      | 0.98   | 0.96     | 461     |
-| I-TEMPO          | 0.93      | 0.79   | 0.85     | 66      |
-| O                | 0.99      | 1.00   | 0.99     | 38419   |
-| accuracy         |           |        | 0.99     | 43659   |
-| macro avg        | 0.87      | 0.87   | 0.87     | 43659   |
-| weighted avg     | 0.99      | 0.99   | 0.99     | 43659   |
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label             precision  recall  f1-score  support
+B-JURISPRUDENCIA  0.91       0.90    0.90      175    
+B-LEGISLACAO      0.94       0.95    0.94      347    
+B-LOCAL           0.65       0.70    0.67      40     
+B-ORGANIZACAO     0.91       0.86    0.89      441    
+B-PESSOA          0.95       0.95    0.95      221    
+B-TEMPO           0.90       0.89    0.90      176    
+I-JURISPRUDENCIA  0.93       0.91    0.92      461    
+I-LEGISLACAO      0.96       0.95    0.96      2012   
+I-LOCAL           0.34       0.57    0.43      72     
+I-ORGANIZACAO     0.93       0.86    0.89      768    
+I-PESSOA          0.95       0.98    0.96      461    
+I-TEMPO           0.93       0.79    0.85      66     
+O                 0.99       1.00    0.99      38419  
+accuracy          -          -       0.99      43659  
+macro-avg         0.87       0.87    0.87      43659  
+weighted-avg      0.99       0.99    0.99      43659  
 </code></pre></div></div>
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTUzMTA1MzQ1OV19
+-->
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-07-28T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>

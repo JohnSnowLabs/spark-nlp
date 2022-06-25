@@ -432,6 +432,7 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
         <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
@@ -455,6 +456,7 @@
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'ner'</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'ner_chunk'</span><span class="p">)</span>
+
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
     <span class="n">document_assembler</span><span class="p">,</span> 
     <span class="n">sentence</span><span class="p">,</span>
@@ -465,17 +467,18 @@
 <span class="p">])</span>
 
 <span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'text'</span><span class="p">:</span> <span class="p">[</span><span class="s">"""La paciente es la mayor de 2 hermanos, tiene un hermano de 13 años estudiando 1o ESO. Sus padres son ambos ATS , trabajan en diferentes centros de salud estudiando 1o ESO"""</span><span class="p">]}))</span>
+
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
         <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="ss">'tex</span><span class="n">t</span><span class="o">')</span>
         <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="ss">'documen</span><span class="n">t</span><span class="o">')</span>
 
-<span class="k">val</span> <span class="nv">sentence</span> <span class="k">=</span> <span class="nc">SentenceDetector</span><span class="o">()</span> 
+<span class="k">val</span> <span class="nv">sentence</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SentenceDetector</span><span class="o">()</span> 
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">document</span><span class="err">"</span><span class="o">])</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">sentence</span><span class="err">"</span><span class="o">])</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
@@ -487,12 +490,15 @@
         <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">sentence</span><span class="err">"</span>, <span class="err">"</span><span class="kt">token</span><span class="err">"</span>, <span class="err">"</span><span class="kt">embeddings</span><span class="err">"</span><span class="o">])</span>
         <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="nc">NerConverter</span><span class="o">()</span> 
+<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span> 
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="kt">'document'</span>, <span class="kt">'token'</span>, <span class="kt">'ner'</span><span class="o">])</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="ss">'ner_chun</span><span class="n">k</span><span class="o">')</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embedings_stage</span><span class="o">,</span> <span class="n">clinical_ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="err">"</span><span class="kt">La</span> <span class="kt">paciente</span> <span class="kt">es</span> <span class="kt">la</span> <span class="kt">mayor</span> <span class="kt">de</span> <span class="err">2</span> <span class="kt">hermanos</span>, <span class="kt">tiene</span> <span class="kt">un</span> <span class="kt">hermano</span> <span class="kt">de</span> <span class="err">13</span> <span class="kt">años</span> <span class="kt">estudiando</span> <span class="err">1</span><span class="kt">o</span> <span class="kt">ESO.</span> <span class="kt">Sus</span> <span class="kt">padres</span> <span class="kt">son</span> <span class="kt">ambos</span> <span class="kt">ATS</span> , <span class="kt">trabajan</span> <span class="kt">en</span> <span class="kt">diferentes</span> <span class="kt">centros</span> <span class="kt">de</span> <span class="kt">salud</span> <span class="kt">estudiando</span> <span class="err">1</span><span class="kt">o</span> <span class="kt">ESO</span><span class="err">"</span><span class="o">].</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"""La paciente es la mayor de 2 hermanos, tiene un hermano de 13 años estudiando 1o ESO. Sus padres son ambos ATS , trabajan en diferentes centros de salud estudiando 1o ESO"""</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
@@ -598,19 +604,21 @@ volume = {67},
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|                     | precision | recall | f1-score | support |
-|---------------------|-----------|--------|----------|---------|
-| B-ACTIVIDAD         | 0.82      | 0.36   | 0.50     | 25      |
-| B-PROFESION         | 0.87      | 0.75   | 0.81     | 634     |
-| B-SITUACION_LABORAL | 0.79      | 0.67   | 0.72     | 310     |
-| I-ACTIVIDAD         | 0.86      | 0.43   | 0.57     | 58      |
-| I-PROFESION         | 0.87      | 0.80   | 0.83     | 944     |
-| I-SITUACION_LABORAL | 0.74      | 0.71   | 0.73     | 407     |
-| O                   | 1.00      | 1.00   | 1.00     | 139880  |
-| accuracy            |           |        | 0.99     | 142258  |
-| macro avg           | 0.85      | 0.67   | 0.74     | 142258  |
-| weighted avg        | 0.99      | 0.99   | 0.99     | 142258  |
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label               precision recall f1-score support
+B-ACTIVIDAD         0.82      0.36   0.50     25     
+B-PROFESION         0.87      0.75   0.81     634    
+B-SITUACION_LABORAL 0.79      0.67   0.72     310    
+I-ACTIVIDAD         0.86      0.43   0.57     58     
+I-PROFESION         0.87      0.80   0.83     944    
+I-SITUACION_LABORAL 0.74      0.71   0.73     407    
+O                   1.00      1.00   1.00     139880 
+accuracy            -         -      0.99     142258 
+macro-avg           0.85      0.67   0.74     142258 
+weighted-avg        0.99      0.99   0.99     142258 
 </code></pre></div></div>
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTI4NDIwMTM0NF19
+-->
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-07-26T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>

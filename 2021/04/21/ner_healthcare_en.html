@@ -432,10 +432,12 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
 <span class="n">word_embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_healthcare"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
   <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+
 <span class="n">clinical_ner</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_healthcare"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
   <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
@@ -450,6 +452,7 @@
 <span class="k">val</span> <span class="nv">word_embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_healthcare"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+
 <span class="k">val</span> <span class="nv">ner</span> <span class="k">=</span> <span class="nv">NerDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_healthcare"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> 
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
@@ -457,7 +460,9 @@
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">word_embeddings</span><span class="o">,</span> <span class="n">ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
 
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="n">A</span> <span class="mi">28</span><span class="o">-</span><span class="n">year</span><span class="o">-</span><span class="n">old</span> <span class="n">female</span> <span class="k">with</span> <span class="n">a</span> <span class="n">history</span> <span class="n">of</span> <span class="n">gestational</span> <span class="n">diabetes</span> <span class="n">mellitus</span> <span class="n">diagnosed</span> <span class="n">eight</span> <span class="n">years</span> <span class="n">prior</span> <span class="n">to</span> <span class="n">presentation</span> <span class="n">and</span> <span class="n">subsequent</span> <span class="k">type</span> <span class="kt">two</span> <span class="kt">diabetes</span> <span class="kt">mellitus</span> <span class="o">(</span> <span class="kt">T2DM</span> <span class="o">),</span> <span class="n">one</span> <span class="n">prior</span> <span class="n">episode</span> <span class="n">of</span> <span class="nc">HTG</span><span class="o">-</span><span class="n">induced</span> <span class="n">pancreatitis</span> <span class="n">three</span> <span class="n">years</span> <span class="n">prior</span> <span class="n">to</span> <span class="n">presentation</span> <span class="o">,</span> <span class="n">associated</span> <span class="k">with</span> <span class="n">an</span> <span class="n">acute</span> <span class="n">hepatitis</span> <span class="o">,</span> <span class="n">and</span> <span class="n">obesity</span> <span class="k">with</span> <span class="n">a</span> <span class="n">body</span> <span class="n">mass</span> <span class="nf">index</span> <span class="o">(</span> <span class="nc">BMI</span> <span class="o">)</span> <span class="n">of</span> <span class="mf">33.5</span> <span class="n">kg</span><span class="o">/</span><span class="n">m2</span> <span class="o">,</span> <span class="n">presented</span> <span class="k">with</span> <span class="n">a</span> <span class="n">one</span><span class="o">-</span><span class="n">week</span> <span class="n">history</span> <span class="n">of</span> <span class="n">polyuria</span> <span class="o">,</span> <span class="n">polydipsia</span> <span class="o">,</span> <span class="n">poor</span> <span class="n">appetite</span> <span class="o">,</span> <span class="n">and</span> <span class="n">vomiting</span> <span class="o">.</span> <span class="nc">Two</span> <span class="n">weeks</span> <span class="n">prior</span> <span class="n">to</span> <span class="n">presentation</span> <span class="o">,</span> <span class="n">she</span> <span class="n">was</span> <span class="n">treated</span> <span class="k">with</span> <span class="n">a</span> <span class="n">five</span><span class="o">-</span><span class="n">day</span> <span class="n">course</span> <span class="n">of</span> <span class="n">amoxicillin</span> <span class="k">for</span> <span class="n">a</span> <span class="n">respiratory</span> <span class="n">tract</span> <span class="n">infection</span> <span class="o">.</span> <span class="nc">She</span> <span class="n">was</span> <span class="n">on</span> <span class="n">metformin</span> <span class="o">,</span> <span class="n">glipizide</span> <span class="o">,</span> <span class="n">and</span> <span class="n">dapagliflozin</span> <span class="k">for</span> <span class="n">T2DM</span> <span class="n">and</span> <span class="n">atorvastatin</span> <span class="n">and</span> <span class="n">gemfibrozil</span> <span class="k">for</span> <span class="nc">HTG</span> <span class="o">.).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
 
 </code></pre></div>  </div>
 </div>
@@ -473,6 +478,7 @@
 | 4 | T2DM                          | PROBLEM   |
 | 5 | atorvastatin                  | TREATMENT |
 | 6 | gemfibrozil                   | TREATMENT |
+
 
 </code></pre></div></div>
 
@@ -517,18 +523,19 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|    | label         |    tp |    fp |    fn |     prec |      rec |       f1 |
-|---:|:--------------|------:|------:|------:|---------:|---------:|---------:|
-|  0 | I-TREATMENT   |  6625 |  1187 |  1329 | 0.848054 | 0.832914 | 0.840416 |
-|  1 | I-PROBLEM     | 15142 |  1976 |  2542 | 0.884566 | 0.856254 | 0.87018  |
-|  2 | B-PROBLEM     | 11005 |  1065 |  1587 | 0.911765 | 0.873968 | 0.892466 |
-|  3 | I-TEST        |  6748 |   923 |  1264 | 0.879677 | 0.842237 | 0.86055  |
-|  4 | B-TEST        |  8196 |   942 |  1029 | 0.896914 | 0.888455 | 0.892665 |
-|  5 | B-TREATMENT   |  8271 |  1265 |  1073 | 0.867345 | 0.885167 | 0.876165 |
-|  6 | Macro-average | 55987 |  7358 |  8824 | 0.881387 | 0.863166 | 0.872181 |
-|  7 | Micro-average | 55987 |  7358 |  8824 | 0.883842 | 0.86385  | 0.873732 |
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label             tp    fp     fn      prec       rec        f1
+I-TREATMENT     6625  1187   1329  0.848054  0.832914  0.840416
+I-PROBLEM      15142  1976   2542  0.884566  0.856254  0.87018 
+B-PROBLEM      11005  1065   1587  0.911765  0.873968  0.892466
+I-TEST          6748   923   1264  0.879677  0.842237  0.86055 
+B-TEST          8196   942   1029  0.896914  0.888455  0.892665
+B-TREATMENT     8271  1265   1073  0.867345  0.885167  0.876165
+Macro-average  55987  7358   8824  0.881387  0.863166  0.872181
+Micro-average  55987  7358   8824  0.883842  0.86385   0.873732
 </code></pre></div></div>
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTU4Nzk3MDUzMl19
+-->
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-04-21T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>

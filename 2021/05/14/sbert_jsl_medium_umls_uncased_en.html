@@ -428,6 +428,7 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sbiobert_embeddings</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span>\
         <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbert_jsl_medium_umls_uncased"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinicalmodels"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
@@ -482,8 +483,13 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MedNLI Acc: 0.744, STS <span class="o">(</span>cos<span class="o">)</span>: 0.695
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MedNLI   Score
+Acc      0.744 
+STS<span class="o">(</span>cos<span class="o">)</span> 0.695
 </code></pre></div></div>
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbMjEzMTc1NjQ2MywxMDk0NTc3MjIxXX0=
+-->
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-05-14T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
