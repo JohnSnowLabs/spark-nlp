@@ -34,6 +34,7 @@ This pretrained model maps drug brand names to corresponding National Drug Codes
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
       .setInputCol("text")\
@@ -47,11 +48,11 @@ chunkerMapper = ChunkMapperModel.pretrained("drug_brandname_ndc_mapper", "en", "
 
 
 pipeline = Pipeline().setStages([
-                                 document_assembler,
-                                 chunkerMapper])  
+			document_assembler,
+			chunkerMapper])  
 
 
-model = pipeline.fit(spark.createDataFrame([[""]]).toDF('text')) 
+model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text")) 
 
 light_pipeline = LightPipeline(model)
 
@@ -70,8 +71,8 @@ val chunkerMapper = ChunkMapperModel.pretrained("drug_brandname_ndc_mapper", "en
 
 
 val pipeline = new Pipeline().setStages(Array(
-                                                                  document_assembler,
-				                                  chunkerMapper))
+				  document_assembler,
+				  chunkerMapper))
 
 val sample_data = Seq("zytiga", "zyvana", "ZYVOX", "ZYTIGA").toDS.toDF("text")
  
@@ -82,7 +83,7 @@ val result = pipeline.fit(sample_data).transform(sample_data)
 ## Results
 
 ```bash
-|    | Brandname   | Strenth_NDC              |
+|    | Brandname   | Strength_NDC             |
 |---:|:------------|:-------------------------|
 |  0 | zytiga      | 500 mg/1 | 57894-195     |
 |  1 | zyvana      | 527 mg/1 | 69336-405     |
