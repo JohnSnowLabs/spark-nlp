@@ -34,6 +34,7 @@ This pretrained model maps abbreviations and acronyms of medical regulatory acti
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
       .setInputCol("text")\
@@ -164,4 +165,4 @@ val result= pipeline.fit(data).transform(data)
 
 ## References
 
-References: https://www.johnsnowlabs.com/marketplace/list-of-abbreviations-and-acronyms-for-medical-regulatory-activities/
+https://www.johnsnowlabs.com/marketplace/list-of-abbreviations-and-acronyms-for-medical-regulatory-activities/
