@@ -36,6 +36,7 @@ It is trained on the [LivingNER](https://temu.bsc.es/livingner/) corpus that is 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -50,7 +51,7 @@ tokenizer = Tokenizer()\
     .setOutputCol("token")
 
 embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
-    .setInputCols(["sentence", "token"]) \
+    .setInputCols(["sentence", "token"])\
     .setOutputCol("embeddings")
 
 ner_model = MedicalNerModel.pretrained("ner_living_species_roberta", "es", "clinical/models")\
