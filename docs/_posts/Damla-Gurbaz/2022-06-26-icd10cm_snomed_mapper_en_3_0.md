@@ -4,7 +4,7 @@ title: Mapping ICD10-CM Codes with Their Corresponding SNOMED Codes
 author: John Snow Labs
 name: icd10cm_snomed_mapper
 date: 2022-06-26
-tags: [icd10, snomed, clinical, en, chunk_mapper, licensed]
+tags: [icd10cm, snomed, clinical, en, chunk_mapper, licensed]
 task: Chunk Mapping
 language: en
 edition: Spark NLP for Healthcare 3.5.3
@@ -34,6 +34,7 @@ This pretrained model maps ICD10-CM codes to corresponding SNOMED codes.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
       .setInputCol("text")\
