@@ -46,12 +46,12 @@ sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "
     .setInputCols(["document"])\
     .setOutputCol("sentence")
 
-tokenizer = Tokenizer() \
+tokenizer = Tokenizer()\
     .setInputCols(["sentence"])\
     .setOutputCol("token")
 
 embeddings = WordEmbeddingsModel.pretrained("embeddings_scielo_300d","es","clinical/models")\
-    .setInputCols(["sentence", "token"]) \
+    .setInputCols(["sentence", "token"])\
     .setOutputCol("embeddings")
 
 ner_model = MedicalNerModel.pretrained("ner_living_species_300", "es","clinical/models")\
