@@ -36,21 +36,22 @@ It is trained on the [LivingNER](https://temu.bsc.es/livingner/) corpus that is 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
 
-sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx") \
-    .setInputCols(["document"]) \
+sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
+    .setInputCols(["document"])\
     .setOutputCol("sentence")
 
 tokenizer = Tokenizer() \
     .setInputCols(["sentence"])\
     .setOutputCol("token")
 
-embeddings = BertEmbeddings.pretrained("bert_base_cased", "es") \
-    .setInputCols(["sentence", "token"]) \
+embeddings = BertEmbeddings.pretrained("bert_base_cased", "es")\
+    .setInputCols(["sentence", "token"])\
     .setOutputCol("embeddings")
 
 ner_model = MedicalNerModel.pretrained("ner_living_species_bert", "es","clinical/models")\
