@@ -51,7 +51,7 @@ sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_hea
     .setInputCols(["document"])\
     .setOutputCol("sentence")
 
-tokenizer = Tokenizer() \
+tokenizer = Tokenizer()\
     .setInputCols(["sentence"])\
     .setOutputCol("token")
 
@@ -116,7 +116,7 @@ val pipeline = new PipelineModel().setStages(Array(document_assembler,
 
 val data = Seq("""42-year-old woman with end-stage chronic kidney disease, secondary to lupus nephropathy, and on peritoneal dialysis. History of four episodes of bacterial peritonitis and change of Tenckhoff catheter six months prior to admission due to catheter dysfunction. Three peritoneal fluid samples during her hospitalisation tested positive for Fusarium spp. The patient responded favourably and continued outpatient treatment with voriconazole (4mg/kg every 12 hours orally). All three isolates were identified as species of the Fusarium solani complex. In vitro susceptibility to itraconazole, voriconazole and posaconazole, according to Clinical and Laboratory Standards Institute - CLSI (M38-A) methodology, showed a minimum inhibitory concentration (MIC) in all three isolates and for all three antifungals of >16 μg/mL.""").toDS.toDF("text")
 
-result = pipeline.fit(data).transform(data)
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 
