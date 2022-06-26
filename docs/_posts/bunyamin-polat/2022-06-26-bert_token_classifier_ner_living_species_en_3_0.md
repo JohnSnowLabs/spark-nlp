@@ -41,6 +41,7 @@ It is trained on the [LivingNER](https://temu.bsc.es/livingner/2022/05/03/multil
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
