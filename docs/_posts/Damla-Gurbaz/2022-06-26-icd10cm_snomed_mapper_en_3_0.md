@@ -84,7 +84,7 @@ val icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10
 val chunkerMapper = ChunkMapperModel.pretrained("icd10cm_snomed_mapper", "en","clinical/models")
       .setInputCols("icd10cm_code")
       .setOutputCol("mappings")
-      .setRels("snomed_code")
+      .setRels(Array("snomed_code"))
 
 
 val pipeline = new Pipeline(stages = Array(
