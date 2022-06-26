@@ -73,7 +73,7 @@ pipeline = Pipeline(stages=[
 
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-data = spark.createDataFrame([["""Lactante varón de dos años. Antecedentes familiares sin interés. Antecedentes personales: Embarazo, parto y periodo neonatal normal.En seguimiento por alergia a legumbres , diagnosticado con diez meses por reacción urticarial generalizada con lentejas y garbanzos ,con dieta de exclusión a legumbres desde entonces. La semana anterior a la consulta refiere reacción cutánea generalizada inmediata tras la ingesta de guisantes. En ésta visita la madre describe episodios de eritema en zona maxilar derecha con afectación ocular ipsilateral que se resuelve en horas tras la administración de corticoides. Le ha ocurrido en 5-6 ocasiones ,en relación con la ingesta de alimentos previamente tolerados. No refiere transgresiones dietéticas ni reacción accidental con legumbres. Exploración complementaria: Cacahuete ,ac(ige)19.2 Ku.arb/l; lentejas 39.6 Ku.arb/l. Guisante 49.3 Ku.arb/l; judia blanca 4.09 Ku.arb/l. Resultados: Ante la sospecha clínica de Síndrome de Frey, se tranquiliza a los padres , explicándoles la naturaleza del cuadro y se cita para revisión anual."""]]).toDF("text")
+data = spark.createDataFrame([["""Lactante varón de dos años. Antecedentes familiares sin interés. Antecedentes personales: Embarazo, parto y periodo neonatal normal. En seguimiento por alergia a legumbres, diagnosticado con diez meses por reacción urticarial generalizada con lentejas y garbanzos, con dieta de exclusión a legumbres desde entonces. En ésta visita la madre describe episodios de eritema en zona maxilar derecha con afectación ocular ipsilateral que se resuelve en horas tras la administración de corticoides. Le ha ocurrido en 5-6 ocasiones, en relación con la ingesta de alimentos previamente tolerados. Exploración complementaria: Cacahuete, ac(ige)19.2 Ku.arb/l. Resultados: Ante la sospecha clínica de Síndrome de Frey, se tranquiliza a los padres, explicándoles la naturaleza del cuadro y se cita para revisión anual."""]]).toDF("text")
 
 result = model.transform(data)
 ```
@@ -109,7 +109,7 @@ val pipeline = new PipelineModel().setStages(Array(document_assembler,
                                                    ner_model,
                                                    ner_converter))
 
-val data = Seq("""Lactante varón de dos años. Antecedentes familiares sin interés. Antecedentes personales: Embarazo, parto y periodo neonatal normal.En seguimiento por alergia a legumbres , diagnosticado con diez meses por reacción urticarial generalizada con lentejas y garbanzos ,con dieta de exclusión a legumbres desde entonces. La semana anterior a la consulta refiere reacción cutánea generalizada inmediata tras la ingesta de guisantes. En ésta visita la madre describe episodios de eritema en zona maxilar derecha con afectación ocular ipsilateral que se resuelve en horas tras la administración de corticoides. Le ha ocurrido en 5-6 ocasiones ,en relación con la ingesta de alimentos previamente tolerados. No refiere transgresiones dietéticas ni reacción accidental con legumbres. Exploración complementaria: Cacahuete ,ac(ige)19.2 Ku.arb/l; lentejas 39.6 Ku.arb/l. Guisante 49.3 Ku.arb/l; judia blanca 4.09 Ku.arb/l. Resultados: Ante la sospecha clínica de Síndrome de Frey, se tranquiliza a los padres , explicándoles la naturaleza del cuadro y se cita para revisión anual.""").toDS.toDF("text")
+val data = Seq("""Lactante varón de dos años. Antecedentes familiares sin interés. Antecedentes personales: Embarazo, parto y periodo neonatal normal. En seguimiento por alergia a legumbres, diagnosticado con diez meses por reacción urticarial generalizada con lentejas y garbanzos, con dieta de exclusión a legumbres desde entonces. En ésta visita la madre describe episodios de eritema en zona maxilar derecha con afectación ocular ipsilateral que se resuelve en horas tras la administración de corticoides. Le ha ocurrido en 5-6 ocasiones, en relación con la ingesta de alimentos previamente tolerados. Exploración complementaria: Cacahuete, ac(ige)19.2 Ku.arb/l. Resultados: Ante la sospecha clínica de Síndrome de Frey, se tranquiliza a los padres, explicándoles la naturaleza del cuadro y se cita para revisión anual.""").toDS.toDF("text")
 
 val result = model.fit(data).transform(data)
 ```
@@ -130,9 +130,7 @@ val result = model.fit(data).transform(data)
 |garbanzos     |SPECIES|
 |legumbres     |SPECIES|
 |madre         |HUMAN  |
-|legumbres     |SPECIES|
 |Cacahuete     |SPECIES|
-|lentejas      |SPECIES|
 |padres        |HUMAN  |
 +--------------+-------+
 ```
