@@ -38,6 +38,7 @@ This NER model is trained with a combination of custom datasets with several dat
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
         .setInputCol("text")\
@@ -56,10 +57,14 @@ embeddings = BertEmbeddings.pretrained("bert_base_cased", "ro")\
 	.setOutputCol("word_embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_bert", "ro", "clinical/models")\
-        .setInputCols(["sentence","token","word_embeddings"])\
-        .setOutputCol("ner")
+	.setInputCols(["sentence","token","word_embeddings"])\
+	.setOutputCol("ner")
 
-nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner])
+ner_converter = NerConverter()\
+	.setInputCols(["sentence", "token", "ner"])\
+	.setOutputCol("ner_chunk")
+    
+nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner, ner_converter])
 
 text = """
 Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România
@@ -69,7 +74,7 @@ Nume si Prenume : BUREAN MARIA, Varsta: 77
 Medic : Agota Evelyn Tımar
 C.N.P : 2450502264401"""
 
-df = spark.createDataFrame([[text]]).toDF("text")
+data = spark.createDataFrame([[text]]).toDF("text")
 
 results = nlpPipeline.fit(data).transform(data)
 ```
@@ -94,7 +99,11 @@ val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_bert", "ro", "
         .setInputCols(Array("sentence","token","word_embeddings"))
         .setOutputCol("ner")
 
-val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner))
+val ner_converter = new NerConverter()\
+	.setInputCols(Array("sentence", "token", "ner"))\
+	.setOutputCol("ner_chunk")
+	
+val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner, ner_converter))
 
 val text = """Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România
 Tel: +40(235)413773
