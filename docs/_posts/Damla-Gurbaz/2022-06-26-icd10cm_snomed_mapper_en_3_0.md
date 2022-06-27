@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This pretrained model maps ICD10-CM codes to corresponding SNOMED codes.
+This pretrained model maps ICD10-CM codes to corresponding SNOMED codes under the Unified Medical Language System (UMLS).
 
 ## Predicted Entities
 
@@ -122,6 +122,3 @@ val result= pipeline.fit(data).transform(data)
 |Language:|en|
 |Size:|1.1 MB|
 
-## References
-
-This pretrained model maps ICD10-CM codes to corresponding SNOMED codes under the Unified Medical Language System (UMLS).
