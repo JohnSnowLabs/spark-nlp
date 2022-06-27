@@ -22,13 +22,13 @@ This release focuses around Visual Document Classification models, native Image 
 
 #### New Features
 
-*VisualDocumentClassifierv2:
+* VisualDocumentClassifierv2:
   * New annotator for classifying documents based on multimodal(text + images) features.
   
-*VisualDocumentClassifierv3: 
+* VisualDocumentClassifierv3: 
   * New annotator for classifying documents based on image features.
  
-*ImageTransformer:
+* ImageTransformer:
   * New transformer that provides different image transformations on the JVM. Supported transforms are Scaling, Adaptive Thresholding, Median Blur, Dilation, Erosion, and Object Removal.
 
 
@@ -49,10 +49,10 @@ This release focuses around VisualDocumentNer models, adding ability to fine-tun
 
 #### New Features
 
-*VisualDocumentNerV21:
+* VisualDocumentNerV21:
   * Now you can fine tune models VisualDocumentNerV21 models on your own dataset.
   
-*AlabReaders: 
+* AlabReaders: 
   * New class to allow training data from the Annotation Lab to be imported into Spark OCR. Currently, the reader supports Visual Ner only.
 
 
