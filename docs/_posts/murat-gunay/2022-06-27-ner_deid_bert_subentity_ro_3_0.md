@@ -86,11 +86,11 @@ val tokenizer = new Tokenizer()
         .setInputCols(Array("sentence"))
         .setOutputCol("token")
 
-embeddings = BertEmbeddings.pretrained("bert_base_cased", "ro")
+val embeddings = BertEmbeddings.pretrained("bert_base_cased", "ro")
 	.setInputCols(Array("sentence","token"))
 	.setOutputCol("word_embeddings")
 
-clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_bert", "ro", "clinical/models")
+val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_bert", "ro", "clinical/models")
         .setInputCols(Array("sentence","token","word_embeddings"))
         .setOutputCol("ner")
 
