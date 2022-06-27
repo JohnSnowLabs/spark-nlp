@@ -99,8 +99,8 @@ val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_bert", "ro", "
         .setInputCols(Array("sentence","token","word_embeddings"))
         .setOutputCol("ner")
 
-val ner_converter = new NerConverter()\
-	.setInputCols(Array("sentence", "token", "ner"))\
+val ner_converter = new NerConverter()
+	.setInputCols(Array("sentence", "token", "ner"))
 	.setOutputCol("ner_chunk")
 	
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner, ner_converter))
