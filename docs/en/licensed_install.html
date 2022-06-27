@@ -1009,6 +1009,33 @@ spark = start(SECRET)
 <p>As you see, we did not set <code class="language-plaintext highlighter-rouge">.master('local[*]')</code> explicitly to let YARN manage the cluster.
 Or you can set <code class="language-plaintext highlighter-rouge">.master('yarn')</code>.</p>
 
+<h2 id="install-with-poetry">Install with Poetry</h2>
+
+<p>This is a sample <code class="language-plaintext highlighter-rouge">project.toml</code> file which you can use with <code class="language-plaintext highlighter-rouge">poetry install</code> to setup spark NLP + the Healthcare python library <code class="language-plaintext highlighter-rouge">spark-nlp-jsl</code></p>
+
+<p>You need to point it to either the <code class="language-plaintext highlighter-rouge">tar.gz</code> or <code class="language-plaintext highlighter-rouge">.whl</code> file which are hosted at
+<code class="language-plaintext highlighter-rouge">https://pypi.johnsnowlabs.com/&lt;SECRET&gt;/spark-nlp-jsl/</code></p>
+
+<p><strong>NOTE</strong> You must update the <code class="language-plaintext highlighter-rouge">url</code> whenever you are <code class="language-plaintext highlighter-rouge">upgrading</code> your spark-nlp-jsl version</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>tool.poetry]
+name <span class="o">=</span> <span class="s2">"poertry_demo"</span>
+version <span class="o">=</span> <span class="s2">"0.1.0"</span>
+description <span class="o">=</span> <span class="s2">""</span>
+authors <span class="o">=</span> <span class="o">[</span><span class="s2">"person &lt;person@gmail.com&gt;"</span><span class="o">]</span>
+
+<span class="o">[</span>tool.poetry.dependencies]
+python <span class="o">=</span> <span class="s2">"^3.7"</span>
+
+<span class="o">[</span>tool.poetry.dev-dependencies]
+spark-nlp <span class="o">=</span> <span class="s2">"3.4.4"</span>
+spark-nlp-jsl <span class="o">=</span> <span class="o">{</span> url <span class="o">=</span> <span class="s2">"https://pypi.johnsnowlabs.com/SECRET/spark-nlp-jsl/spark_nlp_jsl-tar.gz_OR_.whl"</span> <span class="o">}</span>
+
+<span class="o">[</span>build-system]
+requires <span class="o">=</span> <span class="o">[</span><span class="s2">"poetry-core&gt;=1.0.0"</span><span class="o">]</span>
+build-backend <span class="o">=</span> <span class="s2">"poetry.core.masonry.api"</span>
+</code></pre></div></div>
+
 <h2 id="spark-nlp-for-healthcare-in-aws-emr">Spark-NLP for Healthcare in AWS EMR</h2>
 
 <p>In this page we explain how to setup Spark-NLP + Spark-NLP Healthcare in AWS EMR, using the AWS console.</p>

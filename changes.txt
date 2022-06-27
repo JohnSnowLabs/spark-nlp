@@ -1,2 +1,2 @@
-docs/_config.yml
-docs/_config.yml
+docs/en/licensed_install.md
+docs/en/licensed_install.md
