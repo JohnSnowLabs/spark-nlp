@@ -34,6 +34,7 @@ This pretrained model maps SNOMED codes to corresponding UMLS codes under the Un
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
       .setInputCol("text")\
@@ -87,7 +88,7 @@ val documentAssembler = new DocumentAssembler()
        .setDistanceFunction("EUCLIDEAN")
 
  val chunkerMapper = ChunkMapperModel
-       .pretrained("mesh_umls_mapper", "en", "clinical/models")
+       .pretrained("snomed_umls_mapper", "en", "clinical/models")
        .setInputCols("snomed_code")
        .setOutputCol("umls_mappings")
        .setRels(Array("umls_code"))
