@@ -56,7 +56,7 @@ model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 light_pipeline = LightPipeline(model)
 
-result = light_pipeline.fullAnnotate(["zytiga", "zyvana", "ZYVOX", "ZYTIGA"])
+result = light_pipeline.fullAnnotate(["zytiga", "zyvana", "ZYVOX"])
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
@@ -74,7 +74,7 @@ val pipeline = new Pipeline().setStages(Array(
 				  document_assembler,
 				  chunkerMapper))
 
-val sample_data = Seq("zytiga", "zyvana", "ZYVOX", "ZYTIGA").toDS.toDF("text")
+val sample_data = Seq("zytiga", "zyvana", "ZYVOX").toDS.toDF("text")
  
 val result = pipeline.fit(sample_data).transform(sample_data)
 ```
@@ -88,7 +88,6 @@ val result = pipeline.fit(sample_data).transform(sample_data)
 |  0 | zytiga      | 500 mg/1 | 57894-195     |
 |  1 | zyvana      | 527 mg/1 | 69336-405     |
 |  2 | ZYVOX       | 600 mg/300mL | 0009-4992 |
-|  3 | ZYTIGA      | 500 mg/1 | 57894-195     |
 ```
 
 {:.model-param}
