@@ -68,7 +68,7 @@ model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 light_pipeline = LightPipeline(model)
 
-result = light_pipeline.annotate(['doxycycline hyclate 50 MG Oral Tablet', 'macadamia nut 100 MG/ML'])
+result = light_pipeline.annotate(["doxycycline hyclate 50 MG Oral Tablet", "macadamia nut 100 MG/ML"])
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
@@ -99,7 +99,7 @@ val documentAssembler = new DocumentAssembler()
                                 chunkerMapper
                                 ))
  
- val data = Seq(Array('doxycycline hyclate 50 MG Oral Tablet', 'macadamia nut 100 MG/ML')).toDS.toDF("text")
+ val data = Seq(Array("doxycycline hyclate 50 MG Oral Tablet", "macadamia nut 100 MG/ML")).toDS.toDF("text")
 
  val result= pipeline.fit(data).transform(data)
 ```
