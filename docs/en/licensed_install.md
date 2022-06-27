@@ -278,7 +278,68 @@ The precedence for that location is the highest, so make sure that file is not c
         - Install New -> Jar -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${version}.jar`
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
+## Windows Support
 
+In order to fully take advantage of Spark NLP on Windows (8 or 10), you need to setup/install Apache Spark, Apache Hadoop, Java and a Pyton environment correctly by following the following instructions: [https://github.com/JohnSnowLabs/spark-nlp/discussions/1022](https://github.com/JohnSnowLabs/spark-nlp/discussions/1022)
+
+
+### How to correctly install Spark NLP on Windows
+
+Follow the below steps to set up Spark NLP with Spark 3.1.2:
+
+  1. Download [Adopt OpenJDK 1.8](https://adoptopenjdk.net/?variant=openjdk8&jvmVariant=hotspot)
+     - Make sure it is 64-bit
+     - Make sure you install it in the root of your main drive `C:\java`.
+     - During installation after changing the path, select setting Path
+
+  2. Download the pre-compiled Hadoop binaries `winutils.exe`, `hadoop.dll` and put it in a folder called `C:\hadoop\bin` from [https://github.com/cdarlint/winutils/tree/master/hadoop-3.2.0/bin](https://github.com/cdarlint/winutils/tree/master/hadoop-3.2.0/bin)
+     - **Note:** The version above is for Spark 3.1.2, which was built for Hadoop 3.2.0. You might have to change the hadoop version in the link, depending on which Spark version you are using.
+
+  3. Download [Apache Spark 3.1.2](https://www.apache.org/dyn/closer.lua/spark/spark-3.1.2/spark-3.1.2-bin-hadoop3.2.tgz) and extract it to `C:\spark`.
+
+  4. Set/add environment variables for `HADOOP_HOME` to `C:\hadoop` and `SPARK_HOME` to `C:\spark`.
+
+  5. Add `%HADOOP_HOME%\bin` and `%SPARK_HOME%\bin` to the `PATH` environment variable.
+
+  6. Install [Microsoft Visual C++ 2010 Redistributed Package (x64)](https://www.microsoft.com/en-us/download/details.aspx?id=26999).
+
+  7. Create folders `C:\tmp` and `C:\tmp\hive`
+     - If you encounter issues with permissions to these folders, you might need
+       to change the permissions by running the following commands:
+       ```
+       %HADOOP_HOME%\bin\winutils.exe chmod 777 /tmp/hive
+       %HADOOP_HOME%\bin\winutils.exe chmod 777 /tmp/
+       ```
+
+#### Requisites for PySpark
+
+We recommend using `conda` to manage your Python environment on Windows.
+
+- Download [Miniconda for Python 3.8](https://repo.anaconda.com/miniconda/Miniconda3-py38_4.11.0-Windows-x86_64.exe)
+- See [Quick Install](#quick-install) on how to set up a conda environment with
+  Spark NLP.
+- The following environment variables need to be set:
+  - `PYSPARK_PYTHON=python`
+  - Optionally, if you want to use the Jupyter Notebook runtime of Spark:
+    - first install it in the environment with `conda install notebook`
+    - then set `PYSPARK_DRIVER_PYTHON=jupyter`, `PYSPARK_DRIVER_PYTHON_OPTS=notebook`
+  - The environment variables can either be directly set in windows, or if only
+    the conda env will be used, with `conda env config vars set PYSPARK_PYTHON=python`.
+    After setting the variable with conda, you need to deactivate and re-activate
+    the environment.
+
+Now you can use the downloaded binary by navigating to `%SPARK_HOME%\bin` and
+running
+
+Either create a conda env for python 3.6, install *pyspark==3.1.2 spark-nlp numpy* and use Jupyter/python console, or in the same conda env you can go to spark bin for *pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.4.4*.
+
+<img class="image image--xl" src="/assets/images/installation/90126972-c03e5500-dd64-11ea-8285-e4f76aa9e543.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+<img class="image image--xl" src="/assets/images/installation/90127225-21662880-dd65-11ea-8b98-3a2c26cfa534.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+<img class="image image--xl" src="/assets/images/installation/90127243-2925cd00-dd65-11ea-9b20-ba3353473a98.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+<img class="image image--xl" src="/assets/images/installation/90126972-c03e5500-dd64-11ea-8285-e4f76aa9e543.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 ## Use on Google Colab
 
