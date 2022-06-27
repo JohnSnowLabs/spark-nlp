@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 Named Entity Recognition annotators allow for a generic model to be trained by using a Deep Learning architecture (Char CNNs - BiLSTM - CRF - word embeddings) inspired on a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM,CNN.
 
-Deidentification NER (Romanian) is a Named Entity Recognition model that annotates text to find protected health information that may need to be de-identified. It detects 17 entities.
+Deidentification NER (Romanian) is a Named Entity Recognition model that annotates text to find protected health information that may need to be de-identified. It is trained with `bert_base_cased` embeddings and can detect 17 entities.
 
 This NER model is trained with a combination of custom datasets with several data augmentation mechanisms.
 
@@ -96,14 +96,14 @@ val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_bert", "ro", "
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner))
 
-val text = "Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România
+val text = """Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România
 Tel: +40(235)413773
 Data setului de analize: 25 May 2022 15:36:00
 Nume si Prenume : BUREAN MARIA, Varsta: 77
 Medic : Agota Evelyn Tımar
-C.N.P : 2450502264401"
+C.N.P : 2450502264401"""
 
-val df = Seq(text).toDF("text")
+val data = Seq(text).toDS.toDF("text")
 
 val results = pipeline.fit(data).transform(data)
 ```
@@ -150,8 +150,7 @@ val results = pipeline.fit(data).transform(data)
 ## Benchmarking
 
 ```bash
-                precision    recall  f1-score   support
-
+         label  precision    recall  f1-score   support
            AGE       0.98      0.95      0.96      1186
           CITY       0.94      0.87      0.90       299
        COUNTRY       0.90      0.73      0.81       108
@@ -169,7 +168,6 @@ LOCATION-OTHER       1.00      0.85      0.92        13
     PROFESSION       0.85      0.82      0.83       161
         STREET       0.96      0.94      0.95       173
            ZIP       0.99      0.98      0.99       138
-
      micro-avg       0.95      0.93      0.94     11513
      macro-avg       0.95      0.89      0.91     11513
   weighted-avg       0.95      0.93      0.94     11513
