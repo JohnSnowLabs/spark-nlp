@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Icelandic NER Pipeline- Spark NLP Model</title><meta name="description" content="DescriptionThis pretrained pipeline is built on the top of roberta_token_classifier_icelandic_ner model.Predicted EntitiesLive DemoOpen in ColabDownloadHow t...">
-<link rel="canonical" href="/2022/06/25/roberta_token_classifier_icelandic_ner_pipeline_is_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>English LongformerForQuestionAnswering model (from Nomi97)- Spark NLP Model</title><meta name="description" content="DescriptionPretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. Chatbo...">
+<link rel="canonical" href="/2022/06/26/longformer_qa_Chatbot_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,23 +406,21 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/ahmedlone127/2022-06-25-roberta_token_classifier_icelandic_ner_pipeline_is_3_0.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/murat-gunay/2022-06-26-longformer_qa_Chatbot_en_3_0.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jun 25, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-25T00:00:00+00:00"></div><header class="main-docs"><h1>Icelandic NER Pipeline</h1></header></div><meta itemprop="headline" content="Icelandic NER Pipeline"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>open_source</li><li>ner</li><li>token_classifier</li><li>roberta</li><li>icelandic</li><li>is</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-25T00:00:00+00:00">
-    <meta itemprop="keywords" content="open_source,ner,token_classifier,roberta,icelandic,is"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jun 26, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-26T00:00:00+00:00"></div><header class="main-docs"><h1>English LongformerForQuestionAnswering model (from Nomi97)</h1></header></div><meta itemprop="headline" content="English LongformerForQuestionAnswering model (from Nomi97)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>open_source</li><li>longformer</li><li>question_answering</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-26T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,open_source,longformer,question_answering"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This pretrained pipeline is built on the top of <a href="https://nlp.johnsnowlabs.com/2021/12/06/roberta_token_classifier_icelandic_ner_is.html">roberta_token_classifier_icelandic_ner</a> model.</p>
-
-<h2 id="predicted-entities">Predicted Entities</h2>
+<p>Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. <code class="language-plaintext highlighter-rouge">Chatbot_QA</code> is a English model originally trained by <code class="language-plaintext highlighter-rouge">Nomi97</code>.</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_token_classifier_icelandic_ner_pipeline_is_4.0.0_3.0_1656122302435.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/longformer_qa_Chatbot_en_4.0.0_3.0_1656255131812.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -430,31 +428,37 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"roberta_token_classifier_icelandic_ner_pipeline"</span><span class="p">,</span> <span class="n">lang</span> <span class="o">=</span> <span class="s">"is"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">MultiDocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span>
 
-<span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Ég heiti Peter Fergusson. Ég hef búið í New York síðan í október 2011 og unnið hjá Tesla Motor og þénað 100K $ á ári."</span><span class="p">)</span>
+<span class="n">spanClassifier</span> <span class="o">=</span> <span class="n">LongformerForQuestionAnswering</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"longformer_qa_Chatbot"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">spanClassifier</span><span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"What is my name?"</span><span class="p">,</span> <span class="s">"My name is Clara and I live in Berkeley."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"roberta_token_classifier_icelandic_ner_pipeline"</span><span class="o">,</span> <span class="n">lang</span> <span class="k">=</span> <span class="s">"is"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MultiDocumentAssembler</span><span class="o">()</span> 
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"question"</span><span class="o">,</span> <span class="s">"context"</span><span class="o">))</span> 
+      <span class="o">.</span><span class="py">setOutputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document_question"</span><span class="o">,</span> <span class="s">"document_context"</span><span class="o">))</span>
+ 
+<span class="k">val</span> <span class="nv">spanClassifer</span> <span class="k">=</span> <span class="nv">LongformerForQuestionAnswering</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"longformer_qa_Chatbot"</span><span class="o">,</span><span class="s">"en"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
 
-<span class="nv">pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"Ég heiti Peter Fergusson. Ég hef búið í New York síðan í október 2011 og unnið hjá Tesla Motor og þénað 100K $ á ári."</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">spanClassifier</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"What is my name?"</span><span class="o">,</span> <span class="s">"My name is Clara and I live in Berkeley."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"question"</span><span class="o">,</span> <span class="s">"context"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
-
-<h2 id="results">Results</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-+----------------+------------+
-|chunk           |ner_label   |
-+----------------+------------+
-|Peter Fergusson |Person      |
-|New York        |Location    |
-|október 2011    |Date        |
-|Tesla Motor     |Organization|
-|100K <span class="nv">$ </span>         |Money       |
-+----------------+------------+
-</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -462,11 +466,7 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>roberta_token_classifier_icelandic_ner_pipeline</td>
-    </tr>
-    <tr>
-      <td>Type:</td>
-      <td>pipeline</td>
+      <td>longformer_qa_Chatbot</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
@@ -481,27 +481,38 @@
       <td>Official</td>
     </tr>
     <tr>
+      <td>Input Labels:</td>
+      <td>[document_question, document_context]</td>
+    </tr>
+    <tr>
+      <td>Output Labels:</td>
+      <td>[answer]</td>
+    </tr>
+    <tr>
       <td>Language:</td>
-      <td>is</td>
+      <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>457.5 MB</td>
+      <td>546.0 MB</td>
+    </tr>
+    <tr>
+      <td>Case sensitive:</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>Max sentence length:</td>
+      <td>512</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="included-models">Included Models</h2>
+<h2 id="references">References</h2>
 
 <ul>
-  <li>DocumentAssembler</li>
-  <li>SentenceDetectorDLModel</li>
-  <li>TokenizerModel</li>
-  <li>RoBertaForTokenClassification</li>
-  <li>NerConverter</li>
-  <li>Finisher</li>
+  <li>https://huggingface.co/Nomi97/Chatbot_QA</li>
 </ul>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-06-25T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-06-26T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -626,7 +637,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/06/25/roberta_token_classifier_bne_capitel_ner_pipeline_es_3_0.html">Spanish NER Pipeline</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/06/26/longformer_qa_Chatbot_en_3_0.html">English LongformerForQuestionAnswering model (from Nomi97)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/06/25/roberta_token_classifier_icelandic_ner_pipeline_is_3_0.html">Icelandic NER Pipeline</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/06/26/longformer_qa_base_4096_finetuned_squadv2_en_3_0.html">English LongformerForQuestionAnswering model (from mrm8488)</a></div></div></div>
 
 </div>
 </div>
