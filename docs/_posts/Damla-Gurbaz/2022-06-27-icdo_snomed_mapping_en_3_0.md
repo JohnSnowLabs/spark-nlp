@@ -30,19 +30,20 @@ This pretrained pipeline is built on the top of `icdo_snomed_mapper` model.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from sparknlp.pretrained import PretrainedPipeline
 
 pipeline= PretrainedPipeline("icdo_snomed_mapping", "en", "clinical/models")
 
-result= pipeline.fullAnnotate('C49.9 C77.5 C76.7')
+result= pipeline.fullAnnotate("C49.9 C77.5 C76.7")
 ```
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
 val pipeline= new PretrainedPipeline("icdo_snomed_mapping", "en", "clinical/models")
 
-val result= pipeline.fullAnnotate('C49.9 C77.5 C76.7')
+val result= pipeline.fullAnnotate("C49.9 C77.5 C76.7")
 ```
 </div>
 
