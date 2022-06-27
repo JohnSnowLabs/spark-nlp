@@ -2,7 +2,7 @@
 layout: model
 title: Detect PHI for Deidentification in Romanian (BERT)
 author: John Snow Labs
-name: ner_deid_bert_subentity
+name: ner_deid_subentity_bert
 date: 2022-06-27
 tags: [deidentification, bert, phi, ner, ro, licensed]
 task: Named Entity Recognition
@@ -30,7 +30,7 @@ This NER model is trained with a combination of custom datasets with several dat
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_bert_subentity_ro_4.0.0_3.0_1656311815383.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_subentity_bert_ro_4.0.0_3.0_1656311815383.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -55,7 +55,7 @@ embeddings = BertEmbeddings.pretrained("bert_base_cased", "ro")\
 	.setInputCols(["sentence","token"])\
 	.setOutputCol("word_embeddings")
 
-clinical_ner = MedicalNerModel.pretrained("ner_deid_bert_subentity", "ro", "clinical/models")\
+clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_bert", "ro", "clinical/models")\
         .setInputCols(["sentence","token","word_embeddings"])\
         .setOutputCol("ner")
 
@@ -90,7 +90,7 @@ embeddings = BertEmbeddings.pretrained("bert_base_cased", "ro")
 	.setInputCols(Array("sentence","token"))
 	.setOutputCol("word_embeddings")
 
-clinical_ner = MedicalNerModel.pretrained("ner_deid_bert_subentity", "ro", "clinical/models")
+clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_bert", "ro", "clinical/models")
         .setInputCols(Array("sentence","token","word_embeddings"))
         .setOutputCol("ner")
 
@@ -133,7 +133,7 @@ val results = pipeline.fit(data).transform(data)
 
 {:.table-model}
 |---|---|
-|Model Name:|ner_deid_bert_subentity|
+|Model Name:|ner_deid_subentity_bert|
 |Compatibility:|Spark NLP for Healthcare 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
