@@ -78,7 +78,7 @@ val documentAssembler = new DocumentAssembler()
          .setInputCol("text")
          .setOutputCol("document")
 
-val sentenceDetector = SentenceDetector()
+val sentenceDetector = new SentenceDetector()
          .setInputCols(Array("document"))
          .setOutputCol("sentence")
 
@@ -86,11 +86,11 @@ val tokenizer = new Tokenizer()
          .setInputCols(Array("sentence"))
          .setOutputCol("token")
 
-embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","ro")
- 	.setInputCols(Array("sentence","token"))
- 	.setOutputCol("word_embeddings")
+val embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","ro")
+ 	       .setInputCols(Array("sentence","token"))
+ 	       .setOutputCol("word_embeddings")
 
-clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity", "ro", "clinical/models")
+val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity", "ro", "clinical/models")
          .setInputCols(Array("sentence","token","word_embeddings"))
          .setOutputCol("ner")
 
