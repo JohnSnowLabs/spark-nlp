@@ -34,6 +34,7 @@ This pretrained model maps entities with their corresponding RxNorm codes.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol('text')\
@@ -84,36 +85,36 @@ mapper_model = mapper_pipeline.fit(test_data)
 res= mapper_model.transform(test_data)
 ```
 ```scala
-val document_assembler = new DocumentAssembler()\
-      .setInputCol("text")\
+val document_assembler = new DocumentAssembler()
+      .setInputCol("text")
       .setOutputCol("document")
 
-val sentence_detector = new SentenceDetector()\
-      .setInputCols(Array("document"))\
+val sentence_detector = new SentenceDetector()
+      .setInputCols(Array("document"))
       .setOutputCol("sentence")
 
-val tokenizer = new Tokenizer()\
-      .setInputCols("sentence")\
+val tokenizer = new Tokenizer()
+      .setInputCols("sentence")
       .setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel
-      .pretrained("embeddings_clinical", "en", "clinical/models")\
-      .setInputCols(Array("sentence", "token"))\
+      .pretrained("embeddings_clinical", "en", "clinical/models")
+      .setInputCols(Array("sentence", "token"))
       .setOutputCol("embeddings")
 
 val posology_ner_model = MedicalNerModel
-      .pretrained("ner_posology_greedy", "en", "clinical/models")\
-      .setInputCols(Array("sentence", "token", "embeddings"))\
+      .pretrained("ner_posology_greedy", "en", "clinical/models")
+      .setInputCols(Array("sentence", "token", "embeddings"))
       .setOutputCol("posology_ner")
 
-val posology_ner_converter = new NerConverterInternal()\
-      .setInputCols("sentence", "token", "posology_ner")\
+val posology_ner_converter = new NerConverterInternal()
+      .setInputCols("sentence", "token", "posology_ner")
       .setOutputCol("ner_chunk")
 
 val chunkerMapper = ChunkMapperModel
-      .pretrained("rxnorm_mapper", "en", "clinical/models")\
-      .setInputCols(Array("ner_chunk"))\
-      .setOutputCol("mappings")\
+      .pretrained("rxnorm_mapper", "en", "clinical/models")
+      .setInputCols(Array("ner_chunk"))
+      .setOutputCol("mappings")
       .setRels(Array("rxnorm_code")) 
 
 val mapper_pipeline = new Pipeline().setStages(Array(
