@@ -38,6 +38,7 @@ This NER model is trained with a combination of custom datasets with several dat
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
          .setInputCol("text")\
@@ -52,12 +53,12 @@ tokenizer = Tokenizer()\
          .setOutputCol("token")
 
 embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","ro")\
- 	.setInputCols(["sentence","token"])\
- 	.setOutputCol("word_embeddings")
+        .setInputCols(["sentence","token"])\
+        .setOutputCol("word_embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity", "ro", "clinical/models")\
-         .setInputCols(["sentence","token","word_embeddings"])\
-         .setOutputCol("ner")
+        .setInputCols(["sentence","token","word_embeddings"])\
+        .setOutputCol("ner")
 
 nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner])
 
@@ -69,7 +70,7 @@ nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, e
  Medic : Agota Evelyn Tımar
  C.N.P : 2450502264401"""
 
- df = spark.createDataFrame([[text]]).toDF("text")
+ data = spark.createDataFrame([[text]]).toDF("text")
 
  results = nlpPipeline.fit(data).transform(data)
 ```
@@ -96,14 +97,14 @@ val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity", "ro", "clini
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner))
 
-val text = "Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România
+val text = """Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România
 Tel: +40(235)413773
 Data setului de analize: 25 May 2022 15:36:00
 Nume si Prenume : BUREAN MARIA, Varsta: 77
 Medic : Agota Evelyn Tımar
-C.N.P : 2450502264401"
+C.N.P : 2450502264401"""
 
-val df = Seq(text).toDF("text")
+val data = Seq(text).toDS.toDF("text")
 
 val results = pipeline.fit(data).transform(data)
 ```
@@ -150,8 +151,7 @@ val results = pipeline.fit(data).transform(data)
 ## Benchmarking
 
 ```bash
-                precision    recall  f1-score   support
-
+         label  precision    recall  f1-score   support
            AGE       0.96      0.99      0.97      1235
           CITY       0.97      0.95      0.96       307
        COUNTRY       0.92      0.74      0.82       115
@@ -169,7 +169,6 @@ LOCATION-OTHER       1.00      0.85      0.92        13
     PROFESSION       0.87      0.80      0.83       173
         STREET       0.99      0.99      0.99       174
            ZIP       0.99      0.97      0.98       140
-
      micro-avg       0.92      0.91      0.92     12255
      macro-avg       0.91      0.89      0.90     12255
   weighted-avg       0.93      0.91      0.92     12255
