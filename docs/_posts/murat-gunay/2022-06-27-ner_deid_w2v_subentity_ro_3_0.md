@@ -41,16 +41,16 @@ This NER model is trained with a combination of custom datasets with several dat
 
 ```python
 documentAssembler = DocumentAssembler()\
-         .setInputCol("text")\
-         .setOutputCol("document")
+        .setInputCol("text")\
+        .setOutputCol("document")
          
 sentenceDetector = SentenceDetector()\
-         .setInputCols(["document"])\
-         .setOutputCol("sentence")
+        .setInputCols(["document"])\
+        .setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-         .setInputCols(["sentence"])\
-         .setOutputCol("token")
+        .setInputCols(["sentence"])\
+        .setOutputCol("token")
 
 embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","ro")\
         .setInputCols(["sentence","token"])\
@@ -60,42 +60,50 @@ clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity", "ro", "clinical/
         .setInputCols(["sentence","token","word_embeddings"])\
         .setOutputCol("ner")
 
-nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner])
+ner_converter = NerConverter()\
+        .setInputCols(["sentence", "token", "ner"])\
+        .setOutputCol("ner_chunk")
+        
+nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner, ner_converter])
 
- text = """
- Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România
- Tel: +40(235)413773
- Data setului de analize: 25 May 2022 15:36:00
- Nume si Prenume : BUREAN MARIA, Varsta: 77
- Medic : Agota Evelyn Tımar
- C.N.P : 2450502264401"""
+text = """
+Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România
+Tel: +40(235)413773
+Data setului de analize: 25 May 2022 15:36:00
+Nume si Prenume : BUREAN MARIA, Varsta: 77
+Medic : Agota Evelyn Tımar
+C.N.P : 2450502264401"""
 
- data = spark.createDataFrame([[text]]).toDF("text")
+data = spark.createDataFrame([[text]]).toDF("text")
 
- results = nlpPipeline.fit(data).transform(data)
+results = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-         .setInputCol("text")
-         .setOutputCol("document")
+        .setInputCol("text")
+        .setOutputCol("document")
 
 val sentenceDetector = new SentenceDetector()
-         .setInputCols(Array("document"))
-         .setOutputCol("sentence")
+        .setInputCols(Array("document"))
+        .setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-         .setInputCols(Array("sentence"))
-         .setOutputCol("token")
+        .setInputCols(Array("sentence"))
+        .setOutputCol("token")
 
 val embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","ro")
- 	       .setInputCols(Array("sentence","token"))
- 	       .setOutputCol("word_embeddings")
+        .setInputCols(Array("sentence","token"))
+        .setOutputCol("word_embeddings")
 
 val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity", "ro", "clinical/models")
-         .setInputCols(Array("sentence","token","word_embeddings"))
-         .setOutputCol("ner")
+        .setInputCols(Array("sentence","token","word_embeddings"))
+        .setOutputCol("ner")
 
-val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner))
+val ner_converter = new NerConverter()
+        .setInputCols(Array("sentence", "token", "ner"))
+        .setOutputCol("ner_chunk")
+  
+val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner, ner_converter))
 
 val text = """Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România
 Tel: +40(235)413773
