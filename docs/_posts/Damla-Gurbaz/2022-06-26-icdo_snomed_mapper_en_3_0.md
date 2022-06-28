@@ -34,6 +34,7 @@ This pretrained model maps ICDO codes to corresponding SNOMED codes.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
       .setInputCol("text")\
@@ -45,12 +46,12 @@ sbert_embedder = BertSentenceEmbeddings\
      .setOutputCol("sbert_embeddings")
  
 icdo_resolver = SentenceEntityResolverModel\
-     .pretrained("sbiobertresolve_icdo", "en", "clinical/models")\
+     .pretrained("sbiobertresolve_icdo_augmented", "en", "clinical/models")\
      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
      .setOutputCol("icdo_code")\
      .setDistanceFunction("EUCLIDEAN")
 
-chunkerMapper = ChunkMapperModel
+chunkerMapper = ChunkMapperModel\
       .pretrained("icdo_snomed_mapper", "en", "clinical/models")\
       .setInputCols(["icdo_code"])\
       .setOutputCol("snomed_mappings")\
@@ -68,7 +69,7 @@ model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 light_pipeline= LightPipeline(model)
 
-result = light_pipeline.fullAnnotate("Neoplasm, benign")
+result = light_pipeline.fullAnnotate("Hepatocellular Carcinoma")
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
@@ -81,7 +82,7 @@ val documentAssembler = new DocumentAssembler()
        .setOutputCol("sbert_embeddings")
 
  val icdo_resolver = SentenceEntityResolverModel
-       .pretrained("sbiobertresolve_icdo", "en", "clinical/models")
+       .pretrained("sbiobertresolve_icdo_augmented", "en", "clinical/models")
        .setInputCols(Array("ner_chunk", "sbert_embeddings"))
        .setOutputCol("icdo_code")
        .setDistanceFunction("EUCLIDEAN")
@@ -99,7 +100,7 @@ val documentAssembler = new DocumentAssembler()
                                 chunkerMapper
                                 ))
  
- val data = Seq("Neoplasm, benign").toDS.toDF("text")
+ val data = Seq("Hepatocellular Carcinoma").toDS.toDF("text")
 
  val result= pipeline.fit(data).transform(data)
 ```
@@ -108,9 +109,9 @@ val documentAssembler = new DocumentAssembler()
 ## Results
 
 ```bash
-|    | ner_chunk        | icdo_code   |   snomed_mappings |
-|---:|:-----------------|:------------|------------------:|
-|  0 | Neoplasm, benign | 8000/0      |           3898006 |
+|    | ner_chunk                | icdo_code   |   snomed_mappings |
+|---:|:-------------------------|:------------|------------------:|
+|  0 | Hepatocellular Carcinoma | 8170/3      |          25370001 |
 ```
 
 {:.model-param}
