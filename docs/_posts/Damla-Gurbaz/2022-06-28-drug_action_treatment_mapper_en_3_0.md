@@ -34,6 +34,7 @@ This pretrained model maps drugs with their corresponding action and treatment. 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
       .setInputCol('text')\
@@ -62,16 +63,16 @@ ner_converter = NerConverter()\
       .setWhiteList(["DRUG"])
 
 chunkerMapper_action = ChunkMapperModel.pretrained("drug_action_treatment_mapper", "en", "clinical/models")\
-    .setInputCols(["ner_chunk"])\
-    .setOutputCol("action_mappings")\
-    .setRels(["action"])\
-    .setLowerCase(True)
+      .setInputCols(["ner_chunk"])\
+      .setOutputCol("action_mappings")\
+      .setRels(["action"])\
+      .setLowerCase(True)
 
 chunkerMapper_treatment = ChunkMapperModel.pretrained("drug_action_treatment_mapper", , "en", "clinical/models")\
-    .setInputCols(["ner_chunk"])\
-    .setOutputCol("treatment_mappings")\
-    .setRels(["treatment"])\
-    .setLowerCase(True)
+      .setInputCols(["ner_chunk"])\
+      .setOutputCol("treatment_mappings")\
+      .setRels(["treatment"])\
+      .setLowerCase(True)
 
 
 pipeline = Pipeline().setStages([document_assembler,
@@ -120,16 +121,16 @@ val ner_converter = new NerConverter()
       .setWhiteList(Array("DRUG"))
 
 val chunkerMapper_action = ChunkMapperModel.pretrained("drug_action_treatment_mapper", "en", "clinical/models")
-    .setInputCols(Array("ner_chunk"))
-    .setOutputCol("action_mappings")
-    .setRels(Array("action"))
-    .setLowerCase(True)
+      .setInputCols(Array("ner_chunk"))
+      .setOutputCol("action_mappings")
+      .setRels(Array("action"))
+      .setLowerCase(True)
 
 val chunkerMapper_treatment = ChunkMapperModel.pretrained("drug_action_treatment_mapper", , "en", "clinical/models")
-    .setInputCols(Array("ner_chunk"))
-    .setOutputCol("treatment_mappings")
-    .setRels(Array("treatment"))
-    .setLowerCase(True)
+      .setInputCols(Array("ner_chunk"))
+      .setOutputCol("treatment_mappings")
+      .setRels(Array("treatment"))
+      .setLowerCase(True)
 
 
 val pipeline = new Pipeline().setStages(Array(
