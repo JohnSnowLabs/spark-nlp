@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Pipeline to Mapping RXNORM Codes with Their Corresponding UMLS Codes
+title: Pipeline to Mapping RxNORM Codes with Their Corresponding UMLS Codes
 author: John Snow Labs
 name: rxnorm_umls_mapping
 date: 2022-06-27
