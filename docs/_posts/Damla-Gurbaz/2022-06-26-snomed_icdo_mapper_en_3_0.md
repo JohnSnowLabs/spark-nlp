@@ -34,13 +34,14 @@ This pretrained model maps SNOMED codes to corresponding ICDO codes under the Un
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
       .setInputCol("text")\
       .setOutputCol("ner_chunk")
 
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+     .pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
      .setInputCols(["ner_chunk"])\
      .setOutputCol("sbert_embeddings")
 
@@ -51,7 +52,7 @@ snomed_resolver = SentenceEntityResolverModel\
      .setDistanceFunction("EUCLIDEAN")
 
 chunkerMapper = ChunkMapperModel\
-      .pretrained("snomed_icdo_mapper", "en", "clinical/models)\
+      .pretrained("snomed_icdo_mapper", "en", "clinical/models")\
       .setInputCols(["snomed_code"])\
       .setOutputCol("icdo_mappings")\
       .setRels(["icdo_code"])
