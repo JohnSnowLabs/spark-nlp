@@ -73,4 +73,3 @@ val result= pipeline.fullAnnotate("1652674 259934")
 - DocumentAssembler
 - TokenizerModel
 - ChunkMapperModel
-- ChunkMapperModel
