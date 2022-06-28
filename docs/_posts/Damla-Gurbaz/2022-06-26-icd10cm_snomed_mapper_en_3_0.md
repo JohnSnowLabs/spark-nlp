@@ -44,7 +44,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "e
       .setInputCols(["ner_chunk"])\
       .setOutputCol("sbert_embeddings")
 
-icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm", "en", "clinical/models") \
+icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc", "en", "clinical/models") \
       .setInputCols(["ner_chunk", "sbert_embeddings"]) \
       .setOutputCol("icd10cm_code")\
       .setDistanceFunction("EUCLIDEAN")
@@ -76,7 +76,7 @@ val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli"
       .setInputCols("ner_chunk")
       .setOutputCol("sbert_embeddings")
 
-val icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm", "en", "clinical/models")
+val icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc", "en", "clinical/models")
       .setInputCols(Array("ner_chunk", "sbert_embeddings"))
       .setOutputCol("icd10cm_code")
       .setDistanceFunction("EUCLIDEAN")
@@ -103,9 +103,9 @@ val result= pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-|    | ner_chunk         | icd10_code   |   snomed_mappings |
-|---:|:------------------|:-------------|------------------:|
-|  0 | Diabetes Mellitus | E11620       |          56391002 |
+|    | ner_chunk         | icd10cm_code   |   snomed_mappings |
+|---:|:------------------|:---------------|------------------:|
+|  0 | Diabetes Mellitus | Z833           |         160402005 |
 ```
 
 {:.model-param}
