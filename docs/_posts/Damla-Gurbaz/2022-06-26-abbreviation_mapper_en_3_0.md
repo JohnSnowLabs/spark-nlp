@@ -52,7 +52,7 @@ word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "c
       .setInputCols(["sentence", "token"])\
       .setOutputCol("embeddings")
 
-abbr_ner = MedicalNerModel.pretrained('ner_abbreviation_clinical', 'en', 'clinical/models') \
+abbr_ner = MedicalNerModel.pretrained("ner_abbreviation_clinical", "en", "clinical/models") \
       .setInputCols(["sentence", "token", "embeddings"]) \
       .setOutputCol("abbr_ner")
 
