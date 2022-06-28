@@ -15,21 +15,29 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
 
+
 This model is trained to generate contextual sentence embeddings of input sentences.
+
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbert_jsl_medium_umls_uncased_en_3.0.3_2.4_1621017148548.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 sbiobert_embeddings = BertSentenceEmbeddings\
         .pretrained("sbert_jsl_medium_umls_uncased","en","clinicalmodels")\
@@ -44,14 +52,18 @@ val sbiobert_embeddings = BertSentenceEmbeddings
 ```
 </div>
 
+
 ## Results
+
 
 ```bash
 Gives a 768 dimensional vector representation of the sentence.
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -62,12 +74,21 @@ Gives a 768 dimensional vector representation of the sentence.
 |Language:|en|
 |Case sensitive:|false|
 
+
 ## Data Source
+
 
 Tuned on MedNLI and UMLS dataset
 
+
 ## Benchmarking
 
+
 ```bash
-MedNLI Acc: 0.744, STS (cos): 0.695
+MedNLI   Score
+Acc      0.744 
+STS(cos) 0.695
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbMjEzMTc1NjQ2MywxMDk0NTc3MjIxXX0=
+-->
