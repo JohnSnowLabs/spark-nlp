@@ -17,8 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This pipeline is trained with `w2v_cc_300d` Romanian embeddings and can be used to deidentify PHI information from medical texts in 
-Romanian. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask, fake or obfuscate the following entities: `AGE`, `CITY`, `COUNTRY`, `DATE`, `DOCTOR`, `EMAIL`, `FAX`, `HOSPITAL`, `IDNUM`, `LOCATION-OTHER`, `MEDICALRECORD`, `ORGANIZATION`, `PATIENT`, `PHONE`, `PROFESSION`, `STREET`, `ZIP`, `ACCOUNT`, `LICENSE`, `PLATE`
+This pipeline is trained with `w2v_cc_300d` Romanian embeddings and can be used to deidentify PHI information from medical texts in Romanian. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask, fake or obfuscate the following entities: `AGE`, `CITY`, `COUNTRY`, `DATE`, `DOCTOR`, `EMAIL`, `FAX`, `HOSPITAL`, `IDNUM`, `LOCATION-OTHER`, `MEDICALRECORD`, `ORGANIZATION`, `PATIENT`, `PHONE`, `PROFESSION`, `STREET`, `ZIP`, `ACCOUNT`, `LICENSE`, `PLATE`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -31,6 +30,7 @@ Romanian. The PHI information will be masked and obfuscated in the resulting tex
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from sparknlp.pretrained import PretrainedPipeline
 
