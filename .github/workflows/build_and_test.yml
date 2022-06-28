@@ -31,6 +31,44 @@ on:
       - 'main'
 
 jobs:
+  spark33:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
+    runs-on: macos-latest
+    name: Build and Test on Apache Spark 3.3.x
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '8'
+          cache: 'sbt'
+      - name: Install Python 3.7
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7.7
+          architecture: x64
+      - name: Install Python packages (Python 3.7)
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyspark==3.3.0 numpy pytest
+      - name: Build Spark NLP on Apache Spark 3.3.0
+        run: |
+          brew install sbt
+          sbt -mem 4096 clean assemblyAndCopy
+      - name: Test Spark NLP in Scala - Apache Spark 3.3.x
+        run: |
+          sbt -mem 4096 coverage test
+      - name: Upload coverage data to Coveralls
+        run: sbt coverageReport coveralls
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_FLAG_NAME: Apache Spark 3.3.x - Scala 2.12
+      - name: Test Spark NLP in Python - Apache Spark 3.3.x
+        run: |
+          cd python
+          python3.7 -m pytest -v -m fast
+
   spark32:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
     runs-on: macos-latest
@@ -58,12 +96,7 @@ jobs:
           sbt -mem 4096 clean assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 3.2.x
         run: |
-          sbt -mem 4096 coverage test
-      - name: Upload coverage data to Coveralls
-        run: sbt coverageReport coveralls
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERALLS_FLAG_NAME: Apache Spark 3.2.x - Scala 2.12
+          sbt -mem 4096 test
       - name: Test Spark NLP in Python - Apache Spark 3.2.x
         run: |
           cd python
