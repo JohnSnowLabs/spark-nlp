@@ -34,6 +34,7 @@ This pretrained model maps RxNorm and RxNorm Extension codes with their correspo
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
       .setInputCol("text")\
