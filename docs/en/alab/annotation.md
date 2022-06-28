@@ -24,6 +24,7 @@ Keyboard shortcuts are supported for all annotations – this enables having one
 On the upper side of the **Labeling** screen, you can find the list of labels defined for the project. In the center of the screen the content of the task is displayed. On the right side there are several widgets:
 - **Completions**
 - **Predictions**
+- **Confidence**
 - **Results**
 
 ### Completions
@@ -41,6 +42,13 @@ This is an important feature for ensuring a complete audit trail of all user act
 ### Predictions
 A **prediction** is a list of annotations created automatically, via the use of Spark NLP pretrained models. Predictions are created using the "Preannotate" button form the **Task** view. Predictions are read only - users can see them but cannot modify them in any way. 
 For reusing predictions to bootstrap the annotation process, users can copy them into a new completion which is editable. 
+
+### Confidence
+With v3.3.0, running preannotations on a text project provides one extra piece of information for the automatic annotations - the confidence score. This score is used to show the confidence the model has for each of the labeled chunks. It is calculated based on the benchmarking information of the model used to preannotate and on the score of each prediction. The confidence score is available when working on Named Entity Recognition, Relation, Assertion, and Classification projects and is also generated when using NER Rules.
+
+<img class="image image--xl" src="/assets/images/annotation_lab/confidence.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+On the Labeling screen, when selecting the Prediction widget, users can see that all preannotation in the Results section with a score assigned to them . By using the Confidence slider, users can filter out low confidence labels before starting to edit/correct the labels. Both the “Accept Prediction” action and the “Copy Prediction to Completion” feature apply to the filtered annotations via the confidence slider.
 
 
 ### Results
