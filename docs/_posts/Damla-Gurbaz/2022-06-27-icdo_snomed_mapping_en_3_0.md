@@ -36,23 +36,23 @@ from sparknlp.pretrained import PretrainedPipeline
 
 pipeline= PretrainedPipeline("icdo_snomed_mapping", "en", "clinical/models")
 
-result= pipeline.fullAnnotate("C49.9 C77.5 C76.7")
+result= pipeline.fullAnnotate("8120/1 8170/3 8380/3")
 ```
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
 val pipeline= new PretrainedPipeline("icdo_snomed_mapping", "en", "clinical/models")
 
-val result= pipeline.fullAnnotate("C49.9 C77.5 C76.7")
+val result= pipeline.fullAnnotate("8120/1 8170/3 8380/3")
 ```
 </div>
 
 ## Results
 
 ```bash
-|    | icdo_code             | snomed_code                    |
-|---:|:----------------------|:-------------------------------|
-|  0 | C49.9 | C77.5 | C76.7 | 134189006 | 5394000 | 38852004 |
+|    | icdo_code                | snomed_code                    |
+|---:|:-------------------------|:-------------------------------|
+|  0 | 8120/1 | 8170/3 | 8380/3 | 45083001 | 25370001 | 30289006 |
 ```
 
 {:.model-param}
