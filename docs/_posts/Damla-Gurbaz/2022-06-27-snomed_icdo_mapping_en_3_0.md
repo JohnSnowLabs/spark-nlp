@@ -30,28 +30,29 @@ This pretrained pipeline is built on the top of `snomed_icdo_mapper` model.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from sparknlp.pretrained import PretrainedPipeline
 
 pipeline = PretrainedPipeline("snomed_icdo_mapping", "en", "clinical/models")
 
-result= pipeline.fullAnnotate("57826002 368930001 113270003")
+result= pipeline.fullAnnotate("10376009 2026006 26638004")
 ```
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
 val pipeline = new PretrainedPipeline("snomed_icdo_mapping", "en", "clinical/models")
 
-val result= pipeline.fullAnnotate("57826002 368930001 113270003")
+val result= pipeline.fullAnnotate("10376009 2026006 26638004")
 ```
 </div>
 
 ## Results
 
 ```bash
-|    | snomed_code                      | icdo_code             |
-|---:|:---------------------------------|:----------------------|
-|  0 | 57826002 | 368930001 | 113270003 | C76.0 | C30.1 | C49.2 |
+|    | snomed_code                   | icdo_code                |
+|---:|:------------------------------|:-------------------------|
+|  0 | 10376009 | 2026006 | 26638004 | 8050/2 | 9014/0 | 8322/0 |
 ```
 
 {:.model-param}
