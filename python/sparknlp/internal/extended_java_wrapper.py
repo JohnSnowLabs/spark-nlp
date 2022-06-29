@@ -53,12 +53,11 @@ class ExtendedJavaWrapper(JavaWrapper):
         return java_array
 
     def spark_version(self):
-        major_version = self.sc.version[0]
-        minor_version = self.sc.version.split('.')[1:]
-        return float(major_version + '.' + "".join(minor_version))
+        spark_version = self.sc.version.split(".")
+        return int("".join(spark_version))
 
     def getDataFrame(self, spark, jdf):
-        if self.spark_version() >= 3.3:
+        if self.spark_version() >= 330:
             return DataFrame(jdf, spark._getActiveSessionOrCreate())
         else:
             return DataFrame(jdf, spark._wrapped)
