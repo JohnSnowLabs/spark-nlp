@@ -85,7 +85,7 @@ val tokenizer = new Tokenizer()
         .setInputCols("sentence")
         .setOutputCol("token")
 
-val tokenClassifier = MedicalBertForTokenClassification.pretrained("bert_token_classifier_ner_clinical_trials_abstracts", "en", "clinical/models")
+val tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_clinical_trials_abstracts", "en", "clinical/models")
         .setInputCols(Array("token", "sentence"))
         .setOutputCol("ner")
         .setCaseSensitive(True)
