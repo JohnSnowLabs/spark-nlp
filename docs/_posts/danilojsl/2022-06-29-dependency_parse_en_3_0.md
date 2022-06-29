@@ -17,12 +17,14 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Typed Dependency parser, trained on the on the CONLL dataset.
+Typed Dependency parser, trained on the on the CONLL dataset. 
+
+Dependency parsing is the task of extracting a dependency parse of a sentence that represents its grammatical structure and defines the relationships between “head” words and words, which modify those heads.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/dependency_parse_en_4.0.0_3.0_1656518536824.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Live Demo](https://demo.johnsnowlabs.com/public/GRAMMAR_EN/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/GRAMMAR_EN.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/dependency_parse_en_3.0.0_3.0_1616864258046.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -31,14 +33,39 @@ Typed Dependency parser, trained on the on the CONLL dataset.
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from sparknlp.pretrained import PretrainedPipelinein
+
+from sparknlp.pretrained import PretrainedPipeline
 pipeline = PretrainedPipeline('dependency_parse', lang = 'en')
 annotations =  pipeline.fullAnnotate("Dependencies represents relationships betweens words in a Sentence "")[0]
 annotations.keys()
 
 ```
+```scala
 
+val pipeline = new PretrainedPipeline("dependency_parse", lang = "en")
+val result = pipeline.fullAnnotate("Dependencies represents relationships betweens words in a Sentence")(0)
+
+```
+
+{:.nlu-block}
+```python
+
+nlu.load("dep.typed").predict("Dependencies represents relationships betweens words in a Sentence")
+
+    
+```
 </div>
+
+## Results
+
+```bash
++---------------------------------------------------------------------------------+--------------------------------------------------------+
+|result                                                                           |result                                                  |
++---------------------------------------------------------------------------------+--------------------------------------------------------+
+|[ROOT, Dependencies, represents, words, relationships, Sentence, Sentence, words]|[root, parataxis, nsubj, amod, nsubj, case, nsubj, flat]|
++---------------------------------------------------------------------------------+--------------------------------------------------------+
+
+```
 
 {:.model-param}
 ## Model Information
