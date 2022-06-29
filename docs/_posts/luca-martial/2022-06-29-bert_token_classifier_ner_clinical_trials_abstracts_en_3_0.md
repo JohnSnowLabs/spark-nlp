@@ -112,7 +112,7 @@ val results = pipeline.fit(data).transform(data)
 |randomised      |CTDesign          |
 |multicentre     |CTDesign          |
 |insulin glargine|Drug              |
-|NPH insulin    |Drug              |
+|NPH insulin     |Drug              |
 |type 2 diabetes |DisorderOrSyndrome|
 |multicentre     |CTDesign          |
 |open            |CTDesign          |
@@ -123,7 +123,7 @@ val results = pipeline.fit(data).transform(data)
 |80              |Age               |
 |52 weeks        |Duration          |
 |insulin glargine|Drug              |
-|NPH insulin    |Drug              |
+|NPH insulin     |Drug              |
 |once daily      |DrugTime          |
 |bedtime         |DrugTime          |
 +----------------+------------------+
