@@ -23,7 +23,7 @@ It extracts relevant entities from clinical trial abstracts. It uses a simplifie
 
 ## Predicted Entities
 
-`Age`, `AllocationRatio`
+`Age`, `AllocationRatio`, `Author`, `BioAndMedicalUnit`, `CTAnalysisApproach`, `CTDesign`, `Confidence`, `Country`, `DisorderOrSyndrome`, `DoseValue`, `Drug`, `DrugTime`, `Duration`, `Journal`, `NumberPatients`, `PMID`, `PValue`, `PercentagePatients`, `PublicationYear`, `TimePoint`, `Value`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
