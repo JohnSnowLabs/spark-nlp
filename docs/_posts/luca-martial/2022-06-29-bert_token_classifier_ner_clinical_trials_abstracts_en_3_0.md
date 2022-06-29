@@ -36,6 +36,7 @@ It extracts relevant entities from clinical trial abstracts. It uses a simplifie
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
         .setInputCol("text")\
@@ -195,6 +196,6 @@ I-PercentagePatients       0.99      1.00      1.00       130
              I-Value       0.93      0.96      0.95       787
                    O       0.99      0.98      0.98     24184
             accuracy          -         -      0.97     38137
-           macro avg       0.92      0.91      0.91     38137
-        weighted avg       0.97      0.97      0.97     38137
+           macro-avg       0.92      0.91      0.91     38137
+        weighted-avg       0.97      0.97      0.97     38137
 ```
