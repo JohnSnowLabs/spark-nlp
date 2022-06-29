@@ -66,7 +66,7 @@ nlpPipeline = Pipeline(stages=[
         tokenClassifier,
         ner_converter])
 
-text = ["A one-year, randomised, multicentre trial comparing insulin glargine with NPH insulin in combination with oral agents in patients with type 2 diabetes. In a multicentre, open, randomised study, 570 patients with Type 2 diabetes, aged 34 - 80 years, were treated for 52 weeks with insulin glargine or NPH insulin given once daily at bedtime."]
+text = ["This open-label, parallel-group, two-arm, pilot study compared the beta-cell protective effect of adding insulin glargine (GLA) vs. NPH insulin to ongoing metformin. Overall, 28 insulin-naive type 2 diabetes subjects (mean +/- SD age, 61.5 +/- 6.7 years; BMI, 30.7 +/- 4.3 kg/m(2)) treated with metformin and sulfonylurea were randomized to add once-daily GLA or NPH at bedtime."]
 
 data = spark.createDataFrame([text]).toDF("text")
 
@@ -96,7 +96,7 @@ val. ner_converter = new NerConverter()
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))
 
-val text = "A one-year, randomised, multicentre trial comparing insulin glargine with NPH insulin in combination with oral agents in patients with type 2 diabetes. In a multicentre, open, randomised study, 570 patients with Type 2 diabetes, aged 34 - 80 years, were treated for 52 weeks with insulin glargine or NPH insulin given once daily at bedtime."
+val text = "This open-label, parallel-group, two-arm, pilot study compared the beta-cell protective effect of adding insulin glargine (GLA) vs. NPH insulin to ongoing metformin. Overall, 28 insulin-naive type 2 diabetes subjects (mean +/- SD age, 61.5 +/- 6.7 years; BMI, 30.7 +/- 4.3 kg/m(2)) treated with metformin and sulfonylurea were randomized to add once-daily GLA or NPH at bedtime."
 
 val data = Seq(text).toDF("text")
 
@@ -110,22 +110,23 @@ val results = pipeline.fit(data).transform(data)
 +----------------+------------------+
 |chunk           |ner_label         |
 +----------------+------------------+
-|randomised      |CTDesign          |
-|multicentre     |CTDesign          |
+|open-label      |CTDesign          |
+|parallel-group  |CTDesign          |
+|two-arm         |CTDesign          |
 |insulin glargine|Drug              |
+|GLA             |Drug              |
 |NPH insulin     |Drug              |
+|metformin       |Drug              |
+|28              |NumberPatients    |
 |type 2 diabetes |DisorderOrSyndrome|
-|multicentre     |CTDesign          |
-|open            |CTDesign          |
-|randomised      |CTDesign          |
-|570             |NumberPatients    |
-|Type 2 diabetes |DisorderOrSyndrome|
-|34              |Age               |
-|80              |Age               |
-|52 weeks        |Duration          |
-|insulin glargine|Drug              |
-|NPH insulin     |Drug              |
-|once daily      |DrugTime          |
+|61.5            |Age               |
+|kg/m(2          |BioAndMedicalUnit |
+|metformin       |Drug              |
+|sulfonylurea    |Drug              |
+|randomized      |CTDesign          |
+|once-daily      |DrugTime          |
+|GLA             |Drug              |
+|NPH             |Drug              |
 |bedtime         |DrugTime          |
 +----------------+------------------+
 ```
