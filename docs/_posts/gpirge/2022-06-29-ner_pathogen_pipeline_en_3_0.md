@@ -17,8 +17,6 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This pretrained named entity recognition (NER) model is a deep learning model for detecting medical conditions (influenza, headache, malaria, etc), medicine (aspirin, penicillin, methotrexate) and pathogens (Corona Virus, Zika Virus, E. Coli, etc) in clinical texts. It is trained by using `MedicalNerApproach` annotator that allows to train generic NER models based on Neural Networks.
-
 This pretrained pipeline is built on the top of [ner_pathogen](https://nlp.johnsnowlabs.com/2022/06/28/ner_pathogen_en_3_0.html) model.
 
 {:.btn-box}
