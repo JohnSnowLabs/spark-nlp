@@ -108,12 +108,13 @@ nlu.load("dep.untyped").predict("Dependencies represents relationships betweens 
 {:.table-model}
 |---|---|
 |Model Name:|dependency_conllu|
-|Compatibility:|Spark NLP 3.0.0+|
+|Compatibility:|Spark NLP 3.4.4+|
 |License:|Open Source|
 |Edition:|Official|
 |Input Labels:|[sentence, pos, token]|
 |Output Labels:|[dep_root]|
 |Language:|en|
+|Size:|17.5 MB|
 
 ## Data Source
 
