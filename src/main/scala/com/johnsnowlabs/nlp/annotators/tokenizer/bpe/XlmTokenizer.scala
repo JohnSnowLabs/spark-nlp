@@ -40,7 +40,12 @@ private[nlp] class XlmTokenizer(
     padWithSentenceTokens: Boolean = false,
     lang: String = "en",
     doLowercaseAndRemoveAccent: Boolean = true)
-    extends BpeTokenizer(merges, vocab, specialTokens, padWithSentenceTokens) {
+    extends BpeTokenizer(
+      merges,
+      vocab,
+      specialTokens,
+      padWithSentenceTokens,
+      addPrefixSpace = false) {
   require(lang == "en", "Only English is supported currently.")
 
   /** Lowercase and strips accents from a piece of text based on
