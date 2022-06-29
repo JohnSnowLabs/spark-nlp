@@ -34,9 +34,9 @@ class RegexTokenizer(AnnotatorModel):
     Parameters
     ----------
     minLength
-        Set the minimum allowed legth for each token, by default 1
+        Set the minimum allowed length for each token, by default 1
     maxLength
-        Set the maximum allowed legth for each token
+        Set the maximum allowed length for each token
     toLowercase
         Indicates whether to convert all characters to lowercase before
         tokenizing, by default False
@@ -97,12 +97,12 @@ class RegexTokenizer(AnnotatorModel):
 
     minLength = Param(Params._dummy(),
                       "minLength",
-                      "Set the minimum allowed legth for each token",
+                      "Set the minimum allowed length for each token",
                       typeConverter=TypeConverters.toInt)
 
     maxLength = Param(Params._dummy(),
                       "maxLength",
-                      "Set the maximum allowed legth for each token",
+                      "Set the maximum allowed length for each token",
                       typeConverter=TypeConverters.toInt)
 
     toLowercase = Param(Params._dummy(),
@@ -131,22 +131,22 @@ class RegexTokenizer(AnnotatorModel):
                              typeConverter=TypeConverters.toBoolean)
 
     def setMinLength(self, value):
-        """Sets the minimum allowed legth for each token, by default 1.
+        """Sets the minimum allowed length for each token, by default 1.
 
         Parameters
         ----------
         value : int
-            Minimum allowed legth for each token
+            Minimum allowed length for each token
         """
         return self._set(minLength=value)
 
     def setMaxLength(self, value):
-        """Sets the maximum allowed legth for each token.
+        """Sets the maximum allowed length for each token.
 
         Parameters
         ----------
         value : int
-            Maximum allowed legth for each token
+            Maximum allowed length for each token
         """
         return self._set(maxLength=value)
 
