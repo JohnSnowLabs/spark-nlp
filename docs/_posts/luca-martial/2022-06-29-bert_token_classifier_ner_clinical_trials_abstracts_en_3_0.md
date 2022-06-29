@@ -4,7 +4,7 @@ title: Extract entities in clinical trial abstracts (BertForTokenClassification)
 author: John Snow Labs
 name: bert_token_classifier_ner_clinical_trials_abstracts
 date: 2022-06-29
-tags: [berttokenclassifier, bert, biobert, en, licensed]
+tags: [berttokenclassifier, bert, biobert, en, ner, licensed]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Healthcare 3.5.3
