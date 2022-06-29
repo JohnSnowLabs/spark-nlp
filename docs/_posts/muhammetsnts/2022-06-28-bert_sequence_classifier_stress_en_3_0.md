@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Stress Classifier (BERT)
+title: Emotional Stress Classifier (BERT)
 author: John Snow Labs
 name: bert_sequence_classifier_stress
 date: 2022-06-28
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is a [PHS-BERT-based](https://huggingface.co/publichealthsurveillance/PHS-BERT) classifier that can classify whether the content of a text expresses stress.
+This model is a [PHS-BERT-based](https://huggingface.co/publichealthsurveillance/PHS-BERT) classifier that can classify whether the content of a text expresses emotional stress.
 
 ## Predicted Entities
 
