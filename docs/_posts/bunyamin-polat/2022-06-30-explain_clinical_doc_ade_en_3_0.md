@@ -30,6 +30,7 @@ A pipeline for Adverse Drug Events (ADE) with `ner_ade_biobert`, `assertion_dl_b
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from sparknlp.pretrained import PretrainedPipeline
 
