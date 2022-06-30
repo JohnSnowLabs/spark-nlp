@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Finance-ESG BertForSequenceClassification model (from yiyanghkust)
+title: English ESG BertForSequenceClassification model
 author: John Snow Labs
 name: bert_classifier_finbert_esg
 date: 2022-06-30
@@ -17,7 +17,9 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Text Classification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `finbert-esg` is a English model originally trained by `yiyanghkust`.
+Pretrained Text Classification model for detecting Environment, Social and Governance-related texts, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `finbert-esg` is a English model originally trained by `yiyanghkust`.
+
+Classes: `None`, `Environmental`, `Social`, `Governance`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
