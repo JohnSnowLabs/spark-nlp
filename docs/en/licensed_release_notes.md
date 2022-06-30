@@ -587,7 +587,7 @@ sample_text = "Peter Parker is a nice guy and lives in Chicago."
 
 #### Prettified relational categories in `ZeroShotRelationExtractionModel` annotator
 
-Now you can `setRelationalCategories()` between the entity labels by using a single `{}` instead of `{{}}`.
+Now you can `setRelationalCategories()` between the entity labels by using a single `{}` instead of <p><code>{{}}</code></p>.
 
 *Example* :
 
