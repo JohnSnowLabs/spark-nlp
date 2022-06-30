@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Contracts BertEmbeddings Base Uncased model (from nlpaueb)
+title: English Contracts BertEmbeddings Base Uncased model
 author: John Snow Labs
 name: bert_base_uncased_contracts
 date: 2022-06-30
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Word Embeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `bert-base-uncased-contracts` is a English model originally trained by `nlpaueb`.
+Pretrained Word Embeddings model, trained on legal contracts, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `bert-base-uncased-contracts` is a English model originally trained by `nlpaueb`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
