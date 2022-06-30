@@ -347,18 +347,17 @@ sample_text = "Aorta ascendenta inlocuita cu proteza de Dacron de la nivelul anu
 *Results* :
 
 ```bash
-+-------------------+----------------+
-|             chunks|        entities|
-+-------------------+----------------+
-|   Aorta ascendenta|       Body_Part|
-|            proteza|  Medical_Device|
-|             Dacron|Imaging_Findings|
-|         anulusului|       Body_Part|
-|segmentul ascendent|       Body_Part|
-|             distal|       Direction|
-|                 75|    Measurements|
-|                 mm|           Units|
-+-------------------+----------------+
++-------------------+--------------+
+|             chunks|      entities|
++-------------------+--------------+
+|   Aorta ascendenta|     Body_Part|
+|  proteza de Dacron|Medical_Device|
+|         anulusului|     Body_Part|
+|segmentul ascendent|     Body_Part|
+|             distal|     Direction|
+|                 75|  Measurements|
+|                 mm|         Units|
++-------------------+--------------+
 ```
 
 
@@ -587,7 +586,7 @@ sample_text = "Peter Parker is a nice guy and lives in Chicago."
 
 #### Prettified relational categories in `ZeroShotRelationExtractionModel` annotator
 
-Now you can `setRelationalCategories()` between the entity labels by using a single `{}` instead of <p><code>{{}}</code></p>.
+Now you can `setRelationalCategories()` between the entity labels by using a single `{}` instead of ```{{}}```.
 
 *Example* :
 
