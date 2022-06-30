@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Financial Bert Embeddings (Base, Communication texts)
+title: Financial English Bert Embeddings (Base, Communication texts)
 author: John Snow Labs
 name: bert_embeddings_finbert_pretrain_yiyanghkust
 date: 2022-04-11
@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
