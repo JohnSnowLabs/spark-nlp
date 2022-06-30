@@ -18,6 +18,7 @@ sidebar:
 + 8 new chunk mapper models and 9 new pretrained chunk mapper pipelines to convert one medical terminology to another (Snomed to ICD10, RxNorm to UMLS etc.)
 + 2 new medical NER models (`ner_clinical_trials_abstracts` and `ner_pathogen`) and pretrained NER pipelines
 + 20 new biomedical NER models based on the [LivingNER corpus](https://temu.bsc.es/livingner/2022/05/03/multilingual-corpus/) in **8 languages** (English, Spanish, French, Italian, Portuguese, Romanian, Catalan and Galician)
++ 2 new medical NER models for Romanian language (`ner_clinical`, `ner_clinical_bert`)
 + Deidentification support for **Romanian** language (`ner_deid_subentity`, `ner_deid_subentity_bert` and a pretrained deidentification pipeline)
 + The first public health model: Emotional stress classifier (`bert_sequence_classifier_stress`)
 + `ResolverMerger` annotator to merge the results of `ChunkMapperModel` and `SentenceEntityResolverModel` annotators
@@ -302,6 +303,64 @@ results = ner_model.transform(spark.createDataFrame([["""Patient aged 61 years; 
 |pneumococcus|SPECIES|
 +------------+-------+
 ```
+
+#### 2 New Medical NER Models for Romanian Language
+
+We trained `ner_clinical` and `ner_clinical_bert` models that can detect `Measurements`, `Form`, `Symptom`, `Route`, `Procedure`, `Disease_Syndrome_Disorder`, `Score`, `Drug_Ingredient`, `Pulse`, `Frequency`, `Date`, `Body_Part`, `Drug_Brand_Name`, `Time`, `Direction`, `Dosage`, `Medical_Device`, `Imaging_Technique`, `Test`, `Imaging_Findings`, `Imaging_Test`, `Test_Result`, `Weight`, `Clinical_Dept` and `Units` entities in Romanian clinical texts.
+
++ `ner_clinical`: This model is trained with `w2v_cc_300d` embeddings model.
+
+*Example* :
+
+```python
+...
+embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","ro")\
+        .setInputCols(["sentence","token"])\
+        .setOutputCol("word_embeddings")
+
+clinical_ner = MedicalNerModel.pretrained("ner_clinical", "ro", "clinical/models")\
+        .setInputCols(["sentence","token","word_embeddings"])\
+        .setOutputCol("ner")
+...
+
+sample_text = "Aorta ascendenta inlocuita cu proteza de Dacron de la nivelul anulusului pana pe segmentul ascendent distal pe o lungime aproximativa de 75 mm."
+```
+
++ `ner_clinical_bert`: This model is trained with `bert_base_cased` embeddings model.
+
+*Example* :
+
+ ```python
+ ...
+ embeddings = BertEmbeddings.pretrained("bert_base_cased", "ro")\
+        .setInputCols(["sentence","token"])\
+        .setOutputCol("word_embeddings")
+
+clinical_ner = MedicalNerModel.pretrained("ner_clinical_bert_bert", "ro", "clinical/models")\
+        .setInputCols(["sentence","token","word_embeddings"])\
+        .setOutputCol("ner")
+...
+
+sample_text = "Aorta ascendenta inlocuita cu proteza de Dacron de la nivelul anulusului pana pe segmentul ascendent distal pe o lungime aproximativa de 75 mm."
+```
+
+*Results* :
+
+```bash
++-------------------+----------------+
+|             chunks|        entities|
++-------------------+----------------+
+|   Aorta ascendenta|       Body_Part|
+|            proteza|  Medical_Device|
+|             Dacron|Imaging_Findings|
+|         anulusului|       Body_Part|
+|segmentul ascendent|       Body_Part|
+|             distal|       Direction|
+|                 75|    Measurements|
+|                 mm|           Units|
++-------------------+----------------+
+```
+
 
 ####  Deidentification Support for Romanian Language (`ner_deid_subentity`, `ner_deid_subentity_bert` and a Pretrained Deidentification Pipeline)
 
@@ -588,9 +647,6 @@ We have a new documentation page for showing Spark NLP for Healthcare installati
 
 #### List of Recently Updated and Added Models
 
-- `ner_deid_subentity`
-- `ner_deid_subentity_bert`
-- `clinical_deidentification`
 - `ner_pathogene`
 - `ner_pathogen_pipeline`
 - `ner_clinical_trials_abstracts`
@@ -622,6 +678,11 @@ We have a new documentation page for showing Spark NLP for Healthcare installati
 - `rxnorm_ndc_mapper`
 - `rxnorm_action_treatment_mapper`
 - `rxnorm_mapper`
+- `ner_deid_subentity` -> `ro`
+- `ner_deid_subentity_bert` -> `ro`
+- `clinical_deidentification` -> `ro`
+- `ner_clinical` -> `ro`
+- `ner_clinical_bert` -> `ro`
 - `bert_token_classifier_ner_living_species` -> `es`
 - `ner_living_species_bert` -> `es`
 - `ner_living_species_roberta` -> `es`
@@ -642,8 +703,6 @@ We have a new documentation page for showing Spark NLP for Healthcare installati
 - `ner_living_species_bert` -> `ro`
 - `ner_living_species` -> `ro`
 - `ner_living_species` -> `gal`
-
-
 
 For all Spark NLP for healthcare models, please check: [Models Hub Page](https://nlp.johnsnowlabs.com/models?edition=Spark+NLP+for+Healthcare)
 
