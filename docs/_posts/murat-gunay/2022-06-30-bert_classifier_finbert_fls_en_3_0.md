@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Finance-FLS BertForSequenceClassification model (from yiyanghkust)
+title: English FLS BertForSequenceClassification model
 author: John Snow Labs
 name: bert_classifier_finbert_fls
 date: 2022-06-30
@@ -17,7 +17,11 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Text Classification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `finbert-fls` is a English model originally trained by `yiyanghkust`.
+FLS Pretrained Text Classification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `finbert-fls` is a English model originally trained by `yiyanghkust`.
+
+Forward-looking statements (FLS) inform investors of managers’ beliefs and opinions about firm's future events or results.
+
+Classes: `Specific-FLS`, `Non-specific FLS`, or `Not-FLS`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
