@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.5.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel</title>
-          <meta name="description" content="Spark NLP 3.5.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel" />
-          <meta name="keywords" content="Spark NLP 3.5.3 ScalaDoc com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel" />
+          <title>Spark NLP 4.0.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel</title>
+          <meta name="description" content="Spark NLP 4.0.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel" />
+          <meta name="keywords" content="Spark NLP 4.0.0 ScalaDoc com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.5.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.0.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -297,9 +297,9 @@ relationship between entities.</p><p>Pretrained models can be loaded with <code>
   .load(<span class="lit">"/tmp/spark_sbert_zero_shot"</span>)
   .setRelationalCategories(
     <span class="std">Map</span>(
-      <span class="lit">"CURE"</span> -&gt; <span class="std">Array</span>(<span class="lit">"{{TREATMENT}} cures {{PROBLEM}}."</span>),
-      <span class="lit">"IMPROVE"</span> -&gt; <span class="std">Array</span>(<span class="lit">"{{TREATMENT}} improves {{PROBLEM}}."</span>, <span class="lit">"{{TREATMENT}} cures {{PROBLEM}}."</span>),
-      <span class="lit">"REVEAL"</span> -&gt; <span class="std">Array</span>(<span class="lit">"{{TEST}} reveals {{PROBLEM}}."</span>)
+      <span class="lit">"CURE"</span> -&gt; <span class="std">Array</span>(<span class="lit">"{TREATMENT} cures {PROBLEM}."</span>),
+      <span class="lit">"IMPROVE"</span> -&gt; <span class="std">Array</span>(<span class="lit">"{TREATMENT} improves {PROBLEM}."</span>, <span class="lit">"{TREATMENT} cures {PROBLEM}."</span>),
+      <span class="lit">"REVEAL"</span> -&gt; <span class="std">Array</span>(<span class="lit">"{TEST} reveals {PROBLEM}."</span>)
       ))
   .setPredictionThreshold(<span class="num">0.9</span>f)
   .setMultiLabel(<span class="kw">false</span>)
