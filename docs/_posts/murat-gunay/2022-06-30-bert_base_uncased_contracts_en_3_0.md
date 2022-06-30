@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Contracts Embeddings Base Uncased model (from nlpaueb)
+title: English Contracts BertEmbeddings Base Uncased model (from nlpaueb)
 author: John Snow Labs
 name: bert_base_uncased_contracts
 date: 2022-06-30
