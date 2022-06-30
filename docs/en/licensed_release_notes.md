@@ -336,7 +336,7 @@ sample_text = "Aorta ascendenta inlocuita cu proteza de Dacron de la nivelul anu
         .setInputCols(["sentence","token"])\
         .setOutputCol("word_embeddings")
 
-clinical_ner = MedicalNerModel.pretrained("ner_clinical_bert_bert", "ro", "clinical/models")\
+clinical_ner = MedicalNerModel.pretrained("ner_clinical_bert", "ro", "clinical/models")\
         .setInputCols(["sentence","token","word_embeddings"])\
         .setOutputCol("ner")
 ...
