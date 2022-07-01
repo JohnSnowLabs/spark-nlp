@@ -425,8 +425,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Extract entities in clinical trial abstracts (BertForTokenClassification)- Spark NLP Model</title><meta name="description" content="DescriptionThis Named Entity Recognition model is trained with the BertForTokenClassification method from transformers library and imported into Spark NLP.It...">
-<link rel="canonical" href="/2022/06/29/bert_token_classifier_ner_clinical_trials_abstracts_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>English FLS BertForSequenceClassification model- Spark NLP Model</title><meta name="description" content="DescriptionFLS Pretrained Text Classification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. f...">
+<link rel="canonical" href="/2022/06/30/bert_classifier_finbert_fls_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -822,27 +822,25 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/luca-martial/2022-06-29-bert_token_classifier_ner_clinical_trials_abstracts_en_3_0.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/murat-gunay/2022-06-30-bert_classifier_finbert_fls_en_3_0.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jun 29, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-29T00:00:00+00:00"></div><header class="main-docs"><h1>Extract entities in clinical trial abstracts (BertForTokenClassification)</h1></header></div><meta itemprop="headline" content="Extract entities in clinical trial abstracts (BertForTokenClassification)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>berttokenclassifier</li><li>bert</li><li>biobert</li><li>en</li><li>ner</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-29T00:00:00+00:00">
-    <meta itemprop="keywords" content="berttokenclassifier,bert,biobert,en,ner,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jun 30, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-30T00:00:00+00:00"></div><header class="main-docs"><h1>English FLS BertForSequenceClassification model</h1></header></div><meta itemprop="headline" content="English FLS BertForSequenceClassification model"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>open_source</li><li>bert</li><li>classification</li><li>finance</li><li>fls</li><li>en</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-30T00:00:00+00:00">
+    <meta itemprop="keywords" content="open_source,bert,classification,finance,fls,en"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This Named Entity Recognition model is trained with the BertForTokenClassification method from transformers library and imported into Spark NLP.</p>
+<p>FLS Pretrained Text Classification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. <code class="language-plaintext highlighter-rouge">finbert-fls</code> is a English model originally trained by <code class="language-plaintext highlighter-rouge">yiyanghkust</code>.</p>
 
-<p>It extracts relevant entities from clinical trial abstracts. It uses a simplified version of the ontology specified by <a href="https://pub.uni-bielefeld.de/record/2939477">Sanchez Graillet, O., et al.</a> in order to extract concepts related to trial design, diseases, drugs, population, statistics and publication.</p>
+<p>Forward-looking statements (FLS) inform investors of managers’ beliefs and opinions about firm’s future events or results.</p>
 
-<h2 id="predicted-entities">Predicted Entities</h2>
-
-<p><code class="language-plaintext highlighter-rouge">Age</code>, <code class="language-plaintext highlighter-rouge">AllocationRatio</code>, <code class="language-plaintext highlighter-rouge">Author</code>, <code class="language-plaintext highlighter-rouge">BioAndMedicalUnit</code>, <code class="language-plaintext highlighter-rouge">CTAnalysisApproach</code>, <code class="language-plaintext highlighter-rouge">CTDesign</code>, <code class="language-plaintext highlighter-rouge">Confidence</code>, <code class="language-plaintext highlighter-rouge">Country</code>, <code class="language-plaintext highlighter-rouge">DisorderOrSyndrome</code>, <code class="language-plaintext highlighter-rouge">DoseValue</code>, <code class="language-plaintext highlighter-rouge">Drug</code>, <code class="language-plaintext highlighter-rouge">DrugTime</code>, <code class="language-plaintext highlighter-rouge">Duration</code>, <code class="language-plaintext highlighter-rouge">Journal</code>, <code class="language-plaintext highlighter-rouge">NumberPatients</code>, <code class="language-plaintext highlighter-rouge">PMID</code>, <code class="language-plaintext highlighter-rouge">PValue</code>, <code class="language-plaintext highlighter-rouge">PercentagePatients</code>, <code class="language-plaintext highlighter-rouge">PublicationYear</code>, <code class="language-plaintext highlighter-rouge">TimePoint</code>, <code class="language-plaintext highlighter-rouge">Value</code></p>
+<p>Classes: <code class="language-plaintext highlighter-rouge">Specific-FLS</code>, <code class="language-plaintext highlighter-rouge">Non-specific FLS</code>, or <code class="language-plaintext highlighter-rouge">Not-FLS</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_clinical_trials_abstracts_en_3.5.3_3.0_1656475829985.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_classifier_finbert_fls_en_4.0.0_3.0_1656600319169.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -850,97 +848,43 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-        
-<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl_healthcare"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+  
+<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">BertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_classifier_finbert_fls"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
+    
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">sequenceClassifier</span><span class="p">])</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"I love Spark NLP."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">MedicalBertForTokenClassifier</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_token_classifier_ner_clinical_trials_abstracts"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-       <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"sentence"</span><span class="p">)</span>\
-       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
-       <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
-       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span>\
-       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
-
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-        <span class="n">documentAssembler</span><span class="p">,</span>
-        <span class="n">sentenceDetector</span><span class="p">,</span>
-        <span class="n">tokenizer</span><span class="p">,</span>
-        <span class="n">tokenClassifier</span><span class="p">,</span>
-        <span class="n">ner_converter</span><span class="p">])</span>
-
-<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"This open-label, parallel-group, two-arm, pilot study compared the beta-cell protective effect of adding insulin glargine (GLA) vs. NPH insulin to ongoing metformin. Overall, 28 insulin-naive type 2 diabetes subjects (mean +/- SD age, 61.5 +/- 6.7 years; BMI, 30.7 +/- 4.3 kg/m(2)) treated with metformin and sulfonylurea were randomized to add once-daily GLA or NPH at bedtime."</span><span class="p">]</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span><span class="n">text</span><span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-
-<span class="n">results</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-        <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
+      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+ 
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">sentenceDetector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sentence_detector_dl_healthcare"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">sequenceClassifier</span> <span class="k">=</span> <span class="nv">BertForSequenceClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_classifier_finbert_fls"</span><span class="o">,</span><span class="s">"en"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">sequenceClassifier</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">MedicalBertForTokenClassifier</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_token_classifier_ner_clinical_trials_abstracts"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"sentence"</span><span class="o">))</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="nc">True</span><span class="o">)</span>
-       
-<span class="k">val</span><span class="o">.</span> <span class="n">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span>
-  	<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span><span class="s">"token"</span><span class="o">,</span><span class="s">"ner"</span><span class="o">))</span>
-  	<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I love Spark NLP."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">sentenceDetector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">tokenClassifier</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">text</span> <span class="k">=</span> <span class="s">"This open-label, parallel-group, two-arm, pilot study compared the beta-cell protective effect of adding insulin glargine (GLA) vs. NPH insulin to ongoing metformin. Overall, 28 insulin-naive type 2 diabetes subjects (mean +/- SD age, 61.5 +/- 6.7 years; BMI, 30.7 +/- 4.3 kg/m(2)) treated with metformin and sulfonylurea were randomized to add once-daily GLA or NPH at bedtime."</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="n">text</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">results</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
-
-<h2 id="results">Results</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------+------------------+
-|chunk           |ner_label         |
-+----------------+------------------+
-|open-label      |CTDesign          |
-|parallel-group  |CTDesign          |
-|two-arm         |CTDesign          |
-|insulin glargine|Drug              |
-|GLA             |Drug              |
-|NPH insulin     |Drug              |
-|metformin       |Drug              |
-|28              |NumberPatients    |
-|type 2 diabetes |DisorderOrSyndrome|
-|61.5            |Age               |
-|kg/m<span class="o">(</span>2          |BioAndMedicalUnit |
-|metformin       |Drug              |
-|sulfonylurea    |Drug              |
-|randomized      |CTDesign          |
-|once-daily      |DrugTime          |
-|GLA             |Drug              |
-|NPH             |Drug              |
-|bedtime         |DrugTime          |
-+----------------+------------------+
-</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -948,15 +892,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>bert_token_classifier_ner_clinical_trials_abstracts</td>
+      <td>bert_classifier_finbert_fls</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 3.5.3+</td>
+      <td>Spark NLP 4.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Licensed</td>
+      <td>Open Source</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -964,11 +908,11 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence, token]</td>
+      <td>[document, token]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[ner]</td>
+      <td>[class]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -976,7 +920,7 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>404.3 MB</td>
+      <td>412.3 MB</td>
     </tr>
     <tr>
       <td>Case sensitive:</td>
@@ -984,66 +928,15 @@
     </tr>
     <tr>
       <td>Max sentence length:</td>
-      <td>128</td>
+      <td>256</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<ul>
-  <li><a href="https://pub.uni-bielefeld.de/record/2939477">Sanchez Graillet O, Cimiano P, Witte C, Ell B. C-TrO: an ontology for summarization and aggregation of the level of evidence in clinical trials. In: Proceedings of the Workshop Ontologies and Data in Life Sciences (ODLS 2019) in the Joint Ontology Workshops’ (JOWO 2019). 2019.</a></li>
-</ul>
-
-<h2 id="benchmarking">Benchmarking</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>               label  precision    recall  f1-score   support
-               B-Age       0.93      0.88      0.90        16
-   B-AllocationRatio       1.00      1.00      1.00         7
-            B-Author       0.98      1.00      0.99       702
- B-BioAndMedicalUnit       0.96      0.97      0.96       723
-B-CTAnalysisApproach       1.00      1.00      1.00         5
-          B-CTDesign       0.93      0.95      0.94       384
-        B-Confidence       0.91      0.95      0.93       184
-           B-Country       0.88      0.91      0.90       115
-B-DisorderOrSyndrome       0.92      0.96      0.94       393
-         B-DoseValue       0.97      0.98      0.97       117
-              B-Drug       0.97      0.98      0.97      3944
-          B-DrugTime       0.92      0.90      0.91       202
-          B-Duration       0.90      0.88      0.89       100
-           B-Journal       1.00      1.00      1.00       131
-    B-NumberPatients       0.94      0.98      0.96       165
-              B-PMID       1.00      1.00      1.00       239
-            B-PValue       0.86      0.89      0.88       132
-B-PercentagePatients       0.93      0.97      0.95       105
-   B-PublicationYear       1.00      0.98      0.99        57
-         B-TimePoint       0.78      0.87      0.82       306
-             B-Value       0.89      0.87      0.88       407
-               I-Age       1.00      0.45      0.62        22
-   I-AllocationRatio       1.00      1.00      1.00        14
-            I-Author       0.99      0.98      0.99       590
- I-BioAndMedicalUnit       0.97      0.99      0.98       344
-I-CTAnalysisApproach       0.90      1.00      0.95        18
-          I-CTDesign       0.84      0.89      0.87       183
-        I-Confidence       0.92      0.98      0.95       753
-           I-Country       0.00      0.00      0.00        10
-I-DisorderOrSyndrome       0.99      0.98      0.99       600
-         I-DoseValue       0.99      0.98      0.98       164
-              I-Drug       0.90      0.89      0.90       393
-          I-DrugTime       0.96      0.80      0.88       192
-          I-Duration       0.90      0.84      0.87       165
-           I-Journal       0.98      0.99      0.99       238
-    I-NumberPatients       1.00      0.95      0.98        22
-            I-PValue       0.96      0.99      0.98       612
-I-PercentagePatients       0.99      1.00      1.00       130
-         I-TimePoint       0.81      0.78      0.79       282
-             I-Value       0.93      0.96      0.95       787
-                   O       0.99      0.98      0.98     24184
-            accuracy          -         -      0.97     38137
-           macro-avg       0.92      0.91      0.91     38137
-        weighted-avg       0.97      0.97      0.97     38137
-</code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-06-29T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>https://huggingface.co/yiyanghkust/finbert-fls</p>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-06-30T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -1168,7 +1061,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/06/29/ner_pathogen_pipeline_en_3_0.html">Pipeline to Detect Pathogen, Medical Condition and Medicine</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/06/30/bert_classifier_finbert_esg_en_3_0.html">English ESG BertForSequenceClassification model</a></div></div></div>
 
 </div>
 </div>

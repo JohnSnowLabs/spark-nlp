@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Italian BertForQuestionAnswering model (from luigisaetta)- Spark NLP Model</title><meta name="description" content="DescriptionPretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. squad_...">
-<link rel="canonical" href="/2022/06/28/bert_qa_squad_xxl_cased_hub1_it_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Persian XlmRoBertaForQuestionAnswering model (from m3hrdadfi)- Spark NLP Model</title><meta name="description" content="DescriptionPretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. xlmr-l...">
+<link rel="canonical" href="/2022/06/28/xlmroberta_qa_xlmr_large_fa_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,21 +406,21 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/murat-gunay/2022-06-28-bert_qa_squad_xxl_cased_hub1_it_3_0.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/murat-gunay/2022-06-28-xlmroberta_qa_xlmr_large_fa_3_0.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jun 28, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-28T00:00:00+00:00"></div><header class="main-docs"><h1>Italian BertForQuestionAnswering model (from luigisaetta)</h1></header></div><meta itemprop="headline" content="Italian BertForQuestionAnswering model (from luigisaetta)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>it</li><li>open_source</li><li>bert</li><li>question_answering</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-28T00:00:00+00:00">
-    <meta itemprop="keywords" content="it,open_source,bert,question_answering"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-28T00:00:00+00:00"></div><header class="main-docs"><h1>Persian XlmRoBertaForQuestionAnswering model (from m3hrdadfi)</h1></header></div><meta itemprop="headline" content="Persian XlmRoBertaForQuestionAnswering model (from m3hrdadfi)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>fa</li><li>open_source</li><li>xlmroberta</li><li>question_answering</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-06-28T00:00:00+00:00">
+    <meta itemprop="keywords" content="fa,open_source,xlmroberta,question_answering"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. <code class="language-plaintext highlighter-rouge">squad_it_xxl_cased_hub1</code> is a Italian model originally trained by <code class="language-plaintext highlighter-rouge">luigisaetta</code>.</p>
+<p>Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. <code class="language-plaintext highlighter-rouge">xlmr-large-qa-fa</code> is a Persian model originally trained by <code class="language-plaintext highlighter-rouge">m3hrdadfi</code>.</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_qa_squad_xxl_cased_hub1_it_4.0.0_3.0_1656413780942.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/xlmroberta_qa_xlmr_large_fa_4.0.0_3.0_1656419067604.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -432,14 +432,14 @@
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span>
 
-<span class="n">spanClassifier</span> <span class="o">=</span> <span class="n">BertForQuestionAnswering</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_qa_squad_xxl_cased_hub1"</span><span class="p">,</span><span class="s">"it"</span><span class="p">)</span> \
+<span class="n">spanClassifier</span> <span class="o">=</span> <span class="n">XlmRoBertaForQuestionAnswering</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"xlmroberta_qa_xlmr_large"</span><span class="p">,</span><span class="s">"fa"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
     
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">spanClassifier</span><span class="p">])</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"Qual è il mio nome?"</span><span class="p">,</span> <span class="s">"Mi chiamo Clara e vivo a Berkeley."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"اسم من چیست؟"</span><span class="p">,</span> <span class="s">"نام من کلارا است و من در برکلی زندگی می کنم."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">)</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
@@ -447,14 +447,14 @@
       <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"question"</span><span class="o">,</span> <span class="s">"context"</span><span class="o">))</span> 
       <span class="o">.</span><span class="py">setOutputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document_question"</span><span class="o">,</span> <span class="s">"document_context"</span><span class="o">))</span>
  
-<span class="k">val</span> <span class="nv">spanClassifer</span> <span class="k">=</span> <span class="nv">BertForQuestionAnswering</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_qa_squad_xxl_cased_hub1"</span><span class="o">,</span><span class="s">"it"</span><span class="o">)</span> 
+<span class="k">val</span> <span class="nv">spanClassifer</span> <span class="k">=</span> <span class="nv">XlmRoBertaForQuestionAnswering</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"xlmroberta_qa_xlmr_large"</span><span class="o">,</span><span class="s">"fa"</span><span class="o">)</span> 
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">spanClassifier</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Qual è il mio nome?"</span><span class="o">,</span> <span class="s">"Mi chiamo Clara e vivo a Berkeley."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"question"</span><span class="o">,</span> <span class="s">"context"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"اسم من چیست؟"</span><span class="o">,</span> <span class="s">"نام من کلارا است و من در برکلی زندگی می کنم."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"question"</span><span class="o">,</span> <span class="s">"context"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
@@ -466,7 +466,7 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>bert_qa_squad_xxl_cased_hub1</td>
+      <td>xlmroberta_qa_xlmr_large</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
@@ -490,11 +490,11 @@
     </tr>
     <tr>
       <td>Language:</td>
-      <td>it</td>
+      <td>fa</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>413.3 MB</td>
+      <td>1.9 GB</td>
     </tr>
     <tr>
       <td>Case sensitive:</td>
@@ -510,8 +510,9 @@
 <h2 id="references">References</h2>
 
 <ul>
-  <li>https://huggingface.co/luigisaetta/squad_it_xxl_cased_hub1</li>
-  <li>https://github.com/luigisaetta/nlp-qa-italian/blob/main/train_squad_it_final1.ipynb</li>
+  <li>https://huggingface.co/m3hrdadfi/xlmr-large-qa-fa</li>
+  <li>https://github.com/sajjjadayobi/PersianQA</li>
+  <li>https://github.com/m3hrdadfi</li>
 </ul>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-06-28T00:00:00+00:00"><!-- start custom article footer snippet -->
 
@@ -638,7 +639,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/06/28/bert_qa_large_japanese_wikipedia_ud_head_ja_3_0.html">Japanese BertForQuestionAnswering Large model (from KoichiYasuoka)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/06/28/xlmroberta_qa_ukrainian_uk_3_0.html">Ukrainian XlmRoBertaForQuestionAnswering model (from robinhad)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/06/28/xlmroberta_qa_ukrainian_uk_3_0.html">Ukrainian XlmRoBertaForQuestionAnswering model (from robinhad)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/06/29/recognize_entities_dl_fa_3_0.html">Explain Document DL Pipeline for Farsi/Persian</a></div></div></div>
 
 </div>
 </div>
