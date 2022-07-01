@@ -1,8 +1,2 @@
-docs/_posts/bunyamin-polat/2022-06-30-clinical_deidentification_glove_augmented_en_3_0.md
-docs/_posts/bunyamin-polat/2022-06-30-explain_clinical_doc_ade_en_3_0.md
-docs/_posts/hsaglamlar/2022-06-30-ner_clinical_bert_ro_3_0.md
-docs/_posts/hsaglamlar/2022-07-01-ner_clinical_ro_3_0.md
-docs/_posts/bunyamin-polat/2022-06-30-clinical_deidentification_glove_augmented_en_3_0.md
-docs/_posts/bunyamin-polat/2022-06-30-explain_clinical_doc_ade_en_3_0.md
-docs/_posts/hsaglamlar/2022-06-30-ner_clinical_bert_ro_3_0.md
-docs/_posts/hsaglamlar/2022-07-01-ner_clinical_ro_3_0.md
+docs/_posts/luca-martial/2022-02-14-ner_deid_subentity_fr.md
+docs/_posts/luca-martial/2022-02-14-ner_deid_subentity_fr.md
