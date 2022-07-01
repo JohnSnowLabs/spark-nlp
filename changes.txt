@@ -1,2 +1,2 @@
-docs/_posts/murat-gunay/2022-06-22-electra_qa_BioM_Base_SQuAD2_BioASQ8B_en_3_0.md
-docs/_posts/murat-gunay/2022-06-22-electra_qa_BioM_Base_SQuAD2_BioASQ8B_en_3_0.md
+docs/_posts/luca-martial/2022-04-11-bert_embeddings_german_financial_statements_bert_de_3_0.md
+docs/_posts/luca-martial/2022-04-11-bert_embeddings_german_financial_statements_bert_de_3_0.md
