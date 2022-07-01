@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English ElectraForQuestionAnswering model (from sultan) BioASQ
+title: English Biomedical ElectraForQuestionAnswering model
 author: John Snow Labs
 name: electra_qa_BioM_Base_SQuAD2_BioASQ8B
 date: 2022-06-22
@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -17,7 +18,9 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `BioM-ELECTRA-Base-SQuAD2-BioASQ8B` is a English model originally trained by `sultan`.
+Pretrained Biomedical Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `BioM-ELECTRA-Base-SQuAD2-BioASQ8B` is a English model originally trained by `sultan`.
+
+This model is fine-tuned on the SQuAD2.0 dataset and then on the BioASQ8B-Factoid training dataset. We convert the BioASQ8B-Factoid training dataset to SQuAD1.1 format and train and evaluate our model (BioM-ELECTRA-Base-SQuAD2) on this dataset.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
