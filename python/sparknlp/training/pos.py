@@ -13,7 +13,6 @@
 #  limitations under the License.
 """Contains helper classes for part-of-speech tagging."""
 
-from pyspark.sql import DataFrame
 from sparknlp.internal import ExtendedJavaWrapper
 
 
@@ -100,5 +99,5 @@ class POS(ExtendedJavaWrapper):
         jSession = spark._jsparkSession
 
         jdf = self._java_obj.readDataset(jSession, path, delimiter, outputPosCol, outputDocumentCol, outputTextCol)
-        return DataFrame(jdf, spark._wrapped)
-
+        dataframe = self.getDataFrame(spark, jdf)
+        return dataframe
