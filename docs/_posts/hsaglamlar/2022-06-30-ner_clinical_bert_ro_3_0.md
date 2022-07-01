@@ -34,6 +34,7 @@ Extract clinical entities from Romanian clinical texts. This model is trained us
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -88,7 +89,7 @@ val tokenizer = new Tokenizer()
     .setInputCols("sentence")
     .setOutputCol("token")
 
-val embeddings = WordEmbeddingsModel.pretrained("bert_base_cased", "ro")
+val embeddings = BertEmbeddings.pretrained("bert_base_cased", "ro")
     .setInputCols(Array("sentence", "token"))
     .setOutputCol("embeddings")
 
