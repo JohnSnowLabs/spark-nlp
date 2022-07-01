@@ -1,2 +1,14 @@
-docs/en/licensed_release_notes.md
-docs/en/licensed_release_notes.md
+docs/en/transformer_entries/AlbertForQuestionAnswering.md
+docs/en/transformer_entries/BertForQuestionAnswering.md
+docs/en/transformer_entries/DeBertaForQuestionAnswering.md
+docs/en/transformer_entries/DistilBertForQuestionAnswering.md
+docs/en/transformer_entries/LongformerForQuestionAnswering.md
+docs/en/transformer_entries/RoBertaForQuestionAnswering.md
+docs/en/transformer_entries/XlmRoBertaForQuestionAnswering.md
+docs/en/transformer_entries/AlbertForQuestionAnswering.md
+docs/en/transformer_entries/BertForQuestionAnswering.md
+docs/en/transformer_entries/DeBertaForQuestionAnswering.md
+docs/en/transformer_entries/DistilBertForQuestionAnswering.md
+docs/en/transformer_entries/LongformerForQuestionAnswering.md
+docs/en/transformer_entries/RoBertaForQuestionAnswering.md
+docs/en/transformer_entries/XlmRoBertaForQuestionAnswering.md
