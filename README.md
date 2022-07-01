@@ -17,7 +17,7 @@
 </p>
 
 Spark NLP is a state-of-the-art Natural Language Processing library built on top of Apache Spark. It provides **simple**, **performant** & **accurate** NLP annotations for machine learning pipelines that **scale** easily in a distributed environment.
-Spark NLP comes with **5000+** pretrained **pipelines** and **models** in more than **200+** languages.
+Spark NLP comes with **6000+** pretrained **pipelines** and **models** in more than **200+** languages.
 It also offers tasks such as **Tokenization**, **Word Segmentation**, **Part-of-Speech Tagging**, Word and Sentence **Embeddings**, **Named Entity Recognition**, **Dependency Parsing**, **Spell Checking**, **Text Classification**, **Sentiment Analysis**, **Token Classification**, **Machine Translation** (+180 languages), **Summarization** & **Question Answering**, **Text Generation**, and many more [NLP tasks](#features).
 
 **Spark NLP** is the only open-source NLP library in **production** that offers state-of-the-art transformers such as **BERT**, **CamemBERT**, **ALBERT**, **ELECTRA**, **XLNet**, **DistilBERT**, **RoBERTa**, **DeBERTa**, **XLM-RoBERTa**, **Longformer**, **ELMO**, **Universal Sentence Encoder**, **Google T5**, **MarianMT**, and **GPT2** not only to **Python** and **R**, but also to **JVM** ecosystem (**Java**, **Scala**, and **Kotlin**) at **scale** by extending **Apache Spark** natively.
@@ -135,8 +135,8 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - Easy TensorFlow integration
 - GPU Support
 - Full integration with Spark ML functions
-- +3200 pre-trained models in +200 languages!
-- +1700 pre-trained pipelines in +200 languages!
+- +4400+ pre-trained models in +200 languages!
+- +1800 pre-trained pipelines in +200 languages!
 - Multi-lingual NER models: Arabic, Bengali, Chinese, Danish, Dutch, English, Finnish, French, German, Hebrew, Italian, Japanese, Korean, Norwegian, Persian, Polish, Portuguese, Russian, Spanish, Swedish, Urdu, and more.
 
 ## Requirements
@@ -215,7 +215,7 @@ Spark NLP *4.0.1* has been built on top of Apache Spark 3.2 while fully supports
 | Spark NLP | Apache Spark 2.3.x | Apache Spark 2.4.x | Apache Spark 3.0.x | Apache Spark 3.1.x | Apache Spark 3.2.x | Apache Spark 3.3.x |
 |-----------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
 | 4.0.x     | NO                 | NO                 | YES                | YES                | YES                | YES                |
-| 3.4.x     | YES                | YES                | YES                | YES                | Partially          | N/A          |
+| 3.4.x     | YES                | YES                | YES                | YES                | Partially          | N/A                |
 | 3.3.x     | YES                | YES                | YES                | YES                | NO                 | NO                 |
 | 3.2.x     | YES                | YES                | YES                | YES                | NO                 | NO                 |
 | 3.1.x     | YES                | YES                | YES                | YES                | NO                 | NO                 |
@@ -258,6 +258,8 @@ Spark NLP 4.0.1 has been tested and is compatible with the following runtimes:
 - 10.4 ML
 - 10.5
 - 10.5 ML
+- 11.0
+- 11.0 ML
 
 **GPU:**
 
@@ -267,6 +269,7 @@ Spark NLP 4.0.1 has been tested and is compatible with the following runtimes:
 - 10.3 ML & GPU
 - 10.4 ML & GPU
 - 10.5 ML & GPU
+- 11 ML & GPU
 
 NOTE: Spark NLP 4.0.x is based on TensorFlow 2.7.x which is compatible with CUDA11 and cuDNN 8.0.2. The only Databricks runtimes supporting CUDA 11 are 9.x and above as listed under GPU.
 
