@@ -14,10 +14,12 @@ do
  esac
 done
 
-echo "setup Colab for PySpark $PYSPARK and Spark NLP $SPARKNLP"
 export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 
-if [[ "$PYSPARK" == "3.2"* ]]; then
+if [[ "$PYSPARK" == "3.3"* ]]; then
+  PYSPARK="3.3.0"
+  echo "Installing PySpark $PYSPARK and Spark NLP $SPARKNLP"
+elif [[ "$PYSPARK" == "3.2"* ]]; then
   PYSPARK="3.2.1"
   echo "Installing PySpark $PYSPARK and Spark NLP $SPARKNLP"
 elif [[ "$PYSPARK" == "3.1"* ]]; then
@@ -27,9 +29,11 @@ elif [[ "$PYSPARK" == "3.0"* ]]; then
   PYSPARK="3.0.3"
   echo "Installing PySpark $PYSPARK and Spark NLP $SPARKNLP"
 else
-  PYSPARK="3.0.3"
-  export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+  PYSPARK="3.2.1"
+  echo "Installing PySpark $PYSPARK and Spark NLP $SPARKNLP"
 fi
+
+echo "setup Colab for PySpark $PYSPARK and Spark NLP $SPARKNLP"
 
 if [[ "$GPU" == "true" ]];
   then
