@@ -1,6 +1,6 @@
 ---
 layout: model
-title: German Financial Bert Embeddings
+title: German Financial Bert Word Embeddings
 author: John Snow Labs
 name: bert_embeddings_german_financial_statements_bert
 date: 2022-04-11
@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Financial Bert Embeddings model, trained on German Financial Statements. Uploaded to Hugging Face, adapted and imported into Spark NLP. `german-financial-statements-bert` is a German model orginally trained by `fabianrausch`.
+Pretrained Financial Bert Word Embeddings model, trained on German Financial Statements. Uploaded to Hugging Face, adapted and imported into Spark NLP. `german-financial-statements-bert` is a German model orginally trained by `fabianrausch`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
