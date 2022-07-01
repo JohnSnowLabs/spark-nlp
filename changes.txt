@@ -1,2 +1,2 @@
-docs/_posts/Cabir40/2022-03-03-clinical_deidentification_en_3_0.md
-docs/_posts/Cabir40/2022-03-03-clinical_deidentification_en_3_0.md
+docs/licensed/api/python/reference/autosummary/sparknlp_jsl.annotator.router.html
+docs/licensed/api/python/reference/autosummary/sparknlp_jsl.annotator.router.html
