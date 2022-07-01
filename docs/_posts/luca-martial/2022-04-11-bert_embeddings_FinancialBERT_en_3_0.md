@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Bert Embeddings (from ahmedrachid)
+title: English Financial Bert Embeddings
 author: John Snow Labs
 name: bert_embeddings_FinancialBERT
 date: 2022-04-11
