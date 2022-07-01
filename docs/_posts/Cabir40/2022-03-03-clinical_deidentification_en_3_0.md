@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Clinical Deidentification
+title: Clinical Deidentification Pipeline (English)
 author: John Snow Labs
 name: clinical_deidentification
 date: 2022-03-03
