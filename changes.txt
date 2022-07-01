@@ -1,2 +1,2 @@
-docs/_posts/luca-martial/2022-04-11-bert_embeddings_german_financial_statements_bert_de_3_0.md
-docs/_posts/luca-martial/2022-04-11-bert_embeddings_german_financial_statements_bert_de_3_0.md
+docs/_posts/luca-martial/2022-04-11-bert_embeddings_FinancialBERT_en_3_0.md
+docs/_posts/luca-martial/2022-04-11-bert_embeddings_FinancialBERT_en_3_0.md
