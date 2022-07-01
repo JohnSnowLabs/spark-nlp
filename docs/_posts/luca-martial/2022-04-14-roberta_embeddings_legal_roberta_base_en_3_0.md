@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Legal RoBERTa Embeddings
+title: English Legal RoBERTa Embeddings (Base)
 author: John Snow Labs
 name: roberta_embeddings_legal_roberta_base
 date: 2022-04-14
