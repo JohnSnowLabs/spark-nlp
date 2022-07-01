@@ -75,7 +75,7 @@ nlpPipeline = Pipeline(stages=[
 
 text = ["J'ai vu en consultation Michel Martinez (49 ans) adressé au Centre Hospitalier De Plaisir pour un diabète mal contrôlé avec des symptômes datant de Mars 2015."]
 
-df = spark.createDataFrame([text]).toDF("text")
+data = spark.createDataFrame([text]).toDF("text")
 
 results = nlpPipeline.fit(data).transform(data)
 ```
