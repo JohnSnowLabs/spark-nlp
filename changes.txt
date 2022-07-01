@@ -1,2 +1,8 @@
-docs/licensed/api/python/reference/autosummary/sparknlp_jsl.annotator.router.html
-docs/licensed/api/python/reference/autosummary/sparknlp_jsl.annotator.router.html
+README.md
+docs/_layouts/landing.html
+docs/en/install.md
+python/README.md
+README.md
+docs/_layouts/landing.html
+docs/en/install.md
+python/README.md
