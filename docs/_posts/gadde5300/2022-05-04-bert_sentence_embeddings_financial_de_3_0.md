@@ -1,6 +1,6 @@
 ---
 layout: model
-title: German Financial Sentence Embeddings (Bert)
+title: German Financial Bert Sentence Embeddings
 author: John Snow Labs
 name: bert_sentence_embeddings_financial
 date: 2022-05-04
