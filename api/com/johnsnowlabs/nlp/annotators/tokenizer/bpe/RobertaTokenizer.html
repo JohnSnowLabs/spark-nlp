@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.0.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer</title>
-          <meta name="description" content="Spark NLP 4.0.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer" />
-          <meta name="keywords" content="Spark NLP 4.0.0 ScalaDoc com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer" />
+          <title>Spark NLP 4.0.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer</title>
+          <meta name="description" content="Spark NLP 4.0.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer" />
+          <meta name="keywords" content="Spark NLP 4.0.1 ScalaDoc com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.0.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.0.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -260,9 +260,9 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(merges:Map[(String,String),Int],vocab:Map[String,Int],specialTokens:com.johnsnowlabs.nlp.annotators.tokenizer.bpe.SpecialTokens,padWithSentenceTokens:Boolean):com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer"></a><a id="&lt;init&gt;:RobertaTokenizer"></a>
+      <a id="&lt;init&gt;(merges:Map[(String,String),Int],vocab:Map[String,Int],specialTokens:com.johnsnowlabs.nlp.annotators.tokenizer.bpe.SpecialTokens,padWithSentenceTokens:Boolean,addPrefixSpace:Boolean):com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer"></a><a id="&lt;init&gt;:RobertaTokenizer"></a>
       <span class="permalink">
-      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/tokenizer/bpe/RobertaTokenizer.html#&lt;init&gt;(merges:Map[(String,String),Int],vocab:Map[String,Int],specialTokens:com.johnsnowlabs.nlp.annotators.tokenizer.bpe.SpecialTokens,padWithSentenceTokens:Boolean):com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer" title="Permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/tokenizer/bpe/RobertaTokenizer.html#&lt;init&gt;(merges:Map[(String,String),Int],vocab:Map[String,Int],specialTokens:com.johnsnowlabs.nlp.annotators.tokenizer.bpe.SpecialTokens,padWithSentenceTokens:Boolean,addPrefixSpace:Boolean):com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -271,7 +271,7 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">RobertaTokenizer</span><span class="params">(<span name="merges">merges: <span class="extype" name="scala.Predef.Map">Map</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>), <span class="extype" name="scala.Int">Int</span>]</span>, <span name="vocab">vocab: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>]</span>, <span name="specialTokens">specialTokens: <span class="extype" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.SpecialTokens">SpecialTokens</span></span>, <span name="padWithSentenceTokens">padWithSentenceTokens: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span>
+        <span class="name">RobertaTokenizer</span><span class="params">(<span name="merges">merges: <span class="extype" name="scala.Predef.Map">Map</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>), <span class="extype" name="scala.Int">Int</span>]</span>, <span name="vocab">vocab: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>]</span>, <span name="specialTokens">specialTokens: <span class="extype" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.SpecialTokens">SpecialTokens</span></span>, <span name="padWithSentenceTokens">padWithSentenceTokens: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="addPrefixSpace">addPrefixSpace: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span>
       </span>
       
       
@@ -333,6 +333,22 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer#addPrefixSpace" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addPrefixSpace:Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/tokenizer/bpe/RobertaTokenizer.html#addPrefixSpace:Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addPrefixSpace</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>BpeTokenizer</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer#appendForPieceId" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="appendForPieceId:Option[String]"></a>
       <span class="permalink">
@@ -723,7 +739,7 @@ vocabulary. If not possible, the word is split into smaller subwords, until they
     </span>
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">var</span>
+        <span class="kind">val</span>
       </span>
       <span class="symbol">
         <span class="name">padWithSentenceTokens</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
