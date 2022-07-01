@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English RoBERTa Embeddings (from saibo)
+title: English Legal RoBERTa Embeddings
 author: John Snow Labs
 name: roberta_embeddings_legal_roberta_base
 date: 2022-04-14
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained RoBERTa Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `legal-roberta-base` is a English model orginally trained by `saibo`.
+Pretrained Legal RoBERTa Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `legal-roberta-base` is a English model orginally trained by `saibo`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
