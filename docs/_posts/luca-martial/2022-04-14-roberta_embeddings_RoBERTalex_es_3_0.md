@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish RoBERTa Embeddings (from BSC-TeMU)
+title: Spanish Legal RoBERTa Embeddings
 author: John Snow Labs
 name: roberta_embeddings_RoBERTalex
 date: 2022-04-14
