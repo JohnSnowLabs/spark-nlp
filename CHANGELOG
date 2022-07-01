@@ -1,4 +1,23 @@
 ========
+4.0.1
+========
+----------------
+New Features
+----------------
+* Full support for Apache Spark & PySpark 3.3.0
+* Add Apache Spark 3.3.0 to Google Colab and Kaggle setup scripts
+* New `-g` option for Google Colab and Kaggle setup on GPU device to upgrade `libcudnn8` to 8.1.0 to solve the issue on GPU
+* Support for Databricks Runtime 11.0
+
+----------------
+Bug Fixes
+----------------
+
+* Fix the error caused by PySpark 3.3.0 in CoNLL, CoNLLU, POS, and PubTator annotators as training helpers
+* Fix and re-upload Dependency and Type Dependency parser pre-trained models
+* Update pre-trained pipelines with issues on PySpark 3.2 and 3.3
+
+========
 4.0.0
 ========
 ----------------

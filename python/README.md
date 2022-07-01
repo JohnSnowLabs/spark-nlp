@@ -154,6 +154,7 @@ Spark NLP 4.0.1 is built with TensorFlow 2.7.1 and the following NVIDIA® softwa
 - CUDA® Toolkit 11.2
 - cuDNN SDK 8.1.0
 
+
 ## Quick Start
 
 This is a quick example of how to use Spark NLP pre-trained pipeline in Python and PySpark:
@@ -599,6 +600,7 @@ This script comes with the two options to define `pyspark` and `spark-nlp` versi
 ```sh
 # -p is for pyspark
 # -s is for spark-nlp
+# -g will enable upgrading libcudnn8 to 8.1.0 on Google Colab for GPU usage
 # by default they are set to the latest
 !wget https://setup.johnsnowlabs.com/colab.sh -O - | bash /dev/stdin -p 3.2.1 -s 4.0.1
 ```
@@ -612,6 +614,16 @@ Run the following code in Kaggle Kernel and start using spark-nlp right away.
 ```sh
 # Let's setup Kaggle for Spark NLP and PySpark
 !wget https://setup.johnsnowlabs.com/kaggle.sh -O - | bash
+```
+
+This script comes with the two options to define `pyspark` and `spark-nlp` versions via options:
+
+```sh
+# -p is for pyspark
+# -s is for spark-nlp
+# -g will enable upgrading libcudnn8 to 8.1.0 on Kaggle for GPU usage
+# by default they are set to the latest
+!wget https://setup.johnsnowlabs.com/colab.sh -O - | bash /dev/stdin -p 3.2.1 -s 4.0.1
 ```
 
 [Spark NLP quick start on Kaggle Kernel](https://www.kaggle.com/mozzie/spark-nlp-named-entity-recognition) is a live demo on Kaggle Kernel that performs named entity recognitions by using Spark NLP pretrained pipeline.
@@ -1086,7 +1098,7 @@ spark = SparkSession.builder \
     .getOrCreate()
 ```
 
-- You can download provided Fat JARs from each [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases), please pay attention to pick the one that suits your environment depending on the device (CPU/GPU) and Apache Spark version (2.3.x, 2.4.x, and 3.x)
+- You can download provided Fat JARs from each [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases), please pay attention to pick the one that suits your environment depending on the device (CPU/GPU) and Apache Spark version (3.0.x, 3.1.x, 3.2.x, and 3.3.x)
 - If you are local, you can load the Fat JAR from your local FileSystem, however, if you are in a cluster setup you need to put the Fat JAR on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., `hdfs:///tmp/spark-nlp-assembly-4.0.1.jar`)
 
 Example of using pretrained Models and Pipelines in offline:

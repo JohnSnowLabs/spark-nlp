@@ -600,6 +600,7 @@ This script comes with the two options to define `pyspark` and `spark-nlp` versi
 ```sh
 # -p is for pyspark
 # -s is for spark-nlp
+# -g will enable upgrading libcudnn8 to 8.1.0 on Google Colab for GPU usage
 # by default they are set to the latest
 !wget https://setup.johnsnowlabs.com/colab.sh -O - | bash /dev/stdin -p 3.2.1 -s 4.0.1
 ```
@@ -613,6 +614,16 @@ Run the following code in Kaggle Kernel and start using spark-nlp right away.
 ```sh
 # Let's setup Kaggle for Spark NLP and PySpark
 !wget https://setup.johnsnowlabs.com/kaggle.sh -O - | bash
+```
+
+This script comes with the two options to define `pyspark` and `spark-nlp` versions via options:
+
+```sh
+# -p is for pyspark
+# -s is for spark-nlp
+# -g will enable upgrading libcudnn8 to 8.1.0 on Kaggle for GPU usage
+# by default they are set to the latest
+!wget https://setup.johnsnowlabs.com/colab.sh -O - | bash /dev/stdin -p 3.2.1 -s 4.0.1
 ```
 
 [Spark NLP quick start on Kaggle Kernel](https://www.kaggle.com/mozzie/spark-nlp-named-entity-recognition) is a live demo on Kaggle Kernel that performs named entity recognitions by using Spark NLP pretrained pipeline.
