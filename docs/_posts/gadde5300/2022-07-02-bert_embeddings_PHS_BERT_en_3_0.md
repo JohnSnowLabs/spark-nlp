@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BERT Embeddings (PHS-BERT)
+title: Public Health Surveillance (PHS) BERT Embeddings
 author: John Snow Labs
 name: bert_embeddings_phs_bert
 date: 2022-07-02
