@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Unknown language [vn] language [vn] XlmRoBertaForQuestionAnswering (from bhavikardeshna)
+title: Vietnamese XlmRoBertaForQuestionAnswering (from bhavikardeshna)
 author: John Snow Labs
 name: xlm_roberta_qa_xlm_roberta_base_vietnamese
 date: 2022-06-23
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `xlm-roberta-base-vietnamese` is a Unknown language [vn] language [vn] model originally trained by `bhavikardeshna`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `xlm-roberta-base-vietnamese` is a Vietnamese model originally trained by `bhavikardeshna`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

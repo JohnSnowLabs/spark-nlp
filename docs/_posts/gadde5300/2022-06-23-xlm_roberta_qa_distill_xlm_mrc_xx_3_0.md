@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Unknown language [en,vi] XlmRoBertaForQuestionAnswering (from aicryptogroup)
+title: Multilingual XlmRoBertaForQuestionAnswering (from aicryptogroup)
 author: John Snow Labs
 name: xlm_roberta_qa_distill_xlm_mrc
 date: 2022-06-23
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `distill-xlm-mrc` is a Unknown language [en,vi] model originally trained by `aicryptogroup`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `distill-xlm-mrc` is a multilingual model originally trained by `aicryptogroup`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
