@@ -45,7 +45,7 @@ embeddings = BertEmbeddings.pretrained("bert_embeddings_phs_bert","en") \
     
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
 
-data = spark.createDataFrame([["I love Spark NLP"]]).toDF("text")
+data = spark.createDataFrame([["No place in my city has shelter space for us, and I won't put my baby on the literal street. What cities have good shelter programs for homeless mothers and children?"]]).toDF("text")
 
 result = pipeline.fit(data).transform(data)
 ```
@@ -64,7 +64,7 @@ val embeddings = BertEmbeddings.pretrained("bert_embeddings_phs_bert","en")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
 
-val data = Seq("I love Spark NLP").toDF("text")
+val data = Seq("No place in my city has shelter space for us, and I won't put my baby on the literal street. What cities have good shelter programs for homeless mothers and children?").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
