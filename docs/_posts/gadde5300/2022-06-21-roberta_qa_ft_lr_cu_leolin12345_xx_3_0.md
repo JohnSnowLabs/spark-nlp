@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English RobertaForQuestionAnswering (from leolin12345)
+title: Multilingual RobertaForQuestionAnswering (from leolin12345)
 author: John Snow Labs
 name: roberta_qa_ft_lr_cu_leolin12345
 date: 2022-06-21
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `ft-lr-cu` is a English model originally trained by `leolin12345`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `ft-lr-cu` is a Multilingual model originally trained by `leolin12345`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

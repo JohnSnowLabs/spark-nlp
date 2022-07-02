@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Unknown language [en,hi,ta] XlmRoBertaForQuestionAnswering (from gokulkarthik)
+title: Multilingual XlmRoBertaForQuestionAnswering (from gokulkarthik)
 author: John Snow Labs
 name: xlm_roberta_qa_xlm_roberta_qa_chaii
 date: 2022-06-23
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `xlm-roberta-qa-chaii` is a Unknown language [en,hi,ta] model originally trained by `gokulkarthik`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `xlm-roberta-qa-chaii` is a multilingual model originally trained by `gokulkarthik`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
