@@ -1,8 +1,8 @@
 ---
 layout: model
-title: English BERT Embeddings (from publichealthsurveillance)
+title: English BERT Embeddings (PHS-BERT)
 author: John Snow Labs
-name: bert_embeddings_PHS_BERT
+name: bert_embeddings_phs_bert
 date: 2022-07-02
 tags: [bert, en, embeddings, open_source]
 task: Embeddings
@@ -17,12 +17,12 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained BERT Embeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `PHS-BERTd` is a English model originally trained by `publichealthsurveillance`.
+Pretrained BERT Embeddings model, adapted from [Hugging Face](https://huggingface.co/publichealthsurveillance/PHS-BERT) and curated to provide scalability and production-readiness using Spark NLP. `PHS-BERT` is an English model and trained to identify the tasks related to public health surveillance (PHS) on social media.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_embeddings_PHS_BERT_en_4.0.0_3.0_1656759538082.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_embeddings_phs_bert_en_4.0.0_3.0_1656759538082.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -39,7 +39,7 @@ tokenizer = Tokenizer() \
     .setInputCols("document") \
     .setOutputCol("token")
   
-embeddings = BertEmbeddings.pretrained("bert_embeddings_PHS_BERT","en") \
+embeddings = BertEmbeddings.pretrained("bert_embeddings_phs_bert","en") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings")
     
@@ -58,7 +58,7 @@ val tokenizer = new Tokenizer()
     .setInputCols(Array("document"))
     .setOutputCol("token")
 
-val embeddings = BertEmbeddings.pretrained("bert_embeddings_PHS_BERT","en") 
+val embeddings = BertEmbeddings.pretrained("bert_embeddings_phs_bert","en") 
     .setInputCols(Array("document", "token")) 
     .setOutputCol("embeddings")
 
@@ -75,7 +75,7 @@ val result = pipeline.fit(data).transform(data)
 
 {:.table-model}
 |---|---|
-|Model Name:|bert_embeddings_PHS_BERT|
+|Model Name:|bert_embeddings_phs_bert|
 |Compatibility:|Spark NLP 4.0.0+|
 |License:|Open Source|
 |Edition:|Official|
