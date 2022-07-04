@@ -81,6 +81,14 @@ val example = Seq("I really liked that movie!").toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.news.deberta").predict("""I really liked that movie!""")
+```
+
 </div>
 
 {:.model-param}

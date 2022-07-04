@@ -45,6 +45,14 @@ val embeddings = CamemBertEmbeddings.pretrained("camembert_large", "fr")
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("fr.embed.camembert_large").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

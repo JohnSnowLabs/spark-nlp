@@ -70,6 +70,14 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 val result = pipeline.fit(Seq.empty[String]).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.jsl.wip.clinical.rd").predict("""Put your text here.""")
+```
+
 </div>
 
 

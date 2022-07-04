@@ -123,6 +123,14 @@ result.selectExpr("explode(arrays_zip(token.result, ner.result))") \
       .selectExpr("col'0' as token", "col'1' as ner")
       .show()
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ja.ner.ud_gsd_cc_300d").predict("""explode(arrays_zip(token.result, ner.result))""")
+```
+
 </div>
 
 ## Results

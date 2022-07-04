@@ -62,6 +62,14 @@ light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).to
 annotations = light_pipeline.fullAnnotate(["I feel a bit drowsy & have a little blurred vision after taking an insulin", "I feel great after taking tylenol"])
 ```
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.ade.conversational").predict("""I feel a bit drowsy & have a little blurred vision after taking an insulin""")
+```
+
 </div>
 
 ## Results

@@ -33,7 +33,7 @@ This is a text-to-text model trained by Google on the colossal, cleaned version 
 
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 from sparknlp.annotator import SentenceDetectorDLModel, T5Transformer
 
@@ -91,6 +91,14 @@ from sparknlp.annotator import SentenceDetectorDLModel, T5Transformer
 
     results.select("questions.result", "answers.result").show(truncate = false)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.t5").predict("""Which is the capital of France? Who was the first president of USA?""")
+```
+
 </div>
 
 ## Results

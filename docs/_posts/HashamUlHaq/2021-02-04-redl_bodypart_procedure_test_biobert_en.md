@@ -150,6 +150,14 @@ val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, 
 val data = Seq("TECHNIQUE IN DETAIL: After informed consent was obtained from the patient and his mother, the chest was scanned with portable ultrasound.").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.relation.bodypart.procedure").predict("""TECHNIQUE IN DETAIL: After informed consent was obtained from the patient and his mother, the chest was scanned with portable ultrasound.""")
+```
+
 </div>
 
 ## Results

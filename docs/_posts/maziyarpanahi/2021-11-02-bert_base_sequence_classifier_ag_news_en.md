@@ -83,6 +83,14 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, seq
 val example = Seq("Disney Comics was a comic book publishing company operated by The Walt Disney Company which ran from 1990 to 1993.").toDS.toDF("text")
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.bert_sequence.ag_news").predict("""Disney Comics was a comic book publishing company operated by The Walt Disney Company which ran from 1990 to 1993.""")
+```
+
 </div>
 
 {:.model-param}

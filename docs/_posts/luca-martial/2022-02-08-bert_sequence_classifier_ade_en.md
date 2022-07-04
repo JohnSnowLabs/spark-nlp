@@ -104,6 +104,14 @@ val data = Seq("I felt a bit drowsy and had blurred vision after taking Aspirin.
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.ade.seq_biobert").predict("""I felt a bit drowsy and had blurred vision after taking Aspirin.""")
+```
+
 </div>
 
 

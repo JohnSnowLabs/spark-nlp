@@ -43,6 +43,14 @@ val carp_pipeline = new PretrainedPipeline("explain_clinical_doc_carp","en","cli
 val result = carp_pipeline.fullAnnotate("""A 28-year-old female with a history of gestational diabetes mellitus, used to take metformin 1000 mg two times a day, presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting. She was seen by the endocrinology service and discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals.""")(0)
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.explain_doc.carp").predict("""A 28-year-old female with a history of gestational diabetes mellitus, used to take metformin 1000 mg two times a day, presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting. She was seen by the endocrinology service and discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals.""")
+```
+
 </div>
 
 ## Results

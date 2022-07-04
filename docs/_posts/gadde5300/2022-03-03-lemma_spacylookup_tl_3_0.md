@@ -67,6 +67,14 @@ val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, lemm
 val data = Seq("Hindi ka mas mahusay kaysa sa akin").toDF("text")
 val results = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("tl.lemma").predict("""Hindi ka mas mahusay kaysa sa akin""")
+```
+
 </div>
 
 ## Results

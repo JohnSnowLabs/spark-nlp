@@ -119,6 +119,14 @@ val result = model.transform(data)
 
 result.selectExpr("explode(arrays_zip(token.result, ner.result))").show()
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ja.ner.ud_gsd_xlm_roberta_base").predict("""explode(arrays_zip(token.result, ner.result))""")
+```
+
 </div>
 
 ## Results

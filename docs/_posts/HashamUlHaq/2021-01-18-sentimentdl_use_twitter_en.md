@@ -59,6 +59,14 @@ annotations = l_model.fullAnnotate(["im meeting up with one of my besties tonigh
 ```
 
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.sentiment.twitter.dl").predict("""is upset that he can't update his Facebook by texting it... and might cry as a result  School today also. Blah!""")
+```
+
 </div>
 
 ## Results

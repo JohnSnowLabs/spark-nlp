@@ -57,6 +57,14 @@ val ner = MedicalNerModel.pretrained("ner_healthcare_slim", "de", "clinical/mode
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
 val result = pipeline.fit(Seq.empty[String]).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("de.med_ner").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

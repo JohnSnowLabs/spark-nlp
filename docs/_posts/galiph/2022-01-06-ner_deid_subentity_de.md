@@ -87,6 +87,15 @@ val result = Seq("""Michael Berger wird am Morgen des 12 Dezember 2018 ins St. E
 
 val model = nlpPipeline.fit(result).transform(result)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("de.med_ner.deid_subentity").predict("""Michael Berger wird am Morgen des 12 Dezember 2018 ins St. Elisabeth-Krankenhaus
+in Bad Kissingen eingeliefert. Herr Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen.""")
+```
+
 </div>
 
 

@@ -59,6 +59,14 @@ light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).to
 annotations = light_pipeline.fullAnnotate("""social history: shows that  does not smoke cigarettes or drink alcohol, lives in a nursing home. family history: shows a family history of breast cancer.""")
 ```
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.gender.biobert").predict("""social history: shows that  does not smoke cigarettes or drink alcohol, lives in a nursing home. family history: shows a family history of breast cancer.""")
+```
+
 </div>
 
 ## Results

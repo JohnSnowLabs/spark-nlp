@@ -108,6 +108,14 @@ val sample_text = Seq("""HISTORY: 30-year-old female presents for digital bilate
 
 val result = pipeline.fit(sample_text).transform(sample_text)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.token_bert.ner_jsl_slim").predict("""HISTORY: 30-year-old female presents for digital bilateral mammography secondary to a soft tissue lump palpated by the patient in the upper right shoulder. The patient has a family history of breast cancer within her mother at age 58. Patient denies personal history of breast cancer.""")
+```
+
 </div>
 
 

@@ -71,6 +71,14 @@ val data = Seq("Please leave the room now.")
 val result = pipeline.fit(data).transform(data)
 result.select("transfers.result").show(false)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.t5.formal_to_informal_styletransfer").predict("""transfer Formal to Casual:""")
+```
+
 </div>
 
 ## Results

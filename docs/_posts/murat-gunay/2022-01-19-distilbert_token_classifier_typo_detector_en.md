@@ -88,6 +88,14 @@ val example = Seq.empty["He had also stgruggled with addiction during his tine i
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.typos.distilbert").predict("""He had also stgruggled with addiction during his tine in Congress.""")
+```
+
 </div>
 
 ## Results

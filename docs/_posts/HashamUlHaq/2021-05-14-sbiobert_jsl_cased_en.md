@@ -50,6 +50,14 @@ val sbiobert_embeddings = BertSentenceEmbeddings
         .setInputCols(Array("sentence"))
         .setOutputCol("sbert_embeddings")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed_sentence.biobert.jsl_cased").predict("""Put your text here.""")
+```
+
 </div>
 
 

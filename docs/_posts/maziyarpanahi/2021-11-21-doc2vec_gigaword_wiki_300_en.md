@@ -78,6 +78,14 @@ val doc2Vec = Doc2VecModel.pretrained("doc2vec_gigaword_wiki_300", "en")
   .setInputCols("cleanedToken")\
   .setOutputCol("sentence_embeddings")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed_sentence.doc2vec.gigaword_wiki_300").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

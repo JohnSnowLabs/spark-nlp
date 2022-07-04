@@ -44,6 +44,14 @@ val pipeline= new PretrainedPipeline("mesh_umls_mapping", "en", "clinical/models
 
 val result = pipeline.fullAnnotate("C028491 D019326 C579867")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.mesh.umls").predict("""C028491 D019326 C579867""")
+```
+
 </div>
 
 ## Results

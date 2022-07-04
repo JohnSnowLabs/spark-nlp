@@ -72,6 +72,14 @@ val example = Seq.empty["Ho mal di testa e mi sento male."].toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("it.classify.sentiment").predict("""Ho mal di testa e mi sento male.""")
+```
+
 </div>
 
 ## Results

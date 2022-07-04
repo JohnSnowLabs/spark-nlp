@@ -107,6 +107,14 @@ val light_pipeline = LightPipeline(urdu_fake_pipeline.fit(spark.createDataFrame(
 
 val result = light_pipeline.annotate("ایک امریکی تھنک ٹینک نے خبردار کیا ہے کہ جیسے جیسے چین مصنوعی ذہانت (آرٹیفیشل انٹیلی جنس) کے میدان میں ترقی کر رہا ہے، دنیا کا اقتصادی اور عسکری توازن تبدیل ہو سکتا ہے۔")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ur.classify.fakenews").predict("""ایک امریکی تھنک ٹینک نے خبردار کیا ہے کہ جیسے جیسے چین مصنوعی ذہانت (آرٹیفیشل انٹیلی جنس) کے میدان میں ترقی کر رہا ہے، دنیا کا اقتصادی اور عسکری توازن تبدیل ہو سکتا ہے۔""")
+```
+
 </div>
 
 ## Results

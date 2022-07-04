@@ -52,6 +52,14 @@ val annotation = pipeline.transform(testData)
 
 annotation.show()
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.match.chunks").predict("""David visited the restaurant yesterday with his family. He also visited and the day before, but at that time he was alone. David again visited today with his colleagues. He and his friends really liked the food and hoped to visit again tomorrow.""")
+```
+
 </div>
 
 ## Results

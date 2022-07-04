@@ -39,6 +39,14 @@ import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val pipeline = new PretrainedPipeline("analyze_sentimentdl_glove_imdb", lang = "en")
 ```
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.sentiment.glove").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results

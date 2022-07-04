@@ -67,6 +67,14 @@ val icd10_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_icd10c
 val bert_pipeline_icd = new Pipeline().setStages(Array(document_assembler, sbert_embedder, icd10_resolver))
 val result = bert_pipeline_icd.fit(Seq.empty["bladder cancer"].toDS.toDF("text")).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.icd10cm.slim_billable_hcc_med").predict("""bladder cancer""")
+```
+
 </div>
 
 ## Results

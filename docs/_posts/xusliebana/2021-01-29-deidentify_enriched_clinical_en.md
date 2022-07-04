@@ -86,6 +86,16 @@ val obfuscation = DeIdentificationModel.pretrained("deidentify_enriched_clinical
 
 val obfusatedText = obfuscation.transform(result)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.de_identify.clinical").predict("""
+A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street
+""")
+```
+
 </div>
 
 ## Results

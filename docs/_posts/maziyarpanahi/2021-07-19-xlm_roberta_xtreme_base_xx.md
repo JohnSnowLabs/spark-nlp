@@ -46,6 +46,14 @@ val embeddings = XlmRoBertaEmbeddings.pretrained("xlm_roberta_xtreme_base", "xx"
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("xx.embed.xlm_roberta_xtreme_base").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

@@ -68,6 +68,14 @@ val data = Seq("ನಾನು ಸ್ಪಾರ್ಕ್ ಎನ್ಎಲ್ಪಿ �
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("kn.embed.KanBERTo").predict("""ನಾನು ಸ್ಪಾರ್ಕ್ ಎನ್ಎಲ್ಪಿ ಪ್ರೀತಿಸುತ್ತೇನೆ""")
+```
+
 </div>
 
 {:.model-param}

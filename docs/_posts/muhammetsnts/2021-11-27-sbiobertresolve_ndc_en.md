@@ -112,6 +112,14 @@ val clinical_note = Seq("""The patient was transferred secondary to inability an
 
 val result = resolver_pipeline.fit(clinical_note).transform(clinical_note)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.ndc").predict("""The patient was transferred secondary to inability and continue of her diabetes, the sacral decubitus, left foot pressure wound, and associated complications of diabetes. She is given aspirin 81 mg, folic acid 1 g daily, insulin glargine 100 UNT/ML injection and metformin 500 mg p.o. p.r.n.""")
+```
+
 </div>
 
 

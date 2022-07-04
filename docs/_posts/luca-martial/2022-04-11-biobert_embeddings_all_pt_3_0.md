@@ -68,6 +68,14 @@ val data = Seq("Odeio o cancro").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("pt.embed.gs_all").predict("""Odeio o cancro""")
+```
+
 </div>
 
 {:.model-param}

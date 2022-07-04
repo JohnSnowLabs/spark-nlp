@@ -84,6 +84,14 @@ val example = Seq("یہ فلم واقعی اچھی تھی!").toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ur.classify.distilbert_sequence.imdb").predict("""یہ فلم واقعی اچھی تھی!""")
+```
+
 </div>
 
 {:.model-param}

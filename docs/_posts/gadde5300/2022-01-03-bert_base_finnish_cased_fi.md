@@ -81,6 +81,14 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 val data = Seq("Syväoppiminen perustuu keinotekoisiin hermoihin, jotka muodostavat monikerroksisen neuroverkon.").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("fi.embed_sentence.bert.cased").predict("""Syväoppiminen perustuu keinotekoisiin hermoihin, jotka muodostavat monikerroksisen neuroverkon.""")
+```
+
 </div>
 
 ## Results

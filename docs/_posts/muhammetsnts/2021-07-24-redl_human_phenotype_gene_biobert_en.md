@@ -161,6 +161,14 @@ val data = Seq("""She has a retinal degeneration, hearing loss and renal failure
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.relation.humen_phenotype_gene").predict("""She has a retinal degeneration, hearing loss and renal failure, short stature, Mutations in the SH3PXD2B gene coding for the Tks4 protein are responsible for the autosomal recessive.""")
+```
+
 </div>
 
 

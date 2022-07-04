@@ -148,6 +148,14 @@ val data = Seq("""TRAF6 is a putative oncogene in a variety of cancers including
 
 val results = resolver_pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.icdo_augmented").predict("""TRAF6 is a putative oncogene in a variety of cancers including  urothelial cancer , and malignant melanoma. WWP2 appears to regulate the expression of the well characterized tumor and tensin homolog (PTEN) in endometroid adenocarcinoma and squamous cell carcinoma.""")
+```
+
 </div>
 
 ## Results

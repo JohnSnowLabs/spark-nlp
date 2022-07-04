@@ -89,6 +89,14 @@ val data = Seq("""To compare the results of recording enamel opacities using the
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.pico.seq_biobert").predict("""To compare the results of recording enamel opacities using the TF and modified DDE indices.""")
+```
+
 </div>
 
 

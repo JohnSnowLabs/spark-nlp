@@ -30,7 +30,7 @@ Deidentify (Large) is a deidentification model. It identifies instances of prote
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -58,6 +58,14 @@ val deid = DeIdentificationModel.pretrained("deidentify_large", "en", "clinical/
     
 val deid_text = new deid.transform(result)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.de_identify.large").predict("""Patient AIQING, 25 month years-old , born in Beijing, was transfered to the The Johns Hopkins Hospital. Phone number: (541) 754-3010. MSW 100009632582 for his colonic polyps. He wants to know the results from them. He is not taking hydrochlorothiazide and is curious about his blood pressure. He said he has cut his alcohol back to 6 pack once a week. He has cut back his cigarettes to one time per week. P:   Follow up with Dr. Hobbs in 3 months. Gilbert P. Perez, M.D.""")
+```
+
 </div>
 
 {:.h2_title}

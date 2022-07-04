@@ -72,6 +72,14 @@ val example = Seq.empty["Ненавижу тебя, идиот."].toDS.toDF("tex
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ru.classify.toxic").predict("""Ненавижу тебя, идиот.""")
+```
+
 </div>
 
 ## Results

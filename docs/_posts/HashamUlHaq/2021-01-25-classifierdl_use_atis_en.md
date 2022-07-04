@@ -54,6 +54,14 @@ annotations = light_pipeline.fullAnnotate(['what is the price of flight from new
 
 ```
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.intent.airline").predict("""what is the price of flight from newyork to washington""")
+```
+
 </div>
 
 ## Results

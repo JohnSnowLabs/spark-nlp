@@ -69,6 +69,14 @@ val data = Seq("Ich liebe Funken NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("de.embed.german_financial_statements_bert").predict("""Ich liebe Funken NLP""")
+```
+
 </div>
 
 {:.model-param}

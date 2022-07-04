@@ -68,6 +68,14 @@ val data = Seq("Ik hou van vonk nlp").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("nl.embed.distilbert_base_cased").predict("""Ik hou van vonk nlp""")
+```
+
 </div>
 
 {:.model-param}

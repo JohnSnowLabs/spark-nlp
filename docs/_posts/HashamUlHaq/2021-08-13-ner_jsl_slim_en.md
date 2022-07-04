@@ -122,6 +122,14 @@ val data = Seq("""HISTORY: 30-year-old female presents for digital bilateral mam
 
 val result = jsl_ner_pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.jsl_slim").predict("""HISTORY: 30-year-old female presents for digital bilateral mammography secondary to a soft tissue lump palpated by the patient in the upper right shoulder. The patient has a family history of breast cancer within her mother at age 58. Patient denies personal history of breast cancer.""")
+```
+
 </div>
 
 

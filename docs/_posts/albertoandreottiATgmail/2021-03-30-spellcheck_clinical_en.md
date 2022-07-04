@@ -62,6 +62,15 @@ spellModel = ContextSpellCheckerModel\
     setInputCols("token").
     setOutputCol("checked")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.spell.clinical").predict("""]) \
+  .setSuffixes([""")
+```
+
 </div>
 
 {:.model-param}

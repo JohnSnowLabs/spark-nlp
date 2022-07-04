@@ -83,6 +83,14 @@ val data = Seq("ఆంగ్ల పఠన పేరాల యొక్క గొ
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("te.embed.distilbert").predict("""ఆంగ్ల పఠన పేరాల యొక్క గొప్ప మూలం కోసం చూస్తున్నారా? మీరు సరైన స్థలానికి వచ్చారు.""")
+```
+
 </div>
 
 ## Results

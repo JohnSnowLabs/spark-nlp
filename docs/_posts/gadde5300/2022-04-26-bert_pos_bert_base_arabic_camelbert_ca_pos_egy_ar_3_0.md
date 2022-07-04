@@ -76,6 +76,14 @@ val data = Seq("أنا أحب الشرارة NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ar.pos.arabic_camelbert_ca_pos_egy").predict("""أنا أحب الشرارة NLP""")
+```
+
 </div>
 
 {:.model-param}
