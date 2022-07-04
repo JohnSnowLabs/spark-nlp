@@ -469,6 +469,14 @@ Size: Prostate gland measures 10x1.1x 4.9 cm (LS x AP x TS). Estimated volume is
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.detect_sentence.clinical"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""He was given boluses of MS04 with some effect, he has since been placed on a PCA - he take 80mg of oxycontin at home, his PCA dose is ~ 2 the morphine dose of the oxycontin, he has also received ativan for anxiety.Repleted with 20 meq kcl po, 30 mmol K-phos iv and 2 gms mag so4 iv.
+Size: Prostate gland measures 10x1.1x 4.9 cm (LS x AP x TS). Estimated volume is 
+51.9 ml. , and is mildly enlarged in size.Normal delineation pattern of the prostate gland is preserved.
+"""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

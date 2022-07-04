@@ -459,6 +459,10 @@
 <span class="n">annotations</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">([</span><span class="s">"I feel a bit drowsy &amp; have a little blurred vision after taking an insulin"</span><span class="p">,</span> <span class="s">"I feel great after taking tylenol"</span><span class="p">])</span>
 </code></pre></div>  </div>
 
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.classify.ade.clinicalbert"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""I feel a bit drowsy &amp; have a little blurred vision after taking an insulin"""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

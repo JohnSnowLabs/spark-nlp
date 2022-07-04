@@ -487,6 +487,13 @@
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.classify.token_bert.ner_bacteria"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""Based on these genetic and phenotypic properties, we propose that strain SMSP (T) represents </span><span class="se">\
+</span><span class="s">a novel species of the genus Methanoregula, for which we propose the name Methanoregula formicica </span><span class="se">\
+</span><span class="s">sp. nov., with the type strain SMSP (T) (= NBRC 105244 (T) = DSM 22288 (T))."""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

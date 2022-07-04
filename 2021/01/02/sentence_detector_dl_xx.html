@@ -430,7 +430,7 @@
 
 <div class="tabs-box">
   <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documenter</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
@@ -465,6 +465,17 @@
 <span class="kt">εκκίνηση</span>, <span class="kt">ιδίως</span> <span class="kt">αν</span> <span class="kt">πρόκειται</span> <span class="kt">για</span> <span class="kt">απαιτητικές</span> <span class="kt">εφαρμογές.</span> <span class="kt">Τα</span> <span class="kt">ευχάριστα</span> <span class="kt">νέα</span> <span class="kt">είναι</span> <span class="kt">ότι</span> <span class="kt">η</span> <span class="kt">τελευταία</span> <span class="kt">και</span> <span class="kt">πιο</span> <span class="kt">πρόσφατη</span> <span class="kt">preview</span> <span class="kt">build</span> <span class="kt">της</span> <span class="kt">έκδοσης</span> <span class="kt">των</span> <span class="kt">Windows</span> <span class="err">10</span> <span class="kt">που</span> <span class="kt">θα</span> <span class="kt">καταφθάσει</span> <span class="kt">στο</span> <span class="kt">πρώτο</span> <span class="kt">μισό</span> <span class="kt">του</span> <span class="err">2021</span>, <span class="kt">οι</span> <span class="kt">εφαρμογές</span> <span class="kt">θα</span> 
 <span class="kt">ενημερώνουν</span> <span class="kt">το</span> <span class="kt">χρήστη</span> <span class="kt">ότι</span> <span class="kt">έχουν</span> <span class="kt">προστεθεί</span> <span class="kt">στη</span> <span class="kt">λίστα</span> <span class="kt">των</span> <span class="kt">εφαρμογών</span> <span class="kt">που</span> <span class="kt">εκκινούν</span> <span class="kt">μόλις</span> <span class="kt">ανοίγεις</span> <span class="kt">το</span> <span class="kt">PC.</span><span class="err">"</span><span class="o">].</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"xx.sentence_detector"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""Όπως ίσως θα γνωρίζει, όταν εγκαθιστάς μια νέα εφαρμογή, θα έχεις διαπιστώσει 
+λίγο μετά, ότι το PC αρχίζει να επιβραδύνεται. Στη συνέχεια, όταν επισκέπτεσαι την οθόνη ή από την διαχείριση εργασιών, θα διαπιστώσεις ότι η εν λόγω εφαρμογή έχει προστεθεί στη 
+λίστα των προγραμμάτων που εκκινούν αυτόματα, όταν ξεκινάς το PC.
+Προφανώς, κάτι τέτοιο δεν αποτελεί μια ιδανική κατάσταση, ιδίως για τους λιγότερο γνώστες, οι 
+οποίοι ίσως δεν θα συνειδητοποιήσουν ότι κάτι τέτοιο συνέβη. Όσο περισσότερες εφαρμογές στη λίστα αυτή, τόσο πιο αργή γίνεται η 
+εκκίνηση, ιδίως αν πρόκειται για απαιτητικές εφαρμογές. Τα ευχάριστα νέα είναι ότι η τελευταία και πιο πρόσφατη preview build της έκδοσης των Windows 10 που θα καταφθάσει στο πρώτο μισό του 2021, οι εφαρμογές θα 
+ενημερώνουν το χρήστη ότι έχουν προστεθεί στη λίστα των εφαρμογών που εκκινούν μόλις ανοίγεις το PC."""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

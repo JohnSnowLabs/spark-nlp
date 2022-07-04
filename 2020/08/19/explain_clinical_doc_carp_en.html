@@ -426,7 +426,7 @@
 <div class="tabs-box">
 
   <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
 
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">carp_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"explain_clinical_doc_carp"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>
@@ -443,6 +443,11 @@
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">carp_pipeline</span><span class="o">.</span><span class="py">fullAnnotate</span><span class="o">(</span><span class="s">"""A 28-year-old female with a history of gestational diabetes mellitus, used to take metformin 1000 mg two times a day, presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting. She was seen by the endocrinology service and discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals."""</span><span class="o">)(</span><span class="mi">0</span><span class="o">)</span>
 
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.explain_doc.carp"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""A 28-year-old female with a history of gestational diabetes mellitus, used to take metformin 1000 mg two times a day, presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting. She was seen by the endocrinology service and discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals."""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 class="h2_title" id="results">Results</h2>

@@ -506,6 +506,19 @@ In our defense, this is a picture of a VW Beetle flower holder."</span>
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">example</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">example</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.classify.question_vs_statement"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""What feature in your car did you not realize you had until someone else told you about it?
+Years ago, my Dad bought me a cute little VW Beetle. The first day I had it, me and my BFF were sitting in my car looking at everything.
+When we opened the center console, we had quite the scare. Inside was a hollowed out, plastic phallic looking object with tiny spikes on it.
+My friend and I literally screamed in horror. It was clear to us that somehow someone left their “toy” in my new car! We were shook, as they say.
+This was my car, I had to do something. So, I used a pen to pick up the nasty looking thing and threw it out.
+We freaked out about how gross it was and then we forgot about it… until my Dad called me.
+My Dad said: How’s the new car? Have you seen the flower holder in the center console?
+To summarize, we thought a flower vase was an XXX item…
+In our defense, this is a picture of a VW Beetle flower holder."""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

@@ -482,6 +482,11 @@
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"hi.ner.bert"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।"""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

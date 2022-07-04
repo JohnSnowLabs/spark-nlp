@@ -474,6 +474,11 @@ val pipelineModel= new PipelineModel().setStages(Array(document_assembler, sbert
 val l_model = LightPipeline(pipelineModel)
 val result = l_model.fullAnnotate(Array("</span><span class="n">coronary</span> <span class="n">calcium</span> <span class="n">score</span><span class="s">", "</span><span class="n">heart</span> <span class="n">surgery</span><span class="s">", "</span><span class="n">ct</span> <span class="n">scan</span><span class="s">", "</span><span class="n">bp</span> <span class="n">value</span><span class="err">"</span><span class="o">))</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.resolve.clinical_snomed_procedures_measurements"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""coronary calcium score"""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

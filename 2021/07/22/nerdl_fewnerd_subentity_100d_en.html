@@ -469,6 +469,11 @@
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.ner.fewnerd_subentity"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""12 Corazones ('12 Hearts') is Spanish-language dating game show produced in the United States for the television network Telemundo since January 2005, based on its namesake Argentine TV show format. The show is filmed in Los Angeles and revolves around the twelve Zodiac signs that identify each contestant. In 2008, Ho filmed a cameo in the Steven Spielberg feature film The Cloverfield Paradox, as a news pundit."""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

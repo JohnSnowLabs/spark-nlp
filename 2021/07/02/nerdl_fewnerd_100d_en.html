@@ -470,6 +470,11 @@
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"The Double Down is a sandwich offered by Kentucky Fried Chicken (KFC) restaurants. He did not see active service again until 1882, when he took part in the Anglo-Egyptian War, and was present at the battle of Tell El Kebir (September 1882), for which he was mentioned in dispatches, received the Egypt Medal with clasp and the 3rd class of the Order of Medjidie, and was appointed a Companion of the Order of the Bath (CB)."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.ner.fewnerd"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""The Double Down is a sandwich offered by Kentucky Fried Chicken (KFC) restaurants. He did not see active service again until 1882, when he took part in the Anglo-Egyptian War, and was present at the battle of Tell El Kebir (September 1882), for which he was mentioned in dispatches, received the Egypt Medal with clasp and the 3rd class of the Order of Medjidie, and was appointed a Companion of the Order of the Bath (CB)."""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

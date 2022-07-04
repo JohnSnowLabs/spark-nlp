@@ -515,6 +515,11 @@
 
 <span class="nv">result</span><span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"explode(arrays_zip(token.result, ner.result))"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"ja.ner.ud_gsd_xlm_roberta_base"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""explode(arrays_zip(token.result, ner.result))"""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

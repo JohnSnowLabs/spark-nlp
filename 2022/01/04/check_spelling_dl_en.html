@@ -441,6 +441,13 @@ During the summer we have the hottest ueather. I have a black ueather jacket, so
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"check_spelling_dl"</span><span class="o">,</span> <span class="n">lang</span> <span class="k">=</span> <span class="s">"en"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"During the summer we have the hottest ueather. I have a black ueather jacket, so nice.I intrduce you to my sister, she is called ueather."</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.spell"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""
+During the summer we have the hottest ueather. I have a black ueather jacket, so nice.I intrduce you to my sister, she is called ueather.
+"""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

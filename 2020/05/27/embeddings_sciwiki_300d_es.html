@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Embeddings Sciwiki 300 dims- Spark NLP Model</title><meta name="description" content="DescriptionWord Embeddings lookup annotator that maps tokens to vectors.Live DemoOpen in ColabDownloadHow to use         PythonScala  model = WordEmbeddingsM...">
+<!-- End Google Tag Manager --><title>Embeddings Sciwiki 300 dims- Spark NLP Model</title><meta name="description" content="DescriptionWord Embeddings lookup annotator that maps tokens to vectors.Live DemoOpen in ColabDownloadHow to use         PythonScalaNLU  model = WordEmbeddin...">
 <link rel="canonical" href="/2020/05/27/embeddings_sciwiki_300d_es.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -425,7 +425,7 @@
 <div class="tabs-box">
 
   <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
 
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_sciwiki_300d"</span><span class="p">,</span><span class="s">"es"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
@@ -437,6 +437,11 @@
 	<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span><span class="s">"token"</span><span class="o">)</span>
 	<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"word_embeddings"</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"es.embed.sciwiki_300d"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""Put your text here."""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 class="h2_title" id="results">Results</h2>

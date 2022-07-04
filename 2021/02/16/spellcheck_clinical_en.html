@@ -472,6 +472,20 @@ This model has been trained in a dataset containing data from different sources;
 
 </code></pre></div>  </div>
 
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.spell.clinical"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">""")
+
+pipeline = Pipeline(
+    stages = [
+    documentAssembler,
+    tokenizer,
+    spellModel,
+    finisher
+  ])
+
+empty_ds = spark.createDataFrame([["""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

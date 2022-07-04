@@ -481,6 +481,11 @@ External_body_part_or_region</code> set in <code class="language-plaintext highl
 <span class="k">val</span> <span class="nv">snomed_lp</span> <span class="k">=</span> <span class="nc">LightPipeline</span><span class="o">(</span><span class="n">snomed_pipelineModel</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">snomed_lp</span><span class="o">.</span><span class="py">fullAnnotate</span><span class="o">(</span><span class="s">"Amputation stump"</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.resolve.snomed_body_structure"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""sbiobertresolve_snomed_bodyStructure, """</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

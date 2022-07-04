@@ -473,6 +473,11 @@
 <span class="k">val</span> <span class="nv">text</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">(</span><span class="s">"During the summer we have the best ueather."</span><span class="o">,</span> <span class="s">"I have a black ueather jacket, so nice."</span><span class="o">)</span>
 <span class="nv">lp</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="n">text</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"spell"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""During the summer we have the best ueather."""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

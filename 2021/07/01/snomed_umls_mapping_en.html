@@ -436,6 +436,11 @@
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span>  <span class="nc">PretrainedPipeline</span><span class="o">(</span> <span class="ss">'snomed_umls_mappin</span><span class="n">g</span><span class="sc">','</span><span class="n">en</span><span class="sc">','</span><span class="n">clinical</span><span class="o">/</span><span class="n">models</span><span class="o">')</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">('</span><span class="mi">733187009</span> <span class="mi">449433008</span> <span class="mi">51264003</span><span class="o">')</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.resolve.snomed.umls"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""733187009 449433008 51264003"""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

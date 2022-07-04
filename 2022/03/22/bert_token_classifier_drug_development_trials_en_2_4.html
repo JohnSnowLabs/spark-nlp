@@ -501,6 +501,11 @@
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.ner.drug_development_trials"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""In June 2003, the median overall survival with and without topotecan were 4.0 and 3.6 months, respectively. The best complete response ( CR ) , partial response ( PR ) , stable disease and progressive disease were observed in 23, 63, 55 and 33 patients, respectively, with topotecan, and 11, 61, 66 and 32 patients, respectively, without topotecan."""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

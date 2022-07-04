@@ -550,6 +550,11 @@
 <span class="kt">Mutations</span> <span class="kt">in</span> <span class="kt">the</span> <span class="kt">SH3PXD2B</span> <span class="kt">gene</span> <span class="kt">coding</span> <span class="kt">for</span> <span class="kt">the</span> <span class="kt">Tks4</span> <span class="kt">protein</span> <span class="kt">are</span> <span class="kt">responsible</span> <span class="kt">for</span> <span class="kt">the</span> <span class="kt">autosomal</span> <span class="kt">recessive.</span><span class="err">"</span><span class="o">].</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.relation.humen_phenotype_gene"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""She has a retinal degeneration, hearing loss and renal failure, short stature, </span><span class="se">\
+</span><span class="s">Mutations in the SH3PXD2B gene coding for the Tks4 protein are responsible for the autosomal recessive."""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

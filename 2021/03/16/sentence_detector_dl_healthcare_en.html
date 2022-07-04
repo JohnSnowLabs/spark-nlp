@@ -455,6 +455,11 @@
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"He was given boluses of MS04 with some effect, he has since been placed on a PCA - he take 80mg of oxycontin at home, his PCA dose is ~ 2 the morphine dose of the oxycontin, he has also received ativan for anxiety.Repleted with 20 meq kcl po, 30 mmol K-phos iv and 2 gms mag so4 iv. LASIX CHANGED TO 40 PO BID WHICH IS SAME AS HE TAKES AT HOME - RECEIVED 40 PO IN AM - 700CC U/O TOTAL FOR FLUID NEGATIVE ~ 600 THUS FAR TODAY, ~ 600 NEG LOS."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.detect_sentence.clinical"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""He was given boluses of MS04 with some effect, he has since been placed on a PCA - he take 80mg of oxycontin at home, his PCA dose is ~ 2 the morphine dose of the oxycontin, he has also received ativan for anxiety.Repleted with 20 meq kcl po, 30 mmol K-phos iv and 2 gms mag so4 iv. LASIX CHANGED TO 40 PO BID WHICH IS SAME AS HE TAKES AT HOME - RECEIVED 40 PO IN AM - 700CC U/O TOTAL FOR FLUID NEGATIVE ~ 600 THUS FAR TODAY, ~ 600 NEG LOS."""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

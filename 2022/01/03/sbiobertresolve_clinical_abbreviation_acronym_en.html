@@ -521,6 +521,11 @@
 <span class="k">val</span> <span class="nv">sample_text</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"The patient admitted from the IR for aggressive irrigation of the Miami pouch. DISCHARGE DIAGNOSES: 1. A 58-year-old female with a history of stage 2 squamous cell carcinoma of the cervix status post total pelvic exenteration in 1991."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">abbr_result</span> <span class="k">=</span> <span class="nv">resolver_pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">sample_text</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">sample_text</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.resolve.clinical_abbreviation_acronym"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""The patient admitted from the IR for aggressive irrigation of the Miami pouch. DISCHARGE DIAGNOSES: 1. A 58-year-old female with a history of stage 2 squamous cell carcinoma of the cervix status post total pelvic exenteration in 1991."""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>
