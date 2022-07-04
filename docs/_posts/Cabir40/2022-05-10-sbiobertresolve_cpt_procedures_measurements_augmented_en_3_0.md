@@ -157,6 +157,16 @@ val data = Seq("She was admitted to the hospital with chest pain and found to ha
 
 val results = resolver_pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.cpt.procedures_measurements").predict("""She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. CT scan of the chest also revealed a large mediastinal lymph node. 
+We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. 
+At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy, which were performed, which revealed epithelioid malignant mesothelioma.""")
+```
+
 </div>
 
 

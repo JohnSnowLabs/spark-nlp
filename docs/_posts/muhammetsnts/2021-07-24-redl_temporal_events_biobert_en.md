@@ -159,6 +159,14 @@ val data = Seq("""She is diagnosed with cancer in 1991. Then she was admitted to
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.relation.temporal_events").predict("""She is diagnosed with cancer in 1991. Then she was admitted to Mayo Clinic in May 2000 and discharged in October 2001""")
+```
+
 </div>
 
 

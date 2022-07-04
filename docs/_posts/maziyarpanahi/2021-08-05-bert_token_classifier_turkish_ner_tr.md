@@ -99,6 +99,14 @@ val example = Seq.empty["İstanbul Türkiye'nin kuzeybatısında, Marmara kıyı
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("tr.classify.token_bert.turkish_ner").predict("""İstanbul Türkiye'nin kuzeybatısında, Marmara kıyısı ve Boğaziçi boyunca, Haliç'i de çevreleyecek şekilde kurulmuştur.""")
+```
+
 </div>
 
 {:.model-param}

@@ -81,6 +81,14 @@ val data = Seq("metastatic lung cancer").toDF("text")
 
 val result = bert_pipeline_icd.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.icd10cm.augmented_billable").predict("""metastatic lung cancer""")
+```
+
 </div>
 
 ## Results

@@ -29,7 +29,7 @@ Implements Noisy Channel Model Spell Algorithm. Correction candidates are extrac
 ## How to use 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 model = ContextSpellCheckerModel.pretrained("spellcheck_clinical","en","clinical/models")
@@ -42,6 +42,14 @@ val model = ContextSpellCheckerModel.pretrained("spellcheck_clinical","en","clin
 	.setInputCols("token")
 	.setOutputCol("spell")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.spell.clinical").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

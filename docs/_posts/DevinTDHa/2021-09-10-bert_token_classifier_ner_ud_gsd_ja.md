@@ -108,6 +108,14 @@ result.selectExpr("explode(arrays_zip(token.result, ner.result))")
   .selectExpr("col'0' as token", "col'1' as ner")
   .show()
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ja.classify.token_bert.classifier_ner_ud_gsd").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results

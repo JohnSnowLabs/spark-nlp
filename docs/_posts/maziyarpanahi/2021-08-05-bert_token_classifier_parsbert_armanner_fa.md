@@ -128,6 +128,14 @@ val example = Seq.empty["دفتر مرکزی شرکت کامیکو در شهر �
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("fa.classify.token_bert.parsbert_armanner").predict("""دفتر مرکزی شرکت کامیکو در شهر ساسکاتون ساسکاچوان قرار دارد.""")
+```
+
 </div>
 
 {:.model-param}

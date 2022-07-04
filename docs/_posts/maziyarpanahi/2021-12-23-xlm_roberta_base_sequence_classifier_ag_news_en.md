@@ -84,6 +84,14 @@ val example = Seq("Disney Comics was a comic book publishing company operated by
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.xlm_roberta.ag_news").predict("""Disney Comics was a comic book publishing company operated by The Walt Disney Company which ran from 1990 to 1993.""")
+```
+
 </div>
 
 {:.model-param}

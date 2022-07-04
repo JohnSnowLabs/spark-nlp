@@ -76,6 +76,14 @@ val example = Seq.empty["""Because you need me Every single day Trying to find m
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.song_lyrics").predict("""Because you need me Every single day Trying to find me But you don't know why Trying to find me again But you don't know how Trying to find me again Every single day""")
+```
+
 </div>
 
 ## Results

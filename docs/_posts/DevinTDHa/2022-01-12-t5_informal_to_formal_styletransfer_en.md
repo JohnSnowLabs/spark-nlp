@@ -79,6 +79,14 @@ val result = pipeline.fit(data).transform(data)
 
 result.select("transfer.result").show(false)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.t5.informal_to_formal_styletransfer").predict("""transfer Casual to Formal:""")
+```
+
 </div>
 
 ## Results

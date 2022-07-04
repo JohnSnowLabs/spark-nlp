@@ -68,6 +68,14 @@ val data = Seq("నేను స్పార్క్ nlp ను ప్రేమ
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("te.embed.muril_adapted_local").predict("""నేను స్పార్క్ nlp ను ప్రేమిస్తున్నాను""")
+```
+
 </div>
 
 {:.model-param}

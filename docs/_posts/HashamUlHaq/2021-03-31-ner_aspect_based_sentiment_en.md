@@ -60,6 +60,14 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 val data = Seq("Came for lunch my sister. We loved our Thai-style main which amazing with lots of flavours very impressive for vegetarian. But the service was below average and the chips were too terrible to finish.").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.aspect_sentiment").predict("""Came for lunch my sister. We loved our Thai-style main which amazing with lots of flavours very impressive for vegetarian. But the service was below average and the chips were too terrible to finish.""")
+```
+
 </div>
 
 ## Results

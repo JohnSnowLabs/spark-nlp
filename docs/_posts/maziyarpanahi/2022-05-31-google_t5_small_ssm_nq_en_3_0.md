@@ -91,6 +91,14 @@ val testData = ResourceHelper.spark.createDataFrame(Seq(
 
     results.select("questions.result", "answers.result").show(truncate = false)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.t5").predict("""Which is the capital of France? Who was the first president of USA?""")
+```
+
 </div>
 
 ## Results

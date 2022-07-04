@@ -33,7 +33,7 @@ In this model, we treated the sentence boundary detection task as a classificati
 ## How to use 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 documenter = DocumentAssembler()\
@@ -60,6 +60,14 @@ val pipeline = new Pipeline().setStages(Array(documenter, model))
 val data = Seq("John loves Mary.Mary loves Peter. Peter loves Helen .Helen loves John; Total: four people involved.").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.detect_sentence.clinical").predict("""John loves Mary.Mary loves Peter. Peter loves Helen .Helen loves John; Total: four people involved.""")
+```
+
 </div>
 
 {:.h2_title}

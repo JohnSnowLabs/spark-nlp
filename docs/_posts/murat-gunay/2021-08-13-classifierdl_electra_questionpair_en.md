@@ -79,6 +79,14 @@ val result_1 = light_pipeline.annotate("q1: What is your favorite movie? q2: Whi
 
 val result_2 = light_pipeline.annotate("q1: What is your favorite movie? q2: Which movie genre would you like to watch?")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.questionpair").predict("""q1: What is your favorite movie? q2: Which movie genre would you like to watch?""")
+```
+
 </div>
 
 ## Results

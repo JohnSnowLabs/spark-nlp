@@ -45,6 +45,16 @@ import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val pipeline = new PretrainedPipeline("check_spelling_dl", lang = "en")
 val result = pipeline.annotate("During the summer we have the hottest ueather. I have a black ueather jacket, so nice.I intrduce you to my sister, she is called ueather.")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.spell").predict("""
+During the summer we have the hottest ueather. I have a black ueather jacket, so nice.I intrduce you to my sister, she is called ueather.
+""")
+```
+
 </div>
 
 ## Results

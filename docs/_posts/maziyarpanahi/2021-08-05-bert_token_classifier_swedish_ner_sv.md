@@ -99,6 +99,14 @@ val example = Seq.empty["Engelbert tar Volvon till Tele2 Arena för att titta p�
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("sv.classify.token_bert.swedish_ner").predict("""Engelbert tar Volvon till Tele2 Arena för att titta på Djurgården som spelar fotboll i VM klockan två på kvällen.""")
+```
+
 </div>
 
 {:.model-param}

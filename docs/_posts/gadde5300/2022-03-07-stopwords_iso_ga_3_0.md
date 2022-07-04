@@ -66,6 +66,14 @@ val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, stop
 val data = Seq("Níl tú níos fearr ná mise").toDF("text")
 val results = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ga.stopwords").predict("""Níl tú níos fearr ná mise""")
+```
+
 </div>
 
 ## Results

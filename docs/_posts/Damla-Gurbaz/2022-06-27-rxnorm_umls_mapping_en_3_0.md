@@ -44,6 +44,14 @@ val pipeline = new PretrainedPipeline("rxnorm_umls_mapping", "en", "clinical/mod
 
 val result= pipeline.fullAnnotate("1161611 315677")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.rxnorm.umls").predict("""1161611 315677""")
+```
+
 </div>
 
 ## Results

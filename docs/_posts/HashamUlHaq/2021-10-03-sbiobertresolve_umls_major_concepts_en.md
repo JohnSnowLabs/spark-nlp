@@ -78,6 +78,14 @@ val data = Seq(""The patient complains of ankle pain after falling from stairs. 
 
 val res = p_model.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.umls").predict("""The patient complains of ankle pain after falling from stairs. She has been advised Arthroscopy by her primary care pyhsician""")
+```
+
 </div>
 
 ## Results

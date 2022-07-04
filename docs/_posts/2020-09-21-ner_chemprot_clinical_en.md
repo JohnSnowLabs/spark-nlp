@@ -30,7 +30,7 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -61,6 +61,14 @@ val data = Seq("Keratinocyte growth factor and acidic fibroblast growth factor a
 val result = pipeline.fit(data).transform(data)
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.chemprot.clinical").predict("""Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium.""")
+```
+
 </div>
 
 {:.h2_title}

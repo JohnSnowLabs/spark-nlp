@@ -35,7 +35,7 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -71,6 +71,14 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, emb
 val data = Seq("A total of 10 adult daily smokers who reported at least one stressful event and coping episode and provided post-quit data.", "When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced.").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.pico").predict("""A total of 10 adult daily smokers who reported at least one stressful event and coping episode and provided post-quit data.""")
+```
+
 </div>
 
 {:.h2_title}

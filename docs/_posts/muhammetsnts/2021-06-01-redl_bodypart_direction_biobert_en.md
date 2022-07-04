@@ -169,6 +169,14 @@ val data = Seq("MRI demonstrated infarction in the upper brain stem , left cereb
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.relation").predict("""MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia""")
+```
+
 </div>
 
 

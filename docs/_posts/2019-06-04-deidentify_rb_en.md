@@ -33,7 +33,7 @@ Personal Information in order to deidentify.
 ## How to use 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -62,6 +62,14 @@ val masker = DeIdentificationModel.pretrained("deidentify_rb","en","clinical/mod
 val deid_text = new masker.transform(result)
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.de_identify").predict("""A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street""")
+```
+
 </div>
 
 {:.h2_title}

@@ -44,6 +44,14 @@ val pipeline = new PretrainedPipeline("icd10cm_umls_mapping", "en", "clinical/mo
 
 val result = pipeline.fullAnnotate(Array("M8950", "R822", "R0901"))
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.icd10cm.umls").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results

@@ -62,6 +62,14 @@ val data = Seq("The patient presented to the emergency room last evening").toDF(
 val result = pipeline.fit(data).transform(data)
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.admission_events").predict("""The patient presented to the emergency room last evening""")
+```
+
 </div>
 
 ## Results

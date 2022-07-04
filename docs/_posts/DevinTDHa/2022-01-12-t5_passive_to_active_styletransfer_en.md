@@ -79,6 +79,14 @@ val result = pipeline.fit(data).transform(data)
 
 result.select("transfer.result").show(false)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.t5.passive_to_active_styletransfer").predict("""transfer Passive to Active:""")
+```
+
 </div>
 
 ## Results

@@ -79,6 +79,14 @@ val lp = new LightPipeline(model)
 
 val result = lp.annotate("You have to take Neutrcare and colfosrinum and a bit of Fluorometholne & Ribotril")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.spell.drug_norvig").predict("""You have to take Neutrcare and colfosrinum and a bit of Fluorometholne & Ribotril""")
+```
+
 </div>
 
 ## Results

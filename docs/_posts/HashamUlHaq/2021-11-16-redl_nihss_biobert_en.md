@@ -154,6 +154,14 @@ val data = Seq("""There , her initial NIHSS score was 4 , as recorded by the ED 
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.extract_relation.nihss").predict("""There , her initial NIHSS score was 4 , as recorded by the ED physicians . This included 2 for weakness in her left leg and 2 for what they felt was subtle ataxia in her left arm and leg .""")
+```
+
 </div>
 
 

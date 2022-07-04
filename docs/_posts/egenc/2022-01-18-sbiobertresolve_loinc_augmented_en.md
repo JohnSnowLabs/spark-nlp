@@ -82,6 +82,14 @@ val data = Seq("The patient is a 22-year-old female with a history of obesity. S
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.loinc.augmented").predict("""The patient is a 22-year-old female with a history of obesity. She has a Body mass index (BMI) of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hgba1c is 8.2%.""")
+```
+
 </div>
 
 ## Results

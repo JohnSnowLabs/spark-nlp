@@ -68,6 +68,14 @@ val data = Seq("Abdi bogoh Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("su.embed.sundanese_roberta_base").predict("""Abdi bogoh Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

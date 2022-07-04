@@ -78,6 +78,14 @@ val data = Seq("She was immediately given hydrogen peroxide 30 mg to treat the i
 
 val res = p_model.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.umls_clinical_drugs").predict("""She was immediately given hydrogen peroxide 30 mg to treat the infection on her leg, and has been advised Neosporin Cream for 5 days. She has a history of taking magnesium hydroxide 100mg/1ml and metformin 1000 mg.""")
+```
+
 </div>
 
 ## Results

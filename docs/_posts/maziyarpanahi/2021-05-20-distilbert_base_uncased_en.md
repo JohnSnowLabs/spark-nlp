@@ -42,6 +42,14 @@ val embeddings = DistilBertEmbeddings.pretrained("distilbert_base_uncased", "en"
       .setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.distilbert.base.uncased").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

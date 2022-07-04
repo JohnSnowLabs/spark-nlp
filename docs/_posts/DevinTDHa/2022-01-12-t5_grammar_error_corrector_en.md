@@ -70,6 +70,14 @@ val data = Seq("He are moving here.").toDF("text")
 val result = pipeline.fit(data).transform(data)
 result.select("corrections.result").show(false)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.t5.grammar_error_corrector").predict("""He are moving here.""")
+```
+
 </div>
 
 ## Results

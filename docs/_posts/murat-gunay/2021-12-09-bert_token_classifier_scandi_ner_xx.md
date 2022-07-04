@@ -91,6 +91,14 @@ val example = Seq.empty["Hans er professor ved Statens Universitet, som ligger i
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("xx.ner.scandinavian").predict("""Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.""")
+```
+
 </div>
 
 ## Results

@@ -35,7 +35,7 @@ https://www.nlm.nih.gov/databases/download/pubmed_medline.html
 ## How to use 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 model = WordEmbeddingsModel.pretrained("embeddings_healthcare","en","clinical/models")\
@@ -48,6 +48,14 @@ val model = WordEmbeddingsModel.pretrained("embeddings_healthcare","en","clinica
 	.setInputCols("document","token")
 	.setOutputCol("word_embeddings")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.glove.healthcare").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.h2_title}

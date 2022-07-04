@@ -73,6 +73,14 @@ val example = Seq.empty["What do you mean? Are you kidding me?"].toDS.toDF("text
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.emotion.bert").predict("""What do you mean? Are you kidding me?""")
+```
+
 </div>
 
 ## Results

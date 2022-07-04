@@ -82,6 +82,14 @@ val example = Seq("Stocks rallied and the British pound gained.").toDS.toDF("tex
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.bert_sequence.finbert").predict("""Stocks rallied and the British pound gained.""")
+```
+
 </div>
 
 {:.model-param}

@@ -114,6 +114,14 @@ val sample_df = Seq("""Excellent!. The state of health improves, nervousness dis
 
 val result = ner_pipeline.fit(sample_df).transform(sample_df)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.supplement_clinical").predict("""Excellent!. The state of health improves, nervousness disappears, and night sleep improves. It also promotes hair and nail growth. I recommend :)""")
+```
+
 </div>
 
 

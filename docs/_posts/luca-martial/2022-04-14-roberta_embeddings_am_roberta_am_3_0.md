@@ -68,6 +68,14 @@ val data = Seq("ስካርቻ nlp እወዳለሁ").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("am.embed.am_roberta").predict("""ስካርቻ nlp እወዳለሁ""")
+```
+
 </div>
 
 {:.model-param}

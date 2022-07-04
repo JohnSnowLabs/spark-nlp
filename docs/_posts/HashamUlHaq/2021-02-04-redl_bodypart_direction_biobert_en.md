@@ -157,6 +157,14 @@ val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, 
 val data = Seq("MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.relation").predict("""MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia""")
+```
+
 </div>
 
 ## Results

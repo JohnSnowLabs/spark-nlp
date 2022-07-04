@@ -69,6 +69,14 @@ val data = Seq("Me encanta chispa nlp").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.embed.RoBERTalex").predict("""Me encanta chispa nlp""")
+```
+
 </div>
 
 {:.model-param}

@@ -59,6 +59,14 @@ text="""These disorders include cancer, bipolar disorder, schizophrenia, autism,
 res = model.fullAnnotate(text)
 ```
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.HPO").predict("""These disorders include cancer, bipolar disorder, schizophrenia, autism, Cri-du-chat syndrome, myopia, cortical cataract-linked Alzheimer's disease, and infectious diseases""")
+```
+
 </div>
 
 ## Results

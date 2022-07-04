@@ -72,6 +72,14 @@ val data = Seq("Pentagram's Dominic Lippa is working on a new identity for Unive
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.token_bert.classifier_ner_btc").predict("""Pentagram's Dominic Lippa is working on a new identity for University of Arts London.""")
+```
+
 </div>
 
 ## Results

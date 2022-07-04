@@ -80,6 +80,14 @@ val result1 = light_pipeline.annotate("Spiel und Meisterschaft nicht spannend ge
 val result2 = light_pipeline.annotate("Habe gestern am Mittwoch den #werder Podcast vermisst. Wie schnell man sich an etwas gewöhnt und darauf freut. Danke an @Plainsman74 für die guten Interviews und den Einblick hinter die Kulissen von @werderbremen. Angenehme Winterpause weiterhin!")
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("de.classify.sentiment.bert").predict("""Habe gestern am Mittwoch den #werder Podcast vermisst. Wie schnell man sich an etwas gewöhnt und darauf freut. Danke an @Plainsman74 für die guten Interviews und den Einblick hinter die Kulissen von @werderbremen. Angenehme Winterpause weiterhin!""")
+```
+
 </div>
 
 ## Results

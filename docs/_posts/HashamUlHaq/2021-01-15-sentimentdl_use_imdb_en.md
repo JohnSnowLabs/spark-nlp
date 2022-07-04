@@ -59,6 +59,14 @@ annotations = l_model.fullAnnotate('Demonicus is a movie turned into a video gam
 ```
 
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.sentiment.imdb.use.dl").predict("""Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!""")
+```
+
 </div>
 
 ## Results

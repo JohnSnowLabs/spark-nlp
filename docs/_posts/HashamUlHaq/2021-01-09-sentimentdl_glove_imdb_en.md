@@ -70,6 +70,16 @@ val data = Seq("Demonicus is a movie turned into a video game! I just love the s
 val result = pipeline.fit(data).transform(data)
 ```
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.sentiment.imdb.glove").predict(""")
+nlp_pipeline = Pipeline(stages=[document_assembler, sentencer, tokenizer, embeddings, sentence_embeddings, classifier])
+l_model = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF(""")
+```
+
 </div>
 
 ## Results

@@ -33,7 +33,7 @@ This model uses the pre-trained `glove_840B_300` embeddings model from `WordEmbe
 ## How to use
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -66,6 +66,14 @@ val ner = NerDLModel.pretrained("ner_ud_gsd_glove_840B_300d", "ja")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, word_segmenter, embeddings, ner, ner_converter))
 val data = Seq("5月13日に放送されるフジテレビ系「僕らの音楽」にて、福原美穂とAIという豪華共演が決定した。").toDF("text")
 val result = pipeline.fit(data).transform(data)
+```
+
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ja.ner").predict("""Put your text here.""")
 ```
 
 </div>

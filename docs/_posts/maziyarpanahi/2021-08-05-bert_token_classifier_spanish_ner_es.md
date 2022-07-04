@@ -101,6 +101,14 @@ val example = Seq.empty["Me llamo Wolfgang y vivo en Berlin"].toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.classify.token_bert.spanish_ner").predict("""Me llamo Wolfgang y vivo en Berlin""")
+```
+
 </div>
 
 {:.model-param}

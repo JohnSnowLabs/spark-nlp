@@ -110,6 +110,22 @@ val example = Seq(test_sentences).toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.question_vs_statement").predict("""What feature in your car did you not realize you had until someone else told you about it?
+Years ago, my Dad bought me a cute little VW Beetle. The first day I had it, me and my BFF were sitting in my car looking at everything.
+When we opened the center console, we had quite the scare. Inside was a hollowed out, plastic phallic looking object with tiny spikes on it.
+My friend and I literally screamed in horror. It was clear to us that somehow someone left their “toy” in my new car! We were shook, as they say.
+This was my car, I had to do something. So, I used a pen to pick up the nasty looking thing and threw it out.
+We freaked out about how gross it was and then we forgot about it… until my Dad called me.
+My Dad said: How’s the new car? Have you seen the flower holder in the center console?
+To summarize, we thought a flower vase was an XXX item…
+In our defense, this is a picture of a VW Beetle flower holder.""")
+```
+
 </div>
 
 ## Results

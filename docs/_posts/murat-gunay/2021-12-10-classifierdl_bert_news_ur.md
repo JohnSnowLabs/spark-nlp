@@ -72,6 +72,14 @@ val light_pipeline = LightPipeline(nlpPipeline.fit(spark.createDataFrame([[""]])
 val result = light_pipeline.annotate("گزشتہ ہفتے ایپل کے حصص میں 11 فیصد اضافہ ہوا ہے۔")
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ur.classify.news").predict("""گزشتہ ہفتے ایپل کے حصص میں 11 فیصد اضافہ ہوا ہے۔""")
+```
+
 </div>
 
 ## Results

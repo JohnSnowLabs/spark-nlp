@@ -68,6 +68,14 @@ val data = Seq("My name is Leonardo.").toDF("text")
 val result = pipeline.fit(data).transform(data)
 results.select("generation.result").show(truncate = false)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.gpt2.medium").predict("""My name is Leonardo.""")
+```
+
 </div>
 
 ## Results

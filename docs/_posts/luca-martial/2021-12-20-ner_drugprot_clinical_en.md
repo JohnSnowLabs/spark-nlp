@@ -78,6 +78,14 @@ val data = Seq("""Anabolic effects of clenbuterol on skeletal muscle are mediate
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.drugprot_clinical").predict("""Anabolic effects of clenbuterol on skeletal muscle are mediated by beta 2-adrenoceptor activation.""")
+```
+
 </div>
 
 

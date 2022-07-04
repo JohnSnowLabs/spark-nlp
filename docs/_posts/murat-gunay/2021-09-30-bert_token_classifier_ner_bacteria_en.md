@@ -82,6 +82,16 @@ val data = Seq("""Based on these genetic and phenotypic properties, we propose t
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.token_bert.ner_bacteria").predict("""Based on these genetic and phenotypic properties, we propose that strain SMSP (T) represents \
+a novel species of the genus Methanoregula, for which we propose the name Methanoregula formicica \
+sp. nov., with the type strain SMSP (T) (= NBRC 105244 (T) = DSM 22288 (T)).""")
+```
+
 </div>
 
 
