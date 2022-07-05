@@ -183,7 +183,7 @@ class BulkIndexer
   end
 
   def index(id, data)
-    @buffer << { index: { _id: id, data: data } }
+    @buffer << { update: { _id: id, data: {doc: data, doc_as_upsert: true}} }
     self.execute if @buffer.length >= 100
   end
 
