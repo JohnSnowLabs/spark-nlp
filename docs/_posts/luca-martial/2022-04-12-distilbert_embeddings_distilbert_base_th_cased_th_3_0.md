@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Thai DistilBERT Embeddings (from Geotrend)
+title: Thai DistilBERT Embeddings
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_th_cased
 date: 2022-04-12
