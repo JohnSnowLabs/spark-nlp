@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Portuguese Bert Embeddings (from neuralmind)
+title: Portuguese Bert Embeddings
 author: John Snow Labs
 name: bert_embeddings_bert_base_portuguese_cased
 date: 2022-04-11
