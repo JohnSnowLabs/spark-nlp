@@ -1,2 +1,2 @@
-docs/_posts/luca-martial/2022-04-12-distilbert_embeddings_BERTino_it_3_0.md
-docs/_posts/luca-martial/2022-04-12-distilbert_embeddings_BERTino_it_3_0.md
+docs/_posts/luca-martial/2022-04-11-bert_embeddings_bert_base_arabertv02_ar_3_0.md
+docs/_posts/luca-martial/2022-04-11-bert_embeddings_bert_base_arabertv02_ar_3_0.md
