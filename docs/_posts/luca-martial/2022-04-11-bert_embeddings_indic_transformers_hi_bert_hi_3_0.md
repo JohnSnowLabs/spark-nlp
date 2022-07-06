@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Hindi Bert Embeddings (from neuralspace-reverie)
+title: Hindi Bert Embeddings
 author: John Snow Labs
 name: bert_embeddings_indic_transformers_hi_bert
 date: 2022-04-11
