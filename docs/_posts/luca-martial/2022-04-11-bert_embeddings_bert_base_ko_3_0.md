@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Korean Bert Embeddings (from klue)
+title: Korean Bert Embeddings
 author: John Snow Labs
 name: bert_embeddings_bert_base
 date: 2022-04-11
