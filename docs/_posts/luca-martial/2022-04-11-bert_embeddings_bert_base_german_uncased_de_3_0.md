@@ -1,6 +1,6 @@
 ---
 layout: model
-title: German Bert Embeddings (from dbmdz)
+title: German Bert Embeddings
 author: John Snow Labs
 name: bert_embeddings_bert_base_german_uncased
 date: 2022-04-11
