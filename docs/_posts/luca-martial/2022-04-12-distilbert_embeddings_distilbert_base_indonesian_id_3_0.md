@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Indonesian DistilBERT Embeddings (from cahya)
+title: Indonesian DistilBERT Embeddings
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_indonesian
 date: 2022-04-12
