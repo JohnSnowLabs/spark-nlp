@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Bangla Bert Embeddings (from sagorsarker)
+title: Bangla Bert Embeddings
 author: John Snow Labs
 name: bert_embeddings_bangla_bert_base
 date: 2022-04-11
