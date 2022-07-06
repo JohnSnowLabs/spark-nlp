@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Portuguese BioBERT Embeddings (from pucpr)
+title: Portuguese BioBERT Embeddings
 author: John Snow Labs
 name: biobert_embeddings_all
 date: 2022-04-11
