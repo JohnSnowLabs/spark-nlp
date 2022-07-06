@@ -1,2 +1,2 @@
-docs/_posts/luca-martial/2022-04-14-roberta_embeddings_robbert_v2_dutch_base_nl_3_0.md
-docs/_posts/luca-martial/2022-04-14-roberta_embeddings_robbert_v2_dutch_base_nl_3_0.md
+docs/_posts/luca-martial/2022-04-14-roberta_embeddings_roberta_base_bne_es_3_0.md
+docs/_posts/luca-martial/2022-04-14-roberta_embeddings_roberta_base_bne_es_3_0.md
