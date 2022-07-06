@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Vietnamese Bert Embeddings (from Geotrend)
+title: Vietnamese Bert Embeddings
 author: John Snow Labs
 name: bert_embeddings_bert_base_vi_cased
 date: 2022-04-11
