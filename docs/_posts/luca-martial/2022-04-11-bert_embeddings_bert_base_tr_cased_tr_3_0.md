@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Turkish Bert Embeddings (from Geotrend)
+title: Turkish Bert Embeddings
 author: John Snow Labs
 name: bert_embeddings_bert_base_tr_cased
 date: 2022-04-11
