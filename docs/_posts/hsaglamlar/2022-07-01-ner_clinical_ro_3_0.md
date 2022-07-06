@@ -51,7 +51,7 @@ word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "ro") \
       .setInputCols("sentence", "token") \
       .setOutputCol("embeddings")
 
-clinical_ner =  MedicalNerModel.pretrained("ner_clinical", "ro", "clinical/model")\
+clinical_ner =  MedicalNerModel.pretrained("ner_clinical", "ro", "clinical/models")\
     .setInputCols(["sentence", "token", "embeddings"])\
     .setOutputCol("ner")\
 
