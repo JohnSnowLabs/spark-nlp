@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Italian DistilBERT Embeddings (from indigo-ai)
+title: Italian DistilBERT Embeddings
 author: John Snow Labs
 name: distilbert_embeddings_BERTino
 date: 2022-04-12
