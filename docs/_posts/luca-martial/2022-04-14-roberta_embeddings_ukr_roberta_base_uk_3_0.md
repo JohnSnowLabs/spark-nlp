@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Ukrainian RoBERTa Embeddings (from youscan)
+title: Ukrainian RoBERTa Embeddings
 author: John Snow Labs
 name: roberta_embeddings_ukr_roberta_base
 date: 2022-04-14
