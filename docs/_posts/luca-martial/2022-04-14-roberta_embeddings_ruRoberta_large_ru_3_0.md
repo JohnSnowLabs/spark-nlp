@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Russian RoBERTa Embeddings (from sberbank-ai)
+title: Russian RoBERTa Embeddings
 author: John Snow Labs
 name: roberta_embeddings_ruRoberta_large
 date: 2022-04-14
