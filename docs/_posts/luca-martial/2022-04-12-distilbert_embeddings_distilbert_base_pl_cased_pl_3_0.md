@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Polish DistilBERT Embeddings (from Geotrend)
+title: Polish DistilBERT Embeddings
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_pl_cased
 date: 2022-04-12
