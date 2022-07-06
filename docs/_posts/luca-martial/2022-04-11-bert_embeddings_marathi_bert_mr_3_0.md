@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Marathi Bert Embeddings (from l3cube-pune)
+title: Marathi Bert Embeddings
 author: John Snow Labs
 name: bert_embeddings_marathi_bert
 date: 2022-04-11
