@@ -1,2 +1,2 @@
-docs/_posts/luca-martial/2022-04-11-bert_embeddings_bert_base_fr_cased_fr_3_0.md
-docs/_posts/luca-martial/2022-04-11-bert_embeddings_bert_base_fr_cased_fr_3_0.md
+docs/_posts/luca-martial/2022-04-11-bert_embeddings_bert_base_tr_cased_tr_3_0.md
+docs/_posts/luca-martial/2022-04-11-bert_embeddings_bert_base_tr_cased_tr_3_0.md
