@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForQuestionAnswering Cased model (from AnonymousSub) Version-1
+title: English BertForQuestionAnswering Cased model (from AnonymousSub)
 author: John Snow Labs
 name: bert_qa_emanuals_squad2.0
 date: 2022-07-06
