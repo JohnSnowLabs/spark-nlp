@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Multilingual XLMRoBerta Embeddings (from castorini)
+title: Multilingual XLMRoBerta Embeddings
 author: John Snow Labs
 name: xlmroberta_embeddings_afriberta_base
 date: 2022-05-13
