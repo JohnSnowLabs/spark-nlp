@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Persian ALBERT Embeddings (from HooshvareLab)
+title: Persian (Farsi) ALBERT Embeddings
 author: John Snow Labs
 name: albert_embeddings_albert_fa_zwnj_base_v2
 date: 2022-04-14
