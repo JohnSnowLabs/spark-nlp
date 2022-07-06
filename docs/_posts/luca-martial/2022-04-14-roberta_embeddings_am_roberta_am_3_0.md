@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Amharic RoBERTa Embeddings (from uhhlt)
+title: Amharic RoBERTa Embeddings
 author: John Snow Labs
 name: roberta_embeddings_am_roberta
 date: 2022-04-14
