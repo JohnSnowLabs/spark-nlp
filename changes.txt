@@ -1,2 +1,2 @@
-docs/_posts/luca-martial/2022-04-11-bert_embeddings_bangla_bert_base_bn_3_0.md
-docs/_posts/luca-martial/2022-04-11-bert_embeddings_bangla_bert_base_bn_3_0.md
+docs/_posts/luca-martial/2022-04-12-distilbert_embeddings_distilbert_base_ro_cased_ro_3_0.md
+docs/_posts/luca-martial/2022-04-12-distilbert_embeddings_distilbert_base_ro_cased_ro_3_0.md
