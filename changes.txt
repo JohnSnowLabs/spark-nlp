@@ -1,2 +1,2 @@
-docs/_posts/luca-martial/2022-04-11-bert_embeddings_indic_transformers_hi_bert_hi_3_0.md
-docs/_posts/luca-martial/2022-04-11-bert_embeddings_indic_transformers_hi_bert_hi_3_0.md
+docs/_posts/luca-martial/2022-04-11-bert_embeddings_muril_adapted_local_ta_3_0.md
+docs/_posts/luca-martial/2022-04-11-bert_embeddings_muril_adapted_local_ta_3_0.md
