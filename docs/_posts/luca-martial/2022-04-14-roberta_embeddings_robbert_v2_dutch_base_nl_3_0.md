@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Dutch RoBERTa Embeddings (from pdelobelle)
+title: Dutch RoBERTa Embeddings
 author: John Snow Labs
 name: roberta_embeddings_robbert_v2_dutch_base
 date: 2022-04-14
