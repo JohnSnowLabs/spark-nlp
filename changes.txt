@@ -1,2 +1,2 @@
-docs/_posts/luca-martial/2022-04-12-distilbert_embeddings_distilbert_base_pl_cased_pl_3_0.md
-docs/_posts/luca-martial/2022-04-12-distilbert_embeddings_distilbert_base_pl_cased_pl_3_0.md
+docs/_posts/luca-martial/2022-04-14-roberta_embeddings_ruRoberta_large_ru_3_0.md
+docs/_posts/luca-martial/2022-04-14-roberta_embeddings_ruRoberta_large_ru_3_0.md
