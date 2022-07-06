@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Telugu Bert Embeddings (from kuppuluri)
+title: Telugu Bert Embeddings
 author: John Snow Labs
 name: bert_embeddings_telugu_bertu
 date: 2022-04-11
