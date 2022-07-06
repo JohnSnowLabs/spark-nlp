@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Chinese Bert Embeddings (from hfl)
+title: Chinese Bert Embeddings
 author: John Snow Labs
 name: bert_embeddings_chinese_roberta_wwm_ext
 date: 2022-04-11
