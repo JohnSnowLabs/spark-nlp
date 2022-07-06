@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Urdu RoBERTa Embeddings (from urduhack)
+title: Urdu RoBERTa Embeddings
 author: John Snow Labs
 name: roberta_embeddings_roberta_urdu_small
 date: 2022-04-14
