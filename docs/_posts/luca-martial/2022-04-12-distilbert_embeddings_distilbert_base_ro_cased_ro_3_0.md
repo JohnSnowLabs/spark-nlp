@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Romanian DistilBERT Embeddings (from Geotrend)
+title: Romanian DistilBERT Embeddings
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_ro_cased
 date: 2022-04-12
