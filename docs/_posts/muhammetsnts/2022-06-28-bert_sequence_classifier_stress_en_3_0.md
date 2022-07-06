@@ -4,7 +4,7 @@ title: Emotional Stress Classifier (BERT)
 author: John Snow Labs
 name: bert_sequence_classifier_stress
 date: 2022-06-28
-tags: [sequence_classification, bert, en, licensed, stress, mental]
+tags: [sequence_classification, bert, en, licensed, stress, mental, public_health]
 task: Text Classification
 language: en
 edition: Spark NLP for Healthcare 4.0.0
