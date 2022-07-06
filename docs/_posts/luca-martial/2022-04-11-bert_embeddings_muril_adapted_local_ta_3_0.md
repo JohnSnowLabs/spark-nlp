@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Tamil Bert Embeddings (from monsoon-nlp)
+title: Tamil Bert Embeddings
 author: John Snow Labs
 name: bert_embeddings_muril_adapted_local
 date: 2022-04-11
