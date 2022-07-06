@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Named Entity Recognition (from Jean-Baptiste)
+title: English Named Entity Recognition
 author: John Snow Labs
 name: roberta_ner_roberta_large_ner_english
 date: 2022-05-03
