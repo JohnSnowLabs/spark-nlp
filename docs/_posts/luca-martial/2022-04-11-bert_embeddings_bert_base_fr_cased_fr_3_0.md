@@ -1,6 +1,6 @@
 ---
 layout: model
-title: French Bert Embeddings (from Geotrend)
+title: French Bert Embeddings
 author: John Snow Labs
 name: bert_embeddings_bert_base_fr_cased
 date: 2022-04-11
