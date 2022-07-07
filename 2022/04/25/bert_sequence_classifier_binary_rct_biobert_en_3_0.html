@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>RCT Binary Classifier (BioBERT)- Spark NLP Model</title><meta name="description" content="DescriptionThis model is a BioBERT based classifier that can classify if an article is a randomized clinical trial (RCT) or not.Predicted Entitiestrue, false...">
+<!-- End Google Tag Manager --><title>RCT Binary Classifier (BioBERT)- Spark NLP Model</title><meta name="description" content="DescriptionThis model is a BioBERT based classifier that can classify if an article is a randomized clinical trial (RCT) or not.Predicted EntitiesTrue, False...">
 <link rel="canonical" href="/2022/04/25/bert_sequence_classifier_binary_rct_biobert_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -420,7 +420,7 @@
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">true</code>, <code class="language-plaintext highlighter-rouge">false</code></p>
+<p><code class="language-plaintext highlighter-rouge">True</code>, <code class="language-plaintext highlighter-rouge">False</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
@@ -432,6 +432,7 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
@@ -488,7 +489,7 @@
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| text                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | rct  |
 |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------|
-|    Abstract:Based on the American Society of Anesthesiologists<span class="s1">' Practice Guidelines for Sedation and Analgesia by Non-Anesthesiologists (ASA-SED), a sedation training course aimed at improving medical safety was developed by the Japanese Association for Medical Simulation in 2011. This study evaluated the effect of debriefing on participants'</span> perceptions of the essential points of the ASA-SED. A total of 38 novice doctors participated <span class="k">in </span>the sedation training course during the research period. Of these doctors, 18 participated <span class="k">in </span>the debriefing group, and 20 participated <span class="k">in </span>non-debriefing group. Scoring of participants<span class="s1">' guideline perceptions was conducted using an evaluation sheet (nine items, 16 points) created based on the ASA-SED. The debriefing group showed a greater perception of the ASA-SED, as reflected in the significantly higher scores on the evaluation sheet (median, 16 points) than the control group (median, 13 points; p &lt; 0.05). No significant differences were identified before or during sedation, but the difference after sedation was significant (p &lt; 0.05). Debriefing after sedation training courses may contribute to better perception of the ASA-SED, and may lead to enhanced attitudes toward medical safety during sedation and analgesia.     | true |
+|    Abstract:Based on the American Society of Anesthesiologists<span class="s1">' Practice Guidelines for Sedation and Analgesia by Non-Anesthesiologists (ASA-SED), a sedation training course aimed at improving medical safety was developed by the Japanese Association for Medical Simulation in 2011. This study evaluated the effect of debriefing on participants'</span> perceptions of the essential points of the ASA-SED. A total of 38 novice doctors participated <span class="k">in </span>the sedation training course during the research period. Of these doctors, 18 participated <span class="k">in </span>the debriefing group, and 20 participated <span class="k">in </span>non-debriefing group. Scoring of participants<span class="s1">' guideline perceptions was conducted using an evaluation sheet (nine items, 16 points) created based on the ASA-SED. The debriefing group showed a greater perception of the ASA-SED, as reflected in the significantly higher scores on the evaluation sheet (median, 16 points) than the control group (median, 13 points; p &lt; 0.05). No significant differences were identified before or during sedation, but the difference after sedation was significant (p &lt; 0.05). Debriefing after sedation training courses may contribute to better perception of the ASA-SED, and may lead to enhanced attitudes toward medical safety during sedation and analgesia.     | True |
 </span></code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -551,10 +552,6 @@
    macro-avg  0.85  0.85  0.84     3611
 weighted-avg  0.86  0.84  0.84     3611
 </code></pre></div></div>
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbMTM5MTgwNTY1LC03MTk5NDc5MjEsLTEwOT
-kzOTQ4MDcsODY2ODUyNDIzXX0=
--->
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-04-25T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
