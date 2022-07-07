@@ -1,0 +1,76 @@
+---
+layout: model
+title: RoBERTa embeddings in Catalan
+author: cayorodriguez
+name: roberta_embeddings_bsc
+date: 2022-07-07
+tags: [roberta, projecte_aina, ca, open_source]
+task: Embeddings
+language: ca
+edition: Spark NLP 3.4.4
+spark_version: 3.0
+supported: false
+article_header:
+  type: cover
+use_language_switcher: "Python-Scala-Java"
+---
+
+## Description
+
+token to vector from PlanTL-GOB-ES/roberta-base-ca
+
+## Predicted Entities
+
+
+
+{:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
+<button class="button button-orange" disabled>Open in Colab</button>
+[Download](https://s3.amazonaws.com/community.johnsnowlabs.com/cayorodriguez/roberta_embeddings_bsc_ca_3.4.4_3.0_1657198648319.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
+## How to use
+
+
+
+<div class="tabs-box" markdown="1">
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+documentAssembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+tokenizer = Tokenizer() \
+    .setInputCols("document") \
+    .setOutputCol("token")
+  
+embeddings = WordEmbeddingsModel.pretrained("roberta_embeddings_bsc","ca") \
+    .setInputCols(["document", "token"]) \
+    .setOutputCol("embeddings")
+    
+pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
+
+data = spark.createDataFrame([["M'encanta fer anar aixó."]]).toDF("text")
+
+result = pipeline.fit(data).transform(data)
+```
+
+</div>
+
+{:.model-param}
+## Model Information
+
+{:.table-model}
+|---|---|
+|Model Name:|roberta_embeddings_bsc|
+|Compatibility:|Spark NLP 3.4.4+|
+|License:|Open Source|
+|Edition:|Community|
+|Input Labels:|[sentence, token]|
+|Output Labels:|[embeddings]|
+|Language:|ca|
+|Size:|300.3 MB|
+|Case sensitive:|true|
+
+## References
+
+projecte-aina/catalan_general_crawling @ huggingface
