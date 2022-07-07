@@ -1,6 +1,6 @@
 ---
 layout: model
-title: RoBERTa embeddings in Catalan
+title: Catalan RoBERTa embeddings
 author: cayorodriguez
 name: roberta_embeddings_bsc
 date: 2022-07-07
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-token to vector from PlanTL-GOB-ES/roberta-base-ca
+Catalan Roberta Word Embeddings, used within the `PlanTL-GOB-ES/roberta-base-ca` project
 
 ## Predicted Entities
 
