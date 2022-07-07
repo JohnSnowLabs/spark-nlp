@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Portuguese Bert Embeddings (from pierreguillou)
+title: Portuguese Bert Embeddings (Large)
 author: John Snow Labs
 name: bert_embeddings_bert_large_cased_pt_lenerbr
 date: 2022-04-11

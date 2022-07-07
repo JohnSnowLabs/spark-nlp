@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish Named Entity Recognition (from PlanTL-GOB-ES)
+title: Spanish Named Entity Recognition (Large, CAPITEL competition at IberLEF 2020 dataset)
 author: John Snow Labs
 name: roberta_ner_roberta_large_bne_capitel_ner
 date: 2022-05-03

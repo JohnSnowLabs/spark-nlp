@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Chinese Bert Embeddings (from yechen)
+title: Chinese Bert Embeddings (Large)
 author: John Snow Labs
 name: bert_embeddings_bert_large_chinese
 date: 2022-04-11

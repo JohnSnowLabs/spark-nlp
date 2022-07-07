@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Italian Bert Embeddings (from dbmdz)
+title: Italian Bert Embeddings (Uncased)
 author: John Snow Labs
 name: bert_embeddings_bert_base_italian_xxl_uncased
 date: 2022-04-11

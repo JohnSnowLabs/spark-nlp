@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English RoBERTa Embeddings (from mrm8488)
+title: English RoBERTa Embeddings (Smiles Strings, v2)
 author: John Snow Labs
 name: roberta_embeddings_chEMBL26_smiles_v2
 date: 2022-04-14

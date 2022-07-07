@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Part of Speech Tagger (from KoichiYasuoka)
+title: English Part of Speech Tagger (Base,  UPOS-Universal Part-Of-Speech)
 author: John Snow Labs
 name: roberta_pos_roberta_base_english_upos
 date: 2022-05-03

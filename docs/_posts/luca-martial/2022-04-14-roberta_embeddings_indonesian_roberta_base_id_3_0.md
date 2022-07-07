@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Indonesian RoBERTa Embeddings (from flax-community)
+title: Indonesian RoBERTa Embeddings (Base)
 author: John Snow Labs
 name: roberta_embeddings_indonesian_roberta_base
 date: 2022-04-14

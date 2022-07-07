@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish Bert Embeddings (from IIC)
+title: Spanish Bert Embeddings (Base, Question, Squades)
 author: John Snow Labs
 name: bert_embeddings_dpr_spanish_question_encoder_squades_base
 date: 2022-04-11

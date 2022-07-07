@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Javanese DistilBERT Embeddings (from w11wo)
+title: Javanese DistilBERT Embeddings (Small, Imdb)
 author: John Snow Labs
 name: distilbert_embeddings_javanese_distilbert_small_imdb
 date: 2022-04-12

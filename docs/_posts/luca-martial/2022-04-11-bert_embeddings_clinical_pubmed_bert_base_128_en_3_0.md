@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Bert Embeddings (from Tsubasaz)
+title: Clinical English Bert Embeddings (Base, 128 dimension)
 author: John Snow Labs
 name: bert_embeddings_clinical_pubmed_bert_base_128
 date: 2022-04-11

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Javanese RoBERTa Embeddings (from w11wo)
+title: Javanese RoBERTa Embeddings (Small, IMDB Movie Review)
 author: John Snow Labs
 name: roberta_embeddings_javanese_roberta_small_imdb
 date: 2022-04-14

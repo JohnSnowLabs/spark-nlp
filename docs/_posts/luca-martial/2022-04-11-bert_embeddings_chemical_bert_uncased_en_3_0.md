@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Bert Embeddings (from recobo)
+title: English Bert Embeddings (Base, Uncased, Chemical)
 author: John Snow Labs
 name: bert_embeddings_chemical_bert_uncased
 date: 2022-04-11

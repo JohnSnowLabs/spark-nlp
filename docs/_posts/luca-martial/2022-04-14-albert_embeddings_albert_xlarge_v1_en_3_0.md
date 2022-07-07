@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English ALBERT Embeddings
+title: English ALBERT Embeddings (x-large)
 author: John Snow Labs
 name: albert_embeddings_albert_xlarge_v1
 date: 2022-04-14

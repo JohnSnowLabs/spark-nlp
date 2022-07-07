@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish RoBERTa Embeddings (from bertin-project)
+title: Spanish RoBERTa Embeddings (Base, Using Sequence Length 512)
 author: John Snow Labs
 name: roberta_embeddings_bertin_base_gaussian_exp_512seqlen
 date: 2022-04-14

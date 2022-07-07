@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Arabic Part of Speech Tagger (from CAMeL-Lab)
+title: Arabic Part of Speech Tagger (CA-Classical Arabic dataset,  Gulf Arabic POS)
 author: John Snow Labs
 name: bert_pos_bert_base_arabic_camelbert_ca_pos_glf
 date: 2022-04-26

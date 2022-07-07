@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish Part of Speech Tagger (from PlanTL-GOB-ES)
+title: Spanish Part of Speech Tagger (Large)
 author: John Snow Labs
 name: roberta_pos_roberta_large_bne_capitel_pos
 date: 2022-05-03

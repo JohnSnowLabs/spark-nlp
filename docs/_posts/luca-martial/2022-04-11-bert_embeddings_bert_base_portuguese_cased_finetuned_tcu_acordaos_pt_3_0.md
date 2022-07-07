@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Portuguese Bert Embeddings (from Luciano)
+title: Legal Portuguese Embeddings (Base, Agreements)
 author: John Snow Labs
 name: bert_embeddings_bert_base_portuguese_cased_finetuned_tcu_acordaos
 date: 2022-04-11

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Dutch RoBERTa Embeddings (from DTAI-KULeuven)
+title: Dutch RoBERTa Embeddings (Non Shuffled)
 author: John Snow Labs
 name: roberta_embeddings_robbertje_1_gb_non_shuffled
 date: 2022-04-14

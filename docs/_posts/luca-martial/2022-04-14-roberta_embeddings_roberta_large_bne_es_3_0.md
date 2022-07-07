@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish RoBERTa Embeddings (from PlanTL-GOB-ES)
+title: Spanish RoBERTa Embeddings (Large)
 author: John Snow Labs
 name: roberta_embeddings_roberta_large_bne
 date: 2022-04-14

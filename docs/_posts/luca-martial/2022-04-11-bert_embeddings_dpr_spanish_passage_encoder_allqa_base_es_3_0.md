@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish Bert Embeddings (from IIC)
+title: Spanish Bert Embeddings (Base, Pasage, Allqa)
 author: John Snow Labs
 name: bert_embeddings_dpr_spanish_passage_encoder_allqa_base
 date: 2022-04-11

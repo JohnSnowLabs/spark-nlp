@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English RoBERTa Embeddings (from raynardj)
+title: English RoBERTa Embeddings (Base, Biomarkers/Carcinoma/Clinical Trial)
 author: John Snow Labs
 name: roberta_embeddings_roberta_pubmed
 date: 2022-04-14

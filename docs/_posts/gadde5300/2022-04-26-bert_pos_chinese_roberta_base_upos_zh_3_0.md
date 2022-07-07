@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Chinese Part of Speech Tagger (from KoichiYasuoka)
+title: Chinese Part of Speech Tagger(Base, UPOS, Chinese Wikipedia Texts
 author: John Snow Labs
 name: bert_pos_chinese_roberta_base_upos
 date: 2022-04-26

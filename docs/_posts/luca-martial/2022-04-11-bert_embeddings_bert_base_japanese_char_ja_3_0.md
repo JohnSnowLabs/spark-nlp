@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Japanese Bert Embeddings (from cl-tohoku)
+title: Japanese Bert Embeddings (Base, Character Tokenization)
 author: John Snow Labs
 name: bert_embeddings_bert_base_japanese_char
 date: 2022-04-11

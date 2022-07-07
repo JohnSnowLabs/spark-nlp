@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Bert Embeddings (from ayansinha)
+title: English Bert Embeddings (Cased)
 author: John Snow Labs
 name: bert_embeddings_lic_class_scancode_bert_base_cased_L32_1
 date: 2022-04-11

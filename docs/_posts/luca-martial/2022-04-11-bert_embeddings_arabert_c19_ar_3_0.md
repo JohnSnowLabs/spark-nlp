@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Arabic Bert Embeddings (from moha)
+title: Arabic Bert Embeddings (Arabert model, Covid-19)
 author: John Snow Labs
 name: bert_embeddings_arabert_c19
 date: 2022-04-11

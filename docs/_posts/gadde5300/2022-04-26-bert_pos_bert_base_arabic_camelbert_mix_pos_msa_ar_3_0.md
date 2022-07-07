@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Arabic Part of Speech Tagger (from CAMeL-Lab)
+title: Arabic Part of Speech Tagger (Modern Standard Arabic-MSA POS, Modern Standard Arabic-MSA, Dialectal Arabic-DA, and Classical Arabic-CA)
 author: John Snow Labs
 name: bert_pos_bert_base_arabic_camelbert_mix_pos_msa
 date: 2022-04-26

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English RoBERTa Embeddings (from climatebert)
+title: English RoBERTa Embeddings (Sampling strategy 'full select')
 author: John Snow Labs
 name: roberta_embeddings_distilroberta_base_climate_f
 date: 2022-04-14
@@ -18,6 +18,8 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 Pretrained RoBERTa Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `distilroberta-base-climate-f` is a English model orginally trained by `climatebert`.
+
+Sampling strategy f: As expressed in the author's paper [here](https://arxiv.org/pdf/2110.12010.pdf), f is "full select" strategy, meaning all sentences from all corpora where selected.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

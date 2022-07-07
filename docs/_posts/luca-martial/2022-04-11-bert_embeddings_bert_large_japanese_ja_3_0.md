@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Japanese Bert Embeddings (from cl-tohoku)
+title: Japanese Bert Embeddings (Large)
 author: John Snow Labs
 name: bert_embeddings_bert_large_japanese
 date: 2022-04-11

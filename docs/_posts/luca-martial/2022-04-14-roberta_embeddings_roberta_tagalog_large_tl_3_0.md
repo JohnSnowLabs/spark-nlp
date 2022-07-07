@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Tagalog RoBERTa Embeddings (from jcblaise)
+title: Tagalog RoBERTa Embeddings (Large)
 author: John Snow Labs
 name: roberta_embeddings_roberta_tagalog_large
 date: 2022-04-14

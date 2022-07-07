@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Japanese Bert Embeddings (from KoichiYasuoka)
+title: Japanese Bert Embeddings (Base)
 author: John Snow Labs
 name: bert_embeddings_bert_base_japanese_char_extended
 date: 2022-04-11

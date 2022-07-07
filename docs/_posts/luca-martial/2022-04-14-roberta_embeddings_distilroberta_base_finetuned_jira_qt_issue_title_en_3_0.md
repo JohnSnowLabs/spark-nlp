@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English RoBERTa Embeddings (from ietz)
+title: English RoBERTa Embeddings (Base, Titles)
 author: John Snow Labs
 name: roberta_embeddings_distilroberta_base_finetuned_jira_qt_issue_title
 date: 2022-04-14

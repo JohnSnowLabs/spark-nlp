@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Italian Bert Embeddings
+title: Italian Bert Embeddings (Cased)
 author: John Snow Labs
 name: bert_embeddings_bert_base_italian_xxl_cased
 date: 2022-04-11

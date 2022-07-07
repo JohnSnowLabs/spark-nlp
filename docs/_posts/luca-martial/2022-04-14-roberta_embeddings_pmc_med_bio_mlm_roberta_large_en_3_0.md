@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English RoBERTa Embeddings (from raynardj)
+title: English RoBERTa Embeddings (Large, Biology/Medical)
 author: John Snow Labs
 name: roberta_embeddings_pmc_med_bio_mlm_roberta_large
 date: 2022-04-14

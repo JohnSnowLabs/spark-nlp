@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Bert Embeddings (from Intel)
+title: English Bert Embeddings (Base, Uncased, Unstructured, Without Classifier Layer)
 author: John Snow Labs
 name: bert_embeddings_bert_base_uncased_mnli_sparse_70_unstructured_no_classifier
 date: 2022-04-11

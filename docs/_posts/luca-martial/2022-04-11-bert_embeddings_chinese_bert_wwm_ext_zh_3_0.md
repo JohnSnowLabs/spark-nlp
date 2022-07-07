@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Chinese Bert Embeddings (from hfl)
+title: Chinese Bert Embeddings (Bert, Whole Word Masking)
 author: John Snow Labs
 name: bert_embeddings_chinese_bert_wwm_ext
 date: 2022-04-11

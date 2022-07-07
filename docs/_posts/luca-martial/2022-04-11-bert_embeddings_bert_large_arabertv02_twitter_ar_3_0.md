@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Arabic Bert Embeddings (from aubmindlab)
+title: Arabic Bert Embeddings (Large, Arabert Model, v02, Twitter)
 author: John Snow Labs
 name: bert_embeddings_bert_large_arabertv02_twitter
 date: 2022-04-11

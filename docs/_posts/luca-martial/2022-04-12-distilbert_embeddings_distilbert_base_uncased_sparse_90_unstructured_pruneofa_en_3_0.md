@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English DistilBERT Embeddings (from Intel)
+title: English DistilBERT Embeddings (%90 sparse)
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_uncased_sparse_90_unstructured_pruneofa
 date: 2022-04-12

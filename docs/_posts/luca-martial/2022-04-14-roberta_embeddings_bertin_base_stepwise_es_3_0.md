@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish RoBERTa Embeddings (from bertin-project)
+title: Spanish RoBERTa Embeddings (Base, Stepwise)
 author: John Snow Labs
 name: roberta_embeddings_bertin_base_stepwise
 date: 2022-04-14

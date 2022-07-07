@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Arabic Bert Embeddings (from CAMeL-Lab)
+title: Arabic Bert Embeddings (Base, MSA dataset)
 author: John Snow Labs
 name: bert_embeddings_bert_base_arabic_camelbert_msa
 date: 2022-04-11
