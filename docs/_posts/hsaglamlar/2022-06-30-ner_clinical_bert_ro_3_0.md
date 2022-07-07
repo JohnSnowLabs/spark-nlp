@@ -52,7 +52,7 @@ word_embeddings = BertEmbeddings.pretrained("bert_base_cased", "ro") \
       .setInputCols("sentence", "token") \
       .setOutputCol("embeddings")
 
-clinical_ner = MedicalNerModel.pretrained("ner_clinical_bert","ro","clinical/model")\
+clinical_ner = MedicalNerModel.pretrained("ner_clinical_bert","ro","clinical/models")\
     .setInputCols(["sentence","token","embeddings"])\
     .setOutputCol("ner")
 
