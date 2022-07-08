@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Entity Recognizer LG
+title: Entity Recognition Pipeline (Large, Spanish)
 author: John Snow Labs
 name: entity_recognizer_lg
 date: 2022-06-25
