@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English LongformerForQuestionAnswering model (from mrm8488)
+title: English LongformerForQuestionAnswering model (Squad dataset)
 author: John Snow Labs
 name: longformer_qa_base_4096_finetuned_squadv2
 date: 2022-06-26
