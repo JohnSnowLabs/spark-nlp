@@ -1,2 +1,2 @@
-docs/_posts/hsaglamlar/2022-06-30-ner_clinical_bert_ro_3_0.md
-docs/_posts/hsaglamlar/2022-06-30-ner_clinical_bert_ro_3_0.md
+docs/_posts/ahmedlone127/2022-06-25-entity_recognizer_lg_es_3_0.md
+docs/_posts/ahmedlone127/2022-06-25-entity_recognizer_lg_es_3_0.md
