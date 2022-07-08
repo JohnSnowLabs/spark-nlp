@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect Clinical Entities in Romanian (bert_base_cased)
+title: Detect Clinical Entities in Romanian (Bert, Base, Cased)
 author: John Snow Labs
 name: ner_clinical_bert
 date: 2022-06-30
