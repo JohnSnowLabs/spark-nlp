@@ -1,2 +1,2 @@
-docs/_posts/murat-gunay/2022-06-26-longformer_qa_base_4096_finetuned_squadv2_en_3_0.md
-docs/_posts/murat-gunay/2022-06-26-longformer_qa_base_4096_finetuned_squadv2_en_3_0.md
+docs/_posts/luca-martial/2022-04-11-bert_embeddings_German_MedBERT_de_3_0.md
+docs/_posts/luca-martial/2022-04-11-bert_embeddings_German_MedBERT_de_3_0.md
