@@ -195,7 +195,7 @@ val results = pipeline.fit(data).transform(data)
 
 
 ```bash
-    entity      tp     fp     fn   total  precision  recall      f1
+     label      tp     fp     fn   total  precision  recall      f1
    CONTACT   171.0   10.0    3.0   174.0     0.9448  0.9828  0.9634
       NAME  2732.0  198.0  219.0  2951.0     0.9324  0.9258  0.9291
       DATE  1644.0   27.0   23.0  1667.0     0.9838  0.9862   0.985
@@ -206,6 +206,3 @@ PROFESSION   266.0   66.0  123.0   389.0     0.8012  0.6838  0.7379
      macro     -      -       -      -         -       -     0.8993
      micro     -      -       -      -         -       -     0.9094
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEwODU0NDA5NjhdfQ==
--->

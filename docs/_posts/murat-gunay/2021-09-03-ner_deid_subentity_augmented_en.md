@@ -146,7 +146,7 @@ A custom data set which is created from the i2b2-PHI train and the re-augmented 
 
 
 ```bash
-       entity      tp     fp     fn   total  precision  recall      f1
+        label      tp     fp     fn   total  precision  recall      f1
       PATIENT  1465.0  159.0  162.0  1627.0     0.9021  0.9004  0.9013
      HOSPITAL  1417.0  120.0  167.0  1584.0     0.9219  0.8946   0.908
          DATE  5513.0   57.0  129.0  5642.0     0.9898  0.9771  0.9834
@@ -168,6 +168,3 @@ MEDICALRECORD   416.0   14.0   28.0   444.0     0.9674  0.9369  0.9519
         macro     -      -      -       -         -       -     0.7715
         micro     -      -      -       -         -       -     0.9406
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIwMTYzMjE2MDddfQ==
--->

@@ -265,7 +265,7 @@ Doutora: Maria Santos
 
 
 ```bash
-    entity      tp     fp     fn   total  precision  recall      f1 
+     label      tp     fp     fn   total  precision  recall      f1 
    CONTACT   191.0    2.0    2.0   193.0     0.9896  0.9896  0.9896 
       NAME  2640.0   82.0   52.0  2692.0     0.9699  0.9807  0.9752 
       DATE  1316.0   24.0    5.0  1321.0     0.9821  0.9962  0.9891 
@@ -277,7 +277,3 @@ PROFESSION   249.0   17.0   27.0   276.0     0.9361  0.9022  0.9188
      macro       -      -      -       -          -       -  0.9636 
      macro       -      -      -       -          -       -  0.9736 
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbMTU1NzI0NzM2NywxOTkyNzU1MDA3LDEwND
-I4ODc5ODEsLTk0NzM2MTY5MF19
--->

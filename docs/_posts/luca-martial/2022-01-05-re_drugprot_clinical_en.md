@@ -223,7 +223,7 @@ This model has been improved using a Deep Learning Relation Extraction approach,
 
 
 ```bash
-Label              precision    recall  f1-score    support
+label              precision     recall  f1-score    support
 ACTIVATOR               0.39       0.29      0.33        235
 AGONIST                 0.71       0.67      0.69        138
 ANTAGONIST              0.79       0.77      0.78        215
@@ -248,10 +248,6 @@ INHIBITOR               0.947      0.937     0.942       1083
 PART-OF                 0.939      0.889     0.913       247
 PRODUCT-OF              0.697      0.953     0.805       145
 SUBSTRATE               0.912      0.884     0.898       468
-Avg.                    0.873      0.892     0.879       3647
-Weighted-Avg.           0.897      0.899     0.897       3647
+Avg                     0.873      0.892     0.879       3647
+Weighted-Avg            0.897      0.899     0.897       3647
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbMjA2Mzc1MTEwNiw5MzIyNDA2MiwtMjYyNj
-Q2ODA3XX0=
--->

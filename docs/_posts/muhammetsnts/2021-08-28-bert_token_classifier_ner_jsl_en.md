@@ -196,7 +196,7 @@ Trained on data gathered and manually annotated by John Snow Labs. https://www.j
 
 
 ```bash
-                                  Label       precision recall   f1-score  support
+                                  label       precision recall   f1-score  support
                     Admission_Discharge       0.84      0.97      0.90       415
                                     Age       0.96      0.96      0.96      2434
                                 Alcohol       0.75      0.83      0.79       145
@@ -274,8 +274,4 @@ Trained on data gathered and manually annotated by John Snow Labs. https://www.j
                               macro-avg       0.82      0.82      0.81    445974
                            weighted-avg       0.94      0.94      0.94    445974
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbMjA0OTE1MDE5NCwxMzg0NzMzNDkwLC0yMD
-I0ODA4MjAsLTQ4Njk5Mjg3Nyw4NDIxMjYxMDEsNjU1MTExODQy
-LC03ODU1ODUwNzZdfQ==
--->
+

@@ -180,8 +180,7 @@ Reference:
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
         DATE       0.93      0.97      0.95       206
        EVENT       0.78      0.48      0.60        52
          FAC       0.80      0.68      0.73        59
@@ -202,9 +201,7 @@ Reference:
         TIME       0.91      1.00      0.96        32
  TITLE_AFFIX       0.86      0.75      0.80        24
  WORK_OF_ART       0.87      0.85      0.86        48
-
-    accuracy                           0.98     13034
-   macro avg       0.86      0.84      0.85     13034
-weighted avg       0.98      0.98      0.98     13034
-
+    accuracy          -         -      0.98     13034
+   macro-avg       0.86      0.84      0.85     13034
+weighted-avg       0.98      0.98      0.98     13034
 ```

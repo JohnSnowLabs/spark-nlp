@@ -147,10 +147,10 @@ Trained on [dataset](https://www.kaggle.com/datasets/finalepoch/medical-ner) to 
 ## Benchmarking
 
 ```bash
-          entity   tp  fp  fn  total  precision  recall    f1
-        Pathogen 15.0 3.0 9.0   24.0     0.8333   0.625  0.7143
-        Medicine 15.0 2.0 0.0   15.0     0.8824   1.0    0.9375
-MedicalCondition 53.0 2.0 6.0   59.0     0.9636   0.8983 0.9298
-           macro   -   -   -     -          -       -    0.8605
-           micro   -   -   -     -          -       -    0.8782
+           label   tp   fp   fn  total  precision   recall     f1
+        Pathogen 15.0  3.0  9.0   24.0     0.8333   0.625  0.7143
+        Medicine 15.0  2.0  0.0   15.0     0.8824   1.0    0.9375
+MedicalCondition 53.0  2.0  6.0   59.0     0.9636   0.8983 0.9298
+           macro   -    -    -     -          -       -    0.8605
+           micro   -    -    -     -          -       -    0.8782
 ```

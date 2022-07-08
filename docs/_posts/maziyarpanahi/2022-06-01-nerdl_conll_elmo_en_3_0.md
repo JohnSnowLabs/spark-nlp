@@ -131,8 +131,7 @@ ner_df = nlu.load('en.ner.nerdl_conll_elmo').predict(text, output_level='token')
 ```bash
 Test:   
 
-    precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
        B-LOC      0.941     0.932     0.936      1668
        I-ORG      0.886     0.932     0.908       835
       I-MISC      0.709     0.745     0.727       216
@@ -141,10 +140,9 @@ Test:
       B-MISC      0.843     0.825     0.834       702
        B-ORG      0.907     0.931     0.919      1661
        B-PER      0.961     0.972     0.966      1617
-
-   micro avg      0.920     0.932     0.926      8112
-   macro avg      0.885     0.901     0.893      8112
-weighted avg      0.920     0.932     0.926      8112
+   micro-avg      0.920     0.932     0.926      8112
+   macro-avg      0.885     0.901     0.893      8112
+weighted-avg      0.920     0.932     0.926      8112
 
 processed 46435 tokens with 5648 phrases; found: 5685 phrases; correct: 5209.
 accuracy:  93.24%; (non-O)
@@ -157,8 +155,7 @@ accuracy:  98.30%; precision:  91.63%; recall:  92.23%; FB1:  91.93
 
 Dev:
                                                                                 
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
        B-LOC      0.974     0.968     0.971      1837
        I-ORG      0.923     0.948     0.936       751
       I-MISC      0.933     0.841     0.884       346
@@ -167,10 +164,9 @@ Dev:
       B-MISC      0.939     0.903     0.921       922
        B-ORG      0.923     0.950     0.936      1341
        B-PER      0.972     0.981     0.976      1842
-
-   micro avg      0.956     0.955     0.956      8603
-   macro avg      0.949     0.938     0.943      8603
-weighted avg      0.956     0.955     0.956      8603
+   micro-avg      0.956     0.955     0.956      8603
+   macro-avg      0.949     0.938     0.943      8603
+weighted-avg      0.956     0.955     0.956      8603
 
 processed 51362 tokens with 5942 phrases; found: 5961 phrases; correct: 5651.
 accuracy:  95.55%; (non-O)

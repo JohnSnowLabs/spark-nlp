@@ -142,7 +142,7 @@ In-house annotated dataset
 
 
 ```bash
-    entity      tp     fp      fn   total  precision  recall      f1
+     label      tp     fp      fn   total  precision  recall      f1
    CONTACT    68.0   25.0    12.0    80.0     0.7312    0.85  0.7861
       NAME  3965.0  294.0   274.0  4239.0      0.931  0.9354  0.9332
       DATE  4049.0    2.0     0.0  4049.0     0.9995     1.0  0.9998
@@ -151,6 +151,3 @@ In-house annotated dataset
 PROFESSION   145.0    8.0   117.0   262.0     0.9477  0.5534  0.6988
        AGE   458.0   13.0    18.0   476.0     0.9724  0.9622  0.9673
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTQ5MzUyMDY3N119
--->

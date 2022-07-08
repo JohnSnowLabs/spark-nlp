@@ -146,7 +146,7 @@ This model is trained on a [ChemProt corpus](https://biocreative.bioinformatics.
 
 
 ```bash
-       Label  precision    recall  f1-score   support
+       label  precision    recall  f1-score   support
   B-CHEMICAL       0.93      0.79      0.85      8649
     B-GENE-N       0.63      0.56      0.59      2752
     B-GENE-Y       0.82      0.73      0.77      5490
@@ -157,6 +157,3 @@ This model is trained on a [ChemProt corpus](https://biocreative.bioinformatics.
    macro-avg       0.75      0.74      0.75     22617
 weighted-avg       0.83      0.73      0.78     22617
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbMTE3ODIzMTgwNV19
--->

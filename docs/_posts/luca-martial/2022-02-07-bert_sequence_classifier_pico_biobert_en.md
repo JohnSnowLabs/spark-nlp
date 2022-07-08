@@ -140,7 +140,7 @@ This model is trained on a custom dataset derived from a PICO classification dat
 
 
 ```bash
-         Label  precision    recall  f1-score   support
+         label  precision    recall  f1-score   support
           AIMS       0.92      0.94      0.93      3813
    CONCLUSIONS       0.85      0.86      0.86      4314
 DESIGN_SETTING       0.88      0.78      0.83      5628
@@ -152,6 +152,3 @@ DESIGN_SETTING       0.88      0.78      0.83      5628
      macro-avg       0.85      0.85      0.85     31270
   weighted-avg       0.87      0.86      0.86     31270
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIxMzUxMTI1NzldfQ==
--->

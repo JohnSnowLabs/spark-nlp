@@ -132,9 +132,8 @@ nlu.load("en.classify.typos.distilbert").predict("""He had also stgruggled with 
 ## Benchmarking
 
 ```bash
-             precision  recall    f1-score  support
-
-micro avg    0.992332   0.985997  0.989154  416054.0
-macro avg    0.992332   0.985997  0.989154  416054.0
-weighted avg 0.992332   0.985997  0.989154  416054.0
+label        precision  recall    f1-score  support
+micro-avg    0.992332   0.985997  0.989154  416054.0
+macro-avg    0.992332   0.985997  0.989154  416054.0
+weighted-avg 0.992332   0.985997  0.989154  416054.0
 ```
