@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Medical BertForQuestionAnswering model (Uncased, Microsoft PubMedBERT)
+title: English Medical BertForQuestionAnswering model (Uncased, Base, PubMed)
 author: John Snow Labs
 name: bert_qa_Shushant_BiomedNLP_PubMedBERT_base_uncased_abstract_fulltext_ContaminationQAmodel_PubmedBERT
 date: 2022-06-02
