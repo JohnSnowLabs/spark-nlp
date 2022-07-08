@@ -1,2 +1,2 @@
-docs/_posts/gadde5300/2022-06-02-bert_qa_Shushant_BiomedNLP_PubMedBERT_base_uncased_abstract_fulltext_ContaminationQAmodel_PubmedBERT_en_3_0.md
-docs/_posts/gadde5300/2022-06-02-bert_qa_Shushant_BiomedNLP_PubMedBERT_base_uncased_abstract_fulltext_ContaminationQAmodel_PubmedBERT_en_3_0.md
+docs/_posts/gadde5300/2022-06-02-bert_qa_sapbert_from_pubmedbert_squad2_en_3_0.md
+docs/_posts/gadde5300/2022-06-02-bert_qa_sapbert_from_pubmedbert_squad2_en_3_0.md
