@@ -1,2 +1,2 @@
-docs/_posts/ahmedlone127/2022-06-25-entity_recognizer_lg_es_3_0.md
-docs/_posts/ahmedlone127/2022-06-25-entity_recognizer_lg_es_3_0.md
+docs/_posts/murat-gunay/2022-06-26-longformer_qa_base_4096_finetuned_squadv2_en_3_0.md
+docs/_posts/murat-gunay/2022-06-26-longformer_qa_base_4096_finetuned_squadv2_en_3_0.md
