@@ -157,7 +157,7 @@ Trained on Cancer Genetics (CG) task of the BioNLP Shared Task 2013. https://acl
 
 
 ```bash
-       Label  precision    recall  f1-score   support
+       label  precision    recall  f1-score   support
        B-DNA       0.87      0.77      0.82      1056
        B-RNA       0.85      0.79      0.82       118
  B-cell_line       0.66      0.70      0.68       500
@@ -172,6 +172,3 @@ Trained on Cancer Genetics (CG) task of the BioNLP Shared Task 2013. https://acl
    macro-avg       0.76      0.81      0.78     19392
 weighted-avg       0.89      0.80      0.85     19392
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbNTE1MDYzMzE5XX0=
--->

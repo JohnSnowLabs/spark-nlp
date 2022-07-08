@@ -120,9 +120,8 @@ val result = pipeline.fit(example).transform(example)
 ## Benchmarking
 
 ```bash
-             precision  recall    f1-score  support
-
-micro avg    0.98954    0.967603  0.978448  43800.0
-macro avg    0.98954    0.967603  0.978448  43800.0
-weighted avg 0.98954    0.967603  0.978448  43800.0
+label         precision recall    f1-score  support
+micro avg     0.98954   0.967603  0.978448  43800.0
+macro-avg     0.98954   0.967603  0.978448  43800.0
+weighted-avg  0.98954   0.967603  0.978448  43800.0
 ```

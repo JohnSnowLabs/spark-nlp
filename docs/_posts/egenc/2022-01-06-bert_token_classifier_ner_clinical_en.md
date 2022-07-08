@@ -172,7 +172,7 @@ Trained on augmented 2010 i2b2 challenge data with ‘embeddings_clinical’. ht
 
 ```bash
    
-       Label  precision    recall  f1-score   support
+       label  precision    recall  f1-score   support
      PROBLEM       0.88      0.92      0.90     30276
         TEST       0.91      0.86      0.88     17237
    TREATMENT       0.87      0.88      0.88     17298
@@ -181,6 +181,3 @@ Trained on augmented 2010 i2b2 challenge data with ‘embeddings_clinical’. ht
    macro-avg       0.91      0.91      0.91    267249
 weighted-avg       0.95      0.95      0.95    267249
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbNTAxMzA3MjczXX0=
--->

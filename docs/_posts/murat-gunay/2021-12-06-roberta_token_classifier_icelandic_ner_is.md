@@ -136,6 +136,7 @@ nlu.load("is.ner").predict("""Ég heiti Peter Fergusson. Ég hef búið í New Y
 ## Benchmarking
 
 ```bash
-Macro F1-Score : 0.957209
-Micro F1-Score : 0.951866
+         label      score
+Macro F1-Score   0.957209
+Micro F1-Score   0.951866
 ```

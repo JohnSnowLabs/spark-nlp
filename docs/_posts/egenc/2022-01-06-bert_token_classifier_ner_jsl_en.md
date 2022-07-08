@@ -205,7 +205,7 @@ Trained on data gathered and manually annotated by John Snow Labs. https://www.j
 
 ```bash
   
-                                  Label  precision    recall  f1-score   support
+                                  label  precision    recall  f1-score   support
                   B-Admission_Discharge       0.96      0.97      0.96       298
                                   B-Age       0.96      0.97      0.97      1545
                               B-Alcohol       0.89      0.86      0.87       117
@@ -355,7 +355,4 @@ I-Sexually_Active_or_Sexual_Orientation       1.00      1.00      1.00         1
                               macro-avg       0.76      0.74      0.74    338378
                            weighted-avg       0.92      0.92      0.92    338378
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbMjEyODA0ODk2MywtNDgxNzAyMjY5LC0xOD
-Q3NTQ2NTE3LDE0NDg5ODk2NDhdfQ==
--->
+

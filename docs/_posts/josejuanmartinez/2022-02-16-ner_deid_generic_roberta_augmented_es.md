@@ -241,7 +241,7 @@ Antonio Miguel Martínez, un varón de 35 años de edad, de profesión auxiliar 
 
 
 ```bash
-      entity      tp     fp     fn   total  precision  recall       f1
+       label      tp     fp     fn   total  precision  recall       f1
      CONTACT   177.0    3.0    6.0   183.0     0.9833  0.9672   0.9752
         NAME  1963.0  159.0  123.0  2086.0     0.9251   0.941    0.933
         DATE   953.0   18.0   16.0   969.0     0.9815  0.9835   0.9825
@@ -254,6 +254,3 @@ ORGANIZATION  2320.0  520.0  362.0  2682.0     0.8169   0.865   0.8403
        macro       -      -      -       -          -       -  0.93263
        micro       -      -      -       -          -       -  0.89427
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTExMjkyODEzNTUsLTQ1NDQ1NTU0M119
--->

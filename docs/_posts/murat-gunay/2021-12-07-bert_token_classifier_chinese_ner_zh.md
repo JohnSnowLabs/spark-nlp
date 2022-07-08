@@ -135,5 +135,6 @@ nlu.load("zh.ner.bert_token").predict("""我是莎拉，我从 1999 年 11 月 2
 ## Benchmarking
 
 ```bash
-F1 Score : 0.8118
+label   score
+   f1   0.8118
 ```

@@ -198,7 +198,7 @@ nlu.load("it.med_ner.deid_subentity").predict("""Ho visto Gastone Montanariello 
 
 
 ```bash
-       entity      tp    fp    fn   total  precision  recall      f1
+        label      tp    fp    fn   total  precision  recall      f1
       PATIENT   263.0  29.0  25.0   288.0     0.9007  0.9132  0.9069
      HOSPITAL   365.0  36.0  48.0   413.0     0.9102  0.8838  0.8968
          DATE  1164.0  13.0  26.0  1190.0      0.989  0.9782  0.9835
@@ -221,7 +221,3 @@ MEDICALRECORD    19.0   3.0   6.0    25.0     0.8636    0.76  0.8085
         macro       -     -     -       -          -       -  0.9328
         micro       -     -     -       -          -       -  0.9494
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbMjA0NzEzNjI1MywtODAxNDM3OTkxLC03ND
-EwNTk0MDJdfQ==
--->

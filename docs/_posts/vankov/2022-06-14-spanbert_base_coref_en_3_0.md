@@ -96,7 +96,7 @@ OntoNotes 5.0
 ## Benchmarking
 
 ```bash
-F1 77.7
-
-https://github.com/mandarjoshi90/coref
+label score
+   f1  77.7
 ```
+https://github.com/mandarjoshi90/coref

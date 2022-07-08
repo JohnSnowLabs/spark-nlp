@@ -111,10 +111,10 @@ nlu.load("ru.classify.toxic").predict("""Ненавижу тебя, идиот."
 ## Benchmarking
 
 ```bash
-         precision    recall	f1-score	support
-neutral      0.98	   0.99	    0.98	21384
-toxic        0.94	   0.92	    0.93	4886
-accuracy  	  		    0.97	26270
-macro avg    0.96	   0.96	    0.96	26270
-weighted avg 0.97	   0.97	    0.97	26270
+label         precision   recall	f1-score   support
+neutral       0.98	      0.99	    0.98	   21384
+toxic         0.94	      0.92	    0.93	   4886
+accuracy  	  -		      -         0.97	   26270
+macro-avg     0.96	      0.96	    0.96	   26270
+weighted-avg  0.97	      0.97	    0.97	   26270
 ```

@@ -205,7 +205,7 @@ Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infec
 
 
 ```bash
-    entity      tp     fp     fn   total  precision  recall      f1
+     label      tp     fp     fn   total  precision  recall      f1
    CONTACT   166.0    9.0    8.0   174.0     0.9486   0.954  0.9513
       NAME  2879.0  195.0  191.0  3070.0     0.9366  0.9378  0.9372
       DATE  1839.0   29.0   18.0  1857.0     0.9845  0.9903  0.9874
@@ -216,6 +216,3 @@ PROFESSION   236.0   49.0  168.0   404.0     0.8281  0.5842  0.6851
      macro     -      -      -       -         -       -     0.891749
      micro     -      -      -       -         -       -     0.909897
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbMTg2MDY5Mjc5N119
--->

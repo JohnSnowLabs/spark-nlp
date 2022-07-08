@@ -116,12 +116,10 @@ A custom dataset is used based on this source : "https://quoradata.quora.com/Fir
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
  almost_same       0.85      0.91      0.88     29652
     not_same       0.90      0.84      0.87     29634
-
-    accuracy                           0.88     59286
-   macro avg       0.88      0.88      0.88     59286
-weighted avg       0.88      0.88      0.88     59286
+    accuracy          -         -      0.88     59286
+   macro-avg       0.88      0.88      0.88     59286
+weighted-avg       0.88      0.88      0.88     59286
 ```

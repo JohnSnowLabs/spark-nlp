@@ -150,7 +150,7 @@ https://arxiv.org/abs/1710.06071
 
 
 ```bash
-LABEL         precision  recall  f1-score  support
+label         precision  recall  f1-score  support
 BACKGROUND    0.77       0.86    0.81      2000   
 CONCLUSIONS   0.96       0.95    0.95      2000   
 METHODS       0.96       0.98    0.97      2000   
@@ -160,7 +160,3 @@ accuracy      0.9        0.9     0.9       10000
 macro-avg     0.9        0.9     0.9       10000  
 weighted-avg  0.9        0.9     0.9       10000  
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyODUxNTE1MzUsNTk1NTg0NjgzLDEwNT
-A0ODIwOTFdfQ==
--->

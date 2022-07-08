@@ -150,7 +150,7 @@ This model is trained on a custom dataset by John Snow Labs.
 
 
 ```bash
-       Label  precision    recall  f1-score   support
+       label  precision    recall  f1-score   support
        B-ADE       0.93      0.79      0.85      2694
       B-DRUG       0.97      0.87      0.92      9539
        I-ADE       0.93      0.73      0.82      3236
@@ -159,6 +159,3 @@ This model is trained on a custom dataset by John Snow Labs.
    macro-avg       0.84      0.84      0.84     21584
 weighted-avg       0.95      0.83      0.89     21584
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTgwMjQyMDk4NV19
--->

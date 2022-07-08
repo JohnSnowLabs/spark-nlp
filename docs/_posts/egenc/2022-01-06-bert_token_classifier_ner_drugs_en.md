@@ -160,7 +160,7 @@ Trained on i2b2_med7 + FDA. https://www.i2b2.org/NLP/Medication
 
 
 ```bash
-       Label  precision    recall  f1-score   support
+       label  precision    recall  f1-score   support
   B-DrugChem       0.99      0.99      0.99     97872
   I-DrugChem       0.99      0.99      0.99     54909
            O       1.00      1.00      1.00   1191109
@@ -168,6 +168,3 @@ Trained on i2b2_med7 + FDA. https://www.i2b2.org/NLP/Medication
    macro-avg       0.99      0.99      0.99   1343890
 weighted-avg       1.00      1.00      1.00   1343890
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE1MTE0Njc1NTZdfQ==
--->

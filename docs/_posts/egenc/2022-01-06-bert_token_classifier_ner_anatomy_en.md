@@ -164,7 +164,7 @@ Trained on the Anatomical Entity Mention (AnEM) corpus with 'embeddings_clinical
 
 
 ```bash
-                            Label  precision    recall  f1-score   support
+                            label  precision    recall  f1-score   support
               B-Anatomical_system       1.00      0.50      0.67         4
                            B-Cell       0.89      0.96      0.92        74
              B-Cellular_component       0.97      0.81      0.88        36
@@ -190,6 +190,3 @@ I-Developing_anatomical_structure       1.00      1.00      1.00         1
                         macro-avg       0.87      0.77      0.83       473
                      weighted-avg       0.90      0.84      0.86       473
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEzMDMzMjQ3NTFdfQ==
--->

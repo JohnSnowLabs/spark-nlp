@@ -148,6 +148,7 @@ Trained on data obtained from `clinicaltrials.gov` and annotated in-house.
 ## Benchmarking
 
 ```bash
+                label       prec       rec        f1   support
                 B-ADE       0.50      0.33      0.40         3
 B-Confidence_Interval       0.46      1.00      0.63        12
    B-Confidence_Range       1.00      0.98      0.99        42
@@ -174,8 +175,7 @@ B-Confidence_Interval       0.46      1.00      0.63        12
         I-Trial_Group       0.92      0.90      0.91       156
               I-Value       1.00      1.00      1.00        10
                     O       0.98      0.98      0.98      2622
-
-             accuracy                           0.96      3808
-            macro avg       0.86      0.86      0.85      3808
-         weighted avg       0.96      0.96      0.96      3808
+             accuracy         -         -       0.96      3808
+            macro-avg       0.86      0.86      0.85      3808
+         weighted-avg       0.96      0.96      0.96      3808
 ```

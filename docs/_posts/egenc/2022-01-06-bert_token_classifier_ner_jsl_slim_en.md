@@ -173,7 +173,7 @@ Trained on data annotated by JSL.
 
 ```bash
      
-                      Label  precision    recall  f1-score   support
+                      label  precision    recall  f1-score   support
       B-Admission_Discharge       0.82      0.99      0.90       282
                       B-Age       0.88      0.83      0.85       576
                 B-Body_Part       0.84      0.91      0.87      8582
@@ -220,7 +220,4 @@ I-Disease_Syndrome_Disorder       0.87      0.85      0.86      4385
                   macro-avg       0.74      0.74      0.73    297997
                weighted-avg       0.94      0.94      0.94    297997
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIwMTM0MTE0MzgsOTkwNDI0MjQ3LC03ND
-YxMzYwOF19
--->
+

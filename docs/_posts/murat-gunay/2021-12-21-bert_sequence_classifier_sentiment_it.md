@@ -111,5 +111,6 @@ nlu.load("it.classify.sentiment").predict("""Ho mal di testa e mi sento male."""
 ## Benchmarking
 
 ```bash
-Accuracy : 0.82
+label      score
+accuracy   0.82
 ```

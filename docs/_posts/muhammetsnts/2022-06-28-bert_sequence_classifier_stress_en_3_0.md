@@ -112,12 +112,10 @@ val result = pipeline.fit(data).transform(data)
 ## Benchmarking
 
 ```bash
-               precision    recall    f1-score    support    
-
-   no stress        0.83      0.82        0.83        334
-      stress        0.85      0.85        0.85        377
-
-    accuracy                              0.84        711
-   macro avg        0.84      0.84        0.84        711
-weighted avg        0.84      0.84        0.84        711
+label           precision  recall    f1-score    support    
+no-stress       0.83       0.82      0.83        334
+stress          0.85       0.85      0.85        377
+accuracy          -          -       0.84        711
+macro-avg       0.84       0.84      0.84        711
+weighted-avg    0.84       0.84      0.84        711
 ```

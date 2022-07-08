@@ -128,8 +128,7 @@ In-house annotations based on `2014 i2b2 Deid dataset`.
 (on official test set from 2014 i2b2 Deid Data-set)
 
 ```bash
-                precision    recall  f1-score   support
-
+         label  precision    recall  f1-score   support
            AGE       0.96      0.96      0.96       764
           CITY       0.83      0.84      0.84       260
        COUNTRY       0.79      0.85      0.82       117
@@ -148,9 +147,8 @@ LOCATION-OTHER       0.86      0.46      0.60        13
         STREET       0.96      0.97      0.97       136
       USERNAME       1.00      0.96      0.98        92
            ZIP       0.98      0.99      0.98       140
-
-     micro avg       0.95      0.92      0.94     11459
-     macro avg       0.86      0.81      0.83     11459
-  weighted avg       0.95      0.92      0.93     11459
+     micro-avg       0.95      0.92      0.94     11459
+     macro-avg       0.86      0.81      0.83     11459
+  weighted-avg       0.95      0.92      0.93     11459
 ```
 `FAX` and `EMAIL` has been removed from official i2b2 test-set since there is not enough data to train in the official i2b2 train-set.

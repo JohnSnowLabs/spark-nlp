@@ -222,20 +222,17 @@ This model was trained on the [DrugProt corpus](https://zenodo.org/record/511989
 
 
 ```bash
-Relation                Recall  Precision       F1   Support
-ACTIVATOR               0.885      0.776     0.827       235
-AGONIST                 0.810      0.925     0.864       137
-ANTAGONIST              0.970      0.919     0.944       199
-DIRECT-REGULATOR        0.836      0.901     0.867       403
-INDIRECT-DOWNREGULATOR  0.885      0.850     0.867       313
-INDIRECT-UPREGULATOR    0.844      0.887     0.865       270
-INHIBITOR               0.947      0.937     0.942      1083
-PART-OF                 0.939      0.889     0.913       247
-PRODUCT-OF              0.697      0.953     0.805       145
-SUBSTRATE               0.912      0.884     0.898       468
-Avg.                    0.873      0.892     0.879         -
-Weighted-Avg.           0.897      0.899     0.897         -
+label                   recall     precision  f1        support
+ACTIVATOR               0.885      0.776      0.827     235
+AGONIST                 0.810      0.925      0.864     137
+ANTAGONIST              0.970      0.919      0.944     199
+DIRECT-REGULATOR        0.836      0.901      0.867     403
+INDIRECT-DOWNREGULATOR  0.885      0.850      0.867     313
+INDIRECT-UPREGULATOR    0.844      0.887      0.865     270
+INHIBITOR               0.947      0.937      0.942     1083
+PART-OF                 0.939      0.889      0.913     247
+PRODUCT-OF              0.697      0.953      0.805     145
+SUBSTRATE               0.912      0.884      0.898     468
+Avg                     0.873      0.892      0.879      -
+Weighted-Avg            0.897      0.899      0.897      -
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbNjc1MTM0MDUzXX0=
--->

@@ -139,12 +139,10 @@ val result = light_pipeline.annotate("Chất cotton siêu đẹp mịn mát.")
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
     NEGATIVE       0.88      0.79      0.83       956
     POSITIVE       0.80      0.89      0.84       931
-
-    accuracy                           0.84      1887
-   macro avg       0.84      0.84      0.84      1887
-weighted avg       0.84      0.84      0.84      1887
+    accuracy          -         -      0.84      1887
+   macro-avg       0.84      0.84      0.84      1887
+weighted-avg       0.84      0.84      0.84      1887
 ```
