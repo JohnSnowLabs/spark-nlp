@@ -541,8 +541,7 @@ This NER model is trained with a reviewed version of the re-augmented 2014 i2b2 
 
 <p>(on official test set from 2014 i2b2 Deid Data-set)</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                precision    recall  f1-score   support
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>         label  precision    recall  f1-score   support
            AGE       0.96      0.96      0.96       764
           CITY       0.83      0.84      0.84       260
        COUNTRY       0.79      0.85      0.82       117
@@ -561,10 +560,9 @@ LOCATION-OTHER       0.86      0.46      0.60        13
         STREET       0.96      0.97      0.97       136
       USERNAME       1.00      0.96      0.98        92
            ZIP       0.98      0.99      0.98       140
-
-     micro avg       0.95      0.92      0.94     11459
-     macro avg       0.86      0.81      0.83     11459
-  weighted avg       0.95      0.92      0.93     11459
+     micro-avg       0.95      0.92      0.94     11459
+     macro-avg       0.86      0.81      0.83     11459
+  weighted-avg       0.95      0.92      0.93     11459
 </code></pre></div></div>
 <p><code class="language-plaintext highlighter-rouge">FAX</code> and <code class="language-plaintext highlighter-rouge">EMAIL</code> has been removed from official i2b2 test-set since there is not enough data to train in the official i2b2 train-set.</p>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-29T00:00:00+00:00"><!-- start custom article footer snippet -->
