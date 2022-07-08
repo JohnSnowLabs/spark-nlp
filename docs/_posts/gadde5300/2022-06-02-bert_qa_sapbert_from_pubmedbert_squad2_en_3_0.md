@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Medical BertForQuestionAnswering model
+title: English Medical BertForQuestionAnswering model (SapBERT)
 author: John Snow Labs
 name: bert_qa_sapbert_from_pubmedbert_squad2
 date: 2022-06-02
