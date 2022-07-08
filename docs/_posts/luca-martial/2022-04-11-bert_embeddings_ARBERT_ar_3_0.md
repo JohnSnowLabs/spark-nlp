@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Arabic Bert Embeddings (from UBC-NLP)
+title: Arabic Bert Embeddings (ARBERT model)
 author: John Snow Labs
 name: bert_embeddings_ARBERT
 date: 2022-04-11

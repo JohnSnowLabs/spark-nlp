@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Japanese Bert Embeddings
+title: Japanese Bert Embeddings (Base, Whole Word Masking)
 author: John Snow Labs
 name: bert_embeddings_bert_base_japanese_whole_word_masking
 date: 2022-04-11

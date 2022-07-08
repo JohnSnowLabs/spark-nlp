@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish RoBERTa Embeddings
+title: Spanish RoBERTa Embeddings (Base)
 author: John Snow Labs
 name: roberta_embeddings_roberta_base_bne
 date: 2022-04-14

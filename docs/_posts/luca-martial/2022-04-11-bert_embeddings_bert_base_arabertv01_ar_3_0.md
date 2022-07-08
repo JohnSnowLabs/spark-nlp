@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Arabic Bert Embeddings (from aubmindlab)
+title: Arabic Bert Embeddings (Base, Arabert Model, v01)
 author: John Snow Labs
 name: bert_embeddings_bert_base_arabertv01
 date: 2022-04-11

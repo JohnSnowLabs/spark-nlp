@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Arabic ALBERT Embeddings (from asafaya)
+title: Arabic ALBERT Embeddings (x-large)
 author: John Snow Labs
 name: albert_embeddings_albert_xlarge_arabic
 date: 2022-04-14

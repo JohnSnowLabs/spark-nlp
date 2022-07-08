@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Bert Embeddings
+title: English Bert Embeddings (Large, Uncased)
 author: John Snow Labs
 name: bert_embeddings_bert_large_uncased_whole_word_masking
 date: 2022-04-11

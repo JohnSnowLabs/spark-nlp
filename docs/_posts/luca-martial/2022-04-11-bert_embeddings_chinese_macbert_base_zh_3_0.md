@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Chinese Bert Embeddings (from hfl)
+title: Chinese Bert Embeddings (Base, MacBERT)
 author: John Snow Labs
 name: bert_embeddings_chinese_macbert_base
 date: 2022-04-11

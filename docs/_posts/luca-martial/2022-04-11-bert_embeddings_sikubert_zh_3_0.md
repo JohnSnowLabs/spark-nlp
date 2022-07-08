@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Chinese Bert Embeddings (from SIKU-BERT)
+title: Chinese Bert Embeddings (Siku Quanshu corpus)
 author: John Snow Labs
 name: bert_embeddings_sikubert
 date: 2022-04-11

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Portuguese BioBERT Embeddings (from pucpr)
+title: Clinical Portuguese Bert Embeddiongs (Biomedical)
 author: John Snow Labs
 name: biobert_embeddings_biomedical
 date: 2022-04-11

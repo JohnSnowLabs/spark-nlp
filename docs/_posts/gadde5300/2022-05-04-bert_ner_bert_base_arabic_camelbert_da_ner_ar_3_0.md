@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Arabic Named Entity Recognition (from CAMeL-Lab)
+title: Arabic Named Entity Recognition (Dialectal Arabic-DA)
 author: John Snow Labs
 name: bert_ner_bert_base_arabic_camelbert_da_ner
 date: 2022-05-04

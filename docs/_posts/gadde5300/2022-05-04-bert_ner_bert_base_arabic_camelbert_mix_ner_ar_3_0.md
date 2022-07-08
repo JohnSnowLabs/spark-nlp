@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Arabic Named Entity Recognition
+title: Arabic Named Entity Recognition (Modern Standard Arabic-MSA, Dialectal Arabic-DA and Classical Arabic-CA)
 author: John Snow Labs
 name: bert_ner_bert_base_arabic_camelbert_mix_ner
 date: 2022-05-04

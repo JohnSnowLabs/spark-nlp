@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Chinese Bert Embeddings (from junnyu)
+title: Chinese Bert Embeddings (Base, Plus, Wobert model)
 author: John Snow Labs
 name: bert_embeddings_wobert_chinese_plus_base
 date: 2022-04-11

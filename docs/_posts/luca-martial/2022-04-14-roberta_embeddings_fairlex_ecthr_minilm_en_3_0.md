@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English RoBERTa Embeddings (from coastalcph)
+title: English RoBERTa Embeddings (ECtHR dataset)
 author: John Snow Labs
 name: roberta_embeddings_fairlex_ecthr_minilm
 date: 2022-04-14

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Portuguese BioBERT Embeddings
+title: Clinical Portuguese Bert Embeddings (Biomedical and Clinical)
 author: John Snow Labs
 name: biobert_embeddings_all
 date: 2022-04-11

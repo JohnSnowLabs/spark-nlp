@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Bert Embeddings (from ayansinha)
+title: English Bert Embeddings (Uncased)
 author: John Snow Labs
 name: bert_embeddings_false_positives_scancode_bert_base_uncased_L8_1
 date: 2022-04-11

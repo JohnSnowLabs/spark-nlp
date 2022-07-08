@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Arabic Named Entity Recognition (from CAMeL-Lab)
+title: Arabic Named Entity Recognition (Modern Standard Arabic-MSA)
 author: John Snow Labs
 name: bert_ner_bert_base_arabic_camelbert_msa_ner
 date: 2022-05-04

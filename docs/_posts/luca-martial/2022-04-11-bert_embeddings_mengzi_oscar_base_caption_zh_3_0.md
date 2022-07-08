@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Chinese Bert Embeddings (from Langboat)
+title: Chinese Bert Embeddings (Base, captions dataset)
 author: John Snow Labs
 name: bert_embeddings_mengzi_oscar_base_caption
 date: 2022-04-11

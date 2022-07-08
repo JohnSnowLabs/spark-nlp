@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Japanese Bert Embeddings (from izumi-lab)
+title: Japanese Bert Embeddings (Small, Financial)
 author: John Snow Labs
 name: bert_embeddings_bert_small_japanese_fin
 date: 2022-04-11

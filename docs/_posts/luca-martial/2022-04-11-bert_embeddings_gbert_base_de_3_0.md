@@ -1,6 +1,6 @@
 ---
 layout: model
-title: German Bert Embeddings (from deepset)
+title: German Bert Embeddings (Base, Cased)
 author: John Snow Labs
 name: bert_embeddings_gbert_base
 date: 2022-04-11

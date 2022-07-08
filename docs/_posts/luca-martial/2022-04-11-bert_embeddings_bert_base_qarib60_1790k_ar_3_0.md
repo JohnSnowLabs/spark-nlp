@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Arabic Bert Embeddings (from qarib)
+title: Arabic Bert Embeddings (Base, 1790k Iterations)
 author: John Snow Labs
 name: bert_embeddings_bert_base_qarib60_1790k
 date: 2022-04-11

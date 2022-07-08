@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Arabic Bert Embeddings (from asafaya)
+title: Arabic Bert Embeddings (Medium)
 author: John Snow Labs
 name: bert_embeddings_bert_medium_arabic
 date: 2022-04-11

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Malay ALBERT Embeddings (from malay-huggingface)
+title: Malay ALBERT Embeddings (Base)
 author: John Snow Labs
 name: albert_embeddings_albert_base_bahasa_cased
 date: 2022-04-14

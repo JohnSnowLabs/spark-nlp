@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal English Bert Embeddings (Base Uncased)
+title: Legal English Bert Embeddings (Base, Uncased)
 author: John Snow Labs
 name: bert_embeddings_legal_bert_base_uncased
 date: 2022-04-11

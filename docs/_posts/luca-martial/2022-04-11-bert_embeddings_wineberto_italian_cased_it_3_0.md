@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Italian Bert Embeddings (from vinhood)
+title: Italian Embeddings (Base, Wines description)
 author: John Snow Labs
 name: bert_embeddings_wineberto_italian_cased
 date: 2022-04-11

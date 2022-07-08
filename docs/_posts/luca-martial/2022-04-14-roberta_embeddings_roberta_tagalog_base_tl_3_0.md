@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Tagalog RoBERTa Embeddings
+title: Tagalog RoBERTa Embeddings (Base)
 author: John Snow Labs
 name: roberta_embeddings_roberta_tagalog_base
 date: 2022-04-14

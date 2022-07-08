@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Javanese RoBERTa Embeddings (from w11wo)
+title: Javanese RoBERTa Embeddings (Small, Javanese Wikipedia)
 author: John Snow Labs
 name: roberta_embeddings_javanese_roberta_small
 date: 2022-04-14

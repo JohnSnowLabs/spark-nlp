@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Chinese Bert Embeddings (from wangfan)
+title: Chinese Bert Embeddings (Base)
 author: John Snow Labs
 name: bert_embeddings_jdt_fin_roberta_wwm
 date: 2022-04-11

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Javanese Bert Embeddings (from w11wo)
+title: Javanese Bert Embeddings (Small, Imdb)
 author: John Snow Labs
 name: bert_embeddings_javanese_bert_small_imdb
 date: 2022-04-11

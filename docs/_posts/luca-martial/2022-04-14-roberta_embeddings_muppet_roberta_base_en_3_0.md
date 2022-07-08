@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English RoBERTa Embeddings (from facebook)
+title: English RoBERTa Embeddings (Base, Wikipedia and Bookcorpus datasets)
 author: John Snow Labs
 name: roberta_embeddings_muppet_roberta_base
 date: 2022-04-14

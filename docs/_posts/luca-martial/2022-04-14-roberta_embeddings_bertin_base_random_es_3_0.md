@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish RoBERTa Embeddings (from bertin-project)
+title: Spanish RoBERTa Embeddings (Base, Random Sampling)
 author: John Snow Labs
 name: roberta_embeddings_bertin_base_random
 date: 2022-04-14

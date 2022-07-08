@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Chinese Bert Embeddings
+title: Chinese Bert Embeddings (Roberta, Whole Word Masking)
 author: John Snow Labs
 name: bert_embeddings_chinese_roberta_wwm_ext
 date: 2022-04-11

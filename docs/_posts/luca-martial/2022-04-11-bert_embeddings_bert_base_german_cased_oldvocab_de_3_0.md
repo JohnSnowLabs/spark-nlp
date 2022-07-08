@@ -1,6 +1,6 @@
 ---
 layout: model
-title: German Bert Embeddings (from deepset)
+title: German Bert Embeddings (Base, Cased, Old Vocabulary)
 author: John Snow Labs
 name: bert_embeddings_bert_base_german_cased_oldvocab
 date: 2022-04-11

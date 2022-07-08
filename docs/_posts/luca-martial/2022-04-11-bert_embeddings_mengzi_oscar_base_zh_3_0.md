@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Chinese Bert Embeddings (from Langboat)
+title: Chinese Bert Embeddings (Base, trained on Oscar dataset)
 author: John Snow Labs
 name: bert_embeddings_mengzi_oscar_base
 date: 2022-04-11

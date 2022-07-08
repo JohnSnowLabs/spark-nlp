@@ -1,10 +1,10 @@
 ---
 layout: model
-title: English Bert Embeddings (from EMBEDDIA)
+title: Multilingual (Croatian, Slovenian, English) Bert Embeddings (Base)
 author: John Snow Labs
 name: bert_embeddings_crosloengual_bert
 date: 2022-04-11
-tags: [bert, embeddings, en, open_source]
+tags: [bert, embeddings, en, hr, sl, xx, multilingual, open_source]
 task: Embeddings
 language: en
 edition: Spark NLP 3.4.2

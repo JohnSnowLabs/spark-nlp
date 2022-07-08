@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Named Entity Recognition (from Jean-Baptiste)
+title: English Named Entity Recognition (Tickers)
 author: John Snow Labs
 name: roberta_ner_roberta_ticker
 date: 2022-05-03

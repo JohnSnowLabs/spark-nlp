@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Ukrainian Part of Speech Tagger (from KoichiYasuoka)
+title: Ukrainian Part of Speech Tagger (Base)
 author: John Snow Labs
 name: bert_pos_bert_base_slavic_cyrillic_upos
 date: 2022-04-26

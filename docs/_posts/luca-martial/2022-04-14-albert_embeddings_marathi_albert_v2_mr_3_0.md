@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Marathi ALBERT Embeddings (from l3cube-pune)
+title: Marathi ALBERT Embeddings (v2)
 author: John Snow Labs
 name: albert_embeddings_marathi_albert_v2
 date: 2022-04-14

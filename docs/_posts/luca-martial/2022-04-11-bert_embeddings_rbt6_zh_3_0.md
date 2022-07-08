@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Chinese Bert Embeddings (from hfl)
+title: Chinese Bert Embeddings (6-layer)
 author: John Snow Labs
 name: bert_embeddings_rbt6
 date: 2022-04-11

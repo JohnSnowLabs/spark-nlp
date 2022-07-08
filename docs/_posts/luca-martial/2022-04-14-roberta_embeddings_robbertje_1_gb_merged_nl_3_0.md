@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Dutch RoBERTa Embeddings (from DTAI-KULeuven)
+title: Dutch RoBERTa Embeddings (Merged)
 author: John Snow Labs
 name: roberta_embeddings_robbertje_1_gb_merged
 date: 2022-04-14
