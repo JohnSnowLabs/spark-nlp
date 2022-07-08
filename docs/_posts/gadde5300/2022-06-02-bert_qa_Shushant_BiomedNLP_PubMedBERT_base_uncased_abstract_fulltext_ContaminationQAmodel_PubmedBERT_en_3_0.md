@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Medical BertForQuestionAnswering model (PubMed, Uncased)
+title: English Medical BertForQuestionAnswering model (Uncased, Microsoft PubMedBERT)
 author: John Snow Labs
 name: bert_qa_Shushant_BiomedNLP_PubMedBERT_base_uncased_abstract_fulltext_ContaminationQAmodel_PubmedBERT
 date: 2022-06-02
@@ -18,6 +18,8 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 Pretrained Medical Question Answering model, trained on PubMed, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. This is an English model originally trained by `Shushant`.
+
+This model is a fine-tuned version of `microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
