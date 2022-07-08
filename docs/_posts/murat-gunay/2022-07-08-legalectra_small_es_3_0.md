@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish Electra Word Embeddings Small model (from mrm8488)
+title: Spanish Electra Legal Word Embeddings Small model
 author: John Snow Labs
 name: legalectra_small
 date: 2022-07-08
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Word Embeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `legalectra-small-spanish` is a English model originally trained by `mrm8488`.
+Pretrained Spanish Legal Word Embeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `legalectra-small-spanish` is a English model originally trained by `mrm8488`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
