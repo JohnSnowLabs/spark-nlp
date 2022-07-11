@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>English BertForTokenClassification Cased model (from rsuwaileh)- Spark NLP Model</title><meta name="description" content="DescriptionPretrained BertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP...">
-<link rel="canonical" href="/2022/07/09/bert_ner_IDRISI_LMR_HD_TB_partition_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Basic General Purpose Pipeline for Catalan- Spark NLP Model</title><meta name="description" content="DescriptionModel for Catalan language processing based on models by Barcelona SuperComputing Center and the AINA project (Generalitat de Catalunya), followin...">
+<link rel="canonical" href="/2022/07/11/pipeline_md_ca_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,25 +406,21 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/gadde5300/2022-07-09-bert_ner_IDRISI_LMR_HD_TB_partition_en_3_0.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/cayorodriguez/2022-07-11-pipeline_md_ca_3_0.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jul 09, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-09T00:00:00+00:00"></div><header class="main-docs"><h1>English BertForTokenClassification Cased model (from rsuwaileh)</h1></header></div><meta itemprop="headline" content="English BertForTokenClassification Cased model (from rsuwaileh)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>bert</li><li>ner</li><li>open_source</li><li>en</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-09T00:00:00+00:00">
-    <meta itemprop="keywords" content="bert,ner,open_source,en"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>cayorodriguez</span></li><li><i class="far fa-calendar-alt"></i> <span>Jul 11, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-11T00:00:00+00:00"></div><header class="main-docs"><h1>Basic General Purpose Pipeline for Catalan</h1></header></div><meta itemprop="headline" content="Basic General Purpose Pipeline for Catalan"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>ca</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-11T00:00:00+00:00">
+    <meta itemprop="keywords" content="ca,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Pretrained BertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. <code class="language-plaintext highlighter-rouge">IDRISI-LMR-HD-TB-partition</code> is a English model originally trained by <code class="language-plaintext highlighter-rouge">rsuwaileh</code>.</p>
-
-<h2 id="predicted-entities">Predicted Entities</h2>
-
-<p><code class="language-plaintext highlighter-rouge">L-ST</code>, <code class="language-plaintext highlighter-rouge">CTRY</code>, <code class="language-plaintext highlighter-rouge">L-HPOI</code>, <code class="language-plaintext highlighter-rouge">CNTY</code>, <code class="language-plaintext highlighter-rouge">U-OTHR</code>, <code class="language-plaintext highlighter-rouge">L-ISL</code>, <code class="language-plaintext highlighter-rouge">OTHR</code>, <code class="language-plaintext highlighter-rouge">U-HPOI</code>, <code class="language-plaintext highlighter-rouge">L-CNTY</code>, <code class="language-plaintext highlighter-rouge">CITY</code>, <code class="language-plaintext highlighter-rouge">L-CTRY</code>, <code class="language-plaintext highlighter-rouge">L-DIST</code>, <code class="language-plaintext highlighter-rouge">U-STAT</code>, <code class="language-plaintext highlighter-rouge">CONT</code>, <code class="language-plaintext highlighter-rouge">NBHD</code>, <code class="language-plaintext highlighter-rouge">L-NBHD</code>, <code class="language-plaintext highlighter-rouge">L-STAT</code>, <code class="language-plaintext highlighter-rouge">U-ST</code>, <code class="language-plaintext highlighter-rouge">L-CITY</code>, <code class="language-plaintext highlighter-rouge">NPOI</code>, <code class="language-plaintext highlighter-rouge">ST</code>, <code class="language-plaintext highlighter-rouge">ISL</code>, <code class="language-plaintext highlighter-rouge">U-NBHD</code>, <code class="language-plaintext highlighter-rouge">STAT</code>, <code class="language-plaintext highlighter-rouge">L-NPOI</code>, <code class="language-plaintext highlighter-rouge">HPOI</code>, <code class="language-plaintext highlighter-rouge">U-CNTY</code>, <code class="language-plaintext highlighter-rouge">L-OTHR</code>, <code class="language-plaintext highlighter-rouge">U-ISL</code>, <code class="language-plaintext highlighter-rouge">U-CTRY</code>, <code class="language-plaintext highlighter-rouge">L-CONT</code>, <code class="language-plaintext highlighter-rouge">U-CONT</code>, <code class="language-plaintext highlighter-rouge">U-NPOI</code>, <code class="language-plaintext highlighter-rouge">U-DIST</code>, <code class="language-plaintext highlighter-rouge">U-CITY</code>, <code class="language-plaintext highlighter-rouge">DIST</code></p>
+<p>Model for Catalan language processing based on models by Barcelona SuperComputing Center and the AINA project (Generalitat de Catalunya), following POS and tokenization guidelines from ANCORA Universal Dependencies corpus.</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_ner_IDRISI_LMR_HD_TB_partition_en_4.0.0_3.0_1657355502121.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/community.johnsnowlabs.com/cayorodriguez/pipeline_md_ca_3.4.4_3.0_1657533114488.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -432,51 +428,28 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"pipeline_md"</span><span class="p">,</span> <span class="n">lang</span> <span class="o">=</span> <span class="s">"ca"</span><span class="p">,</span> <span class="s">"@cayorodriguez"</span><span class="p">)</span>
 
-<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span>\
-       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
-
-<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_ner_IDRISI_LMR_HD_TB_partition"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">sentenceDetector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">tokenClassifier</span><span class="p">])</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"PUT YOUR STRING HERE"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"El català ja es a SparkNLP."</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-          <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
-          <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">sentenceDetector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sentence_detector_dl"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
-       <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
-       <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">BertForTokenClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_ner_IDRISI_LMR_HD_TB_partition"</span><span class="o">,</span><span class="s">"en"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span><span class="n">sentenceDetector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">tokenClassifier</span><span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"PUT YOUR STRING HERE"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
-</code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span><span class="s1">'chunk'</span>: <span class="o">[</span><span class="s1">'El català ja'</span>, <span class="s1">'SparkNLP'</span>, <span class="s1">'es'</span><span class="o">]</span>,
+ <span class="s1">'entities'</span>: <span class="o">[</span><span class="s1">'SparkNLP'</span><span class="o">]</span>,
+ <span class="s1">'lemma'</span>: <span class="o">[</span><span class="s1">'el'</span>, <span class="s1">'català'</span>, <span class="s1">'ja'</span>, <span class="s1">'es'</span>, <span class="s1">'a'</span>, <span class="s1">'sparknlp'</span>, <span class="s1">'.'</span><span class="o">]</span>,
+ <span class="s1">'document'</span>: <span class="o">[</span><span class="s1">'El català ja es a SparkNLP.'</span><span class="o">]</span>,
+ <span class="s1">'pos'</span>: <span class="o">[</span><span class="s1">'DET'</span>, <span class="s1">'NOUN'</span>, <span class="s1">'ADV'</span>, <span class="s1">'PRON'</span>, <span class="s1">'ADP'</span>, <span class="s1">'PROPN'</span>, <span class="s1">'PUNCT'</span><span class="o">]</span>,
+ <span class="s1">'sentence_embeddings'</span>: <span class="o">[</span><span class="s1">'El català ja es a SparkNLP.'</span><span class="o">]</span>,
+ <span class="s1">'cleanTokens'</span>: <span class="o">[</span><span class="s1">'català'</span>, <span class="s1">'SparkNLP'</span>, <span class="s1">'.'</span><span class="o">]</span>,
+ <span class="s1">'token'</span>: <span class="o">[</span><span class="s1">'El'</span>, <span class="s1">'català'</span>, <span class="s1">'ja'</span>, <span class="s1">'es'</span>, <span class="s1">'a'</span>, <span class="s1">'SparkNLP'</span>, <span class="s1">'.'</span><span class="o">]</span>,
+ <span class="s1">'ner'</span>: <span class="o">[</span><span class="s1">'O'</span>, <span class="s1">'O'</span>, <span class="s1">'O'</span>, <span class="s1">'O'</span>, <span class="s1">'O'</span>, <span class="s1">'B-ORG'</span>, <span class="s1">'O'</span><span class="o">]</span>,
+ <span class="s1">'embeddings'</span>: <span class="o">[</span><span class="s1">'El'</span>, <span class="s1">'català'</span>, <span class="s1">'ja'</span>, <span class="s1">'es'</span>, <span class="s1">'a'</span>, <span class="s1">'SparkNLP'</span>, <span class="s1">'.'</span><span class="o">]</span>,
+ <span class="s1">'form'</span>: <span class="o">[</span><span class="s1">'el'</span>, <span class="s1">'català'</span>, <span class="s1">'ja'</span>, <span class="s1">'es'</span>, <span class="s1">'a'</span>, <span class="s1">'sparknlp'</span>, <span class="s1">'.'</span><span class="o">]</span>,
+ <span class="s1">'sentence'</span>: <span class="o">[</span><span class="s1">'El català ja es a SparkNLP.'</span><span class="o">]}</span>
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -484,11 +457,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>bert_ner_IDRISI_LMR_HD_TB_partition</td>
+      <td>pipeline_md</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>pipeline</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 4.0.0+</td>
+      <td>Spark NLP 3.4.4+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -496,44 +473,37 @@
     </tr>
     <tr>
       <td>Edition:</td>
-      <td>Official</td>
-    </tr>
-    <tr>
-      <td>Input Labels:</td>
-      <td>[document, token]</td>
-    </tr>
-    <tr>
-      <td>Output Labels:</td>
-      <td>[ner]</td>
+      <td>Community</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>en</td>
+      <td>ca</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>1.2 GB</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>Max sentence length:</td>
-      <td>128</td>
+      <td>756.1 MB</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="references">References</h2>
+<h2 id="included-models">Included Models</h2>
 
 <ul>
-  <li>https://huggingface.co/rsuwaileh/IDRISI-LMR-HD-TB-partition</li>
-  <li>https://github.com/rsuwaileh/IDRISI</li>
-  <li>https://github.com/rsuwaileh/TLLMR4CM/</li>
-  <li>https://github.com/rsuwaileh/IDRISI/tree/main/data/LMR/EN/gold-random-bilou/hurricane_dorian_2019</li>
+  <li>DocumentAssembler</li>
+  <li>SentenceDetectorDLModel</li>
+  <li>TokenizerModel</li>
+  <li>NormalizerModel</li>
+  <li>StopWordsCleaner</li>
+  <li>RoBertaEmbeddings</li>
+  <li>SentenceEmbeddings</li>
+  <li>EmbeddingsFinisher</li>
+  <li>LemmatizerModel</li>
+  <li>PerceptronModel</li>
+  <li>RoBertaForTokenClassification</li>
+  <li>NerConverter</li>
+  <li>Chunker</li>
 </ul>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-07-09T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-07-11T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -658,7 +628,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/07/09/bert_ner_IDRISI_LMR_HD_TB_en_3_0.html">English BertForTokenClassification Cased model (from rsuwaileh)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/07/11/pipeline_md_ca_3_0.html">Basic General Purpose Pipeline for Catalan</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/07/09/bert_ner_IDRISI_LMR_HD_TB_partition_en_3_0.html">English BertForTokenClassification Cased model (from rsuwaileh)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/07/11/bert_ner_BioNLP13CG_Original_PubmedBert_abstract_latest_en_3_0.html">English BertForTokenClassification Cased model (from ghadeermobasher)</a></div></div></div>
 
 </div>
 </div>

@@ -1,5 +1,93 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-07-11T14:44:23+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">English BertForTokenClassification Cased model (from ghadeermobasher)</title><link href="/2022/07/11/bert_ner_BioNLP13CG_Original_PubmedBert_abstract_latest_en_3_0.html" rel="alternate" type="text/html" title="English BertForTokenClassification Cased model (from ghadeermobasher)" /><published>2022-07-11T00:00:00+00:00</published><updated>2022-07-11T00:00:00+00:00</updated><id>/2022/07/11/bert_ner_BioNLP13CG_Original_PubmedBert_abstract_latest_en_3_0</id><content type="html" xml:base="/2022/07/11/bert_ner_BioNLP13CG_Original_PubmedBert_abstract_latest_en_3_0.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-07-11T14:48:45+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Basic General Purpose Pipeline for Catalan</title><link href="/2022/07/11/pipeline_md_ca_3_0.html" rel="alternate" type="text/html" title="Basic General Purpose Pipeline for Catalan" /><published>2022-07-11T00:00:00+00:00</published><updated>2022-07-11T00:00:00+00:00</updated><id>/2022/07/11/pipeline_md_ca_3_0</id><content type="html" xml:base="/2022/07/11/pipeline_md_ca_3_0.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;Model for Catalan language processing based on models by Barcelona SuperComputing Center and the AINA project (Generalitat de Catalunya), following POS and tokenization guidelines from ANCORA Universal Dependencies corpus.&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/community.johnsnowlabs.com/cayorodriguez/pipeline_md_ca_3.4.4_3.0_1657533114488.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;pipeline_md&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ca&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;@cayorodriguez&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;El català ja es a SparkNLP.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'chunk'&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'El català ja'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'SparkNLP'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'es'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;,
+ &lt;span class=&quot;s1&quot;&gt;'entities'&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'SparkNLP'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;,
+ &lt;span class=&quot;s1&quot;&gt;'lemma'&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'el'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'català'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'ja'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'es'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'a'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'sparknlp'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'.'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;,
+ &lt;span class=&quot;s1&quot;&gt;'document'&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'El català ja es a SparkNLP.'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;,
+ &lt;span class=&quot;s1&quot;&gt;'pos'&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'DET'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'NOUN'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'ADV'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'PRON'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'ADP'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'PROPN'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'PUNCT'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;,
+ &lt;span class=&quot;s1&quot;&gt;'sentence_embeddings'&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'El català ja es a SparkNLP.'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;,
+ &lt;span class=&quot;s1&quot;&gt;'cleanTokens'&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'català'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'SparkNLP'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'.'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;,
+ &lt;span class=&quot;s1&quot;&gt;'token'&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'El'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'català'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'ja'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'es'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'a'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'SparkNLP'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'.'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;,
+ &lt;span class=&quot;s1&quot;&gt;'ner'&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'O'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'O'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'O'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'O'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'O'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'B-ORG'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'O'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;,
+ &lt;span class=&quot;s1&quot;&gt;'embeddings'&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'El'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'català'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'ja'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'es'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'a'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'SparkNLP'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'.'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;,
+ &lt;span class=&quot;s1&quot;&gt;'form'&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'el'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'català'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'ja'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'es'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'a'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'sparknlp'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'.'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;,
+ &lt;span class=&quot;s1&quot;&gt;'sentence'&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'El català ja es a SparkNLP.'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;pipeline_md&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 3.4.4+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Community&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;ca&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;756.1 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;DocumentAssembler&lt;/li&gt;
+  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
+  &lt;li&gt;TokenizerModel&lt;/li&gt;
+  &lt;li&gt;NormalizerModel&lt;/li&gt;
+  &lt;li&gt;StopWordsCleaner&lt;/li&gt;
+  &lt;li&gt;RoBertaEmbeddings&lt;/li&gt;
+  &lt;li&gt;SentenceEmbeddings&lt;/li&gt;
+  &lt;li&gt;EmbeddingsFinisher&lt;/li&gt;
+  &lt;li&gt;LemmatizerModel&lt;/li&gt;
+  &lt;li&gt;PerceptronModel&lt;/li&gt;
+  &lt;li&gt;RoBertaForTokenClassification&lt;/li&gt;
+  &lt;li&gt;NerConverter&lt;/li&gt;
+  &lt;li&gt;Chunker&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>cayorodriguez</name></author><category term="ca" /><category term="open_source" /><summary type="html">Description Model for Catalan language processing based on models by Barcelona SuperComputing Center and the AINA project (Generalitat de Catalunya), following POS and tokenization guidelines from ANCORA Universal Dependencies corpus. Live Demo Open in Colab Download How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;pipeline_md&quot;, lang = &quot;ca&quot;, &quot;@cayorodriguez&quot;) result = pipeline.annotate(&quot;El català ja es a SparkNLP.&quot;) Results {'chunk': ['El català ja', 'SparkNLP', 'es'], 'entities': ['SparkNLP'], 'lemma': ['el', 'català', 'ja', 'es', 'a', 'sparknlp', '.'], 'document': ['El català ja es a SparkNLP.'], 'pos': ['DET', 'NOUN', 'ADV', 'PRON', 'ADP', 'PROPN', 'PUNCT'], 'sentence_embeddings': ['El català ja es a SparkNLP.'], 'cleanTokens': ['català', 'SparkNLP', '.'], 'token': ['El', 'català', 'ja', 'es', 'a', 'SparkNLP', '.'], 'ner': ['O', 'O', 'O', 'O', 'O', 'B-ORG', 'O'], 'embeddings': ['El', 'català', 'ja', 'es', 'a', 'SparkNLP', '.'], 'form': ['el', 'català', 'ja', 'es', 'a', 'sparknlp', '.'], 'sentence': ['El català ja es a SparkNLP.']} Model Information Model Name: pipeline_md Type: pipeline Compatibility: Spark NLP 3.4.4+ License: Open Source Edition: Community Language: ca Size: 756.1 MB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel NormalizerModel StopWordsCleaner RoBertaEmbeddings SentenceEmbeddings EmbeddingsFinisher LemmatizerModel PerceptronModel RoBertaForTokenClassification NerConverter Chunker</summary></entry><entry><title type="html">English BertForTokenClassification Cased model (from ghadeermobasher)</title><link href="/2022/07/11/bert_ner_BioNLP13CG_Original_PubmedBert_abstract_latest_en_3_0.html" rel="alternate" type="text/html" title="English BertForTokenClassification Cased model (from ghadeermobasher)" /><published>2022-07-11T00:00:00+00:00</published><updated>2022-07-11T00:00:00+00:00</updated><id>/2022/07/11/bert_ner_BioNLP13CG_Original_PubmedBert_abstract_latest_en_3_0</id><content type="html" xml:base="/2022/07/11/bert_ner_BioNLP13CG_Original_PubmedBert_abstract_latest_en_3_0.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;Pretrained BertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BioNLP13CG-Original-PubmedBert-abstract-latest&lt;/code&gt; is a English model originally trained by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ghadeermobasher&lt;/code&gt;.&lt;/p&gt;
 
@@ -1035,119 +1123,4 @@
 
 &lt;ul&gt;
   &lt;li&gt;https://huggingface.co/ghadeermobasher/CRAFT-Chem-Modified-BiomedNLP-PubMedBERT-base-uncased-abstract&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="ner" /><category term="open_source" /><category term="en" /><summary type="html">Description Pretrained BertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. CRAFT-Chem-Modified-BiomedNLP-PubMedBERT-base-uncased-abstract is a English model originally trained by ghadeermobasher. Predicted Entities CHEBI Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) sentenceDetector = SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;, &quot;xx&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = Tokenizer() \ .setInputCols(&quot;sentence&quot;) \ .setOutputCol(&quot;token&quot;) tokenClassifier = BertForTokenClassification.pretrained(&quot;bert_ner_CRAFT_Chem_Modified_BiomedNLP_PubMedBERT_base_uncased_abstract&quot;,&quot;en&quot;) \ .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;ner&quot;) pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier]) data = spark.createDataFrame([[&quot;PUT YOUR STRING HERE&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val sentenceDetector = SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;, &quot;xx&quot;) .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;sentence&quot;) val tokenizer = new Tokenizer() .setInputCols(Array(&quot;sentence&quot;)) .setOutputCol(&quot;token&quot;) val tokenClassifier = BertForTokenClassification.pretrained(&quot;bert_ner_CRAFT_Chem_Modified_BiomedNLP_PubMedBERT_base_uncased_abstract&quot;,&quot;en&quot;) .setInputCols(Array(&quot;sentence&quot;, &quot;token&quot;)) .setOutputCol(&quot;ner&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler,sentenceDetector, tokenizer, tokenClassifier)) val data = Seq(&quot;PUT YOUR STRING HERE&quot;).toDF(&quot;text&quot;) val result = pipeline.fit(data).transform(data) Model Information Model Name: bert_ner_CRAFT_Chem_Modified_BiomedNLP_PubMedBERT_base_uncased_abstract Compatibility: Spark NLP 4.0.0+ License: Open Source Edition: Official Input Labels: [document, token] Output Labels: [ner] Language: en Size: 408.6 MB Case sensitive: false Max sentence length: 128 References https://huggingface.co/ghadeermobasher/CRAFT-Chem-Modified-BiomedNLP-PubMedBERT-base-uncased-abstract</summary></entry><entry><title type="html">English BertForTokenClassification Cased model (from ghadeermobasher)</title><link href="/2022/07/11/bert_ner_CRAFT_Chem_Modified_PubMedBERT_en_3_0.html" rel="alternate" type="text/html" title="English BertForTokenClassification Cased model (from ghadeermobasher)" /><published>2022-07-11T00:00:00+00:00</published><updated>2022-07-11T00:00:00+00:00</updated><id>/2022/07/11/bert_ner_CRAFT_Chem_Modified_PubMedBERT_en_3_0</id><content type="html" xml:base="/2022/07/11/bert_ner_CRAFT_Chem_Modified_PubMedBERT_en_3_0.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;Pretrained BertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CRAFT-Chem-Modified_PubMedBERT&lt;/code&gt; is a English model originally trained by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ghadeermobasher&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CHEBI&lt;/code&gt;&lt;/p&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_ner_CRAFT_Chem_Modified_PubMedBERT_en_4.0.0_3.0_1657528110350.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SentenceDetectorDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_detector_dl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-       &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-       &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;tokenClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BertForTokenClassification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_ner_CRAFT_Chem_Modified_PubMedBERT&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tokenClassifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;PUT YOUR STRING HERE&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
-          &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-          &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sentenceDetector&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;SentenceDetectorDLModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_detector_dl&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-       &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-       &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tokenClassifier&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;BertForTokenClassification&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_ner_CRAFT_Chem_Modified_PubMedBERT&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tokenClassifier&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;PUT YOUR STRING HERE&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;bert_ner_CRAFT_Chem_Modified_PubMedBERT&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[document, token]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[ner]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;408.7 MB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Case sensitive:&lt;/td&gt;
-      &lt;td&gt;true&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Max sentence length:&lt;/td&gt;
-      &lt;td&gt;128&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;https://huggingface.co/ghadeermobasher/CRAFT-Chem-Modified_PubMedBERT&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="ner" /><category term="open_source" /><category term="en" /><summary type="html">Description Pretrained BertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. CRAFT-Chem-Modified_PubMedBERT is a English model originally trained by ghadeermobasher. Predicted Entities CHEBI Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) sentenceDetector = SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;, &quot;xx&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = Tokenizer() \ .setInputCols(&quot;sentence&quot;) \ .setOutputCol(&quot;token&quot;) tokenClassifier = BertForTokenClassification.pretrained(&quot;bert_ner_CRAFT_Chem_Modified_PubMedBERT&quot;,&quot;en&quot;) \ .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;ner&quot;) pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier]) data = spark.createDataFrame([[&quot;PUT YOUR STRING HERE&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val sentenceDetector = SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;, &quot;xx&quot;) .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;sentence&quot;) val tokenizer = new Tokenizer() .setInputCols(Array(&quot;sentence&quot;)) .setOutputCol(&quot;token&quot;) val tokenClassifier = BertForTokenClassification.pretrained(&quot;bert_ner_CRAFT_Chem_Modified_PubMedBERT&quot;,&quot;en&quot;) .setInputCols(Array(&quot;sentence&quot;, &quot;token&quot;)) .setOutputCol(&quot;ner&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler,sentenceDetector, tokenizer, tokenClassifier)) val data = Seq(&quot;PUT YOUR STRING HERE&quot;).toDF(&quot;text&quot;) val result = pipeline.fit(data).transform(data) Model Information Model Name: bert_ner_CRAFT_Chem_Modified_PubMedBERT Compatibility: Spark NLP 4.0.0+ License: Open Source Edition: Official Input Labels: [document, token] Output Labels: [ner] Language: en Size: 408.7 MB Case sensitive: true Max sentence length: 128 References https://huggingface.co/ghadeermobasher/CRAFT-Chem-Modified_PubMedBERT</summary></entry></feed>
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="ner" /><category term="open_source" /><category term="en" /><summary type="html">Description Pretrained BertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. CRAFT-Chem-Modified-BiomedNLP-PubMedBERT-base-uncased-abstract is a English model originally trained by ghadeermobasher. Predicted Entities CHEBI Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) sentenceDetector = SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;, &quot;xx&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = Tokenizer() \ .setInputCols(&quot;sentence&quot;) \ .setOutputCol(&quot;token&quot;) tokenClassifier = BertForTokenClassification.pretrained(&quot;bert_ner_CRAFT_Chem_Modified_BiomedNLP_PubMedBERT_base_uncased_abstract&quot;,&quot;en&quot;) \ .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;ner&quot;) pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier]) data = spark.createDataFrame([[&quot;PUT YOUR STRING HERE&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val sentenceDetector = SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;, &quot;xx&quot;) .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;sentence&quot;) val tokenizer = new Tokenizer() .setInputCols(Array(&quot;sentence&quot;)) .setOutputCol(&quot;token&quot;) val tokenClassifier = BertForTokenClassification.pretrained(&quot;bert_ner_CRAFT_Chem_Modified_BiomedNLP_PubMedBERT_base_uncased_abstract&quot;,&quot;en&quot;) .setInputCols(Array(&quot;sentence&quot;, &quot;token&quot;)) .setOutputCol(&quot;ner&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler,sentenceDetector, tokenizer, tokenClassifier)) val data = Seq(&quot;PUT YOUR STRING HERE&quot;).toDF(&quot;text&quot;) val result = pipeline.fit(data).transform(data) Model Information Model Name: bert_ner_CRAFT_Chem_Modified_BiomedNLP_PubMedBERT_base_uncased_abstract Compatibility: Spark NLP 4.0.0+ License: Open Source Edition: Official Input Labels: [document, token] Output Labels: [ner] Language: en Size: 408.6 MB Case sensitive: false Max sentence length: 128 References https://huggingface.co/ghadeermobasher/CRAFT-Chem-Modified-BiomedNLP-PubMedBERT-base-uncased-abstract</summary></entry></feed>
