@@ -460,7 +460,7 @@
          <span class="p">.</span><span class="n">setExceptions</span><span class="p">(</span><span class="n">ex_list_all</span><span class="p">).</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
 <span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">RoBertaForTokenClassification</span> \
-      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'ner_bsc, '</span><span class="n">ca</span><span class="s">') </span><span class="se">\
+      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'ner_bsc, '</span><span class="n">ca</span><span class="s">', '</span><span class="o">@</span><span class="n">cayorodriguez</span><span class="s">') </span><span class="se">\
 </span><span class="s">      .setInputCols(['</span><span class="n">token</span><span class="s">', '</span><span class="n">document</span><span class="s">']) </span><span class="se">\
 </span><span class="s">      .setOutputCol('</span><span class="n">ner</span><span class="s">') </span><span class="se">\
 </span><span class="s">      .setCaseSensitive(True) </span><span class="se">\

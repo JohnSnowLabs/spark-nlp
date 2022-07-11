@@ -1,2 +1,2 @@
-docs/_plugins/search_index.rb
-docs/_plugins/search_index.rb
+docs/_posts/cayorodriguez/2022-07-07-ner_bsc_ca_3_0.md
+docs/_posts/cayorodriguez/2022-07-07-ner_bsc_ca_3_0.md
