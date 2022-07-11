@@ -1,2 +1,4 @@
 docs/_posts/cayorodriguez/2022-07-11-pipeline_md_ca_3_0.md
+docs/_posts/danilojsl/2022-06-29-dependency_parse_en_3_0.md
 docs/_posts/cayorodriguez/2022-07-11-pipeline_md_ca_3_0.md
+docs/_posts/danilojsl/2022-06-29-dependency_parse_en_3_0.md
