@@ -58,6 +58,14 @@ light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).to
 annotations = light_pipeline.fullAnnotate(["""A total of 10 adult daily smokers who reported at least one stressful event and coping episode and provided post-quit data.""", """When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced."""])
 ```
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.pico").predict("""A total of 10 adult daily smokers who reported at least one stressful event and coping episode and provided post-quit data.""")
+```
+
 </div>
 
 ## Results

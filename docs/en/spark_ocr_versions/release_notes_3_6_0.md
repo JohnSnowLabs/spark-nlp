@@ -66,7 +66,7 @@ Handwritten detection and visualization improvement.
     </li>
 </ul>
 
-<ul class="pagination pagination_big">
+<ul class="pagination owl-carousel pagination_big">
   <li><a href="release_notes_3_12_0">3.12.0</a></li>
   <li><a href="release_notes_3_11_0">3.11.0</a></li>
   <li><a href="release_notes_3_10_0">3.10.0</a></li>

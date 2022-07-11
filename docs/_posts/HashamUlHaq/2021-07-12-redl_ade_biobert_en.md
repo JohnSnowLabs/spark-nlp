@@ -15,25 +15,35 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 This model is an end-to-end trained BioBERT model, capable of Relating Drugs and adverse reactions caused by them; It predicts if an adverse event is caused by a drug or not. `1` : Shows the adverse event and drug entities are related, `0` : Shows the adverse event and drug entities are not related.
 
+
 ## Predicted Entities
 
+
 `0`, `1`
+
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_ADE/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_ade_biobert_en_3.1.2_3.0_1626105541347.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 ...
 documenter = DocumentAssembler()\
@@ -91,18 +101,19 @@ pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_
 text ="""Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps"""
 
 p_model = pipeline.fit(spark.createDataFrame([[text]]).toDF("text"))
+
 result = p_model.transform(data)
 ```
 ```scala
-val documenter = DocumentAssembler() 
+val documenter = new DocumentAssembler() 
     .setInputCol("text") 
     .setOutputCol("document")
 
-val sentencer = SentenceDetector()
+val sentencer = new SentenceDetector()
     .setInputCols("document")
     .setOutputCol("sentences")
 
-val tokenizer = sparknlp.annotators.Tokenizer()
+val tokenizer = new Tokenizer()
     .setInputCols("sentences")
     .setOutputCol("tokens")
 
@@ -115,7 +126,7 @@ val ner_tagger = MedicalNerModel.pretrained("ner_ade_clinical", "en", "clinical/
     .setInputCols(Array("sentences", "tokens", "embeddings"))
     .setOutputCol("ner_tags")
 
-val ner_converter = NerConverter()
+val ner_converter = new NerConverter()
     .setInputCols(Array("sentences", "tokens", "ner_tags"))
     .setOutputCol("ner_chunks")
 
@@ -146,13 +157,23 @@ val re_model = RelationExtractionDLModel()
 
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
 
-val data = Seq("Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps").toDF("text")
+val data = Seq("Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.relation.adverse_drug_events.clinical.biobert").predict("""Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps""")
+```
+
 </div>
 
+
 ## Results
+
 
 ```bash
 |    | chunk1                        | entitiy1   | chunk2      | entity2 | relation |
@@ -162,10 +183,13 @@ val result = pipeline.fit(data).transform(data)
 | 2  | severe fatigue                | ADE        | voltaren    | DRUG    |        0 |
 | 3  | cramps                        | ADE        | voltaren    | DRUG    |        1 |
 
+
 ```
+
 
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -177,17 +201,23 @@ val result = pipeline.fit(data).transform(data)
 |Output Labels:|[relations]|
 |Language:|en|
 
+
 ## Data Source
+
 
 This model is trained on custom data annotated by JSL.
 
+
 ## Benchmarking
+
 
 ```bash
 Relation           Recall Precision        F1   Support
 0                   0.829     0.895     0.861      1146
 1                   0.955     0.923     0.939      2454
-Avg.                0.892     0.909     0.900
-Weighted Avg.       0.915     0.914     0.914
-
+Avg.                0.892     0.909     0.900      -
+Weighted-Avg.       0.915     0.914     0.914      -
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbODE5MTk5NTczXX0=
+-->

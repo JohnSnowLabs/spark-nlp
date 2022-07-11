@@ -74,6 +74,14 @@ val data = Seq(['Dilaudid', 'Hydromorphone', 'Exalgo', 'Palladone', 'Hydrogen pe
 
 val res = p_model.transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.umls_drug_substance").predict("""Magnesium hydroxide 100mg/1ml""")
+```
+
 </div>
 
 ## Results

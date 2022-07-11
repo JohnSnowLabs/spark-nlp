@@ -83,6 +83,14 @@ val data = Seq("Breast prosthesis, mastectomy bra, with integrated breast prosth
 
 val results = hcpcs_pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.hcpcs").predict("""Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, unilateral, any size, any type""")
+```
+
 </div>
 
 ## Results

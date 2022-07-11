@@ -73,6 +73,14 @@ val snomed_pipelineModel = new PipelineModel().setStages(Array(documentAssembler
 
 val snomed_lp = LightPipeline(snomed_pipelineModel)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("de.resolve.snomed").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results

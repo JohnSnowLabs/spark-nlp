@@ -5,7 +5,7 @@ author: John Snow Labs
 name: ner_posology_greedy_pipeline
 date: 2022-03-21
 tags: [licensed, ner, clinical, drug, en]
-task: Named Entity Recognition
+task: [Named Entity Recognition, Pipeline Healthcare]
 language: en
 edition: Spark NLP for Healthcare 3.4.1
 spark_version: 3.0
@@ -15,34 +15,49 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 This pretrained pipeline is built on the top of [ner_posology_greedy](https://nlp.johnsnowlabs.com/2021/03/31/ner_posology_greedy_en.html) model.
 
+
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_POSOLOGY/){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_POSOLOGY.ipynb){:.button.button-orange.button-orange-trans.arr.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_posology_greedy_pipeline_en_3.4.1_3.0_1647872438982.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
 
 ## How to use
 
 
 
+
+
+
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
+
 ```python
+from sparknlp.pretrained import PretrainedPipeline
+
 pipeline = PretrainedPipeline("ner_posology_greedy_pipeline", "en", "clinical/models")
 
-pipeline.annotate("The patient was prescribed 1 capsule of Advil 10 mg for 5 days and magnesium hydroxide 100mg/1ml suspension PO. He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals, and metformin 1000 mg two times a day.")
+pipeline.fullAnnotate("The patient was prescribed 1 capsule of Advil 10 mg for 5 days and magnesium hydroxide 100mg/1ml suspension PO. He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals, and metformin 1000 mg two times a day.")
 ```
 ```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+
 val pipeline = new PretrainedPipeline("ner_posology_greedy_pipeline", "en", "clinical/models")
 
-pipeline.annotate("The patient was prescribed 1 capsule of Advil 10 mg for 5 days and magnesium hydroxide 100mg/1ml suspension PO. He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals, and metformin 1000 mg two times a day.")
+pipeline.fullAnnotate("The patient was prescribed 1 capsule of Advil 10 mg for 5 days and magnesium hydroxide 100mg/1ml suspension PO. He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals, and metformin 1000 mg two times a day.")
 ```
 </div>
 
+
 ## Results
+
 
 ```bash
 +----+----------------------------------+---------+-------+------------+
@@ -60,8 +75,10 @@ pipeline.annotate("The patient was prescribed 1 capsule of Advil 10 mg for 5 day
 +----+----------------------------------+---------+-------+------------+
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -73,7 +90,9 @@ pipeline.annotate("The patient was prescribed 1 capsule of Advil 10 mg for 5 day
 |Language:|en|
 |Size:|1.7 GB|
 
+
 ## Included Models
+
 
 - DocumentAssembler
 - SentenceDetectorDLModel
@@ -81,3 +100,6 @@ pipeline.annotate("The patient was prescribed 1 capsule of Advil 10 mg for 5 day
 - WordEmbeddingsModel
 - MedicalNerModel
 - NerConverter
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTEzMjEwNTg0NTZdfQ==
+-->

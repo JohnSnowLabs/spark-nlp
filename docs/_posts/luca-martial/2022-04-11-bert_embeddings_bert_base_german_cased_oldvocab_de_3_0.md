@@ -1,6 +1,6 @@
 ---
 layout: model
-title: German Bert Embeddings (from deepset)
+title: German Bert Embeddings (Base, Cased, Old Vocabulary)
 author: John Snow Labs
 name: bert_embeddings_bert_base_german_cased_oldvocab
 date: 2022-04-11
@@ -68,6 +68,14 @@ val data = Seq("Ich liebe Funken NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("de.embed.bert_base_german_cased_oldvocab").predict("""Ich liebe Funken NLP""")
+```
+
 </div>
 
 {:.model-param}

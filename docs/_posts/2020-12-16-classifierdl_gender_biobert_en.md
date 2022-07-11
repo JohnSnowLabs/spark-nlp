@@ -35,7 +35,7 @@ This model classifies the gender of the patient in the clinical document.
 To classify your text, you can use this model as part of an nlp pipeline with the following stages: DocumentAssembler, BertSentenceEmbeddings (`biobert_pubmed_base_cased`), ClassifierDLModel.
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 
 ```python
@@ -73,6 +73,14 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, bio
 val data = Seq("social history: shows that  does not smoke cigarettes or drink alcohol, lives in a nursing home. family history: shows a family history of breast cancer.").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.gender.biobert").predict("""social history: shows that  does not smoke cigarettes or drink alcohol, lives in a nursing home. family history: shows a family history of breast cancer.""")
+```
+
 </div>
 
 {:.h2_title}

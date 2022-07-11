@@ -15,25 +15,35 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 Relate scale items and their measurements according to NIHSS guidelines.
 
+
 ## Predicted Entities
 
+
 `Has_Value` : Measurement is related to the entity, `0` : Measurement is not related to the entity
+
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_NIHSS/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_nihss_biobert_en_3.3.2_3.0_1637038860417.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documenter = DocumentAssembler()\
     .setInputCol("text")\
@@ -87,18 +97,19 @@ pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_
 text= "There , her initial NIHSS score was 4 , as recorded by the ED physicians . This included 2 for weakness in her left leg and 2 for what they felt was subtle ataxia in her left arm and leg ."
 
 p_model = pipeline.fit(spark.createDataFrame([[text]]).toDF("text"))
+
 result = p_model.transform(data)
 ```
 ```scala
-val documenter = DocumentAssembler() 
+val documenter = new DocumentAssembler() 
     .setInputCol("text") 
     .setOutputCol("document")
 
-val sentencer = SentenceDetector()
+val sentencer = new SentenceDetector()
     .setInputCols("document")
     .setOutputCol("sentences")
 
-val tokenizer = sparknlp.annotators.Tokenizer()
+val tokenizer = new Tokenizer()
     .setInputCols("sentences")
     .setOutputCol("tokens")
 
@@ -116,7 +127,7 @@ val ner_tagger = MedicalNerModel.pretrained("ner_nihss", "en", "clinical/models"
     .setInputCols(Array("sentences", "tokens", "embeddings"))
     .setOutputCol("ner_tags") 
 
-val ner_converter = NerConverter()
+val ner_converter = new NerConverter()
     .setInputCols(Array("sentences", "tokens", "ner_tags"))
     .setOutputCol("ner_chunks")
 
@@ -139,13 +150,23 @@ val re_model = RelationExtractionDLModel()
 
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
 
-val data = Seq(" There , her initial NIHSS score was 4 , as recorded by the ED physicians . This included 2 for weakness in her left leg and 2 for what they felt was subtle ataxia in her left arm and leg .").toDF("text")
+val data = Seq("""There , her initial NIHSS score was 4 , as recorded by the ED physicians . This included 2 for weakness in her left leg and 2 for what they felt was subtle ataxia in her left arm and leg .""").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.extract_relation.nihss").predict("""There , her initial NIHSS score was 4 , as recorded by the ED physicians . This included 2 for weakness in her left leg and 2 for what they felt was subtle ataxia in her left arm and leg .""")
+```
+
 </div>
 
+
 ## Results
+
 
 ```bash
 | chunk1                                | entity1      |   entity1_begin |   entity1_end | entity2     |   chunk2 |   entity2_begin |   entity2_end | relation   |
@@ -158,10 +179,13 @@ val result = pipeline.fit(data).transform(data)
 | subtle ataxia in her left arm and leg | 7_LimbAtaxia |             149 |           185 | Measurement |        4 |              36 |            36 | 0          |
 | subtle ataxia in her left arm and leg | 7_LimbAtaxia |             149 |           185 | Measurement |        2 |              89 |            89 | 0          |
 
+
 ```
+
 
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -171,20 +195,26 @@ val result = pipeline.fit(data).transform(data)
 |Edition:|Official|
 |Language:|en|
 
+
 ## Data Source
+
 
 @article{wangnational,
   title={National Institutes of Health Stroke Scale (NIHSS) Annotations for the MIMIC-III Database},
   author={Wang, Jiayang and Huang, Xiaoshuo and Yang, Lin and Li, Jiao}
 }
 
+
 ## Benchmarking
+
 
 ```bash
 Relation           Recall Precision        F1   Support
 0                   0.989     0.976     0.982       611
 Has_Value           0.983     0.992     0.988       889
-
-Avg.                0.986     0.984     0.985
-Weighted Avg.       0.985     0.985     0.985
+Avg.                0.986     0.984     0.985		-
+Weighted-Avg.       0.985     0.985     0.985		-
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTQwMDIzMTM2Ml19
+-->

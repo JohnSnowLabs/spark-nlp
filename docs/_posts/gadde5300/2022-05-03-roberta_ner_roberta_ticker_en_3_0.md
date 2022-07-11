@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Named Entity Recognition (from Jean-Baptiste)
+title: English Named Entity Recognition (Tickers)
 author: John Snow Labs
 name: roberta_ner_roberta_ticker
 date: 2022-05-03
@@ -80,6 +80,14 @@ val data = Seq("I love Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.ner.roberta_ticker").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

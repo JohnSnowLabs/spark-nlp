@@ -14,7 +14,6 @@
 """Contains classes for CoNLL."""
 
 import pyspark
-from pyspark.sql import DataFrame
 
 from sparknlp.common import ReadAs
 from sparknlp.internal import ExtendedJavaWrapper
@@ -140,5 +139,6 @@ class CoNLL(ExtendedJavaWrapper):
 
         jdf = self._java_obj.readDataset(jSession, path, read_as, partitions,
                                          spark.sparkContext._getJavaStorageLevel(storage_level))
-        return DataFrame(jdf, spark._wrapped)
+        dataframe = self.getDataFrame(spark, jdf)
+        return dataframe
 

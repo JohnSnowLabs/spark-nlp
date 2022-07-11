@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Portuguese Bert Embeddings (from neuralmind)
+title: Portuguese Bert Embeddings (Large)
 author: John Snow Labs
 name: bert_embeddings_bert_large_portuguese_cased
 date: 2022-04-11
@@ -68,6 +68,14 @@ val data = Seq("Eu amo Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("pt.embed.bert_large_portuguese_cased").predict("""Eu amo Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

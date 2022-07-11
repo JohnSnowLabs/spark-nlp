@@ -93,6 +93,14 @@ val example = Seq.empty["አህመድ ቫንዳ ከ3-10-2000 ጀምሮ በአዲ
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("xx.ner.masakhaner").predict("""አህመድ ቫንዳ ከ3-10-2000 ጀምሮ በአዲስ አበባ ኖሯል።""")
+```
+
 </div>
 
 ## Results

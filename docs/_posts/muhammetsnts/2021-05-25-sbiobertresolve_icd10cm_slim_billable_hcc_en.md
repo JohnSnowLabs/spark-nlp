@@ -79,6 +79,14 @@ val data = Seq("bladder cancer").toDF("text")
 
 val result = bert_pipeline_icd.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.icd10cm.slim_billable_hcc").predict("""sbiobertresolve_icd10cm_slim_billable_hcc """)
+```
+
 </div>
 
 ## Results

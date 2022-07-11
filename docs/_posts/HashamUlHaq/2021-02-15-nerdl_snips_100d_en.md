@@ -76,6 +76,14 @@ val result = pipeline.fit(data).transform(data)
 
 ...
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.snips").predict("""book a spot for nona gray  myrtle and alison at a top-rated brasserie that is distant from wilson av on nov  the 4th  2030 that serves ouzeri""")
+```
+
 </div>
 
 ## Results

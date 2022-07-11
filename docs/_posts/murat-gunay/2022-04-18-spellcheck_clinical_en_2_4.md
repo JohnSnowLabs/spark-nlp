@@ -96,6 +96,21 @@ val text = Array("Witth the hell of phisical terapy the patient was imbulated an
            "No cute distress")
 val result = light_pipeline.annotate(text)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.spell.clinical").predict(""")
+
+pipeline = Pipeline(stages = [		
+			documentAssembler, 
+			tokenizer, 
+			spellModel])
+
+light_pipeline = LightPipeline(pipeline.fit(spark.createDataFrame([[""")
+```
+
 </div>
 
 

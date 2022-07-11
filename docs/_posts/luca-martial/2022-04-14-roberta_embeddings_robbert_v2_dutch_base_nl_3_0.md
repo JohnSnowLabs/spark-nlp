@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Dutch RoBERTa Embeddings (from pdelobelle)
+title: Dutch RoBERTa Embeddings
 author: John Snow Labs
 name: roberta_embeddings_robbert_v2_dutch_base
 date: 2022-04-14
@@ -10,6 +10,7 @@ language: nl
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("Ik hou van vonk nlp").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("nl.embed.robbert_v2_dutch_base").predict("""Ik hou van vonk nlp""")
+```
+
 </div>
 
 {:.model-param}

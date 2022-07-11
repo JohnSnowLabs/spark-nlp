@@ -70,6 +70,14 @@ val nlpPipeline = new Pipeline().setStages(Array(document, embeddings, document_
 val light_pipeline = LightPipeline(nlpPipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 val result = light_pipeline.annotate("Bonservisi elinde olan Milli oyuncu, yeni takımıyla el sıkıştı".)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("tr.classify.news").predict("""Bonservisi elinde olan Milli oyuncu, yeni takımıyla el sıkıştı.""")
+```
+
 </div>
 
 ## Results

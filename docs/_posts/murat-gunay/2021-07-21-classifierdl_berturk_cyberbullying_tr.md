@@ -77,6 +77,14 @@ val light_pipeline = LightPipeline(berturk_pipeline.fit(spark.createDataFrame([[
 
 val result = light_pipeline.annotate("Gidişin olsun, dönüşün olmasın inşallah senin..")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("tr.classify.cyberbullying").predict("""Gidişin olsun, dönüşün olmasın inşallah senin..""")
+```
+
 </div>
 
 ## Results

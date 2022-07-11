@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish RoBERTa Embeddings (from BSC-TeMU)
+title: Spanish Legal RoBERTa Embeddings
 author: John Snow Labs
 name: roberta_embeddings_RoBERTalex
 date: 2022-04-14
@@ -10,6 +10,7 @@ language: es
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("Me encanta chispa nlp").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.embed.RoBERTalex").predict("""Me encanta chispa nlp""")
+```
+
 </div>
 
 {:.model-param}

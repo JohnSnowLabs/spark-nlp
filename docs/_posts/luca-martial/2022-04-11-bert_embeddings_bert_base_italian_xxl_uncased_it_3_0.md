@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Italian Bert Embeddings (from dbmdz)
+title: Italian Bert Embeddings (Uncased)
 author: John Snow Labs
 name: bert_embeddings_bert_base_italian_xxl_uncased
 date: 2022-04-11
@@ -68,6 +68,14 @@ val data = Seq("Adoro Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("it.embed.bert_base_italian_xxl_uncased").predict("""Adoro Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

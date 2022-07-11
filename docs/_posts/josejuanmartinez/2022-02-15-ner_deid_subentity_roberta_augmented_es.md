@@ -133,6 +133,16 @@ val df = Seq(text).toDF("text")
 
 val results = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.med_ner.deid.subentity.roberta").predict("""
+Antonio Miguel Martínez, varón de de 35 años de edad, de profesión auxiliar de enfermería y nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14 de Marzo y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos.
+""")
+```
+
 </div>
 
 
@@ -231,7 +241,7 @@ val results = pipeline.fit(data).transform(data)
 
 
 ```bash
-       entity      tp     fp     fn   total  precision  recall      f1
+        label      tp     fp     fn   total  precision  recall      f1
       PATIENT  1874.0  165.0  186.0  2060.0     0.9191  0.9097  0.9144
      HOSPITAL   241.0   19.0   54.0   295.0     0.9269  0.8169  0.8685
          DATE   954.0   17.0   15.0   969.0     0.9825  0.9845  0.9835
@@ -252,6 +262,3 @@ MEDICALRECORD    29.0   10.0    0.0    29.0     0.7436     1.0  0.8529
         macro       -      -      -       -          -       -  0.9141
         micro       -      -      -       -          -       -  0.8891
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbMTI2OTc2MzkxNywxMzQ4ODQ1MDU5XX0=
--->

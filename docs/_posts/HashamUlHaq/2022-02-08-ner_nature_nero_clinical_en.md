@@ -15,35 +15,47 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 This model is based on the NERO corpus, capable of extracting general entities. This model is trained to refute the claims made in https://www.nature.com/articles/s41540-021-00200-x regarding Spark NLP's performance and we hereby prove that we can get better than what is claimed. So, **this model is not meant to be used in production.**
 
+
 ## Predicted Entities
 
+
 `Organismpart`, `Chromosome`, `Physicalphenomenon`, `Abstractconcept`, `Gene`, `Meas`, `Machineactivity`, `Warfarin`, `Gen`, `Aminoacidpeptide`, `Language`, `P`, `Quantityormeasurement`, `Disease`, `Process`, `Propernamedgeographicallocation`, `Duration`, `Medicalprocedureordevice`, `Citation`, `Geographicnotproper`, `Atom`, `Gp`, `Medicaldevice`, `Namedentity`, `Unpropernamedgeographicallocation`, `Persongroup`, `Unit`, `Bodypart`, `Unconjugated`, `Timepoint`, `Protein`, `Publishedsourceofinformation`, `Quantity`, `Dr`, `Organism`, `Nonproteinornucleicacidchemical`, `G`, `Researchactivity`, `Drug`, `Measurement`, `Cells`, `Journal`, `Relationshipphrase`, `Medicalprocedure`, `Geographiclocation`, `Groupofpeople`, `Person`, `Tissue`, `Mentalprocess`, `Facility`, `Chemical`, `Geneorproteingroup`, `Ion`, `Food`, `Aminoacid`, `N`, `Biologicalprocess`, `Cell`, `Researchactivty`, `Publicationorcitation`, `Molecularprocess`, `Experimentalfactor`, `Medicalfinding`, `Nucleicacid`, `Laboratoryexperimentalfactor`, `Relationship`, `Geographicallocation`, `Geneorprotein`, `Smallmolecule`, `Partofprotein`, `Thing`, `Quantityormeasure`, `Environmentalfactor`, `Intellectualproduct`, `R`, `Molecule`, `Time`, `Anatomicalpart`, `Cellcomponent`, `Nucleicacidsubstance`
+
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_nature_nero_clinical_en_3.3.4_3.0_1644358495292.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 ...
 embeddings_clinical = WordEmbeddingsModel.pretrained('embeddings_clinical', 'en', 'clinical/models') \
     .setInputCols(['sentence', 'token']) \
     .setOutputCol('embeddings')
+
 clinical_ner = MedicalNerModel.pretrained("ner_nature_nero_clinical", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
 ...
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical,  clinical_ner, ner_converter])
+
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 results = model.transform(spark.createDataFrame([["The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature."]], ["text"]))
@@ -53,18 +65,22 @@ results = model.transform(spark.createDataFrame([["The patient is a 21-day-old C
 val embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
    .setInputCols(["sentence", "token"])
    .setOutputCol("embeddings")
+
 val ner = MedicalNerModel.pretrained("ner_nature_nero_clinical", "en", "clinical/models") 
   .setInputCols("sentence", "token", "embeddings")
   .setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
-val data = Seq("The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.").toDF("text")
+
+val data = Seq("""The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.""").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
 </div>
 
+
 ## Results
+
 
 ```bash
 |    | chunk                                        | entity                |
@@ -92,10 +108,13 @@ val result = pipeline.fit(data).transform(data)
 | 20 | bowel movements                              | Biologicalprocess     |
 | 21 | soft in nature                               | Biologicalprocess     |
 
+
 ```
+
 
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -108,12 +127,16 @@ val result = pipeline.fit(data).transform(data)
 |Language:|en|
 |Size:|15.1 MB|
 
+
 ## References
+
 
 This model is based on https://www.nature.com/articles/s41540-021-00200-x
 and a response to: https://static-content.springer.com/esm/art%3A10.1038%2Fs41540-021-00200-x/MediaObjects/41540_2021_200_MOESM1_ESM.pdf
 
+
 ## Benchmarking
+
 
 ```bash
 label	 tp	 fp	 fn	 prec	 rec	 f1
@@ -253,8 +276,12 @@ B-Biologicalprocess	 779	 703	 831	 0.525641	 0.48385093	 0.503881
 I-Geneorprotein	 0	 2	 33	 0.0	 0.0	 0.0
 B-Medicalprocedure	 820	 450	 346	 0.6456693	 0.703259	 0.6732348
 I-Namedentity	 140	 447	 381	 0.23850085	 0.268714	 0.25270757
-tp: 41221 fp: 28282 fn: 28209 labels: 136
-Macro-average	 prec: 0.4370514, rec: 0.3767836, f1: 0.40468597
-Micro-average	 prec: 0.5930823, rec: 0.5937059, f1: 0.5933939
+Macro-average	 41221  28282  28209  0.4370514 0.3767836 0.40468597
+Micro-average	 41221  28282  28209  0.5930823 0.5937059 0.5933939
+
 
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTIwMjAwNTE1MDgsLTk2MDkyMzc1NywtMj
+A4OTAwMzIzMl19
+-->

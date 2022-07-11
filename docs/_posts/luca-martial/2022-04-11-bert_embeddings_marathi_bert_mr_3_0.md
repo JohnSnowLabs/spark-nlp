@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Marathi Bert Embeddings (from l3cube-pune)
+title: Marathi Bert Embeddings
 author: John Snow Labs
 name: bert_embeddings_marathi_bert
 date: 2022-04-11
@@ -10,6 +10,7 @@ language: mr
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("मला स्पार्क एनएलपी आवडत�
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("mr.embed.marathi_bert").predict("""मला स्पार्क एनएलपी आवडते""")
+```
+
 </div>
 
 {:.model-param}

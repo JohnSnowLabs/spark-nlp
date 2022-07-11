@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Chinese Bert Embeddings (from hfl)
+title: Chinese Bert Embeddings (Bert, Whole Word Masking)
 author: John Snow Labs
 name: bert_embeddings_chinese_bert_wwm_ext
 date: 2022-04-11
@@ -68,6 +68,14 @@ val data = Seq("I love Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("zh.embed.chinese_bert_wwm_ext").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

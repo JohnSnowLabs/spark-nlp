@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Amharic RoBERTa Embeddings (from uhhlt)
+title: Amharic RoBERTa Embeddings
 author: John Snow Labs
 name: roberta_embeddings_am_roberta
 date: 2022-04-14
@@ -10,6 +10,7 @@ language: am
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("ስካርቻ nlp እወዳለሁ").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("am.embed.am_roberta").predict("""ስካርቻ nlp እወዳለሁ""")
+```
+
 </div>
 
 {:.model-param}

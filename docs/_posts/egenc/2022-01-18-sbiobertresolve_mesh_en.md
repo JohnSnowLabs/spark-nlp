@@ -86,6 +86,14 @@ val data = spark.createDataFrame([["""She was admitted to the hospital with ches
 
 val result = mesh_pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.mesh").predict("""She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy with fluid biopsies, which were performed, which revealed malignant mesothelioma.""")
+```
+
 </div>
 
 ## Results

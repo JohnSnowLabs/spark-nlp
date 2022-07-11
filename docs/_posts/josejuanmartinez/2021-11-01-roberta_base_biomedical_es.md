@@ -74,6 +74,14 @@ val pipeline = new Pipeline().setStages(Array(
     tokenizer,
     roberta_embeddings))
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.embed.roberta_base_biomedical").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results

@@ -76,6 +76,14 @@ val data = Seq("He was seen by the endocrinology service and she was discharged 
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.rxcui").predict("""He was seen by the endocrinology service and she was discharged on 50 mg of eltrombopag oral at night, 5 mg amlodipine with meals, and metformin 1000 mg two times a day""")
+```
+
 </div>
 
 ## Results

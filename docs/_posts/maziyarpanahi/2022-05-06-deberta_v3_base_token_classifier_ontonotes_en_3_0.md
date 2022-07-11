@@ -1,6 +1,6 @@
 ---
 layout: model
-title: DeBERTa Token Classification Base - NER OntoNotes (deberta_v3_base_token_classifier_ontonotes)
+title: DeBERTa-based NER (Base, Ontonotes)
 author: John Snow Labs
 name: deberta_v3_base_token_classifier_ontonotes
 date: 2022-05-06
@@ -94,6 +94,14 @@ val example = Seq("I really liked that movie!").toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.ner.debertav3_base.ontonotes").predict("""I really liked that movie!""")
+```
+
 </div>
 
 {:.model-param}

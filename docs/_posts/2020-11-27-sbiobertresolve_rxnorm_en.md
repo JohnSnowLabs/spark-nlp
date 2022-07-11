@@ -33,7 +33,7 @@ RxNorm Codes and their normalized definition with ``sbiobert_base_cased_mli`` em
 ## How to use 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...

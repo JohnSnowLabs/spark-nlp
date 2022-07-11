@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Ukrainian Part of Speech Tagger (from KoichiYasuoka)
+title: Ukrainian Part of Speech Tagger (Large)
 author: John Snow Labs
 name: bert_pos_bert_large_slavic_cyrillic_upos
 date: 2022-04-26
@@ -76,6 +76,14 @@ val data = Seq("Я люблю Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("uk.pos.bert_large_slavic_cyrillic_upos").predict("""Я люблю Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

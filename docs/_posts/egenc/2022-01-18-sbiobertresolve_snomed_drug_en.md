@@ -137,6 +137,14 @@ data = Seq("She is given Fragmin 5000 units subcutaneously daily, OxyContin 30 m
 
 result = resolver_pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.snomed_drug").predict("""She is given Fragmin 5000 units subcutaneously daily, OxyContin 30 mg p.o. q.12 h., folic acid 1 mg daily, levothyroxine 0.1 mg p.o. daily, Avandia 4 mg daily, aspirin 81 mg daily, Neurontin 400 mg p.o. t.i.d., magnesium citrate 1 bottle p.o. p.r.n., sliding scale coverage insulin.""")
+```
+
 </div>
 
 ## Results

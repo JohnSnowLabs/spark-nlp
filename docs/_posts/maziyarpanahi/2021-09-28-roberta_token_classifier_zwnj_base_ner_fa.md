@@ -112,6 +112,14 @@ val example = Seq.empty["در سال ۲۰۱۳ درگذشت و آندرتیکر �
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("fa.classify.token_roberta_token_classifier_zwnj_base_ner").predict("""در سال ۲۰۱۳ درگذشت و آندرتیکر و کین برای او مراسم یادبود گرفتند.""")
+```
+
 </div>
 
 {:.model-param}

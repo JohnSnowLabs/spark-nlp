@@ -1,6 +1,6 @@
 ---
 layout: model
-title: German RoBERTa Embeddings (from FabianGroeger)
+title: German RoBERTa Embeddings (Base, Hotel)
 author: John Snow Labs
 name: roberta_embeddings_HotelBERT
 date: 2022-04-14

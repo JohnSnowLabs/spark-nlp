@@ -40,6 +40,14 @@ import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val pipeline = new PretrainedPipeline("icd10cm_umls_mapping","en","clinical/models")
 val result = pipeline.annotate("M89.50 R82.2 R09.01")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.icd10cm.umls").predict("""M89.50 R82.2 R09.01""")
+```
+
 </div>
 
 ## Results

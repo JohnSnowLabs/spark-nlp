@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Arabic Bert Embeddings (from aubmindlab)
+title: Arabic Bert Embeddings (Base, Arabert Model, v02)
 author: John Snow Labs
 name: bert_embeddings_bert_base_arabertv02
 date: 2022-04-11
@@ -10,6 +10,7 @@ language: ar
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("أنا أحب شرارة NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ar.embed.bert_base_arabertv02").predict("""أنا أحب شرارة NLP""")
+```
+
 </div>
 
 {:.model-param}

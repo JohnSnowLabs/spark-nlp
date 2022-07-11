@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Bert Embeddings (from ayansinha)
+title: English Bert Embeddings (Cased)
 author: John Snow Labs
 name: bert_embeddings_lic_class_scancode_bert_base_cased_L32_1
 date: 2022-04-11
@@ -68,6 +68,14 @@ val data = Seq("I love Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.lic_class_scancode_bert_base_cased_L32_1").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

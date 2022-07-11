@@ -16,107 +16,121 @@ use_language_switcher: "Python-Scala-Java"
 ---
 
 
+
+
 ## Description
+
+
 
 
 Pretrained named entity recognition deep learning model for clinical terminology. This model is trained with `BertForTokenClassification` method from `transformers` library and imported into Spark NLP. It detects 77 entities.
 
 
+
+
 ## Predicted Entities
+
+
 
 
 `Injury_or_Poisoning`, `Direction`, `Test`, `Admission_Discharge`, `Death_Entity`, `Relationship_Status`, `Duration`, `Respiration`, `Hyperlipidemia`, `Birth_Entity`, `Age`, `Labour_Delivery`, `Family_History_Header`, `BMI`, `Temperature`, `Alcohol`, `Kidney_Disease`, `Oncological`, `Medical_History_Header`, `Cerebrovascular_Disease`, `Oxygen_Therapy`, `O2_Saturation`, `Psychological_Condition`, `Heart_Disease`, `Employment`, `Obesity`, `Disease_Syndrome_Disorder`, `Pregnancy`, `ImagingFindings`, `Procedure`, `Medical_Device`, `Race_Ethnicity`, `Section_Header`, `Symptom`, `Treatment`, `Substance`, `Route`, `Drug_Ingredient`, `Blood_Pressure`, `Diet`, `External_body_part_or_region`, `LDL`, `VS_Finding`, `Allergen`, `EKG_Findings`, `Imaging_Technique`, `Triglycerides`, `RelativeTime`, `Gender`, `Pulse`, `Social_History_Header`, `Substance_Quantity`, `Diabetes`, `Modifier`, `Internal_organ_or_component`, `Clinical_Dept`, `Form`, `Drug_BrandName`, `Strength`, `Fetus_NewBorn`, `RelativeDate`, `Height`, `Test_Result`, `Sexually_Active_or_Sexual_Orientation`, `Frequency`, `Time`, `Weight`, `Vaccine`, `Vital_Signs_Header`, `Communicable_Disease`, `Dosage`, `Overweight`, `Hypertension`, `HDL`, `Total_Cholesterol`, `Smoking`, `Date`
 
 
+
+
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_BERT_TOKEN_CLASSIFIER/){:.button.button-orange}{:target="_blank"}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_jsl_en_3.3.4_2.4_1647895738040.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
+
 
 
 ## How to use
 
 
-
-
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
-
-
-sentenceDetector = SentenceDetectorDLModel.pretrained() \
-      .setInputCols(["document"]) \
-      .setOutputCol("sentence") 
-
-
+  	.setInputCol("text")\
+  	.setOutputCol("document")
+  
+sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
+       .setInputCols(["document"])\
+       .setOutputCol("sentence")
+       
 tokenizer = Tokenizer()\
-    .setInputCols("sentence")\
-    .setOutputCol("token")
-
-
-tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_jsl", "en", "clinical/models")\
-    .setInputCols(["token", "sentence"])\
-    .setOutputCol("ner")\
-    .setCaseSensitive(True)
-
+       .setInputCols("sentence")\
+       .setOutputCol("token")
+       
+tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_jsl", "en", "clinical/models")\
+       .setInputCols("token", "sentence")\
+       .setOutputCol("ner")\
+       .setCaseSensitive(True)
 
 ner_converter = NerConverter()\
-    .setInputCols(["sentence","token","ner"])\
-    .setOutputCol("ner_chunk")
+       .setInputCols(["sentence","token","ner"])\
+       .setOutputCol("ner_chunk")
+  
+pipeline =  Pipeline(stages=[
+	       documentAssembler,
+	       sentenceDetector,
+	       tokenizer,
+	       tokenClassifier,
+	       ner_converter])
+						       
+model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
+sample_text = """The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby-girl also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature."""
 
-pipeline =  Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter])
-
-
-p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
-
-
-test_sentence = """The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby-girl also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature."""
-
-
-result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
+result = model.transform(spark.createDataFrame([[sample_text]]).toDF("text"))
 ```
 ```scala
-val documentAssembler = DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
-
-
-val sentenceDetector = SentenceDetectorDLModel.pretrained() 
-    .setInputCols("document") 
-    .setOutputCol("sentence") 
-
-
+val documentAssembler = new DocumentAssembler()
+	.setInputCol("text")
+	.setOutputCol("document")
+  
+val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
+	.setInputCols("document")
+	.setOutputCol("sentence")
+       
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
-    .setOutputCol("token")
+	.setInputCols("sentence")
+	.setOutputCol("token")
+		
+val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_jsl", "en", "clinical/models")
+        .setInputCols(Array("token", "sentence"))
+        .setOutputCol("ner")
+        .setCaseSensitive(True)
+       
+val. ner_converter = new NerConverter()
+  	.setInputCols(Array("sentence","token","ner"))
+  	.setOutputCol("ner_chunk")
+  
+val pipeline =  new Pipeline().setStages(Array(
+				documentAssembler,
+				sentenceDetector,
+				tokenizer,
+				tokenClassifier,
+				ner_converter))
+												
+val sample_text = Seq("""The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby-girl also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.""").toDS.toDF("text")
 
-
-val tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_jsl", "en", "clinical/models")
-    .setInputCols(Array("token", "sentence"))\
-    .setOutputCol("ner")
-    .setCaseSensitive(True)
-
-
-val ner_converter = NerConverter()\
-    .setInputCols(Array("sentence","token","ner"))
-    .setOutputCol("ner_chunk")
-
-
-val pipeline =  new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))
-
-
-val data = Seq("The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby-girl also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.").toDF("text")
-
-
-val result = pipeline.fit(data).transform(data)
+val result = pipeline.fit(sample_text).transform(sample_text)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.token_bert.ner_jsl").predict("""The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby-girl also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.""")
+```
+
 </div>
+
+
 
 
 ## Results
@@ -165,8 +179,12 @@ val result = pipeline.fit(data).transform(data)
 ```
 
 
+
+
 {:.model-param}
 ## Model Information
+
+
 
 
 {:.table-model}
@@ -183,7 +201,11 @@ val result = pipeline.fit(data).transform(data)
 |Max sentence length:|256|
 
 
+
+
 ## Benchmarking
+
+
 
 
 ```bash
@@ -338,5 +360,7 @@ I-Sexually_Active_or_Sexual_Orientation       1.00    1.00      1.00        1
                            weighted-avg       0.92    0.92      0.92   338378
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTQxOTIwNTkxNiwtOTI5ODY4NjAwXX0=
+eyJoaXN0b3J5IjpbLTE1NTQxNjMwOTAsLTE3MzIyNDU4MzAsMT
+A2MDkxMjcyNiwyMDk5MDMwNTQ4LC00MTkyMDU5MTYsLTkyOTg2
+ODYwMF19
 -->

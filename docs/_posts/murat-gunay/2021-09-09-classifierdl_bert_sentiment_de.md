@@ -80,6 +80,14 @@ val result1 = light_pipeline.annotate("Spiel und Meisterschaft nicht spannend ge
 val result2 = light_pipeline.annotate("Habe gestern am Mittwoch den #werder Podcast vermisst. Wie schnell man sich an etwas gewöhnt und darauf freut. Danke an @Plainsman74 für die guten Interviews und den Einblick hinter die Kulissen von @werderbremen. Angenehme Winterpause weiterhin!")
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("de.classify.sentiment.bert").predict("""Habe gestern am Mittwoch den #werder Podcast vermisst. Wie schnell man sich an etwas gewöhnt und darauf freut. Danke an @Plainsman74 für die guten Interviews und den Einblick hinter die Kulissen von @werderbremen. Angenehme Winterpause weiterhin!""")
+```
+
 </div>
 
 ## Results
@@ -109,12 +117,10 @@ https://github.com/charlesmalafosse/open-dataset-for-sentiment-analysis/
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
     NEGATIVE       0.83      0.85      0.84       978
     POSITIVE       0.94      0.93      0.94      2582
-
-    accuracy                           0.91      3560
-   macro avg       0.89      0.89      0.89      3560
-weighted avg       0.91      0.91      0.91      3560
+    accuracy          -         -      0.91      3560
+   macro-avg       0.89      0.89      0.89      3560
+weighted-avg       0.91      0.91      0.91      3560
 ```

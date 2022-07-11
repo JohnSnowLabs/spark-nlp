@@ -155,6 +155,16 @@ val data = Seq("When carbamazepine is withdrawn from the combination therapy, ar
 val result = pipeline.fit(data).transform(data)
 ```
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.relation.drug_drug_interaction").predict("""When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced. \
+If additional adrenergic drugs are to be administered by any route, \
+they should be used with caution because the pharmacologically predictable sympathetic effects of Metformin may be potentiated""")
+```
+
 </div>
 
 ## Results

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Arabic Part of Speech Tagger (from CAMeL-Lab)
+title: Arabic Part of Speech Tagger (DA-Dialectal Arabic dataset, Egyptian Arabic POS)
 author: John Snow Labs
 name: bert_pos_bert_base_arabic_camelbert_da_pos_egy
 date: 2022-04-26
@@ -76,6 +76,14 @@ val data = Seq("أنا أحب الشرارة NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ar.pos.arabic_camelbert_da_pos_egy").predict("""أنا أحب الشرارة NLP""")
+```
+
 </div>
 
 {:.model-param}

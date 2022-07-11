@@ -82,6 +82,14 @@ val data = Seq("activated charcoal 30000 mg powder for oral suspension").toDF("t
 
 val res = rxnorm_ndc_pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.rxnorm_ndc").predict("""activated charcoal 30000 mg powder for oral suspension""")
+```
+
 </div>
 
 ## Results

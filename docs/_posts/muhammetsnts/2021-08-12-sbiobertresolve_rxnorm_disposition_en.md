@@ -81,6 +81,14 @@ val pipelineModel= new PipelineModel().setStages(Array(documentAssembler, sbert_
 val rxnorm_lp = LightPipeline(pipelineModel)
 val result = rxnorm_lp.fullAnnotate("belimumab 80 mg/ml injectable solution")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.rxnorm_disposition").predict("""belimumab 80 mg/ml injectable solution""")
+```
+
 </div>
 
 ## Results

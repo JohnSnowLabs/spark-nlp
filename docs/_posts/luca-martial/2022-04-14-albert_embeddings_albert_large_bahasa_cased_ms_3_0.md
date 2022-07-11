@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Malay ALBERT Embeddings (from malay-huggingface)
+title: Malay ALBERT Embeddings (Large)
 author: John Snow Labs
 name: albert_embeddings_albert_large_bahasa_cased
 date: 2022-04-14
@@ -68,6 +68,14 @@ val data = Seq("Saya suka Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ms.embed.albert").predict("""Saya suka Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

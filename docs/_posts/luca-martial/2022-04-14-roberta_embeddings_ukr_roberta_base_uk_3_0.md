@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Ukrainian RoBERTa Embeddings (from youscan)
+title: Ukrainian RoBERTa Embeddings
 author: John Snow Labs
 name: roberta_embeddings_ukr_roberta_base
 date: 2022-04-14
@@ -10,6 +10,7 @@ language: uk
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("Я люблю Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("uk.embed.ukr_roberta_base").predict("""Я люблю Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

@@ -15,25 +15,35 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 Detect adverse reactions of drugs in reviews, tweets, and medical text using the pretrained NER model. This model is trained with the `BertForTokenClassification` method from the `transformers` library and imported into Spark NLP.
 
+
 ## Predicted Entities
 
+
 `DRUG`, `ADE`
+
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_ade_en_3.4.0_2.4_1641283944065.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
   .setInputCol("text")\
@@ -81,13 +91,24 @@ val ner_converter = new NerConverter()
     .setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(document_assembler, tokenizer, tokenClassifier, ner_converter))
-val data = Seq("Both the erbA IRES and the erbA/myb virus constructs transformed erythroid cells after infection of bone marrow or blastoderm cultures. The erbA/myb IRES virus exhibited a 5-10-fold higher transformed colony forming efficiency than the erbA IRES virus in the blastoderm assay.").toDF("text")
+
+val data = Seq("""Both the erbA IRES and the erbA/myb virus constructs transformed erythroid cells after infection of bone marrow or blastoderm cultures. The erbA/myb IRES virus exhibited a 5-10-fold higher transformed colony forming efficiency than the erbA IRES virus in the blastoderm assay.""").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.token_bert.ner_ade").predict("""Both the erbA IRES and the erbA/myb virus constructs transformed erythroid cells after infection of bone marrow or blastoderm cultures. The erbA/myb IRES virus exhibited a 5-10-fold higher transformed colony forming efficiency than the erbA IRES virus in the blastoderm assay.""")
+```
+
 </div>
 
+
 ## Results
+
 
 ```bash
 +--------------+---------+
@@ -100,8 +121,10 @@ val result = pipeline.fit(data).transform(data)
 +--------------+---------+
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -116,22 +139,23 @@ val result = pipeline.fit(data).transform(data)
 |Case sensitive:|true|
 |Max sentense length:|512|
 
+
 ## Data Source
+
 
 This model is trained on a custom dataset by John Snow Labs.
 
+
 ## Benchmarking
 
-```bash
-              precision    recall  f1-score   support
 
+```bash
+       label  precision    recall  f1-score   support
        B-ADE       0.93      0.79      0.85      2694
       B-DRUG       0.97      0.87      0.92      9539
        I-ADE       0.93      0.73      0.82      3236
       I-DRUG       0.95      0.82      0.88      6115
-           O       0.00      0.00      0.00         0
-
-    accuracy                           0.83     21584
-   macro avg       0.84      0.84      0.84     21584
-weighted avg       0.95      0.83      0.89     21584
+    accuracy        -         -        0.83     21584
+   macro-avg       0.84      0.84      0.84     21584
+weighted-avg       0.95      0.83      0.89     21584
 ```

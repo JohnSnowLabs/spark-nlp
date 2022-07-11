@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish RoBERTa Embeddings (from PlanTL-GOB-ES)
+title: Spanish RoBERTa Embeddings (Large)
 author: John Snow Labs
 name: roberta_embeddings_roberta_large_bne
 date: 2022-04-14
@@ -68,6 +68,14 @@ val data = Seq("Me encanta chispa nlp").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.embed.roberta_large_bne").predict("""Me encanta chispa nlp""")
+```
+
 </div>
 
 {:.model-param}

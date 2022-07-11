@@ -34,6 +34,7 @@ This model was imported from `Hugging Face` and it's been fine-tuned for the Rus
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler() \
     .setInputCol('text') \
@@ -72,6 +73,14 @@ val example = Seq.empty["Ненавижу тебя, идиот."].toDS.toDF("tex
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ru.classify.toxic").predict("""Ненавижу тебя, идиот.""")
+```
+
 </div>
 
 ## Results
@@ -103,10 +112,10 @@ val result = pipeline.fit(example).transform(example)
 ## Benchmarking
 
 ```bash
-         precision    recall	f1-score	support
-neutral      0.98	   0.99	    0.98	21384
-toxic        0.94	   0.92	    0.93	4886
-accuracy  	  		    0.97	26270
-macro avg    0.96	   0.96	    0.96	26270
-weighted avg 0.97	   0.97	    0.97	26270
+label         precision   recall   f1-score   support
+neutral       0.98        0.99     0.98       21384
+toxic         0.94        0.92     0.93       4886
+accuracy      -           -        0.97       26270
+macro-avg     0.96        0.96     0.96       26270
+weighted-avg  0.97        0.97     0.97       26270
 ```

@@ -2096,13 +2096,60 @@ code {
 	display: flex;
 	justify-content: center;
 	margin: 0;
+	display: none;
 	&.pagination_big {
 		flex-wrap: wrap;
+		margin: 0 !important;
+		position: relative;
+		.owl-stage-outer {
+			position: relative;
+			z-index: 5;
+		}
 		li {
 			padding: 0 !important;
-			margin: 0 3px;
+			margin: 0;
+			text-align: center;
+			a {
+				display: inline-block;
+				padding: 7px 10px;
+				min-width: 68px;
+				text-align: center;
+				background: #1e77b7;
+				text-decoration: none !important;
+				color: #fff !important;
+				border: 1px solid #DFE3E8;
+			}
+			&:hover a,
 			&.active a {
-				color: #ff8a00;
+				background: #ff8a00;
+				color: #fff;
+			}
+		}
+		.owl-nav {
+			position: absolute;
+			top: 0;
+			z-index: 4;
+			left: -60px;
+			width: calc(100% + 120px);
+			display: flex;
+			justify-content: space-between;
+			button {
+				font-size: 36px;
+				border: 1px solid #DFE3E8;
+				color: #fff;
+				background: #1e77b7;
+				transition: all 300ms ease;
+				display: inline-block;
+				padding: 8px 22px !important;
+				line-height: 22px;
+				span {
+					position: relative;
+					top: -3px;
+				}
+				&:hover {
+					background: #ff8a00;
+					color: #fff;
+				}
 			}
 		}
 	}
@@ -2309,10 +2356,6 @@ code {
 	.top_tab_li .tab-li {
 		text-align: center;
 		min-width: 196px;
-		-webkit-transition: all 300ms ease;
-		-moz-transition: all 300ms ease;
-		-ms-transition: all 300ms ease;
-		-o-transition: all 300ms ease;
 		transition: all 300ms ease;
 		font-weight: 600;
 		font-size: 18px;
@@ -2426,11 +2469,30 @@ code {
 	.demopage .main-big {
 		width: 100% !important;
 	}
+	.pagination.pagination_big {
+		margin: 0 auto !important;
+		width: 80%;
+	}
 }
 
 @media (max-width: 1400px) {
 	.layout--page--sidebar.layout--page--aside .main {
 		max-width: 770px;
+	}
+	.pagination.pagination_big {
+		li a {
+			padding: 7px 8px;
+		}
+		.owl-nav {
+			left: -45px;
+			width: calc(100% + 91px);
+			button {
+				padding: 8px 14px !important;
+			}
+		}
+	}
+	.docs-wrapper {
+		width: 100%;
 	}
 	.main-docs {
 		width: 750px;
@@ -3197,6 +3259,9 @@ code {
 		margin-right: 42px;
 		width: 40px;
 		height: 40px;
+	}
+	.breadcrambs {
+		flex-wrap: wrap;
 	}
 	.notebook_wrapper .start-item {
 		width: 100%;

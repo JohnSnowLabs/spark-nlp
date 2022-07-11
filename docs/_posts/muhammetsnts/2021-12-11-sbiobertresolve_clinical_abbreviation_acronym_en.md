@@ -92,6 +92,14 @@ val resolver_pipeline = new Pipeline().setStages(Array(document_assembler, token
 val sample_text = Seq("HISTORY OF PRESENT ILLNESS: The patient three weeks ago was seen at another clinic for upper respiratory infection-type symptoms. She was diagnosed with a viral infection and had used OTC medications including Tylenol, Sudafed, and Nyquil.").toDF("text")
 val abbr_result = resolver_pipeline.fit(sample_text).transform(sample_text)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.clinical_abbreviation_acronym").predict("""HISTORY OF PRESENT ILLNESS: The patient three weeks ago was seen at another clinic for upper respiratory infection-type symptoms. She was diagnosed with a viral infection and had used OTC medications including Tylenol, Sudafed, and Nyquil.""")
+```
+
 </div>
 
 ## Results

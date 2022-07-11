@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Named Entity Recognition (from Jean-Baptiste)
+title: English Named Entity Recognition (Large, ConLL)
 author: John Snow Labs
 name: roberta_ner_roberta_large_ner_english
 date: 2022-05-03
@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -80,6 +81,14 @@ val data = Seq("I love Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.ner.roberta_large_ner_english").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

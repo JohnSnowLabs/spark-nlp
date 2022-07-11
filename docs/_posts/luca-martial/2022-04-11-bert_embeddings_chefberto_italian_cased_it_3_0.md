@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Italian Bert Embeddings (from vinhood)
+title: Italian Embeddings (Base, Recipees)
 author: John Snow Labs
 name: bert_embeddings_chefberto_italian_cased
 date: 2022-04-11
@@ -68,6 +68,14 @@ val data = Seq("Adoro Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("it.embed.chefberto_italian_cased").predict("""Adoro Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

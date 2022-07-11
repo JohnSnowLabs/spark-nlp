@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Arabic Bert Embeddings (from moha)
+title: Arabic Bert Embeddings (Arabert model, Covid-19)
 author: John Snow Labs
 name: bert_embeddings_arabert_c19
 date: 2022-04-11
@@ -68,6 +68,14 @@ val data = Seq("أنا أحب شرارة NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ar.embed.arabert_c19").predict("""أنا أحب شرارة NLP""")
+```
+
 </div>
 
 {:.model-param}

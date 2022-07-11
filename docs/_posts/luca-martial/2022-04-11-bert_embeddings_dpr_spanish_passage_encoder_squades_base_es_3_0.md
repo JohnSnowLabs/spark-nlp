@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish Bert Embeddings (from IIC)
+title: Spanish Bert Embeddings (Base, Pasage, Squades)
 author: John Snow Labs
 name: bert_embeddings_dpr_spanish_passage_encoder_squades_base
 date: 2022-04-11
@@ -68,6 +68,14 @@ val data = Seq("Me encanta chispa nlp").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.embed.dpr_spanish_passage_encoder_squades_base").predict("""Me encanta chispa nlp""")
+```
+
 </div>
 
 {:.model-param}

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForQuestionAnswering model (from bigwiz83)
+title: English Medical BertForQuestionAnswering model (PubMed, Squad)
 author: John Snow Labs
 name: bert_qa_sapbert_from_pubmedbert_squad2
 date: 2022-06-02
@@ -18,6 +18,8 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `sapbert-from-pubmedbert-squad2` is a English model orginally trained by `bigwiz83`.
+
+This model is a fine-tuned version of `SapBERT-from-PubMedBERT-fulltext` on the squad_v2 dataset.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

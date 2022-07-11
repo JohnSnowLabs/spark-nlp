@@ -90,6 +90,14 @@ val example = Seq.empty["我是莎拉，我从 1999 年 11 月 2 日。开始在
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("zh.ner.bert_token").predict("""我是莎拉，我从 1999 年 11 月 2 日。开始在斯图加特的梅赛德斯-奔驰公司工作。""")
+```
+
 </div>
 
 ## Results
@@ -127,5 +135,6 @@ val result = pipeline.fit(example).transform(example)
 ## Benchmarking
 
 ```bash
-F1 Score : 0.8118
+label   score
+   f1   0.8118
 ```

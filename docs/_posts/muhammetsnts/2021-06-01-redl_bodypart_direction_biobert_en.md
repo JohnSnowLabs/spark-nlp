@@ -15,25 +15,35 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 Relation extraction between body parts entities like `Internal_organ_or_component`, `External_body_part_or_region` etc. and direction entities like `upper`, `lower` in clinical texts. `1` : Shows the body part and direction entity are related, `0` : Shows the body part and direction entity are not related.
 
+
 ## Predicted Entities
 
+
 `0`, `1`
+
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.1.Clinical_Relation_Extraction_BodyParts_Models.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_bodypart_direction_biobert_en_3.0.3_3.0_1622564511730.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 ...
 documenter = DocumentAssembler()\
@@ -93,20 +103,22 @@ re_model = RelationExtractionDLModel()\
 pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model])
 
 text ="MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia"
+
 p_model = pipeline.fit(spark.createDataFrame([[text]]).toDF("text"))
+
 result = p_model.transform(data)
 ```
 ```scala
 ...
-val documenter = DocumentAssembler() 
+val documenter = new DocumentAssembler() 
     .setInputCol("text") 
     .setOutputCol("document")
 
-val sentencer = SentenceDetector()
+val sentencer = new SentenceDetector()
     .setInputCols("document")
     .setOutputCol("sentences")
 
-val tokenizer = sparknlp.annotators.Tokenizer()
+val tokenizer = new Tokenizer()
     .setInputCols("sentences")
     .setOutputCol("tokens")
 
@@ -124,7 +136,7 @@ val ner_tagger = MedicalNerModel.pretrained("ner_jsl_greedy", "en", "clinical/mo
     .setInputCols(Array("sentences", "tokens", "embeddings"))
     .setOutputCol("ner_tags") 
 
-val ner_converter = NerConverter()
+val ner_converter = new NerConverter()
     .setInputCols(Array("sentences", "tokens", "ner_tags"))
     .setOutputCol("ner_chunks")
 
@@ -153,12 +165,23 @@ val re_model = RelationExtractionDLModel()
     
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
 
-val data = Seq("MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia").toDF("text")
+val data = Seq("MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia").toDS.toDF("text")
+
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.relation").predict("""MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia""")
+```
+
 </div>
 
+
 ## Results
+
 
 ```bash
 | index | relations | entity1                     | entity1_begin | entity1_end | chunk1     | entity2                     | entity2_end | entity2_end | chunk2        | confidence |
@@ -174,8 +197,10 @@ val result = pipeline.fit(data).transform(data)
 | 8     | 1         | Direction                   | 75            | 79          | right      | Internal_organ_or_component | 81          | 93          | basil ganglia | 1.0        |
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -186,15 +211,22 @@ val result = pipeline.fit(data).transform(data)
 |Language:|en|
 |Case sensitive:|true|
 
+
 ## Data Source
+
 
 Trained on an internal dataset.
 
+
 ## Benchmarking
+
 
 ```bash
 Relation           Recall Precision        F1   Support
 0                   0.856     0.873     0.865       153
 1                   0.986     0.984     0.985      1347
-Avg.                0.921     0.929     0.925
+Avg.                0.921     0.929     0.925         -
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbNzU4NTAzODNdfQ==
+-->

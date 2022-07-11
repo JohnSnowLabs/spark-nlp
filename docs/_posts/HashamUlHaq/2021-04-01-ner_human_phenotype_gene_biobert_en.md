@@ -15,52 +15,77 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 This model can be used to detect normalized mentions of genes (gene) and human phenotypes (hp) in medical text.
 
+
 ## Predicted Entities
 
+
 `HP`, `GENE`
+
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_HUMAN_PHENOTYPE_GENE_CLINICAL/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_human_phenotype_gene_biobert_en_3.0.0_3.0_1617260636569.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
+```python
 ...
-embeddings_clinical = BertEmbeddings.pretrained("biobert_pubmed_base_cased")  .setInputCols(["sentence", "token"])  .setOutputCol("embeddings")
-clinical_ner = MedicalNerModel.pretrained("ner_human_phenotype_gene_biobert", "en", "clinical/models")   .setInputCols(["sentence", "token", "embeddings"])   .setOutputCol("ner")
+embeddings_clinical = BertEmbeddings.pretrained("biobert_pubmed_base_cased").setInputCols(["sentence", "token"]).setOutputCol("embeddings")
+
+clinical_ner = MedicalNerModel.pretrained("ner_human_phenotype_gene_biobert", "en", "clinical/models").setInputCols(["sentence", "token", "embeddings"]).setOutputCol("ner")
 ...
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical, clinical_ner, ner_converter])
+
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+
 results = model.transform(spark.createDataFrame([["EXAMPLE_TEXT"]]).toDF("text"))
 ```
 ```scala
+
 
 ...
 val embeddings_clinical = BertEmbeddings.pretrained("biobert_pubmed_base_cased")
   .setInputCols(Array("sentence", "token"))
   .setOutputCol("embeddings")
+
 val ner = MedicalNerModel.pretrained("ner_human_phenotype_gene_biobert", "en", "clinical/models")
   .setInputCols(Array("sentence", "token", "embeddings"))
   .setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
+
 val result = pipeline.fit(Seq.empty[String]).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.human_phenotype.gene_biobert").predict("""Put your text here.""")
+```
+
 </div>
+
 
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -72,24 +97,15 @@ val result = pipeline.fit(Seq.empty[String]).transform(data)
 |Output Labels:|[ner]|
 |Language:|en|
 
+
 ## Benchmarking
 ```bash
-+------+------+-----+-----+------+---------+------+------+
-|entity|    tp|   fp|   fn| total|precision|recall|    f1|
-+------+------+-----+-----+------+---------+------+------+
-|    HP|1761.0|198.0|342.0|2103.0|   0.8989|0.8374|0.8671|
-|  GENE|1600.0|290.0|361.0|1961.0|   0.8466|0.8159| 0.831|
-+------+------+-----+-----+------+---------+------+------+
-
-+------------------+
-|             macro|
-+------------------+
-|0.8490067802604169|
-+------------------+
-
-+------------------+
-|             micro|
-+------------------+
-|0.8496375964286255|
-+------------------+
+entity     tp    fp    fn  total precision recall     f1
+    HP 1761.0 198.0 342.0 2103.0    0.8989 0.8374 0.8671
+  GENE 1600.0 290.0 361.0 1961.0    0.8466 0.8159  0.831
+ macro    -     -     -      -        -      -    0.8490
+ micro    -     -     -      -        -      -    0.8496
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbMTczMDE0NzA4M119
+-->

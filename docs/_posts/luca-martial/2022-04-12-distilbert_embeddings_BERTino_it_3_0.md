@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Italian DistilBERT Embeddings (from indigo-ai)
+title: Italian DistilBERT Embeddings
 author: John Snow Labs
 name: distilbert_embeddings_BERTino
 date: 2022-04-12
@@ -10,6 +10,7 @@ language: it
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("Adoro Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("it.embed.BERTino").predict("""Adoro Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

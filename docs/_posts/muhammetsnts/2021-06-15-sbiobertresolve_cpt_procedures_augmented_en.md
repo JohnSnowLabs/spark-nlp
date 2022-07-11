@@ -78,6 +78,14 @@ val cpt_pipelineModel= new PipelineModel().setStages(Array(document_assembler, s
 val cpt_lp = LightPipeline(cpt_pipelineModel)
 val result = cpt_lp.fullAnnotate("heart surgery")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.cpt.procedures_augmented").predict("""heart surgery""")
+```
+
 </div>
 
 ## Results

@@ -154,6 +154,15 @@ val result = pipeline.fit(Seq.empty["She has a retinal degeneration, hearing los
 Mutations in the SH3PXD2B gene coding for the Tks4 protein are responsible for the autosomal recessive."].toDS.toDF("text")).transform(data)
 ```
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.relation.humen_phenotype_gene").predict("""She has a retinal degeneration, hearing loss and renal failure, short stature, \
+Mutations in the SH3PXD2B gene coding for the Tks4 protein are responsible for the autosomal recessive.""")
+```
+
 </div>
 
 ## Results

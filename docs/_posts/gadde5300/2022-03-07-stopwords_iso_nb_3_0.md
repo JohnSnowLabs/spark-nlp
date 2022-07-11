@@ -66,6 +66,14 @@ val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, stop
 val data = Seq("Bortsett fra å være kongen av nord, er John Snow en engelsk lege og en leder i utviklingen av anestesi og medisinsk hygiene.").toDF("text")
 val results = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("nb.stopwords").predict("""Bortsett fra å være kongen av nord, er John Snow en engelsk lege og en leder i utviklingen av anestesi og medisinsk hygiene.""")
+```
+
 </div>
 
 ## Results

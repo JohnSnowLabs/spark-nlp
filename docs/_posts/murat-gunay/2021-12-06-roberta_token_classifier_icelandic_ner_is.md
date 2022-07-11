@@ -34,6 +34,7 @@ This model, imported from Hugging Face, was fine-tuned on the MIM-GOLD-NER datas
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
       .setInputCol("text")\
@@ -90,6 +91,14 @@ val example = Seq.empty["Ég heiti Peter Fergusson. Ég hef búið í New York s
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("is.ner").predict("""Ég heiti Peter Fergusson. Ég hef búið í New York síðan í október 2011 og unnið hjá Tesla Motor og þénað 100K $ á ári.""")
+```
+
 </div>
 
 ## Results
@@ -128,6 +137,7 @@ val result = pipeline.fit(example).transform(example)
 ## Benchmarking
 
 ```bash
-Macro F1-Score : 0.957209
-Micro F1-Score : 0.951866
+         label      score
+Macro-F1-Score   0.957209
+Micro-F1-Score   0.951866
 ```

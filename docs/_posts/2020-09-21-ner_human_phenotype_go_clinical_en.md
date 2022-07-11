@@ -29,7 +29,7 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 
 ```python
@@ -64,6 +64,14 @@ val data = Seq("Another disease that shares two of the tumor components of CT, n
 val result = pipeline.fit(data).transform(data)
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.human_phenotype.go_clinical").predict("""Another disease that shares two of the tumor components of CT, namely GIST and tricarboxylic acid cycle is the Carney-Stratakis syndrome (CSS) or dyad.""")
+```
+
 </div>
 
 {:.h2_title}

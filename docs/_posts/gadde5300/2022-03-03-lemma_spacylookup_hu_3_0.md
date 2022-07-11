@@ -66,6 +66,14 @@ val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, lemm
 val data = Seq("Nem vagy jobb, mint én").toDF("text")
 val results = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("hu.lemma").predict("""Nem vagy jobb, mint én""")
+```
+
 </div>
 
 ## Results

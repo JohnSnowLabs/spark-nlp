@@ -63,6 +63,14 @@ results.select("t5_output.result").show(truncate=False)
 
 ```
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.t5.mediqa").predict("""content:SUBJECT: Normal physical traits but no period MESSAGE: I'm a 40 yr. old woman that has infantile reproductive organs and have never experienced a mensus. I have had Doctors look but they all say I just have infantile female reproductive organs. When I try to look for answers on the internet I cannot find anything. ALL my \""")
+```
+
 </div>
 
 ## Results

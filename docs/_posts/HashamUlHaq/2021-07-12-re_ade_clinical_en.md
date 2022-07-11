@@ -15,26 +15,36 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 This model is capable of Relating Drugs and adverse reactions caused by them; It predicts if an adverse event is caused by a drug or not. `1` : Shows the adverse event and drug entities are related, `0` : Shows the adverse event and drug entities are not related.
 
+
 ## Predicted Entities
 
+
 `0`, `1`
+
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_ADE/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_ade_clinical_en_3.1.2_3.0_1626104637779.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
 
+
 In the table below, `re_ade_clinical` RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.
+
 
  |     RE MODEL    | RE MODEL LABES |     NER MODEL    | RE PAIRS                     |
  |:---------------:|:--------------:|:----------------:|------------------------------|
  | re_ade_clinical |       0,1      | ner_ade_clinical | [“ade-drug”,<br> ”drug-ade”] |
+
+
 
 
 <div class="tabs-box" markdown="1">
@@ -42,7 +52,6 @@ In the table below, `re_ade_clinical` RE model, its labels, optimal NER model, a
 
 ```python
 ...
-
 words_embedder = WordEmbeddingsModel() \
     .pretrained("embeddings_clinical", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens"]) \
@@ -82,12 +91,9 @@ light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).to
 text ="""Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps"""
 
 annotations = light_pipeline.fullAnnotate(text)
-
-
 ```
 ```scala
 ...
-
 val words_embedder = WordEmbeddingsModel()
     .pretrained("embeddings_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens"))
@@ -98,7 +104,7 @@ val ner_tagger = NerDLModel()
     .setInputCols(Array("sentences", "tokens", "embeddings"))
     .setOutputCol("ner_tags")
 
-val ner_converter = NerConverter()
+val ner_converter = new NerConverter()
     .setInputCols(Array("sentences", "tokens", "ner_tags"))
     .setOutputCol("ner_chunks")
 
@@ -122,13 +128,24 @@ val re_model = RelationExtractionModel()
 
 val nlpPipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, re_model))
 
-val result = pipeline.fit(Seq.empty[String]).transform(data)
+val data = Seq("""Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps""").toDS.toDF("text")
 
-val annotations = light_pipeline.fullAnnotate("Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps")
+val result = pipeline.fit(data).transform(data)
+
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.relation.adverse_drug_events.clinical").predict("""Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps""")
+```
+
 </div>
 
+
 ## Results
+
 
 ```bash
 |    | chunk1                        | entitiy1   | chunk2      | entity2 | relation |
@@ -139,8 +156,10 @@ val annotations = light_pipeline.fullAnnotate("Been taking Lipitor for 15 years 
 | 3  | cramps                        | ADE        | voltaren    | DRUG    |        1 |
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -153,20 +172,24 @@ val annotations = light_pipeline.fullAnnotate("Been taking Lipitor for 15 years 
 |Output Labels:|[relations]|
 |Language:|en|
 
+
 ## Data Source
+
 
 This model is trained on custom data annotated by JSL.
 
+
 ## Benchmarking
 
-```bash
-              precision    recall  f1-score   support
 
+```bash
+       label   precision    recall  f1-score   support
            0       0.86      0.88      0.87      1787
            1       0.92      0.90      0.91      2586
-
-   micro avg       0.89      0.89      0.89      4373
-   macro avg       0.89      0.89      0.89      4373
-weighted avg       0.89      0.89      0.89      4373
-
+   micro-avg       0.89      0.89      0.89      4373
+   macro-avg       0.89      0.89      0.89      4373
+weighted-avg       0.89      0.89      0.89      4373
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTEyMDAyNjg5NTddfQ==
+-->

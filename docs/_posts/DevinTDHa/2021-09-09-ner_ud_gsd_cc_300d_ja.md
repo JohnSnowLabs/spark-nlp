@@ -123,6 +123,14 @@ result.selectExpr("explode(arrays_zip(token.result, ner.result))") \
       .selectExpr("col'0' as token", "col'1' as ner")
       .show()
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ja.ner.ud_gsd_cc_300d").predict("""explode(arrays_zip(token.result, ner.result))""")
+```
+
 </div>
 
 ## Results
@@ -176,8 +184,7 @@ Reference:
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
         DATE       0.91      0.92      0.92       206
        EVENT       0.91      0.56      0.69        52
          FAC       0.82      0.63      0.71        59
@@ -198,9 +205,7 @@ Reference:
         TIME       0.97      0.88      0.92        32
  TITLE_AFFIX       0.81      0.92      0.86        24
  WORK_OF_ART       0.71      0.83      0.77        48
-
-    accuracy                           0.98     13034
-   macro avg       0.82      0.82      0.81     13034
-weighted avg       0.98      0.98      0.98     13034
-
+    accuracy          -         -      0.98     13034
+   macro-avg       0.82      0.82      0.81     13034
+weighted-avg       0.98      0.98      0.98     13034
 ```

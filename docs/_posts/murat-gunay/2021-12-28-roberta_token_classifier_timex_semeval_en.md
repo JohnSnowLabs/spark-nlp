@@ -90,6 +90,14 @@ val example = Seq.empty["Model training was started at 22:12C and it took 3 days
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.ner.time").predict("""Model training was started at 22:12C and it took 3 days from Tuesday to Friday.""")
+```
+
 </div>
 
 ## Results

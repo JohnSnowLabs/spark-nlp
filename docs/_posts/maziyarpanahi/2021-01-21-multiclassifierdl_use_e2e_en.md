@@ -81,6 +81,14 @@ val pipeline = new Pipeline()
     )
   )
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.e2e").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

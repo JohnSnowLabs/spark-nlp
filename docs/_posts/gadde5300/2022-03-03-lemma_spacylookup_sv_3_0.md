@@ -66,6 +66,14 @@ val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, lemm
 val data = Seq("Du är inte bättre än jag").toDF("text")
 val results = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("sv.lemma.spacylookup").predict("""Du är inte bättre än jag""")
+```
+
 </div>
 
 ## Results

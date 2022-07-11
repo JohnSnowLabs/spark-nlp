@@ -80,6 +80,14 @@ val data = Seq("أنا أحب الشرارة NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ar.ner.arabert_ner").predict("""أنا أحب الشرارة NLP""")
+```
+
 </div>
 
 {:.model-param}

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Indonesian RoBERTa Embeddings (from flax-community)
+title: Indonesian RoBERTa Embeddings (Base)
 author: John Snow Labs
 name: roberta_embeddings_indonesian_roberta_base
 date: 2022-04-14
@@ -68,6 +68,14 @@ val data = Seq("Saya suka percikan NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("id.embed.indonesian_roberta_base").predict("""Saya suka percikan NLP""")
+```
+
 </div>
 
 {:.model-param}

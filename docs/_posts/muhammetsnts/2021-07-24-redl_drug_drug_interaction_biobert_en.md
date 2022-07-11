@@ -15,25 +15,35 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 Extract potential improvements or harmful effects of Drug-Drug interactions (DDIs) when two or more drugs are taken at the same time or at a certain interval.
 
+
 ## Predicted Entities
 
+
 `DDI-advise`, `DDI-effect`, `DDI-false`, `DDI-int`, `DDI-mechanism`
+
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_DRUG_DRUG_INT/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_drug_drug_interaction_biobert_en_3.0.3_2.4_1627119817997.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 ...
 documenter = DocumentAssembler()\
@@ -93,20 +103,22 @@ If additional adrenergic drugs are to be administered by any route, \
 they should be used with caution because the pharmacologically predictable sympathetic effects of Metformin may be potentiated"""
 
 data = spark.createDataFrame([[text]]).toDF("text")
+
 p_model = pipeline.fit(data)
+
 result = p_model.transform(data)
 ```
 ```scala
 ...
-val documenter = DocumentAssembler() 
+val documenter = new DocumentAssembler() 
     .setInputCol("text") 
     .setOutputCol("document")
 
-val sentencer = SentenceDetector()
+val sentencer = new SentenceDetector()
     .setInputCols("document")
     .setOutputCol("sentences")
 
-val tokenizer = sparknlp.annotators.Tokenizer()
+val tokenizer = new Tokenizer()
     .setInputCols("sentences")
     .setOutputCol("tokens")
 
@@ -124,7 +136,7 @@ val ner_tagger = MedicalNerModel.pretrained("ner_posology", "en", "clinical/mode
     .setInputCols(Array("sentences", "tokens", "embeddings"))
     .setOutputCol("ner_tags") 
 
-val ner_converter = NerConverter()
+val ner_converter = new NerConverter()
     .setInputCols(Array("sentences", "tokens", "ner_tags"))
     .setOutputCol("ner_chunks")
 
@@ -150,12 +162,25 @@ val re_model = RelationExtractionDLModel()
     
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
 
-val data = Seq("When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced. If additional adrenergic drugs are to be administered by any route, they should be used with caution because the pharmacologically predictable sympathetic effects of Metformin may be potentiated").toDF("text")
+val data = Seq("""When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced. If additional adrenergic drugs are to be administered by any route, they should be used with caution because the pharmacologically predictable sympathetic effects of Metformin may be potentiated""").toDS.toDF("text")
+
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.relation.drug_drug_interaction").predict("""When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced. \
+If additional adrenergic drugs are to be administered by any route, \
+they should be used with caution because the pharmacologically predictable sympathetic effects of Metformin may be potentiated""")
+```
+
 </div>
 
+
 ## Results
+
 
 ```bash
 |    | relation   | entity1   |   entity1_begin |   entity1_end | chunk1        | entity2   |   entity2_begin |   entity2_end | chunk2       |   confidence |
@@ -163,8 +188,10 @@ val result = pipeline.fit(data).transform(data)
 |  0 | DDI-advise | DRUG      |               5 |            17 | carbamazepine | DRUG      |              62 |            73 | aripiprazole |      0.99238 |
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -175,11 +202,15 @@ val result = pipeline.fit(data).transform(data)
 |Language:|en|
 |Case sensitive:|true|
 
+
 ## Data Source
+
 
 Trained on DDI Extraction corpus.
 
+
 ## Benchmarking
+
 
 ```bash
 Relation           Recall Precision        F1   Support
@@ -188,5 +219,8 @@ DDI-effect          0.759     0.754     0.756       348
 DDI-false           0.977     0.957     0.967      4097
 DDI-int             0.175     0.458     0.253        63
 DDI-mechanism       0.783     0.853     0.816       281
-Avg.                0.690     0.779     0.721
+Avg.                0.690     0.779     0.721        -
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTc3MzUyMTY2M119
+-->

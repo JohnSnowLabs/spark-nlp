@@ -27,10 +27,14 @@ const toSearchString = (params) => {
             acc.append(k, params[k]);
           }
           break;
+        case 'recommended':
+          break;
         default:
           acc.append(k, params[k]);
           break;
       }
+    } else {
+      if (k === 'recommended') acc.append(k, Number(params[k]));
     }
     return acc;
   }, new URLSearchParams());
@@ -64,7 +68,7 @@ const fromSearchString = () => {
         break;
 
       case 'supported':
-        if (params[key] === '1') {
+        if (searchParams.get(key) === '1') {
           params[key] = true;
         }
         break;
@@ -74,6 +78,8 @@ const fromSearchString = () => {
         break;
     }
   });
+  params['recommended'] =
+    !searchParams.has('recommended') || searchParams.get('recommended') !== '0';
   return params;
 };
 

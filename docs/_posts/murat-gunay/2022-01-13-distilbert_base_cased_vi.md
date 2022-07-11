@@ -60,6 +60,14 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 val data = Seq("Tôi yêu Spark NLP").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("vi.embed.distilbert.cased").predict("""Tôi yêu Spark NLP""")
+```
+
 </div>
 
 ## Results

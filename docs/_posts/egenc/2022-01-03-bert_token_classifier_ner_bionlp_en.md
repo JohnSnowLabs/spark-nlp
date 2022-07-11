@@ -15,25 +15,35 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 This model extracts biological and genetics terms in cancer-related texts using pre-trained NER model. This model is trained with the `BertForTokenClassification` method from the `transformers` library and imported into Spark NLP.
 
+
 ## Predicted Entities
 
+
 `Amino_acid`, `Anatomical_system`, `Cancer`, `Cell`, `Cellular_component`, `Developing_anatomical_Structure`, `Gene_or_gene_product`, `Immaterial_anatomical_entity`, `Multi-tissue_structure`, `Organ`, `Organism`, `Organism_subdivision`, `Simple_chemical`, `Tissue`
+
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_bionlp_en_3.4.0_2.4_1641222741515.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -82,13 +92,24 @@ val ner_converter = new NerConverter()
     .setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
-val data = Seq("Both the erbA IRES and the erbA/myb virus constructs transformed erythroid cells after infection of bone marrow or blastoderm cultures. The erbA/myb IRES virus exhibited a 5-10-fold higher transformed colony forming efficiency than the erbA IRES virus in the blastoderm assay.").toDF("text")
+
+val data = Seq("""Both the erbA IRES and the erbA/myb virus constructs transformed erythroid cells after infection of bone marrow or blastoderm cultures. The erbA/myb IRES virus exhibited a 5-10-fold higher transformed colony forming efficiency than the erbA IRES virus in the blastoderm assay.""").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.token_bert.bionlp").predict("""Both the erbA IRES and the erbA/myb virus constructs transformed erythroid cells after infection of bone marrow or blastoderm cultures. The erbA/myb IRES virus exhibited a 5-10-fold higher transformed colony forming efficiency than the erbA IRES virus in the blastoderm assay.""")
+```
+
 </div>
 
+
 ## Results
+
 
 ```bash
 +-------------------+----------------------+
@@ -105,8 +126,10 @@ val result = pipeline.fit(data).transform(data)
 +-------------------+----------------------+
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -121,15 +144,18 @@ val result = pipeline.fit(data).transform(data)
 |Case sensitive:|true|
 |Max sentense length:|256|
 
+
 ## Data Source
+
 
 Trained on Cancer Genetics (CG) task of the BioNLP Shared Task 2013. https://aclanthology.org/W13-2008/
 
+
 ## Benchmarking
 
-```bash
-                                   precision    recall  f1-score   support
 
+```bash
+                            Label  precision    recall  f1-score   support
                          B-Cancer       0.88      0.82      0.85       924
                            B-Cell       0.84      0.86      0.85      1013
              B-Cellular_component       0.87      0.84      0.86       180
@@ -154,9 +180,10 @@ B-Developing_anatomical_structure       0.65      0.65      0.65        17
              I-Organism_substance       0.80      0.50      0.62        24
          I-Pathological_formation       0.81      0.56      0.67        39
                          I-Tissue       0.83      0.86      0.84       111
-
-
-                         accuracy                           0.64     12129
-                        macro avg       0.73      0.56      0.60     12129
-                     weighted avg       0.83      0.64      0.68     12129
+                         accuracy       -         -         0.64     12129
+                        macro-avg       0.73      0.56      0.60     12129
+                     weighted-avg       0.83      0.64      0.68     12129
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTE0MjY2ODg3NDddfQ==
+-->

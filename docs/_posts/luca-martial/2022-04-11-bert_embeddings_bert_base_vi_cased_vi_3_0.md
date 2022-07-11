@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Vietnamese Bert Embeddings (from Geotrend)
+title: Vietnamese Bert Embeddings
 author: John Snow Labs
 name: bert_embeddings_bert_base_vi_cased
 date: 2022-04-11
@@ -10,6 +10,7 @@ language: vi
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("Tôi yêu Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("vi.embed.bert_cased").predict("""Tôi yêu Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

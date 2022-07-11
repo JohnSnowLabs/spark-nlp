@@ -30,7 +30,7 @@ A pre-trained pipeline containing NerDl Model. The NER model trained on OntoNote
 ## How to use
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 from sparknlp.pretrained import PretrainedPipeline
@@ -46,6 +46,14 @@ val pipeline = new PretrainedPipeline("onto_recognize_entities_electra_large")
 
 val result = pipeline.annotate("Johnson first entered politics when elected in 2001 as a member of Parliament. He then served eight years as the mayor of London, from 2008 to 2016, before rejoining Parliament.")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.ner.onto.large").predict("""Johnson first entered politics when elected in 2001 as a member of Parliament. He then served eight years as the mayor of London, from 2008 to 2016, before rejoining Parliament.""")
+```
+
 </div>
 
 {:.h2_title}

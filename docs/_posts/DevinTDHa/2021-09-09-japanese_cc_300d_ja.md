@@ -107,6 +107,14 @@ val model = pipeline.fit(data)
 val result = model.transform(data)
 result.selectExpr("explode(arrays_zip(embeddings.result, embeddings.embeddings))").show()
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ja.embed.glove.cc_300d").predict("""explode(arrays_zip(embeddings.result, embeddings.embeddings))""")
+```
+
 </div>
 
 ## Results

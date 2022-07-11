@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English RoBERTa Embeddings (from coastalcph)
+title: English RoBERTa Embeddings (ECtHR dataset)
 author: John Snow Labs
 name: roberta_embeddings_fairlex_ecthr_minilm
 date: 2022-04-14
@@ -68,6 +68,14 @@ val data = Seq("I love Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.fairlex_ecthr_minilm").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

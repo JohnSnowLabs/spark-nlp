@@ -76,6 +76,14 @@ val pipelineModel= new PipelineModel().setStages(Array(documentAssembler, sbert_
 val rxnorm_lp = LightPipeline(pipelineModel)
 val result = rxnorm_lp.fullAnnotate("alizapride 25 mg/ml")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.rxnorm.disposition").predict("""alizapride 25 mg/ml""")
+```
+
 </div>
 
 ## Results

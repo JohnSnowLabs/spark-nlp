@@ -78,6 +78,14 @@ cyberbull_df[["document", "cyberbullying"]]
 
 ```
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.cyberbullying").predict("""@geeky_zekey Thanks for showing again that blacks are the biggest racists. Blocked""")
+```
+
 </div>
 
 ## Results

@@ -49,6 +49,18 @@ Annotationlab 3.0.0 gives users the ability to view the list of all active serve
    - Usage: Let the user know the usage of the server. A server can be used for preannotation, training or OCR.
    - Deployed by: The user who deployed the server. This information might be useful for contacting the user who deployed a server before deleting it.
    - Deployed at: The deployed time of the server.
-
-        
+       
 ![server_page](https://user-images.githubusercontent.com/26042994/161711565-798bf34d-92ba-41c8-b0b8-2778a3e61561.gif)
+
+#### Statuses of Training and Preannotation Server
+A new column, status, is added to the server page that gives the status of training and preannotation servers. The available preannotation server statuses are:
+* green=idle
+* yellow=busy
+* red=stopped
+
+Users can visualize which servers is busy and which are idle. This is very useful information when the user intends to deploy a new server in replacement of an idle one. In this situation, the user can delete an idle server and deploy another preannotation/ training server.
+This information is also available on the preannotation popup when the user selects the deployed server to use for preannotation.
+<img class="image image--xl" src="/assets/images/annotation_lab/serverStatus1.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+Also, if any issues are encountered during server initialization, those are displayed on mouse-over the status value. Depending on the issue, changes might be required in the infrastructure settings and user will have to manually redeploy the training/preannotation server.
+<img class="image image--xl" src="/assets/images/annotation_lab/serverStatus2.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>

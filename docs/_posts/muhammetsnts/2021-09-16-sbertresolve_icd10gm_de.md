@@ -72,6 +72,14 @@ val icd10gm_pipelineModel = new PipelineModel().setStages(Array(documentAssemble
 
 val icd_lp = LightPipeline(icd10gm_pipelineModel)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("de.resolve.icd10gm").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results

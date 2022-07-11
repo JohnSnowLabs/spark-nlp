@@ -44,6 +44,14 @@ val embeddings = BertEmbeddings.pretrained("bert_biolink_large", "en")
       .setInputCols(Array("sentence", "token"))
       .setOutputCol("embeddings")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.ge").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

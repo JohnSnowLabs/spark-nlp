@@ -75,6 +75,14 @@ val light_pipeline = LightPipeline(fr_sentiment_pipeline.fit(spark.createDataFra
 val result1 = light_pipeline.annotate("Mignolet vraiment dommage de ne jamais le voir comme titulaire")
 val result2 = light_pipeline.annotate("Je me sens bien, je suis heureux d'être de retour.")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("fr.classify.sentiment.bert").predict("""Mignolet vraiment dommage de ne jamais le voir comme titulaire""")
+```
+
 </div>
 
 ## Results

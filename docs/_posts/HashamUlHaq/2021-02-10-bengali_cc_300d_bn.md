@@ -40,6 +40,14 @@ embeddings = WordEmbeddingsModel.pretrained("bengali_cc_300d", "bn") \
         .setOutputCol("embeddings")
 ```
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("bn.embed").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results

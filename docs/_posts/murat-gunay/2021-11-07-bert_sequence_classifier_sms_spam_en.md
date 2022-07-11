@@ -108,5 +108,6 @@ val result = pipeline.fit(example).transform(example)
 ## Benchmarking
 
 ```bash
-Validation Accuracy: 0.98
+   label  score
+accuracy   0.98
 ```

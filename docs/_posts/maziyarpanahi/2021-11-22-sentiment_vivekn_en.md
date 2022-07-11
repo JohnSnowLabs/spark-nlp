@@ -103,6 +103,14 @@ val pipelineModel = pipeline.fit(data)
 val result = pipelineModel.transform(data)
 result.select("final_sentiment").show(false)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.sentiment.vivekn").predict("""Dont waste your time!!!""")
+```
+
 </div>
 
 ## Results

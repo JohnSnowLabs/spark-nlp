@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Telugu Bert Embeddings (from kuppuluri)
+title: Telugu Bert Embeddings
 author: John Snow Labs
 name: bert_embeddings_telugu_bertu
 date: 2022-04-11
@@ -10,6 +10,7 @@ language: te
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("నేను స్పార్క్ nlp ను ప్రేమ
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("te.embed.telugu_bertu").predict("""నేను స్పార్క్ nlp ను ప్రేమిస్తున్నాను""")
+```
+
 </div>
 
 {:.model-param}

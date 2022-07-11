@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Clinical Deidentification
+title: Clinical Deidentification Pipeline (English)
 author: John Snow Labs
 name: clinical_deidentification
 date: 2022-03-03
@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP for Healthcare 3.4.1
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

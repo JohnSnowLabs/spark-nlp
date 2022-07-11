@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Japanese Bert Embeddings (from KoichiYasuoka)
+title: Japanese Bert Embeddings (Large)
 author: John Snow Labs
 name: bert_embeddings_bert_large_japanese_char_extended
 date: 2022-04-11
@@ -68,6 +68,14 @@ val data = Seq("私はSpark NLPを愛しています").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ja.embed.bert_large_japanese_char_extended").predict("""私はSpark NLPを愛しています""")
+```
+
 </div>
 
 {:.model-param}

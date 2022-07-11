@@ -167,6 +167,14 @@ vat sampleText = Array("The patient was given metformin 500 mg, 2.5 mg of coumad
               "The patient was given metformin 400 mg, coumadin 5 mg, coumadin, amlodipine 10 MG")
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.rxnorm.augmented_re").predict("""The patient was given metformin 400 mg, coumadin 5 mg, coumadin, amlodipine 10 MG""")
+```
+
 </div>
 
 ## Results

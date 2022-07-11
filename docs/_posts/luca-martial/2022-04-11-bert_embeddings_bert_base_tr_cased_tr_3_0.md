@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Turkish Bert Embeddings (from Geotrend)
+title: Turkish Bert Embeddings
 author: John Snow Labs
 name: bert_embeddings_bert_base_tr_cased
 date: 2022-04-11
@@ -10,6 +10,7 @@ language: tr
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("Spark NLP'yi seviyorum").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("tr.embed.bert_cased").predict("""Spark NLP'yi seviyorum""")
+```
+
 </div>
 
 {:.model-param}

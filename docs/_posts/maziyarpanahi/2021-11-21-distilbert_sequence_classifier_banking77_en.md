@@ -80,6 +80,14 @@ val example = Seq("I am still waiting on my card?").toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.distilbert_sequence.banking77").predict("""I am still waiting on my card?""")
+```
+
 </div>
 
 {:.model-param}

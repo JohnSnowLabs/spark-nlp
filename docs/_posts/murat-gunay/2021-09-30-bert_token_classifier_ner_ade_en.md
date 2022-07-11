@@ -15,28 +15,37 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 Detect adverse reactions of drugs in reviews, tweets, and medical text using the pretrained NER model. This model is trained with the `BertForTokenClassification` method from the `transformers` library and imported into Spark NLP.
 
+
 ## Predicted Entities
 
+
 `DRUG`, `ADE`
+
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_BERT_TOKEN_CLASSIFIER/){:.button.button-orange}{:target="_blank"}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_ade_en_3.2.2_2.4_1633008677011.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 ...
-
 tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_ade", "en", "clinical/models")\
   .setInputCols("token", "document")\
   .setOutputCol("ner")\
@@ -55,25 +64,34 @@ result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sen
 ```
 ```scala
 ...
-
 val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_ade", "en", "clinical/models")
   .setInputCols("token", "document")
   .setOutputCol("ner")
   .setCaseSensitive(True)
 
-val ner_converter = NerConverter()
+val ner_converter = new NerConverter()
   .setInputCols(Array("document","token","ner"))
   .setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
 
-val data = Seq("Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps").toDF("text")
+val data = Seq("""Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps""").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.token_bert.ner_ade").predict("""Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps""")
+```
+
 </div>
 
+
 ## Results
+
 
 ```bash
 +--------------+---------+
@@ -86,8 +104,10 @@ val result = pipeline.fit(data).transform(data)
 +--------------+---------+
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -101,22 +121,26 @@ val result = pipeline.fit(data).transform(data)
 |Case sensitive:|true|
 |Max sentense length:|512|
 
+
 ## Data Source
+
 
 This model is trained on a custom dataset by John Snow Labs.
 
+
 ## Benchmarking
 
-```bash
-              precision    recall  f1-score   support
 
+```bash
+       label  precision    recall  f1-score   support
        B-ADE       0.93      0.79      0.85      2694
       B-DRUG       0.97      0.87      0.92      9539
        I-ADE       0.93      0.73      0.82      3236
       I-DRUG       0.95      0.82      0.88      6115
-           O       0.00      0.00      0.00         0
-
-    accuracy                           0.83     21584
-   macro avg       0.84      0.84      0.84     21584
-weighted avg       0.95      0.83      0.89     21584
+    accuracy       -         -         0.83     21584
+   macro-avg       0.84      0.84      0.84     21584
+weighted-avg       0.95      0.83      0.89     21584
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTU4NzIyMDQyOF19
+-->

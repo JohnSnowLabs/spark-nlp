@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Bert Embeddings
+title: English Bert Embeddings (Large, Cased)
 author: John Snow Labs
 name: bert_embeddings_bert_large_cased_whole_word_masking
 date: 2022-04-11
@@ -68,6 +68,14 @@ val data = Seq("I love Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.bert_large_cased_whole_word_masking").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

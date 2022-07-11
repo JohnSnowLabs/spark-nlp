@@ -35,7 +35,7 @@ In the table below, `re_temporal_events_clinical` RE model, its labels, optimal 
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 
@@ -72,6 +72,14 @@ val data = Seq("The patient is a 56-year-old right-handed female with longstandi
 val result = pipeline.fit(data).transform(data)
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.relation.temporal_events_clinical").predict("""The patient is a 56-year-old right-handed female with longstanding intermittent right low back pain, who was involved in a motor vehicle accident in September of 2005. At that time, she did not notice any specific injury, but five days later, she started getting abnormal right low back pain.""")
+```
+
 </div>
 
 {:.h2_title}

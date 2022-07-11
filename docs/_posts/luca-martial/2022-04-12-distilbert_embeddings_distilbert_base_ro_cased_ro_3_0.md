@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Romanian DistilBERT Embeddings (from Geotrend)
+title: Romanian DistilBERT Embeddings
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_ro_cased
 date: 2022-04-12
@@ -10,6 +10,7 @@ language: ro
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("Îmi place Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ro.embed.distilbert_base_cased").predict("""Îmi place Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

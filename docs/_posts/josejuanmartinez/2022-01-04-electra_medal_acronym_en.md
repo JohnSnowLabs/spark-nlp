@@ -72,6 +72,14 @@ val embeddings = BertEmbeddings.pretrained("electra_medal_acronym", "en")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings))
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.electra.medical").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

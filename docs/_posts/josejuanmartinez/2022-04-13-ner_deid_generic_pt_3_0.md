@@ -146,6 +146,26 @@ val df = Seq(text).toDF("text")
 
 val results = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("pt.med_ner.deid.generic").predict("""
+Detalhes do paciente.
+Nome do paciente:  Pedro Gonçalves
+NHC: 2569870.
+Endereço: Rua Das Flores 23.
+Cidade/ Província: Porto.
+Código Postal: 21754-987.
+Dados de cuidados.
+Data de nascimento: 10/10/1963.
+Idade: 53 anos Sexo: Homen
+Data de admissão: 17/06/2016.
+Doutora: Maria Santos
+""")
+```
+
 </div>
 
 
@@ -245,7 +265,7 @@ val results = pipeline.fit(data).transform(data)
 
 
 ```bash
-    entity      tp     fp     fn   total  precision  recall      f1 
+     label      tp     fp     fn   total  precision  recall      f1 
    CONTACT   191.0    2.0    2.0   193.0     0.9896  0.9896  0.9896 
       NAME  2640.0   82.0   52.0  2692.0     0.9699  0.9807  0.9752 
       DATE  1316.0   24.0    5.0  1321.0     0.9821  0.9962  0.9891 
@@ -257,7 +277,3 @@ PROFESSION   249.0   17.0   27.0   276.0     0.9361  0.9022  0.9188
      macro       -      -      -       -          -       -  0.9636 
      macro       -      -      -       -          -       -  0.9736 
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbMTU1NzI0NzM2NywxOTkyNzU1MDA3LDEwND
-I4ODc5ODEsLTk0NzM2MTY5MF19
--->

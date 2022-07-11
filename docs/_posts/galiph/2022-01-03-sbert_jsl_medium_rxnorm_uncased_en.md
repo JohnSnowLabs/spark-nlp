@@ -44,6 +44,14 @@ val sentence_embeddings = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_rx
       .setInputCols("sentence")
       .setOutputCol("sbert_embeddings")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed_sentence.bert_uncased.rxnorm").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results

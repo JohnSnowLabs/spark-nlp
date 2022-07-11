@@ -100,6 +100,14 @@ val data = Seq("The patient took Advil and he experienced an adverse reaction.")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.gender.seq_biobert").predict("""The patient took Advil and he experienced an adverse reaction.""")
+```
+
 </div>
 
 

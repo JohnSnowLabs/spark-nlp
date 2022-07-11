@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Japanese Bert Embeddings (from cl-tohoku)
+title: Japanese Bert Embeddings (Base, Whole Word Masking)
 author: John Snow Labs
 name: bert_embeddings_bert_base_japanese_whole_word_masking
 date: 2022-04-11
@@ -10,6 +10,7 @@ language: ja
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("私はSpark NLPを愛しています").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ja.embed.bert_base_japanese_whole_word_masking").predict("""私はSpark NLPを愛しています""")
+```
+
 </div>
 
 {:.model-param}

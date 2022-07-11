@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Russian RoBERTa Embeddings (from sberbank-ai)
+title: Russian RoBERTa Embeddings
 author: John Snow Labs
 name: roberta_embeddings_ruRoberta_large
 date: 2022-04-14
@@ -10,6 +10,7 @@ language: ru
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("Я люблю искра NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ru.embed.ruRoberta_large").predict("""Я люблю искра NLP""")
+```
+
 </div>
 
 {:.model-param}

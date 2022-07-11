@@ -18,14 +18,6 @@ jobs:
           ruby-version: 2.7
           working-directory: docs
           bundler-cache: true
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 14
-          cache: yarn
-          cache-dependency-path: docs/_frontend/yarn.lock
-      - name: Install global package
-        run: |
-          sudo npm install -g parse-markdown-table-cli@0.0.6
       - name: Index changed posts
         env:
           ELASTICSEARCH_URL: ${{ secrets.ELASTICSEARCH_URL }}
@@ -35,6 +27,11 @@ jobs:
           git diff --name-only ${{github.event.before}}..${{github.event.after}} > changes.txt
           git diff --name-only ${{github.event.after}}..${{github.event.before}} >> changes.txt
           bundle exec jekyll build
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+          cache: yarn
+          cache-dependency-path: docs/_frontend/yarn.lock
       - name: Build frontend
         working-directory: docs/_frontend
         run: |

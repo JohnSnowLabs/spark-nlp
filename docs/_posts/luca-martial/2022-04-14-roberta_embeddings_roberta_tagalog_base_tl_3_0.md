@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Tagalog RoBERTa Embeddings (from jcblaise)
+title: Tagalog RoBERTa Embeddings (Base)
 author: John Snow Labs
 name: roberta_embeddings_roberta_tagalog_base
 date: 2022-04-14
@@ -10,6 +10,7 @@ language: tl
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("Gustung-gusto ko ang Spark NLP.").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("tl.embed.roberta_tagalog_base").predict("""Gustung-gusto ko ang Spark NLP.""")
+```
+
 </div>
 
 {:.model-param}

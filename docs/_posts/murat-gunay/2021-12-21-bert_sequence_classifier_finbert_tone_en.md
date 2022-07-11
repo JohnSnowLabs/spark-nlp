@@ -73,6 +73,14 @@ val example = Seq.empty["Growth is strong and we have plenty of liquidity."].toD
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.finance_sentiment").predict("""Growth is strong and we have plenty of liquidity.""")
+```
+
 </div>
 
 ## Results

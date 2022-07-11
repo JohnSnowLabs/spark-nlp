@@ -15,25 +15,35 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 Extract relations between clinical events in terms of time. If an event occurred before, after, or overlaps another event.
 
+
 ## Predicted Entities
 
+
 `AFTER`, `BEFORE`, `OVERLAP`
+
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL_EVENTS/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_temporal_events_biobert_en_3.0.3_2.4_1627121501681.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 ...
 documenter = DocumentAssembler()\
@@ -87,20 +97,22 @@ pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_
 text = "She is diagnosed with cancer in 1991. Then she was admitted to Mayo Clinic in May 2000 and discharged in October 2001"
 
 data = spark.createDataFrame([[text]]).toDF("text")
+
 p_model = pipeline.fit(data)
+
 result = p_model.transform(data)
 ```
 ```scala
 ...
-val documenter = DocumentAssembler() 
+val documenter = new DocumentAssembler() 
     .setInputCol("text") 
     .setOutputCol("document")
 
-val sentencer = SentenceDetector()
+val sentencer = new SentenceDetector()
     .setInputCols("document")
     .setOutputCol("sentences")
 
-val tokenizer = sparknlp.annotators.Tokenizer()
+val tokenizer = new Tokenizer()
     .setInputCols("sentences")
     .setOutputCol("tokens")
 
@@ -118,7 +130,7 @@ val ner_tagger = MedicalNerModel.pretrained("ner_events_clinical", "en", "clinic
     .setInputCols(Array("sentences", "tokens", "embeddings"))
     .setOutputCol("ner_tags") 
     
-val ner_converter = NerConverter()
+val ner_converter = new NerConverter()
     .setInputCols(Array("sentences", "tokens", "ner_tags"))
     .setOutputCol("ner_chunks")
     
@@ -143,12 +155,23 @@ val re_model = RelationExtractionDLModel()
     
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
 
-val data = Seq("She is diagnosed with cancer in 1991. Then she was admitted to Mayo Clinic in May 2000 and discharged in October 2001").toDF("text")
+val data = Seq("""She is diagnosed with cancer in 1991. Then she was admitted to Mayo Clinic in May 2000 and discharged in October 2001""").toDS.toDF("text")
+
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.relation.temporal_events").predict("""She is diagnosed with cancer in 1991. Then she was admitted to Mayo Clinic in May 2000 and discharged in October 2001""")
+```
+
 </div>
 
+
 ## Results
+
 
 ```bash
 |    |     | relation   | entity1    |   entity1_begin |   entity1_end | chunk1   | entity2       |   entity2_begin |   entity2_end | chunk2      |   confidence |
@@ -158,8 +181,10 @@ val result = pipeline.fit(data).transform(data)
 |  2 |   2 | BEFORE     | OCCURRENCE |              49 |            56 | admitted | OCCURRENCE    |              89 |            98 | discharged  |     0.63638  |
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -170,16 +195,23 @@ val result = pipeline.fit(data).transform(data)
 |Language:|en|
 |Case sensitive:|true|
 
+
 ## Data Source
+
 
 Trained on temporal clinical events benchmark dataset.
 
+
 ## Benchmarking
+
 
 ```bash
 Relation           Recall Precision        F1   Support
 AFTER               0.332     0.655     0.440      2123
 BEFORE              0.868     0.908     0.887     13817
 OVERLAP             0.887     0.733     0.802      7860
-Avg.                0.695     0.765     0.710
+Avg.                0.695     0.765     0.710		-
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTExODgyMDYyMDddfQ==
+-->

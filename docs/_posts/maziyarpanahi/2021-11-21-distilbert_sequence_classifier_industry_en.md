@@ -78,6 +78,14 @@ val example = Seq("Stellar Capital Services Limited is an India-based non-bankin
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.distilbert_sequence.industry").predict("""Stellar Capital Services Limited is an India-based non-banking financial company ... loan against property, management consultancy, personal loans and unsecured loans.""")
+```
+
 </div>
 
 {:.model-param}

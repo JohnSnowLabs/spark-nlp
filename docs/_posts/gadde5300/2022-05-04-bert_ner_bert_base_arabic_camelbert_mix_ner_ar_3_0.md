@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Arabic Named Entity Recognition (from CAMeL-Lab)
+title: Arabic Named Entity Recognition (Modern Standard Arabic-MSA, Dialectal Arabic-DA and Classical Arabic-CA)
 author: John Snow Labs
 name: bert_ner_bert_base_arabic_camelbert_mix_ner
 date: 2022-05-04
@@ -10,6 +10,7 @@ language: ar
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -80,6 +81,14 @@ val data = Seq("أنا أحب الشرارة NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ar.ner.arabic_camelbert_mix_ner").predict("""أنا أحب الشرارة NLP""")
+```
+
 </div>
 
 {:.model-param}

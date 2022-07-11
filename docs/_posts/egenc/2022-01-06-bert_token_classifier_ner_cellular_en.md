@@ -15,25 +15,35 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 This model detects molecular biology-related terms in medical texts. This model is trained with the `BertForTokenClassification` method from the `transformers` library and imported into Spark NLP.
 
+
 ## Predicted Entities
 
+
 `DNA`, `Cell_type`, `Cell_line`, `RNA`, `Protein`
+
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_cellular_en_3.3.4_2.4_1641455594142.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 ...
 tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_cellular", "en", "clinical/models")\
@@ -73,13 +83,23 @@ val ner_converter = new NerConverter()
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
 
-val data = Seq("Detection of various other intracellular signaling proteins is also described. Genetic characterization of transactivation of the human T-cell leukemia virus type 1 promoter: Binding of Tax to Tax-responsive element 1 is mediated by the cyclic AMP-responsive members of the CREB/ATF family of transcription factors. To achieve a better understanding of the mechanism of transactivation by Tax of human T-cell leukemia virus type 1 Tax-responsive element 1 (TRE-1), we developed a genetic approach with Saccharomyces cerevisiae. We constructed a yeast reporter strain containing the lacZ gene under the control of the CYC1 promoter associated with three copies of TRE-1. Expression of either the cyclic AMP response element-binding protein (CREB) or CREB fused to the GAL4 activation domain (GAD) in this strain did not modify the expression of the reporter gene. Tax alone was also inactive.").toDF("text")
+val data = Seq("""Detection of various other intracellular signaling proteins is also described. Genetic characterization of transactivation of the human T-cell leukemia virus type 1 promoter: Binding of Tax to Tax-responsive element 1 is mediated by the cyclic AMP-responsive members of the CREB/ATF family of transcription factors. To achieve a better understanding of the mechanism of transactivation by Tax of human T-cell leukemia virus type 1 Tax-responsive element 1 (TRE-1), we developed a genetic approach with Saccharomyces cerevisiae. We constructed a yeast reporter strain containing the lacZ gene under the control of the CYC1 promoter associated with three copies of TRE-1. Expression of either the cyclic AMP response element-binding protein (CREB) or CREB fused to the GAL4 activation domain (GAD) in this strain did not modify the expression of the reporter gene. Tax alone was also inactive.""").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.token_bert.cellular").predict("""Detection of various other intracellular signaling proteins is also described. Genetic characterization of transactivation of the human T-cell leukemia virus type 1 promoter: Binding of Tax to Tax-responsive element 1 is mediated by the cyclic AMP-responsive members of the CREB/ATF family of transcription factors. To achieve a better understanding of the mechanism of transactivation by Tax of human T-cell leukemia virus type 1 Tax-responsive element 1 (TRE-1), we developed a genetic approach with Saccharomyces cerevisiae. We constructed a yeast reporter strain containing the lacZ gene under the control of the CYC1 promoter associated with three copies of TRE-1. Expression of either the cyclic AMP response element-binding protein (CREB) or CREB fused to the GAL4 activation domain (GAD) in this strain did not modify the expression of the reporter gene. Tax alone was also inactive.""")
+```
+
 </div>
 
+
 ## Results
+
 
 ```bash
 +-----------------------------------------------------------+---------+
@@ -108,8 +128,10 @@ val result = pipeline.fit(data).transform(data)
 +-----------------------------------------------------------+---------+
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -124,15 +146,18 @@ val result = pipeline.fit(data).transform(data)
 |Case sensitive:|true|
 |Max sentense length:|512|
 
+
 ## Data Source
+
 
 Trained on Cancer Genetics (CG) task of the BioNLP Shared Task 2013. https://aclanthology.org/W13-2008/
 
+
 ## Benchmarking
 
-```bash
-              precision    recall  f1-score   support
 
+```bash
+       label  precision    recall  f1-score   support
        B-DNA       0.87      0.77      0.82      1056
        B-RNA       0.85      0.79      0.82       118
  B-cell_line       0.66      0.70      0.68       500
@@ -143,9 +168,7 @@ Trained on Cancer Genetics (CG) task of the BioNLP Shared Task 2013. https://acl
  I-cell_line       0.67      0.76      0.71       989
  I-cell_type       0.92      0.76      0.84      2991
    I-protein       0.94      0.80      0.87      4774
-
-    accuracy                           0.80     19392
-   macro avg       0.76      0.81      0.78     19392
-weighted avg       0.89      0.80      0.85     19392
-
+    accuracy       -         -         0.80     19392
+   macro-avg       0.76      0.81      0.78     19392
+weighted-avg       0.89      0.80      0.85     19392
 ```

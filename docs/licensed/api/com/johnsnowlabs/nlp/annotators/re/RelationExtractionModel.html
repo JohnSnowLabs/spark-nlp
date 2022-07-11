@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.5.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel</title>
-          <meta name="description" content="Spark NLP 3.5.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" />
-          <meta name="keywords" content="Spark NLP 3.5.3 ScalaDoc com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" />
+          <title>Spark NLP 4.0.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel</title>
+          <meta name="description" content="Spark NLP 4.0.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" />
+          <meta name="keywords" content="Spark NLP 4.0.0 ScalaDoc com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.5.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.0.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -238,7 +238,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">RelationExtractionModel</span><span class="result"> extends <a href="../generic_classifier/GenericClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierModel">GenericClassifierModel</a></span>
+        <span class="name">RelationExtractionModel</span><span class="result"> extends <a href="../generic_classifier/GenericClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierModel">GenericClassifierModel</a> with <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</span></span>
       </span>
       </h4>
 
@@ -859,9 +859,9 @@ need to be defined with <a href="#setRelationPairs(relationPairs:Array[String]):
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasStorageRef</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel#customLabels" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
-      <a id="customLabels:com.johnsnowlabs.nlp.param.CustomLabels"></a><a id="customLabels:CustomLabels"></a>
+      <a id="customLabels:com.johnsnowlabs.nlp.serialization.MapFeature[String,String]"></a><a id="customLabels:MapFeature[String,String]"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RelationExtractionModel.html#customLabels:com.johnsnowlabs.nlp.param.CustomLabels" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RelationExtractionModel.html#customLabels:com.johnsnowlabs.nlp.serialization.MapFeature[String,String]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -870,7 +870,7 @@ need to be defined with <a href="#setRelationPairs(relationPairs:Array[String]):
         <span class="kind">var</span>
       </span>
       <span class="symbol">
-        <span class="name">customLabels</span><span class="result">: <a href="../../param/CustomLabels.html" class="extype" name="com.johnsnowlabs.nlp.param.CustomLabels">CustomLabels</a></span>
+        <span class="name">customLabels</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Custom relation labels
@@ -2327,6 +2327,22 @@ need to be defined with <a href="#setRelationPairs(relationPairs:Array[String]):
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../generic_classifier/GenericClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierModel">GenericClassifierModel</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel#setCustomLabels" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setCustomLabels(labels:java.util.HashMap[String,String]):RelationExtractionModel.this.type"></a><a id="setCustomLabels(HashMap[String,String]):RelationExtractionModel.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RelationExtractionModel.html#setCustomLabels(labels:java.util.HashMap[String,String]):RelationExtractionModel.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setCustomLabels</span><span class="params">(<span name="labels">labels: <span class="extype" name="java.util.HashMap">HashMap</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel">RelationExtractionModel</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel#setCustomLabels" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setCustomLabels(labels:scala.collection.immutable.Map[String,String]):RelationExtractionModel.this.type"></a><a id="setCustomLabels(Map[String,String]):RelationExtractionModel.this.type"></a>
       <span class="permalink">

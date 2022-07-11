@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Bangla Bert Embeddings (from sagorsarker)
+title: Bangla Bert Embeddings
 author: John Snow Labs
 name: bert_embeddings_bangla_bert_base
 date: 2022-04-11
@@ -10,6 +10,7 @@ language: bn
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("আমি স্পার্ক এনএলপি ভালো�
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("bn.embed.bangala_bert").predict("""আমি স্পার্ক এনএলপি ভালোবাসি""")
+```
+
 </div>
 
 {:.model-param}

@@ -15,13 +15,18 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 This model annotates named entities in a (Brazilian) legal text, that can be used to find features such as names of people, organizations, and jurisprudence. The model does not read words directly but instead reads word embeddings, which represent words as points such that more semantically similar words are closer together.
 
+
 This model uses the pre-trained `bert_portuguese_large_cased` embeddings model from `BertEmbeddings` annotator as an input, so be sure to use the same embeddings in the pipeline.
 
+
 ## Predicted Entities
+
 
 - `ORGANIZACAO` (Organizations)
 - `JURISPRUDENCIA` (Jurisprudence)
@@ -31,17 +36,23 @@ This model uses the pre-trained `bert_portuguese_large_cased` embeddings model f
 - `LEGISLACAO` (Laws)
 - `O` (Other)
 
+
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_LENER/){:.button.button-orange}
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_PT.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/lener_bert_large_pt_3.1.3_3.0_1627485196194.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler() \
     .setInputCol('text') \
@@ -72,14 +83,15 @@ pipeline = Pipeline(stages=[
 ])
 
 example = spark.createDataFrame(pd.DataFrame({'text': ["""diante do exposto , com fundamento nos artigos 32 , i , e 33 , da lei 8.443/1992 , submetem-se os autos à consideração superior , com posterior encaminhamento ao ministério público junto ao tcu e ao gabinete do relator , propondo : a ) conhecer do recurso e , no mérito , negar-lhe provimento ; b ) comunicar ao recorrente , ao superior tribunal militar e ao tribunal regional federal da 2ª região , a fim de fornecer subsídios para os processos judiciais 2001.34.00.024796-9 e 2003.34.00.044227-3 ; e aos demais interessados a deliberação que vier a ser proferida por esta corte ” ."""]}))
+
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
-val document_assembler = DocumentAssembler() 
+val document_assembler = new DocumentAssembler() 
     .setInputCol('text') 
     .setOutputCol('document')
 
-val tokenizer = Tokenizer() 
+val tokenizer = new Tokenizer() 
     .setInputCols(['document']) 
     .setOutputCol('token')
 
@@ -91,16 +103,21 @@ val ner_model = MedicalNerModel.pretrained('lener_bert_large', 'pt', 'clinical/m
     .setInputCols(['document', 'token', 'embeddings']) 
     .setOutputCol('ner')
 
-val ner_converter = NerConverter() 
+val ner_converter = new NerConverter() 
     .setInputCols(['document', 'token', 'ner']) 
     .setOutputCol('ner_chunk')
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, ner_model, ner_converter))
-val result = pipeline.fit(Seq.empty["diante do exposto , com fundamento nos artigos 32 , i , e 33 , da lei 8.443/1992 , submetem-se os autos à consideração superior , com posterior encaminhamento ao ministério público junto ao tcu e ao gabinete do relator , propondo : a ) conhecer do recurso e , no mérito , negar-lhe provimento ; b ) comunicar ao recorrente , ao superior tribunal militar e ao tribunal regional federal da 2ª região , a fim de fornecer subsídios para os processos judiciais 2001.34.00.024796-9 e 2003.34.00.044227-3 ; e aos demais interessados a deliberação que vier a ser proferida por esta corte ” ."].toDS.toDF("text")).transform(data)
+
+val data = Seq("""diante do exposto , com fundamento nos artigos 32 , i , e 33 , da lei 8.443/1992 , submetem-se os autos à consideração superior , com posterior encaminhamento ao ministério público junto ao tcu e ao gabinete do relator , propondo : a ) conhecer do recurso e , no mérito , negar-lhe provimento ; b ) comunicar ao recorrente , ao superior tribunal militar e ao tribunal regional federal da 2ª região , a fim de fornecer subsídios para os processos judiciais 2001.34.00.024796-9 e 2003.34.00.044227-3 ; e aos demais interessados a deliberação que vier a ser proferida por esta corte""").toDS.toDF("text")
+
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 
+
 ## Results
+
 
 ```bash
 +-------------------+----------------+
@@ -213,8 +230,10 @@ val result = pipeline.fit(Seq.empty["diante do exposto , com fundamento nos arti
 +-------------------+----------------+
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -227,33 +246,40 @@ val result = pipeline.fit(Seq.empty["diante do exposto , com fundamento nos arti
 |Language:|pt|
 |Dependencies:|bert_portuguese_large_cased|
 
+
 ## Data Source
 
+
 The model was trained on the LeNER-Br data set:
+
 
 > Pedro H. Luz de Araujo, Teófilo E. de Campos, Renato R. R. de Oliveira, Matheus Stauffer, Samuel Couto and Paulo Bermejo 
 > LeNER-Br: a Dataset for Named Entity Recognition in Brazilian Legal Text 
 > International Conference on the Computational Processing of Portuguese (PROPOR), September 24-26, Canela, Brazil, 2018.
 
+
 ## Benchmarking
 
+
 ```bash
-|                  | precision | recall | f1-score | support |
-|------------------|-----------|--------|----------|---------|
-| B-JURISPRUDENCIA | 0.91      | 0.90   | 0.90     | 175     |
-| B-LEGISLACAO     | 0.94      | 0.95   | 0.94     | 347     |
-| B-LOCAL          | 0.65      | 0.70   | 0.67     | 40      |
-| B-ORGANIZACAO    | 0.91      | 0.86   | 0.89     | 441     |
-| B-PESSOA         | 0.95      | 0.95   | 0.95     | 221     |
-| B-TEMPO          | 0.90      | 0.89   | 0.90     | 176     |
-| I-JURISPRUDENCIA | 0.93      | 0.91   | 0.92     | 461     |
-| I-LEGISLACAO     | 0.96      | 0.95   | 0.96     | 2012    |
-| I-LOCAL          | 0.34      | 0.57   | 0.43     | 72      |
-| I-ORGANIZACAO    | 0.93      | 0.86   | 0.89     | 768     |
-| I-PESSOA         | 0.95      | 0.98   | 0.96     | 461     |
-| I-TEMPO          | 0.93      | 0.79   | 0.85     | 66      |
-| O                | 0.99      | 1.00   | 0.99     | 38419   |
-| accuracy         |           |        | 0.99     | 43659   |
-| macro avg        | 0.87      | 0.87   | 0.87     | 43659   |
-| weighted avg     | 0.99      | 0.99   | 0.99     | 43659   |
+label             precision  recall  f1-score  support
+B-JURISPRUDENCIA  0.91       0.90    0.90      175    
+B-LEGISLACAO      0.94       0.95    0.94      347    
+B-LOCAL           0.65       0.70    0.67      40     
+B-ORGANIZACAO     0.91       0.86    0.89      441    
+B-PESSOA          0.95       0.95    0.95      221    
+B-TEMPO           0.90       0.89    0.90      176    
+I-JURISPRUDENCIA  0.93       0.91    0.92      461    
+I-LEGISLACAO      0.96       0.95    0.96      2012   
+I-LOCAL           0.34       0.57    0.43      72     
+I-ORGANIZACAO     0.93       0.86    0.89      768    
+I-PESSOA          0.95       0.98    0.96      461    
+I-TEMPO           0.93       0.79    0.85      66     
+O                 0.99       1.00    0.99      38419  
+accuracy          -          -       0.99      43659  
+macro-avg         0.87       0.87    0.87      43659  
+weighted-avg      0.99       0.99    0.99      43659  
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTUzMTA1MzQ1OV19
+-->

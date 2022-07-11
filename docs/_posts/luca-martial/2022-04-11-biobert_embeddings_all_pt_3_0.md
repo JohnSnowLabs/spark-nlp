@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Portuguese BioBERT Embeddings (from pucpr)
+title: Clinical Portuguese Bert Embeddings (Biomedical and Clinical)
 author: John Snow Labs
 name: biobert_embeddings_all
 date: 2022-04-11
@@ -10,6 +10,7 @@ language: pt
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("Odeio o cancro").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("pt.embed.gs_all").predict("""Odeio o cancro""")
+```
+
 </div>
 
 {:.model-param}

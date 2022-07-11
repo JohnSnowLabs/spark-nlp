@@ -34,17 +34,21 @@ The deep neural network architecture for assertion status detection in Spark NLP
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 ...
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
   .setInputCols(["sentence", "token"])\
   .setOutputCol("embeddings")
+
 clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
+
 ner_converter = NerConverter() \
   .setInputCols(["sentence", "token", "ner"]) \
   .setOutputCol("ner_chunk")
+
 clinical_assertion = AssertionDLModel.pretrained("assertion_jsl", "en", "clinical/models") \
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
@@ -59,21 +63,33 @@ result = model.transform(spark.createDataFrame([["The patient is a 21-day-old Ca
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
   .setInputCols(Array("sentence", "token"))
   .setOutputCol("embeddings")
+
 val clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")
   .setInputCols(Array("sentence", "token", "embeddings")) 
   .setOutputCol("ner")
-val nerConverter = NerConverter()
+
+val nerConverter = new NerConverter()
   .setInputCols(Array("sentence", "token", "ner"))
   .setOutputCol("ner_chunk")
+
 val clinical_assertion = AssertionDLModel.pretrained("assertion_jsl", "en", "clinical/models")
     .setInputCols(Array("sentence", "ner_chunk", "embeddings"))
     .setOutputCol("assertion")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, clinical_assertion))
 
-val data = Seq("The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.").toDF("text")
+val data = Seq("The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.").toDS.toDF("text")
+
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.assert.jsl").predict("""The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.""")
+```
+
 </div>
 
 ## Results
@@ -124,20 +140,20 @@ The output is a dataframe with a sentence per row and an `assertion` column cont
 
 Trained on 2010 i2b2/VA challenge on concepts, assertions, and relations in clinical text with ‘embeddings_clinical’. https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
 
+
 ## Benchmarking
 
 ```bash
-|    | label           | prec  | rec   | f1    |
-|---:|----------------:|------:|------:|------:|
-| 0 | Absent           | 0.970 | 0.943 | 0.956 |
-| 1 | Someoneelse      | 0.868 | 0.775 | 0.819 |
-| 2 | Planned          | 0.721 | 0.754 | 0.737 |
-| 3 | Possible         | 0.852 | 0.884 | 0.868 |
-| 4 | Past             | 0.811 | 0.823 | 0.817 |
-| 5 | Present          | 0.833 | 0.866 | 0.849 |
-| 6 | Family           | 0.872 | 0.921 | 0.896 |
-| 7 | None             | 0.609 | 0.359 | 0.452 |
-| 8 | Hypothetical     | 0.722 | 0.810 | 0.763 |
-| 9 | Macro-average    | 0.888 | 0.872 | 0.880 |
-|10| Micro-average    | 0.908 | 0.908 | 0.908 |
+label          prec   rec    f1   
+Absent         0.970  0.943  0.956
+Someoneelse    0.868  0.775  0.819
+Planned        0.721  0.754  0.737
+Possible       0.852  0.884  0.868
+Past           0.811  0.823  0.817
+Present        0.833  0.866  0.849
+Family         0.872  0.921  0.896
+None           0.609  0.359  0.452
+Hypothetical   0.722  0.810  0.763
+Macro-average  0.888  0.872  0.880
+Micro-average  0.908  0.908  0.908
 ```

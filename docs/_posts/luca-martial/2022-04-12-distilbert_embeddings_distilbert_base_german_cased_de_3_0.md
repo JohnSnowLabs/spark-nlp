@@ -10,6 +10,7 @@ language: de
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("Ich liebe Funken NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("de.embed.distilbert_base_german_cased").predict("""Ich liebe Funken NLP""")
+```
+
 </div>
 
 {:.model-param}

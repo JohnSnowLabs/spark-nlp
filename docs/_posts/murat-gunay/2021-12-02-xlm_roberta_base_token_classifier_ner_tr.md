@@ -90,6 +90,14 @@ val example = Seq.empty["Benim adım Cesur Yurttaş ve İstanbul'da yaşıyorum.
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("tr.ner.xlm_roberta").predict("""Benim adım Cesur Yurttaş ve İstanbul'da yaşıyorum.""")
+```
+
 </div>
 
 ## Results

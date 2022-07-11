@@ -66,6 +66,14 @@ val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, stop
 val data = Seq("Όντας δε θνητούς θνητά και φρονείν χρεών.").toDF("text")
 val results = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("grc.stopwords").predict("""Όντας δε θνητούς θνητά και φρονείν χρεών.""")
+```
+
 </div>
 
 ## Results

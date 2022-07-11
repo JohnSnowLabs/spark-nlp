@@ -79,6 +79,14 @@ val result_1 = light_pipeline.annotate("q1: What is your favorite movie? q2: Whi
 
 val result_2 = light_pipeline.annotate("q1: What is your favorite movie? q2: Which movie genre would you like to watch?")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.questionpair").predict("""q1: What is your favorite movie? q2: Which movie genre would you like to watch?""")
+```
+
 </div>
 
 ## Results
@@ -108,12 +116,10 @@ A custom dataset is used based on this source : "https://quoradata.quora.com/Fir
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
  almost_same       0.85      0.91      0.88     29652
     not_same       0.90      0.84      0.87     29634
-
-    accuracy                           0.88     59286
-   macro avg       0.88      0.88      0.88     59286
-weighted avg       0.88      0.88      0.88     59286
+    accuracy          -         -      0.88     59286
+   macro-avg       0.88      0.88      0.88     59286
+weighted-avg       0.88      0.88      0.88     59286
 ```

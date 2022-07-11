@@ -79,6 +79,14 @@ val pipelineModel= new PipelineModel().setStages(Array(document_assembler, sbert
 val l_model = LightPipeline(pipelineModel)
 val result = l_model.fullAnnotate(Array("coronary calcium score", "heart surgery", "ct scan", "bp value"))
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.clinical_snomed_procedures_measurements").predict("""coronary calcium score""")
+```
+
 </div>
 
 ## Results

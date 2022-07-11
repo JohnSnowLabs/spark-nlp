@@ -72,6 +72,14 @@ val data = Seq("Pentagram's Dominic Lippa is working on a new identity for Unive
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.token_bert.classifier_ner_btc").predict("""Pentagram's Dominic Lippa is working on a new identity for University of Arts London.""")
+```
+
 </div>
 
 ## Results
@@ -108,8 +116,7 @@ https://github.com/juand-r/entity-recognition-datasets/tree/master/data/BTC
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
        B-LOC       0.90      0.79      0.84       536
        B-ORG       0.80      0.79      0.79       821
        B-PER       0.95      0.62      0.75      1575
@@ -117,8 +124,7 @@ https://github.com/juand-r/entity-recognition-datasets/tree/master/data/BTC
        I-ORG       0.88      0.81      0.84       217
        I-PER       0.99      0.91      0.95       315
            O       0.97      0.99      0.98     26217
-
-    accuracy                           0.96     29862
-   macro avg       0.92      0.81      0.86     29862
-weighted avg       0.96      0.96      0.96     29862
+    accuracy          -         -      0.96     29862
+   macro-avg       0.92      0.81      0.86     29862
+weighted-avg       0.96      0.96      0.96     29862
 ```

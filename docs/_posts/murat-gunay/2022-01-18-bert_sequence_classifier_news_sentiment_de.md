@@ -72,6 +72,14 @@ val example = Seq.empty["Die Zahl der Flüchtlinge in Deutschland steigt von Tag
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("de.classify.news_sentiment.bert").predict("""Die Zahl der Flüchtlinge in Deutschland steigt von Tag zu Tag.""")
+```
+
 </div>
 
 ## Results

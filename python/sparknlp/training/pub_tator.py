@@ -13,8 +13,6 @@
 #  limitations under the License.
 """Contains helper classes for PubTator datasets."""
 
-from pyspark.sql import DataFrame
-
 from sparknlp.internal import ExtendedJavaWrapper
 
 
@@ -74,4 +72,5 @@ class PubTator(ExtendedJavaWrapper):
         jSession = spark._jsparkSession
 
         jdf = self._java_obj.readDataset(jSession, path, isPaddedToken)
-        return DataFrame(jdf, spark._wrapped)
+        dataframe = self.getDataFrame(spark, jdf)
+        return dataframe

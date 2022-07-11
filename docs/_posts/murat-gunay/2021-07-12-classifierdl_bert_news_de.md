@@ -72,6 +72,14 @@ val nlpPipeline = new Pipeline().setStages(Array(document, embeddings, document_
 val light_pipeline = LightPipeline(nlpPipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 val result = light_pipeline.annotate("Niki Lauda in einem McLaren MP 4/2 TAG Turbo. Mit diesem Gefährt sicherte sich der Österreicher 1984 seinen dritten Weltmeistertitel, einen halben (!)")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("de.classify.news").predict("""Niki Lauda in einem McLaren MP 4/2 TAG Turbo. Mit diesem Gefährt sicherte sich der Österreicher 1984 seinen dritten Weltmeistertitel, einen halben (!)""")
+```
+
 </div>
 
 ## Results

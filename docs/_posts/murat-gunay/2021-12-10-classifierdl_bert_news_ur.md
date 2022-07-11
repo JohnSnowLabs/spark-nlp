@@ -72,6 +72,14 @@ val light_pipeline = LightPipeline(nlpPipeline.fit(spark.createDataFrame([[""]])
 val result = light_pipeline.annotate("گزشتہ ہفتے ایپل کے حصص میں 11 فیصد اضافہ ہوا ہے۔")
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ur.classify.news").predict("""گزشتہ ہفتے ایپل کے حصص میں 11 فیصد اضافہ ہوا ہے۔""")
+```
+
 </div>
 
 ## Results
@@ -101,8 +109,7 @@ Combination of multiple open source data sets.
 ## Benchmarking
 
 ```bash
-               precision    recall  f1-score   support
-
+        label  precision    recall  f1-score   support
      business       0.83      0.86      0.85      2365
 entertainment       0.87      0.85      0.86      3081
        health       0.68      0.67      0.68       430
@@ -110,9 +117,7 @@ entertainment       0.87      0.85      0.86      3081
       science       0.62      0.60      0.61       558
        sports       0.88      0.89      0.89      4022
    weird_news       0.60      0.54      0.57       826
-
-     accuracy                           0.82     15246
-    macro avg       0.76      0.75      0.75     15246
- weighted avg       0.82      0.82      0.82     15246
-
+     accuracy          -         -      0.82     15246
+    macro-avg       0.76      0.75      0.75     15246
+ weighted-avg       0.82      0.82      0.82     15246
 ```

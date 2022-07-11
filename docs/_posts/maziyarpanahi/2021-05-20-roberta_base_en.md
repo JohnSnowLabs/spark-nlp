@@ -47,6 +47,14 @@ val embeddings = RoBertaEmbeddings.pretrained("roberta_base", "en")
       .setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.roberta").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

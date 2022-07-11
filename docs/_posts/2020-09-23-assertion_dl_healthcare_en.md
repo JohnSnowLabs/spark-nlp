@@ -36,7 +36,7 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -79,6 +79,14 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 val data = Seq("Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.assert.healthcare").predict("""Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain""")
+```
+
 </div>
 
 {:.h2_title}

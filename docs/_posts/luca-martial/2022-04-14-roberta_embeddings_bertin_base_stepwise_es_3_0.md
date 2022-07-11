@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish RoBERTa Embeddings (from bertin-project)
+title: Spanish RoBERTa Embeddings (Base, Stepwise)
 author: John Snow Labs
 name: roberta_embeddings_bertin_base_stepwise
 date: 2022-04-14
@@ -68,6 +68,14 @@ val data = Seq("Me encanta chispa nlp").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.embed.bertin_base_stepwise").predict("""Me encanta chispa nlp""")
+```
+
 </div>
 
 {:.model-param}

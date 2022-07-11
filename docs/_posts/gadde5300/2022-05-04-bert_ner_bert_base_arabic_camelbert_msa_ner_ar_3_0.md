@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Arabic Named Entity Recognition (from CAMeL-Lab)
+title: Arabic Named Entity Recognition (Modern Standard Arabic-MSA)
 author: John Snow Labs
 name: bert_ner_bert_base_arabic_camelbert_msa_ner
 date: 2022-05-04
@@ -80,6 +80,14 @@ val data = Seq("أنا أحب الشرارة NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ar.ner.arabic_camelbert_msa_ner").predict("""أنا أحب الشرارة NLP""")
+```
+
 </div>
 
 {:.model-param}

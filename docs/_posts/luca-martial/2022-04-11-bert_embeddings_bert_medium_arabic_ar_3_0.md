@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Arabic Bert Embeddings (from asafaya)
+title: Arabic Bert Embeddings (Medium)
 author: John Snow Labs
 name: bert_embeddings_bert_medium_arabic
 date: 2022-04-11
@@ -68,6 +68,14 @@ val data = Seq("أنا أحب شرارة NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ar.embed.bert_medium_arabic").predict("""أنا أحب شرارة NLP""")
+```
+
 </div>
 
 {:.model-param}

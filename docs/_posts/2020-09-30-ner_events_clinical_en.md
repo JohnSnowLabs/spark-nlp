@@ -31,7 +31,7 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 
 ```python
@@ -62,6 +62,14 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 val data = Seq("The patient presented to the emergency room last evening").toDF("text")
 val result = pipeline.fit(data).transform(data)
 
+```
+
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.events_clinical").predict("""The patient presented to the emergency room last evening""")
 ```
 
 </div>

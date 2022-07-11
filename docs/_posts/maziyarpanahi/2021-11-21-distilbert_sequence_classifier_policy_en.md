@@ -88,6 +88,14 @@ val example = Seq("70-85% of the population needs to get vaccinated against the 
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.distilbert_sequence.policy").predict("""70-85% of the population needs to get vaccinated against the novel coronavirus to achieve herd immunity.""")
+```
+
 </div>
 
 {:.model-param}

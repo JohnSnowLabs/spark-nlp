@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Tamil Bert Embeddings (from monsoon-nlp)
+title: Tamil Bert Embeddings
 author: John Snow Labs
 name: bert_embeddings_muril_adapted_local
 date: 2022-04-11
@@ -10,6 +10,7 @@ language: ta
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("நான் தீப்பொறி NLP ஐ நேசிக்
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ta.embed.muril_adapted_local").predict("""நான் தீப்பொறி NLP ஐ நேசிக்கிறேன்""")
+```
+
 </div>
 
 {:.model-param}

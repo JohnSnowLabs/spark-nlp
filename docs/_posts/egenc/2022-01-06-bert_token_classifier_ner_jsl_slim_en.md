@@ -15,86 +15,116 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 This is a pretrained named entity recognition deep learning model for clinical terminology. It is based on the `bert_token_classifier_ner_jsl` model, but with more generalized entities. This model is trained with BertForTokenClassification method from the `transformers` library and imported into Spark NLP.
 
+
 ## Predicted Entities
+
 
 `Death_Entity`, `Medical_Device`, `Vital_Sign`, `Alergen`, `Drug`, `Clinical_Dept`, `Lifestyle`, `Symptom`, `Body_Part`, `Physical_Measurement`, `Admission_Discharge`, `Date_Time`, `Age`, `Birth_Entity`, `Header`, `Oncological`, `Substance_Quantity`, `Test_Result`, `Test`, `Procedure`, `Treatment`, `Disease_Syndrome_Disorder`, `Pregnancy_Newborn`, `Demographics`
 
+
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_BERT_TOKEN_CLASSIFIER/){:.button.button-orange}{:target="_blank"}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_jsl_slim_en_3.3.4_2.4_1641473775238.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
 
 ## How to use
 
 
 
+
+
+
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
-
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
-    .setInputCols(["document"])\
-    .setOutputCol("sentence")
-
+  	.setInputCol("text")\
+  	.setOutputCol("document")
+  
+sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
+       .setInputCols(["document"])\
+       .setOutputCol("sentence")
+       
 tokenizer = Tokenizer()\
-    .setInputCols("document")\
-    .setOutputCol("token")
-
-tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_jsl_slim", "en", "clinical/models")\
-    .setInputCols("token", "document")\
-    .setOutputCol("ner")\
-    .setCaseSensitive(True)
+       .setInputCols("sentence")\
+       .setOutputCol("token")
+       
+tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_jsl_slim", "en", "clinical/models")\
+       .setInputCols("token", "sentence")\
+       .setOutputCol("ner")\
+       .setCaseSensitive(True)
 
 ner_converter = NerConverter()\
-    .setInputCols(["sentence","token","ner"])\
-    .setOutputCol("ner_chunk")
+       .setInputCols(["sentence","token","ner"])\
+       .setOutputCol("ner_chunk")
+  
+pipeline =  Pipeline(stages=[
+		       documentAssembler,
+		       sentenceDetector,
+		       tokenizer,
+		       tokenClassifier,
+		       ner_converter])
+						       
+model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-pipeline = Pipeline(stages=[documentAssembler, sentence_detector, tokenizer, tokenClassifier, ner_converter])
+sample_text = """HISTORY: 30-year-old female presents for digital bilateral mammography secondary to a soft tissue lump palpated by the patient in the upper right shoulder. The patient has a family history of breast cancer within her mother at age 58. Patient denies personal history of breast cancer."""
 
-p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
-
-test_sentence = """HISTORY: 30-year-old female presents for digital bilateral mammography secondary to a soft tissue lump palpated by the patient in the upper right shoulder. The patient has a family history of breast cancer within her mother at age 58. Patient denies personal history of breast cancer."""
-
-result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
+result = model.transform(spark.createDataFrame([[sample_text]]).toDF("text"))
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
-
-val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-    .setInputCols("document")
-    .setOutputCol("sentence")
-
+	.setInputCol("text")
+	.setOutputCol("document")
+  
+val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
+	.setInputCols("document")
+	.setOutputCol("sentence")
+       
 val tokenizer = new Tokenizer()
-    .setInputCols(Array("sentence"))
-    .setOutputCol("token")
+	.setInputCols("sentence")
+	.setOutputCol("token")
+		
+val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_jsl_slim", "en", "clinical/models")
+       .setInputCols(Array("token", "sentence"))
+       .setOutputCol("ner")
+       .setCaseSensitive(True)
+       
+val. ner_converter = new NerConverter()
+       .setInputCols(Array("sentence","token","ner"))
+       .setOutputCol("ner_chunk")
+  
+val pipeline =  new Pipeline().setStages(Array(
+				documentAssembler,
+				sentenceDetector,
+				tokenizer,
+				tokenClassifier,
+				ner_converter))
+												
+val sample_text = Seq("""HISTORY: 30-year-old female presents for digital bilateral mammography secondary to a soft tissue lump palpated by the patient in the upper right shoulder. The patient has a family history of breast cancer within her mother at age 58. Patient denies personal history of breast cancer.""").toDS.toDF("text")
 
-val tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_jsl_slim", "en", "clinical/models")
-    .setInputCols(Array("document","token"))
-    .setOutputCol("ner")
-    .setCaseSensitive(True)
-
-val ner_converter = new NerConverter()
-    .setInputCols(Array("document","token","ner"))
-    .setOutputCol("ner_chunk")
-
-val pipeline =  new Pipeline().setStages(Array(documentAssembler, sentence_detector, tokenizer, tokenClassifier, ner_converter))
-
-val data = Seq("HISTORY: 30-year-old female presents for digital bilateral mammography secondary to a soft tissue lump palpated by the patient in the upper right shoulder. The patient has a family history of breast cancer within her mother at age 58. Patient denies personal history of breast cancer.").toDF("text")
-
-val result = pipeline.fit(data).transform(data)
+val result = pipeline.fit(sample_text).transform(sample_text)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.token_bert.ner_jsl_slim").predict("""HISTORY: 30-year-old female presents for digital bilateral mammography secondary to a soft tissue lump palpated by the patient in the upper right shoulder. The patient has a family history of breast cancer within her mother at age 58. Patient denies personal history of breast cancer.""")
+```
+
 </div>
 
+
 ## Results
+
 
 ```bash
 +----------------+------------+
@@ -113,8 +143,10 @@ val result = pipeline.fit(data).transform(data)
 +----------------+------------+
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -129,15 +161,19 @@ val result = pipeline.fit(data).transform(data)
 |Case sensitive:|true|
 |Max sentense length:|256|
 
+
 ## Data Source
+
 
 Trained on data annotated by JSL.
 
+
 ## Benchmarking
 
-```bash
-                             precision    recall  f1-score   support
 
+```bash
+     
+                      label  precision    recall  f1-score   support
       B-Admission_Discharge       0.82      0.99      0.90       282
                       B-Age       0.88      0.83      0.85       576
                 B-Body_Part       0.84      0.91      0.87      8582
@@ -180,8 +216,8 @@ I-Disease_Syndrome_Disorder       0.87      0.85      0.86      4385
                 I-Treatment       0.69      0.72      0.70       194
                I-Vital_Sign       0.88      0.90      0.89       918
                           O       0.97      0.97      0.97    210520
-
-                   accuracy                           0.94    297997
-                  macro avg       0.74      0.74      0.73    297997
-               weighted avg       0.94      0.94      0.94    297997
+                   accuracy        -         -        0.94    297997
+                  macro-avg       0.74      0.74      0.73    297997
+               weighted-avg       0.94      0.94      0.94    297997
 ```
+

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal English Bert Embeddings (Base Uncased)
+title: Legal English Bert Embeddings (Base, Uncased)
 author: John Snow Labs
 name: bert_embeddings_legal_bert_base_uncased
 date: 2022-04-11
@@ -68,6 +68,14 @@ val data = Seq("I love Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.legal_bert_base_uncased").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

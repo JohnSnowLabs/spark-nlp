@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Javanese Bert Embeddings (from w11wo)
+title: Javanese Bert Embeddings (Small, Imdb)
 author: John Snow Labs
 name: bert_embeddings_javanese_bert_small_imdb
 date: 2022-04-11
@@ -68,6 +68,14 @@ val data = Seq("I love Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("jv.embed.javanese_bert_small_imdb").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

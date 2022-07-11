@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Bert Embeddings (from philschmid)
+title: Financial English Bert Embeddings (Base, Communication texts)
 author: John Snow Labs
 name: bert_embeddings_finbert_pretrain_yiyanghkust
 date: 2022-04-11
@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -17,7 +18,11 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Bert Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `finbert-pretrain-yiyanghkust` is a English model orginally trained by `philschmid`.
+Financial English Bert Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `finbert-pretrain-yiyanghkust` is a English model orginally available in Hugging Face as `yiyanghkust/finbert-pretrain`. It was trained on the following datasets:
+
+- Corporate Reports 10-K & 10-Q: 2.5B tokens
+- Earnings Call Transcripts: 1.3B tokens
+- Analyst Reports: 1.1B tokens
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -68,6 +73,14 @@ val data = Seq("I love Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.finbert_pretrain_yiyanghkust").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

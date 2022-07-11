@@ -483,6 +483,35 @@ spark = start(SECRET)
 As you see, we did not set `.master('local[*]')` explicitly to let YARN manage the cluster.
 Or you can set `.master('yarn')`.
 
+## Install with Poetry
+
+
+This is a sample `project.toml` file which you can use with `poetry install` to setup spark NLP + the Healthcare python library `spark-nlp-jsl`
+
+You need to point it to either the `tar.gz` or `.whl` file which are hosted at
+`https://pypi.johnsnowlabs.com/<SECRET>/spark-nlp-jsl/`
+
+**NOTE** You must update the `url` whenever you are `upgrading` your spark-nlp-jsl version
+
+```sh
+[tool.poetry]
+name = "poertry_demo"
+version = "0.1.0"
+description = ""
+authors = ["person <person@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+[tool.poetry.dev-dependencies]
+spark-nlp = "3.4.4"
+spark-nlp-jsl = { url = "https://pypi.johnsnowlabs.com/SECRET/spark-nlp-jsl/spark_nlp_jsl-tar.gz_OR_.whl" }
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+```
+
 ## Spark-NLP for Healthcare in AWS EMR
 
 In this page we explain how to setup Spark-NLP + Spark-NLP Healthcare in AWS EMR, using the AWS console.

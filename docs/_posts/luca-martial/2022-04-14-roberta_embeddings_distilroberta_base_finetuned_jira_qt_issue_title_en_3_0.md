@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English RoBERTa Embeddings (from ietz)
+title: English RoBERTa Embeddings (Base, Titles)
 author: John Snow Labs
 name: roberta_embeddings_distilroberta_base_finetuned_jira_qt_issue_title
 date: 2022-04-14
@@ -68,6 +68,14 @@ val data = Seq("I love Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.distilroberta_base_finetuned_jira_qt_issue_title").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

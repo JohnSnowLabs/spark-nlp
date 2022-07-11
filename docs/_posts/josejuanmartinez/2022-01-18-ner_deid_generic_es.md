@@ -15,27 +15,38 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 Named Entity Recognition annotators allow for a generic model to be trained by using a Deep Learning architecture (Char CNNs - BiLSTM - CRF - word embeddings) inspired on a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM,CNN. 
 
+
 Deidentification NER (Spanish) is a Named Entity Recognition model that annotates text to find protected health information that may need to be de-identified. It detects 7 entities. This NER model is trained with a combination of custom datasets, Spanish 2002 conLL, MeddoProf dataset and several data augmentation mechanisms and it's a reduced version of `ner_deid_subentity`.
+
 
 ## Predicted Entities
 
+
 `CONTACT`, `NAME`, `DATE`, `ID`, `LOCATION`, `PROFESSION`, `AGE`
+
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_generic_es_3.3.4_3.0_1642528473168.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
         .setInputCol("text")\
@@ -96,15 +107,27 @@ clinical_ner = MedicalNerModel.pretrained("ner_deid_generic", "es", "clinical/mo
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner))
 
-val text = "Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14/03/2020 y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos."
+val text = """Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14/03/2020 y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos."""
 
-val df = Seq(text).toDF("text")
+val df = Seq(text).toDS.toDF("text")
 
 val results = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.med_ner.deid.generic").predict("""
+Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14/03/2020 y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos.
+""")
+```
+
 </div>
 
+
 ## Results
+
 
 ```bash
 +------------+----------+
@@ -152,8 +175,10 @@ val results = pipeline.fit(data).transform(data)
 +------------+----------+
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -167,37 +192,27 @@ val results = pipeline.fit(data).transform(data)
 |Size:|15.0 MB|
 |Dependencies:|embeddings_sciwiki_300d|
 
+
 ## Data Source
+
 
 - Internal JSL annotated corpus
 - [Spanish conLL](https://www.clips.uantwerpen.be/conll2002/ner/data/)
 - [MeddoProf](https://temu.bsc.es/meddoprof/data/)
 
+
 ## Benchmarking
 
+
 ```bash
-+----------+------+-----+-----+------+---------+------+------+
-|    entity|    tp|   fp|   fn| total|precision|recall|    f1|
-+----------+------+-----+-----+------+---------+------+------+
-|   CONTACT| 166.0|  9.0|  8.0| 174.0|   0.9486| 0.954|0.9513|
-|      NAME|2879.0|195.0|191.0|3070.0|   0.9366|0.9378|0.9372|
-|      DATE|1839.0| 29.0| 18.0|1857.0|   0.9845|0.9903|0.9874|
-|        ID| 119.0| 11.0| 12.0| 131.0|   0.9154|0.9084|0.9119|
-|  LOCATION|5149.0|711.0|607.0|5756.0|   0.8787|0.8945|0.8865|
-|PROFESSION| 236.0| 49.0|168.0| 404.0|   0.8281|0.5842|0.6851|
-|       AGE| 313.0| 33.0| 50.0| 363.0|   0.9046|0.8623|0.8829|
-+----------+------+-----+-----+------+---------+------+------+
-
-+------------------+
-|             macro|
-+------------------+
-|0.8917491632570723|
-+------------------+
-
-+------------------+
-|             micro|
-+------------------+
-|0.9098971448558691|
-+------------------+
-
+     label      tp     fp     fn   total  precision  recall      f1
+   CONTACT   166.0    9.0    8.0   174.0     0.9486   0.954  0.9513
+      NAME  2879.0  195.0  191.0  3070.0     0.9366  0.9378  0.9372
+      DATE  1839.0   29.0   18.0  1857.0     0.9845  0.9903  0.9874
+        ID   119.0   11.0   12.0   131.0     0.9154  0.9084  0.9119
+  LOCATION  5149.0  711.0  607.0  5756.0     0.8787  0.8945  0.8865
+PROFESSION   236.0   49.0  168.0   404.0     0.8281  0.5842  0.6851
+       AGE   313.0   33.0   50.0   363.0     0.9046  0.8623  0.8829
+     macro     -      -      -       -         -       -     0.891749
+     micro     -      -      -       -         -       -     0.909897
 ```

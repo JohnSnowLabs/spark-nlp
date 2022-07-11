@@ -82,6 +82,14 @@ val data = Seq("somtimes i wrrite wordz erong.").toDF("text")
 val result = pipeline.fit(data).transform(data)
 result.select("spell.result").show(false)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.spell.norvig").predict("""somtimes i wrrite wordz erong.""")
+```
+
 </div>
 
 ## Results

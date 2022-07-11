@@ -152,6 +152,14 @@ val data = Seq("This 73 y/o patient had CT on 1/12/95, with progressive memory a
 val result = pipeline.fit(data).transform(data)
 ```
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.relation.date").predict("""This 73 y/o patient had CT on 1/12/95, with progressive memory and cognitive decline since 8/11/94.""")
+```
+
 </div>
 
 ## Results

@@ -91,6 +91,15 @@ INTERPRETATION: There has been interval development of a moderate left-sided pne
 val data = Seq("text").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.assert.radiology").predict("""
+INTERPRETATION: There has been interval development of a moderate left-sided pneumothorax with near complete collapse of the left upper lobe. The lower lobe appears aerated. There is stable, diffuse, bilateral interstitial thickening with no definite acute air space consolidation. The heart and pulmonary vascularity are within normal limits. Left-sided port is seen with Groshong tip at the SVC/RA junction. No evidence for acute fracture, malalignment, or dislocation.""")
+```
+
 </div>
 
 ## Results

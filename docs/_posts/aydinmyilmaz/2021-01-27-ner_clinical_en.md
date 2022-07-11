@@ -61,6 +61,14 @@ val result = pipeline.fit(Seq.empty[String]).transform(data)
 val results = LightPipeline(model).fullAnnotate(data)
 ```
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.clinical").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results

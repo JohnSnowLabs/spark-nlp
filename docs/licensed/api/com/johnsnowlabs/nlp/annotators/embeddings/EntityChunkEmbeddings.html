@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.5.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings</title>
-          <meta name="description" content="Spark NLP 3.5.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings" />
-          <meta name="keywords" content="Spark NLP 3.5.3 ScalaDoc com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings" />
+          <title>Spark NLP 4.0.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings</title>
+          <meta name="description" content="Spark NLP 4.0.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings" />
+          <meta name="keywords" content="Spark NLP 4.0.0 ScalaDoc com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.5.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.0.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -942,9 +942,9 @@ result
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasEmbeddingsProperties</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings#entityWeights" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
-      <a id="entityWeights:com.johnsnowlabs.nlp.param.EntityWeights"></a><a id="entityWeights:EntityWeights"></a>
+      <a id="entityWeights:com.johnsnowlabs.nlp.serialization.MapFeature[String,Float]"></a><a id="entityWeights:MapFeature[String,Float]"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/embeddings/EntityChunkEmbeddings.html#entityWeights:com.johnsnowlabs.nlp.param.EntityWeights" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/embeddings/EntityChunkEmbeddings.html#entityWeights:com.johnsnowlabs.nlp.serialization.MapFeature[String,Float]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -953,7 +953,7 @@ result
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">entityWeights</span><span class="result">: <a href="../../param/EntityWeights.html" class="extype" name="com.johnsnowlabs.nlp.param.EntityWeights">EntityWeights</a></span>
+        <span class="name">entityWeights</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Float">Float</span>]</span>
       </span>
       
       <p class="shortcomment cmt">The relative weights of drug related entities.</p><div class="fullcomment"><div class="comment cmt"><p>The relative weights of drug related entities. If not set, all entities have equal weights. If the list is
@@ -2564,6 +2564,22 @@ Entity names are case insensitive.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>BertSentenceEmbeddings → HasEmbeddingsProperties</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings#setEntityWeights" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setEntityWeights(w:java.util.HashMap[String,Double]):EntityChunkEmbeddings.this.type"></a><a id="setEntityWeights(HashMap[String,Double]):EntityChunkEmbeddings.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/embeddings/EntityChunkEmbeddings.html#setEntityWeights(w:java.util.HashMap[String,Double]):EntityChunkEmbeddings.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setEntityWeights</span><span class="params">(<span name="w">w: <span class="extype" name="java.util.HashMap">HashMap</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings">EntityChunkEmbeddings</a>.this.type</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings#setEntityWeights" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setEntityWeights(weights:Map[String,Float]):EntityChunkEmbeddings.this.type"></a><a id="setEntityWeights(Map[String,Float]):EntityChunkEmbeddings.this.type"></a>
       <span class="permalink">
@@ -2759,6 +2775,22 @@ Entity names are case insensitive.
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasStorageRef</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings#setTargetEntities" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setTargetEntities(entities:java.util.HashMap[String,java.util.List[String]]):EntityChunkEmbeddings.this.type"></a><a id="setTargetEntities(HashMap[String,List[String]]):EntityChunkEmbeddings.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/embeddings/EntityChunkEmbeddings.html#setTargetEntities(entities:java.util.HashMap[String,java.util.List[String]]):EntityChunkEmbeddings.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setTargetEntities</span><span class="params">(<span name="entities">entities: <span class="extype" name="java.util.HashMap">HashMap</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="java.util.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings">EntityChunkEmbeddings</a>.this.type</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings#setTargetEntities" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="setTargetEntities(entities:Map[String,List[String]]):EntityChunkEmbeddings.this.type"></a><a id="setTargetEntities(Map[String,List[String]]):EntityChunkEmbeddings.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/embeddings/EntityChunkEmbeddings.html#setTargetEntities(entities:Map[String,List[String]]):EntityChunkEmbeddings.this.type" title="Permalink">
@@ -2839,9 +2871,9 @@ Entity names are case insensitive.
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings#targetEntities" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
-      <a id="targetEntities:com.johnsnowlabs.nlp.param.TargetEntities"></a><a id="targetEntities:TargetEntities"></a>
+      <a id="targetEntities:com.johnsnowlabs.nlp.serialization.MapFeature[String,List[String]]"></a><a id="targetEntities:MapFeature[String,List[String]]"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/embeddings/EntityChunkEmbeddings.html#targetEntities:com.johnsnowlabs.nlp.param.TargetEntities" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/embeddings/EntityChunkEmbeddings.html#targetEntities:com.johnsnowlabs.nlp.serialization.MapFeature[String,List[String]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -2850,7 +2882,7 @@ Entity names are case insensitive.
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">targetEntities</span><span class="result">: <a href="../../param/TargetEntities.html" class="extype" name="com.johnsnowlabs.nlp.param.TargetEntities">TargetEntities</a></span>
+        <span class="name">targetEntities</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
       </span>
       
       <p class="shortcomment cmt">The target entities mapped to lists of their related entities.</p><div class="fullcomment"><div class="comment cmt"><p>The target entities mapped to lists of their related entities. A target entity with an empty list of related

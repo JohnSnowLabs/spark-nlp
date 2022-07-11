@@ -13,8 +13,6 @@
 #  limitations under the License.
 """Contains classes for CoNLLU."""
 
-from pyspark.sql import DataFrame
-
 from sparknlp.common import ReadAs
 from sparknlp.internal import ExtendedJavaWrapper
 
@@ -100,5 +98,6 @@ class CoNLLU(ExtendedJavaWrapper):
         jSession = spark._jsparkSession
 
         jdf = self._java_obj.readDataset(jSession, path, read_as)
-        return DataFrame(jdf, spark._wrapped)
+        dataframe = self.getDataFrame(spark, jdf)
+        return dataframe
 

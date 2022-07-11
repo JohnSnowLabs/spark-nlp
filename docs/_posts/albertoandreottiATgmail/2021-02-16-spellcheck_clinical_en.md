@@ -73,6 +73,24 @@ lp.annotate(example)
 
 ```
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.spell.clinical").predict(""")
+
+pipeline = Pipeline(
+    stages = [
+    documentAssembler,
+    tokenizer,
+    spellModel,
+    finisher
+  ])
+
+empty_ds = spark.createDataFrame([[""")
+```
+
 </div>
 
 ## Results

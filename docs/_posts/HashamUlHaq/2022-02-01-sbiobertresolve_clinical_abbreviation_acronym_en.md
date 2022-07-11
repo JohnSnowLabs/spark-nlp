@@ -122,6 +122,14 @@ val resolver_pipeline = new Pipeline().setStages(document_assembler, tokenizer, 
 val sample_text = Seq("Gravid with estimated fetal weight of 6-6/12 pounds. LOWER EXTREMITIES: No edema. LABORATORY DATA: Laboratory tests include a CBC which is normal. Blood Type: AB positive. Rubella: Immune. VDRL: Nonreactive. Hepatitis C surface antigen: Negative. HIV: Negative. One-Hour Glucose: 117. Group B strep has not been done as yet.").toDF("text")
 val abbr_result = resolver_pipeline.fit(sample_text).transform(sample_text)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.clinical_abbreviation_acronym").predict("""Gravid with estimated fetal weight of 6-6/12 pounds. LOWER EXTREMITIES: No edema. LABORATORY DATA: Laboratory tests include a CBC which is normal. Blood Type: AB positive. Rubella: Immune. VDRL: Nonreactive. Hepatitis C surface antigen: Negative. HIV: Negative. One-Hour Glucose: 117. Group B strep has not been done as yet.""")
+```
+
 </div>
 
 ## Results

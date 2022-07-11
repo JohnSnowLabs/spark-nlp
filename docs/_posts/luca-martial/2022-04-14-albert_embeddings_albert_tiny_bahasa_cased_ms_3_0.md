@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Malay ALBERT Embeddings (from malay-huggingface)
+title: Malay ALBERT Embeddings (Tiny)
 author: John Snow Labs
 name: albert_embeddings_albert_tiny_bahasa_cased
 date: 2022-04-14
@@ -10,6 +10,7 @@ language: ms
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("Saya suka Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ms.embed.albert_tiny_bahasa_cased").predict("""Saya suka Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

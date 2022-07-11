@@ -144,12 +144,10 @@ val result2 = light_pipeline.annotate("Mtandao wa kushangaza wa 4G katika mji wa
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
     Negative       0.79      0.84      0.81        85
     Positive       0.86      0.82      0.84       103
-
-    accuracy                           0.82       188
-   macro avg       0.82      0.83      0.82       188
-weighted avg       0.83      0.82      0.82       188
+    accuracy          -         -      0.82       188
+   macro-avg       0.82      0.83      0.82       188
+weighted-avg       0.83      0.82      0.82       188
 ```

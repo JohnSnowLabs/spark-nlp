@@ -40,7 +40,7 @@ Either set the following tasks or have them inline with your input:
 - nq:
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
     .setInputCol("text") \
@@ -77,6 +77,14 @@ val results = model.transform(dataDf)
 
 results.select("answer.result").show(truncate = false)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.t5").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Indonesian DistilBERT Embeddings (from cahya)
+title: Indonesian DistilBERT Embeddings
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_indonesian
 date: 2022-04-12
@@ -10,6 +10,7 @@ language: id
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("Saya suka percikan NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("id.embed.distilbert").predict("""Saya suka percikan NLP""")
+```
+
 </div>
 
 {:.model-param}

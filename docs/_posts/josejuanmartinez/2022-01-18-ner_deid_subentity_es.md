@@ -15,27 +15,38 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 Named Entity Recognition annotators allow for a generic model to be trained by using a Deep Learning architecture (Char CNNs - BiLSTM - CRF - word embeddings) inspired on a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM,CNN. 
 
+
 Deidentification NER (Spanish) is a Named Entity Recognition model that annotates text to find protected health information that may need to be de-identified. It detects 13 entities. This NER model is trained with a combination of custom datasets, Spanish 2002 conLL, MeddoProf dataset and several data augmentation mechanisms.
+
 
 ## Predicted Entities
 
+
 `PATIENT`, `HOSPITAL`, `DATE`, `ORGANIZATION`, `E-MAIL`, `USERNAME`, `LOCATION`, `ZIP`, `MEDICALRECORD`, `PROFESSION`, `PHONE`, `DOCTOR`, `AGE`
+
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_subentity_es_3.3.4_3.0_1642512189785.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
         .setInputCol("text")\
@@ -95,15 +106,27 @@ val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity", "es", "clini
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner))
 
-val text = "Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14/03/2020 y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos."
+val text = """Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14/03/2020 y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos."""
 
-val df = Seq(text).toDF("text")
+val df = Seq(text).toDS.toDF("text")
 
 val results = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.med_ner.deid.subentity").predict("""
+Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14/03/2020 y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos.
+""")
+```
+
 </div>
 
+
 ## Results
+
 
 ```bash
 +------------+----------+
@@ -153,8 +176,10 @@ val results = pipeline.fit(data).transform(data)
 +------------+----------+
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -168,42 +193,33 @@ val results = pipeline.fit(data).transform(data)
 |Size:|15.0 MB|
 |Dependencies:|embeddings_sciwiki_300d|
 
+
 ## Data Source
+
 
 - Internal JSL annotated corpus
 - [Spanish conLL](https://www.clips.uantwerpen.be/conll2002/ner/data/)
 - [MeddoProf](https://temu.bsc.es/meddoprof/data/)
 
+
 ## Benchmarking
 
+
 ```bash
-+-------------+------+-----+-----+------+---------+------+------+
-|       entity|    tp|   fp|   fn| total|precision|recall|    f1|
-+-------------+------+-----+-----+------+---------+------+------+
-|      PATIENT|2088.0|201.0|178.0|2266.0|   0.9122|0.9214|0.9168|
-|     HOSPITAL| 302.0| 43.0| 85.0| 387.0|   0.8754|0.7804|0.8251|
-|         DATE|1837.0| 33.0| 20.0|1857.0|   0.9824|0.9892|0.9858|
-| ORGANIZATION|2498.0|477.0|649.0|3147.0|   0.8397|0.7938|0.8161|
-|         MAIL|  58.0|  0.0|  0.0|  58.0|      1.0|   1.0|   1.0|
-|     USERNAME|  90.0|  0.0| 15.0| 105.0|      1.0|0.8571|0.9231|
-|     LOCATION|1866.0|391.0|354.0|2220.0|   0.8268|0.8405|0.8336|
-|          ZIP|  20.0|  1.0|  2.0|  22.0|   0.9524|0.9091|0.9302|
-|MEDICALRECORD| 111.0|  5.0| 20.0| 131.0|   0.9569|0.8473|0.8988|
-|   PROFESSION| 270.0| 96.0|134.0| 404.0|   0.7377|0.6683|0.7013|
-|        PHONE| 108.0| 11.0|  8.0| 116.0|   0.9076| 0.931|0.9191|
-|       DOCTOR| 659.0| 40.0| 40.0| 699.0|   0.9428|0.9428|0.9428|
-|          AGE| 302.0| 53.0| 61.0| 363.0|   0.8507| 0.832|0.8412|
-+-------------+------+-----+-----+------+---------+------+------+
-
-+------------------+
-|             macro|
-+------------------+
-|0.8872247275009801|
-+------------------+
-
-+------------------+
-|             micro|
-+------------------+
-|0.8741892065495186|
-+------------------+
+        label      tp     fp     fn   total  precision  recall      f1
+      PATIENT  2088.0  201.0  178.0  2266.0     0.9122  0.9214  0.9168
+     HOSPITAL   302.0   43.0   85.0   387.0     0.8754  0.7804  0.8251
+         DATE  1837.0   33.0   20.0  1857.0     0.9824  0.9892  0.9858
+ ORGANIZATION  2498.0  477.0  649.0  3147.0     0.8397  0.7938  0.8161
+         MAIL    58.0    0.0    0.0    58.0        1.0     1.0     1.0
+     USERNAME    90.0    0.0   15.0   105.0        1.0  0.8571  0.9231
+     LOCATION  1866.0  391.0  354.0  2220.0     0.8268  0.8405  0.8336
+          ZIP    20.0    1.0    2.0    22.0     0.9524  0.9091  0.9302
+MEDICALRECORD   111.0    5.0   20.0   131.0     0.9569  0.8473  0.8988
+   PROFESSION   270.0   96.0  134.0   404.0     0.7377  0.6683  0.7013
+        PHONE   108.0   11.0    8.0   116.0     0.9076   0.931  0.9191
+       DOCTOR   659.0   40.0   40.0   699.0     0.9428  0.9428  0.9428
+          AGE   302.0   53.0   61.0   363.0     0.8507   0.832  0.8412
+        macro     -      -      -       -         -      -      0.8872247
+        micro     -      -      -       -         -      -      0.8741892
 ```

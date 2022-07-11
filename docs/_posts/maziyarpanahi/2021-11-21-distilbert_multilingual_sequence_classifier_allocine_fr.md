@@ -84,6 +84,14 @@ val example = Seq("j'ai bien aime le film harry potter!").toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("fr.classify.distilbert_sequence.allocine").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results

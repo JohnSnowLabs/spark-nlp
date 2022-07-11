@@ -90,6 +90,14 @@ val example = Seq.empty["Mijn naam is Peter Fergusson. Ik woon sinds oktober 201
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("nl.ner.bert").predict("""Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.""")
+```
+
 </div>
 
 ## Results

@@ -15,27 +15,38 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 Deidentification NER is a Named Entity Recognition model that annotates text to find protected health information that may need to be de-identified. It detects 23 entities. This ner model is trained with a combination of the i2b2 train set and a re-augmented version of i2b2 train set using `BertForTokenClassification`
 
+
 We sticked to official annotation guideline (AG) for 2014 i2b2 Deid challenge while annotating new datasets for this model. All the details regarding the nuances and explanations for AG can be found here [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4978170/](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4978170/)
+
 
 ## Predicted Entities
 
+
 `MEDICALRECORD`, `ORGANIZATION`, `DOCTOR`, `USERNAME`, `PROFESSION`, `HEALTHPLAN`, `URL`, `CITY`, `DATE`, `LOCATION-OTHER`, `STATE`, `PATIENT`, `DEVICE`, `COUNTRY`, `ZIP`, `PHONE`, `HOSPITAL`, `EMAIL`, `IDNUM`, `SREET`, `BIOID`, `FAX`, `AGE`
+
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_BERT_TOKEN_CLASSIFIER/){:.button.button-orange}{:target="_blank"}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_deid_en_3.2.1_2.4_1631538493075.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
   .setInputCol("text")\
@@ -53,6 +64,7 @@ tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_n
 ner_converter = NerConverter()\
         .setInputCols(["document","token","ner"])\
         .setOutputCol("ner_chunk")
+
 pipeline =  Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
 
 p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
@@ -62,11 +74,11 @@ test_sentence = """A. Record date : 2093-01-13, David Hale, M.D. Name : Hendrick
 result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
 ```scala
-val documentAssembler = DocumentAssembler()
+val documentAssembler = new DocumentAssembler()
   .setInputCol("text")
   .setOutputCol("document")
 
-val tokenizer = Tokenizer()
+val tokenizer = new Tokenizer()
   .setInputCols("document")
   .setOutputCol("token")
 
@@ -75,19 +87,29 @@ val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifi
   .setOutputCol("ner")
   .setCaseSensitive(True)
 
-val ner_converter = NerConverter()
+val ner_converter = new NerConverter()
         .setInputCols(Array("document","token","ner"))
         .setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
 
-val data = Seq("A. Record date : 2093-01-13, David Hale, M.D. Name : Hendrickson, Ora MR. # 7194334. PCP : Oliveira, non-smoking. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227. Patient's complaints first surfaced when he started working for Brothers Coal-Mine.").toDF("text")
+val data = Seq(""""A. Record date : 2093-01-13, David Hale, M.D. Name : Hendrickson, Ora MR. # 7194334. PCP : Oliveira, non-smoking. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227. Patient's complaints first surfaced when he started working for Brothers Coal-Mine.""").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.token_bert.ner_deid").predict("""A. Record date : 2093-01-13, David Hale, M.D. Name : Hendrickson, Ora MR. # 7194334. PCP : Oliveira, non-smoking. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227. Patient's complaints first surfaced when he started working for Brothers Coal-Mine.""")
+```
+
 </div>
 
+
 ## Results
+
 
 ```bash
 +-----------------------------+-------------+
@@ -105,8 +127,10 @@ val result = pipeline.fit(data).transform(data)
 +-----------------------------+-------------+
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -120,15 +144,18 @@ val result = pipeline.fit(data).transform(data)
 |Case sensitive:|true|
 |Max sentense length:|128|
 
+
 ## Data Source
+
 
 A custom data set which is created from the i2b2-PHI train and the re-augmented version of the i2b2-PHI train set is used.
 
+
 ## Benchmarking
 
-```bash
-                 precision    recall  f1-score   support
 
+```bash
+           label  precision    recall  f1-score   support
            B-AGE       0.92      0.80      0.86      1050
           B-CITY       0.71      0.93      0.80       530
        B-COUNTRY       0.94      0.72      0.82       179
@@ -161,8 +188,10 @@ I-LOCATION-OTHER       1.00      1.00      1.00         8
     I-PROFESSION       0.95      0.82      0.88       232
         I-STREET       0.98      0.98      0.98       391
                O       1.00      1.00      1.00    585606
-
-        accuracy                           0.99    629960
-       macro avg       0.79      0.71      0.73    629960
-    weighted avg       0.99      0.99      0.99    629960
+        accuracy       -         -         0.99    629960
+       macro-avg       0.79      0.71      0.73    629960
+    weighted-avg       0.99      0.99      0.99    629960
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTE0MjQzMzEwMjNdfQ==
+-->

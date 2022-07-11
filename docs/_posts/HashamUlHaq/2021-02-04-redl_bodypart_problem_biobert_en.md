@@ -151,6 +151,14 @@ val data = Seq("No neurologic deficits other than some numbness in his left hand
 val result = pipeline.fit(data).transform(data)
 ```
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.relation.bodypart.problem").predict("""No neurologic deficits other than some numbness in his left hand.""")
+```
+
 </div>
 
 ## Results

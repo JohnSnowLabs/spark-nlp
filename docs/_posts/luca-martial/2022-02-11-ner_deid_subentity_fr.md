@@ -124,6 +124,14 @@ val data = Seq(text).toDF("text")
 
 val results = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("fr.med_ner.deid_subentity").predict("""J'ai vu en consultation Michel Martinez (49 ans) adressé au Centre Hospitalier De Plaisir pour un diabète mal contrôlé avec des symptômes datant de Mars 2015.""")
+```
+
 </div>
 
 
@@ -196,7 +204,7 @@ val results = pipeline.fit(data).transform(data)
 
 
 ```bash
-       entity      tp     fp     fn   total  precision  recall      f1
+        label      tp     fp     fn   total  precision  recall      f1
       PATIENT  1966.0  124.0  135.0  2101.0     0.9407  0.9357  0.9382
      HOSPITAL   315.0   23.0   19.0   334.0      0.932  0.9431  0.9375
          DATE  2605.0   31.0   49.0  2654.0     0.9882  0.9815  0.9849
@@ -215,6 +223,3 @@ MEDICALRECORD   100.0   11.0    2.0   102.0     0.9009  0.9804   0.939
         macro       -      -      -       -          -       -  0.9197
         micro       -      -      -       -          -       -  0.9154
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyMjM4MzI3ODUsMjA5MzkwODU3NV19
--->

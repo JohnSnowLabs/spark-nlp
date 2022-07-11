@@ -80,6 +80,14 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 val data = Seq("Syväoppimisen tavoitteena on luoda algoritmien avulla neuroverkko, joka pystyy ratkaisemaan sille annetut ongelmat.").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("fi.embed_sentence.bert").predict("""Syväoppimisen tavoitteena on luoda algoritmien avulla neuroverkko, joka pystyy ratkaisemaan sille annetut ongelmat.""")
+```
+
 </div>
 
 ## Results

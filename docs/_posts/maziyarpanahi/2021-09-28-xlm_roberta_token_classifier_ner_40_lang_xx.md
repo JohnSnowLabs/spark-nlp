@@ -1,6 +1,6 @@
 ---
 layout: model
-title: XLM-RoBERTa Token Classification Base - NER XTREME (xlm_roberta_token_classifier_ner_40_lang)
+title: XLM-RoBERTa NER (Base, 40 languages)
 author: John Snow Labs
 name: xlm_roberta_token_classifier_ner_40_lang
 date: 2021-09-28
@@ -103,6 +103,14 @@ val example = Seq.empty["My name is John!"].toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("xx.classify.token_xlm_roberta.token_classifier_ner_40_lang").predict("""My name is John!""")
+```
+
 </div>
 
 {:.model-param}

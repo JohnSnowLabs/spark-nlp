@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English RoBERTa Embeddings (from raynardj)
+title: English RoBERTa Embeddings (Large, Biology/Medical)
 author: John Snow Labs
 name: roberta_embeddings_pmc_med_bio_mlm_roberta_large
 date: 2022-04-14
@@ -68,6 +68,14 @@ val data = Seq("I love Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.pmc_med_bio_mlm_roberta_large").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

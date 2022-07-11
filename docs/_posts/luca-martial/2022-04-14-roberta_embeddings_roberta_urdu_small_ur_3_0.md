@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Urdu RoBERTa Embeddings (from urduhack)
+title: Urdu RoBERTa Embeddings
 author: John Snow Labs
 name: roberta_embeddings_roberta_urdu_small
 date: 2022-04-14
@@ -10,6 +10,7 @@ language: ur
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("مجھے سپارک این ایل پی سے محبت ہے").toDF
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ur.embed.roberta_urdu_small").predict("""مجھے سپارک این ایل پی سے محبت ہے""")
+```
+
 </div>
 
 {:.model-param}

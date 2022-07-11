@@ -68,6 +68,14 @@ val data = Seq("Me encanta chispa nlp").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.embed.distilbert_base_es_multilingual_cased").predict("""Me encanta chispa nlp""")
+```
+
 </div>
 
 {:.model-param}

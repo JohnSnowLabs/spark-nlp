@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Dutch RoBERTa Embeddings (from DTAI-KULeuven)
+title: Dutch RoBERTa Embeddings (Shuffled)
 author: John Snow Labs
 name: roberta_embeddings_robbertje_1_gb_shuffled
 date: 2022-04-14
@@ -68,6 +68,14 @@ val data = Seq("Ik hou van vonk nlp").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("nl.embed.robbertje_1_gb_shuffled").predict("""Ik hou van vonk nlp""")
+```
+
 </div>
 
 {:.model-param}

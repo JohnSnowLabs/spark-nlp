@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Chinese Part of Speech Tagger (from KoichiYasuoka)
+title: Chinese Part of Speech Tagger(UPOS, Chinese Wikipedia Texts)
 author: John Snow Labs
 name: bert_pos_chinese_bert_wwm_ext_upos
 date: 2022-04-26
@@ -76,6 +76,14 @@ val data = Seq("I love Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("zh.pos.chinese_bert_wwm_ext_upos").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

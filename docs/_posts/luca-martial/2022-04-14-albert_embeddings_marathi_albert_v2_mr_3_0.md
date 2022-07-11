@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Marathi ALBERT Embeddings (from l3cube-pune)
+title: Marathi ALBERT Embeddings (v2)
 author: John Snow Labs
 name: albert_embeddings_marathi_albert_v2
 date: 2022-04-14
@@ -68,6 +68,14 @@ val data = Seq("मला स्पार्क एनएलपी आवडत�
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("mr.embed.albert_v2").predict("""मला स्पार्क एनएलपी आवडते""")
+```
+
 </div>
 
 {:.model-param}

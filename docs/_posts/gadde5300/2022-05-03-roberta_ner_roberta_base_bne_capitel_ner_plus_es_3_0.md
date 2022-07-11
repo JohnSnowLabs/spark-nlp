@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish Named Entity Recognition (from PlanTL-GOB-ES)
+title: Spanish Named Entity Recognition (Base, Plus, CAPITEL competition at IberLEF 2020 dataset)
 author: John Snow Labs
 name: roberta_ner_roberta_base_bne_capitel_ner_plus
 date: 2022-05-03
@@ -80,6 +80,14 @@ val data = Seq("Amo Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.ner.roberta_base_bne_capitel_ner_plus").predict("""Amo Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

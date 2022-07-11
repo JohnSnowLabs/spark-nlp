@@ -210,6 +210,14 @@ val results = model.transform(data)
 results.selectExpr("explode(relations) as relation").show(truncate=false)
 ```
 {% endraw %}
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.relation.zeroshot_biobert").predict("""Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer.""")
+```
+
 </div>
 
 

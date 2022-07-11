@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Part of Speech Tagger (from KoichiYasuoka)
+title: English Part of Speech Tagger (Base,  UPOS-Universal Part-Of-Speech)
 author: John Snow Labs
 name: roberta_pos_roberta_base_english_upos
 date: 2022-05-03
@@ -76,6 +76,14 @@ val data = Seq("I love Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.pos.roberta_base_english_upos").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

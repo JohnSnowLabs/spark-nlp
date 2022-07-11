@@ -78,6 +78,14 @@ val example = Seq("I like you. I love you.").toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.distilbert_sequence.sst2").predict("""I like you. I love you.""")
+```
+
 </div>
 
 {:.model-param}

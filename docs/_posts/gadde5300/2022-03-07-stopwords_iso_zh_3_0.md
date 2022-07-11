@@ -66,6 +66,14 @@ val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, stop
 val data = Seq("除了作为北方之王之外，约翰·斯诺还是一位英国医生，也是麻醉和医疗卫生发展的领导者。").toDF("text")
 val results = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("zh.stopwords").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results

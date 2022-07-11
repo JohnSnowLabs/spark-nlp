@@ -77,6 +77,14 @@ val snomed_pipelineModel = new PipelineModel().setStages(Array(documentAssembler
 val snomed_lp = LightPipeline(snomed_pipelineModel)
 val result = snomed_lp.fullAnnotate("schizophrenia")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.snomed_conditions").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results

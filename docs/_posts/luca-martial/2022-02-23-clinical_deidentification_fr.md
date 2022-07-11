@@ -86,6 +86,34 @@ COURRIEL : mariebreton@chb.fr
 
 val result = deid_pipeline.annotate(sample)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("fr.deid_obfuscated").predict("""COMPTE-RENDU D'HOSPITALISATION
+PRENOM : Jean
+NOM : Dubois
+NUMÉRO DE SÉCURITÉ SOCIALE : 1780160471058
+ADRESSE : 18 Avenue Matabiau
+VILLE : Grenoble
+CODE POSTAL : 38000
+DATE DE NAISSANCE : 03/03/1946
+Âge : 70 ans 
+Sexe : H
+COURRIEL : jdubois@hotmail.fr
+DATE D'ADMISSION : 12/12/2016
+MÉDÉCIN : Dr Michel Renaud
+RAPPORT CLINIQUE : 70 ans, retraité, sans allergie médicamenteuse connue, qui présente comme antécédents : ancien accident du travail avec fractures vertébrales et des côtes ; opéré de la maladie de Dupuytren à la main droite et d'un pontage ilio-fémoral gauche ; diabète de type II, hypercholestérolémie et hyperuricémie ; alcoolisme actif, fume 20 cigarettes / jour.
+Il nous a été adressé car il présentait une hématurie macroscopique postmictionnelle à une occasion et une microhématurie persistante par la suite, avec une miction normale.
+L'examen physique a montré un bon état général, avec un abdomen et des organes génitaux normaux ; le toucher rectal était compatible avec un adénome de la prostate de grade I/IV.
+L'analyse d'urine a montré 4 globules rouges/champ et 0-5 leucocytes/champ ; le reste du sédiment était normal.
+Hémogramme normal ; la biochimie a montré une glycémie de 169 mg/dl et des triglycérides de 456 mg/dl ; les fonctions hépatiques et rénales étaient normales. PSA de 1,16 ng/ml.
+ADDRESSÉ À : Dre Marie Breton - Centre Hospitalier de Bellevue Service D'Endocrinologie et de Nutrition - Rue Paulin Bussières, 38000 Grenoble
+COURRIEL : mariebreton@chb.fr
+""")
+```
+
 </div>
 
 ## Results

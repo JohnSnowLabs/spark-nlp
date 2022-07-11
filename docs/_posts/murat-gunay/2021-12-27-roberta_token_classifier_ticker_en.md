@@ -90,6 +90,14 @@ val example = Seq.empty["I am going to buy 100 shares of MFST tomorrow."].toDS.t
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.ner.stocks_ticker").predict("""I am going to buy 100 shares of MFST tomorrow.""")
+```
+
 </div>
 
 ## Results

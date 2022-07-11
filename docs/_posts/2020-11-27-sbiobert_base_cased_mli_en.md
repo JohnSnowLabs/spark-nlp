@@ -33,7 +33,7 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
     
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 sbiobert_embeddings = BertSentenceEmbeddings\
@@ -50,6 +50,14 @@ val sbiobert_embeddings = BertSentenceEmbeddings
     .setInputCols(Array("ner_chunk_doc"))
     .setOutputCol("sbert_embeddings")
 
+```
+
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed_sentence.biobert.mli").predict("""Put your text here.""")
 ```
 
 </div>

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spanish Part of Speech Tagger (from PlanTL-GOB-ES)
+title: Spanish Part of Speech Tagger (Base)
 author: John Snow Labs
 name: roberta_pos_roberta_base_bne_capitel_pos
 date: 2022-05-03
@@ -10,6 +10,7 @@ language: es
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -76,6 +77,14 @@ val data = Seq("Amo Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.pos.roberta_base_bne_capitel_pos").predict("""Amo Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

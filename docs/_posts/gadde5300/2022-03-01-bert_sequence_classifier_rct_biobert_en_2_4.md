@@ -95,6 +95,14 @@ val data = Seq("Previous attempts to prevent all the unwanted postoperative resp
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.clinical_trials").predict("""Previous attempts to prevent all the unwanted postoperative responses to major surgery with an epidural hydrophilic opioid , morphine , have not succeeded . The authors ' hypothesis was that the lipophilic opioid fentanyl , infused epidurally close to the spinal-cord opioid receptors corresponding to the dermatome of the surgical incision , gives equal pain relief but attenuates postoperative hormonal and metabolic responses more effectively than does systemic fentanyl .""")
+```
+
 </div>
 
 
@@ -138,7 +146,7 @@ https://arxiv.org/abs/1710.06071
 
 
 ```bash
-LABEL         precision  recall  f1-score  support
+label         precision  recall  f1-score  support
 BACKGROUND    0.77       0.86    0.81      2000   
 CONCLUSIONS   0.96       0.95    0.95      2000   
 METHODS       0.96       0.98    0.97      2000   
@@ -148,6 +156,3 @@ accuracy      0.9        0.9     0.9       10000
 macro-avg     0.9        0.9     0.9       10000  
 weighted-avg  0.9        0.9     0.9       10000  
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbMzYwMTU0OTg2LC0xNDIxMjc3NDIyXX0=
--->

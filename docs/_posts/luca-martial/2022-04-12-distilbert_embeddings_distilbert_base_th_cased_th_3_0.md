@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Thai DistilBERT Embeddings (from Geotrend)
+title: Thai DistilBERT Embeddings
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_th_cased
 date: 2022-04-12
@@ -10,6 +10,7 @@ language: th
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,6 +69,14 @@ val data = Seq("ฉันรัก Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("th.embed.distilbert_base_cased").predict("""ฉันรัก Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

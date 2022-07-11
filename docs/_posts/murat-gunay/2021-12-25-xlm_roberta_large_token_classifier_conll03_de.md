@@ -90,6 +90,14 @@ val example = Seq.empty["Ibser begann seine Karriere beim ASK Ebreichsdorf. 2004
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("de.ner.xlm").predict("""Ibser begann seine Karriere beim ASK Ebreichsdorf. 2004 wechselte er zu Admira Wacker Mödling, wo er auch in der Akademie spielte.""")
+```
+
 </div>
 
 ## Results

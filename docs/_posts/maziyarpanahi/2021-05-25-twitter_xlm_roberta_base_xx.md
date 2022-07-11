@@ -45,6 +45,14 @@ val embeddings = XlmRoBertaEmbeddings.pretrained("twitter_xlm_roberta_base", "xx
       .setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("xx.embed.xlm.twitter").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

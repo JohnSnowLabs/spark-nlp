@@ -100,6 +100,21 @@ val tokenizer = new Tokenizer()
 	   
  val result = light_pipeline.annotate(text)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.spell.clinical").predict(""")
+
+pipeline = Pipeline(stages = [
+			documentAssembler, 
+			tokenizer, 
+			spellModel])
+
+light_pipeline = LightPipeline(pipeline.fit(spark.createDataFrame([[""")
+```
+
 </div>
 
 

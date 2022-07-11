@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Chinese Bert Embeddings (from SIKU-BERT)
+title: Chinese Bert Embeddings (Siku Quanshu corpus)
 author: John Snow Labs
 name: bert_embeddings_sikubert
 date: 2022-04-11
@@ -68,6 +68,14 @@ val data = Seq("I love Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("zh.embed.sikubert").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

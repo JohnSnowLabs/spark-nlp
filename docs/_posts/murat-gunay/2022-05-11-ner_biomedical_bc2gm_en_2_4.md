@@ -131,6 +131,14 @@ val data = Seq("Immunohistochemical staining was positive for S-100 in all 9 cas
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.biomedical_bc2gm").predict("""Immunohistochemical staining was positive for S-100 in all 9 cases stained, positive for HMB-45 in 9 (90%) of 10, and negative for cytokeratin in all 9 cases in which myxoid melanoma remained in the block after previous sections.""")
+```
+
 </div>
 
 

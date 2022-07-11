@@ -78,6 +78,14 @@ val data = Seq("Hong Kong’s favourite pasta bar also offers one of the most re
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.ner.restaurant").predict("""Hong Kong’s favourite pasta bar also offers one of the most reasonably priced lunch sets in town! With locations spread out all over the territory Sha Tin – Pici’s formidable lunch menu reads like a highlight reel of the restaurant. Choose from starters like the burrata and arugula salad or freshly tossed tuna tartare, and reliable handmade pasta dishes like pappardelle. Finally, round out your effortless Italian meal with a tidy one-pot tiramisu, of course, an espresso to power you through the rest of the day.""")
+```
+
 </div>
 
 ## Results
@@ -127,8 +135,7 @@ val result = pipeline.fit(data).transform(data)
 ## Benchmarking
 
 ```bash
-                   precision    recall  f1-score   support
-
+            label  precision    recall  f1-score   support
         B-Amenity       0.77      0.75      0.76       545
         B-Cuisine       0.86      0.88      0.87       524
            B-Dish       0.84      0.80      0.82       303
@@ -146,8 +153,7 @@ B-Restaurant_Name       0.91      0.94      0.92       388
          I-Rating       0.80      0.85      0.82       118
 I-Restaurant_Name       0.82      0.89      0.85       359
                 O       0.95      0.96      0.96      8634
-
-         accuracy                           0.91     14257
-        macro avg       0.81      0.83      0.82     14257
-     weighted avg       0.91      0.91      0.91     14257
+         accuracy        -          -       0.91     14257
+        macro-avg       0.81      0.83      0.82     14257
+     weighted-avg       0.91      0.91      0.91     14257
 ```

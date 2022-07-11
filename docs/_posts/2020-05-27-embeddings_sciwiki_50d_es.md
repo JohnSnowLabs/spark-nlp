@@ -31,7 +31,7 @@ Word Embeddings lookup annotator that maps tokens to vectors.
 ## How to use 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 model = WordEmbeddingsModel.pretrained("embeddings_sciwiki_50d","es","clinical/models")\
@@ -44,6 +44,14 @@ val model = WordEmbeddingsModel.pretrained("embeddings_sciwiki_50d","es","clinic
 	.setInputCols("document","token")
 	.setOutputCol("word_embeddings")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.embed.sciwiki.50d").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.h2_title}

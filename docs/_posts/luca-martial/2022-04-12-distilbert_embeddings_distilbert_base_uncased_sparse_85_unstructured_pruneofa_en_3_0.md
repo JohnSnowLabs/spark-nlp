@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English DistilBERT Embeddings (from Intel)
+title: English DistilBERT Embeddings (%85 sparse)
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_uncased_sparse_85_unstructured_pruneofa
 date: 2022-04-12
@@ -68,6 +68,14 @@ val data = Seq("I love Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.distilbert_base_uncased_sparse_85_unstructured_pruneofa").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

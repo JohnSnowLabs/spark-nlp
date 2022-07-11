@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English ALBERT Embeddings
+title: English ALBERT Embeddings (xx-large)
 author: John Snow Labs
 name: albert_embeddings_albert_xxlarge_v1
 date: 2022-04-14
@@ -68,6 +68,14 @@ val data = Seq("I love Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.albert_xxlarge_v1").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

@@ -15,25 +15,35 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 Extract relations to fully understand the origin of some phenotypic abnormalities and their associated diseases. `1` : Entities are related, `0` : Entities are not related.
 
+
 ## Predicted Entities
 
+
 `0`, `1`
+
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_human_phenotype_gene_biobert_en_3.0.3_2.4_1627120647767.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 ...
 documenter = DocumentAssembler()\
@@ -87,23 +97,24 @@ re_model = RelationExtractionDLModel()\
 
 pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model])
 
-text = "She has a retinal degeneration, hearing loss and renal failure, short stature, \
-Mutations in the SH3PXD2B gene coding for the Tks4 protein are responsible for the autosomal recessive."
+text = """She has a retinal degeneration, hearing loss and renal failure, short stature, Mutations in the SH3PXD2B gene coding for the Tks4 protein are responsible for the autosomal recessive."""
 
 data = spark.createDataFrame([[text]]).toDF("text")
+
 p_model = pipeline.fit(data)
+
 result = p_model.transform(data)
 ```
 ```scala
-val documenter = DocumentAssembler() 
+val documenter = new DocumentAssembler() 
     .setInputCol("text") 
     .setOutputCol("document")
 
-val sentencer = SentenceDetector()
+val sentencer = new SentenceDetector()
     .setInputCols("document")
     .setOutputCol("sentences")
 
-val tokenizer = sparknlp.annotators.Tokenizer()
+val tokenizer = new Tokenizer()
     .setInputCols("sentences")
     .setOutputCol("tokens")
 
@@ -121,7 +132,7 @@ val ner_tagger = MedicalNerModel.pretrained("ner_human_phenotype_gene_clinical",
     .setInputCols(Array("sentences", "tokens", "embeddings"))
     .setOutputCol("ner_tags") 
 
-val ner_converter = NerConverter()
+val ner_converter = new NerConverter()
     .setInputCols(Array("sentences", "tokens", "ner_tags"))
     .setOutputCol("ner_chunks")
 
@@ -146,12 +157,23 @@ val re_model = RelationExtractionDLModel()
     
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
 
-val result = pipeline.fit(Seq.empty["She has a retinal degeneration, hearing loss and renal failure, short stature, \
-Mutations in the SH3PXD2B gene coding for the Tks4 protein are responsible for the autosomal recessive."].toDS.toDF("text")).transform(data)
+val data = Seq("""She has a retinal degeneration, hearing loss and renal failure, short stature, Mutations in the SH3PXD2B gene coding for the Tks4 protein are responsible for the autosomal recessive.""").toDS.toDF("text")
+
+val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.relation.humen_phenotype_gene").predict("""She has a retinal degeneration, hearing loss and renal failure, short stature, Mutations in the SH3PXD2B gene coding for the Tks4 protein are responsible for the autosomal recessive.""")
+```
+
 </div>
 
+
 ## Results
+
 
 ```bash
 |    |   relation | entity1   |   entity1_begin |   entity1_end | chunk1               | entity2   |   entity2_begin |   entity2_end | chunk2              |   confidence |
@@ -163,8 +185,10 @@ Mutations in the SH3PXD2B gene coding for the Tks4 protein are responsible for t
 |  4 |          1 | HP        |              32 |            43 | hearing loss         | GENE      |              96 |           103 | SH3PXD2B            |     0.640802 |
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -175,15 +199,22 @@ Mutations in the SH3PXD2B gene coding for the Tks4 protein are responsible for t
 |Language:|en|
 |Case sensitive:|true|
 
+
 ## Data Source
+
 
 Trained on a silver standard corpus of human phenotype and gene annotations and their relations.
 
+
 ## Benchmarking
+
 
 ```bash
 Relation           Recall Precision        F1   Support
 0                   0.922     0.908     0.915       129
 1                   0.831     0.855     0.843        71
-Avg.                0.877     0.882     0.879
+Avg.                0.877     0.882     0.879         -
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTg3Mzc2NTc2XX0=
+-->

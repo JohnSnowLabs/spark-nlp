@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English RoBERTa Embeddings (from climatebert)
+title: English RoBERTa Embeddings (Mixed sampling strategy)
 author: John Snow Labs
 name: roberta_embeddings_distilroberta_base_climate_d_s
 date: 2022-04-14
@@ -18,6 +18,8 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 Pretrained RoBERTa Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `distilroberta-base-climate-d-s` is a English model orginally trained by `climatebert`.
+
+Sampling strategy ds:As expressed in the author's paper [here](https://arxiv.org/pdf/2110.12010.pdf), ds is "div select + sim select", meaning 70% of the biggest composite scaled score diverse+sim was used, discarding the rest.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -68,6 +70,14 @@ val data = Seq("I love Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.distilroberta_base_climate_d_s").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

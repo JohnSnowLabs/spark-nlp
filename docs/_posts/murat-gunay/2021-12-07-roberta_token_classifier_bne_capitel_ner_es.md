@@ -128,5 +128,6 @@ val result = pipeline.fit(example).transform(example)
 ## Benchmarking
 
 ```bash
-F1 Score : 0.8867
+label   score
+   f1   0.8867
 ```

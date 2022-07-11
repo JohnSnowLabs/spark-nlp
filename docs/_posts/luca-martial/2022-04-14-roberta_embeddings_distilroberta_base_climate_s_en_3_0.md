@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English RoBERTa Embeddings (from climatebert)
+title: English RoBERTa Embeddings (Sampling strategy 'sim select')
 author: John Snow Labs
 name: roberta_embeddings_distilroberta_base_climate_s
 date: 2022-04-14
@@ -18,6 +18,8 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 Pretrained RoBERTa Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `distilroberta-base-climate-s` is a English model orginally trained by `climatebert`.
+
+Sampling strategy s:As expressed in the author's paper [here](https://arxiv.org/pdf/2110.12010.pdf), s is "sim select", meaning 70% of the most similar sentences of one of the corpus was used, discarding the rest.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

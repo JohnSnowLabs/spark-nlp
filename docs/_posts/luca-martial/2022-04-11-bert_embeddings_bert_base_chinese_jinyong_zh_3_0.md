@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Chinese Bert Embeddings (from yechen)
+title: Chinese Bert Embeddings (Base)
 author: John Snow Labs
 name: bert_embeddings_bert_base_chinese_jinyong
 date: 2022-04-11
@@ -68,6 +68,14 @@ val data = Seq("I love Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("zh.embed.bert_base_chinese_jinyong").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

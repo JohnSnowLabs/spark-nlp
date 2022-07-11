@@ -53,6 +53,14 @@ val embeddings = DeBertaEmbeddings.pretrained("mdeberta_v3_base", "xx")
       .setOutputCol("embeddings")
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("xx.embed.mdeberta_v3_base").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

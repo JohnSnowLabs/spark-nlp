@@ -38,9 +38,9 @@ class Normalizer(AnnotatorApproach):
     slangDictionary
         Slang dictionary is a delimited text. needs 'delimiter' in options
     minLength
-        The minimum allowed legth for each token, by default 0
+        The minimum allowed length for each token, by default 0
     maxLength
-        The maximum allowed legth for each token
+        The maximum allowed length for each token
 
     Examples
     --------
@@ -99,12 +99,12 @@ class Normalizer(AnnotatorApproach):
 
     minLength = Param(Params._dummy(),
                       "minLength",
-                      "Set the minimum allowed legth for each token",
+                      "Set the minimum allowed length for each token",
                       typeConverter=TypeConverters.toInt)
 
     maxLength = Param(Params._dummy(),
                       "maxLength",
-                      "Set the maximum allowed legth for each token",
+                      "Set the maximum allowed length for each token",
                       typeConverter=TypeConverters.toInt)
 
     @keyword_only
@@ -159,22 +159,22 @@ class Normalizer(AnnotatorApproach):
         return self._set(slangDictionary=ExternalResource(path, read_as, opts))
 
     def setMinLength(self, value):
-        """Sets the minimum allowed legth for each token, by default 0.
+        """Sets the minimum allowed length for each token, by default 0.
 
         Parameters
         ----------
         value : int
-            Minimum allowed legth for each token.
+            Minimum allowed length for each token.
         """
         return self._set(minLength=value)
 
     def setMaxLength(self, value):
-        """Sets the maximum allowed legth for each token.
+        """Sets the maximum allowed length for each token.
 
         Parameters
         ----------
         value : int
-            Maximum allowed legth for each token
+            Maximum allowed length for each token
         """
         return self._set(maxLength=value)
 
@@ -222,4 +222,3 @@ class NormalizerModel(AnnotatorModel):
         )
 
     name = "NormalizerModel"
-

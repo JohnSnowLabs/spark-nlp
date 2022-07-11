@@ -78,6 +78,15 @@ val data = Seq("She is given Fragmin 5000 units subcutaneously daily , Xenaderm 
 val result = pipeline.fit(data).transform(data)
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.rxnorm").predict("""She is given Fragmin 5000 units subcutaneously daily , Xenaderm to wounds topically b.i.d., lantus 40 units subcutaneously at bedtime , OxyContin 30 mg p.o.q. , folic acid 1 mg daily , levothyroxine 0.1 mg 
+p.o. daily , Prevacid 30 mg daily , Avandia 4 mg daily , norvasc 10 mg daily , lexapro 20 mg daily , aspirin 81 mg daily , Neurontin 400 mg .""")
+```
+
 </div>
 
 ## Results

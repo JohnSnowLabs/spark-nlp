@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Portuguese BioBERT Embeddings (from pucpr)
+title: Clinical Portuguese Bert Embeddiongs (Clinical)
 author: John Snow Labs
 name: biobert_embeddings_clinical
 date: 2022-04-11
@@ -68,6 +68,14 @@ val data = Seq("Odeio o cancro").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("pt.embed.gs_clinical").predict("""Odeio o cancro""")
+```
+
 </div>
 
 {:.model-param}

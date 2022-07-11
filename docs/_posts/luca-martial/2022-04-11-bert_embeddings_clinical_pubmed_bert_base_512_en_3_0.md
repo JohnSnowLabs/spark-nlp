@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Bert Embeddings (from Tsubasaz)
+title: Clinical English Bert Embeddings (Base, 512 dimension)
 author: John Snow Labs
 name: bert_embeddings_clinical_pubmed_bert_base_512
 date: 2022-04-11
@@ -68,6 +68,14 @@ val data = Seq("I love Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.clinical_pubmed_bert_base_512").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

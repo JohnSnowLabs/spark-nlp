@@ -62,6 +62,14 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings, cl
 val data = Seq("i want to bring six of us to a bistro in town that serves hot chicken sandwich that is within the same area", "show weather forcast for t h  stone memorial st  joseph peninsula state park on one hour from now").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.ner.snips").predict("""i want to bring six of us to a bistro in town that serves hot chicken sandwich that is within the same area""")
+```
+
 </div>
 
 ## Results

@@ -15,28 +15,36 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 This model maps clinical entities and concepts (like drugs/ingredients) to [National Drug Codes](https://www.fda.gov/drugs/drug-approvals-and-databases/national-drug-code-directory) using `sbiobert_base_cased_mli` Sentence Bert Embeddings. Also, if a drug has more than one NDC code, it returns all other codes in the all_k_aux_label column separated by `|` symbol.
 
+
 ## Predicted Entities
 
+
 `NDC Codes`
+
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_NDC/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_ndc_en_3.3.2_2.4_1638010818380.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
 
 ```sbiobertresolve_ndc``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_posology_greedy``` as NER model. ```DRUG``` set in ```.setWhiteList()```.
 
+
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 ...
-
 c2doc = Chunk2Doc()\
       .setInputCols("ner_chunk")\
       .setOutputCol("ner_chunk_doc") 
@@ -72,8 +80,7 @@ result = resolver_pipeline.fit(data).transform(data)
 ```
 ```scala
 ...
-
-val c2doc = Chunk2Doc()
+val c2doc = new Chunk2Doc()
       .setInputCols("ner_chunk")
       .setOutputCol("ner_chunk_doc") 
 
@@ -101,13 +108,23 @@ val resolver_pipeline = new Pipeline().setStages(Array(
         ndc_resolver
         ))
 
-val clinical_note = Seq("The patient was transferred secondary to inability and continue of her diabetes, the sacral decubitus, left foot pressure wound, and associated complications of diabetes. She is given aspirin 81 mg, folic acid 1 g daily, insulin glargine 100 UNT/ML injection and metformin 500 mg p.o. p.r.n.")
+val clinical_note = Seq("""The patient was transferred secondary to inability and continue of her diabetes, the sacral decubitus, left foot pressure wound, and associated complications of diabetes. She is given aspirin 81 mg, folic acid 1 g daily, insulin glargine 100 UNT/ML injection and metformin 500 mg p.o. p.r.n.""").toDS.toDF("text")
 
 val result = resolver_pipeline.fit(clinical_note).transform(clinical_note)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.ndc").predict("""The patient was transferred secondary to inability and continue of her diabetes, the sacral decubitus, left foot pressure wound, and associated complications of diabetes. She is given aspirin 81 mg, folic acid 1 g daily, insulin glargine 100 UNT/ML injection and metformin 500 mg p.o. p.r.n.""")
+```
+
 </div>
 
+
 ## Results
+
 
 ```bash
 +-------------------------------------+------+-----------+------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -120,8 +137,10 @@ val result = resolver_pipeline.fit(clinical_note).transform(clinical_note)
 +-------------------------------------+------+-----------+------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -134,8 +153,8 @@ val result = resolver_pipeline.fit(clinical_note).transform(clinical_note)
 |Language:|en|
 |Case sensitive:|false|
 
-## Benchmarking
 
-```bash
-It is trained on U.S. FDA 2022-NDC Codes dataset.
-```
+
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTIzNTUzODEwNl19
+-->

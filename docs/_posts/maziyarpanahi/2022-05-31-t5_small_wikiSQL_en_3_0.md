@@ -70,6 +70,14 @@ val data = Seq("How many customers have ordered more than 2 items?")
 val result = pipeline.fit(data).transform(data)
 result.select("sql.result").show(false)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.t5.wikiSQL").predict("""How many customers have ordered more than 2 items?""")
+```
+
 </div>
 
 ## Results

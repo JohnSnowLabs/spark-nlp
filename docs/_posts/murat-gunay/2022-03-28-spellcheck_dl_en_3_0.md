@@ -79,6 +79,14 @@ val lp = new LightPipeline(pipeline.fit(empty_df))
 val text = Array("During the summer we have the best ueather.", "I have a black ueather jacket, so nice.")
 lp.annotate(text)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("spell").predict("""During the summer we have the best ueather.""")
+```
+
 </div>
 
 ## Results

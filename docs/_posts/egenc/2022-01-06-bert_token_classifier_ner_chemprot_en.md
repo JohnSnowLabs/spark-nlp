@@ -15,25 +15,35 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+
 ## Description
+
 
 Detect chemical compounds and genes in the medical text using the pretrained NER model. This model is trained with the `BertForTokenClassification` method from the `transformers` library and imported into Spark NLP.
 
+
 ## Predicted Entities
 
+
 `CHEMICAL`, `GENE-Y`, `GENE-N`
+
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_chemprot_en_3.3.4_2.4_1641471274375.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+
 ## How to use
+
+
+
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -80,13 +90,23 @@ val ner_converter = new NerConverter()
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
 
-val data = Seq("Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium.").toDF("text")
+val data = Seq("""Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium.""").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.chemprot.bert").predict("""Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium.""")
+```
+
 </div>
 
+
 ## Results
+
 
 ```bash
 +-------------------------------+---------+
@@ -97,8 +117,10 @@ val result = pipeline.fit(data).transform(data)
 +-------------------------------+---------+
 ```
 
+
 {:.model-param}
 ## Model Information
+
 
 {:.table-model}
 |---|---|
@@ -113,23 +135,25 @@ val result = pipeline.fit(data).transform(data)
 |Case sensitive:|true|
 |Max sentense length:|512|
 
+
 ## Data Source
+
 
 This model is trained on a [ChemProt corpus](https://biocreative.bioinformatics.udel.edu/).
 
+
 ## Benchmarking
 
-```bash
-              precision    recall  f1-score   support
 
+```bash
+       label  precision    recall  f1-score   support
   B-CHEMICAL       0.93      0.79      0.85      8649
     B-GENE-N       0.63      0.56      0.59      2752
     B-GENE-Y       0.82      0.73      0.77      5490
   I-CHEMICAL       0.90      0.79      0.84      1313
     I-GENE-N       0.72      0.62      0.67      1993
     I-GENE-Y       0.81      0.72      0.77      2420
-
-    accuracy                           0.73     22617
-   macro avg       0.75      0.74      0.75     22617
-weighted avg       0.83      0.73      0.78     22617
+    accuracy       -         -         0.73     22617
+   macro-avg       0.75      0.74      0.75     22617
+weighted-avg       0.83      0.73      0.78     22617
 ```

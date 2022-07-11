@@ -103,6 +103,14 @@ val data = Seq("Peter Pipers employees are picking pecks of pickled peppers.")
 val result = pipeline.fit(data).transform(data)
 result.selectExpr("lemma.result").show(false)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.lemma.antbnc").predict("""Peter Pipers employees are picking pecks of pickled peppers.""")
+```
+
 </div>
 
 ## Results

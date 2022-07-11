@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Portuguese Bert Embeddings (from pierreguillou)
+title: Portuguese Legal Bert Embeddings (Cased)
 author: John Snow Labs
 name: bert_embeddings_bert_base_cased_pt_lenerbr
 date: 2022-04-11
@@ -10,6 +10,7 @@ language: pt
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -17,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Bert Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `bert-base-cased-pt-lenerbr` is a Portuguese model orginally trained by `pierreguillou`.
+Pretrained Legal Bert Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `bert-base-cased-pt-lenerbr` is a Portuguese model orginally trained by `pierreguillou`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -68,6 +69,14 @@ val data = Seq("Eu amo Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("pt.embed.bert_base_cased_pt_lenerbr").predict("""Eu amo Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

@@ -29,7 +29,7 @@ Classify open-domain, fact-based questions into one of the following broad seman
 
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 from sparknlp.pretrained import PretrainedPipeline 
 pipeline = PretrainedPipeline("classifierdl_use_trec50_pipeline", lang = "en") 
@@ -40,6 +40,14 @@ import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val pipeline = new PretrainedPipeline("classifierdl_use_trec50_pipeline", lang = "en")
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.trec50.component_list").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results

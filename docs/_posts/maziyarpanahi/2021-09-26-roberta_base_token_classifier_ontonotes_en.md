@@ -1,6 +1,6 @@
 ---
 layout: model
-title: RoBERTa Token Classification Base - NER OntoNotes (roberta_base_token_classifier_ontonotes)
+title: RoBERTa NER (Base, OntoNotes)
 author: John Snow Labs
 name: roberta_base_token_classifier_ontonotes
 date: 2021-09-26
@@ -97,6 +97,14 @@ val example = Seq.empty["My name is John!"].toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.token_roberta_base_token_classifier_ontonotes").predict("""My name is John!""")
+```
+
 </div>
 
 ## Results

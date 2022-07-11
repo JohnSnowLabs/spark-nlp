@@ -174,8 +174,7 @@ val result = pipeline.fit(example).transform(example)
 Test:
 
 
-                                          precision    recall  f1-score   support
-
+                                   label  precision    recall  f1-score   support
                                        O       0.98      0.98      0.98    365750
                     art-broadcastprogram       0.66      0.66      0.66       890
                                 art-film       0.76      0.74      0.75      1039
@@ -243,10 +242,9 @@ organization-government/governmentagency       0.63      0.56      0.59      217
                         product-software       0.64      0.61      0.62       693
                            product-train       0.54      0.69      0.61       274
                           product-weapon       0.74      0.68      0.71       611
-
-                                accuracy                           0.93    463214
-                               macro avg       0.71      0.71      0.71    463214
-                            weighted avg       0.93      0.93      0.93    463214
+                                accuracy          -         -      0.93    463214
+                               macro-avg       0.71      0.71      0.71    463214
+                            weighted-avg       0.93      0.93      0.93    463214
 
 
 
