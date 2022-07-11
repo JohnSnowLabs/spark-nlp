@@ -425,8 +425,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Detect Clinical Entities in Romanian (w2v_cc_300d)- Spark NLP Model</title><meta name="description" content="DescriptionExtract clinical entities from Romanian clinical texts. This model is trained using Romanian w2v_cc_300d embeddings.Predicted EntitiesMeasurements...">
-<link rel="canonical" href="/2022/07/01/ner_clinical_ro_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>English BertForTokenClassification Cased model (from rsuwaileh)- Spark NLP Model</title><meta name="description" content="DescriptionPretrained BertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP...">
+<link rel="canonical" href="/2022/07/11/bert_ner_IDRISI_LMR_HD_TL_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -822,25 +822,25 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/hsaglamlar/2022-07-01-ner_clinical_ro_3_0.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/gadde5300/2022-07-11-bert_ner_IDRISI_LMR_HD_TL_en_3_0.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jul 01, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-01T00:00:00+00:00"></div><header class="main-docs"><h1>Detect Clinical Entities in Romanian (w2v_cc_300d)</h1></header></div><meta itemprop="headline" content="Detect Clinical Entities in Romanian (w2v_cc_300d)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>licenced</li><li>clinical</li><li>ro</li><li>ner</li><li>w2v</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-01T00:00:00+00:00">
-    <meta itemprop="keywords" content="licenced,clinical,ro,ner,w2v,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jul 11, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-11T00:00:00+00:00"></div><header class="main-docs"><h1>English BertForTokenClassification Cased model (from rsuwaileh)</h1></header></div><meta itemprop="headline" content="English BertForTokenClassification Cased model (from rsuwaileh)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>bert</li><li>pos</li><li>part_of_speech</li><li>en</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-11T00:00:00+00:00">
+    <meta itemprop="keywords" content="bert,pos,part_of_speech,en,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Extract clinical entities from Romanian clinical texts. This model is trained using Romanian <code class="language-plaintext highlighter-rouge">w2v_cc_300d</code> embeddings.</p>
+<p>Pretrained BertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. <code class="language-plaintext highlighter-rouge">IDRISI-LMR-HD-TL</code> is a English model originally trained by <code class="language-plaintext highlighter-rouge">rsuwaileh</code>.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">Measurements</code>, <code class="language-plaintext highlighter-rouge">Form</code>, <code class="language-plaintext highlighter-rouge">Symptom</code>, <code class="language-plaintext highlighter-rouge">Route</code>, <code class="language-plaintext highlighter-rouge">Procedure</code>, <code class="language-plaintext highlighter-rouge">Disease_Syndrome_Disorder</code>, <code class="language-plaintext highlighter-rouge">Score</code>, <code class="language-plaintext highlighter-rouge">Drug_Ingredient</code>, <code class="language-plaintext highlighter-rouge">Pulse</code>, <code class="language-plaintext highlighter-rouge">Frequency</code>, <code class="language-plaintext highlighter-rouge">Date</code>, <code class="language-plaintext highlighter-rouge">Body_Part</code>, <code class="language-plaintext highlighter-rouge">Drug_Brand_Name</code>, <code class="language-plaintext highlighter-rouge">Time</code>, <code class="language-plaintext highlighter-rouge">Direction</code>, <code class="language-plaintext highlighter-rouge">Dosage</code>, <code class="language-plaintext highlighter-rouge">Medical_Device</code>, <code class="language-plaintext highlighter-rouge">Imaging_Technique</code>, <code class="language-plaintext highlighter-rouge">Test</code>, <code class="language-plaintext highlighter-rouge">Imaging_Findings</code>, <code class="language-plaintext highlighter-rouge">Imaging_Test</code>, <code class="language-plaintext highlighter-rouge">Test_Result</code>, <code class="language-plaintext highlighter-rouge">Weight</code>, <code class="language-plaintext highlighter-rouge">Clinical_Dept</code>, <code class="language-plaintext highlighter-rouge">Units</code></p>
+<p><code class="language-plaintext highlighter-rouge">U-LOC</code>, <code class="language-plaintext highlighter-rouge">LOC</code>, <code class="language-plaintext highlighter-rouge">L-LOC</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_clinical_ro_4.0.0_3.0_1656687302322.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<button class="button button-orange" disabled="">Open in Colab</button>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_ner_IDRISI_LMR_HD_TL_en_4.0.0_3.0_1657526835202.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -848,111 +848,51 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-        
-<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
- 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">word_embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"w2v_cc_300d"</span><span class="p">,</span> <span class="s">"ro"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
 
-<span class="n">clinical_ner</span> <span class="o">=</span>  <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_clinical"</span><span class="p">,</span> <span class="s">"ro"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> \
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_ner_IDRISI_LMR_HD_TL"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos"</span><span class="p">)</span>
 
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-        <span class="n">document_assembler</span><span class="p">,</span>
-        <span class="n">sentence_detector</span><span class="p">,</span>
-        <span class="n">tokenizer</span><span class="p">,</span>
-        <span class="n">word_embeddings</span><span class="p">,</span>
-        <span class="n">clinical_ner</span><span class="p">,</span>
-        <span class="n">ner_converter</span><span class="p">])</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">sentenceDetector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">tokenClassifier</span><span class="p">])</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"PUT YOUR STRING HERE"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="n">sample_text</span> <span class="o">=</span> <span class="s">""" Solicitare: Angio CT cardio-toracic Dg. de trimitere Atrezie de valva pulmonara. Hipoplazie VS. Atrezie VAV stang. Anastomoza Glenn. Sp. Tromboza la nivelul anastomozei. Trimis de: Sectia Clinica Cardiologie (dr. Sue T.) Procedura Aparat GE Revolution HD. Branula albastra montata la nivelul membrului superior drept. Se administreaza 30 ml Iomeron 350 cu flux 2.2 ml/s, urmate de 20 ml ser fiziologic cu acelasi flux. Se efectueaza o examinare angio-CT cardiotoracica cu achizitii secventiale prospective la o frecventa cardiaca medie de 100/min."""</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">sample_text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-
-<span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
+        <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
+        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">sentence_detector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sentence_detector_dl"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">sentenceDetector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sentence_detector_dl"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
+        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
+        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">))</span>
+        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"w2v_cc_300d"</span><span class="o">,</span><span class="s">"ro"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">BertForTokenClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_ner_IDRISI_LMR_HD_TL"</span><span class="o">,</span><span class="s">"en"</span><span class="o">)</span> 
+        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span> 
+        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pos"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">ner_model</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_clinical"</span><span class="o">,</span> <span class="s">"ro"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span><span class="n">sentenceDetector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">tokenClassifier</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PipelineModel</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
-    <span class="n">document_assembler</span><span class="o">,</span> 
-    <span class="n">sentence_detector</span><span class="o">,</span>
-    <span class="n">tokenizer</span><span class="o">,</span>
-    <span class="n">embeddings</span><span class="o">,</span>
-    <span class="n">ner_model</span><span class="o">,</span>
-    <span class="n">ner_converter</span><span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"""Solicitare: Angio CT cardio-toracic Dg. de trimitere Atrezie de valva pulmonara. Hipoplazie VS. Atrezie VAV stang. Anastomoza Glenn. Sp. Tromboza la nivelul anastomozei. Trimis de: Sectia Clinica Cardiologie (dr. Sue T.) Procedura Aparat GE Revolution HD. Branula albastra montata la nivelul membrului superior drept. Se administreaza 30 ml Iomeron 350 cu flux 2.2 ml/s, urmate de 20 ml ser fiziologic cu acelasi flux. Se efectueaza o examinare angio-CT cardiotoracica cu achizitii secventiale prospective la o frecventa cardiaca medie de 100/min."""</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"PUT YOUR STRING HERE"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
-
-<h2 id="results">Results</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------------+-------------------------+
-|chunks                    |entities                 |
-+--------------------------+-------------------------+
-|Angio CT                  |Imaging_Test             |
-|cardio-toracic            |Body_Part                |
-|Atrezie                   |Disease_Syndrome_Disorder|
-|valva pulmonara           |Body_Part                |
-|Hipoplazie                |Disease_Syndrome_Disorder|
-|VS                        |Body_Part                |
-|Atrezie                   |Disease_Syndrome_Disorder|
-|VAV stang                 |Body_Part                |
-|Anastomoza Glenn          |Disease_Syndrome_Disorder|
-|Sp                        |Body_Part                |
-|Tromboza                  |Disease_Syndrome_Disorder|
-|Sectia Clinica Cardiologie|Clinical_Dept            |
-|GE Revolution HD          |Medical_Device           |
-|Branula albastra          |Medical_Device           |
-|membrului superior        |Body_Part                |
-|drept                     |Direction                |
-|30 ml                     |Dosage                   |
-|Iomeron 350               |Drug_Ingredient          |
-|2.2 ml/s                  |Dosage                   |
-|20 ml                     |Dosage                   |
-+--------------------------+-------------------------+
-</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -960,15 +900,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>ner_clinical</td>
+      <td>bert_ner_IDRISI_LMR_HD_TL</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 4.0.0+</td>
+      <td>Spark NLP 4.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Licensed</td>
+      <td>Open Source</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -976,7 +916,7 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence, token, embeddings]</td>
+      <td>[document, token]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
@@ -984,42 +924,29 @@
     </tr>
     <tr>
       <td>Language:</td>
-      <td>ro</td>
+      <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>15.0 MB</td>
+      <td>1.2 GB</td>
+    </tr>
+    <tr>
+      <td>Case sensitive:</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>Max sentence length:</td>
+      <td>128</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="benchmarking">Benchmarking</h2>
+<h2 id="references">References</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                    label  precision    recall  f1-score   support
-                Body_Part       0.87      0.90      0.88       689
-            Clinical_Dept       0.68      0.62      0.65        97
-                     Date       1.00      0.99      0.99        87
-                Direction       0.64      0.74      0.69        50
-Disease_Syndrome_Disorder       0.69      0.66      0.67       123
-                   Dosage       0.74      0.97      0.84        38
-          Drug_Ingredient       0.98      0.92      0.95        48
-                     Form       1.00      1.00      1.00         6
-         Imaging_Findings       0.74      0.76      0.75       202
-        Imaging_Technique       0.92      0.88      0.90        26
-             Imaging_Test       0.93      0.97      0.95       208
-             Measurements       0.70      0.67      0.69       214
-           Medical_Device       0.92      0.81      0.86        42
-                    Pulse       0.82      1.00      0.90         9
-                    Route       0.97      0.91      0.94        33
-                    Score       0.91      0.95      0.93        41
-                     Time       1.00      1.00      1.00        28
-                    Units       0.60      0.89      0.71        88
-                   Weight       1.00      1.00      1.00         9
-                micro-avg       0.82      0.84      0.83      2054
-                macro-avg       0.70      0.72      0.71      2054
-             weighted-avg       0.81      0.84      0.82      2054
-</code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-07-01T00:00:00+00:00"><!-- start custom article footer snippet -->
+<ul>
+  <li>https://huggingface.co/rsuwaileh/IDRISI-LMR-HD-TL</li>
+</ul>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-07-11T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -1144,7 +1071,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/06/30/bert_classifier_finbert_fls_en_3_0.html">English FLS BertForSequenceClassification model</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/07/11/bert_ner_CRAFT_Modified_PubMedBERT_384_en_3_0.html">English BertForTokenClassification Cased model (from ghadeermobasher)</a></div></div></div>
 
 </div>
 </div>
