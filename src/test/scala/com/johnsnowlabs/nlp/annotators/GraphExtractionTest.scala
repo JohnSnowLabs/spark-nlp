@@ -468,13 +468,12 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
   }
 
   it should "output paths when Typed Dependency Parser cannot label relations" taggedAs SlowTest in {
-    // Ignored because it requires to download pretrained models which takes a considerable time
     val testDataSet = getEntitiesWithNoTypeParserOutput(spark, tokenizerWithSentencePipeline)
     val graphExtractor = new GraphExtraction()
       .setInputCols("sentence", "token", "entities")
       .setOutputCol("graph")
       .setExplodeEntities(true)
-      .setMergeEntities(true)
+      .setMergeEntities(false)
       .setMergeEntitiesIOBFormat("IOB")
       .setIncludeEdges(false)
     val expectedGraph = Array(

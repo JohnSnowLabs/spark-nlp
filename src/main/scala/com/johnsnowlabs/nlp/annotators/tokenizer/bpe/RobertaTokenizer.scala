@@ -20,10 +20,12 @@ class RobertaTokenizer(
     merges: Map[(String, String), Int],
     vocab: Map[String, Int],
     specialTokens: SpecialTokens,
-    padWithSentenceTokens: Boolean = false)
+    padWithSentenceTokens: Boolean = false,
+    addPrefixSpace: Boolean = false)
     extends Gpt2Tokenizer(
       merges,
       vocab,
       specialTokens,
       padWithSentenceTokens,
-      prependString = "Ġ")
+      prependString = "Ġ",
+      addPrefixSpace)

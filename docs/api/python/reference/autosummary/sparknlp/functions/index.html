@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>sparknlp.functions &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp.functions &#8212; Spark NLP 4.0.1 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -270,20 +270,20 @@
 </table>
 <dl class="py function">
 <dt class="sig sig-object py" id="sparknlp.functions.map_annotations">
-<span class="sig-name descname"><span class="pre">map_annotations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.types.DataType.html#pyspark.sql.types.DataType" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.types.DataType</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp/functions.html#map_annotations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.functions.map_annotations" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">map_annotations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.types.DataType.html#pyspark.sql.types.DataType" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.types.DataType</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp/functions.html#map_annotations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.functions.map_annotations" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a Spark UDF to map over an Annotator’s results.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
 <dt><strong>f</strong><span class="classifier">function</span></dt><dd><p>The function to be applied over the results</p>
 </dd>
-<dt><strong>output_type</strong><span class="classifier"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.types.DataType.html#pyspark.sql.types.DataType" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.types.DataType</span></code></a></span></dt><dd><p>Output type of the data</p>
+<dt><strong>output_type</strong><span class="classifier"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.types.DataType.html#pyspark.sql.types.DataType" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.types.DataType</span></code></a></span></dt><dd><p>Output type of the data</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.functions.udf.html#pyspark.sql.functions.udf" title="(in PySpark vmaster)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyspark.sql.functions.udf()</span></code></a></dt><dd><p>Spark UserDefinedFunction (udf)</p>
+<dt><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.udf.html#pyspark.sql.functions.udf" title="(in PySpark vmaster)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyspark.sql.functions.udf()</span></code></a></dt><dd><p>Spark UserDefinedFunction (udf)</p>
 </dd>
 </dl>
 </dd>
@@ -318,20 +318,20 @@ type of our column. We are using an Annotation array here.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sparknlp.functions.map_annotations_array">
-<span class="sig-name descname"><span class="pre">map_annotations_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.types.DataType.html#pyspark.sql.types.DataType" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.types.DataType</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp/functions.html#map_annotations_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.functions.map_annotations_array" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">map_annotations_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.types.DataType.html#pyspark.sql.types.DataType" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.types.DataType</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp/functions.html#map_annotations_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.functions.map_annotations_array" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a Spark UDF to map over an Annotator’s array results.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
 <dt><strong>f</strong><span class="classifier">function</span></dt><dd><p>The function to be applied over the results</p>
 </dd>
-<dt><strong>output_type</strong><span class="classifier"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.types.DataType.html#pyspark.sql.types.DataType" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.types.DataType</span></code></a></span></dt><dd><p>Output type of the data</p>
+<dt><strong>output_type</strong><span class="classifier"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.types.DataType.html#pyspark.sql.types.DataType" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.types.DataType</span></code></a></span></dt><dd><p>Output type of the data</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.functions.udf.html#pyspark.sql.functions.udf" title="(in PySpark vmaster)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyspark.sql.functions.udf()</span></code></a></dt><dd><p>Spark UserDefinedFunction (udf)</p>
+<dt><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.udf.html#pyspark.sql.functions.udf" title="(in PySpark vmaster)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyspark.sql.functions.udf()</span></code></a></dt><dd><p>Spark UserDefinedFunction (udf)</p>
 </dd>
 </dl>
 </dd>
@@ -352,7 +352,7 @@ return type is explicitly defined as a <cite>Annotation.dataType()</cite>.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.functions.udf.html#pyspark.sql.functions.udf" title="(in PySpark vmaster)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyspark.sql.functions.udf()</span></code></a></dt><dd><p>Spark UserDefinedFunction (udf)</p>
+<dt><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.udf.html#pyspark.sql.functions.udf" title="(in PySpark vmaster)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyspark.sql.functions.udf()</span></code></a></dt><dd><p>Spark UserDefinedFunction (udf)</p>
 </dd>
 </dl>
 </dd>
@@ -382,7 +382,7 @@ return type is explicitly defined as a <cite>Annotation.dataType()</cite>.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sparknlp.functions.map_annotations_col">
-<span class="sig-name descname"><span class="pre">map_annotations_col</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.DataFrame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotatyon_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.types.DataType.html#pyspark.sql.types.DataType" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.types.DataType</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Annotation.arrayType()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp/functions.html#map_annotations_col"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.functions.map_annotations_col" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">map_annotations_col</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.DataFrame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotatyon_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.types.DataType.html#pyspark.sql.types.DataType" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.types.DataType</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Annotation.arrayType()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp/functions.html#map_annotations_col"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.functions.map_annotations_col" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a Spark UDF to map over a column of Annotation results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -403,7 +403,7 @@ return type is explicitly defined as a <cite>Annotation.dataType()</cite>.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></dt><dd><p>Transformed DataFrame</p>
+<dt><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></dt><dd><p>Transformed DataFrame</p>
 </dd>
 </dl>
 </dd>
@@ -443,7 +443,7 @@ return type is explicitly defined as a <cite>Annotation.dataType()</cite>.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sparknlp.functions.map_annotations_cols">
-<span class="sig-name descname"><span class="pre">map_annotations_cols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.DataFrame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotatyon_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.types.DataType.html#pyspark.sql.types.DataType" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.types.DataType</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Annotation.arrayType()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp/functions.html#map_annotations_cols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.functions.map_annotations_cols" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">map_annotations_cols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.DataFrame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotatyon_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.types.DataType.html#pyspark.sql.types.DataType" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.types.DataType</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Annotation.arrayType()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp/functions.html#map_annotations_cols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.functions.map_annotations_cols" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a Spark UDF to map over multiple columns of Annotation results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -464,7 +464,7 @@ return type is explicitly defined as a <cite>Annotation.dataType()</cite>.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></dt><dd><p>Transformed DataFrame</p>
+<dt><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></dt><dd><p>Transformed DataFrame</p>
 </dd>
 </dl>
 </dd>
@@ -527,7 +527,7 @@ return type is explicitly defined as a <cite>Annotation.dataType()</cite>.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></dt><dd><p>Filtered DataFrame</p>
+<dt><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></dt><dd><p>Filtered DataFrame</p>
 </dd>
 </dl>
 </dd>
@@ -556,7 +556,7 @@ return type is explicitly defined as a <cite>Annotation.dataType()</cite>.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sparknlp.functions.explode_annotations_col">
-<span class="sig-name descname"><span class="pre">explode_annotations_col</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.DataFrame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_column</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp/functions.html#explode_annotations_col"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.functions.explode_annotations_col" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">explode_annotations_col</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.DataFrame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_column</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp/functions.html#explode_annotations_col"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.functions.explode_annotations_col" title="Permalink to this definition">#</a></dt>
 <dd><p>Explodes an Annotation column, putting each result onto a separate row.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -571,7 +571,7 @@ return type is explicitly defined as a <cite>Annotation.dataType()</cite>.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></dt><dd><p>Transformed DataFrame</p>
+<dt><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></dt><dd><p>Transformed DataFrame</p>
 </dd>
 </dl>
 </dd>
@@ -640,7 +640,7 @@ return type is explicitly defined as a <cite>Annotation.dataType()</cite>.</p>
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
 </p>
   </div>
   

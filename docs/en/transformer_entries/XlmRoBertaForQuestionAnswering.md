@@ -39,7 +39,7 @@ from pyspark.ml import Pipeline
 
 documentAssembler = MultiDocumentAssembler() \
     .setInputCols(["question", "context"]) \
-    .setOutputCol(["document_question", "document_context"])
+    .setOutputCols(["document_question", "document_context"])
 
 spanClassifier = XlmRoBertaForQuestionAnswering.pretrained() \
     .setInputCols(["document_question", "document_context"]) \

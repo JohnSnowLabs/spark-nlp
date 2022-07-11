@@ -70,7 +70,7 @@ class XlmTokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
     "s d</w>",
     "o o").map(_.split(" ")).map { case Array(c1, c2) => (c1, c2) }.zipWithIndex.toMap
 
-  val tokenizer: BpeTokenizer = BpeTokenizer.forModel("xlm", merges, vocab)
+  val modelType = "xlm"
 
   override def assertEncodedCorrectly(
       text: String,
@@ -90,15 +90,13 @@ class XlmTokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
   }
 
   "XlmTokenizer" should behave like correctBpeTokenizer(
-    tokenizer = tokenizer,
     text = "I unambigouosly good 3Asd!",
     expected = Array("i", "un", "ambi", "gou", "os", "ly", "good", "3", "as", "d", "!"),
     expectedIds = Array(14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24))
 
-  it should behave like correctBpeTokenizerInFringeSituations(tokenizer = tokenizer)
+  it should behave like correctBpeTokenizerInFringeSituations()
 
   it should behave like correctBpeTokenizerSpecialTokens(
-    tokenizer = tokenizer,
     text = "I unambigouosly <special1> good 3Asd <special1>",
     expected = Array(
       "i",

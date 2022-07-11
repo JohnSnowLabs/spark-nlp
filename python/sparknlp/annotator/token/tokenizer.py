@@ -139,12 +139,12 @@ class Tokenizer(AnnotatorApproach):
 
     minLength = Param(Params._dummy(),
                       "minLength",
-                      "Set the minimum allowed legth for each token",
+                      "Set the minimum allowed length for each token",
                       typeConverter=TypeConverters.toInt)
 
     maxLength = Param(Params._dummy(),
                       "maxLength",
-                      "Set the maximum allowed legth for each token",
+                      "Set the maximum allowed length for each token",
                       typeConverter=TypeConverters.toInt)
 
     name = 'Tokenizer'
@@ -407,22 +407,22 @@ class Tokenizer(AnnotatorApproach):
         return self._set(splitChars=split_chars)
 
     def setMinLength(self, value):
-        """Sets the minimum allowed legth for each token, by default 0.
+        """Sets the minimum allowed length for each token, by default 0.
 
         Parameters
         ----------
         value : int
-            Minimum allowed legth for each token
+            Minimum allowed length for each token
         """
         return self._set(minLength=value)
 
     def setMaxLength(self, value):
-        """Sets the maximum allowed legth for each token, by default 99999.
+        """Sets the maximum allowed length for each token, by default 99999.
 
         Parameters
         ----------
         value : int
-            Maximum allowed legth for each token
+            Maximum allowed length for each token
         """
         return self._set(maxLength=value)
 

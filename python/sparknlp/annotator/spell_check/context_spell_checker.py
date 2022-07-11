@@ -673,7 +673,7 @@ class ContextSpellCheckerModel(AnnotatorModel):
         Parameters
         ----------
         weights : Dict[str, float]
-            Weights for Levenshtein distance as a maping.
+            Weights for Levenshtein distance as a mapping.
         """
         self._call_java('setWeights', weights)
 

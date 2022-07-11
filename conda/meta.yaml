@@ -1,15 +1,15 @@
 package:
   name: "spark-nlp"
-  version: 4.0.0
+  version: 4.0.1
 
 app:
   entry: spark-nlp
   summary: Natural Language Understanding Library for Apache Spark.
 
 source:
-    fn: spark-nlp-4.0.0.tar.gz
-    url: https://files.pythonhosted.org/packages/fa/d6/5e21ff8965a7151c361766cec2a399420963c4d37ec47e3372a3f9c9cf61/spark-nlp-4.0.0.tar.gz
-    sha256: fa51938a9f31f2e0e93eef59ccacd510014a61c30c7caf2aeef947499e36a0f8
+    fn: spark-nlp-4.0.1.tar.gz
+    url: https://files.pythonhosted.org/packages/e6/1b/d16adb512ee7a0a493a88a7d3e935d6891097f169d3c2d83ff9ad9a970de/spark-nlp-4.0.1.tar.gz
+    sha256: 0e1c5ddeb9546375c8557508772241519b0dfdffaee117ac1d8ee29e6063f893
 build:
   noarch: generic
   number: 0
