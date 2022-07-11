@@ -166,6 +166,27 @@ class Extractor
     nil
   end
 
+  def references_results(post_url)
+    if @content.include? '## References'
+      m = /^## References[^#]+([\W\w]*?)($)/m.match(@content)
+      if m
+        references_section = m[0]
+        url_scans = references_section.scan(URI.regexp)
+        return url_scans.map do |url_parts|
+          if not url_parts.one?
+            url_parts.each_with_index.map do |part, index|
+              if index == 0
+                part = part + "://"
+              end
+              part
+            end.join.delete_suffix('.').delete_suffix(')')
+          end
+        end.compact.uniq
+      end 
+    end
+    nil
+  end
+
 
   private
 
@@ -210,6 +231,7 @@ uniq_for_indexing = Set.new
 name_language_editions_sparkversion_to_models_mapping = {}
 models_json = {}
 models_benchmarking_json = {}
+models_references_json = {}
 
 changed_filenames = []
 
@@ -254,6 +276,11 @@ Jekyll::Hooks.register :posts, :pre_render do |post|
   benchmarking_info = extractor.benchmarking_results(post.url)
   if benchmarking_info
     models_benchmarking_json[post.url] = benchmarking_info
+  end
+
+  references = extractor.references_results(post.url)
+  if references
+    models_references_json[post.url] = references
   end
 end
 
@@ -460,4 +487,8 @@ Jekyll::Hooks.register :site, :post_write do |site|
 
   benchmarking_filename = File.join(site.config['destination'], 'benchmarking.json')
   File.write(benchmarking_filename, models_benchmarking_json.to_json)
+
+  references_filename = File.join(site.config['destination'], 'references.json')
+  File.write(references_filename, models_references_json.to_json)
+
 end
