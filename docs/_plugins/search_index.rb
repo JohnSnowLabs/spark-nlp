@@ -88,6 +88,12 @@ class Extractor
     nil
   end
 
+  def print_error(message)
+    if ENV["DEBUG"]
+      print(message + "\n")
+    end
+  end
+
   def predicted_entities
     m = /## Predicted Entities(.*?)(##|{:\.btn-box\})/m.match(@content)
     if m
@@ -120,15 +126,11 @@ class Extractor
               # This is a header row
               headers = line.split
               if headers.include?('|')
-                if ENV["DEBUG"]
-                  print("Failed to parse the Benchmarking section (invalid syntax) #{post_url}\n")
-                end
+                print_error("Failed to parse the Benchmarking section (invalid syntax) #{post_url}")
                 return nil
               end
               unless headers.include?('label')
-                if ENV["DEBUG"]
-                  print("Failed to parse the Benchmarking section (the label header is missing) #{post_url}\n")
-                end
+                print_error("Failed to parse the Benchmarking section (the label header is missing) #{post_url}")
                 return nil
               end
               headers.each_with_index do |header, i|
@@ -140,8 +142,16 @@ class Extractor
           else
               row_data = {}
               values = line.split
+              if values.length != col_index_to_header_mapping.keys.count
+                print_error("Failed to parse the Benchmarking section (different column and cell count) #{post_url}")
+                return nil
+              end
               values.each_with_index do |value, j|
-                  row_data[col_index_to_header_mapping[j]]=value
+                if value.include?("prec:") or value.include?("rec:") or value.include?("f1:")
+                  print_error("Failed to parse the Benchmarking section (cells contains columns) #{post_url}")
+                  return nil
+                end
+                row_data[col_index_to_header_mapping[j]]=value
               end
               unless row_data.empty?
                   return_data << row_data
@@ -150,9 +160,7 @@ class Extractor
         end
         return return_data
       else
-        if ENV['DEBUG']
-          print("Failed to parse the Benchmarking section (invalid section) #{post_url}\n")
-        end
+        print_error("Failed to parse the Benchmarking section (invalid section) #{post_url}")
       end
     end
     nil
