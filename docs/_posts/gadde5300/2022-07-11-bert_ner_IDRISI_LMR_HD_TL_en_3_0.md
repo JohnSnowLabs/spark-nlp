@@ -36,20 +36,20 @@ Pretrained BertForTokenClassification model, adapted from Hugging Face and curat
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-.setInputCol("text") \
-.setOutputCol("document")
+        .setInputCol("text") \
+        .setOutputCol("document")
 
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
-.setInputCols(["document"])\
-.setOutputCol("sentence")
+        .setInputCols(["document"])\
+        .setOutputCol("sentence")
 
 tokenizer = Tokenizer() \
-.setInputCols("sentence") \
-.setOutputCol("token")
+        .setInputCols("sentence") \
+        .setOutputCol("token")
 
 tokenClassifier = BertForTokenClassification.pretrained("bert_ner_IDRISI_LMR_HD_TL","en") \
-.setInputCols(["sentence", "token"]) \
-.setOutputCol("pos")
+        .setInputCols(["sentence", "token"]) \
+        .setOutputCol("pos")
 
 pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier])
 
@@ -59,20 +59,20 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler() 
-.setInputCol("text") 
-.setOutputCol("document")
+        .setInputCol("text") 
+        .setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-.setInputCols(Array("document"))
-.setOutputCol("sentence")
+        .setInputCols(Array("document"))
+        .setOutputCol("sentence")
 
 val tokenizer = new Tokenizer() 
-.setInputCols(Array("sentence"))
-.setOutputCol("token")
+        .setInputCols(Array("sentence"))
+        .setOutputCol("token")
 
 val tokenClassifier = BertForTokenClassification.pretrained("bert_ner_IDRISI_LMR_HD_TL","en") 
-.setInputCols(Array("sentence", "token")) 
-.setOutputCol("pos")
+        .setInputCols(Array("sentence", "token")) 
+        .setOutputCol("pos")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler,sentenceDetector, tokenizer, tokenClassifier))
 
