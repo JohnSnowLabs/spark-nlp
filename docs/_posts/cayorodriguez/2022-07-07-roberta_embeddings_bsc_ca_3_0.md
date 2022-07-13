@@ -10,6 +10,7 @@ language: ca
 edition: Spark NLP 3.4.4
 spark_version: 3.0
 supported: false
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
