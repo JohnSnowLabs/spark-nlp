@@ -1,2 +1,2 @@
-docs/_posts/luca-martial/2022-04-14-roberta_embeddings_legal_roberta_base_en_3_0.md
-docs/_posts/luca-martial/2022-04-14-roberta_embeddings_legal_roberta_base_en_3_0.md
+docs/_posts/cayorodriguez/2022-07-07-roberta_embeddings_bsc_ca_3_0.md
+docs/_posts/cayorodriguez/2022-07-07-roberta_embeddings_bsc_ca_3_0.md
