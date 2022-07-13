@@ -745,25 +745,25 @@ It’s based on CRAFT network architecture.</p>
       <td>scoreThreshold</td>
       <td>float</td>
       <td>0.9</td>
-      <td>Score threshold for output regions.</td>
+      <td>Score threshold for output regions. Regions with an area below the threshold won’t be returned.</td>
     </tr>
     <tr>
       <td>sizeThreshold</td>
       <td>int</td>
       <td>5</td>
-      <td>Size threshold for detected text</td>
+      <td>Threshold for the area of the detected regions.</td>
     </tr>
     <tr>
       <td>textThreshold</td>
       <td>float</td>
       <td>0.4f</td>
-      <td>Text threshold</td>
+      <td>Threshold for the score of a region potentially containing text. The region score represents the probability that a given pixel is the center of the character. Higher values for this threshold will result in that only regions for which the confidence of containing text is high will be returned.</td>
     </tr>
     <tr>
       <td>linkThreshold</td>
       <td>float</td>
       <td>0.4f</td>
-      <td>Link threshold</td>
+      <td>Threshold for the the link(affinity) score. The link score represents the space allowed between adjacent characters to be considered as a single word.</td>
     </tr>
     <tr>
       <td>width</td>
@@ -948,19 +948,19 @@ Currently, it’s available only on Python side.</p>
       <td>sizeThreshold</td>
       <td>int</td>
       <td>10</td>
-      <td>Threshold for height of the detected regions.</td>
+      <td>Threshold for height of the detected regions. Regions with a height below the threshold won’t be returned.</td>
     </tr>
     <tr>
       <td>textThreshold</td>
       <td>float</td>
       <td>0.4f</td>
-      <td>Threshold for the region(text) score. The region score represents the probability that the given pixel is the center of the character.</td>
+      <td>Threshold for the score of a region potentially containing text. The region score represents the probability that a given pixel is the center of the character. Higher values for this threshold will result in that only regions for which the confidence of containing text is high will be returned.</td>
     </tr>
     <tr>
       <td>linkThreshold</td>
       <td>float</td>
       <td>0.4f</td>
-      <td>Threshold for the the link(affinity) score. The link score represents the center probability of the space between adjacent characters.</td>
+      <td>Threshold for the the link(affinity) score. The link score represents the space allowed between adjacent characters to be considered as a single word.</td>
     </tr>
     <tr>
       <td>width</td>
