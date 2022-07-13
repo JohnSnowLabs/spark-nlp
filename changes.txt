@@ -1,2 +1,2 @@
-docs/_posts/cayorodriguez/2022-07-07-lemmatizer_bsc_ca_3_0.md
-docs/_posts/cayorodriguez/2022-07-07-lemmatizer_bsc_ca_3_0.md
+docs/_posts/gadde5300/2022-06-20-roberta_qa_roberta_base_ca_cased_qa_ca_3_0.md
+docs/_posts/gadde5300/2022-06-20-roberta_qa_roberta_base_ca_cased_qa_ca_3_0.md
