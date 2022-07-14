@@ -1,2 +1,6 @@
-docs/_posts/cayorodriguez/2022-07-11-pipeline_md_ca_3_0.md
-docs/_posts/cayorodriguez/2022-07-11-pipeline_md_ca_3_0.md
+docs/_posts/C-K-Loan/2021-03-24-analyze_sentiment_en.md
+docs/_posts/HashamUlHaq/2021-03-16-sentence_detector_dl_healthcare_en.md
+docs/_posts/HashamUlHaq/2021-08-11-sentence_detector_dl_healthcare_en.md
+docs/_posts/C-K-Loan/2021-03-24-analyze_sentiment_en.md
+docs/_posts/HashamUlHaq/2021-03-16-sentence_detector_dl_healthcare_en.md
+docs/_posts/HashamUlHaq/2021-08-11-sentence_detector_dl_healthcare_en.md
