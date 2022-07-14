@@ -22,8 +22,8 @@ The analyze_sentiment is a pretrained pipeline that we can use to process text w
          It performs most of the common text processing tasks on your dataframe
 
 {:.btn-box}
-[Live Demo](https://demo.johnsnowlabs.com/public/NER_EN_18/){:.button.button-orange}
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_EN.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Live Demo](https://demo.johnsnowlabs.com/public/SENTIMENT_EN/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/analyze_sentiment_en_3.0.0_3.0_1616544471011.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -32,19 +32,24 @@ The analyze_sentiment is a pretrained pipeline that we can use to process text w
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
-from sparknlp.pretrained import PretrainedPipelinein
+from sparknlp.pretrained import PretrainedPipeline
+
 pipeline = PretrainedPipeline('analyze_sentiment', lang = 'en')
-annotations =  pipeline.fullAnnotate(""Hello from John Snow Labs ! "")[0]
-annotations.keys()
+
+result = pipeline.fullAnnotate("""Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!""")
+
 
 ```
 ```scala
 
-val pipeline = new PretrainedPipeline("analyze_sentiment", lang = "en")
-val result = pipeline.fullAnnotate("Hello from John Snow Labs ! ")(0)
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
+val pipeline = new PretrainedPipeline("analyze_sentiment", lang = "en")
+
+val result = pipeline.fullAnnotate("""Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!""")
 
 ```
 
@@ -52,7 +57,7 @@ val result = pipeline.fullAnnotate("Hello from John Snow Labs ! ")(0)
 ```python
 
 import nlu
-text = [""Hello from John Snow Labs ! ""]
+text = ["""Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!"""]
 result_df = nlu.load('en.classify').predict(text)
 result_df
     
@@ -62,9 +67,9 @@ result_df
 ## Results
 
 ```bash
-|    | document                         | sentence                        | token                                          | checked                                        | sentiment    |
-|---:|:---------------------------------|:--------------------------------|:-----------------------------------------------|:-----------------------------------------------|:-------------|
-|  0 | ['Hello from John Snow Labs ! '] | ['Hello from John Snow Labs !'] | ['Hello', 'from', 'John', 'Snow', 'Labs', '!'] | ['Hello', 'from', 'John', 'Snow', 'Labs', '!'] | ['negative'] |
+|    | text                                                                                                                                                                                                                                                                      | sentiment   |
+|---:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------|
+|  0 | Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now! | positive    |
 ```
 
 {:.model-param}
