@@ -34,7 +34,7 @@ Model for Catalan language processing based on models by Barcelona SuperComputin
 ```python
 pipeline = PretrainedPipeline("pipeline_md", "ca", "@cayorodriguez")
 
-result = pipeline.annotate("El català ja es a SparkNLP.")
+result = pipeline.annotate("El català ja és a SparkNLP.")
 ```
 
 </div>
@@ -42,18 +42,18 @@ result = pipeline.annotate("El català ja es a SparkNLP.")
 ## Results
 
 ```bash
-{'chunk': ['El català ja', 'SparkNLP', 'es'],
+{'chunk': ['El català ja', 'SparkNLP', 'és'],
  'entities': ['SparkNLP'],
- 'lemma': ['el', 'català', 'ja', 'es', 'a', 'sparknlp', '.'],
- 'document': ['El català ja es a SparkNLP.'],
- 'pos': ['DET', 'NOUN', 'ADV', 'PRON', 'ADP', 'PROPN', 'PUNCT'],
- 'sentence_embeddings': ['El català ja es a SparkNLP.'],
+ 'lemma': ['el', 'català', 'ja', 'ser', 'a', 'sparknlp', '.'],
+ 'document': ['El català ja és a SparkNLP.'],
+ 'pos': ['DET', 'NOUN', 'ADV', 'VERB', 'ADP', 'PROPN', 'PUNCT'],
+ 'sentence_embeddings': ['El català ja és a SparkNLP.'],
  'cleanTokens': ['català', 'SparkNLP', '.'],
- 'token': ['El', 'català', 'ja', 'es', 'a', 'SparkNLP', '.'],
+ 'token': ['El', 'català', 'ja', 'és', 'a', 'SparkNLP', '.'],
  'ner': ['O', 'O', 'O', 'O', 'O', 'B-ORG', 'O'],
- 'embeddings': ['El', 'català', 'ja', 'es', 'a', 'SparkNLP', '.'],
- 'form': ['el', 'català', 'ja', 'es', 'a', 'sparknlp', '.'],
- 'sentence': ['El català ja es a SparkNLP.']}
+ 'embeddings': ['El', 'català', 'ja', 'és', 'a', 'SparkNLP', '.'],
+ 'form': ['el', 'català', 'ja', 'és', 'a', 'sparknlp', '.'],
+ 'sentence': ['El català ja és a SparkNLP.']}
 ```
 
 {:.model-param}
