@@ -430,25 +430,25 @@
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"pipeline_md"</span><span class="p">,</span> <span class="s">"ca"</span><span class="p">,</span> <span class="s">"@cayorodriguez"</span><span class="p">)</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"El català ja es a SparkNLP."</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"El català ja és a SparkNLP."</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span><span class="s1">'chunk'</span>: <span class="o">[</span><span class="s1">'El català ja'</span>, <span class="s1">'SparkNLP'</span>, <span class="s1">'es'</span><span class="o">]</span>,
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span><span class="s1">'chunk'</span>: <span class="o">[</span><span class="s1">'El català ja'</span>, <span class="s1">'SparkNLP'</span>, <span class="s1">'és'</span><span class="o">]</span>,
  <span class="s1">'entities'</span>: <span class="o">[</span><span class="s1">'SparkNLP'</span><span class="o">]</span>,
- <span class="s1">'lemma'</span>: <span class="o">[</span><span class="s1">'el'</span>, <span class="s1">'català'</span>, <span class="s1">'ja'</span>, <span class="s1">'es'</span>, <span class="s1">'a'</span>, <span class="s1">'sparknlp'</span>, <span class="s1">'.'</span><span class="o">]</span>,
- <span class="s1">'document'</span>: <span class="o">[</span><span class="s1">'El català ja es a SparkNLP.'</span><span class="o">]</span>,
- <span class="s1">'pos'</span>: <span class="o">[</span><span class="s1">'DET'</span>, <span class="s1">'NOUN'</span>, <span class="s1">'ADV'</span>, <span class="s1">'PRON'</span>, <span class="s1">'ADP'</span>, <span class="s1">'PROPN'</span>, <span class="s1">'PUNCT'</span><span class="o">]</span>,
- <span class="s1">'sentence_embeddings'</span>: <span class="o">[</span><span class="s1">'El català ja es a SparkNLP.'</span><span class="o">]</span>,
+ <span class="s1">'lemma'</span>: <span class="o">[</span><span class="s1">'el'</span>, <span class="s1">'català'</span>, <span class="s1">'ja'</span>, <span class="s1">'ser'</span>, <span class="s1">'a'</span>, <span class="s1">'sparknlp'</span>, <span class="s1">'.'</span><span class="o">]</span>,
+ <span class="s1">'document'</span>: <span class="o">[</span><span class="s1">'El català ja és a SparkNLP.'</span><span class="o">]</span>,
+ <span class="s1">'pos'</span>: <span class="o">[</span><span class="s1">'DET'</span>, <span class="s1">'NOUN'</span>, <span class="s1">'ADV'</span>, <span class="s1">'VERB'</span>, <span class="s1">'ADP'</span>, <span class="s1">'PROPN'</span>, <span class="s1">'PUNCT'</span><span class="o">]</span>,
+ <span class="s1">'sentence_embeddings'</span>: <span class="o">[</span><span class="s1">'El català ja és a SparkNLP.'</span><span class="o">]</span>,
  <span class="s1">'cleanTokens'</span>: <span class="o">[</span><span class="s1">'català'</span>, <span class="s1">'SparkNLP'</span>, <span class="s1">'.'</span><span class="o">]</span>,
- <span class="s1">'token'</span>: <span class="o">[</span><span class="s1">'El'</span>, <span class="s1">'català'</span>, <span class="s1">'ja'</span>, <span class="s1">'es'</span>, <span class="s1">'a'</span>, <span class="s1">'SparkNLP'</span>, <span class="s1">'.'</span><span class="o">]</span>,
+ <span class="s1">'token'</span>: <span class="o">[</span><span class="s1">'El'</span>, <span class="s1">'català'</span>, <span class="s1">'ja'</span>, <span class="s1">'és'</span>, <span class="s1">'a'</span>, <span class="s1">'SparkNLP'</span>, <span class="s1">'.'</span><span class="o">]</span>,
  <span class="s1">'ner'</span>: <span class="o">[</span><span class="s1">'O'</span>, <span class="s1">'O'</span>, <span class="s1">'O'</span>, <span class="s1">'O'</span>, <span class="s1">'O'</span>, <span class="s1">'B-ORG'</span>, <span class="s1">'O'</span><span class="o">]</span>,
- <span class="s1">'embeddings'</span>: <span class="o">[</span><span class="s1">'El'</span>, <span class="s1">'català'</span>, <span class="s1">'ja'</span>, <span class="s1">'es'</span>, <span class="s1">'a'</span>, <span class="s1">'SparkNLP'</span>, <span class="s1">'.'</span><span class="o">]</span>,
- <span class="s1">'form'</span>: <span class="o">[</span><span class="s1">'el'</span>, <span class="s1">'català'</span>, <span class="s1">'ja'</span>, <span class="s1">'es'</span>, <span class="s1">'a'</span>, <span class="s1">'sparknlp'</span>, <span class="s1">'.'</span><span class="o">]</span>,
- <span class="s1">'sentence'</span>: <span class="o">[</span><span class="s1">'El català ja es a SparkNLP.'</span><span class="o">]}</span>
+ <span class="s1">'embeddings'</span>: <span class="o">[</span><span class="s1">'El'</span>, <span class="s1">'català'</span>, <span class="s1">'ja'</span>, <span class="s1">'és'</span>, <span class="s1">'a'</span>, <span class="s1">'SparkNLP'</span>, <span class="s1">'.'</span><span class="o">]</span>,
+ <span class="s1">'form'</span>: <span class="o">[</span><span class="s1">'el'</span>, <span class="s1">'català'</span>, <span class="s1">'ja'</span>, <span class="s1">'és'</span>, <span class="s1">'a'</span>, <span class="s1">'sparknlp'</span>, <span class="s1">'.'</span><span class="o">]</span>,
+ <span class="s1">'sentence'</span>: <span class="o">[</span><span class="s1">'El català ja és a SparkNLP.'</span><span class="o">]}</span>
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
