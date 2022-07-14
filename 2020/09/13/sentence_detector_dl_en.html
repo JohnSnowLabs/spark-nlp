@@ -418,12 +418,8 @@
 
 <p>SentenceDetectorDL (SDDL) is based on a general-purpose neural network model for sentence boundary detection. The task of sentence boundary detection is to identify sentences within a text. Many natural language processing tasks take a sentence as an input unit, such as part-of-speech tagging, dependency parsing, named entity recognition or machine translation.</p>
 
-<p>In this model, we treated the sentence boundary detection task as a classification problem based on a paper {Deep-EOS: General-Purpose Neural Networks for Sentence Boundary Detection (2020, Stefan Schweter, Sajawel Ahmed) using CNN architecture. We also modified the original implemenation a little bit to cover broken sentences and some impossible end of line chars.</p>
-
-<p>We are releasing two pretrained SDDL models: english and multilanguage that are trained on SETimes corpus (Tyers and Alperen, 2010) and Europarl. Wong et al. (2014) datasets.</p>
-
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb" class="button button-orange button-orange-trans co button-icon" target="_blank">Open in Colab</a>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
 <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sentence_detector_dl_en_2.6.2_2.4_1600002888450.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 class="h2_title" id="how-to-use">How to use</h2>
@@ -523,9 +519,9 @@
 https://github.com/dbmdz/deep-eos</p>
 
 <h2 class="h2_title" id="benchmarking">Benchmarking</h2>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|    | Accuracy | Recall   | Prec     | F1   |
-|---:|---------:|---------:|---------:|-----:|
-|  0 | 0.98     | 1.00     | 0.96     | 0.98 |
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label  Accuracy  Recall   Prec   F1  
+0      0.98      1.00     0.96   0.98
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2020-09-13T00:00:00+00:00"><!-- start custom article footer snippet -->
 
