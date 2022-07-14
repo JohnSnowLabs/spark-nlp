@@ -21,7 +21,7 @@ SentenceDetectorDL (SDDL) is based on a general-purpose neural network model for
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sentence_detector_dl_mr_3.2.0_3.0_1630319297311.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -100,8 +100,6 @@ nlu.load('mr.sentence_detector').predict("इंग्रजी वाचन प
 ## Benchmarking
 
 ```bash
-Accuracy:      0.98
-Recall:        1.00
-Precision:     0.96
-F1:            0.98
+label  Accuracy  Recall   Prec   F1  
+0      0.98      1.00     0.96   0.98
 ```
