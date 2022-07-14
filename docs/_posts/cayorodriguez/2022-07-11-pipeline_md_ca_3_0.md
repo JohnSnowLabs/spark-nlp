@@ -32,7 +32,7 @@ Model for Catalan language processing based on models by Barcelona SuperComputin
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-pipeline = PretrainedPipeline("pipeline_md", lang = "ca", "@cayorodriguez")
+pipeline = PretrainedPipeline("pipeline_md", "ca", "@cayorodriguez")
 
 result = pipeline.annotate("El català ja es a SparkNLP.")
 ```
