@@ -27,7 +27,7 @@ This pipeline can detect the following languages:
 `Arabic`, `Belarusian`, `Bulgarian`, `Czech`, `Danish`, `German`, `Greek`, `English`, `Esperanto`, `Spanish`, `Estonian`, `Persian`, `Finnish`, `French`, `Hebrew`, `Hindi`, `Hungarian`, `Interlingua`, `Indonesian`, `Icelandic`, `Italian`, `Japanese`, `Korean`, `Latin`, `Lithuanian`, `Latvian`, `Macedonian`, `Marathi`, `Dutch`, `Polish`, `Portuguese`, `Romanian`, `Russian`, `Slovak`, `Slovenian`, `Serbian`, `Swedish`, `Tagalog`, `Turkish`, `Tatar`, `Ukrainian`, `Vietnamese`, `Chinese`.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/LANGUAGE_DETECTOR/){:.button.button-orange.button-orange-trans.co.button-icon}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/language-detection/Language_Detection_and_Indentification.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/detect_language_43_xx_2.7.0_2.4_1607185195681.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

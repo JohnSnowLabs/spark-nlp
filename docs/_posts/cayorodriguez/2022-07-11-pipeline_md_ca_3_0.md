@@ -22,7 +22,7 @@ Model for Catalan language processing based on models by Barcelona SuperComputin
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/1.SparkNLP_Basics.ipynb){:.button.button-orange.button-orange-trans.arr.button-icon}
 [Download](https://s3.amazonaws.com/community.johnsnowlabs.com/cayorodriguez/pipeline_md_ca_3.4.4_3.0_1657533114488.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
