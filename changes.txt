@@ -1,2 +1,2 @@
-docs/en/ocr_object_detection.md
-docs/en/ocr_object_detection.md
+docs/_posts/cayorodriguez/2022-07-11-pipeline_md_ca_3_0.md
+docs/_posts/cayorodriguez/2022-07-11-pipeline_md_ca_3_0.md
