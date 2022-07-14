@@ -1,21 +1,16 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.training &#8212; Spark NLP 3.3.0 documentation</title>
-<script>
-  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
-</script>
+    <title>sparknlp_jsl.training &#8212; Spark NLP 4.0.0 documentation</title>
+    
+  <link href="../../static/css/theme.css" rel="stylesheet" />
+  <link href="../../static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
 
-  <!-- Loaded before other Sphinx assets -->
-  <link href="../../static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
-<link href="../../static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
-
-
+    
   <link rel="stylesheet"
     href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
   <link rel="preload" as="font" type="font/woff2" crossorigin
@@ -23,56 +18,50 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
+    
+      
 
-  <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+    
+    <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
+    
+  <link rel="preload" as="script" href="../../static/js/index.1c5a1a01449ed65a7b51.js">
 
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
     <script src="../../static/underscore.js"></script>
-    <script src="../../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../static/doctools.js"></script>
     <script src="../../static/toggleprompt.js"></script>
     <link rel="shortcut icon" href="../../static/fav.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="docsearch:language" content="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
   </head>
-  
-  
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
-    <div class="bd-header-announcement container-fluid" id="banner">
-      
-
-    </div>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
 
     
-    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
 
   <div id="navbar-start">
     
     
-  
 
-
-<a class="navbar-brand logo" href="../../index.html">
-  
-  
-  
-  
-    <img src="../../static/logo.png" class="logo__image only-light" alt="Logo image">
-    <img src="../../static/logo.png" class="logo__image only-dark" alt="Logo image">
-  
-  
+<a class="navbar-brand" href="../../index.html">
+  <img src="../../static/logo.png" class="logo" alt="logo">
 </a>
+
+
     
   </div>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="fas fa-bars"></span>
+    <span class="navbar-toggler-icon"></span>
   </button>
 
   
@@ -102,14 +91,6 @@
     <div id="navbar-end">
       
       <div class="navbar-end-item">
-        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
-    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
-</span>
-      </div>
-      
-      <div class="navbar-end-item">
         <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
       </ul>
       </div>
@@ -120,13 +101,12 @@
     </nav>
     
 
-    <div class="bd-container container-xl">
-      <div class="bd-container__inner row">
+    <div class="container-xl">
+      <div class="row">
           
-
-<!-- Only show if we have sidebars configured, else just a small margin  -->
-<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
-  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -134,25 +114,23 @@
     
   </div>
 </nav>
-  </div>
-  <div class="sidebar-end-items">
-  </div>
-</div>
-
-
+            </div>
+            
           
 
-
-<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
-  
-</div>
-
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+          </div>
+          
 
           
           
-          <div class="bd-content col-12 col-md-9 col-xl-7">
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
               
-              <article class="bd-article" role="main">
+              <div>
                 
   <h1>Source code for sparknlp_jsl.training</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">PipelineModel</span>
@@ -163,7 +141,7 @@
 <span class="kn">from</span> <span class="nn">._tf_graph_builders_1x.graph_builders</span> <span class="kn">import</span> <span class="n">TFGraphBuilderFactory</span> <span class="k">as</span> <span class="n">TFGraphBuilderFactory1x</span>
 
 
-<div class="viewcode-block" id="AnnotationToolJsonReader"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.training.AnnotationToolJsonReader.html#sparknlp_jsl.training.AnnotationToolJsonReader">[docs]</a><span class="k">class</span> <span class="nc">AnnotationToolJsonReader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<div class="viewcode-block" id="AnnotationToolJsonReader"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.AnnotationToolJsonReader">[docs]</a><span class="k">class</span> <span class="nc">AnnotationToolJsonReader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to This a reader that generate a assertion train set from the json from annotations labs exports.</span>
 
@@ -237,92 +215,89 @@
                                                            <span class="n">split_chars</span><span class="p">,</span> <span class="n">context_chars</span><span class="p">,</span> <span class="n">scheme</span><span class="p">,</span>
                                                            <span class="n">min_chars_tol</span><span class="p">,</span> <span class="n">align_chars_tol</span><span class="p">,</span> <span class="n">merge_overlapping</span><span class="p">,</span> <span class="n">SDDLPath</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">readDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<div class="viewcode-block" id="AnnotationToolJsonReader.readDataset"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.AnnotationToolJsonReader.readDataset">[docs]</a>    <span class="k">def</span> <span class="nf">readDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 
         <span class="c1"># ToDo Replace with std pyspark</span>
         <span class="n">jSession</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">_jsparkSession</span>
 
         <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">jSession</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">jdf</span><span class="p">,</span> <span class="n">spark</span><span class="o">.</span><span class="n">_wrapped</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">jdf</span><span class="p">,</span> <span class="n">spark</span><span class="o">.</span><span class="n">_wrapped</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">generateAssertionTrainSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">sentenceCol</span><span class="o">=</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="n">assertionCol</span><span class="o">=</span><span class="s2">&quot;assertion_label&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="AnnotationToolJsonReader.generateAssertionTrainSet"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.AnnotationToolJsonReader.generateAssertionTrainSet">[docs]</a>    <span class="k">def</span> <span class="nf">generateAssertionTrainSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">sentenceCol</span><span class="o">=</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="n">assertionCol</span><span class="o">=</span><span class="s2">&quot;assertion_label&quot;</span><span class="p">):</span>
 
         <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">generateAssertionTrainSet</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">_jdf</span><span class="p">,</span> <span class="n">sentenceCol</span><span class="p">,</span> <span class="n">assertionCol</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">jdf</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">sql_ctx</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">generateConll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">taskColumn</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;task_id&quot;</span><span class="p">,</span> <span class="n">tokenCol</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span>
-                      <span class="n">nerLabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ner_label&quot;</span><span class="p">):</span>
-        <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">generateConll</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">_jdf</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">taskColumn</span><span class="p">,</span> <span class="n">tokenCol</span><span class="p">,</span> <span class="n">nerLabel</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">generatePlainAssertionTrainSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">taskColumn</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;task_id&quot;</span><span class="p">,</span> <span class="n">tokenCol</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span>
-                                       <span class="n">nerLabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ner_label&quot;</span><span class="p">,</span> <span class="n">assertion_label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;assertion_label&quot;</span><span class="p">):</span>
-        <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">generatePlainAssertionTrainSet</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">_jdf</span><span class="p">,</span> <span class="n">taskColumn</span><span class="p">,</span> <span class="n">tokenCol</span><span class="p">,</span> <span class="n">nerLabel</span><span class="p">,</span> <span class="n">assertion_label</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">jdf</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">sql_ctx</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="AnnotationToolJsonReader.generateConll"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.AnnotationToolJsonReader.generateConll">[docs]</a>    <span class="k">def</span> <span class="nf">generateConll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">taskColumn</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;task_id&quot;</span><span class="p">,</span> <span class="n">tokenCol</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span>
+                      <span class="n">nerLabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ner_label&quot;</span><span class="p">):</span>
+        <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">generateConll</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">_jdf</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">taskColumn</span><span class="p">,</span> <span class="n">tokenCol</span><span class="p">,</span> <span class="n">nerLabel</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CodiEspReader"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.training.CodiEspReader.html#sparknlp_jsl.training.CodiEspReader">[docs]</a><span class="k">class</span> <span class="nc">CodiEspReader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<div class="viewcode-block" id="AnnotationToolJsonReader.generatePlainAssertionTrainSet"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.AnnotationToolJsonReader.generatePlainAssertionTrainSet">[docs]</a>    <span class="k">def</span> <span class="nf">generatePlainAssertionTrainSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">taskColumn</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;task_id&quot;</span><span class="p">,</span> <span class="n">tokenCol</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span>
+                                       <span class="n">nerLabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ner_label&quot;</span><span class="p">,</span> <span class="n">assertion_label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;assertion_label&quot;</span><span class="p">):</span>
+        <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">generatePlainAssertionTrainSet</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">_jdf</span><span class="p">,</span> <span class="n">taskColumn</span><span class="p">,</span> <span class="n">tokenCol</span><span class="p">,</span> <span class="n">nerLabel</span><span class="p">,</span> <span class="n">assertion_label</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">jdf</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">sql_ctx</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="CodiEspReader"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.CodiEspReader">[docs]</a><span class="k">class</span> <span class="nc">CodiEspReader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s2">&quot;IOB&quot;</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">CodiEspReader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.nlp.training.CodiEspReader&quot;</span><span class="p">,</span> <span class="n">scheme</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">readDatasetTaskX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">textFolder</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="CodiEspReader.readDatasetTaskX"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.CodiEspReader.readDatasetTaskX">[docs]</a>    <span class="k">def</span> <span class="nf">readDatasetTaskX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">textFolder</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">):</span>
         <span class="c1"># ToDo Replace with std pyspark</span>
         <span class="n">jSession</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">_jsparkSession</span>
 
         <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">readDatasetTaskX</span><span class="p">(</span><span class="n">jSession</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">textFolder</span><span class="p">,</span> <span class="n">sep</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">jdf</span><span class="p">,</span> <span class="n">spark</span><span class="o">.</span><span class="n">_wrapped</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">jdf</span><span class="p">,</span> <span class="n">spark</span><span class="o">.</span><span class="n">_wrapped</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="CantemistReader"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.training.CantemistReader.html#sparknlp_jsl.training.CantemistReader">[docs]</a><span class="k">class</span> <span class="nc">CantemistReader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<div class="viewcode-block" id="CantemistReader"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.CantemistReader">[docs]</a><span class="k">class</span> <span class="nc">CantemistReader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s2">&quot;IOB&quot;</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">CantemistReader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.nlp.training.CantemistReader&quot;</span><span class="p">,</span> <span class="n">scheme</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">readDatasetTaskNer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">textFolder</span><span class="p">):</span>
+<div class="viewcode-block" id="CantemistReader.readDatasetTaskNer"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.CantemistReader.readDatasetTaskNer">[docs]</a>    <span class="k">def</span> <span class="nf">readDatasetTaskNer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">textFolder</span><span class="p">):</span>
         <span class="c1"># ToDo Replace with std pyspark</span>
         <span class="n">jSession</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">_jsparkSession</span>
 
         <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">readDatasetTaskNer</span><span class="p">(</span><span class="n">jSession</span><span class="p">,</span> <span class="n">textFolder</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">jdf</span><span class="p">,</span> <span class="n">spark</span><span class="o">.</span><span class="n">_wrapped</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">jdf</span><span class="p">,</span> <span class="n">spark</span><span class="o">.</span><span class="n">_wrapped</span><span class="p">)</span></div></div>
 
 
-<span class="n">tf_graph</span> <span class="o">=</span> <span class="n">TFGraphBuilderFactory</span><span class="p">()</span>
-<span class="n">tf_graph_1x</span> <span class="o">=</span> <span class="n">TFGraphBuilderFactory1x</span><span class="p">()</span>
+<div class="viewcode-block" id="tf_graph"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.tf_graph">[docs]</a><span class="n">tf_graph</span> <span class="o">=</span> <span class="n">TFGraphBuilderFactory</span><span class="p">()</span></div>
+<div class="viewcode-block" id="tf_graph_1x"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.tf_graph_1x">[docs]</a><span class="n">tf_graph_1x</span> <span class="o">=</span> <span class="n">TFGraphBuilderFactory1x</span><span class="p">()</span></div>
 </pre></div>
 
-              </article>
+              </div>
               
+              
+              <div class='prev-next-bottom'>
+                
 
+              </div>
               
-              <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-</div>
-              </footer>
-              
-          </div>
+          </main>
           
+
       </div>
     </div>
+  
+  <script src="../../static/js/index.1c5a1a01449ed65a7b51.js"></script>
 
-  
-  
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
-
-<footer class="bd-footer"><div class="bd-footer__inner container">
-  
-  <div class="footer-item">
-    <p class="copyright">
-    &copy; Copyright 2021, John Snow Labs.<br>
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2022, John Snow Labs.<br/>
 </p>
-  </div>
-  
-  <div class="footer-item">
-    <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
 </p>
+    </div>
+    
   </div>
-  
-</div>
 </footer>
   </body>
 </html>

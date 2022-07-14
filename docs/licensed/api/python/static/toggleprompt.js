@@ -71,7 +71,4 @@ $(document).ready(function() {
             button.data('hidden', 'false');
         }
     });
-    if ('false' === 'true') {
-        $('.copybutton').click();  // click once to hide
-    }
 });

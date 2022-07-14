@@ -1,0 +1,515 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp_jsl.annotator.ner.ner_converter_internal &#8212; Spark NLP 4.0.0 documentation</title>
+    
+  <link href="../../../../static/css/theme.css" rel="stylesheet" />
+  <link href="../../../../static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/css/custom.css" />
+    
+  <link rel="preload" as="script" href="../../../../static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js"></script>
+    <script src="../../../../static/jquery.js"></script>
+    <script src="../../../../static/underscore.js"></script>
+    <script src="../../../../static/doctools.js"></script>
+    <script src="../../../../static/toggleprompt.js"></script>
+    <link rel="shortcut icon" href="../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="../../../../index.html">
+  <img src="../../../../static/logo.png" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../reference/index.html">
+  API Reference
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <h1>Source code for sparknlp_jsl.annotator.ner.ner_converter_internal</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="NerConverterInternal"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal">[docs]</a><span class="k">class</span> <span class="nc">NerConverterInternal</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts a IOB or IOB2 representation of NER to a user-friendly one,</span>
+<span class="sd">    by associating the tokens of recognized entities and their label.</span>
+<span class="sd">    Chunks with no associated entity (tagged &quot;O&quot;) are filtered.</span>
+
+<span class="sd">    ==========================================  ======================</span>
+<span class="sd">    Input Annotation types                      Output Annotation type</span>
+<span class="sd">    ==========================================  ======================</span>
+<span class="sd">    ``DOCUMENT, TOKEN, NAMED_ENTITY``           ``CHUNK``</span>
+<span class="sd">    ==========================================  ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    whiteList</span>
+<span class="sd">        If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels</span>
+<span class="sd">    blackList</span>
+<span class="sd">        If defined, list of entities to ignore. The rest will be proccessed. Do not include IOB prefix on labels</span>
+<span class="sd">    preservePosition</span>
+<span class="sd">        Whether to preserve the original position of the tokens in the original document or use the modified tokens</span>
+<span class="sd">    greedyMode</span>
+<span class="sd">        Whether to ignore B tags for contiguous tokens of same entity same</span>
+<span class="sd">    threshold</span>
+<span class="sd">        Confidence threshold to filter the chunk entities.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;A 63-year-old man presents to the hospital ...&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler().setInputCol(&quot;text&quot;).setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentenceDetector = SentenceDetector().setInputCols([&quot;document&quot;]).setOutputCol(&quot;sentence&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer().setInputCols([&quot;sentence&quot;]).setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; embeddings = WordEmbeddingsModel.pretrained(&quot;embeddings_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;).setOutputCol(&quot;embs&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; nerModel = MedicalNerModel.pretrained(&quot;ner_jsl&quot;, &quot;en&quot;, &quot;clinical/models&quot;).setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embs&quot;]).setOutputCol(&quot;ner&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; nerConverter = NerConverterInternal().setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;]).setOutputCol(&quot;ner_chunk&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline(stages=[</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     sentenceDetector,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     embeddings,</span>
+<span class="sd">    ...     nerModel,</span>
+<span class="sd">    ...     nerConverter])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="NerConverterInternal.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;NerConverterInternal&#39;</span></div>
+
+<div class="viewcode-block" id="NerConverterInternal.whiteList"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.whiteList">[docs]</a>    <span class="n">whiteList</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;whiteList&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span></div>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="NerConverterInternal.preservePosition"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.preservePosition">[docs]</a>    <span class="n">preservePosition</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;preservePosition&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Whether to preserve the original position of the tokens in the original document or use the modified tokens&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span></div>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="NerConverterInternal.greedyMode"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.greedyMode">[docs]</a>    <span class="n">greedyMode</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;greedyMode&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Whether to ignore B tags for contiguous tokens of same entity same&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span></div>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="NerConverterInternal.threshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.threshold">[docs]</a>    <span class="n">threshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;threshold&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Confidence threshold&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span></div>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="NerConverterInternal.replaceDictResource"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.replaceDictResource">[docs]</a>    <span class="n">replaceDictResource</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                <span class="s2">&quot;replaceDictResource&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;replace dictionary pairs&quot;</span><span class="p">,</span>
+                                <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
+<div class="viewcode-block" id="NerConverterInternal.blackList"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.blackList">[docs]</a>    <span class="n">blackList</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;blackList&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;If defined, list of entities to ignore. The rest will be processed. Do not include IOB prefix on labels&quot;</span><span class="p">,</span>
+                      <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerConverterInternal.replaceLabels"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.replaceLabels">[docs]</a>    <span class="n">replaceLabels</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;replaceLabels&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;Custom replace labels&quot;</span><span class="p">,</span>
+                          <span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerConverterInternal.setWhiteList"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setWhiteList">[docs]</a>    <span class="k">def</span> <span class="nf">setWhiteList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        entities : list</span>
+<span class="sd">            If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">whiteList</span><span class="o">=</span><span class="n">entities</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerConverterInternal.setBlackList"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setBlackList">[docs]</a>    <span class="k">def</span> <span class="nf">setBlackList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;If defined, list of entities to ignore. The rest will be processed. Do not include IOB prefix on labels</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        entities : list</span>
+<span class="sd">           If defined, list of entities to ignore. The rest will be processed. Do not include IOB prefix on labels</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">blackList</span><span class="o">=</span><span class="n">entities</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerConverterInternal.setPreservePosition"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setPreservePosition">[docs]</a>    <span class="k">def</span> <span class="nf">setPreservePosition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to preserve the original position of the tokens in the original document or use the modified tokens</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        p : bool</span>
+<span class="sd">            Whether to preserve the original position of the tokens in the original document or use the modified tokens</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">preservePosition</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerConverterInternal.setGreedyMode"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setGreedyMode">[docs]</a>    <span class="k">def</span> <span class="nf">setGreedyMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets  whether to ignore B tags for contiguous tokens of same entity same</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        p : bool</span>
+<span class="sd">             Whether to ignore B tags for contiguous tokens of same entity same</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">greedyMode</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerConverterInternal.setThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setThreshold">[docs]</a>    <span class="k">def</span> <span class="nf">setThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets confidence threshold to filter the chunk entities.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        p : float</span>
+<span class="sd">            Confidence threshold to filter the chunk entities.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerConverterInternal.setReplaceDictResource"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setReplaceDictResource">[docs]</a>    <span class="k">def</span> <span class="nf">setReplaceDictResource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets replace dictionary pairs</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : str</span>
+<span class="sd">            Path to the external resource</span>
+<span class="sd">        read_as : str, optional</span>
+<span class="sd">            How to read the resource, by default ReadAs.TEXT</span>
+<span class="sd">        options : dict, optional</span>
+<span class="sd">            Options for reading the resource, by default {&quot;format&quot;: &quot;text&quot;}</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;delimiter&quot;</span><span class="p">:</span> <span class="s2">&quot;,&quot;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">replaceDictResource</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">options</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="NerConverterInternal.setReplaceLabels"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setReplaceLabels">[docs]</a>    <span class="k">def</span> <span class="nf">setReplaceLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets custom relation labels</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        labels : dict[str, str]</span>
+<span class="sd">            Dictionary which maps old to new labels</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.internal</span> <span class="kn">import</span> <span class="n">CustomLabels</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">replaceLabels</span><span class="o">=</span><span class="n">CustomLabels</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NerConverterInternal</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.ner.NerConverterInternal&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">NerConverterInternalModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NerConverterInternalModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel">[docs]</a><span class="k">class</span> <span class="nc">NerConverterInternalModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts a IOB or IOB2 representation of NER to a user-friendly one,</span>
+<span class="sd">    by associating the tokens of recognized entities and their label.</span>
+<span class="sd">    Chunks with no associated entity (tagged &quot;O&quot;) are filtered.</span>
+
+<span class="sd">    ==========================================  ======================</span>
+<span class="sd">    Input Annotation types                      Output Annotation type</span>
+<span class="sd">    ==========================================  ======================</span>
+<span class="sd">    ``DOCUMENT, TOKEN, NAMED_ENTITY``           ``CHUNK``</span>
+<span class="sd">    ==========================================  ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    whiteList</span>
+<span class="sd">        If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels</span>
+<span class="sd">    blackList</span>
+<span class="sd">        If defined, list of entities to ignore. The rest will be proccessed. Do not include IOB prefix on labels</span>
+<span class="sd">    preservePosition</span>
+<span class="sd">        Whether to preserve the original position of the tokens in the original document or use the modified tokens</span>
+<span class="sd">    greedyMode</span>
+<span class="sd">        Whether to ignore B tags for contiguous tokens of same entity same</span>
+<span class="sd">    threshold</span>
+<span class="sd">        Confidence threshold to filter the chunk entities.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;A 63-year-old man presents to the hospital ...&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler().setInputCol(&quot;text&quot;).setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentenceDetector = SentenceDetector().setInputCols([&quot;document&quot;]).setOutputCol(&quot;sentence&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer().setInputCols([&quot;sentence&quot;]).setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; embeddings = WordEmbeddingsModel.pretrained(&quot;embeddings_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;).setOutputCol(&quot;embs&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; nerModel = MedicalNerModel.pretrained(&quot;ner_jsl&quot;, &quot;en&quot;, &quot;clinical/models&quot;).setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embs&quot;]).setOutputCol(&quot;ner&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; nerConverter = NerConverterInternal().setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;]).setOutputCol(&quot;ner_chunk&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline(stages=[</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     sentenceDetector,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     embeddings,</span>
+<span class="sd">    ...     nerModel,</span>
+<span class="sd">    ...     nerConverter])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="NerConverterInternalModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;NerConverterInternal&#39;</span></div>
+
+<div class="viewcode-block" id="NerConverterInternalModel.whiteList"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.whiteList">[docs]</a>    <span class="n">whiteList</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;whiteList&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span></div>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="NerConverterInternalModel.preservePosition"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.preservePosition">[docs]</a>    <span class="n">preservePosition</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;preservePosition&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Whether to preserve the original position of the tokens in the original document or use the modified tokens&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span></div>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="NerConverterInternalModel.greedyMode"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.greedyMode">[docs]</a>    <span class="n">greedyMode</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;greedyMode&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Whether to ignore B tags for contiguous tokens of same entity same&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span></div>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="NerConverterInternalModel.threshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.threshold">[docs]</a>    <span class="n">threshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;threshold&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Confidence threshold&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span></div>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="NerConverterInternalModel.replaceDict"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.replaceDict">[docs]</a>    <span class="n">replaceDict</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;replaceDict&quot;</span><span class="p">,</span> <span class="s2">&quot;dictionary of entities to replace&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerConverterInternalModel.blackList"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.blackList">[docs]</a>    <span class="n">blackList</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;blackList&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;If defined, list of entities to ignore. The rest will be processed. Do not include IOB prefix on labels&quot;</span><span class="p">,</span>
+                      <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NerConverterInternalModel.setWhiteList"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.setWhiteList">[docs]</a>    <span class="k">def</span> <span class="nf">setWhiteList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        entities : list</span>
+<span class="sd">            If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">whiteList</span><span class="o">=</span><span class="n">entities</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerConverterInternalModel.setBlackList"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.setBlackList">[docs]</a>    <span class="k">def</span> <span class="nf">setBlackList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;If defined, list of entities to ignore. The rest will be processed. Do not include IOB prefix on labels</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        entities : list</span>
+<span class="sd">           If defined, list of entities to ignore. The rest will be processed. Do not include IOB prefix on labels</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">blackList</span><span class="o">=</span><span class="n">entities</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerConverterInternalModel.setPreservePosition"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.setPreservePosition">[docs]</a>    <span class="k">def</span> <span class="nf">setPreservePosition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to preserve the original position of the tokens in the original document or use the modified tokens</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        p : bool</span>
+<span class="sd">            Whether to preserve the original position of the tokens in the original document or use the modified tokens</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">preservePosition</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerConverterInternalModel.setGreedyMode"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.setGreedyMode">[docs]</a>    <span class="k">def</span> <span class="nf">setGreedyMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets  whether to ignore B tags for contiguous tokens of same entity same</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        p : bool</span>
+<span class="sd">             Whether to ignore B tags for contiguous tokens of same entity same</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">greedyMode</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerConverterInternalModel.setThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel.setThreshold">[docs]</a>    <span class="k">def</span> <span class="nf">setThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets confidence threshold to filter the chunk entities.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        p : float</span>
+<span class="sd">            Confidence threshold to filter the chunk entities.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel&quot;</span><span class="p">,</span>
+                 <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ChunkMergeModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.ner.NerConverterInternalModel&quot;</span><span class="p">,</span><span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NerConverterInternalModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span></div>
+        <span class="p">)</span>
+
+
+</pre></div>
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../../../static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2022, John Snow Labs.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

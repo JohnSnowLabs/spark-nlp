@@ -1,22 +1,16 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Getting Started &#8212; Spark NLP 4.0.0 documentation</title>
+    
+  <link href="../static/css/theme.css" rel="stylesheet" />
+  <link href="../static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
 
-    <title>Getting Started &#8212; Spark NLP 3.3.0 documentation</title>
-<script>
-  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
-</script>
-
-  <!-- Loaded before other Sphinx assets -->
-  <link href="../static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
-<link href="../static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
-
-
+    
   <link rel="stylesheet"
     href="../static/vendor/fontawesome/5.13.0/css/all.min.css">
   <link rel="preload" as="font" type="font/woff2" crossorigin
@@ -24,16 +18,20 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    <link rel="stylesheet" type="text/css" href="../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../static/css/custom.css" />
+    
+      
 
-  <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+    
+    <link rel="stylesheet" type="text/css" href="../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/custom.css" />
+    
+  <link rel="preload" as="script" href="../static/js/index.1c5a1a01449ed65a7b51.js">
 
     <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js"></script>
     <script src="../static/jquery.js"></script>
     <script src="../static/underscore.js"></script>
-    <script src="../static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../static/doctools.js"></script>
     <script src="../static/toggleprompt.js"></script>
     <link rel="shortcut icon" href="../static/fav.ico"/>
@@ -41,41 +39,31 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="API Reference" href="../reference/index.html" />
     <link rel="prev" title="Spark NLP Documentation" href="../index.html" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="docsearch:language" content="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
   </head>
-  
-  
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
-    <div class="bd-header-announcement container-fluid" id="banner">
-      
-
-    </div>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
 
     
-    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
 
   <div id="navbar-start">
     
     
-  
 
-
-<a class="navbar-brand logo" href="../index.html">
-  
-  
-  
-  
-    <img src="../static/logo.png" class="logo__image only-light" alt="Logo image">
-    <img src="../static/logo.png" class="logo__image only-dark" alt="Logo image">
-  
-  
+<a class="navbar-brand" href="../index.html">
+  <img src="../static/logo.png" class="logo" alt="logo">
 </a>
+
+
     
   </div>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="fas fa-bars"></span>
+    <span class="navbar-toggler-icon"></span>
   </button>
 
   
@@ -105,14 +93,6 @@
     <div id="navbar-end">
       
       <div class="navbar-end-item">
-        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
-    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
-</span>
-      </div>
-      
-      <div class="navbar-end-item">
         <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
       </ul>
       </div>
@@ -123,13 +103,12 @@
     </nav>
     
 
-    <div class="bd-container container-xl">
-      <div class="bd-container__inner row">
+    <div class="container-xl">
+      <div class="row">
           
-
-<!-- Only show if we have sidebars configured, else just a small margin  -->
-<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
-  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -137,21 +116,17 @@
     
   </div>
 </nav>
-  </div>
-  <div class="sidebar-end-items">
-  </div>
-</div>
-
-
+            </div>
+            
           
 
-
-<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
-  
-    
-    <div class="toc-item">
-      
-<div class="tocsection onthispage mt-5 pt-1 pb-3">
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
     <i class="fas fa-list"></i> On this page
 </div>
 
@@ -175,24 +150,26 @@
 </ul>
 
 </nav>
-    </div>
-    
-    <div class="toc-item">
-      
-    </div>
-    
-  
-</div>
-
-
-          
-          
-          <div class="bd-content col-12 col-md-9 col-xl-7">
+              </div>
               
-              <article class="bd-article" role="main">
+              <div class="toc-item">
                 
-  <section id="getting-started">
-<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading">#</a></h1>
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
 <p>Spark NLP for Healthcare is a commercial extension of Spark NLP for clinical and biomedical text mining. If you don’t have a Spark NLP for Healthcare subscription yet, you can ask for a free trial by clicking on the button below.</p>
 <p>[Try Free](<a class="reference external" href="https://www.johnsnowlabs.com/spark-nlp-try-free/">https://www.johnsnowlabs.com/spark-nlp-try-free/</a>)</p>
 <p>Spark NLP for Healthcare provides healthcare-specific annotators, pipelines, models, and embeddings for:
@@ -211,8 +188,8 @@
 - Demographics - support Age, Gender, Height, Weight, Race, Ethnicity, Marital Status, Vital Signs
 - Sensitive Data- support Patient Name, Address, Phone, Email, Dates, Providers, Identifiers</p>
 <p>For more information visit our [models](<a class="reference external" href="https://nlp.johnsnowlabs.com/models/">https://nlp.johnsnowlabs.com/models/</a>) site.</p>
-<section id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">#</a></h2>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
 <p>Spark NLP is built on top of Apache Spark <cite>3.x</cite>. For using Spark NLP you need:</p>
 <ul class="simple">
 <li><p>Java 8</p></li>
@@ -225,9 +202,9 @@
 </ul>
 <p>It is recommended to have basic knowledge of the framework and a working environment before using Spark NLP.
 Please refer to <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/index.html">Spark documentation</a> to get started with Spark.</p>
-</section>
-<section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h2>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>First, let’s make sure the installed java version is Java 8 (Oracle or OpenJDK):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>java -version
 <span class="c1"># openjdk version &quot;1.8.0_292&quot;</span>
@@ -239,9 +216,9 @@ Please refer to <a class="reference external" href="https://spark.apache.org/doc
 </div>
 <p><cite>{version}</cite> is the version part of the <cite>{secret.code}</cite> (<cite>{secret.code}.split(‘-‘)[0]</cite>) (i.e. <cite>2.x.x</cite>)</p>
 <p>The <cite>{secret.code}</cite> is a secret code that is only available to users with valid/trial license. If you did not receive it yet, please contact us at &lt;a href=”<a class="reference external" href="mailto:info&#37;&#52;&#48;johnsnowlabs&#46;com">mailto:info<span>&#64;</span>johnsnowlabs<span>&#46;</span>com</a>”&gt;info&#64;johnsnowlabs.com&lt;/a&gt;.</p>
-</section>
-<section id="starting-a-spark-nlp-session-from-python">
-<h2>Starting a Spark NLP Session from Python<a class="headerlink" href="#starting-a-spark-nlp-session-from-python" title="Permalink to this heading">#</a></h2>
+</div>
+<div class="section" id="starting-a-spark-nlp-session-from-python">
+<h2>Starting a Spark NLP Session from Python<a class="headerlink" href="#starting-a-spark-nlp-session-from-python" title="Permalink to this headline">¶</a></h2>
 <p>You can start the spark session with this simple piece of code.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparknlp_jsl</span>
 <span class="n">spark</span> <span class="o">=</span> <span class="n">sparknlp_jsl</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{secret.code}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -260,59 +237,44 @@ Please refer to <a class="reference external" href="https://spark.apache.org/doc
     <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
 </pre></div>
 </div>
-</section>
-</section>
-
-
-              </article>
-              
-
-              
-              <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-  <a class='left-prev' id="prev-link" href="../index.html" title="previous page">
-      <i class="fas fa-angle-left"></i>
-      <div class="prev-next-info">
-          <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">Spark NLP Documentation</p>
-      </div>
-  </a>
-  <a class='right-next' id="next-link" href="../reference/index.html" title="next page">
-  <div class="prev-next-info">
-      <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">API Reference</p>
-  </div>
-  <i class="fas fa-angle-right"></i>
-  </a>
 </div>
-              </footer>
+</div>
+
+
+              </div>
               
-          </div>
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="../index.html" title="previous page">Spark NLP Documentation</a>
+    <a class='right-next' id="next-link" href="../reference/index.html" title="next page">API Reference</a>
+
+              </div>
+              
+          </main>
           
+
       </div>
     </div>
+  
+  <script src="../static/js/index.1c5a1a01449ed65a7b51.js"></script>
 
-  
-  
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
-
-<footer class="bd-footer"><div class="bd-footer__inner container">
-  
-  <div class="footer-item">
-    <p class="copyright">
-    &copy; Copyright 2021, John Snow Labs.<br>
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2022, John Snow Labs.<br/>
 </p>
-  </div>
-  
-  <div class="footer-item">
-    <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
 </p>
+    </div>
+    
   </div>
-  
-</div>
 </footer>
   </body>
 </html>
