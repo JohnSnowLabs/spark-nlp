@@ -18,6 +18,7 @@ package com.johnsnowlabs.nlp
 
 object AnnotatorType {
   val DOCUMENT = "document"
+  val IMAGE = "image"
   val TOKEN = "token"
   val WORDPIECE = "wordpiece"
   val WORD_EMBEDDINGS = "word_embeddings"
