@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.nlp.annotators.cv.image.schema
+package com.johnsnowlabs.nlp.annotators.cv.util.schema
 
 import org.apache.spark.ml.image.ImageSchema._
 import org.apache.spark.sql.types._
