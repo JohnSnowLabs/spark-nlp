@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.nlp.annotators.cv.image.io
+package com.johnsnowlabs.nlp.annotators.cv.util.io
 
 import java.awt.Point
 import java.awt.image.{BufferedImage, DataBufferByte, Raster}
