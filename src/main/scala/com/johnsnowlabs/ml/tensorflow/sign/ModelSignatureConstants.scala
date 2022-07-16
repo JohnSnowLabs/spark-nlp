@@ -178,6 +178,11 @@ object ModelSignatureConstants {
     override val value: String = "StatefulPartitionedCall:1"
   }
 
+  case object PixelValuesInput extends TFInfoNameMapper {
+    override val key: String = "pixel_values"
+    override val value: String = "pixel_values:0"
+  }
+
   /** Retrieve signature patterns for a given provider
     *
     * @param modelProvider
