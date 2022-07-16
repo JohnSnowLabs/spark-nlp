@@ -1,14 +1,14 @@
 ---
 layout: model
-title: LayoutLMv2 model trained on RVL-CDIP subset for visual document classification
+title: layoutlmv2_rvl_cdip_40k
 author: John Snow Labs
-name: layoutlmv2_rvl_cdip_1500
-date: 2022-06-12
+name: layoutlmv2_rvl_cdip_40k
+date: 2022-07-15
 tags: [en, licensed]
 task: OCR Document Classification
 language: en
-edition: Spark OCR 3.4.0
-spark_version: 2.4
+edition: Spark OCR 3.14.0
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
@@ -26,7 +26,7 @@ This model uses LayoutLMv2 to classify documents. It was trained on subset of RV
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/layoutlmv2_rvl_cdip_1500_en_3.4.0_2.4_1655011402997.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/layoutlmv2_rvl_cdip_40k_en_3.14.0_3.0_1657903240904.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -50,7 +50,7 @@ This model uses LayoutLMv2 to classify documents. It was trained on subset of RV
             .setOutputCol("token")
 
         doc_class = VisualDocumentClassifierV2() \
-            .pretrained("layoutlmv2_rvl_cdip_1500", "en", "clinical/ocr") \
+            .pretrained("layoutlmv2_rvl_cdip_40k", "en", "clinical/ocr") \
             .setInputCols(["token", "image"]) \
             .setOutputCol("label")
 
@@ -76,7 +76,7 @@ This model uses LayoutLMv2 to classify documents. It was trained on subset of RV
       .setOutputCol("token")
 
     val visualDocumentClassifier = VisualDocumentClassifierv2
-        .pretrained("layoutlmv2_rvl_cdip_1500", "en", "clinical/ocr")
+        .pretrained("layoutlmv2_rvl_cdip_40k", "en", "clinical/ocr")
         .setInputCols(Array("token", "image"))
 
     val pipeline = new Pipeline()
@@ -94,9 +94,9 @@ This model uses LayoutLMv2 to classify documents. It was trained on subset of RV
 
 {:.table-model}
 |---|---|
-|Model Name:|layoutlmv2_rvl_cdip_1500|
+|Model Name:|layoutlmv2_rvl_cdip_40k|
 |Type:|ocr|
-|Compatibility:|Spark OCR 3.4.0+|
+|Compatibility:|Spark OCR 3.14.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|
@@ -105,3 +105,9 @@ This model uses LayoutLMv2 to classify documents. It was trained on subset of RV
 ## References
 
 RVL-CDIP (Ryerson Vision Lab Complex Document Information Processing) dataset consisting of 400 000 grayscale images in 16 classes
+
+## Benchmarking
+
+```bash
+Accuracy 88% on TEST part of RVL-CDIP dataset
+```
