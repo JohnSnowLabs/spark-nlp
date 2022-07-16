@@ -104,6 +104,14 @@ val documentAssembler = new DocumentAssembler()
 
  val result= pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.mesh_to_umls").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results

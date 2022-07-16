@@ -123,6 +123,14 @@ val pipeline = new Pipeline().setStages(Array(document_assembler,
  val text_data = Seq("Sinequan 150 MG", "Zonalon 50 mg").toDS.toDF("text")
  val res = pipeline.fit(text_data).transform(text_data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.map_entity.rxnorm_to_action_treatment").predict("""Sinequan 150 MG""")
+```
+
 </div>
 
 

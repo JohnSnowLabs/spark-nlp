@@ -62,6 +62,14 @@ val data = Seq("PUT YOUR QUESTION HERE", "PUT YOUR CONTEXT HERE").toDF("question
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("xx.answer_question.squad.distil_bert._en_de_es_vi_zh_tuned.by_ZYW").predict("""PUT YOUR QUESTION HERE|||"PUT YOUR CONTEXT HERE""")
+```
+
 </div>
 
 {:.model-param}

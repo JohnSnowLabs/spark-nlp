@@ -44,6 +44,14 @@ val pipeline= new PretrainedPipeline("icd10cm_snomed_mapping", "en", "clinical/m
 
 val result= pipeline.fullAnnotate("R079 N4289 M62830")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.map_entity.icd10cm_to_snomed.pipe").predict("""R079 N4289 M62830""")
+```
+
 </div>
 
 ## Results

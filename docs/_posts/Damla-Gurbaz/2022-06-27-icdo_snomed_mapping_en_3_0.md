@@ -45,6 +45,14 @@ val pipeline= new PretrainedPipeline("icdo_snomed_mapping", "en", "clinical/mode
 
 val result= pipeline.fullAnnotate("8120/1 8170/3 8380/3")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.map_entity.icdo_to_snomed.pipe").predict("""8120/1 8170/3 8380/3""")
+```
+
 </div>
 
 ## Results

@@ -59,6 +59,14 @@ val result = pipeline.fit(data).transform(data)
 
 result.selectExpr("explode(corefs) as coref").selectExpr("coref.result as token", "coref.metadata").show(truncate = false)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.coreference.spanbert").predict("""John told Mary he would like to borrow a book from her.""")
+```
+
 </div>
 
 ## Results

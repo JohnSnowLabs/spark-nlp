@@ -78,6 +78,14 @@ val sample_data = Seq("zytiga", "zyvana", "ZYVOX").toDS.toDF("text")
  
 val result = pipeline.fit(sample_data).transform(sample_data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.map_entity.drug_brand_to_ndc").predict("""Put your text here.""")
+```
+
 </div>
 
 ## Results

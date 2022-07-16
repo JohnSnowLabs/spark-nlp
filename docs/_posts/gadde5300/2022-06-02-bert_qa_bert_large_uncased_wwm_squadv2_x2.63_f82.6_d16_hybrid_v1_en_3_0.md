@@ -70,6 +70,14 @@ val example = Seq(
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.answer_question.squadv2.bert.large_uncased_v2_x2.63_f82.6_d16_hybrid.by_madlag").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
+```
+
 </div>
 
 {:.model-param}

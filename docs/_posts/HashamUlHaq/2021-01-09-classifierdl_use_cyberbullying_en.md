@@ -86,6 +86,14 @@ import nlu
 nlu.load("en.classify.cyberbullying").predict("""@geeky_zekey Thanks for showing again that blacks are the biggest racists. Blocked""")
 ```
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.cyberbullying").predict("""@geeky_zekey Thanks for showing again that blacks are the biggest racists. Blocked""")
+```
+
 </div>
 
 ## Results

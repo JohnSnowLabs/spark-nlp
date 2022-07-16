@@ -62,6 +62,14 @@ val data = Seq("私の名前は何ですか？", "私の名前はクララで、
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ja.answer_question.wikipedia.bert.base").predict("""私の名前は何ですか？|||"私の名前はクララで、私はバークレーに住んでいます。""")
+```
+
 </div>
 
 {:.model-param}

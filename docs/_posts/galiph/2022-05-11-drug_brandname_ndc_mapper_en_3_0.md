@@ -76,6 +76,14 @@ val pipeline = new Pipeline().setStages(Array(document_assembler,
  
  val res = pipeline.fit(text_data).transform(text_data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.map_entity.drug_brand_to_ndc").predict("""Put your text here.""")
+```
+
 </div>
 
 

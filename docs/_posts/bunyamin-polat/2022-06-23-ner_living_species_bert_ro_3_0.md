@@ -118,6 +118,14 @@ val data = Seq("""O femeie în vârstă de 26 de ani, însărcinată în 11 săp
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ro.med_ner.living_species.bert").predict("""O femeie în vârstă de 26 de ani, însărcinată în 11 săptămâni, a consultat serviciul de urgențe dermatologice pentru că prezenta, de 4 zile, leziuni punctiforme dureroase de debut brusc pe vârful degetelor. Pacientul raportează că leziunile au început pe degete și ulterior s-au extins la degetele de la picioare. Markerii de imunitate, ANA și crioagglutininele, au fost negativi, iar serologia VHB a indicat doar vaccinarea. Pe baza acestor rezultate, diagnosticul de vasculită a fost exclus și, având în vedere diagnosticul suspectat de erupție cutanată cu mănuși și șosete, s-a efectuat serologia pentru virusul Ebstein Barr. Exantemă la mănuși și șosete datorat parvovirozei B19. Având în vedere suspiciunea unei afecțiuni infecțioase cu aceste caracteristici, a fost solicitată serologia pentru EBV, enterovirus și parvovirus B19, cu IgM pozitiv pentru acesta din urmă în două ocazii. De asemenea, nu au existat semne de anemie fetală sau complicații ale acesteia.""")
+```
+
 </div>
 
 ## Results

@@ -100,6 +100,14 @@ val model = pipeline.fit(Seq("").toDF("text"))
 val lp= LightPipeline(model)
 val result = lp.fullAnnotate(Seq("amlodipine 5 MG", "hydrochlorothiazide 25 MG"))
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.rxnorm_to_umls").predict("""hydrochlorothiazide 25 MG""")
+```
+
 </div>
 
 ## Results

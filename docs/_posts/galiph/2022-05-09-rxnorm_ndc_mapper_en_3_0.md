@@ -118,6 +118,14 @@ val pipeline = new Pipeline().setStages(Array(
  val text_data = Seq("doxepin hydrochloride 50 MG/ML", "macadamia nut 100 MG/ML").toDS.toDF("text")
  val res = pipeline.fit(text_data).transform(text_data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.rxnorm_to_ndc").predict("""Product NDC""")
+```
+
 </div>
 
 

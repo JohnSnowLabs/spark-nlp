@@ -150,6 +150,14 @@ val data = Seq("""The patient is a 71-year-old female patient of Dr. X. and she 
 
 val result= pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.map_entity.drug_to_action_treatment").predict("""The patient is a 71-year-old female patient of Dr. X. and she was given Aklis, Dermovate, Aacidexam and Paracetamol.""")
+```
+
 </div>
 
 ## Results
