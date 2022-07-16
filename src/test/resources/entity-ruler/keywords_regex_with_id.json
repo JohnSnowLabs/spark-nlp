@@ -1,0 +1,25 @@
+[
+  {
+    "id": "id-regex",
+    "label": "ID",
+    "patterns": ["\\d+"],
+    "regex": true
+  },
+  {
+    "id": "symbols-regex",
+    "label": "SYMBOL",
+    "patterns": ["\\W+"],
+    "regex": true
+  },
+  {
+    "id": "locations-words",
+    "label": "LOCATION",
+    "patterns": ["Winterfell", "London"]
+  },
+  {
+    "id": "organization-words",
+    "label": "ORGANIZATION",
+    "patterns": ["UN", "NATO"],
+    "regex": false
+  }
+]
