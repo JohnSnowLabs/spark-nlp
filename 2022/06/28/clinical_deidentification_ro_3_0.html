@@ -453,6 +453,15 @@ Spitalul Pentru Ochi de Deal Drumul Oprea Nr. 972 Vaslui, 737405 """</span>
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">deid_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="n">sample</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"ro.deid.clinical"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""Medic : Dr. Agota EVELYN, C.N.P : 2450502264401, Data setului de analize: 25 May 2022 
+Varsta : 77, Nume si Prenume : BUREAN MARIA 
+Tel: +40(235)413773, E-mail : hale@gmail.com,
+Licență : B004256985M, Înmatriculare : CD205113, Cont : FXHZ7170951927104999, 
+Spitalul Pentru Ochi de Deal Drumul Oprea Nr. 972 Vaslui, 737405 """</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

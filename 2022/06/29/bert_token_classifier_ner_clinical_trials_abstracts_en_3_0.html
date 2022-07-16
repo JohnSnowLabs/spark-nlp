@@ -498,6 +498,11 @@
 
 <span class="k">val</span> <span class="nv">results</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.med_ner.clinical_trials_abstracts"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""This open-label, parallel-group, two-arm, pilot study compared the beta-cell protective effect of adding insulin glargine (GLA) vs. NPH insulin to ongoing metformin. Overall, 28 insulin-naive type 2 diabetes subjects (mean +/- SD age, 61.5 +/- 6.7 years; BMI, 30.7 +/- 4.3 kg/m(2)) treated with metformin and sulfonylurea were randomized to add once-daily GLA or NPH at bedtime."""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

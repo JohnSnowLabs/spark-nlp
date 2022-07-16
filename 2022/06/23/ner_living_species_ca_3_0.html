@@ -516,6 +516,11 @@
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"ca.med_ner.living_species"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""Dona de 47 anys al·lèrgica al iode, fumadora social, intervinguda de varices, dues cesàries i un abscés gluti. Sense altres antecedents mèdics d'interès ni tractament habitual. Viu amb el seu marit i tres fills, treballa com a professora. En el moment de la nostra valoració en la planta de Cirurgia General, la pacient presenta TA 69/40 mm Hg, freqüència cardíaca 120 lpm, taquipnea en repòs, pal·lidesa mucocutánea, mala perfusió distal i afligeix nàusees. L'abdomen és tou, no presenta peritonismo i el dèbit del drenatge abdominal roman sense canvis. Les serologies de Coxiella burnetii, Bartonella henselae, Borrelia burgdorferi, Entamoeba histolytica, Toxoplasma gondii, citomegalovirus, virus de Epstein Barr, virus varicel·la zoster i parvovirus B19 van ser negatives. No obstant això, es va detectar test de rosa de Bengala positiu per a Brucella, el test de Coombs i les aglutinacions també van ser positives amb un títol 1/40."""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

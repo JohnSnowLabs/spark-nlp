@@ -516,6 +516,11 @@
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"ro.med_ner.living_species.bert"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""O femeie în vârstă de 26 de ani, însărcinată în 11 săptămâni, a consultat serviciul de urgențe dermatologice pentru că prezenta, de 4 zile, leziuni punctiforme dureroase de debut brusc pe vârful degetelor. Pacientul raportează că leziunile au început pe degete și ulterior s-au extins la degetele de la picioare. Markerii de imunitate, ANA și crioagglutininele, au fost negativi, iar serologia VHB a indicat doar vaccinarea. Pe baza acestor rezultate, diagnosticul de vasculită a fost exclus și, având în vedere diagnosticul suspectat de erupție cutanată cu mănuși și șosete, s-a efectuat serologia pentru virusul Ebstein Barr. Exantemă la mănuși și șosete datorat parvovirozei B19. Având în vedere suspiciunea unei afecțiuni infecțioase cu aceste caracteristici, a fost solicitată serologia pentru EBV, enterovirus și parvovirus B19, cu IgM pozitiv pentru acesta din urmă în două ocazii. De asemenea, nu au existat semne de anemie fetală sau complicații ale acesteia."""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

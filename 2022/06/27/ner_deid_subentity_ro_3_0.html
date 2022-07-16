@@ -512,6 +512,17 @@ C.N.P : 2450502264401"""</span>
 
 <span class="k">val</span> <span class="nv">results</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"ro.med_ner.deid.subentity"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""
+Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România
+Tel: +40(235)413773
+Data setului de analize: 25 May 2022 15:36:00
+Nume si Prenume : BUREAN MARIA, Varsta: 77
+Medic : Agota Evelyn Tımar
+C.N.P : 2450502264401"""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

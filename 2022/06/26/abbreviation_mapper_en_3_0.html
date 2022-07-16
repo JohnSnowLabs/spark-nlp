@@ -532,6 +532,13 @@
 
 <span class="k">val</span> <span class="nv">result</span><span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.map_entity.abbreviation_to_definition"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""Gravid with estimated fetal weight of 6-6/12 pounds.
+           LABORATORY DATA: Laboratory tests include a CBC which is normal.
+           HIV: Negative. One-Hour Glucose: 117. Group B strep has not been done as yet."""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

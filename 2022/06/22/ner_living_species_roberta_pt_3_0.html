@@ -516,6 +516,11 @@
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"pt.med_ner.living_species.roberta"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""Mulher de 23 anos, de Capinota, Cochabamba, Bolívia. Ela está no nosso país há quatro anos. Frequentou o departamento de emergência obstétrica onde foi encontrada grávida de 37 semanas, com um colo dilatado de 5 cm e membranas rompidas. O obstetra de emergência realizou um teste de estreptococos negativo e solicitou um hemograma, glucose, bioquímica básica, HBV, HCV e serologia da sífilis."""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

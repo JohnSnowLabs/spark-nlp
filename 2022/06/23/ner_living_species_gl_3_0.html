@@ -517,6 +517,11 @@
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="n">pipeline</span> <span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"gl.med_ner.living_species"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""Muller de 45 anos, sen antecedentes médicos de interese, que foi remitida á consulta de dermatoloxía de urxencias por lesións faciales de tres semanas de evolución. A paciente non presentaba lesións noutras localizaciones nin outra clínica de interese. No seu centro de saúde prescribíronlle corticoides tópicos ante a sospeita de picaduras de artrópodos e unha semana despois, antivirales orais baixo o diagnóstico de posible infección herpética. As lesións interferían de forma notable na súa vida persoal e profesional xa que traballaba de face ao púbico. Unha semana máis tarde o diagnóstico foi confirmado ao resultar o cultivo positivo a Staphylococcus aureus."""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>
