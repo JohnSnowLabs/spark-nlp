@@ -98,6 +98,14 @@ val data = Seq("Diabetes Mellitus").toDS.toDF("text")
 
 val result= pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.icd10cm_to_snomed").predict("""Diabetes Mellitus""")
+```
+
 </div>
 
 ## Results

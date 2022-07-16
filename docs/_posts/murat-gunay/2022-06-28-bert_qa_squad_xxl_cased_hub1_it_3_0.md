@@ -62,6 +62,14 @@ val data = Seq("Qual è il mio nome?", "Mi chiamo Clara e vivo a Berkeley.").toD
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("it.answer_question.squad.bert.xxl_cased").predict("""Qual è il mio nome?|||"Mi chiamo Clara e vivo a Berkeley.""")
+```
+
 </div>
 
 {:.model-param}

@@ -62,6 +62,14 @@ val data = Seq("اسم من چیست؟", "نام من کلارا است و من 
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("fa.answer_question.xlmr_roberta.large").predict("""اسم من چیست؟|||"نام من کلارا است و من در برکلی زندگی می کنم.""")
+```
+
 </div>
 
 {:.model-param}

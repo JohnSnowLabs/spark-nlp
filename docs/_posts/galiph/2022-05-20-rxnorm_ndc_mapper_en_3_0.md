@@ -99,6 +99,14 @@ val pipeline = Pipeline().setStages(Array(document_assembler,
  val text_data = Seq("doxycycline hyclate 50 MG Oral Tablet'", "macadamia nut 100 MG/ML").toDF("text")
  val res = pipeline.fit(text_data).transform(text_data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.rxnorm_to_ndc").predict("""Product NDC""")
+```
+
 </div>
 
 ## Results

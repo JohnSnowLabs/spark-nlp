@@ -62,6 +62,14 @@ val data = Seq("¿Cuál es mi nombre?", "Mi nombre es Clara y vivo en Berkeley."
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.answer_question.distil_bert.base_uncased").predict("""¿Cuál es mi nombre?|||"Mi nombre es Clara y vivo en Berkeley.""")
+```
+
 </div>
 
 {:.model-param}

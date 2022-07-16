@@ -40,6 +40,14 @@ annotations.keys()
 val pipeline = new PretrainedPipeline("explain_document_lg", lang = "he")
 val result = pipeline.fullAnnotate("היי, מעבדות ג'ון סנו!")(0)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("he.explain_document").predict("""היי, מעבדות ג'ון סנו!""")
+```
+
 </div>
 
 ## Results

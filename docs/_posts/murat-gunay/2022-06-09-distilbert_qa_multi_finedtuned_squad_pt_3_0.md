@@ -62,6 +62,14 @@ val pipeline = new Pipeline().setStages(Array(documentAssembler, spanClassifier)
 val data = Seq("Qual é o meu nome?", "Meu nome é Clara e moro em Berkeley.").toDF("question", "context")
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("pt.answer_question.squad.distil_bert").predict("""Qual é o meu nome?|||"Meu nome é Clara e moro em Berkeley.""")
+```
+
 </div>
 
 {:.model-param}

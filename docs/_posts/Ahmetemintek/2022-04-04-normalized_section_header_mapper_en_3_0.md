@@ -146,6 +146,16 @@ GENERAL REVIEW Right pleural effusion, firm nodules, diffuse scattered throughou
 val test_data = Seq(test_sentence).toDS.toDF("text")
 val result = pipeline.fit(test_data).transform(test_data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.map_entity.section_headers_normalized").predict("""ADMISSION DIAGNOSIS Right pleural effusion and suspected malignant mesothelioma.
+        PRINCIPAL DIAGNOSIS Right pleural effusion, suspected malignant mesothelioma.
+        GENERAL REVIEW Right pleural effusion, firm nodules, diffuse scattered throughout the right pleura and diaphragmatic surface.""")
+```
+
 </div>
 
 

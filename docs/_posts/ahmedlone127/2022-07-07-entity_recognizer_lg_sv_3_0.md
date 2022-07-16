@@ -38,6 +38,14 @@ pipeline = PretrainedPipeline("entity_recognizer_lg", "sv")
 result = pipeline.annotate("""I love johnsnowlabs! """)
 ```
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("sv.ner.lg").predict("""I love johnsnowlabs! """)
+```
+
 </div>
 
 {:.model-param}

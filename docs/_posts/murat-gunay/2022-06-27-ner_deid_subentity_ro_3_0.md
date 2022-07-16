@@ -116,6 +116,20 @@ val data = Seq(text).toDS.toDF("text")
 
 val results = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ro.med_ner.deid.subentity").predict("""
+Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România
+Tel: +40(235)413773
+Data setului de analize: 25 May 2022 15:36:00
+Nume si Prenume : BUREAN MARIA, Varsta: 77
+Medic : Agota Evelyn Tımar
+C.N.P : 2450502264401""")
+```
+
 </div>
 
 ## Results

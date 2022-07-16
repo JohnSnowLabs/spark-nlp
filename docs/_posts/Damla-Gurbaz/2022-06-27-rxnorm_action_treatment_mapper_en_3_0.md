@@ -117,6 +117,14 @@ val chunkerMapper_2 = ChunkMapperModel
 
  val result= pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.map_entity.rxnorm_to_action_treatment").predict("""Sinequan 150 MG""")
+```
+
 </div>
 
 ## Results

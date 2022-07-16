@@ -40,6 +40,14 @@ import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val pipeline = new PretrainedPipeline("icd10cm_snomed_mapping","en","clinical/models")
 val result = pipeline.annotate('721617001 733187009 109006')
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.map_entity.snomed_to_icd10cm.pipe").predict("""721617001 733187009 109006""")
+```
+
 </div>
 
 ## Results

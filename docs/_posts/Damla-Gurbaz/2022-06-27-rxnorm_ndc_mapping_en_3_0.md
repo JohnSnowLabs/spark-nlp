@@ -44,6 +44,14 @@ val pipeline = new PretrainedPipeline("rxnorm_ndc_mapping", "en", "clinical/mode
 
 val result= pipeline.fullAnnotate("1652674 259934")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.map_entity.rxnorm_to_ndc.pipe").predict("""1652674 259934""")
+```
+
 </div>
 
 ## Results

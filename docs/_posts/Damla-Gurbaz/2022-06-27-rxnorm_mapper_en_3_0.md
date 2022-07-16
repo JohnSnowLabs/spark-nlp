@@ -130,6 +130,14 @@ val data = Seq("The patient was given Zyrtec 10 MG, Adapin 10 MG Oral Capsule, S
 
 val result = pipeline.fit(data).transform(data) 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.map_entity.rxnorm_resolver").predict("""The patient was given Zyrtec 10 MG, Adapin 10 MG Oral Capsule, Septi-Soothe 0.5 Topical Spray""")
+```
+
 </div>
 
 ## Results

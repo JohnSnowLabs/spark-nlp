@@ -92,6 +92,17 @@ val document_assembler = DocumentAssembler()
                                       Cureent Medications: Diprivan, Proventil").toDF("text")
  val res = pipeline.fit(test_data).transform(test_data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.map_entity.drug_to_action_treatment").predict("""
+ The patient is a 71-year-old female patient of Dr. X. and she was given Aklis and Dermovate.
+ Cureent Medications: Diprivan, Proventil
+ """)
+```
+
 </div>
 
 ## Results

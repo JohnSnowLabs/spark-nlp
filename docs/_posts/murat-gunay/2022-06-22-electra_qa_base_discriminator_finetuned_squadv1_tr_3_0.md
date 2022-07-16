@@ -62,6 +62,14 @@ val data = Seq("Benim adım ne?", "Benim adım Clara ve Berkeley'de yaşıyorum.
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("tr.answer_question.squad.electra.base").predict("""Benim adım ne?|||"Benim adım Clara ve Berkeley'de yaşıyorum.""")
+```
+
 </div>
 
 {:.model-param}

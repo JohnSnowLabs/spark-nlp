@@ -103,6 +103,14 @@ val documentAssembler = new DocumentAssembler()
 
  val result= pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.rxnorm_to_ndc").predict("""doxycycline hyclate 50 MG Oral Tablet""")
+```
+
 </div>
 
 ## Results

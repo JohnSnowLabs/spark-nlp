@@ -96,6 +96,14 @@ val documentAssembler = new DocumentAssembler()
 
  val result= pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.snomed_to_icd10cm").predict("""Radiating chest pain""")
+```
+
 </div>
 
 ## Results
