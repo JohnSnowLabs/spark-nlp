@@ -154,7 +154,6 @@ Spark NLP 4.0.1 is built with TensorFlow 2.7.1 and the following NVIDIA® softwa
 - CUDA® Toolkit 11.2
 - cuDNN SDK 8.1.0
 
-
 ## Quick Start
 
 This is a quick example of how to use Spark NLP pre-trained pipeline in Python and PySpark:
@@ -644,9 +643,9 @@ This script comes with the two options to define `pyspark` and `spark-nlp` versi
 
 3. In `Libraries` tab inside your cluster you need to follow these steps:
 
-   3.1. Install New -> PyPI -> `spark-nlp==4.0.1` -> Install
+    3.1. Install New -> PyPI -> `spark-nlp==4.0.1` -> Install
 
-   3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:4.0.1` -> Install
+    3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:4.0.1` -> Install
 
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
@@ -1110,9 +1109,9 @@ Example of using pretrained Models and Pipelines in offline:
 # instead of using pretrained() for online:
 # french_pos = PerceptronModel.pretrained("pos_ud_gsd", lang="fr")
 # you download this model, extract it, and use .load
-french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/")
-  .setInputCols("document", "token")
-  .setOutputCol("pos")
+french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/")\
+      .setInputCols("document", "token")\
+      .setOutputCol("pos")
 
 # example for pipelines
 # instead of using PretrainedPipeline

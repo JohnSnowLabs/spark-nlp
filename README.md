@@ -154,7 +154,6 @@ Spark NLP 4.0.1 is built with TensorFlow 2.7.1 and the following NVIDIA® softwa
 - CUDA® Toolkit 11.2
 - cuDNN SDK 8.1.0
 
-
 ## Quick Start
 
 This is a quick example of how to use Spark NLP pre-trained pipeline in Python and PySpark:
