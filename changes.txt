@@ -1,14 +1,4 @@
-README.md
-docs/_data/navigation.yml
-docs/assets/images/Spark_NLP_3.4_on_CPU_vs._Spark_NLP_4.0_on_CPU_with_oneDNN.png
-docs/assets/images/Spark_NLP_3.x_CPU_GPU_vs._Spark_NLP_4.0_CPU+oneDNN_GPU.png
-docs/assets/images/Spark_NLP_CPU_vs._GPU_Transformers_(Word_Embeddings).png
+docs/en/CPUvsGPUbenchmark.md
 docs/en/hardware_acceleration.md
-python/README.md
-README.md
-docs/_data/navigation.yml
-docs/assets/images/Spark_NLP_3.4_on_CPU_vs._Spark_NLP_4.0_on_CPU_with_oneDNN.png
-docs/assets/images/Spark_NLP_3.x_CPU_GPU_vs._Spark_NLP_4.0_CPU+oneDNN_GPU.png
-docs/assets/images/Spark_NLP_CPU_vs._GPU_Transformers_(Word_Embeddings).png
+docs/en/CPUvsGPUbenchmark.md
 docs/en/hardware_acceleration.md
-python/README.md
