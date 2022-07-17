@@ -17,7 +17,7 @@ This section includes benchmarks for different Approach() (training classes), co
 
 Different benchmarks, as well as their takeaways and some conclusions of how to get the best of GPU, are included as well, to guide you in the process of getting the best performance out of Spark NLP on GPU.
 
-Big improvements have been carried out from version 3.3.4, so please, make sure you use at least that version to fully levearge Spark NLP capabilities on GPU.
+Each major release comes with big improvements, so please, make sure you use at least that version to fully levearge Spark NLP capabilities on GPU.
 
 </div>
 <div class="h3-box" markdown="1">

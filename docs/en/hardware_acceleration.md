@@ -98,6 +98,6 @@ In future TensorFlow releases, the oneDNN will be enabled by default (starting T
 </div>
 <div class="h3-box" markdown="1">
 
-### GPU vs. CPU with oneDNN vs. CPU
+### GPU vs. CPU
 
 ![Spark NLP 3.4.4 CPU vs. Spark NLP 4.0 CPU with oneDNN vs. GPU](/assets/images/Spark_NLP_3.x_CPU_GPU_vs._Spark_NLP_4.0_CPU+oneDNN_GPU.png)
