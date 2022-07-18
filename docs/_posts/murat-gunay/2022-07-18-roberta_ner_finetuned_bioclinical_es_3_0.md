@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English RobertaForTokenClassification Cased model (from mrm8488)
+title: Spanish RobertaForTokenClassification Cased model (from mrm8488)
 author: John Snow Labs
 name: roberta_ner_finetuned_bioclinical
 date: 2022-07-18
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained RoBERTa NER model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `bioclinical-roberta-es-finenuned-clinical-ner` is a English model originally trained by `mrm8488`.
+Pretrained RoBERTa NER model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `bioclinical-roberta-es-finenuned-clinical-ner` is a Spanish model originally trained by `mrm8488`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
