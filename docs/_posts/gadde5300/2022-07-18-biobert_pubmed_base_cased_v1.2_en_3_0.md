@@ -80,7 +80,7 @@ val result = pipeline.fit(data).transform(data)
 |License:|Open Source|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
-|Output Labels:|[bert]|
+|Output Labels:|[embeddings]|
 |Language:|en|
 |Size:|406.5 MB|
 |Case sensitive:|true|
