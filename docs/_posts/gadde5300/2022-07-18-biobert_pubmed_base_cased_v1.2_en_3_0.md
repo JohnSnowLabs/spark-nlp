@@ -32,16 +32,16 @@ This model contains a pre-trained weights of BioBERT, a language representation 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-.setInputCol("text") \
-.setOutputCol("document")
+      .setInputCol("text") \
+      .setOutputCol("document")
 
 tokenizer = Tokenizer() \
-.setInputCols("document") \
-.setOutputCol("token")
+      .setInputCols("document") \
+      .setOutputCol("token")
 
 embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased_v1.2","en") \
-.setInputCols(["document", "token"]) \
-.setOutputCol("embeddings")
+      .setInputCols(["document", "token"]) \
+      .setOutputCol("embeddings")
 
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
 
@@ -55,12 +55,12 @@ val documentAssembler = new DocumentAssembler()
   .setOutputCol("document")
 
 val tokenizer = new Tokenizer() 
-.setInputCols(Array("document"))
-.setOutputCol("token")
+  .setInputCols(Array("document"))
+  .setOutputCol("token")
 
 val embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased_v1.2","en") 
-.setInputCols(Array("document", "token")) 
-.setOutputCol("embeddings")
+  .setInputCols(Array("document", "token")) 
+  .setOutputCol("embeddings")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
 
@@ -88,3 +88,4 @@ val result = pipeline.fit(data).transform(data)
 ## References
 
 - https://arxiv.org/abs/1901.08746v2
+- https://huggingface.co/dmis-lab/biobert-base-cased-v1.2
