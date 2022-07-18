@@ -10,10 +10,8 @@ class AhoCorasickAutomatonTest extends AnyFlatSpec {
   "AhoCorasickAutomaton" should "build a matching machine for english" in {
 
     val englishAlphabet = "abcdefghijklmnopqrstuvwxyz,"
-    val entityPatterns = Array(
-      EntityPattern("Noun", Seq("he", "she")),
-      EntityPattern("Pronoun", Seq("his", "hers"))
-    )
+    val entityPatterns =
+      Array(EntityPattern("Noun", Seq("he", "she")), EntityPattern("Pronoun", Seq("his", "hers")))
     val text = "she is over there, look his eyes met hers"
     val sentence = Sentence(text, 0, text.length, 0)
     val tokens = Map(
@@ -26,8 +24,7 @@ class AhoCorasickAutomatonTest extends AnyFlatSpec {
       26 -> Annotation(TOKEN, 24, 26, "his", Map()),
       31 -> Annotation(TOKEN, 28, 31, "eyes", Map()),
       35 -> Annotation(TOKEN, 33, 35, "met", Map()),
-      40 -> Annotation(TOKEN, 37, 40, "hers", Map())
-    )
+      40 -> Annotation(TOKEN, 37, 40, "hers", Map()))
 
     val automaton = new AhoCorasickAutomaton(englishAlphabet, entityPatterns)
     automaton.buildMatchingMachine()
@@ -36,24 +33,20 @@ class AhoCorasickAutomatonTest extends AnyFlatSpec {
     val expectedOutput = List(
       Annotation(CHUNK, 0, 2, "she", Map("entity" -> "Noun", "sentence" -> "0")),
       Annotation(CHUNK, 24, 26, "his", Map("entity" -> "Pronoun", "sentence" -> "0")),
-      Annotation(CHUNK, 37, 40, "hers", Map("entity" -> "Pronoun", "sentence" -> "0"))
-    )
-    assert(expectedOutput == actualOutput)
+      Annotation(CHUNK, 37, 40, "hers", Map("entity" -> "Pronoun", "sentence" -> "0")))
+    assert(actualOutput == expectedOutput)
   }
 
   it should "build a matching machine for Japanese" in {
     val japaneseSampleAlphabet = "ざ音楽数ポ学生理学ぎ"
-    val entityPatterns = Array(
-      EntityPattern("Test-Japanese", Seq("音楽数", "生"))
-    )
+    val entityPatterns = Array(EntityPattern("Test-Japanese", Seq("音楽数", "生")))
     val text = "音楽数 学 生 理学"
     val sentence = Sentence(text, 0, text.length, 0)
     val tokens = Map(
       2 -> Annotation(TOKEN, 0, 2, "音楽数", Map()),
       4 -> Annotation(TOKEN, 4, 4, "学", Map()),
       6 -> Annotation(TOKEN, 6, 6, "生", Map()),
-      9 -> Annotation(TOKEN, 8, 9, "理学", Map())
-    )
+      9 -> Annotation(TOKEN, 8, 9, "理学", Map()))
 
     val automaton = new AhoCorasickAutomaton(japaneseSampleAlphabet, entityPatterns)
     automaton.buildMatchingMachine()
@@ -61,16 +54,13 @@ class AhoCorasickAutomatonTest extends AnyFlatSpec {
 
     val expectedOutput = List(
       Annotation(CHUNK, 0, 2, "音楽数", Map("entity" -> "Test-Japanese", "sentence" -> "0")),
-      Annotation(CHUNK, 6, 6, "生", Map("entity" -> "Test-Japanese", "sentence" -> "0"))
-    )
-    assert(expectedOutput == actualOutput)
+      Annotation(CHUNK, 6, 6, "生", Map("entity" -> "Test-Japanese", "sentence" -> "0")))
+    assert(actualOutput == expectedOutput)
   }
 
   it should "build a matching machine for Arabic" in {
     val arabicSampleAlphabet = "مرحبانجوسخت"
-    val entityPatterns = Array(
-      EntityPattern("Test-Arabic", Seq("من", "مختبرات"))
-    )
+    val entityPatterns = Array(EntityPattern("Test-Arabic", Seq("من", "مختبرات")))
     val text = "مرحبا من جون سنو مختبرات"
     val sentence = Sentence(text, 0, text.length, 0)
     val tokens = Map(
@@ -78,8 +68,7 @@ class AhoCorasickAutomatonTest extends AnyFlatSpec {
       7 -> Annotation(TOKEN, 6, 7, "من", Map()),
       11 -> Annotation(TOKEN, 9, 11, "جون", Map()),
       15 -> Annotation(TOKEN, 13, 15, "سنو", Map()),
-      23 -> Annotation(TOKEN, 17, 23, "مختبرات", Map())
-    )
+      23 -> Annotation(TOKEN, 17, 23, "مختبرات", Map()))
 
     val automaton = new AhoCorasickAutomaton(arabicSampleAlphabet, entityPatterns)
     automaton.buildMatchingMachine()
@@ -87,16 +76,13 @@ class AhoCorasickAutomatonTest extends AnyFlatSpec {
 
     val expectedOutput = List(
       Annotation(CHUNK, 6, 7, "من", Map("entity" -> "Test-Arabic", "sentence" -> "0")),
-      Annotation(CHUNK, 17, 23, "مختبرات", Map("entity" -> "Test-Arabic", "sentence" -> "0"))
-    )
-    assert(expectedOutput == actualOutput)
+      Annotation(CHUNK, 17, 23, "مختبرات", Map("entity" -> "Test-Arabic", "sentence" -> "0")))
+    assert(actualOutput == expectedOutput)
   }
 
   it should "raise error when building an automaton with incomplete alphabet" in {
     val englishAlphabet = "abcd"
-    val entityPatterns = Array(
-      EntityPattern("Test", Seq("ab", "cd", "ce"))
-    )
+    val entityPatterns = Array(EntityPattern("Test", Seq("ab", "cd", "ce")))
 
     val automaton = new AhoCorasickAutomaton(englishAlphabet, entityPatterns)
     assertThrows[UnsupportedOperationException] {
@@ -111,10 +97,10 @@ class AhoCorasickAutomatonTest extends AnyFlatSpec {
     val sentence = Sentence(text, 0, text.length, 0)
     val tokens = Map(
       4 -> Annotation(TOKEN, 0, 4, "Hello", Map()),
-      6 -> Annotation(TOKEN, 6, 10, "here", Map())
-    )
+      6 -> Annotation(TOKEN, 6, 10, "here", Map()))
 
-    val automaton = new AhoCorasickAutomaton(englishAlphabet, entityPatterns, caseSensitive = true)
+    val automaton =
+      new AhoCorasickAutomaton(englishAlphabet, entityPatterns, caseSensitive = true)
     automaton.buildMatchingMachine()
 
     val errorMessage = intercept[UnsupportedOperationException] {
@@ -131,25 +117,26 @@ class AhoCorasickAutomatonTest extends AnyFlatSpec {
     val sentence = Sentence(text, 0, text.length, 0)
     val tokens = Map(
       4 -> Annotation(TOKEN, 0, 4, "Hello", Map()),
-      6 -> Annotation(TOKEN, 6, 10, "here", Map())
-    )
+      6 -> Annotation(TOKEN, 6, 10, "here", Map()))
 
-    val automaton = new AhoCorasickAutomaton(englishAlphabet, entityPatterns, caseSensitive = true)
+    val automaton =
+      new AhoCorasickAutomaton(englishAlphabet, entityPatterns, caseSensitive = true)
     automaton.buildMatchingMachine()
     val actualOutput = automaton.searchWords(sentence, tokens)
 
-    val expectedOutput = List(
-      Annotation(CHUNK, 0, 4, "Hello", Map("entity" -> "Test", "sentence" -> "0"))
-    )
-    assert(expectedOutput == actualOutput)
+    val expectedOutput =
+      List(Annotation(CHUNK, 0, 4, "Hello", Map("entity" -> "Test", "sentence" -> "0")))
+    assert(actualOutput == expectedOutput)
   }
 
   it should "search multi-tokens" in {
-    val englishAlphabet = "abcdefghijklmnopqrstuvwxyz" + "abcdefghijklmnopqrstuvwxyz".toUpperCase()
+    val englishAlphabet =
+      "abcdefghijklmnopqrstuvwxyz" + "abcdefghijklmnopqrstuvwxyz".toUpperCase()
     val entityPatterns = Array(
-      EntityPattern("PER", Seq("Jon", "John", "John Snow", "Jon Snow", "Snow", "Doctor John Snow")),
-      EntityPattern("LOC", Seq("United Kingdom", "United", "Kingdom", "Winterfell"))
-    )
+      EntityPattern(
+        "PER",
+        Seq("Jon", "John", "John Snow", "Jon Snow", "Snow", "Doctor John Snow")),
+      EntityPattern("LOC", Seq("United Kingdom", "United", "Kingdom", "Winterfell")))
     val text = "Doctor John Snow lives in the United Kingdom"
     val sentence = Sentence(text, 0, text.length, 0)
     val tokens = Map(
@@ -160,16 +147,15 @@ class AhoCorasickAutomatonTest extends AnyFlatSpec {
       24 -> Annotation(TOKEN, 23, 24, "in", Map()),
       28 -> Annotation(TOKEN, 26, 28, "the", Map()),
       35 -> Annotation(TOKEN, 30, 35, "United", Map()),
-      43 -> Annotation(TOKEN, 37, 43, "Kingdom", Map())
-    )
+      43 -> Annotation(TOKEN, 37, 43, "Kingdom", Map()))
 
-    val automaton = new AhoCorasickAutomaton(englishAlphabet, entityPatterns, caseSensitive = true)
+    val automaton =
+      new AhoCorasickAutomaton(englishAlphabet, entityPatterns, caseSensitive = true)
     automaton.buildMatchingMachine()
 
     val expectedOutput = Seq(
-      Annotation(CHUNK, 0, 15, "Doctor John Snow", Map("entity"-> "PER", "sentence"-> "0")),
-      Annotation(CHUNK, 30, 43, "United Kingdom", Map("entity"-> "LOC", "sentence"-> "0"))
-    )
+      Annotation(CHUNK, 0, 15, "Doctor John Snow", Map("entity" -> "PER", "sentence" -> "0")),
+      Annotation(CHUNK, 30, 43, "United Kingdom", Map("entity" -> "LOC", "sentence" -> "0")))
     val actualOutput = automaton.searchWords(sentence, tokens)
     assert(actualOutput == expectedOutput)
   }

@@ -25,7 +25,8 @@ import scala.io.Source
 class JsonParserTest extends AnyFlatSpec {
 
   "JsonParser" should "read a JSON file" in {
-    val stream = ResourceHelper.getResourceStream("src/test/resources/entity-ruler/single_keyword.json")
+    val stream =
+      ResourceHelper.getResourceStream("src/test/resources/entity-ruler/single_keyword.json")
     val jsonContent = Source.fromInputStream(stream).mkString
     val expectedResult = EntityPattern("PERSON", Seq("John Snow"))
 
@@ -45,7 +46,8 @@ class JsonParserTest extends AnyFlatSpec {
   }
 
   it should "read JSON file that starts with arrays" in {
-    val stream = ResourceHelper.getResourceStream("src/test/resources/entity-ruler/keywords_only.json")
+    val stream =
+      ResourceHelper.getResourceStream("src/test/resources/entity-ruler/keywords_only.json")
     val jsonContent = Source.fromInputStream(stream).mkString
     val expectedResult = Array(
       EntityPattern("PERSON", Seq("Jon", "John", "John Snow", "Jon Snow")),
@@ -59,7 +61,8 @@ class JsonParserTest extends AnyFlatSpec {
   }
 
   it should "raise an error when reading incompatible objects" in {
-    val stream = ResourceHelper.getResourceStream("src/test/resources/entity-ruler/keywords_only.json")
+    val stream =
+      ResourceHelper.getResourceStream("src/test/resources/entity-ruler/keywords_only.json")
     val jsonContent = Source.fromInputStream(stream).mkString
 
     assertThrows[Exception] {

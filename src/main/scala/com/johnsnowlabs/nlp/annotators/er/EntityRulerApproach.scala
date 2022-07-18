@@ -27,8 +27,8 @@ import com.johnsnowlabs.util.JsonParser
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.BooleanParam
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.functions.{col, collect_list, collect_set, concat, flatten, lit}
-import org.apache.spark.sql.types.{ArrayType, BooleanType, StringType, StructField, StructType}
+import org.apache.spark.sql.functions.{col, collect_set, concat, lit}
+import org.apache.spark.sql.types.{BooleanType, StringType, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
 import scala.collection.mutable
@@ -179,7 +179,7 @@ class EntityRulerApproach(override val uid: String)
     *
     * @group param
     */
-  @deprecated("Enabling pattern regex now is define on each pattern", "Since 4.0.2")
+  @deprecated("Enabling pattern regex now is define on each pattern", "Since 4.1.0")
   val enablePatternRegex =
     new BooleanParam(this, "enablePatternRegex", "Enables regex pattern match")
 
@@ -195,8 +195,13 @@ class EntityRulerApproach(override val uid: String)
   val useStorage =
     new BooleanParam(this, "useStorage", "Whether to use RocksDB storage to serialize patterns")
 
+  val alphabet = new ExternalResourceParam(
+    this,
+    "alphabet",
+    "Alphabet resource path to plain text file with all characters in a given alphabet")
+
   /** @group setParam */
-  @deprecated("Enabling pattern regex now is define on each pattern", "4.0.2")
+  @deprecated("Enabling pattern regex now is define on each pattern", "4.1.0")
   def setEnablePatternRegex(value: Boolean): this.type = set(enablePatternRegex, value)
 
   /** @group setParam */
@@ -211,14 +216,19 @@ class EntityRulerApproach(override val uid: String)
   /** @group setParam */
   def setUseStorage(value: Boolean): this.type = set(useStorage, value)
 
-  //TODO: Make useStorage default to false and validate it is only available for regex patterns
+  /** @group setParam */
+  def setAlphabetResource(path: String): this.type = {
+    set(alphabet, ExternalResource(path, ReadAs.TEXT, Map()))
+  }
+
   setDefault(
     storagePath -> ExternalResource("", ReadAs.TEXT, Map()),
     patternsResource -> null,
     enablePatternRegex -> false,
-    useStorage -> true,
+    useStorage -> false,
     sentenceMatch -> false,
-    caseSensitive -> true)
+    caseSensitive -> true,
+    alphabet -> ExternalResource("english", ReadAs.TEXT, Map()))
 
   private val AVAILABLE_FORMATS = Array("JSON", "JSONL", "CSV")
 
@@ -235,7 +245,7 @@ class EntityRulerApproach(override val uid: String)
 
     } else {
       storePatterns(None)
-      val entityRulerFeatures = EntityRulerFeatures(regexPatterns)
+      val entityRulerFeatures = EntityRulerFeatures(Map(), regexPatterns)
       entityRuler
         .setUseStorage($(useStorage))
         .setEntityRulerFeatures(entityRulerFeatures)
@@ -243,10 +253,9 @@ class EntityRulerApproach(override val uid: String)
 
     var automaton: Option[AhoCorasickAutomaton] = None
     if (keywordsPatterns.nonEmpty) {
-      //TODO: Add alphabet parameter
-      val symbols = ",.<>;:{[]}_-"
-      val englishAlphabet = "abcdefghijklmnopqrstuvwxyz" + "abcdefghijklmnopqrstuvwxyz".toUpperCase() + symbols
-      automaton = Some(new AhoCorasickAutomaton(englishAlphabet, keywordsPatterns.toArray, $(caseSensitive)))
+      val alphabet = EntityRulerUtil.loadAlphabet($(this.alphabet).path)
+      automaton = Some(
+        new AhoCorasickAutomaton(alphabet, keywordsPatterns.toArray, $(caseSensitive)))
       automaton.get.buildMatchingMachine()
     }
 
@@ -262,15 +271,16 @@ class EntityRulerApproach(override val uid: String)
       readOptions: Option[Map[String, String]]): Unit = {
 
     if ($(useStorage)) {
-      val storageWriter = writers(Database.ENTITY_REGEX_PATTERNS).asInstanceOf[RegexPatternsReadWriter]
+      val storageWriter =
+        writers(Database.ENTITY_REGEX_PATTERNS).asInstanceOf[RegexPatternsReadWriter]
       storePatterns(Some(storageWriter))
     }
 
   }
-  
+
   private def storePatterns(storageWriter: Option[RegexPatternsReadWriter]): Unit = {
     validateParameters()
-    
+
     resourceFormats match {
       case "JSON&TEXT" => storePatternsFromJson(storageWriter)
       case "JSONL&TEXT" => storePatternsFromJsonl(storageWriter)
@@ -281,7 +291,7 @@ class EntityRulerApproach(override val uid: String)
       case _ @format => throw new IllegalArgumentException(s"format $format not available")
     }
   }
-  
+
   private def validateParameters(): Unit = {
     require($(patternsResource) != null, "patternsResource parameter required")
     require($(patternsResource).path != "", "path for a patternsResource file is required")
@@ -305,16 +315,18 @@ class EntityRulerApproach(override val uid: String)
 
     val entityPatterns: Array[EntityPattern] = parseJSON()
 
-    entityPatterns.foreach{ entityPattern =>
+    entityPatterns.foreach { entityPattern =>
       if (entityPattern.regex.getOrElse(false)) {
         storeEntityPattern(entityPattern, storageReadWriter)
-      } else  {
+      } else {
         keywordsPatterns.append(entityPattern)
       }
     }
   }
 
-  private def storeEntityPattern(entityPattern: EntityPattern, storageReadWriter: Option[RegexPatternsReadWriter]): Unit = {
+  private def storeEntityPattern(
+      entityPattern: EntityPattern,
+      storageReadWriter: Option[RegexPatternsReadWriter]): Unit = {
     val entity =
       if (entityPattern.id.isDefined) s"${entityPattern.label},${entityPattern.id.get}"
       else entityPattern.label
@@ -360,14 +372,14 @@ class EntityRulerApproach(override val uid: String)
     val regexPatterns: mutable.Map[String, Seq[String]] = mutable.Map()
 
     val groupByLabel = patternsLines.groupBy(pattern => pattern.split(delimiter)(0))
-    groupByLabel.foreach{ case (label, lines) =>
-
-      lines.foreach{ line =>
+    groupByLabel.foreach { case (label, lines) =>
+      lines.foreach { line =>
         val columns: Array[String] = line.split(delimiter)
         val pattern = columns(1)
         val isRegex = if (columns.length == 2) false else EntityRulerUtil.toBoolean(columns(2))
 
-        if (isRegex) regexList.append(pattern) else {
+        if (isRegex) regexList.append(pattern)
+        else {
           val patterns = keywords.getOrElse(label, Seq())
           keywords(label) = patterns ++ Seq(pattern)
         }
@@ -377,7 +389,9 @@ class EntityRulerApproach(override val uid: String)
         regexPatterns(label) = regexList
       } else storeRegexPattern(regexList, label, regexPatternsWriter.get)
 
-      keywords.foreach{ case (label, patterns) => keywordsPatterns.append(EntityPattern(label, patterns))}
+      keywords.foreach { case (label, patterns) =>
+        keywordsPatterns.append(EntityPattern(label, patterns))
+      }
       keywords.clear()
     }
 
@@ -388,14 +402,15 @@ class EntityRulerApproach(override val uid: String)
 
   }
 
-  private def storeEntityPatternsFromCSVDataFrame(storageReadWriter: Option[RegexPatternsReadWriter]): Unit = {
+  private def storeEntityPatternsFromCSVDataFrame(
+      storageReadWriter: Option[RegexPatternsReadWriter]): Unit = {
 
     val patternOptions = $(patternsResource).options
-    val patternsSchema = StructType(Array(
-      StructField("label", StringType, nullable = false),
-      StructField("pattern", StringType, nullable = false),
-      StructField("regex", BooleanType, nullable = true)
-    ))
+    val patternsSchema = StructType(
+      Array(
+        StructField("label", StringType, nullable = false),
+        StructField("pattern", StringType, nullable = false),
+        StructField("regex", BooleanType, nullable = true)))
 
     val patternsDataFrame = spark.read
       .format(patternOptions("format"))
@@ -403,14 +418,19 @@ class EntityRulerApproach(override val uid: String)
       .option("delimiter", patternOptions("delimiter"))
       .schema(patternsSchema)
       .load($(patternsResource).path)
-      .na.fill(value = false, Array("regex"))
+      .na
+      .fill(value = false, Array("regex"))
 
-    //TODO: Handle scenario where same label has true and false regex
+    // TODO: Handle scenario where same label has true and false regex
     val groupedByPatternsDataFrame = patternsDataFrame
-          .groupBy("label", "regex")
-          .agg(collect_set("pattern").alias("patterns"))
+      .groupBy("label", "regex")
+      .agg(collect_set("pattern").alias("patterns"))
 
-    storeFromDataFrame(groupedByPatternsDataFrame, idFieldExist = false, regexFieldExist = true, storageReadWriter)
+    storeFromDataFrame(
+      groupedByPatternsDataFrame,
+      idFieldExist = false,
+      regexFieldExist = true,
+      storageReadWriter)
 
   }
 
@@ -428,8 +448,10 @@ class EntityRulerApproach(override val uid: String)
     var patternsDataFrame = dataFrameReader
       .json(path)
 
-    val idField: Array[StructField] = patternsDataFrame.schema.fields.filter(field => field.name == "id")
-    val regexField: Array[StructField] = patternsDataFrame.schema.fields.filter(field => field.name == "regex")
+    val idField: Array[StructField] =
+      patternsDataFrame.schema.fields.filter(field => field.name == "id")
+    val regexField: Array[StructField] =
+      patternsDataFrame.schema.fields.filter(field => field.name == "regex")
 
     if (regexField.isEmpty) {
       patternsDataFrame = patternsDataFrame.withColumn("regex", lit(false))
@@ -438,17 +460,24 @@ class EntityRulerApproach(override val uid: String)
     }
     if (idField.nonEmpty) patternsDataFrame.na.drop()
 
-    storeFromDataFrame(patternsDataFrame, idField.nonEmpty, regexField.nonEmpty, storageReadWriter)
+    storeFromDataFrame(
+      patternsDataFrame,
+      idField.nonEmpty,
+      regexField.nonEmpty,
+      storageReadWriter)
   }
 
   private def storeFromDataFrame(
-      patternsDataFrame: DataFrame, idFieldExist: Boolean, regexFieldExist: Boolean,
+      patternsDataFrame: DataFrame,
+      idFieldExist: Boolean,
+      regexFieldExist: Boolean,
       storageReadWriter: Option[RegexPatternsReadWriter]): Unit = {
 
     val regexPatternsDataFrame = patternsDataFrame.filter(col("regex") === true)
-    val cleanedRegexPatternsDataFrame = cleanPatternsDataFrame(regexPatternsDataFrame, idFieldExist)
+    val cleanedRegexPatternsDataFrame =
+      cleanPatternsDataFrame(regexPatternsDataFrame, idFieldExist)
 
-    cleanedRegexPatternsDataFrame.rdd.toLocalIterator.foreach{ row =>
+    cleanedRegexPatternsDataFrame.rdd.toLocalIterator.foreach { row =>
       val patterns = row.getAs[Seq[String]]("flatten_patterns")
       val entity =
         if (idFieldExist) row.getAs[String]("label_id") else row.getAs[String]("label")
@@ -457,14 +486,14 @@ class EntityRulerApproach(override val uid: String)
           storePatterns(patterns.toIterator, entity, patternsWriter)
         case regexPatternsWriter: RegexPatternsReadWriter =>
           storeRegexPattern(patterns, entity, regexPatternsWriter)
-        case None => computePatterns(patterns,  isRegex = true, entity)
+        case None => computePatterns(patterns, isRegex = true, entity)
       }
     }
 
     val keywordsDataFrame = patternsDataFrame.filter(col("regex") === false)
     val cleanedKeywordsDataFrame = cleanPatternsDataFrame(keywordsDataFrame, idFieldExist)
 
-    cleanedKeywordsDataFrame.rdd.toLocalIterator.foreach{ row =>
+    cleanedKeywordsDataFrame.rdd.toLocalIterator.foreach { row =>
       val patterns = row.getAs[Seq[String]]("flatten_patterns")
       if (idFieldExist) {
         val labelId = row.getAs[String]("label_id")
@@ -552,15 +581,15 @@ class EntityRulerApproach(override val uid: String)
   }
 
   /** Input annotator types: DOCUMENT, TOKEN
-   *
-   * @group anno
-   */
+    *
+    * @group anno
+    */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
 
   /** Output annotator types: CHUNK
-   *
-   * @group anno
-   */
+    *
+    * @group anno
+    */
   override val outputAnnotatorType: AnnotatorType = CHUNK
 
   override protected val databases: Array[Name] = EntityRulerModel.databases

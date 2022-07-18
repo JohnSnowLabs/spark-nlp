@@ -58,7 +58,7 @@ class EntityRulerModel(override val uid: String)
 
   private val logger: Logger = LoggerFactory.getLogger("Credentials")
 
-  @deprecated("Enabling pattern regex now is define on each pattern", "Since 4.0.2")
+  @deprecated("Enabling pattern regex now is define on each pattern", "Since 4.1.0")
   private[er] val enablePatternRegex =
     new BooleanParam(this, "enablePatternRegex", "Enables regex pattern match")
 
@@ -74,14 +74,16 @@ class EntityRulerModel(override val uid: String)
       "Structure to store data when RocksDB is not used")
 
   private[er] val automaton: StructFeature[Option[AhoCorasickAutomaton]] =
-    new StructFeature[Option[AhoCorasickAutomaton]](this, "Finite state machine to efficiently lookup words")
+    new StructFeature[Option[AhoCorasickAutomaton]](
+      this,
+      "Finite state machine to efficiently lookup words")
 
   private[er] val sentenceMatch = new BooleanParam(
     this,
     "sentenceMatch",
     "Whether to find match at sentence level (regex only). True: sentence level. False: token level")
 
-  @deprecated("Enabling pattern regex now is define on each pattern", "Since 4.0.2")
+  @deprecated("Enabling pattern regex now is define on each pattern", "Since 4.1.0")
   private[er] def setEnablePatternRegex(value: Boolean): this.type =
     set(enablePatternRegex, value)
 
@@ -94,9 +96,10 @@ class EntityRulerModel(override val uid: String)
 
   private[er] def setSentenceMatch(value: Boolean): this.type = set(sentenceMatch, value)
 
-  private[er] def setAutomaton(value: Option[AhoCorasickAutomaton]): this.type = set(automaton, value)
+  private[er] def setAutomaton(value: Option[AhoCorasickAutomaton]): this.type =
+    set(automaton, value)
 
-  setDefault(caseSensitive -> true)
+  setDefault(useStorage -> false, caseSensitive -> true)
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -131,20 +134,23 @@ class EntityRulerModel(override val uid: String)
     val tokenizedWithSentences = TokenizedWithSentence.unpack(annotations)
 
     val regexPatternsReader =
-        if ($(useStorage))
-          Some(getReader(Database.ENTITY_REGEX_PATTERNS).asInstanceOf[RegexPatternsReader])
-        else None
+      if ($(useStorage))
+        Some(getReader(Database.ENTITY_REGEX_PATTERNS).asInstanceOf[RegexPatternsReader])
+      else None
 
-    annotatedEntitiesByRegex = annotateEntitiesFromRegexPatterns(tokenizedWithSentences, regexPatternsReader)
+    annotatedEntitiesByRegex =
+      annotateEntitiesFromRegexPatterns(tokenizedWithSentences, regexPatternsReader)
 
     val sentences = SentenceSplit.unpack(annotations)
     if ($$(automaton).isDefined) {
 
-      annotatedEntities = sentences.flatMap{ sentence =>
-
+      annotatedEntities = sentences.flatMap { sentence =>
         val tokensPerSentence: Seq[Annotation] = annotations.filter(annotation =>
-          annotation.annotatorType == TOKEN && annotation.metadata("sentence").toInt == sentence.index)
-        val tokens: Map[Int, Annotation] = tokensPerSentence.map(annotation => (annotation.end, annotation)).toMap
+          annotation.annotatorType == TOKEN && annotation
+            .metadata("sentence")
+            .toInt == sentence.index)
+        val tokens: Map[Int, Annotation] =
+          tokensPerSentence.map(annotation => (annotation.end, annotation)).toMap
 
         $$(automaton).get.searchWords(sentence, tokens)
       }
@@ -165,13 +171,17 @@ class EntityRulerModel(override val uid: String)
 
     val sentences = SentenceSplit.unpack(annotations)
     if ($(regexEntities).nonEmpty) {
-      annotatedEntitiesByRegex = annotateEntitiesFromRegexPatternsBySentence(sentences, patternsReader)
+      annotatedEntitiesByRegex =
+        annotateEntitiesFromRegexPatternsBySentence(sentences, patternsReader)
     }
     if ($$(automaton).isDefined) {
-      annotatedEntitiesByKeywords = sentences.flatMap{ sentence =>
+      annotatedEntitiesByKeywords = sentences.flatMap { sentence =>
         val tokensPerSentence: Seq[Annotation] = annotations.filter(annotation =>
-          annotation.annotatorType == TOKEN && annotation.metadata("sentence").toInt == sentence.index)
-        val tokens: Map[Int, Annotation] = tokensPerSentence.map(annotation => (annotation.end, annotation)).toMap
+          annotation.annotatorType == TOKEN && annotation
+            .metadata("sentence")
+            .toInt == sentence.index)
+        val tokens: Map[Int, Annotation] =
+          tokensPerSentence.map(annotation => (annotation.end, annotation)).toMap
 
         $$(automaton).get.searchWords(sentence, tokens)
       }
