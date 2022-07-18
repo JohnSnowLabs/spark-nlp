@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.1.2
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -47,21 +47,21 @@ The deep neural network architecture for assertion status detection in Spark NLP
 ```python
 ...
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-  .setInputCols(["sentence", "token"])\
-  .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 
 ner_converter = NerConverter() \
-  .setInputCols(["sentence", "token", "ner"]) \
-  .setOutputCol("ner_chunk")
+.setInputCols(["sentence", "token", "ner"]) \
+.setOutputCol("ner_chunk")
 
 clinical_assertion = AssertionDLModel.pretrained("assertion_jsl_large", "en", "clinical/models") \
-    .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
-    .setOutputCol("assertion")
-    
+.setInputCols(["sentence", "ner_chunk", "embeddings"]) \
+.setOutputCol("assertion")
+
 nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, clinical_assertion])
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -70,20 +70,20 @@ result = model.transform(spark.createDataFrame([["The patient is a 21-day-old Ca
 ```scala
 ...
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token"))
-  .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 val clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token", "embeddings")) 
-  .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings")) 
+.setOutputCol("ner")
 
 val nerConverter = new NerConverter()
-  .setInputCols(Array("sentence", "token", "ner"))
-  .setOutputCol("ner_chunk")
+.setInputCols(Array("sentence", "token", "ner"))
+.setOutputCol("ner_chunk")
 
 val clinical_assertion = AssertionDLModel.pretrained("assertion_jsl_large", "en", "clinical/models")
-    .setInputCols(Array("sentence", "ner_chunk", "embeddings"))
-    .setOutputCol("assertion")
+.setInputCols(Array("sentence", "ner_chunk", "embeddings"))
+.setOutputCol("assertion")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, clinical_assertion))
 

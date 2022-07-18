@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.1.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,38 +36,38 @@ Snomed Codes and their normalized definition with `sbert_jsl_medium_uncased ` em
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 jsl_sbert_embedder = BertSentenceEmbeddings.pretrained('sbert_jsl_medium_uncased','en','clinical/models')\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")
 
 snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_bodyStructure_med", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-      .setOutputCol("snomed_code")
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("snomed_code")
 
 snomed_pipelineModel = PipelineModel(
-    stages = [
-        documentAssembler,
-        jsl_sbert_embedder,
-        snomed_resolver])
+stages = [
+documentAssembler,
+jsl_sbert_embedder,
+snomed_resolver])
 
 snomed_lp = LightPipeline(snomed_pipelineModel)
 result = snomed_lp.fullAnnotate("Amputation stump")
 ```
 ```scala
 val document_assembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_uncased","en","clinical/models")\
-     .setInputCols(["ner_chunk"])\
-     .setOutputCol("sbert_embeddings")
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")
 
 val snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_bodyStructure_med", "en", "clinical/models") \
-     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-     .setOutputCol("snomed_code")
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("snomed_code")
 
 val snomed_pipelineModel= new PipelineModel().setStages(Array(document_assembler, sbert_embedder, snomed_resolver))
 

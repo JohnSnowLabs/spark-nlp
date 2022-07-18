@@ -11,7 +11,7 @@ edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,13 +40,13 @@ from sparknlp.base import *
 from sparknlp.annotator import *
 spark = sparknlp.start()
 documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("documents")
+.setInputCol("text") \
+.setOutputCol("documents")
 t5 = T5Transformer.pretrained("t5_formal_to_informal_styletransfer") \
-    .setTask("transfer Formal to Casual:") \
-    .setInputCols(["documents"]) \
-    .setMaxOutputLength(200) \
-    .setOutputCol("transfers")
+.setTask("transfer Formal to Casual:") \
+.setInputCols(["documents"]) \
+.setMaxOutputLength(200) \
+.setOutputCol("transfers")
 pipeline = Pipeline().setStages([documentAssembler, t5])
 data = spark.createDataFrame([["Please leave the room now."]]).toDF("text")
 result = pipeline.fit(data).transform(data)
@@ -58,16 +58,16 @@ import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.annotator._
 import org.apache.spark.ml.Pipeline
 val documentAssembler = new DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("documents")
+.setInputCol("text")
+.setOutputCol("documents")
 val t5 = T5Transformer.pretrained("t5_formal_to_informal_styletransfer")
-  .setTask("transfer Formal to Casual:")
-  .setMaxOutputLength(200)
-  .setInputCols("documents")
-  .setOutputCol("transfers")
+.setTask("transfer Formal to Casual:")
+.setMaxOutputLength(200)
+.setInputCols("documents")
+.setOutputCol("transfers")
 val pipeline = new Pipeline().setStages(Array(documentAssembler, t5))
 val data = Seq("Please leave the room now.")
-  .toDF("text")
+.toDF("text")
 val result = pipeline.fit(data).transform(data)
 result.select("transfers.result").show(false)
 ```

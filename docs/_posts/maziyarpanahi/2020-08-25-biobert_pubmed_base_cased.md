@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [embeddings, en, open_source]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,8 +32,8 @@ This model contains a pre-trained weights of BioBERT, a language representation 
 ```python
 
 embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased", "en") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 result = pipeline_model.transform(spark.createDataFrame([['I hate cancer']], ["text"]))
@@ -42,8 +42,8 @@ result = pipeline_model.transform(spark.createDataFrame([['I hate cancer']], ["t
 ```scala
 
 val embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased", "en")
-      .setInputCols("sentence", "token")
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token")
+.setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
 val data = Seq("I hate cancer").toDF("text")
 val result = pipeline.fit(data).transform(data)
@@ -63,7 +63,7 @@ embeddings_df
 {:.h2_title}
 ## Results
 ```bash
-        token	en_embed_biobert_pubmed_base_cased_embeddings
+token	en_embed_biobert_pubmed_base_cased_embeddings
 
 	I	[0.4227580428123474, -0.01985771767795086, -0....
 	hate	[0.04862901195883751, 0.2535072863101959, -0.5...

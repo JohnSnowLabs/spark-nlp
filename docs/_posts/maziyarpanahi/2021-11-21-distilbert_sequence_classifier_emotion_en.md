@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,23 +36,23 @@ use_language_switcher: "Python-Scala-Java"
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol('text') \
-    .setOutputCol('document')
+.setInputCol('text') \
+.setOutputCol('document')
 
 tokenizer = Tokenizer() \
-    .setInputCols(['document']) \
-    .setOutputCol('token')
+.setInputCols(['document']) \
+.setOutputCol('token')
 
 sequenceClassifier = DistilBertForSequenceClassification \
-      .pretrained('distilbert_sequence_classifier_emotion', 'en') \
-      .setInputCols(['token', 'document']) \
-      .setOutputCol('class') \
-      .setMaxSentenceLength(512)
+.pretrained('distilbert_sequence_classifier_emotion', 'en') \
+.setInputCols(['token', 'document']) \
+.setOutputCol('class') \
+.setMaxSentenceLength(512)
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
-    tokenizer,
-    sequenceClassifier    
+document_assembler, 
+tokenizer,
+sequenceClassifier    
 ])
 
 example = spark.createDataFrame([['I like you.']]).toDF("text")
@@ -60,17 +60,17 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document_assembler = DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 val tokenizer = Tokenizer() 
-    .setInputCols("document") 
-    .setOutputCol("token")
+.setInputCols("document") 
+.setOutputCol("token")
 
 val tokenClassifier = DistilBertForSequenceClassification.pretrained("distilbert_sequence_classifier_emotion", "en")
-      .setInputCols("document", "token")
-      .setOutputCol("class")
-      .setMaxSentenceLength(512)
+.setInputCols("document", "token")
+.setOutputCol("class")
+.setMaxSentenceLength(512)
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
@@ -112,13 +112,13 @@ nlu.load("en.classify.distilbert_sequence.emotion").predict("""I like you.""")
 ```bash
 {
 'test_accuracy': 0.938,
- 'test_f1': 0.937932884041714,
- 'test_loss': 0.1472451239824295,
- 'test_mem_cpu_alloc_delta': 0,
- 'test_mem_cpu_peaked_delta': 0,
- 'test_mem_gpu_alloc_delta': 0,
- 'test_mem_gpu_peaked_delta': 163454464,
- 'test_runtime': 5.0164,
- 'test_samples_per_second': 398.69
- }
+'test_f1': 0.937932884041714,
+'test_loss': 0.1472451239824295,
+'test_mem_cpu_alloc_delta': 0,
+'test_mem_cpu_peaked_delta': 0,
+'test_mem_gpu_alloc_delta': 0,
+'test_mem_gpu_peaked_delta': 163454464,
+'test_runtime': 5.0164,
+'test_samples_per_second': 398.69
+}
 ```

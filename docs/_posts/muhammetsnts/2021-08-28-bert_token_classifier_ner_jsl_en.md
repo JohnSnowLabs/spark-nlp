@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.2.0
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -41,26 +41,26 @@ This model is BERT-based version of `ner_jsl` model and it is better than the le
 
 ```python
 documentAssembler = DocumentAssembler()\
-       .setInputCol("text")\
-       .setOutputCol("document")
-  
+.setInputCol("text")\
+.setOutputCol("document")
+
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")\
-       .setInputCols(["document"])\
-       .setOutputCol("sentence")
-       
+.setInputCols(["document"])\
+.setOutputCol("sentence")
+
 tokenizer = Tokenizer()\
-       .setInputCols("sentence")\
-       .setOutputCol("token")
-       
+.setInputCols("sentence")\
+.setOutputCol("token")
+
 tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_jsl", "en", "clinical/models")\
-       .setInputCols("token", "sentence")\
-       .setOutputCol("ner")\
-       .setCaseSensitive(True)
+.setInputCols("token", "sentence")\
+.setOutputCol("ner")\
+.setCaseSensitive(True)
 
 ner_converter = NerConverter()\
-       .setInputCols(["sentence","token","ner"])\
-       .setOutputCol("ner_chunk")
-  
+.setInputCols(["sentence","token","ner"])\
+.setOutputCol("ner_chunk")
+
 pipeline =  Pipeline(stages=[
 	       documentAssembler,
 	       sentenceDetector,
@@ -78,24 +78,24 @@ result = model.transform(spark.createDataFrame([[sample_text]]).toDF("text"))
 val documentAssembler = new DocumentAssembler()
 		.setInputCol("text")
 		.setOutputCol("document")
-  
+
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
 		.setInputCols("document")
 		.setOutputCol("sentence")
-       
+
 val tokenizer = new Tokenizer()
 		.setInputCols("sentence")
 		.setOutputCol("token")
 		
 val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_jsl", "en", "clinical/models")
-       		.setInputCols(Array("token", "sentence"))
-       		.setOutputCol("ner")
-       		.setCaseSensitive(True)
+		.setInputCols(Array("token", "sentence"))
+		.setOutputCol("ner")
+		.setCaseSensitive(True)
 
 val ner_converter = new NerConverter()
-  		.setInputCols(Array("sentence","token","ner"))
-  		.setOutputCol("ner_chunk")
-  
+		.setInputCols(Array("sentence","token","ner"))
+		.setOutputCol("ner_chunk")
+
 val pipeline =  new Pipeline().setStages(Array(
 				documentAssembler,
 				sentenceDetector,
@@ -196,82 +196,82 @@ Trained on data gathered and manually annotated by John Snow Labs. https://www.j
 
 
 ```bash
-                                  label       precision recall   f1-score  support
-                    Admission_Discharge       0.84      0.97      0.90       415
-                                    Age       0.96      0.96      0.96      2434
-                                Alcohol       0.75      0.83      0.79       145
-                                    BMI       1.00      0.77      0.87        26
-                         Blood_Pressure       0.86      0.88      0.87       597
-                Cerebrovascular_Disease       0.74      0.77      0.75       266
-                          Clinical_Dept       0.90      0.92      0.91      2385
-                   Communicable_Disease       0.70      0.59      0.64        85
-                                   Date       0.95      0.98      0.96      1438
-                           Death_Entity       0.83      0.83      0.83        59
-                               Diabetes       0.95      0.95      0.95       350
-                                   Diet       0.60      0.49      0.54       229
-                              Direction       0.88      0.90      0.89      6187
-              Disease_Syndrome_Disorder       0.90      0.89      0.89     13236
-                                 Dosage       0.57      0.49      0.53       263
-                                   Drug       0.91      0.93      0.92     15926
-                               Duration       0.82      0.85      0.83      1218
-                           EKG_Findings       0.64      0.70      0.67       325
-                             Employment       0.79      0.85      0.82       539
-           External_body_part_or_region       0.84      0.84      0.84      4805
-                  Family_History_Header       1.00      1.00      1.00       889
-                          Fetus_NewBorn       0.57      0.56      0.56       341
-                              Frequency       0.87      0.90      0.88      1718
-                                 Gender       0.98      0.98      0.98      5666
-                                    HDL       0.60      1.00      0.75         6
-                          Heart_Disease       0.88      0.88      0.88      2295
-                                 Height       0.89      0.96      0.92       134
-                         Hyperlipidemia       1.00      0.95      0.97       194
-                           Hypertension       0.95      0.98      0.97       566
-                        ImagingFindings       0.66      0.64      0.65       601
-                      Imaging_Technique       0.62      0.67      0.64       108
-                    Injury_or_Poisoning       0.85      0.83      0.84      1680
-            Internal_organ_or_component       0.90      0.91      0.90     21318
-                         Kidney_Disease       0.89      0.89      0.89       446
-                                    LDL       0.88      0.97      0.92        37
-                        Labour_Delivery       0.82      0.71      0.76       306
-                         Medical_Device       0.89      0.93      0.91     12852
-                 Medical_History_Header       0.96      0.97      0.96      1013
-                               Modifier       0.68      0.60      0.64      1398
-                          O2_Saturation       0.84      0.82      0.83       199
-                                Obesity       0.96      0.98      0.97       130
-                            Oncological       0.88      0.96      0.92      1635
-                             Overweight       0.80      0.80      0.80        10
-                         Oxygen_Therapy       0.91      0.92      0.92       231
-                              Pregnancy       0.81      0.83      0.82       439
-                              Procedure       0.91      0.91      0.91     14410
-                Psychological_Condition       0.81      0.81      0.81       354
-                                  Pulse       0.85      0.95      0.89       389
-                         Race_Ethnicity       1.00      1.00      1.00       163
-                    Relationship_Status       0.93      0.91      0.92        57
-                           RelativeDate       0.83      0.86      0.84      1562
-                           RelativeTime       0.74      0.79      0.77       431
-                            Respiration       0.99      0.95      0.97       221
-                                  Route       0.68      0.69      0.69       597
-                         Section_Header       0.97      0.98      0.98     28580
-  Sexually_Active_or_Sexual_Orientation       1.00      0.64      0.78        14
-                                Smoking       0.83      0.90      0.86       225
-                  Social_History_Header       0.95      0.99      0.97       825
-                               Strength       0.71      0.55      0.62       227
-                              Substance       0.85      0.81      0.83       193
-                                Symptom       0.84      0.86      0.85     23092
-                            Temperature       0.94      0.97      0.96       410
-                                   Test       0.84      0.88      0.86      9050
-                            Test_Result       0.84      0.84      0.84      2766
-                                   Time       0.90      0.81      0.86       140
-                      Total_Cholesterol       0.69      0.95      0.80        73
-                              Treatment       0.73      0.72      0.73       506
-                          Triglycerides       0.83      0.80      0.81        30
-                             VS_Finding       0.76      0.77      0.76       588
-                                Vaccine       0.70      0.84      0.76        92
-                     Vital_Signs_Header       0.95      0.98      0.97      2223
-                                 Weight       0.88      0.89      0.88       306
-                                      O       0.97      0.96      0.97    253164
-                               accuracy         -         -       0.94    445974
-                              macro-avg       0.82      0.82      0.81    445974
-                           weighted-avg       0.94      0.94      0.94    445974
+label       precision recall   f1-score  support
+Admission_Discharge       0.84      0.97      0.90       415
+Age       0.96      0.96      0.96      2434
+Alcohol       0.75      0.83      0.79       145
+BMI       1.00      0.77      0.87        26
+Blood_Pressure       0.86      0.88      0.87       597
+Cerebrovascular_Disease       0.74      0.77      0.75       266
+Clinical_Dept       0.90      0.92      0.91      2385
+Communicable_Disease       0.70      0.59      0.64        85
+Date       0.95      0.98      0.96      1438
+Death_Entity       0.83      0.83      0.83        59
+Diabetes       0.95      0.95      0.95       350
+Diet       0.60      0.49      0.54       229
+Direction       0.88      0.90      0.89      6187
+Disease_Syndrome_Disorder       0.90      0.89      0.89     13236
+Dosage       0.57      0.49      0.53       263
+Drug       0.91      0.93      0.92     15926
+Duration       0.82      0.85      0.83      1218
+EKG_Findings       0.64      0.70      0.67       325
+Employment       0.79      0.85      0.82       539
+External_body_part_or_region       0.84      0.84      0.84      4805
+Family_History_Header       1.00      1.00      1.00       889
+Fetus_NewBorn       0.57      0.56      0.56       341
+Frequency       0.87      0.90      0.88      1718
+Gender       0.98      0.98      0.98      5666
+HDL       0.60      1.00      0.75         6
+Heart_Disease       0.88      0.88      0.88      2295
+Height       0.89      0.96      0.92       134
+Hyperlipidemia       1.00      0.95      0.97       194
+Hypertension       0.95      0.98      0.97       566
+ImagingFindings       0.66      0.64      0.65       601
+Imaging_Technique       0.62      0.67      0.64       108
+Injury_or_Poisoning       0.85      0.83      0.84      1680
+Internal_organ_or_component       0.90      0.91      0.90     21318
+Kidney_Disease       0.89      0.89      0.89       446
+LDL       0.88      0.97      0.92        37
+Labour_Delivery       0.82      0.71      0.76       306
+Medical_Device       0.89      0.93      0.91     12852
+Medical_History_Header       0.96      0.97      0.96      1013
+Modifier       0.68      0.60      0.64      1398
+O2_Saturation       0.84      0.82      0.83       199
+Obesity       0.96      0.98      0.97       130
+Oncological       0.88      0.96      0.92      1635
+Overweight       0.80      0.80      0.80        10
+Oxygen_Therapy       0.91      0.92      0.92       231
+Pregnancy       0.81      0.83      0.82       439
+Procedure       0.91      0.91      0.91     14410
+Psychological_Condition       0.81      0.81      0.81       354
+Pulse       0.85      0.95      0.89       389
+Race_Ethnicity       1.00      1.00      1.00       163
+Relationship_Status       0.93      0.91      0.92        57
+RelativeDate       0.83      0.86      0.84      1562
+RelativeTime       0.74      0.79      0.77       431
+Respiration       0.99      0.95      0.97       221
+Route       0.68      0.69      0.69       597
+Section_Header       0.97      0.98      0.98     28580
+Sexually_Active_or_Sexual_Orientation       1.00      0.64      0.78        14
+Smoking       0.83      0.90      0.86       225
+Social_History_Header       0.95      0.99      0.97       825
+Strength       0.71      0.55      0.62       227
+Substance       0.85      0.81      0.83       193
+Symptom       0.84      0.86      0.85     23092
+Temperature       0.94      0.97      0.96       410
+Test       0.84      0.88      0.86      9050
+Test_Result       0.84      0.84      0.84      2766
+Time       0.90      0.81      0.86       140
+Total_Cholesterol       0.69      0.95      0.80        73
+Treatment       0.73      0.72      0.73       506
+Triglycerides       0.83      0.80      0.81        30
+VS_Finding       0.76      0.77      0.76       588
+Vaccine       0.70      0.84      0.76        92
+Vital_Signs_Header       0.95      0.98      0.97      2223
+Weight       0.88      0.89      0.88       306
+O       0.97      0.96      0.97    253164
+accuracy         -         -       0.94    445974
+macro-avg       0.82      0.82      0.81    445974
+weighted-avg       0.94      0.94      0.94    445974
 ```
 

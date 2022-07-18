@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -50,76 +50,76 @@ Take a look at how it works in the "Open in Colab" section below.
 {% raw %}
 ```python
 data = spark.createDataFrame(
-    [["Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer."]]
+[["Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer."]]
 ).toDF("text")
 
 
 documenter = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 
 tokenizer = Tokenizer() \
-    .setInputCols(["document"]) \
-    .setOutputCol("tokens")
+.setInputCols(["document"]) \
+.setOutputCol("tokens")
 
 
 sentencer = SentenceDetector()\
-    .setInputCols(["document"])\
-    .setOutputCol("sentences")
+.setInputCols(["document"])\
+.setOutputCol("sentences")
 
 
 words_embedder = WordEmbeddingsModel() \
-    .pretrained("embeddings_clinical", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens"]) \
-    .setOutputCol("embeddings")
+.pretrained("embeddings_clinical", "en", "clinical/models") \
+.setInputCols(["sentences", "tokens"]) \
+.setOutputCol("embeddings")
 
 
 pos_tagger = PerceptronModel() \
-    .pretrained("pos_clinical", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens"]) \
-    .setOutputCol("pos_tags")
+.pretrained("pos_clinical", "en", "clinical/models") \
+.setInputCols(["sentences", "tokens"]) \
+.setOutputCol("pos_tags")
 
 
 ner_tagger = MedicalNerModel() \
-    .pretrained("ner_clinical", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens", "embeddings"]) \
-    .setOutputCol("ner_tags")
+.pretrained("ner_clinical", "en", "clinical/models") \
+.setInputCols(["sentences", "tokens", "embeddings"]) \
+.setOutputCol("ner_tags")
 
 
 ner_converter = NerConverter() \
-    .setInputCols(["sentences", "tokens", "ner_tags"]) \
-    .setOutputCol("ner_chunks")
+.setInputCols(["sentences", "tokens", "ner_tags"]) \
+.setOutputCol("ner_chunks")
 
 
 dependency_parser = DependencyParserModel() \
-    .pretrained("dependency_conllu", "en") \
-    .setInputCols(["document", "pos_tags", "tokens"]) \
-    .setOutputCol("dependencies")
+.pretrained("dependency_conllu", "en") \
+.setInputCols(["document", "pos_tags", "tokens"]) \
+.setOutputCol("dependencies")
 
 
 re_ner_chunk_filter = RENerChunksFilter() \
-    .setRelationPairs(["problem-test","problem-treatment"]) \
-    .setMaxSyntacticDistance(4)\
-    .setDocLevelRelations(False)\
-    .setInputCols(["ner_chunks", "dependencies"]) \
-    .setOutputCol("re_ner_chunks")
+.setRelationPairs(["problem-test","problem-treatment"]) \
+.setMaxSyntacticDistance(4)\
+.setDocLevelRelations(False)\
+.setInputCols(["ner_chunks", "dependencies"]) \
+.setOutputCol("re_ner_chunks")
 
 
 re_model = ZeroShotRelationExtractionModel \
-    .pretrained("re_zeroshot_biobert", "en", "clinical/models") \
-    .setRelationalCategories({
-        "CURE": ["{{TREATMENT}} cures {{PROBLEM}}."],
-        "IMPROVE": ["{{TREATMENT}} improves {{PROBLEM}}.", "{{TREATMENT}} cures {{PROBLEM}}."],
-        "REVEAL": ["{{TEST}} reveals {{PROBLEM}}."]})\
-    .setMultiLabel(False)\
-    .setInputCols(["re_ner_chunks", "sentences"]) \
-    .setOutputCol("relations")
+.pretrained("re_zeroshot_biobert", "en", "clinical/models") \
+.setRelationalCategories({
+"CURE": ["{{TREATMENT}} cures {{PROBLEM}}."],
+"IMPROVE": ["{{TREATMENT}} improves {{PROBLEM}}.", "{{TREATMENT}} cures {{PROBLEM}}."],
+"REVEAL": ["{{TEST}} reveals {{PROBLEM}}."]})\
+.setMultiLabel(False)\
+.setInputCols(["re_ner_chunks", "sentences"]) \
+.setOutputCol("relations")
 
 
 pipeline = Pipeline() \
-    .setStages([documenter, tokenizer, sentencer, words_embedder, pos_tagger, ner_tagger, ner_converter,
-                dependency_parser, re_ner_chunk_filter, re_model])
+.setStages([documenter, tokenizer, sentencer, words_embedder, pos_tagger, ner_tagger, ner_converter,
+dependency_parser, re_ner_chunk_filter, re_model])
 
 
 model = pipeline.fit(data)
@@ -127,80 +127,80 @@ results = model.transform(data)
 
 
 results\
-    .selectExpr("explode(relations) as relation")\
-    .show(truncate=False)
+.selectExpr("explode(relations) as relation")\
+.show(truncate=False)
 ```
 ```scala
 val data = spark.createDataFrame(Seq("Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer.")).toDF("text")
 
 
 val documenter = new DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 
 val tokenizer = new Tokenizer()
-    .setInputCols(Array("document"))
-    .setOutputCol("tokens")
+.setInputCols(Array("document"))
+.setOutputCol("tokens")
 
 
 val sentencer = new SentenceDetector()
-    .setInputCols(Array("document"))
-    .setOutputCol("sentences")
+.setInputCols(Array("document"))
+.setOutputCol("sentences")
 
 
 val words_embedder = new WordEmbeddingsModel()
-    .pretrained("embeddings_clinical", "en", "clinical/models")
-    .setInputCols(Array("sentences", "tokens"))
-    .setOutputCol("embeddings")
+.pretrained("embeddings_clinical", "en", "clinical/models")
+.setInputCols(Array("sentences", "tokens"))
+.setOutputCol("embeddings")
 
 
 val pos_tagger = new PerceptronModel()
-    .pretrained("pos_clinical", "en", "clinical/models")
-    .setInputCols(Array("sentences", "tokens"))
-    .setOutputCol("pos_tags")
+.pretrained("pos_clinical", "en", "clinical/models")
+.setInputCols(Array("sentences", "tokens"))
+.setOutputCol("pos_tags")
 
 
 val ner_tagger = new MedicalNerModel()
-    .pretrained("ner_clinical", "en", "clinical/models")
-    .setInputCols(Array("sentences", "tokens", "embeddings"))
-    .setOutputCol("ner_tags")
+.pretrained("ner_clinical", "en", "clinical/models")
+.setInputCols(Array("sentences", "tokens", "embeddings"))
+.setOutputCol("ner_tags")
 
 
 val ner_converter = new NerConverter()
-    .setInputCols(Array("sentences", "tokens", "ner_tags"))
-    .setOutputCol("ner_chunks")
+.setInputCols(Array("sentences", "tokens", "ner_tags"))
+.setOutputCol("ner_chunks")
 
 
 val dependency_parser = new DependencyParserModel()
-    .pretrained("dependency_conllu", "en")
-    .setInputCols(Array("document", "pos_tags", "tokens"))
-    .setOutputCol("dependencies")
+.pretrained("dependency_conllu", "en")
+.setInputCols(Array("document", "pos_tags", "tokens"))
+.setOutputCol("dependencies")
 
 
 val re_ner_chunk_filter = new RENerChunksFilter()
-    .setRelationPairs(Array("problem-test","problem-treatment"))
-    .setMaxSyntacticDistance(4)
-    .setDocLevelRelations(false)
-    .setInputCols(Array("ner_chunks", "dependencies"))
-    .setOutputCol("re_ner_chunks")
+.setRelationPairs(Array("problem-test","problem-treatment"))
+.setMaxSyntacticDistance(4)
+.setDocLevelRelations(false)
+.setInputCols(Array("ner_chunks", "dependencies"))
+.setOutputCol("re_ner_chunks")
 
 
 val re_model = ZeroShotRelationExtractionModel.pretrained("re_zeroshot_biobert", "en", "clinical/models")
-    .setRelationalCategories({
-          Map(
-          "CURE" -> Array("{{TREATMENT}} cures {{PROBLEM}}."),
-          "IMPROVE" -> Array("{{TREATMENT}} improves {{PROBLEM}}.", "{{TREATMENT}} cures {{PROBLEM}}."),
-          "REVEAL" -> Array("{{TEST}} reveals {{PROBLEM}}.")
-          ))
-    .setMultiLabel(false)
-    .setInputCols(Array("re_ner_chunks", "sentences"))
-    .setOutputCol("relations")
+.setRelationalCategories({
+Map(
+"CURE" -> Array("{{TREATMENT}} cures {{PROBLEM}}."),
+"IMPROVE" -> Array("{{TREATMENT}} improves {{PROBLEM}}.", "{{TREATMENT}} cures {{PROBLEM}}."),
+"REVEAL" -> Array("{{TEST}} reveals {{PROBLEM}}.")
+))
+.setMultiLabel(false)
+.setInputCols(Array("re_ner_chunks", "sentences"))
+.setOutputCol("relations")
 
 
 val pipeline = new Pipeline()
-    .setStages(Array(documenter, tokenizer, sentencer, words_embedder, pos_tagger, ner_tagger, ner_converter,
-                dependency_parser, re_ner_chunk_filter, re_model))
+.setStages(Array(documenter, tokenizer, sentencer, words_embedder, pos_tagger, ner_tagger, ner_converter,
+dependency_parser, re_ner_chunk_filter, re_model))
 
 
 val model = pipeline.fit(data)

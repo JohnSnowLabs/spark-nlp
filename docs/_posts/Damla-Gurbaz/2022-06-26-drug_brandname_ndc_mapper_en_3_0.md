@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,14 +37,14 @@ This pretrained model maps drug brand names to corresponding National Drug Codes
 
 ```python
 document_assembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("chunk")
+.setInputCol("text")\
+.setOutputCol("chunk")
 
 chunkerMapper = ChunkMapperModel.pretrained("drug_brandname_ndc_mapper", "en", "clinical/models")\
-      .setInputCols(["chunk"])\
-      .setOutputCol("ndc")\
-      .setRels(["Strength_NDC"])\
-      .setLowerCase(True)
+.setInputCols(["chunk"])\
+.setOutputCol("ndc")\
+.setRels(["Strength_NDC"])\
+.setLowerCase(True)
 
 
 pipeline = Pipeline().setStages([
@@ -60,14 +60,14 @@ result = light_pipeline.fullAnnotate(["zytiga", "zyvana", "ZYVOX"])
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("chunk")
+.setInputCol("text")
+.setOutputCol("chunk")
 
 val chunkerMapper = ChunkMapperModel.pretrained("drug_brandname_ndc_mapper", "en", "clinical/models")
-      .setInputCols("chunk")
-      .setOutputCol("ndc")
-      .setRels(Array("Strength_NDC"))
-      .setLowerCase(True)
+.setInputCols("chunk")
+.setOutputCol("ndc")
+.setRels(Array("Strength_NDC"))
+.setLowerCase(True)
 
 
 val pipeline = new Pipeline().setStages(Array(
@@ -75,7 +75,7 @@ val pipeline = new Pipeline().setStages(Array(
 				  chunkerMapper))
 
 val sample_data = Seq("zytiga", "zyvana", "ZYVOX").toDS.toDF("text")
- 
+
 val result = pipeline.fit(sample_data).transform(sample_data)
 ```
 

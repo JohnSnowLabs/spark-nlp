@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [pos, uk]
 supported: true
 article_header:
-   type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -34,8 +34,8 @@ This model annotates the part of speech of tokens in a text. The [parts of speec
 ```python
 ...
 pos = PerceptronModel.pretrained("pos_ud_iu", "uk") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("pos")
+.setInputCols(["document", "token"]) \
+.setOutputCol("pos")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, pos])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 results = light_pipeline.fullAnnotate("За винятком того, що є королем півночі, Джон Сноу є англійським лікарем та лідером у розвитку анестезії та медичної гігієни.")
@@ -44,8 +44,8 @@ results = light_pipeline.fullAnnotate("За винятком того, що є �
 ```scala
 ...
 val pos = PerceptronModel.pretrained("pos_ud_iu", "uk")
-    .setInputCols(Array("document", "token"))
-    .setOutputCol("pos")
+.setInputCols(Array("document", "token"))
+.setOutputCol("pos")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val data = Seq("За винятком того, що є королем півночі, Джон Сноу є англійським лікарем та лідером у розвитку анестезії та медичної гігієни.").toDF("text")
 val result = pipeline.fit(data).transform(data)

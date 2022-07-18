@@ -11,7 +11,7 @@ edition: Spark NLP 3.2.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,15 +36,15 @@ BERT model trained in German language on a 16GB dataset comprising of Wikipedia 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 sent_embeddings = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "de") \
-      .setInputCols("sentence") \
-      .setOutputCol("bert_sentence")
+.setInputCols("sentence") \
+.setOutputCol("bert_sentence")
 
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, sent_embeddings ])
 ```
 ```scala
 val sent_embeddings = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "de")
-      .setInputCols("sentence")
-      .setOutputCol("bert_sentence")
+.setInputCols("sentence")
+.setOutputCol("bert_sentence")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, sent_embeddings ))
 ```

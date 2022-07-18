@@ -11,7 +11,7 @@ edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,13 +36,13 @@ This embeddings component was trained on PubMed abstracts all along with citatio
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 embeddings = BertEmbeddings.pretrained("bert_biolink_large", "en")\
-      .setInputCols(["sentence", "token"])\
-      .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 ```
 ```scala
 val embeddings = BertEmbeddings.pretrained("bert_biolink_large", "en")
-      .setInputCols(Array("sentence", "token"))
-      .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 ```
 
 
@@ -76,10 +76,10 @@ nlu.load("en.embed.ge").predict("""Put your text here.""")
 
 ```
 @InProceedings{yasunaga2022linkbert,
-  author =  {Michihiro Yasunaga and Jure Leskovec and Percy Liang},
-  title =   {LinkBERT: Pretraining Language Models with Document Links},
-  year =    {2022},  
-  booktitle = {Association for Computational Linguistics (ACL)},  
+author =  {Michihiro Yasunaga and Jure Leskovec and Percy Liang},
+title =   {LinkBERT: Pretraining Language Models with Document Links},
+year =    {2022},  
+booktitle = {Association for Computational Linguistics (ACL)},  
 }
 ```
 

@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.4
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,101 +36,101 @@ This model maps detected drug entities to SNOMED codes using `sbiobert_base_case
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", 'clinical/models') \
-    .setInputCols(["document"]) \
-    .setOutputCol("sentence")
+.setInputCols(["document"]) \
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-    .setInputCols(["sentence"])\
-    .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-    .setInputCols(["sentence", "token"])\
-    .setOutputCol("word_embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("word_embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_posology", "en", "clinical/models") \
-    .setInputCols(["sentence", "token", "word_embeddings"]) \
-    .setOutputCol("ner")
+.setInputCols(["sentence", "token", "word_embeddings"]) \
+.setOutputCol("ner")
 
 ner_converter = NerConverterInternal() \
-    .setInputCols(["sentence", "token", "ner"]) \
-    .setOutputCol("ner_chunk")\
-    .setWhiteList(['DRUG'])
+.setInputCols(["sentence", "token", "ner"]) \
+.setOutputCol("ner_chunk")\
+.setWhiteList(['DRUG'])
 
 c2doc = Chunk2Doc()\
-    .setInputCols("ner_chunk")\
-    .setOutputCol("ner_chunk_doc") 
+.setInputCols("ner_chunk")\
+.setOutputCol("ner_chunk_doc") 
 
 sentence_chunk_embeddings = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
-    .setInputCols(["ner_chunk_doc"])\
-    .setOutputCol("sentence_embeddings")
+.setInputCols(["ner_chunk_doc"])\
+.setOutputCol("sentence_embeddings")
 
-    
+
 snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_drug", "en", "clinical/models") \
-    .setInputCols(["ner_chunk", "sentence_embeddings"]) \
-    .setOutputCol("snomed_code")\
-    .setDistanceFunction("EUCLIDEAN")\
+.setInputCols(["ner_chunk", "sentence_embeddings"]) \
+.setOutputCol("snomed_code")\
+.setDistanceFunction("EUCLIDEAN")\
 
 
 resolver_pipeline = Pipeline(
-    stages = [
-        document_assembler,
-        sentenceDetectorDL,
-        tokenizer,
-        word_embeddings,
-        clinical_ner,
-        ner_converter,
-        c2doc,
-        sentence_chunk_embeddings,
-        snomed_resolver
-  ])
+stages = [
+document_assembler,
+sentenceDetectorDL,
+tokenizer,
+word_embeddings,
+clinical_ner,
+ner_converter,
+c2doc,
+sentence_chunk_embeddings,
+snomed_resolver
+])
 
 model = resolver_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 result = model.transform(spark.createDataFrame([["She is given Fragmin 5000 units subcutaneously daily, OxyContin 30 mg p.o. q.12 h., folic acid 1 mg daily, levothyroxine 0.1 mg p.o. daily, Avandia 4 mg daily, aspirin 81 mg daily, Neurontin 400 mg p.o. t.i.d., magnesium citrate 1 bottle p.o. p.r.n., sliding scale coverage insulin."]]).toDF("text"))
 ```
 ```scala
 val document_assembler = DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models") 
-    .setInputCols(Array("document")) 
-    .setOutputCol("sentence")
+.setInputCols(Array("document")) 
+.setOutputCol("sentence")
 
 val tokenizer = Tokenizer()
-    .setInputCols(Array("sentence"))
-    .setOutputCol("token")
+.setInputCols(Array("sentence"))
+.setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-    .setInputCols(Array("sentence", "token"))
-    .setOutputCol("word_embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("word_embeddings")
 
 val clinical_ner = MedicalNerModel.pretrained("ner_posology", "en", "clinical/models") 
-    .setInputCols(Array("sentence", "token", "word_embeddings")) 
-    .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "word_embeddings")) 
+.setOutputCol("ner")
 
 val ner_converter = NerConverterInternal() 
-    .setInputCols(Array("sentence", "token", "ner")) 
-    .setOutputCol("ner_chunk")\
-    .setWhiteList(Array("DRUG"))
+.setInputCols(Array("sentence", "token", "ner")) 
+.setOutputCol("ner_chunk")\
+.setWhiteList(Array("DRUG"))
 
 val c2doc = Chunk2Doc()
-    .setInputCols("ner_chunk")
-    .setOutputCol("ner_chunk_doc") 
+.setInputCols("ner_chunk")
+.setOutputCol("ner_chunk_doc") 
 
 val sentence_chunk_embeddings = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
-    .setInputCols(Array("ner_chunk_doc"))
-    .setOutputCol("sentence_embeddings")
+.setInputCols(Array("ner_chunk_doc"))
+.setOutputCol("sentence_embeddings")
 
-    
+
 val snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_drug", "en", "clinical/models") 
-    .setInputCols(Array("ner_chunk", "sentence_embeddings")) 
-    .setOutputCol("snomed_code")
-    .setDistanceFunction("EUCLIDEAN")
-    
+.setInputCols(Array("ner_chunk", "sentence_embeddings")) 
+.setOutputCol("snomed_code")
+.setDistanceFunction("EUCLIDEAN")
+
 
 resolver_pipeline = new Pipeline().setStages(document_assembler, sentenceDetectorDL, tokenizer, word_embeddings, clinical_ner, ner_converter, c2doc, sentence_chunk_embeddings, snomed_resolver)
 data = Seq("She is given Fragmin 5000 units subcutaneously daily, OxyContin 30 mg p.o. q.12 h., folic acid 1 mg daily, levothyroxine 0.1 mg p.o. daily, Avandia 4 mg daily, aspirin 81 mg daily, Neurontin 400 mg p.o. t.i.d., magnesium citrate 1 bottle p.o. p.r.n., sliding scale coverage insulin.").toDF("text")

@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [embeddings, open_source, xx]
 deprecated: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,8 +40,8 @@ Note: This model only works on Linux and macOS operating systems and is not comp
 ```python
 ...
 embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_multi_lg", "xx") \
-      .setInputCols("sentence") \
-      .setOutputCol("sentence_embeddings")
+.setInputCols("sentence") \
+.setOutputCol("sentence_embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 result = pipeline_model.transform(spark.createDataFrame([['I love NLP', 'Me encanta usar SparkNLP']], ["text"]))
@@ -49,8 +49,8 @@ result = pipeline_model.transform(spark.createDataFrame([['I love NLP', 'Me enca
 ```scala
 ...
 val embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_multi_lg", "xx")
-      .setInputCols("sentence")
-      .setOutputCol("sentence_embeddings")
+.setInputCols("sentence")
+.setOutputCol("sentence_embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, embeddings))
 val data = Seq("I love NLP", "Me encanta usar SparkNLP").toDF("text")
 val result = pipeline.fit(data).transform(data)
@@ -73,7 +73,7 @@ embeddings_df
 It gives a 512-dimensional vector of the sentences.
 
 ```bash
-        sentence	          xx_use_multi_lg_embeddings
+sentence	          xx_use_multi_lg_embeddings
 	
 0	I love NLP	          [-0.055500030517578125, 0.13188503682613373, -...
 1	Me encanta usar SparkNLP  [0.008856392465531826, 0.06127211079001427, 0....
@@ -98,7 +98,7 @@ This embeddings model is imported from [https://tfhub.dev/google/universal-sente
 
 ## Benchmarking
 
- - We apply this model to the STS benchmark for semantic similarity. The eval can be seen in the [example notebook](https://colab.research.google.com/github/tensorflow/hub/blob/master/examples/colab/semantic_similarity_with_tf_hub_universal_encoder.ipynb) made available. Results are shown below:
+- We apply this model to the STS benchmark for semantic similarity. The eval can be seen in the [example notebook](https://colab.research.google.com/github/tensorflow/hub/blob/master/examples/colab/semantic_similarity_with_tf_hub_universal_encoder.ipynb) made available. Results are shown below:
 
 ```bash
 STSBenchmark                       | dev    | test  |
@@ -106,7 +106,7 @@ STSBenchmark                       | dev    | test  |
 Correlation coefficient of Pearson | 0.837  | 0.825 |
 ```
 
- - For semantic similarity retrieval, we evaluate the model on [Quora and AskUbuntu retrieval task.](https://arxiv.org/abs/1811.08008). Results are shown below:
+- For semantic similarity retrieval, we evaluate the model on [Quora and AskUbuntu retrieval task.](https://arxiv.org/abs/1811.08008). Results are shown below:
 
 ```bash
 Dataset                | Quora | AskUbuntu | Average |
@@ -114,7 +114,7 @@ Dataset                | Quora | AskUbuntu | Average |
 Mean Averge Precision  | 89.1  | 42.3      | 65.7    |
 ```
 
- - For the translation pair retrieval, we evaluate the model on the United Nation Parallal Corpus. Results are shown below:
+- For the translation pair retrieval, we evaluate the model on the United Nation Parallal Corpus. Results are shown below:
 
 ```bash
 Language Pair  | en-es  | en-fr | en-ru | en-zh |

@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [en, sentiment, open_source]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,21 +36,21 @@ Classify sentiment in tweets as `negative` or `positive` using `Universal Senten
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 use = UniversalSentenceEncoder.pretrained('tfhub_use', lang="en") \
-    .setInputCols(["document"])\
-    .setOutputCol("sentence_embeddings")
+.setInputCols(["document"])\
+.setOutputCol("sentence_embeddings")
 
 classifier = SentimentDLModel().pretrained('sentimentdl_use_twitter')\
-    .setInputCols(["sentence_embeddings"])\
-    .setOutputCol("sentiment")
+.setInputCols(["sentence_embeddings"])\
+.setOutputCol("sentiment")
 
 nlp_pipeline = Pipeline(stages=[document_assembler,
-                                use,
-                                classifier
-                                ])
+use,
+classifier
+])
 
 l_model = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 

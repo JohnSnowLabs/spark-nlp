@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -53,7 +53,7 @@ import nlu
 
 result_df = nlu.load('ner.posology').predict("The patient was perscriped 50MG penicilin for is headache")
 result_df
-    
+
 ```
 </div>
 

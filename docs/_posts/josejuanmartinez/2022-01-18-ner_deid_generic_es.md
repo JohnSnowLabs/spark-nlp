@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -49,32 +49,32 @@ Deidentification NER (Spanish) is a Named Entity Recognition model that annotate
 
 ```python
 documentAssembler = DocumentAssembler()\
-        .setInputCol("text")\
-        .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 # Feel free to experiment with multilingual or Spanish SentenceDetector instead
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
-        .setInputCols(["document"])\
-        .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-        .setInputCols(["sentence"])\
-        .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 embeddings = WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")\
 	.setInputCols(["sentence","token"])\
 	.setOutputCol("word_embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_deid_generic", "es", "clinical/models")\
-        .setInputCols(["sentence","token","word_embeddings"])\
-        .setOutputCol("ner")
+.setInputCols(["sentence","token","word_embeddings"])\
+.setOutputCol("ner")
 
 nlpPipeline = Pipeline(stages=[
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        embeddings,
-        clinical_ner])
+documentAssembler,
+sentenceDetector,
+tokenizer,
+embeddings,
+clinical_ner])
 
 text = ['''
 Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14/03/2020 y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos.
@@ -86,24 +86,24 @@ results = nlpPipeline.fit(df).transform(df)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")
-        .setInputCols(Array("document"))
-        .setOutputCol("sentence")
+.setInputCols(Array("document"))
+.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-        .setInputCols(Array("sentence"))
-        .setOutputCol("token")
+.setInputCols(Array("sentence"))
+.setOutputCol("token")
 
 embeddings = WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")
 	.setInputCols(Array("sentence","token"))
 	.setOutputCol("word_embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_deid_generic", "es", "clinical/models")
-        .setInputCols(Array("sentence","token","word_embeddings"))
-        .setOutputCol("ner")
+.setInputCols(Array("sentence","token","word_embeddings"))
+.setOutputCol("ner")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner))
 
@@ -205,14 +205,14 @@ Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infec
 
 
 ```bash
-     label      tp     fp     fn   total  precision  recall      f1
-   CONTACT   166.0    9.0    8.0   174.0     0.9486   0.954  0.9513
-      NAME  2879.0  195.0  191.0  3070.0     0.9366  0.9378  0.9372
-      DATE  1839.0   29.0   18.0  1857.0     0.9845  0.9903  0.9874
-        ID   119.0   11.0   12.0   131.0     0.9154  0.9084  0.9119
-  LOCATION  5149.0  711.0  607.0  5756.0     0.8787  0.8945  0.8865
+label      tp     fp     fn   total  precision  recall      f1
+CONTACT   166.0    9.0    8.0   174.0     0.9486   0.954  0.9513
+NAME  2879.0  195.0  191.0  3070.0     0.9366  0.9378  0.9372
+DATE  1839.0   29.0   18.0  1857.0     0.9845  0.9903  0.9874
+ID   119.0   11.0   12.0   131.0     0.9154  0.9084  0.9119
+LOCATION  5149.0  711.0  607.0  5756.0     0.8787  0.8945  0.8865
 PROFESSION   236.0   49.0  168.0   404.0     0.8281  0.5842  0.6851
-       AGE   313.0   33.0   50.0   363.0     0.9046  0.8623  0.8829
-     macro     -      -      -       -         -       -     0.891749
-     micro     -      -      -       -         -       -     0.909897
+AGE   313.0   33.0   50.0   363.0     0.9046  0.8623  0.8829
+macro     -      -      -       -         -       -     0.891749
+micro     -      -      -       -         -       -     0.909897
 ```

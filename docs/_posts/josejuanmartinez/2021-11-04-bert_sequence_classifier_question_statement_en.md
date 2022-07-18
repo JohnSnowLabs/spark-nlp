@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -38,27 +38,27 @@ This model was imported from Hugging Face (https://huggingface.co/shahrukhx01/qu
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentenceDetector = SentenceDetectorDLModel.pretrained() \
-    .setInputCols(["document"]) \
-    .setOutputCol("sentence")
+.setInputCols(["document"]) \
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-    .setInputCols("sentence")\
-    .setOutputCol("token")
+.setInputCols("sentence")\
+.setOutputCol("token")
 
 seq = BertForSequenceClassification.pretrained('bert_sequence_classifier_question_statement', 'en')\
-  .setInputCols(["token", "sentence"])\
-  .setOutputCol("label")\
-  .setCaseSensitive(True)
+.setInputCols(["token", "sentence"])\
+.setOutputCol("label")\
+.setCaseSensitive(True)
 
 pipeline = Pipeline(stages = [
-    documentAssembler,
-    sentenceDetector,
-    tokenizer,
-    seq])
+documentAssembler,
+sentenceDetector,
+tokenizer,
+seq])
 
 test_sentences = ["""What feature in your car did you not realize you had until someone else told you about it?
 Years ago, my Dad bought me a cute little VW Beetle. The first day I had it, me and my BFF were sitting in my car looking at everything.
@@ -74,27 +74,27 @@ res = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': test_sentenc
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained()
-    .setInputCols(Array("document"))
-    .setOutputCol("sentence")
+.setInputCols(Array("document"))
+.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
-    .setOutputCol("token")
+.setInputCols("sentence")
+.setOutputCol("token")
 
 val seq = BertForSequenceClassification.pretrained("bert_sequence_classifier_question_statement", "en")
-  .setInputCols(Array("token", "sentence"))
-  .setOutputCol("label")
-  .setCaseSensitive(True)
+.setInputCols(Array("token", "sentence"))
+.setOutputCol("label")
+.setCaseSensitive(True)
 
 val pipeline = new Pipeline().setStages(Array(
-    documentAssembler,
-    sentenceDetector,
-    tokenizer,
-    seq))
+documentAssembler,
+sentenceDetector,
+tokenizer,
+seq))
 
 val test_sentences = "What feature in your car did you not realize you had until someone else told you about it?
 Years ago, my Dad bought me a cute little VW Beetle. The first day I had it, me and my BFF were sitting in my car looking at everything.
@@ -174,12 +174,12 @@ https://github.com/deepset-ai/haystack/issues/611
 
 ```bash
 Extracted from https://github.com/deepset-ai/haystack/issues/611
-               precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-  statement        0.94      0.94      0.94     16105
-   question        0.96      0.96      0.96     26198
+statement        0.94      0.94      0.94     16105
+question        0.96      0.96      0.96     26198
 
-    accuracy                           0.95     42303
-   macro avg       0.95      0.95      0.95     42303
+accuracy                           0.95     42303
+macro avg       0.95      0.95      0.95     42303
 weighted avg       0.95      0.95      0.95     42303
 ```

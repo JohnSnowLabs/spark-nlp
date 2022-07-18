@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.2.0
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -46,27 +46,27 @@ This model is a BERT-based version of the ner_clinical model and it is 4% better
 
 ```python
 documentAssembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
-       .setInputCols(["document"])\
-       .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-       .setInputCols("sentence")\
-       .setOutputCol("token")
+.setInputCols("sentence")\
+.setOutputCol("token")
 
 tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_clinical", "en", "clinical/models")\
-       .setInputCols("token", "sentence")\
-       .setOutputCol("ner")
-  
+.setInputCols("token", "sentence")\
+.setOutputCol("ner")
+
 pipeline =  Pipeline(stages=[
-       documentAssembler,
-       sentenceDetector,
-       tokenizer,
-       tokenClassifier
-  ])
+documentAssembler,
+sentenceDetector,
+tokenizer,
+tokenClassifier
+])
 
 p_model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -78,21 +78,21 @@ result = p_model.transform(spark.createDataFrame([[text]]).toDF("text"))
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
-       .setInputCols(["document"])
-       .setOutputCol("sentence")
+.setInputCols(["document"])
+.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-       .setInputCols("sentence")
-       .setOutputCol("token")
+.setInputCols("sentence")
+.setOutputCol("token")
 
 val tokenClassifier = BertForTokenClassification.load("models/bert_based_ner_clinical")
-       .setInputCols(Array("token", "sentence"))
-       .setOutputCol("ner")
-  
+.setInputCols(Array("token", "sentence"))
+.setOutputCol("ner")
+
 val pipeline =  new Pipeline().setStages(Array(documentAssembler,sentenceDetector,tokenizer,tokenClassifier))
 
 val data = Seq("""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting . Two weeks prior to presentation , she was treated with a five-day course of amoxicillin for a respiratory tract infection . She was on metformin , glipizide , and dapagliflozin for T2DM and atorvastatin and gemfibrozil for HTG . She had been on dapagliflozin for six months at the time of presentation . Physical examination on presentation was significant for dry oral mucosa ; significantly , her abdominal examination was benign with no tenderness , guarding , or rigidity . Pertinent laboratory findings on admission were : serum glucose 111 mg/dl , bicarbonate 18 mmol/l , anion gap 20 , creatinine 0.4 mg/dL , triglycerides 508 mg/dL , total cholesterol 122 mg/dL , glycated hemoglobin ( HbA1c ) 10% , and venous pH 7.27 . Serum lipase was normal at 43 U/L . Serum acetone levels could not be assessed as blood samples kept hemolyzing due to significant lipemia . The patient was initially admitted for starvation ketosis , as she reported poor oral intake for three days prior to admission . However , serum chemistry obtained six hours after presentation revealed her glucose was 186 mg/dL , the anion gap was still elevated at 21 , serum bicarbonate was 16 mmol/L , triglyceride level peaked at 2050 mg/dL , and lipase was 52 U/L . The β-hydroxybutyrate level was obtained and found to be elevated at 5.29 mmol/L - the original sample was centrifuged and the chylomicron layer removed prior to analysis due to interference from turbidity caused by lipemia again . The patient was treated with an insulin drip for euDKA and HTG with a reduction in the anion gap to 13 and triglycerides to 1400 mg/dL , within 24 hours . Her euDKA was thought to be precipitated by her respiratory tract infection in the setting of SGLT2 inhibitor use . The patient was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night , 12 units of insulin lispro with meals , and metformin 1000 mg two times a day . It was determined that all SGLT2 inhibitors should be discontinued indefinitely . She had close follow-up with endocrinology post discharge .""").toDS.toDF("text")
@@ -172,13 +172,13 @@ Trained on augmented 2010 i2b2 challenge data with ‘embeddings_clinical’. ht
 
 
 ```bash
-       label  precision    recall  f1-score   support
-     PROBLEM       0.88      0.92      0.90     30276
-        TEST       0.91      0.86      0.88     17237
-   TREATMENT       0.87      0.88      0.88     17298
-           O       0.97      0.97      0.97    202438
-    accuracy       -         -         0.95    267249
-   macro-avg       0.91      0.91      0.91    267249
+label  precision    recall  f1-score   support
+PROBLEM       0.88      0.92      0.90     30276
+TEST       0.91      0.86      0.88     17237
+TREATMENT       0.87      0.88      0.88     17298
+O       0.97      0.97      0.97    202438
+accuracy       -         -         0.95    267249
+macro-avg       0.91      0.91      0.91    267249
 weighted-avg       0.95      0.95      0.95    267249
 ```
 <!--stackedit_data:

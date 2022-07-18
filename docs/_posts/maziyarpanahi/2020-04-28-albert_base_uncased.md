@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [embeddings, en, open_source]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,8 +32,8 @@ ALBERT is "A Lite" version of BERT, a popular unsupervised language representati
 ```python
 ...
 embeddings = AlbertEmbeddings.pretrained("albert_base_uncased", "en") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 result = pipeline_model.transform(spark.createDataFrame([['I love NLP']], ["text"]))
@@ -42,8 +42,8 @@ result = pipeline_model.transform(spark.createDataFrame([['I love NLP']], ["text
 ```scala
 ...
 val embeddings = AlbertEmbeddings.pretrained("albert_base_uncased", "en")
-      .setInputCols("sentence", "token")
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token")
+.setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
 val data = Seq("I love NLP").toDF("text")
 val result = pipeline.fit(data).transform(data)
@@ -63,7 +63,7 @@ embeddings_df
 {:.h2_title}
 ## Results
 ```bash
-        token	en_embed_albert_base_uncased_embeddings
+token	en_embed_albert_base_uncased_embeddings
 	
 	I	[1.0153148174285889, 0.5481745600700378, -0.44...
 	love	[0.3452114760875702, -1.191628336906433, 0.423...

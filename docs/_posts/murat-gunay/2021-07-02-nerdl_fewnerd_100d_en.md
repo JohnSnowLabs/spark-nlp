@@ -11,7 +11,7 @@ edition: Spark NLP 3.1.1
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -38,16 +38,16 @@ The model is trained using `glove_100d` word embeddings so, you should use the s
 ...
 
 embeddings = WordEmbeddingsModel.pretrained("glove_100d", "en")\
-          .setInputCols("sentence", "token") \
-          .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 
 ner = NerDLModel.pretrained("nerdl_fewnerd_100d") \
-        .setInputCols(["sentence", "token", "embeddings"]) \
-        .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 
 ner_converter = NerConverter()\
-    .setInputCols(['document', 'token', 'ner']) \
-    .setOutputCol('ner_chunk')
+.setInputCols(['document', 'token', 'ner']) \
+.setOutputCol('ner_chunk')
 
 nlp_pipeline = Pipeline(stages=[document_assembler, sentencer, tokenizer, embeddings, ner, ner_converter])
 
@@ -59,14 +59,14 @@ annotations = l_model.fullAnnotate("""The Double Down is a sandwich offered by K
 ...
 
 val embeddings = WordEmbeddingsModel.pretrained("glove_100d", "en")
-    .setInputCols(Array("sentence", "token"))
-    .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 val ner = NerDLModel.pretrained("nerdl_fewnerd_100d")
-    .setInputCols(Array("sentence", "token", "embeddings")).setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings")).setOutputCol("ner")
 
 val ner_converter = NerConverter.setInputCols(Array("document", "token", "ner")) 
-    .setOutputCol("ner_chunk")
+.setOutputCol("ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, ner, ner_converter))
 val data = Seq("The Double Down is a sandwich offered by Kentucky Fried Chicken (KFC) restaurants. He did not see active service again until 1882, when he took part in the Anglo-Egyptian War, and was present at the battle of Tell El Kebir (September 1882), for which he was mentioned in dispatches, received the Egypt Medal with clasp and the 3rd class of the Order of Medjidie, and was appointed a Companion of the Order of the Bath (CB).").toDF("text")

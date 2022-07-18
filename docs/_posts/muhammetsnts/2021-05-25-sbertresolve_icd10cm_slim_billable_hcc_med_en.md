@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.0.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,16 +36,16 @@ Outputs 7-digit billable ICD codes. In the result, look for aux_label parameter 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 sbert_embedder = BertSentenceEmbeddings\
-      .pretrained('sbert_jsl_medium_uncased', 'en','clinical/models')\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")
+.pretrained('sbert_jsl_medium_uncased', 'en','clinical/models')\
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")
 icd10_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_icd10cm_slim_billable_hcc_med","en", "clinical/models") \
-     .setInputCols(["document", "sbert_embeddings"]) \
-     .setOutputCol("icd10cm_code")\
-     .setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
+.setInputCols(["document", "sbert_embeddings"]) \
+.setOutputCol("icd10cm_code")\
+.setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
 bert_pipeline_icd = PipelineModel(stages = [document_assembler, sbert_embedder, icd10_resolver])
 
 model = bert_pipeline_icd.fit(spark.createDataFrame([["bladder cancer"]]).toDF("text"))
@@ -53,17 +53,17 @@ results = model.transform(data)
 ```
 ```scala
 val document_assembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 val sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbert_jsl_medium_uncased","en","clinical/models")\
-     .setInputCols(["document"])\
-     .setOutputCol("sbert_embeddings")
+.pretrained("sbert_jsl_medium_uncased","en","clinical/models")\
+.setInputCols(["document"])\
+.setOutputCol("sbert_embeddings")
 val icd10_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_icd10cm_slim_billable_hcc_med","en", "clinical/models") \
-     .setInputCols(["document", "sbert_embeddings"]) \
-     .setOutputCol("icd10cm_code")\
-     .setDistanceFunction("EUCLIDEAN")\
-     .setReturnCosineDistances(True)
+.setInputCols(["document", "sbert_embeddings"]) \
+.setOutputCol("icd10cm_code")\
+.setDistanceFunction("EUCLIDEAN")\
+.setReturnCosineDistances(True)
 val bert_pipeline_icd = new Pipeline().setStages(Array(document_assembler, sbert_embedder, icd10_resolver))
 val result = bert_pipeline_icd.fit(Seq.empty["bladder cancer"].toDS.toDF("text")).transform(data)
 ```

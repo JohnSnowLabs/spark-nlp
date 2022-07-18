@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [sentiment, ur, open_source]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -39,35 +39,35 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 ```python
 ...
 word_embeddings = WordEmbeddingsModel()\
-    .pretrained('urduvec_140M_300d', 'ur')\
-    .setInputCols(["document",'token'])\
-    .setOutputCol("word_embeddings")
+.pretrained('urduvec_140M_300d', 'ur')\
+.setInputCols(["document",'token'])\
+.setOutputCol("word_embeddings")
 embeddings = SentenceEmbeddings() \
-      .setInputCols(["document", "word_embeddings"]) \
-      .setOutputCol("sentence_embeddings") \
-      .setPoolingStrategy("AVERAGE")
+.setInputCols(["document", "word_embeddings"]) \
+.setOutputCol("sentence_embeddings") \
+.setPoolingStrategy("AVERAGE")
 classifier = SentimentDLModel.pretrained('sentimentdl_urduvec_imdb', 'ur' )\
-    .setInputCols(['document', 'token', 'sentence_embeddings']).setOutputCol('sentiment')
+.setInputCols(['document', 'token', 'sentence_embeddings']).setOutputCol('sentiment')
 nlp_pipeline = Pipeline(stages=[document_assembler, tokenizer, embeddings, sentence_embeddings, classifier])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 annotations = light_pipeline.fullAnnotate(["مجھے واقعی یہ شو سند ہے۔ یہی وجہ ہے کہ مجھے حال ہی میں یہ جان کر مایوسی ہوئی ہے کہ جارج لوپیز ایک ",
-                                                                          "بالکل بھی اچھ ،ی کام نہیں کیا گیا ، پوری فلم صرف گرڈج تھی اور کہیں بھی بے ترتیب لوگوں کو ہلاک نہیں"])
+"بالکل بھی اچھ ،ی کام نہیں کیا گیا ، پوری فلم صرف گرڈج تھی اور کہیں بھی بے ترتیب لوگوں کو ہلاک نہیں"])
 ```
 ```scala
 ...
 val word_embeddings = WordEmbeddingsModel()
-    .pretrained('urduvec_140M_300d', 'ur')
-    .setInputCols(Array("document",'token'))
-    .setOutputCol("word_embeddings")
+.pretrained('urduvec_140M_300d', 'ur')
+.setInputCols(Array("document",'token'))
+.setOutputCol("word_embeddings")
 val embeddings = SentenceEmbeddings() 
-      .setInputCols(Array("document", "word_embeddings")) 
-      .setOutputCol("sentence_embeddings")
-      .setPoolingStrategy("AVERAGE")
+.setInputCols(Array("document", "word_embeddings")) 
+.setOutputCol("sentence_embeddings")
+.setPoolingStrategy("AVERAGE")
 val classifier = SentimentDLModel.pretrained('sentimentdl_urduvec_imdb', 'ur' )
-    .setInputCols(Array('document', 'token', 'sentence_embeddings')).setOutputCol('sentiment')
+.setInputCols(Array('document', 'token', 'sentence_embeddings')).setOutputCol('sentiment')
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, sentence_embeddings, classifier))
 val result = pipeline.fit(Seq.empty["مجھے واقعی یہ شو سند ہے۔ یہی وجہ ہے کہ مجھے حال ہی میں یہ جان کر مایوسی ہوئی ہے کہ جارج لوپیز ایک ",
-                                                                          "بالکل بھی اچھ ،ی کام نہیں کیا گیا ، پوری فلم صرف گرڈج تھی اور کہیں بھی بے ترتیب لوگوں کو ہلاک نہیں"].toDS.toDF("text")).transform(data)
+"بالکل بھی اچھ ،ی کام نہیں کیا گیا ، پوری فلم صرف گرڈج تھی اور کہیں بھی بے ترتیب لوگوں کو ہلاک نہیں"].toDS.toDF("text")).transform(data)
 ```
 
 {:.nlu-block}

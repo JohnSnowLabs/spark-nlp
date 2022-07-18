@@ -11,7 +11,7 @@ language: en
 edition: Spark NLP 3.0.0
 spark_version: 3.0
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,35 +32,35 @@ The model works at the token level, so you must put it after tokenization. The m
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 tokenizer = RecursiveTokenizer()\
-  .setInputCols(["document"])\
-  .setOutputCol("token")\
-  .setPrefixes(["\"", "“", "(", "[", "\n", "."]) \
-  .setSuffixes(["\"", "”", ".", ",", "?", ")", "]", "!", ";", ":", "'s", "’s"])
+.setInputCols(["document"])\
+.setOutputCol("token")\
+.setPrefixes(["\"", "“", "(", "[", "\n", "."]) \
+.setSuffixes(["\"", "”", ".", ",", "?", ")", "]", "!", ";", ":", "'s", "’s"])
 
 spellModel = ContextSpellCheckerModel\
-    .pretrained()\
-    .setInputCols("token")\
-    .setOutputCol("checked")\
+.pretrained()\
+.setInputCols("token")\
+.setOutputCol("checked")\
 ```
 ```scala
-  val assembler = new DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+val assembler = new DocumentAssembler()
+.setInputCol("text")
+.setOutputCol("document")
 
-  val tokenizer = new RecursiveTokenizer()
-    .setInputCols(Array("document"))
-    .setOutputCol("token")
-    .setPrefixes(Array("\"", "“", "(", "[", "\n", "."))
-    .setSuffixes(Array("\"", "”", ".", ",", "?", ")", "]", "!", ";", ":", "'s", "’s"))
+val tokenizer = new RecursiveTokenizer()
+.setInputCols(Array("document"))
+.setOutputCol("token")
+.setPrefixes(Array("\"", "“", "(", "[", "\n", "."))
+.setSuffixes(Array("\"", "”", ".", ",", "?", ")", "]", "!", ";", ":", "'s", "’s"))
 
-  val spellChecker = ContextSpellCheckerModel.
-    pretrained().
-    setInputCols("token").
-    setOutputCol("checked")
+val spellChecker = ContextSpellCheckerModel.
+pretrained().
+setInputCols("token").
+setOutputCol("checked")
 ```
 
 
@@ -68,7 +68,7 @@ spellModel = ContextSpellCheckerModel\
 ```python
 import nlu
 nlu.load("spell").predict("""]) \
-  .setSuffixes([""")
+.setSuffixes([""")
 ```
 
 </div>

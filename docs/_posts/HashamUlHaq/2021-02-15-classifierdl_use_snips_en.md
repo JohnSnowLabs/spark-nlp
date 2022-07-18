@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [open_source, classifier, en]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -38,8 +38,8 @@ Understand general commands and recognise the intent.
 ...
 
 embeddings = UniversalSentenceEncoder.pretrained('tfhub_use', lang="en") \
-    .setInputCols(["document"])\
-    .setOutputCol("sentence_embeddings")
+.setInputCols(["document"])\
+.setOutputCol("sentence_embeddings")
 
 classifier = ClassifierDLModel.pretrained('classifierdl_use_snips').setInputCols(['sentence_embeddings']).setOutputCol('class')
 
@@ -52,8 +52,8 @@ annotations = l_model.fullAnnotate(["i want to bring six of us to a bistro in to
 ```scala
 ...
 val embeddings = UniversalSentenceEncoder.pretrained("tfhub_use", lang="en") \
-    .setInputCols(Array("document"))\
-    .setOutputCol("sentence_embeddings")
+.setInputCols(Array("document"))\
+.setOutputCol("sentence_embeddings")
 
 val classifier = ClassifierDLModel.pretrained("classifierdl_use_snips", "en").setInputCols(Array("sentence_embeddings")).setOutputCol("class")
 
@@ -104,17 +104,17 @@ This model is trained on the NLU Benchmark, SNIPS dataset https://github.com/Miu
 ## Benchmarking
 
 ```bash
-                      precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-       AddToPlaylist       0.98      0.97      0.97       124
-      BookRestaurant       0.98      0.99      0.98        92
-          GetWeather       1.00      0.98      0.99       104
-           PlayMusic       0.85      0.95      0.90        86
-            RateBook       1.00      1.00      1.00        80
-  SearchCreativeWork       0.82      0.84      0.83       107
+AddToPlaylist       0.98      0.97      0.97       124
+BookRestaurant       0.98      0.99      0.98        92
+GetWeather       1.00      0.98      0.99       104
+PlayMusic       0.85      0.95      0.90        86
+RateBook       1.00      1.00      1.00        80
+SearchCreativeWork       0.82      0.84      0.83       107
 SearchScreeningEvent       0.95      0.85      0.90       107
 
-            accuracy                           0.94       700
-           macro avg       0.94      0.94      0.94       700
-        weighted avg       0.94      0.94      0.94       700
+accuracy                           0.94       700
+macro avg       0.94      0.94      0.94       700
+weighted avg       0.94      0.94      0.94       700
 ```

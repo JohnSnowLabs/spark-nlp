@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -96,7 +96,7 @@ val tokenizer = new Tokenizer()
 val embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased")
 		.setInputCols(Array("sentence",  "token")) 
 		.setOutputCol("embeddings")
-  
+
 val jsl_ner = MedicalNerModel.pretrained("ner_jsl_biobert", "en", "clinical/models")
 		.setInputCols(Array("sentence", "token", "embeddings"))
 		.setOutputCol("jsl_ner")
@@ -104,7 +104,7 @@ val jsl_ner = MedicalNerModel.pretrained("ner_jsl_biobert", "en", "clinical/mode
 val jsl_ner_converter = new NerConverter()
 		.setInputCols(Array("sentence", "token", "jsl_ner"))
 		.setOutputCol("ner_chunk")
- 
+
 val jsl_ner_pipeline = new Pipeline().setStages(Array(
 					documentAssembler, 
 					sentenceDetector, 

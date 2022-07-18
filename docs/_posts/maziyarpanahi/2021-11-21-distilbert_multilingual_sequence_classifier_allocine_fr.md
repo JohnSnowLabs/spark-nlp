@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,24 +40,24 @@ We used TFDistilBertForSequenceClassification to train this model and used BertF
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol('text') \
-    .setOutputCol('document')
+.setInputCol('text') \
+.setOutputCol('document')
 
 tokenizer = Tokenizer() \
-    .setInputCols(['document']) \
-    .setOutputCol('token')
+.setInputCols(['document']) \
+.setOutputCol('token')
 
 sequenceClassifier = DistilBertForSequenceClassification \
-      .pretrained('distilbert_multilingual_sequence_classifier_allocine', 'fr') \
-      .setInputCols(['token', 'document']) \
-      .setOutputCol('class') \
-      .setCaseSensitive(True) \
-      .setMaxSentenceLength(512)
+.pretrained('distilbert_multilingual_sequence_classifier_allocine', 'fr') \
+.setInputCols(['token', 'document']) \
+.setOutputCol('class') \
+.setCaseSensitive(True) \
+.setMaxSentenceLength(512)
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
-    tokenizer,
-    sequenceClassifier    
+document_assembler, 
+tokenizer,
+sequenceClassifier    
 ])
 
 example = spark.createDataFrame([['j'ai bien aime le film harry potter!']]).toDF("text")
@@ -65,18 +65,18 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document_assembler = DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 val tokenizer = Tokenizer() 
-    .setInputCols("document") 
-    .setOutputCol("token")
+.setInputCols("document") 
+.setOutputCol("token")
 
 val tokenClassifier = DistilBertForSequenceClassification.pretrained("distilbert_multilingual_sequence_classifier_allocine", "fr")
-      .setInputCols("document", "token")
-      .setOutputCol("class")
-      .setCaseSensitive(true)
-      .setMaxSentenceLength(512)
+.setInputCols("document", "token")
+.setOutputCol("class")
+.setCaseSensitive(true)
+.setMaxSentenceLength(512)
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
@@ -97,12 +97,12 @@ nlu.load("fr.classify.distilbert_sequence.allocine").predict("""Put your text he
 ## Results
 
 ```bash
- * +--------------------+
- * |result              |
- * +--------------------+
- * |[neg, neg]          |
- * |[pos, pos, pos, pos]|
- * +--------------------+
+* +--------------------+
+* |result              |
+* +--------------------+
+* |[neg, neg]          |
+* |[pos, pos, pos, pos]|
+* +--------------------+
 ```
 
 {:.model-param}
@@ -127,12 +127,12 @@ nlu.load("fr.classify.distilbert_sequence.allocine").predict("""Put your text he
 ## Benchmarking
 
 ```bash
-          precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-         neg       0.95      0.96      0.95     10269
-         pos       0.96      0.94      0.95      9731
+neg       0.95      0.96      0.95     10269
+pos       0.96      0.94      0.95      9731
 
-    accuracy                           0.95     20000
-   macro avg       0.95      0.95      0.95     20000
+accuracy                           0.95     20000
+macro avg       0.95      0.95      0.95     20000
 weighted avg       0.95      0.95      0.95     20000
 ```

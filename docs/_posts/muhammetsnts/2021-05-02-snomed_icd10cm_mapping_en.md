@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.0.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -54,9 +54,9 @@ nlu.load("en.map_entity.snomed_to_icd10cm.pipe").predict("""721617001 733187009 
 
 ```bash
 {'snomed': ['721617001', '733187009', '109006'],
- 'icd10cm': ['K22.70, C15.5',
-  'M89.59, M89.50, M96.89',
-  'F41.9, F40.10, F94.8, F93.0, F40.8, F93.8']}
+'icd10cm': ['K22.70, C15.5',
+'M89.59, M89.50, M96.89',
+'F41.9, F40.10, F94.8, F93.0, F40.8, F93.8']}
 ```
 
 {:.model-param}

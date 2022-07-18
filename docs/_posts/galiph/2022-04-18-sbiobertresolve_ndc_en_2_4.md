@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.2
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -82,27 +82,27 @@ sbert_embedder = BertSentenceEmbeddings\
 	.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
 	.setInputCols(["ner_chunk_doc"])\
 	.setOutputCol("sentence_embeddings")
-  
-    
+
+
 ndc_resolver = SentenceEntityResolverModel\
 	.pretrained("sbiobertresolve_ndc", "en", "clinical/models") \
 	.setInputCols(["ner_chunk", "sentence_embeddings"]) \
 	.setOutputCol("ndc")\
 	.setDistanceFunction("EUCLIDEAN")\
 	.setCaseSensitive(False)
-   
-    
+
+
 resolver_pipeline = Pipeline(stages = [
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        word_embeddings,
-        posology_ner,
-        ner_converter,
-        c2doc,
-        sbert_embedder,
-        ndc_resolver
-  ])
+documentAssembler,
+sentenceDetector,
+tokenizer,
+word_embeddings,
+posology_ner,
+ner_converter,
+c2doc,
+sbert_embedder,
+ndc_resolver
+])
 
 
 data = spark.createDataFrame([["""The patient was given aspirin 81 mg and metformin 500 mg"""]]).toDF("text")
@@ -142,36 +142,36 @@ val ner_converter = new NerConverter()
 
 
 val c2doc = new Chunk2Doc()
-    .setInputCols("ner_chunk")
-    .setOutputCol("ner_chunk_doc") 
+.setInputCols("ner_chunk")
+.setOutputCol("ner_chunk_doc") 
 
 
 val sbert_embedder = BertSentenceEmbeddings
-    .pretrained("sbiobert_base_cased_mli", "en","clinical/models")
-    .setInputCols(Array("ner_chunk_doc"))
-    .setOutputCol("sentence_embeddings")
-    
-    
+.pretrained("sbiobert_base_cased_mli", "en","clinical/models")
+.setInputCols(Array("ner_chunk_doc"))
+.setOutputCol("sentence_embeddings")
+
+
 val ndc_resolver = SentenceEntityResolverModel
-    .pretrained("sbiobertresolve_ndc", "en", "clinical/models") 
-    .setInputCols(Array("ner_chunk", "sentence_embeddings")) 
-    .setOutputCol("ndc")
-    .setDistanceFunction("EUCLIDEAN")
-    .setCaseSensitive(False)
-    
-    
+.pretrained("sbiobertresolve_ndc", "en", "clinical/models") 
+.setInputCols(Array("ner_chunk", "sentence_embeddings")) 
+.setOutputCol("ndc")
+.setDistanceFunction("EUCLIDEAN")
+.setCaseSensitive(False)
+
+
 val resolver_pipeline = new Pipeline().setStages(Array(
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        word_embeddings,
-        posology_ner,
-        ner_converter,
-        c2doc,
-        sbert_embedder,
-        ndc_resolver
-        ))
-        
+documentAssembler,
+sentenceDetector,
+tokenizer,
+word_embeddings,
+posology_ner,
+ner_converter,
+c2doc,
+sbert_embedder,
+ndc_resolver
+))
+
 val clinical_note = Seq("The patient was given aspirin 81 mg and metformin 500 mg").toDS.toDF("text")
 
 val results = resolver_pipeline.fit(clinical_note).transform(clinical_note)

@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [pos, ja, open_source]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,27 +32,27 @@ This model annotates the part of speech of tokens in a text. The parts of speech
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
-    
+.setInputCol("text") \
+.setOutputCol("document")
+
 sentence_detector = SentenceDetector()\
-    .setInputCols(["document"])\
-    .setOutputCol("sentence")
-    
+.setInputCols(["document"])\
+.setOutputCol("sentence")
+
 word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud", "ja")\
-        .setInputCols(["sentence"])\
-        .setOutputCol("token")
-        
+.setInputCols(["sentence"])\
+.setOutputCol("token")
+
 pos = PerceptronModel.pretrained("pos_ud_gsd", "ja") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("pos")
+.setInputCols(["document", "token"]) \
+.setOutputCol("pos")
 
 pipeline = Pipeline(stages=[
-        document_assembler,
-        sentence_detector,
-        word_segmenter,
-        posTagger
-    ])
+document_assembler,
+sentence_detector,
+word_segmenter,
+posTagger
+])
 
 example = spark.createDataFrame([['院長と話をしたところ、腰痛治療も得意なようです。']], ["text"])
 
@@ -61,20 +61,20 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document_assembler = DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
-        
+.setInputCol("text")
+.setOutputCol("document")
+
 val sentence_detector = SentenceDetector()
-        .setInputCols(["document"])
-        .setOutputCol("sentence")
-        
+.setInputCols(["document"])
+.setOutputCol("sentence")
+
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud", "ja")
-        .setInputCols(["sentence"])
-        .setOutputCol("token")
-        
+.setInputCols(["sentence"])
+.setOutputCol("token")
+
 val pos = PerceptronModel.pretrained("pos_ud_gsd", "ja")
-    .setInputCols(Array("document", "token"))
-    .setOutputCol("pos")
+.setInputCols(Array("document", "token"))
+.setOutputCol("pos")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, word_segmenter, pos))
 
@@ -136,8 +136,8 @@ The model was trained on the [Universal Dependencies](https://universaldependenc
 
 Reference:
 
-    > Asahara, M., Kanayama, H., Tanaka, T., Miyao, Y., Uematsu, S., Mori, S., Matsumoto, Y., Omura, M., & Murawaki, Y. (2018). 
-    Universal Dependencies Version 2 for Japanese. In LREC-2018.
+> Asahara, M., Kanayama, H., Tanaka, T., Miyao, Y., Uematsu, S., Mori, S., Matsumoto, Y., Omura, M., & Murawaki, Y. (2018). 
+Universal Dependencies Version 2 for Japanese. In LREC-2018.
 
 ## Benchmarking
 

@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [open_source, en, sentiment]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,21 +36,21 @@ Classify IMDB reviews in negative and positive categories using `Universal Sente
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 use = UniversalSentenceEncoder.pretrained('tfhub_use', lang="en") \
-    .setInputCols(["document"])\
-    .setOutputCol("sentence_embeddings")
+.setInputCols(["document"])\
+.setOutputCol("sentence_embeddings")
 
 classifier = SentimentDLModel().pretrained('sentimentdl_use_imdb')\
-    .setInputCols(["sentence_embeddings"])\
-    .setOutputCol("sentiment")
+.setInputCols(["sentence_embeddings"])\
+.setOutputCol("sentiment")
 
 nlp_pipeline = Pipeline(stages=[document_assembler,
-                                use,
-                                classifier
-                                ])
+use,
+classifier
+])
 
 l_model = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
@@ -101,12 +101,12 @@ This model is trained on data from https://ai.stanford.edu/~amaas/data/sentiment
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-         neg       0.88      0.82      0.85     12500
-         pos       0.84      0.88      0.86     12500
+neg       0.88      0.82      0.85     12500
+pos       0.84      0.88      0.86     12500
 
-    accuracy                           0.85     25000
-   macro avg       0.86      0.86      0.85     25000
+accuracy                           0.85     25000
+macro avg       0.86      0.86      0.85     25000
 weighted avg       0.86      0.85      0.85     25000
 ```

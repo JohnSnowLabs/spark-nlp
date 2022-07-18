@@ -11,7 +11,7 @@ edition: Spark NLP 3.1.1
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -38,16 +38,16 @@ This model is trained on Few-NERD/inter public dataset and it extracts 66 entiti
 ...
 
 embeddings = WordEmbeddingsModel.pretrained("glove_100d", "en")\
-          .setInputCols("sentence", "token") \
-          .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 
 ner = NerDLModel.pretrained("nerdl_fewnerd_subentity_100d") \
-        .setInputCols(["sentence", "token", "embeddings"]) \
-        .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 
 ner_converter = NerConverter()\
-    .setInputCols(['document', 'token', 'ner']) \
-    .setOutputCol('ner_chunk')
+.setInputCols(['document', 'token', 'ner']) \
+.setOutputCol('ner_chunk')
 
 nlp_pipeline = Pipeline(stages=[document_assembler, sentencer, tokenizer, embeddings, ner, ner_converter])
 
@@ -59,14 +59,14 @@ annotations = l_model.fullAnnotate("""12 Corazones ('12 Hearts') is Spanish-lang
 ...
 
 val embeddings = WordEmbeddingsModel.pretrained("glove_100d", "en")
-    .setInputCols(Array("sentence", "token"))
-    .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 val ner = NerDLModel.pretrained("nerdl_fewnerd_subentity_100d")
-    .setInputCols(Array("sentence", "token", "embeddings")).setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings")).setOutputCol("ner")
 
 val ner_converter = NerConverter.setInputCols(Array("document", "token", "ner")) 
-    .setOutputCol("ner_chunk")
+.setOutputCol("ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, ner, ner_converter))
 val data = Seq("12 Corazones ('12 Hearts') is Spanish-language dating game show produced in the United States for the television network Telemundo since January 2005, based on its namesake Argentine TV show format. The show is filmed in Los Angeles and revolves around the twelve Zodiac signs that identify each contestant. In 2008, Ho filmed a cameo in the Steven Spielberg feature film The Cloverfield Paradox, as a news pundit.").toDF("text")

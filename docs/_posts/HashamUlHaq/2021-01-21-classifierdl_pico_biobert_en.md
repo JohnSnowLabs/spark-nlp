@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [en, licensed, clinical, classifier]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,16 +40,16 @@ document_assembler = DocumentAssembler().setInputCol('text').setOutputCol('docum
 tokenizer = Tokenizer().setInputCols('document').setOutputCol('token')
 
 embeddings = BertEmbeddings.pretrained('biobert_pubmed_base_cased')\
-    .setInputCols(["document", 'token'])\
-    .setOutputCol("word_embeddings")
+.setInputCols(["document", 'token'])\
+.setOutputCol("word_embeddings")
 
 sentence_embeddings = SentenceEmbeddings() \
-      .setInputCols(["document", "word_embeddings"]) \
-      .setOutputCol("sentence_embeddings") \
-      .setPoolingStrategy("AVERAGE")
+.setInputCols(["document", "word_embeddings"]) \
+.setOutputCol("sentence_embeddings") \
+.setPoolingStrategy("AVERAGE")
 
 classifier = ClassifierDLModel.pretrained('classifierdl_pico_biobert', 'en', 'clinical/models')\
-    .setInputCols(['document', 'token', 'sentence_embeddings']).setOutputCol('class')
+.setInputCols(['document', 'token', 'sentence_embeddings']).setOutputCol('class')
 
 nlp_pipeline = Pipeline(stages=[document_assembler, tokenizer, embeddings, sentence_embeddings, classifier])
 
@@ -99,18 +99,18 @@ Trained on a custom dataset derived from PICO classification dataset.
 ## Benchmarking
 
 ```bash
-                precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-          AIMS     0.9229    0.9186    0.9207      7815
-   CONCLUSIONS     0.8556    0.8401    0.8478      8837
+AIMS     0.9229    0.9186    0.9207      7815
+CONCLUSIONS     0.8556    0.8401    0.8478      8837
 DESIGN_SETTING     0.8556    0.7494    0.7990     11551
-      FINDINGS     0.8949    0.9342    0.9142     18827
-  INTERVENTION     0.6866    0.7508    0.7173      4920
-  MEASUREMENTS     0.7564    0.8664    0.8077      6505
-  PARTICIPANTS     0.8483    0.7559    0.7994      5539
+FINDINGS     0.8949    0.9342    0.9142     18827
+INTERVENTION     0.6866    0.7508    0.7173      4920
+MEASUREMENTS     0.7564    0.8664    0.8077      6505
+PARTICIPANTS     0.8483    0.7559    0.7994      5539
 
-      accuracy                         0.8495     63994
-     macro avg     0.8315    0.8308    0.8294     63994
-  weighted avg     0.8517    0.8495    0.8491     63994
+accuracy                         0.8495     63994
+macro avg     0.8315    0.8308    0.8294     63994
+weighted avg     0.8517    0.8495    0.8491     63994
 
 ```

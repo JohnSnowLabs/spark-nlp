@@ -11,7 +11,7 @@ edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -105,6 +105,6 @@ OntoNotes 5.0
 
 ```bash
 label score
-   f1  77.7
+f1  77.7
 ```
 https://github.com/mandarjoshi90/coref

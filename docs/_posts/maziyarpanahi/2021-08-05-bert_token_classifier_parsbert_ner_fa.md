@@ -11,7 +11,7 @@ edition: Spark NLP 3.2.0
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -79,11 +79,11 @@ Please cite the following paper in your publication if you are using [ParsBERT](
 
 ```markdown
 @article{ParsBERT,
-    title={ParsBERT: Transformer-based Model for Persian Language Understanding},
-    author={Mehrdad Farahani, Mohammad Gharachorloo, Marzieh Farahani, Mohammad Manthouri},
-    journal={ArXiv},
-    year={2020},
-    volume={abs/2005.12515}
+title={ParsBERT: Transformer-based Model for Persian Language Understanding},
+author={Mehrdad Farahani, Mohammad Gharachorloo, Marzieh Farahani, Mohammad Manthouri},
+journal={ArXiv},
+year={2020},
+volume={abs/2005.12515}
 }
 
 ## Predicted Entities
@@ -123,30 +123,30 @@ Please cite the following paper in your publication if you are using [ParsBERT](
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol('text') \
-    .setOutputCol('document')
+.setInputCol('text') \
+.setOutputCol('document')
 
 tokenizer = Tokenizer() \
-    .setInputCols(['document']) \
-    .setOutputCol('token')
+.setInputCols(['document']) \
+.setOutputCol('token')
 
 tokenClassifier = BertForTokenClassification \
-      .pretrained('bert_token_classifier_parsbert_ner', 'fa') \
-      .setInputCols(['token', 'document']) \
-      .setOutputCol('ner') \
-      .setCaseSensitive(False) \
-      .setMaxSentenceLength(512)
+.pretrained('bert_token_classifier_parsbert_ner', 'fa') \
+.setInputCols(['token', 'document']) \
+.setOutputCol('ner') \
+.setCaseSensitive(False) \
+.setMaxSentenceLength(512)
 
 # since output column is IOB/IOB2 style, NerConverter can extract entities
 ner_converter = NerConverter() \
-    .setInputCols(['document', 'token', 'ner']) \
-    .setOutputCol('entities')
+.setInputCols(['document', 'token', 'ner']) \
+.setOutputCol('entities')
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
-    tokenizer,
-    tokenClassifier,
-    ner_converter
+document_assembler, 
+tokenizer,
+tokenClassifier,
+ner_converter
 ])
 
 example = spark.createDataFrame([["دفتر مرکزی شرکت کامیکو در شهر ساسکاتون ساسکاچوان قرار دارد."]]).toDF("text")
@@ -154,23 +154,23 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document_assembler = DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 val tokenizer = Tokenizer() 
-    .setInputCols("document") 
-    .setOutputCol("token")
+.setInputCols("document") 
+.setOutputCol("token")
 
 val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_parsbert_ner", "fa")
-      .setInputCols("document", "token")
-      .setOutputCol("ner")
-      .setCaseSensitive(false)
-      .setMaxSentenceLength(512)
+.setInputCols("document", "token")
+.setOutputCol("ner")
+.setCaseSensitive(false)
+.setMaxSentenceLength(512)
 
 // since output column is IOB/IOB2 style, NerConverter can extract entities
 val ner_converter = NerConverter() 
-    .setInputCols("document", "token", "ner") 
-    .setOutputCol("entities")
+.setInputCols("document", "token", "ner") 
+.setOutputCol("entities")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, tokenClassifier, ner_converter))
 

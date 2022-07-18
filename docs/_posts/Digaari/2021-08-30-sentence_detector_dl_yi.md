@@ -11,7 +11,7 @@ edition: Spark NLP 3.2.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,13 +32,13 @@ SentenceDetectorDL (SDDL) is based on a general-purpose neural network model for
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documenter = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
-    
+.setInputCol("text")\
+.setOutputCol("document")
+
 sentencerDL = SentenceDetectorDLModel\
-  .pretrained("sentence_detector_dl", "yi") \
-  .setInputCols(["document"]) \
-  .setOutputCol("sentences")
+.pretrained("sentence_detector_dl", "yi") \
+.setInputCols(["document"]) \
+.setOutputCol("sentences")
 
 sd_model = LightPipeline(PipelineModel(stages=[documenter, sentencerDL]))
 sd_model.fullAnnotate("""איר זוכט פֿאַר אַ גרויס מקור פון לייענען פּאַראַגראַפס אין ענגליש? איר'ווע קומען צו די רעכט אָרט. לויט צו אַ פריש לערנען, די מידע פון לייענען אין הייַנט ס יוגנט איז ראַפּאַדלי דיקריסינג. זיי קענען נישט פאָקוס אויף אַ געגעבן פּאַראַגראַף פֿאַר ענגליש לייענען פֿאַר מער ווי אַ ביסל סעקונדעס! לייענען איז געווען און איז אַ ינטאַגראַל טייל פון אַלע קאַמפּעטיטיוו יגזאַמז. אַזוי ווי טאָן איר פֿאַרבעסערן דיין לייענען סקילז? דער ענטפער צו דעם קשיא איז אַקשלי אן אנדער קשיא: וואָס איז די נוצן פון לייענען סקילז? דער הויפּט ציל פון לייענען איז 'צו מאַכן זינען'.""")
@@ -48,8 +48,8 @@ sd_model.fullAnnotate("""איר זוכט פֿאַר אַ גרויס מקור פ�
 ```
 ```scala
 val documenter = DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val model = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "yi")
 	.setInputCols(Array("document"))

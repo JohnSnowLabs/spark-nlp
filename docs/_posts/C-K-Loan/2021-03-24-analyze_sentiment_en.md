@@ -11,15 +11,15 @@ language: en
 edition: Spark NLP 3.0.0
 spark_version: 3.0
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
 
 The analyze_sentiment is a pretrained pipeline that we can use to process text with a simple pipeline that performs basic processing steps 
-        and recognizes entities .
-         It performs most of the common text processing tasks on your dataframe
+and recognizes entities .
+It performs most of the common text processing tasks on your dataframe
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/SENTIMENT_EN/){:.button.button-orange}
@@ -60,7 +60,7 @@ import nlu
 text = ["""Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!"""]
 result_df = nlu.load('en.classify').predict(text)
 result_df
-    
+
 ```
 </div>
 

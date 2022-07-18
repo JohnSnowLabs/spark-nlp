@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [ner, fa, open_source]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -39,11 +39,11 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 ```python
 ...
 word_embeddings = WordEmbeddingsModel.pretrained("persian_w2v_cc_300d", "fa") \
-   .setInputCols(["document", "token"]) \
-   .setOutputCol("embeddings")
+.setInputCols(["document", "token"]) \
+.setOutputCol("embeddings")
 ner = NerDLModel.pretrained("personer_cc_300d", "fa") \
-   .setInputCols(["sentence", "token", "embeddings"]) \
-   .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 ner_converter = NerConverter().setInputCols(["sentence", "token", "ner"]).setOutputCol("ner_chunk")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
@@ -53,11 +53,11 @@ annotations = light_pipeline.fullAnnotate("به گزارش خبرنگار ایر
 ```scala
 ...
 val embeddings = WordEmbeddingsModel.pretrained("persian_w2v_cc_300d", "fa") 
-        .setInputCols(Array("document", "token"))
-        .setOutputCol("embeddings")
+.setInputCols(Array("document", "token"))
+.setOutputCol("embeddings")
 val ner_model = NerDLModel.pretrained("personer_cc_300d", "fa")
-        .setInputCols(Array("sentence", "token", "embeddings"))
-        .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings"))
+.setOutputCol("ner")
 val ner_converter = NerConverter().setInputCols(Array("sentence", "token", "ner")).setOutputCol("ner_chunk")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter))
 val data = Seq("به گزارش خبرنگار ایرنا ، بر اساس تصمیم این مجمع ، محمد قمی نماینده مردم پاکدشت به عنوان رئیس و علی‌اکبر موسوی خوئینی و شمس‌الدین وهابی نمایندگان مردم تهران به عنوان نواب رئیس انتخاب شدند").toDF("text")

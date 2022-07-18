@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [pos, ko, open_source]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,27 +36,27 @@ Use as part of an nlp pipeline after tokenization.
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
-    
+.setInputCol("text") \
+.setOutputCol("document")
+
 sentence_detector = SentenceDetector()\
-    .setInputCols(["document"])\
-    .setOutputCol("sentence")
-    
+.setInputCols(["document"])\
+.setOutputCol("sentence")
+
 word_segmenter = WordSegmenterModel.pretrained("wordseg_kaist_ud", "ko")\
-        .setInputCols(["sentence"])\
-        .setOutputCol("token")
-        
+.setInputCols(["sentence"])\
+.setOutputCol("token")
+
 pos = PerceptronModel.pretrained("pos_ud_kaist", "ko") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("pos")
+.setInputCols(["document", "token"]) \
+.setOutputCol("pos")
 
 pipeline = Pipeline(stages=[
-        document_assembler,
-        sentence_detector,
-        word_segmenter,
-        posTagger
-    ])
+document_assembler,
+sentence_detector,
+word_segmenter,
+posTagger
+])
 
 example = spark.createDataFrame([['비파를탄주하는그늙은명인의시는아름다운화음이었고완벽한음악으로순간적인조화를이룬세계의울림이었다.']], ["text"])
 
@@ -64,20 +64,20 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document_assembler = DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
-        
+.setInputCol("text")
+.setOutputCol("document")
+
 val sentence_detector = SentenceDetector()
-        .setInputCols(["document"])
-        .setOutputCol("sentence")
-        
+.setInputCols(["document"])
+.setOutputCol("sentence")
+
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_kaist_ud", "ko")
-        .setInputCols(["sentence"])
-        .setOutputCol("token")
-        
+.setInputCols(["sentence"])
+.setOutputCol("token")
+
 val pos = PerceptronModel.pretrained("pos_ud_kaist", "ko")
-    .setInputCols(Array("document", "token"))
-    .setOutputCol("pos")
+.setInputCols(Array("document", "token"))
+.setOutputCol("pos")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, word_segmenter, pos))
 
@@ -139,8 +139,8 @@ The model was trained in the Universal Dependencies, curated by the Korea Advanc
 
 Reference:
 
-    > Building Universal Dependency Treebanks in Korean, Jayeol Chun, Na-Rae Han, Jena D. Hwang, and Jinho D. Choi. 
-    In Proceedings of the 11th International Conference on Language Resources and Evaluation, LREC'18, Miyazaki, Japan, 2018.
+> Building Universal Dependency Treebanks in Korean, Jayeol Chun, Na-Rae Han, Jena D. Hwang, and Jinho D. Choi. 
+In Proceedings of the 11th International Conference on Language Resources and Evaluation, LREC'18, Miyazaki, Japan, 2018.
 
 ## Benchmarking
 

@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [language_detection, open_source, xx]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -42,8 +42,8 @@ This model can detect the following languages:
 ```python
 ...
 language_detector = LanguageDetectorDL.pretrained("ld_wiki_tatoeba_cnn_375", "xx")\
-   .setInputCols(["sentence"])\
-   .setOutputCol("language")
+.setInputCols(["sentence"])\
+.setOutputCol("language")
 languagePipeline = Pipeline(stages=[documentAssembler, sentenceDetector, language_detector])
 light_pipeline = LightPipeline(languagePipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 result = light_pipeline.fullAnnotate("Spark NLP est une bibliothèque de traitement de texte open source pour le traitement avancé du langage naturel pour les langages de programmation Python, Java et Scala.")
@@ -51,8 +51,8 @@ result = light_pipeline.fullAnnotate("Spark NLP est une bibliothèque de traitem
 ```scala
 ...
 val languageDetector = LanguageDetectorDL.pretrained("ld_wiki_tatoeba_cnn_375", "xx")
-   .setInputCols("sentence")
-   .setOutputCol("language")
+.setInputCols("sentence")
+.setOutputCol("language")
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, languageDetector))
 val data = Seq("Spark NLP est une bibliothèque de traitement de texte open source pour le traitement avancé du langage naturel pour les langages de programmation Python, Java et Scala.").toDF("text")
 val result = pipeline.fit(data).transform(data)

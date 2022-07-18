@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,52 +37,52 @@ This pretrained model maps drugs with their corresponding action and treatment. 
 
 ```python
 document_assembler = DocumentAssembler()\
-      .setInputCol('text')\
-      .setOutputCol('document')
+.setInputCol('text')\
+.setOutputCol('document')
 
 sentence_detector = SentenceDetector()\
-      .setInputCols(["document"])\
-      .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-      .setInputCols("sentence")\
-      .setOutputCol("token")
+.setInputCols("sentence")\
+.setOutputCol("token")
 
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-      .setInputCols(["sentence", "token"])\
-      .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_posology_small", "en", "clinical/models")\
-      .setInputCols(["sentence","token","embeddings"])\
-      .setOutputCol("ner")\
-      .setLabelCasing("upper")
+.setInputCols(["sentence","token","embeddings"])\
+.setOutputCol("ner")\
+.setLabelCasing("upper")
 
 ner_converter = NerConverter()\
-      .setInputCols(["sentence", "token", "ner"])\
-      .setOutputCol("ner_chunk")\
-      .setWhiteList(["DRUG"])
+.setInputCols(["sentence", "token", "ner"])\
+.setOutputCol("ner_chunk")\
+.setWhiteList(["DRUG"])
 
 chunkerMapper_action = ChunkMapperModel.pretrained("drug_action_treatment_mapper", "en", "clinical/models")\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("action_mappings")\
-      .setRels(["action"])\
-      .setLowerCase(True)
+.setInputCols(["ner_chunk"])\
+.setOutputCol("action_mappings")\
+.setRels(["action"])\
+.setLowerCase(True)
 
 chunkerMapper_treatment = ChunkMapperModel.pretrained("drug_action_treatment_mapper", , "en", "clinical/models")\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("treatment_mappings")\
-      .setRels(["treatment"])\
-      .setLowerCase(True)
+.setInputCols(["ner_chunk"])\
+.setOutputCol("treatment_mappings")\
+.setRels(["treatment"])\
+.setLowerCase(True)
 
 
 pipeline = Pipeline().setStages([document_assembler,
-                                 sentence_detector,
-                                 tokenizer, 
-                                 word_embeddings,
-                                 clinical_ner, 
-                                 ner_converter,
-                                 chunkerMapper_action,
-                                 chunkerMapper_treatment])
+sentence_detector,
+tokenizer, 
+word_embeddings,
+clinical_ner, 
+ner_converter,
+chunkerMapper_action,
+chunkerMapper_treatment])
 
 
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
@@ -95,53 +95,53 @@ result = pipeline.fullAnnotate(text)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentence_detector = new SentenceDetector()
-      .setInputCols("document")
-      .setOutputCol("sentence")
+.setInputCols("document")
+.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-      .setInputCols("sentence")
-      .setOutputCol("token")
+.setInputCols("sentence")
+.setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-      .setInputCols(Array("sentence", "token"))
-      .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 val clinical_ner = MedicalNerModel.pretrained("ner_posology_small","en","clinical/models")
-      .setInputCols(Array("sentence","token","embeddings"))
-      .setOutputCol("ner")
-      .setLabelCasing("upper")
+.setInputCols(Array("sentence","token","embeddings"))
+.setOutputCol("ner")
+.setLabelCasing("upper")
 
 val ner_converter = new NerConverter()
-      .setInputCols(Array("sentence", "token", "ner"))
-      .setOutputCol("ner_chunk")
-      .setWhiteList(Array("DRUG"))
+.setInputCols(Array("sentence", "token", "ner"))
+.setOutputCol("ner_chunk")
+.setWhiteList(Array("DRUG"))
 
 val chunkerMapper_action = ChunkMapperModel.pretrained("drug_action_treatment_mapper", "en", "clinical/models")
-      .setInputCols(Array("ner_chunk"))
-      .setOutputCol("action_mappings")
-      .setRels(Array("action"))
-      .setLowerCase(True)
+.setInputCols(Array("ner_chunk"))
+.setOutputCol("action_mappings")
+.setRels(Array("action"))
+.setLowerCase(True)
 
 val chunkerMapper_treatment = ChunkMapperModel.pretrained("drug_action_treatment_mapper", , "en", "clinical/models")
-      .setInputCols(Array("ner_chunk"))
-      .setOutputCol("treatment_mappings")
-      .setRels(Array("treatment"))
-      .setLowerCase(True)
+.setInputCols(Array("ner_chunk"))
+.setOutputCol("treatment_mappings")
+.setRels(Array("treatment"))
+.setLowerCase(True)
 
 
 val pipeline = new Pipeline().setStages(Array(
-                                 document_assembler,
-                                 sentence_detector,
-                                 tokenizer, 
-                                 word_embeddings,
-                                 clinical_ner, 
-                                 ner_converter,
-                                 chunkerMapper_action,
-                                 chunkerMapper_treatment))
+document_assembler,
+sentence_detector,
+tokenizer, 
+word_embeddings,
+clinical_ner, 
+ner_converter,
+chunkerMapper_action,
+chunkerMapper_treatment))
 
 
 

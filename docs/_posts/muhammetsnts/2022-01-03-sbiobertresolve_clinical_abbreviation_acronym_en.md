@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.4
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,49 +36,49 @@ This model maps clinical abbreviations and acronyms to their meanings using `sbi
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 tokenizer = Tokenizer()\
-      .setInputCols(["document"])\
-      .setOutputCol("token")
+.setInputCols(["document"])\
+.setOutputCol("token")
 
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-      .setInputCols(["document", "token"])\
-      .setOutputCol("word_embeddings")
+.setInputCols(["document", "token"])\
+.setOutputCol("word_embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_abbreviation_clinical", "en", "clinical/models") \
-      .setInputCols(["document", "token", "word_embeddings"]) \
-      .setOutputCol("ner")
+.setInputCols(["document", "token", "word_embeddings"]) \
+.setOutputCol("ner")
 
 ner_converter = NerConverterInternal() \
-      .setInputCols(["document", "token", "ner"]) \
-      .setOutputCol("ner_chunk")\
-      .setWhiteList(['ABBR'])
+.setInputCols(["document", "token", "ner"]) \
+.setOutputCol("ner_chunk")\
+.setWhiteList(['ABBR'])
 
 sentence_chunk_embeddings = BertSentenceChunkEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
-      .setInputCols(["document", "ner_chunk"])\
-      .setOutputCol("sentence_embeddings")\
-      .setChunkWeight(0.5)\
-      .setCaseSensitive(True)
+.setInputCols(["document", "ner_chunk"])\
+.setOutputCol("sentence_embeddings")\
+.setChunkWeight(0.5)\
+.setCaseSensitive(True)
 
-    
+
 abbr_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_clinical_abbreviation_acronym", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sentence_embeddings"]) \
-      .setOutputCol("abbr_meaning")\
-      .setDistanceFunction("EUCLIDEAN")\
-    
+.setInputCols(["ner_chunk", "sentence_embeddings"]) \
+.setOutputCol("abbr_meaning")\
+.setDistanceFunction("EUCLIDEAN")\
+
 
 resolver_pipeline = Pipeline(
-    stages = [
-        document_assembler,
-        tokenizer,
-        word_embeddings,
-        clinical_ner,
-        ner_converter,
-        sentence_chunk_embeddings,
-        abbr_resolver
-  ])
+stages = [
+document_assembler,
+tokenizer,
+word_embeddings,
+clinical_ner,
+ner_converter,
+sentence_chunk_embeddings,
+abbr_resolver
+])
 
 model = resolver_pipeline.fit(spark.createDataFrame([['']]).toDF("text"))
 
@@ -87,38 +87,38 @@ abbr_result = model.transform(spark.createDataFrame([[text]]).toDF('text'))
 ```
 ```scala
 val document_assembler = DocumentAssembler()\
-      .setInputCol("text")
-      .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val tokenizer = Tokenizer()
-      .setInputCols(Array("document"))
-      .setOutputCol("token")
+.setInputCols(Array("document"))
+.setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-      .setInputCols(Array("document", "token"))
-      .setOutputCol("word_embeddings")
+.setInputCols(Array("document", "token"))
+.setOutputCol("word_embeddings")
 
 val clinical_ner = MedicalNerModel.pretrained("ner_abbreviation_clinical", "en", "clinical/models") 
-      .setInputCols(Array("document", "token", "word_embeddings")) 
-      .setOutputCol("ner")
+.setInputCols(Array("document", "token", "word_embeddings")) 
+.setOutputCol("ner")
 
 val ner_converter = NerConverterInternal() 
-      .setInputCols(Array("document", "token", "ner")) 
-      .setOutputCol("ner_chunk")
-      .setWhiteList(Array("ABBR"))
+.setInputCols(Array("document", "token", "ner")) 
+.setOutputCol("ner_chunk")
+.setWhiteList(Array("ABBR"))
 
 val sentence_chunk_embeddings = BertSentenceChunkEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
-      .setInputCols(Array("document", "ner_chunk"))
-      .setOutputCol("sentence_embeddings")
-      .setChunkWeight(0.5)
-      .setCaseSensitive(True)
+.setInputCols(Array("document", "ner_chunk"))
+.setOutputCol("sentence_embeddings")
+.setChunkWeight(0.5)
+.setCaseSensitive(True)
 
-    
+
 val abbr_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_clinical_abbreviation_acronym", "en", "clinical/models") 
-      .setInputCols(Array("ner_chunk", "sentence_embeddings")) 
-      .setOutputCol("abbr_meaning")
-      .setDistanceFunction("EUCLIDEAN")
-    
+.setInputCols(Array("ner_chunk", "sentence_embeddings")) 
+.setOutputCol("abbr_meaning")
+.setDistanceFunction("EUCLIDEAN")
+
 
 val resolver_pipeline = new Pipeline().setStages(document_assembler, tokenizer, word_embeddings, clinical_ner, ner_converter, sentence_chunk_embeddings, abbr_resolver)
 

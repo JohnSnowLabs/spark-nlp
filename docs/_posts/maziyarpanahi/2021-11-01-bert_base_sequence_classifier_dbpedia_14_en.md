@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,24 +40,24 @@ We used TFBertForSequenceClassification to train this model and used BertForSequ
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol('text') \
-    .setOutputCol('document')
+.setInputCol('text') \
+.setOutputCol('document')
 
 tokenizer = Tokenizer() \
-    .setInputCols(['document']) \
-    .setOutputCol('token')
+.setInputCols(['document']) \
+.setOutputCol('token')
 
 sequenceClassifier = BertForSequenceClassification \
-      .pretrained('bert_base_sequence_classifier_dbpedia_14', 'en') \
-      .setInputCols(['token', 'document']) \
-      .setOutputCol('class') \
-      .setCaseSensitive(True) \
-      .setMaxSentenceLength(512)
+.pretrained('bert_base_sequence_classifier_dbpedia_14', 'en') \
+.setInputCols(['token', 'document']) \
+.setOutputCol('class') \
+.setCaseSensitive(True) \
+.setMaxSentenceLength(512)
 
 pipeline = Pipeline(stages=[
-    document_assembler,
-    tokenizer,
-    sequenceClassifier
+document_assembler,
+tokenizer,
+sequenceClassifier
 ])
 
 example = spark.createDataFrame([['Disney Comics was a comic book publishing company operated by The Walt Disney Company which ran from 1990 to 1993.']]).toDF("text")
@@ -65,18 +65,18 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document_assembler = DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val tokenizer = Tokenizer()
-    .setInputCols("document")
-    .setOutputCol("token")
+.setInputCols("document")
+.setOutputCol("token")
 
 val tokenClassifier = BertForSequenceClassification.pretrained("bert_base_sequence_classifier_dbpedia_14", "en")
-      .setInputCols("document", "token")
-      .setOutputCol("class")
-      .setCaseSensitive(true)
-      .setMaxSentenceLength(512)
+.setInputCols("document", "token")
+.setOutputCol("class")
+.setCaseSensitive(true)
+.setMaxSentenceLength(512)
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
@@ -116,24 +116,24 @@ nlu.load("en.classify.bert_sequence.dbpedia_14").predict("""Disney Comics was a 
 ## Benchmarking
 
 ```bash
-                      precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-                 Album       1.00      1.00      1.00      5004
-                Animal       1.00      1.00      1.00      4998
-                Artist       0.99      0.99      0.99      5012
-               Athlete       1.00      1.00      1.00      5002
-              Building       0.99      0.99      0.99      5007
-               Company       0.98      0.98      0.98      4999
+Album       1.00      1.00      1.00      5004
+Animal       1.00      1.00      1.00      4998
+Artist       0.99      0.99      0.99      5012
+Athlete       1.00      1.00      1.00      5002
+Building       0.99      0.99      0.99      5007
+Company       0.98      0.98      0.98      4999
 EducationalInstitution       0.99      0.99      0.99      4998
-                  Film       0.99      1.00      1.00      4978
-  MeanOfTransportation       1.00      1.00      1.00      5002
-          NaturalPlace       1.00      1.00      1.00      5005
-          OfficeHolder       0.99      0.99      0.99      5001
-                 Plant       1.00      1.00      1.00      4994
-               Village       1.00      1.00      1.00      5003
-           WrittenWork       0.99      0.99      0.99      4997
+Film       0.99      1.00      1.00      4978
+MeanOfTransportation       1.00      1.00      1.00      5002
+NaturalPlace       1.00      1.00      1.00      5005
+OfficeHolder       0.99      0.99      0.99      5001
+Plant       1.00      1.00      1.00      4994
+Village       1.00      1.00      1.00      5003
+WrittenWork       0.99      0.99      0.99      4997
 
-              accuracy                           0.99     70000
-             macro avg       0.99      0.99      0.99     70000
-          weighted avg       0.99      0.99      0.99     70000
+accuracy                           0.99     70000
+macro avg       0.99      0.99      0.99     70000
+weighted avg       0.99      0.99      0.99     70000
 ```

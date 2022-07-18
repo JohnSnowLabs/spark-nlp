@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.4.1
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -45,24 +45,24 @@ This model is a [BioBERT-based](https://github.com/dmis-lab/biobert) classifier 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 
 tokenizer = Tokenizer() \
-    .setInputCols(["document"]) \
-    .setOutputCol("token")
+.setInputCols(["document"]) \
+.setOutputCol("token")
 
 
 sequenceClassifier_loaded = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_rct_biobert", "en", "clinical/models")\
-  .setInputCols(["document",'token'])\
-  .setOutputCol("class")
+.setInputCols(["document",'token'])\
+.setOutputCol("class")
 
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
-    tokenizer,
-    sequenceClassifier_loaded   
+document_assembler, 
+tokenizer,
+sequenceClassifier_loaded   
 ])
 
 
@@ -73,18 +73,18 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documenter = new DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 
 val tokenizer = new Tokenizer()
-    .setInputCols("document")
-    .setOutputCol("token")
+.setInputCols("document")
+.setOutputCol("token")
 
 
 val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_rct_biobert", "en", "clinical/models")
-    .setInputCols(Array("document","token"))
-    .setOutputCol("class")
+.setInputCols(Array("document","token"))
+.setOutputCol("class")
 
 
 val pipeline = new Pipeline().setStages(Array(documenter, tokenizer, sequenceClassifier))

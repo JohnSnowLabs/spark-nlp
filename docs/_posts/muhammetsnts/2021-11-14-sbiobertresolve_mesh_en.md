@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.2
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,32 +37,32 @@ This model maps clinical entities to Medical Subject Heading (MeSH) codes using 
 ```python
 ...
 c2doc = Chunk2Doc()\
-      .setInputCols("ner_chunk")\
-      .setOutputCol("ner_chunk_doc") 
+.setInputCols("ner_chunk")\
+.setOutputCol("ner_chunk_doc") 
 
 sbert_embedder = BertSentenceEmbeddings\
-      .pretrained("sbiobert_base_cased_mli", "en","clinical/models")\
-      .setInputCols(["ner_chunk_doc"])\
-      .setOutputCol("sentence_embeddings")
+.pretrained("sbiobert_base_cased_mli", "en","clinical/models")\
+.setInputCols(["ner_chunk_doc"])\
+.setOutputCol("sentence_embeddings")
 
 mesh_resolver = SentenceEntityResolverModel\
-      .pretrained("sbiobertresolve_mesh", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sentence_embeddings"]) \
-      .setOutputCol("mesh_code")\
-      .setDistanceFunction("EUCLIDEAN")\
+.pretrained("sbiobertresolve_mesh", "en", "clinical/models") \
+.setInputCols(["ner_chunk", "sentence_embeddings"]) \
+.setOutputCol("mesh_code")\
+.setDistanceFunction("EUCLIDEAN")\
 
 resolver_pipeline = Pipeline(
-    stages = [
-        document_assembler,
-        sentenceDetectorDL,
-        tokenizer,
-        word_embeddings,
-        clinical_ner,
-        ner_converter,
-        c2doc,
-        sbert_embedder,
-        mesh_resolver
-  ])
+stages = [
+document_assembler,
+sentenceDetectorDL,
+tokenizer,
+word_embeddings,
+clinical_ner,
+ner_converter,
+c2doc,
+sbert_embedder,
+mesh_resolver
+])
 
 
 data = spark.createDataFrame([["""She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy with fluid biopsies, which were performed, which revealed malignant mesothelioma."""]]).toDF("text"))
@@ -74,31 +74,31 @@ result = resolver_pipeline.fit(data).transform(data)
 ...
 
 val c2doc = Chunk2Doc()
-      .setInputCols("ner_chunk")
-      .setOutputCol("ner_chunk_doc") 
+.setInputCols("ner_chunk")
+.setOutputCol("ner_chunk_doc") 
 
 val sbert_embedder = BertSentenceEmbeddings
-      .pretrained("sbiobert_base_cased_mli", "en","clinical/models")
-      .setInputCols(Array("ner_chunk_doc"))
-      .setOutputCol("sentence_embeddings")
+.pretrained("sbiobert_base_cased_mli", "en","clinical/models")
+.setInputCols(Array("ner_chunk_doc"))
+.setOutputCol("sentence_embeddings")
 
 val mesh_resolver = SentenceEntityResolverModel
-      .pretrained("sbiobertresolve_mesh", "en", "clinical/models")
-      .setInputCols(Array("ner_chunk", "sentence_embeddings"))
-      .setOutputCol("mesh_code")
-      .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_mesh", "en", "clinical/models")
+.setInputCols(Array("ner_chunk", "sentence_embeddings"))
+.setOutputCol("mesh_code")
+.setDistanceFunction("EUCLIDEAN")
 
 val resolver_pipeline = new Pipeline(
-    stages = Array(
-        document_assembler,
-        sentenceDetectorDL,
-        tokenizer,
-        word_embeddings,
-        clinical_ner,
-        ner_converter,
-        c2doc,
-        sbert_embedder,
-        mesh_resolver))
+stages = Array(
+document_assembler,
+sentenceDetectorDL,
+tokenizer,
+word_embeddings,
+clinical_ner,
+ner_converter,
+c2doc,
+sbert_embedder,
+mesh_resolver))
 
 val data = Seq("She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy with fluid biopsies, which were performed, which revealed malignant mesothelioma.")
 

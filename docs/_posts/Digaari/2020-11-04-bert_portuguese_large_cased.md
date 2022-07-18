@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [open_source, embeddings, pt]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,8 +32,8 @@ This is the pre-trained BERT model trained on the Portuguese language. `BERT-Bas
 ```python
 ...
 embeddings = BertEmbeddings.pretrained("bert_portuguese_large_cased", "pt") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 result = pipeline_model.transform(spark.createDataFrame([['Eu amo PNL']], ["text"]))
@@ -42,8 +42,8 @@ result = pipeline_model.transform(spark.createDataFrame([['Eu amo PNL']], ["text
 ```scala
 ...
 val embeddings = BertEmbeddings.pretrained("bert_portuguese_large_cased", "pt")
-      .setInputCols("sentence", "token")
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token")
+.setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
 val data = Seq("Eu amo PNL").toDF("text")
 val result = pipeline.fit(data).transform(data)
@@ -65,9 +65,9 @@ embeddings_df
 ```bash
 	token	pt_bert_cased_large_embeddings
 		
-      Eu 	[0.6893012523651123, 0.18436528742313385, 0.14...
- 	amo 	[0.6536692976951599, 0.17582201957702637, -0.5...
- 	PNL 	[-0.1397203803062439, 0.5698696374893188, -0.3...
+Eu 	[0.6893012523651123, 0.18436528742313385, 0.14...
+	amo 	[0.6536692976951599, 0.17582201957702637, -0.5...
+	PNL 	[-0.1397203803062439, 0.5698696374893188, -0.3...
 ```
 
 
