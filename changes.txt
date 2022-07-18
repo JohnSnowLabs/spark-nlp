@@ -1,2 +1,2 @@
-docs/en/hardware_acceleration.md
-docs/en/hardware_acceleration.md
+docs/_posts/HashamUlHaq/2020-12-09-hebrewner_cc_300d_he.md
+docs/_posts/HashamUlHaq/2020-12-09-hebrewner_cc_300d_he.md
