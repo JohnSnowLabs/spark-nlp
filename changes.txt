@@ -1,4 +1,2 @@
-docs/en/CPUvsGPUbenchmark.md
 docs/en/hardware_acceleration.md
-docs/en/CPUvsGPUbenchmark.md
 docs/en/hardware_acceleration.md
