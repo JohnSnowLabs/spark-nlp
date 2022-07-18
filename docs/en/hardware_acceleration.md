@@ -101,3 +101,6 @@ In future TensorFlow releases, the oneDNN will be enabled by default (starting T
 ### GPU vs. CPU
 
 ![Spark NLP 3.4.4 CPU vs. Spark NLP 4.0 CPU with oneDNN vs. GPU](/assets/images/Spark_NLP_3.x_CPU_GPU_vs._Spark_NLP_4.0_CPU+oneDNN_GPU.png)
+
+
+[Webinar: Speed Optimization & Benchmarks in Spark NLP 3: Making the Most of Modern Hardware](https://www.johnsnowlabs.com/watch-webinar-speed-optimization-benchmarks-in-spark-nlp-3-making-the-most-of-modern-hardware/)
