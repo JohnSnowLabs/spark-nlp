@@ -16,5 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.er
 
-//TODO: Drop it and only use Map structure
-case class EntityRulerFeatures(regexPatterns: Map[String, Seq[String]]) extends Serializable
+case class EntityRulerFeatures(
+    patterns: Map[String, String],
+    regexPatterns: Map[String, Seq[String]])
+    extends Serializable
