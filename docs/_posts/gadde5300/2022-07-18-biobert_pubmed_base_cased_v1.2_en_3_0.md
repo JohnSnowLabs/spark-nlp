@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This is the v1.2 version of [biobert_pubmed_base_cased](https://nlp.johnsnowlabs.com/2020/09/19/biobert_pubmed_base_cased.html) and contains pre-trained weights of BioBERT, a language representation model for biomedical domain, especially designed for biomedical text mining tasks such as biomedical named entity recognition, relation extraction, question answering, etc. The details are described in the paper "[BioBERT: a pre-trained biomedical language representation model for biomedical text mining](https://arxiv.org/abs/1901.08746v2)".
+This model is the v1.2 of [biobert_pubmed_base_cased](https://nlp.johnsnowlabs.com/2020/09/19/biobert_pubmed_base_cased.html) model and contains pre-trained weights of BioBERT, a language representation model for biomedical domain, especially designed for biomedical text mining tasks such as biomedical named entity recognition, relation extraction, question answering, etc. The details are described in the paper "[BioBERT: a pre-trained biomedical language representation model for biomedical text mining](https://arxiv.org/abs/1901.08746v2)".
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
