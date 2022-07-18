@@ -19,9 +19,12 @@ use_language_switcher: "Python-Scala-Java"
 
 This model uses Hebrew word embeddings to find 10 different types of entities in Hebrew text. It is trained using `hebrewner_cc_300d` word embeddings, please use the same embeddings in the pipeline.
 
+Predicted entities: Persons-`PERS`, Dates-`DATE`, Organizations-`ORG`, Locations-`LOC`, Percentage-`PERCENT`, Money-`MONEY`, Time-`TIME`, Miscellaneous (Affiliation)-`MISC_AFF`, Miscellaneous (Event)-`MISC_EVENT`, Miscellaneous (Entity)-`MISC_ENT`.
+
+
 ## Predicted Entities
 
-Persons-`PERS`, Dates-`DATE`, Organizations-`ORG`, Locations-`LOC`, Percentage-`PERCENT`, Money-`MONEY`, Time-`TIME`, Miscellaneous (Affiliation)-`MISC_AFF`, Miscellaneous (Event)-`MISC_EVENT`, Miscellaneous (Entity)-`MISC_ENT`.
+`PERS`, `DATE`, `ORG`, `LOC`, `PERCENT`, `MONEY`, `TIME`, `MISC_AFF`, `MISC_EVENT`, `MISC_ENT`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
