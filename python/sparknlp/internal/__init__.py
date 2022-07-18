@@ -404,3 +404,15 @@ class _SpanBertCorefLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_SpanBertCorefLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel.loadSavedModel", path, jspark)
+
+class _NerDLGraphBuilder(ExtendedJavaWrapper):
+    def __init__(self, dataset, input_col, label_col):
+        super(_NerDLGraphBuilder, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach.getGraphParams",
+            dataset, input_col, label_col)
+
+class _HadoopFileOperations(ExtendedJavaWrapper):
+    def __init__(self, local_file, hdfs_file):
+        super(_HadoopFileOperations, self).__init__(
+            "com.johnsnowlabs.util.HadoopFileOperations.moveFile", local_file, hdfs_file)
+
