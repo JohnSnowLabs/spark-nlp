@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.0.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.PretrainedAnnotations</title>
-          <meta name="description" content="Spark NLP 4.0.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.PretrainedAnnotations" />
-          <meta name="keywords" content="Spark NLP 4.0.1 ScalaDoc com.johnsnowlabs.nlp.annotators.PretrainedAnnotations" />
+          <title>Spark NLP 4.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.PretrainedAnnotations</title>
+          <meta name="description" content="Spark NLP 4.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.PretrainedAnnotations" />
+          <meta name="keywords" content="Spark NLP 4.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.PretrainedAnnotations" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.0.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.0.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -808,9 +808,9 @@
               
         </dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.PretrainedAnnotations#getDependencyParser" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getDependencyParser(annotations:Seq[com.johnsnowlabs.nlp.Annotation],dependencyParserModelCoordinates:Array[String]):Seq[com.johnsnowlabs.nlp.Annotation]"></a><a id="getDependencyParser(Seq[Annotation],Array[String]):Seq[Annotation]"></a>
+      <a id="getDependencyParser(dependencyParserModelCoordinates:Array[String]):com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel"></a><a id="getDependencyParser(Array[String]):DependencyParserModel"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/nlp/annotators/PretrainedAnnotations$.html#getDependencyParser(annotations:Seq[com.johnsnowlabs.nlp.Annotation],dependencyParserModelCoordinates:Array[String]):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/PretrainedAnnotations$.html#getDependencyParser(dependencyParserModelCoordinates:Array[String]):com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -819,14 +819,14 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getDependencyParser</span><span class="params">(<span name="annotations">annotations: <span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>, <span name="dependencyParserModelCoordinates">dependencyParserModelCoordinates: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
+        <span class="name">getDependencyParser</span><span class="params">(<span name="dependencyParserModelCoordinates">dependencyParserModelCoordinates: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="parser/dep/DependencyParserModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel">DependencyParserModel</a></span>
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.PretrainedAnnotations#getPos" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getPos(annotations:Seq[com.johnsnowlabs.nlp.Annotation],posModelCoordinates:Array[String]):Seq[com.johnsnowlabs.nlp.Annotation]"></a><a id="getPos(Seq[Annotation],Array[String]):Seq[Annotation]"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.PretrainedAnnotations#getDependencyParserOutput" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getDependencyParserOutput(annotations:Seq[com.johnsnowlabs.nlp.Annotation],dependencyParserModel:com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel):Seq[com.johnsnowlabs.nlp.Annotation]"></a><a id="getDependencyParserOutput(Seq[Annotation],DependencyParserModel):Seq[Annotation]"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/nlp/annotators/PretrainedAnnotations$.html#getPos(annotations:Seq[com.johnsnowlabs.nlp.Annotation],posModelCoordinates:Array[String]):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/PretrainedAnnotations$.html#getDependencyParserOutput(annotations:Seq[com.johnsnowlabs.nlp.Annotation],dependencyParserModel:com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -835,14 +835,46 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getPos</span><span class="params">(<span name="annotations">annotations: <span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>, <span name="posModelCoordinates">posModelCoordinates: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
+        <span class="name">getDependencyParserOutput</span><span class="params">(<span name="annotations">annotations: <span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>, <span name="dependencyParserModel">dependencyParserModel: <a href="parser/dep/DependencyParserModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel">DependencyParserModel</a></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.PretrainedAnnotations#getPosOutput" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getPosOutput(annotations:Seq[com.johnsnowlabs.nlp.Annotation],perceptronModel:com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel):Seq[com.johnsnowlabs.nlp.Annotation]"></a><a id="getPosOutput(Seq[Annotation],PerceptronModel):Seq[Annotation]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/PretrainedAnnotations$.html#getPosOutput(annotations:Seq[com.johnsnowlabs.nlp.Annotation],perceptronModel:com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getPosOutput</span><span class="params">(<span name="annotations">annotations: <span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>, <span name="perceptronModel">perceptronModel: <a href="pos/perceptron/PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.PretrainedAnnotations#getPretrainedPos" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getPretrainedPos(posModelCoordinates:Array[String]):com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel"></a><a id="getPretrainedPos(Array[String]):PerceptronModel"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/PretrainedAnnotations$.html#getPretrainedPos(posModelCoordinates:Array[String]):com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getPretrainedPos</span><span class="params">(<span name="posModelCoordinates">posModelCoordinates: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="pos/perceptron/PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a></span>
       </span>
       
       
     </li><li name="com.johnsnowlabs.nlp.annotators.PretrainedAnnotations#getTypedDependencyParser" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getTypedDependencyParser(annotations:Seq[com.johnsnowlabs.nlp.Annotation],typedDependencyParserModelCoordinates:Array[String]):Seq[com.johnsnowlabs.nlp.Annotation]"></a><a id="getTypedDependencyParser(Seq[Annotation],Array[String]):Seq[Annotation]"></a>
+      <a id="getTypedDependencyParser(typedDependencyParserModelCoordinates:Array[String]):com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel"></a><a id="getTypedDependencyParser(Array[String]):TypedDependencyParserModel"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/nlp/annotators/PretrainedAnnotations$.html#getTypedDependencyParser(annotations:Seq[com.johnsnowlabs.nlp.Annotation],typedDependencyParserModelCoordinates:Array[String]):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/PretrainedAnnotations$.html#getTypedDependencyParser(typedDependencyParserModelCoordinates:Array[String]):com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -851,7 +883,23 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getTypedDependencyParser</span><span class="params">(<span name="annotations">annotations: <span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>, <span name="typedDependencyParserModelCoordinates">typedDependencyParserModelCoordinates: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
+        <span class="name">getTypedDependencyParser</span><span class="params">(<span name="typedDependencyParserModelCoordinates">typedDependencyParserModelCoordinates: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="parser/typdep/TypedDependencyParserModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel">TypedDependencyParserModel</a></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.PretrainedAnnotations#getTypedDependencyParserOutput" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getTypedDependencyParserOutput(annotations:Seq[com.johnsnowlabs.nlp.Annotation],typedDependencyParser:com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel):Seq[com.johnsnowlabs.nlp.Annotation]"></a><a id="getTypedDependencyParserOutput(Seq[Annotation],TypedDependencyParserModel):Seq[Annotation]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/PretrainedAnnotations$.html#getTypedDependencyParserOutput(annotations:Seq[com.johnsnowlabs.nlp.Annotation],typedDependencyParser:com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getTypedDependencyParserOutput</span><span class="params">(<span name="annotations">annotations: <span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>, <span name="typedDependencyParser">typedDependencyParser: <a href="parser/typdep/TypedDependencyParserModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel">TypedDependencyParserModel</a></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
       </span>
       
       
