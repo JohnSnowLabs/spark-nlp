@@ -433,40 +433,40 @@
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
 
 <span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">DistilBertForSequenceClassification</span> \
-      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'distilbert_sequence_classifier_emotion'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'token'</span><span class="p">,</span> <span class="s">'document'</span><span class="p">])</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'class'</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
+<span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'distilbert_sequence_classifier_emotion'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'token'</span><span class="p">,</span> <span class="s">'document'</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'class'</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">document_assembler</span><span class="p">,</span> 
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">sequenceClassifier</span>    
+<span class="n">document_assembler</span><span class="p">,</span> 
+<span class="n">tokenizer</span><span class="p">,</span>
+<span class="n">sequenceClassifier</span>    
 <span class="p">])</span>
 
 <span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'I like you.'</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">DistilBertForSequenceClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"distilbert_sequence_classifier_emotion"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">512</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">512</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">sequenceClassifier</span><span class="o">))</span>
 
@@ -532,15 +532,15 @@
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span>
 <span class="s1">'test_accuracy'</span>: 0.938,
- <span class="s1">'test_f1'</span>: 0.937932884041714,
- <span class="s1">'test_loss'</span>: 0.1472451239824295,
- <span class="s1">'test_mem_cpu_alloc_delta'</span>: 0,
- <span class="s1">'test_mem_cpu_peaked_delta'</span>: 0,
- <span class="s1">'test_mem_gpu_alloc_delta'</span>: 0,
- <span class="s1">'test_mem_gpu_peaked_delta'</span>: 163454464,
- <span class="s1">'test_runtime'</span>: 5.0164,
- <span class="s1">'test_samples_per_second'</span>: 398.69
- <span class="o">}</span>
+<span class="s1">'test_f1'</span>: 0.937932884041714,
+<span class="s1">'test_loss'</span>: 0.1472451239824295,
+<span class="s1">'test_mem_cpu_alloc_delta'</span>: 0,
+<span class="s1">'test_mem_cpu_peaked_delta'</span>: 0,
+<span class="s1">'test_mem_gpu_alloc_delta'</span>: 0,
+<span class="s1">'test_mem_gpu_peaked_delta'</span>: 163454464,
+<span class="s1">'test_runtime'</span>: 5.0164,
+<span class="s1">'test_samples_per_second'</span>: 398.69
+<span class="o">}</span>
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-21T00:00:00+00:00"><!-- start custom article footer snippet -->
 

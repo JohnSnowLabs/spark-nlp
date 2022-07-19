@@ -439,27 +439,27 @@
 <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 
 <span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
 <span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
 
 <span class="n">word_segmenter</span> <span class="o">=</span> <span class="n">WordSegmenterModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"wordseg_gsd_ud"</span><span class="p">,</span> <span class="s">"ja"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
 <span class="n">nerTagger</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span> \
-    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_token_classifier_ner_ud_gsd"</span><span class="p">,</span> <span class="s">"ja"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_token_classifier_ner_ud_gsd"</span><span class="p">,</span> <span class="s">"ja"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
-    <span class="n">documentAssembler</span><span class="p">,</span>
-    <span class="n">sentenceDetector</span><span class="p">,</span>
-    <span class="n">word_segmenter</span><span class="p">,</span>
-    <span class="n">nerTagger</span>
+<span class="n">documentAssembler</span><span class="p">,</span>
+<span class="n">sentenceDetector</span><span class="p">,</span>
+<span class="n">word_segmenter</span><span class="p">,</span>
+<span class="n">nerTagger</span>
 <span class="p">])</span>
 
 <span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"宮本茂氏は、日本の任天堂のゲームプロデューサーです。"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
@@ -473,27 +473,27 @@
 <span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
 
 <span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">sentence</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">word_segmenter</span> <span class="k">=</span> <span class="nv">WordSegmenterModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"wordseg_gsd_ud"</span><span class="o">,</span> <span class="s">"ja"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">nerTagger</span> <span class="k">=</span> <span class="nc">BertForTokenClassification</span>
-  <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_token_classifier_ner_ud_gsd"</span><span class="o">,</span> <span class="s">"ja"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">nerTagger</span> <span class="k">=</span> <span class="nv">BertForTokenClassification</span>
+<span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_token_classifier_ner_ud_gsd"</span><span class="o">,</span> <span class="s">"ja"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
-  <span class="n">documentAssembler</span><span class="o">,</span>
-  <span class="n">sentence</span><span class="o">,</span>
-  <span class="n">word_segmenter</span><span class="o">,</span>
-  <span class="n">nerTagger</span>
+<span class="n">documentAssembler</span><span class="o">,</span>
+<span class="n">sentence</span><span class="o">,</span>
+<span class="n">word_segmenter</span><span class="o">,</span>
+<span class="n">nerTagger</span>
 <span class="o">))</span>
 
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"宮本茂氏は、日本の任天堂のゲームプロデューサーです。"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
@@ -501,8 +501,8 @@
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">model</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
 <span class="nv">result</span><span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"explode(arrays_zip(token.result, ner.result))"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"col'0' as token"</span><span class="o">,</span> <span class="s">"col'1' as ner"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">show</span><span class="o">()</span>
+<span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"col'0' as token"</span><span class="o">,</span> <span class="s">"col'1' as ner"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">show</span><span class="o">()</span>
 </code></pre></div>  </div>
 
   <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
@@ -586,34 +586,33 @@
 
 <p>Reference:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Asahara, M., Kanayama, H., Tanaka, T., Miyao, Y., Uematsu, S., Mori, S., Matsumoto, Y., Omura, M., &amp; Murawaki, Y. (2018). Universal Dependencies Version 2 for Japanese. In LREC-2018.
-</code></pre></div></div>
+<p>Asahara, M., Kanayama, H., Tanaka, T., Miyao, Y., Uematsu, S., Mori, S., Matsumoto, Y., Omura, M., &amp; Murawaki, Y. (2018). Universal Dependencies Version 2 for Japanese. In LREC-2018.</p>
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>       label  precision    recall  f1-score   support
-        DATE       0.87      0.94      0.91       191
-       EVENT       0.27      0.82      0.41        17
-         FAC       0.66      0.63      0.64        62
-         GPE       0.40      0.59      0.48        70
-    LANGUAGE       0.50      0.67      0.57         6
-         LAW       0.00      0.00      0.00         0
-         LOC       0.59      0.69      0.63        35
-       MONEY       0.90      0.90      0.90        20
-    MOVEMENT       0.27      1.00      0.43         3
-        NORP       0.46      0.57      0.50        46
-           O       0.98      0.97      0.98     11897
-     ORDINAL       0.94      0.70      0.80        43
-         ORG       0.49      0.43      0.46       204
-     PERCENT       1.00      0.80      0.89        20
-      PERSON       0.56      0.68      0.61       105
-     PRODUCT       0.32      0.53      0.40        30
-    QUANTITY       0.83      0.75      0.79       189
-        TIME       0.88      0.64      0.74        44
- TITLE_AFFIX       0.33      0.80      0.47        10
- WORK_OF_ART       0.67      0.76      0.71        42
-    accuracy          -         -      0.95     13034
-   macro-avg       0.60      0.69      0.62     13034
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label  precision    recall  f1-score   support
+DATE       0.87      0.94      0.91       191
+EVENT       0.27      0.82      0.41        17
+FAC       0.66      0.63      0.64        62
+GPE       0.40      0.59      0.48        70
+LANGUAGE       0.50      0.67      0.57         6
+LAW       0.00      0.00      0.00         0
+LOC       0.59      0.69      0.63        35
+MONEY       0.90      0.90      0.90        20
+MOVEMENT       0.27      1.00      0.43         3
+NORP       0.46      0.57      0.50        46
+O       0.98      0.97      0.98     11897
+ORDINAL       0.94      0.70      0.80        43
+ORG       0.49      0.43      0.46       204
+PERCENT       1.00      0.80      0.89        20
+PERSON       0.56      0.68      0.61       105
+PRODUCT       0.32      0.53      0.40        30
+QUANTITY       0.83      0.75      0.79       189
+TIME       0.88      0.64      0.74        44
+TITLE_AFFIX       0.33      0.80      0.47        10
+WORK_OF_ART       0.67      0.76      0.71        42
+accuracy          -         -      0.95     13034
+macro-avg       0.60      0.69      0.62     13034
 weighted-avg       0.96      0.95      0.95     13034
 
 </code></pre></div></div>

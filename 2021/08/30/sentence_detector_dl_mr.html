@@ -429,21 +429,21 @@
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documenter</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-    
+<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
 <span class="n">sentencerDL</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span>\
-  <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"mr"</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentences"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"mr"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentences"</span><span class="p">)</span>
 
 <span class="n">sd_model</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">PipelineModel</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documenter</span><span class="p">,</span> <span class="n">sentencerDL</span><span class="p">]))</span>
 <span class="n">sd_model</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">"""इंग्रजी वाचन परिच्छेद एक उत्तम स्रोत शोधत आहात? आपण योग्य ठिकाणी आला आहात. नुकत्याच झालेल्या एका अभ्यासानुसार, आजच्या तरुणांमध्ये वाचनाची सवय झपाट्याने कमी होत आहे. ते दिलेल्या इंग्रजी वाचनाच्या परिच्छेदावर काही सेकंदांपेक्षा जास्त काळ लक्ष केंद्रित करू शकत नाहीत! तसेच, वाचन हा सर्व स्पर्धा परीक्षांचा अविभाज्य भाग होता आणि आहे. तर, तुम्ही तुमचे वाचन कौशल्य कसे सुधारता? या प्रश्नाचे उत्तर प्रत्यक्षात दुसरा प्रश्न आहे: वाचन कौशल्याचा उपयोग काय आहे? वाचनाचा मुख्य हेतू म्हणजे 'अर्थ काढणे'."""</span><span class="p">)</span>
 
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documenter</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sentence_detector_dl"</span><span class="o">,</span> <span class="s">"mr"</span><span class="o">)</span>
 	<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>

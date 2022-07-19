@@ -429,17 +429,17 @@
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">MultiDocumentAssembler</span><span class="p">()</span> \ 
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span>
 
 <span class="n">spanClassifier</span> <span class="o">=</span> <span class="n">BertForQuestionAnswering</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_qa_multilingual_bert_base_cased_vietnamese"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
-    <span class="n">document_assembler</span><span class="p">,</span>
-    <span class="n">spanClassifier</span>
+<span class="n">document_assembler</span><span class="p">,</span>
+<span class="n">spanClassifier</span>
 <span class="p">])</span>
 
 <span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"What's my name?"</span><span class="p">,</span> <span class="s">"My name is Clara and I live in Berkeley."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">)</span>
@@ -447,22 +447,22 @@
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MultiDocumentAssembler</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"question"</span><span class="o">,</span> <span class="s">"context"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCols</span><span class="o">(</span><span class="s">"document_question"</span><span class="o">,</span> <span class="s">"document_context"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"question"</span><span class="o">,</span> <span class="s">"context"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCols</span><span class="o">(</span><span class="s">"document_question"</span><span class="o">,</span> <span class="s">"document_context"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">spanClassifier</span> <span class="k">=</span> <span class="nc">BertForQuestionAnswering</span>
-  <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_qa_multilingual_bert_base_cased_vietnamese"</span><span class="o">,</span><span class="s">"en"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document_question"</span><span class="o">,</span> <span class="s">"document_context"</span><span class="o">))</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">512</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">spanClassifier</span> <span class="k">=</span> <span class="nv">BertForQuestionAnswering</span>
+<span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_qa_multilingual_bert_base_cased_vietnamese"</span><span class="o">,</span><span class="s">"en"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document_question"</span><span class="o">,</span> <span class="s">"document_context"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">512</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document</span><span class="o">,</span> <span class="n">spanClassifier</span><span class="o">))</span>
 
 <span class="k">val</span> <span class="nv">example</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
-  <span class="o">(</span><span class="s">"Where was John Lenon born?"</span><span class="o">,</span> <span class="s">"John Lenon was born in London and lived in Paris. My name is Sarah and I live in London."</span><span class="o">),</span>
-  <span class="o">(</span><span class="s">"What's my name?"</span><span class="o">,</span> <span class="s">"My name is Clara and I live in Berkeley."</span><span class="o">))</span>
-  <span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"question"</span><span class="o">,</span> <span class="s">"context"</span><span class="o">)</span>
+<span class="o">(</span><span class="s">"Where was John Lenon born?"</span><span class="o">,</span> <span class="s">"John Lenon was born in London and lived in Paris. My name is Sarah and I live in London."</span><span class="o">),</span>
+<span class="o">(</span><span class="s">"What's my name?"</span><span class="o">,</span> <span class="s">"My name is Clara and I live in Berkeley."</span><span class="o">))</span>
+<span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"question"</span><span class="o">,</span> <span class="s">"context"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">example</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">example</span><span class="o">)</span>
 </code></pre></div>  </div>

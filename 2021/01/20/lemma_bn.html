@@ -429,32 +429,32 @@
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
 <span class="n">lemmatizer</span> <span class="o">=</span> <span class="n">LemmatizerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"lemma"</span><span class="p">,</span> <span class="s">"bn"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">])</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"lemma"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"lemma"</span><span class="p">)</span>
 
 <span class="n">nlp_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">lemmatizer</span><span class="p">])</span>
 <span class="n">light_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">nlp_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)))</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">([</span><span class="s">"একদিন প্রাতে বৈদ্যনাথের মার্বলমণ্ডিত দালানে একটি স্থূলোদর সন্ন্যাসী দুইসের মোহনভোগ এবং দেড়সের দুগ্ধ সেবায় নিযুক্ত আছে বৈদ্যনাথ গায়ে একখানি চাদর দিয়া জোড়করে একান্ত বিনীতভাবে ভূতলে বসিয়া ভক্তিভরে পবিত্র ভোজনব্যাপার নিরীক্ষণ করিতেছিলেন এমন সময় কোনোমতে দ্বারীদের দৃষ্টি এড়াইয়া জীর্ণদেহ বালক সহিত একটি অতি শীর্ণকায়া রমণী গৃহে প্রবেশ করিয়া ক্ষীণস্বরে কহিল বাবু দুটি খেতে দাও"</span><span class="p">])</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">document</span><span class="err">"</span><span class="o">])</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">document</span><span class="err">"</span><span class="o">])</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">lemmatizer</span> <span class="k">=</span> <span class="nv">LemmatizerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"lemma"</span><span class="o">,</span> <span class="s">"bn"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">token</span><span class="err">"</span><span class="o">])</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"lemma"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">token</span><span class="err">"</span><span class="o">])</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"lemma"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">lemmatizer</span><span class="o">))</span>
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"একদিন প্রাতে বৈদ্যনাথের মার্বলমণ্ডিত দালানে একটি স্থূলোদর সন্ন্যাসী দুইসের মোহনভোগ এবং দেড়সের দুগ্ধ সেবায় নিযুক্ত আছে বৈদ্যনাথ গায়ে একখানি চাদর দিয়া জোড়করে একান্ত বিনীতভাবে ভূতলে বসিয়া ভক্তিভরে পবিত্র ভোজনব্যাপার নিরীক্ষণ করিতেছিলেন এমন সময় কোনোমতে দ্বারীদের দৃষ্টি এড়াইয়া জীর্ণদেহ বালক সহিত একটি অতি শীর্ণকায়া রমণী গৃহে প্রবেশ করিয়া ক্ষীণস্বরে কহিল বাবু দুটি খেতে দাও"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
@@ -473,58 +473,58 @@
 <h2 id="results">Results</h2>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span><span class="s1">'lemma'</span>: <span class="o">[</span>Annotation<span class="o">(</span>token, 0, 4, একদিন, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 6, 11, প্রাতঃ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 13, 22, বৈদ্যনাথ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 24, 35, মার্বলমণ্ডিত, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 37, 42, দালান, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 44, 47, এক, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 49, 56, স্থূলউদর, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 58, 66, সন্ন্যাসী, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 68, 73, দুইসের, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 75, 81, মোহনভোগ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 83, 85, এবং, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 87, 93, দেড়সের, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 95, 99, দুগ্ধ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 101, 105, সেবা, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 107, 113, নিযুক্ত, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 115, 117, আছে, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 119, 126, বৈদ্যনাথ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 128, 131, গা, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 133, 138, একখান, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 140, 143, চাদর, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 145, 148, দেওয়া, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 150, 156, জোড়কর, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 158, 163, একান্ত, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 165, 173, বিনীতভাব, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 175, 179, ভূতল, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 181, 185, বসা, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 187, 194, ভক্তিভরা, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 196, 201, পবিত্র, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 203, 213, ভোজনব্যাপার, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 215, 222, নিরীক্ষণ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 224, 233, করা, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 235, 237, এমন, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 239, 241, সময়, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 243, 249, কোনোমত, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 251, 259, দ্বারী, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 261, 266, দৃষ্টি, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 268, 274, এড়ানো, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 276, 283, জীর্ণদেহ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 285, 288, বালক, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 290, 293, সহিত, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 295, 298, এক, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 300, 302, অতি, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 304, 312, শীর্ণকায়া, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 314, 317, রমণী, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 319, 322, গৃহ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 324, 329, প্রবেশ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 331, 335, বিশ্বাস, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 337, 346, ক্ষীণস্বর, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 348, 351, কহা, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 353, 356, বাবু, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 358, 361, দুই, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 363, 366, খাওয়া, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>token, 368, 370, দাওয়া, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})]}</span>
+Annotation<span class="o">(</span>token, 6, 11, প্রাতঃ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 13, 22, বৈদ্যনাথ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 24, 35, মার্বলমণ্ডিত, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 37, 42, দালান, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 44, 47, এক, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 49, 56, স্থূলউদর, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 58, 66, সন্ন্যাসী, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 68, 73, দুইসের, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 75, 81, মোহনভোগ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 83, 85, এবং, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 87, 93, দেড়সের, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 95, 99, দুগ্ধ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 101, 105, সেবা, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 107, 113, নিযুক্ত, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 115, 117, আছে, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 119, 126, বৈদ্যনাথ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 128, 131, গা, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 133, 138, একখান, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 140, 143, চাদর, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 145, 148, দেওয়া, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 150, 156, জোড়কর, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 158, 163, একান্ত, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 165, 173, বিনীতভাব, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 175, 179, ভূতল, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 181, 185, বসা, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 187, 194, ভক্তিভরা, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 196, 201, পবিত্র, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 203, 213, ভোজনব্যাপার, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 215, 222, নিরীক্ষণ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 224, 233, করা, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 235, 237, এমন, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 239, 241, সময়, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 243, 249, কোনোমত, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 251, 259, দ্বারী, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 261, 266, দৃষ্টি, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 268, 274, এড়ানো, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 276, 283, জীর্ণদেহ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 285, 288, বালক, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 290, 293, সহিত, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 295, 298, এক, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 300, 302, অতি, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 304, 312, শীর্ণকায়া, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 314, 317, রমণী, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 319, 322, গৃহ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 324, 329, প্রবেশ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 331, 335, বিশ্বাস, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 337, 346, ক্ষীণস্বর, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 348, 351, কহা, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 353, 356, বাবু, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 358, 361, দুই, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 363, 366, খাওয়া, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 368, 370, দাওয়া, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})]}</span>
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>

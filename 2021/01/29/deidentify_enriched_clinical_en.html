@@ -465,9 +465,9 @@ A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR 
 <span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
 
 <span class="n">obfuscation</span> <span class="o">=</span> <span class="n">DeIdentificationModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"deidentify_enriched_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner_chunk"</span><span class="p">])</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"obfuscated"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setMode</span><span class="p">(</span><span class="s">"obfuscate"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner_chunk"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"obfuscated"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setMode</span><span class="p">(</span><span class="s">"obfuscate"</span><span class="p">)</span>
 
 <span class="n">obfusated_text</span> <span class="o">=</span> <span class="n">obfuscation</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 
@@ -478,9 +478,9 @@ A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">obfuscation</span> <span class="k">=</span> <span class="nv">DeIdentificationModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"deidentify_enriched_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner_chunk"</span><span class="o">))</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"obfuscated"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setMode</span><span class="o">(</span><span class="s">"obfuscate"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner_chunk"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"obfuscated"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setMode</span><span class="o">(</span><span class="s">"obfuscate"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">obfusatedText</span> <span class="k">=</span> <span class="nv">obfuscation</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">result</span><span class="o">)</span>
 </code></pre></div>  </div>

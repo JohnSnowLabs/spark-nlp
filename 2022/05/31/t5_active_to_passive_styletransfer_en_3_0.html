@@ -437,14 +437,14 @@
 <span class="n">spark</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
 
 <span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"documents"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"documents"</span><span class="p">)</span>
 
 <span class="n">t5</span> <span class="o">=</span> <span class="n">T5Transformer</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"t5_active_to_passive_styletransfer"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setTask</span><span class="p">(</span><span class="s">"transfer Active to Passive:"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"documents"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setMaxOutputLength</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"transfers"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setTask</span><span class="p">(</span><span class="s">"transfer Active to Passive:"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"documents"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setMaxOutputLength</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"transfers"</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">t5</span><span class="p">])</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"I am writing you a letter."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
@@ -457,14 +457,14 @@
 <span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
 
 <span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"documents"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"documents"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">t5</span> <span class="k">=</span> <span class="nv">T5Transformer</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"t5_active_to_passive_styletransfer"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setTask</span><span class="o">(</span><span class="s">"transfer Active to Passive:"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setMaxOutputLength</span><span class="o">(</span><span class="mi">200</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"documents"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"transfer"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setTask</span><span class="o">(</span><span class="s">"transfer Active to Passive:"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setMaxOutputLength</span><span class="o">(</span><span class="mi">200</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"documents"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"transfer"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">t5</span><span class="o">))</span>
 

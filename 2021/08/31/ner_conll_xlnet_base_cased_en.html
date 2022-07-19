@@ -433,56 +433,56 @@
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
 
 <span class="n">embeddings</span> <span class="o">=</span> <span class="n">XlnetEmbeddings</span>\
-      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'xlnet_base_cased'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">])</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'xlnet_base_cased'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
 <span class="n">ner_model</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'ner_conll_xlnet_base_cased'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'embeddings'</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'ner'</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'embeddings'</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'ner'</span><span class="p">)</span>
 
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'ner'</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'entities'</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'ner'</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'entities'</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">document_assembler</span><span class="p">,</span> 
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">embeddings</span><span class="p">,</span>
-    <span class="n">ner_model</span><span class="p">,</span>
-    <span class="n">ner_converter</span>
+<span class="n">document_assembler</span><span class="p">,</span> 
+<span class="n">tokenizer</span><span class="p">,</span>
+<span class="n">embeddings</span><span class="p">,</span>
+<span class="n">ner_model</span><span class="p">,</span>
+<span class="n">ner_converter</span>
 <span class="p">])</span>
 
 <span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'My name is John!'</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">XlnetEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"xlnet_base_cased"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span> 
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">ner_model</span> <span class="k">=</span> <span class="nv">NerDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_conll_xlnet_base_cased"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">',</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">',</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">)</span> 
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="nc">NerConverter</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"entities"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">)</span> 
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"entities"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">ner_model</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
 
@@ -546,56 +546,56 @@
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Test:
 
-          precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-       B-LOC       0.87      0.89      0.88      1668
-       I-ORG       0.81      0.82      0.81       835
-      I-MISC       0.51      0.61      0.55       216
-       I-LOC       0.71      0.82      0.76       257
-       I-PER       0.93      0.99      0.96      1156
-      B-MISC       0.76      0.76      0.76       702
-       B-ORG       0.86      0.80      0.83      1661
-       B-PER       0.90      0.94      0.92      1617
+B-LOC       0.87      0.89      0.88      1668
+I-ORG       0.81      0.82      0.81       835
+I-MISC       0.51      0.61      0.55       216
+I-LOC       0.71      0.82      0.76       257
+I-PER       0.93      0.99      0.96      1156
+B-MISC       0.76      0.76      0.76       702
+B-ORG       0.86      0.80      0.83      1661
+B-PER       0.90      0.94      0.92      1617
 
-   micro avg       0.85      0.86      0.86      8112
-   macro avg       0.79      0.83      0.81      8112
+micro avg       0.85      0.86      0.86      8112
+macro avg       0.79      0.83      0.81      8112
 weighted avg       0.85      0.86      0.86      8112
 
 
 processed 46435 tokens with 5648 phrases<span class="p">;</span> found: 5630 phrases<span class="p">;</span> correct: 4782.
 accuracy:  86.49%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
 accuracy:  96.74%<span class="p">;</span> precision:  84.94%<span class="p">;</span> recall:  84.67%<span class="p">;</span> FB1:  84.80
-              LOC: precision:  86.43%<span class="p">;</span> recall:  88.19%<span class="p">;</span> FB1:  87.30  1702
-             MISC: precision:  72.02%<span class="p">;</span> recall:  72.22%<span class="p">;</span> FB1:  72.12  704
-              ORG: precision:  84.40%<span class="p">;</span> recall:  77.84%<span class="p">;</span> FB1:  80.99  1532
-              PER: precision:  89.30%<span class="p">;</span> recall:  93.44%<span class="p">;</span> FB1:  91.33  1692
+LOC: precision:  86.43%<span class="p">;</span> recall:  88.19%<span class="p">;</span> FB1:  87.30  1702
+MISC: precision:  72.02%<span class="p">;</span> recall:  72.22%<span class="p">;</span> FB1:  72.12  704
+ORG: precision:  84.40%<span class="p">;</span> recall:  77.84%<span class="p">;</span> FB1:  80.99  1532
+PER: precision:  89.30%<span class="p">;</span> recall:  93.44%<span class="p">;</span> FB1:  91.33  1692
 
 
 Dev:
 
-              precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-       B-LOC       0.91      0.93      0.92      1837
-       I-ORG       0.89      0.80      0.84       751
-      I-MISC       0.82      0.68      0.74       346
-       I-LOC       0.76      0.87      0.81       257
-       I-PER       0.95      0.97      0.96      1307
-      B-MISC       0.86      0.81      0.84       922
-       B-ORG       0.92      0.83      0.87      1341
-       B-PER       0.92      0.96      0.94      1842
+B-LOC       0.91      0.93      0.92      1837
+I-ORG       0.89      0.80      0.84       751
+I-MISC       0.82      0.68      0.74       346
+I-LOC       0.76      0.87      0.81       257
+I-PER       0.95      0.97      0.96      1307
+B-MISC       0.86      0.81      0.84       922
+B-ORG       0.92      0.83      0.87      1341
+B-PER       0.92      0.96      0.94      1842
 
-   micro avg       0.90      0.89      0.90      8603
-   macro avg       0.88      0.86      0.87      8603
+micro avg       0.90      0.89      0.90      8603
+macro avg       0.88      0.86      0.87      8603
 weighted avg       0.90      0.89      0.90      8603
 
 
 processed 51362 tokens with 5942 phrases<span class="p">;</span> found: 5893 phrases<span class="p">;</span> correct: 5254.
 accuracy:  89.14%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
 accuracy:  97.83%<span class="p">;</span> precision:  89.16%<span class="p">;</span> recall:  88.42%<span class="p">;</span> FB1:  88.79
-              LOC: precision:  89.97%<span class="p">;</span> recall:  92.27%<span class="p">;</span> FB1:  91.10  1884
-             MISC: precision:  82.49%<span class="p">;</span> recall:  78.20%<span class="p">;</span> FB1:  80.29  874
-              ORG: precision:  88.99%<span class="p">;</span> recall:  80.76%<span class="p">;</span> FB1:  84.68  1217
-              PER: precision:  91.50%<span class="p">;</span> recall:  95.28%<span class="p">;</span> FB1:  93.35  1918
+LOC: precision:  89.97%<span class="p">;</span> recall:  92.27%<span class="p">;</span> FB1:  91.10  1884
+MISC: precision:  82.49%<span class="p">;</span> recall:  78.20%<span class="p">;</span> FB1:  80.29  874
+ORG: precision:  88.99%<span class="p">;</span> recall:  80.76%<span class="p">;</span> FB1:  84.68  1217
+PER: precision:  91.50%<span class="p">;</span> recall:  95.28%<span class="p">;</span> FB1:  93.35  1918
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-08-31T00:00:00+00:00"><!-- start custom article footer snippet -->
 

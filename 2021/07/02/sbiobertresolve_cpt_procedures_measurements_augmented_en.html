@@ -429,8 +429,8 @@
 <h2 id="how-to-use">How to use</h2>
 
 <p><code class="language-plaintext highlighter-rouge">sbiobertresolve_cpt_procedures_measurements_augmented</code> resolver model must be used with <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> as embeddings <code class="language-plaintext highlighter-rouge">ner_jsl</code> as NER model. <code class="language-plaintext highlighter-rouge">Procedure</code> set in <code class="language-plaintext highlighter-rouge">.setWhiteList()</code>.
- <code class="language-plaintext highlighter-rouge">sbiobertresolve_cpt_procedures_measurements_augmented</code> resolver model must be used with <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> as embeddings <code class="language-plaintext highlighter-rouge">ner_measurements_clinical</code> as NER model. <code class="language-plaintext highlighter-rouge">Measurements</code> set in <code class="language-plaintext highlighter-rouge">.setWhiteList()</code>.
- Merge ner_jsl and ner_measurements_clinical model chunks.</p>
+<code class="language-plaintext highlighter-rouge">sbiobertresolve_cpt_procedures_measurements_augmented</code> resolver model must be used with <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> as embeddings <code class="language-plaintext highlighter-rouge">ner_measurements_clinical</code> as NER model. <code class="language-plaintext highlighter-rouge">Measurements</code> set in <code class="language-plaintext highlighter-rouge">.setWhiteList()</code>.
+Merge ner_jsl and ner_measurements_clinical model chunks.</p>
 
 <div class="tabs-box">
   <div class="top_tab_li">   
@@ -438,41 +438,41 @@
 </div>
 
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-      <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
 <span class="n">jsl_sbert_embedder</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span>\
-      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'sbiobert_base_cased_mli'</span><span class="p">,</span><span class="s">'en'</span><span class="p">,</span><span class="s">'clinical/models'</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sbert_embeddings"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'sbiobert_base_cased_mli'</span><span class="p">,</span><span class="s">'en'</span><span class="p">,</span><span class="s">'clinical/models'</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sbert_embeddings"</span><span class="p">)</span>
 
 <span class="n">cpt_resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span>\
-      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_cpt_procedures_measurements_augmented"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sbert_embeddings"</span><span class="p">])</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"cpt_code"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_cpt_procedures_measurements_augmented"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sbert_embeddings"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"cpt_code"</span><span class="p">)</span>
 
 <span class="n">cpt_pipelineModel</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span>
-    <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">documentAssembler</span><span class="p">,</span>
-        <span class="n">jsl_sbert_embedder</span><span class="p">,</span>
-        <span class="n">cpt_resolver</span><span class="p">])</span>
+<span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
+<span class="n">documentAssembler</span><span class="p">,</span>
+<span class="n">jsl_sbert_embedder</span><span class="p">,</span>
+<span class="n">cpt_resolver</span><span class="p">])</span>
 
 <span class="n">cpt_lp</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">cpt_pipelineModel</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">cpt_lp</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">([</span><span class="s">'calcium score'</span><span class="p">,</span> <span class="s">'heart surgery'</span><span class="p">])</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nc">BertSentenceEmbeddings</span>
-      <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">))</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sbert_embeddings"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nv">BertSentenceEmbeddings</span>
+<span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sbert_embeddings"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">cpt_resolver</span> <span class="k">=</span> <span class="nc">SentenceEntityResolverModel</span>
-      <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_cpt_procedures_measurements_augmented"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models) 
-      .setInputCols(Array("</span><span class="n">ner_chunk</span><span class="s">", "</span><span class="n">sbert_embeddings</span><span class="s">")) 
-      .setOutputCol("</span><span class="n">cpt_code</span><span class="err">"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">cpt_resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span>
+<span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_cpt_procedures_measurements_augmented"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models) 
+.setInputCols(Array("</span><span class="n">ner_chunk</span><span class="s">", "</span><span class="n">sbert_embeddings</span><span class="s">")) 
+.setOutputCol("</span><span class="n">cpt_code</span><span class="err">"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">cpt_pipelineModel</span><span class="k">=</span> <span class="k">new</span> <span class="nc">PipelineModel</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sbert_embedder</span><span class="o">,</span> <span class="n">cpt_resolver</span><span class="o">))</span>
 

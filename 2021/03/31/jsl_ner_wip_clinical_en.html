@@ -487,7 +487,7 @@
 <span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
 		<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
 	    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
-  
+
 <span class="k">val</span> <span class="nv">jsl_ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"jsl_ner_wip_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
 		<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
 		<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"jsl_ner"</span><span class="o">)</span>
@@ -495,7 +495,7 @@
 <span class="k">val</span> <span class="nv">jsl_ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span>
 		<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"jsl_ner"</span><span class="o">))</span>
 		<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
- 
+
 <span class="k">val</span> <span class="nv">jsl_ner_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
 					<span class="n">documentAssembler</span><span class="o">,</span> 
 					<span class="n">sentenceDetector</span><span class="o">,</span> 
@@ -586,83 +586,83 @@ https://www.johnsnowlabs.com/data/</p>
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              entity      tp      fp      fn   total  precision  recall      f1
-          VS_Finding   235.0    46.0    43.0   278.0     0.8363  0.8453  0.8408
-           Direction  3972.0   465.0   458.0  4430.0     0.8952  0.8966  0.8959
-         Respiration    82.0     4.0     4.0    86.0     0.9535  0.9535  0.9535
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>entity      tp      fp      fn   total  precision  recall      f1
+VS_Finding   235.0    46.0    43.0   278.0     0.8363  0.8453  0.8408
+Direction  3972.0   465.0   458.0  4430.0     0.8952  0.8966  0.8959
+Respiration    82.0     4.0     4.0    86.0     0.9535  0.9535  0.9535
 Cerebrovascular_D...    93.0    20.0    24.0   117.0      0.823  0.7949  0.8087
 Family_History_He...    88.0     6.0     3.0    91.0     0.9362   0.967  0.9514
-       Heart_Disease   447.0    82.0   119.0   566.0      0.845  0.7898  0.8164
-        RelativeTime   158.0    80.0    59.0   217.0     0.6639  0.7281  0.6945
-            Strength   624.0    58.0    53.0   677.0      0.915  0.9217  0.9183
-             Smoking   121.0    11.0     4.0   125.0     0.9167   0.968  0.9416
-      Medical_Device  3716.0   491.0   466.0  4182.0     0.8833  0.8886  0.8859
-               Pulse   136.0    22.0    14.0   150.0     0.8608  0.9067  0.8831
+Heart_Disease   447.0    82.0   119.0   566.0      0.845  0.7898  0.8164
+RelativeTime   158.0    80.0    59.0   217.0     0.6639  0.7281  0.6945
+Strength   624.0    58.0    53.0   677.0      0.915  0.9217  0.9183
+Smoking   121.0    11.0     4.0   125.0     0.9167   0.968  0.9416
+Medical_Device  3716.0   491.0   466.0  4182.0     0.8833  0.8886  0.8859
+Pulse   136.0    22.0    14.0   150.0     0.8608  0.9067  0.8831
 Psychological_Con...   135.0     9.0    29.0   164.0     0.9375  0.8232  0.8766
-          Overweight     2.0     1.0     0.0     2.0     0.6667     1.0     0.8
-       Triglycerides     3.0     0.0     2.0     5.0        1.0     0.6    0.75
-             Obesity    42.0     5.0     6.0    48.0     0.8936   0.875  0.8842
- Admission_Discharge   318.0    24.0    11.0   329.0     0.9298  0.9666  0.9478
-                 HDL     3.0     0.0     0.0     3.0        1.0     1.0     1.0
-            Diabetes   110.0    14.0     8.0   118.0     0.8871  0.9322  0.9091
-      Section_Header  3740.0   148.0   157.0  3897.0     0.9619  0.9597  0.9608
-                 Age   627.0    75.0    48.0   675.0     0.8932  0.9289  0.9107
-       O2_Saturation    34.0    14.0    17.0    51.0     0.7083  0.6667  0.6869
-      Kidney_Disease    96.0    12.0    34.0   130.0     0.8889  0.7385  0.8067
-                Test  2504.0   545.0   498.0  3002.0     0.8213  0.8341  0.8276
+Overweight     2.0     1.0     0.0     2.0     0.6667     1.0     0.8
+Triglycerides     3.0     0.0     2.0     5.0        1.0     0.6    0.75
+Obesity    42.0     5.0     6.0    48.0     0.8936   0.875  0.8842
+Admission_Discharge   318.0    24.0    11.0   329.0     0.9298  0.9666  0.9478
+HDL     3.0     0.0     0.0     3.0        1.0     1.0     1.0
+Diabetes   110.0    14.0     8.0   118.0     0.8871  0.9322  0.9091
+Section_Header  3740.0   148.0   157.0  3897.0     0.9619  0.9597  0.9608
+Age   627.0    75.0    48.0   675.0     0.8932  0.9289  0.9107
+O2_Saturation    34.0    14.0    17.0    51.0     0.7083  0.6667  0.6869
+Kidney_Disease    96.0    12.0    34.0   130.0     0.8889  0.7385  0.8067
+Test  2504.0   545.0   498.0  3002.0     0.8213  0.8341  0.8276
 Communicable_Disease    21.0    10.0     6.0    27.0     0.6774  0.7778  0.7241
-        Hypertension   162.0     5.0    10.0   172.0     0.9701  0.9419  0.9558
+Hypertension   162.0     5.0    10.0   172.0     0.9701  0.9419  0.9558
 External_body_par...  2626.0   356.0   413.0  3039.0     0.8806  0.8641  0.8723
-      Oxygen_Therapy    81.0    15.0    14.0    95.0     0.8438  0.8526  0.8482
-            Modifier  2341.0   404.0   539.0  2880.0     0.8528  0.8128  0.8324
-         Test_Result  1007.0   214.0   255.0  1262.0     0.8247  0.7979  0.8111
-                 BMI     9.0     1.0     0.0     9.0        0.9     1.0  0.9474
-     Labour_Delivery    57.0    23.0    33.0    90.0     0.7125  0.6333  0.6706
-          Employment   271.0    59.0    55.0   326.0     0.8212  0.8313  0.8262
-       Fetus_NewBorn    66.0    33.0    51.0   117.0     0.6667  0.5641  0.6111
-       Clinical_Dept   923.0   110.0    83.0  1006.0     0.8935  0.9175  0.9053
-                Time    29.0    13.0    16.0    45.0     0.6905  0.6444  0.6667
-           Procedure  3185.0   462.0   501.0  3686.0     0.8733  0.8641  0.8687
-                Diet    36.0    20.0    45.0    81.0     0.6429  0.4444  0.5255
-         Oncological   459.0    61.0    55.0   514.0     0.8827   0.893  0.8878
-                 LDL     3.0     0.0     3.0     6.0        1.0     0.5  0.6667
-             Symptom  7104.0  1302.0  1200.0  8304.0     0.8451  0.8555  0.8503
-         Temperature   116.0     6.0     8.0   124.0     0.9508  0.9355  0.9431
-  Vital_Signs_Header   215.0    29.0    24.0   239.0     0.8811  0.8996  0.8903
- Relationship_Status    49.0     2.0     1.0    50.0     0.9608    0.98  0.9703
-   Total_Cholesterol    11.0     4.0     5.0    16.0     0.7333  0.6875  0.7097
-      Blood_Pressure   158.0    18.0    22.0   180.0     0.8977  0.8778  0.8876
- Injury_or_Poisoning   579.0   130.0   127.0   706.0     0.8166  0.8201  0.8184
-     Drug_Ingredient  1716.0   153.0   132.0  1848.0     0.9181  0.9286  0.9233
-           Treatment   136.0    36.0    60.0   196.0     0.7907  0.6939  0.7391
-           Pregnancy   123.0    36.0    51.0   174.0     0.7736  0.7069  0.7387
-             Vaccine    13.0     2.0     6.0    19.0     0.8667  0.6842  0.7647
+Oxygen_Therapy    81.0    15.0    14.0    95.0     0.8438  0.8526  0.8482
+Modifier  2341.0   404.0   539.0  2880.0     0.8528  0.8128  0.8324
+Test_Result  1007.0   214.0   255.0  1262.0     0.8247  0.7979  0.8111
+BMI     9.0     1.0     0.0     9.0        0.9     1.0  0.9474
+Labour_Delivery    57.0    23.0    33.0    90.0     0.7125  0.6333  0.6706
+Employment   271.0    59.0    55.0   326.0     0.8212  0.8313  0.8262
+Fetus_NewBorn    66.0    33.0    51.0   117.0     0.6667  0.5641  0.6111
+Clinical_Dept   923.0   110.0    83.0  1006.0     0.8935  0.9175  0.9053
+Time    29.0    13.0    16.0    45.0     0.6905  0.6444  0.6667
+Procedure  3185.0   462.0   501.0  3686.0     0.8733  0.8641  0.8687
+Diet    36.0    20.0    45.0    81.0     0.6429  0.4444  0.5255
+Oncological   459.0    61.0    55.0   514.0     0.8827   0.893  0.8878
+LDL     3.0     0.0     3.0     6.0        1.0     0.5  0.6667
+Symptom  7104.0  1302.0  1200.0  8304.0     0.8451  0.8555  0.8503
+Temperature   116.0     6.0     8.0   124.0     0.9508  0.9355  0.9431
+Vital_Signs_Header   215.0    29.0    24.0   239.0     0.8811  0.8996  0.8903
+Relationship_Status    49.0     2.0     1.0    50.0     0.9608    0.98  0.9703
+Total_Cholesterol    11.0     4.0     5.0    16.0     0.7333  0.6875  0.7097
+Blood_Pressure   158.0    18.0    22.0   180.0     0.8977  0.8778  0.8876
+Injury_or_Poisoning   579.0   130.0   127.0   706.0     0.8166  0.8201  0.8184
+Drug_Ingredient  1716.0   153.0   132.0  1848.0     0.9181  0.9286  0.9233
+Treatment   136.0    36.0    60.0   196.0     0.7907  0.6939  0.7391
+Pregnancy   123.0    36.0    51.0   174.0     0.7736  0.7069  0.7387
+Vaccine    13.0     2.0     6.0    19.0     0.8667  0.6842  0.7647
 Disease_Syndrome_...  2981.0   559.0   446.0  3427.0     0.8421  0.8699  0.8557
-              Height    30.0    10.0    15.0    45.0       0.75  0.6667  0.7059
-           Frequency   595.0    99.0   138.0   733.0     0.8573  0.8117  0.8339
-               Route   858.0    76.0    89.0   947.0     0.9186   0.906  0.9123
-            Duration   351.0    99.0   108.0   459.0       0.78  0.7647  0.7723
-        Death_Entity    43.0    14.0     5.0    48.0     0.7544  0.8958   0.819
+Height    30.0    10.0    15.0    45.0       0.75  0.6667  0.7059
+Frequency   595.0    99.0   138.0   733.0     0.8573  0.8117  0.8339
+Route   858.0    76.0    89.0   947.0     0.9186   0.906  0.9123
+Duration   351.0    99.0   108.0   459.0       0.78  0.7647  0.7723
+Death_Entity    43.0    14.0     5.0    48.0     0.7544  0.8958   0.819
 Internal_organ_or...  6477.0   972.0   991.0  7468.0     0.8695  0.8673  0.8684
-             Alcohol    80.0    18.0    13.0    93.0     0.8163  0.8602  0.8377
-  Substance_Quantity     6.0     7.0     4.0    10.0     0.4615     0.6  0.5217
-                Date   498.0    38.0    19.0   517.0     0.9291  0.9632  0.9459
-      Hyperlipidemia    47.0     3.0     3.0    50.0       0.94    0.94    0.94
+Alcohol    80.0    18.0    13.0    93.0     0.8163  0.8602  0.8377
+Substance_Quantity     6.0     7.0     4.0    10.0     0.4615     0.6  0.5217
+Date   498.0    38.0    19.0   517.0     0.9291  0.9632  0.9459
+Hyperlipidemia    47.0     3.0     3.0    50.0       0.94    0.94    0.94
 Social_History_He...    99.0     7.0     7.0   106.0      0.934   0.934   0.934
-      Race_Ethnicity   116.0     0.0     0.0   116.0        1.0     1.0     1.0
-   Imaging_Technique    40.0    18.0    47.0    87.0     0.6897  0.4598  0.5517
-      Drug_BrandName   859.0    62.0    61.0   920.0     0.9327  0.9337  0.9332
-        RelativeDate   566.0   124.0   143.0   709.0     0.8203  0.7983  0.8091
-              Gender  6096.0    80.0   101.0  6197.0      0.987  0.9837  0.9854
-              Dosage   244.0    31.0    57.0   301.0     0.8873  0.8106  0.8472
-                Form   234.0    32.0    55.0   289.0     0.8797  0.8097  0.8432
+Race_Ethnicity   116.0     0.0     0.0   116.0        1.0     1.0     1.0
+Imaging_Technique    40.0    18.0    47.0    87.0     0.6897  0.4598  0.5517
+Drug_BrandName   859.0    62.0    61.0   920.0     0.9327  0.9337  0.9332
+RelativeDate   566.0   124.0   143.0   709.0     0.8203  0.7983  0.8091
+Gender  6096.0    80.0   101.0  6197.0      0.987  0.9837  0.9854
+Dosage   244.0    31.0    57.0   301.0     0.8873  0.8106  0.8472
+Form   234.0    32.0    55.0   289.0     0.8797  0.8097  0.8432
 Medical_History_H...   114.0     9.0    10.0   124.0     0.9268  0.9194  0.9231
-        Birth_Entity     4.0     2.0     3.0     7.0     0.6667  0.5714  0.6154
-           Substance    59.0     8.0    11.0    70.0     0.8806  0.8429  0.8613
+Birth_Entity     4.0     2.0     3.0     7.0     0.6667  0.5714  0.6154
+Substance    59.0     8.0    11.0    70.0     0.8806  0.8429  0.8613
 Sexually_Active_o...     5.0     3.0     4.0     9.0      0.625  0.5556  0.5882
-              Weight    90.0    10.0    21.0   111.0        0.9  0.8108  0.8531
-               macro     -       -       -       -         -       -     0.8148
-               micro     -       -       -       -         -       -     0.8788
+Weight    90.0    10.0    21.0   111.0        0.9  0.8108  0.8531
+macro     -       -       -       -         -       -     0.8148
+micro     -       -       -       -         -       -     0.8788
 </code></pre></div></div>
 <!--stackedit_data:
 eyJoaXN0b3J5IjpbMjA0NDMwNDQ1MSwtNTk4OTY4NDA1LDM0Nj

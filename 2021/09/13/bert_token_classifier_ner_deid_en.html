@@ -436,21 +436,21 @@
 </div>
 
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
 <span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_token_classifier_ner_deid"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span>  <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">tokenClassifier</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">])</span>
 
@@ -461,21 +461,21 @@
 <span class="n">result</span> <span class="o">=</span> <span class="n">p_model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'text'</span><span class="p">:</span> <span class="p">[</span><span class="n">test_sentence</span><span class="p">]})))</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">BertForTokenClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_token_classifier_ner_deid"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"document"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="nc">True</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"document"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="nc">True</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span>
-        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span><span class="s">"token"</span><span class="o">,</span><span class="s">"ner"</span><span class="o">))</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span><span class="s">"token"</span><span class="o">,</span><span class="s">"ner"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span>  <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">tokenClassifier</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
 
@@ -556,42 +556,42 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>           label  precision    recall  f1-score   support
-           B-AGE       0.92      0.80      0.86      1050
-          B-CITY       0.71      0.93      0.80       530
-       B-COUNTRY       0.94      0.72      0.82       179
-          B-DATE       0.99      0.99      0.99     20434
-        B-DEVICE       0.68      0.66      0.67        35
-        B-DOCTOR       0.93      0.91      0.92      3609
-         B-EMAIL       0.92      1.00      0.96        11
-      B-HOSPITAL       0.94      0.90      0.92      2225
-         B-IDNUM       0.88      0.64      0.74      1185
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label  precision    recall  f1-score   support
+B-AGE       0.92      0.80      0.86      1050
+B-CITY       0.71      0.93      0.80       530
+B-COUNTRY       0.94      0.72      0.82       179
+B-DATE       0.99      0.99      0.99     20434
+B-DEVICE       0.68      0.66      0.67        35
+B-DOCTOR       0.93      0.91      0.92      3609
+B-EMAIL       0.92      1.00      0.96        11
+B-HOSPITAL       0.94      0.90      0.92      2225
+B-IDNUM       0.88      0.64      0.74      1185
 B-LOCATION-OTHER       0.83      0.60      0.70        25
- B-MEDICALRECORD       0.84      0.97      0.90      2263
-  B-ORGANIZATION       0.92      0.68      0.79       171
-       B-PATIENT       0.89      0.86      0.88      2297
-         B-PHONE       0.90      0.96      0.93       755
-    B-PROFESSION       0.86      0.81      0.83       265
-         B-STATE       0.97      0.87      0.92       261
-        B-STREET       0.98      0.99      0.99       184
-      B-USERNAME       0.96      0.78      0.86       357
-           B-ZIP       0.96      0.96      0.96       444
-          I-CITY       0.74      0.83      0.78       138
-          I-DATE       0.98      0.96      0.97       955
-        I-DEVICE       1.00      1.00      1.00         3
-        I-DOCTOR       0.92      0.98      0.95      3134
-      I-HOSPITAL       0.95      0.92      0.93      1322
+B-MEDICALRECORD       0.84      0.97      0.90      2263
+B-ORGANIZATION       0.92      0.68      0.79       171
+B-PATIENT       0.89      0.86      0.88      2297
+B-PHONE       0.90      0.96      0.93       755
+B-PROFESSION       0.86      0.81      0.83       265
+B-STATE       0.97      0.87      0.92       261
+B-STREET       0.98      0.99      0.99       184
+B-USERNAME       0.96      0.78      0.86       357
+B-ZIP       0.96      0.96      0.96       444
+I-CITY       0.74      0.83      0.78       138
+I-DATE       0.98      0.96      0.97       955
+I-DEVICE       1.00      1.00      1.00         3
+I-DOCTOR       0.92      0.98      0.95      3134
+I-HOSPITAL       0.95      0.92      0.93      1322
 I-LOCATION-OTHER       1.00      1.00      1.00         8
- I-MEDICALRECORD       1.00      0.91      0.95        23
-  I-ORGANIZATION       0.98      0.61      0.75        77
-       I-PATIENT       0.89      0.81      0.85      1281
-         I-PHONE       0.97      0.96      0.97       374
-    I-PROFESSION       0.95      0.82      0.88       232
-        I-STREET       0.98      0.98      0.98       391
-               O       1.00      1.00      1.00    585606
-        accuracy       -         -         0.99    629960
-       macro-avg       0.79      0.71      0.73    629960
-    weighted-avg       0.99      0.99      0.99    629960
+I-MEDICALRECORD       1.00      0.91      0.95        23
+I-ORGANIZATION       0.98      0.61      0.75        77
+I-PATIENT       0.89      0.81      0.85      1281
+I-PHONE       0.97      0.96      0.97       374
+I-PROFESSION       0.95      0.82      0.88       232
+I-STREET       0.98      0.98      0.98       391
+O       1.00      1.00      1.00    585606
+accuracy       -         -         0.99    629960
+macro-avg       0.79      0.71      0.73    629960
+weighted-avg       0.99      0.99      0.99    629960
 </code></pre></div></div>
 <!--stackedit_data:
 eyJoaXN0b3J5IjpbLTE0MjQzMzEwMjNdfQ==

@@ -437,11 +437,11 @@
 
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
 <span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"electra_large_uncased"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 <span class="n">ner_onto</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"onto_electra_large_uncased"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 <span class="p">...</span>        
 <span class="n">nlp_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">ner_onto</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">])</span>
 <span class="n">pipeline_model</span> <span class="o">=</span> <span class="n">nlp_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">'text'</span><span class="p">))</span>
@@ -451,11 +451,11 @@
 
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
 <span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">BertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"electra_large_uncased"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">ner_onto</span> <span class="k">=</span> <span class="nv">NerDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"onto_electra_large_uncased"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
 <span class="o">...</span>
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">ner_onto</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
 
@@ -555,24 +555,24 @@ CoNLL Eval:
 
 processed 152728 tokens with 11257 phrases<span class="p">;</span> found: 11227 phrases<span class="p">;</span> correct: 9876.
 accuracy:  97.64%<span class="p">;</span> 9876 11257 11227 precision:  87.97%<span class="p">;</span> recall:  87.73%<span class="p">;</span> FB1:  87.85
-         CARDINAL:  789  935  937 precision:  84.20%<span class="p">;</span> recall:  84.39%<span class="p">;</span> FB1:  84.29  937
-             DATE:  1399  1602  1640 precision:  85.30%<span class="p">;</span> recall:  87.33%<span class="p">;</span> FB1:  86.30  1640
-            EVENT:   30   63   43 precision:  69.77%<span class="p">;</span> recall:  47.62%<span class="p">;</span> FB1:  56.60  43
-              FAC:   72  135  115 precision:  62.61%<span class="p">;</span> recall:  53.33%<span class="p">;</span> FB1:  57.60  115
-              GPE:  2131  2240  2252 precision:  94.63%<span class="p">;</span> recall:  95.13%<span class="p">;</span> FB1:  94.88  2252
-         LANGUAGE:    8   22    9 precision:  88.89%<span class="p">;</span> recall:  36.36%<span class="p">;</span> FB1:  51.61  9
-              LAW:   20   40   31 precision:  64.52%<span class="p">;</span> recall:  50.00%<span class="p">;</span> FB1:  56.34  31
-              LOC:  123  179  202 precision:  60.89%<span class="p">;</span> recall:  68.72%<span class="p">;</span> FB1:  64.57  202
-            MONEY:  286  314  321 precision:  89.10%<span class="p">;</span> recall:  91.08%<span class="p">;</span> FB1:  90.08  321
-             NORP:  803  841  918 precision:  87.47%<span class="p">;</span> recall:  95.48%<span class="p">;</span> FB1:  91.30  918
-          ORDINAL:  177  195  218 precision:  81.19%<span class="p">;</span> recall:  90.77%<span class="p">;</span> FB1:  85.71  218
-              ORG:  1502  1795  1687 precision:  89.03%<span class="p">;</span> recall:  83.68%<span class="p">;</span> FB1:  86.27  1687
-          PERCENT:  306  349  344 precision:  88.95%<span class="p">;</span> recall:  87.68%<span class="p">;</span> FB1:  88.31  344
-           PERSON:  1887  1988  2020 precision:  93.42%<span class="p">;</span> recall:  94.92%<span class="p">;</span> FB1:  94.16  2020
-          PRODUCT:   48   76   62 precision:  77.42%<span class="p">;</span> recall:  63.16%<span class="p">;</span> FB1:  69.57  62
-         QUANTITY:   85  105  111 precision:  76.58%<span class="p">;</span> recall:  80.95%<span class="p">;</span> FB1:  78.70  111
-             TIME:  128  212  190 precision:  67.37%<span class="p">;</span> recall:  60.38%<span class="p">;</span> FB1:  63.68  190
-      WORK_OF_ART:   82  166  127 precision:  64.57%<span class="p">;</span> recall:  49.40%<span class="p">;</span> FB1:  55.97  127
+CARDINAL:  789  935  937 precision:  84.20%<span class="p">;</span> recall:  84.39%<span class="p">;</span> FB1:  84.29  937
+DATE:  1399  1602  1640 precision:  85.30%<span class="p">;</span> recall:  87.33%<span class="p">;</span> FB1:  86.30  1640
+EVENT:   30   63   43 precision:  69.77%<span class="p">;</span> recall:  47.62%<span class="p">;</span> FB1:  56.60  43
+FAC:   72  135  115 precision:  62.61%<span class="p">;</span> recall:  53.33%<span class="p">;</span> FB1:  57.60  115
+GPE:  2131  2240  2252 precision:  94.63%<span class="p">;</span> recall:  95.13%<span class="p">;</span> FB1:  94.88  2252
+LANGUAGE:    8   22    9 precision:  88.89%<span class="p">;</span> recall:  36.36%<span class="p">;</span> FB1:  51.61  9
+LAW:   20   40   31 precision:  64.52%<span class="p">;</span> recall:  50.00%<span class="p">;</span> FB1:  56.34  31
+LOC:  123  179  202 precision:  60.89%<span class="p">;</span> recall:  68.72%<span class="p">;</span> FB1:  64.57  202
+MONEY:  286  314  321 precision:  89.10%<span class="p">;</span> recall:  91.08%<span class="p">;</span> FB1:  90.08  321
+NORP:  803  841  918 precision:  87.47%<span class="p">;</span> recall:  95.48%<span class="p">;</span> FB1:  91.30  918
+ORDINAL:  177  195  218 precision:  81.19%<span class="p">;</span> recall:  90.77%<span class="p">;</span> FB1:  85.71  218
+ORG:  1502  1795  1687 precision:  89.03%<span class="p">;</span> recall:  83.68%<span class="p">;</span> FB1:  86.27  1687
+PERCENT:  306  349  344 precision:  88.95%<span class="p">;</span> recall:  87.68%<span class="p">;</span> FB1:  88.31  344
+PERSON:  1887  1988  2020 precision:  93.42%<span class="p">;</span> recall:  94.92%<span class="p">;</span> FB1:  94.16  2020
+PRODUCT:   48   76   62 precision:  77.42%<span class="p">;</span> recall:  63.16%<span class="p">;</span> FB1:  69.57  62
+QUANTITY:   85  105  111 precision:  76.58%<span class="p">;</span> recall:  80.95%<span class="p">;</span> FB1:  78.70  111
+TIME:  128  212  190 precision:  67.37%<span class="p">;</span> recall:  60.38%<span class="p">;</span> FB1:  63.68  190
+WORK_OF_ART:   82  166  127 precision:  64.57%<span class="p">;</span> recall:  49.40%<span class="p">;</span> FB1:  55.97  127
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2020-12-05T00:00:00+00:00"><!-- start custom article footer snippet -->
 

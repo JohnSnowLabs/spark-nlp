@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Word Segmenter for Korean- Spark NLP Model</title><meta name="description" content="DescriptionWordSegmenterModel-WSM is based on maximum entropy probability model to detect word boundaries in Korean text.            Korean text is written w...">
+<!-- End Google Tag Manager --><title>Word Segmenter for Korean- Spark NLP Model</title><meta name="description" content="DescriptionWordSegmenterModel-WSM is based on maximum entropy probability model to detect word boundaries in Korean text.Korean text is written without white...">
 <link rel="canonical" href="/2021/03/09/wordseg_kaist_ud_ko.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -417,8 +417,8 @@
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
 <p><a href="https://en.wikipedia.org/wiki/Text_segmentation">WordSegmenterModel-WSM</a> is based on maximum entropy probability model to detect word boundaries in Korean text.
-            Korean text is written without white space between the words, and a computer-based application cannot know a priori which sequence of ideograms form a word.
-            In many natural language processing tasks such as part-of-speech (POS) and named entity recognition (NER) require word segmentation as a initial step.</p>
+Korean text is written without white space between the words, and a computer-based application cannot know a priori which sequence of ideograms form a word.
+In many natural language processing tasks such as part-of-speech (POS) and named entity recognition (NER) require word segmentation as a initial step.</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
@@ -440,8 +440,8 @@
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 <span class="k">val</span> <span class="nv">word_segmenter</span> <span class="k">=</span> <span class="nv">WordSegmenterModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"wordseg_kaist_ud"</span><span class="o">,</span> <span class="s">"ko"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">))</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">word_segmenter</span><span class="o">))</span>
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"John Snow Labs에서 안녕하세요! "</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
@@ -453,7 +453,7 @@
 <span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">""</span><span class="n">John</span> <span class="n">Snow</span> <span class="n">Labs에서</span> <span class="n">안녕하세요</span><span class="err">!</span> <span class="s">""</span><span class="p">]</span>
 <span class="n">token_df</span> <span class="o">=</span> <span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">'ko.segment_words'</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 <span class="n">token_df</span>
-    
+
 </code></pre></div>  </div>
 </div>
 

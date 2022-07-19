@@ -429,16 +429,16 @@
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
 <span class="n">word_segmenter</span> <span class="o">=</span> <span class="n">WordSegmenterModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'wordseg_gsd_ud'</span><span class="p">,</span> <span class="s">'ja'</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
 <span class="n">lemmatizer</span> <span class="o">=</span> <span class="n">LemmatizerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"lemma"</span><span class="p">,</span> <span class="s">"ja"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">])</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"lemma"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"lemma"</span><span class="p">)</span>
 
 <span class="n">nlp_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">word_segmenter</span> <span class="p">,</span> <span class="n">lemmatizer</span><span class="p">])</span>
 <span class="n">light_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">nlp_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)))</span>
@@ -446,16 +446,16 @@
 
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">word_segmenter</span> <span class="k">=</span> <span class="nv">WordSegmenterModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="ss">'wordseg_gsd_u</span><span class="n">d</span><span class="o">',</span> <span class="ss">'j</span><span class="n">a</span><span class="o">')</span>
-        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">lemmatizer</span> <span class="k">=</span> <span class="nv">LemmatizerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"lemma"</span><span class="o">,</span> <span class="s">"ja"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">token</span><span class="err">"</span><span class="o">])</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"lemma"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">token</span><span class="err">"</span><span class="o">])</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"lemma"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">word_segmenter</span> <span class="o">,</span> <span class="n">lemmatizer</span><span class="o">))</span>
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"これに不快感を示す住民はいましたが,現在,表立って反対や抗議の声を挙げている住民はいないようです。"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
@@ -474,38 +474,38 @@
 <h2 id="results">Results</h2>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span><span class="s1">'lemma'</span>: <span class="o">[</span>Annotation<span class="o">(</span>token, 0, 1, これ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 2, 2, にる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 3, 4, 不快, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 5, 5, 感, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 6, 6, を, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 7, 8, 示す, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 9, 10, 住民, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 11, 11, はる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 12, 12, いる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 13, 14, まする, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 15, 15, たる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 16, 16, がる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 17, 17, ,, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 18, 19, 現在, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 20, 20, ,, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 21, 23, 表立つ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 24, 24, てる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 25, 26, 反対, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 27, 27, やる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 28, 29, 抗議, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 30, 30, のる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 31, 31, 声, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 32, 32, を, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 33, 34, 挙げる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 35, 35, てる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 36, 37, いる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 38, 39, 住民, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 40, 40, はる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 41, 41, いる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 42, 43, なぐ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 44, 45, よう, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 46, 47, です, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 48, 48, 。, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})]}</span>
+Annotation<span class="o">(</span>token, 2, 2, にる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 3, 4, 不快, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 5, 5, 感, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 6, 6, を, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 7, 8, 示す, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 9, 10, 住民, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 11, 11, はる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 12, 12, いる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 13, 14, まする, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 15, 15, たる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 16, 16, がる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 17, 17, ,, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 18, 19, 現在, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 20, 20, ,, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 21, 23, 表立つ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 24, 24, てる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 25, 26, 反対, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 27, 27, やる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 28, 29, 抗議, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 30, 30, のる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 31, 31, 声, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 32, 32, を, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 33, 34, 挙げる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 35, 35, てる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 36, 37, いる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 38, 39, 住民, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 40, 40, はる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 41, 41, いる, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 42, 43, なぐ, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 44, 45, よう, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 46, 47, です, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 48, 48, 。, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})]}</span>
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>

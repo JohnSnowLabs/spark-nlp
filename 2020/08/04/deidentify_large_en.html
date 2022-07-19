@@ -434,9 +434,9 @@
 <span class="n">result</span> <span class="o">=</span> <span class="n">nlp_pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'Patient AIQING, 25 month years-old , born in Beijing, was transfered to the The Johns Hopkins Hospital. Phone number: (541) 754-3010. MSW 100009632582 for his colonic polyps. He wants to know the results from them. He is not taking hydrochlorothiazide and is curious about his blood pressure. He said he has cut his alcohol back to 6 pack once a week. He has cut back his cigarettes to one time per week. P:   Follow up with Dr. Hobbs in 3 months. Gilbert P. Perez, M.D.'</span><span class="p">]],</span> <span class="p">[</span><span class="s">"text"</span><span class="p">]))</span>
 
 <span class="n">obfuscation</span> <span class="o">=</span> <span class="n">DeIdentificationModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"deidentify_large"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner_chunk"</span><span class="p">])</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"obfuscated"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setMode</span><span class="p">(</span><span class="s">"obfuscate"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner_chunk"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"obfuscated"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setMode</span><span class="p">(</span><span class="s">"obfuscate"</span><span class="p">)</span>
 
 <span class="n">deid_text</span> <span class="o">=</span> <span class="n">obfuscation</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </code></pre></div>  </div>
@@ -447,10 +447,10 @@
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">deid</span> <span class="k">=</span> <span class="nv">DeIdentificationModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"deidentify_large"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner_chunk"</span><span class="o">))</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"obfuscated"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setMode</span><span class="o">(</span><span class="s">"obfuscate"</span><span class="o">)</span>
-    
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner_chunk"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"obfuscated"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setMode</span><span class="o">(</span><span class="s">"obfuscate"</span><span class="o">)</span>
+
 <span class="k">val</span> <span class="nv">deid_text</span> <span class="k">=</span> <span class="k">new</span> <span class="nv">deid</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">result</span><span class="o">)</span>
 </code></pre></div>  </div>
 

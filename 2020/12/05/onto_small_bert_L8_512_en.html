@@ -437,8 +437,8 @@
 
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
 <span class="n">ner_onto</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"onto_small_bert_L8_512"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 <span class="p">...</span>        
 <span class="n">nlp_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">ner_onto</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">])</span>
 <span class="n">pipeline_model</span> <span class="o">=</span> <span class="n">nlp_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">'text'</span><span class="p">))</span>
@@ -448,8 +448,8 @@
 
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
 <span class="k">val</span> <span class="nv">ner_onto</span> <span class="k">=</span> <span class="nv">NerDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"onto_small_bert_L8_512"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
 <span class="o">...</span>
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">ner_onto</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
 
@@ -548,24 +548,24 @@ CoNLL Eval:
 
 processed 152728 tokens with 11257 phrases<span class="p">;</span> found: 11073 phrases<span class="p">;</span> correct: 9556.
 accuracy:  97.26%<span class="p">;</span> 9556 11257 11073 precision:  86.30%<span class="p">;</span> recall:  84.89%<span class="p">;</span> FB1:  85.59
-         CARDINAL:  798  935  929 precision:  85.90%<span class="p">;</span> recall:  85.35%<span class="p">;</span> FB1:  85.62  929
-             DATE:  1410  1602  1654 precision:  85.25%<span class="p">;</span> recall:  88.01%<span class="p">;</span> FB1:  86.61  1654
-            EVENT:   23   63   44 precision:  52.27%<span class="p">;</span> recall:  36.51%<span class="p">;</span> FB1:  42.99  44
-              FAC:   79  135  121 precision:  65.29%<span class="p">;</span> recall:  58.52%<span class="p">;</span> FB1:  61.72  121
-              GPE:  2097  2240  2244 precision:  93.45%<span class="p">;</span> recall:  93.62%<span class="p">;</span> FB1:  93.53  2244
-         LANGUAGE:    9   22   11 precision:  81.82%<span class="p">;</span> recall:  40.91%<span class="p">;</span> FB1:  54.55  11
-              LAW:   14   40   20 precision:  70.00%<span class="p">;</span> recall:  35.00%<span class="p">;</span> FB1:  46.67  20
-              LOC:  111  179  152 precision:  73.03%<span class="p">;</span> recall:  62.01%<span class="p">;</span> FB1:  67.07  152
-            MONEY:  282  314  320 precision:  88.12%<span class="p">;</span> recall:  89.81%<span class="p">;</span> FB1:  88.96  320
-             NORP:  755  841  889 precision:  84.93%<span class="p">;</span> recall:  89.77%<span class="p">;</span> FB1:  87.28  889
-          ORDINAL:  169  195  201 precision:  84.08%<span class="p">;</span> recall:  86.67%<span class="p">;</span> FB1:  85.35  201
-              ORG:  1368  1795  1624 precision:  84.24%<span class="p">;</span> recall:  76.21%<span class="p">;</span> FB1:  80.02  1624
-          PERCENT:  309  349  351 precision:  88.03%<span class="p">;</span> recall:  88.54%<span class="p">;</span> FB1:  88.29  351
-           PERSON:  1816  1988  2037 precision:  89.15%<span class="p">;</span> recall:  91.35%<span class="p">;</span> FB1:  90.24  2037
-          PRODUCT:   42   76   67 precision:  62.69%<span class="p">;</span> recall:  55.26%<span class="p">;</span> FB1:  58.74  67
-         QUANTITY:   85  105  108 precision:  78.70%<span class="p">;</span> recall:  80.95%<span class="p">;</span> FB1:  79.81  108
-             TIME:  137  212  222 precision:  61.71%<span class="p">;</span> recall:  64.62%<span class="p">;</span> FB1:  63.13  222
-      WORK_OF_ART:   52  166   79 precision:  65.82%<span class="p">;</span> recall:  31.33%<span class="p">;</span> FB1:  42.45  79
+CARDINAL:  798  935  929 precision:  85.90%<span class="p">;</span> recall:  85.35%<span class="p">;</span> FB1:  85.62  929
+DATE:  1410  1602  1654 precision:  85.25%<span class="p">;</span> recall:  88.01%<span class="p">;</span> FB1:  86.61  1654
+EVENT:   23   63   44 precision:  52.27%<span class="p">;</span> recall:  36.51%<span class="p">;</span> FB1:  42.99  44
+FAC:   79  135  121 precision:  65.29%<span class="p">;</span> recall:  58.52%<span class="p">;</span> FB1:  61.72  121
+GPE:  2097  2240  2244 precision:  93.45%<span class="p">;</span> recall:  93.62%<span class="p">;</span> FB1:  93.53  2244
+LANGUAGE:    9   22   11 precision:  81.82%<span class="p">;</span> recall:  40.91%<span class="p">;</span> FB1:  54.55  11
+LAW:   14   40   20 precision:  70.00%<span class="p">;</span> recall:  35.00%<span class="p">;</span> FB1:  46.67  20
+LOC:  111  179  152 precision:  73.03%<span class="p">;</span> recall:  62.01%<span class="p">;</span> FB1:  67.07  152
+MONEY:  282  314  320 precision:  88.12%<span class="p">;</span> recall:  89.81%<span class="p">;</span> FB1:  88.96  320
+NORP:  755  841  889 precision:  84.93%<span class="p">;</span> recall:  89.77%<span class="p">;</span> FB1:  87.28  889
+ORDINAL:  169  195  201 precision:  84.08%<span class="p">;</span> recall:  86.67%<span class="p">;</span> FB1:  85.35  201
+ORG:  1368  1795  1624 precision:  84.24%<span class="p">;</span> recall:  76.21%<span class="p">;</span> FB1:  80.02  1624
+PERCENT:  309  349  351 precision:  88.03%<span class="p">;</span> recall:  88.54%<span class="p">;</span> FB1:  88.29  351
+PERSON:  1816  1988  2037 precision:  89.15%<span class="p">;</span> recall:  91.35%<span class="p">;</span> FB1:  90.24  2037
+PRODUCT:   42   76   67 precision:  62.69%<span class="p">;</span> recall:  55.26%<span class="p">;</span> FB1:  58.74  67
+QUANTITY:   85  105  108 precision:  78.70%<span class="p">;</span> recall:  80.95%<span class="p">;</span> FB1:  79.81  108
+TIME:  137  212  222 precision:  61.71%<span class="p">;</span> recall:  64.62%<span class="p">;</span> FB1:  63.13  222
+WORK_OF_ART:   52  166   79 precision:  65.82%<span class="p">;</span> recall:  31.33%<span class="p">;</span> FB1:  42.45  79
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2020-12-05T00:00:00+00:00"><!-- start custom article footer snippet -->
 

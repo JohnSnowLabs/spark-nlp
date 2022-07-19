@@ -434,15 +434,15 @@
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
 <span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"glove_100d)</span><span class="se">\
-</span><span class="s">    .setInputCols(['document','tokens'])</span><span class="se">\
-</span><span class="s">    .setOutputCol('word_embeddings')
+</span><span class="s">.setInputCols(['document','tokens'])</span><span class="se">\
+</span><span class="s">.setOutputCol('word_embeddings')
 sentence_embeddings = SentenceEmbeddings() </span><span class="se">\
-</span><span class="s">      .setInputCols(["</span><span class="n">document</span><span class="s">", "</span><span class="n">word_embeddings</span><span class="s">"]) </span><span class="se">\
-</span><span class="s">      .setOutputCol("</span><span class="n">sentence_embeddings</span><span class="s">") </span><span class="se">\
-</span><span class="s">      .setPoolingStrategy("</span><span class="n">AVERAGE</span><span class="s">")
+</span><span class="s">.setInputCols(["</span><span class="n">document</span><span class="s">", "</span><span class="n">word_embeddings</span><span class="s">"]) </span><span class="se">\
+</span><span class="s">.setOutputCol("</span><span class="n">sentence_embeddings</span><span class="s">") </span><span class="se">\
+</span><span class="s">.setPoolingStrategy("</span><span class="n">AVERAGE</span><span class="s">")
 classifier = SentimentDLModel().pretrained('sentimentdl_glove_imdb')</span><span class="se">\
-</span><span class="s">    .setInputCols(["</span><span class="n">sentence_embeddings</span><span class="s">"])</span><span class="se">\
-</span><span class="s">    .setOutputCol("</span><span class="n">sentiment</span><span class="s">")
+</span><span class="s">.setInputCols(["</span><span class="n">sentence_embeddings</span><span class="s">"])</span><span class="se">\
+</span><span class="s">.setOutputCol("</span><span class="n">sentiment</span><span class="s">")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentencer, tokenizer, embeddings, sentence_embeddings, classifier])
 l_model = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("</span><span class="n">text</span><span class="s">")))
 
@@ -451,15 +451,15 @@ annotations = l_model.fullAnnotate('Demonicus is a movie turned into a video gam
 
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
 <span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nc">WordEmbeddingsModel</span><span class="o">().</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"glove_100d)
-    .setInputCols(Array('document','tokens'))
-    .setOutputCol('word_embeddings')
+.setInputCols(Array('document','tokens'))
+.setOutputCol('word_embeddings')
 val sentence_embeddings = SentenceEmbeddings()
-      .setInputCols(Array("</span><span class="n">document</span><span class="s">", "</span><span class="n">word_embeddings</span><span class="s">"))
-      .setOutputCol("</span><span class="n">sentence_embeddings</span><span class="s">")
-      .setPoolingStrategy("</span><span class="nc">AVERAGE</span><span class="s">")
+.setInputCols(Array("</span><span class="n">document</span><span class="s">", "</span><span class="n">word_embeddings</span><span class="s">"))
+.setOutputCol("</span><span class="n">sentence_embeddings</span><span class="s">")
+.setPoolingStrategy("</span><span class="nc">AVERAGE</span><span class="s">")
 val classifier = SentimentDLModel().pretrained('sentimentdl_glove_imdb')
-    .setInputCols(Array("</span><span class="n">sentence_embeddings</span><span class="s">"))
-    .setOutputCol("</span><span class="n">sentiment</span><span class="s">")
+.setInputCols(Array("</span><span class="n">sentence_embeddings</span><span class="s">"))
+.setOutputCol("</span><span class="n">sentiment</span><span class="s">")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentencer, tokenizer, embeddings, sentence_embeddings, classifier))
 val data = Seq("</span><span class="nc">Demonicus</span> <span class="n">is</span> <span class="n">a</span> <span class="n">movie</span> <span class="n">turned</span> <span class="n">into</span> <span class="n">a</span> <span class="n">video</span> <span class="n">game</span><span class="o">!</span> <span class="n">I</span> <span class="n">just</span> <span class="n">love</span> <span class="n">the</span> <span class="n">story</span> <span class="n">and</span> <span class="n">the</span> <span class="n">things</span> <span class="n">that</span> <span class="n">goes</span> <span class="n">on</span> <span class="n">in</span> <span class="n">the</span> <span class="nv">film</span><span class="o">.</span><span class="py">It</span> <span class="n">is</span> <span class="n">a</span> <span class="n">B</span><span class="o">-</span><span class="n">film</span> <span class="n">ofcourse</span> <span class="n">but</span> <span class="n">that</span> <span class="n">doesn</span><span class="o">`</span><span class="n">t</span> <span class="n">bother</span> <span class="n">one</span> <span class="n">bit</span> <span class="n">because</span> <span class="n">its</span> <span class="n">made</span> <span class="n">just</span> <span class="n">right</span> <span class="n">and</span> <span class="n">the</span> <span class="n">music</span> <span class="n">was</span> <span class="n">rad</span><span class="o">!</span> <span class="nc">Horror</span> <span class="n">and</span> <span class="n">sword</span> <span class="n">fight</span> <span class="n">freaks</span><span class="o">,</span><span class="n">buy</span> <span class="k">this</span> <span class="n">movie</span> <span class="n">now</span><span class="o">!</span><span class="s">").toDF("</span><span class="n">text</span><span class="err">"</span><span class="o">)</span>
@@ -529,13 +529,13 @@ l_model = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("""<
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              precision    recall  f1-score   support
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>precision    recall  f1-score   support
 
-         neg       0.85      0.85      0.85     12500
-         pos       0.87      0.83      0.85     12500
+neg       0.85      0.85      0.85     12500
+pos       0.87      0.83      0.85     12500
 
-    accuracy                           0.84     25000
-   macro avg       0.86      0.84      0.85     25000
+accuracy                           0.84     25000
+macro avg       0.86      0.84      0.85     25000
 weighted avg       0.86      0.84      0.85     25000
 
 </code></pre></div></div>

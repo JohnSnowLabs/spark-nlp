@@ -432,41 +432,41 @@ This model has been trained in a dataset containing data from different sources;
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">RecursiveTokenizer</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setPrefixes</span><span class="p">([</span><span class="s">"</span><span class="se">\"</span><span class="s">"</span><span class="p">,</span> <span class="s">"("</span><span class="p">,</span> <span class="s">"["</span><span class="p">,</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">])</span>\
-  <span class="p">.</span><span class="n">setSuffixes</span><span class="p">([</span><span class="s">"."</span><span class="p">,</span> <span class="s">","</span><span class="p">,</span> <span class="s">"?"</span><span class="p">,</span> <span class="s">")"</span><span class="p">,</span><span class="s">"!"</span><span class="p">,</span> <span class="s">"'s"</span><span class="p">])</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setPrefixes</span><span class="p">([</span><span class="s">"</span><span class="se">\"</span><span class="s">"</span><span class="p">,</span> <span class="s">"("</span><span class="p">,</span> <span class="s">"["</span><span class="p">,</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setSuffixes</span><span class="p">([</span><span class="s">"."</span><span class="p">,</span> <span class="s">","</span><span class="p">,</span> <span class="s">"?"</span><span class="p">,</span> <span class="s">")"</span><span class="p">,</span><span class="s">"!"</span><span class="p">,</span> <span class="s">"'s"</span><span class="p">])</span>
 
 <span class="n">spellModel</span> <span class="o">=</span> <span class="n">ContextSpellCheckerModel</span>\
-    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'spellcheck_clinical'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'clinical/models'</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"checked"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'spellcheck_clinical'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'clinical/models'</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"checked"</span><span class="p">)</span>
 
 <span class="n">finisher</span> <span class="o">=</span> <span class="n">Finisher</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"checked"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"checked"</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
-    <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">documentAssembler</span><span class="p">,</span>
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">spellModel</span><span class="p">,</span>
-    <span class="n">finisher</span>
-  <span class="p">])</span>
+<span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
+<span class="n">documentAssembler</span><span class="p">,</span>
+<span class="n">tokenizer</span><span class="p">,</span>
+<span class="n">spellModel</span><span class="p">,</span>
+<span class="n">finisher</span>
+<span class="p">])</span>
 
 <span class="n">empty_ds</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 <span class="n">lp</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_ds</span><span class="p">))</span>
 
 <span class="n">example</span> <span class="o">=</span> <span class="p">[</span><span class="s">"Witth the hell of phisical terapy the patient was imbulated and on posoperative, the impatient tolerating a post curgical soft diet."</span><span class="p">,</span>
-            <span class="s">"With paint wel controlled on orall pain medications, she was discharged too reihabilitation facilitay."</span><span class="p">,</span>
-            <span class="s">"She is to also call the ofice if she has any ever greater than 101, or leeding form the surgical wounds."</span><span class="p">,</span>
-            <span class="s">"Abdomen is sort, nontender, and nonintended."</span><span class="p">,</span>
-            <span class="s">"Patient not showing pain or any wealth problems."</span><span class="p">,</span>
-            <span class="s">"No cute distress"</span>
-            
+<span class="s">"With paint wel controlled on orall pain medications, she was discharged too reihabilitation facilitay."</span><span class="p">,</span>
+<span class="s">"She is to also call the ofice if she has any ever greater than 101, or leeding form the surgical wounds."</span><span class="p">,</span>
+<span class="s">"Abdomen is sort, nontender, and nonintended."</span><span class="p">,</span>
+<span class="s">"Patient not showing pain or any wealth problems."</span><span class="p">,</span>
+<span class="s">"No cute distress"</span>
+
 <span class="p">]</span>
 <span class="n">lp</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 
@@ -476,12 +476,12 @@ This model has been trained in a dataset containing data from different sources;
 <span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.spell.clinical"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">""")
 
 pipeline = Pipeline(
-    stages = [
-    documentAssembler,
-    tokenizer,
-    spellModel,
-    finisher
-  ])
+stages = [
+documentAssembler,
+tokenizer,
+spellModel,
+finisher
+])
 
 empty_ds = spark.createDataFrame([["""</span><span class="p">)</span>
 </code></pre></div>  </div>
@@ -492,86 +492,86 @@ empty_ds = spark.createDataFrame([["""</span><span class="p">)</span>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 <span class="o">[{</span><span class="s1">'checked'</span>: <span class="o">[</span><span class="s1">'With'</span>,
-   <span class="s1">'the'</span>,
-   <span class="s1">'help'</span>,
-   <span class="s1">'of'</span>,
-   <span class="s1">'physical'</span>,
-   <span class="s1">'therapy'</span>,
-   <span class="s1">'the'</span>,
-   <span class="s1">'patient'</span>,
-   <span class="s1">'was'</span>,
-   <span class="s1">'ambulated'</span>,
-   <span class="s1">'and'</span>,
-   <span class="s1">'on'</span>,
-   <span class="s1">'postoperative'</span>,
-   <span class="s1">','</span>,
-   <span class="s1">'the'</span>,
-   <span class="s1">'patient'</span>,
-   <span class="s1">'tolerating'</span>,
-   <span class="s1">'a'</span>,
-   <span class="s1">'post'</span>,
-   <span class="s1">'surgical'</span>,
-   <span class="s1">'soft'</span>,
-   <span class="s1">'diet'</span>,
-   <span class="s1">'.'</span><span class="o">]}</span>,
- <span class="o">{</span><span class="s1">'checked'</span>: <span class="o">[</span><span class="s1">'With'</span>,
-   <span class="s1">'pain'</span>,
-   <span class="s1">'well'</span>,
-   <span class="s1">'controlled'</span>,
-   <span class="s1">'on'</span>,
-   <span class="s1">'oral'</span>,
-   <span class="s1">'pain'</span>,
-   <span class="s1">'medications'</span>,
-   <span class="s1">','</span>,
-   <span class="s1">'she'</span>,
-   <span class="s1">'was'</span>,
-   <span class="s1">'discharged'</span>,
-   <span class="s1">'to'</span>,
-   <span class="s1">'rehabilitation'</span>,
-   <span class="s1">'facility'</span>,
-   <span class="s1">'.'</span><span class="o">]}</span>,
- <span class="o">{</span><span class="s1">'checked'</span>: <span class="o">[</span><span class="s1">'She'</span>,
-   <span class="s1">'is'</span>,
-   <span class="s1">'to'</span>,
-   <span class="s1">'also'</span>,
-   <span class="s1">'call'</span>,
-   <span class="s1">'the'</span>,
-   <span class="s1">'office'</span>,
-   <span class="s1">'if'</span>,
-   <span class="s1">'she'</span>,
-   <span class="s1">'has'</span>,
-   <span class="s1">'any'</span>,
-   <span class="s1">'fever'</span>,
-   <span class="s1">'greater'</span>,
-   <span class="s1">'than'</span>,
-   <span class="s1">'101'</span>,
-   <span class="s1">','</span>,
-   <span class="s1">'or'</span>,
-   <span class="s1">'bleeding'</span>,
-   <span class="s1">'from'</span>,
-   <span class="s1">'the'</span>,
-   <span class="s1">'surgical'</span>,
-   <span class="s1">'wounds'</span>,
-   <span class="s1">'.'</span><span class="o">]}</span>,
- <span class="o">{</span><span class="s1">'checked'</span>: <span class="o">[</span><span class="s1">'Abdomen'</span>,
-   <span class="s1">'is'</span>,
-   <span class="s1">'soft'</span>,
-   <span class="s1">','</span>,
-   <span class="s1">'nontender'</span>,
-   <span class="s1">','</span>,
-   <span class="s1">'and'</span>,
-   <span class="s1">'nondistended'</span>,
-   <span class="s1">'.'</span><span class="o">]}</span>,
- <span class="o">{</span><span class="s1">'checked'</span>: <span class="o">[</span><span class="s1">'Patient'</span>,
-   <span class="s1">'not'</span>,
-   <span class="s1">'showing'</span>,
-   <span class="s1">'pain'</span>,
-   <span class="s1">'or'</span>,
-   <span class="s1">'any'</span>,
-   <span class="s1">'health'</span>,
-   <span class="s1">'problems'</span>,
-   <span class="s1">'.'</span><span class="o">]}</span>,
- <span class="o">{</span><span class="s1">'checked'</span>: <span class="o">[</span><span class="s1">'No'</span>, <span class="s1">'acute'</span>, <span class="s1">'distress'</span><span class="o">]}]</span>
+<span class="s1">'the'</span>,
+<span class="s1">'help'</span>,
+<span class="s1">'of'</span>,
+<span class="s1">'physical'</span>,
+<span class="s1">'therapy'</span>,
+<span class="s1">'the'</span>,
+<span class="s1">'patient'</span>,
+<span class="s1">'was'</span>,
+<span class="s1">'ambulated'</span>,
+<span class="s1">'and'</span>,
+<span class="s1">'on'</span>,
+<span class="s1">'postoperative'</span>,
+<span class="s1">','</span>,
+<span class="s1">'the'</span>,
+<span class="s1">'patient'</span>,
+<span class="s1">'tolerating'</span>,
+<span class="s1">'a'</span>,
+<span class="s1">'post'</span>,
+<span class="s1">'surgical'</span>,
+<span class="s1">'soft'</span>,
+<span class="s1">'diet'</span>,
+<span class="s1">'.'</span><span class="o">]}</span>,
+<span class="o">{</span><span class="s1">'checked'</span>: <span class="o">[</span><span class="s1">'With'</span>,
+<span class="s1">'pain'</span>,
+<span class="s1">'well'</span>,
+<span class="s1">'controlled'</span>,
+<span class="s1">'on'</span>,
+<span class="s1">'oral'</span>,
+<span class="s1">'pain'</span>,
+<span class="s1">'medications'</span>,
+<span class="s1">','</span>,
+<span class="s1">'she'</span>,
+<span class="s1">'was'</span>,
+<span class="s1">'discharged'</span>,
+<span class="s1">'to'</span>,
+<span class="s1">'rehabilitation'</span>,
+<span class="s1">'facility'</span>,
+<span class="s1">'.'</span><span class="o">]}</span>,
+<span class="o">{</span><span class="s1">'checked'</span>: <span class="o">[</span><span class="s1">'She'</span>,
+<span class="s1">'is'</span>,
+<span class="s1">'to'</span>,
+<span class="s1">'also'</span>,
+<span class="s1">'call'</span>,
+<span class="s1">'the'</span>,
+<span class="s1">'office'</span>,
+<span class="s1">'if'</span>,
+<span class="s1">'she'</span>,
+<span class="s1">'has'</span>,
+<span class="s1">'any'</span>,
+<span class="s1">'fever'</span>,
+<span class="s1">'greater'</span>,
+<span class="s1">'than'</span>,
+<span class="s1">'101'</span>,
+<span class="s1">','</span>,
+<span class="s1">'or'</span>,
+<span class="s1">'bleeding'</span>,
+<span class="s1">'from'</span>,
+<span class="s1">'the'</span>,
+<span class="s1">'surgical'</span>,
+<span class="s1">'wounds'</span>,
+<span class="s1">'.'</span><span class="o">]}</span>,
+<span class="o">{</span><span class="s1">'checked'</span>: <span class="o">[</span><span class="s1">'Abdomen'</span>,
+<span class="s1">'is'</span>,
+<span class="s1">'soft'</span>,
+<span class="s1">','</span>,
+<span class="s1">'nontender'</span>,
+<span class="s1">','</span>,
+<span class="s1">'and'</span>,
+<span class="s1">'nondistended'</span>,
+<span class="s1">'.'</span><span class="o">]}</span>,
+<span class="o">{</span><span class="s1">'checked'</span>: <span class="o">[</span><span class="s1">'Patient'</span>,
+<span class="s1">'not'</span>,
+<span class="s1">'showing'</span>,
+<span class="s1">'pain'</span>,
+<span class="s1">'or'</span>,
+<span class="s1">'any'</span>,
+<span class="s1">'health'</span>,
+<span class="s1">'problems'</span>,
+<span class="s1">'.'</span><span class="o">]}</span>,
+<span class="o">{</span><span class="s1">'checked'</span>: <span class="o">[</span><span class="s1">'No'</span>, <span class="s1">'acute'</span>, <span class="s1">'distress'</span><span class="o">]}]</span>
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>

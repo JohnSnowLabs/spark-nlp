@@ -437,16 +437,16 @@
 
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
 <span class="n">word_embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
 <span class="n">deid_ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_deid_subentity_augmented"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_subentity"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_subentity"</span><span class="p">)</span>
 
 <span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">word_embeddings</span><span class="p">,</span> <span class="n">deid_ner</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">])</span>
 
@@ -456,16 +456,16 @@
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
 <span class="k">val</span> <span class="nv">word_embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">deid_ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_deid_subentity_augmented"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> 
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span> 
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span> 
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk_subentity"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk_subentity"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">nlpPipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">word_embeddings</span><span class="o">,</span> <span class="n">deid_ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
 
@@ -541,27 +541,27 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>       entity      tp     fp     fn   total  precision  recall      f1
-      PATIENT  1465.0  159.0  162.0  1627.0     0.9021  0.9004  0.9013
-     HOSPITAL  1417.0  120.0  167.0  1584.0     0.9219  0.8946   0.908
-         DATE  5513.0   57.0  129.0  5642.0     0.9898  0.9771  0.9834
- ORGANIZATION   101.0   25.0   37.0   138.0     0.8016  0.7319  0.7652
-         CITY   277.0   47.0   64.0   341.0     0.8549  0.8123  0.8331
-       STREET   405.0    7.0   10.0   415.0      0.983  0.9759  0.9794
-     USERNAME    88.0    2.0   13.0   101.0     0.9778  0.8713  0.9215
-       DEVICE    10.0    0.0    0.0    10.0        1.0     1.0     1.0
-        IDNUM   168.0   27.0   42.0   210.0     0.8615     0.8  0.8296
-        STATE   172.0   15.0   33.0   205.0     0.9198   0.839  0.8776
-          ZIP   137.0    0.0    2.0   139.0        1.0  0.9856  0.9928
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>entity      tp     fp     fn   total  precision  recall      f1
+PATIENT  1465.0  159.0  162.0  1627.0     0.9021  0.9004  0.9013
+HOSPITAL  1417.0  120.0  167.0  1584.0     0.9219  0.8946   0.908
+DATE  5513.0   57.0  129.0  5642.0     0.9898  0.9771  0.9834
+ORGANIZATION   101.0   25.0   37.0   138.0     0.8016  0.7319  0.7652
+CITY   277.0   47.0   64.0   341.0     0.8549  0.8123  0.8331
+STREET   405.0    7.0   10.0   415.0      0.983  0.9759  0.9794
+USERNAME    88.0    2.0   13.0   101.0     0.9778  0.8713  0.9215
+DEVICE    10.0    0.0    0.0    10.0        1.0     1.0     1.0
+IDNUM   168.0   27.0   42.0   210.0     0.8615     0.8  0.8296
+STATE   172.0   15.0   33.0   205.0     0.9198   0.839  0.8776
+ZIP   137.0    0.0    2.0   139.0        1.0  0.9856  0.9928
 MEDICALRECORD   416.0   14.0   28.0   444.0     0.9674  0.9369  0.9519
-        OTHER    16.0    4.0    5.0    21.0        0.8  0.7619  0.7805
-   PROFESSION   261.0   22.0   75.0   336.0     0.9223  0.7768  0.8433
-        PHONE   328.0   21.0   20.0   348.0     0.9398  0.9425  0.9412
-      COUNTRY    97.0   15.0   31.0   128.0     0.8661  0.7578  0.8083
-       DOCTOR  3279.0  139.0  268.0  3547.0     0.9593  0.9244  0.9416
-          AGE   715.0   39.0   47.0   762.0     0.9483  0.9383  0.9433
-        macro     -      -      -       -         -       -     0.7057395
-        micro     -      -      -       -         -       -     0.9280564
+OTHER    16.0    4.0    5.0    21.0        0.8  0.7619  0.7805
+PROFESSION   261.0   22.0   75.0   336.0     0.9223  0.7768  0.8433
+PHONE   328.0   21.0   20.0   348.0     0.9398  0.9425  0.9412
+COUNTRY    97.0   15.0   31.0   128.0     0.8661  0.7578  0.8083
+DOCTOR  3279.0  139.0  268.0  3547.0     0.9593  0.9244  0.9416
+AGE   715.0   39.0   47.0   762.0     0.9483  0.9383  0.9433
+macro     -      -      -       -         -       -     0.7057395
+micro     -      -      -       -         -       -     0.9280564
 </code></pre></div></div>
 <!--stackedit_data:
 eyJoaXN0b3J5IjpbLTM0Mjc3NzUyMiwtMjExODY2Njc1OF19

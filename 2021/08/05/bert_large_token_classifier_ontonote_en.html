@@ -437,53 +437,53 @@
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
 
 <span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span> \
-      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'bert_large_token_classifier_ontonote'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'token'</span><span class="p">,</span> <span class="s">'document'</span><span class="p">])</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'ner'</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
+<span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'bert_large_token_classifier_ontonote'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'token'</span><span class="p">,</span> <span class="s">'document'</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'ner'</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
 
 <span class="c1"># since output column is IOB/IOB2 style, NerConverter can extract entities
 </span><span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'ner'</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'entities'</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'ner'</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'entities'</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">document_assembler</span><span class="p">,</span> 
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">tokenClassifier</span><span class="p">,</span>
-    <span class="n">ner_converter</span>
+<span class="n">document_assembler</span><span class="p">,</span> 
+<span class="n">tokenizer</span><span class="p">,</span>
+<span class="n">tokenClassifier</span><span class="p">,</span>
+<span class="n">ner_converter</span>
 <span class="p">])</span>
 
 <span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'My name is John!'</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">BertForTokenClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_large_token_classifier_ontonote"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">512</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">512</span><span class="o">)</span>
 
 <span class="c1">// since output column is IOB/IOB2 style, NerConverter can extract entities</span>
 <span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="nc">NerConverter</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"entities"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">)</span> 
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"entities"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">tokenClassifier</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
 
@@ -501,10 +501,10 @@
 <h2 id="results">Results</h2>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------------------------------------------------------------------------------+
- |result                                                                              |
- +------------------------------------------------------------------------------------+
- |[B-PERSON, I-PERSON, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PERSON, O, O, O, O, B-LOC]|
- +------------------------------------------------------------------------------------+
+|result                                                                              |
++------------------------------------------------------------------------------------+
+|[B-PERSON, I-PERSON, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PERSON, O, O, O, O, B-LOC]|
++------------------------------------------------------------------------------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -558,72 +558,72 @@
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Test:
 
-           precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-   B-CARDINAL       0.86      0.86      0.86       935
-       B-DATE       0.88      0.89      0.88      1602
-      B-EVENT       0.76      0.67      0.71        63
-        B-FAC       0.77      0.84      0.81       135
-        B-GPE       0.98      0.92      0.95      2240
-   B-LANGUAGE       0.79      0.68      0.73        22
-        B-LAW       0.77      0.68      0.72        40
-        B-LOC       0.73      0.82      0.78       179
-      B-MONEY       0.90      0.89      0.89       314
-       B-NORP       0.94      0.96      0.95       841
-    B-ORDINAL       0.82      0.91      0.87       195
-        B-ORG       0.90      0.91      0.91      1795
-    B-PERCENT       0.94      0.93      0.94       349
-     B-PERSON       0.95      0.96      0.95      1988
-    B-PRODUCT       0.79      0.80      0.80        76
-   B-QUANTITY       0.82      0.83      0.82       105
-       B-TIME       0.69      0.69      0.69       212
+B-CARDINAL       0.86      0.86      0.86       935
+B-DATE       0.88      0.89      0.88      1602
+B-EVENT       0.76      0.67      0.71        63
+B-FAC       0.77      0.84      0.81       135
+B-GPE       0.98      0.92      0.95      2240
+B-LANGUAGE       0.79      0.68      0.73        22
+B-LAW       0.77      0.68      0.72        40
+B-LOC       0.73      0.82      0.78       179
+B-MONEY       0.90      0.89      0.89       314
+B-NORP       0.94      0.96      0.95       841
+B-ORDINAL       0.82      0.91      0.87       195
+B-ORG       0.90      0.91      0.91      1795
+B-PERCENT       0.94      0.93      0.94       349
+B-PERSON       0.95      0.96      0.95      1988
+B-PRODUCT       0.79      0.80      0.80        76
+B-QUANTITY       0.82      0.83      0.82       105
+B-TIME       0.69      0.69      0.69       212
 B-WORK_OF_ART       0.71      0.72      0.71       166
-   I-CARDINAL       0.83      0.89      0.86       331
-       I-DATE       0.90      0.90      0.90      2011
-      I-EVENT       0.76      0.74      0.75       130
-        I-FAC       0.79      0.91      0.85       213
-        I-GPE       0.94      0.89      0.92       628
-        I-LAW       0.82      0.66      0.73       106
-        I-LOC       0.89      0.83      0.86       180
-      I-MONEY       0.94      0.96      0.95       685
-       I-NORP       0.98      0.91      0.94       160
-    I-ORDINAL       0.00      0.00      0.00         4
-        I-ORG       0.92      0.93      0.93      2406
-    I-PERCENT       0.96      0.95      0.96       523
-     I-PERSON       0.97      0.94      0.96      1412
-    I-PRODUCT       0.81      0.81      0.81        69
-   I-QUANTITY       0.87      0.92      0.89       206
-       I-TIME       0.68      0.73      0.70       255
+I-CARDINAL       0.83      0.89      0.86       331
+I-DATE       0.90      0.90      0.90      2011
+I-EVENT       0.76      0.74      0.75       130
+I-FAC       0.79      0.91      0.85       213
+I-GPE       0.94      0.89      0.92       628
+I-LAW       0.82      0.66      0.73       106
+I-LOC       0.89      0.83      0.86       180
+I-MONEY       0.94      0.96      0.95       685
+I-NORP       0.98      0.91      0.94       160
+I-ORDINAL       0.00      0.00      0.00         4
+I-ORG       0.92      0.93      0.93      2406
+I-PERCENT       0.96      0.95      0.96       523
+I-PERSON       0.97      0.94      0.96      1412
+I-PRODUCT       0.81      0.81      0.81        69
+I-QUANTITY       0.87      0.92      0.89       206
+I-TIME       0.68      0.73      0.70       255
 I-WORK_OF_ART       0.72      0.66      0.69       337
-            O       0.99      0.99      0.99    131815
+O       0.99      0.99      0.99    131815
 
-     accuracy                           0.98    152728
-    macro avg       0.83      0.82      0.82    152728
- weighted avg       0.98      0.98      0.98    152728
+accuracy                           0.98    152728
+macro avg       0.83      0.82      0.82    152728
+weighted avg       0.98      0.98      0.98    152728
 
 
 
 processed 152728 tokens with 11257 phrases<span class="p">;</span> found: 11394 phrases<span class="p">;</span> correct: 10001.
 accuracy:  90.30%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
 accuracy:  98.10%<span class="p">;</span> precision:  87.77%<span class="p">;</span> recall:  88.84%<span class="p">;</span> FB1:  88.31
-         CARDINAL: precision:  83.37%<span class="p">;</span> recall:  84.17%<span class="p">;</span> FB1:  83.77  944
-             DATE: precision:  83.84%<span class="p">;</span> recall:  86.14%<span class="p">;</span> FB1:  84.98  1646
-            EVENT: precision:  64.06%<span class="p">;</span> recall:  65.08%<span class="p">;</span> FB1:  64.57  64
-              FAC: precision:  69.38%<span class="p">;</span> recall:  82.22%<span class="p">;</span> FB1:  75.25  160
-              GPE: precision:  96.64%<span class="p">;</span> recall:  91.25%<span class="p">;</span> FB1:  93.87  2115
-         LANGUAGE: precision:  78.95%<span class="p">;</span> recall:  68.18%<span class="p">;</span> FB1:  73.17  19
-              LAW: precision:  54.76%<span class="p">;</span> recall:  57.50%<span class="p">;</span> FB1:  56.10  42
-              LOC: precision:  70.10%<span class="p">;</span> recall:  79.89%<span class="p">;</span> FB1:  74.67  204
-            MONEY: precision:  87.70%<span class="p">;</span> recall:  88.54%<span class="p">;</span> FB1:  88.11  317
-             NORP: precision:  93.60%<span class="p">;</span> recall:  95.72%<span class="p">;</span> FB1:  94.65  860
-          ORDINAL: precision:  82.41%<span class="p">;</span> recall:  91.28%<span class="p">;</span> FB1:  86.62  216
-              ORG: precision:  87.26%<span class="p">;</span> recall:  89.30%<span class="p">;</span> FB1:  88.27  1837
-          PERCENT: precision:  89.43%<span class="p">;</span> recall:  89.68%<span class="p">;</span> FB1:  89.56  350
-           PERSON: precision:  93.70%<span class="p">;</span> recall:  95.02%<span class="p">;</span> FB1:  94.36  2016
-          PRODUCT: precision:  68.29%<span class="p">;</span> recall:  73.68%<span class="p">;</span> FB1:  70.89  82
-         QUANTITY: precision:  78.57%<span class="p">;</span> recall:  83.81%<span class="p">;</span> FB1:  81.11  112
-             TIME: precision:  58.85%<span class="p">;</span> recall:  62.74%<span class="p">;</span> FB1:  60.73  226
-      WORK_OF_ART: precision:  61.96%<span class="p">;</span> recall:  68.67%<span class="p">;</span> FB1:  65.14  184
+CARDINAL: precision:  83.37%<span class="p">;</span> recall:  84.17%<span class="p">;</span> FB1:  83.77  944
+DATE: precision:  83.84%<span class="p">;</span> recall:  86.14%<span class="p">;</span> FB1:  84.98  1646
+EVENT: precision:  64.06%<span class="p">;</span> recall:  65.08%<span class="p">;</span> FB1:  64.57  64
+FAC: precision:  69.38%<span class="p">;</span> recall:  82.22%<span class="p">;</span> FB1:  75.25  160
+GPE: precision:  96.64%<span class="p">;</span> recall:  91.25%<span class="p">;</span> FB1:  93.87  2115
+LANGUAGE: precision:  78.95%<span class="p">;</span> recall:  68.18%<span class="p">;</span> FB1:  73.17  19
+LAW: precision:  54.76%<span class="p">;</span> recall:  57.50%<span class="p">;</span> FB1:  56.10  42
+LOC: precision:  70.10%<span class="p">;</span> recall:  79.89%<span class="p">;</span> FB1:  74.67  204
+MONEY: precision:  87.70%<span class="p">;</span> recall:  88.54%<span class="p">;</span> FB1:  88.11  317
+NORP: precision:  93.60%<span class="p">;</span> recall:  95.72%<span class="p">;</span> FB1:  94.65  860
+ORDINAL: precision:  82.41%<span class="p">;</span> recall:  91.28%<span class="p">;</span> FB1:  86.62  216
+ORG: precision:  87.26%<span class="p">;</span> recall:  89.30%<span class="p">;</span> FB1:  88.27  1837
+PERCENT: precision:  89.43%<span class="p">;</span> recall:  89.68%<span class="p">;</span> FB1:  89.56  350
+PERSON: precision:  93.70%<span class="p">;</span> recall:  95.02%<span class="p">;</span> FB1:  94.36  2016
+PRODUCT: precision:  68.29%<span class="p">;</span> recall:  73.68%<span class="p">;</span> FB1:  70.89  82
+QUANTITY: precision:  78.57%<span class="p">;</span> recall:  83.81%<span class="p">;</span> FB1:  81.11  112
+TIME: precision:  58.85%<span class="p">;</span> recall:  62.74%<span class="p">;</span> FB1:  60.73  226
+WORK_OF_ART: precision:  61.96%<span class="p">;</span> recall:  68.67%<span class="p">;</span> FB1:  65.14  184
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-08-05T00:00:00+00:00"><!-- start custom article footer snippet -->
 

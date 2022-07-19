@@ -437,12 +437,12 @@
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">embeddings</span> <span class="o">=</span> <span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"tfhub_use_multi"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">UniversalSentenceEncoder</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"tfhub_use_multi"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
 </code></pre></div>  </div>
 
   <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
@@ -504,7 +504,7 @@ STSBenchmark                       | dev    | <span class="nb">test</span>  |
 Correlation coefficient of Pearson | 0.829  | 0.809 |
 
 
- - For semantic similarity retrieval, we evaluate the model on <span class="o">[</span>Quora and AskUbuntu retrieval task.]<span class="o">(</span>https://arxiv.org/abs/1811.08008<span class="o">)</span><span class="nb">.</span> Results are shown below:
+- For semantic similarity retrieval, we evaluate the model on <span class="o">[</span>Quora and AskUbuntu retrieval task.]<span class="o">(</span>https://arxiv.org/abs/1811.08008<span class="o">)</span><span class="nb">.</span> Results are shown below:
 
 
 Dataset                | Quora | AskUbuntu | Average |
@@ -512,7 +512,7 @@ Dataset                | Quora | AskUbuntu | Average |
 Mean Average Precision  | 89.2  | 39.9      | 64.6    |
 
 
- - For the translation pair retrieval, we evaluate the model on the United Nation Parallel Corpus. Results are shown below:
+- For the translation pair retrieval, we evaluate the model on the United Nation Parallel Corpus. Results are shown below:
 
 Language Pair  | en-es  | en-fr | en-ru | en-zh |
 <span class="nt">---------------</span>|--------|-------|-------|-------|

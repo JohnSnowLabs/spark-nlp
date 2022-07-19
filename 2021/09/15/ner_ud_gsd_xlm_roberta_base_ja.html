@@ -441,33 +441,33 @@
 <span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
 <span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
 
 <span class="n">word_segmenter</span> <span class="o">=</span> <span class="n">WordSegmenterModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"wordseg_gsd_ud"</span><span class="p">,</span> <span class="s">"ja"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
 <span class="n">embeddings</span> <span class="o">=</span> <span class="n">XlmRoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
 <span class="n">nerTagger</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_ud_gsd_xlm_roberta_base"</span><span class="p">,</span> <span class="s">"ja"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">(</span>
-    <span class="p">[</span>
-        <span class="n">documentAssembler</span><span class="p">,</span>
-        <span class="n">sentence</span><span class="p">,</span>
-        <span class="n">word_segmenter</span><span class="p">,</span>
-        <span class="n">embeddings</span><span class="p">,</span>
-        <span class="n">nerTagger</span><span class="p">,</span>
-    <span class="p">]</span>
+<span class="p">[</span>
+<span class="n">documentAssembler</span><span class="p">,</span>
+<span class="n">sentence</span><span class="p">,</span>
+<span class="n">word_segmenter</span><span class="p">,</span>
+<span class="n">embeddings</span><span class="p">,</span>
+<span class="n">nerTagger</span><span class="p">,</span>
+<span class="p">]</span>
 <span class="p">)</span>
 
 <span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"宮本茂氏は、日本の任天堂のゲームプロデューサーです。"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
@@ -482,31 +482,31 @@
 <span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
 
 <span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">sentence</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">word_segmenter</span> <span class="k">=</span> <span class="nv">WordSegmenterModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"wordseg_gsd_ud"</span><span class="o">,</span> <span class="s">"ja"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">XlmRoBertaEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"japanese_cc_300d"</span><span class="o">,</span> <span class="s">"ja"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">nerTagger</span> <span class="k">=</span> <span class="nv">NerDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_ud_gsd_xlm_roberta_base"</span><span class="o">,</span> <span class="s">"ja"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
-  <span class="n">documentAssembler</span><span class="o">,</span>
-  <span class="n">sentence</span><span class="o">,</span>
-  <span class="n">word_segmenter</span><span class="o">,</span>
-  <span class="n">embeddings</span><span class="o">,</span>
-  <span class="n">nerTagger</span>
+<span class="n">documentAssembler</span><span class="o">,</span>
+<span class="n">sentence</span><span class="o">,</span>
+<span class="n">word_segmenter</span><span class="o">,</span>
+<span class="n">embeddings</span><span class="o">,</span>
+<span class="n">nerTagger</span>
 <span class="o">))</span>
 
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"宮本茂氏は、日本の任天堂のゲームプロデューサーです。"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
@@ -595,34 +595,33 @@
 
 <p>Reference:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Asahara, M., Kanayama, H., Tanaka, T., Miyao, Y., Uematsu, S., Mori, S., Matsumoto, Y., Omura, M., &amp; Murawaki, Y. (2018). Universal Dependencies Version 2 for Japanese. In LREC-2018.
-</code></pre></div></div>
+<p>Asahara, M., Kanayama, H., Tanaka, T., Miyao, Y., Uematsu, S., Mori, S., Matsumoto, Y., Omura, M., &amp; Murawaki, Y. (2018). Universal Dependencies Version 2 for Japanese. In LREC-2018.</p>
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>       label  precision    recall  f1-score   support
-        DATE       0.93      0.97      0.95       206
-       EVENT       0.78      0.48      0.60        52
-         FAC       0.80      0.68      0.73        59
-         GPE       0.88      0.81      0.85       102
-    LANGUAGE       1.00      1.00      1.00         8
-         LAW       0.82      0.69      0.75        13
-         LOC       0.87      0.83      0.85        41
-       MONEY       1.00      1.00      1.00        20
-    MOVEMENT       0.67      0.55      0.60        11
-        NORP       0.84      0.86      0.85        57
-           O       0.99      0.99      0.99     11785
-     ORDINAL       0.94      0.94      0.94        32
-         ORG       0.71      0.78      0.74       179
-     PERCENT       1.00      1.00      1.00        16
-      PERSON       0.89      0.90      0.89       127
-     PRODUCT       0.56      0.68      0.61        50
-    QUANTITY       0.92      0.96      0.94       172
-        TIME       0.91      1.00      0.96        32
- TITLE_AFFIX       0.86      0.75      0.80        24
- WORK_OF_ART       0.87      0.85      0.86        48
-    accuracy          -         -      0.98     13034
-   macro-avg       0.86      0.84      0.85     13034
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label  precision    recall  f1-score   support
+DATE       0.93      0.97      0.95       206
+EVENT       0.78      0.48      0.60        52
+FAC       0.80      0.68      0.73        59
+GPE       0.88      0.81      0.85       102
+LANGUAGE       1.00      1.00      1.00         8
+LAW       0.82      0.69      0.75        13
+LOC       0.87      0.83      0.85        41
+MONEY       1.00      1.00      1.00        20
+MOVEMENT       0.67      0.55      0.60        11
+NORP       0.84      0.86      0.85        57
+O       0.99      0.99      0.99     11785
+ORDINAL       0.94      0.94      0.94        32
+ORG       0.71      0.78      0.74       179
+PERCENT       1.00      1.00      1.00        16
+PERSON       0.89      0.90      0.89       127
+PRODUCT       0.56      0.68      0.61        50
+QUANTITY       0.92      0.96      0.94       172
+TIME       0.91      1.00      0.96        32
+TITLE_AFFIX       0.86      0.75      0.80        24
+WORK_OF_ART       0.87      0.85      0.86        48
+accuracy          -         -      0.98     13034
+macro-avg       0.86      0.84      0.85     13034
 weighted-avg       0.98      0.98      0.98     13034
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-09-15T00:00:00+00:00"><!-- start custom article footer snippet -->

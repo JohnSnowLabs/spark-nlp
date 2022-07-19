@@ -433,8 +433,8 @@
 
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
 <span class="n">pos</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"pos_ud_htb"</span><span class="p">,</span> <span class="s">"he"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos"</span><span class="p">)</span>
 <span class="n">nlp_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">pos</span><span class="p">])</span>
 <span class="n">light_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">nlp_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)))</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">([</span><span class="s">"ב- 25 לאוגוסט עצר השב"</span><span class="n">כ</span> <span class="n">את</span> <span class="n">מוחמד</span> <span class="n">אבו</span><span class="o">-</span><span class="n">ג</span><span class="s">'וייד , אזרח ירדני , שגויס לארגון הפת"ח והופעל על ידי חיזבאללה"])
@@ -442,8 +442,8 @@
 </span></code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
 <span class="k">val</span> <span class="nv">pos</span> <span class="k">=</span> <span class="nv">PerceptronModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"pos_ud_htb"</span><span class="o">,</span> <span class="s">"he"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pos"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pos"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">pos</span><span class="o">))</span>
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"ב- 25 לאוגוסט עצר השב"</span><span class="n">כ</span> <span class="n">את</span> <span class="n">מוחמד</span> <span class="n">אבו</span><span class="o">-</span><span class="n">ג</span><span class="ss">'וייד</span> <span class="o">,</span> <span class="n">אזרח</span> <span class="n">ירדני</span> <span class="o">,</span> <span class="n">שגויס</span> <span class="n">לארגון</span> <span class="n">הפת</span><span class="s">"ח והופעל על ידי חיזבאללה"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
@@ -461,25 +461,25 @@ pos_df
 <h2 id="results">Results</h2>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span><span class="s1">'pos'</span>: <span class="o">[</span>Annotation<span class="o">(</span>pos, 0, 0, ADP, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'ב'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>pos, 1, 1, PUNCT, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'-'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>pos, 3, 4, NUM, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'25'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>pos, 6, 12, VERB, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'לאוגוסט'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>pos, 14, 16, None, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'עצר'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>pos, 18, 22, VERB, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'השב"כ'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>pos, 24, 25, ADP, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'את'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>pos, 27, 31, PROPN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'מוחמד'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>pos, 33, 42, PROPN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s2">"אבו-ג'וייד"</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>pos, 44, 44, PUNCT, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">','</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>pos, 46, 49, NOUN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'אזרח'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>pos, 51, 55, ADJ, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'ירדני'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>pos, 57, 57, PUNCT, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">','</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>pos, 59, 63, VERB, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'שגויס'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>pos, 65, 70, ADP, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'לארגון'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>pos, 72, 76, NOUN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'הפת"ח'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>pos, 78, 83, PROPN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'והופעל'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>pos, 85, 86, ADP, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'על'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>pos, 88, 90, NOUN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'ידי'</span><span class="o">})</span>,
-  Annotation<span class="o">(</span>pos, 92, 99, PROPN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'חיזבאללה'</span><span class="o">})]}</span>
+Annotation<span class="o">(</span>pos, 1, 1, PUNCT, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'-'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 3, 4, NUM, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'25'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 6, 12, VERB, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'לאוגוסט'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 14, 16, None, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'עצר'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 18, 22, VERB, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'השב"כ'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 24, 25, ADP, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'את'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 27, 31, PROPN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'מוחמד'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 33, 42, PROPN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s2">"אבו-ג'וייד"</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 44, 44, PUNCT, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">','</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 46, 49, NOUN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'אזרח'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 51, 55, ADJ, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'ירדני'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 57, 57, PUNCT, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">','</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 59, 63, VERB, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'שגויס'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 65, 70, ADP, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'לארגון'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 72, 76, NOUN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'הפת"ח'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 78, 83, PROPN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'והופעל'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 85, 86, ADP, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'על'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 88, 90, NOUN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'ידי'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 92, 99, PROPN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'חיזבאללה'</span><span class="o">})]}</span>
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>

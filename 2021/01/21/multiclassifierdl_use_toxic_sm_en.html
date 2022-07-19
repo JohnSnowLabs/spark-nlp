@@ -438,33 +438,33 @@ We removed the records without any labels in this model. (only 14K+ comments wer
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
 <span class="n">use</span> <span class="o">=</span> <span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
- <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
- <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"use_embeddings"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"use_embeddings"</span><span class="p">)</span>
 
 <span class="n">docClassifier</span> <span class="o">=</span> <span class="n">MultiClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"multiclassifierdl_use_toxic_sm"</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"use_embeddings"</span><span class="p">])</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"category"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setThreshold</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"use_embeddings"</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"category"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setThreshold</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
-    <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">document</span><span class="p">,</span>
-        <span class="n">use</span><span class="p">,</span>
-        <span class="n">docClassifier</span>
-    <span class="p">])</span>
+<span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
+<span class="n">document</span><span class="p">,</span>
+<span class="n">use</span><span class="p">,</span>
+<span class="n">docClassifier</span>
+<span class="p">])</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-   <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-   <span class="o">.</span><span class="py">setCleanupMode</span><span class="o">(</span><span class="s">"shrink"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setCleanupMode</span><span class="o">(</span><span class="s">"shrink"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">use</span> <span class="k">=</span> <span class="nv">UniversalSentenceEncoder</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"use_embeddings"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"use_embeddings"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">docClassifier</span> <span class="k">=</span> <span class="nv">MultiClassifierDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"multiclassifierdl_use_toxic_sm"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"use_embeddings"</span><span class="o">)</span>
@@ -472,13 +472,13 @@ We removed the records without any labels in this model. (only 14K+ comments wer
 <span class="o">.</span><span class="py">setThreshold</span><span class="o">(</span><span class="mf">0.5f</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setStages</span><span class="o">(</span>
-    <span class="nc">Array</span><span class="o">(</span>
-      <span class="n">documentAssembler</span><span class="o">,</span>
-      <span class="n">use</span><span class="o">,</span>
-      <span class="n">docClassifier</span>
-    <span class="o">)</span>
-  <span class="o">)</span>
+<span class="o">.</span><span class="py">setStages</span><span class="o">(</span>
+<span class="nc">Array</span><span class="o">(</span>
+<span class="n">documentAssembler</span><span class="o">,</span>
+<span class="n">use</span><span class="o">,</span>
+<span class="n">docClassifier</span>
+<span class="o">)</span>
+<span class="o">)</span>
 </code></pre></div>  </div>
 
   <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
@@ -529,19 +529,19 @@ We removed the records without any labels in this model. (only 14K+ comments wer
 <h2 id="benchmarking">Benchmarking</h2>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Classification report: 
-               precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-           0       0.56      0.30      0.39       127
-           1       0.71      0.70      0.70       761
-           2       0.76      0.72      0.74       824
-           3       0.55      0.21      0.31       147
-           4       0.79      0.38      0.51        50
-           5       0.94      1.00      0.97      1504
+0       0.56      0.30      0.39       127
+1       0.71      0.70      0.70       761
+2       0.76      0.72      0.74       824
+3       0.55      0.21      0.31       147
+4       0.79      0.38      0.51        50
+5       0.94      1.00      0.97      1504
 
-   micro avg       0.83      0.80      0.81      3413
-   macro avg       0.72      0.55      0.60      3413
+micro avg       0.83      0.80      0.81      3413
+macro avg       0.72      0.55      0.60      3413
 weighted avg       0.81      0.80      0.80      3413
- samples avg       0.84      0.83      0.80      3413
+samples avg       0.84      0.83      0.80      3413
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-01-21T00:00:00+00:00"><!-- start custom article footer snippet -->
 

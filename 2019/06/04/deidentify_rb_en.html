@@ -436,8 +436,8 @@
 <span class="n">masker</span> <span class="o">=</span> <span class="n">DeIdentificationModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"deidentify_rb"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
 	<span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"chunk"</span><span class="p">)</span>\
 	<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"deidentified"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setMode</span><span class="p">(</span><span class="s">"mask"</span><span class="p">)</span>
-    
+<span class="p">.</span><span class="n">setMode</span><span class="p">(</span><span class="s">"mask"</span><span class="p">)</span>
+
 <span class="n">text</span> <span class="o">=</span> <span class="s">'''A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street'''</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>    
 <span class="n">deid_text</span> <span class="o">=</span> <span class="n">masker</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
@@ -449,9 +449,9 @@
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">masker</span> <span class="k">=</span> <span class="nv">DeIdentificationModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"deidentify_rb"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"chunk"</span><span class="o">))</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"deidentified"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setMode</span><span class="o">(</span><span class="s">"mask"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"chunk"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"deidentified"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setMode</span><span class="o">(</span><span class="s">"mask"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">deid_text</span> <span class="k">=</span> <span class="k">new</span> <span class="nv">masker</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">result</span><span class="o">)</span>
 
 </code></pre></div>  </div>

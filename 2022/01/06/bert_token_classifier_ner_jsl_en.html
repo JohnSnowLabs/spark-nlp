@@ -434,26 +434,26 @@
 </div>
 
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-       <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-  
+<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
 <span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl_healthcare"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
-       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
-       
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-       <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>\
-       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
-       
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
 <span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_token_classifier_ner_jsl"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-       <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"sentence"</span><span class="p">)</span>\
-       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
-       <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"sentence"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
-       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span>\
-       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
-  
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+
 <span class="n">pipeline</span> <span class="o">=</span>  <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
 		       <span class="n">documentAssembler</span><span class="p">,</span>
 		       <span class="n">sentenceDetector</span><span class="p">,</span>
@@ -470,24 +470,24 @@
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
 	<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 	<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-  
+
 <span class="k">val</span> <span class="nv">sentenceDetector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sentence_detector_dl_healthcare"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
 	<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 	<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
-       
+
 <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
 	<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
 	<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 		
 <span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">BertForTokenClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_token_classifier_ner_jsl"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"sentence"</span><span class="o">))</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="nc">True</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"sentence"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="nc">True</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span>
-  	<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span><span class="s">"token"</span><span class="o">,</span><span class="s">"ner"</span><span class="o">))</span>
-  	<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
-  
+	<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span><span class="s">"token"</span><span class="o">,</span><span class="s">"ner"</span><span class="o">))</span>
+	<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
+
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span>  <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
 				<span class="n">documentAssembler</span><span class="o">,</span>
 				<span class="n">sentenceDetector</span><span class="o">,</span>
@@ -609,156 +609,156 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  
-                                  label  precision    recall  f1-score   support
-                  B-Admission_Discharge       0.96      0.97      0.96       298
-                                  B-Age       0.96      0.97      0.97      1545
-                              B-Alcohol       0.89      0.86      0.87       117
-                                  B-BMI       1.00      0.67      0.80         9
-                         B-Birth_Entity       0.50      0.60      0.55         5
-                       B-Blood_Pressure       0.78      0.73      0.76       232
-                      B-Cancer_Modifier       0.82      0.90      0.86        10
-              B-Cerebrovascular_Disease       0.68      0.75      0.71       163
-                        B-Clinical_Dept       0.88      0.88      0.88      1510
-                 B-Communicable_Disease       0.88      0.94      0.91        47
-                                 B-Date       0.96      0.97      0.96       960
-                         B-Death_Entity       0.84      0.79      0.82        39
-                             B-Diabetes       0.94      0.93      0.93       129
-                                 B-Diet       0.64      0.55      0.59       166
-                            B-Direction       0.92      0.94      0.93      4605
-            B-Disease_Syndrome_Disorder       0.90      0.87      0.88      6729
-                               B-Dosage       0.73      0.74      0.73       611
-                       B-Drug_BrandName       0.89      0.90      0.89      2919
-                      B-Drug_Ingredient       0.90      0.92      0.91      6243
-                             B-Duration       0.76      0.80      0.78       296
-                         B-EKG_Findings       0.75      0.76      0.76       114
-                           B-Employment       0.86      0.84      0.85       315
-         B-External_body_part_or_region       0.86      0.87      0.86      3050
-                B-Family_History_Header       0.99      0.99      0.99       268
-                        B-Fetus_NewBorn       0.71      0.67      0.69        97
-                                 B-Form       0.75      0.75      0.75       351
-                            B-Frequency       0.88      0.93      0.90      1238
-                               B-Gender       0.98      0.98      0.98      4409
-                                  B-HDL       1.00      0.50      0.67         8
-                        B-Heart_Disease       0.83      0.86      0.85       728
-                               B-Height       0.93      0.87      0.90        31
-                       B-Hyperlipidemia       0.97      1.00      0.99       229
-                         B-Hypertension       0.98      0.99      0.98       423
-                      B-ImagingFindings       0.53      0.59      0.56       218
-                    B-Imaging_Technique       0.49      0.57      0.53        60
-                  B-Injury_or_Poisoning       0.84      0.80      0.82       721
-          B-Internal_organ_or_component       0.89      0.91      0.90     11514
-                       B-Kidney_Disease       0.78      0.79      0.78       164
-                                  B-LDL       0.62      0.67      0.64        12
-                      B-Labour_Delivery       0.75      0.64      0.69        84
-                       B-Medical_Device       0.87      0.90      0.88      6762
-               B-Medical_History_Header       0.92      0.94      0.93       163
-                             B-Modifier       0.82      0.86      0.84      3491
-                        B-O2_Saturation       0.51      0.73      0.60       154
-                              B-Obesity       0.92      0.97      0.95       120
-                          B-Oncological       0.87      0.89      0.88       925
-                     B-Oncology_Therapy       0.91      0.45      0.61        22
-                           B-Overweight       0.75      0.60      0.67        10
-                       B-Oxygen_Therapy       0.68      0.71      0.70       313
-                            B-Pregnancy       0.75      0.85      0.79       237
-                            B-Procedure       0.89      0.89      0.89      6219
-              B-Psychological_Condition       0.74      0.76      0.75       209
-                                B-Pulse       0.80      0.74      0.77       178
-                       B-Race_Ethnicity       0.93      0.99      0.96       111
-                  B-Relationship_Status       1.00      0.76      0.87        34
-                         B-RelativeDate       0.86      0.84      0.85       569
-                         B-RelativeTime       0.65      0.68      0.67       250
-                          B-Respiration       0.87      0.72      0.79       161
-                                B-Route       0.85      0.86      0.85      1361
-                       B-Section_Header       0.96      0.97      0.97     12925
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+label  precision    recall  f1-score   support
+B-Admission_Discharge       0.96      0.97      0.96       298
+B-Age       0.96      0.97      0.97      1545
+B-Alcohol       0.89      0.86      0.87       117
+B-BMI       1.00      0.67      0.80         9
+B-Birth_Entity       0.50      0.60      0.55         5
+B-Blood_Pressure       0.78      0.73      0.76       232
+B-Cancer_Modifier       0.82      0.90      0.86        10
+B-Cerebrovascular_Disease       0.68      0.75      0.71       163
+B-Clinical_Dept       0.88      0.88      0.88      1510
+B-Communicable_Disease       0.88      0.94      0.91        47
+B-Date       0.96      0.97      0.96       960
+B-Death_Entity       0.84      0.79      0.82        39
+B-Diabetes       0.94      0.93      0.93       129
+B-Diet       0.64      0.55      0.59       166
+B-Direction       0.92      0.94      0.93      4605
+B-Disease_Syndrome_Disorder       0.90      0.87      0.88      6729
+B-Dosage       0.73      0.74      0.73       611
+B-Drug_BrandName       0.89      0.90      0.89      2919
+B-Drug_Ingredient       0.90      0.92      0.91      6243
+B-Duration       0.76      0.80      0.78       296
+B-EKG_Findings       0.75      0.76      0.76       114
+B-Employment       0.86      0.84      0.85       315
+B-External_body_part_or_region       0.86      0.87      0.86      3050
+B-Family_History_Header       0.99      0.99      0.99       268
+B-Fetus_NewBorn       0.71      0.67      0.69        97
+B-Form       0.75      0.75      0.75       351
+B-Frequency       0.88      0.93      0.90      1238
+B-Gender       0.98      0.98      0.98      4409
+B-HDL       1.00      0.50      0.67         8
+B-Heart_Disease       0.83      0.86      0.85       728
+B-Height       0.93      0.87      0.90        31
+B-Hyperlipidemia       0.97      1.00      0.99       229
+B-Hypertension       0.98      0.99      0.98       423
+B-ImagingFindings       0.53      0.59      0.56       218
+B-Imaging_Technique       0.49      0.57      0.53        60
+B-Injury_or_Poisoning       0.84      0.80      0.82       721
+B-Internal_organ_or_component       0.89      0.91      0.90     11514
+B-Kidney_Disease       0.78      0.79      0.78       164
+B-LDL       0.62      0.67      0.64        12
+B-Labour_Delivery       0.75      0.64      0.69        84
+B-Medical_Device       0.87      0.90      0.88      6762
+B-Medical_History_Header       0.92      0.94      0.93       163
+B-Modifier       0.82      0.86      0.84      3491
+B-O2_Saturation       0.51      0.73      0.60       154
+B-Obesity       0.92      0.97      0.95       120
+B-Oncological       0.87      0.89      0.88       925
+B-Oncology_Therapy       0.91      0.45      0.61        22
+B-Overweight       0.75      0.60      0.67        10
+B-Oxygen_Therapy       0.68      0.71      0.70       313
+B-Pregnancy       0.75      0.85      0.79       237
+B-Procedure       0.89      0.89      0.89      6219
+B-Psychological_Condition       0.74      0.76      0.75       209
+B-Pulse       0.80      0.74      0.77       178
+B-Race_Ethnicity       0.93      0.99      0.96       111
+B-Relationship_Status       1.00      0.76      0.87        34
+B-RelativeDate       0.86      0.84      0.85       569
+B-RelativeTime       0.65      0.68      0.67       250
+B-Respiration       0.87      0.72      0.79       161
+B-Route       0.85      0.86      0.85      1361
+B-Section_Header       0.96      0.97      0.97     12925
 B-Sexually_Active_or_Sexual_Orientation       1.00      1.00      1.00         1
-                              B-Smoking       0.95      0.84      0.89       145
-                B-Social_History_Header       0.93      0.95      0.94       338
-                              B-Staging       1.00      1.00      1.00         4
-                             B-Strength       0.88      0.88      0.88       794
-                            B-Substance       0.73      0.94      0.82        87
-                              B-Symptom       0.87      0.86      0.87     11526
-                          B-Temperature       0.81      0.84      0.83       198
-                                 B-Test       0.87      0.88      0.88      5850
-                          B-Test_Result       0.84      0.85      0.84      2096
-                                 B-Time       0.92      0.98      0.95      1119
-                    B-Total_Cholesterol       0.95      0.75      0.84        28
-                            B-Treatment       0.62      0.65      0.64       354
-                        B-Triglycerides       0.59      0.94      0.73        17
-                           B-VS_Finding       0.77      0.86      0.81       592
-                              B-Vaccine       0.90      0.84      0.87        77
-                   B-Vital_Signs_Header       0.94      0.99      0.96       958
-                               B-Weight       0.75      0.86      0.80       109
-                                  I-Age       0.92      0.96      0.94       283
-                              I-Alcohol       0.83      0.62      0.71         8
-                             I-Allergen       0.00      0.00      0.00        15
-                                  I-BMI       1.00      0.88      0.93        24
-                       I-Blood_Pressure       0.82      0.84      0.83       456
-              I-Cerebrovascular_Disease       0.48      0.82      0.61        66
-                        I-Clinical_Dept       0.92      0.91      0.91       717
-                 I-Communicable_Disease       0.81      1.00      0.89        25
-                                 I-Date       0.94      0.99      0.96       152
-                         I-Death_Entity       0.67      0.40      0.50         5
-                             I-Diabetes       0.99      0.92      0.95        85
-                                 I-Diet       0.70      0.72      0.71        83
-                            I-Direction       0.86      0.84      0.85       235
-            I-Disease_Syndrome_Disorder       0.88      0.86      0.87      3878
-                               I-Dosage       0.78      0.69      0.73       540
-                       I-Drug_BrandName       0.68      0.55      0.61        89
-                      I-Drug_Ingredient       0.83      0.87      0.85       720
-                             I-Duration       0.83      0.86      0.85       567
-                         I-EKG_Findings       0.81      0.69      0.75       175
-                           I-Employment       0.66      0.71      0.69       118
-         I-External_body_part_or_region       0.85      0.89      0.87       873
-                I-Family_History_Header       0.97      1.00      0.98       280
-                        I-Fetus_NewBorn       0.55      0.58      0.56        88
-                            I-Frequency       0.86      0.89      0.87       638
-                                  I-HDL       1.00      0.75      0.86         4
-                        I-Heart_Disease       0.86      0.86      0.86       732
-                               I-Height       0.97      0.95      0.96        82
-                         I-Hypertension       0.82      0.75      0.78        12
-                      I-ImagingFindings       0.64      0.60      0.62       257
-                  I-Injury_or_Poisoning       0.78      0.79      0.79       589
-          I-Internal_organ_or_component       0.90      0.91      0.90      5278
-                       I-Kidney_Disease       0.94      0.91      0.93       186
-                                  I-LDL       0.43      0.60      0.50         5
-                      I-Labour_Delivery       0.84      0.77      0.80        69
-                       I-Medical_Device       0.88      0.91      0.89      3590
-               I-Medical_History_Header       1.00      0.96      0.98       433
-                           I-Metastasis       0.92      0.65      0.76        17
-                             I-Modifier       0.62      0.58      0.60       322
-                        I-O2_Saturation       0.65      0.87      0.75       217
-                              I-Obesity       0.78      1.00      0.88         7
-                          I-Oncological       0.85      0.91      0.88       741
-                       I-Oxygen_Therapy       0.67      0.72      0.70       224
-                            I-Pregnancy       0.57      0.62      0.59       115
-                            I-Procedure       0.91      0.88      0.89      6231
-              I-Psychological_Condition       0.76      0.88      0.82        69
-                                I-Pulse       0.82      0.82      0.82       278
-                         I-RelativeDate       0.89      0.88      0.89       757
-                         I-RelativeTime       0.70      0.80      0.74       227
-                          I-Respiration       0.90      0.68      0.77       173
-                                I-Route       0.98      0.92      0.95       359
-                       I-Section_Header       0.96      0.98      0.97      7817
+B-Smoking       0.95      0.84      0.89       145
+B-Social_History_Header       0.93      0.95      0.94       338
+B-Staging       1.00      1.00      1.00         4
+B-Strength       0.88      0.88      0.88       794
+B-Substance       0.73      0.94      0.82        87
+B-Symptom       0.87      0.86      0.87     11526
+B-Temperature       0.81      0.84      0.83       198
+B-Test       0.87      0.88      0.88      5850
+B-Test_Result       0.84      0.85      0.84      2096
+B-Time       0.92      0.98      0.95      1119
+B-Total_Cholesterol       0.95      0.75      0.84        28
+B-Treatment       0.62      0.65      0.64       354
+B-Triglycerides       0.59      0.94      0.73        17
+B-VS_Finding       0.77      0.86      0.81       592
+B-Vaccine       0.90      0.84      0.87        77
+B-Vital_Signs_Header       0.94      0.99      0.96       958
+B-Weight       0.75      0.86      0.80       109
+I-Age       0.92      0.96      0.94       283
+I-Alcohol       0.83      0.62      0.71         8
+I-Allergen       0.00      0.00      0.00        15
+I-BMI       1.00      0.88      0.93        24
+I-Blood_Pressure       0.82      0.84      0.83       456
+I-Cerebrovascular_Disease       0.48      0.82      0.61        66
+I-Clinical_Dept       0.92      0.91      0.91       717
+I-Communicable_Disease       0.81      1.00      0.89        25
+I-Date       0.94      0.99      0.96       152
+I-Death_Entity       0.67      0.40      0.50         5
+I-Diabetes       0.99      0.92      0.95        85
+I-Diet       0.70      0.72      0.71        83
+I-Direction       0.86      0.84      0.85       235
+I-Disease_Syndrome_Disorder       0.88      0.86      0.87      3878
+I-Dosage       0.78      0.69      0.73       540
+I-Drug_BrandName       0.68      0.55      0.61        89
+I-Drug_Ingredient       0.83      0.87      0.85       720
+I-Duration       0.83      0.86      0.85       567
+I-EKG_Findings       0.81      0.69      0.75       175
+I-Employment       0.66      0.71      0.69       118
+I-External_body_part_or_region       0.85      0.89      0.87       873
+I-Family_History_Header       0.97      1.00      0.98       280
+I-Fetus_NewBorn       0.55      0.58      0.56        88
+I-Frequency       0.86      0.89      0.87       638
+I-HDL       1.00      0.75      0.86         4
+I-Heart_Disease       0.86      0.86      0.86       732
+I-Height       0.97      0.95      0.96        82
+I-Hypertension       0.82      0.75      0.78        12
+I-ImagingFindings       0.64      0.60      0.62       257
+I-Injury_or_Poisoning       0.78      0.79      0.79       589
+I-Internal_organ_or_component       0.90      0.91      0.90      5278
+I-Kidney_Disease       0.94      0.91      0.93       186
+I-LDL       0.43      0.60      0.50         5
+I-Labour_Delivery       0.84      0.77      0.80        69
+I-Medical_Device       0.88      0.91      0.89      3590
+I-Medical_History_Header       1.00      0.96      0.98       433
+I-Metastasis       0.92      0.65      0.76        17
+I-Modifier       0.62      0.58      0.60       322
+I-O2_Saturation       0.65      0.87      0.75       217
+I-Obesity       0.78      1.00      0.88         7
+I-Oncological       0.85      0.91      0.88       741
+I-Oxygen_Therapy       0.67      0.72      0.70       224
+I-Pregnancy       0.57      0.62      0.59       115
+I-Procedure       0.91      0.88      0.89      6231
+I-Psychological_Condition       0.76      0.88      0.82        69
+I-Pulse       0.82      0.82      0.82       278
+I-RelativeDate       0.89      0.88      0.89       757
+I-RelativeTime       0.70      0.80      0.74       227
+I-Respiration       0.90      0.68      0.77       173
+I-Route       0.98      0.92      0.95       359
+I-Section_Header       0.96      0.98      0.97      7817
 I-Sexually_Active_or_Sexual_Orientation       1.00      1.00      1.00         1
-                              I-Smoking       0.67      0.50      0.57         4
-                I-Social_History_Header       0.91      1.00      0.95       200
-                             I-Strength       0.85      0.89      0.87       761
-                            I-Substance       0.70      0.90      0.79        21
-                              I-Symptom       0.76      0.72      0.74      6496
-                          I-Temperature       0.92      0.87      0.89       301
-                                 I-Test       0.84      0.86      0.85      3126
-                          I-Test_Result       0.89      0.82      0.85      1676
-                                 I-Time       0.91      0.95      0.93       424
-                    I-Total_Cholesterol       0.67      1.00      0.81        29
-                            I-Treatment       0.68      0.62      0.65       196
-                              I-Vaccine       0.89      0.96      0.92        25
-                   I-Vital_Signs_Header       0.96      0.99      0.97       633
-                               I-Weight       0.82      0.93      0.87       200
-                                      O       0.96      0.96      0.96    175897
-                               accuracy        -         -        0.92    338378
-                              macro-avg       0.76      0.74      0.74    338378
-                           weighted-avg       0.92      0.92      0.92    338378
+I-Smoking       0.67      0.50      0.57         4
+I-Social_History_Header       0.91      1.00      0.95       200
+I-Strength       0.85      0.89      0.87       761
+I-Substance       0.70      0.90      0.79        21
+I-Symptom       0.76      0.72      0.74      6496
+I-Temperature       0.92      0.87      0.89       301
+I-Test       0.84      0.86      0.85      3126
+I-Test_Result       0.89      0.82      0.85      1676
+I-Time       0.91      0.95      0.93       424
+I-Total_Cholesterol       0.67      1.00      0.81        29
+I-Treatment       0.68      0.62      0.65       196
+I-Vaccine       0.89      0.96      0.92        25
+I-Vital_Signs_Header       0.96      0.99      0.97       633
+I-Weight       0.82      0.93      0.87       200
+O       0.96      0.96      0.96    175897
+accuracy        -         -        0.92    338378
+macro-avg       0.76      0.74      0.74    338378
+weighted-avg       0.92      0.92      0.92    338378
 </code></pre></div></div>
 
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-01-06T00:00:00+00:00"><!-- start custom article footer snippet -->

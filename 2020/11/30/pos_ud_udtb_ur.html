@@ -431,8 +431,8 @@
 
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
 <span class="n">pos</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"pos_ud_udtb"</span><span class="p">,</span> <span class="s">"ur"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos"</span><span class="p">)</span>
 <span class="n">nlp_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">pos</span><span class="p">])</span>
 <span class="n">light_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">nlp_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)))</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">([</span><span class="s">"شمال کا بادشاہ ہونے کے علاوہ ، جان سن ایک انگریزی معالج ہے۔"</span><span class="p">])</span>
@@ -441,8 +441,8 @@
 
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
 <span class="k">val</span> <span class="nv">pos</span> <span class="k">=</span> <span class="nv">PerceptronModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"pos_ud_udtb"</span><span class="o">,</span> <span class="s">"ur"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pos"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pos"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">pos</span><span class="o">))</span>
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"شمال کا بادشاہ ہونے کے علاوہ ، جان سن ایک انگریزی معالج ہے۔"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
@@ -460,18 +460,18 @@
 <h2 id="results">Results</h2>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span><span class="s1">'pos'</span>: <span class="o">[</span>Annotation<span class="o">(</span>pos, 0, 3, NOUN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'شمال'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>pos, 5, 6, ADP, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'کا'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>pos, 8, 13, NOUN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'بادشاہ'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>pos, 15, 18, VERB, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'ہونے'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>pos, 20, 21, ADP, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'کے'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>pos, 23, 27, ADP, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'علاوہ'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>pos, 29, 29, PUNCT, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'،'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>pos, 31, 33, PROPN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'جان'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>pos, 35, 36, PROPN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'سن'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>pos, 38, 40, NUM, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'ایک'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>pos, 42, 48, PROPN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'انگریزی'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>pos, 50, 54, ADJ, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'معالج'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>pos, 56, 58, PUNCT, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'ہے۔'</span><span class="o">})]}</span>
+Annotation<span class="o">(</span>pos, 5, 6, ADP, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'کا'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 8, 13, NOUN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'بادشاہ'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 15, 18, VERB, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'ہونے'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 20, 21, ADP, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'کے'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 23, 27, ADP, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'علاوہ'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 29, 29, PUNCT, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'،'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 31, 33, PROPN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'جان'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 35, 36, PROPN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'سن'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 38, 40, NUM, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'ایک'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 42, 48, PROPN, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'انگریزی'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 50, 54, ADJ, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'معالج'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>pos, 56, 58, PUNCT, <span class="o">{</span><span class="s1">'word'</span>: <span class="s1">'ہے۔'</span><span class="o">})]}</span>
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>

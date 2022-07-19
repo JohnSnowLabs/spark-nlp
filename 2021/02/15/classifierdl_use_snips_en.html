@@ -435,8 +435,8 @@
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
 
 <span class="n">embeddings</span> <span class="o">=</span> <span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'tfhub_use'</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"en"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
 
 <span class="n">classifier</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'classifierdl_use_snips'</span><span class="p">).</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'sentence_embeddings'</span><span class="p">]).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'class'</span><span class="p">)</span>
 
@@ -448,8 +448,8 @@
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
 <span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">UniversalSentenceEncoder</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"tfhub_use"</span><span class="o">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"en"</span><span class="o">)</span> <span class="o">\</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))\</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))\</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">classifier</span> <span class="k">=</span> <span class="nv">ClassifierDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"classifierdl_use_snips"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">).</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)).</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
 
@@ -517,19 +517,19 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                      precision    recall  f1-score   support
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>precision    recall  f1-score   support
 
-       AddToPlaylist       0.98      0.97      0.97       124
-      BookRestaurant       0.98      0.99      0.98        92
-          GetWeather       1.00      0.98      0.99       104
-           PlayMusic       0.85      0.95      0.90        86
-            RateBook       1.00      1.00      1.00        80
-  SearchCreativeWork       0.82      0.84      0.83       107
+AddToPlaylist       0.98      0.97      0.97       124
+BookRestaurant       0.98      0.99      0.98        92
+GetWeather       1.00      0.98      0.99       104
+PlayMusic       0.85      0.95      0.90        86
+RateBook       1.00      1.00      1.00        80
+SearchCreativeWork       0.82      0.84      0.83       107
 SearchScreeningEvent       0.95      0.85      0.90       107
 
-            accuracy                           0.94       700
-           macro avg       0.94      0.94      0.94       700
-        weighted avg       0.94      0.94      0.94       700
+accuracy                           0.94       700
+macro avg       0.94      0.94      0.94       700
+weighted avg       0.94      0.94      0.94       700
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-02-15T00:00:00+00:00"><!-- start custom article footer snippet -->
 

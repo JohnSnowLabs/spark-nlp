@@ -432,8 +432,8 @@
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
 <span class="n">lemmatizer</span> <span class="o">=</span> <span class="n">LemmatizerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"lemma"</span><span class="p">,</span> <span class="s">"fa"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">])</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"lemma"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"lemma"</span><span class="p">)</span>
 
 <span class="n">nlp_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">lemmatizer</span><span class="p">])</span>
 <span class="n">light_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">nlp_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)))</span>
@@ -441,8 +441,8 @@
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
 <span class="k">val</span> <span class="nv">lemmatizer</span> <span class="k">=</span> <span class="nv">LemmatizerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"lemma"</span><span class="o">,</span> <span class="s">"fa"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"token"</span><span class="o">))</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"lemma"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"token"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"lemma"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">lemmatizer</span><span class="o">))</span>
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"فرماندهان	فرماندهی	فرمانده	فرمانده‌ای	فرماندهٔ	فرماند"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
@@ -460,11 +460,11 @@
 <h2 id="results">Results</h2>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span><span class="s1">'lemma'</span>: <span class="o">[</span>Annotation<span class="o">(</span>token, 0, 8, فرمانده, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 10, 17, فرماندهی, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 19, 25, فرمانده, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 27, 36, فرمانده, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 38, 45, فرمانده, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
-   Annotation<span class="o">(</span>token, 47, 52, فرماند, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})]}</span>
+Annotation<span class="o">(</span>token, 10, 17, فرماندهی, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 19, 25, فرمانده, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 27, 36, فرمانده, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 38, 45, فرمانده, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})</span>,
+Annotation<span class="o">(</span>token, 47, 52, فرماند, <span class="o">{</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span><span class="o">})]}</span>
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>

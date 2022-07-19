@@ -437,17 +437,17 @@
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">]).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
 
 <span class="n">biobert_embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'biobert_pubmed_base_cased'</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"bert_embeddings"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"bert_embeddings"</span><span class="p">)</span>
 
 <span class="n">sentence_embeddings</span> <span class="o">=</span> <span class="n">SentenceEmbeddings</span><span class="p">()</span> \
-     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"bert_embeddings"</span><span class="p">])</span> \
-     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_bert_embeddings"</span><span class="p">)</span> \
-     <span class="p">.</span><span class="n">setPoolingStrategy</span><span class="p">(</span><span class="s">"AVERAGE"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"bert_embeddings"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_bert_embeddings"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setPoolingStrategy</span><span class="p">(</span><span class="s">"AVERAGE"</span><span class="p">)</span>
 
 <span class="n">genderClassifier</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'classifierdl_gender_biobert'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'clinical/models'</span><span class="p">)</span> \
-       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"sentence_bert_embeddings"</span><span class="p">])</span> \
-       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"gender"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"sentence_bert_embeddings"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"gender"</span><span class="p">)</span>
 
 <span class="n">nlp_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">biobert_embeddings</span><span class="p">,</span> <span class="n">sentence_embeddings</span><span class="p">,</span> <span class="n">gender_classifier</span><span class="p">])</span>
 
@@ -464,7 +464,7 @@
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Female
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Female
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -512,14 +512,14 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              precision    recall  f1-score   support
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>precision    recall  f1-score   support
 
-      Female     0.9020    0.9364    0.9189       236
-        Male     0.8761    0.7857    0.8285       126
-     Unknown     0.7091    0.7647    0.7358        51
+Female     0.9020    0.9364    0.9189       236
+Male     0.8761    0.7857    0.8285       126
+Unknown     0.7091    0.7647    0.7358        51
 
-    accuracy                         0.8692       413
-   macro avg     0.8291    0.8290    0.8277       413
+accuracy                         0.8692       413
+macro avg     0.8291    0.8290    0.8277       413
 weighted avg     0.8703    0.8692    0.8687       413
 
 </code></pre></div></div>

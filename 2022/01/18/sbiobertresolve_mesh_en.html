@@ -431,50 +431,50 @@
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-      <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
 <span class="n">sbert_embedder</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span>\
-      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'sbiobert_base_cased_mli'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span><span class="s">'clinical/models'</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sbert_embeddings"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-    
+<span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'sbiobert_base_cased_mli'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span><span class="s">'clinical/models'</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sbert_embeddings"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
 <span class="n">mesh_resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_mesh"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sbert_embeddings"</span><span class="p">])</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mesh_code"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sbert_embeddings"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mesh_code"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
 
 <span class="n">mesh_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
-    <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">documentAssembler</span><span class="p">,</span>
-        <span class="n">sbert_embedder</span><span class="p">,</span>
-        <span class="n">mesh_resolver</span><span class="p">])</span>
+<span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
+<span class="n">documentAssembler</span><span class="p">,</span>
+<span class="n">sbert_embedder</span><span class="p">,</span>
+<span class="n">mesh_resolver</span><span class="p">])</span>
 
 <span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"""She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy with fluid biopsies, which were performed, which revealed malignant mesothelioma."""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">mesh_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nc">BertSentenceEmbeddings</span>
-      <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="ss">'sbiobert_base_cased_ml</span><span class="n">i</span><span class="o">',</span> <span class="ss">'e</span><span class="n">n</span><span class="sc">','</span><span class="n">clinical</span><span class="o">/</span><span class="n">models</span><span class="o">')</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">ner_chunk</span><span class="err">"</span><span class="o">])</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sbert_embeddings"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="nc">False</span><span class="o">)</span>
-    
+<span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nv">BertSentenceEmbeddings</span>
+<span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="ss">'sbiobert_base_cased_ml</span><span class="n">i</span><span class="o">',</span> <span class="ss">'e</span><span class="n">n</span><span class="sc">','</span><span class="n">clinical</span><span class="o">/</span><span class="n">models</span><span class="o">')</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">ner_chunk</span><span class="err">"</span><span class="o">])</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sbert_embeddings"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="nc">False</span><span class="o">)</span>
+
 <span class="k">val</span> <span class="nv">mesh_resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_mesh"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">ner_chunk</span><span class="err">"</span>, <span class="err">"</span><span class="kt">sbert_embeddings</span><span class="err">"</span><span class="o">])</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"mesh_code"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">ner_chunk</span><span class="err">"</span>, <span class="err">"</span><span class="kt">sbert_embeddings</span><span class="err">"</span><span class="o">])</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"mesh_code"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">mesh_pipeline</span> <span class="k">=</span> <span class="nc">Pipeline</span><span class="o">(</span>
-    <span class="n">stages</span> <span class="k">=</span> <span class="o">[</span>
-        <span class="kt">documentAssembler</span>,
-        <span class="kt">sbert_embedder</span>,
-        <span class="kt">mesh_resolver</span><span class="o">])</span>
+<span class="n">stages</span> <span class="k">=</span> <span class="o">[</span>
+<span class="kt">documentAssembler</span>,
+<span class="kt">sbert_embedder</span>,
+<span class="kt">mesh_resolver</span><span class="o">])</span>
 
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">([[</span><span class="err">"""</span><span class="kt">She</span> <span class="kt">was</span> <span class="kt">admitted</span> <span class="kt">to</span> <span class="kt">the</span> <span class="kt">hospital</span> <span class="kt">with</span> <span class="kt">chest</span> <span class="kt">pain</span> <span class="kt">and</span> <span class="kt">found</span> <span class="kt">to</span> <span class="kt">have</span> <span class="kt">bilateral</span> <span class="kt">pleural</span> <span class="kt">effusion</span>, <span class="kt">the</span> <span class="kt">right</span> <span class="kt">greater</span> <span class="kt">than</span> <span class="kt">the</span> <span class="kt">left.</span> <span class="kt">We</span> <span class="kt">reviewed</span> <span class="kt">the</span> <span class="kt">pathology</span> <span class="kt">obtained</span> <span class="kt">from</span> <span class="kt">the</span> <span class="kt">pericardectomy</span> <span class="kt">in</span> <span class="kt">March</span> <span class="err">2006</span>, <span class="kt">which</span> <span class="kt">was</span> <span class="kt">diagnostic</span> <span class="kt">of</span> <span class="kt">mesothelioma.</span> <span class="kt">At</span> <span class="kt">this</span> <span class="kt">time</span>, <span class="kt">chest</span> <span class="kt">tube</span> <span class="kt">placement</span> <span class="kt">for</span> <span class="kt">drainage</span> <span class="kt">of</span> <span class="kt">the</span> <span class="kt">fluid</span> <span class="kt">occurred</span> <span class="kt">and</span> <span class="kt">thoracoscopy</span> <span class="kt">with</span> <span class="kt">fluid</span> <span class="kt">biopsies</span>, <span class="kt">which</span> <span class="kt">were</span> <span class="kt">performed</span>, <span class="kt">which</span> <span class="kt">revealed</span> <span class="kt">malignant</span> <span class="kt">mesothelioma.</span><span class="err">"""</span><span class="o">]]).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">))</span>
 

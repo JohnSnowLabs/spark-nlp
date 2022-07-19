@@ -441,56 +441,56 @@ We used XlmRoBertaEmbeddings (xlm_roberta_base) model for the embeddings to trai
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
 
 <span class="n">embeddings</span> <span class="o">=</span> <span class="n">XlmRoBertaEmbeddings</span>\
-      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'xlm_roberta_base'</span><span class="p">,</span> <span class="s">'xx'</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">])</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+<span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'xlm_roberta_base'</span><span class="p">,</span> <span class="s">'xx'</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
 <span class="n">ner_model</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'ner_wikiner_xlm_roberta_base'</span><span class="p">,</span> <span class="s">'xx'</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'embeddings'</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'ner'</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'embeddings'</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'ner'</span><span class="p">)</span>
 
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'ner'</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'entities'</span><span class="p">)</span>
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'ner'</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'entities'</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">document_assembler</span><span class="p">,</span> 
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">embeddings</span><span class="p">,</span>
-    <span class="n">ner_model</span><span class="p">,</span>
-    <span class="n">ner_converter</span>
+<span class="n">document_assembler</span><span class="p">,</span> 
+<span class="n">tokenizer</span><span class="p">,</span>
+<span class="n">embeddings</span><span class="p">,</span>
+<span class="n">ner_model</span><span class="p">,</span>
+<span class="n">ner_converter</span>
 <span class="p">])</span>
 
 <span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'text'</span><span class="p">:</span> <span class="p">[</span><span class="s">'My name is John!'</span><span class="p">]}))</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">XlmRoBertaEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"xlm_roberta_base"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span> 
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">ner_model</span> <span class="k">=</span> <span class="nv">NerDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_wikiner_xlm_roberta_base"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">',</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">',</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">)</span> 
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="nc">NerConverter</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"entities"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">)</span> 
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"entities"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">ner_model</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="err">"</span><span class="kt">My</span> <span class="kt">name</span> <span class="kt">is</span> <span class="kt">John!</span><span class="err">"</span><span class="o">].</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
@@ -554,10 +554,10 @@ We used XlmRoBertaEmbeddings (xlm_roberta_base) model for the embeddings to trai
 processed 1267026 tokens with 134558 phrases<span class="p">;</span> found: 132447 phrases<span class="p">;</span> correct: 114590.
 accuracy:  85.26%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
 accuracy:  97.23%<span class="p">;</span> precision:  86.52%<span class="p">;</span> recall:  85.16%<span class="p">;</span> FB1:  85.83
-              LOC: precision:  87.26%<span class="p">;</span> recall:  88.62%<span class="p">;</span> FB1:  87.94  58155
-             MISC: precision:  80.06%<span class="p">;</span> recall:  70.23%<span class="p">;</span> FB1:  74.82  20432
-              ORG: precision:  80.02%<span class="p">;</span> recall:  75.09%<span class="p">;</span> FB1:  77.48  14003
-              PER: precision:  91.03%<span class="p">;</span> recall:  92.83%<span class="p">;</span> FB1:  91.92  39857
+LOC: precision:  87.26%<span class="p">;</span> recall:  88.62%<span class="p">;</span> FB1:  87.94  58155
+MISC: precision:  80.06%<span class="p">;</span> recall:  70.23%<span class="p">;</span> FB1:  74.82  20432
+ORG: precision:  80.02%<span class="p">;</span> recall:  75.09%<span class="p">;</span> FB1:  77.48  14003
+PER: precision:  91.03%<span class="p">;</span> recall:  92.83%<span class="p">;</span> FB1:  91.92  39857
 
 
 
@@ -565,173 +565,173 @@ Language by language benchmarks <span class="o">(</span>multi-label classificati
 
 
 lang:  english
-              precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-       B-LOC       0.84      0.91      0.87      8600
-       I-ORG       0.82      0.81      0.82      4249
-       I-LOC       0.84      0.82      0.83      3960
-       I-PER       0.95      0.94      0.95      4472
-       B-ORG       0.83      0.77      0.80      4882
-       B-PER       0.93      0.94      0.94      9639
+B-LOC       0.84      0.91      0.87      8600
+I-ORG       0.82      0.81      0.82      4249
+I-LOC       0.84      0.82      0.83      3960
+I-PER       0.95      0.94      0.95      4472
+B-ORG       0.83      0.77      0.80      4882
+B-PER       0.93      0.94      0.94      9639
 
-   micro avg       0.88      0.88      0.88     35802
-   macro avg       0.87      0.87      0.87     35802
+micro avg       0.88      0.88      0.88     35802
+macro avg       0.87      0.87      0.87     35802
 weighted avg       0.88      0.88      0.88     35802
 
 processed 349485 tokens with 30471 phrases<span class="p">;</span> found: 30143 phrases<span class="p">;</span> correct: 25648.
 accuracy:  85.02%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
 accuracy:  97.68%<span class="p">;</span> precision:  85.09%<span class="p">;</span> recall:  84.17%<span class="p">;</span> FB1:  84.63
-              LOC: precision:  82.69%<span class="p">;</span> recall:  88.64%<span class="p">;</span> FB1:  85.56  9219
-             MISC: precision:  80.26%<span class="p">;</span> recall:  71.82%<span class="p">;</span> FB1:  75.81  6577
-              ORG: precision:  81.13%<span class="p">;</span> recall:  75.91%<span class="p">;</span> FB1:  78.43  4568
-              PER: precision:  92.44%<span class="p">;</span> recall:  93.79%<span class="p">;</span> FB1:  93.11  9779
+LOC: precision:  82.69%<span class="p">;</span> recall:  88.64%<span class="p">;</span> FB1:  85.56  9219
+MISC: precision:  80.26%<span class="p">;</span> recall:  71.82%<span class="p">;</span> FB1:  75.81  6577
+ORG: precision:  81.13%<span class="p">;</span> recall:  75.91%<span class="p">;</span> FB1:  78.43  4568
+PER: precision:  92.44%<span class="p">;</span> recall:  93.79%<span class="p">;</span> FB1:  93.11  9779
 
 
 
 
 <span class="c">###############################</span>
 lang:  french
-              precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-       B-LOC       0.84      0.86      0.85     11482
-       I-ORG       0.80      0.77      0.78      2143
-       I-LOC       0.81      0.60      0.69      4495
-       I-PER       0.97      0.94      0.95      5339
-       B-ORG       0.84      0.81      0.82      2556
-       B-PER       0.93      0.93      0.93      7524
+B-LOC       0.84      0.86      0.85     11482
+I-ORG       0.80      0.77      0.78      2143
+I-LOC       0.81      0.60      0.69      4495
+I-PER       0.97      0.94      0.95      5339
+B-ORG       0.84      0.81      0.82      2556
+B-PER       0.93      0.93      0.93      7524
 
-   micro avg       0.87      0.85      0.86     33539
-   macro avg       0.86      0.82      0.84     33539
+micro avg       0.87      0.85      0.86     33539
+macro avg       0.86      0.82      0.84     33539
 weighted avg       0.87      0.85      0.86     33539
 
 processed 348522 tokens with 25499 phrases<span class="p">;</span> found: 25270 phrases<span class="p">;</span> correct: 21525.
 accuracy:  82.17%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
 accuracy:  97.62%<span class="p">;</span> precision:  85.18%<span class="p">;</span> recall:  84.42%<span class="p">;</span> FB1:  84.80
-              LOC: precision:  82.63%<span class="p">;</span> recall:  85.18%<span class="p">;</span> FB1:  83.88  11836
-             MISC: precision:  80.10%<span class="p">;</span> recall:  69.62%<span class="p">;</span> FB1:  74.49  3422
-              ORG: precision:  82.91%<span class="p">;</span> recall:  79.34%<span class="p">;</span> FB1:  81.09  2446
-              PER: precision:  92.20%<span class="p">;</span> recall:  92.72%<span class="p">;</span> FB1:  92.46  7566
+LOC: precision:  82.63%<span class="p">;</span> recall:  85.18%<span class="p">;</span> FB1:  83.88  11836
+MISC: precision:  80.10%<span class="p">;</span> recall:  69.62%<span class="p">;</span> FB1:  74.49  3422
+ORG: precision:  82.91%<span class="p">;</span> recall:  79.34%<span class="p">;</span> FB1:  81.09  2446
+PER: precision:  92.20%<span class="p">;</span> recall:  92.72%<span class="p">;</span> FB1:  92.46  7566
 
 
 
 
 <span class="c">###############################</span>
 lang:  german
-              precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-       B-LOC       0.88      0.90      0.89     20709
-       I-ORG       0.82      0.87      0.85      5933
-       I-LOC       0.81      0.82      0.82      6405
-       I-PER       0.96      0.97      0.97      8365
-       B-ORG       0.82      0.80      0.81      6759
-       B-PER       0.93      0.94      0.94     10647
+B-LOC       0.88      0.90      0.89     20709
+I-ORG       0.82      0.87      0.85      5933
+I-LOC       0.81      0.82      0.82      6405
+I-PER       0.96      0.97      0.97      8365
+B-ORG       0.82      0.80      0.81      6759
+B-PER       0.93      0.94      0.94     10647
 
-   micro avg       0.88      0.89      0.89     58818
-   macro avg       0.87      0.88      0.88     58818
+micro avg       0.88      0.89      0.89     58818
+macro avg       0.87      0.88      0.88     58818
 weighted avg       0.88      0.89      0.89     58818
 
 processed 349393 tokens with 46006 phrases<span class="p">;</span> found: 45517 phrases<span class="p">;</span> correct: 39247.
 accuracy:  86.81%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
 accuracy:  96.44%<span class="p">;</span> precision:  86.22%<span class="p">;</span> recall:  85.31%<span class="p">;</span> FB1:  85.76
-              LOC: precision:  86.58%<span class="p">;</span> recall:  88.33%<span class="p">;</span> FB1:  87.45  21128
-             MISC: precision:  81.40%<span class="p">;</span> recall:  72.67%<span class="p">;</span> FB1:  76.79  7044
-              ORG: precision:  80.11%<span class="p">;</span> recall:  77.76%<span class="p">;</span> FB1:  78.92  6561
-              PER: precision:  92.40%<span class="p">;</span> recall:  93.59%<span class="p">;</span> FB1:  92.99  10784
+LOC: precision:  86.58%<span class="p">;</span> recall:  88.33%<span class="p">;</span> FB1:  87.45  21128
+MISC: precision:  81.40%<span class="p">;</span> recall:  72.67%<span class="p">;</span> FB1:  76.79  7044
+ORG: precision:  80.11%<span class="p">;</span> recall:  77.76%<span class="p">;</span> FB1:  78.92  6561
+PER: precision:  92.40%<span class="p">;</span> recall:  93.59%<span class="p">;</span> FB1:  92.99  10784
 
 
 
 
 <span class="c">###############################</span>
 lang:  italian
-              precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-       B-LOC       0.91      0.92      0.91     13050
-       I-ORG       0.75      0.81      0.78      1211
-       I-LOC       0.92      0.86      0.89      7454
-       I-PER       0.96      0.95      0.95      4539
-       B-ORG       0.84      0.84      0.84      2222
-       B-PER       0.93      0.94      0.93      7206
+B-LOC       0.91      0.92      0.91     13050
+I-ORG       0.75      0.81      0.78      1211
+I-LOC       0.92      0.86      0.89      7454
+I-PER       0.96      0.95      0.95      4539
+B-ORG       0.84      0.84      0.84      2222
+B-PER       0.93      0.94      0.93      7206
 
-   micro avg       0.91      0.90      0.91     35682
-   macro avg       0.88      0.88      0.88     35682
+micro avg       0.91      0.90      0.91     35682
+macro avg       0.88      0.88      0.88     35682
 weighted avg       0.91      0.90      0.91     35682
 
 processed 349242 tokens with 26227 phrases<span class="p">;</span> found: 25982 phrases<span class="p">;</span> correct: 23079.
 accuracy:  88.06%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
 accuracy:  98.35%<span class="p">;</span> precision:  88.83%<span class="p">;</span> recall:  88.00%<span class="p">;</span> FB1:  88.41
-              LOC: precision:  89.87%<span class="p">;</span> recall:  90.22%<span class="p">;</span> FB1:  90.05  13101
-             MISC: precision:  81.60%<span class="p">;</span> recall:  74.05%<span class="p">;</span> FB1:  77.64  3402
-              ORG: precision:  83.26%<span class="p">;</span> recall:  82.36%<span class="p">;</span> FB1:  82.81  2198
-              PER: precision:  92.01%<span class="p">;</span> recall:  92.96%<span class="p">;</span> FB1:  92.48  7281
+LOC: precision:  89.87%<span class="p">;</span> recall:  90.22%<span class="p">;</span> FB1:  90.05  13101
+MISC: precision:  81.60%<span class="p">;</span> recall:  74.05%<span class="p">;</span> FB1:  77.64  3402
+ORG: precision:  83.26%<span class="p">;</span> recall:  82.36%<span class="p">;</span> FB1:  82.81  2198
+PER: precision:  92.01%<span class="p">;</span> recall:  92.96%<span class="p">;</span> FB1:  92.48  7281
 
 
 
 
 <span class="c">###############################</span>
 lang:  polish
-              precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-       B-LOC       0.91      0.93      0.92     17757
-       I-ORG       0.79      0.85      0.82      2105
-       I-LOC       0.89      0.85      0.87      5242
-       I-PER       0.97      0.95      0.96      6672
-       B-ORG       0.86      0.84      0.85      3700
-       B-PER       0.93      0.94      0.94      9670
+B-LOC       0.91      0.93      0.92     17757
+I-ORG       0.79      0.85      0.82      2105
+I-LOC       0.89      0.85      0.87      5242
+I-PER       0.97      0.95      0.96      6672
+B-ORG       0.86      0.84      0.85      3700
+B-PER       0.93      0.94      0.94      9670
 
-   micro avg       0.91      0.91      0.91     45146
-   macro avg       0.89      0.89      0.89     45146
+micro avg       0.91      0.91      0.91     45146
+macro avg       0.89      0.89      0.89     45146
 weighted avg       0.91      0.91      0.91     45146
 
 processed 350132 tokens with 36235 phrases<span class="p">;</span> found: 35886 phrases<span class="p">;</span> correct: 32107.
 accuracy:  88.31%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
 accuracy:  97.98%<span class="p">;</span> precision:  89.47%<span class="p">;</span> recall:  88.61%<span class="p">;</span> FB1:  89.04
-              LOC: precision:  90.17%<span class="p">;</span> recall:  92.52%<span class="p">;</span> FB1:  91.33  18221
-             MISC: precision:  82.48%<span class="p">;</span> recall:  70.71%<span class="p">;</span> FB1:  76.15  4379
-              ORG: precision:  85.37%<span class="p">;</span> recall:  82.51%<span class="p">;</span> FB1:  83.92  3576
-              PER: precision:  92.82%<span class="p">;</span> recall:  93.21%<span class="p">;</span> FB1:  93.01  9710
+LOC: precision:  90.17%<span class="p">;</span> recall:  92.52%<span class="p">;</span> FB1:  91.33  18221
+MISC: precision:  82.48%<span class="p">;</span> recall:  70.71%<span class="p">;</span> FB1:  76.15  4379
+ORG: precision:  85.37%<span class="p">;</span> recall:  82.51%<span class="p">;</span> FB1:  83.92  3576
+PER: precision:  92.82%<span class="p">;</span> recall:  93.21%<span class="p">;</span> FB1:  93.01  9710
 
 
 
 
 <span class="c">###############################</span>
 lang:  portuguese
-              precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-       B-LOC       0.93      0.93      0.93     14818
-       I-ORG       0.80      0.85      0.83      1705
-       I-LOC       0.92      0.88      0.90      8354
-       I-PER       0.96      0.94      0.95      4338
-       B-ORG       0.84      0.86      0.85      2351
-       B-PER       0.94      0.94      0.94      6398
+B-LOC       0.93      0.93      0.93     14818
+I-ORG       0.80      0.85      0.83      1705
+I-LOC       0.92      0.88      0.90      8354
+I-PER       0.96      0.94      0.95      4338
+B-ORG       0.84      0.86      0.85      2351
+B-PER       0.94      0.94      0.94      6398
 
-   micro avg       0.92      0.91      0.92     37964
-   macro avg       0.90      0.90      0.90     37964
+micro avg       0.92      0.91      0.92     37964
+macro avg       0.90      0.90      0.90     37964
 weighted avg       0.92      0.91      0.92     37964
 
 processed 348966 tokens with 26513 phrases<span class="p">;</span> found: 26349 phrases<span class="p">;</span> correct: 23958.
 accuracy:  90.10%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
 accuracy:  98.60%<span class="p">;</span> precision:  90.93%<span class="p">;</span> recall:  90.36%<span class="p">;</span> FB1:  90.64
-              LOC: precision:  92.13%<span class="p">;</span> recall:  91.97%<span class="p">;</span> FB1:  92.05  14792
-             MISC: precision:  84.09%<span class="p">;</span> recall:  79.46%<span class="p">;</span> FB1:  81.71  2784
-              ORG: precision:  83.51%<span class="p">;</span> recall:  85.28%<span class="p">;</span> FB1:  84.39  2401
-              PER: precision:  93.91%<span class="p">;</span> recall:  93.53%<span class="p">;</span> FB1:  93.72  6372
+LOC: precision:  92.13%<span class="p">;</span> recall:  91.97%<span class="p">;</span> FB1:  92.05  14792
+MISC: precision:  84.09%<span class="p">;</span> recall:  79.46%<span class="p">;</span> FB1:  81.71  2784
+ORG: precision:  83.51%<span class="p">;</span> recall:  85.28%<span class="p">;</span> FB1:  84.39  2401
+PER: precision:  93.91%<span class="p">;</span> recall:  93.53%<span class="p">;</span> FB1:  93.72  6372
 
 
 
 
 <span class="c">###############################</span>
 lang:  russian
-              precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-       B-LOC       0.93      0.95      0.94     14707
-       I-ORG       0.84      0.73      0.78      2594
-       I-LOC       0.86      0.87      0.87      5047
-       I-PER       0.98      0.96      0.97      6366
-       B-ORG       0.86      0.84      0.85      3697
-       B-PER       0.94      0.95      0.94      7119
+B-LOC       0.93      0.95      0.94     14707
+I-ORG       0.84      0.73      0.78      2594
+I-LOC       0.86      0.87      0.87      5047
+I-PER       0.98      0.96      0.97      6366
+B-ORG       0.86      0.84      0.85      3697
+B-PER       0.94      0.95      0.94      7119
 
-   micro avg       0.92      0.92      0.92     39530
-   macro avg       0.90      0.88      0.89     39530
+micro avg       0.92      0.92      0.92     39530
+macro avg       0.90      0.88      0.89     39530
 weighted avg       0.92      0.92      0.92     39530
 
 
@@ -739,26 +739,26 @@ weighted avg       0.92      0.92      0.92     39530
 
 <span class="c">###############################</span>
 lang:  spanish
-              precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-       B-LOC       0.89      0.90      0.89     11963
-       I-ORG       0.83      0.79      0.81      1950
-       I-LOC       0.89      0.80      0.84      6162
-       I-PER       0.97      0.94      0.95      4678
-       B-ORG       0.84      0.80      0.82      2084
-       B-PER       0.94      0.94      0.94      7215
+B-LOC       0.89      0.90      0.89     11963
+I-ORG       0.83      0.79      0.81      1950
+I-LOC       0.89      0.80      0.84      6162
+I-PER       0.97      0.94      0.95      4678
+B-ORG       0.84      0.80      0.82      2084
+B-PER       0.94      0.94      0.94      7215
 
-   micro avg       0.90      0.88      0.89     34052
-   macro avg       0.89      0.86      0.88     34052
+micro avg       0.90      0.88      0.89     34052
+macro avg       0.89      0.86      0.88     34052
 weighted avg       0.90      0.88      0.89     34052
 
 processed 348209 tokens with 24505 phrases<span class="p">;</span> found: 24360 phrases<span class="p">;</span> correct: 21446.
 accuracy:  86.63%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
 accuracy:  98.24%<span class="p">;</span> precision:  88.04%<span class="p">;</span> recall:  87.52%<span class="p">;</span> FB1:  87.78
-              LOC: precision:  87.90%<span class="p">;</span> recall:  88.74%<span class="p">;</span> FB1:  88.32  12078
-             MISC: precision:  79.02%<span class="p">;</span> recall:  74.68%<span class="p">;</span> FB1:  76.79  3065
-              ORG: precision:  82.57%<span class="p">;</span> recall:  78.89%<span class="p">;</span> FB1:  80.69  1991
-              PER: precision:  93.61%<span class="p">;</span> recall:  93.75%<span class="p">;</span> FB1:  93.68  7226
+LOC: precision:  87.90%<span class="p">;</span> recall:  88.74%<span class="p">;</span> FB1:  88.32  12078
+MISC: precision:  79.02%<span class="p">;</span> recall:  74.68%<span class="p">;</span> FB1:  76.79  3065
+ORG: precision:  82.57%<span class="p">;</span> recall:  78.89%<span class="p">;</span> FB1:  80.69  1991
+PER: precision:  93.61%<span class="p">;</span> recall:  93.75%<span class="p">;</span> FB1:  93.68  7226
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-07-19T00:00:00+00:00"><!-- start custom article footer snippet -->
 

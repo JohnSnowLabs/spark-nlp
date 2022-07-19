@@ -446,12 +446,12 @@
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
 <span class="k">val</span> <span class="nv">embeddings_clinical</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_healthcare"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_posology_healthcare"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
 <span class="o">...</span>
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings_clinical</span><span class="o">,</span> <span class="n">ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
 
@@ -500,16 +500,16 @@
 </table>
 
 <h2 id="benchmarking">Benchmarking</h2>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   entity      tp     fp     fn   total  precision  recall      f1
- DURATION   995.0  463.0  132.0  1127.0     0.6824  0.8829  0.7698
-     DRUG  4957.0  632.0  476.0  5433.0     0.8869  0.9124  0.8995
-   DOSAGE   539.0  183.0  380.0   919.0     0.7465  0.5865  0.6569
-    ROUTE   676.0   47.0  129.0   805.0      0.935  0.8398  0.8848
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>entity      tp     fp     fn   total  precision  recall      f1
+DURATION   995.0  463.0  132.0  1127.0     0.6824  0.8829  0.7698
+DRUG  4957.0  632.0  476.0  5433.0     0.8869  0.9124  0.8995
+DOSAGE   539.0  183.0  380.0   919.0     0.7465  0.5865  0.6569
+ROUTE   676.0   47.0  129.0   805.0      0.935  0.8398  0.8848
 FREQUENCY  3688.0  675.0  313.0  4001.0     0.8453  0.9218  0.8819
-     FORM  1328.0  261.0  294.0  1622.0     0.8357  0.8187  0.8272
- STRENGTH  5008.0  687.0  557.0  5565.0     0.8794  0.8999  0.8895
-    macro     -      -      -       -         -       -     0.82994
-    micro     -      -      -       -         -       -     0.86743
+FORM  1328.0  261.0  294.0  1622.0     0.8357  0.8187  0.8272
+STRENGTH  5008.0  687.0  557.0  5565.0     0.8794  0.8999  0.8895
+macro     -      -      -       -         -       -     0.82994
+micro     -      -      -       -         -       -     0.86743
 </code></pre></div></div>
 <!--stackedit_data:
 eyJoaXN0b3J5IjpbMTA3NjIzOTY1XX0=

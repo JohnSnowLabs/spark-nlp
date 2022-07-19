@@ -434,58 +434,58 @@
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="n">SentenceDetectorDLModel</span><span class="p">,</span> <span class="n">T5Transformer</span>
 
-       <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span>
-            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">"Which is the capital of France? Who was the first president of USA?"</span><span class="p">],</span>
-            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">"Which is the capital of Bulgaria ?"</span><span class="p">],</span>
-            <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">"Who is Donald Trump?"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"id"</span><span class="p">,</span> <span class="s">"text"</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">"Which is the capital of France? Who was the first president of USA?"</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">"Which is the capital of Bulgaria ?"</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">"Who is Donald Trump?"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"id"</span><span class="p">,</span> <span class="s">"text"</span><span class="p">)</span>
 
-        <span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-            <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-            <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"documents"</span><span class="p">)</span>
+<span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"documents"</span><span class="p">)</span>
 
-        <span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span>\
-            <span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>\
-            <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"documents"</span><span class="p">])</span>\
-            <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"questions"</span><span class="p">)</span>
+<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span>\
+<span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>\
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"documents"</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"questions"</span><span class="p">)</span>
 
-        <span class="n">t5</span> <span class="o">=</span> <span class="n">T5Transformer</span><span class="p">()</span>\
-            <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"google_t5_small_ssm_nq"</span><span class="p">)</span>\
-            <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"questions"</span><span class="p">])</span>\
-            <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answers"</span><span class="p">)</span>\
+<span class="n">t5</span> <span class="o">=</span> <span class="n">T5Transformer</span><span class="p">()</span>\
+<span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"google_t5_small_ssm_nq"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"questions"</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answers"</span><span class="p">)</span>\
 
-        <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">t5</span><span class="p">])</span>
-        <span class="n">results</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">t5</span><span class="p">])</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
-        <span class="n">results</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"questions.result"</span><span class="p">,</span> <span class="s">"answers.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">results</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"questions.result"</span><span class="p">,</span> <span class="s">"answers.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">val</span> <span class="nv">testData</span> <span class="k">=</span> <span class="nv">ResourceHelper</span><span class="o">.</span><span class="py">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">testData</span> <span class="k">=</span> <span class="nv">ResourceHelper</span><span class="o">.</span><span class="py">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span>
 
-      <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"Which is the capital of France? Who was the first president of USA?"</span><span class="o">),</span>
-      <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"Which is the capital of Bulgaria ?"</span><span class="o">),</span>
-      <span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"Who is Donald Trump?"</span><span class="o">)</span>
+<span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"Which is the capital of France? Who was the first president of USA?"</span><span class="o">),</span>
+<span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"Which is the capital of Bulgaria ?"</span><span class="o">),</span>
+<span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"Who is Donald Trump?"</span><span class="o">)</span>
 
-    <span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
+<span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
 
-    <span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"documents"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"documents"</span><span class="o">)</span>
 
-    <span class="k">val</span> <span class="nv">sentenceDetector</span> <span class="k">=</span> <span class="nc">SentenceDetectorDLModel</span>
-      <span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"documents"</span><span class="o">))</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"questions"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">sentenceDetector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span>
+<span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"documents"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"questions"</span><span class="o">)</span>
 
-    <span class="k">val</span> <span class="nv">t5</span> <span class="k">=</span> <span class="n">T5Transformer</span>
-      <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"google_t5_small_ssm_nq"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"questions"</span><span class="o">))</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answers"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">t5</span> <span class="k">=</span> <span class="nv">T5Transformer</span>
+<span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"google_t5_small_ssm_nq"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"questions"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answers"</span><span class="o">)</span>
 
-    <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">sentenceDetector</span><span class="o">,</span> <span class="n">t5</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">sentenceDetector</span><span class="o">,</span> <span class="n">t5</span><span class="o">))</span>
 
-    <span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">testData</span><span class="o">)</span>
-    <span class="k">val</span> <span class="nv">results</span> <span class="k">=</span> <span class="nv">model</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">testData</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">testData</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">results</span> <span class="k">=</span> <span class="nv">model</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">testData</span><span class="o">)</span>
 
-    <span class="nv">results</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"questions.result"</span><span class="o">,</span> <span class="s">"answers.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+<span class="nv">results</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"questions.result"</span><span class="o">,</span> <span class="s">"answers.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
 </code></pre></div>  </div>
 
   <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
