@@ -17,7 +17,6 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorType.NODE
-import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.ner.NerConverter
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
@@ -283,8 +282,7 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
     AssertAnnotations.assertFields(expectedGraph, actualGraph)
   }
 
-  it should "handle overlapping entities" ignore {
-    // Ignored because it downloads POS and Dependency Parser pretrained models
+  it should "handle overlapping entities" taggedAs SlowTest in {
     val testDataSet = getOverlappingEntities(spark, tokenizerWithSentencePipeline)
     val graphExtractor = new GraphExtraction()
       .setInputCols("sentence", "token", "entities")
@@ -473,7 +471,7 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
       .setInputCols("sentence", "token", "entities")
       .setOutputCol("graph")
       .setExplodeEntities(true)
-      .setMergeEntities(false)
+      .setMergeEntities(true)
       .setMergeEntitiesIOBFormat("IOB")
       .setIncludeEdges(false)
     val expectedGraph = Array(
@@ -513,13 +511,6 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
   }
 
   "Graph Extraction with LightPipeline" should "return dependency graphs between all entities" taggedAs SlowTest in {
-    val sentence = new SentenceDetector()
-      .setInputCols("document")
-      .setOutputCol("sentence")
-
-    val tokenizer = new Tokenizer()
-      .setInputCols("sentence")
-      .setOutputCol("token")
 
     val embeddings = WordEmbeddingsModel
       .pretrained()
@@ -563,7 +554,7 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
     val graphPipeline = new Pipeline().setStages(
       Array(
         documentAssembler,
-        sentence,
+        sentenceDetector,
         tokenizer,
         embeddings,
         nerSmall,
