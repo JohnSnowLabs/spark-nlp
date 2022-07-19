@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,29 +37,29 @@ This pretrained model maps ICD10-CM codes to corresponding SNOMED codes under th
 
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")
 
 icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-      .setOutputCol("icd10cm_code")\
-      .setDistanceFunction("EUCLIDEAN")
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("icd10cm_code")\
+.setDistanceFunction("EUCLIDEAN")
 
 chunkerMapper = ChunkMapperModel.pretrained("icd10cm_snomed_mapper", "en", "clinical/models")\
-      .setInputCols(["icd10cm_code"])\
-      .setOutputCol("mappings")\
-      .setRels(["snomed_code"])
+.setInputCols(["icd10cm_code"])\
+.setOutputCol("mappings")\
+.setRels(["snomed_code"])
 
 
 pipeline = Pipeline(stages = [
-                      documentAssembler,
-                      sbert_embedder,
-                      icd_resolver,
-                      chunkerMapper])
+documentAssembler,
+sbert_embedder,
+icd_resolver,
+chunkerMapper])
 
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -69,29 +69,29 @@ result = light_pipeline.fullAnnotate("Diabetes Mellitus")
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("ner_chunk")
+.setInputCol("text")
+.setOutputCol("ner_chunk")
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
-      .setInputCols("ner_chunk")
-      .setOutputCol("sbert_embeddings")
+.setInputCols("ner_chunk")
+.setOutputCol("sbert_embeddings")
 
 val icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc", "en", "clinical/models")
-      .setInputCols(Array("ner_chunk", "sbert_embeddings"))
-      .setOutputCol("icd10cm_code")
-      .setDistanceFunction("EUCLIDEAN")
+.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setOutputCol("icd10cm_code")
+.setDistanceFunction("EUCLIDEAN")
 
 val chunkerMapper = ChunkMapperModel.pretrained("icd10cm_snomed_mapper", "en","clinical/models")
-      .setInputCols("icd10cm_code")
-      .setOutputCol("mappings")
-      .setRels(Array("snomed_code"))
+.setInputCols("icd10cm_code")
+.setOutputCol("mappings")
+.setRels(Array("snomed_code"))
 
 
 val pipeline = new Pipeline(stages = Array(
-                                  documentAssembler,
-                                  sbert_embedder,
-                                  icd_resolver,
-                                  chunkerMapper))
+documentAssembler,
+sbert_embedder,
+icd_resolver,
+chunkerMapper))
 
 
 val data = Seq("Diabetes Mellitus").toDS.toDF("text")

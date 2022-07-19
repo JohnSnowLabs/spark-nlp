@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -26,10 +26,10 @@ Sai Saketh Aluru, Binny Mathew, Punyajoy Saha and Animesh Mukherjee. "[Deep Lear
 
 ~~~
 @article{aluru2020deep,
-  title={Deep Learning Models for Multilingual Hate Speech Detection},
-  author={Aluru, Sai Saket and Mathew, Binny and Saha, Punyajoy and Mukherjee, Animesh},
-  journal={arXiv preprint arXiv:2004.06465},
-  year={2020}
+title={Deep Learning Models for Multilingual Hate Speech Detection},
+author={Aluru, Sai Saket and Mathew, Binny and Saha, Punyajoy and Mukherjee, Animesh},
+journal={arXiv preprint arXiv:2004.06465},
+year={2020}
 }
 ~~~
 
@@ -50,24 +50,24 @@ Sai Saketh Aluru, Binny Mathew, Punyajoy Saha and Animesh Mukherjee. "[Deep Lear
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol('text') \
-    .setOutputCol('document')
+.setInputCol('text') \
+.setOutputCol('document')
 
 tokenizer = Tokenizer() \
-    .setInputCols(['document']) \
-    .setOutputCol('token')
+.setInputCols(['document']) \
+.setOutputCol('token')
 
 sequenceClassifier = BertForSequenceClassification \
-      .pretrained('bert_sequence_classifier_dehatebert_mono', 'en') \
-      .setInputCols(['token', 'document']) \
-      .setOutputCol('class') \
-      .setCaseSensitive(True) \
-      .setMaxSentenceLength(512)
+.pretrained('bert_sequence_classifier_dehatebert_mono', 'en') \
+.setInputCols(['token', 'document']) \
+.setOutputCol('class') \
+.setCaseSensitive(True) \
+.setMaxSentenceLength(512)
 
 pipeline = Pipeline(stages=[
-    document_assembler,
-    tokenizer,
-    sequenceClassifier
+document_assembler,
+tokenizer,
+sequenceClassifier
 ])
 
 example = spark.createDataFrame([['I love you!']]).toDF("text")
@@ -75,18 +75,18 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document_assembler = DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val tokenizer = Tokenizer()
-    .setInputCols("document")
-    .setOutputCol("token")
+.setInputCols("document")
+.setOutputCol("token")
 
 val tokenClassifier = BertForSequenceClassification.pretrained("bert_sequence_classifier_dehatebert_mono", "en")
-      .setInputCols("document", "token")
-      .setOutputCol("class")
-      .setCaseSensitive(true)
-      .setMaxSentenceLength(512)
+.setInputCols("document", "token")
+.setOutputCol("class")
+.setCaseSensitive(true)
+.setMaxSentenceLength(512)
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 

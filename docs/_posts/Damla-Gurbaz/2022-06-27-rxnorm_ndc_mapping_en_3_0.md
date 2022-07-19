@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -58,9 +58,9 @@ nlu.load("en.map_entity.rxnorm_to_ndc.pipe").predict("""1652674 259934""")
 
 ```bash
 {'document': ['1652674 259934'],
- 'package_ndc': ['62135-0625-60', '13349-0010-39'],
- 'product_ndc': ['46708-0499', '13349-0010'],
- 'rxnorm_code': ['1652674', '259934']}
+'package_ndc': ['62135-0625-60', '13349-0010-39'],
+'product_ndc': ['46708-0499', '13349-0010'],
+'rxnorm_code': ['1652674', '259934']}
 ```
 
 {:.model-param}

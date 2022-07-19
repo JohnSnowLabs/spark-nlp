@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.1
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,17 +36,17 @@ This model maps clinical entities and concepts (like drugs/ingredients) to RxNor
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
-    .setInputCols(["ner_chunk"])\
-    .setOutputCol("sbert_embeddings")
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")
 
 rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_action_treatment", "en", "clinical/models")\
-    .setInputCols(["ner_chunk", "sbert_embeddings"])\
-    .setOutputCol("rxnorm_code")\
-    .setDistanceFunction("EUCLIDEAN")
+.setInputCols(["ner_chunk", "sbert_embeddings"])\
+.setOutputCol("rxnorm_code")\
+.setDistanceFunction("EUCLIDEAN")
 
 pipelineModel = PipelineModel( stages = [ documentAssembler, sbert_embedder, rxnorm_resolver ])
 
@@ -56,17 +56,17 @@ result = light_model.fullAnnotate(["Zita 200 mg", "coumadin 5 mg", "avandia 4 mg
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("ner_chunk")
+.setInputCol("text")
+.setOutputCol("ner_chunk")
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en","clinical/models")
-      .setInputCols(Array("ner_chunk"))
-      .setOutputCol("sbert_embeddings")
-    
+.setInputCols(Array("ner_chunk"))
+.setOutputCol("sbert_embeddings")
+
 val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_action_treatment", "en", "clinical/models")
-      .setInputCols(Array("ner_chunk", "sbert_embeddings"))
-      .setOutputCol("rxnorm_code")
-      .setDistanceFunction("EUCLIDEAN")
+.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setOutputCol("rxnorm_code")
+.setDistanceFunction("EUCLIDEAN")
 
 val rxnorm_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, rxnorm_resolver))
 

@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.1
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -60,27 +60,27 @@ nlu.load("en.med_ner.profiling_biobert").predict("""A 28-year-old female with a 
 ## Results
 
 ```bash
- ******************** ner_diseases_biobert Model Results ******************** 
+******************** ner_diseases_biobert Model Results ******************** 
 
 [('gestational diabetes mellitus', 'Disease'), ('type two diabetes mellitus', 'Disease'), ('T2DM', 'Disease'), ('HTG-induced pancreatitis', 'Disease'), ('hepatitis', 'Disease'), ('obesity', 'Disease'), ('polyuria', 'Disease'), ('polydipsia', 'Disease'), ('poor appetite', 'Disease'), ('vomiting', 'Disease')]
 
- 
- ******************** ner_events_biobert Model Results ******************** 
+
+******************** ner_events_biobert Model Results ******************** 
 
 [('gestational diabetes mellitus', 'PROBLEM'), ('eight years', 'DURATION'), ('presentation', 'OCCURRENCE'), ('type two diabetes mellitus ( T2DM', 'PROBLEM'), ('HTG-induced pancreatitis', 'PROBLEM'), ('three years', 'DURATION'), ('presentation', 'OCCURRENCE'), ('an acute hepatitis', 'PROBLEM'), ('obesity', 'PROBLEM'), ('a body mass index', 'TEST'), ('BMI', 'TEST'), ('presented', 'OCCURRENCE'), ('a one-week', 'DURATION'), ('polyuria', 'PROBLEM'), ('polydipsia', 'PROBLEM'), ('poor appetite', 'PROBLEM'), ('vomiting', 'PROBLEM')]
 
 
- ******************** ner_jsl_biobert Model Results ******************** 
+******************** ner_jsl_biobert Model Results ******************** 
 
 [('28-year-old', 'Age'), ('female', 'Gender'), ('gestational diabetes mellitus', 'Diabetes'), ('eight years prior', 'RelativeDate'), ('type two diabetes mellitus', 'Diabetes'), ('T2DM', 'Disease_Syndrome_Disorder'), ('HTG-induced pancreatitis', 'Disease_Syndrome_Disorder'), ('three years prior', 'RelativeDate'), ('acute', 'Modifier'), ('hepatitis', 'Disease_Syndrome_Disorder'), ('obesity', 'Obesity'), ('body mass index', 'BMI'), ('BMI ) of 33.5 kg/m2', 'BMI'), ('one-week', 'Duration'), ('polyuria', 'Symptom'), ('polydipsia', 'Symptom'), ('poor appetite', 'Symptom'), ('vomiting', 'Symptom')]
 
 
- ******************** ner_clinical_biobert Model Results ******************** 
+******************** ner_clinical_biobert Model Results ******************** 
 
 [('gestational diabetes mellitus', 'PROBLEM'), ('subsequent type two diabetes mellitus ( T2DM', 'PROBLEM'), ('HTG-induced pancreatitis', 'PROBLEM'), ('an acute hepatitis', 'PROBLEM'), ('obesity', 'PROBLEM'), ('a body mass index ( BMI )', 'TEST'), ('polyuria', 'PROBLEM'), ('polydipsia', 'PROBLEM'), ('poor appetite', 'PROBLEM'), ('vomiting', 'PROBLEM')]
 
 
- ******************** ner_risk_factors_biobert Model Results ******************** 
+******************** ner_risk_factors_biobert Model Results ******************** 
 
 [('diabetes mellitus', 'DIABETES'), ('subsequent type two diabetes mellitus', 'DIABETES'), ('obesity', 'OBESE')]
 

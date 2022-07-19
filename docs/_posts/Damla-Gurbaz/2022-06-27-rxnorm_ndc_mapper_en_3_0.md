@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,33 +36,33 @@ This pretrained model maps RxNorm and RxNorm Extension codes with corresponding 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 sbert_embedder = BertSentenceEmbeddings\
-      .pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")
-    
+.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")
+
 rxnorm_resolver = SentenceEntityResolverModel\
-      .pretrained("sbiobertresolve_rxnorm_augmented", "en", "clinical/models")\
-      .setInputCols(["ner_chunk", "sbert_embeddings"])\
-      .setOutputCol("rxnorm_code")\
-      .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_rxnorm_augmented", "en", "clinical/models")\
+.setInputCols(["ner_chunk", "sbert_embeddings"])\
+.setOutputCol("rxnorm_code")\
+.setDistanceFunction("EUCLIDEAN")
 
 chunkerMapper = ChunkMapperModel\
-      .pretrained("rxnorm_ndc_mapper", "en", "clinical/models")\
-      .setInputCols(["rxnorm_code"])\
-      .setOutputCol("ndc_mappings")\
-      .setRels(["Product NDC", "Package NDC"])
+.pretrained("rxnorm_ndc_mapper", "en", "clinical/models")\
+.setInputCols(["rxnorm_code"])\
+.setOutputCol("ndc_mappings")\
+.setRels(["Product NDC", "Package NDC"])
 
 
 pipeline = Pipeline(stages = [
-                      documentAssembler,
-                      sbert_embedder,
-                      rxnorm_resolver,
-                      chunkerMapper
-                      ])
+documentAssembler,
+sbert_embedder,
+rxnorm_resolver,
+chunkerMapper
+])
 
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text")) 
 
@@ -72,36 +72,36 @@ result = light_pipeline.annotate(["doxycycline hyclate 50 MG Oral Tablet", "maca
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-       .setInputCol("text")
-       .setOutputCol("ner_chunk")
+.setInputCol("text")
+.setOutputCol("ner_chunk")
 
- val sbert_embedder = BertSentenceEmbeddings
-       .pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
-       .setInputCols("ner_chunk")
-       .setOutputCol("sbert_embeddings")
+val sbert_embedder = BertSentenceEmbeddings
+.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
+.setInputCols("ner_chunk")
+.setOutputCol("sbert_embeddings")
 
- val rxnorm_resolver = SentenceEntityResolverModel
-       .pretrained("sbiobertresolve_rxnorm_augmented", "en", "clinical/models")
-       .setInputCols(Array("ner_chunk", "sbert_embeddings"))
-       .setOutputCol("rxnorm_code")
-       .setDistanceFunction("EUCLIDEAN")
+val rxnorm_resolver = SentenceEntityResolverModel
+.pretrained("sbiobertresolve_rxnorm_augmented", "en", "clinical/models")
+.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setOutputCol("rxnorm_code")
+.setDistanceFunction("EUCLIDEAN")
 
- val chunkerMapper = ChunkMapperModel
-       .pretrained("rxnorm_ndc_mapper", "en", "clinical/models")
-       .setInputCols("rxnorm_code")
-       .setOutputCol("ndc_mappings")
-       .setRels(["Product NDC", "Package NDC"])
+val chunkerMapper = ChunkMapperModel
+.pretrained("rxnorm_ndc_mapper", "en", "clinical/models")
+.setInputCols("rxnorm_code")
+.setOutputCol("ndc_mappings")
+.setRels(["Product NDC", "Package NDC"])
 
- val pipeline = new Pipeline(stages = Array(
-                                documentAssembler,
-                                sbert_embedder,
-                                rxnorm_resolver,
-                                chunkerMapper
-                                ))
- 
- val data = Seq(Array("doxycycline hyclate 50 MG Oral Tablet", "macadamia nut 100 MG/ML")).toDS.toDF("text")
+val pipeline = new Pipeline(stages = Array(
+documentAssembler,
+sbert_embedder,
+rxnorm_resolver,
+chunkerMapper
+))
 
- val result= pipeline.fit(data).transform(data)
+val data = Seq(Array("doxycycline hyclate 50 MG Oral Tablet", "macadamia nut 100 MG/ML")).toDS.toDF("text")
+
+val result= pipeline.fit(data).transform(data)
 ```
 
 

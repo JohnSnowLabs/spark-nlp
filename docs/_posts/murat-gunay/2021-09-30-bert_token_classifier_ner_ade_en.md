@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.2.2
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -47,13 +47,13 @@ Detect adverse reactions of drugs in reviews, tweets, and medical text using the
 ```python
 ...
 tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_ade", "en", "clinical/models")\
-  .setInputCols("token", "document")\
-  .setOutputCol("ner")\
-  .setCaseSensitive(True)
+.setInputCols("token", "document")\
+.setOutputCol("ner")\
+.setCaseSensitive(True)
 
 ner_converter = NerConverter()\
-  .setInputCols(["document","token","ner"])\
-  .setOutputCol("ner_chunk")
+.setInputCols(["document","token","ner"])\
+.setOutputCol("ner_chunk")
 pipeline =  Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
 
 p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
@@ -65,13 +65,13 @@ result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sen
 ```scala
 ...
 val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_ade", "en", "clinical/models")
-  .setInputCols("token", "document")
-  .setOutputCol("ner")
-  .setCaseSensitive(True)
+.setInputCols("token", "document")
+.setOutputCol("ner")
+.setCaseSensitive(True)
 
 val ner_converter = new NerConverter()
-  .setInputCols(Array("document","token","ner"))
-  .setOutputCol("ner_chunk")
+.setInputCols(Array("document","token","ner"))
+.setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
 
@@ -132,13 +132,13 @@ This model is trained on a custom dataset by John Snow Labs.
 
 
 ```bash
-       label  precision    recall  f1-score   support
-       B-ADE       0.93      0.79      0.85      2694
-      B-DRUG       0.97      0.87      0.92      9539
-       I-ADE       0.93      0.73      0.82      3236
-      I-DRUG       0.95      0.82      0.88      6115
-    accuracy       -         -         0.83     21584
-   macro-avg       0.84      0.84      0.84     21584
+label  precision    recall  f1-score   support
+B-ADE       0.93      0.79      0.85      2694
+B-DRUG       0.97      0.87      0.92      9539
+I-ADE       0.93      0.73      0.82      3236
+I-DRUG       0.95      0.82      0.88      6115
+accuracy       -         -         0.83     21584
+macro-avg       0.84      0.84      0.84     21584
 weighted-avg       0.95      0.83      0.89     21584
 ```
 <!--stackedit_data:

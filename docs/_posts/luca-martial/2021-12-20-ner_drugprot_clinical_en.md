@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -47,12 +47,12 @@ This model detects chemical compounds/drugs and genes/proteins in medical text a
 ```python
 ...
 embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-  .setInputCols(["sentence", "token"])\
-  .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_drugprot_clinical", "en", "clinical/models")\
-  .setInputCols(["sentence", "token", "embeddings"])\
-  .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"])\
+.setOutputCol("ner")
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical, clinical_ner, ner_converter])
 
@@ -65,12 +65,12 @@ results = model.transform(spark.createDataFrame([[EXAMPLE_TEXT]]).toDF("text"))
 ```scala
 ...
 val embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token"))
-  .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 val ner = MedicalNerModel.pretrained("ner_drugprot_clinical", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token", "embeddings"))
-  .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings"))
+.setOutputCol("ner")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
 
@@ -129,10 +129,10 @@ This model was trained on the [DrugProt corpus](https://zenodo.org/record/511989
 
 
 ```bash
-            label      tp     fp     fn   total  precision  recall   f1
+label      tp     fp     fn   total  precision  recall   f1
 GENE_AND_CHEMICAL   786.0  171.0  143.0   929.0     0.8213  0.8461   0.8335
-         CHEMICAL  8228.0  779.0  575.0  8803.0     0.9135  0.9347   0.924
-             GENE  7176.0  822.0  652.0  7828.0     0.8972  0.9167   0.9069
-            macro      -       -      -       -       -        -     0.88811683
-            micro      -       -      -       -       -        -     0.91156048
+CHEMICAL  8228.0  779.0  575.0  8803.0     0.9135  0.9347   0.924
+GENE  7176.0  822.0  652.0  7828.0     0.8972  0.9167   0.9069
+macro      -       -      -       -       -        -     0.88811683
+micro      -       -      -       -       -        -     0.91156048
 ```

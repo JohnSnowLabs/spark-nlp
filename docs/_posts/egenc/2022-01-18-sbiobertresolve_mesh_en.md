@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.2
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,25 +36,25 @@ This model maps clinical entities to Medical Subject Heading (MeSH) codes using 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 sbert_embedder = BertSentenceEmbeddings\
-      .pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")\
-      .setCaseSensitive(False)
-    
+.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")\
+.setCaseSensitive(False)
+
 mesh_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_mesh","en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-      .setOutputCol("mesh_code")\
-      .setDistanceFunction("EUCLIDEAN")
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("mesh_code")\
+.setDistanceFunction("EUCLIDEAN")
 
 mesh_pipeline = Pipeline(
-    stages = [
-        documentAssembler,
-        sbert_embedder,
-        mesh_resolver])
+stages = [
+documentAssembler,
+sbert_embedder,
+mesh_resolver])
 
 data = spark.createDataFrame([["""She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy with fluid biopsies, which were performed, which revealed malignant mesothelioma."""]]).toDF("text"))
 
@@ -62,25 +62,25 @@ result = mesh_pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("ner_chunk")
+.setInputCol("text")
+.setOutputCol("ner_chunk")
 
 val sbert_embedder = BertSentenceEmbeddings
-      .pretrained('sbiobert_base_cased_mli', 'en','clinical/models')
-      .setInputCols(["ner_chunk"])
-      .setOutputCol("sbert_embeddings")
-      .setCaseSensitive(False)
-    
+.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')
+.setInputCols(["ner_chunk"])
+.setOutputCol("sbert_embeddings")
+.setCaseSensitive(False)
+
 val mesh_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_mesh","en", "clinical/models")
-      .setInputCols(["ner_chunk", "sbert_embeddings"])
-      .setOutputCol("mesh_code")
-      .setDistanceFunction("EUCLIDEAN")
+.setInputCols(["ner_chunk", "sbert_embeddings"])
+.setOutputCol("mesh_code")
+.setDistanceFunction("EUCLIDEAN")
 
 val mesh_pipeline = Pipeline(
-    stages = [
-        documentAssembler,
-        sbert_embedder,
-        mesh_resolver])
+stages = [
+documentAssembler,
+sbert_embedder,
+mesh_resolver])
 
 val data = spark.createDataFrame([["""She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy with fluid biopsies, which were performed, which revealed malignant mesothelioma."""]]).toDF("text"))
 

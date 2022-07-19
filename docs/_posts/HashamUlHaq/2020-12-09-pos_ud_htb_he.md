@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [pos, open_source, he]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -34,8 +34,8 @@ Use as part of an nlp pipeline after tokenization.
 ```python
 ...
 pos = PerceptronModel.pretrained("pos_ud_htb", "he") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("pos")
+.setInputCols(["document", "token"]) \
+.setOutputCol("pos")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, pos])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 results = light_pipeline.fullAnnotate(["ב- 25 לאוגוסט עצר השב"כ את מוחמד אבו-ג'וייד , אזרח ירדני , שגויס לארגון הפת"ח והופעל על ידי חיזבאללה"])
@@ -44,8 +44,8 @@ results = light_pipeline.fullAnnotate(["ב- 25 לאוגוסט עצר השב"כ �
 ```scala
 ...
 val pos = PerceptronModel.pretrained("pos_ud_htb", "he")
-    .setInputCols(Array("document", "token"))
-    .setOutputCol("pos")
+.setInputCols(Array("document", "token"))
+.setOutputCol("pos")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val data = Seq("ב- 25 לאוגוסט עצר השב"כ את מוחמד אבו-ג'וייד , אזרח ירדני , שגויס לארגון הפת"ח והופעל על ידי חיזבאללה").toDF("text")
 val result = pipeline.fit(data).transform(data)
@@ -66,25 +66,25 @@ pos_df
 
 ```bash
 {'pos': [Annotation(pos, 0, 0, ADP, {'word': 'ב'}),
-  Annotation(pos, 1, 1, PUNCT, {'word': '-'}),
-  Annotation(pos, 3, 4, NUM, {'word': '25'}),
-  Annotation(pos, 6, 12, VERB, {'word': 'לאוגוסט'}),
-  Annotation(pos, 14, 16, None, {'word': 'עצר'}),
-  Annotation(pos, 18, 22, VERB, {'word': 'השב"כ'}),
-  Annotation(pos, 24, 25, ADP, {'word': 'את'}),
-  Annotation(pos, 27, 31, PROPN, {'word': 'מוחמד'}),
-  Annotation(pos, 33, 42, PROPN, {'word': "אבו-ג'וייד"}),
-  Annotation(pos, 44, 44, PUNCT, {'word': ','}),
-  Annotation(pos, 46, 49, NOUN, {'word': 'אזרח'}),
-  Annotation(pos, 51, 55, ADJ, {'word': 'ירדני'}),
-  Annotation(pos, 57, 57, PUNCT, {'word': ','}),
-  Annotation(pos, 59, 63, VERB, {'word': 'שגויס'}),
-  Annotation(pos, 65, 70, ADP, {'word': 'לארגון'}),
-  Annotation(pos, 72, 76, NOUN, {'word': 'הפת"ח'}),
-  Annotation(pos, 78, 83, PROPN, {'word': 'והופעל'}),
-  Annotation(pos, 85, 86, ADP, {'word': 'על'}),
-  Annotation(pos, 88, 90, NOUN, {'word': 'ידי'}),
-  Annotation(pos, 92, 99, PROPN, {'word': 'חיזבאללה'})]}
+Annotation(pos, 1, 1, PUNCT, {'word': '-'}),
+Annotation(pos, 3, 4, NUM, {'word': '25'}),
+Annotation(pos, 6, 12, VERB, {'word': 'לאוגוסט'}),
+Annotation(pos, 14, 16, None, {'word': 'עצר'}),
+Annotation(pos, 18, 22, VERB, {'word': 'השב"כ'}),
+Annotation(pos, 24, 25, ADP, {'word': 'את'}),
+Annotation(pos, 27, 31, PROPN, {'word': 'מוחמד'}),
+Annotation(pos, 33, 42, PROPN, {'word': "אבו-ג'וייד"}),
+Annotation(pos, 44, 44, PUNCT, {'word': ','}),
+Annotation(pos, 46, 49, NOUN, {'word': 'אזרח'}),
+Annotation(pos, 51, 55, ADJ, {'word': 'ירדני'}),
+Annotation(pos, 57, 57, PUNCT, {'word': ','}),
+Annotation(pos, 59, 63, VERB, {'word': 'שגויס'}),
+Annotation(pos, 65, 70, ADP, {'word': 'לארגון'}),
+Annotation(pos, 72, 76, NOUN, {'word': 'הפת"ח'}),
+Annotation(pos, 78, 83, PROPN, {'word': 'והופעל'}),
+Annotation(pos, 85, 86, ADP, {'word': 'על'}),
+Annotation(pos, 88, 90, NOUN, {'word': 'ידי'}),
+Annotation(pos, 92, 99, PROPN, {'word': 'חיזבאללה'})]}
 ```
 
 {:.model-param}

@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.1
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -42,63 +42,63 @@ This model maps extracted clinical entities to ICD-10-CM codes using `sbiobert_b
 
 ```python
 document_assembler = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 
 sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")\
-    .setInputCols(["document"])\
-    .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 
 tokenizer = Tokenizer()\
-    .setInputCols(["sentence"])\
-    .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-    .setInputCols(["sentence", "token"])\
-    .setOutputCol("word_embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("word_embeddings")
 
 
 ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")\
-    .setInputCols(["sentence", "token", "word_embeddings"])\
-    .setOutputCol("ner")\
+.setInputCols(["sentence", "token", "word_embeddings"])\
+.setOutputCol("ner")\
 
 
 ner_converter = NerConverterInternal()\
-    .setInputCols(["sentence", "token", "ner"])\
-    .setOutputCol("ner_chunk")\
-    .setWhiteList(["PROBLEM"])
+.setInputCols(["sentence", "token", "ner"])\
+.setOutputCol("ner_chunk")\
+.setWhiteList(["PROBLEM"])
 
 
 c2doc = Chunk2Doc()\
-    .setInputCols("ner_chunk")\
-    .setOutputCol("ner_chunk_doc") 
+.setInputCols("ner_chunk")\
+.setOutputCol("ner_chunk_doc") 
 
 
 sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
-    .setInputCols(["ner_chunk_doc"])\
-    .setOutputCol("sentence_embeddings")\
-    .setCaseSensitive(False)
-    
+.setInputCols(["ner_chunk_doc"])\
+.setOutputCol("sentence_embeddings")\
+.setCaseSensitive(False)
+
 icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_slim_billable_hcc", "en", "clinical/models") \
-    .setInputCols(["ner_chunk", "sentence_embeddings"]) \
-    .setOutputCol("icd_code")\
-    .setDistanceFunction("EUCLIDEAN")
-    
+.setInputCols(["ner_chunk", "sentence_embeddings"]) \
+.setOutputCol("icd_code")\
+.setDistanceFunction("EUCLIDEAN")
+
 resolver_pipeline = Pipeline(
-    stages = [
-        document_assembler,
-        sentenceDetectorDL,
-        tokenizer,
-        word_embeddings,
-        ner,
-        ner_converter,
-        c2doc,
-        sbert_embedder,
-        icd_resolver
-  ])
+stages = [
+document_assembler,
+sentenceDetectorDL,
+tokenizer,
+word_embeddings,
+ner,
+ner_converter,
+c2doc,
+sbert_embedder,
+icd_resolver
+])
 
 
 model = resolver_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
@@ -109,62 +109,62 @@ result = model.transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 
 val sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")
-      .setInputCols("document")
-      .setOutputCol("sentence")
+.setInputCols("document")
+.setOutputCol("sentence")
 
 
 val tokenizer = new Tokenizer()
-      .setInputCols("sentence")
-      .setOutputCol("token")
+.setInputCols("sentence")
+.setOutputCol("token")
 
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-      .setInputCols(Array("sentence", "token"))
-      .setOutputCol("word_embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("word_embeddings")
 
 
 val ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")
-      .setInputCols(Array("sentence", "token", "word_embeddings"))
-      .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "word_embeddings"))
+.setOutputCol("ner")
 
 
 val ner_converter = new NerConverterInternal()
-      .setInputCols(Array("sentence", "token", "ner"))
-      .setOutputCol("ner_chunk")
-      .setWhiteList(Array("PROBLEM"))
+.setInputCols(Array("sentence", "token", "ner"))
+.setOutputCol("ner_chunk")
+.setWhiteList(Array("PROBLEM"))
 
 
 val c2doc = new Chunk2Doc()
-      .setInputCols("ner_chunk")
-      .setOutputCol("ner_chunk_doc") 
+.setInputCols("ner_chunk")
+.setOutputCol("ner_chunk_doc") 
 
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
-      .setInputCols("ner_chunk_doc")
-      .setOutputCol("sentence_embeddings")
-      .setCaseSensitive(False)
-    
+.setInputCols("ner_chunk_doc")
+.setOutputCol("sentence_embeddings")
+.setCaseSensitive(False)
+
 val resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_slim_billable_hcc", "en", "clinical/models")
-      .setInputCols(Array("ner_chunk", "sentence_embeddings"))
-      .setOutputCol("icd_code")
-      .setDistanceFunction("EUCLIDEAN")
-    
+.setInputCols(Array("ner_chunk", "sentence_embeddings"))
+.setOutputCol("icd_code")
+.setDistanceFunction("EUCLIDEAN")
+
 
 
 val resolver_pipeline = new PipelineModel().setStages(Array(document_assembler, 
-                                                            sentenceDetectorDL, 
-                                                            tokenizer, 
-                                                            word_embeddings, 
-                                                            ner, 
-                                                            ner_converter,  
-                                                            c2doc, 
-                                                            sbert_embedder, 
-                                                            resolver))
+sentenceDetectorDL, 
+tokenizer, 
+word_embeddings, 
+ner, 
+ner_converter,  
+c2doc, 
+sbert_embedder, 
+resolver))
 
 
 val data = Seq("A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with acute hepatitis and obesity , presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting. Two weeks prior to presentation, she was treated with a five-day course of amoxicillin for a respiratory tract infection.").toDS.toDF("text")

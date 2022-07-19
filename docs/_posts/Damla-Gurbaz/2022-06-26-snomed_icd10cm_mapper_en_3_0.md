@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,30 +36,30 @@ This pretrained model maps SNOMED codes to corresponding ICD10-CM codes.
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_uncased", "en", "clinical/models")\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")
-    
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")
+
 snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_conditions", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-      .setOutputCol("snomed_code")\
-      .setDistanceFunction("EUCLIDEAN")
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("snomed_code")\
+.setDistanceFunction("EUCLIDEAN")
 
 chunkerMapper = ChunkMapperModel.pretrained("snomed_icd10cm_mapper", "en", "clinical/models")\
-      .setInputCols(["snomed_code"])\
-      .setOutputCol("icd10cm_mappings")\
-      .setRels(["icd10cm_code"])
+.setInputCols(["snomed_code"])\
+.setOutputCol("icd10cm_mappings")\
+.setRels(["icd10cm_code"])
 
 pipeline = Pipeline(
-    stages = [
-        documentAssembler,
-        sbert_embedder,
-        snomed_resolver,
-        chunkerMapper
-        ])
+stages = [
+documentAssembler,
+sbert_embedder,
+snomed_resolver,
+chunkerMapper
+])
 
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -69,32 +69,32 @@ result = light_pipeline.fullAnnotate("Radiating chest pain")
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-       .setInputCol("text")
-       .setOutputCol("ner_chunk")
+.setInputCol("text")
+.setOutputCol("ner_chunk")
 
- val sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_uncased", "en", "clinical/models")
-       .setInputCols("ner_chunk")
-       .setOutputCol("sbert_embeddings")
+val sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_uncased", "en", "clinical/models")
+.setInputCols("ner_chunk")
+.setOutputCol("sbert_embeddings")
 
- val snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_conditions", "en", "clinical/models")
-       .setInputCols(Array("ner_chunk", "sbert_embeddings"))
-       .setOutputCol("snomed_code")
-       .setDistanceFunction("EUCLIDEAN")
+val snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_conditions", "en", "clinical/models")
+.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setOutputCol("snomed_code")
+.setDistanceFunction("EUCLIDEAN")
 
- val chunkerMapper = ChunkMapperModel.pretrained("snomed_icd10cm_mapper", "en", "clinical/models")
-       .setInputCols("snomed_code")
-       .setOutputCol("icd10cm_mappings")
-       .setRels(Array("icd10cm_code"))
+val chunkerMapper = ChunkMapperModel.pretrained("snomed_icd10cm_mapper", "en", "clinical/models")
+.setInputCols("snomed_code")
+.setOutputCol("icd10cm_mappings")
+.setRels(Array("icd10cm_code"))
 
- val pipeline = new Pipeline(stages = Array(
-                                   documentAssembler,
-                                   sbert_embedder,
-                                   snomed_resolver,
-                                   chunkerMapper))
- 
- val data = Seq("Radiating chest pain").toDS.toDF("text")
+val pipeline = new Pipeline(stages = Array(
+documentAssembler,
+sbert_embedder,
+snomed_resolver,
+chunkerMapper))
 
- val result= pipeline.fit(data).transform(data)
+val data = Seq("Radiating chest pain").toDS.toDF("text")
+
+val result= pipeline.fit(data).transform(data)
 ```
 
 

@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [en, clinical, ner, licensed]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,8 +37,8 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 ```python
 ...
 clinical_ner = NerDLModel.pretrained("ner_clinical_large", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 ...
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings_clinical, clinical_ner, ner_converter])
@@ -51,8 +51,8 @@ results = model.transform(data)
 ```scala
 ...
 val clinical_ner = NerDLModel.pretrained("ner_clinical_large", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token", "embeddings"))
-  .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings"))
+.setOutputCol("ner")
 
 val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings_clinical, clinical_ner, ner_converter))
 
@@ -75,7 +75,7 @@ nlu.load("en.med_ner.clinical").predict("""Put your text here.""")
 
 ```bash
 The output is a dataframe with a sentence per row and a `ner` column containing all of the entity labels in the sentence, entity character indices, and other metadata. To get only the tokens and entity labels, without the metadata, select `token.result` and `ner.result` from your output dataframe:  
-  
+
 
 
 +-----------------------------------------------------------+---------+

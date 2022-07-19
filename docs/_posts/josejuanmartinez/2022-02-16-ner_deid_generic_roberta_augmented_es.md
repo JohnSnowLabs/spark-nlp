@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -54,36 +54,36 @@ This is a Roberta embeddings based model. You also have available the `ner_deid_
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-        .setInputCol("text")\
-        .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
-        .setInputCols(["document"])\
-        .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 
 tokenizer = Tokenizer()\
-        .setInputCols(["sentence"])\
-        .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 
 roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
-    .setInputCols(["sentence", "token"])\
-    .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 
 
 clinical_ner = MedicalNerModel.pretrained("ner_deid_generic_roberta_augmented", "es", "clinical/models")\
-        .setInputCols(["sentence","token","embeddings"])\
-        .setOutputCol("ner")
+.setInputCols(["sentence","token","embeddings"])\
+.setOutputCol("ner")
 
 
 nlpPipeline = Pipeline(stages=[
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        roberta_embeddings,
-        clinical_ner])
+documentAssembler,
+sentenceDetector,
+tokenizer,
+roberta_embeddings,
+clinical_ner])
 
 
 text = ['''
@@ -98,28 +98,28 @@ results = nlpPipeline.fit(df).transform(df)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")
-        .setInputCols(Array("document"))
-        .setOutputCol("sentence")
+.setInputCols(Array("document"))
+.setOutputCol("sentence")
 
 
 val tokenizer = new Tokenizer()
-        .setInputCols(Array("sentence"))
-        .setOutputCol("token")
+.setInputCols(Array("sentence"))
+.setOutputCol("token")
 
 
 roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
-    .setInputCols(Array("sentence", "token"))
-    .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 
 clinical_ner = MedicalNerModel.pretrained("ner_deid_generic_augmented", "es", "clinical/models")
-        .setInputCols(Array("sentence","token","embeddings"))
-        .setOutputCol("ner")
+.setInputCols(Array("sentence","token","embeddings"))
+.setOutputCol("ner")
 
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, roberta_embeddings, clinical_ner))
@@ -241,16 +241,16 @@ Antonio Miguel Martínez, un varón de 35 años de edad, de profesión auxiliar 
 
 
 ```bash
-       label      tp     fp     fn   total  precision  recall       f1
-     CONTACT   177.0    3.0    6.0   183.0     0.9833  0.9672   0.9752
-        NAME  1963.0  159.0  123.0  2086.0     0.9251   0.941    0.933
-        DATE   953.0   18.0   16.0   969.0     0.9815  0.9835   0.9825
+label      tp     fp     fn   total  precision  recall       f1
+CONTACT   177.0    3.0    6.0   183.0     0.9833  0.9672   0.9752
+NAME  1963.0  159.0  123.0  2086.0     0.9251   0.941    0.933
+DATE   953.0   18.0   16.0   969.0     0.9815  0.9835   0.9825
 ORGANIZATION  2320.0  520.0  362.0  2682.0     0.8169   0.865   0.8403
-          ID    63.0    7.0    1.0    64.0        0.9  0.9844   0.9403
-         SEX   619.0   14.0    8.0   627.0     0.9779  0.9872   0.9825
-    LOCATION  2388.0  470.0  423.0  2811.0     0.8355  0.8495   0.8425
-  PROFESSION   233.0   15.0   28.0   261.0     0.9395  0.8927   0.9155
-         AGE   516.0   16.0    3.0   519.0     0.9699  0.9942   0.9819
-       macro       -      -      -       -          -       -  0.93263
-       micro       -      -      -       -          -       -  0.89427
+ID    63.0    7.0    1.0    64.0        0.9  0.9844   0.9403
+SEX   619.0   14.0    8.0   627.0     0.9779  0.9872   0.9825
+LOCATION  2388.0  470.0  423.0  2811.0     0.8355  0.8495   0.8425
+PROFESSION   233.0   15.0   28.0   261.0     0.9395  0.8927   0.9155
+AGE   516.0   16.0    3.0   519.0     0.9699  0.9942   0.9819
+macro       -      -      -       -          -       -  0.93263
+micro       -      -      -       -          -       -  0.89427
 ```

@@ -11,7 +11,7 @@ edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,17 +32,17 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = MultiDocumentAssembler() \ 
-    .setInputCols(["question", "context"]) \
-    .setOutputCols(["document_question", "document_context"])
+.setInputCols(["question", "context"]) \
+.setOutputCols(["document_question", "document_context"])
 
 spanClassifier = BertForQuestionAnswering.pretrained("bert_qa_howey_bert_large_uncased_squad","en") \
-    .setInputCols(["document_question", "document_context"]) \
-    .setOutputCol("answer") \
-    .setCaseSensitive(True)
+.setInputCols(["document_question", "document_context"]) \
+.setOutputCol("answer") \
+.setCaseSensitive(True)
 
 pipeline = Pipeline().setStages([
-    document_assembler,
-    spanClassifier
+document_assembler,
+spanClassifier
 ])
 
 example = spark.createDataFrame([["What's my name?", "My name is Clara and I live in Berkeley."]]).toDF("question", "context")
@@ -51,22 +51,22 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document = new MultiDocumentAssembler()
-  .setInputCols("question", "context")
-  .setOutputCols("document_question", "document_context")
+.setInputCols("question", "context")
+.setOutputCols("document_question", "document_context")
 
 val spanClassifier = BertForQuestionAnswering
-  .pretrained("bert_qa_howey_bert_large_uncased_squad","en")
-  .setInputCols(Array("document_question", "document_context"))
-  .setOutputCol("answer")
-  .setCaseSensitive(true)
-  .setMaxSentenceLength(512)
+.pretrained("bert_qa_howey_bert_large_uncased_squad","en")
+.setInputCols(Array("document_question", "document_context"))
+.setOutputCol("answer")
+.setCaseSensitive(true)
+.setMaxSentenceLength(512)
 
 val pipeline = new Pipeline().setStages(Array(document, spanClassifier))
 
 val example = Seq(
-  ("Where was John Lenon born?", "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London."),
-  ("What's my name?", "My name is Clara and I live in Berkeley."))
-  .toDF("question", "context")
+("Where was John Lenon born?", "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London."),
+("What's my name?", "My name is Clara and I live in Berkeley."))
+.toDF("question", "context")
 
 val result = pipeline.fit(example).transform(example)
 ```

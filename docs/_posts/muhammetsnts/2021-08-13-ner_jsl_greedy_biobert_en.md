@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.2.0
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -58,8 +58,8 @@ tokenizer = Tokenizer()\
 		.setOutputCol("token")
 	
 embeddings = BertEmbeddings.pretrained('biobert_pubmed_base_cased') \
-    .setInputCols(['sentence', 'token']) \
-    .setOutputCol('embeddings')
+.setInputCols(['sentence', 'token']) \
+.setOutputCol('embeddings')
 
 jsl_ner = MedicalNerModel.pretrained("ner_jsl_greedy_biobert", "en", "clinical/models") \
 		.setInputCols(["sentence", "token", "embeddings"]) \
@@ -98,9 +98,9 @@ val tokenizer = new Tokenizer()
 		.setOutputCol("token")
 	
 val embeddings = BertEmbeddings.pretrained('biobert_pubmed_base_cased')
-    .setInputCols(Array('sentence', 'token'))
-    .setOutputCol('embeddings')
-  
+.setInputCols(Array('sentence', 'token'))
+.setOutputCol('embeddings')
+
 val jsl_ner = MedicalNerModel.pretrained("ner_jsl_greedy_biobert", "en", "clinical/models")
 		.setInputCols(Array("sentence", "token", "embeddings"))
 		.setOutputCol("jsl_ner")
@@ -108,7 +108,7 @@ val jsl_ner = MedicalNerModel.pretrained("ner_jsl_greedy_biobert", "en", "clinic
 val jsl_ner_converter = new NerConverter()
 		.setInputCols(Array("sentence", "token", "jsl_ner"))
 		.setOutputCol("ner_chunk")
- 
+
 val jsl_ner_pipeline = new Pipeline().setStages(Array(
 					documentAssembler, 
 					sentenceDetector, 

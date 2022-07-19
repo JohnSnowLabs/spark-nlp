@@ -11,7 +11,7 @@ language: xx
 edition: Spark NLP 3.1.0
 spark_version: 3.0
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -39,14 +39,14 @@ was pretrained with two objectives:
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 embeddings = BertEmbeddings.pretrained("bert_base_multilingual_cased", "xx") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 ```
 ```scala
 val embeddings = BertEmbeddings.pretrained("bert_base_multilingual_cased", "xx")
-      .setInputCols("sentence", "token")
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token")
+.setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
 ```
 

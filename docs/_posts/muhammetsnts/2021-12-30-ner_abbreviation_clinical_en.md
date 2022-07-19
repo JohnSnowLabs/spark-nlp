@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.4
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,67 +36,67 @@ This model is trained to extract clinical abbreviations and acronyms in text.
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
-      .setInputCols(["document"])\
-      .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-      .setInputCols(["sentence"])\
-      .setOutputCol("token")\
+.setInputCols(["sentence"])\
+.setOutputCol("token")\
 
 embeddings = WordEmbeddingsModel.pretrained('embeddings_clinical', 'en', 'clinical/models') \
-     .setInputCols(['sentence', 'token']) \
-     .setOutputCol('embeddings')
+.setInputCols(['sentence', 'token']) \
+.setOutputCol('embeddings')
 
 abbr_ner = MedicalNerModel.pretrained('ner_abbreviation_clinical', 'en', 'clinical/models') \
-      .setInputCols(["sentence", "token", "embeddings"]) \
-      .setOutputCol("abbr_ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("abbr_ner")
 
 abbr_converter = NerConverter() \
-      .setInputCols(["sentence", "token", "abbr_ner"]) \
-      .setOutputCol("abbr_ner_chunk")\
+.setInputCols(["sentence", "token", "abbr_ner"]) \
+.setOutputCol("abbr_ner_chunk")\
 
 
 ner_pipeline = Pipeline(
-    stages = [
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        embeddings,
-        abbr_ner,
-        abbr_converter
-        ])
+stages = [
+documentAssembler,
+sentenceDetector,
+tokenizer,
+embeddings,
+abbr_ner,
+abbr_converter
+])
 
 sample_df = spark.createDataFrame([["Gravid with estimated fetal weight of 6-6/12 pounds. LOWER EXTREMITIES: No edema. LABORATORY DATA: Laboratory tests include a CBC which is normal. Blood Type: AB positive. Rubella: Immune. VDRL: Nonreactive. Hepatitis C surface antigen: Negative. HIV: Negative. One-Hour Glucose: 117. Group B strep has not been done as yet."]]).toDF("text")
 result = ner_pipeline.fit(sample_df).transform(sample_df)
 ```
 ```scala
 val documentAssembler = DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
-      .setInputCols(Array("document"))
-      .setOutputCol("sentence")
+.setInputCols(Array("document"))
+.setOutputCol("sentence")
 
 val tokenizer = Tokenizer()
-      .setInputCols(Array("sentence"))
-      .setOutputCol("token")
+.setInputCols(Array("sentence"))
+.setOutputCol("token")
 
 val embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models") 
-     .setInputCols(Array("sentence", "token")) 
-     .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token")) 
+.setOutputCol("embeddings")
 
 val abbr_ner = MedicalNerModel.pretrained("ner_abbreviation_clinical", "en", "clinical/models") 
-      .setInputCols(Array("sentence", "token", "embeddings")) 
-      .setOutputCol("abbr_ner")
+.setInputCols(Array("sentence", "token", "embeddings")) 
+.setOutputCol("abbr_ner")
 
 val abbr_converter = NerConverter() 
-      .setInputCols(Array("sentence", "token", "abbr_ner")) 
-      .setOutputCol("abbr_ner_chunk")
+.setInputCols(Array("sentence", "token", "abbr_ner")) 
+.setOutputCol("abbr_ner_chunk")
 
 
 val ner_pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, abbr_ner, abbr_converter))

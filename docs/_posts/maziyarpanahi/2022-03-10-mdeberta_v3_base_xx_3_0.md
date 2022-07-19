@@ -11,7 +11,7 @@ edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -43,14 +43,14 @@ The mDeBERTa V3 base model comes with 12 layers and a hidden size of 768. It has
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 embeddings = DeBertaEmbeddings.pretrained("mdeberta_v3_base", "xx") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 
 ```
 ```scala
 val embeddings = DeBertaEmbeddings.pretrained("mdeberta_v3_base", "xx")
-      .setInputCols("sentence", "token")
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token")
+.setOutputCol("embeddings")
 
 ```
 

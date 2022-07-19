@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,33 +36,33 @@ This pretrained model maps RxNorm codes with corresponding UMLS Codes.
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 sbert_embedder = BertSentenceEmbeddings\
-      .pretrained("sbiobert_base_cased_mli", "en","clinical/models")\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")
-    
+.pretrained("sbiobert_base_cased_mli", "en","clinical/models")\
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")
+
 rxnorm_resolver = SentenceEntityResolverModel\
-      .pretrained("sbiobertresolve_rxnorm_augmented", "en", "clinical/models")\
-      .setInputCols(["ner_chunk", "sbert_embeddings"])\
-      .setOutputCol("rxnorm_code")\
-      .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_rxnorm_augmented", "en", "clinical/models")\
+.setInputCols(["ner_chunk", "sbert_embeddings"])\
+.setOutputCol("rxnorm_code")\
+.setDistanceFunction("EUCLIDEAN")
 
 chunkerMapper = ChunkMapperModel.pretrained("rxnorm_umls_mapper", "en", "clinical/models")\
-      .setInputCols(["rxnorm_code"])\
-      .setOutputCol("mappings")\
-      .setRels(["umls_code"])
+.setInputCols(["rxnorm_code"])\
+.setOutputCol("mappings")\
+.setRels(["umls_code"])
 
 
 pipeline = Pipeline(
-    stages = [
-        documentAssembler,
-        sbert_embedder,
-        rxnorm_resolver,
-        chunkerMapper
-        ])
+stages = [
+documentAssembler,
+sbert_embedder,
+rxnorm_resolver,
+chunkerMapper
+])
 
 model = pipeline.fit(spark.createDataFrame([['']]).toDF('text')) 
 
@@ -71,29 +71,29 @@ result = lp.fullAnnotate(["amlodipine 5 MG", "hydrochlorothiazide 25 MG"])
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 val sbert_embedder = BertSentenceEmbeddings
-      .pretrained("sbiobert_base_cased_mli", "en","clinical/models")
-      .setInputCols(Array("ner_chunk"))
-      .setOutputCol("sbert_embeddings")
-    
+.pretrained("sbiobert_base_cased_mli", "en","clinical/models")
+.setInputCols(Array("ner_chunk"))
+.setOutputCol("sbert_embeddings")
+
 val rxnorm_resolver = SentenceEntityResolverModel
-      .pretrained("sbiobertresolve_rxnorm_augmented", "en", "clinical/models")
-      .setInputCols(Array("ner_chunk", "sbert_embeddings"))
-      .setOutputCol("rxnorm_code")
-      .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_rxnorm_augmented", "en", "clinical/models")
+.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setOutputCol("rxnorm_code")
+.setDistanceFunction("EUCLIDEAN")
 
 val chunkerMapper = ChunkMapperModel.pretrained("rxnorm_umls_mapper", "en", "clinical/models")
-      .setInputCols(Array("rxnorm_code"))
-      .setOutputCol("mappings")
-      .setRels(Array("umls_code"))
+.setInputCols(Array("rxnorm_code"))
+.setOutputCol("mappings")
+.setRels(Array("umls_code"))
 
 val pipeline = new Pipeline(stages = Array(documentAssembler,
-                                           sbert_embedder,
-                                           rxnorm_resolver,
-                                           chunkerMapper)
+sbert_embedder,
+rxnorm_resolver,
+chunkerMapper)
 
 val model = pipeline.fit(Seq("").toDF("text"))
 

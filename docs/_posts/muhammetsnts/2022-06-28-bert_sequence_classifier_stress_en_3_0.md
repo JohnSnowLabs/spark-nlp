@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,21 +36,21 @@ This model is a [PHS-BERT-based](https://huggingface.co/publichealthsurveillance
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 tokenizer = Tokenizer() \
-    .setInputCols(["document"]) \
-    .setOutputCol("token")
+.setInputCols(["document"]) \
+.setOutputCol("token")
 
 sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_stress", "en", "clinical/models")\
-    .setInputCols(["document","token"])\
-    .setOutputCol("class")
+.setInputCols(["document","token"])\
+.setOutputCol("class")
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
-    tokenizer,
-    sequenceClassifier    
+document_assembler, 
+tokenizer,
+sequenceClassifier    
 ])
 
 data = spark.createDataFrame([["No place in my city has shelter space for us, and I won't put my baby on the literal street. What cities have good shelter programs for homeless mothers and children?"]]).toDF("text")
@@ -59,16 +59,16 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documenter = new DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentences")
-    .setOutputCol("token")
+.setInputCols("sentences")
+.setOutputCol("token")
 
 val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_stress", "en", "clinical/models")
-    .setInputCols(Array("document","token"))
-    .setOutputCol("class")
+.setInputCols(Array("document","token"))
+.setOutputCol("class")
 
 val pipeline = new Pipeline().setStages(Array(documenter, tokenizer, sequenceClassifier))
 

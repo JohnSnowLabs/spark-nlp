@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -44,37 +44,37 @@ It is trained on the [LivingNER](https://temu.bsc.es/livingner/2022/05/03/multil
 
 ```python
 document_assembler = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
-    .setInputCols(["document"])\
-    .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-    .setInputCols(["sentence"])\
-    .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 embeddings = BertEmbeddings.pretrained("bert_embeddings_bert_base_italian_xxl_cased", "it")\
-    .setInputCols(["sentence", "token"])\
-    .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 
 ner_model = MedicalNerModel.pretrained("ner_living_species_bert", "it", "clinical/models")\
-    .setInputCols(["sentence", "token", "embeddings"])\
-    .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"])\
+.setOutputCol("ner")
 
 ner_converter = NerConverter()\
-    .setInputCols(["sentence", "token", "ner"])\
-    .setOutputCol("ner_chunk")
+.setInputCols(["sentence", "token", "ner"])\
+.setOutputCol("ner_chunk")
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
-    sentence_detector,
-    tokenizer,
-    embeddings,
-    ner_model,
-    ner_converter   
-    ])
+document_assembler, 
+sentence_detector,
+tokenizer,
+embeddings,
+ner_model,
+ner_converter   
+])
 
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -84,35 +84,35 @@ result = model.transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-    .setInputCols("document")
-    .setOutputCol("sentence")
+.setInputCols("document")
+.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
-    .setOutputCol("token")
+.setInputCols("sentence")
+.setOutputCol("token")
 
 val embeddings = BertEmbeddings.pretrained("bert_embeddings_bert_base_italian_xxl_cased", "it")
-    .setInputCols(Array("sentence", "token"))
-    .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 val ner_model = MedicalNerModel.pretrained("ner_living_species_bert", "it", "clinical/models")
-    .setInputCols(Array("sentence", "token", "embeddings"))
-    .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings"))
+.setOutputCol("ner")
 
 val ner_converter = new NerConverter()
-    .setInputCols(Array("sentence", "token", "ner"))
-    .setOutputCol("ner_chunk")
+.setInputCols(Array("sentence", "token", "ner"))
+.setOutputCol("ner_chunk")
 
 val pipeline = new PipelineModel().setStages(Array(document_assembler, 
-                                                  sentence_detector,
-                                                  tokenizer,
-                                                  embeddings,
-                                                  ner_model,
-                                                  ner_converter))
+sentence_detector,
+tokenizer,
+embeddings,
+ner_model,
+ner_converter))
 
 val data = Seq("""Una donna di 74 anni è stata ricoverata con dolore addominale diffuso, ipossia e astenia di 2 settimane di evoluzione. La sua storia personale includeva ipertensione in trattamento con amiloride/idroclorotiazide e dislipidemia controllata con lovastatina. La sua storia familiare era: madre morta di cancro gastrico, fratello con cirrosi epatica di eziologia sconosciuta e sorella con carcinoma epatocellulare. Lo studio eziologico delle diverse cause di malattia epatica cronica comprendeva: virus epatotropi (HBV, HCV) e HIV, studio dell'autoimmunità, ceruloplasmina, ferritina e porfirine nelle urine, tutti risultati negativi. Il paziente è stato messo in trattamento anticoagulante con acenocumarolo e diuretici a tempo indeterminato.""").toDS.toDF("text")
 
@@ -168,12 +168,12 @@ nlu.load("it.med_ner.living_species.bert").predict("""Una donna di 74 anni è st
 ## Benchmarking
 
 ```bash
- label         precision  recall  f1-score  support 
- B-HUMAN       0.88       0.95    0.91      2772    
- B-SPECIES     0.76       0.89    0.82      2860    
- I-HUMAN       0.70       0.59    0.64      101     
- I-SPECIES     0.70       0.81    0.75      1036    
- micro-avg     0.80       0.90    0.85      6769    
- macro-avg     0.76       0.81    0.78      6769    
- weighted-avg  0.80       0.90    0.85      6769  
+label         precision  recall  f1-score  support 
+B-HUMAN       0.88       0.95    0.91      2772    
+B-SPECIES     0.76       0.89    0.82      2860    
+I-HUMAN       0.70       0.59    0.64      101     
+I-SPECIES     0.70       0.81    0.75      1036    
+micro-avg     0.80       0.90    0.85      6769    
+macro-avg     0.76       0.81    0.78      6769    
+weighted-avg  0.80       0.90    0.85      6769  
 ```

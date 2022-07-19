@@ -11,7 +11,7 @@ edition: Spark NLP 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -51,22 +51,22 @@ A [Part of Speech](https://en.wikipedia.org/wiki/Part_of_speech) classifier pred
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-    document_assembler =  new DocumentAssembler().setInputCol("text").setOutputCol("document")
-    tokenizer          =  new Tokenizer().setInputCols("document").setOutputCol("token")
-    pos                =  PerceptronModel.pretrained("pos_clinical","en","clinical/models").setInputCols("token","document")
-    pipeline = Pipeline(stages=[document_assembler, tokenizer, pos])
-    df = spark.createDataFrame([['POS assigns each token in a sentence a grammatical label']], ["text"])
-    result = pipeline.fit(df).transform(df)
-    result.select("pos.result").show(false)
+document_assembler =  new DocumentAssembler().setInputCol("text").setOutputCol("document")
+tokenizer          =  new Tokenizer().setInputCols("document").setOutputCol("token")
+pos                =  PerceptronModel.pretrained("pos_clinical","en","clinical/models").setInputCols("token","document")
+pipeline = Pipeline(stages=[document_assembler, tokenizer, pos])
+df = spark.createDataFrame([['POS assigns each token in a sentence a grammatical label']], ["text"])
+result = pipeline.fit(df).transform(df)
+result.select("pos.result").show(false)
 ```
 ```scala
-    val document_assembler =  new DocumentAssembler().setInputCol("text").setOutputCol("document")
-    val tokenizer          =  new Tokenizer().setInputCols(Array("document")).setOutputCol("token")
-    val pos                =  PerceptronModel.pretrained("pos_clinical","en","clinical/models").setInputCols("token","document")
-    val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, pos))
-    val df = Seq("POS assigns each token in a sentence a grammatical label").toDF("text")
-    val result = pipeline.fit(df).transform(df)
-    result.select("pos.result").show(false)
+val document_assembler =  new DocumentAssembler().setInputCol("text").setOutputCol("document")
+val tokenizer          =  new Tokenizer().setInputCols(Array("document")).setOutputCol("token")
+val pos                =  PerceptronModel.pretrained("pos_clinical","en","clinical/models").setInputCols("token","document")
+val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, pos))
+val df = Seq("POS assigns each token in a sentence a grammatical label").toDF("text")
+val result = pipeline.fit(df).transform(df)
+result.select("pos.result").show(false)
 ```
 
 {:.nlu-block}

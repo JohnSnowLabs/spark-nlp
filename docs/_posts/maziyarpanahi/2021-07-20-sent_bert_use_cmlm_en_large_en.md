@@ -11,7 +11,7 @@ edition: Spark NLP 3.1.3
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -38,13 +38,13 @@ The model extends the BERT transformer architecture that is why we use it with B
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 embeddings = BertSentenceEmbeddings.pretrained("sent_bert_use_cmlm_en_large", "en") \
-      .setInputCols("sentence") \
-      .setOutputCol("sentence_embeddings")
+.setInputCols("sentence") \
+.setOutputCol("sentence_embeddings")
 ```
 ```scala
 val embeddings = BertSentenceEmbeddings.pretrained("sent_bert_use_cmlm_en_large", "en")
-      .setInputCols("sentence")
-      .setOutputCol("sentence_embeddings")
+.setInputCols("sentence")
+.setOutputCol("sentence_embeddings")
 ```
 
 {:.nlu-block}
@@ -80,15 +80,15 @@ embeddings_df
 ```bash
 Training News dataset by using ClassifierDL with 120K training examples:
 
-             precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-    Business       0.88      0.89      0.88      1880
-    Sci/Tech       0.91      0.88      0.89      1963
-      Sports       0.98      0.95      0.97      1961
-       World       0.89      0.94      0.92      1796
+Business       0.88      0.89      0.88      1880
+Sci/Tech       0.91      0.88      0.89      1963
+Sports       0.98      0.95      0.97      1961
+World       0.89      0.94      0.92      1796
 
-    accuracy                           0.92      7600
-   macro avg       0.92      0.92      0.92      7600
+accuracy                           0.92      7600
+macro avg       0.92      0.92      0.92      7600
 weighted avg       0.92      0.92      0.92      7600
 
 

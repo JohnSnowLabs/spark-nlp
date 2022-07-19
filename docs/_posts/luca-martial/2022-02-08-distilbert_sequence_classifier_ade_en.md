@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.4.1
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -54,24 +54,24 @@ This model is a [DistilBERT](https://huggingface.co/distilbert-base-cased)-based
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 
 tokenizer = Tokenizer() \
-    .setInputCols(["document"]) \
-    .setOutputCol("token")
+.setInputCols(["document"]) \
+.setOutputCol("token")
 
 
 sequenceClassifier = MedicalDistilBertForSequenceClassification.pretrained("distilbert_sequence_classifier_ade", "en", "clinical/models")\
-  .setInputCols(["document","token"])\
-  .setOutputCol("class")
+.setInputCols(["document","token"])\
+.setOutputCol("class")
 
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
-    tokenizer,
-    sequenceClassifier    
+document_assembler, 
+tokenizer,
+sequenceClassifier    
 ])
 
 
@@ -82,18 +82,18 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documenter = new DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentences")
-    .setOutputCol("token")
+.setInputCols("sentences")
+.setOutputCol("token")
 
 
 val sequenceClassifier = MedicalDistilBertForSequenceClassification.pretrained("distilbert_sequence_classifier_ade", "en", "clinical/models")
-    .setInputCols(Array("document","token"))
-    .setOutputCol("class")
+.setInputCols(Array("document","token"))
+.setOutputCol("class")
 
 
 val pipeline = new Pipeline().setStages(Array(documenter, tokenizer, sequenceClassifier))
@@ -155,11 +155,11 @@ This model is trained on a custom dataset comprising of CADEC, DRUG-AE and Twime
 
 
 ```bash
-       label  precision  recall  f1-score  support
-       False       0.93    0.93      0.93     6935
-        True       0.64    0.65      0.65     1347
-    accuracy       0.88    0.88      0.88     8282
-   macro-avg       0.79    0.79      0.79     8282
+label  precision  recall  f1-score  support
+False       0.93    0.93      0.93     6935
+True       0.64    0.65      0.65     1347
+accuracy       0.88    0.88      0.88     8282
+macro-avg       0.79    0.79      0.79     8282
 weighted-avg       0.89    0.88      0.89     8282
 ```
 <!--stackedit_data:

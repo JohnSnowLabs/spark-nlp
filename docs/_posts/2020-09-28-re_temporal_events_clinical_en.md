@@ -11,10 +11,10 @@ spark_version: 2.4
 tags: [re, en, clinical, licensed]
 supported: true
 article_header:
-    type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
- 
+
 ## Description
 This model can be used to identify temporal relationships among clinical events.
 ## Predicted Entities
@@ -29,9 +29,9 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 In the table below, `re_temporal_events_clinical` RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.
 
- |           RE MODEL          |     RE MODEL LABES    |      NER MODEL      |          RE PAIRS         |
- |:---------------------------:|:----------------------:|:-------------------:|:-------------------------:|
- | re_temporal_events_clinical | AFTER, BEFORE, OVERLAP | ner_events_clinical | [“No need to set pairs.”] |
+|           RE MODEL          |     RE MODEL LABES    |      NER MODEL      |          RE PAIRS         |
+|:---------------------------:|:----------------------:|:-------------------:|:-------------------------:|
+| re_temporal_events_clinical | AFTER, BEFORE, OVERLAP | ner_events_clinical | [“No need to set pairs.”] |
 
 <div class="tabs-box" markdown="1">
 
@@ -40,12 +40,12 @@ In the table below, `re_temporal_events_clinical` RE model, its labels, optimal 
 ```python
 
 clinical_re_Model = RelationExtractionModel()\
-    .pretrained("re_temporal_events_clinical", "en", 'clinical/models')\
-    .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
-    .setOutputCol("relations")\
-    .setMaxSyntacticDistance(4)\ #default: 0
-    .setPredictionThreshold(0.9)\ #default: 0.5
-    .setRelationPairs(["date-problem", "occurrence-date"]) # Possible relation pairs. Default: All Relations.
+.pretrained("re_temporal_events_clinical", "en", 'clinical/models')\
+.setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
+.setOutputCol("relations")\
+.setMaxSyntacticDistance(4)\ #default: 0
+.setPredictionThreshold(0.9)\ #default: 0.5
+.setRelationPairs(["date-problem", "occurrence-date"]) # Possible relation pairs. Default: All Relations.
 
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, pos_tagger, dependecy_parser, word_embeddings, clinical_ner, ner_converter, clinical_re_Model])
 
@@ -59,12 +59,12 @@ annotations = light_pipeline.fullAnnotate("""The patient is a 56-year-old right-
 ...
 
 val clinical_re_Model = RelationExtractionModel()
-    .pretrained("re_temporal_events_clinical", "en", 'clinical/models')
-    .setInputCols("embeddings", "pos_tags", "ner_chunks", "dependencies")
-    .setOutputCol("relations")
-    .setMaxSyntacticDistance(4)  
-    .setPredictionThreshold(0.9)  
-    .setRelationPairs("date-problem", "occurrence-date")
+.pretrained("re_temporal_events_clinical", "en", 'clinical/models')
+.setInputCols("embeddings", "pos_tags", "ner_chunks", "dependencies")
+.setOutputCol("relations")
+.setMaxSyntacticDistance(4)  
+.setPredictionThreshold(0.9)  
+.setRelationPairs("date-problem", "occurrence-date")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos_tagger, dependecy_parser, word_embeddings, clinical_ner, ner_converter, clinical_re_Model))
 

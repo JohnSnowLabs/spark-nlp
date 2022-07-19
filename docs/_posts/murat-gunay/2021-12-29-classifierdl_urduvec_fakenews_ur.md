@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.1
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,33 +36,33 @@ This model determines if news articles in Urdu are real or fake.
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-      .setInputCol("news") \
-      .setOutputCol("document")
+.setInputCol("news") \
+.setOutputCol("document")
 
 tokenizer = Tokenizer() \
-      .setInputCols(["document"]) \
-      .setOutputCol("token")
-    
+.setInputCols(["document"]) \
+.setOutputCol("token")
+
 normalizer = Normalizer() \
-      .setInputCols(["token"]) \
-      .setOutputCol("normalized")
+.setInputCols(["token"]) \
+.setOutputCol("normalized")
 
 lemma = LemmatizerModel.pretrained("lemma", "ur") \
-         .setInputCols(["normalized"]) \
-         .setOutputCol("lemma")
+.setInputCols(["normalized"]) \
+.setOutputCol("lemma")
 
 embeddings = WordEmbeddingsModel.pretrained("urduvec_140M_300d", "ur") \
-      .setInputCols("document", "lemma") \
-      .setOutputCol("embeddings")
+.setInputCols("document", "lemma") \
+.setOutputCol("embeddings")
 
 embeddingsSentence = SentenceEmbeddings() \
-      .setInputCols(["document", "embeddings"]) \
-      .setOutputCol("sentence_embeddings") \
-      .setPoolingStrategy("AVERAGE")
+.setInputCols(["document", "embeddings"]) \
+.setOutputCol("sentence_embeddings") \
+.setPoolingStrategy("AVERAGE")
 
 classifierdl = ClassifierDLModel.pretrained("classifierdl_urduvec_fakenews", "ur") \
-  .setInputCols(["document", "sentence_embeddings"]) \
-  .setOutputCol("class")
+.setInputCols(["document", "sentence_embeddings"]) \
+.setOutputCol("class")
 
 urdu_fake_pipeline = Pipeline(stages=[document_assembler, tokenizer, normalizer, lemma, embeddings, embeddingsSentence, classifierdl])
 
@@ -73,33 +73,33 @@ result["class"]
 ```
 ```scala
 val document_assembler = DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val tokenizer = Tokenizer()
-      .setInputCols(Array("document"))
-      .setOutputCol("token")
-    
+.setInputCols(Array("document"))
+.setOutputCol("token")
+
 val normalizer = Normalizer()
-      .setInputCols(Array("token"))
-      .setOutputCol("normalized")
+.setInputCols(Array("token"))
+.setOutputCol("normalized")
 
 val lemma = LemmatizerModel.pretrained("lemma", "ur") \
-         .setInputCols(Array("normalized")) \
-         .setOutputCol("lemma")
+.setInputCols(Array("normalized")) \
+.setOutputCol("lemma")
 
 val embeddings = WordEmbeddingsModel.pretrained("urduvec_140M_300d", "ur")
-    .setInputCols(Array("document", "lemma"))
-    .setOutputCol("embeddings")
+.setInputCols(Array("document", "lemma"))
+.setOutputCol("embeddings")
 
 val embeddingsSentence = SentenceEmbeddings()
-      .setInputCols(Array("document", "embeddings"))
-      .setOutputCol("sentence_embeddings")
-      .setPoolingStrategy("AVERAGE")
+.setInputCols(Array("document", "embeddings"))
+.setOutputCol("sentence_embeddings")
+.setPoolingStrategy("AVERAGE")
 
 val classifier = ClassifierDLModel.pretrained("classifierdl_urduvec_fakenews", "ur")
-  .setInputCols(Array("document", "sentence_embeddings"))
-  .setOutputCol("class")
+.setInputCols(Array("document", "sentence_embeddings"))
+.setOutputCol("class")
 
 val urdu_fake_pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, normalizer, lemma, embeddings, embeddingsSentence, classifier))
 
@@ -144,10 +144,10 @@ Combination of multiple open source data sets.
 ## Benchmarking
 
 ```bash
-       label  precision    recall  f1-score   support
-        fake       0.77      0.70      0.73       415
-        real       0.71      0.77      0.74       387
-    accuracy                           0.73       802
-   macro-avg       0.74      0.74      0.73       802
+label  precision    recall  f1-score   support
+fake       0.77      0.70      0.73       415
+real       0.71      0.77      0.74       387
+accuracy                           0.73       802
+macro-avg       0.74      0.74      0.73       802
 weighted-avg       0.74      0.73      0.73       802
 ```

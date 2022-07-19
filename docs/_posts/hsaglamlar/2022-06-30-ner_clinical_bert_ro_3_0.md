@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,36 +37,36 @@ Extract clinical entities from Romanian clinical texts. This model is trained us
 
 ```python
 documentAssembler = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
-        
+.setInputCol("text")\
+.setOutputCol("document")
+
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
-    .setInputCols(["document"])\
-    .setOutputCol("sentence")
- 
+.setInputCols(["document"])\
+.setOutputCol("sentence")
+
 tokenizer = Tokenizer()\
-    .setInputCols(["sentence"])\
-    .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 word_embeddings = BertEmbeddings.pretrained("bert_base_cased", "ro") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_clinical_bert","ro","clinical/models")\
-    .setInputCols(["sentence","token","embeddings"])\
-    .setOutputCol("ner")
+.setInputCols(["sentence","token","embeddings"])\
+.setOutputCol("ner")
 
 ner_converter = NerConverter()\
-    .setInputCols(["sentence","token","ner"])\
-    .setOutputCol("ner_chunk")
+.setInputCols(["sentence","token","ner"])\
+.setOutputCol("ner_chunk")
 
 nlpPipeline = Pipeline(stages=[
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        word_embeddings,
-        clinical_ner,
-        ner_converter])
+documentAssembler,
+sentenceDetector,
+tokenizer,
+word_embeddings,
+clinical_ner,
+ner_converter])
 
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -78,35 +78,35 @@ result = model.transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-    .setInputCols("document")
-    .setOutputCol("sentence")
+.setInputCols("document")
+.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
-    .setOutputCol("token")
+.setInputCols("sentence")
+.setOutputCol("token")
 
 val embeddings = BertEmbeddings.pretrained("bert_base_cased", "ro")
-    .setInputCols(Array("sentence", "token"))
-    .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 val ner_model = MedicalNerModel.pretrained("ner_clinical_bert", "ro", "clinical/models")
-    .setInputCols(Array("sentence", "token", "embeddings"))
-    .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings"))
+.setOutputCol("ner")
 
 val ner_converter = new NerConverter()
-    .setInputCols(Array("sentence", "token", "ner"))
-    .setOutputCol("ner_chunk")
+.setInputCols(Array("sentence", "token", "ner"))
+.setOutputCol("ner_chunk")
 
 val pipeline = new PipelineModel().setStages(Array(document_assembler, 
-                                                  sentence_detector,
-                                                  tokenizer,
-                                                  embeddings,
-                                                  ner_model,
-                                                  ner_converter))
+sentence_detector,
+tokenizer,
+embeddings,
+ner_model,
+ner_converter))
 
 val data = Seq("""Solicitare: Angio CT cardio-toracic Dg. de trimitere Atrezie de valva pulmonara. Hipoplazie VS. Atrezie VAV stang. Anastomoza Glenn. Sp. Tromboza la nivelul anastomozei. Trimis de: Sectia Clinica Cardiologie (dr. Sue T.) Procedura Aparat GE Revolution HD. Branula albastra montata la nivelul membrului superior drept. Scout. Se administreaza 30 ml Iomeron 350 cu flux 2.2 ml/s, urmate de 20 ml ser fiziologic cu acelasi flux. Se efectueaza o examinare angio-CT cardiotoracica cu achizitii secventiale prospective la o frecventa cardiaca medie de 100/min.""").toDS.toDF("text")
 
@@ -168,27 +168,27 @@ nlu.load("ro.embed.clinical.bert.base_cased").predict(""" Solicitare: Angio CT c
 ## Benchmarking
 
 ```bash
-                    label  precision    recall  f1-score   support
-                Body_Part       0.91      0.93      0.92       679
-            Clinical_Dept       0.68      0.65      0.67        97
-                     Date       0.99      0.99      0.99        87
-                Direction       0.66      0.76      0.70        50
+label  precision    recall  f1-score   support
+Body_Part       0.91      0.93      0.92       679
+Clinical_Dept       0.68      0.65      0.67        97
+Date       0.99      0.99      0.99        87
+Direction       0.66      0.76      0.70        50
 Disease_Syndrome_Disorder       0.73      0.76      0.74       121
-                   Dosage       0.78      1.00      0.87        38
-          Drug_Ingredient       0.90      0.94      0.92        48
-                     Form       1.00      1.00      1.00         6
-         Imaging_Findings       0.86      0.82      0.84       201
-        Imaging_Technique       0.92      0.92      0.92        26
-             Imaging_Test       0.93      0.98      0.95       205
-             Measurements       0.71      0.69      0.70       214
-           Medical_Device       0.85      0.81      0.83        42
-                    Pulse       0.82      1.00      0.90         9
-                    Route       1.00      0.91      0.95        33
-                    Score       1.00      0.98      0.99        41
-                     Time       1.00      1.00      1.00        28
-                    Units       0.60      0.93      0.73        88
-                   Weight       0.82      1.00      0.90         9
-                micro-avg       0.84      0.87      0.86      2037
-                macro-avg       0.70      0.74      0.72      2037
-             weighted-avg       0.84      0.87      0.85      2037
+Dosage       0.78      1.00      0.87        38
+Drug_Ingredient       0.90      0.94      0.92        48
+Form       1.00      1.00      1.00         6
+Imaging_Findings       0.86      0.82      0.84       201
+Imaging_Technique       0.92      0.92      0.92        26
+Imaging_Test       0.93      0.98      0.95       205
+Measurements       0.71      0.69      0.70       214
+Medical_Device       0.85      0.81      0.83        42
+Pulse       0.82      1.00      0.90         9
+Route       1.00      0.91      0.95        33
+Score       1.00      0.98      0.99        41
+Time       1.00      1.00      1.00        28
+Units       0.60      0.93      0.73        88
+Weight       0.82      1.00      0.90         9
+micro-avg       0.84      0.87      0.86      2037
+macro-avg       0.70      0.74      0.72      2037
+weighted-avg       0.84      0.87      0.85      2037
 ```

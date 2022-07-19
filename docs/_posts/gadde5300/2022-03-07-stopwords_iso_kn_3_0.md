@@ -11,7 +11,7 @@ edition: Spark NLP 3.4.1
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,16 +32,16 @@ This is a scalable, production-ready Stopwords Remover model trained using the c
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 tokenizer = Tokenizer() \
-    .setInputCols(["document"]) \
-    .setOutputCol("token")
+.setInputCols(["document"]) \
+.setOutputCol("token")
 
 stop_words = StopWordsCleaner.pretrained("stopwords_iso","kn") \
-    .setInputCols(["token"]) \
-    .setOutputCol("cleanTokens")
+.setInputCols(["token"]) \
+.setOutputCol("cleanTokens")
 
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, stop_words]) 
 
@@ -51,16 +51,16 @@ results = pipeline.fit(example).transform(example)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler() 
-            .setInputCol("text") 
-            .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 val stop_words = new Tokenizer() 
-    .setInputCols(Array("document"))
-    .setOutputCol("token")
+.setInputCols(Array("document"))
+.setOutputCol("token")
 
 val lemmatizer = StopWordsCleaner.pretrained("stopwords_iso","kn") 
-    .setInputCols(Array("token")) 
-    .setOutputCol("cleanTokens")
+.setInputCols(Array("token")) 
+.setOutputCol("cleanTokens")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, stop_words))
 val data = Seq("ನೀವು ನನಗೆ ಉತ್ತಮವಾಗಿಲ್ಲ").toDF("text")

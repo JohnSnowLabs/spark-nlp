@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.4.1
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,24 +36,24 @@ It is a BertForTokenClassification NER model to identify concepts related to dru
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentenceDetector = SentenceDetectorDLModel.pretrained() \
-    .setInputCols(["document"]) \
-    .setOutputCol("sentence") 
+.setInputCols(["document"]) \
+.setOutputCol("sentence") 
 
 tokenizer = Tokenizer()\
-    .setInputCols("sentence")\
-    .setOutputCol("token")
+.setInputCols("sentence")\
+.setOutputCol("token")
 
 tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_drug_development_trials", "en", "clinical/models")\
-    .setInputCols("token", "sentence")\
-    .setOutputCol("ner")
+.setInputCols("token", "sentence")\
+.setOutputCol("ner")
 
 ner_converter = NerConverter()\
-    .setInputCols(["sentence","token","ner"])\
-    .setOutputCol("ner_chunk") 
+.setInputCols(["sentence","token","ner"])\
+.setOutputCol("ner_chunk") 
 
 pipeline =  Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter])     
 
@@ -65,24 +65,24 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained()
-    .setInputCols("document") 
-    .setOutputCol("sentence") 
+.setInputCols("document") 
+.setOutputCol("sentence") 
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
-    .setOutputCol("token")
+.setInputCols("sentence")
+.setOutputCol("token")
 
 val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_drug_development_trials", "en", "clinical/models")
-    .setInputCols(Array("token", "sentence"))
-    .setOutputCol("ner")
+.setInputCols(Array("token", "sentence"))
+.setOutputCol("ner")
 
 val ner_converter = NerConverter()
-    .setInputCols(Array("sentence","token","ner"))
-    .setOutputCol("ner_chunk")
+.setInputCols(Array("sentence","token","ner"))
+.setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))
 
@@ -148,34 +148,34 @@ Trained on data obtained from `clinicaltrials.gov` and annotated in-house.
 ## Benchmarking
 
 ```bash
-                label       prec       rec        f1   support
-                B-ADE       0.50      0.33      0.40         3
+label       prec       rec        f1   support
+B-ADE       0.50      0.33      0.40         3
 B-Confidence_Interval       0.46      1.00      0.63        12
-   B-Confidence_Range       1.00      0.98      0.99        42
-   B-Confidence_level       1.00      0.67      0.81        43
-               B-DATE       0.95      0.93      0.94        40
-           B-Duration       1.00      0.82      0.90        11
-          B-End_Point       0.91      0.98      0.95        54
-          B-Follow_Up       1.00      1.00      1.00         2
-       B-Hazard_Ratio       0.77      1.00      0.87        24
-            B-P_Value       1.00      0.56      0.71         9
-      B-Patient_Count       1.00      0.95      0.97        19
-      B-Patient_Group       0.79      0.63      0.70        43
-        B-Trial_Group       0.96      0.94      0.95       274
-              B-Value       0.98      0.83      0.90        77
-                I-ADE       0.71      1.00      0.83        12
-   I-Confidence_Range       0.98      1.00      0.99        43
-               I-DATE       0.95      1.00      0.98        60
-           I-Duration       1.00      1.00      1.00         1
-          I-End_Point       0.92      1.00      0.96        44
-          I-Follow_Up       1.00      1.00      1.00         2
-            I-P_Value       0.82      1.00      0.90        18
-      I-Patient_Count       0.00      0.00      0.00         0
-      I-Patient_Group       0.79      0.94      0.86       187
-        I-Trial_Group       0.92      0.90      0.91       156
-              I-Value       1.00      1.00      1.00        10
-                    O       0.98      0.98      0.98      2622
-             accuracy         -         -       0.96      3808
-            macro-avg       0.86      0.86      0.85      3808
-         weighted-avg       0.96      0.96      0.96      3808
+B-Confidence_Range       1.00      0.98      0.99        42
+B-Confidence_level       1.00      0.67      0.81        43
+B-DATE       0.95      0.93      0.94        40
+B-Duration       1.00      0.82      0.90        11
+B-End_Point       0.91      0.98      0.95        54
+B-Follow_Up       1.00      1.00      1.00         2
+B-Hazard_Ratio       0.77      1.00      0.87        24
+B-P_Value       1.00      0.56      0.71         9
+B-Patient_Count       1.00      0.95      0.97        19
+B-Patient_Group       0.79      0.63      0.70        43
+B-Trial_Group       0.96      0.94      0.95       274
+B-Value       0.98      0.83      0.90        77
+I-ADE       0.71      1.00      0.83        12
+I-Confidence_Range       0.98      1.00      0.99        43
+I-DATE       0.95      1.00      0.98        60
+I-Duration       1.00      1.00      1.00         1
+I-End_Point       0.92      1.00      0.96        44
+I-Follow_Up       1.00      1.00      1.00         2
+I-P_Value       0.82      1.00      0.90        18
+I-Patient_Count       0.00      0.00      0.00         0
+I-Patient_Group       0.79      0.94      0.86       187
+I-Trial_Group       0.92      0.90      0.91       156
+I-Value       1.00      1.00      1.00        10
+O       0.98      0.98      0.98      2622
+accuracy         -         -       0.96      3808
+macro-avg       0.86      0.86      0.85      3808
+weighted-avg       0.96      0.96      0.96      3808
 ```

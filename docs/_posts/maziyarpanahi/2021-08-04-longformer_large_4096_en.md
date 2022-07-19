@@ -11,7 +11,7 @@ edition: Spark NLP 3.2.0
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -20,16 +20,16 @@ use_language_switcher: "Python-Scala-Java"
 [Longformer](https://arxiv.org/abs/2004.05150) is a transformer model for long documents. 
 
 `longformer_large_4096` is a BERT-like model started from the RoBERTa checkpoint and pretrained for MLM on long documents. It supports sequences of length up to 4,096. 
- 
+
 Longformer uses a combination of a sliding window (local) attention and global attention. Global attention is user-configured based on the task to allow the model to learn task-specific representations.
 
 If you use `Longformer` in your research, please cite [Longformer: The Long-Document Transformer](https://arxiv.org/abs/2004.05150).
 ```
 @article{Beltagy2020Longformer,
-  title={Longformer: The Long-Document Transformer},
-  author={Iz Beltagy and Matthew E. Peters and Arman Cohan},
-  journal={arXiv:2004.05150},
-  year={2020},
+title={Longformer: The Long-Document Transformer},
+author={Iz Beltagy and Matthew E. Peters and Arman Cohan},
+journal={arXiv:2004.05150},
+year={2020},
 }
 ```
 
@@ -49,18 +49,18 @@ AI2 is a non-profit institute with the mission to contribute to humanity through
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 embeddings = LongformerEmbeddings\
-      .pretrained("longformer_large_4096")\
-      .setInputCols(["document", "token"])\
-      .setOutputCol("embeddings")\
-      .setCaseSensitive(True)\
-      .setMaxSentenceLength(4096)
+.pretrained("longformer_large_4096")\
+.setInputCols(["document", "token"])\
+.setOutputCol("embeddings")\
+.setCaseSensitive(True)\
+.setMaxSentenceLength(4096)
 ```
 ```scala
 val embeddings = LongformerEmbeddings.pretrained("longformer_large_4096", "en")
-    .setInputCols("document", "token") 
-    .setOutputCol("embeddings")
-    .setCaseSensitive(true)
-    .setMaxSentenceLength(4096)
+.setInputCols("document", "token") 
+.setOutputCol("embeddings")
+.setCaseSensitive(true)
+.setMaxSentenceLength(4096)
 ```
 
 

@@ -11,7 +11,7 @@ edition: Spark NLP 2.0.2
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,30 +32,30 @@ from sparknlp.annotator import *
 from pyspark.ml import Pipeline
 
 document = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 token = Tokenizer() \
-    .setInputCols(["document"]) \
-    .setOutputCol("token")
+.setInputCols(["document"]) \
+.setOutputCol("token")
 
 normalizer = Normalizer() \
-    .setInputCols(["token"]) \
-    .setOutputCol("normal")
+.setInputCols(["token"]) \
+.setOutputCol("normal")
 
 vivekn =  ViveknSentimentModel.pretrained() \
-    .setInputCols(["document", "normal"]) \
-    .setOutputCol("result_sentiment")
+.setInputCols(["document", "normal"]) \
+.setOutputCol("result_sentiment")
 
 finisher = Finisher() \
-    .setInputCols(["result_sentiment"]) \
-    .setOutputCols("final_sentiment")
+.setInputCols(["result_sentiment"]) \
+.setOutputCols("final_sentiment")
 
 pipeline = Pipeline().setStages([document, token, normalizer, vivekn, finisher])
 
 data = spark.createDataFrame([
-    ["I recommend this movie"],
-    ["Dont waste your time!!!"]
+["I recommend this movie"],
+["Dont waste your time!!!"]
 ]).toDF("text")
 pipelineModel = pipeline.fit(data)
 result = pipelineModel.transform(data)
@@ -72,30 +72,30 @@ import com.johnsnowlabs.nlp.Finisher
 import org.apache.spark.ml.Pipeline
 
 val document = new DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val token = new Tokenizer()
-  .setInputCols("document")
-  .setOutputCol("token")
+.setInputCols("document")
+.setOutputCol("token")
 
 val normalizer = new Normalizer()
-  .setInputCols("token")
-  .setOutputCol("normal")
+.setInputCols("token")
+.setOutputCol("normal")
 
 val vivekn = ViveknSentimentModel.pretrained()
-  .setInputCols("document", "normal")
-  .setOutputCol("result_sentiment")
+.setInputCols("document", "normal")
+.setOutputCol("result_sentiment")
 
 val finisher = new Finisher()
-  .setInputCols("result_sentiment")
-  .setOutputCols("final_sentiment")
+.setInputCols("result_sentiment")
+.setOutputCols("final_sentiment")
 
 val pipeline = new Pipeline().setStages(Array(document, token, normalizer, vivekn, finisher))
 
 val data = Seq(
-  "I recommend this movie",
-  "Dont waste your time!!!"
+"I recommend this movie",
+"Dont waste your time!!!"
 ).toDF("text")
 
 val pipelineModel = pipeline.fit(data)

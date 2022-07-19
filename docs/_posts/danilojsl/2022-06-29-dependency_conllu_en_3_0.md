@@ -11,7 +11,7 @@ edition: Spark NLP 3.4.4
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -23,10 +23,10 @@ Dependency parsing is the task of extracting a dependency parse of a sentence th
 
 Example:
 
-     root
-      |
-      | +-------dobj---------+
-      | |                    |
+root
+|
+| +-------dobj---------+
+| |                    |
 nsubj | |   +------det-----+ | +-----nmod------+
 +--+  | |   |              | | |               |
 |  |  | |   |      +-nmod-+| | |      +-case-+ |

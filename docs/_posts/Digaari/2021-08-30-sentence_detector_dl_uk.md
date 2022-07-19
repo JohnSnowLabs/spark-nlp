@@ -11,7 +11,7 @@ edition: Spark NLP 3.2.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,13 +32,13 @@ SentenceDetectorDL (SDDL) is based on a general-purpose neural network model for
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documenter = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
-    
+.setInputCol("text")\
+.setOutputCol("document")
+
 sentencerDL = SentenceDetectorDLModel\
-  .pretrained("sentence_detector_dl", "uk") \
-  .setInputCols(["document"]) \
-  .setOutputCol("sentences")
+.pretrained("sentence_detector_dl", "uk") \
+.setInputCols(["document"]) \
+.setOutputCol("sentences")
 
 sd_model = LightPipeline(PipelineModel(stages=[documenter, sentencerDL]))
 sd_model.fullAnnotate("""Шукаєте чудове джерело англійського читання абзаців? Ви потрапили в потрібне місце. Згідно з останнім дослідженням, звичка читати у сучасної молоді стрімко знижується. Вони не можуть зосередитися на даному абзаці читання англійською мовою більше кількох секунд! Крім того, читання було і є невід’ємною частиною всіх конкурсних іспитів. Отже, як покращити свої навички читання? Відповідь на це питання насправді інше питання: Яка користь від навичок читання? Основна мета читання - «мати сенс».""")
@@ -48,8 +48,8 @@ sd_model.fullAnnotate("""Шукаєте чудове джерело англій
 ```
 ```scala
 val documenter = DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val model = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "uk")
 	.setInputCols(Array("document"))

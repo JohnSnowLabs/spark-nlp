@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -59,12 +59,12 @@ results = model.transform(spark.createDataFrame([["EXAMPLE_TEXT"]]).toDF("text")
 ```scala
 ...
 val embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token"))
-  .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 val ner = MedicalNerModel.pretrained("ner_events_healthcare", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token", "embeddings"))
-  .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings"))
+.setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
 
@@ -100,18 +100,18 @@ nlu.load("en.med_ner.events_healthcre").predict("""Put your text here.""")
 
 ## Benchmarking
 ```bash
-       entity      tp     fp     fn   total precision  recall      f1
-     DURATION   575.0  263.0  231.0   806.0    0.6862  0.7134  0.6995
-      PROBLEM  8067.0 2479.0 2305.0 10372.0    0.7649  0.7778  0.7713
-         DATE  1787.0  508.0  315.0  2102.0    0.7786  0.8501  0.8128
+entity      tp     fp     fn   total precision  recall      f1
+DURATION   575.0  263.0  231.0   806.0    0.6862  0.7134  0.6995
+PROBLEM  8067.0 2479.0 2305.0 10372.0    0.7649  0.7778  0.7713
+DATE  1787.0  508.0  315.0  2102.0    0.7786  0.8501  0.8128
 CLINICAL_DEPT  1804.0  393.0  338.0  2142.0    0.8211  0.8422  0.8315
-   OCCURRENCE  1917.0  893.0 2188.0  4105.0    0.6822   0.467  0.5544
-    TREATMENT  4578.0 1596.0 1817.0  6395.0    0.7415  0.7159  0.7285
-    FREQUENCY   145.0   46.0  213.0   358.0    0.7592   0.405  0.5282
-         TEST  3723.0  949.0 1113.0  4836.0    0.7969  0.7699  0.7831
-   EVIDENTIAL   334.0   80.0  279.0   613.0    0.8068  0.5449  0.6504
-        macro     -      -      -       -        -       -     0.60759
-        micro     -      -      -       -        -       -     0.73065
+OCCURRENCE  1917.0  893.0 2188.0  4105.0    0.6822   0.467  0.5544
+TREATMENT  4578.0 1596.0 1817.0  6395.0    0.7415  0.7159  0.7285
+FREQUENCY   145.0   46.0  213.0   358.0    0.7592   0.405  0.5282
+TEST  3723.0  949.0 1113.0  4836.0    0.7969  0.7699  0.7831
+EVIDENTIAL   334.0   80.0  279.0   613.0    0.8068  0.5449  0.6504
+macro     -      -      -       -        -       -     0.60759
+micro     -      -      -       -        -       -     0.73065
 ```
 <!--stackedit_data:
 eyJoaXN0b3J5IjpbMTQ0OTY4MDg1MV19

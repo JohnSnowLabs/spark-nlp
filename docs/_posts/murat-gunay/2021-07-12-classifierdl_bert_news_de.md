@@ -11,7 +11,7 @@ edition: Spark NLP 3.1.1
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,17 +36,17 @@ Classify German texts of news
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 embeddings = BertSentenceEmbeddings\
-  .pretrained('sent_bert_multi_cased', 'xx') \
-  .setInputCols(["document"])\
-  .setOutputCol("sentence_embeddings")
+.pretrained('sent_bert_multi_cased', 'xx') \
+.setInputCols(["document"])\
+.setOutputCol("sentence_embeddings")
 
 document_classifier = ClassifierDLModel.pretrained("classifierdl_bert_news", "de") \
-  .setInputCols(["document", "sentence_embeddings"]) \
-  .setOutputCol("class")
+.setInputCols(["document", "sentence_embeddings"]) \
+.setOutputCol("class")
 
 nlpPipeline = Pipeline(stages=[document, embeddings, document_classifier])
 light_pipeline = LightPipeline(nlpPipeline.fit(spark.createDataFrame([['']]).toDF("text")))
@@ -56,17 +56,17 @@ result["class"]
 ```
 ```scala
 val document = DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val embeddings = BertSentenceEmbeddings
-    .pretrained("sent_bert_multi_cased", "xx") 
-    .setInputCols("document")
-    .setOutputCol("sentence_embeddings")
+.pretrained("sent_bert_multi_cased", "xx") 
+.setInputCols("document")
+.setOutputCol("sentence_embeddings")
 
 val document_classifier = ClassifierDLModel.pretrained("classifierdl_bert_news", "de") 
-  .setInputCols(Array("document", "sentence_embeddings")) 
-  .setOutputCol("class")
+.setInputCols(Array("document", "sentence_embeddings")) 
+.setOutputCol("class")
 
 val nlpPipeline = new Pipeline().setStages(Array(document, embeddings, document_classifier))
 val light_pipeline = LightPipeline(nlpPipeline.fit(spark.createDataFrame([['']]).toDF("text")))
@@ -108,17 +108,17 @@ Trained on a custom dataset with multi-lingual Bert Sentence Embeddings.
 ## Benchmarking
 
 ```bash
-               precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-       Inland       0.78      0.81      0.79       102
+Inland       0.78      0.81      0.79       102
 International       0.80      0.89      0.84       151
-     Panorama       0.84      0.70      0.76       168
-        Sport       0.98      0.99      0.98       120
-          Web       0.93      0.90      0.91       168
-   Wirtschaft       0.74      0.83      0.78       141
- Wissenschaft       0.84      0.75      0.80        57
+Panorama       0.84      0.70      0.76       168
+Sport       0.98      0.99      0.98       120
+Web       0.93      0.90      0.91       168
+Wirtschaft       0.74      0.83      0.78       141
+Wissenschaft       0.84      0.75      0.80        57
 
-     accuracy                           0.84       907
-    macro avg       0.84      0.84      0.84       907
- weighted avg       0.85      0.84      0.84       907
+accuracy                           0.84       907
+macro avg       0.84      0.84      0.84       907
+weighted avg       0.85      0.84      0.84       907
 ```

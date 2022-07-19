@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -44,37 +44,37 @@ It is trained on the [LivingNER](https://temu.bsc.es/livingner/2022/05/03/multil
 
 ```python
 document_assembler = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
-    .setInputCols(["document"])\
-    .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-    .setInputCols(["sentence"])\
-    .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "fr")\
-    .setInputCols(["sentence", "token"])\
-    .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 
 ner_model = MedicalNerModel.pretrained("ner_living_species", "fr", "clinical/models")\
-    .setInputCols(["sentence", "token", "embeddings"])\
-    .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"])\
+.setOutputCol("ner")
 
 ner_converter = NerConverter()\
-    .setInputCols(["sentence", "token", "ner"])\
-    .setOutputCol("ner_chunk")
+.setInputCols(["sentence", "token", "ner"])\
+.setOutputCol("ner_chunk")
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
-    sentence_detector,
-    tokenizer,
-    embeddings,
-    ner_model,
-    ner_converter   
-    ])
+document_assembler, 
+sentence_detector,
+tokenizer,
+embeddings,
+ner_model,
+ner_converter   
+])
 
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -84,35 +84,35 @@ result = model.transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-    .setInputCols("document")
-    .setOutputCol("sentence")
+.setInputCols("document")
+.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
-    .setOutputCol("token")
+.setInputCols("sentence")
+.setOutputCol("token")
 
 val embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "fr")
-    .setInputCols(Array("sentence", "token"))
-    .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 val ner_model = MedicalNerModel.pretrained("ner_living_species", "fr", "clinical/models")
-    .setInputCols(Array("sentence", "token", "embeddings"))
-    .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings"))
+.setOutputCol("ner")
 
 val ner_converter = new NerConverter()
-    .setInputCols(Array("sentence", "token", "ner"))
-    .setOutputCol("ner_chunk")
+.setInputCols(Array("sentence", "token", "ner"))
+.setOutputCol("ner_chunk")
 
 val pipeline = new PipelineModel().setStages(Array(document_assembler, 
-                                                  sentence_detector,
-                                                  tokenizer,
-                                                  embeddings,
-                                                  ner_model,
-                                                  ner_converter))
+sentence_detector,
+tokenizer,
+embeddings,
+ner_model,
+ner_converter))
 
 val data = Seq("""Femme de 47 ans allergique à l'iode, fumeuse sociale, opérée pour des varices, deux césariennes et un abcès fessier. Vit avec son mari et ses trois enfants, travaille comme enseignante. Initialement, le patient a eu une bonne évolution, mais au 2ème jour postopératoire, il a commencé à montrer une instabilité hémodynamique. Les sérologies pour Coxiella burnetii, Bartonella henselae, Borrelia burgdorferi, Entamoeba histolytica, Toxoplasma gondii, herpès simplex virus 1 et 2, cytomégalovirus, virus d'Epstein Barr, virus de la varicelle et du zona et parvovirus B19 étaient négatives. Cependant, un test au rose Bengale positif pour Brucella, le test de Coombs et les agglutinations étaient également positifs avec un titre de 1/40.""").toDS.toDF("text")
 
@@ -174,12 +174,12 @@ nlu.load("fr.med_ner.living_species").predict("""Femme de 47 ans allergique à l
 ## Benchmarking
 
 ```bash
- label         precision  recall  f1-score  support 
- B-HUMAN       0.78       0.97    0.87      2552    
- B-SPECIES     0.66       0.91    0.77      2836    
- I-HUMAN       0.81       0.67    0.73      114     
- I-SPECIES     0.69       0.86    0.76      1118    
- micro-avg     0.71       0.92    0.80      6620    
- macro-avg     0.74       0.85    0.78      6620    
- weighted-avg  0.72       0.92    0.80      6620 
+label         precision  recall  f1-score  support 
+B-HUMAN       0.78       0.97    0.87      2552    
+B-SPECIES     0.66       0.91    0.77      2836    
+I-HUMAN       0.81       0.67    0.73      114     
+I-SPECIES     0.69       0.86    0.76      1118    
+micro-avg     0.71       0.92    0.80      6620    
+macro-avg     0.74       0.85    0.78      6620    
+weighted-avg  0.72       0.92    0.80      6620 
 ```

@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.1
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -88,11 +88,11 @@ word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical" ,"en", "c
 ner = MedicalNerModel.pretrained("ner_biomedical_bc2gm", "en", "clinical/models") \
 	.setInputCols(["sentence", "token", "embeddings"]) \
 	.setOutputCol("ner")
- 
+
 ner_converter = NerConverter()\
 	.setInputCols(["sentence", "token", "ner"])\
 	.setOutputCol("ner_chunk")
-  
+
 nlpPipeline = Pipeline(stages=[
 	document_aAssembler,
 	sentenceDetectorDL,
@@ -100,7 +100,7 @@ nlpPipeline = Pipeline(stages=[
 	word_embeddings,
 	ner,
 	ner_converter])
-  
+
 data = spark.createDataFrame([["Immunohistochemical staining was positive for S-100 in all 9 cases stained, positive for HMB-45 in 9 (90%) of 10, and negative for cytokeratin in all 9 cases in which myxoid melanoma remained in the block after previous sections."]]).toDF("text")
 
 
@@ -130,7 +130,7 @@ val ner = MedicalNerModel.pretrained("ner_biomedical_bc2gm", "en", "clinical/mod
 
 val ner_converter = new NerConverter()
 	.setInputCols(Array("sentence", "token", "ner"))
-    	.setOutputCol("ner_chunk")
+	.setOutputCol("ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(
 	document_assembler, 
@@ -209,11 +209,11 @@ Created by Smith et al. at 2008, the BioCreative II Gene Mention Recognition ([B
 
 
 ```bash
-        label precision recall f1-score support
- GENE_PROTEIN      0.83   0.82     0.82    6325 
-    micro-avg      0.83   0.82     0.82    6325
-    macro-avg      0.83   0.82     0.82    6325
- weighted-avg      0.83   0.82     0.82    6325
+label precision recall f1-score support
+GENE_PROTEIN      0.83   0.82     0.82    6325 
+micro-avg      0.83   0.82     0.82    6325
+macro-avg      0.83   0.82     0.82    6325
+weighted-avg      0.83   0.82     0.82    6325
 ```
 
 

@@ -13,7 +13,7 @@ spark_version: 2.4
 tags: [clinical,licensed,ner,deidentify,en]
 supported: true
 article_header:
-   type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -41,11 +41,11 @@ We sticked to official annotation guideline (AG) for 2014 i2b2 Deid challenge wh
 ```python
 ...
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-   .setInputCols(["sentence", "token"])\
-   .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 model = NerDLModel.pretrained("ner_deid_enriched","en","clinical/models")\
-   .setInputCols(["sentence","token","embeddings"])\
-   .setOutputCol("ner")
+.setInputCols(["sentence","token","embeddings"])\
+.setOutputCol("ner")
 ...
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, model, ner_converter])
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
@@ -56,8 +56,8 @@ results = model.transform(spark.createDataFrame([['HISTORY OF PRESENT ILLNESS: M
 ```scala
 ...
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token"))
-  .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 val model = NerDLModel.pretrained("ner_deid_enriched","en","clinical/models")
 	.setInputCols("sentence","token","embeddings")
 	.setOutputCol("ner")

@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.4
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,25 +36,25 @@ This model was imported from `Hugging Face` and it's been trained on [Kaggle dat
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
-       .setInputCols(["document"])\
-       .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-      .setInputCols(["sentence"])\
-      .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 tokenClassifier = RoBertaForTokenClassification.pretrained("roberta_token_classifier_ticker", "en"))\
-  .setInputCols(["sentence",'token'])\
-  .setOutputCol("ner")
+.setInputCols(["sentence",'token'])\
+.setOutputCol("ner")
 
 ner_converter = NerConverter()\
-      .setInputCols(["sentence", "token", "ner"])\
-      .setOutputCol("ner_chunk")
-      
+.setInputCols(["sentence", "token", "ner"])\
+.setOutputCol("ner_chunk")
+
 nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter])
 
 empty_data = spark.createDataFrame([[""]]).toDF("text")
@@ -65,25 +65,25 @@ result = model.transform(spark.createDataFrame([[text]]).toDF("text"))
 ```
 ```scala
 val documentAssembler = DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-       .setInputCols(Array("document"))
-       .setOutputCol("sentence")
+.setInputCols(Array("document"))
+.setOutputCol("sentence")
 
 val tokenizer = Tokenizer()
-      .setInputCols(Array("sentence"))
-      .setOutputCol("token")
+.setInputCols(Array("sentence"))
+.setOutputCol("token")
 
 val tokenClassifier = RoBertaForTokenClassification.pretrained("roberta_token_classifier_ticker", "en"))\
-  .setInputCols(Array("sentence","token"))\
-  .setOutputCol("ner")
+.setInputCols(Array("sentence","token"))\
+.setOutputCol("ner")
 
 ner_converter = NerConverter()\
-      .setInputCols(Array("sentence", "token", "ner"))\
-      .setOutputCol("ner_chunk")
-      
+.setInputCols(Array("sentence", "token", "ner"))\
+.setOutputCol("ner_chunk")
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))
 
 val example = Seq.empty["I am going to buy 100 shares of MFST tomorrow."].toDS.toDF("text")

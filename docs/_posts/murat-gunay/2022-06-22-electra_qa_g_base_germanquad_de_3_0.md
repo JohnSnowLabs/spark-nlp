@@ -11,7 +11,7 @@ edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,14 +32,14 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = MultiDocumentAssembler() \
-    .setInputCols(["question", "context"]) \
-    .setOutputCols(["document_question", "document_context"])
+.setInputCols(["question", "context"]) \
+.setOutputCols(["document_question", "document_context"])
 
 spanClassifier = BertForQuestionAnswering.pretrained("electra_qa_g_base_germanquad","de") \
-    .setInputCols(["document_question", "document_context"]) \
-    .setOutputCol("answer")\
-    .setCaseSensitive(True)
-    
+.setInputCols(["document_question", "document_context"]) \
+.setOutputCol("answer")\
+.setCaseSensitive(True)
+
 pipeline = Pipeline(stages=[documentAssembler, spanClassifier])
 
 data = spark.createDataFrame([["Was ist mein Name?", "Mein Name ist Clara und ich lebe in Berkeley."]]).toDF("question", "context")
@@ -48,13 +48,13 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new MultiDocumentAssembler() 
-      .setInputCols(Array("question", "context")) 
-      .setOutputCols(Array("document_question", "document_context"))
- 
+.setInputCols(Array("question", "context")) 
+.setOutputCols(Array("document_question", "document_context"))
+
 val spanClassifer = BertForQuestionAnswering.pretrained("electra_qa_g_base_germanquad","de") 
-    .setInputCols(Array("document", "token")) 
-    .setOutputCol("answer")
-    .setCaseSensitive(true)
+.setInputCols(Array("document", "token")) 
+.setOutputCol("answer")
+.setCaseSensitive(true)
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, spanClassifier))
 

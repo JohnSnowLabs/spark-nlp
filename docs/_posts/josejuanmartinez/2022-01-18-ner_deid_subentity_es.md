@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -49,31 +49,31 @@ Deidentification NER (Spanish) is a Named Entity Recognition model that annotate
 
 ```python
 documentAssembler = DocumentAssembler()\
-        .setInputCol("text")\
-        .setOutputCol("document")
-        
+.setInputCol("text")\
+.setOutputCol("document")
+
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
-        .setInputCols(["document"])\
-        .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-        .setInputCols(["sentence"])\
-        .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 embeddings = WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")\
 	.setInputCols(["sentence","token"])\
 	.setOutputCol("word_embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity", "es", "clinical/models")\
-        .setInputCols(["sentence","token","word_embeddings"])\
-        .setOutputCol("ner")
+.setInputCols(["sentence","token","word_embeddings"])\
+.setOutputCol("ner")
 
 nlpPipeline = Pipeline(stages=[
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        embeddings,
-        clinical_ner])
+documentAssembler,
+sentenceDetector,
+tokenizer,
+embeddings,
+clinical_ner])
 
 text = ['''
 Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14/03/2020 y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos.
@@ -85,24 +85,24 @@ results = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","xx")
-        .setInputCols(Array("document"))
-        .setOutputCol("sentence")
+.setInputCols(Array("document"))
+.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-        .setInputCols(Array("sentence"))
-        .setOutputCol("token")
+.setInputCols(Array("sentence"))
+.setOutputCol("token")
 
 val embeddings = WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")
-    .setInputCols(Array("sentence", "token"))
-    .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity", "es", "clinical/models")
-        .setInputCols(Array("sentence","token","embeddings"))
-        .setOutputCol("ner")
+.setInputCols(Array("sentence","token","embeddings"))
+.setOutputCol("ner")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner))
 
@@ -206,20 +206,20 @@ Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infec
 
 
 ```bash
-        label      tp     fp     fn   total  precision  recall      f1
-      PATIENT  2088.0  201.0  178.0  2266.0     0.9122  0.9214  0.9168
-     HOSPITAL   302.0   43.0   85.0   387.0     0.8754  0.7804  0.8251
-         DATE  1837.0   33.0   20.0  1857.0     0.9824  0.9892  0.9858
- ORGANIZATION  2498.0  477.0  649.0  3147.0     0.8397  0.7938  0.8161
-         MAIL    58.0    0.0    0.0    58.0        1.0     1.0     1.0
-     USERNAME    90.0    0.0   15.0   105.0        1.0  0.8571  0.9231
-     LOCATION  1866.0  391.0  354.0  2220.0     0.8268  0.8405  0.8336
-          ZIP    20.0    1.0    2.0    22.0     0.9524  0.9091  0.9302
+label      tp     fp     fn   total  precision  recall      f1
+PATIENT  2088.0  201.0  178.0  2266.0     0.9122  0.9214  0.9168
+HOSPITAL   302.0   43.0   85.0   387.0     0.8754  0.7804  0.8251
+DATE  1837.0   33.0   20.0  1857.0     0.9824  0.9892  0.9858
+ORGANIZATION  2498.0  477.0  649.0  3147.0     0.8397  0.7938  0.8161
+MAIL    58.0    0.0    0.0    58.0        1.0     1.0     1.0
+USERNAME    90.0    0.0   15.0   105.0        1.0  0.8571  0.9231
+LOCATION  1866.0  391.0  354.0  2220.0     0.8268  0.8405  0.8336
+ZIP    20.0    1.0    2.0    22.0     0.9524  0.9091  0.9302
 MEDICALRECORD   111.0    5.0   20.0   131.0     0.9569  0.8473  0.8988
-   PROFESSION   270.0   96.0  134.0   404.0     0.7377  0.6683  0.7013
-        PHONE   108.0   11.0    8.0   116.0     0.9076   0.931  0.9191
-       DOCTOR   659.0   40.0   40.0   699.0     0.9428  0.9428  0.9428
-          AGE   302.0   53.0   61.0   363.0     0.8507   0.832  0.8412
-        macro     -      -      -       -         -      -      0.8872247
-        micro     -      -      -       -         -      -      0.8741892
+PROFESSION   270.0   96.0  134.0   404.0     0.7377  0.6683  0.7013
+PHONE   108.0   11.0    8.0   116.0     0.9076   0.931  0.9191
+DOCTOR   659.0   40.0   40.0   699.0     0.9428  0.9428  0.9428
+AGE   302.0   53.0   61.0   363.0     0.8507   0.832  0.8412
+macro     -      -      -       -         -      -      0.8872247
+micro     -      -      -       -         -      -      0.8741892
 ```

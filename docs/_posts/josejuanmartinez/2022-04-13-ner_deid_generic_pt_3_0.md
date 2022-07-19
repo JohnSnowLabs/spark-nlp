@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.4.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -48,17 +48,17 @@ Deidentification NER (Portuguese) is a Named Entity Recognition model that annot
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-        .setInputCol("text")\
-        .setOutputCol("document")
-        
+.setInputCol("text")\
+.setOutputCol("document")
+
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
-        .setInputCols(["document"])\
-        .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 
 tokenizer = Tokenizer()\
-        .setInputCols(["sentence"])\
-        .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 
 embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "pt")\
@@ -67,16 +67,16 @@ embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "pt")\
 
 
 clinical_ner = MedicalNerModel.pretrained("ner_deid_generic", "pt", "clinical/models")\
-        .setInputCols(["sentence","token","word_embeddings"])\
-        .setOutputCol("ner")
+.setInputCols(["sentence","token","word_embeddings"])\
+.setOutputCol("ner")
 
 
 nlpPipeline = Pipeline(stages=[
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        embeddings,
-        clinical_ner])
+documentAssembler,
+sentenceDetector,
+tokenizer,
+embeddings,
+clinical_ner])
 
 
 text = ['''
@@ -101,18 +101,18 @@ results = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")
-        .setInputCols(Array("document"))
-        .setOutputCol("sentence")
+.setInputCols(Array("document"))
+.setOutputCol("sentence")
 
 
 val tokenizer = new Tokenizer()
-        .setInputCols(Array("sentence"))
-        .setOutputCol("token")
+.setInputCols(Array("sentence"))
+.setOutputCol("token")
 
 
 embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "pt")
@@ -121,8 +121,8 @@ embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "pt")
 
 
 clinical_ner = MedicalNerModel.pretrained("ner_deid_generic", "pt", "clinical/models")
-        .setInputCols(Array("sentence","token","word_embeddings"))
-        .setOutputCol("ner")
+.setInputCols(Array("sentence","token","word_embeddings"))
+.setOutputCol("ner")
 
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner))
@@ -265,15 +265,15 @@ Doutora: Maria Santos
 
 
 ```bash
-     label      tp     fp     fn   total  precision  recall      f1 
-   CONTACT   191.0    2.0    2.0   193.0     0.9896  0.9896  0.9896 
-      NAME  2640.0   82.0   52.0  2692.0     0.9699  0.9807  0.9752 
-      DATE  1316.0   24.0    5.0  1321.0     0.9821  0.9962  0.9891 
-        ID    54.0    3.0    9.0    63.0     0.9474  0.8571     0.9 
-       SEX   669.0    9.0    8.0   677.0     0.9867  0.9882  0.9875 
-  LOCATION  5784.0  149.0  206.0  5990.0     0.9749  0.9656  0.9702 
+label      tp     fp     fn   total  precision  recall      f1 
+CONTACT   191.0    2.0    2.0   193.0     0.9896  0.9896  0.9896 
+NAME  2640.0   82.0   52.0  2692.0     0.9699  0.9807  0.9752 
+DATE  1316.0   24.0    5.0  1321.0     0.9821  0.9962  0.9891 
+ID    54.0    3.0    9.0    63.0     0.9474  0.8571     0.9 
+SEX   669.0    9.0    8.0   677.0     0.9867  0.9882  0.9875 
+LOCATION  5784.0  149.0  206.0  5990.0     0.9749  0.9656  0.9702 
 PROFESSION   249.0   17.0   27.0   276.0     0.9361  0.9022  0.9188 
-       AGE   536.0   14.0   10.0   546.0     0.9745  0.9817  0.9781 
-     macro       -      -      -       -          -       -  0.9636 
-     macro       -      -      -       -          -       -  0.9736 
+AGE   536.0   14.0   10.0   546.0     0.9745  0.9817  0.9781 
+macro       -      -      -       -          -       -  0.9636 
+macro       -      -      -       -          -       -  0.9736 
 ```

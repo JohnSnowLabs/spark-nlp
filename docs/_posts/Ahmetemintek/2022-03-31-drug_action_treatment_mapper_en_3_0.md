@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,80 +36,80 @@ This pretrained model maps drugs with their corresponding `action` and `treatmen
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler()\
-       .setInputCol('text')\
-       .setOutputCol('document')
+.setInputCol('text')\
+.setOutputCol('document')
 
- sentence_detector = SentenceDetector()\
-       .setInputCols(["document"])\
-       .setOutputCol("sentence")
+sentence_detector = SentenceDetector()\
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
- tokenizer = Tokenizer()\
-       .setInputCols("sentence")\
-       .setOutputCol("token")
+tokenizer = Tokenizer()\
+.setInputCols("sentence")\
+.setOutputCol("token")
 
- ner =  MedicalBertForTokenClassifier.pretrained("bert_token_classifier_drug_development_trials", "en", "clinical/models")\
-       .setInputCols("token","sentence")\
-       .setOutputCol("ner")
+ner =  MedicalBertForTokenClassifier.pretrained("bert_token_classifier_drug_development_trials", "en", "clinical/models")\
+.setInputCols("token","sentence")\
+.setOutputCol("ner")
 
- nerconverter = NerConverterInternal()\
-       .setInputCols("sentence", "token", "ner")\
-       .setOutputCol("drug")
+nerconverter = NerConverterInternal()\
+.setInputCols("sentence", "token", "ner")\
+.setOutputCol("drug")
 
- chunkerMapper = ChunkMapperModel.pretrained("drug_action_treatment_mapper", "en", "clinical/models") \
-       .setInputCols("drug")\
-       .setOutputCol("relations")\
-       .setRel("treatment") #or action
+chunkerMapper = ChunkMapperModel.pretrained("drug_action_treatment_mapper", "en", "clinical/models") \
+.setInputCols("drug")\
+.setOutputCol("relations")\
+.setRel("treatment") #or action
 
- pipeline = Pipeline().setStages([document_assembler,
-                                  sentence_detector,
-                                  tokenizer,
-                                  ner,
-                                  nerconverter,
-                                  chunkerMapper])
+pipeline = Pipeline().setStages([document_assembler,
+sentence_detector,
+tokenizer,
+ner,
+nerconverter,
+chunkerMapper])
 
- text = ["""
- The patient is a 71-year-old female patient of Dr. X. and she was given Aklis and Dermovate.
- Cureent Medications: Diprivan, Proventil
- """]
+text = ["""
+The patient is a 71-year-old female patient of Dr. X. and she was given Aklis and Dermovate.
+Cureent Medications: Diprivan, Proventil
+"""]
 
- test_data = spark.createDataFrame([text]).toDF("text")
+test_data = spark.createDataFrame([text]).toDF("text")
 
- res = pipeline.fit(test_data).transform(test_data)
+res = pipeline.fit(test_data).transform(test_data)
 ```
 ```scala
 val document_assembler = DocumentAssembler()
-          .setInputCol("text")
-          .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
- val sentence_detector = SentenceDetector()
-          .setInputCols("document")
-          .setOutputCol("sentence")
+val sentence_detector = SentenceDetector()
+.setInputCols("document")
+.setOutputCol("sentence")
 
- val tokenizer = Tokenizer()
-          .setInputCols("sentence")
-          .setOutputCol("token")
+val tokenizer = Tokenizer()
+.setInputCols("sentence")
+.setOutputCol("token")
 
- val ner =  MedicalBertForTokenClassifier.pretrained("bert_token_classifier_drug_development_trials", "en", "clinical/models")
-          .setInputCols("token","sentence")
-          .setOutputCol("ner")
+val ner =  MedicalBertForTokenClassifier.pretrained("bert_token_classifier_drug_development_trials", "en", "clinical/models")
+.setInputCols("token","sentence")
+.setOutputCol("ner")
 
- val nerconverter = NerConverterInternal()
-          .setInputCols(Array("sentence", "token", "ner"))
-          .setOutputCol("drug")
+val nerconverter = NerConverterInternal()
+.setInputCols(Array("sentence", "token", "ner"))
+.setOutputCol("drug")
 
- val chunkerMapper = ChunkMapperModel.pretrained("drug_action_treatment_mapper", "en", "clinical/models")
-          .setInputCols("drug")
-          .setOutputCol("relations")
-          .setRel("treatment")
+val chunkerMapper = ChunkMapperModel.pretrained("drug_action_treatment_mapper", "en", "clinical/models")
+.setInputCols("drug")
+.setOutputCol("relations")
+.setRel("treatment")
 
- val pipeline =  new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, ner, nerconverter, chunkerMapper ))
-
-
- val text_data = Seq("The patient is a 71-year-old female patient of Dr. X. and she was given Aklis and Dermovate.
-                      Cureent Medications: Diprivan, Proventil").toDF("text")
+val pipeline =  new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, ner, nerconverter, chunkerMapper ))
 
 
- val res = pipeline.fit(test_data).transform(test_data)
+val text_data = Seq("The patient is a 71-year-old female patient of Dr. X. and she was given Aklis and Dermovate.
+Cureent Medications: Diprivan, Proventil").toDF("text")
+
+
+val res = pipeline.fit(test_data).transform(test_data)
 ```
 
 
@@ -117,9 +117,9 @@ val document_assembler = DocumentAssembler()
 ```python
 import nlu
 nlu.load("en.map_entity.drug_to_action_treatment").predict("""
- The patient is a 71-year-old female patient of Dr. X. and she was given Aklis and Dermovate.
- Cureent Medications: Diprivan, Proventil
- """)
+The patient is a 71-year-old female patient of Dr. X. and she was given Aklis and Dermovate.
+Cureent Medications: Diprivan, Proventil
+""")
 ```
 
 </div>

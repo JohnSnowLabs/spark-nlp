@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -41,29 +41,29 @@ This NER model is trained with a combination of custom datasets with several dat
 
 ```python
 documentAssembler = DocumentAssembler()\
-        .setInputCol("text")\
-        .setOutputCol("document")
-         
+.setInputCol("text")\
+.setOutputCol("document")
+
 sentenceDetector = SentenceDetector()\
-        .setInputCols(["document"])\
-        .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-        .setInputCols(["sentence"])\
-        .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","ro")\
-        .setInputCols(["sentence","token"])\
-        .setOutputCol("word_embeddings")
+.setInputCols(["sentence","token"])\
+.setOutputCol("word_embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity", "ro", "clinical/models")\
-        .setInputCols(["sentence","token","word_embeddings"])\
-        .setOutputCol("ner")
+.setInputCols(["sentence","token","word_embeddings"])\
+.setOutputCol("ner")
 
 ner_converter = NerConverter()\
-        .setInputCols(["sentence", "token", "ner"])\
-        .setOutputCol("ner_chunk")
-        
+.setInputCols(["sentence", "token", "ner"])\
+.setOutputCol("ner_chunk")
+
 nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner, ner_converter])
 
 text = """
@@ -80,29 +80,29 @@ results = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentenceDetector = new SentenceDetector()
-        .setInputCols(Array("document"))
-        .setOutputCol("sentence")
+.setInputCols(Array("document"))
+.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-        .setInputCols(Array("sentence"))
-        .setOutputCol("token")
+.setInputCols(Array("sentence"))
+.setOutputCol("token")
 
 val embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","ro")
-        .setInputCols(Array("sentence","token"))
-        .setOutputCol("word_embeddings")
+.setInputCols(Array("sentence","token"))
+.setOutputCol("word_embeddings")
 
 val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity", "ro", "clinical/models")
-        .setInputCols(Array("sentence","token","word_embeddings"))
-        .setOutputCol("ner")
+.setInputCols(Array("sentence","token","word_embeddings"))
+.setOutputCol("ner")
 
 val ner_converter = new NerConverter()
-        .setInputCols(Array("sentence", "token", "ner"))
-        .setOutputCol("ner_chunk")
-  
+.setInputCols(Array("sentence", "token", "ner"))
+.setOutputCol("ner_chunk")
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner, ner_converter))
 
 val text = """Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România
@@ -173,25 +173,25 @@ C.N.P : 2450502264401""")
 ## Benchmarking
 
 ```bash
-         label  precision    recall  f1-score   support
-           AGE       0.96      0.99      0.97      1235
-          CITY       0.97      0.95      0.96       307
-       COUNTRY       0.92      0.74      0.82       115
-          DATE       0.94      0.89      0.91      5006
-        DOCTOR       0.96      0.96      0.96      2064
-         EMAIL       1.00      1.00      1.00         8
-           FAX       1.00      0.95      0.97        56
-      HOSPITAL       0.78      0.83      0.80       919
-         IDNUM       0.98      1.00      0.99       239
+label  precision    recall  f1-score   support
+AGE       0.96      0.99      0.97      1235
+CITY       0.97      0.95      0.96       307
+COUNTRY       0.92      0.74      0.82       115
+DATE       0.94      0.89      0.91      5006
+DOCTOR       0.96      0.96      0.96      2064
+EMAIL       1.00      1.00      1.00         8
+FAX       1.00      0.95      0.97        56
+HOSPITAL       0.78      0.83      0.80       919
+IDNUM       0.98      1.00      0.99       239
 LOCATION-OTHER       1.00      0.85      0.92        13
- MEDICALRECORD       1.00      1.00      1.00       455
-  ORGANIZATION       0.34      0.41      0.37        82
-       PATIENT       0.85      0.90      0.87       954
-         PHONE       0.97      0.98      0.98       315
-    PROFESSION       0.87      0.80      0.83       173
-        STREET       0.99      0.99      0.99       174
-           ZIP       0.99      0.97      0.98       140
-     micro-avg       0.92      0.91      0.92     12255
-     macro-avg       0.91      0.89      0.90     12255
-  weighted-avg       0.93      0.91      0.92     12255
+MEDICALRECORD       1.00      1.00      1.00       455
+ORGANIZATION       0.34      0.41      0.37        82
+PATIENT       0.85      0.90      0.87       954
+PHONE       0.97      0.98      0.98       315
+PROFESSION       0.87      0.80      0.83       173
+STREET       0.99      0.99      0.99       174
+ZIP       0.99      0.97      0.98       140
+micro-avg       0.92      0.91      0.92     12255
+macro-avg       0.91      0.89      0.90     12255
+weighted-avg       0.93      0.91      0.92     12255
 ```

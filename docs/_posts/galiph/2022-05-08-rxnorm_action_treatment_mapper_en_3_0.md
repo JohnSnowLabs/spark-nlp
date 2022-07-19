@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.1
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -42,39 +42,39 @@ This pretrained model maps RxNorm and RxNorm Extension codes with their correspo
 
 ```python
 document_assembler = DocumentAssembler()\
-      .setInputCol('text')\
-      .setOutputCol('ner_chunk')
+.setInputCol('text')\
+.setOutputCol('ner_chunk')
 
 
 sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sentence_embeddings")\
-      .setCaseSensitive(False)
-    
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sentence_embeddings")\
+.setCaseSensitive(False)
+
 rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_augmented","en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sentence_embeddings"]) \
-      .setOutputCol("rxnorm_code")\
-      .setDistanceFunction("EUCLIDEAN")
+.setInputCols(["ner_chunk", "sentence_embeddings"]) \
+.setOutputCol("rxnorm_code")\
+.setDistanceFunction("EUCLIDEAN")
 
 
 chunkerMapper_action = ChunkMapperModel.pretrained("rxnorm_action_treatment_mapper", "en", "clinical/models")\
-      .setInputCols(["rxnorm_code"])\
-      .setOutputCol("Action")\
-      .setRel("Action") 
+.setInputCols(["rxnorm_code"])\
+.setOutputCol("Action")\
+.setRel("Action") 
 
 
 chunkerMapper_treatment = ChunkMapperModel.pretrained("rxnorm_action_treatment_mapper", "en", "clinical/models")\
-      .setInputCols(["rxnorm_code"])\
-      .setOutputCol("Treatment")\
-      .setRel("Treatment") 
+.setInputCols(["rxnorm_code"])\
+.setOutputCol("Treatment")\
+.setRel("Treatment") 
 
 
 pipeline = Pipeline().setStages([document_assembler,
-                                 sbert_embedder,
-                                 rxnorm_resolver,
-                                 chunkerMapper_action,
-                                 chunkerMapper_treatment
-                                 ])
+sbert_embedder,
+rxnorm_resolver,
+chunkerMapper_action,
+chunkerMapper_treatment
+])
 
 
 model = pipeline.fit(spark.createDataFrame([['']]).toDF('text')) 
@@ -85,43 +85,43 @@ result = light_pipeline.annotate(['Sinequan 150 MG', 'Zonalon 50 mg'])
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("ner_chunk")
+.setInputCol("text")
+.setOutputCol("ner_chunk")
 
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en","clinical/models")
-      .setInputCols(Array("ner_chunk"))
-      .setOutputCol("sentence_embeddings")
-      .setCaseSensitive(False)
-    
+.setInputCols(Array("ner_chunk"))
+.setOutputCol("sentence_embeddings")
+.setCaseSensitive(False)
+
 val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_augmented","en", "clinical/models")
-      .setInputCols(Array("ner_chunk", "sentence_embeddings"))
-      .setOutputCol("rxnorm_code")
-      .setDistanceFunction("EUCLIDEAN")
+.setInputCols(Array("ner_chunk", "sentence_embeddings"))
+.setOutputCol("rxnorm_code")
+.setDistanceFunction("EUCLIDEAN")
 
 
 val chunkerMapper_action = ChunkMapperModel.pretrained("rxnorm_action_treatment_mapper", "en", "clinical/models"))
-      .setInputCols("rxnorm_code")
-      .setOutputCol("Action")
-      .setRel("Action") 
+.setInputCols("rxnorm_code")
+.setOutputCol("Action")
+.setRel("Action") 
 
 
 val chunkerMapper_treatment = ChunkMapperModel.pretrained("rxnorm_action_treatment_mapper", "en", "clinical/models"))
-      .setInputCols("rxnorm_code")
-      .setOutputCol("Treatment")
-      .setRel("Treatment") 
+.setInputCols("rxnorm_code")
+.setOutputCol("Treatment")
+.setRel("Treatment") 
 
 
 val pipeline = new Pipeline().setStages(Array(document_assembler,
-                                 sbert_embedder,
-                                 rxnorm_resolver,
-                                 chunkerMapper_action,
-                                 chunkerMapper_treatment
-                                 ))
+sbert_embedder,
+rxnorm_resolver,
+chunkerMapper_action,
+chunkerMapper_treatment
+))
 
 
- val text_data = Seq("Sinequan 150 MG", "Zonalon 50 mg").toDS.toDF("text")
- val res = pipeline.fit(text_data).transform(text_data)
+val text_data = Seq("Sinequan 150 MG", "Zonalon 50 mg").toDS.toDF("text")
+val res = pipeline.fit(text_data).transform(text_data)
 ```
 
 

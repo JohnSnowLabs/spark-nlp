@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [en, open_source, pipeline]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -85,9 +85,9 @@ nlu.load("en.ner.onto.large").predict("""Johnson first entered politics when ele
 
 ## Included Models
 
- - DocumentAssembler
- - SentenceDetectorDLModel
- - Tokenizer
- - BertEmbeddings
- - NerDLModel
- - NerConverter
+- DocumentAssembler
+- SentenceDetectorDLModel
+- Tokenizer
+- BertEmbeddings
+- NerDLModel
+- NerConverter

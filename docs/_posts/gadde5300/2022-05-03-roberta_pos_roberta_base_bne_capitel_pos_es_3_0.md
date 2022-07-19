@@ -12,7 +12,7 @@ spark_version: 3.0
 supported: true
 recommended: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -33,20 +33,20 @@ Pretrained Part of Speech model, uploaded to Hugging Face, adapted and imported 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
-       .setInputCols(["document"])\
-       .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer() \
-    .setInputCols("sentence") \
-    .setOutputCol("token")
+.setInputCols("sentence") \
+.setOutputCol("token")
 
 tokenClassifier = RoBertaForTokenClassification.pretrained("roberta_pos_roberta_base_bne_capitel_pos","es") \
-    .setInputCols(["sentence", "token"]) \
-    .setOutputCol("pos")
+.setInputCols(["sentence", "token"]) \
+.setOutputCol("pos")
 
 pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier])
 
@@ -56,20 +56,20 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler() 
-      .setInputCol("text") 
-      .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-       .setInputCols(Array("document"))
-       .setOutputCol("sentence")
+.setInputCols(Array("document"))
+.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer() 
-    .setInputCols(Array("sentence"))
-    .setOutputCol("token")
+.setInputCols(Array("sentence"))
+.setOutputCol("token")
 
 val tokenClassifier = RoBertaForTokenClassification.pretrained("roberta_pos_roberta_base_bne_capitel_pos","es") 
-    .setInputCols(Array("sentence", "token")) 
-    .setOutputCol("pos")
+.setInputCols(Array("sentence", "token")) 
+.setOutputCol("pos")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler,sentenceDetector, tokenizer, tokenClassifier))
 

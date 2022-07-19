@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [pipeline, en, clinical, licensed]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -84,7 +84,7 @@ This pretrained pipeline gives the result of `ner_clinical`, `re_clinical`, `ner
 
 {:.h2_title}
 ## Included Models 
- - ner_clinical
- - assertion_dl
- - re_clinical
- - ner_posology
+- ner_clinical
+- assertion_dl
+- re_clinical
+- ner_posology

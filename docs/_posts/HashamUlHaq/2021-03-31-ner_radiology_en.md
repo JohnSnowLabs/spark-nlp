@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,8 +37,8 @@ Pretrained named entity recognition deep learning model for radiology related te
 ```python
 ...
 radiology_ner = MedicalNerModel.pretrained("ner_radiology", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 ...
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, radiology_ner, ner_converter])
 
@@ -50,8 +50,8 @@ results = model.transform(data)
 ```scala
 ...
 val radiology_ner = MedicalNerModel().pretrained("ner_radiology", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token", "embeddings"))
-  .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings"))
+.setOutputCol("ner")
 
 val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, radiology_ner, ner_converter))
 
@@ -129,15 +129,15 @@ Trained on a custom dataset comprising of  MIMIC-CXR and MT Radiology  texts
 |   Imaging_Technique| 140.0| 38.0| 25.0| 165.0|   0.7865|0.8485|0.8163|
 +--------------------+------+-----+-----+------+---------+------+------+
 
-                                                    +------------------+
-                                                    |             macro|
-                                                    +------------------+
-                                                    |0.7524248724038437|
-                                                    +------------------+
++------------------+
+|             macro|
++------------------+
+|0.7524248724038437|
++------------------+
 
-                                                    +------------------+
-                                                    |             micro|
-                                                    +------------------+
-                                                    |0.8315240382681794|
-                                                    +------------------+
++------------------+
+|             micro|
++------------------+
+|0.8315240382681794|
++------------------+
 ```

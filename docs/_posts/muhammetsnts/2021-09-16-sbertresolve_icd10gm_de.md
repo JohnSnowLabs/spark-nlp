@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.2.2
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,37 +36,37 @@ This model maps extracted medical entities to ICD10-GM codes for the German lang
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 sbert_embedder = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "de")\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")
 
 icd10gm_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_icd10gm", "de", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-      .setOutputCol("icd10gm_code")
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("icd10gm_code")
 
 icd10gm_pipelineModel = PipelineModel(
-    stages = [
-        documentAssembler,
-        sbert_embedder,
-        icd10gm_resolver])
+stages = [
+documentAssembler,
+sbert_embedder,
+icd10gm_resolver])
 
 icd_lp = LightPipeline(icd10gm_pipelineModel)
 ```
 ```scala
 val documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "de")\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")
 
 val icd10gm_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_icd10gm", "de", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-      .setOutputCol("icd10gm_code")
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("icd10gm_code")
 
 val icd10gm_pipelineModel = new PipelineModel().setStages(Array(documentAssembler,sbert_embedder,icd10gm_resolver))
 

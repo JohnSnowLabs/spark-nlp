@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.2.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -31,7 +31,7 @@ This model maps clinical entities to UMLS CUI codes. It is trained on `2021AB` U
 ## How to use
 
 
- ```sbiobertresolve_umls_disease_syndrome``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_jsl``` as NER model. ```Cerebrovascular_Disease, Communicable_Disease, Diabetes,Disease_Syndrome_Disorder, Heart_Disease, Hyperlipidemia, Hypertension,Injury_or_Poisoning, Kidney_Disease, Obesity, Oncological, Overweight, Psychological_Condition, Symptom, VS_Finding, ImagingFindings, EKG_Findings``` set in ```.setWhiteList()```.
+```sbiobertresolve_umls_disease_syndrome``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_jsl``` as NER model. ```Cerebrovascular_Disease, Communicable_Disease, Diabetes,Disease_Syndrome_Disorder, Heart_Disease, Hyperlipidemia, Hypertension,Injury_or_Poisoning, Kidney_Disease, Obesity, Oncological, Overweight, Psychological_Condition, Symptom, VS_Finding, ImagingFindings, EKG_Findings``` set in ```.setWhiteList()```.
 
 
 <div class="tabs-box" markdown="1">
@@ -42,15 +42,15 @@ This model maps clinical entities to UMLS CUI codes. It is trained on `2021AB` U
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
-     .setInputCols(["ner_chunk_doc"])\
-     .setOutputCol("sbert_embeddings")
+.pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
+.setInputCols(["ner_chunk_doc"])\
+.setOutputCol("sbert_embeddings")
 
 resolver = SentenceEntityResolverModel\
-     .pretrained("sbiobertresolve_umls_disease_syndrome","en", "clinical/models") \
-     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-     .setOutputCol("resolution")\
-     .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_umls_disease_syndrome","en", "clinical/models") \
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("resolution")\
+.setDistanceFunction("EUCLIDEAN")
 
 pipeline = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, resolver])
 
@@ -63,18 +63,18 @@ results = pipeline.fit(data).transform(data)
 val chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
 val sbert_embedder = BertSentenceEmbeddings
-      .pretrained("sbiobert_base_cased_mli", "en","clinical/models")
-      .setInputCols(Array("ner_chunk_doc"))
-      .setOutputCol("sbert_embeddings")
-    
+.pretrained("sbiobert_base_cased_mli", "en","clinical/models")
+.setInputCols(Array("ner_chunk_doc"))
+.setOutputCol("sbert_embeddings")
+
 val resolver = SentenceEntityResolverModel
-      .pretrained("sbiobertresolve_umls_disease_syndrome", "en", "clinical/models") 
-      .setInputCols(Array("ner_chunk_doc", "sbert_embeddings")) 
-      .setOutputCol("resolution")
-      .setDistanceFunction("EUCLIDEAN")
-      
+.pretrained("sbiobertresolve_umls_disease_syndrome", "en", "clinical/models") 
+.setInputCols(Array("ner_chunk_doc", "sbert_embeddings")) 
+.setOutputCol("resolution")
+.setDistanceFunction("EUCLIDEAN")
+
 val p_model = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, resolver))
-    
+
 val data = Seq("A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting.").toDF("text") 
 
 val res = p_model.fit(data).transform(data)

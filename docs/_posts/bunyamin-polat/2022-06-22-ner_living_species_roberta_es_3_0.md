@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -39,37 +39,37 @@ It is trained on the [LivingNER](https://temu.bsc.es/livingner/) corpus that is 
 
 ```python
 document_assembler = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
-    .setInputCols(["document"])\
-    .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-    .setInputCols(["sentence"])\
-    .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
-    .setInputCols(["sentence", "token"])\
-    .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 
 ner_model = MedicalNerModel.pretrained("ner_living_species_roberta", "es", "clinical/models")\
-    .setInputCols(["sentence", "token", "embeddings"])\
-    .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"])\
+.setOutputCol("ner")
 
 ner_converter = NerConverter()\
-    .setInputCols(["sentence", "token", "ner"])\
-    .setOutputCol("ner_chunk")
+.setInputCols(["sentence", "token", "ner"])\
+.setOutputCol("ner_chunk")
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
-    sentence_detector,
-    tokenizer,
-    embeddings,
-    ner_model,
-    ner_converter   
-    ])
+document_assembler, 
+sentence_detector,
+tokenizer,
+embeddings,
+ner_model,
+ner_converter   
+])
 
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -79,35 +79,35 @@ result = model.transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-    .setInputCols("document")
-    .setOutputCol("sentence")
+.setInputCols("document")
+.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
-    .setOutputCol("token")
+.setInputCols("sentence")
+.setOutputCol("token")
 
 val embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
-    .setInputCols(Array("sentence", "token"))
-    .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 val ner_model = MedicalNerModel.pretrained("ner_living_species_roberta", "es", "clinical/models")
-    .setInputCols(Array("sentence", "token", "embeddings"))
-    .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings"))
+.setOutputCol("ner")
 
 val ner_converter = new NerConverter()
-    .setInputCols(Array("sentence", "token", "ner"))
-    .setOutputCol("ner_chunk")
+.setInputCols(Array("sentence", "token", "ner"))
+.setOutputCol("ner_chunk")
 
 val pipeline = new PipelineModel().setStages(Array(document_assembler, 
-                                                  sentence_detector,
-                                                  tokenizer,
-                                                  embeddings,
-                                                  ner_model,
-                                                  ner_converter))
+sentence_detector,
+tokenizer,
+embeddings,
+ner_model,
+ner_converter))
 
 val data = Seq("""Lactante varón de dos años. Antecedentes familiares sin interés. Antecedentes personales: Embarazo, parto y periodo neonatal normal. En seguimiento por alergia a legumbres, diagnosticado con diez meses por reacción urticarial generalizada con lentejas y garbanzos, con dieta de exclusión a legumbres desde entonces. En ésta visita la madre describe episodios de eritema en zona maxilar derecha con afectación ocular ipsilateral que se resuelve en horas tras la administración de corticoides. Le ha ocurrido en 5-6 ocasiones, en relación con la ingesta de alimentos previamente tolerados. Exploración complementaria: Cacahuete, ac(ige)19.2 Ku.arb/l. Resultados: Ante la sospecha clínica de Síndrome de Frey, se tranquiliza a los padres, explicándoles la naturaleza del cuadro y se cita para revisión anual.""").toDS.toDF("text")
 
@@ -164,12 +164,12 @@ nlu.load("es.med_ner.living_species.roberta").predict("""Lactante varón de dos 
 ## Benchmarking
 
 ```bash
- label         precision  recall  f1-score  support 
- B-HUMAN       0.99       0.99    0.99      3268    
- B-SPECIES     0.98       0.98    0.98      3688    
- I-HUMAN       0.94       0.97    0.95      297     
- I-SPECIES     0.98       0.90    0.94      1720    
- micro-avg     0.98       0.97    0.97      8973    
- macro-avg     0.97       0.96    0.96      8973    
- weighted-avg  0.98       0.97    0.97      8973 
+label         precision  recall  f1-score  support 
+B-HUMAN       0.99       0.99    0.99      3268    
+B-SPECIES     0.98       0.98    0.98      3688    
+I-HUMAN       0.94       0.97    0.95      297     
+I-SPECIES     0.98       0.90    0.94      1720    
+micro-avg     0.98       0.97    0.97      8973    
+macro-avg     0.97       0.96    0.96      8973    
+weighted-avg  0.98       0.97    0.97      8973 
 ```

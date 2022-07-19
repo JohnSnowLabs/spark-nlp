@@ -11,7 +11,7 @@ edition: Spark NLP 3.4.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,13 +40,13 @@ from sparknlp.base import *
 from sparknlp.annotator import *
 spark = sparknlp.start()
 documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("documents")
+.setInputCol("text") \
+.setOutputCol("documents")
 t5 = T5Transformer.pretrained("t5_grammar_error_corrector") \
-    .setTask("gec:") \
-    .setInputCols(["documents"]) \
-    .setMaxOutputLength(200) \
-    .setOutputCol("corrections")
+.setTask("gec:") \
+.setInputCols(["documents"]) \
+.setMaxOutputLength(200) \
+.setOutputCol("corrections")
 pipeline = Pipeline().setStages([documentAssembler, t5])
 data = spark.createDataFrame([["He are moving here."]]).toDF("text")
 result = pipeline.fit(data).transform(data)
@@ -58,13 +58,13 @@ import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer
 import org.apache.spark.ml.Pipeline
 val documentAssembler = new DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("documents")
+.setInputCol("text")
+.setOutputCol("documents")
 val t5 = T5Transformer.pretrained("t5_grammar_error_corrector")
-  .setTask("gec:")
-  .setMaxOutputLength(200)
-  .setInputCols("documents")
-  .setOutputCol("corrections")
+.setTask("gec:")
+.setMaxOutputLength(200)
+.setInputCols("documents")
+.setOutputCol("corrections")
 val pipeline = new Pipeline().setStages(Array(documentAssembler, t5))
 val data = Seq("He are moving here.").toDF("text")
 val result = pipeline.fit(data).transform(data)

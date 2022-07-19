@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.1.0
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -52,16 +52,16 @@ We sticked to official annotation guideline (AG) for 2014 i2b2 Deid challenge wh
 ```python
 ...
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-      .setInputCols(["sentence", "token"])\
-      .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 
 deid_ner = MedicalNerModel.pretrained("ner_deid_subentity_augmented", "en", "clinical/models") \
-      .setInputCols(["sentence", "token", "embeddings"]) \
-      .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 
 ner_converter = NerConverter()\
-      .setInputCols(["sentence", "token", "ner"])\
-      .setOutputCol("ner_chunk_subentity")
+.setInputCols(["sentence", "token", "ner"])\
+.setOutputCol("ner_chunk_subentity")
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, deid_ner, ner_converter])
 
@@ -72,16 +72,16 @@ results = model.transform(spark.createDataFrame(pd.DataFrame({"text": ["""A. Rec
 ```scala
 ...
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-      .setInputCols(Array("sentence", "token"))\
-      .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))\
+.setOutputCol("embeddings")
 
 val deid_ner = MedicalNerModel.pretrained("ner_deid_subentity_augmented", "en", "clinical/models") \
-      .setInputCols(Array("sentence", "token", "embeddings")) \
-      .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings")) \
+.setOutputCol("ner")
 
 val ner_converter = new NerConverter()\
-      .setInputCols(Array("sentence", "token", "ner"))\
-      .setOutputCol("ner_chunk_subentity")
+.setInputCols(Array("sentence", "token", "ner"))\
+.setOutputCol("ner_chunk_subentity")
 
 val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, deid_ner, ner_converter))
 
@@ -148,27 +148,27 @@ A custom data set which is created from the i2b2-PHI train and the augmented ver
 
 
 ```bash
-       entity      tp     fp     fn   total  precision  recall      f1
-      PATIENT  1465.0  159.0  162.0  1627.0     0.9021  0.9004  0.9013
-     HOSPITAL  1417.0  120.0  167.0  1584.0     0.9219  0.8946   0.908
-         DATE  5513.0   57.0  129.0  5642.0     0.9898  0.9771  0.9834
- ORGANIZATION   101.0   25.0   37.0   138.0     0.8016  0.7319  0.7652
-         CITY   277.0   47.0   64.0   341.0     0.8549  0.8123  0.8331
-       STREET   405.0    7.0   10.0   415.0      0.983  0.9759  0.9794
-     USERNAME    88.0    2.0   13.0   101.0     0.9778  0.8713  0.9215
-       DEVICE    10.0    0.0    0.0    10.0        1.0     1.0     1.0
-        IDNUM   168.0   27.0   42.0   210.0     0.8615     0.8  0.8296
-        STATE   172.0   15.0   33.0   205.0     0.9198   0.839  0.8776
-          ZIP   137.0    0.0    2.0   139.0        1.0  0.9856  0.9928
+entity      tp     fp     fn   total  precision  recall      f1
+PATIENT  1465.0  159.0  162.0  1627.0     0.9021  0.9004  0.9013
+HOSPITAL  1417.0  120.0  167.0  1584.0     0.9219  0.8946   0.908
+DATE  5513.0   57.0  129.0  5642.0     0.9898  0.9771  0.9834
+ORGANIZATION   101.0   25.0   37.0   138.0     0.8016  0.7319  0.7652
+CITY   277.0   47.0   64.0   341.0     0.8549  0.8123  0.8331
+STREET   405.0    7.0   10.0   415.0      0.983  0.9759  0.9794
+USERNAME    88.0    2.0   13.0   101.0     0.9778  0.8713  0.9215
+DEVICE    10.0    0.0    0.0    10.0        1.0     1.0     1.0
+IDNUM   168.0   27.0   42.0   210.0     0.8615     0.8  0.8296
+STATE   172.0   15.0   33.0   205.0     0.9198   0.839  0.8776
+ZIP   137.0    0.0    2.0   139.0        1.0  0.9856  0.9928
 MEDICALRECORD   416.0   14.0   28.0   444.0     0.9674  0.9369  0.9519
-        OTHER    16.0    4.0    5.0    21.0        0.8  0.7619  0.7805
-   PROFESSION   261.0   22.0   75.0   336.0     0.9223  0.7768  0.8433
-        PHONE   328.0   21.0   20.0   348.0     0.9398  0.9425  0.9412
-      COUNTRY    97.0   15.0   31.0   128.0     0.8661  0.7578  0.8083
-       DOCTOR  3279.0  139.0  268.0  3547.0     0.9593  0.9244  0.9416
-          AGE   715.0   39.0   47.0   762.0     0.9483  0.9383  0.9433
-        macro     -      -      -       -         -       -     0.7057
-        micro     -      -      -       -         -       -     0.9281
+OTHER    16.0    4.0    5.0    21.0        0.8  0.7619  0.7805
+PROFESSION   261.0   22.0   75.0   336.0     0.9223  0.7768  0.8433
+PHONE   328.0   21.0   20.0   348.0     0.9398  0.9425  0.9412
+COUNTRY    97.0   15.0   31.0   128.0     0.8661  0.7578  0.8083
+DOCTOR  3279.0  139.0  268.0  3547.0     0.9593  0.9244  0.9416
+AGE   715.0   39.0   47.0   762.0     0.9483  0.9383  0.9433
+macro     -      -      -       -         -       -     0.7057
+micro     -      -      -       -         -       -     0.9281
 ```
 <!--stackedit_data:
 eyJoaXN0b3J5IjpbLTEwNTgzNDg4MDIsMTc0MTY0MTkxNV19

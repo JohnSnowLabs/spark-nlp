@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [language_detection, open_source, pipeline, xx]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -67,7 +67,7 @@ lang_df
 
 ```bash
 {'document': ['French author who helped pioneer the science-fiction genre.'],
- 'language': ['en']}
+'language': ['en']}
 ```
 
 {:.model-param}
@@ -83,6 +83,6 @@ lang_df
 
 ## Included Models
 
- - DocumentAssembler
- - SentenceDetectorDLModel
- - LanguageDetectorDL
+- DocumentAssembler
+- SentenceDetectorDLModel
+- LanguageDetectorDL
