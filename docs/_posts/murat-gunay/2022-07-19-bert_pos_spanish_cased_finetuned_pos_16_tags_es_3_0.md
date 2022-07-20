@@ -68,7 +68,7 @@ val tokenizer = new Tokenizer()
 
 val pos = BertForTokenClassification.pretrained("bert_pos_spanish_cased_finetuned_pos_16_tags","es") 
     .setInputCols(Array("sentence", "token")) 
-    .setOutputCol("ner")
+    .setOutputCol("pos")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, pos))
 
