@@ -45,7 +45,7 @@ tokenizer = Tokenizer() \
   
 seq = DistilBertForSequenceClassification.pretrained("distilbert_classifier_base_uncased_newspop_student","en") \
     .setInputCols(["document", "token"]) \
-    .setOutputCol("pos")
+    .setOutputCol("class")
     
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, seq])
 
@@ -64,7 +64,7 @@ val tokenizer = new Tokenizer()
 
 val seq = DistilBertForSequenceClassification.pretrained("distilbert_classifier_base_uncased_newspop_student","en") 
     .setInputCols(Array("document", "token")) 
-    .setOutputCol("ner")
+    .setOutputCol("class")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, seq))
 
