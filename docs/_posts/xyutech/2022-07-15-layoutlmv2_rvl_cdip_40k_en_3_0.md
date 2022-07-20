@@ -26,7 +26,7 @@ This model uses LayoutLMv2 to classify documents. It was trained on subset of RV
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/layoutlmv2_rvl_cdip_40k_en_3.14.0_3.0_1657903240904.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/layoutlmv2_rvl_cdip_40k_en_3.4.0_3.0_1657301136743.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
