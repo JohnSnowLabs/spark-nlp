@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from zhuzhusleepearly)
+title: English BertForTokenClassification Cased model (from zhuzhusleepearly)
 author: John Snow Labs
 name: bert_ner_bert_finetuned
 date: 2022-07-20
