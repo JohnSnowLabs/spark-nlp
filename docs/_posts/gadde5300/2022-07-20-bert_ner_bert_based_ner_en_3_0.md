@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from biasedai)
+title: English BertForTokenClassification Cased model (from biasedai)
 author: John Snow Labs
 name: bert_ner_bert_based_ner
 date: 2022-07-20
