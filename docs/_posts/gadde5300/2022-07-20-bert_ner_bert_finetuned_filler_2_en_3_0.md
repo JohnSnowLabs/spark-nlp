@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from rdchambers)
+title: English BertForTokenClassification Cased model (from rdchambers)
 author: John Snow Labs
 name: bert_ner_bert_finetuned_filler_2
 date: 2022-07-20
