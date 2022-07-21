@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from Nonzerophilip)
+title: English BertForTokenClassification Cased model (from Nonzerophilip)
 author: John Snow Labs
 name: bert_ner_Nonzerophilip_bert_finetuned_ner
 date: 2022-07-20
