@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from dpuccine)
+title: English BertForTokenClassification Cased model (from dpuccine)
 author: John Snow Labs
 name: bert_ner_dpuccine_bert_finetuned_ner
 date: 2022-07-20
