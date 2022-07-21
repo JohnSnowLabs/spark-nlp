@@ -92,4 +92,4 @@ val result = pipeline.fit(data).transform(data)
 
 ## References
 
-https://huggingface.co/mrm8488/bert-spanish-cased-finedtuned-ner
+https://huggingface.co/mrm8488/distilbert-base-uncased-newspop-student
