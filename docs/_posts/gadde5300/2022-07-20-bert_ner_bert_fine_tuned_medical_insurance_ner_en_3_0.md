@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from JustAdvanceTechonology)
+title: English BertForTokenClassification Cased model (from JustAdvanceTechonology)
 author: John Snow Labs
 name: bert_ner_bert_fine_tuned_medical_insurance_ner
 date: 2022-07-20
