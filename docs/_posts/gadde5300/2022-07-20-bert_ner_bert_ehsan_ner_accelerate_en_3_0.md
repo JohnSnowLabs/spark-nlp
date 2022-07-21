@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from EhsanYB)
+title: English BertForTokenClassification Cased model (from EhsanYB)
 author: John Snow Labs
 name: bert_ner_bert_ehsan_ner_accelerate
 date: 2022-07-20
