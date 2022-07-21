@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from Wende)
+title: English BertForTokenClassification Cased model (from Wende)
 author: John Snow Labs
 name: bert_ner_Wende_bert_finetuned_ner
 date: 2022-07-20
