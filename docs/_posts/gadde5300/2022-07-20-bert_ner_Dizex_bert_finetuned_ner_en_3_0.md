@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from Dizex)
+title: English BertForTokenClassification Cased model (from Dizex)
 author: John Snow Labs
 name: bert_ner_Dizex_bert_finetuned_ner
 date: 2022-07-20
