@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from huggingface-course)
+title: English BertForTokenClassification Cased model (from huggingface-course)
 author: John Snow Labs
 name: bert_ner_huggingface_course_bert_finetuned_ner
 date: 2022-07-20
