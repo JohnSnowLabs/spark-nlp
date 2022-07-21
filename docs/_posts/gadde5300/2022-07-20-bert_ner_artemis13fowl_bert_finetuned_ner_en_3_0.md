@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from artemis13fowl)
+title: English BertForTokenClassification Cased model (from artemis13fowl)
 author: John Snow Labs
 name: bert_ner_artemis13fowl_bert_finetuned_ner
 date: 2022-07-20
