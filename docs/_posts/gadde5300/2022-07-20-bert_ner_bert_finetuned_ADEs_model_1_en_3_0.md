@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from ajtamayoh)
+title: English BertForTokenClassification Cased model (from ajtamayoh)
 author: John Snow Labs
 name: bert_ner_bert_finetuned_ADEs_model_1
 date: 2022-07-20
