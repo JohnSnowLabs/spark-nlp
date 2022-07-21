@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from pkushiqiang)
+title: English BertForTokenClassification Cased model (from pkushiqiang)
 author: John Snow Labs
 name: bert_ner_bert_degree_major_ner_1000
 date: 2022-07-20
