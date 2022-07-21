@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from AlekseyKorshuk)
+title: English BertForTokenClassification Cased model (from AlekseyKorshuk)
 author: John Snow Labs
 name: bert_ner_AlekseyKorshuk_bert_finetuned_ner
 date: 2022-07-20
