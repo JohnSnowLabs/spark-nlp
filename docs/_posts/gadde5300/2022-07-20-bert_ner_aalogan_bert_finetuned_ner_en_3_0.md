@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from aalogan)
+title: English BertForTokenClassification Cased model (from aalogan)
 author: John Snow Labs
 name: bert_ner_aalogan_bert_finetuned_ner
 date: 2022-07-20
