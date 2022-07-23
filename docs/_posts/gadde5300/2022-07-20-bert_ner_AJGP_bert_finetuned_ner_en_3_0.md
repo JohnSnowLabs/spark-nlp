@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from AJGP)
+title: English BertForTokenClassification Cased model (from AJGP)
 author: John Snow Labs
 name: bert_ner_AJGP_bert_finetuned_ner
 date: 2022-07-20
