@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from dsghrg)
+title: English BertForTokenClassification Cased model (from dsghrg)
 author: John Snow Labs
 name: bert_ner_dsghrg_bert_finetuned_ner
 date: 2022-07-20
