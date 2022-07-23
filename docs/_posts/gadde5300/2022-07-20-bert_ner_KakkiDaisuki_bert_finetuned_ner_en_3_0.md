@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from KakkiDaisuki)
+title: English BertForTokenClassification Cased model (from KakkiDaisuki)
 author: John Snow Labs
 name: bert_ner_KakkiDaisuki_bert_finetuned_ner
 date: 2022-07-20
