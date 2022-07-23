@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from Buntan)
+title: English BertForTokenClassification Cased model (from Buntan)
 author: John Snow Labs
 name: bert_ner_Buntan_bert_finetuned_ner
 date: 2022-07-20
