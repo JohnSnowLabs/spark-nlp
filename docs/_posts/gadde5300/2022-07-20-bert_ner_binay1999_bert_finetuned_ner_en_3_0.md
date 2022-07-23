@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from binay1999)
+title: English BertForTokenClassification Cased model (from binay1999)
 author: John Snow Labs
 name: bert_ner_binay1999_bert_finetuned_ner
 date: 2022-07-20
