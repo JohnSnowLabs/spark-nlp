@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from SGrannemann)
+title: English BertForTokenClassification Cased model (from SGrannemann)
 author: John Snow Labs
 name: bert_ner_SGrannemann_bert_finetuned_ner
 date: 2022-07-20
