@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from Dani-91)
+title: English BertForTokenClassification Cased model (from Dani-91)
 author: John Snow Labs
 name: bert_ner_Dani_91_bert_finetuned_ner
 date: 2022-07-20
