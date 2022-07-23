@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from cwan6830)
+title: English BertForTokenClassification Cased model (from cwan6830)
 author: John Snow Labs
 name: bert_ner_cwan6830_bert_finetuned_ner
 date: 2022-07-20
