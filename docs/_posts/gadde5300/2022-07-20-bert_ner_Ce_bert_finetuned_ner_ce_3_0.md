@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Chechen BertForTokenClassification nan Cased model (from Ce)
+title: Chechen BertForTokenClassification Cased model (from Ce)
 author: John Snow Labs
 name: bert_ner_Ce_bert_finetuned_ner
 date: 2022-07-20
