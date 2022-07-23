@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from DaveMSE)
+title: English BertForTokenClassification Cased model (from DaveMSE)
 author: John Snow Labs
 name: bert_ner_DaveMSE_bert_finetuned_ner
 date: 2022-07-20
