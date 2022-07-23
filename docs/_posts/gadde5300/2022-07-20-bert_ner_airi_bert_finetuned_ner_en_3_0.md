@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from airi)
+title: English BertForTokenClassification Cased model (from airi)
 author: John Snow Labs
 name: bert_ner_airi_bert_finetuned_ner
 date: 2022-07-20
