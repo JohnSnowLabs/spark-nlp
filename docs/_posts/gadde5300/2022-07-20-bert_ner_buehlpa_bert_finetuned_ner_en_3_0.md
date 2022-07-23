@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification nan Cased model (from buehlpa)
+title: English BertForTokenClassification Cased model (from buehlpa)
 author: John Snow Labs
 name: bert_ner_buehlpa_bert_finetuned_ner
 date: 2022-07-20
