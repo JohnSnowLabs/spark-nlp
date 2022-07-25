@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP for Healthcare 3.5.0
 spark_version: 3.0
 supported: true
+published: false
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -34,6 +35,7 @@ Assign assertion status to oncology treatment entities extracted by ner_oncology
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -163,10 +165,9 @@ Trained on case reports sampled from PubMed, and annotated in-house.
 ## Benchmarking
 
 ```bash
-label	 tp	 fp	 fn	 prec	 rec	 f1
-Present_Or_Past	 50	 13	 14	 0.7936508	 0.78125	 0.78740156
-Hypothetical_Or_Absent	 68	 14	 13	 0.8292683	 0.83950615	 0.83435583
-tp: 118 fp: 27 fn: 27 labels: 2
-Macro-average	 prec: 0.81145954, rec: 0.8103781, f1: 0.81091845
-Micro-average	 prec: 0.8137931, rec: 0.8137931, f1: 0.81379306
+label	 		tp	fp	fn	prec	 	rec	 	f1
+Present_Or_Past	 	50	13	14	0.7936508	0.78125	 	0.78740156
+Hypothetical_Or_Absent	68	14	13	0.8292683	0.83950615	0.83435583
+Macro-average		118 	27	27	0.8114595	0.8103781	0.8109184
+Micro-average	 	118 	27	27	0.8137931 	0.8137931 	0.81379306
 ```
