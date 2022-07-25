@@ -2,7 +2,7 @@
 layout: model
 title: Public Health Mention Classifier (PHS-BERT)
 author: John Snow Labs
-name: classifierdl_phm
+name: classifierdl_health_mentions
 date: 2022-07-25
 tags: [public_health, health, mention, en, licensed, classification]
 task: Text Classification
@@ -32,7 +32,7 @@ This model is a [PHS-BERT](https://arxiv.org/abs/2204.04521) based classifier th
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/classifierdl_phm_en_4.0.0_3.0_1658759311177.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/classifierdl_health_mentions_en_4.0.0_3.0_1658759311177.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -58,7 +58,7 @@ embeddingsSentence = SentenceEmbeddings() \
     .setOutputCol("sentence_embeddings") \
     .setPoolingStrategy("AVERAGE")
 
-classifierdl = ClassifierDLModel.pretrained('classifierdl_phm', 'en', 'clinical/models')\
+classifierdl = ClassifierDLModel.pretrained('classifierdl_health_mentions', 'en', 'clinical/models')\
     .setInputCols(['sentence', 'token', 'sentence_embeddings'])\
     .setOutputCol('class')
 
@@ -93,7 +93,7 @@ val sentence_embeddings = SentenceEmbeddings()
     .setOutputCol("sentence_embeddings")
     .setPoolingStrategy("AVERAGE")
 
-val classifier = ClassifierDLModel.pretrained("classifierdl_phm", "en", "clinical/models")
+val classifier = ClassifierDLModel.pretrained("classifierdl_health_mentions", "en", "clinical/models")
     .setInputCols(Array("sentence", "token", "sentence_embeddings"))
     .setOutputCol("class")
 
@@ -120,7 +120,7 @@ val result = pipeline.fit(data).transform(data)
 
 {:.table-model}
 |---|---|
-|Model Name:|classifierdl_phm|
+|Model Name:|classifierdl_health_mentions|
 |Compatibility:|Spark NLP for Healthcare 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
