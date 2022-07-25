@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is a [PHS-BERT](https://huggingface.co/publichealthsurveillance/PHS-BERT) based classifier that can classify public health mentions in social media text. It is trained with the modified version of [PHM](https://arxiv.org/abs/1802.09130), [HMC2019](https://dl.acm.org/doi/abs/10.1145/3366423.3380198)   and [RHMD](https://dl.acm.org/doi/abs/10.1145/3485447.3512129) datasets. Mentions are classified into three label about personal health situation, figurative mention and other mentions. More detailed information about classes as follows:
+This model is a [PHS-BERT](https://huggingface.co/publichealthsurveillance/PHS-BERT) based sequence classification model that can classify public health mentions in social media text. It is trained with the modified version of [PHM](https://arxiv.org/abs/1802.09130), [HMC2019](https://dl.acm.org/doi/abs/10.1145/3366423.3380198)   and [RHMD](https://dl.acm.org/doi/abs/10.1145/3485447.3512129) datasets. Mentions are classified into three labels about personal health situation, figurative mention and other mentions. More detailed information about classes as follows:
 
 `health_mention`: The text contains a health mention that specifically indicating someone's health situation.  This means someone has a certain disease or symptoms including death.   
 
@@ -70,22 +70,17 @@ val documenter = new DocumentAssembler()
     .setInputCol("text") 
     .setOutputCol("document")
 
-
 val tokenizer = new Tokenizer()
     .setInputCols("sentences")
     .setOutputCol("token")
 
-
-val sequenceClassifier = MedicalBertForSequenceClassification.pretrained('bert_sequence_classifier_phm', "en", "clinical/models")
+val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_phm", "en", "clinical/models")
     .setInputCols(Array("document","token"))
     .setOutputCol("class")
 
-
 val pipeline = new Pipeline().setStages(Array(documenter, tokenizer, sequenceClassifier))
 
-
 val data = Seq("Another uncle of mine had a heart attack and passed away. Will be cremated Saturday I think I ve gone numb again RIP Uncle Mike")
-
 
 val result = pipeline.fit(data).transform(data)
 ```
