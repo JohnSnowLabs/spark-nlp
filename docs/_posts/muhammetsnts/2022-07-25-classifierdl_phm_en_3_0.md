@@ -85,7 +85,7 @@ val tokenizer = new Tokenizer()
     .setOutputCol("token")
 
 val embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased", "en")
-    .setInputCols(Array("sentence", 'token'))
+    .setInputCols(Array("sentence", "token"))
     .setOutputCol("word_embeddings")
 
 val sentence_embeddings = SentenceEmbeddings()
