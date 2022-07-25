@@ -84,7 +84,7 @@ val tokenizer = new Tokenizer()
     .setInputCols("sentence")
     .setOutputCol("token")
 
-val embeddings = BertEmbeddings.pretrained('biobert_pubmed_base_cased')
+val embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased", "en")
     .setInputCols(Array("sentence", 'token'))
     .setOutputCol("word_embeddings")
 
@@ -93,9 +93,9 @@ val sentence_embeddings = SentenceEmbeddings()
     .setOutputCol("sentence_embeddings")
     .setPoolingStrategy("AVERAGE")
 
-val classifier = ClassifierDLModel.pretrained('classifierdl_ade_biobert', 'en', 'clinical/models')
-    .setInputCols(Array('sentence', 'token', 'sentence_embeddings'))
-    .setOutputCol('class')
+val classifier = ClassifierDLModel.pretrained("classifierdl_phm", "en", "clinical/models")
+    .setInputCols(Array("sentence", "token", "sentence_embeddings"))
+    .setOutputCol("class")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, sentence_embeddings, classifier))
 
