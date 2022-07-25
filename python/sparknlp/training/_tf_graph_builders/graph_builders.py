@@ -1,7 +1,8 @@
 import os
 import re
 
-from sparknlp.internal import _HadoopFileOperations
+from sparknlp.internal import _ResourceHelper
+from sparknlp.training._tf_graph_builders.ner_dl.create_graph import create_graph
 
 
 class WrongTFVersion(Exception):
@@ -74,6 +75,7 @@ class TFGraphBuilder:
     def __init__(self, build_params):
         self.__build_params = build_params
 
+
 class NerTFGraphBuilder(TFGraphBuilder):
     """
     Class to build the the TF graphs for MedicalNerApproach.
@@ -134,8 +136,7 @@ class NerTFGraphBuilder(TFGraphBuilder):
         }
 
     def build(self, model_location, model_filename):
-        from sparknlp_jsl._tf_graph_builders.ner_dl.create_graph import create_graph
-        if (re.match(r'(\w+)://.*', model_location)):
+        if re.match(r'(\w+)://.*', model_location):
             tmp_location = "/tmp/nerModel"
             create_graph(
                 model_location=tmp_location,
@@ -149,7 +150,7 @@ class NerTFGraphBuilder(TFGraphBuilder):
             )
 
             file_location = os.path.join(tmp_location, model_filename)
-            _HadoopFileOperations(file_location, model_location).apply()
+            _ResourceHelper(file_location, model_location).apply()
 
         else:
             create_graph(
@@ -162,6 +163,7 @@ class NerTFGraphBuilder(TFGraphBuilder):
                 gpu_device=self.get_build_param("gpu_device"),
                 is_medical=False,
             )
+
 
 class TFGraphBuilderFactory:
     """
@@ -247,12 +249,12 @@ class TFGraphBuilderFactory:
 
         model.build(model_location, model_filename)
 
-        if (re.match(r'(\w+)://.*', model_location)):
+        if re.match(r'(\w+)://.*', model_location):
             tmp_location = "/tmp/relationModel"
             model.build(tmp_location, model_filename)
 
             file_location = os.path.join(tmp_location, model_filename)
-            _HadoopOperations(file_location, model_location).apply()
+            _ResourceHelper(file_location, model_location).apply()
 
         else:
             model.build(model_location, model_filename)

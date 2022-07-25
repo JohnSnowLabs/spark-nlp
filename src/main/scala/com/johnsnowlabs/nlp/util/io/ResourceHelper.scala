@@ -18,6 +18,7 @@ package com.johnsnowlabs.nlp.util.io
 
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.util.io.ReadAs._
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
 import org.apache.commons.io.FileUtils
@@ -53,11 +54,15 @@ object ResourceHelper {
 
   /** Structure for a SourceStream coming from compiled content */
   case class SourceStream(resource: String) {
+
     val path = new Path(resource)
+
     val fileSystem: FileSystem =
       FileSystem.get(path.toUri, spark.sparkContext.hadoopConfiguration)
-    if (!fileSystem.exists(path))
+    if (!fileSystem.exists(path)) {
       throw new FileNotFoundException(s"file or folder: $resource not found")
+    }
+
     val pipe: Seq[InputStream] = {
 
       /** Check whether it exists in file system */
@@ -66,9 +71,11 @@ object ResourceHelper {
       while (files.hasNext) buffer.append(fileSystem.open(files.next().getPath))
       buffer
     }
+
     val openBuffers: Seq[BufferedSource] = pipe.map(pp => {
       new BufferedSource(pp)("UTF-8")
     })
+
     val content: Seq[Iterator[String]] = openBuffers.map(c => c.getLines())
 
     def copyToLocal(prefix: String = "sparknlp_tmp_"): String = {
@@ -556,14 +563,29 @@ object ResourceHelper {
   }
 
   def validFile(path: String): Boolean = {
-    val isValid = Files.exists(Paths.get(path))
+    var isValid = Files.exists(Paths.get(path))
 
-    if (isValid) {
-      isValid
-    } else {
-      throw new FileNotFoundException(path)
+    if (!isValid) {
+      val hadoopPath = new Path(path)
+      val fileSystem: FileSystem =
+        FileSystem.get(hadoopPath.toUri, spark.sparkContext.hadoopConfiguration)
+      if (fileSystem.exists(hadoopPath)) {
+        isValid = true
+      } else {
+        isValid = false
+      }
     }
 
+    isValid
+  }
+
+  def moveFile(sourceFile: String, destinationFile: String): Unit = {
+    val fileSystem: FileSystem = ResourceDownloader.fileSystem
+
+    Files.createDirectory(Paths.get(sourceFile))
+    val destination = new org.apache.hadoop.fs.Path(sourceFile)
+    val source = new org.apache.hadoop.fs.Path(destinationFile)
+    fileSystem.copyToLocalFile(source, destination)
   }
 
 }
