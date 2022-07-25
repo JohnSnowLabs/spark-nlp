@@ -18,6 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 Anatomical entities ranging from subcellular structures to organ systems are central to biomedical science, and mentions of these entities are essential to understanding the scientific literature.
+
 This model is trained with the `BertForTokenClassification` method from the `transformers` library and imported into Spark NLP. The model detects anatomical structures from a medical text.
 
 ## Predicted Entities
@@ -35,6 +36,7 @@ This model is trained with the `BertForTokenClassification` method from the 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
