@@ -2,7 +2,7 @@
 layout: model
 title: Public Health Mention Sequence Classifier (PHS-BERT)
 author: John Snow Labs
-name: bert_sequence_classifier_phm
+name: bert_sequence_classifier_health_mentions
 date: 2022-07-25
 tags: [public_health, en, licensed, sequence_classification, health, mention]
 task: Text Classification
@@ -32,7 +32,7 @@ This model is a [PHS-BERT](https://arxiv.org/abs/2204.04521) based sequence clas
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_phm_en_4.0.0_3.0_1658746315237.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_health_mentions_en_4.0.0_3.0_1658746315237.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -51,7 +51,7 @@ tokenizer = Tokenizer() \
     .setInputCols(["document"]) \
     .setOutputCol("token")
 
-sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_phm", "en", "clinical/models")\
+sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_health_mentions", "en", "clinical/models")\
     .setInputCols(["document","token"])\
     .setOutputCol("class")
 
@@ -74,7 +74,7 @@ val tokenizer = new Tokenizer()
     .setInputCols("sentences")
     .setOutputCol("token")
 
-val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_phm", "en", "clinical/models")
+val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_health_mentions", "en", "clinical/models")
     .setInputCols(Array("document","token"))
     .setOutputCol("class")
 
@@ -101,7 +101,7 @@ val result = pipeline.fit(data).transform(data)
 
 {:.table-model}
 |---|---|
-|Model Name:|bert_sequence_classifier_phm|
+|Model Name:|bert_sequence_classifier_health_mentions|
 |Compatibility:|Spark NLP for Healthcare 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
