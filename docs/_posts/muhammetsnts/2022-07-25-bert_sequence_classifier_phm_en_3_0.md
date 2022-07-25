@@ -17,13 +17,13 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is a [PHS-BERT](https://huggingface.co/publichealthsurveillance/PHS-BERT) based sequence classification model that can classify public health mentions in social media text. It is trained with the modified version of [PHM](https://arxiv.org/abs/1802.09130), [HMC2019](https://dl.acm.org/doi/abs/10.1145/3366423.3380198)   and [RHMD](https://dl.acm.org/doi/abs/10.1145/3485447.3512129) datasets. Mentions are classified into three labels about personal health situation, figurative mention and other mentions. More detailed information about classes as follows:
+This model is a [PHS-BERT](https://arxiv.org/abs/2204.04521) based sequence classification model that can classify public health mentions in social media text. Mentions are classified into three labels about personal health situation, figurative mention and other mentions. More detailed information about classes as follows:
 
-`health_mention`: The text contains a health mention that specifically indicating someone's health situation.  This means someone has a certain disease or symptoms including death.   
+`health_mention`: The text contains a health mention that specifically indicating someone's health situation.  This means someone has a certain disease or symptoms including death. e.g.; *My PCR test is positive. I have a severe joint pain, mucsle pain and headache right now.*
 
-`other_mention`: The text contains a health mention; however does not states a spesific person's situation. General health mentions like informative mentions, discussion about disease etc.
+`other_mention`: The text contains a health mention; however does not states a spesific person's situation. General health mentions like informative mentions, discussion about disease etc. e.g.; *Aluminum is a light metal that causes dementia and Alzheimer's disease.*
 
-`figurative_mention`: The text mention specific disease or symptom but it is used metaphorically, does not contain health-related information. e.g.; *This guy is a headache.*
+`figurative_mention`: The text mention specific disease or symptom but it is used metaphorically, does not contain health-related information. e.g.; *I don't wanna fall in love. If I ever did that, I think I'd have a heart attack.*
 
 ## Predicted Entities
 
@@ -114,11 +114,7 @@ val result = pipeline.fit(data).transform(data)
 
 ## References
 
-[PHM](https://arxiv.org/abs/1802.09130)
-
-[HMC2019](https://dl.acm.org/doi/abs/10.1145/3366423.3380198)
-
-[RHMD](https://dl.acm.org/doi/abs/10.1145/3485447.3512129)
+Curated from several academic and in-house datasets.
 
 ## Benchmarking
 
