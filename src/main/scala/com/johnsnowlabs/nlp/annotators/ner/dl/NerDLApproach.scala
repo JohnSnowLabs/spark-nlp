@@ -675,6 +675,7 @@ class NerDLApproach(override val uid: String)
 }
 
 trait WithGraphResolver {
+
   def searchForSuitableGraph(
       tags: Int,
       embeddingsNDims: Int,
@@ -772,10 +773,19 @@ trait WithGraphResolver {
       tmpDirectory = tmpDirectory + "/" + keyPrefix
       files = ResourceHelper.listLocalFiles(tmpDirectory).map(_.getAbsolutePath)
     } else {
-      files = localGraphPath
-        .map(path =>
-          ResourceHelper.listLocalFiles(ResourceHelper.copyToLocal(path)).map(_.getAbsolutePath))
-        .getOrElse(ResourceHelper.listResourceDirectory("/ner-dl"))
+
+      if (localGraphPath.isDefined && ResourceHelper.validFile(localGraphPath.get)) {
+        files =
+          ResourceHelper.listLocalFiles(localGraphPath.get).map(file => file.getAbsolutePath)
+      } else {
+        files = localGraphPath
+          .map(path =>
+            ResourceHelper
+              .listLocalFiles(ResourceHelper.copyToLocal(path))
+              .map(_.getAbsolutePath))
+          .getOrElse(ResourceHelper.listResourceDirectory("/ner-dl"))
+      }
+
     }
     files
   }

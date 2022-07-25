@@ -28,7 +28,7 @@ def create_graph(
         ner.add_inference_layer(True, "predictions" if is_medical else "cond_2/Merge")
         ner.add_training_op(5, "train" if is_medical else None)
         ner.init_variables()
-        saver = tf.train.Saver()
+        tf.train.Saver()
         tf.io.write_graph(ner.session.graph, model_location, model_filename, False)
         ner.close()
         session.close()

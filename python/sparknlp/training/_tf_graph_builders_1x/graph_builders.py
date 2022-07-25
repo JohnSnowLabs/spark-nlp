@@ -1,6 +1,7 @@
 import os
+import re
 
-from sparknlp.internal import _HadoopFileOperations
+from sparknlp.internal import _ResourceHelper
 
 
 class WrongTFVersion(Exception):
@@ -146,7 +147,7 @@ class NerTFGraphBuilder(TFGraphBuilder):
             )
 
             file_location = os.path.join(tmp_location, model_filename)
-            _HadoopFileOperations(file_location, model_location).apply()
+            _ResourceHelper(file_location, model_location).apply()
 
         else:
             create_graph(
