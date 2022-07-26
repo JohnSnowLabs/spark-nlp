@@ -1,0 +1,125 @@
+---
+layout: model
+title: Self Report Age Classifier (BioBERT - Reddit)
+author: John Snow Labs
+name: bert_sequence_classifier_exact_age_reddit
+date: 2022-07-26
+tags: [licensed, clinical, en, classifier, sequence_classification, age, public_health]
+task: Text Classification
+language: en
+edition: Spark NLP for Healthcare 4.0.0
+spark_version: 3.0
+supported: true
+article_header:
+  type: cover
+use_language_switcher: "Python-Scala-Java"
+---
+
+## Description
+
+This model is a [BioBERT based](https://github.com/dmis-lab/biobert) classifier that can classify self-report the exact age into social media forum (Reddit) posts.
+
+## Predicted Entities
+
+`self_report_age`, `no_report`
+
+{:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
+<button class="button button-orange" disabled>Open in Colab</button>
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_exact_age_reddit_en_4.0.0_3.0_1658852929276.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
+## How to use
+
+
+
+<div class="tabs-box" markdown="1">
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+document_assembler = DocumentAssembler() \
+    .setInputCol('text') \
+    .setOutputCol('document')
+
+tokenizer = Tokenizer() \
+    .setInputCols(['document']) \
+    .setOutputCol('token')
+
+sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_exact_age_reddit", "en", "clinical/models")\
+    .setInputCols(["document",'token'])\
+    .setOutputCol("class")
+
+pipeline = Pipeline(stages=[
+    document_assembler, 
+    tokenizer,
+    sequenceClassifier
+])
+
+data = spark.createDataFrame(["Is it bad for a 19 year old it's been getting worser.",
+                              "I was about 10. So not quite as young as you but young."], StringType()).toDF("text")
+                              
+result = pipeline.fit(data).transform(data)
+
+result.select("class.result", "text").show(truncate=False)
+```
+```scala
+val documenter = new DocumentAssembler() 
+    .setInputCol("text") 
+    .setOutputCol("document")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentences")
+    .setOutputCol("token")
+
+val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_exact_age_reddit", "en", "clinical/models")
+    .setInputCols(Array("document","token"))
+    .setOutputCol("class")
+
+val pipeline = new Pipeline().setStages(Array(documenter, tokenizer, sequenceClassifier))
+
+val data = Seq(Array("Is it bad for a 19 year old it's been getting worser.",
+                     "I was about 10. So not quite as young as you but young.")).toDS.toDF("text")
+
+val result = pipeline.fit(data).transform(data)
+```
+</div>
+
+## Results
+
+```bash
++-----------------+-------------------------------------------------------+
+|result           |text                                                   |
++-----------------+-------------------------------------------------------+
+|[self_report_age]|Is it bad for a 19 year old it's been getting worser.  |
+|[no_report]      |I was about 10. So not quite as young as you but young.|
++-----------------+-------------------------------------------------------+
+```
+
+{:.model-param}
+## Model Information
+
+{:.table-model}
+|---|---|
+|Model Name:|bert_sequence_classifier_exact_age_reddit|
+|Compatibility:|Spark NLP for Healthcare 4.0.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Input Labels:|[document, token]|
+|Output Labels:|[class]|
+|Language:|en|
+|Size:|406.5 MB|
+|Case sensitive:|true|
+|Max sentence length:|128|
+
+## References
+
+The dataset is disease-specific and consists of posts collected via a series of keywords associated with dry eye disease.
+
+## Benchmarking
+
+```bash
+          label  precision    recall  f1-score   support
+      no_report     0.9324    0.9577    0.9449      1325
+self_report_age     0.9124    0.8637    0.8874       675
+       accuracy     -         -         0.9260      2000
+      macro-avg     0.9224    0.9107    0.9161      2000
+   weighted-avg     0.9256    0.9260    0.9255      2000
+```
