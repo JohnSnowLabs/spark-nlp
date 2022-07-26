@@ -19,6 +19,7 @@ package com.johnsnowlabs.nlp.pretrained
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
 import com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
+import com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification
 import com.johnsnowlabs.nlp.annotators.er.EntityRulerModel
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
@@ -646,7 +647,8 @@ object PythonResourceDownloader {
     "LongformerForQuestionAnswering" -> LongformerForQuestionAnswering,
     "RoBertaForQuestionAnswering" -> RoBertaForQuestionAnswering,
     "XlmRoBertaForQuestionAnswering" -> XlmRoBertaForQuestionAnswering,
-    "SpanBertCorefModel" -> SpanBertCorefModel)
+    "SpanBertCorefModel" -> SpanBertCorefModel,
+    "ViTForImageClassification" -> ViTForImageClassification)
 
   def downloadModel(
       readerStr: String,
