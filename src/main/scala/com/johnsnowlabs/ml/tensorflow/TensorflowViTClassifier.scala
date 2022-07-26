@@ -163,7 +163,7 @@ class TensorflowViTClassifier(
           height = preprocessor.size,
           Some(annot.nChannels))(bufferedImage)
 
-      ImageResizeUtils.normalize(
+      ImageResizeUtils.normalizeBufferedImage(
         img = resizedImage,
         mean = preprocessor.image_mean,
         std = preprocessor.image_std)

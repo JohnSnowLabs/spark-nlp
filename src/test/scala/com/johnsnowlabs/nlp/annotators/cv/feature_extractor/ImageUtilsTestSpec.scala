@@ -43,11 +43,9 @@ class ImageUtilsTestSpec extends AnyFlatSpec {
 
   val imageBufferedImage: BufferedImage =
     ImageIOUtils.loadImage("src/test/resources/image/egyptian_cat.jpeg")
-  val resizedImage: BufferedImage =
-    ImageResizeUtils.resize(imageBufferedImage, preprocessorConfig.size, preprocessorConfig.size)
-
-  val isGray: Boolean = resizedImage.getColorModel.getColorSpace.getType == ColorSpace.TYPE_GRAY
-  val hasAlpha: Boolean = resizedImage.getColorModel.hasAlpha
+  val isGray: Boolean =
+    imageBufferedImage.getColorModel.getColorSpace.getType == ColorSpace.TYPE_GRAY
+  val hasAlpha: Boolean = imageBufferedImage.getColorModel.hasAlpha
 
   val (nChannels, mode) = if (isGray) {
     (1, ImageSchema.ocvTypes("CV_8UC1"))
@@ -57,20 +55,16 @@ class ImageUtilsTestSpec extends AnyFlatSpec {
     (3, ImageSchema.ocvTypes("CV_8UC3"))
   }
 
+  val resizedImage: BufferedImage =
+    ImageResizeUtils.resizeBufferedImage(
+      width = preprocessorConfig.size,
+      height = preprocessorConfig.size,
+      Some(nChannels))(imageBufferedImage)
+
   "ImageResizeUtils" should "resize and normalize an image" taggedAs FastTest in {
 
     Benchmark.measure(iterations = 10, forcePrint = true, description = "Time to load image") {
       ImageIOUtils.loadImage("src/test/resources/image/egyptian_cat.jpeg")
-    }
-
-    Benchmark.measure(
-      iterations = 10,
-      forcePrint = true,
-      description = "Time to resized an image") {
-      ImageResizeUtils.resize(
-        imageBufferedImage,
-        preprocessorConfig.size,
-        preprocessorConfig.size)
     }
 
     Benchmark.measure(
@@ -87,11 +81,22 @@ class ImageUtilsTestSpec extends AnyFlatSpec {
       iterations = 10,
       forcePrint = true,
       description = "Time to normalize the resized image") {
-      ImageResizeUtils.normalize(
+      ImageResizeUtils.normalizeBufferedImage(
         resizedImage,
         preprocessorConfig.image_mean,
         preprocessorConfig.image_std)
     }
+
+    Benchmark.measure(
+      iterations = 10,
+      forcePrint = true,
+      description = "Time to normalize with 0.0d") {
+      ImageResizeUtils.normalizeBufferedImage(
+        resizedImage,
+        preprocessorConfig.image_mean,
+        Array(0.0d, 0.0d, 0.0d))
+    }
+
   }
 
   "ImageResizeUtils" should "read preprocessor_config.json file" taggedAs FastTest in {
