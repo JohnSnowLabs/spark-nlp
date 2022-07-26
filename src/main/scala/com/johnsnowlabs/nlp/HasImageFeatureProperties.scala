@@ -47,7 +47,7 @@ trait HasImageFeatureProperties extends ParamsAndFeaturesWritable {
   val doNormalize = new BooleanParam(
     this,
     "doNormalize",
-    "Whether or not to normalize the input with mean and standard deviation")
+    "Whether to normalize the input with mean and standard deviation")
 
   /** Whether to resize the input to a certain size
     * @group param
@@ -155,12 +155,3 @@ trait HasImageFeatureProperties extends ParamsAndFeaturesWritable {
   def getSize: Int = $(size)
 
 }
-
-case class Preprocessor(
-    doNormalize: Boolean,
-    doResize: Boolean,
-    featureExtractorType: String,
-    imageMean: Array[Double],
-    imageStd: Array[Double],
-    resample: Int,
-    size: Int)
