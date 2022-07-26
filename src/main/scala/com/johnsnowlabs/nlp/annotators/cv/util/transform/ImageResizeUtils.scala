@@ -18,7 +18,8 @@ package com.johnsnowlabs.nlp.annotators.cv.util.transform
 
 import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
 
-import java.awt.image.BufferedImage
+import java.awt.geom.AffineTransform
+import java.awt.image.{AffineTransformOp, BufferedImage}
 import java.awt.{Color, Image}
 import scala.collection.mutable.ArrayBuffer
 
@@ -44,13 +45,27 @@ private[johnsnowlabs] object ImageResizeUtils {
     bufferedImage
   }
 
+  def resampleBufferedImage(image: BufferedImage): BufferedImage = {
+    val w = image.getWidth
+    val h = image.getHeight
+    var scaledImage = new BufferedImage(w * 2, h * 2, BufferedImage.TYPE_INT_ARGB)
+    val at = AffineTransform.getScaleInstance(2.0, 2.0)
+    val ato =
+      new AffineTransformOp(
+        at,
+        AffineTransformOp.TYPE_BICUBIC
+      ) // Currently we have three types : TYPE_BICUBIC TYPE_BILINEAR and TYPE_NEAREST_NEIGHBOR
+    scaledImage = ato.filter(image, scaledImage)
+    scaledImage
+  }
+
   // TODO implement doNormalize = false to only return Array[Array[Array[Float]]] without normalizing
   /** @param img
     * @param mean
     * @param std
     * @return
     */
-  def normalize(
+  def normalizeBufferedImage(
       img: BufferedImage,
       mean: Array[Double],
       std: Array[Double]): Array[Array[Array[Float]]] = {
@@ -80,4 +95,5 @@ private[johnsnowlabs] object ImageResizeUtils {
     }
     data.map(_.toArray)
   }
+
 }
