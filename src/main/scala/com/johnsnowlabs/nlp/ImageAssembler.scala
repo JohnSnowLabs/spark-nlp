@@ -76,7 +76,7 @@ class ImageAssembler(override val uid: String)
     */
   def getInputCol: String = $(inputCol)
 
-  setDefault(outputCol -> IMAGE)
+  setDefault(inputCol -> IMAGE, outputCol -> "image_assembler")
 
   def this() = this(Identifiable.randomUID("ImageAssembler"))
 
