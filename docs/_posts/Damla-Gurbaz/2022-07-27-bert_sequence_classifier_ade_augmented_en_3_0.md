@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Adverse Drug Events Classifier (BioBERT)
+title: Adverse Drug Events Binary Classifier (BioBERT)
 author: John Snow Labs
 name: bert_sequence_classifier_ade_augmented
 date: 2022-07-27
@@ -34,6 +34,7 @@ This model is a [BioBERT-based] (https://github.com/dmis-lab/biobert) classifier
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler() \
     .setInputCol("text") \
