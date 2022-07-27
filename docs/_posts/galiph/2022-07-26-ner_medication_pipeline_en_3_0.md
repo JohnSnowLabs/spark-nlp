@@ -35,7 +35,7 @@ from sparknlp.pretrained import PretrainedPipeline
 
 ner_medication_pipeline = PretrainedPipeline("ner_medication_pipeline", "en", "clinical/models")
 
-text = """ A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ). She was on metformin, glipizide, Farxiga, and gemfibrozil."""
+text = """The patient was prescribed metformin 1000 MG, and glipizide 2.5 MG. The other patient was given Fragmin 5000 units, Xenaderm to wounds topically b.i.d. and OxyContin 30 mg."""
 
 result = ner_medication_pipeline.fullAnnotate([text])
 ```
@@ -44,19 +44,20 @@ import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
 val ner_medication_pipeline = new PretrainedPipeline("ner_medication_pipeline", "en", "clinical/models")
 
-val result = ner_medication_pipeline.fullAnnotate("A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ). She was on metformin, glipizide, Farxiga, and gemfibrozil."")(0)
+val result = ner_medication_pipeline.fullAnnotate("The patient was prescribed metformin 1000 MG, and glipizide 2.5 MG. The other patient was given Fragmin 5000 units, Xenaderm to wounds topically b.i.d. and OxyContin 30 mg."")(0)
 ```
 </div>
 
 ## Results
 
 ```bash
-| ner_chunk   | entity   |
-|:------------|:---------|
-| metformin   | DRUG     |
-| glipizide   | DRUG     |
-| Farxiga     | DRUG     |
-| gemfibrozil | DRUG     |
+| ner_chunk          | entity   |
+|:-------------------|:---------|
+| metformin 1000 MG  | DRUG     |
+| glipizide 2.5 MG   | DRUG     |
+| Fragmin 5000 units | DRUG     |
+| Xenaderm           | DRUG     |
+| OxyContin 30 mg    | DRUG     |
 ```
 
 {:.model-param}
