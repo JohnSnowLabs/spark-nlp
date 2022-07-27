@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-A pretrained pipeline to detect medication entities. It was built on the top of `ner_posology_greedy` model.
+A pretrained pipeline to detect medication entities. It was built on the top of `ner_posology_greedy` model and also augmented with the drug names mentioned in UK and US drugbank datasets.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
