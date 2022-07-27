@@ -7,7 +7,7 @@ date: 2022-07-27
 tags: [bert_sequence_classifier, bert, en, licensed, vaccine]
 task: Text Classification
 language: en
-edition: Spark NLP for Healthcare 3.5.0
+edition: Spark NLP for Healthcare 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -34,6 +34,7 @@ use_language_switcher: "Python-Scala-Java"
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler() \
     .setInputCol('text') \
@@ -53,7 +54,7 @@ pipeline = Pipeline(stages=[
     sequenceClassifier    
 ])
 
-example = spark.createDataFrame([["I came to a point finally and i've vaccinated, didnt feel pain.Suggest everyone"]]).toDF("text")
+example = spark.createDataFrame([["""If Pfizer believes we need a booster shot, we need it. Who knows their product better? Following the guidance of @CDCgov is how I wound up w/ Covid-19 and having to shut down my K-2 classroom for an entire week. I will do whatever it takes to protect my students, friends, family."""]]).toDF("text")
 
 result = pipeline.fit(example).transform(example)
 
@@ -75,7 +76,7 @@ val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_s
 val pipeline = new Pipeline.setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
 # couple of simple examples
-val example = Seq("I came to a point finally and i've vaccinated, didnt feel pain.Suggest everyone").toDF("text")
+val example = Seq("""If Pfizer believes we need a booster shot, we need it. Who knows their product better? Following the guidance of @CDCgov is how I wound up w/ Covid-19 and having to shut down my K-2 classroom for an entire week. I will do whatever it takes to protect my students, friends, family.""").toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
@@ -84,30 +85,11 @@ val result = pipeline.fit(example).transform(example)
 ## Results
 
 ```bash
-+--------------------+-----------------+
-|                text|           result|
-+--------------------+-----------------+
-|  Am  I my brothe...|   [Self_reports]|     
-|  Covid day 4.   ...|   [Self_reports]|     
-|  For a minute  I...|   [Self_reports]|     
-|  Got dose 1 of t...|   [Self_reports]|     
-|  It s been month...|   [Self_reports]|     
-|  Jim   Larranaga...|   [Self_reports]|     
-|  My young and he...|   [Self_reports]|     
-|  Received my 1st...|   [Self_reports]|     
-|  Science is amaz...|   [Self_reports]|     
-| I got my 2nd  CO...|   [Self_reports]|     
-| I just finished ...|   [Self_reports]|     
-| I just found out...|   [Self_reports]|     
-| I took the first...|   [Self_reports]|     
-|      There is no...|[Vaccine_chatter]|     
-|    Hello hypocri...|[Vaccine_chatter]|     
-|  But...checked m...|   [Self_reports]|     
-|  Is there a peti...|[Vaccine_chatter]|     
-|  Maybe people do...|[Vaccine_chatter]|     
-| I just seen this...|   [Self_reports]|     
-| I m sorry if thi...|[Vaccine_chatter]|     
-+--------------------+-----------------+
++-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|result           |text                                                                                                                                                                                                                                                                                    |
++-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|[Vaccine_chatter]|If Pfizer believes we need a booster shot, we need it. Who knows their product better? Following the guidance of @CDCgov is how I wound up w/ Covid-19 and having to shut down my K-2 classroom for an entire week. I will do whatever it takes to protect my students, friends, family.|
++-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
 {:.model-param}
@@ -116,7 +98,7 @@ val result = pipeline.fit(example).transform(example)
 {:.table-model}
 |---|---|
 |Model Name:|bert_sequence_classifier_self_reported_vaccine_status_tweet|
-|Compatibility:|Spark NLP for Healthcare 3.5.0+|
+|Compatibility:|Spark NLP for Healthcare 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|
