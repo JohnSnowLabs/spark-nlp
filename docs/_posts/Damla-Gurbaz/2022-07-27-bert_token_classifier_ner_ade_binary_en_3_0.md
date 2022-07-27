@@ -34,28 +34,28 @@ Detect adverse reactions of drugs in texts excahnged over twitter. This model is
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+    .setInputCol("text")\
+    .setOutputCol("document")
 
 sentenceDetector = SentenceDetectorDLModel.pretrained()\
-  .setInputCols("document")\
-  .setOutputCol("sentence")
+    .setInputCols("document")\
+    .setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-  .setInputCols("sentence")\
-  .setOutputCol("token")
+    .setInputCols("sentence")\
+    .setOutputCol("token")
 
 tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_ade_binary", "en", "clinical/models")\
-  .setInputCols("token", "sentence")\
-  .setOutputCol("label")\
-  .setCaseSensitive(True)
+    .setInputCols("token", "sentence")\
+    .setOutputCol("label")\
+    .setCaseSensitive(True)
 
 ner_converter = NerConverter()\
-  .setInputCols(["sentence","token","label"])\
-  .setOutputCol("ner_chunk")
-
+    .setInputCols(["sentence","token","label"])\
+    .setOutputCol("ner_chunk")
 
 pipeline =  Pipeline(stages=[
                       documentAssembler,
@@ -64,13 +64,12 @@ pipeline =  Pipeline(stages=[
                       tokenClassifier,
                       ner_converter])
 
-model = pipeline.fit(spark.createDataFrame([""])).toDF("text")
+model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 data = spark.createDataFrame(["I used to be on paxil but that made me more depressed and prozac made me angry",
-                                                        "Maybe cos of the insulin blocking effect of seroquel but i do feel sugar crashes when eat fast carbs."], StringType()).toDF("text")
+                              "Maybe cos of the insulin blocking effect of seroquel but i do feel sugar crashes when eat fast carbs."], StringType()).toDF("text")
 
 result = model.transform(data)
-
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
@@ -103,7 +102,7 @@ val pipeline =  new Pipeline().setStages(Array(
                       ner_converter))
 
 val data = Seq(Array("I used to be on paxil but that made me more depressed and prozac made me angry",
-                                     "Maybe cos of the insulin blocking effect of seroquel but i do feel sugar crashes when eat fast carbs."), StringType()).toDS().toDF("text")
+                     "Maybe cos of the insulin blocking effect of seroquel but i do feel sugar crashes when eat fast carbs.")).toDS().toDF("text")
 
 val result = model.fit(data).transform(data)
 ```
