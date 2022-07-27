@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Detect binary adverse reactions of drugs in tweets texts using the pretrained NER model. This model is trained with the `BertForTokenClassification` method from the transformers library and imported into Spark NLP.
+Detect adverse reactions of drugs in texts excahnged over twitter. This model is trained with the `BertForTokenClassification` method from the transformers library and imported into Spark NLP.
 
 ## Predicted Entities
 
