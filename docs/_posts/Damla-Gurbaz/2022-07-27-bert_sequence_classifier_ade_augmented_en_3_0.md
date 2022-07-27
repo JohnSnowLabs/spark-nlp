@@ -91,7 +91,7 @@ val result = pipeline.fit(data).transform(data)
 +-------+-----------------------------------------------------------------------------------------------------------------------+
 |result |text                                                                                                                   |
 +-------+-----------------------------------------------------------------------------------------------------------------------+
-|[ADE]  |So glad I m off effexor, so sad it ruined my teeth. tip Please be carefull taking antideppresiva and read about it 1st!|
+|[ADE]  |So glad I am off effexor, so sad it ruined my teeth. tip Please be carefull taking antideppresiva and read about it 1st!|
 |[noADE]|Religare Capital Ranbaxy has been accepting approval for Diovan since 2012                                             |
 +-------+-----------------------------------------------------------------------------------------------------------------------+
 ```
