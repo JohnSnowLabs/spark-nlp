@@ -102,9 +102,6 @@ val result = pipeline.fit(data).transform(data)
 |Case sensitive:|true|
 |Max sentence length:|128|
 
-## References
-
-In house dataset
 
 ## Benchmarking
 
