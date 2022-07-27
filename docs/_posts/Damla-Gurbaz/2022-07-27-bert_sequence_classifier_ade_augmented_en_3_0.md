@@ -54,14 +54,12 @@ pipeline = Pipeline(stages=[
     sequenceClassifier
 ])
 
-model = pipeline.fit(spark.createDataFrame([""])).toDF("text")
+data = spark.createDataFrame(["So glad I am off effexor, so sad it ruined my teeth. tip Please be carefull taking antideppresiva and read about it 1st",
+                              "Religare Capital Ranbaxy has been accepting approval for Diovan since 2012"], StringType()).toDF("text")
+              
+result = pipeline.fit(data).transform(data)
 
-data = spark.createDataFrame(["So glad I m off effexor, so sad it ruined my teeth. tip Please be carefull taking antideppresiva and read about it 1st!",
-                                                        "Religare Capital Ranbaxy has been accepting approval for Diovan since 2012"], StringType()).toDF("text")
-                              
-result = model.transform(data)
-
- result.select("class.result", "text").show(truncate=False)
+result.select("class.result", "text").show(truncate=False)
 ```
 ```scala
 val documenter = new DocumentAssembler() 
@@ -78,7 +76,7 @@ val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_s
 
 val pipeline = new Pipeline().setStages(Array(documenter, tokenizer, sequenceClassifier))
 
-val data = Seq(Array("So glad I m off effexor, so sad it ruined my teeth. tip Please be carefull taking antideppresiva and read about it 1st!",
+val data = Seq(Array("So glad I am off effexor, so sad it ruined my teeth. tip Please be carefull taking antideppresiva and read about it 1st",
                      "Religare Capital Ranbaxy has been accepting approval for Diovan since 2012")).toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
@@ -91,7 +89,7 @@ val result = pipeline.fit(data).transform(data)
 +-------+-----------------------------------------------------------------------------------------------------------------------+
 |result |text                                                                                                                   |
 +-------+-----------------------------------------------------------------------------------------------------------------------+
-|[ADE]  |So glad I am off effexor, so sad it ruined my teeth. tip Please be carefull taking antideppresiva and read about it 1st!|
+|[ADE]  |So glad I am off effexor, so sad it ruined my teeth. tip Please be carefull taking antideppresiva and read about it 1st|
 |[noADE]|Religare Capital Ranbaxy has been accepting approval for Diovan since 2012                                             |
 +-------+-----------------------------------------------------------------------------------------------------------------------+
 ```
