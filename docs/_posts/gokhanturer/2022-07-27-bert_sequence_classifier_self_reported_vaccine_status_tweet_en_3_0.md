@@ -4,7 +4,7 @@ title: Classification of Vaccine Tweets
 author: John Snow Labs
 name: bert_sequence_classifier_self_reported_vaccine_status_tweet
 date: 2022-07-27
-tags: [bert_sequence_classifier, bert, en, licensed, vaccine]
+tags: [bert_sequence_classifier, bert, en, licensed, vaccine, clinical, public_health, tweet, classifier, sequence_classification]
 task: Text Classification
 language: en
 edition: Spark NLP for Healthcare 4.0.0
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-[SMM4H 2022](https://healthlanguageprocessing.org/smm4h-2022/) - Task 6 - Classification of tweets indicating self-reported COVID-19 vaccination status. This task involves the identification of self-reported COVID-19 vaccination status in English tweets.
+Classification of tweets indicating self-reported COVID-19 vaccination status. This model involves the identification of self-reported COVID-19 vaccination status in English tweets. ([SMM4H 2022](https://healthlanguageprocessing.org/smm4h-2022/))
 
 ## Predicted Entities
 
