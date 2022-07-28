@@ -5,7 +5,7 @@ author: John Snow Labs
 name: bert_sequence_classifier_vaccine_sentiment
 date: 2022-07-28
 tags: [public_health, vaccine_sentiment, en, licensed, sequence_classification]
-task: Text Classification
+task: Sentiment Analysis
 language: en
 edition: Spark NLP for Healthcare 4.0.0
 spark_version: 3.0
