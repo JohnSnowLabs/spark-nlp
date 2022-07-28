@@ -40,6 +40,7 @@ This model is a [PHS-BERT](https://arxiv.org/abs/2204.04521) based classifier th
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler() \
     .setInputCol("text") \
@@ -137,12 +138,10 @@ Curated from several academic and in-house datasets.
 
 ```bash
                     precision    recall  f1-score   support
-
     health_mention       0.77      0.83      0.80      1375
      other_mention       0.84      0.81      0.83      2102
 figurative_mention       0.79      0.78      0.79      1412
-
-          accuracy                           0.81      4889
-         macro avg       0.80      0.81      0.80      4889
-      weighted avg       0.81      0.81      0.81      4889
+          accuracy       -         -         0.81      4889
+         macro-avg       0.80      0.81      0.80      4889
+      weighted-avg       0.81      0.81      0.81      4889
 ```
