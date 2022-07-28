@@ -44,21 +44,24 @@ tokenizer = Tokenizer() \
     .setInputCols(['document']) \
     .setOutputCol('token')
 
-sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_self_reported_vaccine_status_tweet", "en", "clinical/models")\
-  .setInputCols(["document",'token'])\
-  .setOutputCol("class")
+sequenceClassifier = MedicalBertForSequenceClassification.load(f'downloaded_models/{MODEL_NEW_NAME}')\
+    .setInputCols(["document",'token'])\
+    .setOutputCol("class")
 
 pipeline = Pipeline(stages=[
     document_assembler, 
     tokenizer,
-    sequenceClassifier    
+    sequenceClassifier
 ])
 
-example = spark.createDataFrame([["""If Pfizer believes we need a booster shot, we need it. Who knows their product better? Following the guidance of @CDCgov is how I wound up w/ Covid-19 and having to shut down my K-2 classroom for an entire week. I will do whatever it takes to protect my students, friends, family."""]]).toDF("text")
+# Generating example
+data = spark.createDataFrame(["I came to a point finally and i've vaccinated, didnt feel pain.Suggest everyone",
+                              "If Pfizer believes we need a booster shot, we need it. Who knows their product better? Following the guidance of @CDCgov is how I wound up w/ Covid-19 and having to shut down my K-2 classroom for an entire week. I will do whatever it takes to protect my students, friends, family."], StringType()).toDF("text")
+                              
+result = pipeline.fit(data).transform(data)
 
-result = pipeline.fit(example).transform(example)
-
-result.select("class.result", "text").show(truncate=False)
+# Checking results
+result.select("text", "class.result").show(truncate=False)
 ```
 ```scala
 val document_assembler = new DocumentAssembler() 
@@ -70,13 +73,14 @@ val tokenizer = new Tokenizer()
     .setOutputCol("token")
 
 val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_self_reported_vaccine_status_tweet", "en", "clinical/models")
-  .setInputCols(Array("document","token"))
-  .setOutputCol("class")
+    .setInputCols(Array("document","token"))
+    .setOutputCol("class")
 
 val pipeline = new Pipeline.setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
 # couple of simple examples
-val example = Seq("""If Pfizer believes we need a booster shot, we need it. Who knows their product better? Following the guidance of @CDCgov is how I wound up w/ Covid-19 and having to shut down my K-2 classroom for an entire week. I will do whatever it takes to protect my students, friends, family.""").toDF("text")
+val example = Seq("""I came to a point finally and i've vaccinated, didnt feel pain.Suggest everyone",
+                    "If Pfizer believes we need a booster shot, we need it. Who knows their product better? Following the guidance of @CDCgov is how I wound up w/ Covid-19 and having to shut down my K-2 classroom for an entire week. I will do whatever it takes to protect my students, friends, family.""").toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
@@ -85,11 +89,12 @@ val result = pipeline.fit(example).transform(example)
 ## Results
 
 ```bash
-+-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|result           |text                                                                                                                                                                                                                                                                                    |
-+-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|[Vaccine_chatter]|If Pfizer believes we need a booster shot, we need it. Who knows their product better? Following the guidance of @CDCgov is how I wound up w/ Covid-19 and having to shut down my K-2 classroom for an entire week. I will do whatever it takes to protect my students, friends, family.|
-+-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+
+|text                                                                                                                                                                                                                                                                                    |result           |
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+
+|I came to a point finally and i've vaccinated, didnt feel pain.Suggest everyone                                                                                                                                                                                                         |[Self_reports]   |
+|If Pfizer believes we need a booster shot, we need it. Who knows their product better? Following the guidance of @CDCgov is how I wound up w/ Covid-19 and having to shut down my K-2 classroom for an entire week. I will do whatever it takes to protect my students, friends, family.|[Vaccine_chatter]|
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+
 ```
 
 {:.model-param}
