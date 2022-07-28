@@ -106,8 +106,7 @@ val result = pipeline.fit(data).transform(data)
 ## Benchmarking
 
 ```bash
-                                   precision    recall  f1-score   support
-
+                            label  precision    recall  f1-score   support
                     Family Issues       0.80      0.87      0.84       161
                 Financial Problem       0.87      0.83      0.85       126
 Health, Fatigue, or Physical Pain       0.75      0.81      0.78       168
@@ -115,8 +114,7 @@ Health, Fatigue, or Physical Pain       0.75      0.81      0.78       168
                            School       0.89      0.91      0.90       127
              Social Relationships       0.83      0.71      0.76       133
                              Work       0.87      0.89      0.88       271
-
-                         accuracy                           0.83      1370
-                        macro avg       0.83      0.83      0.83      1370
-                     weighted avg       0.83      0.83      0.83      1370
+                         accuracy       -         -         0.83      1370
+                        macro-avg       0.83      0.83      0.83      1370
+                     weighted-avg       0.83      0.83      0.83      1370
 ```
