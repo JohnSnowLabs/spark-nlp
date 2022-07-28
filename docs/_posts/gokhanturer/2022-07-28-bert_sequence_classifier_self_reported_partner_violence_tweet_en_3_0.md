@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Classification of Self-Reported Intimate Partner Violence on Twitter. This model involves the detection the potential IPV victims on social media platforms. (in English tweets)
+Classification of Self-Reported Intimate Partner Violence on Twitter. This model involves the detection the potential IPV victims on social media platforms (in English tweets).
 
 ## Predicted Entities
 
@@ -59,7 +59,7 @@ example = spark.createDataFrame(["I am fed up with this toxic relation.I hate my
 
 result = pipeline.fit(example).transform(example)
 
-result.select("class.result", "text").show(truncate=False)
+result.select("text", "class.result").show(truncate=False)
 ```
 ```scala
 val document_assembler = new DocumentAssembler() 
