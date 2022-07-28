@@ -44,7 +44,7 @@ tokenizer = Tokenizer()\
     .setInputCols(["document"])\
     .setOutputCol("token")
 
-sequenceClassifier = MedicalBertForSequenceClassifier.pretrained("bert_sequence_classifier_self_reported_symptoms_tweet", "es", "clinical/models")\
+sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_self_reported_symptoms_tweet", "es", "clinical/models")\
     .setInputCols(["document", "token"])\
     .setOutputCol("class")\
     .setCaseSensitive(True)\
@@ -72,7 +72,7 @@ val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
 
-val sequenceClassifier = MedicalBertForSequenceClassifier.pretrained("bert_sequence_classifier_self_reported_symptoms_tweet", "es", "clinical/models")
+val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_self_reported_symptoms_tweet", "es", "clinical/models")
     .setInputCols(Array("document", "token"))
     .setOutputCol("class")
     .setCaseSensitive(True)
