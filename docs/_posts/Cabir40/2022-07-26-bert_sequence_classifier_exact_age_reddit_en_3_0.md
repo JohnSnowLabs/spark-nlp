@@ -34,6 +34,7 @@ This model is a [BioBERT based](https://github.com/dmis-lab/biobert) classifier 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler() \
     .setInputCol('text') \
@@ -58,7 +59,7 @@ data = spark.createDataFrame(["Is it bad for a 19 year old it's been getting wor
                               
 result = pipeline.fit(data).transform(data)
 
-result.select("class.result", "text").show(truncate=False)
+result.select("text", "class.result").show(truncate=False)
 ```
 ```scala
 val documenter = new DocumentAssembler() 
@@ -85,12 +86,12 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-+-----------------+-------------------------------------------------------+
-|result           |text                                                   |
-+-----------------+-------------------------------------------------------+
-|[self_report_age]|Is it bad for a 19 year old it's been getting worser.  |
-|[no_report]      |I was about 10. So not quite as young as you but young.|
-+-----------------+-------------------------------------------------------+
++-------------------------------------------------------+-----------------+
+|text                                                   |result           |
++-------------------------------------------------------+-----------------+
+|Is it bad for a 19 year old it's been getting worser.  |[self_report_age]|
+|I was about 10. So not quite as young as you but young.|[no_report]      |
++-------------------------------------------------------+-----------------+
 ```
 
 {:.model-param}
