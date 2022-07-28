@@ -35,7 +35,6 @@ This model is a [PHS-BERT](https://arxiv.org/abs/2204.04521) based sentimental a
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-```python
 document_assembler = DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("sentence")
@@ -72,9 +71,8 @@ text_list = ['A little bright light for an otherwise dark week. Thanks researche
 
  data = spark.createDataFrame(text_list, StringType()).toDF("text")
  result = pipeline.fit(data).transform(data)
- ```
 ```
-```scala
+
 ```scala
 val documenter = new DocumentAssembler() 
     .setInputCol("text") 
@@ -105,12 +103,12 @@ val data = Seq(Array("A little bright light for an otherwise dark week. Thanks r
 
 val result = bert_clf_pipeline.fit(data).transform(data)
 ```
-```
+
+
 </div>
 
 ## Results
 
-```bash
 ```bash
 +-----------------------------------------------------------------------------------------------------+----------+
  |text                                                                                                 |class     |
@@ -119,8 +117,6 @@ val result = bert_clf_pipeline.fit(data).transform(data)
  |People with a history of severe allergic reaction to any component of the vaccine should not take.   |[negative]|
  |43 million doses of vaccines administrated worldwide...Production capacity of CHINA to reach 4 b     |[neutral] |
  +-----------------------------------------------------------------------------------------------------+----------+
-
- ```
 ```
 
 {:.model-param}
@@ -144,7 +140,6 @@ Curated from several academic and in-house datasets.
 ## Benchmarking
 
 ```bash
-```bash
               precision    recall  f1-score   support
 
      neutral       0.76      0.72      0.74      1008
@@ -154,5 +149,4 @@ Curated from several academic and in-house datasets.
     accuracy                           0.77      2890
    macro avg       0.77      0.77      0.77      2890
 weighted avg       0.77      0.77      0.77      2890
-```
 ```
