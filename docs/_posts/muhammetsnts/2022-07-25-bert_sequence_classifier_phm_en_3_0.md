@@ -40,6 +40,7 @@ This model is a [PHS-BERT](https://arxiv.org/abs/2204.04521) based sequence clas
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 # Sample Python Code
 
@@ -119,13 +120,11 @@ Curated from several academic and in-house datasets.
 ## Benchmarking
 
 ```bash
-                    precision    recall  f1-score   support 
-
+             label  precision    recall  f1-score   support 
     health_mention       0.85      0.86      0.86      1352 
      other_mention       0.90      0.89      0.89      2151 
 figurative_mention       0.86      0.87      0.86      1386 
-
-          accuracy                           0.87      4889 
-         macro avg       0.87      0.87      0.87      4889 
-      weighted avg       0.87      0.87      0.87      4889 
+          accuracy       -         -         0.87      4889 
+         macro-avg       0.87      0.87      0.87      4889 
+      weighted-avg       0.87      0.87      0.87      4889 
 ```
