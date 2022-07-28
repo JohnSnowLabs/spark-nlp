@@ -37,15 +37,15 @@ Classification of tweets indicating self-reported COVID-19 vaccination status. T
 
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol('text') \
-    .setOutputCol('document')
+    .setInputCol("text") \
+    .setOutputCol("document")
 
 tokenizer = Tokenizer() \
-    .setInputCols(['document']) \
-    .setOutputCol('token')
+    .setInputCols("document") \
+    .setOutputCol("token")
 
-sequenceClassifier = MedicalBertForSequenceClassification.load(f'downloaded_models/{MODEL_NEW_NAME}')\
-    .setInputCols(["document",'token'])\
+sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_self_reported_vaccine_status_tweet", "en", "clinical/models")\
+    .setInputCols(["document","token"])\
     .setOutputCol("class")
 
 pipeline = Pipeline(stages=[
@@ -54,13 +54,11 @@ pipeline = Pipeline(stages=[
     sequenceClassifier
 ])
 
-# Generating example
 data = spark.createDataFrame(["I came to a point finally and i've vaccinated, didnt feel pain.Suggest everyone",
                               "If Pfizer believes we need a booster shot, we need it. Who knows their product better? Following the guidance of @CDCgov is how I wound up w/ Covid-19 and having to shut down my K-2 classroom for an entire week. I will do whatever it takes to protect my students, friends, family."], StringType()).toDF("text")
                               
 result = pipeline.fit(data).transform(data)
 
-# Checking results
 result.select("text", "class.result").show(truncate=False)
 ```
 ```scala
