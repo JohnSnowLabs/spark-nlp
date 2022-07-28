@@ -59,7 +59,7 @@ data = spark.createDataFrame(["So glad I am off effexor, so sad it ruined my tee
               
 result = pipeline.fit(data).transform(data)
 
-result.select("class.result", "text").show(truncate=False)
+result.select("text", "class.result").show(truncate=False)
 ```
 ```scala
 val documenter = new DocumentAssembler() 
@@ -86,12 +86,12 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-+-------+-----------------------------------------------------------------------------------------------------------------------+
-|result |text                                                                                                                   |
-+-------+-----------------------------------------------------------------------------------------------------------------------+
-|[ADE]  |So glad I am off effexor, so sad it ruined my teeth. tip Please be carefull taking antideppresiva and read about it 1st|
-|[noADE]|Religare Capital Ranbaxy has been accepting approval for Diovan since 2012                                             |
-+-------+-----------------------------------------------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------------------------------------+-------+
+|text                                                                                                                   |result |
++-----------------------------------------------------------------------------------------------------------------------+-------+
+|So glad I am off effexor, so sad it ruined my teeth. tip Please be carefull taking antideppresiva and read about it 1st|[ADE]  |
+|Religare Capital Ranbaxy has been accepting approval for Diovan since 2012                                             |[noADE]|
++-----------------------------------------------------------------------------------------------------------------------+-------+
 ```
 
 {:.model-param}
