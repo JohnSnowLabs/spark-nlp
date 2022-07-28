@@ -66,8 +66,8 @@ pipeline = Pipeline(
     ])
 
 text_list = ['A little bright light for an otherwise dark week. Thanks researchers, and frontline workers. Onwards.', 
-              'People with a history of severe allergic reaction to any component of the vaccine should not take.', 
-              '43 million doses of vaccines administrated worldwide...Production capacity of CHINA to reach 4 b']
+             'People with a history of severe allergic reaction to any component of the vaccine should not take.', 
+             '43 million doses of vaccines administrated worldwide...Production capacity of CHINA to reach 4 b']
 
  data = spark.createDataFrame(text_list, StringType()).toDF("text")
  result = pipeline.fit(data).transform(data)
@@ -98,8 +98,8 @@ val classifier = ClassifierDLModel.pretrained("classifierdl_vaccine_sentiment", 
 val bert_clf_pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, sentence_embeddings, classifier))
 
 val data = Seq(Array("A little bright light for an otherwise dark week. Thanks researchers, and frontline workers. Onwards.", 
-                                     "People with a history of severe allergic reaction to any component of the vaccine should not take.", 
-                                     "43 million doses of vaccines administrated worldwide...Production capacity of CHINA to reach 4 b")).toDS.toDF("text")
+                     "People with a history of severe allergic reaction to any component of the vaccine should not take.", 
+                     "43 million doses of vaccines administrated worldwide...Production capacity of CHINA to reach 4 b")).toDS.toDF("text")
 
 val result = bert_clf_pipeline.fit(data).transform(data)
 ```
