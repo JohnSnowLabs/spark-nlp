@@ -34,6 +34,7 @@ Classification of Self-Reported Intimate Partner Violence on Twitter. This model
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler() \
     .setInputCol('text') \
@@ -58,7 +59,7 @@ example = spark.createDataFrame(["I am fed up with this toxic relation.I hate my
 
 result = pipeline.fit(example).transform(example)
 
-result.select("text", "class.result").show(truncate=False)
+result.select("class.result", "text").show(truncate=False)
 ```
 ```scala
 val document_assembler = new DocumentAssembler() 
@@ -86,12 +87,13 @@ val result = pipeline.fit(example).transform(example)
 ## Results
 
 ```bash
-+-------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|result                         |text                                                                                                                                                                                                                                                                               |
-+-------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|[non-intimate_partner_violence]|I am fed up with this toxic relation.I hate my husband.                                                                                                                                                                                                                            |
-|[intimate_partner_violence]    |Can i say something real quick I ve never been one to publicly drag an ex partner and sometimes I regret that. I ve been reflecting on the harm, abuse and violence that was done to me and those bitches are truly lucky I chose peace amp therapy because they are trash forreal.|
-+-------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------+
+|text                                                                                                                                                                                                                                                                               |result                         |
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------+
+|I am fed up with this toxic relation.I hate my husband.                                                                                                                                                                                                                            |[non-intimate_partner_violence]|
+|Can i say something real quick I ve never been one to publicly drag an ex partner and sometimes I regret that. I ve been reflecting on the harm, abuse and violence that was done to me and those bitches are truly lucky I chose peace amp therapy because they are trash forreal.|[intimate_partner_violence]    |
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------+
+
 ```
 
 {:.model-param}
