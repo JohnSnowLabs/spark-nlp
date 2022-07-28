@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Detect binary adverse reactions of drugs in reviews, tweets, and medical text using pretrained NER model.
+Detect adverse reactions of drugs in reviews, tweets, and medical text using pretrained NER model.
 
 ## Predicted Entities
 
