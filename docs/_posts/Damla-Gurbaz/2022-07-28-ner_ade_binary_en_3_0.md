@@ -34,6 +34,7 @@ Detect binary adverse reactions of drugs in reviews, tweets, and medical text us
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
     .setInputCol("text")\
