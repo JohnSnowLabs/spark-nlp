@@ -44,7 +44,7 @@ tokenizer = Tokenizer() \
     .setInputCols(['document']) \
     .setOutputCol('token')
 
-sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_partner_violence", "en", "clinical/models")\
+sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_self_reported_partner_violence_tweet", "en", "clinical/models")\
     .setInputCols(["document",'token'])\
     .setOutputCol("class")
 
@@ -70,7 +70,7 @@ val tokenizer = new Tokenizer()
     .setInputCols(Array("document")) 
     .setOutputCol("token")
 
-val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_vaccine_report", "en", "clinical/models")
+val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_self_reported_partner_violence_tweet", "en", "clinical/models")
   .setInputCols(Array("document","token"))
   .setOutputCol("class")
 
