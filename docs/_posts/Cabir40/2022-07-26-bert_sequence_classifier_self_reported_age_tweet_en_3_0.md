@@ -34,6 +34,7 @@ This model is a [BioBERT based](https://github.com/dmis-lab/biobert) classifier 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler() \
     .setInputCol('text') \
@@ -59,7 +60,7 @@ data = spark.createDataFrame(["Who knew I would spend my Saturday mornings at 21
 result = pipeline.fit(data).transform(data)
 
 # Checking results
-result.select("class.result", "text").show(truncate=False)
+result.select("text", "class.result").show(truncate=False)
 ```
 ```scala
 val documenter = new DocumentAssembler() 
@@ -86,12 +87,12 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-+-----------------+-----------------------------------------------------------------------------------------------+
-|result           |text                                                                                           |
-+-----------------+-----------------------------------------------------------------------------------------------+
-|[self_report_age]|Who knew I would spend my Saturday mornings at 21 still watching Disney channel                |
-|[no_report]      |My girl, Fancy, just turned 17. She’s getting up there, but she still has the energy of a puppy|
-+-----------------+-----------------------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------------+-----------------+
+|text                                                                                           |result           |
++-----------------------------------------------------------------------------------------------+-----------------+
+|Who knew I would spend my Saturday mornings at 21 still watching Disney channel                |[self_report_age]|
+|My girl, Fancy, just turned 17. She’s getting up there, but she still has the energy of a puppy|[no_report]      |
++-----------------------------------------------------------------------------------------------+-----------------+
 ```
 
 {:.model-param}
@@ -113,10 +114,10 @@ val result = pipeline.fit(data).transform(data)
 ## Benchmarking
 
 ```bash
-          label  precision    recall  f1-score   support
-      no_report   0.939016  0.900332  0.919267      1505
-self_report_age   0.801849  0.873381  0.836088       695
-       accuracy   -         -         0.891818      2200
-      macro-avg   0.870433  0.886857  0.877678      2200
-   weighted-avg   0.895684  0.891818  0.892990      2200
+          label  precision    recall  f1-score  support
+      no_report   0.939016  0.900332  0.919267     1505
+self_report_age   0.801849  0.873381  0.836088      695
+       accuracy   -         -         0.891818     2200
+      macro-avg   0.870433  0.886857  0.877678     2200
+   weighted-avg   0.895684  0.891818  0.892990     2200
 ```
