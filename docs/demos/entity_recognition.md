@@ -158,7 +158,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url:
-        - title: Extract economical and social entities/objects from government documents  
+        - title: Extract economic and social entities from Russian texts
           id: extract_economical_social_entities_objects_government_documents       
           image: 
               src: /assets/images/Extract_Entities_from_Whereas_clauses.svg
