@@ -88,4 +88,102 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_PT.ipynb
+        - title: Name Entity Recognition on Financial Texts 
+          id: name_entity_recognition_financial_texts  
+          image: 
+              src: /assets/images/Name_Entity_Recognition_on_Financial_Texts.svg
+          image2: 
+              src: /assets/images/Name_Entity_Recognition_on_Financial_Texts_f.svg
+          excerpt: This demo shows how you can extract the standard four entities (ORG, PER, LOC, MISC) from financial documents.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/NER_SEC/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_EN.ipynb
+        - title: Extract Headers and Subheaders from Legal Documents 
+          id: extract_headers_subheaders_from_legal_documents   
+          image: 
+              src: /assets/images/Extract_Headers_and_Subheaders_from_Legal_Documents.svg
+          image2: 
+              src: /assets/images/Extract_Headers_and_Subheaders_from_Legal_Documents_f.svg
+          excerpt: This model uses Name Entity Recognition to detect HEADERS and SUBHEADERS with aims to detect the different sections of a legal document.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/LEGALNER_HEADERS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: 
+        - title: Extract Document Type, Parties, Aliases and Dates from Contracts 
+          id: extract_document_type_parties_aliases_dates_contracts    
+          image: 
+              src: /assets/images/Extract_Document_Type.svg
+          image2: 
+              src: /assets/images/Extract_Document_Type_f.svg
+          excerpt: This model uses Name Entity Recognition to extract DOC (Document Type), PARTY (An Entity signing a contract), ALIAS (the way a company is named later on in the document) and EFFDATE (Effective Date of the contract).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/LEGALNER_PARTIES/
+          - text: Colab Netbook
+            type: blue_btn
+            url: 
+        - title: Extract Signers, Roles and Companies  
+          id: extract_signers_roles_companies     
+          image: 
+              src: /assets/images/Extract_Signers_Roles.svg
+          image2: 
+              src: /assets/images/Extract_Signers_Roles_f.svg
+          excerpt: This model uses Name Entity Recognition to extract SIGNING_PERSON (People signing a document), SIGNING_TITLE (the roles of those people in the company) and PARTY (Organizations).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/LEGALNER_SIGNERS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: 
+        - title: Extract Entities from Whereas clauses 
+          id: extract_entities_whereas_clauses      
+          image: 
+              src: /assets/images/Extract_Entities_from_Whereas_clauses.svg
+          image2: 
+              src: /assets/images/Extract_Entities_from_Whereas_clauses_f.svg
+          excerpt: This model uses Name Entity Recognition detect "Whereas" clauses and extract, from them, the SUBJECT, the ACTION and the OBJECT.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/LEGALNER_WHEREAS/
+          - text: Colab Netbook
+            type: blue_btn
+            url:
+        - title: Extract economical and social entities/objects from government documents  
+          id: extract_economical_social_entities_objects_government_documents       
+          image: 
+              src: /assets/images/Extract_Entities_from_Whereas_clauses.svg
+          image2: 
+              src: /assets/images/Extract_Entities_from_Whereas_clauses_f.svg
+          excerpt: This model extracts entities such as ECO (economics), SOC (social) for economic and social entities, institutions of events, and also quantifiers (QUA), metrics (MET), etc. from Government documents in Russian.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FIN_NER_RUSSIAN_GOV
+          - text: Colab Netbook
+            type: blue_btn
+            url:
+        - title: Extract Organizations and Products   
+          id: extract_organizations_products        
+          image: 
+              src: /assets/images/Extract_Entities_from_Whereas_clauses.svg
+          image2: 
+              src: /assets/images/Extract_Entities_from_Whereas_clauses_f.svg
+          excerpt: This model uses Name Entity Recognition to extract ORG (Organization names) and PRODUCT (Product names).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINNER_ORGPROD
+          - text: Colab Netbook
+            type: blue_btn
+            url:
 ---
