@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Public Health Mention Classifier (PHS-BERT)- Spark NLP Model</title><meta name="description" content="DescriptionThis model is a PHS-BERT based classifier that can classify public health mentions in social media text. Mentions are classified into three labels...">
-<link rel="canonical" href="/2022/07/25/classifierdl_phm_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Clinical Major Concepts to UMLS Code Pipeline- Spark NLP Model</title><meta name="description" content="DescriptionThis pretrained pipeline maps entities (Clinical Major Concepts) with their corresponding UMLS CUI codes. You’ll just feed your text and it will r...">
+<link rel="canonical" href="/2022/07/25/umls_major_concepts_resolver_pipeline_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,31 +406,21 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/muhammetsnts/2022-07-25-classifierdl_phm_en_3_0.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/Ahmetemintek/2022-07-25-umls_major_concepts_resolver_pipeline_en_3_0.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jul 25, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-25T00:00:00+00:00"></div><header class="main-docs"><h1>Public Health Mention Classifier (PHS-BERT)</h1></header></div><meta itemprop="headline" content="Public Health Mention Classifier (PHS-BERT)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>public_health</li><li>health</li><li>mention</li><li>en</li><li>licensed</li><li>classification</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-25T00:00:00+00:00">
-    <meta itemprop="keywords" content="public_health,health,mention,en,licensed,classification"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-25T00:00:00+00:00"></div><header class="main-docs"><h1>Clinical Major Concepts to UMLS Code Pipeline</h1></header></div><meta itemprop="headline" content="Clinical Major Concepts to UMLS Code Pipeline"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>umls</li><li>licensed</li><li>pipeline</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-25T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,umls,licensed,pipeline"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model is a <a href="https://arxiv.org/abs/2204.04521">PHS-BERT</a> based classifier that can classify public health mentions in social media text. Mentions are classified into three labels about personal health situation, figurative mention and other mentions. More detailed information about classes as follows:</p>
-
-<p><code class="language-plaintext highlighter-rouge">health_mention</code>: The text contains a health mention that specifically indicating someone’s health situation.  This means someone has a certain disease or symptoms including death. e.g.; <em>My PCR test is positive. I have a severe joint pain, mucsle pain and headache right now.</em></p>
-
-<p><code class="language-plaintext highlighter-rouge">other_mention</code>: The text contains a health mention; however does not states a spesific person’s situation. General health mentions like informative mentions, discussion about disease etc. e.g.; <em>Aluminum is a light metal that causes dementia and Alzheimer’s disease.</em></p>
-
-<p><code class="language-plaintext highlighter-rouge">figurative_mention</code>: The text mention specific disease or symptom but it is used metaphorically, does not contain health-related information. e.g.; <em>I don’t wanna fall in love. If I ever did that, I think I’d have a heart attack.</em></p>
-
-<h2 id="predicted-entities">Predicted Entities</h2>
-
-<p><code class="language-plaintext highlighter-rouge">figurative_mention</code>, <code class="language-plaintext highlighter-rouge">other_mention</code>, <code class="language-plaintext highlighter-rouge">health_mention</code></p>
+<p>This pretrained pipeline maps entities (Clinical Major Concepts) with their corresponding UMLS CUI codes. You’ll just feed your text and it will return the corresponding UMLS codes.</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/classifierdl_health_mentions_en_4.0.0_3.0_1658759311177.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/26.Chunk_Mapping.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/umls_major_concepts_resolver_pipeline_en_4.0.0_3.0_1658736979238.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -438,77 +428,27 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
 
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
-
-<span class="n">bert_embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_phs_bert"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"public/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>\
-
-<span class="n">embeddingsSentence</span> <span class="o">=</span> <span class="n">SentenceEmbeddings</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setPoolingStrategy</span><span class="p">(</span><span class="s">"AVERAGE"</span><span class="p">)</span>
-
-<span class="n">classifierdl</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'classifierdl_health_mentions'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'clinical/models'</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'sentence'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'sentence_embeddings'</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'class'</span><span class="p">)</span>
-
-<span class="n">clf_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
-    <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">document_assembler</span><span class="p">,</span>
-        <span class="n">tokenizer</span><span class="p">,</span>
-        <span class="n">bert_embeddings</span><span class="p">,</span>
-        <span class="n">embeddingsSentence</span><span class="p">,</span>
-        <span class="n">classifierdl</span>
-    <span class="p">])</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"I feel a bit drowsy &amp; have a little blurred vision after taking an insulin."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">clf_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"text"</span><span class="p">,</span> <span class="s">"class.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">pipeline</span><span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"umls_major_concepts_resolver_pipeline"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"The patient complains of pustules after falling from stairs. She has been advised Arthroscopy by her primary care pyhsician"</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">BertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"biobert_pubmed_base_cased"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"word_embeddings"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">sentence_embeddings</span> <span class="k">=</span> <span class="nc">SentenceEmbeddings</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"word_embeddings"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setPoolingStrategy</span><span class="o">(</span><span class="s">"AVERAGE"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">classifier</span> <span class="k">=</span> <span class="nv">ClassifierDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"classifierdl_health_mentions"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">sentence_embeddings</span><span class="o">,</span> <span class="n">classifier</span><span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I feel a bit drowsy &amp; have a little blurred vision after taking an insulin."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span> 
+<span class="k">val</span> <span class="nv">pipeline</span><span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"umls_major_concepts_resolver_pipeline"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"The patient complains of pustules after falling from stairs. She has been advised Arthroscopy by her primary care pyhsician"</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------------------------------------------------------------------------+----------------+
-|text                                                                       |class           |
-+---------------------------------------------------------------------------+----------------+
-|I feel a bit drowsy &amp; have a little blurred vision after taking an insulin.|[health_mention]|
-+---------------------------------------------------------------------------+----------------+
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------+-----------------------------------+---------+
+|chunk      |ner_label                          |umls_code|
++-----------+-----------------------------------+---------+
+|pustules   |Sign_or_Symptom                    |C0241157 |
+|stairs     |Daily_or_Recreational_Activity     |C4300351 |
+|Arthroscopy|Therapeutic_or_Preventive_Procedure|C0179144 |
++-----------+-----------------------------------+---------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -517,7 +457,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>classifierdl_health_mentions</td>
+      <td>umls_major_concepts_resolver_pipeline</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>pipeline</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
@@ -532,38 +476,33 @@
       <td>Official</td>
     </tr>
     <tr>
-      <td>Input Labels:</td>
-      <td>[sentence_embeddings]</td>
-    </tr>
-    <tr>
-      <td>Output Labels:</td>
-      <td>[class]</td>
-    </tr>
-    <tr>
       <td>Language:</td>
       <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>24.1 MB</td>
+      <td>3.0 GB</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="references">References</h2>
+<h2 id="included-models">Included Models</h2>
 
-<p>Curated from several academic and in-house datasets.</p>
-
-<h2 id="benchmarking">Benchmarking</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                    precision    recall  f1-score   support
-    health_mention       0.77      0.83      0.80      1375
-     other_mention       0.84      0.81      0.83      2102
-figurative_mention       0.79      0.78      0.79      1412
-          accuracy       -         -         0.81      4889
-         macro-avg       0.80      0.81      0.80      4889
-      weighted-avg       0.81      0.81      0.81      4889
-</code></pre></div></div>
+<ul>
+  <li>DocumentAssembler</li>
+  <li>SentenceDetector</li>
+  <li>TokenizerModel</li>
+  <li>WordEmbeddingsModel</li>
+  <li>MedicalNerModel</li>
+  <li>NerConverter</li>
+  <li>ChunkMapperModel</li>
+  <li>ChunkMapperModel</li>
+  <li>ChunkMapperFilterer</li>
+  <li>Chunk2Doc</li>
+  <li>BertSentenceEmbeddings</li>
+  <li>SentenceEntityResolverModel</li>
+  <li>ResolverMerger</li>
+</ul>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-07-25T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -689,7 +628,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/07/25/bert_sequence_classifier_phm_en_3_0.html">Public Health Mention Sequence Classifier (PHS-BERT)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/07/26/umls_clinical_findings_resolver_pipeline_en_3_0.html">Clinical Findings to UMLS Code Pipeline</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/07/25/umls_drug_substance_resolver_pipeline_en_3_0.html">Drug Substance to UMLS Code Pipeline</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/07/25/bert_token_classifier_ner_anatem_en_3_0.html">Detect Anatomical Structures in Medical Text</a></div></div></div>
 
 </div>
 </div>
