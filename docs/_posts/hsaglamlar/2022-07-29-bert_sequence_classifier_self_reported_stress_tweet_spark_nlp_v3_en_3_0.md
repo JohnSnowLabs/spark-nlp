@@ -2,7 +2,7 @@
 layout: model
 title: Self Reported Stress Classifier (BioBERT)
 author: John Snow Labs
-name: bert_sequence_classifier_self_reported_stress_tweet_spark_nlp_v3
+name: bert_sequence_classifier_self_reported_stress_tweet
 date: 2022-07-29
 tags: [en, clinical, licensed, public_health, sequence_classification, classifier, stress]
 task: Text Classification
@@ -26,7 +26,7 @@ This model is a [BioBERT based](https://github.com/dmis-lab/biobert) classifier 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_self_reported_stress_tweet_spark_nlp_v3_en_4.0.0_3.0_1659086028329.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_self_reported_stress_tweet_en_4.0.0_3.0_1659086028329.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -105,7 +105,7 @@ val result = pipeline.fit(data).transform(data)
 
 {:.table-model}
 |---|---|
-|Model Name:|bert_sequence_classifier_self_reported_stress_tweet_spark_nlp_v3|
+|Model Name:|bert_sequence_classifier_self_reported_stress_tweet|
 |Compatibility:|Spark NLP for Healthcare 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
