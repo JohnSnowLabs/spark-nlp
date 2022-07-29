@@ -1,6 +1,2 @@
-docs/_posts/Ahmetemintek/2022-07-25-umls_major_concepts_resolver_pipeline_en_3_0.md
-docs/_posts/muhammetsnts/2022-07-25-bert_sequence_classifier_health_mentions_en_3_0.md
-docs/_posts/muhammetsnts/2022-07-25-classifierdl_health_mentions_en_3_0.md
-docs/_posts/Ahmetemintek/2022-07-25-umls_major_concepts_mapping_en_3_0.md
-docs/_posts/muhammetsnts/2022-07-25-bert_sequence_classifier_phm_en_3_0.md
-docs/_posts/muhammetsnts/2022-07-25-classifierdl_phm_en_3_0.md
+docs/en/licensed_release_notes.md
+docs/en/licensed_release_notes.md
