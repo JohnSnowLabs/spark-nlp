@@ -35,6 +35,7 @@ This model is intended for direct use as a classification model and the target c
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler() \
     .setInputCol('text') \
@@ -117,10 +118,10 @@ val result = pipeline.fit(data).transform(data)
 ## Benchmarking
 
 ```bash
-         label     precision    recall  f1-score   support
-has_no_premise     0.8756    0.7215    0.7911       517
-   has_premise     0.6444    0.8312    0.7260       314
-      accuracy                         0.7629       831
-     macro-avg     0.7600    0.7763    0.7586       831
-  weighted-avg     0.7882    0.7629    0.7665       831
+         label     precision  recall    f1-score   support
+has_no_premise     0.8756     0.7215    0.7911     517
+   has_premise     0.6444     0.8312    0.7260     314
+      accuracy     -          -         0.7629     831
+     macro-avg     0.7600     0.7763    0.7586     831
+  weighted-avg     0.7882     0.7629    0.7665     831
 ```
