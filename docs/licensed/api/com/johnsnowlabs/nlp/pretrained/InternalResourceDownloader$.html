@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.0.0 ScalaDoc  - com.johnsnowlabs.nlp.pretrained.InternalResourceDownloader</title>
-          <meta name="description" content="Spark NLP 4.0.0 ScalaDoc - com.johnsnowlabs.nlp.pretrained.InternalResourceDownloader" />
-          <meta name="keywords" content="Spark NLP 4.0.0 ScalaDoc com.johnsnowlabs.nlp.pretrained.InternalResourceDownloader" />
+          <title>Spark NLP 4.0.2 ScalaDoc  - com.johnsnowlabs.nlp.pretrained.InternalResourceDownloader</title>
+          <meta name="description" content="Spark NLP 4.0.2 ScalaDoc - com.johnsnowlabs.nlp.pretrained.InternalResourceDownloader" />
+          <meta name="keywords" content="Spark NLP 4.0.2 ScalaDoc com.johnsnowlabs.nlp.pretrained.InternalResourceDownloader" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.0.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.0.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -593,6 +593,61 @@
       </span>
       <span class="symbol">
         <span class="name">privateResourceString</span><span class="params">(<span name="annotator">annotator: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>, <span name="lang">lang: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>, <span name="version">version: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol"><span class="name"><a href="../../../index.html">Some(Build.version)</a></span></span></span>, <span name="resourceType">resourceType: <span class="extype" name="com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType">ResourceType.ResourceType</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.pretrained.InternalResourceDownloader#returnPrivateModels" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="returnPrivateModels(annotator:String):List[List[String]]"></a><a id="returnPrivateModels(String):List[List[String]]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/pretrained/InternalResourceDownloader$.html#returnPrivateModels(annotator:String):List[List[String]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">returnPrivateModels</span><span class="params">(<span name="annotator">annotator: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.pretrained.InternalResourceDownloader#returnPrivateModels" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="returnPrivateModels(annotator:Option[String],lang:Option[String],version:Option[String]):List[List[String]]"></a><a id="returnPrivateModels(Option[String],Option[String],Option[String]):List[List[String]]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/pretrained/InternalResourceDownloader$.html#returnPrivateModels(annotator:Option[String],lang:Option[String],version:Option[String]):List[List[String]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">returnPrivateModels</span><span class="params">(<span name="annotator">annotator: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>, <span name="lang">lang: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>, <span name="version">version: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol"><span class="name"><a href="../../../index.html">Some(JSLBuild.version)</a></span></span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Return all pretrained models for a particular annotator model, that are compatible with a
+version of Spark NLP.</p><div class="fullcomment"><div class="comment cmt"><p>Return all pretrained models for a particular annotator model, that are compatible with a
+version of Spark NLP. If any of the optional arguments are not set, the filter is not
+considered.
+</p></div><dl class="paramcmts block"><dt class="param">annotator</dt><dd class="cmt"><p>
+  Name of the model class, for example &quot;NerDLModel&quot;</p></dd><dt class="param">lang</dt><dd class="cmt"><p>
+  Language of the pretrained models to display, for example &quot;en&quot;</p></dd><dt class="param">version</dt><dd class="cmt"><p>
+  Version of Spark NLP that the model should be compatible with, for example &quot;3.2.3&quot;</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.pretrained.InternalResourceDownloader#returnPrivateResourceList" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="returnPrivateResourceList(annotator:Option[String],lang:Option[String],version:Option[String],resourceType:com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType):List[List[String]]"></a><a id="returnPrivateResourceList(Option[String],Option[String],Option[String],ResourceType.ResourceType):List[List[String]]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/pretrained/InternalResourceDownloader$.html#returnPrivateResourceList(annotator:Option[String],lang:Option[String],version:Option[String],resourceType:com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType):List[List[String]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">returnPrivateResourceList</span><span class="params">(<span name="annotator">annotator: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>, <span name="lang">lang: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>, <span name="version">version: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol"><span class="name"><a href="../../../index.html">Some(Build.version)</a></span></span></span>, <span name="resourceType">resourceType: <span class="extype" name="com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType">ResourceType.ResourceType</span></span>)</span><span class="result">: <span class="extype" name="scala.collection.immutable.List">List</span>[<span class="extype" name="scala.collection.immutable.List">List</span>[<span class="extype" name="java.lang.String">String</span>]]</span>
       </span>
       
       

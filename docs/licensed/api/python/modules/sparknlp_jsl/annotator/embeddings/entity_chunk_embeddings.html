@@ -1,0 +1,362 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings &#8212; Spark NLP 4.0.0 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/css/custom.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js"></script>
+    <script src="../../../../static/jquery.js"></script>
+    <script src="../../../../static/underscore.js"></script>
+    <script src="../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../static/doctools.js"></script>
+    <script src="../../../../static/toggleprompt.js"></script>
+    <link rel="shortcut icon" href="../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../reference/index.html">
+  API Reference
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <h1>Source code for sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="n">BertSentenceEmbeddings</span>
+<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="EntityChunkEmbeddings"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings/index.html#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings">[docs]</a><span class="k">class</span> <span class="nc">EntityChunkEmbeddings</span><span class="p">(</span><span class="n">BertSentenceEmbeddings</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Weighted average embeddings of multiple named entities chunk annotations</span>
+
+<span class="sd">    ====================== =======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== =======================</span>
+<span class="sd">    ``DEPENDENCY, CHUNK``  ``SENTENCE_EMBEDDINGS``</span>
+<span class="sd">    ====================== =======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    targetEntities</span>
+<span class="sd">        Target entities and their related entities</span>
+<span class="sd">    entityWeights</span>
+<span class="sd">        Relative weights of entities.</span>
+<span class="sd">    maxSyntacticDistance</span>
+<span class="sd">        Maximal syntactic distance between related entities. Default value is 2.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documenter = DocumentAssembler()\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;)\</span>
+<span class="sd">    ...     .setOutputCol(&quot;documents&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentence_detector = SentenceDetector() \</span>
+<span class="sd">    ...     .setInputCols(&quot;documents&quot;) \</span>
+<span class="sd">    ...     .setOutputCol(&quot;sentences&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \</span>
+<span class="sd">    ...     .setInputCols(&quot;sentences&quot;) \</span>
+<span class="sd">    ...     .setOutputCol(&quot;tokens&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; embeddings = WordEmbeddingsModel() \</span>
+<span class="sd">    ...     .pretrained(&quot;embeddings_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;)\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentences&quot;, &quot;tokens&quot;])\</span>
+<span class="sd">    ...     .setOutputCol(&quot;embeddings&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; ner_model = MedicalNerModel()\</span>
+<span class="sd">    ...     .pretrained(&quot;ner_posology_large&quot;, &quot;en&quot;, &quot;clinical/models&quot;)\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentences&quot;, &quot;tokens&quot;, &quot;embeddings&quot;])\</span>
+<span class="sd">    ...     .setOutputCol(&quot;ner&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; ner_converter = NerConverterInternal()\</span>
+<span class="sd">    ...     .setInputCols(&quot;sentences&quot;, &quot;tokens&quot;, &quot;ner&quot;)\</span>
+<span class="sd">    ...     .setOutputCol(&quot;ner_chunks&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pos_tager = PerceptronModel()\</span>
+<span class="sd">    ...     .pretrained(&quot;pos_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;)\</span>
+<span class="sd">    ...     .setInputCols(&quot;sentences&quot;, &quot;tokens&quot;)\</span>
+<span class="sd">    ...     .setOutputCol(&quot;pos_tags&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; dependency_parser = DependencyParserModel()\</span>
+<span class="sd">    ...     .pretrained(&quot;dependency_conllu&quot;, &quot;en&quot;)\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentences&quot;, &quot;pos_tags&quot;, &quot;tokens&quot;])\</span>
+<span class="sd">    ...     .setOutputCol(&quot;dependencies&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; drug_chunk_embeddings = EntityChunkEmbeddings()\</span>
+<span class="sd">    ...     .pretrained(&quot;sbiobert_base_cased_mli&quot;,&quot;en&quot;,&quot;clinical/models&quot;)\</span>
+<span class="sd">    ...     .setInputCols([&quot;ner_chunks&quot;, &quot;dependencies&quot;])\</span>
+<span class="sd">    ...     .setOutputCol(&quot;drug_chunk_embeddings&quot;)\</span>
+<span class="sd">    ...     .setMaxSyntacticDistance(3)\</span>
+<span class="sd">    ...     .setTargetEntities({&quot;DRUG&quot;: []})</span>
+<span class="sd">    ...     .setEntityWeights({&quot;DRUG&quot;: 0.8, &quot;STRENGTH&quot;: 0.2, &quot;DOSAGE&quot;: 0.2, &quot;FORM&quot;: 0.5})</span>
+<span class="sd">    &gt;&gt;&gt; sampleData = &quot;The parient was given metformin 125 mg, 250 mg of coumadin and then one pill paracetamol&quot;</span>
+<span class="sd">    &gt;&gt;&gt; data = SparkContextForTest.spark.createDataFrame([[sampleData]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
+<span class="sd">    ...     documenter,</span>
+<span class="sd">    ...     sentence_detector,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     embeddings,</span>
+<span class="sd">    ...     ner_model,</span>
+<span class="sd">    ...     ner_converter,</span>
+<span class="sd">    ...     pos_tager,</span>
+<span class="sd">    ...     dependency_parser,</span>
+<span class="sd">    ...     drug_chunk_embeddings])</span>
+<span class="sd">    &gt;&gt;&gt; results = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; results = results \</span>
+<span class="sd">    ...     .selectExpr(&quot;explode(drug_chunk_embeddings) AS drug_chunk&quot;) \</span>
+<span class="sd">    ...     .selectExpr(&quot;drug_chunk.result&quot;, &quot;slice(drug_chunk.embeddings, 1, 5) AS drug_embedding&quot;) \</span>
+<span class="sd">    ...     .cache()</span>
+<span class="sd">    &gt;&gt;&gt; results.show(truncate=False)</span>
+<span class="sd">+-----------------------------+-----------------------------------------------------------------+</span>
+<span class="sd">|                       result|                                                  drug_embedding&quot;|</span>
+<span class="sd">+-----------------------------+-----------------------------------------------------------------+</span>
+<span class="sd">|metformin 125 mg             |[-0.267413, 0.07614058, -0.5620966, 0.83838946, 0.8911504]       |</span>
+<span class="sd">|250 mg coumadin              |[0.22319649, -0.07094894, -0.6885556, 0.79176235, 0.82672405]    |</span>
+<span class="sd">|one pill paracetamol         |[-0.10939768, -0.29242, -0.3574444, 0.3981813, 0.79609615]       |</span>
+<span class="sd">+-----------------------------+-----------------------------------------------------------------+</span>
+<span class="sd">&quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;EntityChunkEmbeddings&quot;</span>
+
+    <span class="n">entityWeights</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                          <span class="s2">&quot;entityWeights&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;Relative weights of named entities.&quot;</span><span class="p">,</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+
+    <span class="n">targetEntities</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                           <span class="s2">&quot;targetEntities&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;Target entities and the entities they are related to.&quot;</span><span class="p">,</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+
+    <span class="n">maxSyntacticDistance</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;maxSyntacticDistance&quot;</span><span class="p">,</span>
+                                 <span class="s2">&quot;Maximal syntactic distance between related DRUG and non-DRUG entities&quot;</span><span class="p">,</span>
+                                 <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+<div class="viewcode-block" id="EntityChunkEmbeddings.setEntityWeights"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings/index.html#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.setEntityWeights">[docs]</a>    <span class="k">def</span> <span class="nf">setEntityWeights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the relative weights of the embeddings of specific entities. By default the dictionary is empty and</span>
+<span class="sd">         all entities have equal weights. If non-empty and some entity is not in it, then its weight is set to 0.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        weights: : dict[str, float]</span>
+<span class="sd">            Dictionary with the relative weighs of entities. The notation TARGET_ENTITY:RELATED_ENTITY can be used to</span>
+<span class="sd">            specify the weight of a entity which is related to specific target entity (e.g. &quot;DRUG:SYMPTOM&quot;: 0.3).</span>
+<span class="sd">            Entity names are case-insensitive.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;setEntityWeights&quot;</span><span class="p">,</span><span class="n">weights</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EntityChunkEmbeddings.setTargetEntities"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings/index.html#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.setTargetEntities">[docs]</a>    <span class="k">def</span> <span class="nf">setTargetEntities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the target entities and maps them to their related entities. A target entity with an empty list of</span>
+<span class="sd">        related entities means all other entities are assumed to be related to it.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        entities: dict[str, list[str]]</span>
+<span class="sd">            Dictionary with target and related entities (TARGET: [RELATED1, RELATED2,...]). If the list of related</span>
+<span class="sd">            entities is empty, then all non-target entities are considered.</span>
+<span class="sd">            Entity names are case insensitive.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;setTargetEntities&quot;</span><span class="p">,</span><span class="n">entities</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EntityChunkEmbeddings.setMaxSyntacticDistance"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings/index.html#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.setMaxSyntacticDistance">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSyntacticDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distance</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the maximal syntactic distance between related entities. Default value is 2.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        distance : int</span>
+<span class="sd">            Maximal syntactic distance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSyntacticDistance</span><span class="o">=</span><span class="n">distance</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">EntityChunkEmbeddings</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">dimension</span><span class="o">=</span><span class="mi">768</span><span class="p">,</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+            <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+            <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">maxSyntacticDistance</span><span class="o">=</span><span class="mi">2</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="EntityChunkEmbeddings.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings/index.html#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sbiobert_base_cased_mli&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="s2">&quot;clinical/models&quot;</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">EntityChunkEmbeddings</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+                                                        <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>
+</pre></div>
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2022, John Snow Labs.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

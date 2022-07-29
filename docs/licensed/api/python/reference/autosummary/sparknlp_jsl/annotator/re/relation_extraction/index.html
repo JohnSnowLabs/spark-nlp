@@ -1,0 +1,785 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>sparknlp_jsl.annotator.re.relation_extraction &#8212; Spark NLP 4.0.0 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../../static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../../../../../static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../../../../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../static/css/custom.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../static/documentation_options.js"></script>
+    <script src="../../../../../../static/jquery.js"></script>
+    <script src="../../../../../../static/underscore.js"></script>
+    <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/toggleprompt.js"></script>
+    <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../../../../index.html">
+  
+  
+  
+  
+    <img src="../../../../../../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../../../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../../index.html">
+  API Reference
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-contents">
+   Module Contents
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classes">
+     Classes
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach">
+       RelationExtractionApproach
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setFromEntity">
+         setFromEntity
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setToEntity">
+         setToEntity
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setCustomLabels">
+         setCustomLabels
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel">
+       RelationExtractionModel
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setMaxSyntacticDistance">
+         setMaxSyntacticDistance
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setPredictionThreshold">
+         setPredictionThreshold
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setRelationPairs">
+         setRelationPairs
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setRelationPairsCaseSensitive">
+         setRelationPairsCaseSensitive
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setCustomLabels">
+         setCustomLabels
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.getClasses">
+         getClasses
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.re.relation_extraction.PosologyREModel">
+       PosologyREModel
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="module-sparknlp_jsl.annotator.re.relation_extraction">
+<span id="sparknlp-jsl-annotator-re-relation-extraction"></span><h1><a class="reference internal" href="#module-sparknlp_jsl.annotator.re.relation_extraction" title="sparknlp_jsl.annotator.re.relation_extraction"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.re.relation_extraction</span></code></a><a class="headerlink" href="#module-sparknlp_jsl.annotator.re.relation_extraction" title="Permalink to this heading">#</a></h1>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach" title="sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RelationExtractionApproach</span></code></a></p></td>
+<td><p>Trains a TensorFlow model for relation extraction. The Tensorflow graph in <code class="docutils literal notranslate"><span class="pre">.pb</span></code> format needs to be specified with</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel" title="sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RelationExtractionModel</span></code></a></p></td>
+<td><p>Trains a TensorFlow model for relation extraction. The Tensorflow graph in <code class="docutils literal notranslate"><span class="pre">.pb</span></code> format needs to be specified with</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.re.relation_extraction.PosologyREModel" title="sparknlp_jsl.annotator.re.relation_extraction.PosologyREModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PosologyREModel</span></code></a></p></td>
+<td><p>Trains a TensorFlow model for relation extraction. The Tensorflow graph in <code class="docutils literal notranslate"><span class="pre">.pb</span></code> format needs to be specified with</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RelationExtractionApproach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction.html#RelationExtractionApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach" title="Permalink to this definition">#</a></dt>
+<dd><p>Trains a TensorFlow model for relation extraction. The Tensorflow graph in <code class="docutils literal notranslate"><span class="pre">.pb</span></code> format needs to be specified with
+<code class="docutils literal notranslate"><span class="pre">setModelFile</span></code>. The result is a RelationExtractionModel.
+To start training, see the parameters that need to be set in the Parameters section.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">WORD_EMBEDDINGS,</span> <span class="pre">POS,</span> <span class="pre">CHUNK,</span> <span class="pre">DEPENDENCY</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CATEGORY</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>fromEntityBeginCol</strong></dt><dd><p>From Entity Begining Column</p>
+</dd>
+<dt><strong>fromEntityEndCol</strong></dt><dd><p>From Entity End Column</p>
+</dd>
+<dt><strong>fromEntityLabelCol</strong></dt><dd><p>From Entity Label Column</p>
+</dd>
+<dt><strong>toEntityBeginCol</strong></dt><dd><p>To Entity Begining Column</p>
+</dd>
+<dt><strong>toEntityEndCol</strong></dt><dd><p>To Entity End Column</p>
+</dd>
+<dt><strong>toEntityLabelCol</strong></dt><dd><p>“To Entity Label Column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp_jsl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;tokens&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">embedder</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;embeddings_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">])</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">posTagger</span> <span class="o">=</span> <span class="n">PerceptronModel</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;pos_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">])</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;posTags&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nerTagger</span> <span class="o">=</span> <span class="n">MedicalNerModel</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;ner_events_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">,</span> <span class="s2">&quot;embeddings&quot;</span><span class="p">])</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner_tags&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nerConverter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">,</span> <span class="s2">&quot;ner_tags&quot;</span><span class="p">])</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;nerChunks&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">depencyParser</span> <span class="o">=</span> <span class="n">DependencyParserModel</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;dependency_conllu&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;posTags&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">])</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;dependencies&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">re</span> <span class="o">=</span> <span class="n">RelationExtractionApproach</span><span class="p">()</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;embeddings&quot;</span><span class="p">,</span> <span class="s2">&quot;posTags&quot;</span><span class="p">,</span> <span class="s2">&quot;train_ner_chunks&quot;</span><span class="p">,</span> <span class="s2">&quot;dependencies&quot;</span><span class="p">])</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;relations_t&quot;</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s2">&quot;target_rel&quot;</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setEpochsNumber</span><span class="p">(</span><span class="mi">300</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setLearningRate</span><span class="p">(</span><span class="mf">0.001</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setModelFile</span><span class="p">(</span><span class="s2">&quot;path/to/graph_file.pb&quot;</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setFixImbalance</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setValidationSplit</span><span class="p">(</span><span class="mf">0.05</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setFromEntity</span><span class="p">(</span><span class="s2">&quot;from_begin&quot;</span><span class="p">,</span> <span class="s2">&quot;from_end&quot;</span><span class="p">,</span> <span class="s2">&quot;from_label&quot;</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setToEntity</span><span class="p">(</span><span class="s2">&quot;to_begin&quot;</span><span class="p">,</span> <span class="s2">&quot;to_end&quot;</span><span class="p">,</span> <span class="s2">&quot;to_label&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+<span class="gp">... </span>    <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">tokenizer</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">embedder</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">posTagger</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">nerTagger</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">nerConverter</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">depencyParser</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">re</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainData</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setFromEntity">
+<span class="sig-name descname"><span class="pre">setFromEntity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">begin_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_col</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction.html#RelationExtractionApproach.setFromEntity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setFromEntity" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets from entity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>begin_col</strong><span class="classifier">str</span></dt><dd><p>Column that has a reference of where the chunk begins</p>
+</dd>
+<dt><strong>end_col: str</strong></dt><dd><p>Column that has a reference of where the chunk end</p>
+</dd>
+<dt><strong>label_col: str</strong></dt><dd><p>Column that has a reference what are the type of chunk</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setToEntity">
+<span class="sig-name descname"><span class="pre">setToEntity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">begin_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_col</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction.html#RelationExtractionApproach.setToEntity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setToEntity" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets to entity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>begin_col</strong><span class="classifier">str</span></dt><dd><p>Column that has a reference of where the chunk begins</p>
+</dd>
+<dt><strong>end_col: str</strong></dt><dd><p>Column that has a reference of where the chunk end</p>
+</dd>
+<dt><strong>label_col: str</strong></dt><dd><p>Column that has a reference what are the type of chunk</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setCustomLabels">
+<span class="sig-name descname"><span class="pre">setCustomLabels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction.html#RelationExtractionApproach.setCustomLabels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setCustomLabels" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets custom relation labels</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>labels</strong><span class="classifier">dict[str, str]</span></dt><dd><p>Dictionary which maps old to new labels</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RelationExtractionModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction.html#RelationExtractionModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel" title="Permalink to this definition">#</a></dt>
+<dd><p>Trains a TensorFlow model for relation extraction. The Tensorflow graph in <code class="docutils literal notranslate"><span class="pre">.pb</span></code> format needs to be specified with
+<code class="docutils literal notranslate"><span class="pre">setModelFile</span></code>. The result is a RelationExtractionModel.
+To start training, see the parameters that need to be set in the Parameters section.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">WORD_EMBEDDINGS,</span> <span class="pre">POS,</span> <span class="pre">CHUNK,</span> <span class="pre">DEPENDENCY</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CATEGORY</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>predictionThreshold</strong></dt><dd><p>Minimal activation of the target unit to encode a new relation instance</p>
+</dd>
+<dt><strong>relationPairs</strong></dt><dd><p>List of dash-separated pairs of named entities (“ENTITY1-ENTITY2”, e.g. “Biomarker-RelativeDay”), which will be processed</p>
+</dd>
+<dt><strong>relationPairsCaseSensitive</strong></dt><dd><p>Determines whether relation pairs are case sensitive</p>
+</dd>
+<dt><strong>maxSyntacticDistance</strong></dt><dd><p>Maximal syntactic distance, as threshold (Default: 0)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp_jsl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;tokens&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">embedder</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;embeddings_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">posTagger</span> <span class="o">=</span> <span class="n">PerceptronModel</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;pos_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;posTags&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nerTagger</span> <span class="o">=</span> <span class="n">MedicalNerModel</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;ner_events_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">,</span> <span class="s2">&quot;embeddings&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner_tags&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nerConverter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">,</span> <span class="s2">&quot;ner_tags&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;nerChunks&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">depencyParser</span> <span class="o">=</span> <span class="n">DependencyParserModel</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;dependency_conllu&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;posTags&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;dependencies&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">relationPairs</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>  <span class="s2">&quot;direction-external_body_part_or_region&quot;</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="s2">&quot;external_body_part_or_region-direction&quot;</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="s2">&quot;direction-internal_organ_or_component&quot;</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="s2">&quot;internal_organ_or_component-direction&quot;</span>
+<span class="gp">... </span><span class="p">]</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">re_model</span> <span class="o">=</span> <span class="n">RelationExtractionModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;re_bodypart_directions&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;embeddings&quot;</span><span class="p">,</span> <span class="s2">&quot;pos_tags&quot;</span><span class="p">,</span> <span class="s2">&quot;ner_chunks&quot;</span><span class="p">,</span> <span class="s2">&quot;dependencies&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;relations&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setRelationPairs</span><span class="p">(</span><span class="n">relationPairs</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setMaxSyntacticDistance</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setPredictionThreshold</span><span class="p">(</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+<span class="gp">... </span>    <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">tokenizer</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">embedder</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">posTagger</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">nerTagger</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">nerConverter</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">depencyParser</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">re_model</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainData</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(relations) as relations&quot;</span><span class="p">)</span>
+<span class="gp">... </span> <span class="o">.</span><span class="n">select</span><span class="p">(</span>
+<span class="gp">... </span>   <span class="s2">&quot;relations.metadata.chunk1&quot;</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="s2">&quot;relations.metadata.entity1&quot;</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="s2">&quot;relations.metadata.chunk2&quot;</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="s2">&quot;relations.metadata.entity2&quot;</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="s2">&quot;relations.result&quot;</span>
+<span class="gp">... </span> <span class="p">)</span>
+<span class="gp">... </span> <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;result != 0&quot;</span><span class="p">)</span>
+<span class="gp">... </span> <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span><span class="c1"># Show results</span>
+<span class="gp">... </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(relations) as relations&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">select</span><span class="p">(</span>
+<span class="gp">... </span>     <span class="s2">&quot;relations.metadata.chunk1&quot;</span><span class="p">,</span>
+<span class="gp">... </span>     <span class="s2">&quot;relations.metadata.entity1&quot;</span><span class="p">,</span>
+<span class="gp">... </span>     <span class="s2">&quot;relations.metadata.chunk2&quot;</span><span class="p">,</span>
+<span class="gp">... </span>     <span class="s2">&quot;relations.metadata.entity2&quot;</span><span class="p">,</span>
+<span class="gp">... </span>     <span class="s2">&quot;relations.result&quot;</span>
+<span class="gp">... </span>  <span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;result != 0&quot;</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+------+---------+-------------+---------------------------+------+</span>
+<span class="go">|chunk1|entity1  |chunk2       |entity2                    |result|</span>
+<span class="go">+------+---------+-------------+---------------------------+------+</span>
+<span class="go">|upper |Direction|brain stem   |Internal_organ_or_component|1     |</span>
+<span class="go">|left  |Direction|cerebellum   |Internal_organ_or_component|1     |</span>
+<span class="go">|right |Direction|basil ganglia|Internal_organ_or_component|1     |</span>
+<span class="go">+------+---------+-------------+---------------------------+------+</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setMaxSyntacticDistance">
+<span class="sig-name descname"><span class="pre">setMaxSyntacticDistance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction.html#RelationExtractionModel.setMaxSyntacticDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setMaxSyntacticDistance" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets maximal syntactic distance, as threshold (Default: 0)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>b</strong><span class="classifier">int</span></dt><dd><p>Maximal syntactic distance, as threshold (Default: 0)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setPredictionThreshold">
+<span class="sig-name descname"><span class="pre">setPredictionThreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">threshold</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction.html#RelationExtractionModel.setPredictionThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setPredictionThreshold" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets Minimal activation of the target unit to encode a new relation instance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>threshold</strong><span class="classifier">float</span></dt><dd><p>Minimal activation of the target unit to encode a new relation instance</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setRelationPairs">
+<span class="sig-name descname"><span class="pre">setRelationPairs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pairs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction.html#RelationExtractionModel.setRelationPairs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setRelationPairs" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets List of dash-separated pairs of named entities (“ENTITY1-ENTITY2”, e.g. “Biomarker-RelativeDay”), which will be processed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>pairs</strong><span class="classifier">str</span></dt><dd><p>List of dash-separated pairs of named entities (“ENTITY1-ENTITY2”, e.g. “Biomarker-RelativeDay”), which will be processed</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setRelationPairsCaseSensitive">
+<span class="sig-name descname"><span class="pre">setRelationPairsCaseSensitive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction.html#RelationExtractionModel.setRelationPairsCaseSensitive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setRelationPairsCaseSensitive" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the case sensitivity of relation pairs
+Parameters
+———-
+value : boolean</p>
+<blockquote>
+<div><p>whether relation pairs are case sensitive</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setCustomLabels">
+<span class="sig-name descname"><span class="pre">setCustomLabels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction.html#RelationExtractionModel.setCustomLabels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setCustomLabels" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets custom relation labels</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>labels</strong><span class="classifier">dict[str, str]</span></dt><dd><p>Dictionary which maps old to new labels</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.getClasses">
+<span class="sig-name descname"><span class="pre">getClasses</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction.html#RelationExtractionModel.getClasses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.getClasses" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns labels used to train this model</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction.PosologyREModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PosologyREModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.re.PosologyREModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction.html#PosologyREModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction.PosologyREModel" title="Permalink to this definition">#</a></dt>
+<dd><p>Trains a TensorFlow model for relation extraction. The Tensorflow graph in <code class="docutils literal notranslate"><span class="pre">.pb</span></code> format needs to be specified with
+<code class="docutils literal notranslate"><span class="pre">setModelFile</span></code>. The result is a RelationExtractionModel.
+To start training, see the parameters that need to be set in the Parameters section.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">WORD_EMBEDDINGS,</span> <span class="pre">POS,</span> <span class="pre">CHUNK,</span> <span class="pre">DEPENDENCY</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CATEGORY</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>predictionThreshold</strong></dt><dd><p>Minimal activation of the target unit to encode a new relation instance</p>
+</dd>
+<dt><strong>relationPairs</strong></dt><dd><p>List of dash-separated pairs of named entities (“ENTITY1-ENTITY2”, e.g. “Biomarker-RelativeDay”), which will be processed</p>
+</dd>
+<dt><strong>relationPairsCaseSensitive</strong></dt><dd><p>Determines whether relation pairs are case sensitive</p>
+</dd>
+<dt><strong>maxSyntacticDistance</strong></dt><dd><p>Maximal syntactic distance, as threshold (Default: 0)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp_jsl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;tokens&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">embedder</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;embeddings_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">posTagger</span> <span class="o">=</span> <span class="n">PerceptronModel</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;pos_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;posTags&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nerTagger</span> <span class="o">=</span> <span class="n">MedicalNerModel</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;ner_events_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">,</span> <span class="s2">&quot;embeddings&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner_tags&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nerConverter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">,</span> <span class="s2">&quot;ner_tags&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;nerChunks&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">depencyParser</span> <span class="o">=</span> <span class="n">DependencyParserModel</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;dependency_conllu&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;posTags&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;dependencies&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">relationPairs</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>  <span class="s2">&quot;direction-external_body_part_or_region&quot;</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="s2">&quot;external_body_part_or_region-direction&quot;</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="s2">&quot;direction-internal_organ_or_component&quot;</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="s2">&quot;internal_organ_or_component-direction&quot;</span>
+<span class="gp">... </span><span class="p">]</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">re_model</span> <span class="o">=</span> <span class="n">RelationExtractionModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;re_bodypart_directions&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;embeddings&quot;</span><span class="p">,</span> <span class="s2">&quot;pos_tags&quot;</span><span class="p">,</span> <span class="s2">&quot;ner_chunks&quot;</span><span class="p">,</span> <span class="s2">&quot;dependencies&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;relations&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setRelationPairs</span><span class="p">(</span><span class="n">relationPairs</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setMaxSyntacticDistance</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setPredictionThreshold</span><span class="p">(</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+<span class="gp">... </span>    <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">tokenizer</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">embedder</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">posTagger</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">nerTagger</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">nerConverter</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">depencyParser</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">re_model</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainData</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(relations) as relations&quot;</span><span class="p">)</span>
+<span class="gp">... </span> <span class="o">.</span><span class="n">select</span><span class="p">(</span>
+<span class="gp">... </span>   <span class="s2">&quot;relations.metadata.chunk1&quot;</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="s2">&quot;relations.metadata.entity1&quot;</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="s2">&quot;relations.metadata.chunk2&quot;</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="s2">&quot;relations.metadata.entity2&quot;</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="s2">&quot;relations.result&quot;</span>
+<span class="gp">... </span> <span class="p">)</span>
+<span class="gp">... </span> <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;result != 0&quot;</span><span class="p">)</span>
+<span class="gp">... </span> <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span><span class="c1"># Show results</span>
+<span class="gp">... </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(relations) as relations&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">select</span><span class="p">(</span>
+<span class="gp">... </span>     <span class="s2">&quot;relations.metadata.chunk1&quot;</span><span class="p">,</span>
+<span class="gp">... </span>     <span class="s2">&quot;relations.metadata.entity1&quot;</span><span class="p">,</span>
+<span class="gp">... </span>     <span class="s2">&quot;relations.metadata.chunk2&quot;</span><span class="p">,</span>
+<span class="gp">... </span>     <span class="s2">&quot;relations.metadata.entity2&quot;</span><span class="p">,</span>
+<span class="gp">... </span>     <span class="s2">&quot;relations.result&quot;</span>
+<span class="gp">... </span>  <span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;result != 0&quot;</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+------+---------+-------------+---------------------------+------+</span>
+<span class="go">|chunk1|entity1  |chunk2       |entity2                    |result|</span>
+<span class="go">+------+---------+-------------+---------------------------+------+</span>
+<span class="go">|upper |Direction|brain stem   |Internal_organ_or_component|1     |</span>
+<span class="go">|left  |Direction|cerebellum   |Internal_organ_or_component|1     |</span>
+<span class="go">|right |Direction|basil ganglia|Internal_organ_or_component|1     |</span>
+<span class="go">+------+---------+-------------+---------------------------+------+</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2022, John Snow Labs.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>
