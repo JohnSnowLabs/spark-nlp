@@ -39,13 +39,13 @@ sidebar:
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|------------------------------------------------------------|
 |[bert_sequence_classifier_ade_augmented](https://nlp.johnsnowlabs.com/2022/07/27/bert_sequence_classifier_ade_augmented_en_3_0.html)                                           | this model classify tweets reporting ADEs (Adverse Drug Events).                        | `ADE` `noADE`                                              |
 |[bert_sequence_classifier_health_mandates_stance_tweet](https://nlp.johnsnowlabs.com/2022/07/28/bert_sequence_classifier_health_mandates_stance_tweet_en_3_0.html)             | this model classifies stance in tweets about health mandates.                             | `FAVOR` `AGAINST` `NONE`                                   |
-|[bert_sequence_classifier_health_mandates_premise_tweet](https://nlp.johnsnowlabs.com/2022/07/28/bert_sequence_classifier_health_mandates_premise_tweet_en_3_0.html)           | this model classifies premise in tweets about health mandates.                            | `has_premse` `has_no_premse`                               |
+|[bert_sequence_classifier_health_mandates_premise_tweet](https://nlp.johnsnowlabs.com/2022/07/29/bert_sequence_classifier_health_mandates_premise_tweet_en_3_0.html)           | this model classifies premise in tweets about health mandates.                            | `has_premse` `has_no_premse`                               |
 |[bert_sequence_classifier_treatement_changes_sentiment_tweet](https://nlp.johnsnowlabs.com/2022/07/28/bert_sequence_classifier_treatement_changes_sentiment_tweet_en_3_0.html) | this model classifies treatment changes reviews in tweets as `negative` and `positive`.  | `positive` `negative`                                      |
 |[bert_sequence_classifier_drug_reviews_webmd](https://nlp.johnsnowlabs.com/2022/07/28/bert_sequence_classifier_drug_reviews_webmd_en_3_0.html)                                 | this model classifies drug reviews from WebMD as `negative` and `positive`.               | `positive` `negative`                                      |
 |[bert_sequence_classifier_self_reported_age_tweet](https://nlp.johnsnowlabs.com/2022/07/26/bert_sequence_classifier_self_reported_age_tweet_en_3_0.html)                       | this model classifies if there is a self-reported age in social media data.                   | `self_report_age` `no_report`                              |
 |[bert_sequence_classifier_self_reported_symptoms_tweet](https://nlp.johnsnowlabs.com/2022/07/28/bert_sequence_classifier_self_reported_symptoms_tweet_es_3_0.html)             | this model classifies self-reported COVID-19 symptoms in Spanish language tweets.         | `Lit-News_mentions` `Self_reports non_personal_reports`    |
 |[bert_sequence_classifier_self_reported_vaccine_status_tweet](https://nlp.johnsnowlabs.com/2022/07/29/bert_sequence_classifier_self_reported_vaccine_status_tweet_en_3_0.html) | this model classifies self-reported COVID-19 vaccination status in tweets.                | `Vaccine_chatter` `Self_reports`                           |
-|[bert_sequence_classifier_self_reported_partner_violence_tweet](https://nlp.johnsnowlabs.com/2022/07/27/bert_sequence_classifier_self_reported_partner_violence_tweet_en_3_0.html)| this model classifies self-reported Intimate partner violence (IPV) in tweets.          | `intimate_partner_violence` `non_intimate_partner_violence`|
+|[bert_sequence_classifier_self_reported_partner_violence_tweet](https://nlp.johnsnowlabs.com/2022/07/28/bert_sequence_classifier_self_reported_partner_violence_tweet_en_3_0.html)| this model classifies self-reported Intimate partner violence (IPV) in tweets.          | `intimate_partner_violence` `non_intimate_partner_violence`|
 |[bert_sequence_classifier_exact_age_reddit](https://nlp.johnsnowlabs.com/2022/07/26/bert_sequence_classifier_exact_age_reddit_en_3_0.html )                                    | this model classifies if there is a self-reported age in social media forum posts (Reddit).   | `self_report_age` `no_report`                   |
 |[bert_sequence_classifier_self_reported_stress_tweet](https://nlp.johnsnowlabs.com/2022/07/29/bert_sequence_classifier_self_reported_stress_tweet_en_3_0.html )                | this model classifies stress in social media (Twitter) posts in the self-disclosure category.| `stressed` `not-stressed`                   |
 
@@ -149,7 +149,7 @@ We are releasing a new `MedicalBertForTokenClassifier` model to extract disease 
 
 + `bert_token_classifier_disease_mentions_tweet`: This model can extract disease entities in Spanish tweets and label them as `ENFERMEDAD` (disease).
 
-See [Models Hub Page](https://nlp.johnsnowlabs.com/2022/07/28/bert_token_classifier_disease_mentions_tweet_en_3_0.html) for more details.
+See [Models Hub Page](https://nlp.johnsnowlabs.com/2022/07/28/bert_token_classifier_disease_mentions_tweet_es_3_0.html) for more details.
 
 *Example* :
 
@@ -185,7 +185,7 @@ We are releasing 5 new `ChunkMapperModel` models to map clinical entities with t
 | Mapper Name                                                                                                      | Source                  | Target   |
 |--------------------------------------------------------------------------------------------------------------------|-------------------------|----------|
 | [umls_clinical_drugs_mapper](https://nlp.johnsnowlabs.com/2022/07/06/umls_clinical_drugs_mapper_en_3_0.html)       | Drugs                   | UMLS CUI |
-| [umls_clinical_findings_mapper](https://nlp.johnsnowlabs.com/2022/07/06/umls_clinical_findings_mapper_en_3_0.html) | Clinical Findings       | UMLS CUI |
+| [umls_clinical_findings_mapper](https://nlp.johnsnowlabs.com/2022/07/08/umls_clinical_findings_mapper_en_3_0.html) | Clinical Findings       | UMLS CUI |
 | [umls_disease_syndrome_mapper](https://nlp.johnsnowlabs.com/2022/07/11/umls_disease_syndrome_mapper_en_3_0.html)   | Disease and Syndromes   | UMLS CUI |
 | [umls_major_concepts_mapper](https://nlp.johnsnowlabs.com/2022/07/11/umls_major_concepts_mapper_en_3_0.html)       | Clinical Major Concepts | UMLS CUI |
 | [umls_drug_substance_mapper](https://nlp.johnsnowlabs.com/2022/07/11/umls_drug_substance_mapper_en_3_0.html)       | Drug Substances         | UMLS CUI |
