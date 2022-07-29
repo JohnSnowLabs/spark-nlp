@@ -77,6 +77,15 @@
         <a href="/classify_medical_texts">Classify Medical Texts</a>
       </li>
       <li><strong>Spark NLP for Finance and Legal</strong></li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "resolving_company_names" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/resolving_company_names">Resolving Company Names</a>
+      </li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "relation_extraction" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/relation_extraction">Relation Extraction</a>
+      </li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "assertion_status" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/assertion_status">Assertion Status</a>
+      </li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "entity_recognition" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/entity_recognition">Entity Recognition</a>
       </li>
