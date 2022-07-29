@@ -17,6 +17,7 @@ sidebar:
 
 + 16 new text classification models for English and Spanish social media text related to public health topics (stress, domestic violence, vaccine status, drug reviews etc.)
 + Pretrained medication NER pipeline to augment posology NER models with Drugbank dataset
++ Pretrained medication resolver pipeline to extract RxNorm, UMLS, NDC, SNOMED CT codes and action/treatments.
 + New disease NER model for Spanish language
 + 5 new chunk mapper models to convert clinical entities to relevant medical terminology (UMLS)
 + 5 new pretrained resolver pipelines to convert clinical entities to relevant medical terminology (UMLS)
@@ -142,6 +143,40 @@ text = """The patient was prescribed metformin 1000 MG, and glipizide 2.5 MG. Th
 | OxyContin 30 mg    | DRUG      |
 |--------------------|-----------|
 ```
+
+#### Pretrained Medication Resolver Pipeline to Extract RxNorm, UMLS, NDC , SNOMED CT Codes and Action/Treatments
+
+We are releasing a medication resolver pipeline to extract medications and and resolve RxNorm, UMLS, NDC, SNOMED CT codes and action/treatments in clinical text. You can get those codes if available with a single line of code without building a pipeline with models.
+
++ `medication_resolver_pipeline`: This pretrained pipeline can detect medication entities and resolve codes if available.
+
+
+*Example* :
+
+```python
+from sparknlp.pretrained import PretrainedPipeline
+
+medication_pipeline = PretrainedPipeline("medication_resolver_pipeline", "en", "clinical/models")
+
+text = """The patient was prescribed Mycobutn 150 MG, Salagen 5 MG oral tablet, 
+The other patient is given Lescol 40 MG and Lidoderm 0.05 MG/MG, triazolam 0.125 MG Oral Tablet, metformin hydrochloride 1000 MG Oral Tablet"""
+```
+
+*Results* :
+
+```bash
+|---------------------------------------------|----------------|---------------------|--------------------------------------------|----------|-------------|---------------|---------------|----------|
+| ner_chunk                                   |   RxNorm_Chunk | Action              | Treatment                                  | UMLS     | SNOMED_CT   | NDC_Product   | NDC_Package   | entity   |
+|---------------------------------------------|----------------|---------------------|--------------------------------------------|----------|-------------|---------------|---------------|----------|
+| Mycobutn 150 MG                             |         103899 | Antimiycobacterials | Infection                                  | C0353536 | -           | 00013-5301    | 00013-5301-17 | DRUG     |
+| Salagen 5 MG oral tablet                    |        1000915 | Antiglaucomatous    | Cancer                                     | C0361693 | -           | 59212-0705    | 59212-0705-10 | DRUG     |
+| Lescol 40 MG                                |         103919 | Hypocholesterolemic | Heterozygous Familial Hypercholesterolemia | C0353573 | -           | 00078-0234    | 00078-0234-05 | DRUG     |
+| Lidoderm 0.05 MG/MG                         |        1011705 | Anesthetic          | Pain                                       | C0875706 | -           | 00247-2129    | 00247-2129-30 | DRUG     |
+| triazolam 0.125 MG Oral Tablet              |         198317 | -                   | -                                          | C0690642 | 373981005   | 00054-4858    | 00054-4858-25 | DRUG     |
+| metformin hydrochloride 1000 MG Oral Tablet |         861004 | -                   | -                                          | C0978482 | 376701008   | 00093-7214    | 00185-0221-01 | DRUG     |
+|---------------------------------------------|----------------|---------------------|--------------------------------------------|----------|-------------|---------------|---------------|----------|
+```
+
 
 #### New Disease NER Model for Spanish Language 
 
@@ -477,6 +512,7 @@ assertion_models = InternalResourceDownloader.returnPrivateModels("AssertionDLMo
 - `classifierdl_vaccine_sentiment`
 - `bert_sequence_classifier_stressor`
 - `re_ade_conversational`
+- `medication_resolver_pipeline`
 
 
 
