@@ -1,4 +1,2 @@
-docs/en/licensed_release_notes.md
-docs/en/licensed_version_compatibility.md
-docs/en/licensed_release_notes.md
-docs/en/licensed_version_compatibility.md
+docs/demos/legal_text_classification.md
+docs/demos/legal_text_classification.md
