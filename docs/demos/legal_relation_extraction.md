@@ -2,23 +2,23 @@
 layout: demopage
 title: Spark NLP in Action
 full_width: true
-permalink: /relation_extraction
+permalink: /legal_relation_extraction
 key: demo
 license: false
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Healthcare
-      excerpt: Relation Extraction
+    - title: Spark NLP for Legal
+      excerpt: Legal Relation Extraction
       secheader: yes
       secheader:
-        - title: Spark NLP for Healthcare
-          subtitle: Relation Extraction
-          activemenu: relation_extraction
+        - title: Spark NLP for Legal
+          subtitle: Legal Relation Extraction
+          activemenu: legal_relation_extraction
       source: yes
       source: 
-        - title: Extract Relations between Parties in an Agreement  
+        - title: Extract Relations between Parties in agreements  
           id: extract_relations_between_parties_agreement  
           image: 
               src: /assets/images/Extract_Relations_between_Parties.svg

@@ -2,24 +2,24 @@
 layout: demopage
 title: Spark NLP in Action
 full_width: true
-permalink: /sentiment_analysis
+permalink: /legal_table_extraction
 key: demo
 license: false
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Finance and Legal
-      excerpt: Sentiment Analysis
+    - title: Spark NLP for Legal
+      excerpt: Legal Table Understanding
       secheader: yes
       secheader:
-        - title: Spark NLP for Finance and Legal
-          subtitle: Sentiment Analysis
-          activemenu: sentiment_analysis
+        - title: Spark NLP for Legal
+          subtitle: Legal Table Understanding
+          activemenu: legal_table_extraction
       source: yes
       source: 
-        - title: Analyze sentiment in financial news
-          id: analyze_sentiment_financial_news 
+        - title: Lorem
+          id: lorem 
           image: 
               src: /assets/images/Analyze_sentiment_in_financial_news.svg
           image2: 
