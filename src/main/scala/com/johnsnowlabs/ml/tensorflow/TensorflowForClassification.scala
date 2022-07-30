@@ -307,7 +307,7 @@ trait TensorflowForClassification {
           val label =
             tags.find(_._2 == scores.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
           val meta = scores.zipWithIndex.flatMap(x =>
-            Map(tags.find(_._2 == x._2).map(_._1).toString -> x._1.toString))
+            Map(tags.find(_._2 == x._2).map(_._1).getOrElse("NA") -> x._1.toString))
           Annotation(
             annotatorType = AnnotatorType.NAMED_ENTITY,
             begin = token.begin,
