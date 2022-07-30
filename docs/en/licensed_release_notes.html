@@ -626,7 +626,7 @@
 <p><em>Example</em> :</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
-<span class="n">ner_model</span> <span class="o">=</span> <span class="n">MedicalBertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_sequence_classifier_exact_age_reddit"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">MedicalBertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_sequence_classifier_exact_age_reddit"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>\
 <span class="p">...</span>
@@ -755,7 +755,7 @@
 
 <span class="n">medication_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"medication_resolver_pipeline"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
 
-<span class="n">text</span> <span class="o">=</span> <span class="s">"""The patient was prescribed Mycobutn 150 MG, Salagen 5 MG oral tablet, 
+<span class="n">text</span> <span class="o">=</span> <span class="s">"""The patient was prescribed Mycobutn 150 MG, Salagen 5 MG oral tablet,
 The other patient is given Lescol 40 MG and Lidoderm 0.05 MG/MG, triazolam 0.125 MG Oral Tablet, metformin hydrochloride 1000 MG Oral Tablet"""</span>
 </code></pre></div></div>
 
