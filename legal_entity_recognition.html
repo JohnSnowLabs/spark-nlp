@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Spark NLP in Action</title><meta name="description" content="High Performance NLP with Apache Spark
 ">
-<link rel="canonical" href="/visual_document_understanding"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<link rel="canonical" href="/legal_entity_recognition"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -502,7 +502,7 @@
         <a href="/financial_table_understanding">Understand Tables</a>
       </li>
       <li><strong>Spark NLP for Legal</strong></li>
-      <li      >
+      <li    class="active"     >
         <a href="/legal_entity_recognition">Recognize Entities</a>
       </li>
       <li data-hide="hide"      >
@@ -533,7 +533,7 @@
       <li      >
         <a href="/extract_tables">Extract Tables </a>
       </li>
-      <li    class="active"     >
+      <li      >
         <a href="/visual_document_understanding">Visual Document Understanding</a>
       </li>
       <li      >
@@ -557,60 +557,60 @@
 
       <div class="">
         
-<div class="subtitle">Spark OCR <img src="/assets/images/arrow.svg" /><strong>Visual Document Understanding</strong></div><div class="grid--container main-big" id="panels"><div class="tab-wrapper-inner"><div class="tab-item ">
+<div class="subtitle">Spark NLP for Legal <img src="/assets/images/arrow.svg" /><strong>Legal Entity Recognition</strong></div><div class="grid--container main-big" id="panels"><div class="tab-wrapper-inner"><div class="tab-item ">
               <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Classify_visual_documents.svg" />
+                    <img src="/assets/images/Extract_Document_Type.svg" />
                   </figure>
                   <figure class="tab_fig_white">
-                    <img src="/assets/images/Classify_visual_documents_f.svg" />
-                  </figure><div class="tab-item-title">Visual Document Classification</div><div class="tab-description">Classify documents using text and layout data with the new features offered by Spark OCR.</div><ul class="tab-menu"><li><a id="classify_visual_documents" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/ocr/VISUAL_DOCUMENT_CLASSIFY/">Live Demo</a></li><li><a id="classify_visual_documents" class="button button--blue_btn button--pill button--lg"
-                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOCRVisualDocumentClassifier.ipynb">Colab Netbook</a></li></ul></div> 
+                    <img src="/assets/images/Extract_Document_Type_f.svg" />
+                  </figure><div class="tab-item-title">Extract Document Type, Parties, Aliases and Dates</div><div class="tab-description">This model uses Name Entity Recognition to extract DOC (Document Type), PARTY (An Entity signing a contract), ALIAS (the way a company is named later on in the document) and EFFDATE (Effective Date of the contract).</div><ul class="tab-menu"><li><a id="extract_document_type_parties_aliases_dates_contracts" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/finance/LEGALNER_PARTIES/">Live Demo</a></li><li><a id="extract_document_type_parties_aliases_dates_contracts" class="button button--blue_btn button--pill button--lg"
+                      href="/">Colab Netbook</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Extract_entities_from_visual_documents.svg" />
+                    <img src="/assets/images/Extract_Signers_Roles.svg" />
                   </figure>
                   <figure class="tab_fig_white">
-                    <img src="/assets/images/Extract_entities_from_visual_documents_c.svg" />
-                  </figure><div class="tab-item-title">Extract Data from Scanned Invoices</div><div class="tab-description">Detect companies, total amounts and dates in scanned invoices using out of the box Spark OCR models.</div><ul class="tab-menu"><li><a id="extract_entities_from_visual_documents" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/ocr/VISUAL_DOCUMENT_NER/">Live Demo</a></li><li><a id="extract_entities_from_visual_documents" class="button button--blue_btn button--pill button--lg"
-                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOCRVisualDocumentNer.ipynb">Colab Netbook</a></li></ul></div> 
+                    <img src="/assets/images/Extract_Signers_Roles_f.svg" />
+                  </figure><div class="tab-item-title">Extract Signers, Roles and Companies</div><div class="tab-description">This model uses Name Entity Recognition to extract SIGNING_PERSON (People signing a document), SIGNING_TITLE (the roles of those people in the company) and PARTY (Organizations).</div><ul class="tab-menu"><li><a id="extract_signers_roles_companies" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/finance/LEGALNER_SIGNERS/">Live Demo</a></li><li><a id="extract_signers_roles_companies" class="button button--blue_btn button--pill button--lg"
+                      href="/">Colab Netbook</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/correct.svg" />
+                    <img src="/assets/images/Extract_Headers_and_Subheaders_from_Legal_Documents.svg" />
                   </figure>
                   <figure class="tab_fig_white">
-                    <img src="/assets/images/correct_f.svg" />
-                  </figure><div class="tab-item-title">Extract Data from FoundationOne Sequencing Reports</div><div class="tab-description">Extract patient, genomic and biomarker information from FoundationOne Sequencing Reports.</div><ul class="tab-menu"><li><a id="extract-data-from-foundationone-sequencing-reports" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/ocr/FOUNDATIONONE_REPORT_PARSING/">Live Demo</a></li><li><a id="extract-data-from-foundationone-sequencing-reports" class="button button--blue_btn button--pill button--lg"
-                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/FOUNDATIONONE_REPORT_PARSING.ipynb">Colab Netbook</a></li></ul></div> 
+                    <img src="/assets/images/Extract_Headers_and_Subheaders_from_Legal_Documents_f.svg" />
+                  </figure><div class="tab-item-title">Extract headers and subheaders</div><div class="tab-description">This model uses Name Entity Recognition to detect HEADERS and SUBHEADERS with aims to detect the different sections of a legal document.</div><ul class="tab-menu"><li><a id="extract_headers_subheaders_from_legal_documents" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/finance/LEGALNER_HEADERS/">Live Demo</a></li><li><a id="extract_headers_subheaders_from_legal_documents" class="button button--blue_btn button--pill button--lg"
+                      href="/">Colab Netbook</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Recognize_text_in_natural_scenes.svg" />
+                    <img src="/assets/images/Extract_Entities_from_Whereas_clauses.svg" />
                   </figure>
                   <figure class="tab_fig_white">
-                    <img src="/assets/images/Recognize_text_in_natural_scenes_f.svg" />
-                  </figure><div class="tab-item-title">Recognize entities in scanned PDFs</div><div class="tab-description">End-to-end example of regular NER pipeline: import scanned images from cloud storage, preprocess them for improving their quality, recognize text using Spark OCR, correct the spelling mistakes for improving OCR results and finally run NER for extracting entities.</div><ul class="tab-menu"><li><a id="recognize_entities_in_scanned_pdfs" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/ocr/PDF_TEXT_NER/">Live Demo</a></li><li><a id="recognize_entities_in_scanned_pdfs" class="button button--blue_btn button--pill button--lg"
-                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TEXT_NER.ipynb">Colab Netbook</a></li></ul></div> 
+                    <img src="/assets/images/Extract_Entities_from_Whereas_clauses_f.svg" />
+                  </figure><div class="tab-item-title">Extract Whereas clauses</div><div class="tab-description">This model uses Name Entity Recognition detect "Whereas" clauses and extract, from them, the SUBJECT, the ACTION and the OBJECT.</div><ul class="tab-menu"><li><a id="extract_entities_whereas_clauses" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/finance/LEGALNER_WHEREAS/">Live Demo</a></li><li><a id="extract_entities_whereas_clauses" class="button button--blue_btn button--pill button--lg"
+                      href="/">Colab Netbook</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Extract_brands_from_visual_documents.svg" />
+                    <img src="/assets/images/Grammar_Analysis.svg" />
                   </figure>
                   <figure class="tab_fig_white">
-                    <img src="/assets/images/Extract_brands_from_visual_documents_f.svg" />
-                  </figure><div class="tab-item-title">Extract brands from visual documents</div><div class="tab-description">This demo shows how brands from image can be detected using Spark OCR.</div><ul class="tab-menu"><li><a id="extract_brands_from_visual_documents" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/ocr/BRAND_EXTRACTION/">Live Demo</a></li><li><a id="extract_brands_from_visual_documents" class="button button--blue_btn button--pill button--lg"
-                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/BRAND_EXTRACTION.ipynb">Colab Netbook</a></li></ul></div> 
+                    <img src="/assets/images/Grammar_Analysis_f.svg" />
+                  </figure><div class="tab-item-title">Detect legal entities in German</div><div class="tab-description">Automatically identify entities such as persons, judges, lawyers, countries, cities, landscapes, organizations, courts, trademark laws, contracts, etc. in German legal text.</div><ul class="tab-menu"><li><a id="detect_legal_entities_german" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_DE/">Live Demo</a></li><li><a id="detect_legal_entities_german" class="button button--blue_btn button--pill button--lg"
+                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_DE.ipynb">Colab Netbook</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Detect_sentences_in_text.svg" />
+                    <img src="/assets/images/Named_Entity_Recognition_Brazilian_Portuguese_Legal_Texts.svg" />
                   </figure>
                   <figure class="tab_fig_white">
-                    <img src="/assets/images/Detect_sentences_in_text_f.svg" />
-                  </figure><div class="tab-item-title">Form Recognition</div><div class="tab-description">This demo shows how to perceive data in forms as key-value pairs.</div><ul class="tab-menu"><li><a id="form_recognition" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/ocr/FORM_RECOGNITION/">Live Demo</a></li><li><a id="form_recognition" class="button button--blue_btn button--pill button--lg"
-                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/FormRecognition/SparkOcrFormRecognition.ipynb">Colab Netbook</a></li></ul></div> 
+                    <img src="/assets/images/Named_Entity_Recognition_Brazilian_Portuguese_Legal_Texts_f.svg" />
+                  </figure><div class="tab-item-title">Named Entity Recognition in Portuguese</div><div class="tab-description">Automatically identify entities such as Organization, Jurisprudence, Legislation, Person, Location, and Time, etc. in (Brazilian) Portuguese legal text.</div><ul class="tab-menu"><li><a id="named_entity_recognition_brazilian_portuguese_legal_texts" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_PT/">Live Demo</a></li><li><a id="named_entity_recognition_brazilian_portuguese_legal_texts" class="button button--blue_btn button--pill button--lg"
+                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_PT.ipynb">Colab Netbook</a></li></ul></div> 
             </div></div></div></div> </section></div>
 </div>
 

@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Spark NLP in Action</title><meta name="description" content="High Performance NLP with Apache Spark
 ">
-<link rel="canonical" href="/visual_document_understanding"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<link rel="canonical" href="/legal_deidentification"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -520,7 +520,7 @@
       <li data-hide="hide"      >
         <a href="/legal_sentiment_analysis">Analyze sentiment</a>
       </li>
-      <li data-hide="hide"      >
+      <li data-hide="hide"    class="active"     >
         <a href="/legal_deidentification">De-identify texts</a>
       </li>
       <li data-hide="hide"      >
@@ -533,7 +533,7 @@
       <li      >
         <a href="/extract_tables">Extract Tables </a>
       </li>
-      <li    class="active"     >
+      <li      >
         <a href="/visual_document_understanding">Visual Document Understanding</a>
       </li>
       <li      >
@@ -557,60 +557,69 @@
 
       <div class="">
         
-<div class="subtitle">Spark OCR <img src="/assets/images/arrow.svg" /><strong>Visual Document Understanding</strong></div><div class="grid--container main-big" id="panels"><div class="tab-wrapper-inner"><div class="tab-item ">
+<div class="subtitle">Spark NLP for Legal <img src="/assets/images/arrow.svg" /><strong>Legal De-Identification</strong></div><div class="grid--container main-big" id="panels"><div class="tab-wrapper-inner"><div class="tab-item ">
               <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Classify_visual_documents.svg" />
+                    <img src="/assets/images/Deidentify_structured_data.svg" />
                   </figure>
                   <figure class="tab_fig_white">
-                    <img src="/assets/images/Classify_visual_documents_f.svg" />
-                  </figure><div class="tab-item-title">Visual Document Classification</div><div class="tab-description">Classify documents using text and layout data with the new features offered by Spark OCR.</div><ul class="tab-menu"><li><a id="classify_visual_documents" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/ocr/VISUAL_DOCUMENT_CLASSIFY/">Live Demo</a></li><li><a id="classify_visual_documents" class="button button--blue_btn button--pill button--lg"
-                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOCRVisualDocumentClassifier.ipynb">Colab Netbook</a></li></ul></div> 
+                    <img src="/assets/images/Deidentify_structured_data_f.svg" />
+                  </figure><div class="tab-item-title">Deidentify structured data</div><div class="tab-description">Deidentify PHI information from structured datasets using out of the box Spark NLP functionality that enforces GDPR and HIPPA compliance, while maintaining linkage of clinical data across files.</div><ul class="tab-menu"><li><a id="deidentify_structured_data" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/healthcare/DEID_EHR_DATA">Live Demo</a></li><li><a id="deidentify_structured_data" class="button button--blue_btn button--pill button--lg"
+                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_EHR_DATA.ipynb">Colab Netbook</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Extract_entities_from_visual_documents.svg" />
+                    <img src="/assets/images/Deidentify_free_text_documents.svg" />
                   </figure>
                   <figure class="tab_fig_white">
-                    <img src="/assets/images/Extract_entities_from_visual_documents_c.svg" />
-                  </figure><div class="tab-item-title">Extract Data from Scanned Invoices</div><div class="tab-description">Detect companies, total amounts and dates in scanned invoices using out of the box Spark OCR models.</div><ul class="tab-menu"><li><a id="extract_entities_from_visual_documents" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/ocr/VISUAL_DOCUMENT_NER/">Live Demo</a></li><li><a id="extract_entities_from_visual_documents" class="button button--blue_btn button--pill button--lg"
-                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOCRVisualDocumentNer.ipynb">Colab Netbook</a></li></ul></div> 
+                    <img src="/assets/images/Deidentify_free_text_documents_f.svg" />
+                  </figure><div class="tab-item-title">Deidentify free text documents</div><div class="tab-description">Deidentify free text documents by either masking or obfuscating PHI information using out of the box Spark NLP models that enforce GDPR and HIPPA compliance.</div><ul class="tab-menu"><li><a id="deidentify_free_text_documents" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT">Live Demo</a></li><li><a id="deidentify_free_text_documents" class="button button--blue_btn button--pill button--lg"
+                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT.ipynb">Colab Netbook</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/correct.svg" />
+                    <img src="/assets/images/Deidentify_DICOM_documents.svg" />
                   </figure>
                   <figure class="tab_fig_white">
-                    <img src="/assets/images/correct_f.svg" />
-                  </figure><div class="tab-item-title">Extract Data from FoundationOne Sequencing Reports</div><div class="tab-description">Extract patient, genomic and biomarker information from FoundationOne Sequencing Reports.</div><ul class="tab-menu"><li><a id="extract-data-from-foundationone-sequencing-reports" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/ocr/FOUNDATIONONE_REPORT_PARSING/">Live Demo</a></li><li><a id="extract-data-from-foundationone-sequencing-reports" class="button button--blue_btn button--pill button--lg"
-                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/FOUNDATIONONE_REPORT_PARSING.ipynb">Colab Netbook</a></li></ul></div> 
+                    <img src="/assets/images/Deidentify_DICOM_documents_f.svg" />
+                  </figure><div class="tab-item-title">Deidentify DICOM documents</div><div class="tab-description">Deidentify DICOM documents by masking PHI information on the image and by either masking or obfuscating PHI from the metadata.</div><ul class="tab-menu"><li><a id="deidentify_dicom_documents" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/ocr/DEID_DICOM_IMAGE">Live Demo</a></li><li><a id="deidentify_dicom_documents" class="button button--blue_btn button--pill button--lg"
+                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/DEID_DICOM_IMAGE.ipynb">Colab Netbook</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Recognize_text_in_natural_scenes.svg" />
+                    <img src="/assets/images/Deidentify_PDF_documents.svg" />
                   </figure>
                   <figure class="tab_fig_white">
-                    <img src="/assets/images/Recognize_text_in_natural_scenes_f.svg" />
-                  </figure><div class="tab-item-title">Recognize entities in scanned PDFs</div><div class="tab-description">End-to-end example of regular NER pipeline: import scanned images from cloud storage, preprocess them for improving their quality, recognize text using Spark OCR, correct the spelling mistakes for improving OCR results and finally run NER for extracting entities.</div><ul class="tab-menu"><li><a id="recognize_entities_in_scanned_pdfs" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/ocr/PDF_TEXT_NER/">Live Demo</a></li><li><a id="recognize_entities_in_scanned_pdfs" class="button button--blue_btn button--pill button--lg"
-                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TEXT_NER.ipynb">Colab Netbook</a></li></ul></div> 
+                    <img src="/assets/images/Deidentify_PDF_documents_f.svg" />
+                  </figure><div class="tab-item-title">De-identify PDF documents - HIPAA Compliance</div><div class="tab-description">De-identify PDF documents using HIPAA guidelines by masking PHI information using out of the box Spark NLP models.</div><ul class="tab-menu"><li><a id="hipaa_compliance" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/ocr/DEID_PDF_HIPAA">Live Demo</a></li><li><a id="hipaa_compliance" class="button button--blue_btn button--pill button--lg"
+                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/DEID_PDF.ipynb">Colab Netbook</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Extract_brands_from_visual_documents.svg" />
+                    <img src="/assets/images/Deidentify_PDF_documents.svg" />
                   </figure>
                   <figure class="tab_fig_white">
-                    <img src="/assets/images/Extract_brands_from_visual_documents_f.svg" />
-                  </figure><div class="tab-item-title">Extract brands from visual documents</div><div class="tab-description">This demo shows how brands from image can be detected using Spark OCR.</div><ul class="tab-menu"><li><a id="extract_brands_from_visual_documents" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/ocr/BRAND_EXTRACTION/">Live Demo</a></li><li><a id="extract_brands_from_visual_documents" class="button button--blue_btn button--pill button--lg"
-                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/BRAND_EXTRACTION.ipynb">Colab Netbook</a></li></ul></div> 
+                    <img src="/assets/images/Deidentify_PDF_documents_f.svg" />
+                  </figure><div class="tab-item-title">De-identify PDF documents - GDPR Compliance</div><div class="tab-description">De-identify PDF documents using GDPR guidelines by anonymizing PHI information using out of the box Spark NLP models.</div><ul class="tab-menu"><li><a id="gdpr_compliance" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/ocr/DEID_PDF_GDPR">Live Demo</a></li><li><a id="gdpr_compliance" class="button button--blue_btn button--pill button--lg"
+                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/DEID_PDF.ipynb">Colab Netbook</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Detect_sentences_in_text.svg" />
+                    <img src="/assets/images/Detect_PHI_Entities.svg" />
                   </figure>
                   <figure class="tab_fig_white">
-                    <img src="/assets/images/Detect_sentences_in_text_f.svg" />
-                  </figure><div class="tab-item-title">Form Recognition</div><div class="tab-description">This demo shows how to perceive data in forms as key-value pairs.</div><ul class="tab-menu"><li><a id="form_recognition" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/ocr/FORM_RECOGNITION/">Live Demo</a></li><li><a id="form_recognition" class="button button--blue_btn button--pill button--lg"
-                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/FormRecognition/SparkOcrFormRecognition.ipynb">Colab Netbook</a></li></ul></div> 
+                    <img src="/assets/images/Detect_PHI_Entities_f.svg" />
+                  </figure><div class="tab-item-title">Detect PHI Entities for Deidentification</div><div class="tab-description">This demo shows how Protected Health Information (PHI) that may need to be de-identified can be extracted using Spark NLP model.</div><ul class="tab-menu"><li><a id="detect_phi_entities" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS/">Live Demo</a></li><li><a id="detect_phi_entities" class="button button--blue_btn button--pill button--lg"
+                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DEMOGRAPHICS.ipynb">Colab Netbook</a></li></ul></div> 
+            </div><div class="tab-item ">
+              <div class="tab-item-inner"><figure class="tab_fig_blue">
+                    <img src="/assets/images/Deidentify_free_text_documents.svg" />
+                  </figure>
+                  <figure class="tab_fig_white">
+                    <img src="/assets/images/Deidentify_free_text_documents_f.svg" />
+                  </figure><div class="tab-item-title">Deidentify Clinical Notes in Different Languages</div><div class="tab-description">This demo shows how to deidentify protected health information in English , Spanish, French, Italian and German texts.</div><ul class="tab-menu"><li><a id="deidentify_clinical_notes_different_languages" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_MULTI/">Live Demo</a></li><li><a id="deidentify_clinical_notes_different_languages" class="button button--blue_btn button--pill button--lg"
+                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT_MULTI.ipynb">Colab Netbook</a></li></ul></div> 
             </div></div></div></div> </section></div>
 </div>
 

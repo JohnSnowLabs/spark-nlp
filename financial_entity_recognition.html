@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Spark NLP in Action</title><meta name="description" content="High Performance NLP with Apache Spark
 ">
-<link rel="canonical" href="/table_extraction"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<link rel="canonical" href="/financial_entity_recognition"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -476,33 +476,55 @@
       <li      >
         <a href="/classify_medical_texts">Classify Medical Texts</a>
       </li>
-      <li><strong>Spark NLP for Finance and Legal</strong></li>
-      <li      >
-        <a href="/resolving_company_names">Resolving Company Names</a>
+      <li><strong>Spark NLP for Finance</strong></li>
+      <li    class="active"     >
+        <a href="/financial_entity_recognition">Recognize Entities</a>
       </li>
       <li      >
-        <a href="/relation_extraction">Relation Extraction</a>
-      </li>
-      <li      >
-        <a href="/assertion_status">Assertion Status</a>
-      </li>
-      <li      >
-        <a href="/entity_recognition">Entity Recognition</a>
-      </li>
-      <li      >
-        <a href="/sentiment_analysis">Sentiment Analysis</a>
+        <a href="/financial_assertion_status">Understand Entity Context</a>
       </li>
       <li data-hide="hide"      >
-        <a href="/deidentification_legal">De-identification</a>
-      </li>
-      <li data-hide="hide"      >
-        <a href="/relation_extraction">Relation Extraction</a>
-      </li>
-      <li data-hide="hide"    class="active"     >
-        <a href="/table_extraction">Table Extraction</a>
+        <a href="/financial_relation_extraction">Extract Relationships</a>
       </li>
       <li      >
-        <a href="/text_classification">Text Classification</a>
+        <a href="/financial_company_normalization">Normalize Company Names</a>
+      </li>
+      <li      >
+        <a href="/financial_text_classification">Classify Texts</a>
+      </li>
+      <li      >
+        <a href="/financial_sentiment_analysis">Analyze Sentiment</a>
+      </li>
+      <li data-hide="hide"      >
+        <a href="/financial_deidentification">De-identify Texts</a>
+      </li>
+      <li data-hide="hide"      >
+        <a href="/financial_table_understanding">Understand Tables</a>
+      </li>
+      <li><strong>Spark NLP for Legal</strong></li>
+      <li      >
+        <a href="/legal_entity_recognition">Recognize Entities</a>
+      </li>
+      <li data-hide="hide"      >
+        <a href="/legal_assertion_status">Understand Entity Context</a>
+      </li>
+      <li      >
+        <a href="/legal_relation_extraction">Extract Relationships</a>
+      </li>
+      <li      >
+        <a href="/legal_company_normalization">Normalize Company Names</a>
+      </li>
+      <li      >
+        <a href="/legal_text_classification">Classify Texts</a>
+      </li>
+      <li data-hide="hide"      >
+        <a href="/legal_sentiment_analysis">Analyze sentiment</a>
+      </li>
+      <li data-hide="hide"      >
+        <a href="/legal_deidentification">De-identify texts</a>
+      </li>
+      <li data-hide="hide"      >
+        <a href="/legal_table_understanding">Understand tables</a>
       </li>
       <li><strong>Spark OCR</strong></li>
       <li      >
@@ -535,15 +557,60 @@
 
       <div class="">
         
-<div class="subtitle">Spark NLP for Finance and Legal <img src="/assets/images/arrow.svg" /><strong>Table Extraction</strong></div><div class="grid--container main-big" id="panels"><div class="tab-wrapper-inner"><div class="tab-item ">
+<div class="subtitle">Spark NLP for Finance <img src="/assets/images/arrow.svg" /><strong>Financial Entity Recognition</strong></div><div class="grid--container main-big" id="panels"><div class="tab-wrapper-inner"><div class="tab-item ">
               <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Analyze_sentiment_in_financial_news.svg" />
+                    <img src="/assets/images/Name_Entity_Recognition_on_Financial_Texts.svg" />
                   </figure>
                   <figure class="tab_fig_white">
-                    <img src="/assets/images/Analyze_sentiment_in_financial_news_f.svg" />
-                  </figure><div class="tab-item-title">Lorem</div><div class="tab-description">This demo shows how sentiment can be identified (neutral, positive or negative) in financial news.</div><ul class="tab-menu"><li><a id="lorem" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/public/SENTIMENT_EN_FINANCE/">Live Demo</a></li><li><a id="lorem" class="button button--blue_btn button--pill button--lg"
-                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_FINANCE.ipynb">Colab Netbook</a></li></ul></div> 
+                    <img src="/assets/images/Name_Entity_Recognition_on_Financial_Texts_f.svg" />
+                  </figure><div class="tab-item-title">Name Entity Recognition on financial texts</div><div class="tab-description">This demo shows how you can extract the standard four entities (ORG, PER, LOC, MISC) from financial documents.</div><ul class="tab-menu"><li><a id="name_entity_recognition_financial_texts" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/finance/NER_SEC/">Live Demo</a></li><li><a id="name_entity_recognition_financial_texts" class="button button--blue_btn button--pill button--lg"
+                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_EN.ipynb">Colab Netbook</a></li></ul></div> 
+            </div><div class="tab-item ">
+              <div class="tab-item-inner"><figure class="tab_fig_blue">
+                    <img src="/assets/images/Recognize_ticker_alias_in_financial_texts.svg" />
+                  </figure>
+                  <figure class="tab_fig_white">
+                    <img src="/assets/images/Recognize_ticker_alias_in_financial_texts_f.svg" />
+                  </figure><div class="tab-item-title">Extract Trading Symbols / Tickers</div><div class="tab-description">This demo shows how to extract ticker alias from financial texts.</div><ul class="tab-menu"><li><a id="recognize_ticker_alias_in_financial_texts" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/public/NER_TICKER/">Live Demo</a></li><li><a id="recognize_ticker_alias_in_financial_texts" class="button button--blue_btn button--pill button--lg"
+                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb">Colab Netbook</a></li></ul></div> 
+            </div><div class="tab-item ">
+              <div class="tab-item-inner"><figure class="tab_fig_blue">
+                    <img src="/assets/images/Extract_Entities_from_Whereas_clauses.svg" />
+                  </figure>
+                  <figure class="tab_fig_white">
+                    <img src="/assets/images/Extract_Entities_from_Whereas_clauses_f.svg" />
+                  </figure><div class="tab-item-title">Extract Organizations and Products</div><div class="tab-description">This model uses Name Entity Recognition to extract ORG (Organization names) and PRODUCT (Product names).</div><ul class="tab-menu"><li><a id="extract_organizations_products" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/finance/FINNER_ORGPROD">Live Demo</a></li><li><a id="extract_organizations_products" class="button button--blue_btn button--pill button--lg"
+                      href="/">Colab Netbook</a></li></ul></div> 
+            </div><div class="tab-item ">
+              <div class="tab-item-inner"><figure class="tab_fig_blue">
+                    <img src="/assets/images/Detect_traffic_information_in_text.svg" />
+                  </figure>
+                  <figure class="tab_fig_white">
+                    <img src="/assets/images/Detect_traffic_information_in_text_f.svg" />
+                  </figure><div class="tab-item-title">Detect traffic information in German</div><div class="tab-description">Automatically extract geographical location, postal codes, and traffic routes in German text using our pretrained Spark NLP model.</div><ul class="tab-menu"><li><a id="detect_traffic_information_in_text" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/healthcare/NER_TRAFFIC_DE/">Live Demo</a></li><li><a id="detect_traffic_information_in_text" class="button button--blue_btn button--pill button--lg"
+                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_TRAFFIC_DE.ipynb">Colab Netbook</a></li></ul></div> 
+            </div><div class="tab-item ">
+              <div class="tab-item-inner"><figure class="tab_fig_blue">
+                    <img src="/assets/images/Classify-documents.svg" />
+                  </figure>
+                  <figure class="tab_fig_white">
+                    <img src="/assets/images/Classify-documents-w.svg" />
+                  </figure><div class="tab-item-title">Detect professions and occupations in Spanish</div><div class="tab-description">Automatically identify professions and occupations entities in Spanish texts using our pretrained Spark NLP for Healthcare model.</div><ul class="tab-menu"><li><a id="detect_professions_occupations_Spanish_texts" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/healthcare/NER_PROFESSIONS_ES/">Live Demo</a></li><li><a id="detect_professions_occupations_Spanish_texts" class="button button--blue_btn button--pill button--lg"
+                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_PROFESSIONS_ES.ipynb">Colab Netbook</a></li></ul></div> 
+            </div><div class="tab-item ">
+              <div class="tab-item-inner"><figure class="tab_fig_blue">
+                    <img src="/assets/images/Extract_Entities_from_Whereas_clauses.svg" />
+                  </figure>
+                  <figure class="tab_fig_white">
+                    <img src="/assets/images/Extract_Entities_from_Whereas_clauses_f.svg" />
+                  </figure><div class="tab-item-title">Extract economic and social entities in Russian</div><div class="tab-description">This model extracts entities such as ECO (economics), SOC (social) for economic and social entities, institutions of events, and also quantifiers (QUA), metrics (MET), etc. from Government documents in Russian.</div><ul class="tab-menu"><li><a id="extract_economical_social_entities_objects_government_documents" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/finance/FIN_NER_RUSSIAN_GOV">Live Demo</a></li><li><a id="extract_economical_social_entities_objects_government_documents" class="button button--blue_btn button--pill button--lg"
+                      href="/">Colab Netbook</a></li></ul></div> 
             </div></div></div></div> </section></div>
 </div>
 

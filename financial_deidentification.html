@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Spark NLP in Action</title><meta name="description" content="High Performance NLP with Apache Spark
 ">
-<link rel="canonical" href="/entity_recognition"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<link rel="canonical" href="/financial_deidentification"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -476,33 +476,55 @@
       <li      >
         <a href="/classify_medical_texts">Classify Medical Texts</a>
       </li>
-      <li><strong>Spark NLP for Finance and Legal</strong></li>
+      <li><strong>Spark NLP for Finance</strong></li>
       <li      >
-        <a href="/resolving_company_names">Resolving Company Names</a>
+        <a href="/financial_entity_recognition">Recognize Entities</a>
       </li>
       <li      >
-        <a href="/relation_extraction">Relation Extraction</a>
-      </li>
-      <li      >
-        <a href="/assertion_status">Assertion Status</a>
-      </li>
-      <li    class="active"     >
-        <a href="/entity_recognition">Entity Recognition</a>
-      </li>
-      <li      >
-        <a href="/sentiment_analysis">Sentiment Analysis</a>
+        <a href="/financial_assertion_status">Understand Entity Context</a>
       </li>
       <li data-hide="hide"      >
-        <a href="/deidentification_legal">De-identification</a>
-      </li>
-      <li data-hide="hide"      >
-        <a href="/relation_extraction">Relation Extraction</a>
-      </li>
-      <li data-hide="hide"      >
-        <a href="/table_extraction">Table Extraction</a>
+        <a href="/financial_relation_extraction">Extract Relationships</a>
       </li>
       <li      >
-        <a href="/text_classification">Text Classification</a>
+        <a href="/financial_company_normalization">Normalize Company Names</a>
+      </li>
+      <li      >
+        <a href="/financial_text_classification">Classify Texts</a>
+      </li>
+      <li      >
+        <a href="/financial_sentiment_analysis">Analyze Sentiment</a>
+      </li>
+      <li data-hide="hide"    class="active"     >
+        <a href="/financial_deidentification">De-identify Texts</a>
+      </li>
+      <li data-hide="hide"      >
+        <a href="/financial_table_understanding">Understand Tables</a>
+      </li>
+      <li><strong>Spark NLP for Legal</strong></li>
+      <li      >
+        <a href="/legal_entity_recognition">Recognize Entities</a>
+      </li>
+      <li data-hide="hide"      >
+        <a href="/legal_assertion_status">Understand Entity Context</a>
+      </li>
+      <li      >
+        <a href="/legal_relation_extraction">Extract Relationships</a>
+      </li>
+      <li      >
+        <a href="/legal_company_normalization">Normalize Company Names</a>
+      </li>
+      <li      >
+        <a href="/legal_text_classification">Classify Texts</a>
+      </li>
+      <li data-hide="hide"      >
+        <a href="/legal_sentiment_analysis">Analyze sentiment</a>
+      </li>
+      <li data-hide="hide"      >
+        <a href="/legal_deidentification">De-identify texts</a>
+      </li>
+      <li data-hide="hide"      >
+        <a href="/legal_table_understanding">Understand tables</a>
       </li>
       <li><strong>Spark OCR</strong></li>
       <li      >
@@ -535,114 +557,69 @@
 
       <div class="">
         
-<div class="subtitle">Spark NLP for Finance and Legal <img src="/assets/images/arrow.svg" /><strong>Entity Recognition</strong></div><div class="grid--container main-big" id="panels"><div class="tab-wrapper-inner"><div class="tab-item ">
+<div class="subtitle">Spark NLP for Finance <img src="/assets/images/arrow.svg" /><strong>Financial De-Identification</strong></div><div class="grid--container main-big" id="panels"><div class="tab-wrapper-inner"><div class="tab-item ">
               <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Recognize_ticker_alias_in_financial_texts.svg" />
+                    <img src="/assets/images/Deidentify_structured_data.svg" />
                   </figure>
                   <figure class="tab_fig_white">
-                    <img src="/assets/images/Recognize_ticker_alias_in_financial_texts_f.svg" />
-                  </figure><div class="tab-item-title">Recognize Ticker Alias in Financial texts</div><div class="tab-description">This demo shows how to extract ticker alias from financial texts.</div><ul class="tab-menu"><li><a id="recognize_ticker_alias_in_financial_texts" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/public/NER_TICKER/">Live Demo</a></li><li><a id="recognize_ticker_alias_in_financial_texts" class="button button--blue_btn button--pill button--lg"
-                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb">Colab Netbook</a></li></ul></div> 
+                    <img src="/assets/images/Deidentify_structured_data_f.svg" />
+                  </figure><div class="tab-item-title">Deidentify structured data</div><div class="tab-description">Deidentify PHI information from structured datasets using out of the box Spark NLP functionality that enforces GDPR and HIPPA compliance, while maintaining linkage of clinical data across files.</div><ul class="tab-menu"><li><a id="deidentify_structured_data" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/healthcare/DEID_EHR_DATA">Live Demo</a></li><li><a id="deidentify_structured_data" class="button button--blue_btn button--pill button--lg"
+                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_EHR_DATA.ipynb">Colab Netbook</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Grammar_Analysis.svg" />
+                    <img src="/assets/images/Deidentify_free_text_documents.svg" />
                   </figure>
                   <figure class="tab_fig_white">
-                    <img src="/assets/images/Grammar_Analysis_f.svg" />
-                  </figure><div class="tab-item-title">Detect legal entities in German</div><div class="tab-description">Automatically identify entities such as persons, judges, lawyers, countries, cities, landscapes, organizations, courts, trademark laws, contracts, etc. in German legal text.</div><ul class="tab-menu"><li><a id="detect_legal_entities_german" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_DE/">Live Demo</a></li><li><a id="detect_legal_entities_german" class="button button--blue_btn button--pill button--lg"
-                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_DE.ipynb">Colab Netbook</a></li></ul></div> 
+                    <img src="/assets/images/Deidentify_free_text_documents_f.svg" />
+                  </figure><div class="tab-item-title">Deidentify free text documents</div><div class="tab-description">Deidentify free text documents by either masking or obfuscating PHI information using out of the box Spark NLP models that enforce GDPR and HIPPA compliance.</div><ul class="tab-menu"><li><a id="deidentify_free_text_documents" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT">Live Demo</a></li><li><a id="deidentify_free_text_documents" class="button button--blue_btn button--pill button--lg"
+                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT.ipynb">Colab Netbook</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Detect_traffic_information_in_text.svg" />
+                    <img src="/assets/images/Deidentify_DICOM_documents.svg" />
                   </figure>
                   <figure class="tab_fig_white">
-                    <img src="/assets/images/Detect_traffic_information_in_text_f.svg" />
-                  </figure><div class="tab-item-title">Detect traffic information in German</div><div class="tab-description">Automatically extract geographical location, postal codes, and traffic routes in German text using our pretrained Spark NLP model.</div><ul class="tab-menu"><li><a id="detect_traffic_information_in_text" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/healthcare/NER_TRAFFIC_DE/">Live Demo</a></li><li><a id="detect_traffic_information_in_text" class="button button--blue_btn button--pill button--lg"
-                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_TRAFFIC_DE.ipynb">Colab Netbook</a></li></ul></div> 
+                    <img src="/assets/images/Deidentify_DICOM_documents_f.svg" />
+                  </figure><div class="tab-item-title">Deidentify DICOM documents</div><div class="tab-description">Deidentify DICOM documents by masking PHI information on the image and by either masking or obfuscating PHI from the metadata.</div><ul class="tab-menu"><li><a id="deidentify_dicom_documents" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/ocr/DEID_DICOM_IMAGE">Live Demo</a></li><li><a id="deidentify_dicom_documents" class="button button--blue_btn button--pill button--lg"
+                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/DEID_DICOM_IMAGE.ipynb">Colab Netbook</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Classify-documents.svg" />
+                    <img src="/assets/images/Deidentify_PDF_documents.svg" />
                   </figure>
                   <figure class="tab_fig_white">
-                    <img src="/assets/images/Classify-documents-w.svg" />
-                  </figure><div class="tab-item-title">Detect professions and occupations in Spanish texts</div><div class="tab-description">Automatically identify professions and occupations entities in Spanish texts using our pretrained Spark NLP for Healthcare model.</div><ul class="tab-menu"><li><a id="detect_professions_occupations_Spanish_texts" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/healthcare/NER_PROFESSIONS_ES/">Live Demo</a></li><li><a id="detect_professions_occupations_Spanish_texts" class="button button--blue_btn button--pill button--lg"
-                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_PROFESSIONS_ES.ipynb">Colab Netbook</a></li></ul></div> 
+                    <img src="/assets/images/Deidentify_PDF_documents_f.svg" />
+                  </figure><div class="tab-item-title">De-identify PDF documents - HIPAA Compliance</div><div class="tab-description">De-identify PDF documents using HIPAA guidelines by masking PHI information using out of the box Spark NLP models.</div><ul class="tab-menu"><li><a id="hipaa_compliance" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/ocr/DEID_PDF_HIPAA">Live Demo</a></li><li><a id="hipaa_compliance" class="button button--blue_btn button--pill button--lg"
+                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/DEID_PDF.ipynb">Colab Netbook</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Named_Entity_Recognition_Brazilian_Portuguese_Legal_Texts.svg" />
+                    <img src="/assets/images/Deidentify_PDF_documents.svg" />
                   </figure>
                   <figure class="tab_fig_white">
-                    <img src="/assets/images/Named_Entity_Recognition_Brazilian_Portuguese_Legal_Texts_f.svg" />
-                  </figure><div class="tab-item-title">Named Entity Recognition for (Brazilian) Portuguese Legal Texts</div><div class="tab-description">Automatically identify entities such as Organization, Jurisprudence, Legislation, Person, Location, and Time, etc. in (Brazilian) Portuguese legal text.</div><ul class="tab-menu"><li><a id="named_entity_recognition_brazilian_portuguese_legal_texts" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_PT/">Live Demo</a></li><li><a id="named_entity_recognition_brazilian_portuguese_legal_texts" class="button button--blue_btn button--pill button--lg"
-                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_PT.ipynb">Colab Netbook</a></li></ul></div> 
+                    <img src="/assets/images/Deidentify_PDF_documents_f.svg" />
+                  </figure><div class="tab-item-title">De-identify PDF documents - GDPR Compliance</div><div class="tab-description">De-identify PDF documents using GDPR guidelines by anonymizing PHI information using out of the box Spark NLP models.</div><ul class="tab-menu"><li><a id="gdpr_compliance" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/ocr/DEID_PDF_GDPR">Live Demo</a></li><li><a id="gdpr_compliance" class="button button--blue_btn button--pill button--lg"
+                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/DEID_PDF.ipynb">Colab Netbook</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Name_Entity_Recognition_on_Financial_Texts.svg" />
+                    <img src="/assets/images/Detect_PHI_Entities.svg" />
                   </figure>
                   <figure class="tab_fig_white">
-                    <img src="/assets/images/Name_Entity_Recognition_on_Financial_Texts_f.svg" />
-                  </figure><div class="tab-item-title">Name Entity Recognition on Financial Texts</div><div class="tab-description">This demo shows how you can extract the standard four entities (ORG, PER, LOC, MISC) from financial documents.</div><ul class="tab-menu"><li><a id="name_entity_recognition_financial_texts" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/finance/NER_SEC/">Live Demo</a></li><li><a id="name_entity_recognition_financial_texts" class="button button--blue_btn button--pill button--lg"
-                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_EN.ipynb">Colab Netbook</a></li></ul></div> 
+                    <img src="/assets/images/Detect_PHI_Entities_f.svg" />
+                  </figure><div class="tab-item-title">Detect PHI Entities for Deidentification</div><div class="tab-description">This demo shows how Protected Health Information (PHI) that may need to be de-identified can be extracted using Spark NLP model.</div><ul class="tab-menu"><li><a id="detect_phi_entities" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS/">Live Demo</a></li><li><a id="detect_phi_entities" class="button button--blue_btn button--pill button--lg"
+                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DEMOGRAPHICS.ipynb">Colab Netbook</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Extract_Headers_and_Subheaders_from_Legal_Documents.svg" />
+                    <img src="/assets/images/Deidentify_free_text_documents.svg" />
                   </figure>
                   <figure class="tab_fig_white">
-                    <img src="/assets/images/Extract_Headers_and_Subheaders_from_Legal_Documents_f.svg" />
-                  </figure><div class="tab-item-title">Extract Headers and Subheaders from Legal Documents</div><div class="tab-description">This model uses Name Entity Recognition to detect HEADERS and SUBHEADERS with aims to detect the different sections of a legal document.</div><ul class="tab-menu"><li><a id="extract_headers_subheaders_from_legal_documents" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/finance/LEGALNER_HEADERS/">Live Demo</a></li><li><a id="extract_headers_subheaders_from_legal_documents" class="button button--blue_btn button--pill button--lg"
-                      href="/">Colab Netbook</a></li></ul></div> 
-            </div><div class="tab-item ">
-              <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Extract_Document_Type.svg" />
-                  </figure>
-                  <figure class="tab_fig_white">
-                    <img src="/assets/images/Extract_Document_Type_f.svg" />
-                  </figure><div class="tab-item-title">Extract Document Type, Parties, Aliases and Dates from Contracts</div><div class="tab-description">This model uses Name Entity Recognition to extract DOC (Document Type), PARTY (An Entity signing a contract), ALIAS (the way a company is named later on in the document) and EFFDATE (Effective Date of the contract).</div><ul class="tab-menu"><li><a id="extract_document_type_parties_aliases_dates_contracts" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/finance/LEGALNER_PARTIES/">Live Demo</a></li><li><a id="extract_document_type_parties_aliases_dates_contracts" class="button button--blue_btn button--pill button--lg"
-                      href="/">Colab Netbook</a></li></ul></div> 
-            </div><div class="tab-item ">
-              <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Extract_Signers_Roles.svg" />
-                  </figure>
-                  <figure class="tab_fig_white">
-                    <img src="/assets/images/Extract_Signers_Roles_f.svg" />
-                  </figure><div class="tab-item-title">Extract Signers, Roles and Companies</div><div class="tab-description">This model uses Name Entity Recognition to extract SIGNING_PERSON (People signing a document), SIGNING_TITLE (the roles of those people in the company) and PARTY (Organizations).</div><ul class="tab-menu"><li><a id="extract_signers_roles_companies" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/finance/LEGALNER_SIGNERS/">Live Demo</a></li><li><a id="extract_signers_roles_companies" class="button button--blue_btn button--pill button--lg"
-                      href="/">Colab Netbook</a></li></ul></div> 
-            </div><div class="tab-item ">
-              <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Extract_Entities_from_Whereas_clauses.svg" />
-                  </figure>
-                  <figure class="tab_fig_white">
-                    <img src="/assets/images/Extract_Entities_from_Whereas_clauses_f.svg" />
-                  </figure><div class="tab-item-title">Extract Entities from Whereas clauses</div><div class="tab-description">This model uses Name Entity Recognition detect "Whereas" clauses and extract, from them, the SUBJECT, the ACTION and the OBJECT.</div><ul class="tab-menu"><li><a id="extract_entities_whereas_clauses" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/finance/LEGALNER_WHEREAS/">Live Demo</a></li><li><a id="extract_entities_whereas_clauses" class="button button--blue_btn button--pill button--lg"
-                      href="/">Colab Netbook</a></li></ul></div> 
-            </div><div class="tab-item ">
-              <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Extract_Entities_from_Whereas_clauses.svg" />
-                  </figure>
-                  <figure class="tab_fig_white">
-                    <img src="/assets/images/Extract_Entities_from_Whereas_clauses_f.svg" />
-                  </figure><div class="tab-item-title">Extract economic and social entities from Russian texts</div><div class="tab-description">This model extracts entities such as ECO (economics), SOC (social) for economic and social entities, institutions of events, and also quantifiers (QUA), metrics (MET), etc. from Government documents in Russian.</div><ul class="tab-menu"><li><a id="extract_economical_social_entities_objects_government_documents" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/finance/FIN_NER_RUSSIAN_GOV">Live Demo</a></li><li><a id="extract_economical_social_entities_objects_government_documents" class="button button--blue_btn button--pill button--lg"
-                      href="/">Colab Netbook</a></li></ul></div> 
-            </div><div class="tab-item ">
-              <div class="tab-item-inner"><figure class="tab_fig_blue">
-                    <img src="/assets/images/Extract_Entities_from_Whereas_clauses.svg" />
-                  </figure>
-                  <figure class="tab_fig_white">
-                    <img src="/assets/images/Extract_Entities_from_Whereas_clauses_f.svg" />
-                  </figure><div class="tab-item-title">Extract Organizations and Products</div><div class="tab-description">This model uses Name Entity Recognition to extract ORG (Organization names) and PRODUCT (Product names).</div><ul class="tab-menu"><li><a id="extract_organizations_products" class="button button--normal button--pill button--lg"
-                      href="https://demo.johnsnowlabs.com/finance/FINNER_ORGPROD">Live Demo</a></li><li><a id="extract_organizations_products" class="button button--blue_btn button--pill button--lg"
-                      href="/">Colab Netbook</a></li></ul></div> 
+                    <img src="/assets/images/Deidentify_free_text_documents_f.svg" />
+                  </figure><div class="tab-item-title">Deidentify Clinical Notes in Different Languages</div><div class="tab-description">This demo shows how to deidentify protected health information in English , Spanish, French, Italian and German texts.</div><ul class="tab-menu"><li><a id="deidentify_clinical_notes_different_languages" class="button button--normal button--pill button--lg"
+                      href="https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_MULTI/">Live Demo</a></li><li><a id="deidentify_clinical_notes_different_languages" class="button button--blue_btn button--pill button--lg"
+                      href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT_MULTI.ipynb">Colab Netbook</a></li></ul></div> 
             </div></div></div></div> </section></div>
 </div>
 
