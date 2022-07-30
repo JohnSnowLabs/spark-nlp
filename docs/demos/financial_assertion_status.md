@@ -2,20 +2,20 @@
 layout: demopage
 title: Spark NLP in Action
 full_width: true
-permalink: /assertion_status
+permalink: /financial_assertion_status
 key: demo
 license: false
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Healthcare
-      excerpt: Assertion Status
+    - title: Spark NLP for Finance
+      excerpt: Understand Entity Context
       secheader: yes
       secheader:
-        - title: Spark NLP for Healthcare
-          subtitle: Assertion Status
-          activemenu: assertion_status
+        - title: Spark NLP for Finance
+          subtitle: Understand Entity Context
+          activemenu: financial_assertion_status
       source: yes
       source: 
         - title: Identify Competitors in a text   

@@ -2,20 +2,20 @@
 layout: demopage
 title: Spark NLP in Action
 full_width: true
-permalink: /deidentification
+permalink: /financial_deidentification
 key: demo
 license: false
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Healthcare 
+    - title: Spark NLP for Finance
       excerpt: De-Identification
       secheader: yes
       secheader:
-        - title: Spark NLP for Healthcare
-          subtitle: De-Identification
-          activemenu: deidentification
+        - title: Spark NLP for Finance
+          subtitle: Financial De-Identification
+          activemenu: financial_deidentification
       source: yes
       source: 
         - title: Deidentify structured data

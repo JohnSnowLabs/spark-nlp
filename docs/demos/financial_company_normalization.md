@@ -2,20 +2,20 @@
 layout: demopage
 title: Spark NLP in Action
 full_width: true
-permalink: /resolving_company_names
+permalink: /financial_company_normalization
 key: demo
 license: false
 show_edit_on_github: false
 show_date: false
 data:
   sections:  
-    - title: Spark NLP for Healthcare
-      excerpt: Resolving Company Names
+    - title: Spark NLP for Finance
+      excerpt: Normalizing and Augmenting Company Names
       secheader: yes
       secheader:
-        - title: Spark NLP for Healthcare
-          subtitle: Resolving Company Names
-          activemenu: resolving_company_names
+        - title: Spark NLP for Finance
+          subtitle: Normalizing and Augmenting Company Names
+          activemenu: financial_company_normalization
       source: yes
       source: 
         - title: Company Normalization for Edgar and Crunchbase databases 
