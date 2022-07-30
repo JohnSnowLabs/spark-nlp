@@ -55,7 +55,7 @@ sidebar:
 
 ```python
 ...
-ner_model = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_exact_age_reddit", "en", "clinical/models")\
+sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_exact_age_reddit", "en", "clinical/models")\
     .setInputCols(["document", "token"])\
     .setOutputCol("class")\
 ...
@@ -75,7 +75,7 @@ sample_text = ["Is it bad for a 19 year old it's been getting worser.",
 ```
 
 + We are releasing 5 new public health classification models.
- 
+
 | model name                                                                                                                                | description                                                                             | predicted entities             |
 |-------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|--------------------------------|
 |[bert_sequence_classifier_health_mentions](https://nlp.johnsnowlabs.com/2022/07/25/bert_sequence_classifier_health_mentions_en_3_0.html)    | This model can classify public health mentions in social media text | `figurative_mention` `other_mention` `health_mention`|
@@ -158,7 +158,7 @@ from sparknlp.pretrained import PretrainedPipeline
 
 medication_pipeline = PretrainedPipeline("medication_resolver_pipeline", "en", "clinical/models")
 
-text = """The patient was prescribed Mycobutn 150 MG, Salagen 5 MG oral tablet, 
+text = """The patient was prescribed Mycobutn 150 MG, Salagen 5 MG oral tablet,
 The other patient is given Lescol 40 MG and Lidoderm 0.05 MG/MG, triazolam 0.125 MG Oral Tablet, metformin hydrochloride 1000 MG Oral Tablet"""
 ```
 
@@ -178,9 +178,9 @@ The other patient is given Lescol 40 MG and Lidoderm 0.05 MG/MG, triazolam 0.125
 ```
 
 
-#### New Disease NER Model for Spanish Language 
+#### New Disease NER Model for Spanish Language
 
-We are releasing a new `MedicalBertForTokenClassifier` model to extract disease entities from social media text in Spanish. 
+We are releasing a new `MedicalBertForTokenClassifier` model to extract disease entities from social media text in Spanish.
 
 + `bert_token_classifier_disease_mentions_tweet`: This model can extract disease entities in Spanish tweets and label them as `ENFERMEDAD` (disease).
 
@@ -294,9 +294,9 @@ sample_text = "HTG-induced pancreatitis associated with an acute hepatitis, and 
 ```
 
 
-#### New Relation Extraction Model to Detect Drug and ADE relations 
+#### New Relation Extraction Model to Detect Drug and ADE relations
 
-We are releasing new `re_ade_conversational` model that can extract relations between `DRUG` and `ADE` entities from conversational texts and tag the relations as `is_related` and `not_related`. 
+We are releasing new `re_ade_conversational` model that can extract relations between `DRUG` and `ADE` entities from conversational texts and tag the relations as `is_related` and `not_related`.
 
 See [Models Hub Page](https://nlp.johnsnowlabs.com/2022/07/27/re_ade_conversational_en_3_0.html) for more details.
 
@@ -629,7 +629,7 @@ result= pipeline.annotate("1161611 315677")
 
 + `ner_clinical_trials_abstracts`: This model can extract concepts related to clinical trial design, diseases, drugs, population, statistics and publication. It can detect `Age`, `AllocationRatio`, `Author`, `BioAndMedicalUnit`, `CTAnalysisApproach`, `CTDesign`, `Confidence`, `Country`, `DisorderOrSyndrome`, `DoseValue`, `Drug`, `DrugTime`, `Duration`, `Journal`, `NumberPatients`, `PMID`, `PValue`, `PercentagePatients`, `PublicationYear`, `TimePoint`, `Value` entities.
 
-See [Model Hub Page](https://nlp.johnsnowlabs.com/2022/06/22/ner_clinical_trials_abstracts_en_3_0.html) for details. 
+See [Model Hub Page](https://nlp.johnsnowlabs.com/2022/06/22/ner_clinical_trials_abstracts_en_3_0.html) for details.
 
 *Example* :
 
