@@ -1,8 +1,2 @@
-docs/en/alab/annotation_labs_releases/release_notes_3_2_0.md
-docs/en/alab/annotation_labs_releases/release_notes_3_3_1.md
-docs/en/alab/annotation_labs_releases/release_notes_3_4_0.md
-docs/en/alab/release_notes.md
-docs/en/alab/annotation_labs_releases/release_notes_3_2_0.md
-docs/en/alab/annotation_labs_releases/release_notes_3_3_1.md
-docs/en/alab/annotation_labs_releases/release_notes_3_4_0.md
-docs/en/alab/release_notes.md
+docs/demos/deidentification.md
+docs/demos/deidentification.md
