@@ -34,6 +34,7 @@ This model is a [BioBERT](https://nlp.johnsnowlabs.com/2022/07/18/biobert_pubmed
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler() \
     .setInputCol("text") \
@@ -121,12 +122,11 @@ Curated from several academic and in-house datasets.
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
     negative       0.96      0.97      0.97      3284
     positive       0.94      0.96      0.95      1207
      neutral       0.96      0.94      0.95      3232
     accuracy          -         -      0.96      7723
-   macro avg       0.95      0.96      0.96      7723
-weighted avg       0.96      0.96      0.96      7723
+   macro-avg       0.95      0.96      0.96      7723
+weighted-avg       0.96      0.96      0.96      7723
 ```
