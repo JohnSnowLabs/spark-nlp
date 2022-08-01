@@ -1,0 +1,310 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp_jsl.util &#8212; Spark NLP 4.0.0 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
+    <script src="../../static/jquery.js"></script>
+    <script src="../../static/underscore.js"></script>
+    <script src="../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../static/doctools.js"></script>
+    <script src="../../static/toggleprompt.js"></script>
+    <link rel="shortcut icon" href="../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    <img src="../../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../reference/index.html">
+  API Reference
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <h1>Source code for sparknlp_jsl.util</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+
+
+<div class="viewcode-block" id="get_mt_samples"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/util/index.html#sparknlp_jsl.util.get_mt_samples">[docs]</a><span class="k">def</span> <span class="nf">get_mt_samples</span><span class="p">(</span><span class="n">medical_speciality</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Download Transcribed Medical Transcription Sample Reports and Examples from</span>
+<span class="sd">    &#39;www.mtsamples.com&#39;.</span>
+
+<span class="sd">    ## Parameters</span>
+
+<span class="sd">    Medical_Speciality: str</span>
+<span class="sd">      One of the following specialities:</span>
+<span class="sd">      &#39;Allergy_Immunology&#39;</span>
+<span class="sd">      &#39;Autopsy&#39;</span>
+<span class="sd">      &#39;Bariatrics&#39;</span>
+<span class="sd">      &#39;Cardiovascular_Pulmonary&#39;</span>
+<span class="sd">      &#39;Chiropractic&#39;</span>
+<span class="sd">      &#39;Consult_History_and_Phy.&#39;</span>
+<span class="sd">      &#39;Cosmetic_Plastic_Surgery&#39;</span>
+<span class="sd">      &#39;Dentistry&#39;</span>
+<span class="sd">      &#39;Dermatology&#39;</span>
+<span class="sd">      &#39;Diets_and_Nutritions&#39;</span>
+<span class="sd">      &#39;Discharge_Summary&#39;</span>
+<span class="sd">      &#39;Emergency_Room_Reports&#39;</span>
+<span class="sd">      &#39;Endocrinology&#39;</span>
+<span class="sd">      &#39;ENT_Otolaryngology&#39;</span>
+<span class="sd">      &#39;Gastroenterology&#39;</span>
+<span class="sd">      &#39;General_Medicine&#39;</span>
+<span class="sd">      &#39;Hematology_Oncology&#39;</span>
+<span class="sd">      &#39;Hospice_Palliative_Care&#39;</span>
+<span class="sd">      &#39;IME&#39;</span>
+<span class="sd">      &#39;Lab_Medicine_Pathology&#39;</span>
+<span class="sd">      &#39;Letters&#39;</span>
+<span class="sd">      &#39;Nephrology&#39;</span>
+<span class="sd">      &#39;Neurology&#39;</span>
+<span class="sd">      &#39;Neurosurgery&#39;</span>
+<span class="sd">      &#39;Obstetrics_Gynecology&#39;</span>
+<span class="sd">      &#39;Office_Notes&#39;</span>
+<span class="sd">      &#39;Ophthalmology&#39;</span>
+<span class="sd">      &#39;Orthopedic&#39;</span>
+<span class="sd">      &#39;Pain_Management&#39;</span>
+<span class="sd">      &#39;Pediatrics_Neonatal&#39;</span>
+<span class="sd">      &#39;Physical_Medicine_Rehab&#39;</span>
+<span class="sd">      &#39;Podiatry&#39;</span>
+<span class="sd">      &#39;Psychiatry_Psychology&#39;</span>
+<span class="sd">      &#39;Radiology&#39;</span>
+<span class="sd">      &#39;Rheumatology&#39;</span>
+<span class="sd">      &#39;Sleep_Medicine&#39;</span>
+<span class="sd">      &#39;SOAP_Chart_Progress_Notes&#39;</span>
+<span class="sd">      &#39;Speech_Language&#39;</span>
+<span class="sd">      &#39;Surgery&#39;</span>
+<span class="sd">      &#39;Urology&#39;</span>
+
+<span class="sd">    path = str</span>
+<span class="sd">      Path to save samples.</span>
+
+<span class="sd">    n = int</span>
+<span class="sd">      Number of samples to be scrapped.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    get_mt_samples(&#39;Hematology_Oncology&#39;, path = &quot;./samples&quot;, n = 3)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">URL</span> <span class="o">=</span> <span class="s2">&quot;https://mtsamples.com/site/pages/sitemap.asp&quot;</span>
+    <span class="n">page</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span><span class="p">)</span>
+    <span class="n">mt_soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
+    <span class="n">sample_types_map</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># type_samples = {}</span>
+    <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">mt_soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">link</span><span class="p">[</span><span class="s1">&#39;href&#39;</span><span class="p">][:</span><span class="mi">23</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;/site/pages/sample.asp?&quot;</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">link</span><span class="p">[</span><span class="s1">&#39;href&#39;</span><span class="p">]</span>
+            <span class="n">sample_type</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;type=(.*?)&amp;sample&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">sample_number</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;sample=(.*?)$&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">sample_clean</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot; / | - | &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">sample_type</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">sample_clean</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sample_types_map</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">sample_types_map</span><span class="p">[</span><span class="n">sample_clean</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">sample_types_map</span><span class="p">[</span><span class="n">sample_clean</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;%20&quot;</span><span class="p">,</span> <span class="n">sample_type</span><span class="p">)</span>
+                <span class="n">sample_types_map</span><span class="p">[</span><span class="n">sample_clean</span><span class="p">][</span><span class="s1">&#39;samples&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">sample_types_map</span><span class="p">[</span><span class="n">sample_clean</span><span class="p">][</span><span class="s1">&#39;samples&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;%20&quot;</span><span class="p">,</span> <span class="n">sample_number</span><span class="p">))</span>
+
+    <span class="n">download_path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">medical_speciality</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">download_path</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="kc">None</span>
+    <span class="n">no</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">no</span><span class="p">,</span> <span class="n">sample_url</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sample_types_map</span><span class="p">[</span><span class="n">medical_speciality</span><span class="p">][</span><span class="s1">&#39;samples&#39;</span><span class="p">][:</span><span class="n">n</span><span class="p">]):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://mtsamples.com/site/pages/sample.asp?type=</span><span class="si">{</span><span class="n">sample_types_map</span><span class="p">[</span><span class="n">medical_speciality</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&amp;sample=</span><span class="si">{</span><span class="n">sample_url</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="c1"># print(url)</span>
+
+        <span class="n">page</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="n">mt_soup_speciality</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
+
+        <span class="n">mt_hilightBold_text</span> <span class="o">=</span> <span class="n">mt_soup_speciality</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="s1">&#39;hilightBold&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+            <span class="s1">&#39;(adsbygoogle = window.adsbygoogle || []).push(</span><span class="si">{}</span><span class="s1">);&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="n">unwanted_parts</span> <span class="o">=</span> <span class="p">[</span><span class="n">mt_soup_speciality</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="s1">&#39;row my-2&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+                          <span class="n">mt_soup_speciality</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="s1">&#39;alert alert-info my-4&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+                          <span class="n">mt_soup_speciality</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="s1">&#39;mt-5 mb-2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">unwanted_parts</span><span class="p">:</span>
+            <span class="n">mt_hilightBold_text</span> <span class="o">=</span> <span class="n">mt_hilightBold_text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">mt_hilightBold_text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">+\s*&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mt_hilightBold_text</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">download_path</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">medical_speciality</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">no</span><span class="si">:</span><span class="s1">02</span><span class="si">}</span><span class="s1">.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;UTF8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">mt_hilightBold_text</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">no</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2"> samples from </span><span class="si">{</span><span class="n">medical_speciality</span><span class="si">}</span><span class="s2"> is downloaded to folder : &#39;</span><span class="si">{</span><span class="n">download_path</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span></div>
+</pre></div>
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2022, John Snow Labs.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

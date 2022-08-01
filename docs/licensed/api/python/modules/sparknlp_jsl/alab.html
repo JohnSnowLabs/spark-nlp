@@ -1,0 +1,676 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp_jsl.alab &#8212; Spark NLP 4.0.0 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
+    <script src="../../static/jquery.js"></script>
+    <script src="../../static/underscore.js"></script>
+    <script src="../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../static/doctools.js"></script>
+    <script src="../../static/toggleprompt.js"></script>
+    <link rel="shortcut icon" href="../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    <img src="../../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../reference/index.html">
+  API Reference
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <h1>Source code for sparknlp_jsl.alab</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Functions to manipulate an Annotation Lab JSON export into an appropriate layout for training</span>
+<span class="sd">assertion, relation extraction and NER models</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">IO</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+
+<span class="kn">from</span> <span class="nn">.utils.alab_utils</span> <span class="kn">import</span> <span class="n">get_nlp_token_pipeline</span><span class="p">,</span> <span class="n">get_nlp_regex_token_pipeline</span><span class="p">,</span> <span class="n">get_rel_df</span><span class="p">,</span> \
+    <span class="n">get_ner_sentence_borders</span><span class="p">,</span> <span class="n">get_single_task_conll</span><span class="p">,</span> <span class="n">get_nlp_regex_pos_pipeline</span><span class="p">,</span> <span class="n">get_nlp_pos_pipeline</span>
+
+
+<div class="viewcode-block" id="get_assertion_data"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.get_assertion_data">[docs]</a><span class="k">def</span> <span class="nf">get_assertion_data</span><span class="p">(</span><span class="n">spark</span><span class="p">:</span> <span class="n">SparkSession</span><span class="p">,</span> <span class="n">input_json_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">assertion_labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">relevant_ner_labels</span><span class="p">:</span>
+                       <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">ground_truth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">unannotated_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                       <span class="n">regex_pattern</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">unannotated_label_strategy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                       <span class="n">unannotated_label_strategy_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                       <span class="n">excluded_task_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                       <span class="n">excluded_task_titles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Generate a dataframe to train assertion models in Spark NLP from an Annotation Lab JSON export</span>
+<span class="sd">    :param spark: Spark session with spark-nlp-jsl jar</span>
+<span class="sd">    :type spark: SparkSession</span>
+<span class="sd">    :param input_json_path: path to Annotation Lab JSON export</span>
+<span class="sd">    :type input_json_path: str</span>
+<span class="sd">    :param assertion_labels: annotated assertion labels to train on</span>
+<span class="sd">    :type assertion_labels: list[str]</span>
+<span class="sd">    :param relevant_ner_labels: relevant NER labels that are assigned assertion labels</span>
+<span class="sd">    :type relevant_ner_labels: list[str]</span>
+<span class="sd">    :param ground_truth: set to True to select ground truth completions, False to select latest completions,</span>
+<span class="sd">    defaults to False</span>
+<span class="sd">    :type ground_truth: bool</span>
+<span class="sd">    :param unannotated_label: assertion label to assign to entities that have no assertion, defaults to None</span>
+<span class="sd">    :type unannotated_label: str</span>
+<span class="sd">    :param regex_pattern: set a pattern to use regex tokenizer, defaults to regular tokenizer if pattern not defined</span>
+<span class="sd">    :type regex_pattern: str</span>
+<span class="sd">    :param unannotated_label_strategy: set the strategy to control the number of occurrences of the unannotated</span>
+<span class="sd">    assertion label in the output dataframe, options are &#39;weighted&#39; or &#39;counts&#39;, &#39;weighted&#39; allows to sample using a</span>
+<span class="sd">    fraction, &#39;counts&#39; allows to sample using absolute counts, defaults to None</span>
+<span class="sd">    :type unannotated_label_strategy: str</span>
+<span class="sd">    :param unannotated_label_strategy_dict: dictionary in the format {&#39;ENTITY_LABEL&#39;: sample_weight_or_counts} to</span>
+<span class="sd">    control the number of occurrences of the unannotated assertion label in the output dataframe, where &#39;ENTITY_LABEL&#39;</span>
+<span class="sd">    are the NER labels that are assigned the unannotated assertion label, and sample_weight_or_counts should be between</span>
+<span class="sd">    0 and 1 if `unannotated_label_strategy` is &#39;weighted&#39; or between 0 and the max number of occurrences of that NER</span>
+<span class="sd">    label if `unannotated_label_strategy` is &#39;counts&#39;</span>
+<span class="sd">    :type unannotated_label_strategy_dict: dict</span>
+<span class="sd">    :param excluded_task_ids: list of Annotation Lab task IDs to exclude from output dataframe, defaults to None</span>
+<span class="sd">    :type excluded_task_ids: list</span>
+<span class="sd">    :param excluded_task_titles: list of Annotation Lab task titles to exclude from output dataframe, defaults to None</span>
+<span class="sd">    :type excluded_task_titles: list</span>
+<span class="sd">    :return: dataframe in appropriate layout for training assertion models</span>
+<span class="sd">    :rtype: pd.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">regex_pattern</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">lp_pipeline</span> <span class="o">=</span> <span class="n">get_nlp_regex_token_pipeline</span><span class="p">(</span><span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">,</span> <span class="n">regex_pattern</span><span class="o">=</span><span class="n">regex_pattern</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">regex_pattern</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">lp_pipeline</span> <span class="o">=</span> <span class="n">get_nlp_token_pipeline</span><span class="p">(</span><span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_json_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+        <span class="n">output_list</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
+
+    <span class="n">ner_dicts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">id_title_map</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">w</span><span class="p">,</span> <span class="n">output</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">output_list</span><span class="p">):</span>
+
+        <span class="n">map_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">map_title</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">map_title</span> <span class="o">=</span> <span class="s2">&quot;untitled&quot;</span>
+
+        <span class="n">id_title_map</span><span class="p">[</span><span class="n">map_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">map_title</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;text&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">ground_truth</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">])):</span>
+                    <span class="k">if</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;honeypot&#39;</span><span class="p">]:</span>
+                        <span class="n">gt_index</span> <span class="o">=</span> <span class="n">i</span>
+
+            <span class="k">elif</span> <span class="n">ground_truth</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">or</span> <span class="n">ground_truth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">gt_index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+            <span class="n">doc_id</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;EXCEPTION:&#39;</span><span class="p">,</span> <span class="n">input_json_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;Task ID#&#39;</span><span class="p">,</span> <span class="n">doc_id</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[(</span><span class="n">line</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">end</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lp_pipeline</span><span class="o">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="n">text</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;sentence&#39;</span><span class="p">]]</span>
+
+        <span class="n">sent_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sentence&#39;</span><span class="p">,</span> <span class="s1">&#39;begin&#39;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">])</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">][</span><span class="n">gt_index</span><span class="p">][</span><span class="s1">&#39;result&#39;</span><span class="p">]):</span>
+
+                <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;labels&#39;</span><span class="p">:</span>
+                    <span class="n">assertion_label</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;labels&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+                    <span class="n">sentence</span> <span class="o">=</span> <span class="n">sent_df</span><span class="p">[(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">sent_df</span><span class="o">.</span><span class="n">begin</span><span class="p">)</span> <span class="o">&amp;</span>
+                                       <span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">sent_df</span><span class="o">.</span><span class="n">end</span><span class="p">)</span> <span class="o">&amp;</span>
+                                       <span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;end&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="n">sent_df</span><span class="o">.</span><span class="n">begin</span><span class="p">)</span> <span class="o">&amp;</span>
+                                       <span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;end&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">sent_df</span><span class="o">.</span><span class="n">end</span><span class="p">)]</span>
+
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">continue</span>
+
+                    <span class="n">sent</span> <span class="o">=</span> <span class="n">sentence</span><span class="p">[</span><span class="s1">&#39;sentence&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                    <span class="n">begin</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">sentence</span><span class="p">[</span><span class="s1">&#39;begin&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">end</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;end&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">sentence</span><span class="p">[</span><span class="s1">&#39;begin&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                    <span class="n">token_lines</span> <span class="o">=</span> <span class="p">[(</span><span class="n">line</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">end</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span>
+                                   <span class="n">lp_pipeline</span><span class="o">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="n">sent</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;token&#39;</span><span class="p">]]</span>
+
+                    <span class="n">token_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">token_lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;token&#39;</span><span class="p">,</span> <span class="s1">&#39;begin&#39;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">])</span>
+
+                    <span class="n">ix</span> <span class="o">=</span> <span class="n">token_df</span><span class="p">[(</span><span class="n">token_df</span><span class="o">.</span><span class="n">begin</span> <span class="o">&gt;=</span> <span class="n">begin</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">token_df</span><span class="o">.</span><span class="n">end</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">)]</span><span class="o">.</span><span class="n">index</span>
+
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ix</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="n">left_ix</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">ix</span><span class="p">)</span>
+                    <span class="n">right_ix</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ix</span><span class="p">)</span>
+
+                    <span class="n">ner_dicts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">doc_id</span><span class="p">,</span> <span class="n">sent</span><span class="p">,</span> <span class="n">i</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;text&#39;</span><span class="p">],</span> <span class="n">assertion_label</span><span class="p">,</span> <span class="n">left_ix</span><span class="p">,</span> <span class="n">right_ix</span><span class="p">,</span>
+                                      <span class="n">i</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;end&#39;</span><span class="p">]))</span>
+
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;EXCEPTION:&#39;</span><span class="p">,</span> <span class="n">input_json_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;Task ID#&#39;</span><span class="p">,</span> <span class="n">doc_id</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Processing Task ID#&#39;</span><span class="p">,</span> <span class="n">doc_id</span><span class="p">)</span>
+
+    <span class="n">ass_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ner_dicts</span><span class="p">,</span>
+                          <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;task_id&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="s1">&#39;target&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="s1">&#39;doc_start_index&#39;</span><span class="p">,</span>
+                                   <span class="s1">&#39;doc_end_index&#39;</span><span class="p">])</span>
+    <span class="n">ass_df</span><span class="p">[</span><span class="s2">&quot;json_file_path&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">input_json_path</span>
+
+    <span class="n">relevant_ner_df</span> <span class="o">=</span> <span class="n">ass_df</span><span class="p">[</span><span class="n">ass_df</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">relevant_ner_labels</span><span class="p">)]</span>
+    <span class="n">relevant_ass_df</span> <span class="o">=</span> <span class="n">ass_df</span><span class="p">[</span><span class="n">ass_df</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">assertion_labels</span><span class="p">)]</span>
+
+    <span class="n">ass_inner_duplicates</span> <span class="o">=</span> <span class="n">relevant_ass_df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">relevant_ner_df</span><span class="p">,</span>
+                                                 <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;task_id&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="s1">&#39;target&#39;</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="s1">&#39;doc_start_index&#39;</span><span class="p">,</span>
+                                                     <span class="s1">&#39;doc_end_index&#39;</span><span class="p">,</span> <span class="s1">&#39;json_file_path&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+        <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;label_x&#39;</span><span class="p">:</span> <span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;label_y&#39;</span><span class="p">:</span> <span class="s1">&#39;ner_label&#39;</span><span class="p">,</span> <span class="p">})</span>
+
+    <span class="k">if</span> <span class="n">unannotated_label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ass_outer_duplicates</span> <span class="o">=</span> <span class="n">relevant_ass_df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">relevant_ner_df</span><span class="p">,</span>
+                                                     <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;task_id&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="s1">&#39;target&#39;</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="s1">&#39;doc_start_index&#39;</span><span class="p">,</span>
+                                                         <span class="s1">&#39;doc_end_index&#39;</span><span class="p">,</span> <span class="s1">&#39;json_file_path&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span>
+                                                     <span class="n">indicator</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;_merge == &quot;right_only&quot;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+            <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;label_x&#39;</span><span class="p">:</span> <span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;label_y&#39;</span><span class="p">:</span> <span class="s1">&#39;ner_label&#39;</span><span class="p">,</span> <span class="p">})</span>
+
+        <span class="n">ass_outer_duplicates</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">unannotated_label</span>
+
+        <span class="k">if</span> <span class="n">unannotated_label_strategy</span> <span class="o">==</span> <span class="s1">&#39;weighted&#39;</span><span class="p">:</span>
+            <span class="n">sample_data_dict</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">unannotated_label_strategy_dict</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">unannotated_label_strategy_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR: The sampling proportion set for &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; was greater than 1. Please choose a value &quot;</span>
+                          <span class="sa">f</span><span class="s2">&quot;between 0 and 1.&quot;</span><span class="p">)</span>
+                <span class="n">sample_data</span> <span class="o">=</span> <span class="n">ass_outer_duplicates</span><span class="p">[</span><span class="n">ass_outer_duplicates</span><span class="p">[</span><span class="s1">&#39;ner_label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+                    <span class="n">frac</span><span class="o">=</span><span class="n">unannotated_label_strategy_dict</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+                <span class="n">sample_data_dict</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sample_data</span><span class="p">)</span>
+
+            <span class="n">ass_outer_duplicates_sampled</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">sample_data_dict</span><span class="p">)</span>
+            <span class="n">ass_outer_duplicates</span> <span class="o">=</span> <span class="n">ass_outer_duplicates_sampled</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="k">elif</span> <span class="n">unannotated_label_strategy</span> <span class="o">==</span> <span class="s1">&#39;counts&#39;</span><span class="p">:</span>
+            <span class="n">sample_data_dict</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">unannotated_label_strategy_dict</span><span class="p">:</span>
+                <span class="n">subset</span> <span class="o">=</span> <span class="n">ass_outer_duplicates</span><span class="p">[</span><span class="n">ass_outer_duplicates</span><span class="p">[</span><span class="s1">&#39;ner_label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">key</span><span class="p">]</span>
+                <span class="n">subset_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">unannotated_label_strategy_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">subset_length</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR: The sampling counts set for &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; was greater than the maximum number of &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
+                          <span class="sa">f</span><span class="s2">&quot;entities in your data. Please choose a value lower than </span><span class="si">{</span><span class="n">subset_length</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+                <span class="n">sample_data</span> <span class="o">=</span> <span class="n">subset</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">unannotated_label_strategy_dict</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+                <span class="n">sample_data_dict</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sample_data</span><span class="p">)</span>
+
+            <span class="n">ass_outer_duplicates_sampled</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">sample_data_dict</span><span class="p">)</span>
+            <span class="n">ass_outer_duplicates</span> <span class="o">=</span> <span class="n">ass_outer_duplicates_sampled</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="n">ass_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">ass_inner_duplicates</span><span class="p">,</span> <span class="n">ass_outer_duplicates</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">ass_df</span> <span class="o">=</span> <span class="n">ass_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;task_id&#39;</span><span class="p">,</span> <span class="s1">&#39;doc_start_index&#39;</span><span class="p">,</span> <span class="s1">&#39;doc_end_index&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ass_df</span> <span class="o">=</span> <span class="n">ass_inner_duplicates</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">ass_df</span> <span class="o">=</span> <span class="n">ass_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;task_id&#39;</span><span class="p">,</span> <span class="s1">&#39;doc_start_index&#39;</span><span class="p">,</span> <span class="s1">&#39;doc_end_index&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">excluded_task_ids</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ass_df</span> <span class="o">=</span> <span class="n">ass_df</span><span class="p">[</span><span class="o">~</span><span class="n">ass_df</span><span class="p">[</span><span class="s1">&#39;task_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">excluded_task_ids</span><span class="p">)]</span>
+
+    <span class="n">ass_df</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ass_df</span><span class="p">[</span><span class="s1">&#39;task_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">id_title_map</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">excluded_task_titles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ass_df</span> <span class="o">=</span> <span class="n">ass_df</span><span class="p">[</span><span class="o">~</span><span class="n">ass_df</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">excluded_task_titles</span><span class="p">)]</span>
+
+    <span class="n">ass_df</span> <span class="o">=</span> <span class="n">ass_df</span><span class="p">[[</span><span class="s1">&#39;task_id&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="s1">&#39;target&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">]]</span>
+
+    <span class="k">return</span> <span class="n">ass_df</span></div>
+
+
+<div class="viewcode-block" id="get_relation_extraction_data"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.get_relation_extraction_data">[docs]</a><span class="k">def</span> <span class="nf">get_relation_extraction_data</span><span class="p">(</span><span class="n">spark</span><span class="p">:</span> <span class="n">SparkSession</span><span class="p">,</span> <span class="n">input_json_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                                 <span class="n">negative_relations</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                                 <span class="n">assertion_labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                 <span class="n">relation_pairs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                 <span class="n">negative_relation_strategy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                 <span class="n">negative_relation_strategy_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                 <span class="n">excluded_task_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                 <span class="n">excluded_task_titles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Generate a dataframe to train relation extraction models in Spark NLP from an Annotation Lab JSON export</span>
+<span class="sd">    :param spark: Spark session with spark-nlp-jsl jar</span>
+<span class="sd">    :type spark: SparkSession</span>
+<span class="sd">    :param input_json_path: path to Annotation Lab JSON export</span>
+<span class="sd">    :type input_json_path: str</span>
+<span class="sd">    :param ground_truth: set to True to select ground truth completions, False to select latest completions,</span>
+<span class="sd">    defaults to False</span>
+<span class="sd">    :type ground_truth: bool</span>
+<span class="sd">    :param negative_relations: set to True to assign a relation label between entities where no relation was</span>
+<span class="sd">    annotated, defaults to False</span>
+<span class="sd">    :type negative_relations: bool</span>
+<span class="sd">    :param assertion_labels: all assertion labels that were annotated, defaults to None</span>
+<span class="sd">    :type assertion_labels: list</span>
+<span class="sd">    :param relation_pairs: plausible pairs of entities for relations, separated by a `-`, use the same casing as</span>
+<span class="sd">    the annotations, include only one relation direction, defaults to all possible pairs of annotated entities</span>
+<span class="sd">    :type relation_pairs: list</span>
+<span class="sd">    :param negative_relation_strategy: set the strategy to control the number of occurrences of the negative relation</span>
+<span class="sd">    label in the output dataframe, options are &#39;weighted&#39; or &#39;counts&#39;, &#39;weighted&#39; allows to sample using a</span>
+<span class="sd">    fraction, &#39;counts&#39; allows to sample using absolute counts, defaults to None</span>
+<span class="sd">    :type negative_relation_strategy: str</span>
+<span class="sd">    :param negative_relation_strategy_dict: dictionary in the format {&#39;ENTITY1-ENTITY2&#39;: sample_weight_or_counts} to</span>
+<span class="sd">    control the number of occurrences of negative relations in the output dataframe for each entity pair, where</span>
+<span class="sd">    &#39;ENTITY1-ENTITY2&#39; represent the pairs of entities for relations separated by a `-` (include only one relation</span>
+<span class="sd">    direction), and sample_weight_or_counts should be between 0 and 1 if `negative_relation_strategy` is &#39;weighted&#39; or</span>
+<span class="sd">    between 0 and the max number of occurrences of negative relations if `negative_relation_strategy` is &#39;counts&#39;,</span>
+<span class="sd">    defaults to None</span>
+<span class="sd">    :type negative_relation_strategy_dict: dict</span>
+<span class="sd">    :param excluded_task_ids: list of Annotation Lab task IDs to exclude from output dataframe, defaults to None</span>
+<span class="sd">    :type excluded_task_ids: list</span>
+<span class="sd">    :param excluded_task_titles: list of Annotation Lab task titles to exclude from output dataframe, defaults to None</span>
+<span class="sd">    :type excluded_task_titles: list</span>
+<span class="sd">    :return: dataframe in appropriate layout for training relation extraction models</span>
+<span class="sd">    :rtype: pd.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">rel_df</span> <span class="o">=</span> <span class="n">get_rel_df</span><span class="p">(</span><span class="n">input_json_path</span><span class="o">=</span><span class="n">input_json_path</span><span class="p">,</span> <span class="n">ground_truth</span><span class="o">=</span><span class="n">ground_truth</span><span class="p">)</span>
+    <span class="n">ner_borders_df</span> <span class="o">=</span> <span class="n">get_ner_sentence_borders</span><span class="p">(</span><span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">,</span> <span class="n">input_json_path</span><span class="o">=</span><span class="n">input_json_path</span><span class="p">,</span> <span class="n">ground_truth</span><span class="o">=</span><span class="n">ground_truth</span><span class="p">,</span>
+                                              <span class="n">assertion_labels</span><span class="o">=</span><span class="n">assertion_labels</span><span class="p">)</span>
+
+    <span class="n">official_rel_df_col_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;task_id&quot;</span><span class="p">,</span> <span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;firstCharEnt1&quot;</span><span class="p">,</span> <span class="s2">&quot;firstCharEnt2&quot;</span><span class="p">,</span> <span class="s2">&quot;lastCharEnt1&quot;</span><span class="p">,</span>
+                                 <span class="s2">&quot;lastCharEnt2&quot;</span><span class="p">,</span> <span class="s2">&quot;chunk1&quot;</span><span class="p">,</span> <span class="s2">&quot;chunk2&quot;</span><span class="p">,</span> <span class="s2">&quot;label1&quot;</span><span class="p">,</span> <span class="s2">&quot;label2&quot;</span><span class="p">,</span> <span class="s2">&quot;rel&quot;</span><span class="p">]</span>
+
+    <span class="n">full_rel_df</span> <span class="o">=</span> <span class="n">rel_df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">ner_borders_df</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s1">&#39;from_&#39;</span><span class="p">),</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;from_id&#39;</span><span class="p">,</span>
+                               <span class="n">right_on</span><span class="o">=</span><span class="s1">&#39;from_chunk_id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">ner_borders_df</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s1">&#39;to_&#39;</span><span class="p">),</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;to_id&#39;</span><span class="p">,</span>
+                                                               <span class="n">right_on</span><span class="o">=</span><span class="s1">&#39;to_chunk_id&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">negative_relations</span><span class="p">:</span>
+        <span class="n">group_df</span> <span class="o">=</span> <span class="n">ner_borders_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;ner_sentence_id&#39;</span><span class="p">,</span> <span class="s1">&#39;ner_sentence&#39;</span><span class="p">])</span>
+
+        <span class="n">new_relations_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">text_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ner_label_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">text_indexes_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">sentence_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">task_id_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">ind</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">group_row</span> <span class="ow">in</span> <span class="n">group_df</span><span class="p">:</span>
+            <span class="n">ind</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">a_group</span> <span class="o">=</span> <span class="n">group_df</span><span class="o">.</span><span class="n">get_group</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">a_group</span> <span class="o">=</span> <span class="n">a_group</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;sentence_begin&#39;</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">a_group</span><span class="p">[</span><span class="s1">&#39;ner_label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">a_group</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">ch</span> <span class="o">=</span> <span class="n">a_group</span><span class="p">[</span><span class="s1">&#39;chunk_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">a_group</span><span class="p">[</span><span class="s1">&#39;ner_sentence&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">s_e</span> <span class="o">=</span> <span class="n">a_group</span><span class="p">[[</span><span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">ner_se</span> <span class="o">=</span> <span class="n">a_group</span><span class="p">[[</span><span class="s1">&#39;ner_sentence_start_border&#39;</span><span class="p">,</span> <span class="s1">&#39;ner_sentence_end_border&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">s_be</span> <span class="o">=</span> <span class="n">a_group</span><span class="p">[[</span><span class="s1">&#39;sentence_begin&#39;</span><span class="p">,</span> <span class="s1">&#39;sentence_end&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">tides</span> <span class="o">=</span> <span class="n">a_group</span><span class="p">[</span><span class="s1">&#39;task_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+            <span class="n">text_indexes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">s_e</span><span class="p">,</span> <span class="n">ner_se</span><span class="p">,</span> <span class="n">s_be</span><span class="p">))</span>
+            <span class="n">id_w_indexes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">ch</span><span class="p">,</span> <span class="n">text_indexes</span><span class="p">))</span>
+
+            <span class="n">new_relations_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">ch</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+            <span class="n">text_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+            <span class="n">ner_label_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+            <span class="n">text_indexes_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">id_w_indexes</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+            <span class="n">sentence_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))))</span>
+            <span class="n">task_id_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">tides</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+
+        <span class="n">new_relations_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">new_relations_list</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;from_id&#39;</span><span class="p">,</span> <span class="s1">&#39;to_id&#39;</span><span class="p">])</span>
+        <span class="n">new_relations_df</span><span class="p">[</span><span class="s1">&#39;id_pairs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_relations_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="p">(</span><span class="n">k</span><span class="p">[</span><span class="s1">&#39;from_id&#39;</span><span class="p">],</span> <span class="n">k</span><span class="p">[</span><span class="s1">&#39;to_id&#39;</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">new_relations_df</span><span class="p">[</span><span class="s1">&#39;sentence&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sentence_list</span>
+        <span class="n">new_relations_df</span><span class="p">[</span><span class="s1">&#39;sentence&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_relations_df</span><span class="p">[</span><span class="s1">&#39;sentence&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">new_relations_df</span><span class="p">[</span><span class="s1">&#39;from_start&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">text_indexes_list</span><span class="p">]</span>
+        <span class="n">new_relations_df</span><span class="p">[</span><span class="s1">&#39;to_start&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">text_indexes_list</span><span class="p">]</span>
+        <span class="n">new_relations_df</span><span class="p">[</span><span class="s1">&#39;from_end&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">text_indexes_list</span><span class="p">]</span>
+        <span class="n">new_relations_df</span><span class="p">[</span><span class="s1">&#39;to_end&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">text_indexes_list</span><span class="p">]</span>
+        <span class="n">new_relations_df</span><span class="p">[</span><span class="s1">&#39;from_text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+        <span class="n">new_relations_df</span><span class="p">[</span><span class="s1">&#39;to_text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">text_list</span><span class="p">]</span>
+        <span class="n">new_relations_df</span><span class="p">[</span><span class="s1">&#39;from_ner_label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ner_label_list</span><span class="p">]</span>
+        <span class="n">new_relations_df</span><span class="p">[</span><span class="s1">&#39;to_ner_label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ner_label_list</span><span class="p">]</span>
+        <span class="n">new_relations_df</span><span class="p">[</span><span class="s1">&#39;task_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">task_id_list</span><span class="p">]</span>
+        <span class="n">new_relations_df</span><span class="p">[</span><span class="s1">&#39;relation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;O&#39;</span>
+
+        <span class="n">existing_rel_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">full_rel_df</span><span class="p">[</span><span class="s1">&#39;from_id&#39;</span><span class="p">],</span> <span class="n">full_rel_df</span><span class="p">[</span><span class="s1">&#39;to_id&#39;</span><span class="p">]))</span>
+        <span class="n">existing_rel_ids_reverse</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">existing_rel_ids</span><span class="p">]</span>
+        <span class="n">existing_rel_ids_all</span> <span class="o">=</span> <span class="n">existing_rel_ids</span> <span class="o">+</span> <span class="n">existing_rel_ids_reverse</span>
+        <span class="n">new_relations_df</span> <span class="o">=</span> <span class="n">new_relations_df</span><span class="p">[</span>
+            <span class="p">[</span><span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">existing_rel_ids_all</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">new_relations_df</span><span class="o">.</span><span class="n">from_id</span><span class="p">,</span> <span class="n">new_relations_df</span><span class="o">.</span><span class="n">to_id</span><span class="p">)]]</span>
+
+        <span class="n">new_relations_df</span> <span class="o">=</span> <span class="n">new_relations_df</span><span class="p">[</span>
+            <span class="p">[</span><span class="s1">&#39;task_id&#39;</span><span class="p">,</span> <span class="s1">&#39;sentence&#39;</span><span class="p">,</span> <span class="s1">&#39;from_start&#39;</span><span class="p">,</span> <span class="s1">&#39;to_start&#39;</span><span class="p">,</span> <span class="s1">&#39;from_end&#39;</span><span class="p">,</span> <span class="s1">&#39;to_end&#39;</span><span class="p">,</span> <span class="s1">&#39;from_text&#39;</span><span class="p">,</span> <span class="s1">&#39;to_text&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;from_ner_label&#39;</span><span class="p">,</span> <span class="s1">&#39;to_ner_label&#39;</span><span class="p">,</span> <span class="s1">&#39;relation&#39;</span><span class="p">]]</span>
+        <span class="n">full_rel_df</span> <span class="o">=</span> <span class="n">full_rel_df</span><span class="p">[</span>
+            <span class="p">[</span><span class="s1">&#39;task_id&#39;</span><span class="p">,</span> <span class="s1">&#39;from_ner_sentence&#39;</span><span class="p">,</span> <span class="s1">&#39;from_sentence_begin&#39;</span><span class="p">,</span> <span class="s1">&#39;to_sentence_begin&#39;</span><span class="p">,</span> <span class="s1">&#39;from_sentence_end&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;to_sentence_end&#39;</span><span class="p">,</span> <span class="s1">&#39;from_text&#39;</span><span class="p">,</span> <span class="s1">&#39;to_text&#39;</span><span class="p">,</span> <span class="s1">&#39;from_ner_label&#39;</span><span class="p">,</span> <span class="s1">&#39;to_ner_label&#39;</span><span class="p">,</span> <span class="s1">&#39;relation&#39;</span><span class="p">]]</span>
+
+        <span class="n">new_relations_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">official_rel_df_col_names</span>
+        <span class="n">full_rel_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">official_rel_df_col_names</span>
+        <span class="n">final_rel_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">full_rel_df</span><span class="p">,</span> <span class="n">new_relations_df</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">full_rel_df</span> <span class="o">=</span> <span class="n">full_rel_df</span><span class="p">[</span>
+            <span class="p">[</span><span class="s1">&#39;task_id&#39;</span><span class="p">,</span> <span class="s1">&#39;from_ner_sentence&#39;</span><span class="p">,</span> <span class="s1">&#39;from_sentence_begin&#39;</span><span class="p">,</span> <span class="s1">&#39;to_sentence_begin&#39;</span><span class="p">,</span> <span class="s1">&#39;from_sentence_end&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;to_sentence_end&#39;</span><span class="p">,</span> <span class="s1">&#39;from_text&#39;</span><span class="p">,</span> <span class="s1">&#39;to_text&#39;</span><span class="p">,</span> <span class="s1">&#39;from_ner_label&#39;</span><span class="p">,</span> <span class="s1">&#39;to_ner_label&#39;</span><span class="p">,</span> <span class="s1">&#39;relation&#39;</span><span class="p">]]</span>
+        <span class="n">full_rel_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">official_rel_df_col_names</span>
+        <span class="n">final_rel_df</span> <span class="o">=</span> <span class="n">full_rel_df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">relation_pairs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">user_input_rel_pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">relation_pairs</span><span class="p">]</span>
+        <span class="n">user_input_rel_pairs_reverse</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">user_input_rel_pairs</span><span class="p">]</span>
+        <span class="n">candidate_rel_pairs</span> <span class="o">=</span> <span class="n">user_input_rel_pairs</span> <span class="o">+</span> <span class="n">user_input_rel_pairs_reverse</span>
+        <span class="n">final_rel_df</span> <span class="o">=</span> <span class="n">final_rel_df</span><span class="p">[</span>
+            <span class="p">[</span><span class="n">x</span> <span class="ow">in</span> <span class="n">candidate_rel_pairs</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">final_rel_df</span><span class="o">.</span><span class="n">label1</span><span class="p">,</span> <span class="n">final_rel_df</span><span class="o">.</span><span class="n">label2</span><span class="p">)]]</span>
+
+    <span class="n">reorder</span> <span class="o">=</span> <span class="n">final_rel_df</span><span class="p">[</span><span class="s1">&#39;firstCharEnt1&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">final_rel_df</span><span class="p">[</span><span class="s1">&#39;firstCharEnt2&#39;</span><span class="p">]</span>
+
+    <span class="n">final_rel_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">reorder</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;firstCharEnt1&#39;</span><span class="p">,</span> <span class="s1">&#39;firstCharEnt2&#39;</span><span class="p">,</span> <span class="s1">&#39;lastCharEnt1&#39;</span><span class="p">,</span> <span class="s1">&#39;lastCharEnt2&#39;</span><span class="p">,</span>
+                               <span class="s1">&#39;chunk1&#39;</span><span class="p">,</span> <span class="s1">&#39;chunk2&#39;</span><span class="p">,</span> <span class="s1">&#39;label1&#39;</span><span class="p">,</span> <span class="s1">&#39;label2&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">final_rel_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">reorder</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;firstCharEnt2&#39;</span><span class="p">,</span> <span class="s1">&#39;firstCharEnt1&#39;</span><span class="p">,</span> <span class="s1">&#39;lastCharEnt2&#39;</span><span class="p">,</span> <span class="s1">&#39;lastCharEnt1&#39;</span><span class="p">,</span>
+                                   <span class="s1">&#39;chunk2&#39;</span><span class="p">,</span> <span class="s1">&#39;chunk1&#39;</span><span class="p">,</span> <span class="s1">&#39;label2&#39;</span><span class="p">,</span> <span class="s1">&#39;label1&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="n">final_rel_df</span> <span class="o">=</span> <span class="n">final_rel_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;task_id&#39;</span><span class="p">,</span> <span class="s1">&#39;firstCharEnt1&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">excluded_task_ids</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">final_rel_df</span> <span class="o">=</span> <span class="n">final_rel_df</span><span class="p">[</span><span class="o">~</span><span class="n">final_rel_df</span><span class="p">[</span><span class="s1">&#39;task_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">excluded_task_ids</span><span class="p">)]</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_json_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+        <span class="n">output_list</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
+
+    <span class="n">id_title_map</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">w</span><span class="p">,</span> <span class="n">output</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">output_list</span><span class="p">):</span>
+
+        <span class="n">map_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">map_title</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">map_title</span> <span class="o">=</span> <span class="s2">&quot;untitled&quot;</span>
+
+        <span class="n">id_title_map</span><span class="p">[</span><span class="n">map_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">map_title</span>
+
+    <span class="n">final_rel_df</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_rel_df</span><span class="p">[</span><span class="s2">&quot;task_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">id_title_map</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">excluded_task_titles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">final_rel_df</span> <span class="o">=</span> <span class="n">final_rel_df</span><span class="p">[</span><span class="o">~</span><span class="n">final_rel_df</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">excluded_task_titles</span><span class="p">)]</span>
+
+    <span class="n">final_rel_df</span> <span class="o">=</span> <span class="n">final_rel_df</span><span class="p">[[</span><span class="s2">&quot;task_id&quot;</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;firstCharEnt1&quot;</span><span class="p">,</span> <span class="s2">&quot;firstCharEnt2&quot;</span><span class="p">,</span> <span class="s2">&quot;lastCharEnt1&quot;</span><span class="p">,</span>
+                                 <span class="s2">&quot;lastCharEnt2&quot;</span><span class="p">,</span> <span class="s2">&quot;chunk1&quot;</span><span class="p">,</span> <span class="s2">&quot;chunk2&quot;</span><span class="p">,</span> <span class="s2">&quot;label1&quot;</span><span class="p">,</span> <span class="s2">&quot;label2&quot;</span><span class="p">,</span> <span class="s2">&quot;rel&quot;</span><span class="p">]]</span>
+
+    <span class="k">if</span> <span class="n">negative_relation_strategy</span> <span class="o">==</span> <span class="s1">&#39;weighted&#39;</span><span class="p">:</span>
+        <span class="n">sample_data_dict</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">negative_relation_strategy_dict</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">negative_relation_strategy_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR: The sampling proportion set for &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; was greater than 1. Please choose a value &quot;</span>
+                      <span class="sa">f</span><span class="s2">&quot;between 0 and 1.&quot;</span><span class="p">)</span>
+            <span class="n">dict_input_rel_pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])]</span>
+            <span class="n">dict_input_rel_pairs_reverse</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">dict_input_rel_pairs</span><span class="p">]</span>
+            <span class="n">dict_candidate_rel_pairs</span> <span class="o">=</span> <span class="n">dict_input_rel_pairs</span> <span class="o">+</span> <span class="n">dict_input_rel_pairs_reverse</span>
+            <span class="n">subset_final_rel_df</span> <span class="o">=</span> <span class="n">final_rel_df</span><span class="p">[</span><span class="n">final_rel_df</span><span class="p">[</span><span class="s1">&#39;rel&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;O&#39;</span><span class="p">]</span>
+            <span class="n">sample_data</span> <span class="o">=</span> <span class="n">subset_final_rel_df</span><span class="p">[</span>
+                <span class="p">[</span><span class="n">x</span> <span class="ow">in</span> <span class="n">dict_candidate_rel_pairs</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">subset_final_rel_df</span><span class="o">.</span><span class="n">label1</span><span class="p">,</span> <span class="n">subset_final_rel_df</span><span class="o">.</span><span class="n">label2</span><span class="p">)]]</span><span class="o">.</span> \
+                <span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="n">negative_relation_strategy_dict</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+            <span class="n">sample_data_dict</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sample_data</span><span class="p">)</span>
+        <span class="n">final_rel_df_sampled_down</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">sample_data_dict</span><span class="p">)</span>
+        <span class="n">final_rel_df_no_negatives</span> <span class="o">=</span> <span class="n">final_rel_df</span><span class="p">[</span><span class="n">final_rel_df</span><span class="p">[</span><span class="s1">&#39;rel&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;O&#39;</span><span class="p">]</span>
+        <span class="n">final_rel_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">final_rel_df_sampled_down</span><span class="p">,</span> <span class="n">final_rel_df_no_negatives</span><span class="p">])</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
+            <span class="p">[</span><span class="s1">&#39;task_id&#39;</span><span class="p">,</span> <span class="s1">&#39;firstCharEnt1&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">negative_relation_strategy</span> <span class="o">==</span> <span class="s1">&#39;counts&#39;</span><span class="p">:</span>
+        <span class="n">sample_data_dict</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">negative_relation_strategy_dict</span><span class="p">:</span>
+            <span class="n">dict_input_rel_pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])]</span>
+            <span class="n">dict_input_rel_pairs_reverse</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">dict_input_rel_pairs</span><span class="p">]</span>
+            <span class="n">dict_candidate_rel_pairs</span> <span class="o">=</span> <span class="n">dict_input_rel_pairs</span> <span class="o">+</span> <span class="n">dict_input_rel_pairs_reverse</span>
+            <span class="n">subset_final_rel_df</span> <span class="o">=</span> <span class="n">final_rel_df</span><span class="p">[</span><span class="n">final_rel_df</span><span class="p">[</span><span class="s1">&#39;rel&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;O&#39;</span><span class="p">]</span>
+            <span class="n">subset</span> <span class="o">=</span> <span class="n">subset_final_rel_df</span><span class="p">[</span>
+                <span class="p">[</span><span class="n">x</span> <span class="ow">in</span> <span class="n">dict_candidate_rel_pairs</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">subset_final_rel_df</span><span class="o">.</span><span class="n">label1</span><span class="p">,</span> <span class="n">subset_final_rel_df</span><span class="o">.</span><span class="n">label2</span><span class="p">)]]</span>
+            <span class="n">subset_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">negative_relation_strategy_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">subset_length</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR: The sampling counts set for &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; was greater than the maximum number of negative &quot;</span>
+                      <span class="sa">f</span><span class="s2">&quot;relations fpr the &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; pairs in your data. Please choose a value lower than &quot;</span>
+                      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">subset_length</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="n">sample_data</span> <span class="o">=</span> <span class="n">subset</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">negative_relation_strategy_dict</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+            <span class="n">sample_data_dict</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sample_data</span><span class="p">)</span>
+        <span class="n">final_rel_df_sampled_down</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">sample_data_dict</span><span class="p">)</span>
+        <span class="n">final_rel_df_no_negatives</span> <span class="o">=</span> <span class="n">final_rel_df</span><span class="p">[</span><span class="n">final_rel_df</span><span class="p">[</span><span class="s1">&#39;rel&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;O&#39;</span><span class="p">]</span>
+        <span class="n">final_rel_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">final_rel_df_sampled_down</span><span class="p">,</span> <span class="n">final_rel_df_no_negatives</span><span class="p">])</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
+            <span class="p">[</span><span class="s1">&#39;task_id&#39;</span><span class="p">,</span> <span class="s1">&#39;firstCharEnt1&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">final_rel_df</span></div>
+
+
+<div class="viewcode-block" id="get_conll_data"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.get_conll_data">[docs]</a><span class="k">def</span> <span class="nf">get_conll_data</span><span class="p">(</span><span class="n">spark</span><span class="p">:</span> <span class="n">SparkSession</span><span class="p">,</span> <span class="n">input_json_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">save_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;exported_conll&#39;</span><span class="p">,</span>
+                   <span class="n">ground_truth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">excluded_labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                   <span class="n">excluded_task_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">excluded_task_titles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                   <span class="n">regex_pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IO</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Generates a CoNLL file from an Annotation Lab JSON export</span>
+<span class="sd">    :param spark: Spark session with spark-nlp-jsl jar</span>
+<span class="sd">    :type spark: SparkSession</span>
+<span class="sd">    :param input_json_path: path to Annotation Lab JSON export</span>
+<span class="sd">    :type input_json_path: str</span>
+<span class="sd">    :param output_name: name of the CoNLL file to save</span>
+<span class="sd">    :type output_name: str</span>
+<span class="sd">    :param save_dir: path for CoNLL file saving directory, defaults to &#39;exported_conll&#39;</span>
+<span class="sd">    :type save_dir: str</span>
+<span class="sd">    :param ground_truth: set to True to select ground truth completions, False to select latest completions,</span>
+<span class="sd">    defaults to False</span>
+<span class="sd">    :type ground_truth: bool</span>
+<span class="sd">    :param excluded_labels: labels to exclude from CoNLL; these are all assertion labels and irrelevant NER labels,</span>
+<span class="sd">    defaults to None</span>
+<span class="sd">    :type excluded_labels: list</span>
+<span class="sd">    :param excluded_task_ids: list of Annotation Lab task IDs to exclude from CoNLL, defaults to None</span>
+<span class="sd">    :type excluded_task_ids: list</span>
+<span class="sd">    :param excluded_task_titles: list of Annotation Lab task titles to exclude from CoNLL, defaults to None</span>
+<span class="sd">    :type excluded_task_titles: list</span>
+<span class="sd">    :param regex_pattern: set a pattern to use regex tokenizer, defaults to regular tokenizer if pattern not defined</span>
+<span class="sd">    :type regex_pattern: str</span>
+<span class="sd">    :return: CoNLL file</span>
+<span class="sd">    :rtype: IO</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_json_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+        <span class="n">json_outputs</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
+
+    <span class="n">bulk_conll_lines</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;-DOCSTART- -X- -X- O</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">regex_pattern</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">lp_pipeline</span> <span class="o">=</span> <span class="n">get_nlp_regex_pos_pipeline</span><span class="p">(</span><span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">,</span> <span class="n">regex_pattern</span><span class="o">=</span><span class="n">regex_pattern</span><span class="p">)</span>
+        <span class="n">token_lp_pipeline</span> <span class="o">=</span> <span class="n">get_nlp_regex_token_pipeline</span><span class="p">(</span><span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">,</span> <span class="n">regex_pattern</span><span class="o">=</span><span class="n">regex_pattern</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">regex_pattern</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">lp_pipeline</span> <span class="o">=</span> <span class="n">get_nlp_pos_pipeline</span><span class="p">(</span><span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">)</span>
+        <span class="n">token_lp_pipeline</span> <span class="o">=</span> <span class="n">get_nlp_token_pipeline</span><span class="p">(</span><span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">output</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">json_outputs</span><span class="p">):</span>
+        <span class="n">in_conll_lines</span> <span class="o">=</span> <span class="n">get_single_task_conll</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">,</span> <span class="n">pos_pipeline</span><span class="o">=</span><span class="n">lp_pipeline</span><span class="p">,</span>
+                                               <span class="n">token_pipeline</span><span class="o">=</span><span class="n">token_lp_pipeline</span><span class="p">,</span> <span class="n">ground_truth</span><span class="o">=</span><span class="n">ground_truth</span><span class="p">,</span>
+                                               <span class="n">excluded_labels</span><span class="o">=</span><span class="n">excluded_labels</span><span class="p">,</span> <span class="n">excluded_task_ids</span><span class="o">=</span><span class="n">excluded_task_ids</span><span class="p">,</span>
+                                               <span class="n">excluded_task_titles</span><span class="o">=</span><span class="n">excluded_task_titles</span><span class="p">)</span>
+        <span class="n">bulk_conll_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">in_conll_lines</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">save_dir</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">save_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">output_name</span><span class="si">}</span><span class="s1">.conll&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">bulk_conll_lines</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Saved in location: </span><span class="si">{</span><span class="n">save_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">output_name</span><span class="si">}</span><span class="s1">.conll&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Printing first 30 lines of CoNLL for inspection:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">bulk_conll_lines</span><span class="p">[:</span><span class="mi">30</span><span class="p">]</span></div>
+</pre></div>
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2022, John Snow Labs.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

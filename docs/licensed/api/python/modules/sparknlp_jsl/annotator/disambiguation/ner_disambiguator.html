@@ -1,0 +1,635 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp_jsl.annotator.disambiguation.ner_disambiguator &#8212; Spark NLP 4.0.0 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/css/custom.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js"></script>
+    <script src="../../../../static/jquery.js"></script>
+    <script src="../../../../static/underscore.js"></script>
+    <script src="../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../static/doctools.js"></script>
+    <script src="../../../../static/toggleprompt.js"></script>
+    <link rel="shortcut icon" href="../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../reference/index.html">
+  API Reference
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <h1>Source code for sparknlp_jsl.annotator.disambiguation.ner_disambiguator</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="NerDisambiguator"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator">[docs]</a><span class="k">class</span> <span class="nc">NerDisambiguator</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Links words of interest, such as names of persons, locations and companies, from an input text document to</span>
+<span class="sd">    a corresponding unique entity in a target Knowledge Base (KB). Words of interest are called Named Entities (NEs),</span>
+<span class="sd">    mentions, or surface forms.</span>
+<span class="sd">    Instantiated / pretrained model of the NerDisambiguator.</span>
+<span class="sd">    Links words of interest, such as names of persons, locations and companies, from an input text document to</span>
+<span class="sd">    a corresponding unique entity in a target Knowledge Base (KB). Words of interest are called Named Entities (NEs),</span>
+
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    Input Annotation types                    Output Annotation type</span>
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    ``CHUNK, SENTENCE_EMBEDDINGS``            ``DISAMBIGUATION``</span>
+<span class="sd">    ========================================= ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    embeddingTypeParam</span>
+<span class="sd">        Could be &#39;bow&#39; for word embeddings or &#39;sentence&#39; for sentences</span>
+<span class="sd">    numFirstChars</span>
+<span class="sd">        How many characters should be considered for initial prefix search in knowledge base</span>
+<span class="sd">    tokenSearch</span>
+<span class="sd">        Should we search by token or by chunk in knowledge base (token is recommended)</span>
+<span class="sd">    narrowWithApproximateMatching</span>
+<span class="sd">        Should we narrow prefix search results with levenstein distance based matching (true is recommended)</span>
+<span class="sd">    levenshteinDistanceThresholdParam</span>
+<span class="sd">        Levenshtein distance threshold to narrow results from prefix search (0.1 is default)</span>
+<span class="sd">    nearMatchingGapParam</span>
+<span class="sd">        Puts a limit on a string length (by trimming the candidate chunks) during levenshtein-distance based narrowing,len(candidate) - len(entity chunk) &gt; nearMatchingGap (Default: 4).</span>
+<span class="sd">    predictionsLimit</span>
+<span class="sd">        Limit on amount of predictions N for topN predictions</span>
+<span class="sd">    s3KnowledgeBaseName</span>
+<span class="sd">        knowledge base name in s3</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;The show also had a contestant named Donald Trump who later defeated Christina Aguilera ...&quot;]]) \</span>
+<span class="sd">    ...   .toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...   .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...   .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentenceDetector = SentenceDetector() \\</span>
+<span class="sd">    ...   .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...   .setOutputCol(&quot;sentence&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...   .setInputCols([&quot;sentence&quot;]) \\</span>
+<span class="sd">    ...   .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; word_embeddings = WordEmbeddingsModel.pretrained() \\</span>
+<span class="sd">    ...   .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \\</span>
+<span class="sd">    ...   .setOutputCol(&quot;embeddings&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentence_embeddings = SentenceEmbeddings() \\</span>
+<span class="sd">    ...   .setInputCols([&quot;sentence&quot;,&quot;embeddings&quot;]) \\</span>
+<span class="sd">    ...   .setOutputCol(&quot;sentence_embeddings&quot;)\</span>
+<span class="sd">    &gt;&gt;&gt; ner_model = NerDLModel.pretrained() \\</span>
+<span class="sd">    ...   .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;]) \\</span>
+<span class="sd">    ...   .setOutputCol(&quot;ner&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; ner_converter = NerConverter() \\</span>
+<span class="sd">    ...   .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;]) \\</span>
+<span class="sd">    ...   .setOutputCol(&quot;ner_chunk&quot;) \\</span>
+<span class="sd">    ...   .setWhiteList([&quot;PER&quot;])</span>
+
+<span class="sd">    Then the extracted entities can be disambiguated.</span>
+<span class="sd">    &gt;&gt;&gt; disambiguator = NerDisambiguator() \\</span>
+<span class="sd">    ...   .setS3KnowledgeBaseName(&quot;i-per&quot;) \\</span>
+<span class="sd">    ...   .setInputCols([&quot;ner_chunk&quot;, &quot;sentence_embeddings&quot;]) \\</span>
+<span class="sd">    ...   .setOutputCol(&quot;disambiguation&quot;) \\</span>
+<span class="sd">    ...   .setNumFirstChars(5)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; nlpPipeline = Pipeline(stages=[</span>
+<span class="sd">    ...   documentAssembler,</span>
+<span class="sd">    ...   sentenceDetector,</span>
+<span class="sd">    ...   tokenizer,</span>
+<span class="sd">    ...   word_embeddings,</span>
+<span class="sd">    ...   sentence_embeddings,</span>
+<span class="sd">    ...   ner_model,</span>
+<span class="sd">    ...   ner_converter,</span>
+<span class="sd">    ...   disambiguator])</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; model = nlpPipeline.fit(data)</span>
+<span class="sd">    &gt;&gt;&gt; result = model.transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.selectExpr(&quot;explode(disambiguation)&quot;) \\</span>
+<span class="sd">    ...  .selectExpr(&quot;col.metadata.chunk as chunk&quot;, &quot;col.result as result&quot;).show(5, False)</span>
+
+<span class="sd">    +------------------+------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">    |chunk             |result                                                                                                                  |</span>
+<span class="sd">    +------------------+------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">    |Donald Trump      |http:#en.wikipedia.org/?curid=4848272, http:#en.wikipedia.org/?curid=31698421, http:#en.wikipedia.org/?curid=55907961   |</span>
+<span class="sd">    |Christina Aguilera|http:#en.wikipedia.org/?curid=144171, http:#en.wikipedia.org/?curid=6636454                                             |</span>
+<span class="sd">    +------------------+------------------------------------------------------------------------------------------------------------------------+</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">embeddingTypeParam</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                               <span class="s2">&quot;embeddingTypeParam&quot;</span><span class="p">,</span>
+                               <span class="s2">&quot;Could be &#39;bow&#39; for word embeddings or &#39;sentence&#39; for sentences&quot;</span><span class="p">,</span>
+                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="n">numFirstChars</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                          <span class="s2">&quot;numFirstChars&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;How many characters should be considered for initial prefix search in knowledge base&quot;</span><span class="p">,</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">tokenSearch</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                        <span class="s2">&quot;tokenSearch&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;Should we search by token or by chunk in knowledge base (token is recommended)&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">narrowWithApproximateMatching</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                          <span class="s2">&quot;narrowWithApproximateMatching&quot;</span><span class="p">,</span>
+                                          <span class="s2">&quot;Should we narrow prefix search results with levenstein distance based matching (true is recommended)&quot;</span><span class="p">,</span>
+                                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">levenshteinDistanceThresholdParam</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                              <span class="s2">&quot;levenshteinDistanceThresholdParam&quot;</span><span class="p">,</span>
+                                              <span class="s2">&quot;Levenshtein distance threshold to narrow results from prefix search (0.1 is default)&quot;</span><span class="p">,</span>
+                                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+
+    <span class="n">nearMatchingGapParam</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                 <span class="s2">&quot;nearMatchingGapParam&quot;</span><span class="p">,</span>
+                                 <span class="s2">&quot;Puts a limit on a string length (by trimming the candidate chunks) during levenshtein-distance based narrowing&quot;</span><span class="p">,</span>
+                                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">predictionsLimit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;predictionsLimit&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;Limit on amount of predictions N for topN predictions&quot;</span><span class="p">,</span>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">s3KnowledgeBaseName</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                <span class="s2">&quot;s3KnowledgeBaseName&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;knowledge base name in s3&quot;</span><span class="p">,</span>
+                                <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+<div class="viewcode-block" id="NerDisambiguator.setEmbeddingType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setEmbeddingType">[docs]</a>    <span class="k">def</span> <span class="nf">setEmbeddingType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets if we want to use &#39;bow&#39; for word embeddings or &#39;sentence&#39; for sentences&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Can be &#39;bow&#39; for word embeddings or &#39;sentence&#39; for sentences (Default: sentence)</span>
+<span class="sd">            Can be &#39;bow&#39; for word embeddings or &#39;sentence&#39; for sentences (Default: sentence)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">embeddingTypeParam</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerDisambiguator.setNumFirstChars"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setNumFirstChars">[docs]</a>    <span class="k">def</span> <span class="nf">setNumFirstChars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;How many characters should be considered for initial prefix search in knowledge base</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            How many characters should be considered for initial prefix search in knowledge base</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">numFirstChars</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerDisambiguator.setTokenSearch"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setTokenSearch">[docs]</a>    <span class="k">def</span> <span class="nf">setTokenSearch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to search by token or by chunk in knowledge base (Default: true)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether to search by token or by chunk in knowledge base (Default: true)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">tokenSearch</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerDisambiguator.setNarrowWithApproximateMatching"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setNarrowWithApproximateMatching">[docs]</a>    <span class="k">def</span> <span class="nf">setNarrowWithApproximateMatching</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to narrow prefix search results with levenstein distance based matching (Default: true)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">           Whether to narrow prefix search results with levenstein distance based matching (Default: true)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">narrowWithApproximateMatching</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerDisambiguator.setLevenshteinDistanceThresholdParam"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setLevenshteinDistanceThresholdParam">[docs]</a>    <span class="k">def</span> <span class="nf">setLevenshteinDistanceThresholdParam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets Levenshtein distance threshold to narrow results from prefix search (0.1 is default)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : float</span>
+<span class="sd">            Levenshtein distance threshold to narrow results from prefix search (0.1 is default)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">levenshteinDistanceThresholdParam</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerDisambiguator.setNearMatchingGapParam"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setNearMatchingGapParam">[docs]</a>    <span class="k">def</span> <span class="nf">setNearMatchingGapParam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets a limit on a string length (by trimming the candidate chunks) during levenshtein-distance based narrowing.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">             Limit on a string length (by trimming the candidate chunks) during levenshtein-distance based narrowing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nearMatchingGapParam</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerDisambiguator.setPredictionLimit"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setPredictionLimit">[docs]</a>    <span class="k">def</span> <span class="nf">setPredictionLimit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets limit on amount of predictions N for topN predictions</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">             Limit on amount of predictions N for topN predictions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">predictionsLimit</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerDisambiguator.setS3KnowledgeBaseName"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setS3KnowledgeBaseName">[docs]</a>    <span class="k">def</span> <span class="nf">setS3KnowledgeBaseName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets knowledge base name in s3</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            knowledge base name in s3 example (i-per)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">s3KnowledgeBaseName</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NerDisambiguator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span><span class="n">numFirstChars</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">tokenSearch</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">levenshteinDistanceThresholdParam</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                         <span class="n">nearMatchingGapParam</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">narrowWithApproximateMatching</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">predictionsLimit</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                         <span class="n">embeddingTypeParam</span><span class="o">=</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">NerDisambiguatorModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NerDisambiguatorModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel">[docs]</a><span class="k">class</span> <span class="nc">NerDisambiguatorModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Links words of interest, such as names of persons, locations and companies, from an input text document to</span>
+<span class="sd">    a corresponding unique entity in a target Knowledge Base (KB). Words of interest are called Named Entities (NEs),</span>
+<span class="sd">    mentions, or surface forms.</span>
+<span class="sd">    Instantiated / pretrained model of the NerDisambiguator.</span>
+<span class="sd">    Links words of interest, such as names of persons, locations and companies, from an input text document to</span>
+<span class="sd">    a corresponding unique entity in a target Knowledge Base (KB). Words of interest are called Named Entities (NEs),</span>
+
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    Input Annotation types                    Output Annotation type</span>
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">     ``CHUNK, SENTENCE_EMBEDDINGS``           ``DISAMBIGUATION``</span>
+<span class="sd">    ========================================= ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    embeddingTypeParam</span>
+<span class="sd">        Could be ``bow`` for word embeddings or ``sentence`` for sentences</span>
+<span class="sd">    numFirstChars</span>
+<span class="sd">        How many characters should be considered for initial prefix search in knowledge base</span>
+<span class="sd">    tokenSearch</span>
+<span class="sd">        Should we search by token or by chunk in knowledge base (token is recommended)</span>
+<span class="sd">    narrowWithApproximateMatching</span>
+<span class="sd">        Should we narrow prefix search results with levenstein distance based matching (true is recommended)</span>
+<span class="sd">    levenshteinDistanceThresholdParam</span>
+<span class="sd">        Levenshtein distance threshold to narrow results from prefix search (0.1 is default)</span>
+<span class="sd">    nearMatchingGapParam</span>
+<span class="sd">        Puts a limit on a string length (by trimming the candidate chunks) during levenshtein-distance based narrowing,len(candidate) - len(entity chunk) &gt; nearMatchingGap (Default: 4).</span>
+<span class="sd">    predictionsLimit</span>
+<span class="sd">        Limit on amount of predictions N for topN predictions</span>
+<span class="sd">    s3KnowledgeBaseName</span>
+<span class="sd">        knowledge base name in s3</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;The show also had a contestant named Donald Trump who later defeated Christina Aguilera ...&quot;]]) \</span>
+<span class="sd">    ...   .toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...   .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...   .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentenceDetector = SentenceDetector() \\</span>
+<span class="sd">    ...   .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...   .setOutputCol(&quot;sentence&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...   .setInputCols([&quot;sentence&quot;]) \\</span>
+<span class="sd">    ...   .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; word_embeddings = WordEmbeddingsModel.pretrained() \\</span>
+<span class="sd">    ...   .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \\</span>
+<span class="sd">    ...   .setOutputCol(&quot;embeddings&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentence_embeddings = SentenceEmbeddings() \\</span>
+<span class="sd">    ...   .setInputCols([&quot;sentence&quot;,&quot;embeddings&quot;]) \\</span>
+<span class="sd">    ...   .setOutputCol(&quot;sentence_embeddings&quot;)\</span>
+<span class="sd">    &gt;&gt;&gt; ner_model = NerDLModel.pretrained() \\</span>
+<span class="sd">    ...   .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;]) \\</span>
+<span class="sd">    ...   .setOutputCol(&quot;ner&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; ner_converter = NerConverter() \\</span>
+<span class="sd">    ...   .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;]) \\</span>
+<span class="sd">    ...   .setOutputCol(&quot;ner_chunk&quot;) \\</span>
+<span class="sd">    ...   .setWhiteList([&quot;PER&quot;])</span>
+
+<span class="sd">    Then the extracted entities can be disambiguated.</span>
+<span class="sd">    &gt;&gt;&gt; disambiguator = NerDisambiguatorModel.pretrained() \\</span>
+<span class="sd">    ...   .setInputCols([&quot;ner_chunk&quot;, &quot;sentence_embeddings&quot;]) \\</span>
+<span class="sd">    ...   .setOutputCol(&quot;disambiguation&quot;) \\</span>
+<span class="sd">    ...   .setNumFirstChars(5)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; nlpPipeline = Pipeline(stages=[</span>
+<span class="sd">    ...   documentAssembler,</span>
+<span class="sd">    ...   sentenceDetector,</span>
+<span class="sd">    ...   tokenizer,</span>
+<span class="sd">    ...   word_embeddings,</span>
+<span class="sd">    ...   sentence_embeddings,</span>
+<span class="sd">    ...   ner_model,</span>
+<span class="sd">    ...   ner_converter,</span>
+<span class="sd">    ...   disambiguator])</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; model = nlpPipeline.fit(data)</span>
+<span class="sd">    &gt;&gt;&gt; result = model.transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.selectExpr(&quot;explode(disambiguation)&quot;) \\</span>
+<span class="sd">    ...  .selectExpr(&quot;col.metadata.chunk as chunk&quot;, &quot;col.result as result&quot;).show(5, False)</span>
+
+<span class="sd">    +------------------+------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">    |chunk             |result                                                                                                                  |</span>
+<span class="sd">    +------------------+------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">    |Donald Trump      |http:#en.wikipedia.org/?curid=4848272, http:#en.wikipedia.org/?curid=31698421, http:#en.wikipedia.org/?curid=55907961   |</span>
+<span class="sd">    |Christina Aguilera|http:#en.wikipedia.org/?curid=144171, http:#en.wikipedia.org/?curid=6636454                                             |</span>
+<span class="sd">    +------------------+------------------------------------------------------------------------------------------------------------------------+</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;NerDisambiguatorModel&quot;</span>
+
+    <span class="n">embeddingTypeParam</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                               <span class="s2">&quot;embeddingTypeParam&quot;</span><span class="p">,</span>
+                               <span class="s2">&quot;Could be &#39;bow&#39; for word embeddings or &#39;sentence&#39; for sentences&quot;</span><span class="p">,</span>
+                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="n">numFirstChars</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                          <span class="s2">&quot;numFirstChars&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;How many characters should be considered for initial prefix search in knowledge base&quot;</span><span class="p">,</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">tokenSearch</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                        <span class="s2">&quot;tokenSearch&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;Should we search by token or by chunk in knowledge base (token is recommended)&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">narrowWithApproximateMatching</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                          <span class="s2">&quot;narrowWithApproximateMatching&quot;</span><span class="p">,</span>
+                                          <span class="s2">&quot;Should we narrow prefix search results with levenstein distance based matching (true is recommended)&quot;</span><span class="p">,</span>
+                                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">levenshteinDistanceThresholdParam</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                              <span class="s2">&quot;levenshteinDistanceThresholdParam&quot;</span><span class="p">,</span>
+                                              <span class="s2">&quot;Levenshtein distance threshold to narrow results from prefix search (0.1 is default)&quot;</span><span class="p">,</span>
+                                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+
+    <span class="n">nearMatchingGapParam</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                 <span class="s2">&quot;nearMatchingGapParam&quot;</span><span class="p">,</span>
+                                 <span class="s2">&quot;Levenshtein distance threshold to narrow results from prefix search (0.1 is default)&quot;</span><span class="p">,</span>
+                                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">predictionsLimit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;predictionsLimit&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;Limit on amount of predictions N for topN predictions&quot;</span><span class="p">,</span>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+<div class="viewcode-block" id="NerDisambiguatorModel.setEmbeddingType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.setEmbeddingType">[docs]</a>    <span class="k">def</span> <span class="nf">setEmbeddingType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets if we want to use &#39;bow&#39; for word embeddings or &#39;sentence&#39; for sentences</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Can be &#39;bow&#39; for word embeddings or &#39;sentence&#39; for sentences (Default: sentence)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">embeddingTypeParam</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerDisambiguatorModel.setNumFirstChars"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.setNumFirstChars">[docs]</a>    <span class="k">def</span> <span class="nf">setNumFirstChars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;How many characters should be considered for initial prefix search in knowledge base</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            How many characters should be considered for initial prefix search in knowledge base</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">numFirstChars</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerDisambiguatorModel.setTokenSearch"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.setTokenSearch">[docs]</a>    <span class="k">def</span> <span class="nf">setTokenSearch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to search by token or by chunk in knowledge base (Default: true)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether to search by token or by chunk in knowledge base (Default: true)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">tokenSearch</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerDisambiguatorModel.setNarrowWithApproximateMatching"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.setNarrowWithApproximateMatching">[docs]</a>    <span class="k">def</span> <span class="nf">setNarrowWithApproximateMatching</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to narrow prefix search results with levenstein distance based matching (Default: true)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">           Whether to narrow prefix search results with levenstein distance based matching (Default: true)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">narrowWithApproximateMatching</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerDisambiguatorModel.setLevenshteinDistanceThresholdParam"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.setLevenshteinDistanceThresholdParam">[docs]</a>    <span class="k">def</span> <span class="nf">setLevenshteinDistanceThresholdParam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets Levenshtein distance threshold to narrow results from prefix search (0.1 is default)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : float</span>
+<span class="sd">            Levenshtein distance threshold to narrow results from prefix search (0.1 is default)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">levenshteinDistanceThresholdParam</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerDisambiguatorModel.setNearMatchingGapParam"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.setNearMatchingGapParam">[docs]</a>    <span class="k">def</span> <span class="nf">setNearMatchingGapParam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets a limit on a string length (by trimming the candidate chunks) during levenshtein-distance based narrowing.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">             Limit on a string length (by trimming the candidate chunks) during levenshtein-distance based narrowing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nearMatchingGapParam</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerDisambiguatorModel.setPredictionLimit"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.setPredictionLimit">[docs]</a>    <span class="k">def</span> <span class="nf">setPredictionLimit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets limit on amount of predictions N for topN predictions</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        s : bool</span>
+<span class="sd">             Limit on amount of predictions N for topN predictions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">predictionsLimit</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel&quot;</span><span class="p">,</span>
+                 <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NerDisambiguatorModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;disambiguator_per&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">NerDisambiguatorModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">,</span>
+                                                <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div>
+
+</pre></div>
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2022, John Snow Labs.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

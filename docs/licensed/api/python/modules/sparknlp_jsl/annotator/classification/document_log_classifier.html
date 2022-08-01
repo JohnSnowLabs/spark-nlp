@@ -1,0 +1,472 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp_jsl.annotator.classification.document_log_classifier &#8212; Spark NLP 4.0.0 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/css/custom.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js"></script>
+    <script src="../../../../static/jquery.js"></script>
+    <script src="../../../../static/underscore.js"></script>
+    <script src="../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../static/doctools.js"></script>
+    <script src="../../../../static/toggleprompt.js"></script>
+    <link rel="shortcut icon" href="../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../reference/index.html">
+  API Reference
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <h1>Source code for sparknlp_jsl.annotator.classification.document_log_classifier</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="DocumentLogRegClassifierApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach">[docs]</a><span class="k">class</span> <span class="nc">DocumentLogRegClassifierApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Trains a model to classify documents with a Logarithmic Regression algorithm. Training data requires columns for</span>
+<span class="sd">    text and their label. The result is a trained GenericClassifierModel.</span>
+
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    Input Annotation types                    Output Annotation type</span>
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    ``TOKEN``                       `         ``CATEGORY``</span>
+<span class="sd">    ========================================= ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    labelCol</span>
+<span class="sd">        Column with the value result we are trying to predict.</span>
+<span class="sd">    maxIter</span>
+<span class="sd">        maximum number of iterations.</span>
+<span class="sd">    tol</span>
+<span class="sd">        convergence tolerance after each iteration.</span>
+<span class="sd">    fitIntercept</span>
+<span class="sd">        whether to fit an intercept term, default is true.</span>
+<span class="sd">    labels</span>
+<span class="sd">        array to output the label in the original form.</span>
+<span class="sd">    vectorizationModelPath</span>
+<span class="sd">        specify the vectorization model if it has been already trained.</span>
+<span class="sd">    classificationModelPath</span>
+<span class="sd">        specify the classification model if it has been already trained.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+
+<span class="sd">    An example pipeline could then be defined like this</span>
+
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...    .setInputCols(&quot;document&quot;) \\</span>
+<span class="sd">    ...    .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; normalizer = Normalizer() \\</span>
+<span class="sd">    ...    .setInputCols(&quot;token&quot;) \\</span>
+<span class="sd">    ...    .setOutputCol(&quot;normalized&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; stopwords_cleaner = StopWordsCleaner()\\</span>
+<span class="sd">    ...    .setInputCols(&quot;normalized&quot;)\\</span>
+<span class="sd">    ...    .setOutputCol(&quot;cleanTokens&quot;)\\</span>
+<span class="sd">    ...    .setCaseSensitive(False)</span>
+<span class="sd">    ...</span>
+<span class="sd">    ...stemmer = Stemmer() \</span>
+<span class="sd">    ...    .setInputCols(&quot;cleanTokens&quot;) \</span>
+<span class="sd">    ...    .setOutputCol(&quot;stem&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; gen_clf = DocumentLogRegClassifierApproach() \\</span>
+<span class="sd">    ...    .setLabelColumn(&quot;category&quot;) \\</span>
+<span class="sd">    ...    .setInputCols(&quot;stem&quot;) \\</span>
+<span class="sd">    ...    .setOutputCol(&quot;prediction&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
+<span class="sd">    ...    document_assembler,</span>
+<span class="sd">    ...    tokenizer,</span>
+<span class="sd">    ...    normalizer,</span>
+<span class="sd">    ...    stopwords_cleaner,</span>
+<span class="sd">    ...    stemmer,</span>
+<span class="sd">    ...    logreg</span>
+<span class="sd">    ...])</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; clf_model = pipeline.fit(data)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">labelCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;labelCol&quot;</span><span class="p">,</span> <span class="s2">&quot;column with the value result we are trying to predict.&quot;</span><span class="p">,</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="n">maxIter</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;maxIter&quot;</span><span class="p">,</span> <span class="s2">&quot;maximum number of iterations.&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">tol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;tol&quot;</span><span class="p">,</span> <span class="s2">&quot;convergence tolerance after each iteration.&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+    <span class="n">fitIntercept</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;fitIntercept&quot;</span><span class="p">,</span> <span class="s2">&quot;whether to fit an intercept term, default is true.&quot;</span><span class="p">,</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;labels&quot;</span><span class="p">,</span> <span class="s2">&quot;array to output the label in the original form.&quot;</span><span class="p">,</span>
+                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+    <span class="n">vectorizationModelPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;vectorizationModelPath&quot;</span><span class="p">,</span>
+                                   <span class="s2">&quot;specify the vectorization model if it has been already trained.&quot;</span><span class="p">,</span>
+                                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="n">classificationModelPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;classificationModelPath&quot;</span><span class="p">,</span>
+                                    <span class="s2">&quot;specify the classification model if it has been already trained.&quot;</span><span class="p">,</span>
+                                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DocumentLogRegClassifierApproach.setLabelColumn"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.setLabelColumn">[docs]</a>    <span class="k">def</span> <span class="nf">setLabelColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets column with the value result we are trying to predict.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        label : str</span>
+<span class="sd">            Column with the value result we are trying to predict.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">labelCol</span><span class="o">=</span><span class="n">label</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DocumentLogRegClassifierApproach.setMaxIter"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.setMaxIter">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxIter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets maximum number of iterations.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        k : int</span>
+<span class="sd">             Maximum number of iterations.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxIter</span><span class="o">=</span><span class="n">k</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DocumentLogRegClassifierApproach.setTol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.setTol">[docs]</a>    <span class="k">def</span> <span class="nf">setTol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dist</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets  convergence tolerance after each iteration.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dist : float</span>
+<span class="sd">            Convergence tolerance after each iteration.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">tol</span><span class="o">=</span><span class="n">dist</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DocumentLogRegClassifierApproach.setFitIntercept"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.setFitIntercept">[docs]</a>    <span class="k">def</span> <span class="nf">setFitIntercept</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">merge</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to fit an intercept term, default is true.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        label : str</span>
+<span class="sd">            Whether to fit an intercept term, default is true.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">fitIntercept</span><span class="o">=</span><span class="n">merge</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DocumentLogRegClassifierApproach.setVectorizationModelPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.setVectorizationModelPath">[docs]</a>    <span class="k">def</span> <span class="nf">setVectorizationModelPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets a path to the the classification model if it has been already trained.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        label : str</span>
+<span class="sd">          Path to the the classification model if it has been already trained.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">vectorizationModelPath</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DocumentLogRegClassifierApproach.setClassificationModelPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.setClassificationModelPath">[docs]</a>    <span class="k">def</span> <span class="nf">setClassificationModelPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets a path to the the classification model if it has been already trained.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        label : str</span>
+<span class="sd">            Path to the the classification model if it has been already trained.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">classificationModelPath</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DocumentLogRegClassifierApproach.setLabels"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.setLabels">[docs]</a>    <span class="k">def</span> <span class="nf">setLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets array to output the label in the original form.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        label : list</span>
+<span class="sd">           array to output the label in the original form.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">DocumentLogRegClassifierModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DocumentLogRegClassifierApproach</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classification.DocumentLogRegClassifierApproach&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">labelCol</span><span class="o">=</span><span class="s2">&quot;selector&quot;</span><span class="p">,</span>
+            <span class="n">maxIter</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+            <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+            <span class="n">fitIntercept</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">vectorizationModelPath</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">classificationModelPath</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentLogRegClassifierModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel">[docs]</a><span class="k">class</span> <span class="nc">DocumentLogRegClassifierModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Classifies documents with a Logarithmic Regression algorithm.</span>
+
+
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    Input Annotation types                    Output Annotation type</span>
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    ``TOKEN``                                 ``CATEGORY``</span>
+<span class="sd">    ========================================= ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mergeChunks</span>
+<span class="sd">        Whether to merge all chunks in a document or not (Default: false)</span>
+<span class="sd">    labels</span>
+<span class="sd">        Array to output the label in the original form.</span>
+<span class="sd">    vectorizationModel</span>
+<span class="sd">       Vectorization model if it has been already trained.</span>
+<span class="sd">    classificationModel</span>
+<span class="sd">        Classification model if it has been already trained.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DocumentLogRegClassifierModel&quot;</span>
+
+    <span class="n">vectorizationModel</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;vectorizationModel&quot;</span><span class="p">,</span> <span class="s2">&quot;wrapped vectorization model.&quot;</span><span class="p">,</span>
+                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+    <span class="n">classificationModel</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;classificationModel&quot;</span><span class="p">,</span> <span class="s2">&quot;wrapped classification model.&quot;</span><span class="p">,</span>
+                                <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;labels&quot;</span><span class="p">,</span> <span class="s2">&quot;array to output the label in the original form.&quot;</span><span class="p">,</span>
+                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+    <span class="n">mergeChunks</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;mergeChunks&quot;</span><span class="p">,</span> <span class="s2">&quot;whether or not to combine all chunks and make a single query&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classification.DocumentLogRegClassifierModel&quot;</span><span class="p">,</span>
+                 <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DocumentLogRegClassifierModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="DocumentLogRegClassifierModel.setLabels"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.setLabels">[docs]</a>    <span class="k">def</span> <span class="nf">setLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets array to output the label in the original form.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        label : list</span>
+<span class="sd">           array to output the label in the original form.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DocumentLogRegClassifierModel.setMergeChunks"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.setMergeChunks">[docs]</a>    <span class="k">def</span> <span class="nf">setMergeChunks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">merge</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to merge all chunks in a document or not (Default: false)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        merge : list</span>
+<span class="sd">           whether to merge all chunks in a document or not (Default: false)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">mergeChunks</span><span class="o">=</span><span class="n">merge</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DocumentLogRegClassifierModel.setVectorizationModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.setVectorizationModel">[docs]</a>    <span class="k">def</span> <span class="nf">setVectorizationModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets a path to the classification model if it has been already trained.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model: :class:`pyspark.ml.PipelineModel`</span>
+<span class="sd">            Classification model if it has been already trained.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">vectorizationModel</span><span class="o">=</span><span class="n">model</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DocumentLogRegClassifierModel.setClassificationModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.setClassificationModel">[docs]</a>    <span class="k">def</span> <span class="nf">setClassificationModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets a path to the the classification model if it has been already trained.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model: :class:`pyspark.ml.PipelineModel`</span>
+<span class="sd">            Classification model if it has been already trained.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">classificationModel</span><span class="o">=</span><span class="n">model</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
+        <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">DocumentLogRegClassifierModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+                                                        <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div>
+
+</pre></div>
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2022, John Snow Labs.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>
