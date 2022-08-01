@@ -4,7 +4,7 @@ title: COVID-19 Sentiment Classifier (BioBERT)
 author: John Snow Labs
 name: bert_sequence_classifier_covid_sentiment
 date: 2022-08-01
-tags: [public_health, covid19_sentiment, en, licenced, licensed]
+tags: [public_health, covid19_sentiment, en, licenced]
 task: Sentiment Analysis
 language: en
 edition: Spark NLP for Healthcare 4.0.2
@@ -78,8 +78,8 @@ val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_s
 val pipeline = new Pipeline().setStages(Array(documenter, tokenizer, sequenceClassifier))
 
 val data = Seq(Array("British Department of Health confirms first two cases of in UK", 
-             "so my trip to visit my australian exchange student just got canceled bc of coronavirus. im heartbroken :(", 
-             "I wish everyone to be safe at home and stop pandemic"
+                     "so my trip to visit my australian exchange student just got canceled bc of coronavirus. im heartbroken :(", 
+                     "I wish everyone to be safe at home and stop pandemic"
 )).toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
@@ -126,8 +126,7 @@ Curated from several academic and in-house datasets.
     negative       0.96      0.97      0.97      3284
     positive       0.94      0.96      0.95      1207
      neutral       0.96      0.94      0.95      3232
-
-    accuracy                           0.96      7723
+    accuracy          -         -      0.96      7723
    macro avg       0.95      0.96      0.96      7723
 weighted avg       0.96      0.96      0.96      7723
 ```
