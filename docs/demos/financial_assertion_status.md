@@ -10,11 +10,11 @@ show_date: false
 data:
   sections:  
     - title: Spark NLP for Finance
-      excerpt: Understand Entity Context
+      excerpt: Understand Financial Entities Context
       secheader: yes
       secheader:
         - title: Spark NLP for Finance
-          subtitle: Understand Entity Context
+          subtitle: Understand Financial Entities Context
           activemenu: financial_assertion_status
       source: yes
       source: 

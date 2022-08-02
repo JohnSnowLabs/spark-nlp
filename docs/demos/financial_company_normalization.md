@@ -10,11 +10,11 @@ show_date: false
 data:
   sections:  
     - title: Spark NLP for Finance
-      excerpt: Normalizing and Augmenting Company Names
+      excerpt: Normalize and Augment Company Names
       secheader: yes
       secheader:
         - title: Spark NLP for Finance
-          subtitle: Normalizing and Augmenting Company Names
+          subtitle: Normaliz and Augment Company Names
           activemenu: financial_company_normalization
       source: yes
       source: 
