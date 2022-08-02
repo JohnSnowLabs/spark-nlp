@@ -62,6 +62,7 @@ embeddings = annotator
 
 def start(gpu=False,
           m1=False,
+          aarch64=False,
           memory="16G",
           cache_folder="",
           log_folder="",
@@ -90,6 +91,8 @@ def start(gpu=False,
         Whether to enable GPU acceleration (must be set up correctly), by default False
     m1 : bool, optional
         Whether to enable M1 support for macOS
+    aarch64 : bool, optional
+        Whether to enable Linux Aarch64 support
     memory : str, optional
         How much memory to allocate for the Spark driver, by default "16G"
     cache_folder : str, optional
@@ -114,7 +117,7 @@ def start(gpu=False,
         The initiated Spark session.
 
     """
-    current_version = "4.0.2"
+    current_version = "0.4.3-rc1"
 
     class SparkNLPConfig:
 
@@ -127,6 +130,8 @@ def start(gpu=False,
             self.maven_gpu_spark3 = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:{}".format(current_version)
             # Spark NLP on M1
             self.maven_m1 = "com.johnsnowlabs.nlp:spark-nlp-m1_2.12:{}".format(current_version)
+            # Spark NLP on Linux Aarch64
+            self.maven_aarch64 = "com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:{}".format(current_version)
 
     def start_without_realtime_output():
         builder = SparkSession.builder \
@@ -139,6 +144,8 @@ def start(gpu=False,
 
         if m1:
             builder.config("spark.jars.packages", spark_nlp_config.maven_m1)
+        elif aarch64:
+            builder.config("spark.jars.packages", spark_nlp_config.maven_aarch64)
         elif gpu:
             builder.config("spark.jars.packages", spark_nlp_config.maven_gpu_spark3)
         else:
@@ -168,6 +175,8 @@ def start(gpu=False,
 
                 if m1:
                     spark_conf.set("spark.jars.packages", spark_nlp_config.maven_m1)
+                elif aarch64:
+                    spark_conf.set("spark.jars.packages", spark_nlp_config.maven_aarch64)
                 elif gpu:
                     spark_conf.set("spark.jars.packages", spark_nlp_config.maven_gpu_spark3)
                 else:
@@ -253,4 +262,4 @@ def version():
     str
         The current Spark NLP version.
     """
-    return '4.0.2'
+    return '0.4.3-rc1'
