@@ -343,7 +343,7 @@ class TensorflowNer(
     }
 
     if (enableOutputLogs) {
-      OutputHelper.exportLogFileToS3()
+      OutputHelper.exportLogFile(outputLogsPath)
     }
 
     lastCheckPoints

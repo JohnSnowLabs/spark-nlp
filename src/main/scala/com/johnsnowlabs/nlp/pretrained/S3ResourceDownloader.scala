@@ -17,8 +17,7 @@
 package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.client.aws.AWSGateway
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader.fileSystem
-import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader, FileHelper}
+import com.johnsnowlabs.util.FileHelper
 import org.apache.hadoop.fs.Path
 
 import java.io.File
@@ -44,13 +43,7 @@ class S3ResourceDownloader(
     fileSystem.mkdirs(cachePath)
   }
 
-  lazy val awsGateway = new AWSGateway(
-    ConfigLoader.getConfigStringValue(ConfigHelper.accessKeyId),
-    ConfigLoader.getConfigStringValue(ConfigHelper.secretAccessKey),
-    ConfigLoader.getConfigStringValue(ConfigHelper.sessionToken),
-    ConfigLoader.getConfigStringValue(ConfigHelper.awsProfileName),
-    region,
-    credentialsType)
+  lazy val awsGateway = new AWSGateway(region = region, credentialsType = credentialsType)
 
   def downloadMetadataIfNeed(folder: String): List[ResourceMetadata] = {
     val lastState = repoFolder2Metadata.get(folder)

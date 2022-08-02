@@ -17,7 +17,6 @@
 package com.johnsnowlabs.util
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import org.apache.hadoop.fs.FileSystem
 
 object ConfigHelper {
 
@@ -63,10 +62,6 @@ object ConfigHelper {
 
   def getConfigValueOrElse(property: String, defaultValue: String): String = {
     sparkSession.conf.get(property, defaultValue)
-  }
-
-  def getFileSystem: FileSystem = {
-    FileSystem.get(sparkSession.sparkContext.hadoopConfiguration)
   }
 
   def getHadoopTmpDir: String = {

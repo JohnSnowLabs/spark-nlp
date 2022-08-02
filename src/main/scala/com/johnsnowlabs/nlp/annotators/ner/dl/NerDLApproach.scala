@@ -23,10 +23,9 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_E
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.{ModelMetrics, NerApproach, Verbose}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, OutputHelper, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.storage.HasStorageRef
-import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.commons.io.IOUtils
 import org.apache.commons.lang.SystemUtils
 import org.apache.spark.SparkFiles
@@ -761,20 +760,20 @@ trait WithGraphResolver {
       val keyPrefix = localGraphPath.get.substring(("s3://" + bucketName).length + 1)
       var tmpDirectory = SparkFiles.getRootDirectory()
 
-      val awsGateway = new AWSGateway(
-        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalAccessKeyId),
-        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalSecretAccessKey),
-        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalSessionToken),
-        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalProfileName),
-        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalRegion))
-
+      val awsGateway = new AWSGateway()
       awsGateway.downloadFilesFromDirectory(bucketName, keyPrefix, new File(tmpDirectory))
 
-      tmpDirectory = tmpDirectory + "/" + keyPrefix
+      if (OutputHelper.getFileSystem.getScheme == "dbfs") {
+        tmpDirectory = s"$tmpDirectory/$keyPrefix"
+      } else tmpDirectory = s"file:/$tmpDirectory/$keyPrefix"
+
       files = ResourceHelper.listLocalFiles(tmpDirectory).map(_.getAbsolutePath)
     } else {
 
-      if (localGraphPath.isDefined && ResourceHelper.validFile(localGraphPath.get)) {
+      if (localGraphPath.isDefined && OutputHelper
+          .getFileSystem(localGraphPath.get)
+          ._1
+          .getScheme == "dbfs") {
         files =
           ResourceHelper.listLocalFiles(localGraphPath.get).map(file => file.getAbsolutePath)
       } else {
