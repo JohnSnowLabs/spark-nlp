@@ -2,7 +2,7 @@ import Dependencies._
 import Resolvers.m2Resolvers
 import sbtassembly.MergeStrategy
 
-name := getPackageName(is_m1, is_gpu)
+name := getPackageName(is_m1, is_gpu, is_aarch64)
 
 organization := "com.johnsnowlabs.nlp"
 
@@ -148,6 +148,8 @@ val tensorflowDependencies: Seq[sbt.ModuleID] =
     Seq(tensorflowGPU)
   else if (is_m1.equals("true"))
     Seq(tensorflowM1)
+  else if (is_aarch64.equals("true"))
+    Seq(tensorflowLinuxAarch64)
   else
     Seq(tensorflowCPU)
 

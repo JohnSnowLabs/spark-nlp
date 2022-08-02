@@ -25,9 +25,15 @@ class SentencePieceJNI {
             String libName = "sentencepiece_jni";
             String platform = System.getProperty("os.name").toLowerCase();
             boolean isMacOs = platform.contains("os x") || platform.contains("darwin");
-            if (isMacOs && System.getProperty("os.arch").equals("aarch64")) {
-                libName += "_m1";
+            if(System.getProperty("os.arch").equals("aarch64"))
+            {
+                if (isMacOs) {
+                    libName += "_m1";
+                } else if (platform.contains("linux")) {
+                    libName += "_aarch64";
+                }
             }
+            
             System.load(NativeLibLoader.createTempFileFromResource("/sentencepiece/" + System.mapLibraryName(libName)));
         } catch (IOException e) {
             throw new UnsatisfiedLinkError(e.getMessage());
