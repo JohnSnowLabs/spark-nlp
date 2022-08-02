@@ -2,6 +2,7 @@ import os
 import re
 
 from sparknlp.internal import _ResourceHelper
+from sparknlp.training._tf_graph_builders.ner_dl.create_graph import create_graph
 
 
 class WrongTFVersion(Exception):
@@ -131,9 +132,8 @@ class NerTFGraphBuilder(TFGraphBuilder):
         }
 
     def build(self, model_location, model_filename):
-        from sparknlp.training._tf_graph_builders.ner_dl.create_graph import create_graph
 
-        if (re.match(r'(\w+)://.*', model_location)):
+        if re.match(r'(\w+)://.*', model_location):
             tmp_location = "/tmp/nerModel"
             create_graph(
                 model_location=tmp_location,
@@ -161,9 +161,10 @@ class NerTFGraphBuilder(TFGraphBuilder):
                 is_medical=False,
             )
 
+
 class TFGraphBuilderFactory:
     """
-    Factory class to create the the different tensorflow graphs for ner_dl
+    Factory class to create the different tensorflow graphs for ner_dl
     """
 
     __model_builders = {

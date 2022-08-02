@@ -167,7 +167,7 @@ class NerTFGraphBuilder(TFGraphBuilder):
 
 class TFGraphBuilderFactory:
     """
-    Factory class to create the the different tensorflow graphs for ner_dl, generic_classifier, assertion_dl, relation_extraction annotators in spark-nlp healthcare
+    Factory class to create the different tensorflow graphs for ner_dl, generic_classifier, assertion_dl, relation_extraction annotators in spark-nlp healthcare
     """
 
     __model_builders = {
@@ -247,19 +247,19 @@ class TFGraphBuilderFactory:
             else:
                 model_filename = model.get_model_filename()
 
-        model.build(model_location, model_filename)
-
-        if re.match(r'(\w+)://.*', model_location):
-            tmp_location = "/tmp/relationModel"
-            model.build(tmp_location, model_filename)
-
-            file_location = os.path.join(tmp_location, model_filename)
-            _ResourceHelper(file_location, model_location).apply()
-
-        else:
             model.build(model_location, model_filename)
+        else:
+            if re.match(r'(\w+)://.*', model_location):
+                tmp_location = "/tmp/relationModel"
+                model.build(tmp_location, model_filename)
 
-        print("{} graph exported to {}/{}".format(model_name, model_location, model_filename))
+                file_location = os.path.join(tmp_location, model_filename)
+                _ResourceHelper(file_location, model_location).apply()
+
+            else:
+                model.build(model_location, model_filename)
+
+            print("{} graph exported to {}/{}".format(model_name, model_location, model_filename))
 
     @staticmethod
     def print_model_params(model_name):

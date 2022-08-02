@@ -18,11 +18,10 @@ package com.johnsnowlabs.nlp.util.io
 
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.util.io.ReadAs._
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
-import org.apache.commons.io.FileUtils
-import org.apache.hadoop.fs.{FileSystem, Path}
+import org.apache.commons.io.{FileUtils, IOUtils}
+import org.apache.hadoop.fs.Path
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
@@ -55,10 +54,7 @@ object ResourceHelper {
   /** Structure for a SourceStream coming from compiled content */
   case class SourceStream(resource: String) {
 
-    val path = new Path(resource)
-
-    val fileSystem: FileSystem =
-      FileSystem.get(path.toUri, spark.sparkContext.hadoopConfiguration)
+    val (fileSystem, path) = OutputHelper.getFileSystem(resource)
     if (!fileSystem.exists(path)) {
       throw new FileNotFoundException(s"file or folder: $resource not found")
     }
@@ -92,9 +88,9 @@ object ResourceHelper {
           }
         case "dbfs" =>
           val dbfsPath = path.toString.replace("dbfs:/", "/dbfs/")
-          val localFiles = ResourceHelper.listLocalFiles(dbfsPath)
+          val localFiles = listLocalFiles(dbfsPath)
           localFiles.foreach { localFile =>
-            val inputStream = ResourceHelper.getResourceStream(localFile.toString)
+            val inputStream = getResourceStream(localFile.toString)
             val targetPath = destination + localFile.toString.split("/").last
             val targetFile = new File(targetPath)
             FileUtils.copyInputStreamToFile(inputStream, targetFile)
@@ -551,13 +547,31 @@ object ResourceHelper {
   }
 
   def listLocalFiles(path: String): List[File] = {
-    val fileSystem = FileSystem.get(spark.sparkContext.hadoopConfiguration)
-    if (fileSystem.getScheme == "hdfs") {
-      val filesPath = Option(new File(path.replace("file:", "")).listFiles())
-      val files = filesPath.getOrElse(throw new FileNotFoundException(s"folder: $path not found"))
-      return files.toList
+
+    val fileSystem = OutputHelper.getFileSystem
+
+    val filesPath = fileSystem.getScheme match {
+      case "hdfs" => {
+        if (path.startsWith("file:")) {
+          Option(new File(path.replace("file:", "")).listFiles())
+        } else {
+          val filesIterator = fileSystem.listFiles(new Path(path), false)
+          val files: ArrayBuffer[File] = ArrayBuffer()
+
+          while (filesIterator.hasNext) {
+            val file = new File(filesIterator.next().getPath.toString)
+            files.append(file)
+          }
+
+          Option(files.toArray)
+        }
+
+      }
+      case "dbfs" if path.startsWith("dbfs:") =>
+        Option(new File(path.replace("dbfs:", "/dbfs/")).listFiles())
+      case _ => Option(new File(path).listFiles())
     }
-    val filesPath = Option(new File(path).listFiles())
+
     val files = filesPath.getOrElse(throw new FileNotFoundException(s"folder: $path not found"))
     files.toList
   }
@@ -567,8 +581,7 @@ object ResourceHelper {
 
     if (!isValid) {
       val hadoopPath = new Path(path)
-      val fileSystem: FileSystem =
-        FileSystem.get(hadoopPath.toUri, spark.sparkContext.hadoopConfiguration)
+      val fileSystem = OutputHelper.getFileSystem
       if (fileSystem.exists(hadoopPath)) {
         isValid = true
       } else {
@@ -580,12 +593,41 @@ object ResourceHelper {
   }
 
   def moveFile(sourceFile: String, destinationFile: String): Unit = {
-    val fileSystem: FileSystem = ResourceDownloader.fileSystem
 
-    Files.createDirectory(Paths.get(sourceFile))
-    val destination = new org.apache.hadoop.fs.Path(sourceFile)
-    val source = new org.apache.hadoop.fs.Path(destinationFile)
-    fileSystem.copyToLocalFile(source, destination)
+    val (sourceFileSystem, _) = OutputHelper.getFileSystem(sourceFile)
+
+    if (destinationFile.startsWith("s3:")) {
+      val s3Bucket = destinationFile.replace("s3://", "").split("/").head
+      val s3Path = "s3:/" + destinationFile.substring(s"s3://$s3Bucket".length)
+
+      if (sourceFileSystem.getScheme.equals("dbfs") || sourceFileSystem.getScheme.equals(
+          "hdfs")) {
+        val inputStream = getResourceStream(sourceFile)
+
+        val destinationFile = sourceFile.split("/").last
+        val tmpPath =
+          if (sourceFileSystem.getScheme.equals("dbfs")) new Path("dbfs:/tmp")
+          else new Path("hdfs:/tmp")
+        if (!sourceFileSystem.exists(tmpPath)) sourceFileSystem.mkdirs(tmpPath)
+        val sourceFilePath = tmpPath + "/" + destinationFile
+        val outputStream = sourceFileSystem.create(new Path(sourceFilePath))
+
+        val inputBytes = IOUtils.toByteArray(inputStream)
+        outputStream.write(inputBytes)
+        outputStream.close()
+
+        OutputHelper.storeFileInS3(sourceFilePath, s3Bucket, s3Path)
+      }
+
+    } else {
+
+      if (!sourceFileSystem.getScheme.equals("dbfs")) {
+        val source = new Path(s"file:///$sourceFile")
+        val destination = new Path(destinationFile)
+        sourceFileSystem.copyFromLocalFile(source, destination)
+      }
+    }
+
   }
 
 }

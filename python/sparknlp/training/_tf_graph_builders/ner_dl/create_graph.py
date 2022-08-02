@@ -29,6 +29,12 @@ def create_graph(
         ner.add_training_op(5, "train" if is_medical else None)
         ner.init_variables()
         tf.train.Saver()
-        tf.io.write_graph(ner.session.graph, model_location, model_filename, False)
+
+        if model_location.startswith("dbfs:"):
+            graph_location = model_location.replace("dbfs:/", "/dbfs/")
+        else:
+            graph_location = model_location
+
+        tf.io.write_graph(ner.session.graph, graph_location, model_filename, False)
         ner.close()
         session.close()

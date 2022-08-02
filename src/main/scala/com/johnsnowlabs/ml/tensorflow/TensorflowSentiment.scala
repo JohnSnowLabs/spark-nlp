@@ -154,7 +154,7 @@ class TensorflowSentiment(
     }
 
     if (enableOutputLogs) {
-      OutputHelper.exportLogFileToS3()
+      OutputHelper.exportLogFile(outputLogsPath)
     }
   }
 
