@@ -1,14 +1,4 @@
 docs/_includes/demomenu.html
-docs/demos/financial_assertion_status.md
-docs/demos/financial_company_normalization.md
-docs/demos/financial_deidentification.md
-docs/demos/legal_assertion_status.md
-docs/demos/legal_company_normalization.md
-docs/demos/legal_deidentification.md
+docs/demos/financial_relation_extraction.md
 docs/_includes/demomenu.html
-docs/demos/financial_assertion_status.md
-docs/demos/financial_company_normalization.md
-docs/demos/financial_deidentification.md
-docs/demos/legal_assertion_status.md
-docs/demos/legal_company_normalization.md
-docs/demos/legal_deidentification.md
+docs/demos/financial_relation_extraction.md
