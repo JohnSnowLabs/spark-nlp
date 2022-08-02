@@ -10,7 +10,7 @@ show_date: false
 data:
   sections:  
     - title: Spark NLP for Finance
-      excerpt: De-Identification
+      excerpt: Financial De-Identification
       secheader: yes
       secheader:
         - title: Spark NLP for Finance

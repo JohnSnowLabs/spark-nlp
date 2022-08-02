@@ -10,11 +10,11 @@ show_date: false
 data:
   sections:  
     - title: Spark NLP for Legal
-      excerpt: Normalizing and Augmenting Company Names
+      excerpt: Normalize and Augment Company Names
       secheader: yes
       secheader:
         - title: Spark NLP for Legal
-          subtitle: Normalizing and Augmenting Company Names
+          subtitle: Normalize and Augment Company Names
           activemenu: legal_company_normalization
       source: yes
       source: 

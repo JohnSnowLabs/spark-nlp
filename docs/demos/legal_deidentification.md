@@ -10,7 +10,7 @@ show_date: false
 data:
   sections:  
     - title: Spark NLP for Legal
-      excerpt: De-Identification
+      excerpt: Legal De-Identification
       secheader: yes
       secheader:
         - title: Spark NLP for Legal
