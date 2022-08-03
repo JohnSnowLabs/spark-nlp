@@ -404,3 +404,10 @@ class _SpanBertCorefLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_SpanBertCorefLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel.loadSavedModel", path, jspark)
+
+
+class _ViTForImageClassification(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_ViTForImageClassification, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification.loadSavedModel", path,
+            jspark)
