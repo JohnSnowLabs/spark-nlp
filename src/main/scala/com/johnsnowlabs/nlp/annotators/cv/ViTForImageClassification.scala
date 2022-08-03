@@ -150,24 +150,6 @@ class ViTForImageClassification(override val uid: String)
   override def batchAnnotate(
       batchedAnnotations: Seq[Array[AnnotationImage]]): Seq[Seq[Annotation]] = {
 
-//    batchedAnnotations.map { imagesWithRow =>
-//      if (imagesWithRow.nonEmpty) {
-//        getModelIfNotSet.predict(
-//          images = imagesWithRow,
-//          batchSize = $(batchSize),
-//          preprocessor = Preprocessor(
-//            getDoResize,
-//            getDoNormalize,
-//            getFeatureExtractorType,
-//            getImageMean,
-//            getImageStd,
-//            getResample,
-//            getSize))
-//      } else {
-//        Seq.empty[Annotation]
-//      }
-//    }
-
     // Zip annotations to the row it belongs to
     val imagesWithRow = batchedAnnotations.zipWithIndex
       .flatMap { case (annotations, i) => annotations.map(x => (x, i)) }
