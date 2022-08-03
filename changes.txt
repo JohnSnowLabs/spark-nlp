@@ -1,4 +1,2 @@
-docs/_includes/demomenu.html
-docs/demos/financial_relation_extraction.md
-docs/_includes/demomenu.html
-docs/demos/financial_relation_extraction.md
+docs/_posts/luca-martial/2022-08-03-finance_sequence_classifier_esg_en_3_2.md
+docs/_posts/luca-martial/2022-08-03-finance_sequence_classifier_esg_en_3_2.md
