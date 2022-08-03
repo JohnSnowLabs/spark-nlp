@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Self Reported Stress Classifier (BioBERT)- Spark NLP Model</title><meta name="description" content="DescriptionThis model is a BioBERT based classifier that can identify stress in social media (Twitter) posts in the self-disclosure category. The model finds...">
-<link rel="canonical" href="/2022/07/29/bert_sequence_classifier_self_reported_stress_tweet_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>NER on Legal Texts (CUAD, Silver corpus)- Spark NLP Model</title><meta name="description" content="DescriptionThis is a Legal Name Entity Recognition model, trained on a Silver version of the CUAD dataset. We say a corpus is on its “Silver” version when we...">
+<link rel="canonical" href="/2022/08/03/legner_cuad_silver_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,25 +406,40 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/hsaglamlar/2022-07-29-bert_sequence_classifier_self_reported_stress_tweet_en_3_0.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-03-legner_cuad_silver_en_3_2.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jul 29, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-29T00:00:00+00:00"></div><header class="main-docs"><h1>Self Reported Stress Classifier (BioBERT)</h1></header></div><meta itemprop="headline" content="Self Reported Stress Classifier (BioBERT)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>licenced</li><li>clinical</li><li>public_health</li><li>sequence_classification</li><li>classifier</li><li>stress</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-29T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,licenced,clinical,public_health,sequence_classification,classifier,stress,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 03, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-03T00:00:00+00:00"></div><header class="main-docs"><h1>NER on Legal Texts (CUAD, Silver corpus)</h1></header></div><meta itemprop="headline" content="NER on Legal Texts (CUAD, Silver corpus)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>ner</li><li>cuad</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-03T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,legal,ner,cuad,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model is a <a href="https://github.com/dmis-lab/biobert">BioBERT based</a> classifier that can identify stress in social media (Twitter) posts in the self-disclosure category. The model finds whether a person claims he/she is stressed or not.</p>
+<p>This is a Legal Name Entity Recognition model, trained on a Silver version of the CUAD dataset. We say a corpus is on its “Silver” version when we use automatic labelling algorithms, rules, vocabularies, patterns and some predefined annotations.</p>
+
+<p>The entities included are:
+“PERSON”: Person
+“LAW”: Mentioned law
+“PARTY”: A party signing the agreement
+“EFFDATE”: Date of the agreement
+“LOC”: A mentioned location
+“DATE”: Another date, not EFFDATE
+“DOC”: Type of the document
+“ORDINAL”: And ordinal number
+“ROLE”: A role of a person or party
+“PERCENT”: A percentage
+“ORG”: An generic tag for detecting organizations</p>
+
+<p>You can several models trained on Golden versions of this dataset (annotated by our JSL in-house domain experts) in Models Hub, looking in the Legal library.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">not-stressed</code>, <code class="language-plaintext highlighter-rouge">stressed</code></p>
+<p><code class="language-plaintext highlighter-rouge">PERSON</code>, <code class="language-plaintext highlighter-rouge">LAW</code>, <code class="language-plaintext highlighter-rouge">PARTY</code>, <code class="language-plaintext highlighter-rouge">EFFDATE</code>, <code class="language-plaintext highlighter-rouge">LOC</code>, <code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">DOC</code>, <code class="language-plaintext highlighter-rouge">ORDINAL</code>, <code class="language-plaintext highlighter-rouge">ROLE</code>, <code class="language-plaintext highlighter-rouge">PERCENT</code>, <code class="language-plaintext highlighter-rouge">ORG</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_self_reported_stress_tweet_en_4.0.0_3.0_1659087442993.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_cuad_silver_en_1.0.0_3.2_1659539338738.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -432,67 +447,96 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
+<span class="n">sentencizer</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentences"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setExplodeSentences</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 
-<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">MedicalBertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_sequence_classifier_self_reported_stress_tweet"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">])</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+        
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"w2v_cc_300d"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">document_assembler</span><span class="p">,</span> 
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">sequenceClassifier</span>
-<span class="p">])</span>
+<span class="n">jsl_ner</span> <span class="o">=</span> <span class="n">LegalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legner_cuad_silver"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
+		<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+		<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"jsl_ner"</span><span class="p">)</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"Do you feel stressed?"</span><span class="p">],</span> 
-                              <span class="p">[</span><span class="s">"I'm so stressed!"</span><span class="p">],</span>
-                              <span class="p">[</span><span class="s">"Depression and anxiety will probably end up killing me – I feel so stressed all the time and just feel awful."</span><span class="p">],</span> 
-                              <span class="p">[</span><span class="s">"Do you enjoy living constantly in this self-inflicted stress?"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-                              
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">jsl_ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
+		<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"jsl_ner"</span><span class="p">])</span> \
+		<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+        
+<span class="n">jsl_ner_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+				<span class="n">documentAssembler</span><span class="p">,</span>
+				<span class="n">sentencizer</span><span class="p">,</span>
+				<span class="n">tokenizer</span><span class="p">,</span>
+				<span class="n">embeddings</span><span class="p">,</span>
+				<span class="n">jsl_ner</span><span class="p">,</span>
+				<span class="n">jsl_ner_converter</span><span class="p">])</span>
 
-<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"text"</span><span class="p">,</span> <span class="s">"class.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">"""December 2007 SUBORDINATED LOAN AGREEMENT. THIS LOAN AGREEMENT is made on 7th December, 2007 BETWEEN: (1) SILICIUM DE PROVENCE S.A.S., a private company with limited liability, incorporated under the laws of France, whose registered office is situated at Usine de Saint Auban, France, represented by Mr.Frank Wouters, hereinafter referred to as the "Borrower", and ( 2 ) EVERGREEN SOLAR INC., a company incorporated in Delaware, U.S.A., with registered number 2426798, whose registered office is situated at Bartlett Street, Marlboro, Massachusetts, U.S.A. represented by Richard Chleboski, hereinafter referred to as "Lender"."""</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">jsl_ner_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documenter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">sequenceClassifier</span> <span class="k">=</span> <span class="nv">MedicalBertForSequenceClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_sequence_classifier_self_reported_stress_tweet"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span><span class="s">"token"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documenter</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">sequenceClassifier</span><span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"Do you feel stressed!"</span><span class="o">,</span> 
-                     <span class="s">"I'm so stressed!"</span><span class="o">,</span>
-                     <span class="s">"Depression and anxiety will probably end up killing me – I feel so stressed all the time and just feel awful."</span><span class="o">,</span> 
-                     <span class="s">"Do you enjoy living constantly in this self-inflicted stress?"</span><span class="o">)).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
-</code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------------------------------------------------------------------------------------------------------------+--------------+
-|text                                                                                                         |result        |
-+-------------------------------------------------------------------------------------------------------------+--------------+
-|Do you feel stressed?                                                                                        |[not-stressed]|
-|I<span class="s1">'m so stressed!                                                                                             |[stressed]    |
-|Depression and anxiety will probably end up killing me – I feel so stressed all the time and just feel awful.|[stressed]    |
-|Do you enjoy living constantly in this self-inflicted stress?                                                |[not-stressed]|
-+-------------------------------------------------------------------------------------------------------------+--------------+
-</span></code></pre></div></div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------+---------+----------+
+|       token|ner_label|confidence|
++------------+---------+----------+
+|    December|   B-DATE|    0.4111|
+|        2007|   B-DATE|    0.7867|
+|SUBORDINATED|        O|    0.5373|
+|        LOAN|    B-DOC|    0.9998|
+|   AGREEMENT|    I-DOC|    0.8615|
+|           .|        O|    0.9695|
+|        THIS|        O|    0.9977|
+|        LOAN|    B-DOC|    0.9995|
+|   AGREEMENT|    I-DOC|    0.9982|
+|          is|        O|    0.8592|
+|        made|        O|    0.9975|
+|          on|        O|    0.9906|
+|         7th|   B-DATE|    0.7804|
+|    December|   B-DATE|    0.6701|
+|           ,|   B-DATE|    0.5395|
+|        2007|   B-DATE|    0.5327|
+|     BETWEEN|        O|    0.9771|
+|           :|        O|    0.9497|
+|           <span class="o">(</span>|        O|    0.7493|
+|           1|        O|    0.9081|
+|           <span class="o">)</span>|        O|    0.4178|
+|    SILICIUM|    B-ORG|    0.6731|
+|          DE|    B-ORG|    0.3681|
+|    PROVENCE|    B-ORG|    0.5065|
+|       S.A.S|    B-ORG|    0.8924|
+|          .,|        O|    0.7006|
+|           a|        O|    0.9722|
+|     private|        O|    0.9938|
+|     company|        O|    0.9982|
+|        with|        O|    0.9958|
+|     limited|        O|     0.981|
+|   liability|        O|    0.9994|
+|           ,|        O|    0.9933|
+|incorporated|        O|    0.9997|
+|       under|        O|    0.9597|
+|         the|        O|    0.9833|
+|        laws|        O|    0.9969|
+|          of|        O|    0.7129|
+|      France|    B-LOC|    0.8789|
++------------+---------+----------+
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -500,11 +544,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>bert_sequence_classifier_self_reported_stress_tweet</td>
+      <td>legner_cuad_silver</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>legal</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 4.0.0+</td>
+      <td>Spark NLP for Legal 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -516,11 +564,11 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[document, token]</td>
+      <td>[sentence, token, embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[class]</td>
+      <td>[ner]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -528,30 +576,40 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>406.5 MB</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>Max sentence length:</td>
-      <td>128</td>
+      <td>15.0 MB</td>
     </tr>
   </tbody>
 </table>
 
+<h2 id="references">References</h2>
+
+<p>Manual rules, patterns, weak-labelling, preannotations from in-house models and from CUAD dataset</p>
+
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>       label  precision    recall  f1-score   support
-not-stressed     0.8564    0.8020    0.8283       409
-    stressed     0.7197    0.7909    0.7536       263
-    accuracy        -         -      0.7976       672
-   macro-avg     0.7881    0.7964    0.7910       672
-weighted-avg     0.8029    0.7976    0.7991       672
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Quality on <span class="nb">test </span>dataset: 
+<span class="nb">time </span>to finish evaluation: 39.25s
+Total <span class="nb">test </span>loss: 14.3751	Avg <span class="nb">test </span>loss: 0.9583
+label	 tp	 fp	 fn	 prec	 rec	 f1
+B-PERSON	 89	 11	 11	 0.89	 0.89	 0.89
+B-LAW	 759	 111	 148	 0.8724138	 0.8368247	 0.8542487
+I-PARTY	 8632	 47	 23	 0.9945846	 0.9973426	 0.9959617
+B-EFFDATE	 9	 1	 4	 0.9	 0.6923077	 0.7826087
+B-LOC	 372	 76	 61	 0.83035713	 0.8591224	 0.8444949
+B-DATE	 1020	 104	 102	 0.9074733	 0.90909094	 0.9082814
+B-DOC	 1370	 36	 12	 0.97439545	 0.9913169	 0.9827834
+I-EFFDATE	 14	 0	 0	 1.0	 1.0	 1.0
+I-DOC	 2227	 49	 0	 0.978471	 1.0	 0.98911834
+B-ORDINAL	 99	 11	 15	 0.9	 0.8684211	 0.8839286
+B-ROLE	 228	 6	 0	 0.974359	 1.0	 0.987013
+B-PERCENT	 34	 4	 0	 0.8947368	 1.0	 0.9444445
+B-ORG	 1992	 478	 624	 0.8064777	 0.7614679	 0.7833268
+B-PARTY	 2275	 39	 82	 0.9831461	 0.96521	 0.97409546
+tp: 19120 fp: 973 fn: 1082 labels: 14
+Macro-average	 prec: 0.92188674, rec: 0.9122217, f1: 0.9170287
+Micro-average	 prec: 0.95157516, rec: 0.94644094, f1: 0.9490011
 </code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-07-29T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-03T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -676,7 +734,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/07/29/bert_sequence_classifier_health_mandates_premise_tweet_en_3_0.html">Premise About Health Mandates Related to Covid-19 Classifier (BioBERT)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/03/finner_sec_conll_en_3_2.html">NER on Financial Texts (Generic)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/03/finner_sec_conll_en_3_2.html">NER on Financial Texts (Generic)</a></div></div></div>
 
 </div>
 </div>

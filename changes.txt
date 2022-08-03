@@ -1,2 +1,2 @@
-docs/_posts/luca-martial/2022-08-03-finance_sequence_classifier_esg_en_3_2.md
-docs/_posts/luca-martial/2022-08-03-finance_sequence_classifier_esg_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-03-finner_sec_conll_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-03-finner_sec_conll_en_3_2.md
