@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>NER on Legal Texts (CUAD, Silver corpus)- Spark NLP Model</title><meta name="description" content="DescriptionThis is a Legal Name Entity Recognition model, trained on a Silver version of the CUAD dataset. We say a corpus is on its “Silver” version when we...">
-<link rel="canonical" href="/2022/08/03/legner_cuad_silver_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Financial News Multilabel Classifier- Spark NLP Model</title><meta name="description" content="DescriptionThis is a Multilabel classification model trained on different news scrapped from the internet and in-house annotations and label grouping. As thi...">
+<link rel="canonical" href="/2022/08/03/finance_sequence_classifier_news_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,40 +406,36 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-03-legner_cuad_silver_en_3_2.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-03-finance_sequence_classifier_news_en_3_2.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 03, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-03T00:00:00+00:00"></div><header class="main-docs"><h1>NER on Legal Texts (CUAD, Silver corpus)</h1></header></div><meta itemprop="headline" content="NER on Legal Texts (CUAD, Silver corpus)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>ner</li><li>cuad</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-03T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,legal,ner,cuad,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-03T00:00:00+00:00"></div><header class="main-docs"><h1>Financial News Multilabel Classifier</h1></header></div><meta itemprop="headline" content="Financial News Multilabel Classifier"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>finance</li><li>classification</li><li>news</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-03T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,finance,classification,news,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This is a Legal Name Entity Recognition model, trained on a Silver version of the CUAD dataset. We say a corpus is on its “Silver” version when we use automatic labelling algorithms, rules, vocabularies, patterns and some predefined annotations.</p>
+<p>This is a Multilabel classification model trained on different news scrapped from the internet and in-house annotations and label grouping. As this model is Multilabel, you can get as an output of a financial new, an array of 0 (no classes detected), 1(one class) or N (n classes detected).</p>
 
-<p>The entities included are:
-“PERSON”: Person
-“LAW”: Mentioned law
-“PARTY”: A party signing the agreement
-“EFFDATE”: Date of the agreement
-“LOC”: A mentioned location
-“DATE”: Another date, not EFFDATE
-“DOC”: Type of the document
-“ORDINAL”: And ordinal number
-“ROLE”: A role of a person or party
-“PERCENT”: A percentage
-“ORG”: An generic tag for detecting organizations</p>
+<p>The available classes are:</p>
 
-<p>You can several models trained on Golden versions of this dataset (annotated by our JSL in-house domain experts) in Models Hub, looking in the Legal library.</p>
+<p>acq: Acquisition / Purchase operations
+finance: Generic financial news
+fuel: News about fuel and energy sources
+jobs: News about jobs, employment rates, etc.
+livestock: News about animales and livestock
+mineral: News about mineral as copper, gold, silver, coal, etc.
+plant: News about greens, plants, cereals, etc
+trade: Trading news</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">PERSON</code>, <code class="language-plaintext highlighter-rouge">LAW</code>, <code class="language-plaintext highlighter-rouge">PARTY</code>, <code class="language-plaintext highlighter-rouge">EFFDATE</code>, <code class="language-plaintext highlighter-rouge">LOC</code>, <code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">DOC</code>, <code class="language-plaintext highlighter-rouge">ORDINAL</code>, <code class="language-plaintext highlighter-rouge">ROLE</code>, <code class="language-plaintext highlighter-rouge">PERCENT</code>, <code class="language-plaintext highlighter-rouge">ORG</code></p>
+<p><code class="language-plaintext highlighter-rouge">acq</code>, <code class="language-plaintext highlighter-rouge">finance</code>, <code class="language-plaintext highlighter-rouge">fuel</code>, <code class="language-plaintext highlighter-rouge">jobs</code>, <code class="language-plaintext highlighter-rouge">livestock</code>, <code class="language-plaintext highlighter-rouge">mineral</code>, <code class="language-plaintext highlighter-rouge">plant</code>, <code class="language-plaintext highlighter-rouge">trade</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_cuad_silver_en_1.0.0_3.2_1659539338738.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finance_sequence_classifier_news_en_1.0.0_3.2_1659539565594.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -447,95 +443,46 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setCleanupMode</span><span class="p">(</span><span class="s">"shrink"</span><span class="p">)</span>
 
-<span class="n">sentencizer</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentences"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setExplodeSentences</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">])</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
-        
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"w2v_cc_300d"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">jsl_ner</span> <span class="o">=</span> <span class="n">LegalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legner_cuad_silver"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
-		<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
-		<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"jsl_ner"</span><span class="p">)</span>
+<span class="n">docClassifier</span> <span class="o">=</span> <span class="n">MultiClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finance_sequence_classifier_news"</span><span class="p">,</span> <span class="s">"en"</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"category"</span><span class="p">)</span>
 
-<span class="n">jsl_ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
-		<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"jsl_ner"</span><span class="p">])</span> \
-		<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
-        
-<span class="n">jsl_ner_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
-				<span class="n">documentAssembler</span><span class="p">,</span>
-				<span class="n">sentencizer</span><span class="p">,</span>
-				<span class="n">tokenizer</span><span class="p">,</span>
-				<span class="n">embeddings</span><span class="p">,</span>
-				<span class="n">jsl_ner</span><span class="p">,</span>
-				<span class="n">jsl_ner_converter</span><span class="p">])</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setStages</span><span class="p">(</span>
+      <span class="p">[</span>
+        <span class="n">documentAssembler</span><span class="p">,</span>
+        <span class="n">embeddings</span><span class="p">,</span>
+        <span class="n">docClassifier</span>
+      <span class="p">]</span>
+    <span class="p">)</span>
 
-<span class="n">text</span> <span class="o">=</span> <span class="s">"""December 2007 SUBORDINATED LOAN AGREEMENT. THIS LOAN AGREEMENT is made on 7th December, 2007 BETWEEN: (1) SILICIUM DE PROVENCE S.A.S., a private company with limited liability, incorporated under the laws of France, whose registered office is situated at Usine de Saint Auban, France, represented by Mr.Frank Wouters, hereinafter referred to as the "Borrower", and ( 2 ) EVERGREEN SOLAR INC., a company incorporated in Delaware, U.S.A., with registered number 2426798, whose registered office is situated at Bartlett Street, Marlboro, Massachusetts, U.S.A. represented by Richard Chleboski, hereinafter referred to as "Lender"."""</span>
+<span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]].</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">"""
+ECUADOR HAS TRADE SURPLUS IN FIRST FOUR MONTHS Ecuador posted a trade surplus of 10.6 mln dlrs in the first four months of 1987 compared with a surplus of 271.7 mln in the same period in 1986, the central bank of Ecuador said in its latest monthly report. Ecuador suspended sales of crude oil, its principal export product, in March after an earthquake destroyed part of its oil-producing infrastructure. Exports in the first four months of 1987 were around 639 mln dlrs and imports 628.3 mln, compared with 771 mln and 500 mln respectively in the same period last year. Exports of crude and products in the first four months were around 256.1 mln dlrs, compared with 403.3 mln in the same period in 1986. The central bank said that between January and May Ecuador sold 16.1 mln barrels of crude and 2.3 mln barrels of products, compared with 32 mln and 2.7 mln respectively in the same period last year. Ecuador's international reserves at the end of May were around 120.9 mln dlrs, compared with 118.6 mln at the end of April and 141.3 mln at the end of May 1986, the central bank said. gold reserves were 165.7 mln dlrs at the end of May compared with 124.3 mln at the end of April.
+"""</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">jsl_ner_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<span class="n">res</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">lmodel</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">pipelineModel</span><span class="p">)</span>
 
+<span class="n">results</span> <span class="o">=</span> <span class="n">lmodel</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+<span class="n">results</span><span class="p">[</span><span class="err">“</span><span class="n">category</span><span class="err">”</span><span class="p">]</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------+---------+----------+
-|       token|ner_label|confidence|
-+------------+---------+----------+
-|    December|   B-DATE|    0.4111|
-|        2007|   B-DATE|    0.7867|
-|SUBORDINATED|        O|    0.5373|
-|        LOAN|    B-DOC|    0.9998|
-|   AGREEMENT|    I-DOC|    0.8615|
-|           .|        O|    0.9695|
-|        THIS|        O|    0.9977|
-|        LOAN|    B-DOC|    0.9995|
-|   AGREEMENT|    I-DOC|    0.9982|
-|          is|        O|    0.8592|
-|        made|        O|    0.9975|
-|          on|        O|    0.9906|
-|         7th|   B-DATE|    0.7804|
-|    December|   B-DATE|    0.6701|
-|           ,|   B-DATE|    0.5395|
-|        2007|   B-DATE|    0.5327|
-|     BETWEEN|        O|    0.9771|
-|           :|        O|    0.9497|
-|           <span class="o">(</span>|        O|    0.7493|
-|           1|        O|    0.9081|
-|           <span class="o">)</span>|        O|    0.4178|
-|    SILICIUM|    B-ORG|    0.6731|
-|          DE|    B-ORG|    0.3681|
-|    PROVENCE|    B-ORG|    0.5065|
-|       S.A.S|    B-ORG|    0.8924|
-|          .,|        O|    0.7006|
-|           a|        O|    0.9722|
-|     private|        O|    0.9938|
-|     company|        O|    0.9982|
-|        with|        O|    0.9958|
-|     limited|        O|     0.981|
-|   liability|        O|    0.9994|
-|           ,|        O|    0.9933|
-|incorporated|        O|    0.9997|
-|       under|        O|    0.9597|
-|         the|        O|    0.9833|
-|        laws|        O|    0.9969|
-|          of|        O|    0.7129|
-|      France|    B-LOC|    0.8789|
-+------------+---------+----------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span><span class="s1">'finance'</span>, <span class="s1">'trade'</span><span class="o">]</span>
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -544,15 +491,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>legner_cuad_silver</td>
+      <td>finance_sequence_classifier_news</td>
     </tr>
     <tr>
       <td>Type:</td>
-      <td>legal</td>
+      <td>finance</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Legal 1.0.0+</td>
+      <td>Spark NLP for Finance 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -564,11 +511,11 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence, token, embeddings]</td>
+      <td>[embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[ner]</td>
+      <td>[category]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -576,38 +523,32 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>15.0 MB</td>
+      <td>12.9 MB</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>Manual rules, patterns, weak-labelling, preannotations from in-house models and from CUAD dataset</p>
+<p>News scrapped from the Internet and manual in-house annotations</p>
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Quality on <span class="nb">test </span>dataset: 
-<span class="nb">time </span>to finish evaluation: 39.25s
-Total <span class="nb">test </span>loss: 14.3751	Avg <span class="nb">test </span>loss: 0.9583
-label	 tp	 fp	 fn	 prec	 rec	 f1
-B-PERSON	 89	 11	 11	 0.89	 0.89	 0.89
-B-LAW	 759	 111	 148	 0.8724138	 0.8368247	 0.8542487
-I-PARTY	 8632	 47	 23	 0.9945846	 0.9973426	 0.9959617
-B-EFFDATE	 9	 1	 4	 0.9	 0.6923077	 0.7826087
-B-LOC	 372	 76	 61	 0.83035713	 0.8591224	 0.8444949
-B-DATE	 1020	 104	 102	 0.9074733	 0.90909094	 0.9082814
-B-DOC	 1370	 36	 12	 0.97439545	 0.9913169	 0.9827834
-I-EFFDATE	 14	 0	 0	 1.0	 1.0	 1.0
-I-DOC	 2227	 49	 0	 0.978471	 1.0	 0.98911834
-B-ORDINAL	 99	 11	 15	 0.9	 0.8684211	 0.8839286
-B-ROLE	 228	 6	 0	 0.974359	 1.0	 0.987013
-B-PERCENT	 34	 4	 0	 0.8947368	 1.0	 0.9444445
-B-ORG	 1992	 478	 624	 0.8064777	 0.7614679	 0.7833268
-B-PARTY	 2275	 39	 82	 0.9831461	 0.96521	 0.97409546
-tp: 19120 fp: 973 fn: 1082 labels: 14
-Macro-average	 prec: 0.92188674, rec: 0.9122217, f1: 0.9170287
-Micro-average	 prec: 0.95157516, rec: 0.94644094, f1: 0.9490011
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              precision    recall  f1-score   support
+
+         acq       0.94      0.92      0.93       718
+     finance       0.95      0.96      0.96      1499
+        fuel       0.91      0.86      0.88       286
+        <span class="nb">jobs       </span>0.86      0.57      0.69        21
+   livestock       0.93      0.44      0.60        57
+     mineral       0.87      0.62      0.72       121
+       plant       0.89      0.88      0.89       301
+       trade       0.79      0.72      0.75       113
+
+   micro avg       0.93      0.90      0.92      3116
+   macro avg       0.89      0.75      0.80      3116
+weighted avg       0.93      0.90      0.91      3116
+ samples avg       0.91      0.91      0.91      3116
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-03T00:00:00+00:00"><!-- start custom article footer snippet -->
 
@@ -734,7 +675,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/03/finner_sec_conll_en_3_2.html">NER on Financial Texts (Generic)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/03/finance_sequence_classifier_esg_en_3_2.html">ESG Text Classification</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/03/finner_sec_conll_en_3_2.html">NER on Financial Texts (Generic)</a></div></div></div>
 
 </div>
 </div>
