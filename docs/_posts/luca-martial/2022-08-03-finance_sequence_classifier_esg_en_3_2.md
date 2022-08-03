@@ -102,9 +102,9 @@ In-house annotations from scrapped texts
 ```bash
               precision    recall  f1-score   support
 
-           1       0.99      0.97      0.98        97
-           2       0.95      0.96      0.95       162
-           3       0.91      0.90      0.91        71
+Environmental      0.99      0.97      0.98        97
+Social             0.95      0.96      0.95       162
+Governance         0.91      0.90      0.91        71
 
     accuracy                           0.95       330
    macro avg       0.95      0.94      0.95       330
