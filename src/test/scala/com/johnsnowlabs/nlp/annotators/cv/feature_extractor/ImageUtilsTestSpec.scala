@@ -93,7 +93,7 @@ class ImageUtilsTestSpec extends AnyFlatSpec {
       description = "Time to normalize with 0.0d") {
       ImageResizeUtils.normalizeBufferedImage(
         resizedImage,
-        preprocessorConfig.image_mean,
+        Array(0.0d, 0.0d, 0.0d),
         Array(0.0d, 0.0d, 0.0d))
     }
 
