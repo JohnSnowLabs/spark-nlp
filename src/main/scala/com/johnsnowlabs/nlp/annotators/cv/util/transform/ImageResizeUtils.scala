@@ -45,20 +45,6 @@ private[johnsnowlabs] object ImageResizeUtils {
     bufferedImage
   }
 
-  def resampleBufferedImage(image: BufferedImage): BufferedImage = {
-    val w = image.getWidth
-    val h = image.getHeight
-    var scaledImage = new BufferedImage(w * 2, h * 2, BufferedImage.TYPE_INT_ARGB)
-    val at = AffineTransform.getScaleInstance(2.0, 2.0)
-    val ato =
-      new AffineTransformOp(
-        at,
-        AffineTransformOp.TYPE_BICUBIC
-      ) // Currently we have three types : TYPE_BICUBIC TYPE_BILINEAR and TYPE_NEAREST_NEIGHBOR
-    scaledImage = ato.filter(image, scaledImage)
-    scaledImage
-  }
-
   // TODO implement doNormalize = false to only return Array[Array[Array[Float]]] without normalizing
   /** @param img
     * @param mean
@@ -96,4 +82,41 @@ private[johnsnowlabs] object ImageResizeUtils {
     data.map(_.toArray)
   }
 
+  def resampleBufferedImage(image: BufferedImage): BufferedImage = {
+    val w = image.getWidth
+    val h = image.getHeight
+    var scaledImage = new BufferedImage(w * 2, h * 2, BufferedImage.TYPE_INT_ARGB)
+    val at = AffineTransform.getScaleInstance(2.0, 2.0)
+    val ato =
+      new AffineTransformOp(
+        at,
+        AffineTransformOp.TYPE_NEAREST_NEIGHBOR
+      ) // Currently we have three types : TYPE_BICUBIC TYPE_BILINEAR and TYPE_NEAREST_NEIGHBOR
+    scaledImage = ato.filter(image, scaledImage)
+    scaledImage
+  }
+
+  /** Crops an image to the specified region
+    *
+    * @param bufferedImage
+    *   the image that will be crop
+    * @param x
+    *   the upper left x coordinate that this region will start
+    * @param y
+    *   the upper left y coordinate that this region will start
+    * @param width
+    *   the width of the region that will be crop
+    * @param height
+    *   the height of the region that will be crop
+    * @return
+    *   the image that was cropped.
+    */
+  def cropBufferedImage(
+      bufferedImage: BufferedImage,
+      x: Int,
+      y: Int,
+      width: Int,
+      height: Int): BufferedImage = {
+    bufferedImage.getSubimage(x, y, width, height)
+  }
 }
