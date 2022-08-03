@@ -67,9 +67,6 @@ class PushToHub:
         if model_data['task'] not in PushToHub.list_of_tasks:
             list_of_tasks_string_version = "\n".join(PushToHub.list_of_tasks)
             raise ValueError(f"""Invalid task, please pick one of the following tasks\n{list_of_tasks_string_version}""")
-        for field in list_of_required_fields :
-            if field not in model_data.keys():
-                raise ValueError(f"The dicionary entered does not contain the field '{field}'")
 
         if model_data['model_zip_path'].endswith(".zip"):
             with zipfile.ZipFile(model_data['model_zip_path']) as modelfile:
