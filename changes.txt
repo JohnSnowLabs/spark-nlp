@@ -1,4 +1,2 @@
-docs/_frontend/src/models/FilterForm/FilterForm.js
-docs/_plugins/search_index.rb
-docs/_frontend/src/models/FilterForm/FilterForm.js
-docs/_plugins/search_index.rb
+docs/en/install.md
+docs/en/install.md
