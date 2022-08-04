@@ -102,7 +102,7 @@ spark = SparkSession.builder \
 </dependency>
 ```
 
-**spark-nlp-gpu:**
+**spark-nlp-m1:**
 
 ```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-m1 -->
