@@ -1,6 +1,4 @@
-docs/_posts/josejuanmartinez/2022-08-03-finance_sequence_classifier_augmented_esg_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-03-finance_sequence_classifier_esg_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-03-finance_sequence_classifier_news_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-03-finance_sequence_classifier_augmented_esg_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-03-finance_sequence_classifier_esg_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-03-finance_sequence_classifier_news_en_3_2.md
+docs/_frontend/src/models/FilterForm/FilterForm.js
+docs/_plugins/search_index.rb
+docs/_frontend/src/models/FilterForm/FilterForm.js
+docs/_plugins/search_index.rb
