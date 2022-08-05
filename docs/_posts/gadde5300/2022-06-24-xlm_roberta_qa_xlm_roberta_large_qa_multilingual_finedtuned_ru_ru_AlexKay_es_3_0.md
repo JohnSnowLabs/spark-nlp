@@ -6,7 +6,7 @@ name: xlm_roberta_qa_xlm_roberta_large_qa_multilingual_finedtuned_ru_ru_AlexKay
 date: 2022-06-24
 tags: [ru, open_source, question_answering, roberta, es]
 task: Question Answering
-language: es
+language: ru
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
@@ -35,7 +35,7 @@ document_assembler = MultiDocumentAssembler() \
 .setInputCols(["question", "context"]) \
 .setOutputCols(["document_question", "document_context"])
 
-spanClassifier = XlmRoBertaForQuestionAnswering.pretrained("xlm_roberta_qa_xlm_roberta_large_qa_multilingual_finedtuned_ru_ru_AlexKay","es") \
+spanClassifier = XlmRoBertaForQuestionAnswering.pretrained("xlm_roberta_qa_xlm_roberta_large_qa_multilingual_finedtuned_ru_ru_AlexKay","ru") \
 .setInputCols(["document_question", "document_context"]) \
 .setOutputCol("answer") \
 .setCaseSensitive(True)
@@ -55,7 +55,7 @@ val document = new MultiDocumentAssembler()
 .setOutputCols(Array("document_question", "document_context"))
 
 val spanClassifier = XlmRoBertaForQuestionAnswering
-.pretrained("xlm_roberta_qa_xlm_roberta_large_qa_multilingual_finedtuned_ru_ru_AlexKay","es")
+.pretrained("xlm_roberta_qa_xlm_roberta_large_qa_multilingual_finedtuned_ru_ru_AlexKay","ru")
 .setInputCols(Array("document_question", "document_context"))
 .setOutputCol("answer")
 .setCaseSensitive(true)
@@ -75,7 +75,7 @@ val result = pipeline.fit(example).transform(example)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("es.answer_question.xlm_roberta.multilingual_large").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
+nlu.load("ru.answer_question.xlm_roberta.multilingual_large").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
 ```
 
 </div>
@@ -91,7 +91,7 @@ nlu.load("es.answer_question.xlm_roberta.multilingual_large").predict("""What's 
 |Edition:|Official|
 |Input Labels:|[question, context]|
 |Output Labels:|[answer]|
-|Language:|es|
+|Language:|ru|
 |Size:|1.9 GB|
 |Case sensitive:|true|
 |Max sentence length:|512|

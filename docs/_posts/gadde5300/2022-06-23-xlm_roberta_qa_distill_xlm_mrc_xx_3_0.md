@@ -1,12 +1,12 @@
 ---
 layout: model
-title: Multilingual XlmRoBertaForQuestionAnswering (from aicryptogroup)
+title: English XlmRoBertaForQuestionAnswering (from aicryptogroup)
 author: John Snow Labs
 name: xlm_roberta_qa_distill_xlm_mrc
 date: 2022-06-23
 tags: [en, vi, open_source, question_answering, xlmroberta, xx]
 task: Question Answering
-language: xx
+language: en
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
@@ -35,7 +35,7 @@ document_assembler = MultiDocumentAssembler() \
 .setInputCols(["question", "context"]) \
 .setOutputCols(["document_question", "document_context"])
 
-spanClassifier = XlmRoBertaForQuestionAnswering.pretrained("xlm_roberta_qa_distill_xlm_mrc","xx") \
+spanClassifier = XlmRoBertaForQuestionAnswering.pretrained("xlm_roberta_qa_distill_xlm_mrc","en") \
 .setInputCols(["document_question", "document_context"]) \
 .setOutputCol("answer") \
 .setCaseSensitive(True)
@@ -55,7 +55,7 @@ val document = new MultiDocumentAssembler()
 .setOutputCols(Array("document_question", "document_context"))
 
 val spanClassifier = XlmRoBertaForQuestionAnswering
-.pretrained("xlm_roberta_qa_distill_xlm_mrc","xx")
+.pretrained("xlm_roberta_qa_distill_xlm_mrc","en")
 .setInputCols(Array("document_question", "document_context"))
 .setOutputCol("answer")
 .setCaseSensitive(true)
@@ -75,7 +75,7 @@ val result = pipeline.fit(example).transform(example)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("xx.answer_question.xlm_roberta.distilled").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
+nlu.load("en.answer_question.xlm_roberta.distilled").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
 ```
 
 </div>
@@ -91,7 +91,7 @@ nlu.load("xx.answer_question.xlm_roberta.distilled").predict("""What's my name?|
 |Edition:|Official|
 |Input Labels:|[question, context]|
 |Output Labels:|[answer]|
-|Language:|xx|
+|Language:|en|
 |Size:|151.4 MB|
 |Case sensitive:|true|
 |Max sentence length:|512|

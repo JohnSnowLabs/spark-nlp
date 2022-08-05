@@ -1,12 +1,12 @@
 ---
 layout: model
-title: English BertForQuestionAnswering model (from eliza-dukim)
+title: Korean BertForQuestionAnswering model (from eliza-dukim)
 author: John Snow Labs
 name: bert_qa_bert_base_multilingual_cased_korquad_v1
 date: 2022-06-02
-tags: [en, open_source, question_answering, bert]
+tags: [open_source, question_answering, bert]
 task: Question Answering
-language: en
+language: ko
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `bert-base-multilingual-cased_korquad-v1` is a English model orginally trained by `eliza-dukim`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `bert-base-multilingual-cased_korquad-v1` is a Korean model orginally trained by `eliza-dukim`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -35,7 +35,7 @@ document_assembler = MultiDocumentAssembler() \
 .setInputCols(["question", "context"]) \
 .setOutputCols(["document_question", "document_context"])
 
-spanClassifier = BertForQuestionAnswering.pretrained("bert_qa_bert_base_multilingual_cased_korquad_v1","en") \
+spanClassifier = BertForQuestionAnswering.pretrained("bert_qa_bert_base_multilingual_cased_korquad_v1","ko") \
 .setInputCols(["document_question", "document_context"]) \
 .setOutputCol("answer") \
 .setCaseSensitive(True)
@@ -55,7 +55,7 @@ val document = new MultiDocumentAssembler()
 .setOutputCols("document_question", "document_context")
 
 val spanClassifier = BertForQuestionAnswering
-.pretrained("bert_qa_bert_base_multilingual_cased_korquad_v1","en")
+.pretrained("bert_qa_bert_base_multilingual_cased_korquad_v1","ko")
 .setInputCols(Array("document_question", "document_context"))
 .setOutputCol("answer")
 .setCaseSensitive(true)
@@ -75,7 +75,7 @@ val result = pipeline.fit(example).transform(example)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("en.answer_question.korquad.bert.multilingual_base_cased").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
+nlu.load("ko.answer_question.korquad.bert.multilingual_base_cased").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
 ```
 
 </div>
@@ -91,7 +91,7 @@ nlu.load("en.answer_question.korquad.bert.multilingual_base_cased").predict("""W
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
 |Output Labels:|[embeddings]|
-|Language:|en|
+|Language:|ko|
 |Size:|665.6 MB|
 |Case sensitive:|true|
 |Max sentence length:|512|

@@ -1,12 +1,12 @@
 ---
 layout: model
-title: English RobertaForQuestionAnswering (from cgou)
+title: Finnish RobertaForQuestionAnswering (from cgou)
 author: John Snow Labs
 name: roberta_qa_fin_RoBERTa_v1_finetuned_squad
 date: 2022-06-20
-tags: [en, open_source, question_answering, roberta]
+tags: [open_source, question_answering, roberta]
 task: Question Answering
-language: en
+language: fi
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `fin_RoBERTa-v1-finetuned-squad` is a English model originally trained by `cgou`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `fin_RoBERTa-v1-finetuned-squad` is a Finnish model originally trained by `cgou`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -35,7 +35,7 @@ document_assembler = MultiDocumentAssembler() \
 .setInputCols(["question", "context"]) \
 .setOutputCols(["document_question", "document_context"])
 
-spanClassifier = RoBertaForQuestionAnswering.pretrained("roberta_qa_fin_RoBERTa_v1_finetuned_squad","en") \
+spanClassifier = RoBertaForQuestionAnswering.pretrained("roberta_qa_fin_RoBERTa_v1_finetuned_squad","fi") \
 .setInputCols(["document_question", "document_context"]) \
 .setOutputCol("answer") \
 .setCaseSensitive(True)
@@ -55,7 +55,7 @@ val document = new MultiDocumentAssembler()
 .setOutputCols("document_question", "document_context")
 
 val spanClassifier = RoBertaForQuestionAnswering
-.pretrained("roberta_qa_fin_RoBERTa_v1_finetuned_squad","en")
+.pretrained("roberta_qa_fin_RoBERTa_v1_finetuned_squad","fi")
 .setInputCols(Array("document_question", "document_context"))
 .setOutputCol("answer")
 .setCaseSensitive(true)
@@ -75,7 +75,7 @@ val result = pipeline.fit(example).transform(example)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("en.answer_question.squad.roberta.by_cgou").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
+nlu.load("fi.answer_question.squad.roberta.by_cgou").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
 ```
 
 </div>
@@ -91,7 +91,7 @@ nlu.load("en.answer_question.squad.roberta.by_cgou").predict("""What's my name?|
 |Edition:|Official|
 |Input Labels:|[question, context]|
 |Output Labels:|[answer]|
-|Language:|en|
+|Language:|fi|
 |Size:|248.1 MB|
 |Case sensitive:|true|
 |Max sentence length:|512|

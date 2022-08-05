@@ -1,12 +1,12 @@
 ---
 layout: model
-title: English BertForQuestionAnswering model (from CenIA)
+title: Castilian, Spanish BertForQuestionAnswering model (from CenIA)
 author: John Snow Labs
 name: bert_qa_bert_base_spanish_wwm_uncased_finetuned_qa_mlqa
 date: 2022-06-02
-tags: [en, open_source, question_answering, bert]
+tags: [open_source, question_answering, bert]
 task: Question Answering
-language: en
+language: es
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `bert-base-spanish-wwm-uncased-finetuned-qa-mlqa` is a English model orginally trained by `CenIA`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `bert-base-spanish-wwm-uncased-finetuned-qa-mlqa` is a Castilian, Spanish model orginally trained by `CenIA`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -35,7 +35,7 @@ document_assembler = MultiDocumentAssembler() \
 .setInputCols(["question", "context"]) \
 .setOutputCols(["document_question", "document_context"])
 
-spanClassifier = BertForQuestionAnswering.pretrained("bert_qa_bert_base_spanish_wwm_uncased_finetuned_qa_mlqa","en") \
+spanClassifier = BertForQuestionAnswering.pretrained("bert_qa_bert_base_spanish_wwm_uncased_finetuned_qa_mlqa","es") \
 .setInputCols(["document_question", "document_context"]) \
 .setOutputCol("answer") \
 .setCaseSensitive(True)
@@ -55,7 +55,7 @@ val document = new MultiDocumentAssembler()
 .setOutputCols("document_question", "document_context")
 
 val spanClassifier = BertForQuestionAnswering
-.pretrained("bert_qa_bert_base_spanish_wwm_uncased_finetuned_qa_mlqa","en")
+.pretrained("bert_qa_bert_base_spanish_wwm_uncased_finetuned_qa_mlqa","es")
 .setInputCols(Array("document_question", "document_context"))
 .setOutputCol("answer")
 .setCaseSensitive(true)
@@ -75,7 +75,7 @@ val result = pipeline.fit(example).transform(example)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("en.answer_question.mlqa.bert.base_uncased").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
+nlu.load("es.answer_question.mlqa.bert.base_uncased").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
 ```
 
 </div>
@@ -91,7 +91,7 @@ nlu.load("en.answer_question.mlqa.bert.base_uncased").predict("""What's my name?
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
 |Output Labels:|[embeddings]|
-|Language:|en|
+|Language:|es|
 |Size:|410.2 MB|
 |Case sensitive:|false|
 |Max sentence length:|512|

@@ -1,12 +1,12 @@
 ---
 layout: model
-title: English RobertaForQuestionAnswering (from sunitha)
+title: Chuvash RobertaForQuestionAnswering (from sunitha)
 author: John Snow Labs
 name: roberta_qa_CV_Merge_DS
 date: 2022-06-20
-tags: [en, open_source, question_answering, roberta]
+tags: [open_source, question_answering, roberta]
 task: Question Answering
-language: en
+language: cv
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `CV_Merge_DS` is a English model originally trained by `sunitha`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `CV_Merge_DS` is a Chuvash model originally trained by `sunitha`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -35,7 +35,7 @@ document_assembler = MultiDocumentAssembler() \
 .setInputCols(["question", "context"]) \
 .setOutputCols(["document_question", "document_context"])
 
-spanClassifier = RoBertaForQuestionAnswering.pretrained("roberta_qa_CV_Merge_DS","en") \
+spanClassifier = RoBertaForQuestionAnswering.pretrained("roberta_qa_CV_Merge_DS","cv") \
 .setInputCols(["document_question", "document_context"]) \
 .setOutputCol("answer") \
 .setCaseSensitive(True)
@@ -55,7 +55,7 @@ val document = new MultiDocumentAssembler()
 .setOutputCols("document_question", "document_context")
 
 val spanClassifier = RoBertaForQuestionAnswering
-.pretrained("roberta_qa_CV_Merge_DS","en")
+.pretrained("roberta_qa_CV_Merge_DS","cv")
 .setInputCols(Array("document_question", "document_context"))
 .setOutputCol("answer")
 .setCaseSensitive(true)
@@ -75,7 +75,7 @@ val result = pipeline.fit(example).transform(example)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("en.answer_question.roberta.cv_merge_ds.by_sunitha").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
+nlu.load("cv.answer_question.roberta.cv_merge_ds.by_sunitha").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
 ```
 
 </div>
@@ -91,7 +91,7 @@ nlu.load("en.answer_question.roberta.cv_merge_ds.by_sunitha").predict("""What's 
 |Edition:|Official|
 |Input Labels:|[question, context]|
 |Output Labels:|[answer]|
-|Language:|en|
+|Language:|cv|
 |Size:|464.1 MB|
 |Case sensitive:|true|
 |Max sentence length:|512|

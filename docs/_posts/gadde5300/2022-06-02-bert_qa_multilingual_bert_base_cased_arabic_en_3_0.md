@@ -1,12 +1,12 @@
 ---
 layout: model
-title: English BertForQuestionAnswering model (from bhavikardeshna)
+title: Arabic BertForQuestionAnswering model (from bhavikardeshna)
 author: John Snow Labs
 name: bert_qa_multilingual_bert_base_cased_arabic
 date: 2022-06-02
-tags: [en, open_source, question_answering, bert]
+tags: [open_source, question_answering, bert]
 task: Question Answering
-language: en
+language: ar
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `multilingual-bert-base-cased-arabic` is a English model orginally trained by `bhavikardeshna`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `multilingual-bert-base-cased-arabic` is a Arabic model orginally trained by `bhavikardeshna`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -35,7 +35,7 @@ document_assembler = MultiDocumentAssembler() \
 .setInputCols(["question", "context"]) \
 .setOutputCols(["document_question", "document_context"])
 
-spanClassifier = BertForQuestionAnswering.pretrained("bert_qa_multilingual_bert_base_cased_arabic","en") \
+spanClassifier = BertForQuestionAnswering.pretrained("bert_qa_multilingual_bert_base_cased_arabic","ar") \
 .setInputCols(["document_question", "document_context"]) \
 .setOutputCol("answer") \
 .setCaseSensitive(True)
@@ -55,7 +55,7 @@ val document = new MultiDocumentAssembler()
 .setOutputCols("document_question", "document_context")
 
 val spanClassifier = BertForQuestionAnswering
-.pretrained("bert_qa_multilingual_bert_base_cased_arabic","en")
+.pretrained("bert_qa_multilingual_bert_base_cased_arabic","ar")
 .setInputCols(Array("document_question", "document_context"))
 .setOutputCol("answer")
 .setCaseSensitive(true)
@@ -75,7 +75,7 @@ val result = pipeline.fit(example).transform(example)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("en.answer_question.bert.multilingual_arabic_tuned_base_cased.by_bhavikardeshna").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
+nlu.load("ar.answer_question.bert.multilingual_arabic_tuned_base_cased.by_bhavikardeshna").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
 ```
 
 </div>
@@ -91,7 +91,7 @@ nlu.load("en.answer_question.bert.multilingual_arabic_tuned_base_cased.by_bhavik
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
 |Output Labels:|[embeddings]|
-|Language:|en|
+|Language:|ar|
 |Size:|665.6 MB|
 |Case sensitive:|true|
 |Max sentence length:|512|

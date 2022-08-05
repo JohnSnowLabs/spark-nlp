@@ -1,12 +1,12 @@
 ---
 layout: model
-title: English RobertaForQuestionAnswering (from Gam)
+title: Kandawo RobertaForQuestionAnswering (from Gam)
 author: John Snow Labs
 name: roberta_qa_roberta_base_finetuned_cuad_gam
 date: 2022-06-20
-tags: [en, open_source, question_answering, roberta]
+tags: [open_source, question_answering, roberta]
 task: Question Answering
-language: en
+language: gam
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `roberta-base-finetuned-cuad-gam` is a English model originally trained by `Gam`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `roberta-base-finetuned-cuad-gam` is a Kandawo model originally trained by `Gam`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -35,7 +35,7 @@ document_assembler = MultiDocumentAssembler() \
 .setInputCols(["question", "context"]) \
 .setOutputCols(["document_question", "document_context"])
 
-spanClassifier = RoBertaForQuestionAnswering.pretrained("roberta_qa_roberta_base_finetuned_cuad_gam","en") \
+spanClassifier = RoBertaForQuestionAnswering.pretrained("roberta_qa_roberta_base_finetuned_cuad_gam","gam") \
 .setInputCols(["document_question", "document_context"]) \
 .setOutputCol("answer") \
 .setCaseSensitive(True)
@@ -55,7 +55,7 @@ val document = new MultiDocumentAssembler()
 .setOutputCols("document_question", "document_context")
 
 val spanClassifier = RoBertaForQuestionAnswering
-.pretrained("roberta_qa_roberta_base_finetuned_cuad_gam","en")
+.pretrained("roberta_qa_roberta_base_finetuned_cuad_gam","gam")
 .setInputCols(Array("document_question", "document_context"))
 .setOutputCol("answer")
 .setCaseSensitive(true)
@@ -75,7 +75,7 @@ val result = pipeline.fit(example).transform(example)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("en.answer_question.cuad_gam.roberta.base.by_Gam").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
+nlu.load("gam.answer_question.cuad_gam.roberta.base.by_Gam").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
 ```
 
 </div>
@@ -91,7 +91,7 @@ nlu.load("en.answer_question.cuad_gam.roberta.base.by_Gam").predict("""What's my
 |Edition:|Official|
 |Input Labels:|[question, context]|
 |Output Labels:|[answer]|
-|Language:|en|
+|Language:|gam|
 |Size:|450.1 MB|
 |Case sensitive:|true|
 |Max sentence length:|512|

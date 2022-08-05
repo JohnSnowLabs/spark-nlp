@@ -4,7 +4,7 @@ title: English BertForQuestionAnswering model (from anindabitm)
 author: John Snow Labs
 name: bert_qa_sagemaker_BioclinicalBERT_ADR
 date: 2022-06-02
-tags: [en, open_source, question_answering, bert]
+tags: [open_source, question_answering, bert]
 task: Question Answering
 language: en
 edition: Spark NLP 4.0.0

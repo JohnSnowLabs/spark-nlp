@@ -1,12 +1,12 @@
 ---
 layout: model
-title: English RobertaForQuestionAnswering (from 21iridescent)
+title: Lewotobi RobertaForQuestionAnswering (from 21iridescent)
 author: John Snow Labs
 name: roberta_qa_RoBERTa_base_finetuned_squad2_lwt
 date: 2022-06-20
-tags: [en, open_source, question_answering, roberta]
+tags: [open_source, question_answering, roberta]
 task: Question Answering
-language: en
+language: lwt
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `RoBERTa-base-finetuned-squad2-lwt` is a English model originally trained by `21iridescent`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `RoBERTa-base-finetuned-squad2-lwt` is a Lewotobi model originally trained by `21iridescent`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -35,7 +35,7 @@ document_assembler = MultiDocumentAssembler() \
 .setInputCols(["question", "context"]) \
 .setOutputCols(["document_question", "document_context"])
 
-spanClassifier = RoBertaForQuestionAnswering.pretrained("roberta_qa_RoBERTa_base_finetuned_squad2_lwt","en") \
+spanClassifier = RoBertaForQuestionAnswering.pretrained("roberta_qa_RoBERTa_base_finetuned_squad2_lwt","lwt") \
 .setInputCols(["document_question", "document_context"]) \
 .setOutputCol("answer") \
 .setCaseSensitive(True)
@@ -55,7 +55,7 @@ val document = new MultiDocumentAssembler()
 .setOutputCols("document_question", "document_context")
 
 val spanClassifier = RoBertaForQuestionAnswering
-.pretrained("roberta_qa_RoBERTa_base_finetuned_squad2_lwt","en")
+.pretrained("roberta_qa_RoBERTa_base_finetuned_squad2_lwt","lwt")
 .setInputCols(Array("document_question", "document_context"))
 .setOutputCol("answer")
 .setCaseSensitive(true)
@@ -75,7 +75,7 @@ val result = pipeline.fit(example).transform(example)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("en.answer_question.squadv2.roberta.base.by_21iridescent").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
+nlu.load("lwt.answer_question.squadv2.roberta.base.by_21iridescent").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
 ```
 
 </div>
@@ -91,7 +91,7 @@ nlu.load("en.answer_question.squadv2.roberta.base.by_21iridescent").predict("""W
 |Edition:|Official|
 |Input Labels:|[question, context]|
 |Output Labels:|[answer]|
-|Language:|en|
+|Language:|lwt|
 |Size:|464.1 MB|
 |Case sensitive:|true|
 |Max sentence length:|512|

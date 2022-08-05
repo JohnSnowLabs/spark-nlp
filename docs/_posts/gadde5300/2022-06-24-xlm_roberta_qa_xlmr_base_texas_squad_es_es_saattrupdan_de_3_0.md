@@ -6,7 +6,7 @@ name: xlm_roberta_qa_xlmr_base_texas_squad_es_es_saattrupdan
 date: 2022-06-24
 tags: [es, open_source, question_answering, xlmroberta]
 task: Question Answering
-language: de
+language: es
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
@@ -35,7 +35,7 @@ document_assembler = MultiDocumentAssembler() \
 .setInputCols(["question", "context"]) \
 .setOutputCols(["document_question", "document_context"])
 
-spanClassifier = XlmRoBertaForQuestionAnswering.pretrained("xlm_roberta_qa_xlmr_base_texas_squad_es_es_saattrupdan","de") \
+spanClassifier = XlmRoBertaForQuestionAnswering.pretrained("xlm_roberta_qa_xlmr_base_texas_squad_es_es_saattrupdan","es") \
 .setInputCols(["document_question", "document_context"]) \
 .setOutputCol("answer") \
 .setCaseSensitive(True)
@@ -55,7 +55,7 @@ val document = new MultiDocumentAssembler()
 .setOutputCols(Array("document_question", "document_context"))
 
 val spanClassifier = XlmRoBertaForQuestionAnswering
-.pretrained("xlm_roberta_qa_xlmr_base_texas_squad_es_es_saattrupdan","de")
+.pretrained("xlm_roberta_qa_xlmr_base_texas_squad_es_es_saattrupdan","es")
 .setInputCols(Array("document_question", "document_context"))
 .setOutputCol("answer")
 .setCaseSensitive(true)
@@ -75,7 +75,7 @@ val result = pipeline.fit(example).transform(example)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("de.answer_question.squad_spanish_tuned.xlmr_roberta.base.by_saattrupdan").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
+nlu.load("es.answer_question.squad_spanish_tuned.xlmr_roberta.base.by_saattrupdan").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
 ```
 
 </div>
@@ -91,7 +91,7 @@ nlu.load("de.answer_question.squad_spanish_tuned.xlmr_roberta.base.by_saattrupda
 |Edition:|Official|
 |Input Labels:|[question, context]|
 |Output Labels:|[answer]|
-|Language:|de|
+|Language:|es|
 |Size:|876.8 MB|
 |Case sensitive:|true|
 |Max sentence length:|512|
@@ -99,3 +99,4 @@ nlu.load("de.answer_question.squad_spanish_tuned.xlmr_roberta.base.by_saattrupda
 ## References
 
 -  https://huggingface.co/saattrupdan/xlmr-base-texas-squad-es
+

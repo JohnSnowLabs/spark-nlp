@@ -1,12 +1,12 @@
 ---
 layout: model
-title: English BertForQuestionAnswering model (from voidful)
+title: Chinese BertForQuestionAnswering model (from voidful)
 author: John Snow Labs
 name: bert_qa_question_answering_zh_voidful
 date: 2022-06-03
-tags: [en, open_source, question_answering, bert]
+tags: [open_source, question_answering, bert]
 task: Question Answering
-language: en
+language: zh
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `question-answering-zh` is a English model orginally trained by `voidful`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `question-answering-zh` is a Chinese model orginally trained by `voidful`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -35,7 +35,7 @@ document_assembler = MultiDocumentAssembler() \
 .setInputCols(["question", "context"]) \
 .setOutputCols(["document_question", "document_context"])
 
-spanClassifier = BertForQuestionAnswering.pretrained("bert_qa_question_answering_zh_voidful","en") \
+spanClassifier = BertForQuestionAnswering.pretrained("bert_qa_question_answering_zh_voidful","zh") \
 .setInputCols(["document_question", "document_context"]) \
 .setOutputCol("answer") \
 .setCaseSensitive(True)
@@ -55,7 +55,7 @@ val document = new MultiDocumentAssembler()
 .setOutputCols("document_question", "document_context")
 
 val spanClassifier = BertForQuestionAnswering
-.pretrained("bert_qa_question_answering_zh_voidful","en")
+.pretrained("bert_qa_question_answering_zh_voidful","zh")
 .setInputCols(Array("document_question", "document_context"))
 .setOutputCol("answer")
 .setCaseSensitive(true)
@@ -75,7 +75,7 @@ val result = pipeline.fit(example).transform(example)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("en.answer_question.bert.by_voidful").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
+nlu.load("zh.answer_question.bert.by_voidful").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
 ```
 
 </div>
@@ -91,7 +91,7 @@ nlu.load("en.answer_question.bert.by_voidful").predict("""What's my name?|||"My 
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
 |Output Labels:|[embeddings]|
-|Language:|en|
+|Language:|zh|
 |Size:|381.6 MB|
 |Case sensitive:|true|
 |Max sentence length:|512|

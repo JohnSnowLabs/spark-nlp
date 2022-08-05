@@ -1,12 +1,12 @@
 ---
 layout: model
-title: English BertForQuestionAnswering model (from zhufy)
+title: Malay (macrolanguage) BertForQuestionAnswering model (from zhufy)
 author: John Snow Labs
 name: bert_qa_squad_ms_bert_base
 date: 2022-06-02
-tags: [en, open_source, question_answering, bert]
+tags: [open_source, question_answering, bert]
 task: Question Answering
-language: en
+language: ms
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `squad-ms-bert-base` is a English model orginally trained by `zhufy`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `squad-ms-bert-base` is a Malay (macrolanguage) model orginally trained by `zhufy`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -35,7 +35,7 @@ document_assembler = MultiDocumentAssembler() \
 .setInputCols(["question", "context"]) \
 .setOutputCols(["document_question", "document_context"])
 
-spanClassifier = BertForQuestionAnswering.pretrained("bert_qa_squad_ms_bert_base","en") \
+spanClassifier = BertForQuestionAnswering.pretrained("bert_qa_squad_ms_bert_base","ms") \
 .setInputCols(["document_question", "document_context"]) \
 .setOutputCol("answer") \
 .setCaseSensitive(True)
@@ -55,7 +55,7 @@ val document = new MultiDocumentAssembler()
 .setOutputCols("document_question", "document_context")
 
 val spanClassifier = BertForQuestionAnswering
-.pretrained("bert_qa_squad_ms_bert_base","en")
+.pretrained("bert_qa_squad_ms_bert_base","ms")
 .setInputCols(Array("document_question", "document_context"))
 .setOutputCol("answer")
 .setCaseSensitive(true)
@@ -75,7 +75,7 @@ val result = pipeline.fit(example).transform(example)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("en.answer_question.squad.bert.ms_tuned.base.by_zhufy").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
+nlu.load("ms.answer_question.squad.bert.ms_tuned.base.by_zhufy").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
 ```
 
 </div>
@@ -91,7 +91,7 @@ nlu.load("en.answer_question.squad.bert.ms_tuned.base.by_zhufy").predict("""What
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
 |Output Labels:|[embeddings]|
-|Language:|en|
+|Language:|ms|
 |Size:|412.7 MB|
 |Case sensitive:|true|
 |Max sentence length:|512|
