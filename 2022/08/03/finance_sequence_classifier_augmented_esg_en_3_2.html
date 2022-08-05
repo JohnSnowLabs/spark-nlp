@@ -434,6 +434,7 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
@@ -442,7 +443,7 @@
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
 
-<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">FinancialBertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finance_sequence_classifier_augmented_esg"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">))</span>\
+<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">FinancialBertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finance_sequence_classifier_augmented_esg"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
   <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
 
@@ -533,8 +534,7 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                                              precision    recall  f1-score   support
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label                                        precision    recall  f1-score   support
 Business_Ethics                                   0.73      0.80      0.76        10
 Data_Security                                     1.00      0.89      0.94         9
 Access_And_Affordability                          1.00      1.00      1.00        15
@@ -561,10 +561,9 @@ Customer_Privacy                                  1.00      0.93      0.97      
 Ecological_Impacts                                1.00      1.00      1.00        16
 Energy_Management                                 1.00      0.91      0.95        11
 GHG_Emissions                                     1.00      0.91      0.95        11
-
-    accuracy                                                          0.95       330
-   macro avg                                      0.95      0.95      0.95       330
-weighted avg                                      0.95      0.95      0.95       330
+    accuracy                                      -         -         0.95       330
+   macro-avg                                      0.95      0.95      0.95       330
+weighted-avg                                      0.95      0.95      0.95       330
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-03T00:00:00+00:00"><!-- start custom article footer snippet -->
 
