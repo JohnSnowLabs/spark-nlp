@@ -5,6 +5,7 @@ import sparknlp
 import os
 import zipfile
 
+
 class PushToHub:
     list_of_tasks = [  # List  of available tasks in Modelhub
         "Named Entity Recognition",
@@ -52,7 +53,7 @@ class PushToHub:
         Keyword Arguments: 
         model_data: The model data to check.
         """
-
+        
         list_of_required_fields = ['name', 'task', 'language', 'pythonCode', 'model_zip_path']
 
         if model_data['task'] not in PushToHub.list_of_tasks:
@@ -97,7 +98,7 @@ class PushToHub:
         GIT_TOKEN: Token required for pushing to hub.
         """
 
-        model_data = {item: value for (item, value) in locals().items() if value != None}
+        model_data = {item: value for (item, value) in locals().items() if value is not None}
         PushToHub.check_for_required_info(model_data)
         model_data = PushToHub.create_docs(model_data)
 
@@ -114,15 +115,16 @@ class PushToHub:
                 })
             if r2.status_code == 200:
                 print(r2.json()['message'])
+                return r2.json()['message']
         else:
-
             print(f"Something Went Wrong During the Upload. Got Status Code: {r1.status_code}")
+            return f"Something Went Wrong During the Upload. Got Status Code: {r1.status_code}"
 
     def create_docs(dicionary_for_upload: dict) -> dict:
-        """Adds fields in the dicinary for pushing to hub.
+        """Adds fields in the dictionary for pushing to hub.
 
-        Keyword Argumnets:
-        dicionary_for_upload: The dicionary to add keys to.
+        Keyword Arguments:
+        dictionary_for_upload: The dictionary to add keys to.
         """
 
         dicionary_for_upload['sparkVersion'] = "3.0"
@@ -134,7 +136,7 @@ class PushToHub:
 
         if 'description' not in dicionary_for_upload.keys():
             dicionary_for_upload[
-                'description'] = f"This model is ussed for {dicionary_for_upload['task']} and this model works with {dicionary_for_upload['language']} language"
+                'description'] = f"This model is used for {dicionary_for_upload['task']} and this model works with {dicionary_for_upload['language']} language"
 
         if 'title' not in dicionary_for_upload.keys():
             dicionary_for_upload[
