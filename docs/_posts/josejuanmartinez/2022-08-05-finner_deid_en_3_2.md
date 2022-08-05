@@ -51,7 +51,7 @@ embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
 
-ner_model = MedicalNerModel().pretrained('fin_deid_ner' "en", "XXXXX")\
+ner_model = MedicalNerModel().pretrained('finner_deid' "en", "finance/models")\
         .setInputCols(["sentence", "token", "embeddings"])\
         .setOutputCol("ner")
 
