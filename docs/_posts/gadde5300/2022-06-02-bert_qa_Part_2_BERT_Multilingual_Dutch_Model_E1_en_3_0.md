@@ -22,7 +22,7 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_qa_Part_2_BERT_Multilingual_Dutch_Model_E1_en_4.0.0_3.0_1654178958570.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_qa_Part_2_BERT_Multilingual_Dutch_Model_E1_nl_4.0.0_3.0_1654178958570.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -31,7 +31,7 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = MultiDocumentAssembler() \ 
+document_assembler = MultiDocumentAssembler() \
 .setInputCols(["question", "context"]) \
 .setOutputCols(["document_question", "document_context"])
 
@@ -99,3 +99,4 @@ nlu.load("nl.answer_question.tydiqa.bert.multilingual").predict("""What's my nam
 ## References
 
 - https://huggingface.co/horsbug98/Part_2_BERT_Multilingual_Dutch_Model_E1
+

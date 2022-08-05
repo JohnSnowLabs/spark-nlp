@@ -22,7 +22,7 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_qa_bert_base_uncased_fiqa_flm_sq_flit_en_4.0.0_3.0_1654181262795.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_qa_bert_base_uncased_fiqa_flm_sq_flit_sq_4.0.0_3.0_1654181262795.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -31,7 +31,7 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = MultiDocumentAssembler() \ 
+document_assembler = MultiDocumentAssembler() \
 .setInputCols(["question", "context"]) \
 .setOutputCols(["document_question", "document_context"])
 
@@ -100,3 +100,4 @@ nlu.load("sq.answer_question.bert.base_uncased.by_vanadhi").predict("""What's my
 
 - https://huggingface.co/vanadhi/bert-base-uncased-fiqa-flm-sq-flit
 - https://drive.google.com/file/d/1BlWaV-qVPfpGyJoWQJU9bXQgWCATgxEP/view
+
