@@ -22,14 +22,9 @@ class PushToHub:
         'Part of Speech Tagging',
         'Lemmatization',
         'Chunk Mapping',
-        'Relation Extraction',
         'Spell Check',
         'Dependency Parser',
-        'Assertion Status',
-        'Entity Resolution',
-        'De-identification',
-        'Pipeline Public',
-        'Pipeline Healthcare']
+        'Pipeline Public']
 
     def zip_directory(folder_path: str, zip_path: str):
         """Zips folder for pushing to hub.
