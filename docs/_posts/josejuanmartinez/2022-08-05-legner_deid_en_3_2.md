@@ -4,7 +4,7 @@ title: Generic Deidentification NER
 author: John Snow Labs
 name: legner_deid
 date: 2022-08-05
-tags: [en, finance, ner, deid, licensed]
+tags: [en, legal, ner, deid, licensed]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Legal 1.0.0
@@ -51,7 +51,7 @@ embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_legal_roberta_base
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
 
-ner_model = MedicalNerModel().pretrained('fin_deid_ner' "en", "XXXXX")\
+ner_model = MedicalNerModel().pretrained('legner_deid' "en", "legal/models")\
         .setInputCols(["sentence", "token", "embeddings"])\
         .setOutputCol("ner")
 
