@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-08-05T16:23:37+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-08-05T16:24:05+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
 </subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Financial Finbert Sentiment Analysis</title><link href="/2022/08/05/finance_finbert_sentiment_analysis_en_3_2.html" rel="alternate" type="text/html" title="Financial Finbert Sentiment Analysis" /><published>2022-08-05T00:00:00+00:00</published><updated>2022-08-05T00:00:00+00:00</updated><id>/2022/08/05/finance_finbert_sentiment_analysis_en_3_2</id><content type="html" xml:base="/2022/08/05/finance_finbert_sentiment_analysis_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;This model is a pre-trained NLP model to analyze sentiment of financial text. It is built by further training the BERT language model in the finance domain, using a large financial corpus and thereby fine-tuning it for financial sentiment classification. Financial PhraseBank by Malo et al. (2014) and in-house JSL documents and annotations have been used for fine-tuning.&lt;/p&gt;
@@ -661,7 +661,210 @@ This LICENSE AND DEVELOPMENT AGREEMENT (this Agreement) is entered into effectiv
         accuracy         -         -       1.00    200762
        macro-avg       0.72      0.62      0.65    200762
     weighted-avg       1.00      1.00      1.00    200762
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="ner" /><category term="deid" /><category term="licensed" /><summary type="html">Description This is a NER model which allows you to detect some generic entities that may require to be masked or obfuscated to be compliant with different regulations, as GDPR and CCPA. This is just an NER model, make sure you try the full De-identification pipelines available in Models Hub. Predicted Entities AGE, CITY, COUNTRY, DATE, EMAIL, FAX, LOCATION-OTHER, ORG, PERSON, PHONE, PROFESSION, STATE, STREET, URL, ZIP Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentenceDetector = SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;,&quot;xx&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = RoBertaEmbeddings.pretrained(&quot;roberta_embeddings_legal_roberta_base&quot;,&quot;en&quot;) \ .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) ner_model = MedicalNerModel().pretrained('finner_deid' &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;ner&quot;) ner_converter = NerConverter()\ .setInputCols([&quot;sentence&quot;,&quot;token&quot;,&quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, sentenceDetector, tokenizer, embeddings, ner_model, ner_converter]) empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(empty_data) text = [&quot;&quot;&quot; This LICENSE AND DEVELOPMENT AGREEMENT (this Agreement) is entered into effective as of Nov. 02, 2019 (the Effective Date) by and between Bioeq IP AG, having its principal place of business at 333 Twin Dolphin Drive, Suite 600, Redwood City, CA, 94065, USA (Licensee). &quot;&quot;&quot;] res = model.transform(spark.createDataFrame([text]).toDF(&quot;text&quot;)) Results +-----------+----------------+ | token| ner_label| +-----------+----------------+ | This| O| | LICENSE| O| | AND| O| |DEVELOPMENT| O| | AGREEMENT| O| | (| O| | this| O| | Agreement| O| | )| O| | is| O| | entered| O| | into| O| | effective| O| | as| O| | of| O| | Nov| B-DATE| | .| I-DATE| | 02| I-DATE| | ,| I-DATE| | 2019| I-DATE| | (| O| | the| O| | Effective| O| | Date| O| | )| O| | by| O| | and| O| | between| O| | Bioeq| O| | IP| O| | AG| O| | ,| O| | having| O| | its| O| | principal| O| | place| O| | of| O| | business| O| | at| O| | 333| B-STREET| | Twin| I-STREET| | Dolphin| I-STREET| | Drive| I-STREET| | ,| O| | Suite|B-LOCATION-OTHER| | 600|I-LOCATION-OTHER| | ,| O| | Redwood| B-CITY| | City| I-CITY| | ,| O| | CA| B-STATE| | ,| O| | 94065| B-ZIP| | ,| O| | USA| B-STATE| | (| O| | Licensee| O| | ).| O| +-----------+----------------+ Model Information Model Name: finner_deid Type: finance Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token, embeddings] Output Labels: [ner] Language: en Size: 16.4 MB References In-house annotated documents with protected information Benchmarking label precision recall f1-score support B-AGE 0.96 0.89 0.92 245 B-CITY 0.85 0.86 0.86 123 B-COUNTRY 0.86 0.67 0.75 36 B-DATE 0.98 0.97 0.97 2352 B-ORG 0.75 0.71 0.73 38 B-PERSON 0.97 0.94 0.95 1348 B-PHONE 0.86 0.80 0.83 86 B-PROFESSION 0.93 0.75 0.83 84 B-STATE 0.92 0.89 0.91 102 B-STREET 0.99 0.91 0.95 89 I-CITY 0.82 0.77 0.79 35 I-COUNTRY 1.00 0.50 0.67 6 I-DATE 0.96 0.95 0.96 402 I-ORG 0.71 0.86 0.77 28 I-PERSON 0.98 0.96 0.97 1240 I-PHONE 0.91 0.92 0.92 77 I-PROFESSION 0.96 0.79 0.87 70 I-STATE 1.00 0.62 0.77 8 I-STREET 0.98 0.94 0.96 188 I-ZIP 0.84 0.97 0.90 60 O 1.00 1.00 1.00 194103 accuracy - - 1.00 200762 macro-avg 0.72 0.62 0.65 200762 weighted-avg 1.00 1.00 1.00 200762</summary></entry><entry><title type="html">Legal Adjustments Clause Binary Classifier</title><link href="/2022/08/04/legal_sequence_classifier_adjustments_clause_en_3_2.html" rel="alternate" type="text/html" title="Legal Adjustments Clause Binary Classifier" /><published>2022-08-04T00:00:00+00:00</published><updated>2022-08-04T00:00:00+00:00</updated><id>/2022/08/04/legal_sequence_classifier_adjustments_clause_en_3_2</id><content type="html" xml:base="/2022/08/04/legal_sequence_classifier_adjustments_clause_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="ner" /><category term="deid" /><category term="licensed" /><summary type="html">Description This is a NER model which allows you to detect some generic entities that may require to be masked or obfuscated to be compliant with different regulations, as GDPR and CCPA. This is just an NER model, make sure you try the full De-identification pipelines available in Models Hub. Predicted Entities AGE, CITY, COUNTRY, DATE, EMAIL, FAX, LOCATION-OTHER, ORG, PERSON, PHONE, PROFESSION, STATE, STREET, URL, ZIP Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentenceDetector = SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;,&quot;xx&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = RoBertaEmbeddings.pretrained(&quot;roberta_embeddings_legal_roberta_base&quot;,&quot;en&quot;) \ .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) ner_model = MedicalNerModel().pretrained('finner_deid' &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;ner&quot;) ner_converter = NerConverter()\ .setInputCols([&quot;sentence&quot;,&quot;token&quot;,&quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, sentenceDetector, tokenizer, embeddings, ner_model, ner_converter]) empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(empty_data) text = [&quot;&quot;&quot; This LICENSE AND DEVELOPMENT AGREEMENT (this Agreement) is entered into effective as of Nov. 02, 2019 (the Effective Date) by and between Bioeq IP AG, having its principal place of business at 333 Twin Dolphin Drive, Suite 600, Redwood City, CA, 94065, USA (Licensee). &quot;&quot;&quot;] res = model.transform(spark.createDataFrame([text]).toDF(&quot;text&quot;)) Results +-----------+----------------+ | token| ner_label| +-----------+----------------+ | This| O| | LICENSE| O| | AND| O| |DEVELOPMENT| O| | AGREEMENT| O| | (| O| | this| O| | Agreement| O| | )| O| | is| O| | entered| O| | into| O| | effective| O| | as| O| | of| O| | Nov| B-DATE| | .| I-DATE| | 02| I-DATE| | ,| I-DATE| | 2019| I-DATE| | (| O| | the| O| | Effective| O| | Date| O| | )| O| | by| O| | and| O| | between| O| | Bioeq| O| | IP| O| | AG| O| | ,| O| | having| O| | its| O| | principal| O| | place| O| | of| O| | business| O| | at| O| | 333| B-STREET| | Twin| I-STREET| | Dolphin| I-STREET| | Drive| I-STREET| | ,| O| | Suite|B-LOCATION-OTHER| | 600|I-LOCATION-OTHER| | ,| O| | Redwood| B-CITY| | City| I-CITY| | ,| O| | CA| B-STATE| | ,| O| | 94065| B-ZIP| | ,| O| | USA| B-STATE| | (| O| | Licensee| O| | ).| O| +-----------+----------------+ Model Information Model Name: finner_deid Type: finance Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token, embeddings] Output Labels: [ner] Language: en Size: 16.4 MB References In-house annotated documents with protected information Benchmarking label precision recall f1-score support B-AGE 0.96 0.89 0.92 245 B-CITY 0.85 0.86 0.86 123 B-COUNTRY 0.86 0.67 0.75 36 B-DATE 0.98 0.97 0.97 2352 B-ORG 0.75 0.71 0.73 38 B-PERSON 0.97 0.94 0.95 1348 B-PHONE 0.86 0.80 0.83 86 B-PROFESSION 0.93 0.75 0.83 84 B-STATE 0.92 0.89 0.91 102 B-STREET 0.99 0.91 0.95 89 I-CITY 0.82 0.77 0.79 35 I-COUNTRY 1.00 0.50 0.67 6 I-DATE 0.96 0.95 0.96 402 I-ORG 0.71 0.86 0.77 28 I-PERSON 0.98 0.96 0.97 1240 I-PHONE 0.91 0.92 0.92 77 I-PROFESSION 0.96 0.79 0.87 70 I-STATE 1.00 0.62 0.77 8 I-STREET 0.98 0.94 0.96 188 I-ZIP 0.84 0.97 0.90 60 O 1.00 1.00 1.00 194103 accuracy - - 1.00 200762 macro-avg 0.72 0.62 0.65 200762 weighted-avg 1.00 1.00 1.00 200762</summary></entry><entry><title type="html">Generic Deidentification NER</title><link href="/2022/08/05/legner_deid_en_3_2.html" rel="alternate" type="text/html" title="Generic Deidentification NER" /><published>2022-08-05T00:00:00+00:00</published><updated>2022-08-05T00:00:00+00:00</updated><id>/2022/08/05/legner_deid_en_3_2</id><content type="html" xml:base="/2022/08/05/legner_deid_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This is a NER model which allows you to detect some generic entities that may require to be masked or obfuscated to be compliant with different regulations, as GDPR and CCPA. This is just an NER model, make sure you try the full De-identification pipelines available in Models Hub.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AGE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CITY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COUNTRY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DATE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EMAIL&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FAX&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LOCATION-OTHER&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ORG&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PERSON&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PHONE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PROFESSION&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;STATE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;STREET&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;URL&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ZIP&lt;/code&gt;&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_deid_en_1.0.0_3.2_1659716312550.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        
+&lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SentenceDetectorDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_detector_dl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RoBertaEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;roberta_embeddings_legal_roberta_base&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MedicalNerModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'legner_deid'&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;legal/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;empty_data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;empty_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;
+This LICENSE AND DEVELOPMENT AGREEMENT (this Agreement) is entered into effective as of Nov. 02, 2019 (the Effective Date) by and between Bioeq IP AG, having its principal place of business at 333 Twin Dolphin Drive, Suite 600, Redwood City, CA, 94065, USA (Licensee).
+&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;res&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+-----------+----------------+
+|      token|       ner_label|
++-----------+----------------+
+|       This|               O|
+|    LICENSE|               O|
+|        AND|               O|
+|DEVELOPMENT|               O|
+|  AGREEMENT|               O|
+|          &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;|               O|
+|       this|               O|
+|  Agreement|               O|
+|          &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;|               O|
+|         is|               O|
+|    entered|               O|
+|       into|               O|
+|  effective|               O|
+|         as|               O|
+|         of|               O|
+|        Nov|          B-DATE|
+|          .|          I-DATE|
+|         02|          I-DATE|
+|          ,|          I-DATE|
+|       2019|          I-DATE|
+|          &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;|               O|
+|        the|               O|
+|  Effective|               O|
+|       Date|               O|
+|          &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;|               O|
+|         by|               O|
+|        and|               O|
+|    between|               O|
+|      Bioeq|               O|
+|         IP|               O|
+|         AG|               O|
+|          ,|               O|
+|     having|               O|
+|        its|               O|
+|  principal|               O|
+|      place|               O|
+|         of|               O|
+|   business|               O|
+|         at|               O|
+|        333|        B-STREET|
+|       Twin|        I-STREET|
+|    Dolphin|        I-STREET|
+|      Drive|        I-STREET|
+|          ,|               O|
+|      Suite|B-LOCATION-OTHER|
+|        600|I-LOCATION-OTHER|
+|          ,|               O|
+|    Redwood|          B-CITY|
+|       City|          I-CITY|
+|          ,|               O|
+|         CA|         B-STATE|
+|          ,|               O|
+|      94065|           B-ZIP|
+|          ,|               O|
+|        USA|         B-STATE|
+|          &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;|               O|
+|   Licensee|               O|
+|         &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;.|               O|
++-----------+----------------+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;legner_deid&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;legal&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP for Legal 1.0.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Licensed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[sentence, token, embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[ner]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;16.4 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;In-house annotated documents with protected information&lt;/p&gt;
+
+&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;           label  precision    recall  f1-score   support
+           B-AGE       0.96      0.89      0.92       245
+          B-CITY       0.85      0.86      0.86       123
+       B-COUNTRY       0.86      0.67      0.75        36
+          B-DATE       0.98      0.97      0.97      2352
+           B-ORG       0.75      0.71      0.73        38
+        B-PERSON       0.97      0.94      0.95      1348
+         B-PHONE       0.86      0.80      0.83        86
+    B-PROFESSION       0.93      0.75      0.83        84
+         B-STATE       0.92      0.89      0.91       102
+        B-STREET       0.99      0.91      0.95        89
+          I-CITY       0.82      0.77      0.79        35
+       I-COUNTRY       1.00      0.50      0.67         6
+          I-DATE       0.96      0.95      0.96       402
+           I-ORG       0.71      0.86      0.77        28
+        I-PERSON       0.98      0.96      0.97      1240
+         I-PHONE       0.91      0.92      0.92        77
+    I-PROFESSION       0.96      0.79      0.87        70
+         I-STATE       1.00      0.62      0.77         8
+        I-STREET       0.98      0.94      0.96       188
+           I-ZIP       0.84      0.97      0.90        60
+               O       1.00      1.00      1.00    194103
+        accuracy         -         -       1.00    200762
+       macro-avg       0.72      0.62      0.65    200762
+    weighted-avg       1.00      1.00      1.00    200762
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="legal" /><category term="ner" /><category term="deid" /><category term="licensed" /><summary type="html">Description This is a NER model which allows you to detect some generic entities that may require to be masked or obfuscated to be compliant with different regulations, as GDPR and CCPA. This is just an NER model, make sure you try the full De-identification pipelines available in Models Hub. Predicted Entities AGE, CITY, COUNTRY, DATE, EMAIL, FAX, LOCATION-OTHER, ORG, PERSON, PHONE, PROFESSION, STATE, STREET, URL, ZIP Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentenceDetector = SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;,&quot;xx&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = RoBertaEmbeddings.pretrained(&quot;roberta_embeddings_legal_roberta_base&quot;,&quot;en&quot;) \ .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) ner_model = MedicalNerModel().pretrained('legner_deid' &quot;en&quot;, &quot;legal/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;ner&quot;) ner_converter = NerConverter()\ .setInputCols([&quot;sentence&quot;,&quot;token&quot;,&quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, sentenceDetector, tokenizer, embeddings, ner_model, ner_converter]) empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(empty_data) text = [&quot;&quot;&quot; This LICENSE AND DEVELOPMENT AGREEMENT (this Agreement) is entered into effective as of Nov. 02, 2019 (the Effective Date) by and between Bioeq IP AG, having its principal place of business at 333 Twin Dolphin Drive, Suite 600, Redwood City, CA, 94065, USA (Licensee). &quot;&quot;&quot;] res = model.transform(spark.createDataFrame([text]).toDF(&quot;text&quot;)) Results +-----------+----------------+ | token| ner_label| +-----------+----------------+ | This| O| | LICENSE| O| | AND| O| |DEVELOPMENT| O| | AGREEMENT| O| | (| O| | this| O| | Agreement| O| | )| O| | is| O| | entered| O| | into| O| | effective| O| | as| O| | of| O| | Nov| B-DATE| | .| I-DATE| | 02| I-DATE| | ,| I-DATE| | 2019| I-DATE| | (| O| | the| O| | Effective| O| | Date| O| | )| O| | by| O| | and| O| | between| O| | Bioeq| O| | IP| O| | AG| O| | ,| O| | having| O| | its| O| | principal| O| | place| O| | of| O| | business| O| | at| O| | 333| B-STREET| | Twin| I-STREET| | Dolphin| I-STREET| | Drive| I-STREET| | ,| O| | Suite|B-LOCATION-OTHER| | 600|I-LOCATION-OTHER| | ,| O| | Redwood| B-CITY| | City| I-CITY| | ,| O| | CA| B-STATE| | ,| O| | 94065| B-ZIP| | ,| O| | USA| B-STATE| | (| O| | Licensee| O| | ).| O| +-----------+----------------+ Model Information Model Name: legner_deid Type: legal Compatibility: Spark NLP for Legal 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token, embeddings] Output Labels: [ner] Language: en Size: 16.4 MB References In-house annotated documents with protected information Benchmarking label precision recall f1-score support B-AGE 0.96 0.89 0.92 245 B-CITY 0.85 0.86 0.86 123 B-COUNTRY 0.86 0.67 0.75 36 B-DATE 0.98 0.97 0.97 2352 B-ORG 0.75 0.71 0.73 38 B-PERSON 0.97 0.94 0.95 1348 B-PHONE 0.86 0.80 0.83 86 B-PROFESSION 0.93 0.75 0.83 84 B-STATE 0.92 0.89 0.91 102 B-STREET 0.99 0.91 0.95 89 I-CITY 0.82 0.77 0.79 35 I-COUNTRY 1.00 0.50 0.67 6 I-DATE 0.96 0.95 0.96 402 I-ORG 0.71 0.86 0.77 28 I-PERSON 0.98 0.96 0.97 1240 I-PHONE 0.91 0.92 0.92 77 I-PROFESSION 0.96 0.79 0.87 70 I-STATE 1.00 0.62 0.77 8 I-STREET 0.98 0.94 0.96 188 I-ZIP 0.84 0.97 0.90 60 O 1.00 1.00 1.00 194103 accuracy - - 1.00 200762 macro-avg 0.72 0.62 0.65 200762 weighted-avg 1.00 1.00 1.00 200762</summary></entry><entry><title type="html">Legal Adjustments Clause Binary Classifier</title><link href="/2022/08/04/legal_sequence_classifier_adjustments_clause_en_3_2.html" rel="alternate" type="text/html" title="Legal Adjustments Clause Binary Classifier" /><published>2022-08-04T00:00:00+00:00</published><updated>2022-08-04T00:00:00+00:00</updated><id>/2022/08/04/legal_sequence_classifier_adjustments_clause_en_3_2</id><content type="html" xml:base="/2022/08/04/legal_sequence_classifier_adjustments_clause_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;This model is a Binary Classifier (True, False) for the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;adjustments&lt;/code&gt; clause type. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level.&lt;/p&gt;
 
@@ -1153,127 +1356,4 @@ authorization       1.00      0.83      0.91        35
    macro avg       0.95      0.95      0.95       114
 weighted avg       0.96      0.96      0.96       114
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="legal" /><category term="classification" /><category term="clauses" /><category term="licensed" /><summary type="html">Description This model is a Binary Classifier (True, False) for the benefits clause type. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level. If you have big legal documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Legal Workshop Tokenization &amp;amp; Splitting Tutorial (link here), namely: Paragraph splitting (by multiline); Splitting by headers / subheaders; etc. Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above). This model can be combined with any of the other 200+ Legal Clauses Classifiers you will find in Models Hub, getting as an output a series of True/False values for each of the legal clause model you have added. Predicted Entities other, benefits Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;clause_text&quot;) \ .setOutputCol(&quot;document&quot;) embeddings = BertSentenceEmbeddings.pretrained(&quot;sent_bert_base_cased&quot;, &quot;en&quot;) \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;sentence_embeddings&quot;) docClassifier = ClassifierDLModel().pretrained(&quot;legal_sequence_classifier_benefits_clause&quot;, &quot;en&quot;, &quot;legal/models&quot;)\ .setInputCols([&quot;sentence_embeddings&quot;])\ .setOutputCol(&quot;category&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, embeddings, docClassifier]) df = spark.createDataFrame([[&quot;YOUR TEXT HERE&quot;]]).toDF(&quot;clause_text&quot;) model = nlpPipeline.fit(df) result = model.transform(df) Results +-------+ | result| +-------+ |[benefits]| |[other]| |[other]| |[benefits]| Model Information Model Name: legal_sequence_classifier_benefits_clause Type: legal Compatibility: Spark NLP for Legal 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence_embeddings] Output Labels: [category] Language: en Size: 22.9 MB References Propietary legal documents annotated in-house Benchmarking precision recall f1-score support benefits 0.92 0.92 0.92 25 other 0.98 0.98 0.98 89 accuracy 0.96 114 macro avg 0.95 0.95 0.95 114 weighted avg 0.96 0.96 0.96 114</summary></entry><entry><title type="html">Legal Bereavement leave Clause Binary Classifier</title><link href="/2022/08/04/legal_sequence_classifier_bereavement_leave_clause_en_3_2.html" rel="alternate" type="text/html" title="Legal Bereavement leave Clause Binary Classifier" /><published>2022-08-04T00:00:00+00:00</published><updated>2022-08-04T00:00:00+00:00</updated><id>/2022/08/04/legal_sequence_classifier_bereavement_leave_clause_en_3_2</id><content type="html" xml:base="/2022/08/04/legal_sequence_classifier_bereavement_leave_clause_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;This model is a Binary Classifier (True, False) for the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bereavement-leave&lt;/code&gt; clause type. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level.&lt;/p&gt;
-
-&lt;p&gt;If you have big legal documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Legal Workshop Tokenization &amp;amp; Splitting Tutorial (link &lt;a href=&quot;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Legal/1.Tokenization_Splitting.ipynb&quot;&gt;here&lt;/a&gt;), namely:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Paragraph splitting (by multiline);&lt;/li&gt;
-  &lt;li&gt;Splitting by headers / subheaders;&lt;/li&gt;
-  &lt;li&gt;etc.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above).&lt;/p&gt;
-
-&lt;p&gt;This model can be combined with any of the other 200+ Legal Clauses Classifiers you will find in Models Hub, getting as an output a series of True/False values for each of the legal clause model you have added.&lt;/p&gt;
-
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;other&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bereavement-leave&lt;/code&gt;&lt;/p&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legal_sequence_classifier_bereavement_leave_clause_en_1.0.0_3.2_1659609931349.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;clause_text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  
-&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BertSentenceEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sent_bert_base_cased&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;docClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ClassifierDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;legal_sequence_classifier_bereavement_leave_clause&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;legal/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;category&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    
-&lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;docClassifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
- 
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;YOUR TEXT HERE&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;clause_text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+-------+
-| result|
-+-------+
-|[bereavement-leave]|
-|[other]|
-|[other]|
-|[bereavement-leave]|
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;legal_sequence_classifier_bereavement_leave_clause&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;legal&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP for Legal 1.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[sentence_embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[category]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;22.9 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
-
-&lt;p&gt;Propietary legal documents annotated in-house&lt;/p&gt;
-
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                   precision    recall  f1-score   support
-
-bereavement-leave       1.00      1.00      1.00        30
-            other       1.00      1.00      1.00        76
-
-         accuracy                           1.00       106
-        macro avg       1.00      1.00      1.00       106
-     weighted avg       1.00      1.00      1.00       106
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="legal" /><category term="classification" /><category term="clauses" /><category term="licensed" /><summary type="html">Description This model is a Binary Classifier (True, False) for the bereavement-leave clause type. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level. If you have big legal documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Legal Workshop Tokenization &amp;amp; Splitting Tutorial (link here), namely: Paragraph splitting (by multiline); Splitting by headers / subheaders; etc. Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above). This model can be combined with any of the other 200+ Legal Clauses Classifiers you will find in Models Hub, getting as an output a series of True/False values for each of the legal clause model you have added. Predicted Entities other, bereavement-leave Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;clause_text&quot;) \ .setOutputCol(&quot;document&quot;) embeddings = BertSentenceEmbeddings.pretrained(&quot;sent_bert_base_cased&quot;, &quot;en&quot;) \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;sentence_embeddings&quot;) docClassifier = ClassifierDLModel().pretrained(&quot;legal_sequence_classifier_bereavement_leave_clause&quot;, &quot;en&quot;, &quot;legal/models&quot;)\ .setInputCols([&quot;sentence_embeddings&quot;])\ .setOutputCol(&quot;category&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, embeddings, docClassifier]) df = spark.createDataFrame([[&quot;YOUR TEXT HERE&quot;]]).toDF(&quot;clause_text&quot;) model = nlpPipeline.fit(df) result = model.transform(df) Results +-------+ | result| +-------+ |[bereavement-leave]| |[other]| |[other]| |[bereavement-leave]| Model Information Model Name: legal_sequence_classifier_bereavement_leave_clause Type: legal Compatibility: Spark NLP for Legal 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence_embeddings] Output Labels: [category] Language: en Size: 22.9 MB References Propietary legal documents annotated in-house Benchmarking precision recall f1-score support bereavement-leave 1.00 1.00 1.00 30 other 1.00 1.00 1.00 76 accuracy 1.00 106 macro avg 1.00 1.00 1.00 106 weighted avg 1.00 1.00 1.00 106</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="legal" /><category term="classification" /><category term="clauses" /><category term="licensed" /><summary type="html">Description This model is a Binary Classifier (True, False) for the benefits clause type. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level. If you have big legal documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Legal Workshop Tokenization &amp;amp; Splitting Tutorial (link here), namely: Paragraph splitting (by multiline); Splitting by headers / subheaders; etc. Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above). This model can be combined with any of the other 200+ Legal Clauses Classifiers you will find in Models Hub, getting as an output a series of True/False values for each of the legal clause model you have added. Predicted Entities other, benefits Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;clause_text&quot;) \ .setOutputCol(&quot;document&quot;) embeddings = BertSentenceEmbeddings.pretrained(&quot;sent_bert_base_cased&quot;, &quot;en&quot;) \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;sentence_embeddings&quot;) docClassifier = ClassifierDLModel().pretrained(&quot;legal_sequence_classifier_benefits_clause&quot;, &quot;en&quot;, &quot;legal/models&quot;)\ .setInputCols([&quot;sentence_embeddings&quot;])\ .setOutputCol(&quot;category&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, embeddings, docClassifier]) df = spark.createDataFrame([[&quot;YOUR TEXT HERE&quot;]]).toDF(&quot;clause_text&quot;) model = nlpPipeline.fit(df) result = model.transform(df) Results +-------+ | result| +-------+ |[benefits]| |[other]| |[other]| |[benefits]| Model Information Model Name: legal_sequence_classifier_benefits_clause Type: legal Compatibility: Spark NLP for Legal 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence_embeddings] Output Labels: [category] Language: en Size: 22.9 MB References Propietary legal documents annotated in-house Benchmarking precision recall f1-score support benefits 0.92 0.92 0.92 25 other 0.98 0.98 0.98 89 accuracy 0.96 114 macro avg 0.95 0.95 0.95 114 weighted avg 0.96 0.96 0.96 114</summary></entry></feed>
