@@ -41,16 +41,16 @@ This NER model is trained with a combination of custom datasets with several dat
 
 ```python
 documentAssembler = DocumentAssembler()\
-.setInputCol("text")\
-.setOutputCol("document")
+	.setInputCol("text")\
+	.setOutputCol("document")
 
 sentenceDetector = SentenceDetector()\
-.setInputCols(["document"])\
-.setOutputCol("sentence")
+	.setInputCols(["document"])\
+	.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-.setInputCols(["sentence"])\
-.setOutputCol("token")
+	.setInputCols(["sentence"])\
+	.setOutputCol("token")
 
 embeddings = BertEmbeddings.pretrained("bert_base_cased", "ro")\
 	.setInputCols(["sentence","token"])\
@@ -80,24 +80,24 @@ results = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-.setInputCol("text")
-.setOutputCol("document")
+	.setInputCol("text")
+	.setOutputCol("document")
 
 val sentenceDetector = new SentenceDetector()
-.setInputCols(Array("document"))
-.setOutputCol("sentence")
+	.setInputCols(Array("document"))
+	.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-.setInputCols(Array("sentence"))
-.setOutputCol("token")
+	.setInputCols(Array("sentence"))
+	.setOutputCol("token")
 
 val embeddings = BertEmbeddings.pretrained("bert_base_cased", "ro")
 	.setInputCols(Array("sentence","token"))
 	.setOutputCol("word_embeddings")
 
 val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_bert", "ro", "clinical/models")
-.setInputCols(Array("sentence","token","word_embeddings"))
-.setOutputCol("ner")
+	.setInputCols(Array("sentence","token","word_embeddings"))
+	.setOutputCol("ner")
 
 val ner_converter = new NerConverter()
 	.setInputCols(Array("sentence", "token", "ner"))
@@ -173,25 +173,25 @@ C.N.P : 2450502264401""")
 ## Benchmarking
 
 ```bash
-label  precision    recall  f1-score   support
-AGE       0.98      0.95      0.96      1186
-CITY       0.94      0.87      0.90       299
-COUNTRY       0.90      0.73      0.81       108
-DATE       0.98      0.95      0.96      4518
-DOCTOR       0.91      0.94      0.93      1979
-EMAIL       1.00      0.62      0.77         8
-FAX       0.98      0.95      0.96        56
-HOSPITAL       0.92      0.85      0.88       881
-IDNUM       0.98      0.99      0.98       235
-LOCATION-OTHER       1.00      0.85      0.92        13
-MEDICALRECORD       0.99      1.00      1.00       444
-ORGANIZATION       0.86      0.76      0.81        75
-PATIENT       0.91      0.87      0.89       937
-PHONE       0.96      0.98      0.97       302
-PROFESSION       0.85      0.82      0.83       161
-STREET       0.96      0.94      0.95       173
-ZIP       0.99      0.98      0.99       138
+label  		precision    recall  f1-score   support
+AGE       		0.98      0.95      0.96      1186
+CITY       		0.94      0.87      0.90       299
+COUNTRY       	0.90      0.73      0.81       108
+DATE       		0.98      0.95      0.96      4518
+DOCTOR       	0.91      0.94      0.93      1979
+EMAIL       	1.00      0.62      0.77         8
+FAX       		0.98      0.95      0.96        56
+HOSPITAL       	0.92      0.85      0.88       881
+IDNUM       	0.98      0.99      0.98       235
+LOCATION-OTHER	1.00      0.85      0.92        13
+MEDICALRECORD	0.99      1.00      1.00       444
+ORGANIZATION	0.86      0.76      0.81        75
+PATIENT       	0.91      0.87      0.89       937
+PHONE       	0.96      0.98      0.97       302
+PROFESSION      0.85      0.82      0.83       161
+STREET       	0.96      0.94      0.95       173
+ZIP       		0.99      0.98      0.99       138
 micro-avg       0.95      0.93      0.94     11513
 macro-avg       0.95      0.89      0.91     11513
-weighted-avg       0.95      0.93      0.94     11513
+weighted-avg    0.95      0.93      0.94     11513
 ```
