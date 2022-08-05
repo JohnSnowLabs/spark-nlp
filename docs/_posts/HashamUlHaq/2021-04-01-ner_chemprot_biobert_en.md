@@ -21,7 +21,7 @@ Detect mentions of chemicals and proteins in text using pretrained NER model.
 
 ## Predicted Entities
 
-`N`, `Y`, `CHEMICAL`
+`GENE-N`, `GENE-Y`, `CHEMICAL`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_CHEMPROT_CLINICAL/){:.button.button-orange}

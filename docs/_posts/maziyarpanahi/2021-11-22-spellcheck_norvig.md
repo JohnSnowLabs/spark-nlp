@@ -19,6 +19,12 @@ use_language_switcher: "Python-Scala-Java"
 
 Detects and corrects spelling errors in your input text. It’s based on the NorvigSweeting approach.
 
+{:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
+<button class="button button-orange" disabled>Open in Colab</button>
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spellcheck_norvig_en_2.0.2_2.4_1556605026653.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
+
 ## How to use
 
 <div class="tabs-box" markdown="1">
