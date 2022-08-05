@@ -20,6 +20,10 @@ use_language_switcher: "Python-Scala-Java"
 This model uses classifies text into negative and positive categories. It is based
 on the approach by Vivek Narayanan.
 
+{:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
+<button class="button button-orange" disabled>Open in Colab</button>
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sentiment_vivekn_en_2.0.2_2.4_1556663184035.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
