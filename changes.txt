@@ -1,8 +1,2 @@
-docs/_posts/josejuanmartinez/2022-08-05-finance_finbert_sentiment_analysis_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-05-finance_sequence_classifier_bank_complaints_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-05-finleg_chunkmapper_nasdaq_companyname_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-05-finleg_chunkmapper_nasdaq_ticker_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-05-finance_finbert_sentiment_analysis_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-05-finance_sequence_classifier_bank_complaints_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-05-finleg_chunkmapper_nasdaq_companyname_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-05-finleg_chunkmapper_nasdaq_ticker_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-05-finner_deid_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-05-finner_deid_en_3_2.md
