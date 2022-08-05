@@ -45,6 +45,7 @@ trade: Trading news
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
@@ -68,7 +69,7 @@ pipeline = Pipeline() \
       ]
     )
 
-pipelineModel = pipeline.fit(spark.createDataFrame([[""]].toDF("text"))
+pipelineModel = pipeline.fit( spark.createDataFrame([[""]]).toDF("text") )
 
 text = """
 ECUADOR HAS TRADE SURPLUS IN FIRST FOUR MONTHS Ecuador posted a trade surplus of 10.6 mln dlrs in the first four months of 1987 compared with a surplus of 271.7 mln in the same period in 1986, the central bank of Ecuador said in its latest monthly report. Ecuador suspended sales of crude oil, its principal export product, in March after an earthquake destroyed part of its oil-producing infrastructure. Exports in the first four months of 1987 were around 639 mln dlrs and imports 628.3 mln, compared with 771 mln and 500 mln respectively in the same period last year. Exports of crude and products in the first four months were around 256.1 mln dlrs, compared with 403.3 mln in the same period in 1986. The central bank said that between January and May Ecuador sold 16.1 mln barrels of crude and 2.3 mln barrels of products, compared with 32 mln and 2.7 mln respectively in the same period last year. Ecuador's international reserves at the end of May were around 120.9 mln dlrs, compared with 118.6 mln at the end of April and 141.3 mln at the end of May 1986, the central bank said. gold reserves were 165.7 mln dlrs at the end of May compared with 124.3 mln at the end of April.
@@ -78,7 +79,7 @@ lmodel = LightPipeline(pipelineModel)
 
 results = lmodel.annotate(text)
 
-results[“category”]
+results["category"]
 ```
 
 </div>
@@ -111,8 +112,7 @@ News scrapped from the Internet and manual in-house annotations
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
          acq       0.94      0.92      0.93       718
      finance       0.95      0.96      0.96      1499
         fuel       0.91      0.86      0.88       286
@@ -121,9 +121,8 @@ News scrapped from the Internet and manual in-house annotations
      mineral       0.87      0.62      0.72       121
        plant       0.89      0.88      0.89       301
        trade       0.79      0.72      0.75       113
-
-   micro avg       0.93      0.90      0.92      3116
-   macro avg       0.89      0.75      0.80      3116
-weighted avg       0.93      0.90      0.91      3116
- samples avg       0.91      0.91      0.91      3116
+   micro-avg       0.93      0.90      0.92      3116
+   macro-avg       0.89      0.75      0.80      3116
+weighted-avg       0.93      0.90      0.91      3116
+ samples-avg       0.91      0.91      0.91      3116
 ```

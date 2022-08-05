@@ -36,6 +36,7 @@ If you look for generic version, only returning Environment, Social or Governanc
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler() \
     .setInputCol('text') \
@@ -45,7 +46,7 @@ tokenizer = Tokenizer() \
     .setInputCols(['document']) \
     .setOutputCol('token')
 
-sequenceClassifier = FinancialBertForSequenceClassification.pretrained("finance_sequence_classifier_augmented_esg", "en", "finance/models"))\
+sequenceClassifier = FinancialBertForSequenceClassification.pretrained("finance_sequence_classifier_augmented_esg", "en", "finance/models")\
   .setInputCols(["document",'token'])\
   .setOutputCol("class")
 
@@ -104,8 +105,7 @@ In-house annotations from scrapped annual reports and tweets about ESG
 ## Benchmarking
 
 ```bash
-                                              precision    recall  f1-score   support
-
+label                                        precision    recall  f1-score   support
 Business_Ethics                                   0.73      0.80      0.76        10
 Data_Security                                     1.00      0.89      0.94         9
 Access_And_Affordability                          1.00      1.00      1.00        15
@@ -132,8 +132,7 @@ Customer_Privacy                                  1.00      0.93      0.97      
 Ecological_Impacts                                1.00      1.00      1.00        16
 Energy_Management                                 1.00      0.91      0.95        11
 GHG_Emissions                                     1.00      0.91      0.95        11
-
-    accuracy                                                          0.95       330
-   macro avg                                      0.95      0.95      0.95       330
-weighted avg                                      0.95      0.95      0.95       330
+    accuracy                                      -         -         0.95       330
+   macro-avg                                      0.95      0.95      0.95       330
+weighted-avg                                      0.95      0.95      0.95       330
 ```

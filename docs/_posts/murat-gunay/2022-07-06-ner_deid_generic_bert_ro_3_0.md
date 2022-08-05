@@ -38,6 +38,7 @@ This NER model is trained with a combination of custom datasets with several dat
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
         .setInputCol("text")\
@@ -159,8 +160,7 @@ val results = pipeline.fit(data).transform(data)
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
          AGE       0.95      0.97      0.96      1186
      CONTACT       0.99      0.98      0.98       366
         DATE       0.96      0.92      0.94      4518
@@ -168,8 +168,7 @@ val results = pipeline.fit(data).transform(data)
     LOCATION       0.91      0.90      0.90      1683
         NAME       0.93      0.96      0.94      2916
   PROFESSION       0.87      0.85      0.86       161
-
-   micro avg       0.94      0.94      0.94     11509
-   macro avg       0.94      0.94      0.94     11509
-weighted avg       0.95      0.94      0.94     11509
+   micro-avg       0.94      0.94      0.94     11509
+   macro-avg       0.94      0.94      0.94     11509
+weighted-avg       0.95      0.94      0.94     11509
 ```

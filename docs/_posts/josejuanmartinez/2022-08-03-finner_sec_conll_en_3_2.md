@@ -36,6 +36,7 @@ Financial documents may be long, going over the limits of most of the standard D
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
 		.setInputCol("text")\
@@ -127,15 +128,13 @@ Manual annotations, coNll2003 and financial documents obtained from U.S. Securit
 ## Benchmarking
 
 ```bash
-Total test loss: 14.4783	Avg test loss: 2.8957
-label	 tp	 fp	 fn	 prec	 rec	 f1
-B-LOC	 14	 6	 11	 0.7	 0.56	 0.6222222
-I-ORG	 59	 30	 3	 0.66292137	 0.9516129	 0.781457
-I-LOC	 32	 2	 22	 0.9411765	 0.5925926	 0.7272727
-I-PER	 18	 4	 5	 0.8181818	 0.7826087	 0.8
-B-ORG	 47	 17	 5	 0.734375	 0.90384614	 0.8103449
-B-PER	 211	 7	 2	 0.9678899	 0.9906103	 0.97911835
-tp: 381 fp: 66 fn: 48 labels: 6
-Macro-average	 prec: 0.80409074, rec: 0.7968784, f1: 0.8004684
-Micro-average	 prec: 0.852349, rec: 0.8881119, f1: 0.869863
+label	       tp	 fp	 fn	 prec	     rec	     f1
+B-LOC	       14	 6	 11	 0.7	     0.56	     0.6222222
+I-ORG	       59	 30	 3	 0.66292137	 0.9516129	 0.781457
+I-LOC	       32	 2	 22	 0.9411765	 0.5925926	 0.7272727
+I-PER	       18	 4	 5	 0.8181818	 0.7826087	 0.8
+B-ORG	       47	 17	 5	 0.734375	 0.90384614	 0.8103449
+B-PER	       211	 7	 2	 0.9678899	 0.9906103	 0.97911835
+Macro-average  381   66  48  0.804091    0.7968784   0.8004684
+Micro-average  381   66  48  0.852349    0.8881119   0.869863
 ```
