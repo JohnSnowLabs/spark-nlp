@@ -1,2 +1,8 @@
-docs/_posts/josejuanmartinez/2022-08-05-legner_deid_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-05-legner_deid_en_3_2.md
+docs/_layouts/page.html
+docs/_sass/custom.scss
+docs/assets/images/3d-render-abstract-background.jpg
+docs/learnhub.md
+docs/_layouts/page.html
+docs/_sass/custom.scss
+docs/assets/images/3d-render-abstract-background.jpg
+docs/learnhub.md
