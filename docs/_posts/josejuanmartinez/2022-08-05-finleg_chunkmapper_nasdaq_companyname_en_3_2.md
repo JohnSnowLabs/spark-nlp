@@ -4,7 +4,7 @@ title: Mapping Company Names to NASDAQ Tickers
 author: John Snow Labs
 name: finleg_chunkmapper_nasdaq_companyname
 date: 2022-08-05
-tags: [en, finance, bank, classification, licensed]
+tags: [en, finance, licensed]
 task: Chunk Mapping
 language: en
 edition: Spark NLP for Finance 1.0.0
