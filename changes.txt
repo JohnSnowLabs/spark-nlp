@@ -1,2 +1,2 @@
-docs/_posts/josejuanmartinez/2022-08-03-finance_sequence_classifier_news_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-03-finance_sequence_classifier_news_en_3_2.md
+docs/_posts/2020-09-28-ner_legal_de.md
+docs/_posts/2020-09-28-ner_legal_de.md
