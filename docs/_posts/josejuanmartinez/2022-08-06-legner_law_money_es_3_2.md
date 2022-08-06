@@ -47,7 +47,7 @@ tokenizer = Tokenizer() \
 .setInputCols("sentence") \
 .setOutputCol("token")
 
-tokenClassifier = RoBertaForTokenClassification.pretrained("roberta_ner_NER_LAW_MONEY4","es") \
+tokenClassifier = LegalRoBertaForTokenClassification.pretrained("roberta_ner_NER_LAW_MONEY4", "es", "legal/models") \
 .setInputCols(["sentence", "token"]) \
 .setOutputCol("ner")
 
@@ -103,7 +103,7 @@ This model was trained in-house and available annotations of this [dataset](http
 ## Benchmarking
 
 ```bash
-                  precision    recall  f1-score   support
+           label  precision    recall  f1-score   support
 
              LAW       0.95      0.96      0.96        20
            MONEY       0.98      0.99      0.99       106
