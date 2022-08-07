@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Self Reported Stress Classifier (BioBERT)- Spark NLP Model</title><meta name="description" content="DescriptionThis model is a BioBERT based classifier that can identify stress in social media (Twitter) posts in the self-disclosure category. The model finds...">
-<link rel="canonical" href="/2022/07/29/bert_sequence_classifier_self_reported_stress_tweet_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>COVID-19 Sentiment Classifier (BioBERT)- Spark NLP Model</title><meta name="description" content="DescriptionThis model is a BioBERT based sentiment analysis model that can extract information from COVID-19 pandemic-related tweets. The model predicts whet...">
+<link rel="canonical" href="/2022/08/01/bert_sequence_classifier_covid_sentiment_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,25 +406,25 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/hsaglamlar/2022-07-29-bert_sequence_classifier_self_reported_stress_tweet_en_3_0.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/alierenak/2022-08-01-bert_sequence_classifier_covid_sentiment_en_3_0.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jul 29, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-29T00:00:00+00:00"></div><header class="main-docs"><h1>Self Reported Stress Classifier (BioBERT)</h1></header></div><meta itemprop="headline" content="Self Reported Stress Classifier (BioBERT)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>licenced</li><li>clinical</li><li>public_health</li><li>sequence_classification</li><li>classifier</li><li>stress</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-29T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,licenced,clinical,public_health,sequence_classification,classifier,stress,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 01, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-01T00:00:00+00:00"></div><header class="main-docs"><h1>COVID-19 Sentiment Classifier (BioBERT)</h1></header></div><meta itemprop="headline" content="COVID-19 Sentiment Classifier (BioBERT)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>public_health</li><li>covid19_sentiment</li><li>en</li><li>licenced</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-01T00:00:00+00:00">
+    <meta itemprop="keywords" content="public_health,covid19_sentiment,en,licenced"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model is a <a href="https://github.com/dmis-lab/biobert">BioBERT based</a> classifier that can identify stress in social media (Twitter) posts in the self-disclosure category. The model finds whether a person claims he/she is stressed or not.</p>
+<p>This model is a <a href="https://nlp.johnsnowlabs.com/2022/07/18/biobert_pubmed_base_cased_v1.2_en_3_0.html">BioBERT</a> based sentiment analysis model that can extract information from COVID-19 pandemic-related tweets. The model predicts whether a tweet contains positive, negative, or neutral sentiments about COVID-19 pandemic.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">not-stressed</code>, <code class="language-plaintext highlighter-rouge">stressed</code></p>
+<p><code class="language-plaintext highlighter-rouge">neutral</code>, <code class="language-plaintext highlighter-rouge">positive</code>, <code class="language-plaintext highlighter-rouge">negative</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_self_reported_stress_tweet_en_4.0.0_3.0_1659087442993.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_covid_sentiment_en_4.0.2_3.0_1659344524584.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -432,31 +432,32 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">MedicalBertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_sequence_classifier_self_reported_stress_tweet"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
+<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">MedicalBertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_sequence_classifier_covid_sentiment"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">"token"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
     <span class="n">document_assembler</span><span class="p">,</span> 
     <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">sequenceClassifier</span>
+    <span class="n">sequenceClassifier</span>    
 <span class="p">])</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"Do you feel stressed?"</span><span class="p">],</span> 
-                              <span class="p">[</span><span class="s">"I'm so stressed!"</span><span class="p">],</span>
-                              <span class="p">[</span><span class="s">"Depression and anxiety will probably end up killing me – I feel so stressed all the time and just feel awful."</span><span class="p">],</span> 
-                              <span class="p">[</span><span class="s">"Do you enjoy living constantly in this self-inflicted stress?"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-                              
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+    <span class="p">[</span><span class="s">"British Department of Health confirms first two cases of in UK"</span><span class="p">],</span>
+    <span class="p">[</span><span class="s">"so my trip to visit my australian exchange student just got canceled bc of coronavirus. im heartbroken :("</span><span class="p">],</span> 
+    <span class="p">[</span> <span class="s">"I wish everyone to be safe at home and stop pandemic"</span><span class="p">]]</span>
+<span class="p">).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"text"</span><span class="p">,</span> <span class="s">"class.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documenter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
@@ -467,16 +468,16 @@
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">sequenceClassifier</span> <span class="k">=</span> <span class="nv">MedicalBertForSequenceClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_sequence_classifier_self_reported_stress_tweet"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">sequenceClassifier</span> <span class="k">=</span> <span class="nv">MedicalBertForSequenceClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_sequence_classifier_covid_sentiment"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span><span class="s">"token"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documenter</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">sequenceClassifier</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"Do you feel stressed!"</span><span class="o">,</span> 
-                     <span class="s">"I'm so stressed!"</span><span class="o">,</span>
-                     <span class="s">"Depression and anxiety will probably end up killing me – I feel so stressed all the time and just feel awful."</span><span class="o">,</span> 
-                     <span class="s">"Do you enjoy living constantly in this self-inflicted stress?"</span><span class="o">)).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"British Department of Health confirms first two cases of in UK"</span><span class="o">,</span> 
+                     <span class="s">"so my trip to visit my australian exchange student just got canceled bc of coronavirus. im heartbroken :("</span><span class="o">,</span> 
+                     <span class="s">"I wish everyone to be safe at home and stop pandemic"</span>
+<span class="o">)).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
@@ -484,15 +485,14 @@
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------------------------------------------------------------------------------------------------------------+--------------+
-|text                                                                                                         |result        |
-+-------------------------------------------------------------------------------------------------------------+--------------+
-|Do you feel stressed?                                                                                        |[not-stressed]|
-|I<span class="s1">'m so stressed!                                                                                             |[stressed]    |
-|Depression and anxiety will probably end up killing me – I feel so stressed all the time and just feel awful.|[stressed]    |
-|Do you enjoy living constantly in this self-inflicted stress?                                                |[not-stressed]|
-+-------------------------------------------------------------------------------------------------------------+--------------+
-</span></code></pre></div></div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------------------------------------------------------------------------------------------------------+----------+
+|text                                                                                                     |result    |
++---------------------------------------------------------------------------------------------------------+----------+
+|British Department of Health confirms first two cases of <span class="k">in </span>UK                                           |[neutral] |
+|so my trip to visit my australian exchange student just got canceled bc of coronavirus. im heartbroken :<span class="o">(</span>|[negative]|
+|I wish everyone to be safe at home and stop pandemic                                                     |[positive]|
++---------------------------------------------------------------------------------------------------------+----------+
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -500,11 +500,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>bert_sequence_classifier_self_reported_stress_tweet</td>
+      <td>bert_sequence_classifier_covid_sentiment</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 4.0.0+</td>
+      <td>Spark NLP for Healthcare 4.0.2+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -541,17 +541,21 @@
   </tbody>
 </table>
 
+<h2 id="references">References</h2>
+
+<p>Curated from several academic and in-house datasets.</p>
+
 <h2 id="benchmarking">Benchmarking</h2>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>       label  precision    recall  f1-score   support
-not-stressed     0.8564    0.8020    0.8283       409
-    stressed     0.7197    0.7909    0.7536       263
-    accuracy        -         -      0.7976       672
-   macro-avg     0.7881    0.7964    0.7910       672
-weighted-avg     0.8029    0.7976    0.7991       672
-
+    negative       0.96      0.97      0.97      3284
+    positive       0.94      0.96      0.95      1207
+     neutral       0.96      0.94      0.95      3232
+    accuracy          -         -      0.96      7723
+   macro-avg       0.95      0.96      0.96      7723
+weighted-avg       0.96      0.96      0.96      7723
 </code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-07-29T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-01T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -676,7 +680,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/07/29/bert_sequence_classifier_health_mandates_premise_tweet_en_3_0.html">Premise About Health Mandates Related to Covid-19 Classifier (BioBERT)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/01/bert_sequence_classifier_covid_sentiment_en_3_0.html">COVID-19 Sentiment Classifier (BioBERT)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/07/29/bert_sequence_classifier_self_reported_stress_tweet_en_3_0.html">Self Reported Stress Classifier (BioBERT)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/01/medication_resolver_transform_pipeline_en_3_0.html">Pipeline to Resolve Medication Codes</a></div></div></div>
 
 </div>
 </div>
