@@ -143,5 +143,19 @@ data:
             url: https://demo.johnsnowlabs.com/public/NER_TIMEX_SEMEVAL/ 
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb        
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb   
+        - title: Detect traffic information in German
+          id: detect_traffic_information_in_text
+          image: 
+              src: /assets/images/Detect_traffic_information_in_text.svg
+          image2: 
+              src: /assets/images/Detect_traffic_information_in_text_f.svg
+          excerpt: Automatically extract geographical location, postal codes, and traffic routes in German text using our pretrained Spark NLP model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_TRAFFIC_DE/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_TRAFFIC_DE.ipynb             
 ---
