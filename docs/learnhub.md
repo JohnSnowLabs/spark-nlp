@@ -4,7 +4,7 @@ page:
     aside: false      
 mode: immersivebg
 title: The NLP Learning Hub
-permalink: /learnhub
+permalink: /learn
 key: videos
 license: false
 show_date: true
@@ -32,7 +32,7 @@ modify_date: "2019-05-16"
                 <ul class="learn-hub-list">
                     <li><a target="_blank" href="https://www.johnsnowlabs.com/medical-ai-applications-blog/">Medical AI Applications</a></li>
                     <li><a target="_blank" href="https://www.johnsnowlabs.com/finance-ai-applications-blog/">Finance AI Applications</a></li>
-                    <li><a target="_blank" href="https://www.johnsnowlabs.com/de-identification-blog/">De-Identifiacation</a></li>
+                    <li><a target="_blank" href="https://www.johnsnowlabs.com/de-identification-blog/">De-Identification</a></li>
                     <li><a target="_blank" href="https://www.johnsnowlabs.com/multilingual-nlp-blog/">Multilingual NLP</a></li>
                     <li><a target="_blank" href="https://www.johnsnowlabs.com/nlp-on-databricks-blog/">NLP on Databricks</a></li>
                 </ul>
