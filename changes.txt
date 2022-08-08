@@ -1,2 +1,4 @@
-docs/_posts/dcecchini/2021-05-27-ner_lener_pt.md
-docs/_posts/dcecchini/2021-05-27-ner_lener_pt.md
+docs/learn.md
+docs/learnhub.md
+docs/learn.md
+docs/learnhub.md
