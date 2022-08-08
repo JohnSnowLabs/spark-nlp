@@ -21,7 +21,7 @@ from sparknlp.base import *
 from test.util import SparkSessionForTest
 
 
-@pytest.mark.fast
+@pytest.mark.slow
 class ViTForImageClassificationTestSpec(unittest.TestCase):
     def setUp(self):
         self.data = SparkSessionForTest.spark.read.format("image") \
