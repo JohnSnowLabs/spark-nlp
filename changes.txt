@@ -1,6 +1,2 @@
-docs/demos/financial_entity_recognition.md
-docs/demos/recognize_clinical_entities.md
-docs/demos/recognize_entitie.md
-docs/demos/financial_entity_recognition.md
-docs/demos/recognize_clinical_entities.md
-docs/demos/recognize_entitie.md
+docs/_posts/cayorodriguez/2022-07-11-pipeline_md_ca_3_0.md
+docs/_posts/cayorodriguez/2022-07-11-pipeline_md_ca_3_0.md
