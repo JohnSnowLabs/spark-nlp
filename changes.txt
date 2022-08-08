@@ -1,4 +1,10 @@
-docs/learn.md
-docs/learnhub.md
-docs/learn.md
-docs/learnhub.md
+docs/en/alab/annotation_labs_releases/release_notes_3_3_1.md
+docs/en/alab/annotation_labs_releases/release_notes_3_4_0.md
+docs/en/alab/annotation_labs_releases/release_notes_3_4_1.md
+docs/en/alab/release_notes.md
+docs/en/alab/visual_ner.md
+docs/en/alab/annotation_labs_releases/release_notes_3_3_1.md
+docs/en/alab/annotation_labs_releases/release_notes_3_4_0.md
+docs/en/alab/annotation_labs_releases/release_notes_3_4_1.md
+docs/en/alab/release_notes.md
+docs/en/alab/visual_ner.md
