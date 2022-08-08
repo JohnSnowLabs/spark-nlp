@@ -11,14 +11,14 @@ edition: Spark NLP 3.3.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
 
 **xlm_roberta_base_finetuned_luganda** is a ** Luganda RoBERTa** model obtained by fine-tuning **xlm-roberta-base** model on Luganda language texts. It provides **better performance** than the XLM-RoBERTa on named entity recognition datasets.
-  
+
 Specifically, this model is an *xlm-roberta-base* model that was fine-tuned on the Luganda corpus.
 
 ## Predicted Entities
@@ -38,13 +38,13 @@ Specifically, this model is an *xlm-roberta-base* model that was fine-tuned on t
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 embeddings = XlmRoBertaEmbeddings.pretrained("xlm_roberta_base_finetuned_luganda", "lg") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 ```
 ```scala
 val embeddings = XlmRoBertaEmbeddings.pretrained("xlm_roberta_base_finetuned_luganda", "lg")
-      .setInputCols("sentence", "token")
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token")
+.setOutputCol("embeddings")
 ```
 
 

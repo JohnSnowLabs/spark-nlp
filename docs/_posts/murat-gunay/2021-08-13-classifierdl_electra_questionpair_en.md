@@ -11,7 +11,7 @@ edition: Spark NLP 3.1.3
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -39,16 +39,16 @@ Identifies whether two question sentences are semantically repetitive or differe
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 embeddings = BertSentenceEmbeddings.pretrained("sent_electra_large_uncased", "en") \
-      .setInputCols("document") \
-      .setOutputCol("sentence_embeddings")
+.setInputCols("document") \
+.setOutputCol("sentence_embeddings")
 
 document_classifier = ClassifierDLModel.pretrained('classifierdl_electra_questionpair', 'en') \
-  .setInputCols(["document", "sentence_embeddings"]) \
-  .setOutputCol("class")
+.setInputCols(["document", "sentence_embeddings"]) \
+.setOutputCol("class")
 
 nlpPipeline = Pipeline(stages=[document, embeddings, document_classifier])
 light_pipeline = LightPipeline(nlpPipeline.fit(spark.createDataFrame([['']]).toDF("text")))
@@ -61,16 +61,16 @@ print(result_2["class"])
 ```
 ```scala
 val document = DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val embeddings = BertSentenceEmbeddings.pretrained("sent_electra_large_uncased", "en")
-      .setInputCols("document")
-      .setOutputCol("sentence_embeddings")
+.setInputCols("document")
+.setOutputCol("sentence_embeddings")
 
 val document_classifier = ClassifierDLModel.pretrained("classifierdl_electra_questionpair", 'en')
-  .setInputCols(Array("document", "sentence_embeddings"))
-  .setOutputCol("class")
+.setInputCols(Array("document", "sentence_embeddings"))
+.setOutputCol("class")
 
 val nlpPipeline = new Pipeline().setStages(Array(document, embeddings, document_classifier))
 val light_pipeline = LightPipeline(nlpPipeline.fit(spark.createDataFrame([['']]).toDF("text")))
@@ -116,10 +116,10 @@ A custom dataset is used based on this source : "https://quoradata.quora.com/Fir
 ## Benchmarking
 
 ```bash
-       label  precision    recall  f1-score   support
- almost_same       0.85      0.91      0.88     29652
-    not_same       0.90      0.84      0.87     29634
-    accuracy          -         -      0.88     59286
-   macro-avg       0.88      0.88      0.88     59286
+label  precision    recall  f1-score   support
+almost_same       0.85      0.91      0.88     29652
+not_same       0.90      0.84      0.87     29634
+accuracy          -         -      0.88     59286
+macro-avg       0.88      0.88      0.88     59286
 weighted-avg       0.88      0.88      0.88     59286
 ```

@@ -11,7 +11,7 @@ edition: Spark NLP 3.2.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -25,8 +25,8 @@ The MuRIL model is pre-trained on monolingual segments as well as parallel segme
 
 - Monolingual Data : Publicly available corpora from Wikipedia and Common Crawl for 17 Indian languages.
 - Parallel Data : There are two types of parallel data :
-    - Translated Data : Translations of the above monolingual corpora obtained using the Google NMT pipeline. Translated segment pairs fed as input. Also, Publicly available PMINDIA corpus was used.
-    - Transliterated Data : Transliterations of Wikipedia obtained using the IndicTrans library. Transliterated segment pairs fed as input. Also, Publicly available Dakshina dataset was used.
+- Translated Data : Translations of the above monolingual corpora obtained using the Google NMT pipeline. Translated segment pairs fed as input. Also, Publicly available PMINDIA corpus was used.
+- Transliterated Data : Transliterations of Wikipedia obtained using the IndicTrans library. Transliterated segment pairs fed as input. Also, Publicly available Dakshina dataset was used.
 
 ## Predicted Entities
 
@@ -45,15 +45,15 @@ The MuRIL model is pre-trained on monolingual segments as well as parallel segme
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 sent_embeddings = BertSentenceEmbeddings.pretrained("sent_bert_muril", "xx") \
-      .setInputCols("sentence") \
-      .setOutputCol("bert_sentence")
+.setInputCols("sentence") \
+.setOutputCol("bert_sentence")
 
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, sent_embeddings ])
 ```
 ```scala
 val sent_embeddings = BertSentenceEmbeddings.pretrained("sent_bert_muril", "xx")
-      .setInputCols("sentence")
-      .setOutputCol("bert_sentence")
+.setInputCols("sentence")
+.setOutputCol("bert_sentence")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, sent_embeddings ))
 ```

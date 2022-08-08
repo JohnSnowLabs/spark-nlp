@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.1
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -52,12 +52,12 @@ sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_he
 	.setInputCols(["document"])\
 	.setOutputCol("sentence")
 
-  
+
 tokenizer = Tokenizer()\
 	.setInputCols(["sentence"])\
 	.setOutputCol("token")
 
-  
+
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical" ,"en", "clinical/models")\
 	.setInputCols(["sentence","token"])\
 	.setOutputCol("embeddings")
@@ -66,13 +66,13 @@ word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical" ,"en", "c
 ner = MedicalNerModel.pretrained("ner_biomedical_bc2gm", "en", "clinical/models") \
 	.setInputCols(["sentence", "token", "embeddings"]) \
 	.setOutputCol("ner")
- 
+
 
 ner_converter = NerConverter()\
 	.setInputCols(["sentence", "token", "ner"])\
 	.setOutputCol("ner_chunk")
 
-  
+
 nlpPipeline = Pipeline(stages=[
 	document_assembler,
 	sentenceDetectorDL,
@@ -81,7 +81,7 @@ nlpPipeline = Pipeline(stages=[
 	ner,
 	ner_converter])
 
-  
+
 data = spark.createDataFrame([["Immunohistochemical staining was positive for S-100 in all 9 cases stained, positive for HMB-45 in 9 (90%) of 10, and negative for cytokeratin in all 9 cases in which myxoid melanoma remained in the block after previous sections."]]).toDF("text")
 
 result = nlpPipeline.fit(data).transform(data)
@@ -97,7 +97,7 @@ SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "cli
 	.setInputCols("document")
 	.setOutputCol("sentence")
 
-  
+
 val tokenizer = new Tokenizer()
 	.setInputCols("sentence")
 	.setOutputCol("token")
@@ -115,7 +115,7 @@ val ner = MedicalNerModel.pretrained("ner_biomedical_bc2gm", "en", "clinical/mod
 
 val ner_converter = new NerConverter()
 	.setInputCols(Array("sentence", "token", "ner"))
-    .setOutputCol("ner_chunk")
+.setOutputCol("ner_chunk")
 
 
 val pipeline = new Pipeline().setStages(Array(
@@ -182,13 +182,9 @@ Created by Smith et al. at 2008, the BioCreative II Gene Mention Recognition ([B
 
 
 ```bash
-        label precision recall f1-score support
- GENE_PROTEIN      0.83   0.82     0.82    6325
-    micro-avg      0.83   0.82     0.82    6325
-    macro-avg      0.83   0.82     0.82    6325
- weighted-avg      0.83   0.82     0.82    6325
+label 			precision recall f1-score support
+GENE_PROTEIN    0.83   0.82     0.82    6325
+micro-avg      	0.83   0.82     0.82    6325
+macro-avg      	0.83   0.82     0.82    6325
+weighted-avg    0.83   0.82     0.82    6325
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbMjA0MDA3MDE2MCwtNTc1NTg3MTM5LDExMD
-Y2ODk1NDEsMTc4NjQ3ODIxMF19
--->

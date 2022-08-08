@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,17 +36,17 @@ This model was imported from `Hugging Face` ([link](https://huggingface.co/mdraw
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol('text') \
-    .setOutputCol('document')
+.setInputCol('text') \
+.setOutputCol('document')
 
 tokenizer = Tokenizer() \
-    .setInputCols(['document']) \
-    .setOutputCol('token')
+.setInputCols(['document']) \
+.setOutputCol('token')
 
 sequenceClassifier = BertForSequenceClassification \
-      .pretrained('bert_sequence_classifier_news_sentiment', 'de') \
-      .setInputCols(['token', 'document']) \
-      .setOutputCol('class')
+.pretrained('bert_sequence_classifier_news_sentiment', 'de') \
+.setInputCols(['token', 'document']) \
+.setOutputCol('class')
 
 pipeline = Pipeline(stages=[document_assembler, tokenizer, sequenceClassifier])
 
@@ -55,16 +55,16 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document_assembler = DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 val tokenizer = Tokenizer() 
-    .setInputCols("document") 
-    .setOutputCol("token")
+.setInputCols("document") 
+.setOutputCol("token")
 
 val tokenClassifier = BertForSequenceClassification.pretrained("bert_sequence_classifier_news_sentiment", "de")
-      .setInputCols("document", "token")
-      .setOutputCol("class")
+.setInputCols("document", "token")
+.setOutputCol("class")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 

@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [ur, open_source, sentiment]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,36 +36,36 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentence_detector = SentenceDetector() \
-    .setInputCols(["document"]) \
-    .setOutputCol("sentence")
+.setInputCols(["document"]) \
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer() \
-  .setInputCols(["sentence"]) \
-  .setOutputCol("token")
+.setInputCols(["sentence"]) \
+.setOutputCol("token")
 
 word_embeddings = WordEmbeddingsModel()\
-    .pretrained('urduvec_140M_300d', 'ur')\
-    .setInputCols(["sentence",'token'])\
-    .setOutputCol("word_embeddings")
+.pretrained('urduvec_140M_300d', 'ur')\
+.setInputCols(["sentence",'token'])\
+.setOutputCol("word_embeddings")
 
 sentence_embeddings = SentenceEmbeddings() \
-      .setInputCols(["sentence", "word_embeddings"]) \
-      .setOutputCol("sentence_embeddings") \
-      .setPoolingStrategy("AVERAGE")
+.setInputCols(["sentence", "word_embeddings"]) \
+.setOutputCol("sentence_embeddings") \
+.setPoolingStrategy("AVERAGE")
 
 classifier = SentimentDLModel.pretrained('sentimentdl_urduvec_imdb', 'ur' )\
-    .setInputCols(['document', 'token', 'sentence_embeddings']).setOutputCol('sentiment')
+.setInputCols(['document', 'token', 'sentence_embeddings']).setOutputCol('sentiment')
 
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, sentence_embeddings, classifier])
 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 annotations = light_pipeline.fullAnnotate(["مجھے واقعی یہ شو سند ہے۔ یہی وجہ ہے کہ مجھے حال ہی میں یہ جان کر مایوسی ہوئی ہے کہ جارج لوپیز ایک ",
-                                                                          "بالکل بھی اچھ ،ی کام نہیں کیا گیا ، پوری فلم صرف گرڈج تھی اور کہیں بھی بے ترتیب لوگوں کو ہلاک نہیں"])
+"بالکل بھی اچھ ،ی کام نہیں کیا گیا ، پوری فلم صرف گرڈج تھی اور کہیں بھی بے ترتیب لوگوں کو ہلاک نہیں"])
 ```
 
 {:.nlu-block}

@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -38,8 +38,8 @@ This embeddings model was imported from `Hugging Face`. It's a custom version of
 ...
 
 distilbert = DistilBertEmbeddings.pretrained("distilbert_base_cased", "vi")\
-  .setInputCols(["sentence",'token'])\
-  .setOutputCol("embeddings")
+.setInputCols(["sentence",'token'])\
+.setOutputCol("embeddings")
 
 nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, distilbert])
 
@@ -53,8 +53,8 @@ result = nlpPipeline.fit(data).transform(data)
 ...
 
 val embeddings = DistilBertEmbeddings.pretrained("distilbert_base_cased", "vi")
-      .setInputCols(Array("sentence", "token"))
-      .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
 val data = Seq("Tôi yêu Spark NLP").toDF("text")

@@ -11,7 +11,7 @@ edition: Spark NLP 3.2.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -42,27 +42,27 @@ from sparknlp.annotator import *
 from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 sentenceDetector = SentenceDetector() \
-    .setInputCols("document") \
-    .setOutputCol("sentence")
+.setInputCols("document") \
+.setOutputCol("sentence")
 
 word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud", "ja") \
-    .setInputCols(["sentence"]) \
-    .setOutputCol("token")
+.setInputCols(["sentence"]) \
+.setOutputCol("token")
 
 nerTagger = BertForTokenClassification \
-    .pretrained("bert_token_classifier_ner_ud_gsd", "ja") \
-    .setInputCols(["sentence",'token']) \
-    .setOutputCol("ner")
+.pretrained("bert_token_classifier_ner_ud_gsd", "ja") \
+.setInputCols(["sentence",'token']) \
+.setOutputCol("ner")
 
 pipeline = Pipeline().setStages([
-    documentAssembler,
-    sentenceDetector,
-    word_segmenter,
-    nerTagger
+documentAssembler,
+sentenceDetector,
+word_segmenter,
+nerTagger
 ])
 
 data = spark.createDataFrame([["宮本茂氏は、日本の任天堂のゲームプロデューサーです。"]]).toDF("text")
@@ -77,27 +77,27 @@ import com.johnsnowlabs.nlp.annotator.BertForTokenClassification
 import org.apache.spark.ml.Pipeline
 
 val documentAssembler = new DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentence = new SentenceDetector()
-  .setInputCols("document")
-  .setOutputCol("sentence")
+.setInputCols("document")
+.setOutputCol("sentence")
 
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud", "ja")
-  .setInputCols("sentence")
-  .setOutputCol("token")
+.setInputCols("sentence")
+.setOutputCol("token")
 
 val nerTagger = BertForTokenClassification
-  .pretrained("bert_token_classifier_ner_ud_gsd", "ja")
-  .setInputCols("sentence", "token")
-  .setOutputCol("ner")
+.pretrained("bert_token_classifier_ner_ud_gsd", "ja")
+.setInputCols("sentence", "token")
+.setOutputCol("ner")
 
 val pipeline = new Pipeline().setStages(Array(
-  documentAssembler,
-  sentence,
-  word_segmenter,
-  nerTagger
+documentAssembler,
+sentence,
+word_segmenter,
+nerTagger
 ))
 
 val data = Seq("宮本茂氏は、日本の任天堂のゲームプロデューサーです。").toDF("text")
@@ -105,8 +105,8 @@ val model = pipeline.fit(data)
 val result = model.transform(data)
 
 result.selectExpr("explode(arrays_zip(token.result, ner.result))")
-  .selectExpr("col'0' as token", "col'1' as ner")
-  .show()
+.selectExpr("col'0' as token", "col'1' as ner")
+.show()
 ```
 
 
@@ -166,34 +166,34 @@ https://github.com/megagonlabs/UD_Japanese-GSD
 
 Reference:
 
-    Asahara, M., Kanayama, H., Tanaka, T., Miyao, Y., Uematsu, S., Mori, S., Matsumoto, Y., Omura, M., & Murawaki, Y. (2018). Universal Dependencies Version 2 for Japanese. In LREC-2018.
+Asahara, M., Kanayama, H., Tanaka, T., Miyao, Y., Uematsu, S., Mori, S., Matsumoto, Y., Omura, M., & Murawaki, Y. (2018). Universal Dependencies Version 2 for Japanese. In LREC-2018.
 
 ## Benchmarking
 
 ```bash
-       label  precision    recall  f1-score   support
-        DATE       0.87      0.94      0.91       191
-       EVENT       0.27      0.82      0.41        17
-         FAC       0.66      0.63      0.64        62
-         GPE       0.40      0.59      0.48        70
-    LANGUAGE       0.50      0.67      0.57         6
-         LAW       0.00      0.00      0.00         0
-         LOC       0.59      0.69      0.63        35
-       MONEY       0.90      0.90      0.90        20
-    MOVEMENT       0.27      1.00      0.43         3
-        NORP       0.46      0.57      0.50        46
-           O       0.98      0.97      0.98     11897
-     ORDINAL       0.94      0.70      0.80        43
-         ORG       0.49      0.43      0.46       204
-     PERCENT       1.00      0.80      0.89        20
-      PERSON       0.56      0.68      0.61       105
-     PRODUCT       0.32      0.53      0.40        30
-    QUANTITY       0.83      0.75      0.79       189
-        TIME       0.88      0.64      0.74        44
- TITLE_AFFIX       0.33      0.80      0.47        10
- WORK_OF_ART       0.67      0.76      0.71        42
-    accuracy          -         -      0.95     13034
-   macro-avg       0.60      0.69      0.62     13034
+label  precision    recall  f1-score   support
+DATE       0.87      0.94      0.91       191
+EVENT       0.27      0.82      0.41        17
+FAC       0.66      0.63      0.64        62
+GPE       0.40      0.59      0.48        70
+LANGUAGE       0.50      0.67      0.57         6
+LAW       0.00      0.00      0.00         0
+LOC       0.59      0.69      0.63        35
+MONEY       0.90      0.90      0.90        20
+MOVEMENT       0.27      1.00      0.43         3
+NORP       0.46      0.57      0.50        46
+O       0.98      0.97      0.98     11897
+ORDINAL       0.94      0.70      0.80        43
+ORG       0.49      0.43      0.46       204
+PERCENT       1.00      0.80      0.89        20
+PERSON       0.56      0.68      0.61       105
+PRODUCT       0.32      0.53      0.40        30
+QUANTITY       0.83      0.75      0.79       189
+TIME       0.88      0.64      0.74        44
+TITLE_AFFIX       0.33      0.80      0.47        10
+WORK_OF_ART       0.67      0.76      0.71        42
+accuracy          -         -      0.95     13034
+macro-avg       0.60      0.69      0.62     13034
 weighted-avg       0.96      0.95      0.95     13034
 
 ```

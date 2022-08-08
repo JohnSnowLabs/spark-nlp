@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [licensed, en, classifier, clinical]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,17 +40,17 @@ document_assembler = DocumentAssembler().setInputCol("text").setOutputCol("docum
 tokenizer = Tokenizer().setInputCols(['document']).setOutputCol('token')
 
 biobert_embeddings = BertEmbeddings().pretrained('biobert_pubmed_base_cased') \
-        .setInputCols(["document",'token'])\
-        .setOutputCol("bert_embeddings")
+.setInputCols(["document",'token'])\
+.setOutputCol("bert_embeddings")
 
 sentence_embeddings = SentenceEmbeddings() \
-     .setInputCols(["document", "bert_embeddings"]) \
-     .setOutputCol("sentence_bert_embeddings") \
-     .setPoolingStrategy("AVERAGE")
+.setInputCols(["document", "bert_embeddings"]) \
+.setOutputCol("sentence_bert_embeddings") \
+.setPoolingStrategy("AVERAGE")
 
 genderClassifier = ClassifierDLModel.pretrained('classifierdl_gender_biobert', 'en', 'clinical/models') \
-       .setInputCols(["document", "sentence_bert_embeddings"]) \
-       .setOutputCol("gender")
+.setInputCols(["document", "sentence_bert_embeddings"]) \
+.setOutputCol("gender")
 
 nlp_pipeline = Pipeline(stages=[document_assembler, tokenizer, biobert_embeddings, sentence_embeddings, gender_classifier])
 
@@ -72,7 +72,7 @@ nlu.load("en.classify.gender.biobert").predict("""social history: shows that  do
 ## Results
 
 ```bash
- Female
+Female
 ```
 
 {:.model-param}
@@ -96,14 +96,14 @@ This model is trained on more than four thousands clinical documents (radiology 
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-      Female     0.9020    0.9364    0.9189       236
-        Male     0.8761    0.7857    0.8285       126
-     Unknown     0.7091    0.7647    0.7358        51
+Female     0.9020    0.9364    0.9189       236
+Male     0.8761    0.7857    0.8285       126
+Unknown     0.7091    0.7647    0.7358        51
 
-    accuracy                         0.8692       413
-   macro avg     0.8291    0.8290    0.8277       413
+accuracy                         0.8692       413
+macro avg     0.8291    0.8290    0.8277       413
 weighted avg     0.8703    0.8692    0.8687       413
 
 ```

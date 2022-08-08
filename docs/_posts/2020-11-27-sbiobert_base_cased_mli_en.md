@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [embeddings, en, licensed]
 supported: true
 article_header:
-    type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -30,25 +30,25 @@ This model is trained to generate contextual sentence embeddings of input senten
 ## How to use
 
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, BertSentenceEmbeddings. The output of this model can be used in tasks like NER, Classification, Entity Resolution etc.
-    
+
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 sbiobert_embeddings = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-     .setInputCols(["ner_chunk_doc"])\
-     .setOutputCol("sbert_embeddings")
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+.setInputCols(["ner_chunk_doc"])\
+.setOutputCol("sbert_embeddings")
 
 ```
 
 ```scala
 
 val sbiobert_embeddings = BertSentenceEmbeddings
-    .pretrained("sbiobert_base_cased_mli","en","clinical/models")
-    .setInputCols(Array("ner_chunk_doc"))
-    .setOutputCol("sbert_embeddings")
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")
+.setInputCols(Array("ner_chunk_doc"))
+.setOutputCol("sbert_embeddings")
 
 ```
 

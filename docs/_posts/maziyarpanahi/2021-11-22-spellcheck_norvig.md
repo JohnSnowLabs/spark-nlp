@@ -11,13 +11,19 @@ language: en
 edition: Spark NLP 2.0.2
 spark_version: 2.4
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
 
 Detects and corrects spelling errors in your input text. It’s based on the NorvigSweeting approach.
+
+{:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
+<button class="button button-orange" disabled>Open in Colab</button>
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/spellcheck_norvig_en_2.0.2_2.4_1556605026653.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
 
 ## How to use
 
@@ -31,21 +37,21 @@ from pyspark.ml import Pipeline
 
 
 documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 tokenizer = Tokenizer() \
-    .setInputCols(["document"]) \
-    .setOutputCol("token")
+.setInputCols(["document"]) \
+.setOutputCol("token")
 
 spellChecker = NorvigSweetingModel.pretrained() \
-    .setInputCols(["token"]) \
-    .setOutputCol("spell")
+.setInputCols(["token"]) \
+.setOutputCol("spell")
 
 pipeline = Pipeline().setStages([
-    documentAssembler,
-    tokenizer,
-    spellChecker
+documentAssembler,
+tokenizer,
+spellChecker
 ])
 
 data = spark.createDataFrame([["somtimes i wrrite wordz erong."]]).toDF("text")
@@ -61,21 +67,21 @@ import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import org.apache.spark.ml.Pipeline
 
 val documentAssembler = new DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val tokenizer = new Tokenizer()
-  .setInputCols("document")
-  .setOutputCol("token")
+.setInputCols("document")
+.setOutputCol("token")
 
 val spellChecker = NorvigSweetingModel.pretrained()
-  .setInputCols("token")
-  .setOutputCol("spell")
+.setInputCols("token")
+.setOutputCol("spell")
 
 val pipeline = new Pipeline().setStages(Array(
-  documentAssembler,
-  tokenizer,
-  spellChecker
+documentAssembler,
+tokenizer,
+spellChecker
 ))
 
 val data = Seq("somtimes i wrrite wordz erong.").toDF("text")

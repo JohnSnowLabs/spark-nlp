@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [open_source, en, classifier]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,28 +36,28 @@ Identify Racism, Sexism or Neutral tweets.
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 use = UniversalSentenceEncoder.pretrained('tfhub_use', lang="en") \
-  .setInputCols(["document"])\
-  .setOutputCol("sentence_embeddings")
+.setInputCols(["document"])\
+.setOutputCol("sentence_embeddings")
 document_classifier = ClassifierDLModel.pretrained('classifierdl_use_cyberbullying', 'en') \
-  .setInputCols(["document", "sentence_embeddings"]) \
-  .setOutputCol("class")
+.setInputCols(["document", "sentence_embeddings"]) \
+.setOutputCol("class")
 nlpPipeline = Pipeline(stages=[document_assembler, use, document_classifier])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 annotations = light_pipeline.fullAnnotate('@geeky_zekey Thanks for showing again that blacks are the biggest racists. Blocked')
 ```
 ```scala
 val documentAssembler = DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 val use = UniversalSentenceEncoder.pretrained(lang="en")
-  .setInputCols(Array("document"))
-  .setOutputCol("sentence_embeddings")
+.setInputCols(Array("document"))
+.setOutputCol("sentence_embeddings")
 val document_classifier = ClassifierDLModel.pretrained("classifierdl_use_cyberbullying", "en")
-  .setInputCols(Array("document", "sentence_embeddings"))
-  .setOutputCol("class")
+.setInputCols(Array("document", "sentence_embeddings"))
+.setOutputCol("class")
 val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
 
 val data = Seq("@geeky_zekey Thanks for showing again that blacks are the biggest racists. Blocked").toDF("text")
@@ -76,6 +76,14 @@ cyberbull_df[["document", "cyberbullying"]]
 {:.nlu-block}
 ```python
 
+```
+
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.cyberbullying").predict("""@geeky_zekey Thanks for showing again that blacks are the biggest racists. Blocked""")
 ```
 
 
@@ -120,13 +128,13 @@ This model is trained on cyberbullying detection dataset. https://raw.githubuser
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-     neutral       0.72      0.76      0.74       700
-      racism       0.89      0.94      0.92       773
-      sexism       0.82      0.71      0.76       622
+neutral       0.72      0.76      0.74       700
+racism       0.89      0.94      0.92       773
+sexism       0.82      0.71      0.76       622
 
-    accuracy                           0.81      2095
-   macro avg       0.81      0.80      0.80      2095
+accuracy                           0.81      2095
+macro avg       0.81      0.80      0.80      2095
 weighted avg       0.81      0.81      0.81      2095
 ```

@@ -11,10 +11,10 @@ spark_version: 2.4
 tags: [pipeline, en, licensed, clinical]
 supported: true
 article_header:
-   type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
- 
+
 ## Description
 A pretrained pipeline with ``ner_clinical_events``, ``assertion_dl`` and ``re_temporal_events_clinical`` trained with ``embeddings_healthcare_100d``. It will extract clinical entities, assign assertion status and find temporal relationships between clinical entities.
 
@@ -96,7 +96,7 @@ The output is a dictionary with the following keys: ``'sentences'``, ``'clinical
 
 {:.h2_title}
 ## Included Models 
- - ``ner_clinical_events``
- - ``assertion_dl``
- - ``re_temporal_events_clinical``
- 
+- ``ner_clinical_events``
+- ``assertion_dl``
+- ``re_temporal_events_clinical``
+

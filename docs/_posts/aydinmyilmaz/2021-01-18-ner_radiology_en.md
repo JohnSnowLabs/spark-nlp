@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [en, ner, licensed, clinical]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -21,7 +21,7 @@ Pretrained named entity recognition deep learning model for radiology related te
 
 ## Predicted Entities
 
- `ImagingTest`, `Imaging_Technique`, `ImagingFindings`, `OtherFindings`, `BodyPart`, `Direction`, `Test`, `Symptom`, `Disease_Syndrome_Disorder`,  `Medical_Device`, `Procedure`, `Measurements`, `Units`
+`ImagingTest`, `Imaging_Technique`, `ImagingFindings`, `OtherFindings`, `BodyPart`, `Direction`, `Test`, `Symptom`, `Disease_Syndrome_Disorder`,  `Medical_Device`, `Procedure`, `Measurements`, `Units`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_RADIOLOGY/){:.button.button-orange}
@@ -37,8 +37,8 @@ Use as part of an NLP pipeline with the following stages: DocumentAssembler, Sen
 ```python
 ...
 radiology_ner = NerDLModel.pretrained("ner_radiology", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, radiology_ner, ner_converter])
 ...
 model = nlpPipeline.fit(spark.createDataFrame([['''Bilateral breast ultrasound was subsequently performed, which demonstrated an ovoid mass measuring approximately 0.5 x 0.5 x 0.4 cm in diameter located within the anteromedial aspect of the left shoulder. This mass demonstrates isoechoic echotexture to the adjacent muscle, with no evidence of internal color flow. This may represent benign fibrous tissue or a lipoma.''']]).toDF("text"))
@@ -49,8 +49,8 @@ results = model.transform(data)
 ```scala
 ...
 val radiology_ner = NerDLModel().pretrained("ner_radiology", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token", "embeddings"))
-  .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings"))
+.setOutputCol("ner")
 
 val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, radiology_ner, ner_converter))
 val result = pipeline.fit(Seq.empty[String]).transform(data)
@@ -128,15 +128,15 @@ Trained on a custom dataset comprising of  MIMIC-CXR and MT Radiology  texts
 |   Imaging_Technique| 140.0| 38.0| 25.0| 165.0|   0.7865|0.8485|0.8163|
 +--------------------+------+-----+-----+------+---------+------+------+
 
-                                                    +------------------+
-                                                    |             macro|
-                                                    +------------------+
-                                                    |0.7524248724038437|
-                                                    +------------------+
++------------------+
+|             macro|
++------------------+
+|0.7524248724038437|
++------------------+
 
-                                                    +------------------+
-                                                    |             micro|
-                                                    +------------------+
-                                                    |0.8315240382681794|
-                                                    +------------------+
++------------------+
+|             micro|
++------------------+
+|0.8315240382681794|
++------------------+
 ```

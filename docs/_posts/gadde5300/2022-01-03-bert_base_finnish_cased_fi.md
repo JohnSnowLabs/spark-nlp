@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,21 +40,21 @@ FinBERT has been pre-trained for 1 million steps on over 3 billion tokens (24B c
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentence_detector = SentenceDetector()\
-  .setInputCols(["document"])\
-  .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-  .setInputCols(["sentence"])\
-  .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 embeddings = BertEmbeddings.pretrained("bert_base_finnish_cased", "fi") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
-      
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
+
 sample_data= spark.createDataFrame([['Syväoppiminen perustuu keinotekoisiin hermoihin, jotka muodostavat monikerroksisen neuroverkon.']], ["text"])
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
@@ -62,20 +62,20 @@ result = pipeline_model.transform(sample_data)
 ```
 ```scala
 val document_assembler = DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentence_detector = SentenceDetector()
-      .setInputCols(Array("document"))
-      .setOutputCol("sentence")
+.setInputCols(Array("document"))
+.setOutputCol("sentence")
 
 val tokenizer = Tokenizer()
-      .setInputCols(Array("sentence"))
-      .setOutputCol("token")
+.setInputCols(Array("sentence"))
+.setOutputCol("token")
 
 val embeddings = BertEmbeddings.pretrained("bert_base_finnish_cased", "fi")
-      .setInputCols("sentence", "token")
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token")
+.setOutputCol("embeddings")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
 val data = Seq("Syväoppiminen perustuu keinotekoisiin hermoihin, jotka muodostavat monikerroksisen neuroverkon.").toDF("text")

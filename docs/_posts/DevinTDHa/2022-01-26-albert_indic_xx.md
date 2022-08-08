@@ -11,7 +11,7 @@ edition: Spark NLP 3.4.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -43,32 +43,32 @@ from sparknlp.annotator import *
 from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 tokenizer = Tokenizer() \
-    .setInputCols(["document"]) \
-    .setOutputCol("token")
+.setInputCols(["document"]) \
+.setOutputCol("token")
 
 embeddings = AlbertEmbeddings.pretrained("albert_indic","xx") \
-  .setInputCols(["document",'token'])\
-  .setOutputCol("embeddings")\
+.setInputCols(["document",'token'])\
+.setOutputCol("embeddings")\
 
 embeddingsFinisher = EmbeddingsFinisher() \
-    .setInputCols(["embeddings"]) \
-    .setOutputCols("finished_embeddings") \
-    .setOutputAsVector(True) \
-    .setCleanAnnotations(False)
+.setInputCols(["embeddings"]) \
+.setOutputCols("finished_embeddings") \
+.setOutputAsVector(True) \
+.setCleanAnnotations(False)
 
 pipeline = Pipeline().setStages([
-    documentAssembler,
-    tokenizer,
-    embeddings,
-    embeddingsFinisher
+documentAssembler,
+tokenizer,
+embeddings,
+embeddingsFinisher
 ])
 
 data = spark.createDataFrame([
-    ["கர்நாடக சட்டப் பேரவையில் வெற்றி பெற்ற எம்எல்ஏக்கள் இன்று பதவியேற்றுக் கொண்ட நிலையில் , காங்கிரஸ் எம்எல்ஏ ஆனந்த் சிங் க்கள் ஆப்சென்ட் ஆகி அதிர்ச்சியை ஏற்படுத்தியுள்ளார் . உச்சநீதிமன்ற உத்தரவுப்படி இன்று மாலை முதலமைச்சர் எடியூரப்பா இன்று நம்பிக்கை வாக்கெடுப்பு நடத்தி பெரும்பான்மையை நிரூபிக்க உச்சநீதிமன்றம் உத்தரவிட்டது ."],
+["கர்நாடக சட்டப் பேரவையில் வெற்றி பெற்ற எம்எல்ஏக்கள் இன்று பதவியேற்றுக் கொண்ட நிலையில் , காங்கிரஸ் எம்எல்ஏ ஆனந்த் சிங் க்கள் ஆப்சென்ட் ஆகி அதிர்ச்சியை ஏற்படுத்தியுள்ளார் . உச்சநீதிமன்ற உத்தரவுப்படி இன்று மாலை முதலமைச்சர் எடியூரப்பா இன்று நம்பிக்கை வாக்கெடுப்பு நடத்தி பெரும்பான்மையை நிரூபிக்க உச்சநீதிமன்றம் உத்தரவிட்டது ."],
 ]).toDF("text")
 result = pipeline.fit(data).transform(data)
 result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
@@ -82,32 +82,32 @@ import com.johnsnowlabs.nlp.EmbeddingsFinisher
 import org.apache.spark.ml.Pipeline
 
 val documentAssembler = new DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val tokenizer = new Tokenizer()
-  .setInputCols("document")
-  .setOutputCol("token")
+.setInputCols("document")
+.setOutputCol("token")
 
 val embeddings = AlbertEmbeddings.pretrained("albert_indic", "xx")
-  .setInputCols("token", "document")
-  .setOutputCol("embeddings")
+.setInputCols("token", "document")
+.setOutputCol("embeddings")
 
 val embeddingsFinisher = new EmbeddingsFinisher()
-  .setInputCols("embeddings")
-  .setOutputCols("finished_embeddings")
-  .setOutputAsVector(true)
-  .setCleanAnnotations(false)
+.setInputCols("embeddings")
+.setOutputCols("finished_embeddings")
+.setOutputAsVector(true)
+.setCleanAnnotations(false)
 
 val pipeline = new Pipeline().setStages(Array(
-  documentAssembler,
-  tokenizer,
-  embeddings,
-  embeddingsFinisher
+documentAssembler,
+tokenizer,
+embeddings,
+embeddingsFinisher
 ))
 
 val data = Seq("கர்நாடக சட்டப் பேரவையில் வெற்றி பெற்ற எம்எல்ஏக்கள் இன்று பதவியேற்றுக் கொண்ட நிலையில் , காங்கிரஸ் எம்எல்ஏ ஆனந்த் சிங் க்கள் ஆப்சென்ட் ஆகி அதிர்ச்சியை ஏற்படுத்தியுள்ளார் . உச்சநீதிமன்ற உத்தரவுப்படி இன்று மாலை முதலமைச்சர் எடியூரப்பா இன்று நம்பிக்கை வாக்கெடுப்பு நடத்தி பெரும்பான்மையை நிரூபிக்க உச்சநீதிமன்றம் உத்தரவிட்டது .")
-  .toDF("text")
+.toDF("text")
 val result = pipeline.fit(data).transform(data)
 
 result.selectExpr("explode(finished_embeddings) as result").show(5, 80)

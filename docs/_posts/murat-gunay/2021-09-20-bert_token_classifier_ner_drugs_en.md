@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.2.0
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -47,13 +47,13 @@ Pretrained named entity recognition deep learning model for Drugs. This model is
 ```python
 ...
 tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_drugs", "en", "clinical/models")\
-  .setInputCols("token", "sentence")\
-  .setOutputCol("ner")\
-  .setCaseSensitive(True)
+.setInputCols("token", "sentence")\
+.setOutputCol("ner")\
+.setCaseSensitive(True)
 
 ner_converter = NerConverter()\
-        .setInputCols(["sentence","token","ner"])\
-        .setOutputCol("ner_chunk")
+.setInputCols(["sentence","token","ner"])\
+.setOutputCol("ner_chunk")
 
 pipeline =  Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter])
 
@@ -66,13 +66,13 @@ result = model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sente
 ```scala
 ...
 val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_drugs", "en", "clinical/models")
-  .setInputCols("token", "sentence")
-  .setOutputCol("ner")
-  .setCaseSensitive(True)
+.setInputCols("token", "sentence")
+.setOutputCol("ner")
+.setCaseSensitive(True)
 
 val ner_converter = new NerConverter()
-        .setInputCols(Array("sentence","token","ner"))
-        .setOutputCol("ner_chunk")
+.setInputCols(Array("sentence","token","ner"))
+.setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))
 
@@ -137,12 +137,12 @@ Trained on i2b2_med7 + FDA. https://www.i2b2.org/NLP/Medication
 
 
 ```bash
-       label  precision    recall  f1-score   support
-  B-DrugChem       0.99      0.99      0.99     97872
-  I-DrugChem       0.99      0.99      0.99     54909
-           O       1.00      1.00      1.00   1191109
-    accuracy       -         -         1.00   1343890
-   macro-avg       0.99      0.99      0.99   1343890
+label  precision    recall  f1-score   support
+B-DrugChem       0.99      0.99      0.99     97872
+I-DrugChem       0.99      0.99      0.99     54909
+O       1.00      1.00      1.00   1191109
+accuracy       -         -         1.00   1343890
+macro-avg       0.99      0.99      0.99   1343890
 weighted-avg       1.00      1.00      1.00   1343890
 ```
 <!--stackedit_data:

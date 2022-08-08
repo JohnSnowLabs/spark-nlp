@@ -11,7 +11,7 @@ edition: Spark NLP 3.2.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -21,7 +21,7 @@ SentenceDetectorDL (SDDL) is based on a general-purpose neural network model for
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sentence_detector_dl_ne_3.2.0_3.0_1630334779183.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -32,13 +32,13 @@ SentenceDetectorDL (SDDL) is based on a general-purpose neural network model for
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documenter = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
-    
+.setInputCol("text")\
+.setOutputCol("document")
+
 sentencerDL = SentenceDetectorDLModel\
-  .pretrained("sentence_detector_dl", "ne") \
-  .setInputCols(["document"]) \
-  .setOutputCol("sentences")
+.pretrained("sentence_detector_dl", "ne") \
+.setInputCols(["document"]) \
+.setOutputCol("sentences")
 
 sd_model = LightPipeline(PipelineModel(stages=[documenter, sentencerDL]))
 
@@ -47,8 +47,8 @@ sd_model.fullAnnotate("""अंग्रेजी पढ्ने अनुच�
 ```
 ```scala
 val documenter = DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val model = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "ne")
 	.setInputCols(Array("document"))
@@ -104,8 +104,6 @@ nlu.load('ne.sentence_detector').predict("अंग्रेजी पढ्न�
 ## Benchmarking
 
 ```bash
-Accuracy:      0.98
-Recall:        1.00
-Precision:     0.96
-F1:            0.98
+label  Accuracy  Recall   Prec   F1  
+0      0.98      1.00     0.96   0.98
 ```

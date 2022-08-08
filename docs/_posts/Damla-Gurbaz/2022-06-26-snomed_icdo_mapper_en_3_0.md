@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,33 +37,33 @@ This pretrained model maps SNOMED codes to corresponding ICDO codes under the Un
 
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
-     .setInputCols(["ner_chunk"])\
-     .setOutputCol("sbert_embeddings")
+.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")
 
 snomed_resolver = SentenceEntityResolverModel\
-     .pretrained("sbiobertresolve_snomed_findings_aux_concepts", "en", "clinical/models") \
-     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-     .setOutputCol("snomed_code")\
-     .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_snomed_findings_aux_concepts", "en", "clinical/models") \
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("snomed_code")\
+.setDistanceFunction("EUCLIDEAN")
 
 chunkerMapper = ChunkMapperModel\
-      .pretrained("snomed_icdo_mapper", "en", "clinical/models")\
-      .setInputCols(["snomed_code"])\
-      .setOutputCol("icdo_mappings")\
-      .setRels(["icdo_code"])
+.pretrained("snomed_icdo_mapper", "en", "clinical/models")\
+.setInputCols(["snomed_code"])\
+.setOutputCol("icdo_mappings")\
+.setRels(["icdo_code"])
 
 
 pipeline = Pipeline(stages = [
-                      documentAssembler,
-                      sbert_embedder,
-                      snomed_resolver,
-                      chunkerMapper
-                      ])
+documentAssembler,
+sbert_embedder,
+snomed_resolver,
+chunkerMapper
+])
 
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -73,37 +73,45 @@ result = light_pipeline.fullAnnotate("Structure of tendon of gluteus minimus")
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-       .setInputCol("text")
-       .setOutputCol("ner_chunk")
+.setInputCol("text")
+.setOutputCol("ner_chunk")
 
- val sbert_embedder = BertSentenceEmbeddings
-       .pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
-       .setInputCols("ner_chunk")
-       .setOutputCol("sbert_embeddings")
+val sbert_embedder = BertSentenceEmbeddings
+.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
+.setInputCols("ner_chunk")
+.setOutputCol("sbert_embeddings")
 
- val snomed_resolver = SentenceEntityResolverModel
-       .pretrained("sbiobertresolve_snomed_findings_aux_concepts", "en", "clinical/models")
-       .setInputCols(Array("ner_chunk", "sbert_embeddings"))
-       .setOutputCol("snomed_code")
-       .setDistanceFunction("EUCLIDEAN")
+val snomed_resolver = SentenceEntityResolverModel
+.pretrained("sbiobertresolve_snomed_findings_aux_concepts", "en", "clinical/models")
+.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setOutputCol("snomed_code")
+.setDistanceFunction("EUCLIDEAN")
 
- val chunkerMapper = ChunkMapperModel
-       .pretrained("snomed_icdo_mapper", "en", "clinical/models")
-       .setInputCols("snomed_code")
-       .setOutputCol("icdo_mappings")
-       .setRels(Array("icdo_code"))
+val chunkerMapper = ChunkMapperModel
+.pretrained("snomed_icdo_mapper", "en", "clinical/models")
+.setInputCols("snomed_code")
+.setOutputCol("icdo_mappings")
+.setRels(Array("icdo_code"))
 
- val pipeline = new Pipeline(stages = Array(
-                                documentAssembler,
-                                sbert_embedder,
-                                snomed_resolver,
-                                chunkerMapper
-                                ))
- 
- val data = Seq("Structure of tendon of gluteus minimus").toDS.toDF("text")
+val pipeline = new Pipeline(stages = Array(
+documentAssembler,
+sbert_embedder,
+snomed_resolver,
+chunkerMapper
+))
 
- val result= pipeline.fit(data).transform(data)
+val data = Seq("Structure of tendon of gluteus minimus").toDS.toDF("text")
+
+val result= pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.snomed_to_icdo").predict("""Structure of tendon of gluteus minimus""")
+```
+
 </div>
 
 ## Results

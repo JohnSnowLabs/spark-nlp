@@ -12,7 +12,7 @@ spark_version: 3.0
 supported: true
 recommended: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -61,12 +61,12 @@ This model can be used to detect legal entities in German text, predicting up to
 ```python
 ...
 word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d",'de','clinical/models')\
-  .setInputCols(["sentence", 'token'])\
-  .setOutputCol("embeddings")\
-  .setCaseSensitive(False)
+.setInputCols(["sentence", 'token'])\
+.setOutputCol("embeddings")\
+.setCaseSensitive(False)
 legal_ner = MedicalNerModel.pretrained("ner_legal",'de','clinical/models') \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 ...
 legal_pred_pipeline = Pipeline(stages = [document_assembler, sentence_detector, tokenizer, word_embeddings, legal_ner, ner_converter])
 legal_light_model = LightPipeline(legal_pred_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
@@ -76,11 +76,11 @@ result = legal_light_model.fullAnnotate('''Jedoch wird der Verkehr darin nahelie
 ```scala
 ...
 val word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","de","clinical/models")
-    .setInputCols(Array("sentence","token"))
-    .setOutputCol("embeddings")
+.setInputCols(Array("sentence","token"))
+.setOutputCol("embeddings")
 val ner = MedicalNerModel.pretrained("ner_legal",'de','clinical/models')
-  .setInputCols("sentence", "token", "embeddings")
-  .setOutputCol("ner")
+.setInputCols("sentence", "token", "embeddings")
+.setOutputCol("ner")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
 val data = Seq("Jedoch wird der Verkehr darin naheliegend den Namen eines der bekanntesten Flüsse Deutschlands erkennen, welcher als Seitenfluss des Rheins durch Oberfranken, Unterfranken und Südhessen fließt und bei Mainz in den Rhein mündet. Klein , in : Maunz / Schmidt-Bleibtreu / Klein / Bethge , BVerfGG , § 19 Rn. 9 Richtlinien zur Bewertung des Grundvermögens – BewRGr – vom19. I September 1966 (BStBl I, S.890)").toDF("text")
 val result = pipeline.fit(data).transform(data)

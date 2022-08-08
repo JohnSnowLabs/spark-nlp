@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -66,12 +66,12 @@ nlu.load("en.match.chunks").predict("""David visited the restaurant yesterday wi
 
 ```bash
 ['the restaurant yesterday',
- 'family',
- 'the day',
- 'that time',
- 'today',
- 'the food',
- 'tomorrow']
+'family',
+'the day',
+'that time',
+'today',
+'the food',
+'tomorrow']
 ```
 
 {:.model-param}

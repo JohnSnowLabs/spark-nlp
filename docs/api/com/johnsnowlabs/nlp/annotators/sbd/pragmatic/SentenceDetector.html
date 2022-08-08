@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.0.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector</title>
-          <meta name="description" content="Spark NLP 4.0.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector" />
-          <meta name="keywords" content="Spark NLP 4.0.1 ScalaDoc com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector" />
+          <title>Spark NLP 4.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector</title>
+          <meta name="description" content="Spark NLP 4.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector" />
+          <meta name="keywords" content="Spark NLP 4.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.0.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.0.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -724,6 +724,24 @@ UserDefinedTypes to @developerAPI
       <p class="shortcomment cmt">Characters used to explicitly mark sentence bounds (Default: None)
 </p><div class="fullcomment"><div class="comment cmt"><p>Characters used to explicitly mark sentence bounds (Default: None)
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../SentenceDetectorParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sbd.SentenceDetectorParams">SentenceDetectorParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sbd.SentenceDetectorParams#customBoundsStrategy" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="customBoundsStrategy:org.apache.spark.ml.param.Param[String]"></a><a id="customBoundsStrategy:Param[String]"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/sbd/pragmatic/SentenceDetector.html#customBoundsStrategy:org.apache.spark.ml.param.Param[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">customBoundsStrategy</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">How to return matched custom bounds (Default: <code>none</code>).</p><div class="fullcomment"><div class="comment cmt"><p>How to return matched custom bounds (Default: <code>none</code>). Will have no effect if no custom
+bounds are used. Possible values are:</p><ul><li>&quot;none&quot; - Will not return the matched bound</li><li>&quot;prepend&quot; - Prepends a sentence break to the match</li><li>&quot;append&quot; - Appends a sentence break to the match
+</li></ul></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../SentenceDetectorParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sbd.SentenceDetectorParams">SentenceDetectorParams</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#defaultCopy" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="defaultCopy[T&lt;:org.apache.spark.ml.param.Params](extra:org.apache.spark.ml.param.ParamMap):T"></a><a id="defaultCopy[T&lt;:Params](ParamMap):T"></a>
       <span class="permalink">
@@ -1081,6 +1099,22 @@ UserDefinedTypes to @developerAPI
       </span>
       
       <p class="shortcomment cmt">Custom sentence separator text</p><div class="fullcomment"><div class="comment cmt"><p>Custom sentence separator text</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../SentenceDetectorParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sbd.SentenceDetectorParams">SentenceDetectorParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sbd.SentenceDetectorParams#getCustomBoundsStrategy" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
+      <a id="getCustomBoundsStrategy:String"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/sbd/pragmatic/SentenceDetector.html#getCustomBoundsStrategy:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getCustomBoundsStrategy</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Gets how to return matched custom bounds (Default: <code>none</code>).</p><div class="fullcomment"><div class="comment cmt"><p>Gets how to return matched custom bounds (Default: <code>none</code>).</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../SentenceDetectorParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sbd.SentenceDetectorParams">SentenceDetectorParams</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#getDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getDefault[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a><a id="getDefault[T](Param[T]):Option[T]"></a>
       <span class="permalink">
@@ -2076,6 +2110,24 @@ as input and output columns if not specified
       </span>
       
       <p class="shortcomment cmt">Custom sentence separator text</p><div class="fullcomment"><div class="comment cmt"><p>Custom sentence separator text</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../SentenceDetectorParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sbd.SentenceDetectorParams">SentenceDetectorParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sbd.SentenceDetectorParams#setCustomBoundsStrategy" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setCustomBoundsStrategy(value:String):SentenceDetectorParams.this.type"></a><a id="setCustomBoundsStrategy(String):SentenceDetector.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/sbd/pragmatic/SentenceDetector.html#setCustomBoundsStrategy(value:String):SentenceDetectorParams.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setCustomBoundsStrategy</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector">SentenceDetector</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Sets how to return matched custom bounds (Default: <code>none</code>).</p><div class="fullcomment"><div class="comment cmt"><p>Sets how to return matched custom bounds (Default: <code>none</code>). Will have no effect if no custom
+bounds are used. Possible values are:</p><ul><li>&quot;none&quot; - Will not return the matched bound</li><li>&quot;prepend&quot; - Prepends a sentence break to the match</li><li>&quot;append&quot; - Appends a sentence break to the match
+</li></ul></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../SentenceDetectorParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sbd.SentenceDetectorParams">SentenceDetectorParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#setDefault" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:()=&gt;T):HasFeatures.this.type"></a><a id="setDefault[T](StructFeature[T],()⇒T):SentenceDetector.this.type"></a>
       <span class="permalink">

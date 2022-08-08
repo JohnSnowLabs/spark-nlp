@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.1
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,32 +37,32 @@ This model maps extracted medical entities to ICD10-CM codes using `sbiobert_bas
 ```python
 ...
 c2doc = Chunk2Doc()\
-     .setInputCols("ner_chunk")\
-     .setOutputCol("ner_chunk_doc") 
+.setInputCols("ner_chunk")\
+.setOutputCol("ner_chunk_doc") 
 
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
-     .setInputCols(["ner_chunk_doc"])\
-     .setOutputCol("sentence_embeddings")
-    
+.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
+.setInputCols(["ner_chunk_doc"])\
+.setOutputCol("sentence_embeddings")
+
 icd_resolver = SentenceEntityResolverModel\
-     .pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc", "en", "clinical/models") \
-     .setInputCols(["ner_chunk", "sentence_embeddings"]) \
-     .setOutputCol("icd10cm_code")\
-     .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc", "en", "clinical/models") \
+.setInputCols(["ner_chunk", "sentence_embeddings"]) \
+.setOutputCol("icd10cm_code")\
+.setDistanceFunction("EUCLIDEAN")
 
 resolver_pipeline = Pipeline(
-    stages = [
-        document_assembler,
-        sentenceDetectorDL,
-        tokenizer,
-        word_embeddings,
-        clinical_ner,
-        ner_converter_icd,
-        c2doc,
-        sbert_embedder,
-        icd_resolver
-  ])
+stages = [
+document_assembler,
+sentenceDetectorDL,
+tokenizer,
+word_embeddings,
+clinical_ner,
+ner_converter_icd,
+c2doc,
+sbert_embedder,
+icd_resolver
+])
 
 data_ner = spark.createDataFrame([["A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting. Two weeks prior to presentation, she was treated with a five-day course of amoxicillin for a respiratory tract infection."]]).toDF("text")
 
@@ -71,17 +71,17 @@ results =  resolver_pipeline.fit(data_ner).transform(data_ner)
 ```scala
 ...
 val chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
- 
+
 val sbert_embedder = BertSentenceEmbeddings
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")
-     .setInputCols(Array("ner_chunk_doc"))
-     .setOutputCol("sbert_embeddings")
- 
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")
+.setInputCols(Array("ner_chunk_doc"))
+.setOutputCol("sbert_embeddings")
+
 val icd10_resolver = SentenceEntityResolverModel
-     .pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models")
-     .setInputCols(Array("ner_chunk", "sbert_embeddings"))
-     .setOutputCol("resolution")
-     .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models")
+.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setOutputCol("resolution")
+.setDistanceFunction("EUCLIDEAN")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, icd10_resolver))
 

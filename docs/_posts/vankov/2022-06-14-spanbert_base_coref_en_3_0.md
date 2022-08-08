@@ -11,7 +11,7 @@ edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -59,6 +59,14 @@ val result = pipeline.fit(data).transform(data)
 
 result.selectExpr("explode(corefs) as coref").selectExpr("coref.result as token", "coref.metadata").show(truncate = false)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.coreference.spanbert").predict("""John told Mary he would like to borrow a book from her.""")
+```
+
 </div>
 
 ## Results
@@ -97,6 +105,6 @@ OntoNotes 5.0
 
 ```bash
 label score
-   f1  77.7
+f1  77.7
 ```
 https://github.com/mandarjoshi90/coref

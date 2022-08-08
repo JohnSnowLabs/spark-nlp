@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [ner, en, open_source]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,11 +37,11 @@ use_language_switcher: "Python-Scala-Java"
 ```python
 ...
 embeddings = BertEmbeddings.pretrained(name='bert_base_cased', lang='en') \
-    .setInputCols(['document', 'token']) \
-    .setOutputCol('embeddings')
+.setInputCols(['document', 'token']) \
+.setOutputCol('embeddings')
 ner_model = NerDLModel.pretrained("ner_dl_bert", "en") \
-        .setInputCols(["document", "token", "embeddings"]) \
-        .setOutputCol("ner")
+.setInputCols(["document", "token", "embeddings"]) \
+.setOutputCol("ner")
 ...        
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([['']]).toDF('text'))
@@ -52,11 +52,11 @@ result = pipeline_model.transform(spark.createDataFrame([["William Henry Gates I
 ```scala
 ...
 val embeddings = BertEmbeddings.pretrained(name="bert_base_cased", lang="en")
-    .setInputCols(Array('document', 'token'))
-    .setOutputCol('embeddings')
+.setInputCols(Array('document', 'token'))
+.setOutputCol('embeddings')
 val ner_model = NerDLModel.pretrained("ner_dl_bert", "en")
-        .setInputCols(Array("document", "token", "embeddings"))
-        .setOutputCol("ner")
+.setInputCols(Array("document", "token", "embeddings"))
+.setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter))
 

@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.4.1
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -48,26 +48,26 @@ This model is a [BioBERT-based](https://github.com/dmis-lab/biobert) classifier.
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 
 tokenizer = Tokenizer() \
-    .setInputCols(["document"]) \
-    .setOutputCol("token")
+.setInputCols(["document"]) \
+.setOutputCol("token")
 
 
 sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_gender_biobert", "en", "clinical/models")\
-  .setInputCols(["document","token"]) \
-  .setOutputCol("class") \
-  .setCaseSensitive(True) \
-  .setMaxSentenceLength(512)
+.setInputCols(["document","token"]) \
+.setOutputCol("class") \
+.setCaseSensitive(True) \
+.setMaxSentenceLength(512)
 
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
-    tokenizer,
-    sequenceClassifier    
+document_assembler, 
+tokenizer,
+sequenceClassifier    
 ])
 
 
@@ -78,18 +78,18 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documenter = new DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentences")
-    .setOutputCol("token")
+.setInputCols("sentences")
+.setOutputCol("token")
 
 
 val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_gender_biobert", "en", "clinical/models")
-    .setInputCols(Array("document","token"))
-    .setOutputCol("class")
+.setInputCols(Array("document","token"))
+.setOutputCol("class")
 
 
 val pipeline = new Pipeline().setStages(Array(documenter, tokenizer, sequenceClassifier))
@@ -151,12 +151,12 @@ This model is trained on more than four thousands clinical documents (radiology 
 
 
 ```bash
-       label  precision  recall  f1-score  support
-      Female       0.94    0.94      0.94      479
-        Male       0.88    0.86      0.87      245
-     Unknown       0.73    0.78      0.76      102
-    accuracy       0.89    0.89      0.89      826
-   macro-avg       0.85    0.86      0.85      826
+label  precision  recall  f1-score  support
+Female       0.94    0.94      0.94      479
+Male       0.88    0.86      0.87      245
+Unknown       0.73    0.78      0.76      102
+accuracy       0.89    0.89      0.89      826
+macro-avg       0.85    0.86      0.85      826
 weighted-avg       0.90    0.89      0.90      826
 ```
 <!--stackedit_data:

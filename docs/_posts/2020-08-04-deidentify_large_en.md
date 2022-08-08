@@ -12,7 +12,7 @@ spark_version: 2.4
 tags: [deidentify, en, clinical, licensed]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -38,9 +38,9 @@ nlp_pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, 
 result = nlp_pipeline.transform(spark.createDataFrame([['Patient AIQING, 25 month years-old , born in Beijing, was transfered to the The Johns Hopkins Hospital. Phone number: (541) 754-3010. MSW 100009632582 for his colonic polyps. He wants to know the results from them. He is not taking hydrochlorothiazide and is curious about his blood pressure. He said he has cut his alcohol back to 6 pack once a week. He has cut back his cigarettes to one time per week. P:   Follow up with Dr. Hobbs in 3 months. Gilbert P. Perez, M.D.']], ["text"]))
 
 obfuscation = DeIdentificationModel.pretrained("deidentify_large", "en", "clinical/models") \
-      .setInputCols(["sentence", "token", "ner_chunk"]) \
-      .setOutputCol("obfuscated") \
-      .setMode("obfuscate")
+.setInputCols(["sentence", "token", "ner_chunk"]) \
+.setOutputCol("obfuscated") \
+.setMode("obfuscate")
 
 deid_text = obfuscation.transform(result)
 ```
@@ -52,10 +52,10 @@ val data = Seq("Patient AIQING, 25 month years-old , born in Beijing, was transf
 val result = pipeline.fit(data).transform(data)
 
 val deid = DeIdentificationModel.pretrained("deidentify_large", "en", "clinical/models")
-        .setInputCols(Array("sentence", "token", "ner_chunk"))
-        .setOutputCol("obfuscated")
-        .setMode("obfuscate")
-    
+.setInputCols(Array("sentence", "token", "ner_chunk"))
+.setOutputCol("obfuscated")
+.setMode("obfuscate")
+
 val deid_text = new deid.transform(result)
 ```
 

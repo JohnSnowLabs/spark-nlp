@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,24 +40,24 @@ We used TFBertForSequenceClassification to train this model and used BertForSequ
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol('text') \
-    .setOutputCol('document')
+.setInputCol('text') \
+.setOutputCol('document')
 
 tokenizer = Tokenizer() \
-    .setInputCols(['document']) \
-    .setOutputCol('token')
+.setInputCols(['document']) \
+.setOutputCol('token')
 
 sequenceClassifier = BertForSequenceClassification \
-      .pretrained('bert_base_sequence_classifier_ag_news', 'en') \
-      .setInputCols(['token', 'document']) \
-      .setOutputCol('class') \
-      .setCaseSensitive(True) \
-      .setMaxSentenceLength(512)
+.pretrained('bert_base_sequence_classifier_ag_news', 'en') \
+.setInputCols(['token', 'document']) \
+.setOutputCol('class') \
+.setCaseSensitive(True) \
+.setMaxSentenceLength(512)
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
-    tokenizer,
-    sequenceClassifier    
+document_assembler, 
+tokenizer,
+sequenceClassifier    
 ])
 
 example = spark.createDataFrame([['Disney Comics was a comic book publishing company operated by The Walt Disney Company which ran from 1990 to 1993.']]).toDF("text")
@@ -65,18 +65,18 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document_assembler = DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 val tokenizer = Tokenizer() 
-    .setInputCols("document") 
-    .setOutputCol("token")
+.setInputCols("document") 
+.setOutputCol("token")
 
 val tokenClassifier = BertForSequenceClassification.pretrained("bert_base_sequence_classifier_ag_news", "en")
-      .setInputCols("document", "token")
-      .setOutputCol("class")
-      .setCaseSensitive(true)
-      .setMaxSentenceLength(512)
+.setInputCols("document", "token")
+.setOutputCol("class")
+.setCaseSensitive(true)
+.setMaxSentenceLength(512)
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
@@ -115,15 +115,15 @@ nlu.load("en.classify.bert_sequence.ag_news").predict("""Disney Comics was a com
 ## Benchmarking
 
 ```bash
-          precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-    Business       0.89      0.92      0.90      1852
-    Sci/Tech       0.92      0.90      0.91      1963
-      Sports       0.99      0.98      0.98      1922
-       World       0.94      0.95      0.95      1863
+Business       0.89      0.92      0.90      1852
+Sci/Tech       0.92      0.90      0.91      1963
+Sports       0.99      0.98      0.98      1922
+World       0.94      0.95      0.95      1863
 
-    accuracy                           0.94      7600
-   macro avg       0.94      0.94      0.94      7600
+accuracy                           0.94      7600
+macro avg       0.94      0.94      0.94      7600
 weighted avg       0.94      0.94      0.94      7600
 
 ```

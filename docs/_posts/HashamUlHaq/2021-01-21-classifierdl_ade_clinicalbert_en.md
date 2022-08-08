@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [en, licensed, classifier, clinical]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -19,9 +19,9 @@ use_language_switcher: "Python-Scala-Java"
 
 Classify text/sentence in two categories:
 
- `True` : The sentence is talking about a possible ADE
+`True` : The sentence is talking about a possible ADE
 
- `False` : The sentences doesn’t have any information about an ADE.
+`False` : The sentences doesn’t have any information about an ADE.
 
 ## Predicted Entities
 
@@ -44,16 +44,16 @@ document_assembler = DocumentAssembler().setInputCol("text").setOutputCol("docum
 tokenizer = Tokenizer().setInputCols(['document']).setOutputCol('token')
 
 embeddings = BertEmbeddings.pretrained('biobert_clinical_base_cased')\
-    .setInputCols(["document", 'token'])\
-    .setOutputCol("word_embeddings")
+.setInputCols(["document", 'token'])\
+.setOutputCol("word_embeddings")
 
 sentence_embeddings = SentenceEmbeddings() \
-      .setInputCols(["document", "word_embeddings"]) \
-      .setOutputCol("sentence_embeddings") \
-      .setPoolingStrategy("AVERAGE")
+.setInputCols(["document", "word_embeddings"]) \
+.setOutputCol("sentence_embeddings") \
+.setPoolingStrategy("AVERAGE")
 
 classifier = ClassifierDLModel.pretrained('classifierdl_ade_clinicalbert', 'en', 'clinical/models')\
-    .setInputCols(['document', 'token', 'sentence_embeddings']).setOutputCol('class')
+.setInputCols(['document', 'token', 'sentence_embeddings']).setOutputCol('class')
 
 nlp_pipeline = Pipeline(stages=[document_assembler, tokenizer, embeddings, sentence_embeddings, classifier])
 
@@ -103,12 +103,12 @@ Trained on a custom dataset comprising of CADEC, DRUG-AE and Twimed.
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-       False       0.95      0.92      0.93      6923
-        True       0.64      0.78      0.70      1359
+False       0.95      0.92      0.93      6923
+True       0.64      0.78      0.70      1359
 
-   micro avg       0.89      0.89      0.89      8282
-   macro avg       0.80      0.85      0.82      8282
+micro avg       0.89      0.89      0.89      8282
+macro avg       0.80      0.85      0.82      8282
 weighted avg       0.90      0.89      0.90      8282
 ```

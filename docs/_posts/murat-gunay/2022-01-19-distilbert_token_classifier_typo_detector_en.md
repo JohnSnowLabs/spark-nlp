@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,25 +36,25 @@ This model was imported from `Hugging Face` ([link](https://huggingface.co/m3hrd
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "en")\
-       .setInputCols(["document"])\
-       .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-      .setInputCols(["sentence"])\
-      .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 tokenClassifier = DistilBertForTokenClassification.pretrained("distilbert_token_classifier_typo_detector", "en")\
-  .setInputCols(["sentence",'token'])\
-  .setOutputCol("ner")
+.setInputCols(["sentence",'token'])\
+.setOutputCol("ner")
 
 ner_converter = NerConverter()\
-      .setInputCols(["sentence", "token", "ner"])\
-      .setOutputCol("ner_chunk")
-      
+.setInputCols(["sentence", "token", "ner"])\
+.setOutputCol("ner_chunk")
+
 nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter])
 text = """He had also stgruggled with addiction during his tine in Congress."""
 data = spark.createDataFrame([[text]]).toDF("text")
@@ -63,25 +63,25 @@ result = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "en")
-       .setInputCols(Array("document"))
-       .setOutputCol("sentence")
+.setInputCols(Array("document"))
+.setOutputCol("sentence")
 
 val tokenizer = Tokenizer()
-      .setInputCols(Array("sentence"))
-      .setOutputCol("token")
+.setInputCols(Array("sentence"))
+.setOutputCol("token")
 
 val tokenClassifier = DistilBertForTokenClassification.pretrained("distilbert_token_classifier_typo_detector", "en")
-  .setInputCols(Array("sentence","token"))
-  .setOutputCol("ner")
+.setInputCols(Array("sentence","token"))
+.setOutputCol("ner")
 
 val ner_converter = NerConverter()
-      .setInputCols(Array("sentence", "token", "ner"))
-      .setOutputCol("ner_chunk")
-      
+.setInputCols(Array("sentence", "token", "ner"))
+.setOutputCol("ner_chunk")
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))
 
 val example = Seq.empty["He had also stgruggled with addiction during his tine in Congress."].toDS.toDF("text")

@@ -206,7 +206,109 @@ class SentenceDetectorBoundsSpec extends AnyFlatSpec {
 
   }
 
-  private def checkBounds(text: String, bounds: Array[Sentence]) = {
+  "SentenceDetector" should "support different strategies for returning custom bounds" taggedAs FastTest in {
+    import ResourceHelper.spark.implicits._
+
+    def assertSentenceBounds(
+        sentences: String,
+        sd: SentenceDetector,
+        expected: Array[String]): Unit = {
+      val df = Seq(sentences).toDF("text")
+
+      val document = new DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+      val doc = document.transform(df)
+
+      val sentenced = sd
+        .transform(doc)
+        .select("sentence.result")
+        .as[Array[String]]
+        .first
+
+      assert(sentenced.length == expected.length)
+      sentenced.zip(expected).foreach { case (actual, expected) => assert(actual == expected) }
+    }
+
+    // Default Strategy: "none", replace all custom bounds
+    val sdCustomOnly = new SentenceDetector()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+      .setCustomBounds(Array("\\.", ";"))
+      .setUseCustomBoundsOnly(true)
+
+    val sentences =
+      "This is a sentence. This one uses custom bounds; As is this one;"
+
+    val expectedDefault =
+      Array("This is a sentence", "This one uses custom bounds", "As is this one")
+    assertSentenceBounds(sentences, sdCustomOnly, expectedDefault)
+
+    val sdMixed = new SentenceDetector()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+      .setCustomBounds(Array(";"))
+
+    val expectedDefaultMixed =
+      Array("This is a sentence.", "This one uses custom bounds", "As is this one")
+    assertSentenceBounds(sentences, sdMixed, expectedDefaultMixed)
+
+    // Strategy: "append", append sentence bound to match
+    val sdCustomOnlyAppend = new SentenceDetector()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+      .setCustomBounds(Array("\\.", ";"))
+      .setUseCustomBoundsOnly(true)
+      .setCustomBoundsStrategy("append")
+
+    val expectedAppend =
+      Array("This is a sentence.", "This one uses custom bounds;", "As is this one;")
+    assertSentenceBounds(sentences, sdCustomOnlyAppend, expectedAppend)
+
+    val sdMixedAppend = new SentenceDetector()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+      .setCustomBounds(Array(";"))
+      .setCustomBoundsStrategy("append")
+
+    assertSentenceBounds(sentences, sdMixedAppend, expectedAppend)
+
+    // Strategy: "prepend", append sentence bound to match
+    val subHeaderList =
+      """
+        |1. This is a list
+        |1.1 This is a subpoint
+        |2. Second thing
+        |2.2 Second subthing""".stripMargin
+
+    val sdPrepend = new SentenceDetector()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+      .setCustomBounds(Array(raw"\n[\d\.]+"))
+      .setUseCustomBoundsOnly(true)
+      .setCustomBoundsStrategy("prepend")
+
+    val expectedPrepend = Array(
+      "1. This is a list",
+      "1.1 This is a subpoint",
+      "2. Second thing",
+      "2.2 Second subthing")
+    assertSentenceBounds(subHeaderList, sdPrepend, expectedPrepend)
+
+  }
+
+  "SentenceDetector" should "throw an error if wrong custom bound strategy provided" taggedAs FastTest in {
+    intercept[IllegalArgumentException] {
+      new SentenceDetector()
+        .setInputCols(Array("document"))
+        .setOutputCol("sentence")
+        .setCustomBounds(Array("\\.", ";"))
+        .setUseCustomBoundsOnly(true)
+        .setCustomBoundsStrategy("no thanks.")
+    }
+  }
+
+  private def checkBounds(text: String, bounds: Array[Sentence]): Unit = {
     for (bound <- bounds) {
       assert(bound.content == text.substring(bound.start, bound.end + 1))
     }

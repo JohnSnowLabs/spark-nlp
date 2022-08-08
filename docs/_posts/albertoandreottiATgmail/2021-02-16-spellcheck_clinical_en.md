@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [spelling, spellchecker, clinical, orthographic, spell_checker, medical_spell_checker, spelling_corrector, en, licensed]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -33,41 +33,41 @@ In order to use this model, you need to setup a pipeline and feed tokens.
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 tokenizer = RecursiveTokenizer()\
-  .setInputCols(["document"])\
-  .setOutputCol("token")\
-  .setPrefixes(["\"", "(", "[", "\n"])\
-  .setSuffixes([".", ",", "?", ")","!", "'s"])
+.setInputCols(["document"])\
+.setOutputCol("token")\
+.setPrefixes(["\"", "(", "[", "\n"])\
+.setSuffixes([".", ",", "?", ")","!", "'s"])
 
 spellModel = ContextSpellCheckerModel\
-    .pretrained('spellcheck_clinical', 'en', 'clinical/models')\
-    .setInputCols("token")\
-    .setOutputCol("checked")
+.pretrained('spellcheck_clinical', 'en', 'clinical/models')\
+.setInputCols("token")\
+.setOutputCol("checked")
 
 finisher = Finisher()\
-    .setInputCols("checked")
+.setInputCols("checked")
 
 pipeline = Pipeline(
-    stages = [
-    documentAssembler,
-    tokenizer,
-    spellModel,
-    finisher
-  ])
+stages = [
+documentAssembler,
+tokenizer,
+spellModel,
+finisher
+])
 
 empty_ds = spark.createDataFrame([[""]]).toDF("text")
 lp = LightPipeline(pipeline.fit(empty_ds))
 
 example = ["Witth the hell of phisical terapy the patient was imbulated and on posoperative, the impatient tolerating a post curgical soft diet.",
-            "With paint wel controlled on orall pain medications, she was discharged too reihabilitation facilitay.",
-            "She is to also call the ofice if she has any ever greater than 101, or leeding form the surgical wounds.",
-            "Abdomen is sort, nontender, and nonintended.",
-            "Patient not showing pain or any wealth problems.",
-            "No cute distress"
-            
+"With paint wel controlled on orall pain medications, she was discharged too reihabilitation facilitay.",
+"She is to also call the ofice if she has any ever greater than 101, or leeding form the surgical wounds.",
+"Abdomen is sort, nontender, and nonintended.",
+"Patient not showing pain or any wealth problems.",
+"No cute distress"
+
 ]
 lp.annotate(example)
 
@@ -81,12 +81,12 @@ import nlu
 nlu.load("en.spell.clinical").predict(""")
 
 pipeline = Pipeline(
-    stages = [
-    documentAssembler,
-    tokenizer,
-    spellModel,
-    finisher
-  ])
+stages = [
+documentAssembler,
+tokenizer,
+spellModel,
+finisher
+])
 
 empty_ds = spark.createDataFrame([[""")
 ```
@@ -98,86 +98,86 @@ empty_ds = spark.createDataFrame([[""")
 ```bash
 
 [{'checked': ['With',
-   'the',
-   'help',
-   'of',
-   'physical',
-   'therapy',
-   'the',
-   'patient',
-   'was',
-   'ambulated',
-   'and',
-   'on',
-   'postoperative',
-   ',',
-   'the',
-   'patient',
-   'tolerating',
-   'a',
-   'post',
-   'surgical',
-   'soft',
-   'diet',
-   '.']},
- {'checked': ['With',
-   'pain',
-   'well',
-   'controlled',
-   'on',
-   'oral',
-   'pain',
-   'medications',
-   ',',
-   'she',
-   'was',
-   'discharged',
-   'to',
-   'rehabilitation',
-   'facility',
-   '.']},
- {'checked': ['She',
-   'is',
-   'to',
-   'also',
-   'call',
-   'the',
-   'office',
-   'if',
-   'she',
-   'has',
-   'any',
-   'fever',
-   'greater',
-   'than',
-   '101',
-   ',',
-   'or',
-   'bleeding',
-   'from',
-   'the',
-   'surgical',
-   'wounds',
-   '.']},
- {'checked': ['Abdomen',
-   'is',
-   'soft',
-   ',',
-   'nontender',
-   ',',
-   'and',
-   'nondistended',
-   '.']},
- {'checked': ['Patient',
-   'not',
-   'showing',
-   'pain',
-   'or',
-   'any',
-   'health',
-   'problems',
-   '.']},
- {'checked': ['No', 'acute', 'distress']}]
+'the',
+'help',
+'of',
+'physical',
+'therapy',
+'the',
+'patient',
+'was',
+'ambulated',
+'and',
+'on',
+'postoperative',
+',',
+'the',
+'patient',
+'tolerating',
+'a',
+'post',
+'surgical',
+'soft',
+'diet',
+'.']},
+{'checked': ['With',
+'pain',
+'well',
+'controlled',
+'on',
+'oral',
+'pain',
+'medications',
+',',
+'she',
+'was',
+'discharged',
+'to',
+'rehabilitation',
+'facility',
+'.']},
+{'checked': ['She',
+'is',
+'to',
+'also',
+'call',
+'the',
+'office',
+'if',
+'she',
+'has',
+'any',
+'fever',
+'greater',
+'than',
+'101',
+',',
+'or',
+'bleeding',
+'from',
+'the',
+'surgical',
+'wounds',
+'.']},
+{'checked': ['Abdomen',
+'is',
+'soft',
+',',
+'nontender',
+',',
+'and',
+'nondistended',
+'.']},
+{'checked': ['Patient',
+'not',
+'showing',
+'pain',
+'or',
+'any',
+'health',
+'problems',
+'.']},
+{'checked': ['No', 'acute', 'distress']}]
 ```
 
 {:.model-param}

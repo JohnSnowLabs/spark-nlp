@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [open_source, t5, seq2seq, question_answering, en]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -43,15 +43,15 @@ Either set the following tasks or have them inline with your input:
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("documents")
+.setInputCol("text") \
+.setOutputCol("documents")
 
 t5 = T5Transformer() \
-    .pretrained("google_t5_small_ssm_nq") \
-    .setTask("nq:")\
-    .setMaxOutputLength(200)\
-    .setInputCols(["documents"]) \
-    .setOutputCol("answer")
+.pretrained("google_t5_small_ssm_nq") \
+.setTask("nq:")\
+.setMaxOutputLength(200)\
+.setInputCols(["documents"]) \
+.setOutputCol("answer")
 
 pipeline = Pipeline().setStages([document_assembler, t5])
 results = pipeline.fit(data_df).transform(data_df)
@@ -61,14 +61,14 @@ results.select("answer.result").show(truncate=False)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("documents")
+.setInputCol("text")
+.setOutputCol("documents")
 
 val t5 = T5Transformer
-    .pretrained("google_t5_small_ssm_nq")
-    .setTask("nq:")
-    .setInputCols(Array("documents"))
-    .setOutputCol("answer")
+.pretrained("google_t5_small_ssm_nq")
+.setTask("nq:")
+.setInputCols(Array("documents"))
+.setOutputCol("answer")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, t5))
 

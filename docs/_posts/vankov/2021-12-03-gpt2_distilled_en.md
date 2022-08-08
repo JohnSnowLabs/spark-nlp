@@ -11,7 +11,7 @@ edition: Spark NLP 3.4.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,14 +37,14 @@ This is a distilled version which has fewer parameters and requires less computa
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \\
-    .setInputCol("text") \\
-    .setOutputCol("documents")
-    
+.setInputCol("text") \\
+.setOutputCol("documents")
+
 gpt2 = GPT2Transformer.pretrained("gpt2_distilled") \\
-    .setInputCols(["documents"]) \\
-    .setMaxOutputLength(50) \\
-    .setOutputCol("generation")
-    
+.setInputCols(["documents"]) \\
+.setMaxOutputLength(50) \\
+.setOutputCol("generation")
+
 pipeline = Pipeline().setStages([documentAssembler, gpt2])
 data = spark.createDataFrame([["My name is Leonardo."]]).toDF("text")
 result = pipeline.fit(data).transform(data)
@@ -52,17 +52,17 @@ result.select("summaries.generation").show(truncate=False)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("documents")
+.setInputCol("text")
+.setOutputCol("documents")
 
 val gpt2 = GPT2Transformer.pretrained("gpt2_distilled")
-    .setInputCols(Array("documents"))
-    .setMinOutputLength(10)
-    .setMaxOutputLength(50)
-    .setDoSample(false)
-    .setTopK(50)
-    .setNoRepeatNgramSize(3)
-    .setOutputCol("generation")
+.setInputCols(Array("documents"))
+.setMinOutputLength(10)
+.setMaxOutputLength(50)
+.setDoSample(false)
+.setTopK(50)
+.setNoRepeatNgramSize(3)
+.setOutputCol("generation")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, gpt2))
 val data = Seq("My name is Leonardo.").toDF("text")

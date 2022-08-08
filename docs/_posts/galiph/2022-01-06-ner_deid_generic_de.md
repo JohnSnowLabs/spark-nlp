@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.4
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -47,16 +47,16 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 ```python
 ...
 word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","de","clinical/models")\
-    .setInputCols(["sentence", "token"])\
-    .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 
 deid_ner = MedicalNerModel.pretrained("ner_deid_generic", "de", "clinical/models")\
-  .setInputCols(["sentence", "token", "embeddings"])\
-  .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"])\
+.setOutputCol("ner")
 
 ner_converter = NerConverter()\
-      .setInputCols(["sentence", "token", "ner"])\
-      .setOutputCol("ner_deid_generic_chunk")
+.setInputCols(["sentence", "token", "ner"])\
+.setOutputCol("ner_deid_generic_chunk")
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, deid_ner, ner_converter])
 
@@ -70,16 +70,16 @@ result = model.transform(spark.createDataFrame([[text]], ["text"]))
 ```scala
 ...
 val word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "de", "clinical/models")
-      .setInputCols(Array("sentence", "token"))
-      .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 val deid_ner = MedicalNerModel.pretrained("ner_deid_generic", "de", "clinical/models") 
-      .setInputCols(Array("sentence", "token", "embeddings")) 
-      .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings")) 
+.setOutputCol("ner")
 
 val ner_converter = new NerConverter()
-      .setInputCols(Array("sentence", "token", "ner"))
-      .setOutputCol("ner_deid_generic_chunk")
+.setInputCols(Array("sentence", "token", "ner"))
+.setOutputCol("ner_deid_generic_chunk")
 
 val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, deid_ner, ner_converter))
 
@@ -142,12 +142,12 @@ In-house annotated dataset
 
 
 ```bash
-     label      tp     fp      fn   total  precision  recall      f1
-   CONTACT    68.0   25.0    12.0    80.0     0.7312    0.85  0.7861
-      NAME  3965.0  294.0   274.0  4239.0      0.931  0.9354  0.9332
-      DATE  4049.0    2.0     0.0  4049.0     0.9995     1.0  0.9998
-        ID   185.0   11.0    32.0   217.0     0.9439  0.8525  0.8959
-  LOCATION  5065.0  414.0  1021.0  6086.0     0.9244  0.8322  0.8759
+label      tp     fp      fn   total  precision  recall      f1
+CONTACT    68.0   25.0    12.0    80.0     0.7312    0.85  0.7861
+NAME  3965.0  294.0   274.0  4239.0      0.931  0.9354  0.9332
+DATE  4049.0    2.0     0.0  4049.0     0.9995     1.0  0.9998
+ID   185.0   11.0    32.0   217.0     0.9439  0.8525  0.8959
+LOCATION  5065.0  414.0  1021.0  6086.0     0.9244  0.8322  0.8759
 PROFESSION   145.0    8.0   117.0   262.0     0.9477  0.5534  0.6988
-       AGE   458.0   13.0    18.0   476.0     0.9724  0.9622  0.9673
+AGE   458.0   13.0    18.0   476.0     0.9724  0.9622  0.9673
 ```

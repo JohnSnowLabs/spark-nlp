@@ -11,7 +11,7 @@ edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,14 +36,14 @@ The DeBERTa model was proposed in [[https://arxiv.org/abs/2006.03654 DeBERTa: De
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 embeddings = DeBertaEmbeddings.pretrained("deberta_v3_xsmall", "en") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 
 ```
 ```scala
 val embeddings = DeBertaEmbeddings.pretrained("deberta_v3_xsmall", "en")
-      .setInputCols("sentence", "token")
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token")
+.setOutputCol("embeddings")
 
 ```
 

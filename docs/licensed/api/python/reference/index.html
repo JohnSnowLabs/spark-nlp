@@ -4,9 +4,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>API Reference &#8212; Spark NLP 3.3.0 documentation</title>
+    <title>API Reference &#8212; Spark NLP 4.0.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -25,6 +25,7 @@
     href="../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../static/css/custom.css" />
 
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -39,7 +40,6 @@
     <link rel="shortcut icon" href="../static/fav.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="sparknlp_jsl.annotator" href="autosummary/sparknlp_jsl.annotator.html" />
     <link rel="prev" title="Getting Started" href="../getting_started/index.html" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="docsearch:language" content="en">
@@ -134,319 +134,7 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <div class="bd-toc-item active">
-    <ul class="nav bd-sidenav">
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.html">
-   sparknlp_jsl.annotator
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label for="toctree-checkbox-1">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.annotation_merger.html">
-     sparknlp_jsl.annotator.annotation_merger
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
-    <label for="toctree-checkbox-2">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.annotation_merger.AnnotationMerger.html">
-       sparknlp_jsl.annotator.annotation_merger.AnnotationMerger
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.assertion.html">
-     sparknlp_jsl.annotator.assertion
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.chunker.html">
-     sparknlp_jsl.annotator.chunker
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.classification.html">
-     sparknlp_jsl.annotator.classification
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.context.html">
-     sparknlp_jsl.annotator.context
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.deid.html">
-     sparknlp_jsl.annotator.deid
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.disambiguation.html">
-     sparknlp_jsl.annotator.disambiguation
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.embeddings.html">
-     sparknlp_jsl.annotator.embeddings
-    </a>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.generic_classifier.html">
-     sparknlp_jsl.annotator.generic_classifier
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
-    <label for="toctree-checkbox-3">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3 has-children">
-      <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.generic_classifier.generic_classifier.html">
-       sparknlp_jsl.annotator.generic_classifier.generic_classifier
-      </a>
-      <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
-      <label for="toctree-checkbox-4">
-       <i class="fas fa-chevron-down">
-       </i>
-      </label>
-      <ul>
-       <li class="toctree-l4">
-        <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.html">
-         sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.html">
-         sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel
-        </a>
-       </li>
-      </ul>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.merge.html">
-     sparknlp_jsl.annotator.merge
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.ner.html">
-     sparknlp_jsl.annotator.ner
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.normalizer.html">
-     sparknlp_jsl.annotator.normalizer
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.re.html">
-     sparknlp_jsl.annotator.re
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.resolution.html">
-     sparknlp_jsl.annotator.resolution
-    </a>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.router.html">
-     sparknlp_jsl.annotator.router
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
-    <label for="toctree-checkbox-5">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.router.Router.html">
-       sparknlp_jsl.annotator.router.Router
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.tf_graph_builder.html">
-     sparknlp_jsl.annotator.tf_graph_builder
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
-    <label for="toctree-checkbox-6">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.tf_graph_builder.MedicalGraphBuilderModel.html">
-       sparknlp_jsl.annotator.tf_graph_builder.MedicalGraphBuilderModel
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="autosummary/sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.html">
-       sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="autosummary/sparknlp_jsl.base.html">
-   sparknlp_jsl.base
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
-  <label for="toctree-checkbox-7">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl.base.FeaturesAssembler.html">
-     sparknlp_jsl.base.FeaturesAssembler
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="autosummary/sparknlp_jsl.training.html">
-   sparknlp_jsl.training
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
-  <label for="toctree-checkbox-8">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl.training.AnnotationToolJsonReader.html">
-     sparknlp_jsl.training.AnnotationToolJsonReader
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl.training.CantemistReader.html">
-     sparknlp_jsl.training.CantemistReader
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl.training.CodiEspReader.html">
-     sparknlp_jsl.training.CodiEspReader
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="autosummary/sparknlp_jsl._tf_graph_builders.graph_builders.html">
-   sparknlp_jsl._tf_graph_builders.graph_builders
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
-  <label for="toctree-checkbox-9">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl._tf_graph_builders.graph_builders.AssertionTFGraphBuilder.html">
-     sparknlp_jsl._tf_graph_builders.graph_builders.AssertionTFGraphBuilder
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl._tf_graph_builders.graph_builders.GenericClassifierTFGraphBuilder.html">
-     sparknlp_jsl._tf_graph_builders.graph_builders.GenericClassifierTFGraphBuilder
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl._tf_graph_builders.graph_builders.NerTFGraphBuilder.html">
-     sparknlp_jsl._tf_graph_builders.graph_builders.NerTFGraphBuilder
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl._tf_graph_builders.graph_builders.RelationExtractionTFGraphBuilder.html">
-     sparknlp_jsl._tf_graph_builders.graph_builders.RelationExtractionTFGraphBuilder
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl._tf_graph_builders.graph_builders.TFGraphBuilder.html">
-     sparknlp_jsl._tf_graph_builders.graph_builders.TFGraphBuilder
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl._tf_graph_builders.graph_builders.TFGraphBuilderFactory.html">
-     sparknlp_jsl._tf_graph_builders.graph_builders.TFGraphBuilderFactory
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl._tf_graph_builders.graph_builders.TensorflowAddonsNeeded.html">
-     sparknlp_jsl._tf_graph_builders.graph_builders.TensorflowAddonsNeeded
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl._tf_graph_builders.graph_builders.WrongTFVersion.html">
-     sparknlp_jsl._tf_graph_builders.graph_builders.WrongTFVersion
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="autosummary/sparknlp_jsl._tf_graph_builders.graph_builders.html">
-   sparknlp_jsl._tf_graph_builders.graph_builders
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
-  <label for="toctree-checkbox-10">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl._tf_graph_builders.graph_builders.AssertionTFGraphBuilder.html">
-     sparknlp_jsl._tf_graph_builders.graph_builders.AssertionTFGraphBuilder
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl._tf_graph_builders.graph_builders.GenericClassifierTFGraphBuilder.html">
-     sparknlp_jsl._tf_graph_builders.graph_builders.GenericClassifierTFGraphBuilder
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl._tf_graph_builders.graph_builders.NerTFGraphBuilder.html">
-     sparknlp_jsl._tf_graph_builders.graph_builders.NerTFGraphBuilder
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl._tf_graph_builders.graph_builders.RelationExtractionTFGraphBuilder.html">
-     sparknlp_jsl._tf_graph_builders.graph_builders.RelationExtractionTFGraphBuilder
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl._tf_graph_builders.graph_builders.TFGraphBuilder.html">
-     sparknlp_jsl._tf_graph_builders.graph_builders.TFGraphBuilder
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl._tf_graph_builders.graph_builders.TFGraphBuilderFactory.html">
-     sparknlp_jsl._tf_graph_builders.graph_builders.TFGraphBuilderFactory
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl._tf_graph_builders.graph_builders.TensorflowAddonsNeeded.html">
-     sparknlp_jsl._tf_graph_builders.graph_builders.TensorflowAddonsNeeded
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="autosummary/sparknlp_jsl._tf_graph_builders.graph_builders.WrongTFVersion.html">
-     sparknlp_jsl._tf_graph_builders.graph_builders.WrongTFVersion
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
-
+    
   </div>
 </nav>
   </div>
@@ -500,19 +188,19 @@
 <h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="autosummary/sparknlp_jsl.annotator.html#module-sparknlp_jsl.annotator" title="sparknlp_jsl.annotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="autosummary/sparknlp_jsl/annotator/index.html#module-sparknlp_jsl.annotator" title="sparknlp_jsl.annotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="autosummary/sparknlp_jsl.base.html#module-sparknlp_jsl.base" title="sparknlp_jsl.base"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sparknlp_jsl.base</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="autosummary/sparknlp_jsl/base/index.html#module-sparknlp_jsl.base" title="sparknlp_jsl.base"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sparknlp_jsl.base</span></code></a></p></td>
 <td><p>The FeaturesAssembler is used to collect features from different columns.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="autosummary/sparknlp_jsl.training.html#module-sparknlp_jsl.training" title="sparknlp_jsl.training"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sparknlp_jsl.training</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="autosummary/sparknlp_jsl/training/index.html#module-sparknlp_jsl.training" title="sparknlp_jsl.training"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sparknlp_jsl.training</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="autosummary/sparknlp_jsl._tf_graph_builders.graph_builders.html#module-sparknlp_jsl._tf_graph_builders.graph_builders" title="sparknlp_jsl._tf_graph_builders.graph_builders"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sparknlp_jsl._tf_graph_builders.graph_builders</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="autosummary/sparknlp_jsl/_tf_graph_builders/graph_builders/index.html#module-sparknlp_jsl._tf_graph_builders.graph_builders" title="sparknlp_jsl._tf_graph_builders.graph_builders"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sparknlp_jsl._tf_graph_builders.graph_builders</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="autosummary/sparknlp_jsl._tf_graph_builders.graph_builders.html#module-sparknlp_jsl._tf_graph_builders.graph_builders" title="sparknlp_jsl._tf_graph_builders.graph_builders"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sparknlp_jsl._tf_graph_builders.graph_builders</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#module-sparknlp_jsl._tf_graph_builders_1x.graph_builders" title="sparknlp_jsl._tf_graph_builders_1x.graph_builders"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sparknlp_jsl._tf_graph_builders_1x.graph_builders</span></code></a></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -535,13 +223,6 @@
           <p class="prev-next-title">Getting Started</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="autosummary/sparknlp_jsl.annotator.html" title="next page">
-  <div class="prev-next-info">
-      <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">sparknlp_jsl.annotator</p>
-  </div>
-  <i class="fas fa-angle-right"></i>
-  </a>
 </div>
               </footer>
               
@@ -559,13 +240,13 @@
   
   <div class="footer-item">
     <p class="copyright">
-    &copy; Copyright 2021, John Snow Labs.<br>
+    &copy; Copyright 2022, John Snow Labs.<br>
 </p>
   </div>
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

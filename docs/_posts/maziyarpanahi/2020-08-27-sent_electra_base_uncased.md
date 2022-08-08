@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [open_source, embeddings, en]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -33,8 +33,8 @@ Kevin Clark and Minh-Thang Luong and Quoc V. Le and Christopher D. Manning: [ELE
 ```python
 ...
 embeddings = BertSentenceEmbeddings.pretrained("sent_electra_base_uncased", "en") \
-      .setInputCols("sentence") \
-      .setOutputCol("sentence_embeddings")
+.setInputCols("sentence") \
+.setOutputCol("sentence_embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 result = pipeline_model.transform(spark.createDataFrame([['I hate cancer', "Antibiotics aren't painkiller"]], ["text"]))
@@ -43,8 +43,8 @@ result = pipeline_model.transform(spark.createDataFrame([['I hate cancer', "Anti
 ```scala
 ...
 val embeddings = BertSentenceEmbeddings.pretrained("sent_electra_base_uncased", "en")
-      .setInputCols("sentence")
-      .setOutputCol("sentence_embeddings")
+.setInputCols("sentence")
+.setOutputCol("sentence_embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, embeddings))
 val data = Seq("I hate cancer, "Antibiotics aren't painkiller").toDF("text")
 val result = pipeline.fit(data).transform(data)
@@ -66,8 +66,8 @@ embeddings_df
 ```bash
 	sentence	                        en_embed_sentence_electra_base_uncased_embeddings
 		
-      I hate cancer 	                  [0.18555310368537903, -0.1990899294614792, 0.2...
-      Antibiotics aren't painkiller 	[-0.23764970898628235, -0.21351191401481628, -...
+I hate cancer 	                  [0.18555310368537903, -0.1990899294614792, 0.2...
+Antibiotics aren't painkiller 	[-0.23764970898628235, -0.21351191401481628, -...
 ```
 
 {:.model-param}

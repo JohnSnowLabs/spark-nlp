@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.4.1
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -48,17 +48,17 @@ Deidentification NER (French) is a Named Entity Recognition model that annotates
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-        .setInputCol("text")\
-        .setOutputCol("document")
-        
+.setInputCol("text")\
+.setOutputCol("document")
+
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
-        .setInputCols(["document"])\
-        .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 
 tokenizer = Tokenizer()\
-        .setInputCols(["sentence"])\
-        .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 
 embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "fr")\
@@ -67,16 +67,16 @@ embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "fr")\
 
 
 clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity", "fr", "clinical/models")\
-        .setInputCols(["sentence","token", "word_embeddings"])\
-        .setOutputCol("ner")
+.setInputCols(["sentence","token", "word_embeddings"])\
+.setOutputCol("ner")
 
 
 nlpPipeline = Pipeline(stages=[
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        embeddings,
-        clinical_ner])
+documentAssembler,
+sentenceDetector,
+tokenizer,
+embeddings,
+clinical_ner])
 
 
 text = ["J'ai vu en consultation Michel Martinez (49 ans) adressé au Centre Hospitalier De Plaisir pour un diabète mal contrôlé avec des symptômes datant de Mars 2015."]
@@ -89,28 +89,28 @@ results = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-        .setInputCols("document")
-        .setOutputCol("sentence")
+.setInputCols("document")
+.setOutputCol("sentence")
 
 
 val tokenizer = new Tokenizer()
-        .setInputCols("sentence")
-        .setOutputCol("token")
+.setInputCols("sentence")
+.setOutputCol("token")
 
 
 val embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "fr")
-    .setInputCols(Array("sentence", "token"))
-    .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 
 val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity", "fr", "clinical/models")
-        .setInputCols(Array("sentence","token","embeddings"))
-        .setOutputCol("ner")
+.setInputCols(Array("sentence","token","embeddings"))
+.setOutputCol("ner")
 
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner))
@@ -204,22 +204,22 @@ nlu.load("fr.med_ner.deid_subentity").predict("""J'ai vu en consultation Michel 
 
 
 ```bash
-        label      tp     fp     fn   total  precision  recall      f1
-      PATIENT  1966.0  124.0  135.0  2101.0     0.9407  0.9357  0.9382
-     HOSPITAL   315.0   23.0   19.0   334.0      0.932  0.9431  0.9375
-         DATE  2605.0   31.0   49.0  2654.0     0.9882  0.9815  0.9849
- ORGANIZATION   503.0  142.0  159.0   662.0     0.7798  0.7598  0.7697
-         CITY  2296.0  370.0  351.0  2647.0     0.8612  0.8674  0.8643
-         MAIL    46.0    0.0    0.0    46.0        1.0     1.0     1.0
-       STREET    31.0    4.0    3.0    34.0     0.8857  0.9118  0.8986
-     USERNAME    91.0    1.0   14.0   105.0     0.9891  0.8667  0.9239
-          ZIP    33.0    0.0    0.0    33.0        1.0     1.0     1.0
+label      tp     fp     fn   total  precision  recall      f1
+PATIENT  1966.0  124.0  135.0  2101.0     0.9407  0.9357  0.9382
+HOSPITAL   315.0   23.0   19.0   334.0      0.932  0.9431  0.9375
+DATE  2605.0   31.0   49.0  2654.0     0.9882  0.9815  0.9849
+ORGANIZATION   503.0  142.0  159.0   662.0     0.7798  0.7598  0.7697
+CITY  2296.0  370.0  351.0  2647.0     0.8612  0.8674  0.8643
+MAIL    46.0    0.0    0.0    46.0        1.0     1.0     1.0
+STREET    31.0    4.0    3.0    34.0     0.8857  0.9118  0.8986
+USERNAME    91.0    1.0   14.0   105.0     0.9891  0.8667  0.9239
+ZIP    33.0    0.0    0.0    33.0        1.0     1.0     1.0
 MEDICALRECORD   100.0   11.0    2.0   102.0     0.9009  0.9804   0.939
-   PROFESSION   321.0   59.0   87.0   408.0     0.8447  0.7868  0.8147
-        PHONE   114.0    3.0    2.0   116.0     0.9744  0.9828  0.9785
-      COUNTRY   287.0   14.0   51.0   338.0     0.9535  0.8491  0.8983
-       DOCTOR   622.0    7.0    4.0   626.0     0.9889  0.9936  0.9912
-          AGE   370.0   52.0   71.0   441.0     0.8768   0.839  0.8575
-        macro       -      -      -       -          -       -  0.9197
-        micro       -      -      -       -          -       -  0.9154
+PROFESSION   321.0   59.0   87.0   408.0     0.8447  0.7868  0.8147
+PHONE   114.0    3.0    2.0   116.0     0.9744  0.9828  0.9785
+COUNTRY   287.0   14.0   51.0   338.0     0.9535  0.8491  0.8983
+DOCTOR   622.0    7.0    4.0   626.0     0.9889  0.9936  0.9912
+AGE   370.0   52.0   71.0   441.0     0.8768   0.839  0.8575
+macro       -      -      -       -          -       -  0.9197
+micro       -      -      -       -          -       -  0.9154
 ```

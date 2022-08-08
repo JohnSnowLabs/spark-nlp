@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [open_source, ner, en]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -38,16 +38,16 @@ Understand user commands and find relevant entities and actions and tag them to 
 ...
 
 embeddings = WordEmbeddingsModel.pretrained("glove_100d", "en")\
-          .setInputCols("sentence", "token") \
-          .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 
 ner = NerDLModel.pretrained("nerdl_snips_100d") \
-        .setInputCols(["sentence", "token", "embeddings"]) \
-        .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 
 ner_converter = NerConverter()\
-    .setInputCols(['document', 'token', 'ner']) \
-    .setOutputCol('ner_chunk')
+.setInputCols(['document', 'token', 'ner']) \
+.setOutputCol('ner_chunk')
 
 nlp_pipeline = Pipeline(stages=[document_assembler, sentencer, tokenizer, embeddings, ner, ner_converter])
 
@@ -61,14 +61,14 @@ annotations = l_model.fullAnnotate('book a spot for nona gray  myrtle and alison
 ...
 
 val embeddings = WordEmbeddingsModel.pretrained("glove_100d", "en")
-    .setInputCols(Array("sentence", 'token'))
-    .setOutputCol("embeddings")
+.setInputCols(Array("sentence", 'token'))
+.setOutputCol("embeddings")
 
 val ner = NerDLModel.pretrained('nerdl_snips_100d')
-    .setInputCols(Array('sentence', 'token', 'embeddings')).setOutputCol('ner')
+.setInputCols(Array('sentence', 'token', 'embeddings')).setOutputCol('ner')
 
 val ner_converter = NerConverter.setInputCols(Array('document', 'token', 'ner')) \
-    .setOutputCol('ner_chunk')
+.setOutputCol('ner_chunk')
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, ner, ner_converter))
 val data = Seq("book a spot for nona gray  myrtle and alison at a top-rated brasserie that is distant from wilson av on nov  the 4th  2030 that serves ouzeri").toDF("text")

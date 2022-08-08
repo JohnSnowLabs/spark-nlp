@@ -11,7 +11,7 @@ edition: Spark NLP 3.0.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -41,6 +41,14 @@ annotations.keys()
 val pipeline = new PretrainedPipeline("explain_document_lg", lang = "ko")
 val result = pipeline.fullAnnotate("안녕하세요, 환영합니다!")(0)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ko.explain_document").predict("""안녕하세요, 환영합니다!""")
+```
+
 </div>
 
 ## Results

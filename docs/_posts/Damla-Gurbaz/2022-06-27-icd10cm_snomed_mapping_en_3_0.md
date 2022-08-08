@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -44,6 +44,14 @@ val pipeline= new PretrainedPipeline("icd10cm_snomed_mapping", "en", "clinical/m
 
 val result= pipeline.fullAnnotate("R079 N4289 M62830")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.map_entity.icd10cm_to_snomed.pipe").predict("""R079 N4289 M62830""")
+```
+
 </div>
 
 ## Results

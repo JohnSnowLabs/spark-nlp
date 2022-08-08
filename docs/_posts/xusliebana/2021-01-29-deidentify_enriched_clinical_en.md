@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [deidentify, en, obfuscation, licensed]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -66,9 +66,9 @@ A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR 
 result = model.transform(spark.createDataFrame([[text]]).toDF("text"))
 
 obfuscation = DeIdentificationModel.pretrained("deidentify_enriched_clinical", "en", "clinical/models") \
-      .setInputCols(["sentence", "token", "ner_chunk"]) \
-      .setOutputCol("obfuscated") \
-      .setMode("obfuscate")
+.setInputCols(["sentence", "token", "ner_chunk"]) \
+.setOutputCol("obfuscated") \
+.setMode("obfuscate")
 
 obfusated_text = obfuscation.transform(result)
 
@@ -80,9 +80,9 @@ val data = Seq("A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendr
 val result = pipeline.fit(data).transform(data)
 
 val obfuscation = DeIdentificationModel.pretrained("deidentify_enriched_clinical", "en", "clinical/models")
-        .setInputCols(Array("sentence", "token", "ner_chunk"))
-        .setOutputCol("obfuscated")
-        .setMode("obfuscate")
+.setInputCols(Array("sentence", "token", "ner_chunk"))
+.setOutputCol("obfuscated")
+.setMode("obfuscate")
 
 val obfusatedText = obfuscation.transform(result)
 ```

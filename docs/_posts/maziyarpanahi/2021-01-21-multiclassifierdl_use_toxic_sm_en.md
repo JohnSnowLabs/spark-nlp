@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [open_source, en, text_classification]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -41,34 +41,34 @@ We removed the records without any labels in this model. (only 14K+ comments wer
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 use = UniversalSentenceEncoder.pretrained() \
- .setInputCols(["document"])\
- .setOutputCol("use_embeddings")
+.setInputCols(["document"])\
+.setOutputCol("use_embeddings")
 
 docClassifier = MultiClassifierDLModel.pretrained("multiclassifierdl_use_toxic_sm") \
-  .setInputCols(["use_embeddings"])\
-  .setOutputCol("category")\
-  .setThreshold(0.5)
+.setInputCols(["use_embeddings"])\
+.setOutputCol("category")\
+.setThreshold(0.5)
 
 pipeline = Pipeline(
-    stages = [
-        document,
-        use,
-        docClassifier
-    ])
+stages = [
+document,
+use,
+docClassifier
+])
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-   .setInputCol("text")
-   .setOutputCol("document")
-   .setCleanupMode("shrink")
+.setInputCol("text")
+.setOutputCol("document")
+.setCleanupMode("shrink")
 
 val use = UniversalSentenceEncoder.pretrained()
-  .setInputCols("document")
-  .setOutputCol("use_embeddings")
+.setInputCols("document")
+.setOutputCol("use_embeddings")
 
 val docClassifier = MultiClassifierDLModel.pretrained("multiclassifierdl_use_toxic_sm")
 .setInputCols("use_embeddings")
@@ -76,13 +76,13 @@ val docClassifier = MultiClassifierDLModel.pretrained("multiclassifierdl_use_tox
 .setThreshold(0.5f)
 
 val pipeline = new Pipeline()
-  .setStages(
-    Array(
-      documentAssembler,
-      use,
-      docClassifier
-    )
-  )
+.setStages(
+Array(
+documentAssembler,
+use,
+docClassifier
+)
+)
 ```
 
 
@@ -115,17 +115,17 @@ https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview
 
 ```bash
 Classification report: 
-               precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-           0       0.56      0.30      0.39       127
-           1       0.71      0.70      0.70       761
-           2       0.76      0.72      0.74       824
-           3       0.55      0.21      0.31       147
-           4       0.79      0.38      0.51        50
-           5       0.94      1.00      0.97      1504
+0       0.56      0.30      0.39       127
+1       0.71      0.70      0.70       761
+2       0.76      0.72      0.74       824
+3       0.55      0.21      0.31       147
+4       0.79      0.38      0.51        50
+5       0.94      1.00      0.97      1504
 
-   micro avg       0.83      0.80      0.81      3413
-   macro avg       0.72      0.55      0.60      3413
+micro avg       0.83      0.80      0.81      3413
+macro avg       0.72      0.55      0.60      3413
 weighted avg       0.81      0.80      0.80      3413
- samples avg       0.84      0.83      0.80      3413
+samples avg       0.84      0.83      0.80      3413
 ```

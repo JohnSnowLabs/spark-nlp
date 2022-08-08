@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [open_source, embeddings, en]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,8 +32,8 @@ This model contains a deep bidirectional transformer trained on Wikipedia and th
 ```python
 ...
 embeddings = BertSentenceEmbeddings.pretrained("sent_bert_base_uncased", "en") \
-      .setInputCols("sentence") \
-      .setOutputCol("sentence_embeddings")
+.setInputCols("sentence") \
+.setOutputCol("sentence_embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 result = pipeline_model.transform(spark.createDataFrame([['I hate cancer', "Antibiotics aren't painkiller"]], ["text"]))
@@ -42,8 +42,8 @@ result = pipeline_model.transform(spark.createDataFrame([['I hate cancer', "Anti
 ```scala
 ...
 val embeddings = BertSentenceEmbeddings.pretrained("sent_bert_base_uncased", "en")
-      .setInputCols("sentence")
-      .setOutputCol("sentence_embeddings")
+.setInputCols("sentence")
+.setOutputCol("sentence_embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, embeddings))
 val data = Seq("I hate cancer, "Antibiotics aren't painkiller").toDF("text")
 val result = pipeline.fit(data).transform(data)
@@ -65,8 +65,8 @@ embeddings_df
 ```bash
 	en_embed_sentence_bert_base_uncased_embeddings 	      sentence
 		
- 	[0.48797768354415894, 0.250575453042984, -0.24... 	I hate cancer
- 	[0.06506041437387466, 0.06032593920826912, -0.... 	Antibiotics aren't painkiller
+	[0.48797768354415894, 0.250575453042984, -0.24... 	I hate cancer
+	[0.06506041437387466, 0.06032593920826912, -0.... 	Antibiotics aren't painkiller
 ```
 
 {:.model-param}
