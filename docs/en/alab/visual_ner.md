@@ -55,9 +55,9 @@ To create a Visual NER project, users have to deploy at least one OCR server. An
 
 ## Visual NER Training And Preannotation
 
-With v3.4.0 with support for Visual NER Automated Preannotation and Model Training. 
+With release 3.4.0 came support for Visual NER Automated Preannotation and Model Training. 
 
-### Visual NER Training support
+### Visual NER Training Support
 
 Version 3.4.0 of the Annotation Lab offers the ability to train Visual NER models, apply active learning for automatic model training, and preannotate image-based tasks with existing models in order to accelerate annotation work.
 
