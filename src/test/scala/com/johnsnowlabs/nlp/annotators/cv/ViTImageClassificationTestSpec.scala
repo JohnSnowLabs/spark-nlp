@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.cv
 
 import com.johnsnowlabs.nlp.ImageAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
@@ -33,7 +33,7 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec {
     .option("dropInvalid", value = true)
     .load("src/test/resources/image/")
 
-  "ViTForImageClassification" should "predict correct ImageNet classes" taggedAs FastTest in {
+  "ViTForImageClassification" should "predict correct ImageNet classes" taggedAs SlowTest in {
 
     val imageAssembler = new ImageAssembler()
       .setInputCol("image")
@@ -77,7 +77,7 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec {
 
   }
 
-  "ViTForImageClassification" should "be serializable" taggedAs FastTest in {
+  "ViTForImageClassification" should "be serializable" taggedAs SlowTest in {
 
     val imageAssembler = new ImageAssembler()
       .setInputCol("image")
@@ -127,7 +127,7 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec {
 
   }
 
-  "ViTForImageClassification" should "benchmark" taggedAs FastTest in {
+  "ViTForImageClassification" should "benchmark" taggedAs SlowTest in {
 
     val imageAssembler = new ImageAssembler()
       .setInputCol("image")
