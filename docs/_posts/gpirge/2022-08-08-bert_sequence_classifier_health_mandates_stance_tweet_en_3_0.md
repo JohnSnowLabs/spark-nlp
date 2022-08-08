@@ -25,8 +25,8 @@ This model is intended for direct use as a classification model and the target c
 `Support`, `Disapproval`, `Not stated`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_MANDATES/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_health_mandates_stance_tweet_en_4.0.2_3.0_1659982585130.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -35,6 +35,7 @@ This model is intended for direct use as a classification model and the target c
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler() \
     .setInputCol('text') \
@@ -59,8 +60,7 @@ data = spark.createDataFrame(["""It's too dangerous to hold the RNC, but let's s
 """Just a quick update to my U.S. followers, I'll be making a stop in all 50 states this spring!  No tickets needed, just don't wash your hands, cough on each other.""",
 """Go to a restaurant no mask Do a food shop wear a mask INCONSISTENT No Masks No Masks.""",
 """But if schools close who is gonna occupy those graves Cause politiciansprotected smokers protected drunkardsprotected school kids amp teachers""",
-"""New title Maskhole I think Im going to use this very soon coronavirus."""
-], StringType()).toDF("text")
+"""New title Maskhole I think Im going to use this very soon coronavirus."""], StringType()).toDF("text")
                               
 result = pipeline.fit(data).transform(data)
 
