@@ -26,7 +26,7 @@ Then, you can use the CrunchBase Chunk Mapper to get information about that comp
 
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/finance/ER_EDGAR_CRUNCHBASE/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finel_crunchbase_companynames_en_1.0.0_3.2_1660041398986.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
