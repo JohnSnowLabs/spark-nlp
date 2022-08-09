@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Mapping Drugs With Their Corresponding Actions And Treatments- Spark NLP Model</title><meta name="description" content="DescriptionThis pretrained model maps drugs with their corresponding action and treatment. action refers to the function of the drug in various body systems,...">
-<link rel="canonical" href="/2022/04/04/drug_action_treatment_mapper_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Pipeline to Detect Alias in Financial texts- Spark NLP Model</title><meta name="description" content="DescriptionThis pretrained pipeline is built on the top of roberta_token_classifier_ticker model.Live DemoOpen in ColabDownloadHow to use         PythonScala...">
+<link rel="canonical" href="/2022/04/03/roberta_token_classifier_ticker_pipeline_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,25 +406,21 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/Ahmetemintek/2022-04-04-drug_action_treatment_mapper_en_3_0.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/murat-gunay/2022-04-03-roberta_token_classifier_ticker_pipeline_en_3_0.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Apr 04, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-04T00:00:00+00:00"></div><header class="main-docs"><h1>Mapping Drugs With Their Corresponding Actions And Treatments</h1></header></div><meta itemprop="headline" content="Mapping Drugs With Their Corresponding Actions And Treatments"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>chunkmapping</li><li>chunkmapper</li><li>drug</li><li>action</li><li>treatment</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-04T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,chunkmapping,chunkmapper,drug,action,treatment,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Apr 03, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-03T00:00:00+00:00"></div><header class="main-docs"><h1>Pipeline to Detect Alias in Financial texts</h1></header></div><meta itemprop="headline" content="Pipeline to Detect Alias in Financial texts"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>ticker</li><li>roberta</li><li>pipeline</li><li>finance</li><li>ner</li><li>en</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-04-03T00:00:00+00:00">
+    <meta itemprop="keywords" content="ticker,roberta,pipeline,finance,ner,en,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This pretrained model maps drugs with their corresponding <code class="language-plaintext highlighter-rouge">action</code> and <code class="language-plaintext highlighter-rouge">treatment</code>. <code class="language-plaintext highlighter-rouge">action</code> refers to the function of the drug in various body systems, <code class="language-plaintext highlighter-rouge">treatment</code> refers to which disease the drug is used to treat</p>
+<p>This pretrained pipeline is built on the top of <a href="https://nlp.johnsnowlabs.com/2021/12/27/roberta_token_classifier_ticker_en.html">roberta_token_classifier_ticker</a> model.</p>
 
-<h2 id="predicted-entities">Predicted Entities</h2>
-
-<p><code class="language-plaintext highlighter-rouge">action</code>, <code class="language-plaintext highlighter-rouge">treatment</code></p>
-
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/drug_action_treatment_mapper_en_3.4.2_3.0_1649098201229.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/public/NER_TICKER/" class="button button-orange">Live Demo</a>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_token_classifier_ticker_pipeline_en_3.4.1_3.0_1648983578095.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -432,99 +428,25 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"roberta_token_classifier_ticker_pipeline"</span><span class="p">,</span> <span class="n">lang</span> <span class="o">=</span> <span class="s">"en"</span><span class="p">)</span>
 
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
-
-<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
-
-<span class="n">ner</span> <span class="o">=</span>  <span class="n">MedicalBertForTokenClassifier</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_token_classifier_drug_development_trials"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">,</span><span class="s">"sentence"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
-
-<span class="n">nerconverter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"drug"</span><span class="p">)</span>
-
-<span class="n">chunkerMapper</span> <span class="o">=</span> <span class="n">ChunkMapperModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"drug_action_treatment_mapper"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"drug"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setRel</span><span class="p">(</span><span class="s">"treatment"</span><span class="p">)</span> <span class="c1">#or action
-</span>
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">document_assembler</span><span class="p">,</span>
-                                <span class="n">sentence_detector</span><span class="p">,</span>
-                                <span class="n">tokenizer</span><span class="p">,</span>
-                                <span class="n">ner</span><span class="p">,</span>
-                                <span class="n">nerconverter</span><span class="p">,</span>
-                                <span class="n">chunkerMapper</span><span class="p">])</span>
-
-<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"""The patient is a 71-year-old female patient of Dr. X. and she was given Aklis and Dermovate.
-Cureent Medications: Diprivan, Proventil """</span><span class="p">]</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span><span class="n">text</span><span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"I am going to buy 100 shares of MFST tomorrow instead of AAPL."</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"roberta_token_classifier_ticker_pipeline"</span><span class="o">,</span> <span class="n">lang</span> <span class="k">=</span> <span class="s">"en"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">sentence_detector</span> <span class="k">=</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">ner</span> <span class="k">=</span>  <span class="nv">MedicalBertForTokenClassifier</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_token_classifier_drug_development_trials"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span><span class="s">"sentence"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">nerconverter</span> <span class="k">=</span> <span class="nc">NerConverterInternal</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"drug"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">chunkerMapper</span> <span class="k">=</span> <span class="nv">ChunkMapperModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"drug_action_treatment_mapper"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"drug"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"relations"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setRel</span><span class="o">(</span><span class="s">"treatment"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span>  <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">ner</span><span class="o">,</span> <span class="n">nerconverter</span><span class="o">,</span> <span class="n">chunkerMapper</span> <span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">text_data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"""The patient is a 71-year-old female patient of Dr. X. and she was given Aklis and Dermovate.
-Cureent Medications: Diprivan, Proventil"""</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">res</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">test_data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">test_data</span><span class="o">)</span>
+<span class="nv">pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"I am going to buy 100 shares of MFST tomorrow instead of AAPL."</span><span class="o">)</span>
 </code></pre></div>  </div>
-
-  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
-<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.map_entity.drug_to_action_treatment"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""
-The patient is a 71-year-old female patient of Dr. X. and she was given Aklis and Dermovate.
-Cureent Medications: Diprivan, Proventil
-"""</span><span class="p">)</span>
-</code></pre></div>  </div>
-
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------+------------------+--------------------------------------------------------------+
-|Drug     |Treats            |Pharmaceutical Action                                         |
-+---------+------------------+--------------------------------------------------------------+
-|Aklis    |Hyperlipidemia    |Hypertension:::Diabetic Kidney Disease:::Cerebrovascular...   |
-|Dermovate|Lupus             |Discoid Lupus Erythematosus:::Empeines:::Psoriasis:::Eczema...|
-|Diprivan |Infection         |Laryngitis:::Pneumonia:::Pharyngitis                          |
-|Proventil|Addison<span class="s1">'s Disease |Allergic Conjunctivitis:::Anemia:::Ankylosing Spondylitis     |
-+---------+------------------+--------------------------------------------------------------+
-</span></code></pre></div></div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----+---------+
+|chunk|ner_label|
++-----+---------+
+|MFST |TICKER   |
+|AAPL |TICKER   |
++-----+---------+
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -532,27 +454,23 @@ Cureent Medications: Diprivan, Proventil
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>drug_action_treatment_mapper</td>
+      <td>roberta_token_classifier_ticker_pipeline</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>pipeline</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 3.4.2+</td>
+      <td>Spark NLP 3.4.1+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Licensed</td>
+      <td>Open Source</td>
     </tr>
     <tr>
       <td>Edition:</td>
       <td>Official</td>
-    </tr>
-    <tr>
-      <td>Input Labels:</td>
-      <td>[ner_chunk]</td>
-    </tr>
-    <tr>
-      <td>Output Labels:</td>
-      <td>[mappings]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -560,11 +478,22 @@ Cureent Medications: Diprivan, Proventil
     </tr>
     <tr>
       <td>Size:</td>
-      <td>8.7 MB</td>
+      <td>465.3 MB</td>
     </tr>
   </tbody>
 </table>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-04-04T00:00:00+00:00"><!-- start custom article footer snippet -->
+
+<h2 id="included-models">Included Models</h2>
+
+<ul>
+  <li>DocumentAssembler</li>
+  <li>SentenceDetector</li>
+  <li>TokenizerModel</li>
+  <li>RoBertaForTokenClassification</li>
+  <li>NerConverter</li>
+  <li>Finisher</li>
+</ul>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-04-03T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -689,7 +618,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/04/03/roberta_token_classifier_ticker_pipeline_en_3_0.html">Pipeline to Detect Alias in Financial texts</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/04/04/normalized_section_header_mapper_en_3_0.html">Normalizing Section Headers in Clinical Notes</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/04/02/spellcheck_dl_en_2_4.html">Context Spell Checker for English</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/04/04/drug_action_treatment_mapper_en_3_0.html">Mapping Drugs With Their Corresponding Actions And Treatments</a></div></div></div>
 
 </div>
 </div>

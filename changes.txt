@@ -1,2 +1,2 @@
-docs/_posts/murat-gunay/2022-04-03-roberta_token_classifier_ticker_pipeline_en_3_0.md
-docs/_posts/murat-gunay/2022-04-03-roberta_token_classifier_ticker_pipeline_en_3_0.md
+docs/_posts/ahmedlone127/2022-06-19-roberta_token_classifier_ticker_pipeline_en_3_0.md
+docs/_posts/ahmedlone127/2022-06-19-roberta_token_classifier_ticker_pipeline_en_3_0.md
