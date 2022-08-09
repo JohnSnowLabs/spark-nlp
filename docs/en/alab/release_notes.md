@@ -6,7 +6,7 @@ seotitle: Release Notes | John Snow Labs
 title: Release Notes
 permalink: /docs/en/alab/release_notes
 key: docs-training
-modify_date: "2022-04-05"
+modify_date: "2022-08-09"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
@@ -19,14 +19,14 @@ sidebar:
 
 Release date: **05-08-2022**
 
-We are very excited to release Annotation Lab v3.4.1 with Models Hub and Visual NER bug fixes. As always known security and bug fixes are also included with it. Here are the highlights of this release:
+Annotation Lab v3.4.1 has beed released and it includes Models Hub and Visual NER bug fixes. Here are the highlights of this release:
 
 ### Highlights
 - Confidence score of labels predicted by Visual NER model is now displayed in the labeling page.
-- Issue regarding, deleting of a task in Visual NER project deletes all the images of a project has been fixed.
-- Jumpy screen issue while annotates Visual NER is resolved.
+- Missing image issues that appeared when deleting a task in Visual NER project has been fixed.
+- Jumpy screen on annotating Visual NER tasks is resolved.
 - Addition of new models supported in Spark NLP 4.0.0
-- Upgrade tensorflow to 2.7.1 and pyspark to 3.2.0
+- Upgrade TensorFlow to 2.7.1 and PySpark to 3.2.0
 
 
 </div><div class="prev_ver h3-box" markdown="1">
