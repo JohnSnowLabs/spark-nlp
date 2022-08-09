@@ -59,7 +59,7 @@ import java.io.File
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddingsTestSpec.scala ElmoEmbeddingsTestSpec]].
   *
-  * '''Sources:'''
+  * '''References:'''
   *
   * [[https://tfhub.dev/google/elmo/3]]
   *

@@ -53,7 +53,7 @@ import java.io.File
   * The default model is `"spanbert_base_coref"`, if no name is provided. For available pretrained
   * models please see the [[https://nlp.johnsnowlabs.com/models Models Hub]].
   *
-  * '''Sources:'''
+  * '''References:'''
   *   - [[https://github.com/mandarjoshi90/coref]]
   *
   * ==Example==
