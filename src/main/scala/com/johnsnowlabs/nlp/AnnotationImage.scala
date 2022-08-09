@@ -21,15 +21,24 @@ import org.apache.spark.sql.types._
 
 import scala.collection.Map
 
-/** represents image annotator's output parts and their details
+/** Represents [[ImageAssembler]]'s output parts and their details
+  *
   * @param annotatorType
+  *   Image annotator type
   * @param origin
+  *   The origin of the image
   * @param height
+  *   Height of the image in pixels
   * @param width
+  *   Width of the image in pixels
   * @param nChannels
+  *   Number of image channels
   * @param mode
+  *   OpenCV-compatible type
   * @param result
+  *   Result of the annotation
   * @param metadata
+  *   Metadata of the annotation
   */
 case class AnnotationImage(
     annotatorType: String,
