@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Conventions Classification
+title: Human Rights Articles Classification
 author: John Snow Labs
 name: legclf_human_rights
 date: 2022-08-09
