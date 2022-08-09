@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Extract Tickers on Financial Texts
+title: Extract Tickers on Financial Texts (RoBerta)
 author: John Snow Labs
 name: finner_roberta_ticker
 date: 2022-08-09
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model aims to detect Trading Symbols / Tickers in texts. You can then use Chunk Mappers to get more information about the company that ticker belongs to.
+This model aims to detect Trading Symbols / Tickers in texts. You can then use Chunk Mappers to get more information about the company that ticker belongs to. This is a RoBerta-based model, you can find other lighter versions of this model in Models Hub.
 
 ## Predicted Entities
 
