@@ -4,7 +4,7 @@ title: Generic Deidentification NER
 author: John Snow Labs
 name: legner_deid
 date: 2022-08-09
-tags: [en, finance, ner, deid, licensed]
+tags: [en, legal, ner, deid, licensed]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Legal 1.0.0
