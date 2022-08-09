@@ -1,2 +1,2 @@
-docs/_posts/gadde5300/2022-05-03-roberta_ner_roberta_ticker_en_3_0.md
-docs/_posts/gadde5300/2022-05-03-roberta_ner_roberta_ticker_en_3_0.md
+docs/_posts/murat-gunay/2021-12-27-roberta_token_classifier_ticker_en.md
+docs/_posts/murat-gunay/2021-12-27-roberta_token_classifier_ticker_en.md
