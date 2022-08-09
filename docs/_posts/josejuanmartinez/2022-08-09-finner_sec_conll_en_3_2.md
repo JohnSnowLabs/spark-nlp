@@ -26,7 +26,7 @@ Financial documents may be long, going over the limits of most of the standard D
 `ORG`, `LOC`, `PER`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/finance/NER_SEC/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_sec_conll_en_1.0.0_3.2_1660034401877.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
