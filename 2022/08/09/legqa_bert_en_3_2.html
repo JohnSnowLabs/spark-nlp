@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Pipeline to Resolve Medication Codes- Spark NLP Model</title><meta name="description" content="DescriptionA pretrained resolver pipeline to extract medications and resolve RxNorm, UMLS, NDC, SNOMED CT codes, and action/treatments in clinical text.Actio...">
-<link rel="canonical" href="/2022/08/01/medication_resolver_transform_pipeline_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Legal Question Answering (Bert)- Spark NLP Model</title><meta name="description" content="DescriptionLegal Bert-based Question Answering model, trained on squad-v2, finetuned on proprietary Legal questions and answers.Predicted EntitiesLive DemoOp...">
+<link rel="canonical" href="/2022/08/09/legqa_bert_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,25 +406,23 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/galiph/2022-08-01-medication_resolver_transform_pipeline_en_3_0.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-09-legqa_bert_en_3_2.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 01, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-01T00:00:00+00:00"></div><header class="main-docs"><h1>Pipeline to Resolve Medication Codes</h1></header></div><meta itemprop="headline" content="Pipeline to Resolve Medication Codes"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>resolver</li><li>ndc</li><li>snomed</li><li>rxnorm</li><li>umls</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-01T00:00:00+00:00">
-    <meta itemprop="keywords" content="resolver,ndc,snomed,rxnorm,umls,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 09, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-09T00:00:00+00:00"></div><header class="main-docs"><h1>Legal Question Answering (Bert)</h1></header></div><meta itemprop="headline" content="Legal Question Answering (Bert)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>qa</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-09T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,legal,qa,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>A pretrained resolver pipeline to extract medications and resolve RxNorm, UMLS, NDC, SNOMED CT codes, and action/treatments in clinical text.</p>
+<p>Legal Bert-based Question Answering model, trained on squad-v2, finetuned on proprietary Legal questions and answers.</p>
 
-<p>Action/treatments are available for branded medication, and SNOMED codes are available for non-branded medication.</p>
-
-<p>This pipeline can be used with Spark transform. You can use <code class="language-plaintext highlighter-rouge">medication_resolver_pipeline</code> as Lightpipeline (with <code class="language-plaintext highlighter-rouge">annotate/fulfullAnnotate</code>).</p>
+<h2 id="predicted-entities">Predicted Entities</h2>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/medication_resolver_transform_pipeline_en_4.0.0_3.0_1659378072648.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legqa_bert_en_1.0.0_3.2_1660054695560.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -432,36 +430,33 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
-<span class="n">medication_resolver_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"medication_resolver_transform_pipeline"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
-<span class="n">text</span> <span class="o">=</span> <span class="s">"""The patient was prescribed Mycobutn 150 MG, Salagen 5 MG oral tablet, 
-The other patient is given Lescol 40 MG and Lidoderm 0.05 MG/MG, triazolam 0.125 MG Oral Tablet, metformin hydrochloride 1000 MG Oral Tablet"""</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">MultiDocumentAssembler</span><span class="p">()</span> \ 
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">medication_resolver_pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">spanClassifier</span> <span class="o">=</span> <span class="n">BertForQuestionAnswering</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legqa_bert"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+<span class="n">document_assembler</span><span class="p">,</span>
+<span class="n">spanClassifier</span>
+<span class="p">])</span>
+
+<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"Who was subjected to torture?"</span><span class="p">,</span> <span class="s">"The applicant submitted that her husband was subjected to treatment amounting to abuse whilst in the custody of police."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">'answer.result'</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
-<span class="k">val</span> <span class="nv">medication_resolver_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"medication_resolver_transform_pipeline"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"The patient was prescribed Mycobutn 150 MG, Salagen 5 MG oral tablet, 
-The other patient is given Lescol 40 MG and Lidoderm 0.05 MG/MG, triazolam 0.125 MG Oral Tablet, metformin hydrochloride 1000 MG Oral Tablet"</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">medication_resolver_pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
-</code></pre></div>  </div>
-
-  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">+-------------------------------------------+---------+-------+-------------------+------------------------------------------+--------+---------+-----------+-------------+</span>
-<span class="o">|</span><span class="n">chunk</span>                                      <span class="o">|</span><span class="n">ner_label</span><span class="o">|</span><span class="n">RxNorm</span> <span class="o">|</span><span class="n">Action</span>             <span class="o">|</span><span class="n">Treatment</span>                                 <span class="o">|</span><span class="n">UMLS</span>    <span class="o">|</span><span class="n">SNOMED_CT</span><span class="o">|</span><span class="n">NDC_Product</span><span class="o">|</span><span class="n">NDC_Package</span>  <span class="o">|</span>
-<span class="o">+-------------------------------------------+---------+-------+-------------------+------------------------------------------+--------+---------+-----------+-------------+</span>
-<span class="o">|</span><span class="n">Mycobutn</span> <span class="mi">150</span> <span class="n">MG</span>                            <span class="o">|</span><span class="n">DRUG</span>     <span class="o">|</span><span class="mi">103899</span> <span class="o">|</span><span class="n">Antimiycobacterials</span><span class="o">|</span><span class="n">Infection</span>                                 <span class="o">|</span><span class="n">C0353536</span><span class="o">|</span><span class="n">NONE</span>     <span class="o">|</span><span class="mi">00013</span><span class="o">-</span><span class="mi">5301</span> <span class="o">|</span><span class="mi">00013</span><span class="o">-</span><span class="mi">5301</span><span class="o">-</span><span class="mi">17</span><span class="o">|</span>
-<span class="o">|</span><span class="n">Salagen</span> <span class="mi">5</span> <span class="n">MG</span> <span class="n">oral</span> <span class="n">tablet</span>                   <span class="o">|</span><span class="n">DRUG</span>     <span class="o">|</span><span class="mi">1000915</span><span class="o">|</span><span class="n">Antiglaucomatous</span>   <span class="o">|</span><span class="n">Cancer</span>                                    <span class="o">|</span><span class="n">C0361693</span><span class="o">|</span><span class="n">NONE</span>     <span class="o">|</span><span class="mi">59212</span><span class="o">-</span><span class="mi">0705</span> <span class="o">|</span><span class="mi">59212</span><span class="o">-</span><span class="mi">0705</span><span class="o">-</span><span class="mi">10</span><span class="o">|</span>
-<span class="o">|</span><span class="n">Lescol</span> <span class="mi">40</span> <span class="n">MG</span>                               <span class="o">|</span><span class="n">DRUG</span>     <span class="o">|</span><span class="mi">103919</span> <span class="o">|</span><span class="n">Hypocholesterolemic</span><span class="o">|</span><span class="n">Heterozygous</span> <span class="n">Familial</span> <span class="n">Hypercholesterolemia</span><span class="o">|</span><span class="n">C0353573</span><span class="o">|</span><span class="n">NONE</span>     <span class="o">|</span><span class="mi">00078</span><span class="o">-</span><span class="mi">0234</span> <span class="o">|</span><span class="mi">00078</span><span class="o">-</span><span class="mi">0234</span><span class="o">-</span><span class="mi">05</span><span class="o">|</span>
-<span class="o">|</span><span class="n">Lidoderm</span> <span class="mf">0.05</span> <span class="n">MG</span><span class="o">/</span><span class="n">MG</span>                        <span class="o">|</span><span class="n">DRUG</span>     <span class="o">|</span><span class="mi">1011705</span><span class="o">|</span><span class="n">Anesthetic</span>         <span class="o">|</span><span class="n">Pain</span>                                      <span class="o">|</span><span class="n">C0875706</span><span class="o">|</span><span class="n">NONE</span>     <span class="o">|</span><span class="mi">00247</span><span class="o">-</span><span class="mi">2129</span> <span class="o">|</span><span class="mi">00247</span><span class="o">-</span><span class="mi">2129</span><span class="o">-</span><span class="mi">30</span><span class="o">|</span>
-<span class="o">|</span><span class="n">triazolam</span> <span class="mf">0.125</span> <span class="n">MG</span> <span class="n">Oral</span> <span class="n">Tablet</span>             <span class="o">|</span><span class="n">DRUG</span>     <span class="o">|</span><span class="mi">198317</span> <span class="o">|</span><span class="n">NONE</span>               <span class="o">|</span><span class="n">NONE</span>                                      <span class="o">|</span><span class="n">C0690642</span><span class="o">|</span><span class="mi">373981005</span><span class="o">|</span><span class="mi">00054</span><span class="o">-</span><span class="mi">4858</span> <span class="o">|</span><span class="mi">00054</span><span class="o">-</span><span class="mi">4858</span><span class="o">-</span><span class="mi">25</span><span class="o">|</span>
-<span class="o">|</span><span class="n">metformin</span> <span class="n">hydrochloride</span> <span class="mi">1000</span> <span class="n">MG</span> <span class="n">Oral</span> <span class="n">Tablet</span><span class="o">|</span><span class="n">DRUG</span>     <span class="o">|</span><span class="mi">861004</span> <span class="o">|</span><span class="n">NONE</span>               <span class="o">|</span><span class="n">NONE</span>                                      <span class="o">|</span><span class="n">C0978482</span><span class="o">|</span><span class="mi">376701008</span><span class="o">|</span><span class="mi">00093</span><span class="o">-</span><span class="mi">7214</span> <span class="o">|</span><span class="mi">00185</span><span class="o">-</span><span class="mi">0221</span><span class="o">-</span><span class="mi">01</span><span class="o">|</span>
-<span class="o">+-------------------------------------------+---------+-------+-------------------+------------------------------------------+--------+---------+-----------+-------------+</span>
-
-</code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="sb">`</span>her husband<span class="sb">`</span>
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -469,15 +464,11 @@ The other patient is given Lescol 40 MG and Lidoderm 0.05 MG/MG, triazolam 0.125
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>medication_resolver_transform_pipeline</td>
-    </tr>
-    <tr>
-      <td>Type:</td>
-      <td>pipeline</td>
+      <td>legqa_bert</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 4.0.0+</td>
+      <td>Spark NLP for Legal 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -488,44 +479,36 @@ The other patient is given Lescol 40 MG and Lidoderm 0.05 MG/MG, triazolam 0.125
       <td>Official</td>
     </tr>
     <tr>
+      <td>Input Labels:</td>
+      <td>[document_question, document_context]</td>
+    </tr>
+    <tr>
+      <td>Output Labels:</td>
+      <td>[answer]</td>
+    </tr>
+    <tr>
       <td>Language:</td>
       <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>3.1 GB</td>
+      <td>407.9 MB</td>
+    </tr>
+    <tr>
+      <td>Case sensitive:</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>Max sentence length:</td>
+      <td>512</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="included-models">Included Models</h2>
+<h2 id="references">References</h2>
 
-<ul>
-  <li>DocumentAssembler</li>
-  <li>SentenceDetectorDLModel</li>
-  <li>TokenizerModel</li>
-  <li>WordEmbeddingsModel</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverterInternalModel</li>
-  <li>TextMatcherModel</li>
-  <li>ChunkMergeModel</li>
-  <li>ChunkMapperModel</li>
-  <li>ChunkMapperFilterer</li>
-  <li>Chunk2Doc</li>
-  <li>BertSentenceEmbeddings</li>
-  <li>SentenceEntityResolverModel</li>
-  <li>ResolverMerger</li>
-  <li>Doc2Chunk</li>
-  <li>ResolverMerger</li>
-  <li>ChunkMapperModel</li>
-  <li>ChunkMapperModel</li>
-  <li>ChunkMapperModel</li>
-  <li>Doc2Chunk</li>
-  <li>ChunkMapperModel</li>
-  <li>ChunkMapperModel</li>
-  <li>ChunkMapperModel</li>
-</ul>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-01T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>Trained on squad-v2, finetuned on proprietary Legal questions and answers.</p>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-09T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -650,7 +633,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/01/bert_sequence_classifier_covid_sentiment_en_3_0.html">COVID-19 Sentiment Classifier (BioBERT)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/09/finclf_augmented_esg_en_3_2.html">ESG Text Classification (Augmented, 26 classes)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/09/legner_laws_treaties_es_3_2.html">Spanish NER for Laws and Treaties/Agreements (Roberta)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/09/legqa_bert_large_en_3_2.html">Legal Question Answering (Bert, Large)</a></div></div></div>
 
 </div>
 </div>

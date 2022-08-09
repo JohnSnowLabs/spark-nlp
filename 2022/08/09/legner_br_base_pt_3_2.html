@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Pipeline to Resolve Medication Codes- Spark NLP Model</title><meta name="description" content="DescriptionA pretrained resolver pipeline to extract medications and resolve RxNorm, UMLS, NDC, SNOMED CT codes, and action/treatments in clinical text.Actio...">
-<link rel="canonical" href="/2022/08/01/medication_resolver_transform_pipeline_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Brazilian Portuguese NER for Laws (Base)- Spark NLP Model</title><meta name="description" content="DescriptionThis model is a Deep Learning Portuguese Named Entity Recognition model for the legal domain, trained using Base Bert Embeddings, and is able to p...">
+<link rel="canonical" href="/2022/08/09/legner_br_base_pt_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,25 +406,43 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/galiph/2022-08-01-medication_resolver_transform_pipeline_en_3_0.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-09-legner_br_base_pt_3_2.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 01, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-01T00:00:00+00:00"></div><header class="main-docs"><h1>Pipeline to Resolve Medication Codes</h1></header></div><meta itemprop="headline" content="Pipeline to Resolve Medication Codes"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>resolver</li><li>ndc</li><li>snomed</li><li>rxnorm</li><li>umls</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-01T00:00:00+00:00">
-    <meta itemprop="keywords" content="resolver,ndc,snomed,rxnorm,umls,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 09, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-09T00:00:00+00:00"></div><header class="main-docs"><h1>Brazilian Portuguese NER for Laws (Base)</h1></header></div><meta itemprop="headline" content="Brazilian Portuguese NER for Laws (Base)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>pt</li><li>legal</li><li>ner</li><li>laws</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-09T00:00:00+00:00">
+    <meta itemprop="keywords" content="pt,legal,ner,laws,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>A pretrained resolver pipeline to extract medications and resolve RxNorm, UMLS, NDC, SNOMED CT codes, and action/treatments in clinical text.</p>
+<p>This model is a Deep Learning Portuguese Named Entity Recognition model for the legal domain, trained using Base Bert Embeddings, and is able to predict the following entities:</p>
 
-<p>Action/treatments are available for branded medication, and SNOMED codes are available for non-branded medication.</p>
+<ul>
+  <li>ORGANIZACAO (Organizations)</li>
+  <li>JURISPRUDENCIA (Jurisprudence)</li>
+  <li>PESSOA (Person)</li>
+  <li>TEMPO (Time)</li>
+  <li>LOCAL (Location)</li>
+  <li>LEGISLACAO (Laws)</li>
+  <li>O (Other)</li>
+</ul>
 
-<p>This pipeline can be used with Spark transform. You can use <code class="language-plaintext highlighter-rouge">medication_resolver_pipeline</code> as Lightpipeline (with <code class="language-plaintext highlighter-rouge">annotate/fulfullAnnotate</code>).</p>
+<p>You can find different versions of this model in Models Hub:</p>
+<ul>
+  <li>With a Deep Learning architecture (non-transformer) and Base Embeddings;</li>
+  <li>With a Deep Learning architecture (non-transformer) and Large Embeddings;</li>
+  <li>With a Transformers Architecture and Base Embeddings;</li>
+  <li>With a Transformers Architecture and Large Embeddings;</li>
+</ul>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<h2 id="predicted-entities">Predicted Entities</h2>
+
+<p><code class="language-plaintext highlighter-rouge">PESSOA</code>, <code class="language-plaintext highlighter-rouge">ORGANIZACAO</code>, <code class="language-plaintext highlighter-rouge">LEGISLACAO</code>, <code class="language-plaintext highlighter-rouge">JURISPRUDENCIA</code>, <code class="language-plaintext highlighter-rouge">TEMPO</code>, <code class="language-plaintext highlighter-rouge">LOCAL</code></p>
+
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_PT/" class="button button-orange">Live Demo</a>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/medication_resolver_transform_pipeline_en_4.0.0_3.0_1659378072648.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_br_base_pt_1.0.0_3.2_1660044343954.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -432,36 +450,152 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
-<span class="n">medication_resolver_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"medication_resolver_transform_pipeline"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
-<span class="n">text</span> <span class="o">=</span> <span class="s">"""The patient was prescribed Mycobutn 150 MG, Salagen 5 MG oral tablet, 
-The other patient is given Lescol 40 MG and Lidoderm 0.05 MG/MG, triazolam 0.125 MG Oral Tablet, metformin hydrochloride 1000 MG Oral Tablet"""</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">medication_resolver_pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
+
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_portuguese_base_cased"</span><span class="p">,</span> <span class="s">"pt"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+
+<span class="n">ner_model</span> <span class="o">=</span> <span class="n">LegalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'legner_br_base'</span><span class="p">,</span> <span class="s">'pt'</span><span class="p">,</span> <span class="s">'legal/models'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'embeddings'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'ner'</span><span class="p">)</span>
+
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'ner'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'ner_chunk'</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">document_assembler</span><span class="p">,</span> 
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">embeddings</span><span class="p">,</span>
+    <span class="n">ner_model</span><span class="p">,</span>
+    <span class="n">ner_converter</span>
+<span class="p">])</span>
+
+<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'text'</span><span class="p">:</span> <span class="p">[</span><span class="s">"""Mediante do exposto , com fundamento nos artigos 32 , i , e 33 , da lei 8.443/1992 , submetem-se os autos à consideração superior , com posterior encaminhamento ao ministério público junto ao tcu e ao gabinete do relator , propondo : a ) conhecer do recurso e , no mérito , negar-lhe provimento ; b ) comunicar ao recorrente , ao superior tribunal militar e ao tribunal regional federal da 2ª região , a fim de fornecer subsídios para os processos judiciais 2001.34.00.024796-9 e 2003.34.00.044227-3 ; e aos demais interessados a deliberação que vier a ser proferida por esta corte ” ."""</span><span class="p">]}))</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
-<span class="k">val</span> <span class="nv">medication_resolver_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"medication_resolver_transform_pipeline"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"The patient was prescribed Mycobutn 150 MG, Salagen 5 MG oral tablet, 
-The other patient is given Lescol 40 MG and Lidoderm 0.05 MG/MG, triazolam 0.125 MG Oral Tablet, metformin hydrochloride 1000 MG Oral Tablet"</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">medication_resolver_pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
-</code></pre></div>  </div>
-
-  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">+-------------------------------------------+---------+-------+-------------------+------------------------------------------+--------+---------+-----------+-------------+</span>
-<span class="o">|</span><span class="n">chunk</span>                                      <span class="o">|</span><span class="n">ner_label</span><span class="o">|</span><span class="n">RxNorm</span> <span class="o">|</span><span class="n">Action</span>             <span class="o">|</span><span class="n">Treatment</span>                                 <span class="o">|</span><span class="n">UMLS</span>    <span class="o">|</span><span class="n">SNOMED_CT</span><span class="o">|</span><span class="n">NDC_Product</span><span class="o">|</span><span class="n">NDC_Package</span>  <span class="o">|</span>
-<span class="o">+-------------------------------------------+---------+-------+-------------------+------------------------------------------+--------+---------+-----------+-------------+</span>
-<span class="o">|</span><span class="n">Mycobutn</span> <span class="mi">150</span> <span class="n">MG</span>                            <span class="o">|</span><span class="n">DRUG</span>     <span class="o">|</span><span class="mi">103899</span> <span class="o">|</span><span class="n">Antimiycobacterials</span><span class="o">|</span><span class="n">Infection</span>                                 <span class="o">|</span><span class="n">C0353536</span><span class="o">|</span><span class="n">NONE</span>     <span class="o">|</span><span class="mi">00013</span><span class="o">-</span><span class="mi">5301</span> <span class="o">|</span><span class="mi">00013</span><span class="o">-</span><span class="mi">5301</span><span class="o">-</span><span class="mi">17</span><span class="o">|</span>
-<span class="o">|</span><span class="n">Salagen</span> <span class="mi">5</span> <span class="n">MG</span> <span class="n">oral</span> <span class="n">tablet</span>                   <span class="o">|</span><span class="n">DRUG</span>     <span class="o">|</span><span class="mi">1000915</span><span class="o">|</span><span class="n">Antiglaucomatous</span>   <span class="o">|</span><span class="n">Cancer</span>                                    <span class="o">|</span><span class="n">C0361693</span><span class="o">|</span><span class="n">NONE</span>     <span class="o">|</span><span class="mi">59212</span><span class="o">-</span><span class="mi">0705</span> <span class="o">|</span><span class="mi">59212</span><span class="o">-</span><span class="mi">0705</span><span class="o">-</span><span class="mi">10</span><span class="o">|</span>
-<span class="o">|</span><span class="n">Lescol</span> <span class="mi">40</span> <span class="n">MG</span>                               <span class="o">|</span><span class="n">DRUG</span>     <span class="o">|</span><span class="mi">103919</span> <span class="o">|</span><span class="n">Hypocholesterolemic</span><span class="o">|</span><span class="n">Heterozygous</span> <span class="n">Familial</span> <span class="n">Hypercholesterolemia</span><span class="o">|</span><span class="n">C0353573</span><span class="o">|</span><span class="n">NONE</span>     <span class="o">|</span><span class="mi">00078</span><span class="o">-</span><span class="mi">0234</span> <span class="o">|</span><span class="mi">00078</span><span class="o">-</span><span class="mi">0234</span><span class="o">-</span><span class="mi">05</span><span class="o">|</span>
-<span class="o">|</span><span class="n">Lidoderm</span> <span class="mf">0.05</span> <span class="n">MG</span><span class="o">/</span><span class="n">MG</span>                        <span class="o">|</span><span class="n">DRUG</span>     <span class="o">|</span><span class="mi">1011705</span><span class="o">|</span><span class="n">Anesthetic</span>         <span class="o">|</span><span class="n">Pain</span>                                      <span class="o">|</span><span class="n">C0875706</span><span class="o">|</span><span class="n">NONE</span>     <span class="o">|</span><span class="mi">00247</span><span class="o">-</span><span class="mi">2129</span> <span class="o">|</span><span class="mi">00247</span><span class="o">-</span><span class="mi">2129</span><span class="o">-</span><span class="mi">30</span><span class="o">|</span>
-<span class="o">|</span><span class="n">triazolam</span> <span class="mf">0.125</span> <span class="n">MG</span> <span class="n">Oral</span> <span class="n">Tablet</span>             <span class="o">|</span><span class="n">DRUG</span>     <span class="o">|</span><span class="mi">198317</span> <span class="o">|</span><span class="n">NONE</span>               <span class="o">|</span><span class="n">NONE</span>                                      <span class="o">|</span><span class="n">C0690642</span><span class="o">|</span><span class="mi">373981005</span><span class="o">|</span><span class="mi">00054</span><span class="o">-</span><span class="mi">4858</span> <span class="o">|</span><span class="mi">00054</span><span class="o">-</span><span class="mi">4858</span><span class="o">-</span><span class="mi">25</span><span class="o">|</span>
-<span class="o">|</span><span class="n">metformin</span> <span class="n">hydrochloride</span> <span class="mi">1000</span> <span class="n">MG</span> <span class="n">Oral</span> <span class="n">Tablet</span><span class="o">|</span><span class="n">DRUG</span>     <span class="o">|</span><span class="mi">861004</span> <span class="o">|</span><span class="n">NONE</span>               <span class="o">|</span><span class="n">NONE</span>                                      <span class="o">|</span><span class="n">C0978482</span><span class="o">|</span><span class="mi">376701008</span><span class="o">|</span><span class="mi">00093</span><span class="o">-</span><span class="mi">7214</span> <span class="o">|</span><span class="mi">00185</span><span class="o">-</span><span class="mi">0221</span><span class="o">-</span><span class="mi">01</span><span class="o">|</span>
-<span class="o">+-------------------------------------------+---------+-------+-------------------+------------------------------------------+--------+---------+-----------+-------------+</span>
-
-</code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------------------+----------------+
+|              token|             ner|
++-------------------+----------------+
+|             diante|               O|
+|                 <span class="k">do</span>|               O|
+|            exposto|               O|
+|                  ,|               O|
+|                com|               O|
+|         fundamento|               O|
+|                nos|               O|
+|            artigos|    B-LEGISLACAO|
+|                 32|    I-LEGISLACAO|
+|                  ,|    I-LEGISLACAO|
+|                  i|    I-LEGISLACAO|
+|                  ,|    I-LEGISLACAO|
+|                  e|    I-LEGISLACAO|
+|                 33|    I-LEGISLACAO|
+|                  ,|    I-LEGISLACAO|
+|                 da|    I-LEGISLACAO|
+|                lei|    I-LEGISLACAO|
+|         8.443/1992|    I-LEGISLACAO|
+|                  ,|               O|
+|        submetem-se|               O|
+|                 os|               O|
+|              autos|               O|
+|                  à|               O|
+|       consideração|               O|
+|           superior|               O|
+|                  ,|               O|
+|                com|               O|
+|          posterior|               O|
+|     encaminhamento|               O|
+|                 ao|               O|
+|         ministério|   B-ORGANIZACAO|
+|            público|   I-ORGANIZACAO|
+|              junto|               O|
+|                 ao|               O|
+|                tcu|   B-ORGANIZACAO|
+|                  e|               O|
+|                 ao|               O|
+|           gabinete|               O|
+|                 <span class="k">do</span>|               O|
+|            relator|               O|
+|                  ,|               O|
+|           propondo|               O|
+|                  :|               O|
+|                  a|               O|
+|                  <span class="o">)</span>|               O|
+|           conhecer|               O|
+|                 <span class="k">do</span>|               O|
+|            recurso|               O|
+|                  e|               O|
+|                  ,|               O|
+|                 no|               O|
+|             mérito|               O|
+|                  ,|               O|
+|          negar-lhe|               O|
+|         provimento|               O|
+|                  <span class="p">;</span>|               O|
+|                  b|               O|
+|                  <span class="o">)</span>|               O|
+|          comunicar|               O|
+|                 ao|               O|
+|         recorrente|               O|
+|                  ,|               O|
+|                 ao|               O|
+|           superior|   B-ORGANIZACAO|
+|           tribunal|   I-ORGANIZACAO|
+|            militar|   I-ORGANIZACAO|
+|                  e|               O|
+|                 ao|               O|
+|           tribunal|   B-ORGANIZACAO|
+|           regional|   I-ORGANIZACAO|
+|            federal|   I-ORGANIZACAO|
+|                 da|   I-ORGANIZACAO|
+|                 2ª|   I-ORGANIZACAO|
+|             região|   I-ORGANIZACAO|
+|                  ,|               O|
+|                  a|               O|
+|                fim|               O|
+|                 de|               O|
+|           fornecer|               O|
+|          subsídios|               O|
+|               para|               O|
+|                 os|               O|
+|          processos|               O|
+|          judiciais|               O|
+|2001.34.00.024796-9|B-JURISPRUDENCIA|
+|                  e|               O|
+|2003.34.00.044227-3|B-JURISPRUDENCIA|
+|                  <span class="p">;</span>|               O|
+|                  e|               O|
+|                aos|               O|
+|             demais|               O|
+|       interessados|               O|
+|                  a|               O|
+|        deliberação|               O|
+|                que|               O|
+|               vier|               O|
+|                  a|               O|
+|                ser|               O|
+|          proferida|               O|
+|                por|               O|
+|               esta|               O|
+|              corte|               O|
+|                  ”|               O|
+|                  .|               O|
++-------------------+----------------+
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -469,15 +603,15 @@ The other patient is given Lescol 40 MG and Lidoderm 0.05 MG/MG, triazolam 0.125
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>medication_resolver_transform_pipeline</td>
+      <td>legner_br_base</td>
     </tr>
     <tr>
       <td>Type:</td>
-      <td>pipeline</td>
+      <td>legal</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 4.0.0+</td>
+      <td>Spark NLP for Legal 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -488,44 +622,49 @@ The other patient is given Lescol 40 MG and Lidoderm 0.05 MG/MG, triazolam 0.125
       <td>Official</td>
     </tr>
     <tr>
+      <td>Input Labels:</td>
+      <td>[sentence, token, embeddings]</td>
+    </tr>
+    <tr>
+      <td>Output Labels:</td>
+      <td>[ner]</td>
+    </tr>
+    <tr>
       <td>Language:</td>
-      <td>en</td>
+      <td>pt</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>3.1 GB</td>
+      <td>18.8 MB</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="included-models">Included Models</h2>
+<h2 id="references">References</h2>
 
-<ul>
-  <li>DocumentAssembler</li>
-  <li>SentenceDetectorDLModel</li>
-  <li>TokenizerModel</li>
-  <li>WordEmbeddingsModel</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverterInternalModel</li>
-  <li>TextMatcherModel</li>
-  <li>ChunkMergeModel</li>
-  <li>ChunkMapperModel</li>
-  <li>ChunkMapperFilterer</li>
-  <li>Chunk2Doc</li>
-  <li>BertSentenceEmbeddings</li>
-  <li>SentenceEntityResolverModel</li>
-  <li>ResolverMerger</li>
-  <li>Doc2Chunk</li>
-  <li>ResolverMerger</li>
-  <li>ChunkMapperModel</li>
-  <li>ChunkMapperModel</li>
-  <li>ChunkMapperModel</li>
-  <li>Doc2Chunk</li>
-  <li>ChunkMapperModel</li>
-  <li>ChunkMapperModel</li>
-  <li>ChunkMapperModel</li>
-</ul>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-01T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>Original texts available in https://paperswithcode.com/sota?task=Token+Classification&amp;dataset=lener_br and in-house data augmentation with weak labelling</p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label             precision  recall  f1-score  support
+B-JURISPRUDENCIA  0.84       0.91    0.88      175    
+B-LEGISLACAO      0.96       0.96    0.96      347    
+B-LOCAL           0.69       0.68    0.68      40     
+B-ORGANIZACAO     0.95       0.71    0.81      441    
+B-PESSOA          0.91       0.95    0.93      221    
+B-TEMPO           0.94       0.86    0.90      176    
+I-JURISPRUDENCIA  0.86       0.91    0.89      461    
+I-LEGISLACAO      0.98       0.99    0.98      2012   
+I-LOCAL           0.54       0.53    0.53      72     
+I-ORGANIZACAO     0.94       0.76    0.84      768    
+I-PESSOA          0.93       0.98    0.95      461    
+I-TEMPO           0.90       0.85    0.88      66     
+O                 0.99       1.00    0.99      38419  
+accuracy          -          -       0.98      43659  
+macro-avg         0.88       0.85    0.86      43659  
+weighted-avg      0.98       0.98    0.98      43659  
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-09T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -650,7 +789,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/01/bert_sequence_classifier_covid_sentiment_en_3_0.html">COVID-19 Sentiment Classifier (BioBERT)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/09/finclf_augmented_esg_en_3_2.html">ESG Text Classification (Augmented, 26 classes)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/09/legner_bert_large_courts_de_3_2.html">German NER for Laws (Bert, Large)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/09/legner_br_bert_base_pt_3_2.html">Brazilian Portuguese NER for Laws (Bert, Base)</a></div></div></div>
 
 </div>
 </div>
