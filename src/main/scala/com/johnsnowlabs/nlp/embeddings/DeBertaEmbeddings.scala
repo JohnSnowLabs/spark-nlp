@@ -53,7 +53,7 @@ import java.io.File
   * It builds on RoBERTa with disentangled attention and enhanced mask decoder training with half
   * of the data used in RoBERTa.
   *
-  * '''Sources:'''
+  * '''References:'''
   *
   * [[https://github.com/microsoft/DeBERTa]]
   *

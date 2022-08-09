@@ -65,7 +65,7 @@ import java.io.File
   * For extended examples of usage, see
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/GPT2TestSpec.scala GPT2TestSpec]].
   *
-  * '''Sources:'''
+  * '''References:'''
   *   - [[https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf Language Models are Unsupervised Multitask Learners]]
   *   - [[https://github.com/openai/gpt-2]]
   *
