@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect 10 Different Entities in Hebrew (hebrew_cc_300d)
+title: Detect 10 Different Entities in Hebrew (hebrew_cc_300d embeddings)
 author: John Snow Labs
 name: hebrewner_cc_300d
 date: 2022-08-09
