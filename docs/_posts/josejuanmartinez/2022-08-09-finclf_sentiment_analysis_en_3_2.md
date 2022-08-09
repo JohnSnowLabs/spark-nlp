@@ -24,7 +24,7 @@ This model is a pre-trained NLP model to analyze sentiment of financial text. It
 `positive`, `negative`, `neutral`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/SENTIMENT_EN_FINANCE/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_sentiment_analysis_en_1.0.0_3.2_1660057373815.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -53,7 +53,6 @@ pipeline = Pipeline(stages=[
     sequenceClassifier_loaded    
 ])
 
-# couple of simple examples
 example = spark.createDataFrame([["Stocks rallied and the British pound gained."]]).toDF("text")
 
 result = pipeline.fit(example).transform(example)
