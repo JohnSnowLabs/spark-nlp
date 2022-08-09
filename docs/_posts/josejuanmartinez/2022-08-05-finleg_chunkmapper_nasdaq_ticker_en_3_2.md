@@ -24,7 +24,7 @@ This model allows you to, given a Ticker, get information about that company, in
 
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/finance/FIN_LEG_COMPANY_AUGMENTATION/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finleg_chunkmapper_nasdaq_ticker_en_1.0.0_3.2_1659713370724.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
