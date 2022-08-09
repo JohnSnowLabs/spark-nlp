@@ -36,6 +36,7 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -107,7 +108,7 @@ val nlp_pipeline  = new Pipeline().setStages(Array(
 
 val data = Seq("""ב- 25 לאוגוסט עצר השב"כ את מוחמד אבו-ג'וייד , אזרח ירדני , שגויס לארגון הפת"ח והופעל על ידי חיזבאללה. אבו-ג'וייד התכוון להקים חוליות טרור בגדה ובקרב ערביי ישראל , לבצע פיגוע ברכבת ישראל בנהריה , לפגוע במטרות ישראליות בירדן ולחטוף חיילים כדי לשחרר אסירים ביטחוניים.""").toDS.toDF("text")
 
-val result = nlp_pipeline .fit(data).transform(data)
+val result = nlp_pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}
