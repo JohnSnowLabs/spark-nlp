@@ -5,7 +5,7 @@ seotitle: Annotation Lab | John Snow Labs
 title: Annotation Lab Release Notes 3.4.1
 permalink: /docs/en/alab/annotation_labs_releases/release_notes_3_4_1
 key: docs-licensed-release-notes
-modify_date: 2022-08-05
+modify_date: 2022-08-09
 show_nav: true
 sidebar:
     nav: annotation-lab
