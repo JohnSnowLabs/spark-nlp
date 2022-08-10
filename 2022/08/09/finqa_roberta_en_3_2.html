@@ -434,7 +434,7 @@
 <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">])</span> \
 <span class="p">.</span><span class="n">setOutputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span>
 
-<span class="n">spanClassifier</span> <span class="o">=</span> <span class="n">RoBertaForQuestionAnswering</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_qa_fin_RoBERTa_v1_finetuned_squad"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span> \
+<span class="n">spanClassifier</span> <span class="o">=</span> <span class="n">RoBertaForQuestionAnswering</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finqa_roberta"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span> \
 <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span> \
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span> \
 <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
