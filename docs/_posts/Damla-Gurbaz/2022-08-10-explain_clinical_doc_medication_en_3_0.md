@@ -30,6 +30,7 @@ A pipeline for detecting posology entities with the `ner_posology_large` NER mod
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 from sparknlp.pretrained import PretrainedPipeline
 
