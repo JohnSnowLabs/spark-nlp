@@ -1,2 +1,2 @@
-docs/_posts/dcecchini/2021-07-28-lener_bert_large_pt.md
-docs/_posts/dcecchini/2021-07-28-lener_bert_large_pt.md
+docs/_posts/gadde5300/2022-07-15-bert_ner_NER_legal_de_Sahajtomar_de_3_0.md
+docs/_posts/gadde5300/2022-07-15-bert_ner_NER_legal_de_Sahajtomar_de_3_0.md
