@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Multilingual BertForTokenClassification Cased model (from tinparadox)- Spark NLP Model</title><meta name="description" content="DescriptionPretrained BertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP...">
-<link rel="canonical" href="/2022/07/15/bert_ner_NER_en_vi_it_es_tinparadox_xx_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Detect Legal Entities in German- Spark NLP Model</title><meta name="description" content="DescriptionThis model can be used to detect legal entities in German text, predicting up to 19 different labels:| tag	| meaning -----------------| AN	| Anwal...">
+<link rel="canonical" href="/2021/03/31/ner_legal_de.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,25 +406,47 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/gadde5300/2022-07-15-bert_ner_NER_en_vi_it_es_tinparadox_xx_3_0.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/HashamUlHaq/2021-03-31-ner_legal_de.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jul 15, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-15T00:00:00+00:00"></div><header class="main-docs"><h1>Multilingual BertForTokenClassification Cased model (from tinparadox)</h1></header></div><meta itemprop="headline" content="Multilingual BertForTokenClassification Cased model (from tinparadox)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>bert</li><li>ner</li><li>open_source</li><li>en</li><li>vi</li><li>et</li><li>es</li><li>xx</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-15T00:00:00+00:00">
-    <meta itemprop="keywords" content="bert,ner,open_source,en,vi,et,es,xx"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Mar 31, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-03-31T00:00:00+00:00"></div><header class="main-docs"><h1>Detect Legal Entities in German</h1></header></div><meta itemprop="headline" content="Detect Legal Entities in German"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>ner</li><li>clinical</li><li>licensed</li><li>de</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-03-31T00:00:00+00:00">
+    <meta itemprop="keywords" content="ner,clinical,licensed,de"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Pretrained BertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. <code class="language-plaintext highlighter-rouge">NER-en-vi-it-es</code> is a Multilingual model originally trained by <code class="language-plaintext highlighter-rouge">tinparadox</code>.</p>
+<p>This model can be used to detect legal entities in German text, predicting up to 19 different labels:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| tag	| meaning 
+-----------------
+| AN	| Anwalt 
+| EUN	| Europäische Norm 
+| GS	| Gesetz 
+| GRT	| Gericht 
+| INN	| Institution 
+| LD	| Land 
+| LDS	| Landschaft 
+| LIT	| Literatur 
+| MRK	| Marke 
+| ORG	| Organisation 
+| PER	| Person 
+| RR	| Richter 
+| RS	| Rechtssprechung 
+| ST	| Stadt 
+| STR	| Straße 
+| UN	| Unternehmen 
+| VO	| Verordnung 
+| VS	| Vorschrift 
+| VT	| Vertrag 
+</code></pre></div></div>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">PER</code></p>
+<p><code class="language-plaintext highlighter-rouge">STR</code>, <code class="language-plaintext highlighter-rouge">LIT</code>, <code class="language-plaintext highlighter-rouge">PER</code>, <code class="language-plaintext highlighter-rouge">EUN</code>, <code class="language-plaintext highlighter-rouge">VT</code>, <code class="language-plaintext highlighter-rouge">MRK</code>, <code class="language-plaintext highlighter-rouge">INN</code>, <code class="language-plaintext highlighter-rouge">UN</code>, <code class="language-plaintext highlighter-rouge">RS</code>, <code class="language-plaintext highlighter-rouge">ORG</code>, <code class="language-plaintext highlighter-rouge">GS</code>, <code class="language-plaintext highlighter-rouge">VS</code>, <code class="language-plaintext highlighter-rouge">LDS</code>, <code class="language-plaintext highlighter-rouge">GRT</code>, <code class="language-plaintext highlighter-rouge">VO</code>, <code class="language-plaintext highlighter-rouge">RR</code>, <code class="language-plaintext highlighter-rouge">LD</code>, <code class="language-plaintext highlighter-rouge">AN</code>, <code class="language-plaintext highlighter-rouge">ST</code></p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_ner_NER_en_vi_it_es_tinparadox_xx_4.0.0_3.0_1657890676562.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_DE/" class="button button-orange">Live Demo</a>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_legal_de_3.0.0_3.0_1617209681949.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -432,51 +454,64 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="n">word_embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"w2v_cc_300d"</span><span class="p">,</span><span class="s">'de'</span><span class="p">,</span><span class="s">'clinical/models'</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">'token'</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">legal_ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_legal"</span><span class="p">,</span><span class="s">'de'</span><span class="p">,</span><span class="s">'clinical/models'</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+<span class="p">...</span>
+<span class="n">legal_pred_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span> <span class="o">=</span> <span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">word_embeddings</span><span class="p">,</span> <span class="n">legal_ner</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">])</span>
+<span class="n">legal_light_model</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">legal_pred_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)))</span>
 
-<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span>\
-       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
-
-<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_ner_NER_en_vi_it_es_tinparadox"</span><span class="p">,</span><span class="s">"xx"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">sentenceDetector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">tokenClassifier</span><span class="p">])</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"PUT YOUR STRING HERE"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">legal_light_model</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">'''Jedoch wird der Verkehr darin naheliegend den Namen eines der bekanntesten Flüsse Deutschlands erkennen, welcher als Seitenfluss des Rheins durch Oberfranken, Unterfranken und Südhessen fließt und bei Mainz in den Rhein mündet. Klein , in : Maunz / Schmidt-Bleibtreu / Klein / Bethge , BVerfGG , § 19 Rn. 9 Richtlinien zur Bewertung des Grundvermögens – BewRGr – vom19. I September 1966 (BStBl I, S.890) '''</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-          <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
-          <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">sentenceDetector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sentence_detector_dl"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
-       <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
-       <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">BertForTokenClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_ner_NER_en_vi_it_es_tinparadox"</span><span class="o">,</span><span class="s">"xx"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span><span class="n">sentenceDetector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">tokenClassifier</span><span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"PUT YOUR STRING HERE"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
+<span class="k">val</span> <span class="nv">word_embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"w2v_cc_300d"</span><span class="o">,</span><span class="s">"de"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span><span class="s">"token"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_legal"</span><span class="o">,</span><span class="ss">'d</span><span class="n">e</span><span class="sc">','</span><span class="n">clinical</span><span class="o">/</span><span class="n">models</span><span class="o">')</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">word_embeddings</span><span class="o">,</span> <span class="n">ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Jedoch wird der Verkehr darin naheliegend den Namen eines der bekanntesten Flüsse Deutschlands erkennen, welcher als Seitenfluss des Rheins durch Oberfranken, Unterfranken und Südhessen fließt und bei Mainz in den Rhein mündet. Klein , in : Maunz / Schmidt-Bleibtreu / Klein / Bethge , BVerfGG , § 19 Rn. 9 Richtlinien zur Bewertung des Grundvermögens – BewRGr – vom19. I September 1966 (BStBl I, S.890)"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"de.med_ner.legal"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""Jedoch wird der Verkehr darin naheliegend den Namen eines der bekanntesten Flüsse Deutschlands erkennen, welcher als Seitenfluss des Rheins durch Oberfranken, Unterfranken und Südhessen fließt und bei Mainz in den Rhein mündet. Klein , in : Maunz / Schmidt-Bleibtreu / Klein / Bethge , BVerfGG , § 19 Rn. 9 Richtlinien zur Bewertung des Grundvermögens – BewRGr – vom19. I September 1966 (BStBl I, S.890) """</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---+---------------------------------------------------+----------+
+| <span class="c"># |                                            Chunks | Entities |</span>
++---+---------------------------------------------------+----------+
+| 0 |                                      Deutschlands |       LD |
++---+---------------------------------------------------+----------+
+| 1 |                                            Rheins |      LDS |
++---+---------------------------------------------------+----------+
+| 2 |                                       Oberfranken |      LDS |
++---+---------------------------------------------------+----------+
+| 3 |                                      Unterfranken |      LDS |
++---+---------------------------------------------------+----------+
+| 4 |                                         Südhessen |      LDS |
++---+---------------------------------------------------+----------+
+| 5 |                                             Mainz |       ST |
++---+---------------------------------------------------+----------+
+| 6 |                                             Rhein |      LDS |
++---+---------------------------------------------------+----------+
+| 7 | Klein , <span class="k">in</span> : Maunz / Schmidt-Bleibtreu / Klein... |      LIT |
++---+---------------------------------------------------+----------+
+| 8 | Richtlinien zur Bewertung des Grundvermögens –... |       VS |
++---+---------------------------------------------------+----------+
+| 9 |                 I September 1966 <span class="o">(</span>BStBl I, S.890<span class="o">)</span> |       VS |
++---+---------------------------------------------------+----------+
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -484,15 +519,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>bert_ner_NER_en_vi_it_es_tinparadox</td>
+      <td>ner_legal</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 4.0.0+</td>
+      <td>Spark NLP for Healthcare 3.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -500,7 +535,7 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[document, token]</td>
+      <td>[sentence, token, embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
@@ -508,29 +543,30 @@
     </tr>
     <tr>
       <td>Language:</td>
-      <td>xx</td>
-    </tr>
-    <tr>
-      <td>Size:</td>
-      <td>665.6 MB</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>Max sentence length:</td>
-      <td>128</td>
+      <td>de</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="references">References</h2>
+<h2 id="data-source">Data Source</h2>
 
-<ul>
-  <li>https://huggingface.co/tinparadox/NER-en-vi-it-es</li>
-</ul>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-07-15T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>The dataset used to train this model is taken from Leitner, et.al (2019)</p>
+
+<p>Leitner, E., Rehm, G., and Moreno-Schneider, J. (2019). Fine-grained Named Entity Recognition in Legal Documents. In Maribel Acosta, et al., editors, Semantic Systems. The Power of AI and Knowledge Graphs. Proceedings of the 15th International Conference (SEMANTiCS2019), number 11702 in Lecture Notes in Computer Science, pages 272–287, Karlsruhe, Germany, 9. Springer. 10/11 September 2019.</p>
+
+<p>Source of the annotated text:</p>
+
+<p>Court decisions from 2017 and 2018 were selected for the dataset, published online by the Federal Ministry of Justice and Consumer Protection. The documents originate from seven federal courts: Federal Labour Court (BAG), Federal Fiscal Court (BFH), Federal Court of Justice (BGH), Federal Patent Court (BPatG), Federal Social Court (BSG), Federal Constitutional Court (BVerfG) and Federal Administrative Court (BVerwG).</p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------------+-------+------------+------+-------------+-----+------------+
+| Macro-average | prec: | 0.9210195, | rec: | 0.91861916, | f1: | 0.91981775 |
++---------------+-------+------------+------+-------------+-----+------------+
+| Micro-average | prec: | 0.9833763, | rec: | 0.9837547,  | f1: | 0.9835655  |
++---------------+-------+------------+------+-------------+-----+------------+
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-03-31T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -655,7 +691,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/07/15/bert_ner_IndicNER_xx_3_0.html">Multilingual BertForTokenClassification Cased model (from ai4bharat)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/07/15/bert_ner_NER_legal_de_Sahajtomar_de_3_0.html">German BertForTokenClassification Cased model (from Sahajtomar)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/03/31/ner_jsl_enriched_en.html">Detect Diagnosis, Symptoms, Drugs, Labs and Demographics (ner_jsl_enriched)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/03/31/ner_neoplasms_es.html">Detect Neoplasms</a></div></div></div>
 
 </div>
 </div>

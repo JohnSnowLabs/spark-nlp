@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Multilingual BertForTokenClassification Cased model (from tinparadox)- Spark NLP Model</title><meta name="description" content="DescriptionPretrained BertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP...">
-<link rel="canonical" href="/2022/07/15/bert_ner_NER_en_vi_it_es_tinparadox_xx_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>LeNER-Br Named Entity Recognition for (Brazilian) Portuguese Legal Text (Bert Large Cased)- Spark NLP Model</title><meta name="description" content="DescriptionThis model annotates named entities in a (Brazilian) legal text, that can be used to find features such as names of people, organizations, and jur...">
+<link rel="canonical" href="/2021/07/28/lener_bert_large_pt.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,25 +406,35 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/gadde5300/2022-07-15-bert_ner_NER_en_vi_it_es_tinparadox_xx_3_0.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/dcecchini/2021-07-28-lener_bert_large_pt.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jul 15, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-15T00:00:00+00:00"></div><header class="main-docs"><h1>Multilingual BertForTokenClassification Cased model (from tinparadox)</h1></header></div><meta itemprop="headline" content="Multilingual BertForTokenClassification Cased model (from tinparadox)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>bert</li><li>ner</li><li>open_source</li><li>en</li><li>vi</li><li>et</li><li>es</li><li>xx</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-15T00:00:00+00:00">
-    <meta itemprop="keywords" content="bert,ner,open_source,en,vi,et,es,xx"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jul 28, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-07-28T00:00:00+00:00"></div><header class="main-docs"><h1>LeNER-Br Named Entity Recognition for (Brazilian) Portuguese Legal Text (Bert Large Cased)</h1></header></div><meta itemprop="headline" content="LeNER-Br Named Entity Recognition for (Brazilian) Portuguese Legal Text (Bert Large Cased)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>pt</li><li>br</li><li>ner</li><li>lener</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-07-28T00:00:00+00:00">
+    <meta itemprop="keywords" content="pt,br,ner,lener,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Pretrained BertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. <code class="language-plaintext highlighter-rouge">NER-en-vi-it-es</code> is a Multilingual model originally trained by <code class="language-plaintext highlighter-rouge">tinparadox</code>.</p>
+<p>This model annotates named entities in a (Brazilian) legal text, that can be used to find features such as names of people, organizations, and jurisprudence. The model does not read words directly but instead reads word embeddings, which represent words as points such that more semantically similar words are closer together.</p>
+
+<p>This model uses the pre-trained <code class="language-plaintext highlighter-rouge">bert_portuguese_large_cased</code> embeddings model from <code class="language-plaintext highlighter-rouge">BertEmbeddings</code> annotator as an input, so be sure to use the same embeddings in the pipeline.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">PER</code></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ORGANIZACAO</code> (Organizations)</li>
+  <li><code class="language-plaintext highlighter-rouge">JURISPRUDENCIA</code> (Jurisprudence)</li>
+  <li><code class="language-plaintext highlighter-rouge">PESSOA</code> (Person)</li>
+  <li><code class="language-plaintext highlighter-rouge">TEMPO</code> (Time)</li>
+  <li><code class="language-plaintext highlighter-rouge">LOCAL</code> (Location)</li>
+  <li><code class="language-plaintext highlighter-rouge">LEGISLACAO</code> (Laws)</li>
+  <li><code class="language-plaintext highlighter-rouge">O</code> (Other)</li>
+</ul>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_ner_NER_en_vi_it_es_tinparadox_xx_4.0.0_3.0_1657890676562.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/NER_LENER/" class="button button-orange">Live Demo</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_PT.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/lener_bert_large_pt_3.1.3_3.0_1627485196194.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -432,51 +442,178 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span>\
-       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
 
-<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_ner_NER_en_vi_it_es_tinparadox"</span><span class="p">,</span><span class="s">"xx"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_portuguese_large_cased"</span><span class="p">,</span> <span class="s">"pt"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">sentenceDetector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">tokenClassifier</span><span class="p">])</span>
+<span class="n">ner_model</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'lener_bert_large'</span><span class="p">,</span> <span class="s">'pt'</span><span class="p">,</span> <span class="s">'clinical/models'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'embeddings'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'ner'</span><span class="p">)</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"PUT YOUR STRING HERE"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'ner'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'ner_chunk'</span><span class="p">)</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">document_assembler</span><span class="p">,</span> 
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">embeddings</span><span class="p">,</span>
+    <span class="n">ner_model</span><span class="p">,</span>
+    <span class="n">ner_converter</span>
+<span class="p">])</span>
+
+<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'text'</span><span class="p">:</span> <span class="p">[</span><span class="s">"""diante do exposto , com fundamento nos artigos 32 , i , e 33 , da lei 8.443/1992 , submetem-se os autos à consideração superior , com posterior encaminhamento ao ministério público junto ao tcu e ao gabinete do relator , propondo : a ) conhecer do recurso e , no mérito , negar-lhe provimento ; b ) comunicar ao recorrente , ao superior tribunal militar e ao tribunal regional federal da 2ª região , a fim de fornecer subsídios para os processos judiciais 2001.34.00.024796-9 e 2003.34.00.044227-3 ; e aos demais interessados a deliberação que vier a ser proferida por esta corte ” ."""</span><span class="p">]}))</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-          <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
-          <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">sentenceDetector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sentence_detector_dl"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
-       <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
-       <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="ss">'tex</span><span class="n">t</span><span class="o">')</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="ss">'documen</span><span class="n">t</span><span class="o">')</span>
 
 <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="kt">'document'</span><span class="o">])</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="ss">'toke</span><span class="n">n</span><span class="o">')</span>
 
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">BertForTokenClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_ner_NER_en_vi_it_es_tinparadox"</span><span class="o">,</span><span class="s">"xx"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">BertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_portuguese_large_cased"</span><span class="o">,</span> <span class="s">"pt"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span><span class="n">sentenceDetector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">tokenClassifier</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">ner_model</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="ss">'lener_bert_larg</span><span class="n">e</span><span class="o">',</span> <span class="ss">'p</span><span class="n">t</span><span class="o">',</span> <span class="ss">'clinical</span><span class="o">/</span><span class="n">models</span><span class="o">')</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="kt">'document'</span>, <span class="kt">'token'</span>, <span class="kt">'embeddings'</span><span class="o">])</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="ss">'ne</span><span class="n">r</span><span class="o">')</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"PUT YOUR STRING HERE"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="kt">'document'</span>, <span class="kt">'token'</span>, <span class="kt">'ner'</span><span class="o">])</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="ss">'ner_chun</span><span class="n">k</span><span class="o">')</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">ner_model</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"""diante do exposto , com fundamento nos artigos 32 , i , e 33 , da lei 8.443/1992 , submetem-se os autos à consideração superior , com posterior encaminhamento ao ministério público junto ao tcu e ao gabinete do relator , propondo : a ) conhecer do recurso e , no mérito , negar-lhe provimento ; b ) comunicar ao recorrente , ao superior tribunal militar e ao tribunal regional federal da 2ª região , a fim de fornecer subsídios para os processos judiciais 2001.34.00.024796-9 e 2003.34.00.044227-3 ; e aos demais interessados a deliberação que vier a ser proferida por esta corte"""</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------------------+----------------+
+|              token|             ner|
++-------------------+----------------+
+|             diante|               O|
+|                 <span class="k">do</span>|               O|
+|            exposto|               O|
+|                  ,|               O|
+|                com|               O|
+|         fundamento|               O|
+|                nos|               O|
+|            artigos|    B-LEGISLACAO|
+|                 32|    I-LEGISLACAO|
+|                  ,|    I-LEGISLACAO|
+|                  i|    I-LEGISLACAO|
+|                  ,|    I-LEGISLACAO|
+|                  e|    I-LEGISLACAO|
+|                 33|    I-LEGISLACAO|
+|                  ,|    I-LEGISLACAO|
+|                 da|    I-LEGISLACAO|
+|                lei|    I-LEGISLACAO|
+|         8.443/1992|    I-LEGISLACAO|
+|                  ,|               O|
+|        submetem-se|               O|
+|                 os|               O|
+|              autos|               O|
+|                  à|               O|
+|       consideração|               O|
+|           superior|               O|
+|                  ,|               O|
+|                com|               O|
+|          posterior|               O|
+|     encaminhamento|               O|
+|                 ao|               O|
+|         ministério|   B-ORGANIZACAO|
+|            público|   I-ORGANIZACAO|
+|              junto|               O|
+|                 ao|               O|
+|                tcu|   B-ORGANIZACAO|
+|                  e|               O|
+|                 ao|               O|
+|           gabinete|               O|
+|                 <span class="k">do</span>|               O|
+|            relator|               O|
+|                  ,|               O|
+|           propondo|               O|
+|                  :|               O|
+|                  a|               O|
+|                  <span class="o">)</span>|               O|
+|           conhecer|               O|
+|                 <span class="k">do</span>|               O|
+|            recurso|               O|
+|                  e|               O|
+|                  ,|               O|
+|                 no|               O|
+|             mérito|               O|
+|                  ,|               O|
+|          negar-lhe|               O|
+|         provimento|               O|
+|                  <span class="p">;</span>|               O|
+|                  b|               O|
+|                  <span class="o">)</span>|               O|
+|          comunicar|               O|
+|                 ao|               O|
+|         recorrente|               O|
+|                  ,|               O|
+|                 ao|               O|
+|           superior|   B-ORGANIZACAO|
+|           tribunal|   I-ORGANIZACAO|
+|            militar|   I-ORGANIZACAO|
+|                  e|               O|
+|                 ao|               O|
+|           tribunal|   B-ORGANIZACAO|
+|           regional|   I-ORGANIZACAO|
+|            federal|   I-ORGANIZACAO|
+|                 da|   I-ORGANIZACAO|
+|                 2ª|   I-ORGANIZACAO|
+|             região|   I-ORGANIZACAO|
+|                  ,|               O|
+|                  a|               O|
+|                fim|               O|
+|                 de|               O|
+|           fornecer|               O|
+|          subsídios|               O|
+|               para|               O|
+|                 os|               O|
+|          processos|               O|
+|          judiciais|               O|
+|2001.34.00.024796-9|B-JURISPRUDENCIA|
+|                  e|               O|
+|2003.34.00.044227-3|B-JURISPRUDENCIA|
+|                  <span class="p">;</span>|               O|
+|                  e|               O|
+|                aos|               O|
+|             demais|               O|
+|       interessados|               O|
+|                  a|               O|
+|        deliberação|               O|
+|                que|               O|
+|               vier|               O|
+|                  a|               O|
+|                ser|               O|
+|          proferida|               O|
+|                por|               O|
+|               esta|               O|
+|              corte|               O|
+|                  ”|               O|
+|                  .|               O|
++-------------------+----------------+
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -484,15 +621,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>bert_ner_NER_en_vi_it_es_tinparadox</td>
+      <td>lener_bert_large</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 4.0.0+</td>
+      <td>Spark NLP for Healthcare 3.1.3+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -500,7 +637,7 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[document, token]</td>
+      <td>[sentence, token, embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
@@ -508,29 +645,49 @@
     </tr>
     <tr>
       <td>Language:</td>
-      <td>xx</td>
+      <td>pt</td>
     </tr>
     <tr>
-      <td>Size:</td>
-      <td>665.6 MB</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>Max sentence length:</td>
-      <td>128</td>
+      <td>Dependencies:</td>
+      <td>bert_portuguese_large_cased</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="references">References</h2>
+<h2 id="data-source">Data Source</h2>
 
-<ul>
-  <li>https://huggingface.co/tinparadox/NER-en-vi-it-es</li>
-</ul>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-07-15T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>The model was trained on the LeNER-Br data set:</p>
+
+<blockquote>
+  <p>Pedro H. Luz de Araujo, Teófilo E. de Campos, Renato R. R. de Oliveira, Matheus Stauffer, Samuel Couto and Paulo Bermejo 
+LeNER-Br: a Dataset for Named Entity Recognition in Brazilian Legal Text 
+International Conference on the Computational Processing of Portuguese (PROPOR), September 24-26, Canela, Brazil, 2018.</p>
+</blockquote>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label             precision  recall  f1-score  support
+B-JURISPRUDENCIA  0.91       0.90    0.90      175    
+B-LEGISLACAO      0.94       0.95    0.94      347    
+B-LOCAL           0.65       0.70    0.67      40     
+B-ORGANIZACAO     0.91       0.86    0.89      441    
+B-PESSOA          0.95       0.95    0.95      221    
+B-TEMPO           0.90       0.89    0.90      176    
+I-JURISPRUDENCIA  0.93       0.91    0.92      461    
+I-LEGISLACAO      0.96       0.95    0.96      2012   
+I-LOCAL           0.34       0.57    0.43      72     
+I-ORGANIZACAO     0.93       0.86    0.89      768    
+I-PESSOA          0.95       0.98    0.96      461    
+I-TEMPO           0.93       0.79    0.85      66     
+O                 0.99       1.00    0.99      38419  
+accuracy          -          -       0.99      43659  
+macro-avg         0.87       0.87    0.87      43659  
+weighted-avg      0.99       0.99    0.99      43659  
+</code></pre></div></div>
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTUzMTA1MzQ1OV19
+-->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-07-28T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -655,7 +812,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/07/15/bert_ner_IndicNER_xx_3_0.html">Multilingual BertForTokenClassification Cased model (from ai4bharat)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/07/15/bert_ner_NER_legal_de_Sahajtomar_de_3_0.html">German BertForTokenClassification Cased model (from Sahajtomar)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/07/26/meddroprof_scielowiki_es.html">Professions & Occupations NER model in Spanish (meddroprof_scielowiki)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/08/04/longformer_base_4096_en.html">Longformer Base (longformer_base_4096)</a></div></div></div>
 
 </div>
 </div>
