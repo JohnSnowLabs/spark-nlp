@@ -1,2 +1,2 @@
-docs/_posts/murat-gunay/2021-11-11-classifierdl_bertwiki_finance_sentiment_pipeline_en.md
-docs/_posts/murat-gunay/2021-11-11-classifierdl_bertwiki_finance_sentiment_pipeline_en.md
+docs/_posts/murat-gunay/2022-06-30-bert_classifier_finbert_esg_en_3_0.md
+docs/_posts/murat-gunay/2022-06-30-bert_classifier_finbert_esg_en_3_0.md
