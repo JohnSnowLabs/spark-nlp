@@ -69,16 +69,14 @@ val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
 
-val sequenceClassifier = MedicalBertForSequenceClassification.pretrained('bert_sequence_classifier_health_mentions_bert', "de", "clinical/models")
+val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_health_mentions_bert", "de", "clinical/models")
     .setInputCols(Array("document","token"))
     .setOutputCol("class")
 
 val pipeline = new Pipeline().setStages(Array(documenter, tokenizer, sequenceClassifier))
 
-val data = Seq(
-    "Die Temperaturen klettern am Wochenende.",
-    "Zu den Symptomen gehört u.a. eine verringerte Greifkraft."
-  )
+val data = Seq(Array("Die Temperaturen klettern am Wochenende.",
+                     "Zu den Symptomen gehört u.a. eine verringerte Greifkraft.")).toDS().toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
