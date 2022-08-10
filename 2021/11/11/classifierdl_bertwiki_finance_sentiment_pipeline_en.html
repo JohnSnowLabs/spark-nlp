@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Sentence Entity Resolver for MeSH (sbiobert_base_cased_mli embeddings)- Spark NLP Model</title><meta name="description" content="DescriptionThis model maps clinical entities to Medical Subject Heading (MeSH) codes using sbiobert_base_cased_mli Sentence Bert Embeddings.Predicted Entitie...">
-<link rel="canonical" href="/2021/11/14/sbiobertresolve_mesh_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Sentiment Analysis Pipeline for Financial news- Spark NLP Model</title><meta name="description" content="DescriptionThis pretrained pipeline identifies the sentiments (positive, negative or neutral) in financial news.Live DemoOpen in ColabDownloadHow to use     ...">
+<link rel="canonical" href="/2021/11/11/classifierdl_bertwiki_finance_sentiment_pipeline_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,127 +406,48 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/muhammetsnts/2021-11-14-sbiobertresolve_mesh_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/murat-gunay/2021-11-11-classifierdl_bertwiki_finance_sentiment_pipeline_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 14, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-14T00:00:00+00:00"></div><header class="main-docs"><h1>Sentence Entity Resolver for MeSH (sbiobert_base_cased_mli embeddings)</h1></header></div><meta itemprop="headline" content="Sentence Entity Resolver for MeSH (sbiobert_base_cased_mli embeddings)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>mesh</li><li>entity_resolution</li><li>licensed</li><li>en</li><li>clinical</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-14T00:00:00+00:00">
-    <meta itemprop="keywords" content="mesh,entity_resolution,licensed,en,clinical"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 11, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-11T00:00:00+00:00"></div><header class="main-docs"><h1>Sentiment Analysis Pipeline for Financial news</h1></header></div><meta itemprop="headline" content="Sentiment Analysis Pipeline for Financial news"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>finance</li><li>en</li><li>bertwiki</li><li>classification</li><li>sentiment</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-11T00:00:00+00:00">
+    <meta itemprop="keywords" content="finance,en,bertwiki,classification,sentiment,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model maps clinical entities to Medical Subject Heading (MeSH) codes using <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> Sentence Bert Embeddings.</p>
-
-<h2 id="predicted-entities">Predicted Entities</h2>
-
-<p><code class="language-plaintext highlighter-rouge">MeSH Codes</code></p>
+<p>This pretrained pipeline identifies the sentiments (positive, negative or neutral) in financial news.</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_mesh_en_3.3.2_2.4_1636888521477.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<button class="button button-orange" disabled="">Open in Colab</button>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_bertwiki_finance_sentiment_pipeline_en_3.3.0_2.4_1636617651675.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
-
-<p><code class="language-plaintext highlighter-rouge">sbiobertresolve_mesh</code> resolver model must be used with <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> as embeddings <code class="language-plaintext highlighter-rouge">ner_clinical</code> as NER model. No need to set <code class="language-plaintext highlighter-rouge">.setWhiteList()</code>.</p>
 
 <div class="tabs-box">
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
-<span class="n">c2doc</span> <span class="o">=</span> <span class="n">Chunk2Doc</span><span class="p">()</span>\
-<span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>\
-<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_doc"</span><span class="p">)</span> 
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"classifierdl_bertwiki_finance_sentiment_pipeline"</span><span class="p">,</span> <span class="n">lang</span> <span class="o">=</span> <span class="s">"en"</span><span class="p">)</span>
 
-<span class="n">sbert_embedder</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span>\
-<span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
-<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk_doc"</span><span class="p">])</span>\
-<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
-
-<span class="n">mesh_resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span>\
-<span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_mesh"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
-<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">])</span> \
-<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mesh_code"</span><span class="p">)</span>\
-<span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>\
-
-<span class="n">resolver_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
-<span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
-<span class="n">document_assembler</span><span class="p">,</span>
-<span class="n">sentenceDetectorDL</span><span class="p">,</span>
-<span class="n">tokenizer</span><span class="p">,</span>
-<span class="n">word_embeddings</span><span class="p">,</span>
-<span class="n">clinical_ner</span><span class="p">,</span>
-<span class="n">ner_converter</span><span class="p">,</span>
-<span class="n">c2doc</span><span class="p">,</span>
-<span class="n">sbert_embedder</span><span class="p">,</span>
-<span class="n">mesh_resolver</span>
-<span class="p">])</span>
-
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"""She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy with fluid biopsies, which were performed, which revealed malignant mesothelioma."""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">resolver_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
+<span class="n">result1</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"As interest rates have increased, housing rents have also increased."</span><span class="p">)</span>
+<span class="n">result2</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Unemployment rates have skyrocketed this month."</span><span class="p">)</span>
+<span class="n">result3</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Tax rates on durable consumer goods were reduced."</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"classifierdl_bertwiki_finance_sentiment_pipeline"</span><span class="o">,</span> <span class="n">lang</span> <span class="k">=</span> <span class="s">"en"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">c2doc</span> <span class="k">=</span> <span class="nc">Chunk2Doc</span><span class="o">()</span>
-<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk_doc"</span><span class="o">)</span> 
-
-<span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nv">BertSentenceEmbeddings</span>
-<span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk_doc"</span><span class="o">))</span>
-<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">mesh_resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span>
-<span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_mesh"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span>
-<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"mesh_code"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">resolver_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">(</span>
-<span class="n">stages</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">(</span>
-<span class="n">document_assembler</span><span class="o">,</span>
-<span class="n">sentenceDetectorDL</span><span class="o">,</span>
-<span class="n">tokenizer</span><span class="o">,</span>
-<span class="n">word_embeddings</span><span class="o">,</span>
-<span class="n">clinical_ner</span><span class="o">,</span>
-<span class="n">ner_converter</span><span class="o">,</span>
-<span class="n">c2doc</span><span class="o">,</span>
-<span class="n">sbert_embedder</span><span class="o">,</span>
-<span class="n">mesh_resolver</span><span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy with fluid biopsies, which were performed, which revealed malignant mesothelioma."</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">resolver_pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">.(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
-
+<span class="k">val</span> <span class="nv">result1</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fullAnnotate</span><span class="o">(</span><span class="s">"As interest rates have increased, housing rents have also increased."</span><span class="o">)(</span><span class="mi">0</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result2</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fullAnnotate</span><span class="o">(</span><span class="s">"Unemployment rates have skyrocketed this month."</span><span class="o">)(</span><span class="mi">0</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result3</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fullAnnotate</span><span class="o">(</span><span class="s">"Tax rates on durable consumer goods were reduced."</span><span class="o">)(</span><span class="mi">0</span><span class="o">)</span>
 </code></pre></div>  </div>
-
-  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
-<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.resolve.mesh"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy with fluid biopsies, which were performed, which revealed malignant mesothelioma."""</span><span class="p">)</span>
-</code></pre></div>  </div>
-
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------------+---------+----------+----------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------+
-|                 ner_chunk|   entity| mesh_code|                                                                                           all_codes|                                                                                         resolutions|                                                                                           distances|
-+--------------------------+---------+----------+----------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------+
-|                chest pain|  PROBLEM|   D002637|D002637:::D059350:::D019547:::D020069:::D015746:::D000072716:::D005157:::D059265:::D001416:::D048...|Chest Pain:::Chronic Pain:::Neck Pain:::Shoulder Pain:::Abdominal Pain:::Cancer Pain:::Facial Pai...|0.0000:::0.0577:::0.0587:::0.0601:::0.0658:::0.0704:::0.0712:::0.0741:::0.0766:::0.0778:::0.0794:...|
-|bilateral pleural effusion|  PROBLEM|   D010996|D010996:::D010490:::D011654:::D016724:::D010995:::D016066:::D011001:::D007819:::D035422:::D004653...|Pleural Effusion:::Pericardial Effusion:::Pulmonary Edema:::Empyema, Pleural:::Pleural Diseases::...|0.0309:::0.1010:::0.1115:::0.1213:::0.1218:::0.1398:::0.1425:::0.1401:::0.1451:::0.1464:::0.1464:...|
-|             the pathology|     TEST|   D010336|D010336:::D010335:::D001004:::D020969:::C001675:::C536472:::D004194:::D003951:::D013631:::C535329...|Pathology:::Pathologic Processes:::Anus Diseases:::Disease Attributes:::malformins:::Upington dis...|0.0788:::0.0977:::0.1364:::0.1396:::0.1419:::0.1459:::0.1418:::0.1393:::0.1514:::0.1541:::0.1491:...|
-|        the pericardectomy|TREATMENT|   D010492|D010492:::D011670:::D018700:::D020884:::D011672:::D005927:::D064727:::D002431:::C000678968:::D011...|Pericardiectomy:::Pulpectomy:::Pleurodesis:::Colpotomy:::Pulpotomy:::Glossectomy:::Posterior Caps...|0.1098:::0.1448:::0.1801:::0.1852:::0.1871:::0.1923:::0.1901:::0.2023:::0.2075:::0.2010:::0.1996:...|
-|              mesothelioma|  PROBLEM|D000086002|D000086002:::C535700:::D009208:::D032902:::D018301:::D018199:::C562740:::C000686536:::D018276:::D...|Mesothelioma, Malignant:::Malignant mesenchymal tumor:::Myoepithelioma:::Ganoderma:::Neoplasms, M...|0.0813:::0.1515:::0.1599:::0.1810:::0.1864:::0.1881:::0.1907:::0.1938:::0.1924:::0.1876:::0.2040:...|
-|      chest tube placement|TREATMENT|   D015505|D015505:::D019616:::D013896:::D012124:::D013906:::D013510:::D020708:::D035423:::D013903:::D000066...|Chest Tubes:::Thoracic Surgical Procedures:::Thoracic Diseases:::Respiratory Care Units:::Thoraco...|0.0557:::0.1473:::0.1598:::0.1604:::0.1725:::0.1651:::0.1795:::0.1760:::0.1804:::0.1846:::0.1883:...|
-|     drainage of the fluid|TREATMENT|   D004322|D004322:::D018495:::C045413:::D021061:::D045268:::D018508:::D005441:::D015633:::D014906:::D001834...|Drainage:::Fluid Shifts:::Bonain<span class="s1">'s liquid:::Liquid Ventilation:::Flowmeters:::Water Purification:...|0.1141:::0.1403:::0.1582:::0.1549:::0.1586:::0.1626:::0.1599:::0.1655:::0.1667:::0.1656:::0.1741:...|
-|              thoracoscopy|TREATMENT|   D013906|D013906:::D020708:::D035423:::D013905:::D035441:::D013897:::D001468:::D000069258:::D013909:::D013...|Thoracoscopy:::Thoracoscopes:::Thoracic Cavity:::Thoracoplasty:::Thoracic Wall:::Thoracic Duct:::...|0.0000:::0.0359:::0.0744:::0.1007:::0.1070:::0.1143:::0.1186:::0.1257:::0.1228:::0.1356:::0.1354:...|
-|            fluid biopsies|     TEST|D000073890|D000073890:::D010533:::D020420:::D011677:::D017817:::D001706:::D005441:::D005751:::D013582:::D000...|Liquid Biopsy:::Peritoneal Lavage:::Cyst Fluid:::Punctures:::Nasal Lavage Fluid:::Biopsy:::Fluids...|0.1408:::0.1612:::0.1763:::0.1744:::0.1744:::0.1810:::0.1744:::0.1828:::0.1896:::0.1909:::0.1950:...|
-|    malignant mesothelioma|  PROBLEM|D000086002|D000086002:::C535700:::C562740:::D009236:::D007890:::D012515:::D009208:::C009823:::C000683999:::C...|Mesothelioma, Malignant:::Malignant mesenchymal tumor:::Hemangiopericytoma, Malignant:::Myxosarco...|0.0737:::0.1106:::0.1658:::0.1627:::0.1660:::0.1639:::0.1728:::0.1676:::0.1791:::0.1843:::0.1849:...|
-+-------+--------------------------+---------+----------+----------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------+
-</span></code></pre></div></div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span><span class="s1">'neutral'</span><span class="o">]</span>
+<span class="o">[</span><span class="s1">'negative'</span><span class="o">]</span>
+<span class="o">[</span><span class="s1">'positive'</span><span class="o">]</span>
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -534,43 +455,39 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>sbiobertresolve_mesh</td>
+      <td>classifierdl_bertwiki_finance_sentiment_pipeline</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>pipeline</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 3.3.2+</td>
+      <td>Spark NLP 3.3.0+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Licensed</td>
+      <td>Open Source</td>
     </tr>
     <tr>
       <td>Edition:</td>
       <td>Official</td>
     </tr>
     <tr>
-      <td>Input Labels:</td>
-      <td>[sentence_embeddings]</td>
-    </tr>
-    <tr>
-      <td>Output Labels:</td>
-      <td>[mesh_code]</td>
-    </tr>
-    <tr>
       <td>Language:</td>
       <td>en</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>false</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="data-source">Data Source</h2>
+<h2 id="included-models">Included Models</h2>
 
-<p>Trained on 01 December 2021 MeSH dataset.</p>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-14T00:00:00+00:00"><!-- start custom article footer snippet -->
+<ul>
+  <li>DocumentAssembler</li>
+  <li>BertSentenceEmbeddings</li>
+  <li>ClassifierDLModel</li>
+</ul>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-11T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -695,7 +612,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/11/classifierdl_bertwiki_finance_sentiment_pipeline_en.html">Sentiment Analysis Pipeline for Financial news</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/11/15/ner_nihss_en.html">Extract neurologic deficits related to Stroke Scale (NIHSS)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/11/sbiobertresolve_snomed_procedures_measurements_en.html">Sentence Entity Resolver for SNOMED codes (procedures and measurements)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/11/14/sbiobertresolve_mesh_en.html">Sentence Entity Resolver for MeSH (sbiobert_base_cased_mli embeddings)</a></div></div></div>
 
 </div>
 </div>
