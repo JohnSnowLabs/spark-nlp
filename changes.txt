@@ -1,2 +1,2 @@
-docs/_posts/murat-gunay/2022-06-30-bert_classifier_finbert_esg_en_3_0.md
-docs/_posts/murat-gunay/2022-06-30-bert_classifier_finbert_esg_en_3_0.md
+docs/_posts/josejuanmartinez/2022-08-09-finclf_sentiment_analysis_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-09-finclf_sentiment_analysis_en_3_2.md
