@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Portuguese Named Entity Recognition (from pierreguillou)- Spark NLP Model</title><meta name="description" content="DescriptionPretrained Named Entity Recognition model, uploaded to Hugging Face, adapted and imported into Spark NLP. ner-bert-large-cased-pt-lenerbr is a Por...">
-<link rel="canonical" href="/2022/05/09/bert_ner_ner_bert_large_cased_pt_lenerbr_pt_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Portuguese Named Entity Recognition (from pierreguillou)- Spark NLP Model</title><meta name="description" content="DescriptionPretrained Named Entity Recognition model, uploaded to Hugging Face, adapted and imported into Spark NLP. ner-bert-base-cased-pt-lenerbr is a Port...">
+<link rel="canonical" href="/2022/05/09/bert_ner_ner_bert_base_cased_pt_lenerbr_pt_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,7 +406,7 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/gadde5300/2022-05-09-bert_ner_ner_bert_large_cased_pt_lenerbr_pt_3_0.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/gadde5300/2022-05-09-bert_ner_ner_bert_base_cased_pt_lenerbr_pt_3_0.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
@@ -416,7 +416,7 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Pretrained Named Entity Recognition model, uploaded to Hugging Face, adapted and imported into Spark NLP. <code class="language-plaintext highlighter-rouge">ner-bert-large-cased-pt-lenerbr</code> is a Portuguese model orginally trained by <code class="language-plaintext highlighter-rouge">pierreguillou</code>.</p>
+<p>Pretrained Named Entity Recognition model, uploaded to Hugging Face, adapted and imported into Spark NLP. <code class="language-plaintext highlighter-rouge">ner-bert-base-cased-pt-lenerbr</code> is a Portuguese model orginally trained by <code class="language-plaintext highlighter-rouge">pierreguillou</code>.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
@@ -424,7 +424,7 @@
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_ner_ner_bert_large_cased_pt_lenerbr_pt_3.4.2_3.0_1652097756956.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_ner_ner_bert_base_cased_pt_lenerbr_pt_3.4.2_3.0_1652097885624.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -444,7 +444,7 @@
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_ner_ner_bert_large_cased_pt_lenerbr"</span><span class="p">,</span><span class="s">"pt"</span><span class="p">)</span> \
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_ner_ner_bert_base_cased_pt_lenerbr"</span><span class="p">,</span><span class="s">"pt"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
@@ -466,7 +466,7 @@
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">BertForTokenClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_ner_ner_bert_large_cased_pt_lenerbr"</span><span class="o">,</span><span class="s">"pt"</span><span class="o">)</span> 
+<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">BertForTokenClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_ner_ner_bert_base_cased_pt_lenerbr"</span><span class="o">,</span><span class="s">"pt"</span><span class="o">)</span> 
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
 
@@ -484,7 +484,7 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>bert_ner_ner_bert_large_cased_pt_lenerbr</td>
+      <td>bert_ner_ner_bert_base_cased_pt_lenerbr</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
@@ -512,7 +512,7 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>1.2 GB</td>
+      <td>406.5 MB</td>
     </tr>
     <tr>
       <td>Case sensitive:</td>
@@ -528,7 +528,7 @@
 <h2 id="references">References</h2>
 
 <ul>
-  <li>https://huggingface.co/pierreguillou/ner-bert-large-cased-pt-lenerbr</li>
+  <li>https://huggingface.co/pierreguillou/ner-bert-base-cased-pt-lenerbr</li>
   <li>https://medium.com/@pierre_guillou/nlp-modelos-e-web-app-para-reconhecimento-de-entidade-nomeada-ner-no-dom%C3%ADnio-jur%C3%ADdico-b658db55edfb</li>
   <li>https://github.com/piegu/language-models/blob/master/HuggingFace_Notebook_token_classification_NER_LeNER_Br.ipynb</li>
   <li>https://paperswithcode.com/sota?task=Token+Classification&amp;dataset=lener_br</li>
@@ -658,7 +658,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/05/09/bert_ner_ner_bert_base_cased_pt_lenerbr_pt_3_0.html">Portuguese Named Entity Recognition (from pierreguillou)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/05/09/bert_ner_ner_news_portuguese_pt_3_0.html">Portuguese Named Entity Recognition (from monilouise)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/05/09/bert_ner_marathi_ner_mr_3_0.html">Marathi Named Entity Recognition (from l3cube-pune)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/05/09/bert_ner_ner_bert_large_cased_pt_lenerbr_pt_3_0.html">Portuguese Named Entity Recognition (from pierreguillou)</a></div></div></div>
 
 </div>
 </div>
