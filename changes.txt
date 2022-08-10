@@ -1,2 +1,2 @@
-docs/_posts/josejuanmartinez/2022-08-09-finclf_sentiment_analysis_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-09-finclf_sentiment_analysis_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-09-finclf_distilroberta_sentiment_analysis_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-09-finclf_distilroberta_sentiment_analysis_en_3_2.md
