@@ -425,8 +425,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Legal Question Answering (RoBerta)- Spark NLP Model</title><meta name="description" content="DescriptionLegal RoBerta-based Question Answering model, trained on squad-v2, finetuned on proprietary Legal questions and answers.Predicted EntitiesLive Dem...">
-<link rel="canonical" href="/2022/08/09/legqa_roberta_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Financial Security ownership Item Binary Classifier- Spark NLP Model</title><meta name="description" content="DescriptionThis model is a Binary Classifier (True, False) for the security_ownership item type of 10K Annual Reports. To use this model, make sure you provi...">
+<link rel="canonical" href="/2022/08/10/finclf_security_ownership_item_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -822,23 +822,34 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-09-legqa_roberta_en_3_2.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-10-finclf_security_ownership_item_en_3_2.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 09, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-09T00:00:00+00:00"></div><header class="main-docs"><h1>Legal Question Answering (RoBerta)</h1></header></div><meta itemprop="headline" content="Legal Question Answering (RoBerta)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>qa</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-09T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,legal,qa,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 10, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-10T00:00:00+00:00"></div><header class="main-docs"><h1>Financial Security ownership Item Binary Classifier</h1></header></div><meta itemprop="headline" content="Financial Security ownership Item Binary Classifier"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>finance</li><li>classification</li><li>10k</li><li>annual</li><li>reports</li><li>sec</li><li>filings</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-10T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,finance,classification,10k,annual,reports,sec,filings,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Legal RoBerta-based Question Answering model, trained on squad-v2, finetuned on proprietary Legal questions and answers.</p>
+<p>This model is a Binary Classifier (True, False) for the <code class="language-plaintext highlighter-rouge">security_ownership</code> item type of 10K Annual Reports. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level.</p>
+
+<p>If you have big financial documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Finance Workshop Tokenization &amp; Splitting Tutorial (link <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Finance/1.Tokenization_Splitting.ipynb">here</a>), namely:</p>
+<ul>
+  <li>Paragraph splitting (by multiline);</li>
+  <li>Splitting by headers / subheaders;</li>
+  <li>etc.</li>
+</ul>
+
+<p>Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above).</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
+<p><code class="language-plaintext highlighter-rouge">other</code>, <code class="language-plaintext highlighter-rouge">security_ownership</code></p>
+
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legqa_roberta_en_1.0.0_3.2_1660054617548.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_security_ownership_item_en_1.0.0_3.2_1660154472575.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -846,32 +857,40 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">MultiDocumentAssembler</span><span class="p">()</span> \ 
-<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">])</span> \
-<span class="p">.</span><span class="n">setOutputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">spanClassifier</span> <span class="o">=</span> <span class="n">RoBertaForQuestionAnswering</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legqa_roberta"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span> \
-<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span> \
-<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span> \
-<span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">useEmbeddings</span> <span class="o">=</span> <span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
-<span class="n">document_assembler</span><span class="p">,</span>
-<span class="n">spanClassifier</span>
-<span class="p">])</span>
-
-<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"Who was subjected to torture?"</span><span class="p">,</span> <span class="s">"The applicant submitted that her husband was subjected to treatment amounting to abuse whilst in the custody of police."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">)</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
-
-<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">'answer.result'</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
+<span class="n">docClassifier</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finclf_security_ownership_item"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence_embeddings"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"category"</span><span class="p">)</span>
+    
+<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">documentAssembler</span><span class="p">,</span> 
+    <span class="n">useEmbeddings</span><span class="p">,</span>
+    <span class="n">docClassifier</span><span class="p">])</span>
+ 
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"YOUR TEXT HERE"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="sb">`</span>her husband<span class="sb">`</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------+
+| result|
++-------+
+|[security_ownership]|
+|[other]|
+|[other]|
+|[security_ownership]|
+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -880,11 +899,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>legqa_roberta</td>
+      <td>finclf_security_ownership_item</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Legal 1.0.0+</td>
+      <td>Spark NLP for Finance 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -896,11 +915,11 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[question, context]</td>
+      <td>[sentence_embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[answer]</td>
+      <td>[category]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -908,23 +927,27 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>447.9 MB</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>Max sentence length:</td>
-      <td>512</td>
+      <td>22.6 MB</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>Trained on squad-v2, finetuned on proprietary Legal questions and answers.</p>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-09T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>Weak labelling on documents from Edgar database</p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                    precision    recall  f1-score   support
+
+             other       0.90      0.84      0.87        31
+security_ownership       0.78      0.86      0.82        21
+
+          accuracy                           0.85        52
+         macro avg       0.84      0.85      0.84        52
+      weighted avg       0.85      0.85      0.85        52
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-10T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -1049,7 +1072,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/09/legqa_bert_large_en_3_2.html">Legal Question Answering (Bert, Large)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/10/finclf_risk_factors_item_en_3_2.html">Financial Risk factors Item Binary Classifier</a></div></div></div>
 
 </div>
 </div>
