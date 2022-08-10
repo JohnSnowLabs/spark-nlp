@@ -1,2 +1,2 @@
-docs/_posts/josejuanmartinez/2022-08-09-finqa_roberta_en_3_2.md
-docs/_posts/josejuanmartinez/2022-08-09-finqa_roberta_en_3_2.md
+docs/_posts/murat-gunay/2021-11-11-classifierdl_bertwiki_finance_sentiment_pipeline_en.md
+docs/_posts/murat-gunay/2021-11-11-classifierdl_bertwiki_finance_sentiment_pipeline_en.md
