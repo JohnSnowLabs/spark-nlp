@@ -1,2 +1,2 @@
-docs/_posts/dcecchini/2021-07-28-lener_bert_base_pt.md
-docs/_posts/dcecchini/2021-07-28-lener_bert_base_pt.md
+docs/_posts/murat-gunay/2021-12-21-bert_sequence_classifier_finbert_tone_en.md
+docs/_posts/murat-gunay/2021-12-21-bert_sequence_classifier_finbert_tone_en.md
