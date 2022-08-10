@@ -1,2 +1,2 @@
-docs/_posts/HashamUlHaq/2021-03-31-ner_legal_de.md
-docs/_posts/HashamUlHaq/2021-03-31-ner_legal_de.md
+docs/_posts/gadde5300/2022-05-09-bert_ner_ner_bert_base_cased_pt_lenerbr_pt_3_0.md
+docs/_posts/gadde5300/2022-05-09-bert_ner_ner_bert_base_cased_pt_lenerbr_pt_3_0.md
