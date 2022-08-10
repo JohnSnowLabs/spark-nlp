@@ -425,8 +425,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Financial Security ownership Item Binary Classifier- Spark NLP Model</title><meta name="description" content="DescriptionThis model is a Binary Classifier (True, False) for the security_ownership item type of 10K Annual Reports. To use this model, make sure you provi...">
-<link rel="canonical" href="/2022/08/10/finclf_security_ownership_item_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Legal Witnesseth Clause Binary Classifier- Spark NLP Model</title><meta name="description" content="DescriptionThis model is a Binary Classifier (True, False) for the witnesseth clause type. To use this model, make sure you provide enough context as an inpu...">
+<link rel="canonical" href="/2022/08/10/legclf_witnesseth_clause_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -822,19 +822,19 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-10-finclf_security_ownership_item_en_3_2.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-10-legclf_witnesseth_clause_en_3_2.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 10, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-10T00:00:00+00:00"></div><header class="main-docs"><h1>Financial Security ownership Item Binary Classifier</h1></header></div><meta itemprop="headline" content="Financial Security ownership Item Binary Classifier"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>finance</li><li>classification</li><li>10k</li><li>annual</li><li>reports</li><li>sec</li><li>filings</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-10T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,finance,classification,10k,annual,reports,sec,filings,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-10T00:00:00+00:00"></div><header class="main-docs"><h1>Legal Witnesseth Clause Binary Classifier</h1></header></div><meta itemprop="headline" content="Legal Witnesseth Clause Binary Classifier"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>classification</li><li>clauses</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-10T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,legal,classification,clauses,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model is a Binary Classifier (True, False) for the <code class="language-plaintext highlighter-rouge">security_ownership</code> item type of 10K Annual Reports. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level.</p>
+<p>This model is a Binary Classifier (True, False) for the <code class="language-plaintext highlighter-rouge">witnesseth</code> clause type. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level.</p>
 
-<p>If you have big financial documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Finance Workshop Tokenization &amp; Splitting Tutorial (link <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Finance/1.Tokenization_Splitting.ipynb">here</a>), namely:</p>
+<p>If you have big legal documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Legal Workshop Tokenization &amp; Splitting Tutorial (link <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Legal/1.Tokenization_Splitting.ipynb">here</a>), namely:</p>
 <ul>
   <li>Paragraph splitting (by multiline);</li>
   <li>Splitting by headers / subheaders;</li>
@@ -843,13 +843,15 @@
 
 <p>Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above).</p>
 
+<p>This model can be combined with any of the other 200+ Legal Clauses Classifiers you will find in Models Hub, getting as an output a series of True/False values for each of the legal clause model you have added.</p>
+
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">other</code>, <code class="language-plaintext highlighter-rouge">security_ownership</code></p>
+<p><code class="language-plaintext highlighter-rouge">other</code>, <code class="language-plaintext highlighter-rouge">witnesseth</code></p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/finance/CLASSIFY_LEGAL_CLAUSES/" class="button button-orange">Live Demo</a>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_security_ownership_item_en_1.0.0_3.2_1660154472575.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_witnesseth_clause_en_1.0.0_3.2_1660124134557.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -858,23 +860,23 @@
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"clause_text"</span><span class="p">)</span> \
      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sent_bert_base_cased"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
 
-<span class="n">useEmbeddings</span> <span class="o">=</span> <span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
-
-<span class="n">docClassifier</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finclf_security_ownership_item"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+<span class="n">docClassifier</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legclf_witnesseth_clause"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence_embeddings"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"category"</span><span class="p">)</span>
     
 <span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
     <span class="n">documentAssembler</span><span class="p">,</span> 
-    <span class="n">useEmbeddings</span><span class="p">,</span>
+    <span class="n">embeddings</span><span class="p">,</span>
     <span class="n">docClassifier</span><span class="p">])</span>
  
-<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"YOUR TEXT HERE"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"YOUR TEXT HERE"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"clause_text"</span><span class="p">)</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </code></pre></div>  </div>
@@ -886,10 +888,10 @@
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------+
 | result|
 +-------+
-|[security_ownership]|
+|[witnesseth]|
 |[other]|
 |[other]|
-|[security_ownership]|
+|[witnesseth]|
 
 </code></pre></div></div>
 
@@ -899,11 +901,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>finclf_security_ownership_item</td>
+      <td>legclf_witnesseth_clause</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Finance 1.0.0+</td>
+      <td>Spark NLP for Legal 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -927,25 +929,26 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>22.6 MB</td>
+      <td>23.3 MB</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>Weak labelling on documents from Edgar database</p>
+<p>Legal documents, scrapped from the Internet, and classified in-house</p>
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                    precision    recall  f1-score   support
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              precision    recall  f1-score   support
 
-             other       0.90      0.84      0.87        31
-security_ownership       0.78      0.86      0.82        21
+       other       0.95      0.94      0.95       125
+  witnesseth       0.88      0.89      0.88        55
 
-          accuracy                           0.85        52
-         macro avg       0.84      0.85      0.84        52
-      weighted avg       0.85      0.85      0.85        52
+    accuracy                           0.93       180
+   macro avg       0.91      0.92      0.92       180
+weighted avg       0.93      0.93      0.93       180
+
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-10T00:00:00+00:00"><!-- start custom article footer snippet -->
 
@@ -1072,7 +1075,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/10/finclf_risk_factors_item_en_3_2.html">Financial Risk factors Item Binary Classifier</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/10/legclf_whereas_clause_en_3_2.html">Legal Whereas Clause Binary Classifier</a></div></div></div>
 
 </div>
 </div>
