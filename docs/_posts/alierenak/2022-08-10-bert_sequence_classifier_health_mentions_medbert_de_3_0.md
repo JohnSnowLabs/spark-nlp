@@ -76,7 +76,7 @@ val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_s
 val pipeline = new Pipeline().setStages(Array(documenter, tokenizer, sequenceClassifier))
 
 val data = Seq(Array("Diabetes habe ich schon seit meiner Kindheit, seit der Pubertätch nehme Insulin.",
-                                     "Die Hochzeitszeitung ist zum Glück sehr schön geworden. Das Brautpaar gat sich gefreut.")).toDS().toDF("text")
+                     "Die Hochzeitszeitung ist zum Glück sehr schön geworden. Das Brautpaar gat sich gefreut.")).toDS().toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
