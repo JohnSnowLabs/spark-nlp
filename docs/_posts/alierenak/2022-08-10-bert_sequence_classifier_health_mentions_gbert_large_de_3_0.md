@@ -76,7 +76,7 @@ val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_s
 val pipeline = new Pipeline().setStages(Array(documenter, tokenizer, sequenceClassifier))
 
 val data = Seq(Array("Durch jahrelanges Rauchen habe ich meine Lunge einfach zu sehr geschädigt - Punkt.",
-                                     "Das Gefühl kenne ich auch denke, dass es vorallem mit der Sorge um das Durchfallen zusammenhängt.")).toDS().toDF("text")
+                     "Das Gefühl kenne ich auch denke, dass es vorallem mit der Sorge um das Durchfallen zusammenhängt.")).toDS().toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
