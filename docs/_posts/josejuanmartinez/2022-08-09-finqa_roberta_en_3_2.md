@@ -39,7 +39,7 @@ document_assembler = MultiDocumentAssembler() \
 .setInputCols(["question", "context"]) \
 .setOutputCols(["document_question", "document_context"])
 
-spanClassifier = RoBertaForQuestionAnswering.pretrained("roberta_qa_fin_RoBERTa_v1_finetuned_squad","en", "finance/models") \
+spanClassifier = RoBertaForQuestionAnswering.pretrained("finqa_roberta","en", "finance/models") \
 .setInputCols(["document_question", "document_context"]) \
 .setOutputCol("answer") \
 .setCaseSensitive(True)
