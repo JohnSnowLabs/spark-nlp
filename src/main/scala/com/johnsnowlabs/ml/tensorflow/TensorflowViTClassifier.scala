@@ -28,6 +28,10 @@ class TensorflowViTClassifier(
     val tensorflowWrapper: TensorflowWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     tags: Map[String, BigInt],
+    imageMean: Array[Double],
+    imageStd: Array[Double],
+    resample: Int,
+    size: Int,
     signatures: Option[Map[String, String]] = None)
     extends Serializable {
 
@@ -42,11 +46,11 @@ class TensorflowViTClassifier(
       Preprocessor(
         do_normalize = true,
         do_resize = true,
-        "",
-        Array(0.5d, 0.5d, 0.5d),
-        Array(0.5d, 0.5d, 0.5d),
-        2,
-        224)
+        "ViTFeatureExtractor",
+        imageMean,
+        imageStd,
+        resample,
+        size)
     val images =
       Array(AnnotationImage("image", "ox.JPEG", 265, 360, 3, 16, bytes, Map("image" -> "0")))
     val encoded = encode(images, preprocessor)
@@ -123,7 +127,6 @@ class TensorflowViTClassifier(
         val logits = tag(encoded, activation)
 
         batch.zip(logits).map { case (image, score) =>
-//          val scores = score.transpose.map(_.sum / logits.length)
           val label =
             tags.find(_._2 == score.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
 
