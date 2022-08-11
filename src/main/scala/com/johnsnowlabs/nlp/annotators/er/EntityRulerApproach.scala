@@ -513,8 +513,6 @@ class EntityRulerApproach(override val uid: String)
       patternsDataFrame: DataFrame,
       idFieldExist: Boolean): DataFrame = {
 
-    val spark = patternsDataFrame.sparkSession
-
     if (idFieldExist) {
       val patternsWithIdDataFrame =
         patternsDataFrame.withColumn("label_id", concat(col("label"), lit(","), col("id")))

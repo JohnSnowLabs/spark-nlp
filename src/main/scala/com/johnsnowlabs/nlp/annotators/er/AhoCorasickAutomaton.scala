@@ -154,10 +154,16 @@ class AhoCorasickAutomaton(
 
   private def findFailureState(state: Int, edgeIndex: Int): Int = {
     var failure = failureLink.getOrElse(state, -1)
+    if (failure == -1) {
+      return -1
+    }
 
     // Find the deepest node labeled by proper suffix of String from root to current state.
     if (transitionTable(failure)(edgeIndex) == -1) {
       failure = failureLink.getOrElse(failure, -1)
+      if (failure == -1) {
+        return -1
+      }
     }
     failure = transitionTable(failure)(edgeIndex)
 
@@ -172,8 +178,6 @@ class AhoCorasickAutomaton(
   def searchWords(sentence: Sentence, tokens: Map[Int, Annotation]): Seq[Annotation] = {
     var currentState = 0
     val longestMatchedTokens: ArrayBuffer[Annotation] = ArrayBuffer()
-    var previousTextIndex = -1
-    var previousBegin = -1
 
     sentence.content.zipWithIndex.foreach { case (char, textIndex) =>
       val currentChar = if (caseSensitive) char else char.toLower
@@ -185,28 +189,20 @@ class AhoCorasickAutomaton(
             val keyword = flattenEntityPattern.keyword
             val documentIndex = textIndex + sentence.start
             val begin = documentIndex - keyword.length + 1
-            val annotation = annotateTokenMatch(begin, sentence, flattenEntityPattern)
+            val candidateAnnotation = annotateTokenMatch(begin, sentence, flattenEntityPattern)
 
-            if (longestMatchedTokens.isEmpty & tokens.contains(documentIndex)) {
-              longestMatchedTokens.append(annotation)
-            } else {
-              if (documentIndex > previousTextIndex && begin > previousBegin & tokens.contains(
-                  documentIndex)) {
-                longestMatchedTokens.append(annotation)
-              } else {
-                if (begin <= previousBegin & tokens.contains(documentIndex)) {
+            if (foundToken(tokens, documentIndex, keyword)) {
+              val overlappingTokens = longestMatchedTokens.filter(annotation =>
+                annotation.begin >= begin & annotation.end <= documentIndex)
 
-                  val overlappingTokens = longestMatchedTokens.filter(annotation =>
-                    annotation.begin >= begin & annotation.end <= documentIndex)
-                  overlappingTokens.foreach(overlappingToken =>
-                    longestMatchedTokens -= overlappingToken)
+              overlappingTokens.foreach(overlappingToken =>
+                longestMatchedTokens -= overlappingToken)
 
-                  longestMatchedTokens.append(annotation)
-                }
+              if (!longestMatchedTokens.exists(annotation =>
+                  annotation.end == candidateAnnotation.end)) {
+                longestMatchedTokens.append(candidateAnnotation)
               }
             }
-            previousTextIndex = documentIndex
-            previousBegin = begin
           }
         }
       }
@@ -215,9 +211,30 @@ class AhoCorasickAutomaton(
     longestMatchedTokens.toList
   }
 
+  private def foundToken(tokens: Map[Int, Annotation], key: Int, keyword: String): Boolean = {
+    val annotatedToken = tokens.get(key)
+    val token =
+      if (annotatedToken.isEmpty) ""
+      else {
+        if (caseSensitive) annotatedToken.get.result else annotatedToken.get.result.toLowerCase()
+      }
+
+    val currentKeyword = if (caseSensitive) keyword else keyword.toLowerCase()
+
+    if (currentKeyword.split(" ").length == 1) {
+      token == currentKeyword
+    } else {
+      currentKeyword.split(" ").contains(token)
+    }
+  }
+
   private def findNextState(state: Int, edge: Char): Int = {
     var currentState = state
     val currentEdge = if (caseSensitive) edge else edge.toLower
+
+    val newLine = System.getProperty("line.separator")
+    if (newLine == edge.toString) return 0
+
     val edgeIndex = edges.getOrElse(
       currentEdge,
       throw new UnsupportedOperationException(
@@ -227,6 +244,9 @@ class AhoCorasickAutomaton(
     var nextState = transitionTable(currentState)(edgeIndex)
     if (nextState == -1) {
       currentState = failureLink.getOrElse(currentState, -1)
+      if (currentState == -1) {
+        return 0
+      }
       nextState = transitionTable(currentState)(edgeIndex)
     }
 
