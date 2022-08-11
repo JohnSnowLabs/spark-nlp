@@ -131,6 +131,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_UMLS_CUI.ipynb
         - title: Map clinical terminology to HCPCS taxonomy
+          hide: yes
           id: map_clinical_terminology_hcpcs_taxonomy  
           image: 
               src: /assets/images/Map_clinical_terminology_to_HCPCS_taxonomy.svg
