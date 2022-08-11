@@ -1,2 +1,2 @@
-python/docs/requirements_doc.txt
-python/docs/requirements_doc.txt
+docs/en/transformers.md
+docs/en/transformers.md
