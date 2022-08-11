@@ -1,2 +1,2 @@
-docs/_posts/murat-gunay/2021-09-28-classifierdl_bertwiki_finance_sentiment_en.md
-docs/_posts/murat-gunay/2021-09-28-classifierdl_bertwiki_finance_sentiment_en.md
+python/docs/requirements_doc.txt
+python/docs/requirements_doc.txt
