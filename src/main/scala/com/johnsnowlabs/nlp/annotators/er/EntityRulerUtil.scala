@@ -63,7 +63,7 @@ object EntityRulerUtil {
     string.toBoolean
   }
 
-  private val symbols = """:$&(){}[]?/\\!><@=#-;,%_“.|'`"""
+  private val symbols = """:$&(){}[]?/\\!><@=#-;,%_“.|'`"*#^+~€"""
   private val numbers = "0123456789"
   private val englishAlphabet = "abcdefghijklmnopqrstuvwxyz"
   private val spanishAlphabet = "abcdefghijklmnñopqrstuvwxyz" + "áéíóú"

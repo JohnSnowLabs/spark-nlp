@@ -149,10 +149,13 @@ class EntityRulerModel(override val uid: String)
           annotation.annotatorType == TOKEN && annotation
             .metadata("sentence")
             .toInt == sentence.index)
+
         val tokens: Map[Int, Annotation] =
           tokensPerSentence.map(annotation => (annotation.end, annotation)).toMap
 
-        $$(automaton).get.searchWords(sentence, tokens)
+        val result = $$(automaton).get.searchWords(sentence, tokens)
+
+        result
       }
     }
 
