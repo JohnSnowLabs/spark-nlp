@@ -22,7 +22,7 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/image_classifier_vit_base_patch16_224_en_4.1.0_3.0_1660163110764.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/image_classifier_vit_base_patch16_224_en_4.1.0_3.0_1660165449585.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
