@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 This Named Entity Recognition model is intended for detecting relevant entities from Spanish clinical trial abstracts and trained using the BertForTokenClassification method from the transformers library and [BERT based](https://huggingface.co/dccuchile/bert-base-spanish-wwm-cased) embeddings. 
-The model detects CHEM (Pharmacological and Chemical Substances), pathologies (DISO), and lab tests, diagnostic or therapeutic procedures (PROC).
+The model detects Pharmacological and Chemical Substances (CHEM), pathologies (DISO), and lab tests, diagnostic or therapeutic procedures (PROC).
 
 ## Predicted Entities
 
