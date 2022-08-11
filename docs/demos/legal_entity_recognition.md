@@ -112,8 +112,22 @@ data:
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_PT/
+            url: https://demo.johnsnowlabs.com/finance/LEGALNER_OBLIGATIONS/
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_PT.ipynb
+        - title: Identify Companies and their aliases in legal texts
+          id: identify_companies_their_aliases_legal_texts        
+          image: 
+              src: /assets/images/Identify_Companies_and_their_aliases_in_legal_texts.svg
+          image2: 
+              src: /assets/images/Identify_Companies_and_their_aliases_in_legal_texts_f.svg
+          excerpt: This model uses Entity Recognition to identify ORG (Companies), their ALIAS (other names the company uses in the contract/agreement) and company PRODUCTS.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/LEGALNER_ALIAS/
+          - text: Colab Netbook
+            type: blue_btn
+            url:
 ---
