@@ -89,6 +89,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTENCE_SIMILARITY.ipynb
         - title:  Automatically answer questions
+          hide: yes
           id: automatically_answer_questions
           image: 
               src: /assets/images/spelling.svg

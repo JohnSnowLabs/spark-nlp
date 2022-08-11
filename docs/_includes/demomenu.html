@@ -76,6 +76,12 @@
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "classify_medical_texts" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/classify_medical_texts">Classify Medical Texts</a>
       </li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "public_health" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/public_health">Public Health</a>
+      </li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "question_answering" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/question_answering">Question Answering</a>
+      </li>
       <li><strong>Spark NLP for Finance</strong></li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_entity_recognition" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/financial_entity_recognition">Recognize Financial Entities</a>
