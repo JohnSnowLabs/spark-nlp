@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Extract pharmacological entities from Spanish mdeical texts (BertForTokenClassification)
+title: Extract pharmacological entities from Spanish medical texts (BertForTokenClassification)
 author: John Snow Labs
 name: bert_token_classifier_pharmacology
 date: 2022-08-11
