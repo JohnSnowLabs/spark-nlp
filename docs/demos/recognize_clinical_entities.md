@@ -270,4 +270,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_PROFESSIONS_ES.ipynb
+        - title: Detect mentions of general medical terms (coarse) 
+          id: detect_mentions_general_medical_terms_coarse
+          image: 
+              src: /assets/images/Detect_mentions_of_general_medical_terms.svg
+          image2: 
+              src: /assets/images/Detect_mentions_of_general_medical_terms_f.svg
+          excerpt: Extract general medical terms in text like body parts, cells, genes, symptoms, etc in text.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_MEDMENTIONS_COARSE/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_MEDMENTIONS_COARSE.ipynb
 ---

@@ -102,5 +102,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_PT.ipynb
-
+        - title: Extract Parties obligations in a Legal Agreement 
+          id: extract_parties_obligations_legal_agreement   
+          image: 
+              src: /assets/images/Extract_Parties_obligations_in_a_Legal_Agreement.svg
+          image2: 
+              src: /assets/images/Extract_Parties_obligations_in_a_Legal_Agreement_f.svg
+          excerpt: Automatically identify entities such as Organization, Jurisprudence, Legislation, Person, Location, and Time, etc. in (Brazilian) Portuguese legal text. 
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_PT/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_PT.ipynb
 ---
