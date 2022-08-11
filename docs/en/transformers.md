@@ -72,13 +72,13 @@ DeBertaForSequenceClassification |   | ✅  |  [TFDebertaV2ForSequenceClassifica
 XlmRoBertaForSequenceClassification |   | ✅  |  [TFXLMRobertaForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/xlmroberta#transformers.TFXLMRobertaForSequenceClassification)
 XlnetForSequenceClassification |   | ✅  |  [TFXLNetForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/xlnet#transformers.TFXLNetForSequenceClassification)
 LongformerForSequenceClassification |   | ✅  |  [TFLongformerForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/longformer#transformers.TFLongformerForSequenceClassification)
- | AlbertForQuestionAnswering  |   |✅  |  [TFAlbertForQuestionAnswering](https://huggingface.co/docs/transformers/model_doc/albert#transformers.TFAlbertForQuestionAnswering)
- | BertForQuestionAnswering  |   |✅  |  [TFBertForQuestionAnswering](https://huggingface.co/docs/transformers/model_doc/bert#transformers.TFBertForQuestionAnswering)
- | DeBertaForQuestionAnswering |   |✅  |  [TFDebertaV2ForQuestionAnswering](https://huggingface.co/docs/transformers/model_doc/deberta-v2#transformers.TFDebertaV2ForQuestionAnswering)
- | DistilBertForQuestionAnswering  |   |✅  |  [TFDistilBertForQuestionAnswering](https://huggingface.co/docs/transformers/model_doc/distilbert#transformers.TFDistilBertForQuestionAnswering)
- | LongformerForQuestionAnswering  |   |✅  |  [TFLongformerForQuestionAnswering](https://huggingface.co/docs/transformers/model_doc/longformer#transformers.TFLongformerForQuestionAnswering)
- | RoBertaForQuestionAnswering  |   |✅  |  [TFRobertaForQuestionAnswering](https://huggingface.co/docs/transformers/model_doc/roberta#transformers.TFRobertaForQuestionAnswering)
- | XlmRoBertaForQuestionAnswering  |   |✅  |  [TFXLMRobertaForQuestionAnswering](https://huggingface.co/docs/transformers/model_doc/xlm-roberta#transformers.TFXLMRobertaForQuestionAnswering)
+AlbertForQuestionAnswering  |   |✅  |  [TFAlbertForQuestionAnswering](https://huggingface.co/docs/transformers/model_doc/albert#transformers.TFAlbertForQuestionAnswering)
+BertForQuestionAnswering  |   |✅  |  [TFBertForQuestionAnswering](https://huggingface.co/docs/transformers/model_doc/bert#transformers.TFBertForQuestionAnswering)
+DeBertaForQuestionAnswering |   |✅  |  [TFDebertaV2ForQuestionAnswering](https://huggingface.co/docs/transformers/model_doc/deberta-v2#transformers.TFDebertaV2ForQuestionAnswering)
+DistilBertForQuestionAnswering  |   |✅  |  [TFDistilBertForQuestionAnswering](https://huggingface.co/docs/transformers/model_doc/distilbert#transformers.TFDistilBertForQuestionAnswering)
+LongformerForQuestionAnswering  |   |✅  |  [TFLongformerForQuestionAnswering](https://huggingface.co/docs/transformers/model_doc/longformer#transformers.TFLongformerForQuestionAnswering)
+RoBertaForQuestionAnswering  |   |✅  |  [TFRobertaForQuestionAnswering](https://huggingface.co/docs/transformers/model_doc/roberta#transformers.TFRobertaForQuestionAnswering)
+XlmRoBertaForQuestionAnswering  |   |✅  |  [TFXLMRobertaForQuestionAnswering](https://huggingface.co/docs/transformers/model_doc/xlm-roberta#transformers.TFXLMRobertaForQuestionAnswering)
 T5Transformer |   |  ❌ |
 MarianTransformer|   | ❌  |
 OpenAI GPT2|   | ❌  |
