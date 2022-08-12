@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Extract negation and uncertainty entities from Spanish mdeical texts (BertForTokenClassification)
+title: Extract Negation and Uncertainty Entities from Spanish Medical Texts (BertForTokenClassification)
 author: John Snow Labs
 name: bert_token_classifier_negation_uncertainty
 date: 2022-08-11
