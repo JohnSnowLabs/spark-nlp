@@ -115,7 +115,7 @@ data:
             url: https://demo.johnsnowlabs.com/finance/LEGALNER_OBLIGATIONS/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_PT.ipynb
+            url: 
         - title: Identify Companies and their aliases in legal texts
           id: identify_companies_their_aliases_legal_texts        
           image: 
