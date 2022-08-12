@@ -42,7 +42,7 @@ data:
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_AGE/
+            url: https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_ADE/
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb

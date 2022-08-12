@@ -17,6 +17,9 @@
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "analyze_spelling_grammar" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/analyze_spelling_grammar">Analyze Spelling &amp; Grammar</a>
       </li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "question_answering" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/question_answering">Question Answering</a>
+      </li>
       <li class="free_link"><strong>Spark NLP: World Languages</strong><span>Free</span></li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "identify_translate_languages" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/identify_translate_languages">Identify &amp; Translate Languages</a>
@@ -78,9 +81,6 @@
       </li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "public_health" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/public_health">Public Health</a>
-      </li>
-      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "question_answering" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-        <a href="/question_answering">Question Answering</a>
       </li>
       <li><strong>Spark NLP for Finance</strong></li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_entity_recognition" %} class="active"  {% endif %} {% endfor %} {% endif %} >
