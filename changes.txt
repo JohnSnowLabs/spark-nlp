@@ -1,8 +1,8 @@
-docs/_includes/demomenu.html
-docs/demos/financial_text_classification.md
-docs/demos/legal_entity_recognition.md
-docs/demos/public_health.md
-docs/_includes/demomenu.html
-docs/demos/financial_text_classification.md
-docs/demos/legal_entity_recognition.md
-docs/demos/public_health.md
+docs/_posts/josejuanmartinez/2022-08-12-legner_bert_grants_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-12-legner_headers_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-12-legner_whereas_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-12-legre_contract_doc_parties_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-12-legner_bert_grants_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-12-legner_headers_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-12-legner_whereas_en_3_2.md
+docs/_posts/josejuanmartinez/2022-08-12-legre_contract_doc_parties_en_3_2.md

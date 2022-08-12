@@ -425,8 +425,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Financial NER (WIP)- Spark NLP Model</title><meta name="description" content="DescriptionThis model is a WIP (Work In Progress) model, meaning the John Snow Labs team is currently working on improving the model with more in-house annot...">
-<link rel="canonical" href="/2022/08/12/finner_financial_wip_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Legal Relation Extraction (Parties, Alias, Dates, Document Type)- Spark NLP Model</title><meta name="description" content="DescriptionThis is a Legal Relation Extraction model, which can be used after the NER Model for extracting Parties, Document Types, Effective Dates and Alias...">
+<link rel="canonical" href="/2022/08/12/legre_contract_doc_parties_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -822,44 +822,34 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-12-finner_financial_wip_en_3_2.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-12-legre_contract_doc_parties_en_3_2.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 12, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-12T00:00:00+00:00"></div><header class="main-docs"><h1>Financial NER (WIP)</h1></header></div><meta itemprop="headline" content="Financial NER (WIP)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>finance</li><li>ner</li><li>annual</li><li>ports</li><li>10k</li><li>filings</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-12T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,finance,ner,annual,ports,10k,filings,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-12T00:00:00+00:00"></div><header class="main-docs"><h1>Legal Relation Extraction (Parties, Alias, Dates, Document Type)</h1></header></div><meta itemprop="headline" content="Legal Relation Extraction (Parties, Alias, Dates, Document Type)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>re</li><li>relations</li><li>agreements</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-12T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,legal,re,relations,agreements,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model is a WIP (Work In Progress) model, meaning the John Snow Labs team is currently working on improving the model with more in-house annotations by Subject Matter Experts.</p>
+<p>This is a Legal Relation Extraction model, which can be used after the NER Model for extracting Parties, Document Types, Effective Dates and Aliases, called <code class="language-plaintext highlighter-rouge">legner_contract_doc_parties</code>.</p>
 
-<p>The aim of this model is to detect the main pieces of financial information in annual reports of companies, more specifically this model is being trained with 10K filings.</p>
+<p>As an output, you will get the relations linking the different concepts together, if such relation exists. The list of relations is:</p>
 
-<p>The currently available entities are:</p>
 <ul>
-  <li>AMOUNT: Numeric amounts, not percentages</li>
-  <li>PERCENTAGE: Numeric amounts which are percentages</li>
-  <li>CURRENCY: The currency of the amount</li>
-  <li>FISCAL_YEAR: A date which expresses which month the fiscal exercise was closed for a specific year</li>
-  <li>DATE: Generic dates in context where either it’s not a fiscal year or it can’t be asserted as such given the context</li>
-  <li>PROFIT: Profit or also Revenue</li>
-  <li>PROFIT_INCREASE: A piece of information saying there was a profit / revenue increase in that fiscal year</li>
-  <li>PROFIT_DECLINE: A piece of information saying there was a profit / revenue decrease in that fiscal year</li>
-  <li>EXPENSE: An expense or loss</li>
-  <li>EXPENSE_INCREASE: A piece of information saying there was an expense increase in that fiscal year</li>
-  <li>EXPENSE_DECREASE: A piece of information saying there was an expense decrease in that fiscal year</li>
+  <li>dated_as: A Document has an Effective Date</li>
+  <li>has_alias: The Alias of a Party all along the document</li>
+  <li>has_collective_alias: An Alias hold by several parties at the same time</li>
+  <li>signed_by: Between a Party and the document they signed</li>
 </ul>
-
-<p>You can also check for the Relation Extraction model which connects these entities together</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">AMOUNT</code>, <code class="language-plaintext highlighter-rouge">CURRENCY</code>, <code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">FISCAL_YEAR</code>, <code class="language-plaintext highlighter-rouge">PERCENTAGE</code>, <code class="language-plaintext highlighter-rouge">EXPENSE</code>, <code class="language-plaintext highlighter-rouge">EXPENSE_INCREASE</code>, <code class="language-plaintext highlighter-rouge">EXPENSE_DECREASE</code>, <code class="language-plaintext highlighter-rouge">PROFIT</code>, <code class="language-plaintext highlighter-rouge">PROFIT_INCREASE</code>, <code class="language-plaintext highlighter-rouge">PROFIT_DECLINE</code></p>
+<p><code class="language-plaintext highlighter-rouge">dated_as</code>, <code class="language-plaintext highlighter-rouge">has_alias</code>, <code class="language-plaintext highlighter-rouge">has_collective_alias</code>, <code class="language-plaintext highlighter-rouge">signed_by</code></p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/finance/LEGALRE_PARTIES/" class="button button-orange">Live Demo</a>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_financial_wip_en_1.0.0_3.2_1660292343445.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_contract_doc_parties_en_1.0.0_3.2_1660293010932.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -867,110 +857,60 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-
-<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span><span class="s">"xx"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_base_uncased_legal"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">ner_model</span> <span class="o">=</span> <span class="n">FinanceNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_financial_wip"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
+<span class="n">ner_model</span> <span class="o">=</span> <span class="n">LegalNerModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'legner_contract_doc_parties'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'legal/models'</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">document_assembler</span><span class="p">,</span>
-    <span class="n">sentence_detector</span><span class="p">,</span>
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">embeddings</span><span class="p">,</span>
-    <span class="n">ner_model</span><span class="p">,</span>
-    <span class="n">ner_converter</span>   
-    <span class="p">])</span>
+<span class="n">reDL</span> <span class="o">=</span> <span class="n">RelationExtractionDLModel</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'legre_contract_doc_parties'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'legal/models'</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setPredictionThreshold</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>
+    
+<span class="n">text</span><span class="o">=</span><span class="s">'''
+This INTELLECTUAL PROPERTY AGREEMENT (this "Agreement"), dated as of December 31, 2018 (the "Effective Date") is entered into by and between Armstrong Flooring, Inc., a Delaware corporation ("Seller") and AFI Licensing LLC, a Delaware limited liability company ("Licensing" and together with Seller, "Arizona") and AHF Holding, Inc. (formerly known as Tarzan HoldCo, Inc.), a Delaware corporation ("Buyer") and Armstrong Hardwood Flooring Company, a Tennessee corporation (the "Company" and together with Buyer the "Buyer Entities") (each of Arizona on the one hand and the Buyer Entities on the other hand, a "Party" and collectively, the "Parties").
+'''</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"""License fees revenue decreased 40 %, or $ 0.5 million to $ 0.7 million for the year ended December 31, 2020 compared to $ 1.2 million for the year ended December 31, 2019. Services revenue increased 4 %, or $ 1.1 million, to $ 25.6 million for the year ended December 31, 2020 from $ 24.5 million for the year ended December 31, 2019.  Costs of revenue, excluding depreciation and amortization increased by $ 0.1 million, or 2 %, to $ 8.8 million for the year ended December 31, 2020 from $ 8.7 million for the year ended December 31, 2019. The increase was primarily related to increase in internal staff costs of $ 1.1 million as we increased delivery staff and work performed on internal projects, partially offset by a decrease in third party consultant costs of $ 0.6 million as these were converted to internal staff or terminated. Also, a decrease in travel costs of $ 0.4 million due to travel restrictions caused by the global pandemic. As a percentage of revenue, cost of revenue, excluding depreciation and amortization was 34 % for each of the years ended December 31, 2020 and 2019. Sales and marketing expenses decreased 20 %, or $ 1.5 million, to $ 6.0 million for the year ended December 31, 2020 from $ 7.5 million for the year ended December 31, 2019."""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">explode</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">arrays_zip</span><span class="p">(</span><span class="s">'ner_chunk.result'</span><span class="p">,</span> <span class="s">'ner_chunk.metadata'</span><span class="p">)).</span><span class="n">alias</span><span class="p">(</span><span class="s">"cols"</span><span class="p">))</span> \
-               <span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['0']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"text"</span><span class="p">),</span>
-                       <span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['1']['entity']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"label"</span><span class="p">)).</span><span class="n">show</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">truncate</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------------------------------------------------------+----------------+
-|text                                                     |label           |
-+---------------------------------------------------------+----------------+
-|License fees revenue                                     |PROFIT_DECLINE  |
-|40                                                       |PERCENTAGE      |
-|<span class="nv">$ </span>                                                       |CURRENCY        |
-|0.5 million                                              |AMOUNT          |
-|<span class="nv">$ </span>                                                       |CURRENCY        |
-|0.7 million                                              |AMOUNT          |
-|December 31, 2020                                        |FISCAL_YEAR     |
-|<span class="nv">$ </span>                                                       |CURRENCY        |
-|1.2 million                                              |AMOUNT          |
-|December 31, 2019                                        |FISCAL_YEAR     |
-|Services revenue                                         |PROFIT_INCREASE |
-|4                                                        |PERCENTAGE      |
-|<span class="nv">$ </span>                                                       |CURRENCY        |
-|1.1 million                                              |AMOUNT          |
-|<span class="nv">$ </span>                                                       |CURRENCY        |
-|25.6 million                                             |AMOUNT          |
-|December 31, 2020                                        |FISCAL_YEAR     |
-|<span class="nv">$ </span>                                                       |CURRENCY        |
-|24.5 million                                             |AMOUNT          |
-|December 31, 2019                                        |FISCAL_YEAR     |
-|Costs of revenue, excluding depreciation and amortization|EXPENSE_INCREASE|
-|<span class="nv">$ </span>                                                       |CURRENCY        |
-|0.1 million                                              |AMOUNT          |
-|2                                                        |PERCENTAGE      |
-|<span class="nv">$ </span>                                                       |CURRENCY        |
-|8.8 million                                              |AMOUNT          |
-|December 31, 2020                                        |FISCAL_YEAR     |
-|<span class="nv">$ </span>                                                       |CURRENCY        |
-|8.7 million                                              |AMOUNT          |
-|December 31, 2019                                        |FISCAL_YEAR     |
-|internal staff costs                                     |EXPENSE_INCREASE|
-|<span class="nv">$ </span>                                                       |CURRENCY        |
-|1.1 million                                              |AMOUNT          |
-|third party consultant costs                             |EXPENSE_DECREASE|
-|<span class="nv">$ </span>                                                       |CURRENCY        |
-|0.6 million                                              |AMOUNT          |
-|travel costs                                             |EXPENSE_DECREASE|
-|<span class="nv">$ </span>                                                       |CURRENCY        |
-|0.4 million                                              |AMOUNT          |
-|cost of revenue, excluding depreciation and amortization |EXPENSE         |
-|34                                                       |PERCENTAGE      |
-|December 31, 2020                                        |FISCAL_YEAR     |
-|2019                                                     |DATE            |
-|Sales and marketing expenses                             |EXPENSE_DECREASE|
-|20                                                       |PERCENTAGE      |
-|<span class="nv">$ </span>                                                       |CURRENCY        |
-|1.5 million                                              |AMOUNT          |
-|<span class="nv">$ </span>                                                       |CURRENCY        |
-|6.0 million                                              |AMOUNT          |
-|December 31, 2020                                        |FISCAL_YEAR     |
-|<span class="nv">$ </span>                                                       |CURRENCY        |
-|7.5 million                                              |AMOUNT          |
-|December 31, 2019                                        |FISCAL_YEAR     |
-+---------------------------------------------------------+----------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>relation entity1 entity1_begin entity1_end                              chunk1 entity2 entity2_begin entity2_end                  chunk2 confidence
+            dated_as     DOC             6          36     INTELLECTUAL PROPERTY AGREEMENT EFFDATE            70          86       December 31, 2018  0.9933402
+           signed_by     DOC             6          36     INTELLECTUAL PROPERTY AGREEMENT   PARTY           142         164 Armstrong Flooring, Inc  0.6235637
+           signed_by     DOC             6          36     INTELLECTUAL PROPERTY AGREEMENT   PARTY           316         331        AHF Holding, Inc  0.5001139
+           has_alias   PARTY           142         164             Armstrong Flooring, Inc   ALIAS           193         198                  Seller 0.93385726
+           has_alias   PARTY           206         222                   AFI Licensing LLC   ALIAS           264         272               Licensing  0.9859913
+has_collective_alias   ALIAS           293         298                              Seller   ALIAS           302         308                 Arizona 0.82137156
+           has_alias   PARTY           316         331                    AHF Holding, Inc   ALIAS           400         404                   Buyer  0.8178999
+           has_alias   PARTY           412         446 Armstrong Hardwood Flooring Company   ALIAS           479         485                 Company  0.9557921
+           has_alias   PARTY           412         446 Armstrong Hardwood Flooring Company   ALIAS           575         579                   Buyer  0.6778585
+           has_alias   PARTY           412         446 Armstrong Hardwood Flooring Company   ALIAS           612         616                   Party  0.6778583
+           has_alias   PARTY           412         446 Armstrong Hardwood Flooring Company   ALIAS           642         648                 Parties  0.6778585
+has_collective_alias   ALIAS           506         510                               Buyer   ALIAS           517         530          Buyer Entities 0.69863707
+has_collective_alias   ALIAS           517         530                      Buyer Entities   ALIAS           575         579                   Buyer 0.55453944
+has_collective_alias   ALIAS           517         530                      Buyer Entities   ALIAS           612         616                   Party 0.55453944
+has_collective_alias   ALIAS           517         530                      Buyer Entities   ALIAS           642         648                 Parties 0.55453944
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -979,15 +919,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>finner_financial_wip</td>
+      <td>legre_contract_doc_parties</td>
     </tr>
     <tr>
       <td>Type:</td>
-      <td>finance</td>
+      <td>legal</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Finance 1.0.0+</td>
+      <td>Spark NLP for Legal 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -998,48 +938,33 @@
       <td>Official</td>
     </tr>
     <tr>
-      <td>Input Labels:</td>
-      <td>[sentence, token, embeddings]</td>
-    </tr>
-    <tr>
-      <td>Output Labels:</td>
-      <td>[ner]</td>
-    </tr>
-    <tr>
       <td>Language:</td>
       <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>1.1 MB</td>
+      <td>409.9 MB</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>Manual annotations on 10-K Filings</p>
+<p>Manual annotations on CUAD dataset</p>
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                 precision    recall  f1-score   support
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Relation                 Recall Precision        F1   Support
 
-          AMOUNT       0.97      0.99      0.98       364
-        CURRENCY       0.99      0.98      0.98       365
-            DATE       0.89      0.94      0.91       264
-         EXPENSE       0.65      0.45      0.54        33
-EXPENSE_DECREASE       0.67      0.73      0.70        22
-EXPENSE_INCREASE       0.90      0.83      0.86        65
-     FISCAL_YEAR       0.92      0.91      0.91       121
-      PERCENTAGE       1.00      0.91      0.95        80
-          PROFIT       0.85      0.52      0.65        21
-  PROFIT_DECLINE       0.88      0.64      0.74        11
- PROFIT_INCREASE       0.88      0.77      0.82        30
+dated_as                 0.962     0.962     0.962        26
+has_alias                0.936     0.946     0.941        94
+has_collective_alias     1.000     1.000     1.000         7
+no_rel                   0.982     0.980     0.981       497
+signed_by                0.961     0.961     0.961        76
 
-       micro avg       0.94      0.93      0.93      1376
-       macro avg       0.87      0.79      0.82      1376
-    weighted avg       0.94      0.93      0.93      1376
-    
+Avg.                     0.968     0.970     0.969
+
+Weighted Avg.            0.973     0.973     0.973
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-12T00:00:00+00:00"><!-- start custom article footer snippet -->
 
@@ -1166,7 +1091,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/10/legclf_witnesseth_clause_en_3_2.html">Legal Witnesseth Clause Binary Classifier</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/12/legner_whereas_en_3_2.html">Legal NER - Whereas Clauses</a></div></div></div>
 
 </div>
 </div>

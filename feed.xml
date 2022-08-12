@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-08-12T09:07:29+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-08-12T11:11:24+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
 </subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Financial NER (WIP)</title><link href="/2022/08/12/finner_financial_wip_en_3_2.html" rel="alternate" type="text/html" title="Financial NER (WIP)" /><published>2022-08-12T00:00:00+00:00</published><updated>2022-08-12T00:00:00+00:00</updated><id>/2022/08/12/finner_financial_wip_en_3_2</id><content type="html" xml:base="/2022/08/12/finner_financial_wip_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;This model is a WIP (Work In Progress) model, meaning the John Snow Labs team is currently working on improving the model with more in-house annotations by Subject Matter Experts.&lt;/p&gt;
@@ -209,7 +209,733 @@ EXPENSE_INCREASE       0.90      0.83      0.86        65
        macro avg       0.87      0.79      0.82      1376
     weighted avg       0.94      0.93      0.93      1376
     
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="ner" /><category term="annual" /><category term="ports" /><category term="10k" /><category term="filings" /><category term="licensed" /><summary type="html">Description This model is a WIP (Work In Progress) model, meaning the John Snow Labs team is currently working on improving the model with more in-house annotations by Subject Matter Experts. The aim of this model is to detect the main pieces of financial information in annual reports of companies, more specifically this model is being trained with 10K filings. The currently available entities are: AMOUNT: Numeric amounts, not percentages PERCENTAGE: Numeric amounts which are percentages CURRENCY: The currency of the amount FISCAL_YEAR: A date which expresses which month the fiscal exercise was closed for a specific year DATE: Generic dates in context where either it’s not a fiscal year or it can’t be asserted as such given the context PROFIT: Profit or also Revenue PROFIT_INCREASE: A piece of information saying there was a profit / revenue increase in that fiscal year PROFIT_DECLINE: A piece of information saying there was a profit / revenue decrease in that fiscal year EXPENSE: An expense or loss EXPENSE_INCREASE: A piece of information saying there was an expense increase in that fiscal year EXPENSE_DECREASE: A piece of information saying there was an expense decrease in that fiscal year You can also check for the Relation Extraction model which connects these entities together Predicted Entities AMOUNT, CURRENCY, DATE, FISCAL_YEAR, PERCENTAGE, EXPENSE, EXPENSE_INCREASE, EXPENSE_DECREASE, PROFIT, PROFIT_INCREASE, PROFIT_DECLINE Live Demo Open in Colab Download How to use PythonScalaNLU document_assembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentence_detector = SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;,&quot;xx&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = BertEmbeddings.pretrained(&quot;bert_embeddings_sec_bert_base&quot;, &quot;en&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;)\ .setMaxSentenceLength(512) ner_model = FinanceNerModel.pretrained(&quot;finner_financial_wip&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;ner&quot;)\ ner_converter = NerConverter()\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) pipeline = Pipeline(stages=[ document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter ]) data = spark.createDataFrame([[&quot;&quot;&quot;License fees revenue decreased 40 %, or $ 0.5 million to $ 0.7 million for the year ended December 31, 2020 compared to $ 1.2 million for the year ended December 31, 2019. Services revenue increased 4 %, or $ 1.1 million, to $ 25.6 million for the year ended December 31, 2020 from $ 24.5 million for the year ended December 31, 2019. Costs of revenue, excluding depreciation and amortization increased by $ 0.1 million, or 2 %, to $ 8.8 million for the year ended December 31, 2020 from $ 8.7 million for the year ended December 31, 2019. The increase was primarily related to increase in internal staff costs of $ 1.1 million as we increased delivery staff and work performed on internal projects, partially offset by a decrease in third party consultant costs of $ 0.6 million as these were converted to internal staff or terminated. Also, a decrease in travel costs of $ 0.4 million due to travel restrictions caused by the global pandemic. As a percentage of revenue, cost of revenue, excluding depreciation and amortization was 34 % for each of the years ended December 31, 2020 and 2019. Sales and marketing expenses decreased 20 %, or $ 1.5 million, to $ 6.0 million for the year ended December 31, 2020 from $ 7.5 million for the year ended December 31, 2019.&quot;&quot;&quot;]]).toDF(&quot;text&quot;) result = model.transform(data) result.select(F.explode(F.arrays_zip('ner_chunk.result', 'ner_chunk.metadata')).alias(&quot;cols&quot;)) \ .select(F.expr(&quot;cols['0']&quot;).alias(&quot;text&quot;), F.expr(&quot;cols['1']['entity']&quot;).alias(&quot;label&quot;)).show(200, truncate = False) Results +---------------------------------------------------------+----------------+ |text |label | +---------------------------------------------------------+----------------+ |License fees revenue |PROFIT_DECLINE | |40 |PERCENTAGE | |$ |CURRENCY | |0.5 million |AMOUNT | |$ |CURRENCY | |0.7 million |AMOUNT | |December 31, 2020 |FISCAL_YEAR | |$ |CURRENCY | |1.2 million |AMOUNT | |December 31, 2019 |FISCAL_YEAR | |Services revenue |PROFIT_INCREASE | |4 |PERCENTAGE | |$ |CURRENCY | |1.1 million |AMOUNT | |$ |CURRENCY | |25.6 million |AMOUNT | |December 31, 2020 |FISCAL_YEAR | |$ |CURRENCY | |24.5 million |AMOUNT | |December 31, 2019 |FISCAL_YEAR | |Costs of revenue, excluding depreciation and amortization|EXPENSE_INCREASE| |$ |CURRENCY | |0.1 million |AMOUNT | |2 |PERCENTAGE | |$ |CURRENCY | |8.8 million |AMOUNT | |December 31, 2020 |FISCAL_YEAR | |$ |CURRENCY | |8.7 million |AMOUNT | |December 31, 2019 |FISCAL_YEAR | |internal staff costs |EXPENSE_INCREASE| |$ |CURRENCY | |1.1 million |AMOUNT | |third party consultant costs |EXPENSE_DECREASE| |$ |CURRENCY | |0.6 million |AMOUNT | |travel costs |EXPENSE_DECREASE| |$ |CURRENCY | |0.4 million |AMOUNT | |cost of revenue, excluding depreciation and amortization |EXPENSE | |34 |PERCENTAGE | |December 31, 2020 |FISCAL_YEAR | |2019 |DATE | |Sales and marketing expenses |EXPENSE_DECREASE| |20 |PERCENTAGE | |$ |CURRENCY | |1.5 million |AMOUNT | |$ |CURRENCY | |6.0 million |AMOUNT | |December 31, 2020 |FISCAL_YEAR | |$ |CURRENCY | |7.5 million |AMOUNT | |December 31, 2019 |FISCAL_YEAR | +---------------------------------------------------------+----------------+ Model Information Model Name: finner_financial_wip Type: finance Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token, embeddings] Output Labels: [ner] Language: en Size: 1.1 MB References Manual annotations on 10-K Filings Benchmarking precision recall f1-score support AMOUNT 0.97 0.99 0.98 364 CURRENCY 0.99 0.98 0.98 365 DATE 0.89 0.94 0.91 264 EXPENSE 0.65 0.45 0.54 33 EXPENSE_DECREASE 0.67 0.73 0.70 22 EXPENSE_INCREASE 0.90 0.83 0.86 65 FISCAL_YEAR 0.92 0.91 0.91 121 PERCENTAGE 1.00 0.91 0.95 80 PROFIT 0.85 0.52 0.65 21 PROFIT_DECLINE 0.88 0.64 0.74 11 PROFIT_INCREASE 0.88 0.77 0.82 30 micro avg 0.94 0.93 0.93 1376 macro avg 0.87 0.79 0.82 1376 weighted avg 0.94 0.93 0.93 1376</summary></entry><entry><title type="html">Financial Business Item Binary Classifier</title><link href="/2022/08/10/finclf_business_item_en_3_2.html" rel="alternate" type="text/html" title="Financial Business Item Binary Classifier" /><published>2022-08-10T00:00:00+00:00</published><updated>2022-08-10T00:00:00+00:00</updated><id>/2022/08/10/finclf_business_item_en_3_2</id><content type="html" xml:base="/2022/08/10/finclf_business_item_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="ner" /><category term="annual" /><category term="ports" /><category term="10k" /><category term="filings" /><category term="licensed" /><summary type="html">Description This model is a WIP (Work In Progress) model, meaning the John Snow Labs team is currently working on improving the model with more in-house annotations by Subject Matter Experts. The aim of this model is to detect the main pieces of financial information in annual reports of companies, more specifically this model is being trained with 10K filings. The currently available entities are: AMOUNT: Numeric amounts, not percentages PERCENTAGE: Numeric amounts which are percentages CURRENCY: The currency of the amount FISCAL_YEAR: A date which expresses which month the fiscal exercise was closed for a specific year DATE: Generic dates in context where either it’s not a fiscal year or it can’t be asserted as such given the context PROFIT: Profit or also Revenue PROFIT_INCREASE: A piece of information saying there was a profit / revenue increase in that fiscal year PROFIT_DECLINE: A piece of information saying there was a profit / revenue decrease in that fiscal year EXPENSE: An expense or loss EXPENSE_INCREASE: A piece of information saying there was an expense increase in that fiscal year EXPENSE_DECREASE: A piece of information saying there was an expense decrease in that fiscal year You can also check for the Relation Extraction model which connects these entities together Predicted Entities AMOUNT, CURRENCY, DATE, FISCAL_YEAR, PERCENTAGE, EXPENSE, EXPENSE_INCREASE, EXPENSE_DECREASE, PROFIT, PROFIT_INCREASE, PROFIT_DECLINE Live Demo Open in Colab Download How to use PythonScalaNLU document_assembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentence_detector = SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;,&quot;xx&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = BertEmbeddings.pretrained(&quot;bert_embeddings_sec_bert_base&quot;, &quot;en&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;)\ .setMaxSentenceLength(512) ner_model = FinanceNerModel.pretrained(&quot;finner_financial_wip&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;ner&quot;)\ ner_converter = NerConverter()\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) pipeline = Pipeline(stages=[ document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter ]) data = spark.createDataFrame([[&quot;&quot;&quot;License fees revenue decreased 40 %, or $ 0.5 million to $ 0.7 million for the year ended December 31, 2020 compared to $ 1.2 million for the year ended December 31, 2019. Services revenue increased 4 %, or $ 1.1 million, to $ 25.6 million for the year ended December 31, 2020 from $ 24.5 million for the year ended December 31, 2019. Costs of revenue, excluding depreciation and amortization increased by $ 0.1 million, or 2 %, to $ 8.8 million for the year ended December 31, 2020 from $ 8.7 million for the year ended December 31, 2019. The increase was primarily related to increase in internal staff costs of $ 1.1 million as we increased delivery staff and work performed on internal projects, partially offset by a decrease in third party consultant costs of $ 0.6 million as these were converted to internal staff or terminated. Also, a decrease in travel costs of $ 0.4 million due to travel restrictions caused by the global pandemic. As a percentage of revenue, cost of revenue, excluding depreciation and amortization was 34 % for each of the years ended December 31, 2020 and 2019. Sales and marketing expenses decreased 20 %, or $ 1.5 million, to $ 6.0 million for the year ended December 31, 2020 from $ 7.5 million for the year ended December 31, 2019.&quot;&quot;&quot;]]).toDF(&quot;text&quot;) result = model.transform(data) result.select(F.explode(F.arrays_zip('ner_chunk.result', 'ner_chunk.metadata')).alias(&quot;cols&quot;)) \ .select(F.expr(&quot;cols['0']&quot;).alias(&quot;text&quot;), F.expr(&quot;cols['1']['entity']&quot;).alias(&quot;label&quot;)).show(200, truncate = False) Results +---------------------------------------------------------+----------------+ |text |label | +---------------------------------------------------------+----------------+ |License fees revenue |PROFIT_DECLINE | |40 |PERCENTAGE | |$ |CURRENCY | |0.5 million |AMOUNT | |$ |CURRENCY | |0.7 million |AMOUNT | |December 31, 2020 |FISCAL_YEAR | |$ |CURRENCY | |1.2 million |AMOUNT | |December 31, 2019 |FISCAL_YEAR | |Services revenue |PROFIT_INCREASE | |4 |PERCENTAGE | |$ |CURRENCY | |1.1 million |AMOUNT | |$ |CURRENCY | |25.6 million |AMOUNT | |December 31, 2020 |FISCAL_YEAR | |$ |CURRENCY | |24.5 million |AMOUNT | |December 31, 2019 |FISCAL_YEAR | |Costs of revenue, excluding depreciation and amortization|EXPENSE_INCREASE| |$ |CURRENCY | |0.1 million |AMOUNT | |2 |PERCENTAGE | |$ |CURRENCY | |8.8 million |AMOUNT | |December 31, 2020 |FISCAL_YEAR | |$ |CURRENCY | |8.7 million |AMOUNT | |December 31, 2019 |FISCAL_YEAR | |internal staff costs |EXPENSE_INCREASE| |$ |CURRENCY | |1.1 million |AMOUNT | |third party consultant costs |EXPENSE_DECREASE| |$ |CURRENCY | |0.6 million |AMOUNT | |travel costs |EXPENSE_DECREASE| |$ |CURRENCY | |0.4 million |AMOUNT | |cost of revenue, excluding depreciation and amortization |EXPENSE | |34 |PERCENTAGE | |December 31, 2020 |FISCAL_YEAR | |2019 |DATE | |Sales and marketing expenses |EXPENSE_DECREASE| |20 |PERCENTAGE | |$ |CURRENCY | |1.5 million |AMOUNT | |$ |CURRENCY | |6.0 million |AMOUNT | |December 31, 2020 |FISCAL_YEAR | |$ |CURRENCY | |7.5 million |AMOUNT | |December 31, 2019 |FISCAL_YEAR | +---------------------------------------------------------+----------------+ Model Information Model Name: finner_financial_wip Type: finance Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token, embeddings] Output Labels: [ner] Language: en Size: 1.1 MB References Manual annotations on 10-K Filings Benchmarking precision recall f1-score support AMOUNT 0.97 0.99 0.98 364 CURRENCY 0.99 0.98 0.98 365 DATE 0.89 0.94 0.91 264 EXPENSE 0.65 0.45 0.54 33 EXPENSE_DECREASE 0.67 0.73 0.70 22 EXPENSE_INCREASE 0.90 0.83 0.86 65 FISCAL_YEAR 0.92 0.91 0.91 121 PERCENTAGE 1.00 0.91 0.95 80 PROFIT 0.85 0.52 0.65 21 PROFIT_DECLINE 0.88 0.64 0.74 11 PROFIT_INCREASE 0.88 0.77 0.82 30 micro avg 0.94 0.93 0.93 1376 macro avg 0.87 0.79 0.82 1376 weighted avg 0.94 0.93 0.93 1376</summary></entry><entry><title type="html">Legal NER - License Grant Clauses</title><link href="/2022/08/12/legner_bert_grants_en_3_2.html" rel="alternate" type="text/html" title="Legal NER - License Grant Clauses" /><published>2022-08-12T00:00:00+00:00</published><updated>2022-08-12T00:00:00+00:00</updated><id>/2022/08/12/legner_bert_grants_en_3_2</id><content type="html" xml:base="/2022/08/12/legner_bert_grants_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This model aims to detect License grants / permissions in agreements, provided by a Subject (PERMISSION_SUBJECT) to a Recipient (PERMISSION_INDIRECT_OBJECT). THe permission itself is in PERMISSION tag.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PERMISSION&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PERMISSION_SUBJECT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PERMISSION_OBJECT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PERMISSION_INDIRECT_OBJECT&lt;/code&gt;&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_bert_grants_en_1.0.0_3.2_1660292396316.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;tokenClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LegalBertForTokenClassification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;legner_bert_grants&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;legal/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;label&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setCaseSensitive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;tokenClassifier&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;p_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]})))&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Fox grants to Licensee a limited, exclusive (except as otherwise may be provided in this Agreement), 
+non-transferable (except as permitted in Paragraph 17(d)) right and license&quot;&quot;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;res&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pyspark.sql&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;functions&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;explode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arrays_zip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'token.result'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'label.result'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cols&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; \
+               &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;expr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cols['0']&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+                       &lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;expr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cols['1']&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_label&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;\
+               &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;truncate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+----------------+----------------------------+
+|           token|                   ner_label|
++----------------+----------------------------+
+|             Fox|        B-PERMISSION_SUBJECT|
+|          grants|                           O|
+|              to|                           O|
+|        Licensee|B-PERMISSION_INDIRECT_OBJECT|
+|               a|                           O|
+|         limited|                B-PERMISSION|
+|               ,|                I-PERMISSION|
+|       exclusive|                I-PERMISSION|
+|               &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;|                I-PERMISSION|
+|          except|                I-PERMISSION|
+|              as|                I-PERMISSION|
+|       otherwise|                I-PERMISSION|
+|             may|                I-PERMISSION|
+|              be|                I-PERMISSION|
+|        provided|                I-PERMISSION|
+|              &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;|                I-PERMISSION|
+|            this|                I-PERMISSION|
+|       Agreement|                I-PERMISSION|
+|              &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;,|                I-PERMISSION|
+|non-transferable|                I-PERMISSION|
++----------------+----------------------------+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;legner_bert_grants&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;legal&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP for Legal 1.0.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Licensed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[sentence, token]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[ner]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;412.2 MB&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Case sensitive:&lt;/td&gt;
+      &lt;td&gt;true&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Max sentence length:&lt;/td&gt;
+      &lt;td&gt;128&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;Manual annotations on CUAD dataset&lt;/p&gt;
+
+&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                              precision    recall  f1-score   support
+
+                B-PERMISSION       0.88      0.79      0.83        38
+B-PERMISSION_INDIRECT_OBJECT       0.85      0.94      0.89        36
+        B-PERMISSION_SUBJECT       0.89      0.85      0.87        40
+                I-PERMISSION       0.80      0.69      0.74       342
+                           O       0.94      0.97      0.95      1827
+
+                    accuracy                           0.92      2292
+                   macro avg       0.85      0.81      0.86      2292
+                weighted avg       0.91      0.92      0.91      2292
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="legal" /><category term="ner" /><category term="grants" /><category term="permissions" /><category term="licenses" /><category term="licensed" /><summary type="html">Description This model aims to detect License grants / permissions in agreements, provided by a Subject (PERMISSION_SUBJECT) to a Recipient (PERMISSION_INDIRECT_OBJECT). THe permission itself is in PERMISSION tag. Predicted Entities PERMISSION, PERMISSION_SUBJECT, PERMISSION_OBJECT, PERMISSION_INDIRECT_OBJECT Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) tokenizer = Tokenizer()\ .setInputCols(&quot;document&quot;)\ .setOutputCol(&quot;token&quot;) tokenClassifier = LegalBertForTokenClassification.pretrained(&quot;legner_bert_grants&quot;, &quot;en&quot;, &quot;legal/models&quot;)\ .setInputCols(&quot;token&quot;, &quot;document&quot;)\ .setOutputCol(&quot;label&quot;)\ .setCaseSensitive(True) pipeline = Pipeline(stages=[ documentAssembler, tokenizer, tokenClassifier ] ) p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']}))) text = &quot;&quot;&quot;Fox grants to Licensee a limited, exclusive (except as otherwise may be provided in this Agreement), non-transferable (except as permitted in Paragraph 17(d)) right and license&quot;&quot;&quot; res = p_model.transform(spark.createDataFrame([[text]]).toDF(&quot;text&quot;)) from pyspark.sql import functions as F res.select(F.explode(F.arrays_zip('token.result', 'label.result')).alias(&quot;cols&quot;)) \ .select(F.expr(&quot;cols['0']&quot;).alias(&quot;token&quot;), F.expr(&quot;cols['1']&quot;).alias(&quot;ner_label&quot;))\ .show(20, truncate=100) Results +----------------+----------------------------+ | token| ner_label| +----------------+----------------------------+ | Fox| B-PERMISSION_SUBJECT| | grants| O| | to| O| | Licensee|B-PERMISSION_INDIRECT_OBJECT| | a| O| | limited| B-PERMISSION| | ,| I-PERMISSION| | exclusive| I-PERMISSION| | (| I-PERMISSION| | except| I-PERMISSION| | as| I-PERMISSION| | otherwise| I-PERMISSION| | may| I-PERMISSION| | be| I-PERMISSION| | provided| I-PERMISSION| | in| I-PERMISSION| | this| I-PERMISSION| | Agreement| I-PERMISSION| | ),| I-PERMISSION| |non-transferable| I-PERMISSION| +----------------+----------------------------+ Model Information Model Name: legner_bert_grants Type: legal Compatibility: Spark NLP for Legal 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token] Output Labels: [ner] Language: en Size: 412.2 MB Case sensitive: true Max sentence length: 128 References Manual annotations on CUAD dataset Benchmarking precision recall f1-score support B-PERMISSION 0.88 0.79 0.83 38 B-PERMISSION_INDIRECT_OBJECT 0.85 0.94 0.89 36 B-PERMISSION_SUBJECT 0.89 0.85 0.87 40 I-PERMISSION 0.80 0.69 0.74 342 O 0.94 0.97 0.95 1827 accuracy 0.92 2292 macro avg 0.85 0.81 0.86 2292 weighted avg 0.91 0.92 0.91 2292</summary></entry><entry><title type="html">Legal NER (Headers / Subheaders)</title><link href="/2022/08/12/legner_headers_en_3_2.html" rel="alternate" type="text/html" title="Legal NER (Headers / Subheaders)" /><published>2022-08-12T00:00:00+00:00</published><updated>2022-08-12T00:00:00+00:00</updated><id>/2022/08/12/legner_headers_en_3_2</id><content type="html" xml:base="/2022/08/12/legner_headers_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This is a Legal NER Model, aimed to carry out Section Splitting by using the Headers and Subheaders entities, detected in the document.&lt;/p&gt;
+
+&lt;p&gt;Other models can be found to detect other parts of the document, as Headers/Subheaders, Signers, “Will-do”, etc.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HEADER&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SUBHEADER&lt;/code&gt;&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;a href=&quot;https://demo.johnsnowlabs.com/finance/LEGALNER_HEADERS/&quot; class=&quot;button button-orange&quot;&gt;Live Demo&lt;/a&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_headers_en_1.0.0_3.2_1660298515978.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        
+&lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SentenceDetector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RoBertaEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;roberta_embeddings_legal_roberta_base&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LegalNerModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'legner_headers'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'en'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'legal/models'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;empty_data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;empty_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;
+2. Definitions. For purposes of this Agreement, the following terms have the meanings ascribed thereto in this Section 1. 2. Appointment as Reseller.
+
+2.1 Appointment. The Company hereby [***]. Allscripts may also disclose Company's pricing information relating to its Merchant Processing Services and facilitate procurement of Merchant Processing Services on behalf of Sublicensed Customers, including, without limitation by references to such pricing information and Merchant Processing Services in Customer Agreements. 6
+
+2.2 Customer Agreements.&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;res&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+-----------+-----------+
+|      token|  ner_label|
++-----------+-----------+
+|          2|   B-HEADER|
+|          .|   I-HEADER|
+|Definitions|   I-HEADER|
+|          .|          O|
+|        For|          O|
+|   purposes|          O|
+|         of|          O|
+|       this|          O|
+|  Agreement|          O|
+|          ,|          O|
+|        the|          O|
+|  following|          O|
+|      terms|          O|
+|       have|          O|
+|        the|          O|
+|   meanings|          O|
+|   ascribed|          O|
+|    thereto|          O|
+|         &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;|          O|
+|       this|          O|
+|    Section|          O|
+|          1|B-SUBHEADER|
+|          .|I-SUBHEADER|
+|          2|I-SUBHEADER|
+|          .|I-SUBHEADER|
+|Appointment|   I-HEADER|
+|         as|   I-HEADER|
+|   Reseller|   I-HEADER|
+|          .|          O|
+|        2.1|B-SUBHEADER|
+|Appointment|I-SUBHEADER|
+|          .|          O|
+|        The|          O|
+|    Company|          O|
+|     hereby|          O|
+|      &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;***&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;|          O|
+|          .|          O|
+| Allscripts|          O|
+|        may|          O|
+|       also|          O|
+|   disclose|          O|
+|  Company&lt;span class=&quot;s1&quot;&gt;'s|          O|
+|    pricing|          O|
+|information|          O|
+|   relating|          O|
+|         to|          O|
+|        its|          O|
+|   Merchant|          O|
+| Processing|          O|
+|   Services|          O|
+|        and|          O|
+| facilitate|          O|
+|procurement|          O|
+|         of|          O|
+|   Merchant|          O|
+| Processing|          O|
+|   Services|          O|
+|         on|          O|
+|     behalf|          O|
+|         of|          O|
+|Sublicensed|          O|
+|  Customers|          O|
+|          ,|          O|
+|  including|          O|
+|          ,|          O|
+|    without|          O|
+| limitation|          O|
+|         by|          O|
+| references|          O|
+|         to|          O|
+|       such|          O|
+|    pricing|          O|
+|information|          O|
+|        and|          O|
+|   Merchant|          O|
+| Processing|          O|
+|   Services|          O|
+|         in|          O|
+|   Customer|          O|
+| Agreements|          O|
+|          .|          O|
+|          6|          O|
+|        2.2|B-SUBHEADER|
+|   Customer|I-SUBHEADER|
+| Agreements|I-SUBHEADER|
+|          .|          O|
++-----------+-----------+
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;legner_headers&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;legal&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP for Legal 1.0.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Licensed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[sentence, token, embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[ner]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;16.3 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;Manual annotations on CUAD dataset&lt;/p&gt;
+
+&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;label	 tp	 fp	 fn	 prec	 rec	 f1
+I-HEADER	 1486	 40	 25	 0.97378767	 0.98345464	 0.9785973
+B-SUBHEADER	 744	 16	 14	 0.97894734	 0.98153037	 0.9802372
+I-SUBHEADER	 2382	 53	 34	 0.9782341	 0.98592716	 0.98206556
+B-HEADER	 415	 4	 12	 0.9904535	 0.97189695	 0.9810875
+tp: 5027 fp: 113 fn: 85 labels: 4
+Macro-average	 prec: 0.9803556, rec: 0.9807023, f1: 0.9805289
+Micro-average	 prec: 0.97801554, rec: 0.98337245, f1: 0.98068666
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="legal" /><category term="ner" /><category term="agreements" /><category term="splitting" /><category term="licensed" /><summary type="html">Description This is a Legal NER Model, aimed to carry out Section Splitting by using the Headers and Subheaders entities, detected in the document. Other models can be found to detect other parts of the document, as Headers/Subheaders, Signers, “Will-do”, etc. Predicted Entities HEADER, SUBHEADER Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentenceDetector = SentenceDetector()\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = RoBertaEmbeddings.pretrained(&quot;roberta_embeddings_legal_roberta_base&quot;,&quot;en&quot;) \ .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) ner_model = LegalNerModel().pretrained('legner_headers', 'en', 'legal/models')\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;ner&quot;) ner_converter = NerConverter()\ .setInputCols([&quot;sentence&quot;,&quot;token&quot;,&quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, sentenceDetector, tokenizer, embeddings, ner_model, ner_converter]) empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(empty_data) text = [&quot;&quot;&quot; 2. Definitions. For purposes of this Agreement, the following terms have the meanings ascribed thereto in this Section 1. 2. Appointment as Reseller. 2.1 Appointment. The Company hereby [***]. Allscripts may also disclose Company's pricing information relating to its Merchant Processing Services and facilitate procurement of Merchant Processing Services on behalf of Sublicensed Customers, including, without limitation by references to such pricing information and Merchant Processing Services in Customer Agreements. 6 2.2 Customer Agreements.&quot;&quot;&quot;] res = model.transform(spark.createDataFrame([text]).toDF(&quot;text&quot;)) Results +-----------+-----------+ | token| ner_label| +-----------+-----------+ | 2| B-HEADER| | .| I-HEADER| |Definitions| I-HEADER| | .| O| | For| O| | purposes| O| | of| O| | this| O| | Agreement| O| | ,| O| | the| O| | following| O| | terms| O| | have| O| | the| O| | meanings| O| | ascribed| O| | thereto| O| | in| O| | this| O| | Section| O| | 1|B-SUBHEADER| | .|I-SUBHEADER| | 2|I-SUBHEADER| | .|I-SUBHEADER| |Appointment| I-HEADER| | as| I-HEADER| | Reseller| I-HEADER| | .| O| | 2.1|B-SUBHEADER| |Appointment|I-SUBHEADER| | .| O| | The| O| | Company| O| | hereby| O| | [***]| O| | .| O| | Allscripts| O| | may| O| | also| O| | disclose| O| | Company's| O| | pricing| O| |information| O| | relating| O| | to| O| | its| O| | Merchant| O| | Processing| O| | Services| O| | and| O| | facilitate| O| |procurement| O| | of| O| | Merchant| O| | Processing| O| | Services| O| | on| O| | behalf| O| | of| O| |Sublicensed| O| | Customers| O| | ,| O| | including| O| | ,| O| | without| O| | limitation| O| | by| O| | references| O| | to| O| | such| O| | pricing| O| |information| O| | and| O| | Merchant| O| | Processing| O| | Services| O| | in| O| | Customer| O| | Agreements| O| | .| O| | 6| O| | 2.2|B-SUBHEADER| | Customer|I-SUBHEADER| | Agreements|I-SUBHEADER| | .| O| +-----------+-----------+ Model Information Model Name: legner_headers Type: legal Compatibility: Spark NLP for Legal 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token, embeddings] Output Labels: [ner] Language: en Size: 16.3 MB References Manual annotations on CUAD dataset Benchmarking label tp fp fn prec rec f1 I-HEADER 1486 40 25 0.97378767 0.98345464 0.9785973 B-SUBHEADER 744 16 14 0.97894734 0.98153037 0.9802372 I-SUBHEADER 2382 53 34 0.9782341 0.98592716 0.98206556 B-HEADER 415 4 12 0.9904535 0.97189695 0.9810875 tp: 5027 fp: 113 fn: 85 labels: 4 Macro-average prec: 0.9803556, rec: 0.9807023, f1: 0.9805289 Micro-average prec: 0.97801554, rec: 0.98337245, f1: 0.98068666</summary></entry><entry><title type="html">Legal NER - Whereas Clauses</title><link href="/2022/08/12/legner_whereas_en_3_2.html" rel="alternate" type="text/html" title="Legal NER - Whereas Clauses" /><published>2022-08-12T00:00:00+00:00</published><updated>2022-08-12T00:00:00+00:00</updated><id>/2022/08/12/legner_whereas_en_3_2</id><content type="html" xml:base="/2022/08/12/legner_whereas_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This is a Legal NER Model, able to process WHEREAS clauses, to detect the SUBJECT (Who?), the ACTION, the OBJECT (what?) and, in some cases, the INDIRECT OBJECT (to whom?) of the clause.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PARTY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EFFDATE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DOC&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ALIAS&lt;/code&gt;&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;a href=&quot;https://demo.johnsnowlabs.com/finance/LEGALNER_WHEREAS/&quot; class=&quot;button button-orange&quot;&gt;Live Demo&lt;/a&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_whereas_en_1.0.0_3.2_1660294083004.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        
+&lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SentenceDetectorDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_detector_dl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RoBertaEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;roberta_embeddings_legal_roberta_base&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LegalNerModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'legner_whereas'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'en'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'legal/models'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;empty_data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;empty_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;WHEREAS, Seller and Buyer have entered into that certain Stock Purchase Agreement, dated November 14, 2018 (the &quot;Stock Purchase Agreement&quot;); WHEREAS, pursuant to the Stock Purchase Agreement, Seller has agreed to sell and transfer, and Buyer has agreed to purchase and acquire, all of Seller's right, title and interest in and to Armstrong Wood Products, Inc., a Delaware corporation (&quot;AWP&quot;) and its Subsidiaries, the Company and HomerWood Hardwood Flooring Company, a Delaware corporation (&quot;HHFC,&quot; and together with the Company, the &quot;Company Subsidiaries&quot; and together with AWP, the &quot;Company Entities&quot; and each a &quot;Company Entity&quot;) by way of a purchase by Buyer and sale by Seller of the Shares, all upon the terms and condition set forth therein;&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;res&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+------------+-----------------+
+|       token|        ner_label|
++------------+-----------------+
+|     WHEREAS|                O|
+|           ,|                O|
+|      Seller|B-WHEREAS_SUBJECT|
+|         and|                O|
+|       Buyer|B-WHEREAS_SUBJECT|
+|        have| B-WHEREAS_ACTION|
+|     entered| I-WHEREAS_ACTION|
+|        into| I-WHEREAS_ACTION|
+|        that| B-WHEREAS_OBJECT|
+|     certain| I-WHEREAS_OBJECT|
+|       Stock| I-WHEREAS_OBJECT|
+|    Purchase| I-WHEREAS_OBJECT|
+|   Agreement| I-WHEREAS_OBJECT|
+|           ,|                O|
+|       dated|                O|
+|    November|                O|
+|          14|                O|
+|           ,|                O|
+|        2018|                O|
+|           &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;|                O|
+|         the|                O|
+|           &lt;span class=&quot;s2&quot;&gt;&quot;|                O|
+|       Stock|                O|
+|    Purchase|                O|
+|   Agreement|                O|
+|         &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;|                O|
+|     WHEREAS|                O|
+|           ,|                O|
+|    pursuant|                O|
+|          to|                O|
+|         the|                O|
+|       Stock|                O|
+|    Purchase|                O|
+|   Agreement|                O|
+|           ,|                O|
+|      Seller|B-WHEREAS_SUBJECT|
+|         has| B-WHEREAS_ACTION|
+|      agreed| I-WHEREAS_ACTION|
+|          to| I-WHEREAS_ACTION|
+|        sell| I-WHEREAS_ACTION|
+|         and|                O|
+|    transfer|                O|
+|           ,|                O|
+|         and|                O|
+|       Buyer|B-WHEREAS_SUBJECT|
+|         has| B-WHEREAS_ACTION|
+|      agreed| I-WHEREAS_ACTION|
+|          to| I-WHEREAS_ACTION|
+|    purchase| I-WHEREAS_ACTION|
+|         and|                O|
+|     acquire|                O|
+|           ,|                O|
+|         all|                O|
+|          of|                O|
+|    Seller&lt;span class=&quot;s1&quot;&gt;'s|                O|
+|       right|                O|
+|           ,|                O|
+|       title|                O|
+|         and|                O|
+|    interest|                O|
+|          in|                O|
+|         and|                O|
+|          to|                O|
+|   Armstrong|                O|
+|        Wood|                O|
+|    Products|                O|
+|           ,|                O|
+|         Inc|                O|
+|          .,|                O|
+|           a|                O|
+|    Delaware|                O|
+| corporation|                O|
+|          (&quot;|                O|
+|         AWP|                O|
+|          &quot;)|                O|
+|         and|                O|
+|         its|                O|
+|Subsidiaries|                O|
+|           ,|                O|
+|         the|                O|
+|     Company|                O|
+|         and|                O|
+|   HomerWood|                O|
+|    Hardwood|                O|
+|    Flooring|                O|
+|     Company|                O|
+|           ,|                O|
+|           a|                O|
+|    Delaware|                O|
+| corporation|                O|
+|          (&quot;|                O|
+|        HHFC|                O|
+|          ,&quot;|                O|
++------------+-----------------+
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;legner_whereas&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;legal&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP for Legal 1.0.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Licensed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[sentence, token, embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[ner]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;16.5 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;Manual annotations on CUAD dataset&lt;/p&gt;
+
+&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;label	 tp	 fp	 fn	 prec	 rec	 f1
+B-WHEREAS_SUBJECT	 191	 14	 15	 0.9317073	 0.92718446	 0.9294404
+I-WHEREAS_ACTION	 202	 38	 59	 0.84166664	 0.77394634	 0.8063872
+I-WHEREAS_SUBJECT	 52	 8	 16	 0.8666667	 0.7647059	 0.8125
+B-WHEREAS_OBJECT	 101	 63	 68	 0.61585367	 0.5976331	 0.6066066
+B-WHEREAS_ACTION	 152	 19	 16	 0.8888889	 0.9047619	 0.89675516
+I-WHEREAS_OBJECT	 361	 194	 194	 0.65045047	 0.65045047	 0.65045047
+tp: 1059 fp: 336 fn: 368 labels: 6
+Macro-average	 prec: 0.7992056, rec: 0.76978034, f1: 0.784217
+Micro-average	 prec: 0.7591398, rec: 0.74211633, f1: 0.75053155
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="legal" /><category term="ner" /><category term="whereas" /><category term="licensed" /><summary type="html">Description This is a Legal NER Model, able to process WHEREAS clauses, to detect the SUBJECT (Who?), the ACTION, the OBJECT (what?) and, in some cases, the INDIRECT OBJECT (to whom?) of the clause. Predicted Entities PARTY, EFFDATE, DOC, ALIAS Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentenceDetector = SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;,&quot;xx&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = RoBertaEmbeddings.pretrained(&quot;roberta_embeddings_legal_roberta_base&quot;,&quot;en&quot;) \ .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) ner_model = LegalNerModel().pretrained('legner_whereas', 'en', 'legal/models')\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;ner&quot;) ner_converter = NerConverter()\ .setInputCols([&quot;sentence&quot;,&quot;token&quot;,&quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, sentenceDetector, tokenizer, embeddings, ner_model, ner_converter]) empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(empty_data) text = [&quot;&quot;&quot;WHEREAS, Seller and Buyer have entered into that certain Stock Purchase Agreement, dated November 14, 2018 (the &quot;Stock Purchase Agreement&quot;); WHEREAS, pursuant to the Stock Purchase Agreement, Seller has agreed to sell and transfer, and Buyer has agreed to purchase and acquire, all of Seller's right, title and interest in and to Armstrong Wood Products, Inc., a Delaware corporation (&quot;AWP&quot;) and its Subsidiaries, the Company and HomerWood Hardwood Flooring Company, a Delaware corporation (&quot;HHFC,&quot; and together with the Company, the &quot;Company Subsidiaries&quot; and together with AWP, the &quot;Company Entities&quot; and each a &quot;Company Entity&quot;) by way of a purchase by Buyer and sale by Seller of the Shares, all upon the terms and condition set forth therein;&quot;&quot;&quot;] res = model.transform(spark.createDataFrame([text]).toDF(&quot;text&quot;)) Results +------------+-----------------+ | token| ner_label| +------------+-----------------+ | WHEREAS| O| | ,| O| | Seller|B-WHEREAS_SUBJECT| | and| O| | Buyer|B-WHEREAS_SUBJECT| | have| B-WHEREAS_ACTION| | entered| I-WHEREAS_ACTION| | into| I-WHEREAS_ACTION| | that| B-WHEREAS_OBJECT| | certain| I-WHEREAS_OBJECT| | Stock| I-WHEREAS_OBJECT| | Purchase| I-WHEREAS_OBJECT| | Agreement| I-WHEREAS_OBJECT| | ,| O| | dated| O| | November| O| | 14| O| | ,| O| | 2018| O| | (| O| | the| O| | &quot;| O| | Stock| O| | Purchase| O| | Agreement| O| | &quot;);| O| | WHEREAS| O| | ,| O| | pursuant| O| | to| O| | the| O| | Stock| O| | Purchase| O| | Agreement| O| | ,| O| | Seller|B-WHEREAS_SUBJECT| | has| B-WHEREAS_ACTION| | agreed| I-WHEREAS_ACTION| | to| I-WHEREAS_ACTION| | sell| I-WHEREAS_ACTION| | and| O| | transfer| O| | ,| O| | and| O| | Buyer|B-WHEREAS_SUBJECT| | has| B-WHEREAS_ACTION| | agreed| I-WHEREAS_ACTION| | to| I-WHEREAS_ACTION| | purchase| I-WHEREAS_ACTION| | and| O| | acquire| O| | ,| O| | all| O| | of| O| | Seller's| O| | right| O| | ,| O| | title| O| | and| O| | interest| O| | in| O| | and| O| | to| O| | Armstrong| O| | Wood| O| | Products| O| | ,| O| | Inc| O| | .,| O| | a| O| | Delaware| O| | corporation| O| | (&quot;| O| | AWP| O| | &quot;)| O| | and| O| | its| O| |Subsidiaries| O| | ,| O| | the| O| | Company| O| | and| O| | HomerWood| O| | Hardwood| O| | Flooring| O| | Company| O| | ,| O| | a| O| | Delaware| O| | corporation| O| | (&quot;| O| | HHFC| O| | ,&quot;| O| +------------+-----------------+ Model Information Model Name: legner_whereas Type: legal Compatibility: Spark NLP for Legal 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token, embeddings] Output Labels: [ner] Language: en Size: 16.5 MB References Manual annotations on CUAD dataset Benchmarking label tp fp fn prec rec f1 B-WHEREAS_SUBJECT 191 14 15 0.9317073 0.92718446 0.9294404 I-WHEREAS_ACTION 202 38 59 0.84166664 0.77394634 0.8063872 I-WHEREAS_SUBJECT 52 8 16 0.8666667 0.7647059 0.8125 B-WHEREAS_OBJECT 101 63 68 0.61585367 0.5976331 0.6066066 B-WHEREAS_ACTION 152 19 16 0.8888889 0.9047619 0.89675516 I-WHEREAS_OBJECT 361 194 194 0.65045047 0.65045047 0.65045047 tp: 1059 fp: 336 fn: 368 labels: 6 Macro-average prec: 0.7992056, rec: 0.76978034, f1: 0.784217 Micro-average prec: 0.7591398, rec: 0.74211633, f1: 0.75053155</summary></entry><entry><title type="html">Legal Relation Extraction (Parties, Alias, Dates, Document Type)</title><link href="/2022/08/12/legre_contract_doc_parties_en_3_2.html" rel="alternate" type="text/html" title="Legal Relation Extraction (Parties, Alias, Dates, Document Type)" /><published>2022-08-12T00:00:00+00:00</published><updated>2022-08-12T00:00:00+00:00</updated><id>/2022/08/12/legre_contract_doc_parties_en_3_2</id><content type="html" xml:base="/2022/08/12/legre_contract_doc_parties_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This is a Legal Relation Extraction model, which can be used after the NER Model for extracting Parties, Document Types, Effective Dates and Aliases, called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;legner_contract_doc_parties&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;As an output, you will get the relations linking the different concepts together, if such relation exists. The list of relations is:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;dated_as: A Document has an Effective Date&lt;/li&gt;
+  &lt;li&gt;has_alias: The Alias of a Party all along the document&lt;/li&gt;
+  &lt;li&gt;has_collective_alias: An Alias hold by several parties at the same time&lt;/li&gt;
+  &lt;li&gt;signed_by: Between a Party and the document they signed&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dated_as&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;has_alias&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;has_collective_alias&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;signed_by&lt;/code&gt;&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;a href=&quot;https://demo.johnsnowlabs.com/finance/LEGALRE_PARTIES/&quot; class=&quot;button button-orange&quot;&gt;Live Demo&lt;/a&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_contract_doc_parties_en_1.0.0_3.2_1660293010932.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_base_uncased_legal&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LegalNerModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'legner_contract_doc_parties'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'en'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'legal/models'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;reDL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RelationExtractionDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'legre_contract_doc_parties'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'en'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'legal/models'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setPredictionThreshold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;relations&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    
+&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'''
+This INTELLECTUAL PROPERTY AGREEMENT (this &quot;Agreement&quot;), dated as of December 31, 2018 (the &quot;Effective Date&quot;) is entered into by and between Armstrong Flooring, Inc., a Delaware corporation (&quot;Seller&quot;) and AFI Licensing LLC, a Delaware limited liability company (&quot;Licensing&quot; and together with Seller, &quot;Arizona&quot;) and AHF Holding, Inc. (formerly known as Tarzan HoldCo, Inc.), a Delaware corporation (&quot;Buyer&quot;) and Armstrong Hardwood Flooring Company, a Tennessee corporation (the &quot;Company&quot; and together with Buyer the &quot;Buyer Entities&quot;) (each of Arizona on the one hand and the Buyer Entities on the other hand, a &quot;Party&quot; and collectively, the &quot;Parties&quot;).
+'''&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;relation entity1 entity1_begin entity1_end                              chunk1 entity2 entity2_begin entity2_end                  chunk2 confidence
+            dated_as     DOC             6          36     INTELLECTUAL PROPERTY AGREEMENT EFFDATE            70          86       December 31, 2018  0.9933402
+           signed_by     DOC             6          36     INTELLECTUAL PROPERTY AGREEMENT   PARTY           142         164 Armstrong Flooring, Inc  0.6235637
+           signed_by     DOC             6          36     INTELLECTUAL PROPERTY AGREEMENT   PARTY           316         331        AHF Holding, Inc  0.5001139
+           has_alias   PARTY           142         164             Armstrong Flooring, Inc   ALIAS           193         198                  Seller 0.93385726
+           has_alias   PARTY           206         222                   AFI Licensing LLC   ALIAS           264         272               Licensing  0.9859913
+has_collective_alias   ALIAS           293         298                              Seller   ALIAS           302         308                 Arizona 0.82137156
+           has_alias   PARTY           316         331                    AHF Holding, Inc   ALIAS           400         404                   Buyer  0.8178999
+           has_alias   PARTY           412         446 Armstrong Hardwood Flooring Company   ALIAS           479         485                 Company  0.9557921
+           has_alias   PARTY           412         446 Armstrong Hardwood Flooring Company   ALIAS           575         579                   Buyer  0.6778585
+           has_alias   PARTY           412         446 Armstrong Hardwood Flooring Company   ALIAS           612         616                   Party  0.6778583
+           has_alias   PARTY           412         446 Armstrong Hardwood Flooring Company   ALIAS           642         648                 Parties  0.6778585
+has_collective_alias   ALIAS           506         510                               Buyer   ALIAS           517         530          Buyer Entities 0.69863707
+has_collective_alias   ALIAS           517         530                      Buyer Entities   ALIAS           575         579                   Buyer 0.55453944
+has_collective_alias   ALIAS           517         530                      Buyer Entities   ALIAS           612         616                   Party 0.55453944
+has_collective_alias   ALIAS           517         530                      Buyer Entities   ALIAS           642         648                 Parties 0.55453944
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;legre_contract_doc_parties&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;legal&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP for Legal 1.0.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Licensed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;409.9 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;Manual annotations on CUAD dataset&lt;/p&gt;
+
+&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Relation                 Recall Precision        F1   Support
+
+dated_as                 0.962     0.962     0.962        26
+has_alias                0.936     0.946     0.941        94
+has_collective_alias     1.000     1.000     1.000         7
+no_rel                   0.982     0.980     0.981       497
+signed_by                0.961     0.961     0.961        76
+
+Avg.                     0.968     0.970     0.969
+
+Weighted Avg.            0.973     0.973     0.973
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="legal" /><category term="re" /><category term="relations" /><category term="agreements" /><category term="licensed" /><summary type="html">Description This is a Legal Relation Extraction model, which can be used after the NER Model for extracting Parties, Document Types, Effective Dates and Aliases, called legner_contract_doc_parties. As an output, you will get the relations linking the different concepts together, if such relation exists. The list of relations is: dated_as: A Document has an Effective Date has_alias: The Alias of a Party all along the document has_collective_alias: An Alias hold by several parties at the same time signed_by: Between a Party and the document they signed Predicted Entities dated_as, has_alias, has_collective_alias, signed_by Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) tokenizer = Tokenizer()\ .setInputCols(&quot;document&quot;)\ .setOutputCol(&quot;token&quot;) embeddings = BertEmbeddings.pretrained(&quot;bert_base_uncased_legal&quot;, &quot;en&quot;) \ .setInputCols(&quot;document&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) ner_model = LegalNerModel().pretrained('legner_contract_doc_parties', 'en', 'legal/models')\ .setInputCols([&quot;document&quot;, &quot;token&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;ner&quot;) ner_converter = NerConverter()\ .setInputCols([&quot;document&quot;,&quot;token&quot;,&quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) reDL = RelationExtractionDLModel()\ .pretrained('legre_contract_doc_parties', 'en', 'legal/models')\ .setPredictionThreshold(0.5)\ .setInputCols([&quot;ner_chunk&quot;, &quot;document&quot;])\ .setOutputCol(&quot;relations&quot;) text=''' This INTELLECTUAL PROPERTY AGREEMENT (this &quot;Agreement&quot;), dated as of December 31, 2018 (the &quot;Effective Date&quot;) is entered into by and between Armstrong Flooring, Inc., a Delaware corporation (&quot;Seller&quot;) and AFI Licensing LLC, a Delaware limited liability company (&quot;Licensing&quot; and together with Seller, &quot;Arizona&quot;) and AHF Holding, Inc. (formerly known as Tarzan HoldCo, Inc.), a Delaware corporation (&quot;Buyer&quot;) and Armstrong Hardwood Flooring Company, a Tennessee corporation (the &quot;Company&quot; and together with Buyer the &quot;Buyer Entities&quot;) (each of Arizona on the one hand and the Buyer Entities on the other hand, a &quot;Party&quot; and collectively, the &quot;Parties&quot;). ''' data = spark.createDataFrame([[text]]).toDF(&quot;text&quot;) model = pipeline.fit(data) Results relation entity1 entity1_begin entity1_end chunk1 entity2 entity2_begin entity2_end chunk2 confidence dated_as DOC 6 36 INTELLECTUAL PROPERTY AGREEMENT EFFDATE 70 86 December 31, 2018 0.9933402 signed_by DOC 6 36 INTELLECTUAL PROPERTY AGREEMENT PARTY 142 164 Armstrong Flooring, Inc 0.6235637 signed_by DOC 6 36 INTELLECTUAL PROPERTY AGREEMENT PARTY 316 331 AHF Holding, Inc 0.5001139 has_alias PARTY 142 164 Armstrong Flooring, Inc ALIAS 193 198 Seller 0.93385726 has_alias PARTY 206 222 AFI Licensing LLC ALIAS 264 272 Licensing 0.9859913 has_collective_alias ALIAS 293 298 Seller ALIAS 302 308 Arizona 0.82137156 has_alias PARTY 316 331 AHF Holding, Inc ALIAS 400 404 Buyer 0.8178999 has_alias PARTY 412 446 Armstrong Hardwood Flooring Company ALIAS 479 485 Company 0.9557921 has_alias PARTY 412 446 Armstrong Hardwood Flooring Company ALIAS 575 579 Buyer 0.6778585 has_alias PARTY 412 446 Armstrong Hardwood Flooring Company ALIAS 612 616 Party 0.6778583 has_alias PARTY 412 446 Armstrong Hardwood Flooring Company ALIAS 642 648 Parties 0.6778585 has_collective_alias ALIAS 506 510 Buyer ALIAS 517 530 Buyer Entities 0.69863707 has_collective_alias ALIAS 517 530 Buyer Entities ALIAS 575 579 Buyer 0.55453944 has_collective_alias ALIAS 517 530 Buyer Entities ALIAS 612 616 Party 0.55453944 has_collective_alias ALIAS 517 530 Buyer Entities ALIAS 642 648 Parties 0.55453944 Model Information Model Name: legre_contract_doc_parties Type: legal Compatibility: Spark NLP for Legal 1.0.0+ License: Licensed Edition: Official Language: en Size: 409.9 MB References Manual annotations on CUAD dataset Benchmarking Relation Recall Precision F1 Support dated_as 0.962 0.962 0.962 26 has_alias 0.936 0.946 0.941 94 has_collective_alias 1.000 1.000 1.000 7 no_rel 0.982 0.980 0.981 497 signed_by 0.961 0.961 0.961 76 Avg. 0.968 0.970 0.969 Weighted Avg. 0.973 0.973 0.973</summary></entry><entry><title type="html">Financial Business Item Binary Classifier</title><link href="/2022/08/10/finclf_business_item_en_3_2.html" rel="alternate" type="text/html" title="Financial Business Item Binary Classifier" /><published>2022-08-10T00:00:00+00:00</published><updated>2022-08-10T00:00:00+00:00</updated><id>/2022/08/10/finclf_business_item_en_3_2</id><content type="html" xml:base="/2022/08/10/finclf_business_item_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;This model is a Binary Classifier (True, False) for the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;business&lt;/code&gt; item type of 10K Annual Reports. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level.&lt;/p&gt;
 
@@ -790,468 +1516,4 @@ executives_compensation       0.93      0.94      0.94       104
     accuracy                           0.97        91
    macro avg       0.97      0.97      0.97        91
 weighted avg       0.97      0.97      0.97        91
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="classification" /><category term="10k" /><category term="annual" /><category term="reports" /><category term="sec" /><category term="filings" /><category term="licensed" /><summary type="html">Description This model is a Binary Classifier (True, False) for the executives item type of 10K Annual Reports. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level. If you have big financial documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Finance Workshop Tokenization &amp;amp; Splitting Tutorial (link here), namely: Paragraph splitting (by multiline); Splitting by headers / subheaders; etc. Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above). Predicted Entities other, executives Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) useEmbeddings = UniversalSentenceEncoder.pretrained() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;sentence_embeddings&quot;) docClassifier = ClassifierDLModel().pretrained(&quot;finclf_executives_item&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence_embeddings&quot;])\ .setOutputCol(&quot;category&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, useEmbeddings, docClassifier]) df = spark.createDataFrame([[&quot;YOUR TEXT HERE&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(df) result = model.transform(df) Results +-------+ | result| +-------+ |[executives]| |[other]| |[other]| |[executives]| Model Information Model Name: finclf_executives_item Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence_embeddings] Output Labels: [category] Language: en Size: 22.6 MB References Weak labelling on documents from Edgar database Benchmarking precision recall f1-score support executives 0.96 0.98 0.97 46 other 0.98 0.96 0.97 45 accuracy 0.97 91 macro avg 0.97 0.97 0.97 91 weighted avg 0.97 0.97 0.97 91</summary></entry><entry><title type="html">Financial Exhibits Item Binary Classifier</title><link href="/2022/08/10/finclf_exhibits_item_en_3_2.html" rel="alternate" type="text/html" title="Financial Exhibits Item Binary Classifier" /><published>2022-08-10T00:00:00+00:00</published><updated>2022-08-10T00:00:00+00:00</updated><id>/2022/08/10/finclf_exhibits_item_en_3_2</id><content type="html" xml:base="/2022/08/10/finclf_exhibits_item_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;This model is a Binary Classifier (True, False) for the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;exhibits&lt;/code&gt; item type of 10K Annual Reports. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level.&lt;/p&gt;
-
-&lt;p&gt;If you have big financial documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Finance Workshop Tokenization &amp;amp; Splitting Tutorial (link &lt;a href=&quot;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Finance/1.Tokenization_Splitting.ipynb&quot;&gt;here&lt;/a&gt;), namely:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Paragraph splitting (by multiline);&lt;/li&gt;
-  &lt;li&gt;Splitting by headers / subheaders;&lt;/li&gt;
-  &lt;li&gt;etc.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above).&lt;/p&gt;
-
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;other&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;exhibits&lt;/code&gt;&lt;/p&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_exhibits_item_en_1.0.0_3.2_1660154412713.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;useEmbeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UniversalSentenceEncoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;docClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ClassifierDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finclf_exhibits_item&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;category&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    
-&lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;useEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;docClassifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
- 
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;YOUR TEXT HERE&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+-------+
-| result|
-+-------+
-|[exhibits]|
-|[other]|
-|[other]|
-|[exhibits]|
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;finclf_exhibits_item&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP for Finance 1.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[sentence_embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[category]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;22.6 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
-
-&lt;p&gt;Weak labelling on documents from Edgar database&lt;/p&gt;
-
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;              precision    recall  f1-score   support
-
-    exhibits       0.94      0.83      0.88        18
-       other       0.88      0.95      0.91        22
-
-    accuracy                           0.90        40
-   macro avg       0.91      0.89      0.90        40
-weighted avg       0.90      0.90      0.90        40
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="classification" /><category term="10k" /><category term="annual" /><category term="reports" /><category term="sec" /><category term="filings" /><category term="licensed" /><summary type="html">Description This model is a Binary Classifier (True, False) for the exhibits item type of 10K Annual Reports. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level. If you have big financial documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Finance Workshop Tokenization &amp;amp; Splitting Tutorial (link here), namely: Paragraph splitting (by multiline); Splitting by headers / subheaders; etc. Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above). Predicted Entities other, exhibits Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) useEmbeddings = UniversalSentenceEncoder.pretrained() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;sentence_embeddings&quot;) docClassifier = ClassifierDLModel().pretrained(&quot;finclf_exhibits_item&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence_embeddings&quot;])\ .setOutputCol(&quot;category&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, useEmbeddings, docClassifier]) df = spark.createDataFrame([[&quot;YOUR TEXT HERE&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(df) result = model.transform(df) Results +-------+ | result| +-------+ |[exhibits]| |[other]| |[other]| |[exhibits]| Model Information Model Name: finclf_exhibits_item Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence_embeddings] Output Labels: [category] Language: en Size: 22.6 MB References Weak labelling on documents from Edgar database Benchmarking precision recall f1-score support exhibits 0.94 0.83 0.88 18 other 0.88 0.95 0.91 22 accuracy 0.90 40 macro avg 0.91 0.89 0.90 40 weighted avg 0.90 0.90 0.90 40</summary></entry><entry><title type="html">Financial Financial conditions Item Binary Classifier</title><link href="/2022/08/10/finclf_financial_conditions_item_en_3_2.html" rel="alternate" type="text/html" title="Financial Financial conditions Item Binary Classifier" /><published>2022-08-10T00:00:00+00:00</published><updated>2022-08-10T00:00:00+00:00</updated><id>/2022/08/10/finclf_financial_conditions_item_en_3_2</id><content type="html" xml:base="/2022/08/10/finclf_financial_conditions_item_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;This model is a Binary Classifier (True, False) for the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;financial_conditions&lt;/code&gt; item type of 10K Annual Reports. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level.&lt;/p&gt;
-
-&lt;p&gt;If you have big financial documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Finance Workshop Tokenization &amp;amp; Splitting Tutorial (link &lt;a href=&quot;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Finance/1.Tokenization_Splitting.ipynb&quot;&gt;here&lt;/a&gt;), namely:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Paragraph splitting (by multiline);&lt;/li&gt;
-  &lt;li&gt;Splitting by headers / subheaders;&lt;/li&gt;
-  &lt;li&gt;etc.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above).&lt;/p&gt;
-
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;other&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;financial_conditions&lt;/code&gt;&lt;/p&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_financial_conditions_item_en_1.0.0_3.2_1660154420184.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;useEmbeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UniversalSentenceEncoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;docClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ClassifierDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finclf_financial_conditions_item&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;category&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    
-&lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;useEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;docClassifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
- 
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;YOUR TEXT HERE&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+-------+
-| result|
-+-------+
-|[financial_conditions]|
-|[other]|
-|[other]|
-|[financial_conditions]|
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;finclf_financial_conditions_item&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP for Finance 1.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[sentence_embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[category]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;22.5 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
-
-&lt;p&gt;Weak labelling on documents from Edgar database&lt;/p&gt;
-
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                      precision    recall  f1-score   support
-
-financial_conditions       0.83      0.73      0.78       245
-               other       0.75      0.84      0.80       237
-
-            accuracy                           0.79       482
-           macro avg       0.79      0.79      0.79       482
-        weighted avg       0.79      0.79      0.79       482
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="classification" /><category term="10k" /><category term="annual" /><category term="reports" /><category term="sec" /><category term="filings" /><category term="licensed" /><summary type="html">Description This model is a Binary Classifier (True, False) for the financial_conditions item type of 10K Annual Reports. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level. If you have big financial documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Finance Workshop Tokenization &amp;amp; Splitting Tutorial (link here), namely: Paragraph splitting (by multiline); Splitting by headers / subheaders; etc. Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above). Predicted Entities other, financial_conditions Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) useEmbeddings = UniversalSentenceEncoder.pretrained() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;sentence_embeddings&quot;) docClassifier = ClassifierDLModel().pretrained(&quot;finclf_financial_conditions_item&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence_embeddings&quot;])\ .setOutputCol(&quot;category&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, useEmbeddings, docClassifier]) df = spark.createDataFrame([[&quot;YOUR TEXT HERE&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(df) result = model.transform(df) Results +-------+ | result| +-------+ |[financial_conditions]| |[other]| |[other]| |[financial_conditions]| Model Information Model Name: finclf_financial_conditions_item Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence_embeddings] Output Labels: [category] Language: en Size: 22.5 MB References Weak labelling on documents from Edgar database Benchmarking precision recall f1-score support financial_conditions 0.83 0.73 0.78 245 other 0.75 0.84 0.80 237 accuracy 0.79 482 macro avg 0.79 0.79 0.79 482 weighted avg 0.79 0.79 0.79 482</summary></entry><entry><title type="html">Financial Financial statements Item Binary Classifier</title><link href="/2022/08/10/finclf_financial_statements_item_en_3_2.html" rel="alternate" type="text/html" title="Financial Financial statements Item Binary Classifier" /><published>2022-08-10T00:00:00+00:00</published><updated>2022-08-10T00:00:00+00:00</updated><id>/2022/08/10/finclf_financial_statements_item_en_3_2</id><content type="html" xml:base="/2022/08/10/finclf_financial_statements_item_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;This model is a Binary Classifier (True, False) for the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;financial_statements&lt;/code&gt; item type of 10K Annual Reports. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level.&lt;/p&gt;
-
-&lt;p&gt;If you have big financial documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Finance Workshop Tokenization &amp;amp; Splitting Tutorial (link &lt;a href=&quot;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Finance/1.Tokenization_Splitting.ipynb&quot;&gt;here&lt;/a&gt;), namely:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Paragraph splitting (by multiline);&lt;/li&gt;
-  &lt;li&gt;Splitting by headers / subheaders;&lt;/li&gt;
-  &lt;li&gt;etc.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above).&lt;/p&gt;
-
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;other&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;financial_statements&lt;/code&gt;&lt;/p&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_financial_statements_item_en_1.0.0_3.2_1660154427604.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;useEmbeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UniversalSentenceEncoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;docClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ClassifierDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finclf_financial_statements_item&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;category&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    
-&lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;useEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;docClassifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
- 
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;YOUR TEXT HERE&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+-------+
-| result|
-+-------+
-|[financial_statements]|
-|[other]|
-|[other]|
-|[financial_statements]|
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;finclf_financial_statements_item&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP for Finance 1.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[sentence_embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[category]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;22.6 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
-
-&lt;p&gt;Weak labelling on documents from Edgar database&lt;/p&gt;
-
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                      precision    recall  f1-score   support
-
-financial_statements       0.86      0.96      0.91      1204
-               other       0.96      0.85      0.90      1254
-
-            accuracy                           0.90      2458
-           macro avg       0.91      0.91      0.90      2458
-        weighted avg       0.91      0.90      0.90      2458
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="classification" /><category term="10k" /><category term="annual" /><category term="reports" /><category term="sec" /><category term="filings" /><category term="licensed" /><summary type="html">Description This model is a Binary Classifier (True, False) for the financial_statements item type of 10K Annual Reports. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level. If you have big financial documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Finance Workshop Tokenization &amp;amp; Splitting Tutorial (link here), namely: Paragraph splitting (by multiline); Splitting by headers / subheaders; etc. Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above). Predicted Entities other, financial_statements Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) useEmbeddings = UniversalSentenceEncoder.pretrained() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;sentence_embeddings&quot;) docClassifier = ClassifierDLModel().pretrained(&quot;finclf_financial_statements_item&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence_embeddings&quot;])\ .setOutputCol(&quot;category&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, useEmbeddings, docClassifier]) df = spark.createDataFrame([[&quot;YOUR TEXT HERE&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(df) result = model.transform(df) Results +-------+ | result| +-------+ |[financial_statements]| |[other]| |[other]| |[financial_statements]| Model Information Model Name: finclf_financial_statements_item Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence_embeddings] Output Labels: [category] Language: en Size: 22.6 MB References Weak labelling on documents from Edgar database Benchmarking precision recall f1-score support financial_statements 0.86 0.96 0.91 1204 other 0.96 0.85 0.90 1254 accuracy 0.90 2458 macro avg 0.91 0.91 0.90 2458 weighted avg 0.91 0.90 0.90 2458</summary></entry><entry><title type="html">Financial Form 10k summary Item Binary Classifier</title><link href="/2022/08/10/finclf_form_10k_summary_item_en_3_2.html" rel="alternate" type="text/html" title="Financial Form 10k summary Item Binary Classifier" /><published>2022-08-10T00:00:00+00:00</published><updated>2022-08-10T00:00:00+00:00</updated><id>/2022/08/10/finclf_form_10k_summary_item_en_3_2</id><content type="html" xml:base="/2022/08/10/finclf_form_10k_summary_item_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;This model is a Binary Classifier (True, False) for the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;form_10k_summary&lt;/code&gt; item type of 10K Annual Reports. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level.&lt;/p&gt;
-
-&lt;p&gt;If you have big financial documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Finance Workshop Tokenization &amp;amp; Splitting Tutorial (link &lt;a href=&quot;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Finance/1.Tokenization_Splitting.ipynb&quot;&gt;here&lt;/a&gt;), namely:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Paragraph splitting (by multiline);&lt;/li&gt;
-  &lt;li&gt;Splitting by headers / subheaders;&lt;/li&gt;
-  &lt;li&gt;etc.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above).&lt;/p&gt;
-
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;other&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;form_10k_summary&lt;/code&gt;&lt;/p&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_form_10k_summary_item_en_1.0.0_3.2_1660154435146.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;useEmbeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UniversalSentenceEncoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;docClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ClassifierDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finclf_form_10k_summary_item&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;category&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    
-&lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;useEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;docClassifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
- 
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;YOUR TEXT HERE&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+-------+
-| result|
-+-------+
-|[form_10k_summary]|
-|[other]|
-|[other]|
-|[form_10k_summary]|
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;finclf_form_10k_summary_item&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP for Finance 1.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[sentence_embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[category]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;22.6 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
-
-&lt;p&gt;Weak labelling on documents from Edgar database&lt;/p&gt;
-
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                  precision    recall  f1-score   support
-
-form_10k_summary       0.71      0.74      0.73       145
-           other       0.76      0.73      0.74       162
-
-        accuracy                           0.74       307
-       macro avg       0.74      0.74      0.74       307
-    weighted avg       0.74      0.74      0.74       307
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="classification" /><category term="10k" /><category term="annual" /><category term="reports" /><category term="sec" /><category term="filings" /><category term="licensed" /><summary type="html">Description This model is a Binary Classifier (True, False) for the form_10k_summary item type of 10K Annual Reports. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level. If you have big financial documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Finance Workshop Tokenization &amp;amp; Splitting Tutorial (link here), namely: Paragraph splitting (by multiline); Splitting by headers / subheaders; etc. Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above). Predicted Entities other, form_10k_summary Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) useEmbeddings = UniversalSentenceEncoder.pretrained() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;sentence_embeddings&quot;) docClassifier = ClassifierDLModel().pretrained(&quot;finclf_form_10k_summary_item&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence_embeddings&quot;])\ .setOutputCol(&quot;category&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, useEmbeddings, docClassifier]) df = spark.createDataFrame([[&quot;YOUR TEXT HERE&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(df) result = model.transform(df) Results +-------+ | result| +-------+ |[form_10k_summary]| |[other]| |[other]| |[form_10k_summary]| Model Information Model Name: finclf_form_10k_summary_item Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence_embeddings] Output Labels: [category] Language: en Size: 22.6 MB References Weak labelling on documents from Edgar database Benchmarking precision recall f1-score support form_10k_summary 0.71 0.74 0.73 145 other 0.76 0.73 0.74 162 accuracy 0.74 307 macro avg 0.74 0.74 0.74 307 weighted avg 0.74 0.74 0.74 307</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="classification" /><category term="10k" /><category term="annual" /><category term="reports" /><category term="sec" /><category term="filings" /><category term="licensed" /><summary type="html">Description This model is a Binary Classifier (True, False) for the executives item type of 10K Annual Reports. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level. If you have big financial documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Finance Workshop Tokenization &amp;amp; Splitting Tutorial (link here), namely: Paragraph splitting (by multiline); Splitting by headers / subheaders; etc. Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above). Predicted Entities other, executives Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) useEmbeddings = UniversalSentenceEncoder.pretrained() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;sentence_embeddings&quot;) docClassifier = ClassifierDLModel().pretrained(&quot;finclf_executives_item&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence_embeddings&quot;])\ .setOutputCol(&quot;category&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, useEmbeddings, docClassifier]) df = spark.createDataFrame([[&quot;YOUR TEXT HERE&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(df) result = model.transform(df) Results +-------+ | result| +-------+ |[executives]| |[other]| |[other]| |[executives]| Model Information Model Name: finclf_executives_item Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence_embeddings] Output Labels: [category] Language: en Size: 22.6 MB References Weak labelling on documents from Edgar database Benchmarking precision recall f1-score support executives 0.96 0.98 0.97 46 other 0.98 0.96 0.97 45 accuracy 0.97 91 macro avg 0.97 0.97 0.97 91 weighted avg 0.97 0.97 0.97 91</summary></entry></feed>
