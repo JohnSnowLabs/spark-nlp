@@ -60,7 +60,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: 
-        - title: Extract Whereas clauses 
+        - title: Extract entities in Whereas clauses 
           id: extract_entities_whereas_clauses      
           image: 
               src: /assets/images/Extract_Entities_from_Whereas_clauses.svg
@@ -88,7 +88,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_DE.ipynb
-        - title: Named Entity Recognition in Portuguese
+        - title: Detect legal entities in Portuguese
           id: named_entity_recognition_brazilian_portuguese_legal_texts  
           image: 
               src: /assets/images/Named_Entity_Recognition_Brazilian_Portuguese_Legal_Texts.svg
