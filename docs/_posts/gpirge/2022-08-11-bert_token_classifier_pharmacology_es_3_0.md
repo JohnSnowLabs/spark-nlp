@@ -35,6 +35,7 @@ The model detects PROTEINAS and NORMALIZABLES.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
   .setInputCol("text")\
@@ -155,5 +156,5 @@ I-NORMALIZABLES     0.8788    0.8969    0.8878       291
     I-PROTEINAS     0.8825    0.7634    0.8186       748
       micro-avg     0.9257    0.9304    0.9280      6349
       macro-avg     0.9059    0.8917    0.8976      6349
-   weighted avg     0.9249    0.9304    0.9270      6349
+   weighted-avg     0.9249    0.9304    0.9270      6349
 ```
