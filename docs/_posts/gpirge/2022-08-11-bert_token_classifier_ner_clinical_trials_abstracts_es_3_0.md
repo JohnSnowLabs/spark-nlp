@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Extract entities in Spanish clinical trial abstracts (BertForTokenClassification)
+title: Extract Entities in Spanish Clinical Trial Abstracts (BertForTokenClassification)
 author: John Snow Labs
 name: bert_token_classifier_ner_clinical_trials_abstracts
 date: 2022-08-11
