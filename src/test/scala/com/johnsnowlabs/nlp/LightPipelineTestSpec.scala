@@ -20,9 +20,9 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
-
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.when
 import org.apache.spark.sql.{Dataset, Row}
@@ -210,6 +210,20 @@ class LightPipelineTestSpec extends AnyFlatSpec {
     }
 
     assert(t1 > t2)
+  }
+
+  it should "work for documents" in {
+    val documentAssembler: DocumentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val pipeline: Pipeline = new Pipeline().setStages(Array(documentAssembler))
+    val emptyDF = ResourceHelper.spark.emptyDataFrame
+    val pipelineModel = pipeline.fit(emptyDF)
+    val lightPipeline = new LightPipeline(pipelineModel)
+    val result = lightPipeline.fullAnnotate("Hello world")
+
+    println(result)
   }
 
 }

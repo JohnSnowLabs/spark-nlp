@@ -37,7 +37,7 @@ class TensorflowViTClassifier(
   private def sessionWarmup(): Unit = {
     val image =
       ImageIOUtils.loadImage(getClass.getResourceAsStream("/image/ox.JPEG"))
-    val bytes = ImageIOUtils.BufferedImageToByte(image)
+    val bytes = ImageIOUtils.bufferedImageToByte(image)
     val preprocessor =
       Preprocessor(
         do_normalize = true,
