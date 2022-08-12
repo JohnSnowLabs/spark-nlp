@@ -1,5 +1,215 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-08-12T08:14:31+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Financial Business Item Binary Classifier</title><link href="/2022/08/10/finclf_business_item_en_3_2.html" rel="alternate" type="text/html" title="Financial Business Item Binary Classifier" /><published>2022-08-10T00:00:00+00:00</published><updated>2022-08-10T00:00:00+00:00</updated><id>/2022/08/10/finclf_business_item_en_3_2</id><content type="html" xml:base="/2022/08/10/finclf_business_item_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-08-12T08:50:55+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Financial NER (WIP)</title><link href="/2022/08/12/finner_financial_wip_en_3_2.html" rel="alternate" type="text/html" title="Financial NER (WIP)" /><published>2022-08-12T00:00:00+00:00</published><updated>2022-08-12T00:00:00+00:00</updated><id>/2022/08/12/finner_financial_wip_en_3_2</id><content type="html" xml:base="/2022/08/12/finner_financial_wip_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This model is a WIP (Work In Progress) model, meaning the John Snow Labs team is currently working on improving the model with more in-house annotations by Subject Matter Experts.&lt;/p&gt;
+
+&lt;p&gt;The aim of this model is to detect the main pieces of financial information in annual reports of companies, more specifically this model is being trained with 10K filings.&lt;/p&gt;
+
+&lt;p&gt;The currently available entities are:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;AMOUNT: Numeric amounts, not percentages&lt;/li&gt;
+  &lt;li&gt;PERCENTAGE: Numeric amounts which are percentages&lt;/li&gt;
+  &lt;li&gt;CURRENCY: The currency of the amount&lt;/li&gt;
+  &lt;li&gt;FISCAL_YEAR: A date which expresses which month the fiscal exercise was closed for a specific year&lt;/li&gt;
+  &lt;li&gt;DATE: Generic dates in context where either it’s not a fiscal year or it can’t be asserted as such given the context&lt;/li&gt;
+  &lt;li&gt;PROFIT: Profit or also Revenue&lt;/li&gt;
+  &lt;li&gt;PROFIT_INCREASE: A piece of information saying there was a profit / revenue increase in that fiscal year&lt;/li&gt;
+  &lt;li&gt;PROFIT_DECLINE: A piece of information saying there was a profit / revenue decrease in that fiscal year&lt;/li&gt;
+  &lt;li&gt;EXPENSE: An expense or loss&lt;/li&gt;
+  &lt;li&gt;EXPENSE_INCREASE: A piece of information saying there was an expense increase in that fiscal year&lt;/li&gt;
+  &lt;li&gt;EXPENSE_DECREASE: A piece of information saying there was an expense decrease in that fiscal year&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can also check for the Relation Extraction model which connects these entities together&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AMOUNT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CURRENCY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DATE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FISCAL_YEAR&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PERCENTAGE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EXPENSE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EXPENSE_INCREASE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EXPENSE_DECREASE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PROFIT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PROFIT_INCREASE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PROFIT_DECLINE&lt;/code&gt;&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_financial_wip_en_1.0.0_3.2_1660292343445.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;top_tab_li&quot;&gt;   
+    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
+&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;sentence_detector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SentenceDetectorDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_detector_dl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_embeddings_sec_bert_base&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxSentenceLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;512&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FinanceNerModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finner_financial_wip&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+
+&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;sentence_detector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;   
+    &lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;License fees revenue decreased 40 %, or $ 0.5 million to $ 0.7 million for the year ended December 31, 2020 compared to $ 1.2 million for the year ended December 31, 2019. Services revenue increased 4 %, or $ 1.1 million, to $ 25.6 million for the year ended December 31, 2020 from $ 24.5 million for the year ended December 31, 2019.  Costs of revenue, excluding depreciation and amortization increased by $ 0.1 million, or 2 %, to $ 8.8 million for the year ended December 31, 2020 from $ 8.7 million for the year ended December 31, 2019. The increase was primarily related to increase in internal staff costs of $ 1.1 million as we increased delivery staff and work performed on internal projects, partially offset by a decrease in third party consultant costs of $ 0.6 million as these were converted to internal staff or terminated. Also, a decrease in travel costs of $ 0.4 million due to travel restrictions caused by the global pandemic. As a percentage of revenue, cost of revenue, excluding depreciation and amortization was 34 % for each of the years ended December 31, 2020 and 2019. Sales and marketing expenses decreased 20 %, or $ 1.5 million, to $ 6.0 million for the year ended December 31, 2020 from $ 7.5 million for the year ended December 31, 2019.&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;explode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arrays_zip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'ner_chunk.result'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'ner_chunk.metadata'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cols&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; \
+               &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;expr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cols['0']&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+                       &lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;expr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cols['1']['entity']&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;label&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;truncate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+---------------------------------------------------------+----------------+
+|text                                                     |label           |
++---------------------------------------------------------+----------------+
+|License fees revenue                                     |PROFIT_DECLINE  |
+|40                                                       |PERCENTAGE      |
+|&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;                                                       |CURRENCY        |
+|0.5 million                                              |AMOUNT          |
+|&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;                                                       |CURRENCY        |
+|0.7 million                                              |AMOUNT          |
+|December 31, 2020                                        |FISCAL_YEAR     |
+|&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;                                                       |CURRENCY        |
+|1.2 million                                              |AMOUNT          |
+|December 31, 2019                                        |FISCAL_YEAR     |
+|Services revenue                                         |PROFIT_INCREASE |
+|4                                                        |PERCENTAGE      |
+|&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;                                                       |CURRENCY        |
+|1.1 million                                              |AMOUNT          |
+|&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;                                                       |CURRENCY        |
+|25.6 million                                             |AMOUNT          |
+|December 31, 2020                                        |FISCAL_YEAR     |
+|&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;                                                       |CURRENCY        |
+|24.5 million                                             |AMOUNT          |
+|December 31, 2019                                        |FISCAL_YEAR     |
+|Costs of revenue, excluding depreciation and amortization|EXPENSE_INCREASE|
+|&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;                                                       |CURRENCY        |
+|0.1 million                                              |AMOUNT          |
+|2                                                        |PERCENTAGE      |
+|&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;                                                       |CURRENCY        |
+|8.8 million                                              |AMOUNT          |
+|December 31, 2020                                        |FISCAL_YEAR     |
+|&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;                                                       |CURRENCY        |
+|8.7 million                                              |AMOUNT          |
+|December 31, 2019                                        |FISCAL_YEAR     |
+|internal staff costs                                     |EXPENSE_INCREASE|
+|&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;                                                       |CURRENCY        |
+|1.1 million                                              |AMOUNT          |
+|third party consultant costs                             |EXPENSE_DECREASE|
+|&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;                                                       |CURRENCY        |
+|0.6 million                                              |AMOUNT          |
+|travel costs                                             |EXPENSE_DECREASE|
+|&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;                                                       |CURRENCY        |
+|0.4 million                                              |AMOUNT          |
+|cost of revenue, excluding depreciation and amortization |EXPENSE         |
+|34                                                       |PERCENTAGE      |
+|December 31, 2020                                        |FISCAL_YEAR     |
+|2019                                                     |DATE            |
+|Sales and marketing expenses                             |EXPENSE_DECREASE|
+|20                                                       |PERCENTAGE      |
+|&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;                                                       |CURRENCY        |
+|1.5 million                                              |AMOUNT          |
+|&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;                                                       |CURRENCY        |
+|6.0 million                                              |AMOUNT          |
+|December 31, 2020                                        |FISCAL_YEAR     |
+|&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;                                                       |CURRENCY        |
+|7.5 million                                              |AMOUNT          |
+|December 31, 2019                                        |FISCAL_YEAR     |
++---------------------------------------------------------+----------------+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;finner_financial_wip&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;finance&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP for Finance 1.0.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Licensed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[sentence, token, embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[ner]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;1.1 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;Manual annotations on 10-K Filings&lt;/p&gt;
+
+&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                 precision    recall  f1-score   support
+
+          AMOUNT       0.97      0.99      0.98       364
+        CURRENCY       0.99      0.98      0.98       365
+            DATE       0.89      0.94      0.91       264
+         EXPENSE       0.65      0.45      0.54        33
+EXPENSE_DECREASE       0.67      0.73      0.70        22
+EXPENSE_INCREASE       0.90      0.83      0.86        65
+     FISCAL_YEAR       0.92      0.91      0.91       121
+      PERCENTAGE       1.00      0.91      0.95        80
+          PROFIT       0.85      0.52      0.65        21
+  PROFIT_DECLINE       0.88      0.64      0.74        11
+ PROFIT_INCREASE       0.88      0.77      0.82        30
+
+       micro avg       0.94      0.93      0.93      1376
+       macro avg       0.87      0.79      0.82      1376
+    weighted avg       0.94      0.93      0.93      1376
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="ner" /><category term="annual" /><category term="ports" /><category term="10k" /><category term="filings" /><category term="licensed" /><summary type="html">Description This model is a WIP (Work In Progress) model, meaning the John Snow Labs team is currently working on improving the model with more in-house annotations by Subject Matter Experts. The aim of this model is to detect the main pieces of financial information in annual reports of companies, more specifically this model is being trained with 10K filings. The currently available entities are: AMOUNT: Numeric amounts, not percentages PERCENTAGE: Numeric amounts which are percentages CURRENCY: The currency of the amount FISCAL_YEAR: A date which expresses which month the fiscal exercise was closed for a specific year DATE: Generic dates in context where either it’s not a fiscal year or it can’t be asserted as such given the context PROFIT: Profit or also Revenue PROFIT_INCREASE: A piece of information saying there was a profit / revenue increase in that fiscal year PROFIT_DECLINE: A piece of information saying there was a profit / revenue decrease in that fiscal year EXPENSE: An expense or loss EXPENSE_INCREASE: A piece of information saying there was an expense increase in that fiscal year EXPENSE_DECREASE: A piece of information saying there was an expense decrease in that fiscal year You can also check for the Relation Extraction model which connects these entities together Predicted Entities AMOUNT, CURRENCY, DATE, FISCAL_YEAR, PERCENTAGE, EXPENSE, EXPENSE_INCREASE, EXPENSE_DECREASE, PROFIT, PROFIT_INCREASE, PROFIT_DECLINE Live Demo Open in Colab Download How to use PythonScalaNLU document_assembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentence_detector = SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;,&quot;xx&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = BertEmbeddings.pretrained(&quot;bert_embeddings_sec_bert_base&quot;, &quot;en&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;)\ .setMaxSentenceLength(512) ner_model = FinanceNerModel.pretrained(&quot;finner_financial_wip&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;ner&quot;)\ ner_converter = NerConverter()\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) pipeline = Pipeline(stages=[ document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter ]) data = spark.createDataFrame([[&quot;&quot;&quot;License fees revenue decreased 40 %, or $ 0.5 million to $ 0.7 million for the year ended December 31, 2020 compared to $ 1.2 million for the year ended December 31, 2019. Services revenue increased 4 %, or $ 1.1 million, to $ 25.6 million for the year ended December 31, 2020 from $ 24.5 million for the year ended December 31, 2019. Costs of revenue, excluding depreciation and amortization increased by $ 0.1 million, or 2 %, to $ 8.8 million for the year ended December 31, 2020 from $ 8.7 million for the year ended December 31, 2019. The increase was primarily related to increase in internal staff costs of $ 1.1 million as we increased delivery staff and work performed on internal projects, partially offset by a decrease in third party consultant costs of $ 0.6 million as these were converted to internal staff or terminated. Also, a decrease in travel costs of $ 0.4 million due to travel restrictions caused by the global pandemic. As a percentage of revenue, cost of revenue, excluding depreciation and amortization was 34 % for each of the years ended December 31, 2020 and 2019. Sales and marketing expenses decreased 20 %, or $ 1.5 million, to $ 6.0 million for the year ended December 31, 2020 from $ 7.5 million for the year ended December 31, 2019.&quot;&quot;&quot;]]).toDF(&quot;text&quot;) result = model.transform(data) result.select(F.explode(F.arrays_zip('ner_chunk.result', 'ner_chunk.metadata')).alias(&quot;cols&quot;)) \ .select(F.expr(&quot;cols['0']&quot;).alias(&quot;text&quot;), F.expr(&quot;cols['1']['entity']&quot;).alias(&quot;label&quot;)).show(200, truncate = False) Results +---------------------------------------------------------+----------------+ |text |label | +---------------------------------------------------------+----------------+ |License fees revenue |PROFIT_DECLINE | |40 |PERCENTAGE | |$ |CURRENCY | |0.5 million |AMOUNT | |$ |CURRENCY | |0.7 million |AMOUNT | |December 31, 2020 |FISCAL_YEAR | |$ |CURRENCY | |1.2 million |AMOUNT | |December 31, 2019 |FISCAL_YEAR | |Services revenue |PROFIT_INCREASE | |4 |PERCENTAGE | |$ |CURRENCY | |1.1 million |AMOUNT | |$ |CURRENCY | |25.6 million |AMOUNT | |December 31, 2020 |FISCAL_YEAR | |$ |CURRENCY | |24.5 million |AMOUNT | |December 31, 2019 |FISCAL_YEAR | |Costs of revenue, excluding depreciation and amortization|EXPENSE_INCREASE| |$ |CURRENCY | |0.1 million |AMOUNT | |2 |PERCENTAGE | |$ |CURRENCY | |8.8 million |AMOUNT | |December 31, 2020 |FISCAL_YEAR | |$ |CURRENCY | |8.7 million |AMOUNT | |December 31, 2019 |FISCAL_YEAR | |internal staff costs |EXPENSE_INCREASE| |$ |CURRENCY | |1.1 million |AMOUNT | |third party consultant costs |EXPENSE_DECREASE| |$ |CURRENCY | |0.6 million |AMOUNT | |travel costs |EXPENSE_DECREASE| |$ |CURRENCY | |0.4 million |AMOUNT | |cost of revenue, excluding depreciation and amortization |EXPENSE | |34 |PERCENTAGE | |December 31, 2020 |FISCAL_YEAR | |2019 |DATE | |Sales and marketing expenses |EXPENSE_DECREASE| |20 |PERCENTAGE | |$ |CURRENCY | |1.5 million |AMOUNT | |$ |CURRENCY | |6.0 million |AMOUNT | |December 31, 2020 |FISCAL_YEAR | |$ |CURRENCY | |7.5 million |AMOUNT | |December 31, 2019 |FISCAL_YEAR | +---------------------------------------------------------+----------------+ Model Information Model Name: finner_financial_wip Type: finance Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token, embeddings] Output Labels: [ner] Language: en Size: 1.1 MB References Manual annotations on 10-K Filings Benchmarking precision recall f1-score support AMOUNT 0.97 0.99 0.98 364 CURRENCY 0.99 0.98 0.98 365 DATE 0.89 0.94 0.91 264 EXPENSE 0.65 0.45 0.54 33 EXPENSE_DECREASE 0.67 0.73 0.70 22 EXPENSE_INCREASE 0.90 0.83 0.86 65 FISCAL_YEAR 0.92 0.91 0.91 121 PERCENTAGE 1.00 0.91 0.95 80 PROFIT 0.85 0.52 0.65 21 PROFIT_DECLINE 0.88 0.64 0.74 11 PROFIT_INCREASE 0.88 0.77 0.82 30 micro avg 0.94 0.93 0.93 1376 macro avg 0.87 0.79 0.82 1376 weighted avg 0.94 0.93 0.93 1376</summary></entry><entry><title type="html">Financial Business Item Binary Classifier</title><link href="/2022/08/10/finclf_business_item_en_3_2.html" rel="alternate" type="text/html" title="Financial Business Item Binary Classifier" /><published>2022-08-10T00:00:00+00:00</published><updated>2022-08-10T00:00:00+00:00</updated><id>/2022/08/10/finclf_business_item_en_3_2</id><content type="html" xml:base="/2022/08/10/finclf_business_item_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;This model is a Binary Classifier (True, False) for the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;business&lt;/code&gt; item type of 10K Annual Reports. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level.&lt;/p&gt;
 
@@ -1044,120 +1254,4 @@ form_10k_summary       0.71      0.74      0.73       145
         accuracy                           0.74       307
        macro avg       0.74      0.74      0.74       307
     weighted avg       0.74      0.74      0.74       307
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="classification" /><category term="10k" /><category term="annual" /><category term="reports" /><category term="sec" /><category term="filings" /><category term="licensed" /><summary type="html">Description This model is a Binary Classifier (True, False) for the form_10k_summary item type of 10K Annual Reports. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level. If you have big financial documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Finance Workshop Tokenization &amp;amp; Splitting Tutorial (link here), namely: Paragraph splitting (by multiline); Splitting by headers / subheaders; etc. Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above). Predicted Entities other, form_10k_summary Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) useEmbeddings = UniversalSentenceEncoder.pretrained() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;sentence_embeddings&quot;) docClassifier = ClassifierDLModel().pretrained(&quot;finclf_form_10k_summary_item&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence_embeddings&quot;])\ .setOutputCol(&quot;category&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, useEmbeddings, docClassifier]) df = spark.createDataFrame([[&quot;YOUR TEXT HERE&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(df) result = model.transform(df) Results +-------+ | result| +-------+ |[form_10k_summary]| |[other]| |[other]| |[form_10k_summary]| Model Information Model Name: finclf_form_10k_summary_item Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence_embeddings] Output Labels: [category] Language: en Size: 22.6 MB References Weak labelling on documents from Edgar database Benchmarking precision recall f1-score support form_10k_summary 0.71 0.74 0.73 145 other 0.76 0.73 0.74 162 accuracy 0.74 307 macro avg 0.74 0.74 0.74 307 weighted avg 0.74 0.74 0.74 307</summary></entry><entry><title type="html">Financial Legal proceedings Item Binary Classifier</title><link href="/2022/08/10/finclf_legal_proceedings_item_en_3_2.html" rel="alternate" type="text/html" title="Financial Legal proceedings Item Binary Classifier" /><published>2022-08-10T00:00:00+00:00</published><updated>2022-08-10T00:00:00+00:00</updated><id>/2022/08/10/finclf_legal_proceedings_item_en_3_2</id><content type="html" xml:base="/2022/08/10/finclf_legal_proceedings_item_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;This model is a Binary Classifier (True, False) for the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;legal_proceedings&lt;/code&gt; item type of 10K Annual Reports. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level.&lt;/p&gt;
-
-&lt;p&gt;If you have big financial documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Finance Workshop Tokenization &amp;amp; Splitting Tutorial (link &lt;a href=&quot;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Finance/1.Tokenization_Splitting.ipynb&quot;&gt;here&lt;/a&gt;), namely:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Paragraph splitting (by multiline);&lt;/li&gt;
-  &lt;li&gt;Splitting by headers / subheaders;&lt;/li&gt;
-  &lt;li&gt;etc.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above).&lt;/p&gt;
-
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;other&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;legal_proceedings&lt;/code&gt;&lt;/p&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_legal_proceedings_item_en_1.0.0_3.2_1660154442715.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;top_tab_li&quot;&gt;   
-    &lt;button class=&quot;tab-li code-selector-active python-button&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active scala-button&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li code-selector-un-active nlu-button&quot;&gt;NLU&lt;/button&gt;
-&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;useEmbeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UniversalSentenceEncoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;docClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ClassifierDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finclf_legal_proceedings_item&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;category&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    
-&lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;useEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;docClassifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
- 
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;YOUR TEXT HERE&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+-------+
-| result|
-+-------+
-|[legal_proceedings]|
-|[other]|
-|[other]|
-|[legal_proceedings]|
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;finclf_legal_proceedings_item&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP for Finance 1.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[sentence_embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[category]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;22.6 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
-
-&lt;p&gt;Weak labelling on documents from Edgar database&lt;/p&gt;
-
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                   precision    recall  f1-score   support
-
-legal_proceedings       0.96      0.88      0.92        25
-            other       0.92      0.97      0.95        36
-
-         accuracy                           0.93        61
-        macro avg       0.94      0.93      0.93        61
-     weighted avg       0.94      0.93      0.93        61
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="classification" /><category term="10k" /><category term="annual" /><category term="reports" /><category term="sec" /><category term="filings" /><category term="licensed" /><summary type="html">Description This model is a Binary Classifier (True, False) for the legal_proceedings item type of 10K Annual Reports. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level. If you have big financial documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Finance Workshop Tokenization &amp;amp; Splitting Tutorial (link here), namely: Paragraph splitting (by multiline); Splitting by headers / subheaders; etc. Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above). Predicted Entities other, legal_proceedings Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) useEmbeddings = UniversalSentenceEncoder.pretrained() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;sentence_embeddings&quot;) docClassifier = ClassifierDLModel().pretrained(&quot;finclf_legal_proceedings_item&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence_embeddings&quot;])\ .setOutputCol(&quot;category&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, useEmbeddings, docClassifier]) df = spark.createDataFrame([[&quot;YOUR TEXT HERE&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(df) result = model.transform(df) Results +-------+ | result| +-------+ |[legal_proceedings]| |[other]| |[other]| |[legal_proceedings]| Model Information Model Name: finclf_legal_proceedings_item Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence_embeddings] Output Labels: [category] Language: en Size: 22.6 MB References Weak labelling on documents from Edgar database Benchmarking precision recall f1-score support legal_proceedings 0.96 0.88 0.92 25 other 0.92 0.97 0.95 36 accuracy 0.93 61 macro avg 0.94 0.93 0.93 61 weighted avg 0.94 0.93 0.93 61</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="classification" /><category term="10k" /><category term="annual" /><category term="reports" /><category term="sec" /><category term="filings" /><category term="licensed" /><summary type="html">Description This model is a Binary Classifier (True, False) for the form_10k_summary item type of 10K Annual Reports. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level. If you have big financial documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Finance Workshop Tokenization &amp;amp; Splitting Tutorial (link here), namely: Paragraph splitting (by multiline); Splitting by headers / subheaders; etc. Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above). Predicted Entities other, form_10k_summary Live Demo Open in Colab Download How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) useEmbeddings = UniversalSentenceEncoder.pretrained() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;sentence_embeddings&quot;) docClassifier = ClassifierDLModel().pretrained(&quot;finclf_form_10k_summary_item&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence_embeddings&quot;])\ .setOutputCol(&quot;category&quot;) nlpPipeline = Pipeline(stages=[ documentAssembler, useEmbeddings, docClassifier]) df = spark.createDataFrame([[&quot;YOUR TEXT HERE&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(df) result = model.transform(df) Results +-------+ | result| +-------+ |[form_10k_summary]| |[other]| |[other]| |[form_10k_summary]| Model Information Model Name: finclf_form_10k_summary_item Compatibility: Spark NLP for Finance 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence_embeddings] Output Labels: [category] Language: en Size: 22.6 MB References Weak labelling on documents from Edgar database Benchmarking precision recall f1-score support form_10k_summary 0.71 0.74 0.73 145 other 0.76 0.73 0.74 162 accuracy 0.74 307 macro avg 0.74 0.74 0.74 307 weighted avg 0.74 0.74 0.74 307</summary></entry></feed>
