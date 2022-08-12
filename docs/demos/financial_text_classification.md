@@ -46,4 +46,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb  
+        - title: ESG News Classification  
+          id: esg_news_classification       
+          image: 
+              src: /assets/images/ESG_News_Classification.svg
+          image2: 
+              src: /assets/images/ESG_News_Classification_f.svg
+          excerpt: This demo showcases ESG news classification, with 3-classes and 27-classes ESG models.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINCLF_ESG/
+          - text: Colab Netbook
+            type: blue_btn
+            url: 
 ---
