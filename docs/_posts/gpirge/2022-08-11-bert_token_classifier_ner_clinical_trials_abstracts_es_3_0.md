@@ -35,6 +35,7 @@ The model detects Pharmacological and Chemical Substances (CHEM), pathologies (D
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
   .setInputCol("text")\
@@ -57,7 +58,6 @@ ner_converter = NerConverter()\
   .setInputCols(["sentence","token","label"])\
   .setOutputCol("ner_chunk")
 
-
 pipeline =  Pipeline(stages=[
                       documentAssembler,
                       sentenceDetector,
@@ -65,10 +65,9 @@ pipeline =  Pipeline(stages=[
                       tokenClassifier,
                       ner_converter])
 
-model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
+model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-
-data = spark.createDataFrame(["Efecto de la suplementación con ácido fólico sobre los niveles de homocisteína total en pacientes en hemodiálisis. La hiperhomocisteinemia es un marcador de riesgo independiente de morbimortalidad cardiovascular. Hemos prospectivamente reducir los niveles de homocisteína total (tHcy) mediante suplemento con ácido fólico y vitamina B6 (pp), valorando su posible correlación con dosis de diálisis, función  residual y parámetros nutricionales."], StringType()).toDF("text")
+data = spark.createDataFrame(["""Efecto de la suplementación con ácido fólico sobre los niveles de homocisteína total en pacientes en hemodiálisis. La hiperhomocisteinemia es un marcador de riesgo independiente de morbimortalidad cardiovascular. Hemos prospectivamente reducir los niveles de homocisteína total (tHcy) mediante suplemento con ácido fólico y vitamina B6 (pp), valorando su posible correlación con dosis de diálisis, función  residual y parámetros nutricionales."""], StringType()).toDF("text")
                               
 result = model.transform(data)
 
@@ -95,7 +94,6 @@ val ner_converter = new NerConverter()
   .setInputCols(Array("sentence","token","label"))
   .setOutputCol("ner_chunk")
 
-
 val pipeline =  new Pipeline().setStages(Array(
                       documentAssembler,
                       sentenceDetector,
@@ -103,9 +101,9 @@ val pipeline =  new Pipeline().setStages(Array(
                       tokenClassifier,
                       ner_converter))
 
-val data = Seq(Array("Efecto de la suplementación con ácido fólico sobre los niveles de homocisteína total en pacientes en hemodiálisis. La hiperhomocisteinemia es un marcador de riesgo independiente de morbimortalidad cardiovascular. Hemos prospectivamente reducir los niveles de homocisteína total (tHcy) mediante suplemento con ácido fólico y vitamina B6 (pp), valorando su posible correlación con dosis de diálisis, función  residual y parámetros nutricionales.")).toDS().toDF("text")
+val data = Seq(Array("""Efecto de la suplementación con ácido fólico sobre los niveles de homocisteína total en pacientes en hemodiálisis. La hiperhomocisteinemia es un marcador de riesgo independiente de morbimortalidad cardiovascular. Hemos prospectivamente reducir los niveles de homocisteína total (tHcy) mediante suplemento con ácido fólico y vitamina B6 (pp), valorando su posible correlación con dosis de diálisis, función  residual y parámetros nutricionales.""")).toDS().toDF("text")
 
-val result = model.fit(data).transform(data)
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 
