@@ -35,6 +35,7 @@ The model detects Negation Trigger (NEG), Negation Scope (NSCO), Uncertainty Tri
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
   .setInputCol("text")\
@@ -57,7 +58,6 @@ ner_converter = NerConverter()\
   .setInputCols(["sentence","token","label"])\
   .setOutputCol("ner_chunk")
 
-
 pipeline =  Pipeline(stages=[
                       documentAssembler,
                       sentenceDetector,
@@ -65,8 +65,7 @@ pipeline =  Pipeline(stages=[
                       tokenClassifier,
                       ner_converter])
 
-model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
-
+model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 data = spark.createDataFrame(["Con diagnóstico probable de cirrosis hepática (no conocida previamente) y peritonitis espontanea primaria con tratamiento durante 8 dias con ceftriaxona en el primer ingreso (no se realizó paracentesis control por escasez de liquido). Lesión tumoral en hélix izquierdo de 0,5 cms. de diámetro susceptible de ca basocelular perlado."], StringType()).toDF("text")
                               
@@ -94,7 +93,6 @@ val ner_converter = new NerConverter()
   .setInputCols(Array("sentence","token","label"))
   .setOutputCol("ner_chunk")
 
-
 val pipeline =  new Pipeline().setStages(Array(
                       documentAssembler,
                       sentenceDetector,
@@ -102,9 +100,9 @@ val pipeline =  new Pipeline().setStages(Array(
                       tokenClassifier,
                       ner_converter))
 
-val data = Seq(Array("Con diagnóstico probable de cirrosis hepática (no conocida previamente) y peritonitis espontanea primaria con tratamiento durante 8 dias con ceftriaxona en el primer ingreso (no se realizó paracentesis control por escasez de liquido). Lesión tumoral en hélix izquierdo de 0,5 cms. de diámetro susceptible de ca basocelular perlado.")).toDS().toDF("text")
+val data = Seq(Array("""Con diagnóstico probable de cirrosis hepática (no conocida previamente) y peritonitis espontanea primaria con tratamiento durante 8 dias con ceftriaxona en el primer ingreso (no se realizó paracentesis control por escasez de liquido). Lesión tumoral en hélix izquierdo de 0,5 cms. de diámetro susceptible de ca basocelular perlado.""")).toDS().toDF("text")
 
-val result = model.fit(data).transform(data)
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 
