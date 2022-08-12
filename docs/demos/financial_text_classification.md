@@ -32,7 +32,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb
-        - title: Classify complaints about banking products  
+        - title: Classify Customer Support tickets (banking)  
           id: classification_bank_complaint_texts      
           image: 
               src: /assets/images/Classification_of_Bank_Complaint_Text.svg

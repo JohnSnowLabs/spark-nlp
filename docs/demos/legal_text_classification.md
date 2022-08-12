@@ -18,7 +18,7 @@ data:
           activemenu: legal_text_classification
       source: yes
       source: 
-        - title: Legal Clauses Classification 
+        - title: Classify 275 types of clauses (Binary - clause detected or not)
           id: legal_clauses_classification    
           image: 
               src: /assets/images/Legal_Clauses_Classification.svg
@@ -32,7 +32,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_EN_TREC.ipynb
-        - title: Classify texts into 15 types of legal clauses  
+        - title: Classify 15 types of clauses (Multilabel)  
           id: classify_texts_15_types_legal_clauses     
           image: 
               src: /assets/images/Classify_texts_into_15_types_of_legal_clauses.svg

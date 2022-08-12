@@ -18,7 +18,7 @@ data:
           activemenu: financial_company_normalization
       source: yes
       source: 
-        - title: Company Normalization for Edgar and Crunchbase databases 
+        - title: Company names Normalization 
           id: company_normalization_edgar_crunchbase_databases 
           image: 
               src: /assets/images/Company_Normalization.svg
