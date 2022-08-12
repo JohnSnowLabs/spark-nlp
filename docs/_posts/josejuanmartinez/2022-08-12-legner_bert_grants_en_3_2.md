@@ -43,7 +43,6 @@ tokenizer = Tokenizer()\
   .setInputCols("document")\
   .setOutputCol("token")
 
-from sparknlp_jsl.annotator import *
 tokenClassifier = LegalBertForTokenClassification.pretrained("legner_bert_grants", "en", "legal/models")\
   .setInputCols("token", "document")\
   .setOutputCol("label")\
