@@ -40,7 +40,9 @@ case class Annotation(
     end: Int,
     result: String,
     metadata: Map[String, String],
-    embeddings: Array[Float] = Array.emptyFloatArray) {
+    embeddings: Array[Float] = Array.emptyFloatArray)
+    extends IAnnotation {
+
   override def equals(obj: Any): Boolean = {
     obj match {
       case annotation: Annotation =>
@@ -57,6 +59,7 @@ case class Annotation(
   override def toString: String = {
     s"Annotation(type: $annotatorType, begin: $begin, end: $end, result: $result)"
   }
+
 }
 
 case class JavaAnnotation(

@@ -16,17 +16,20 @@
 
 package com.johnsnowlabs.nlp.annotators.cv.util.io
 
+import com.johnsnowlabs.nlp.ImageFields
+
 import java.awt.color.ColorSpace
 import java.awt.image.{BufferedImage, DataBufferByte, Raster}
 import java.awt.{Color, Point}
 import java.io.{File, InputStream}
 import javax.imageio.ImageIO
+import scala.util.{Failure, Success, Try}
 
 private[johnsnowlabs] object ImageIOUtils {
 
-  def loadImage(path: String): BufferedImage = {
-    ImageIO.read(new File(path))
-  }
+  /** (Scala-specific) OpenCV type mapping supported */
+  val ocvTypes: Map[String, Int] =
+    Map("CV_8U" -> 0, "CV_8UC1" -> 0, "CV_8UC3" -> 16, "CV_8UC4" -> 24)
 
   def loadImage(file: File): BufferedImage = {
     ImageIO.read(file)
@@ -34,6 +37,32 @@ private[johnsnowlabs] object ImageIOUtils {
 
   def loadImage(file: InputStream): BufferedImage = {
     ImageIO.read(file)
+  }
+
+  def loadImage(path: String): BufferedImage = {
+    val filePath = new File(path)
+    if (!filePath.exists()) {
+      throw new IllegalArgumentException(f"Wrong image file path $path")
+    }
+    ImageIO.read(filePath)
+  }
+
+  def loadImages(imagesPath: String): Array[File] = {
+    loadImagesFromDirectory(imagesPath) match {
+      case Success(files) => files
+      case Failure(_) => Array(new File(imagesPath))
+    }
+  }
+
+  private def loadImagesFromDirectory(path: String): Try[Array[File]] = {
+    val directoryPath = new File(path)
+    if (!directoryPath.exists()) {
+      throw new IllegalArgumentException(f"Wrong image directory path $path")
+    }
+    Try {
+      val files = directoryPath.listFiles()
+      if (files == null) throw new IllegalArgumentException(f"Path is a file") else files
+    }
   }
 
   def convertChannelsToType(channels: Int): Int = channels match {
@@ -54,21 +83,17 @@ private[johnsnowlabs] object ImageIOUtils {
     img
   }
 
-  def BufferedImageToByte(img: BufferedImage): Array[Byte] = {
+  def bufferedImageToByte(img: BufferedImage): Array[Byte] = {
 
     if (img == null) {
       Array.empty[Byte]
     } else {
 
       val is_gray = img.getColorModel.getColorSpace.getType == ColorSpace.TYPE_GRAY
-      val has_alpha = img.getColorModel.hasAlpha
 
       val height = img.getHeight
       val width = img.getWidth
-      val (nChannels, mode) =
-        if (is_gray) (1, "CV_8UC1")
-        else if (has_alpha) (4, "CV_8UC4")
-        else (3, "CV_8UC3")
+      val (nChannels, _) = getChannelsAndMode(img)
 
       assert(height * width * nChannels < 1e9, "image is too large")
       val decoded = Array.ofDim[Byte](height * width * nChannels)
@@ -101,6 +126,35 @@ private[johnsnowlabs] object ImageIOUtils {
       }
       decoded
     }
+  }
+
+  private def getChannelsAndMode(bufferedImage: BufferedImage): (Int, Int) = {
+    val is_gray = bufferedImage.getColorModel.getColorSpace.getType == ColorSpace.TYPE_GRAY
+    val has_alpha = bufferedImage.getColorModel.hasAlpha
+
+    val (numberOfChannels, mode) =
+      if (is_gray) (1, ocvTypes.getOrElse("CV_8UC1", -1))
+      else if (has_alpha) (4, ocvTypes.getOrElse("CV_8UC4", -1))
+      else (3, ocvTypes.getOrElse("CV_8UC3", -1))
+
+    (numberOfChannels, mode)
+  }
+
+  def imagePathToImageFields(imagePath: String): ImageFields = {
+    val bufferedImage = loadImage(imagePath)
+    bufferedImageToImageFields(bufferedImage, imagePath)
+  }
+
+  def imageFileToImageFields(file: File): ImageFields = {
+    val bufferedImage = loadImage(file)
+    bufferedImageToImageFields(bufferedImage, file.getPath)
+  }
+
+  def bufferedImageToImageFields(bufferedImage: BufferedImage, origin: String): ImageFields = {
+    val (nChannels, mode) = getChannelsAndMode(bufferedImage)
+    val data = bufferedImageToByte(bufferedImage)
+
+    ImageFields(origin, bufferedImage.getHeight, bufferedImage.getWidth, nChannels, mode, data)
   }
 
 }
