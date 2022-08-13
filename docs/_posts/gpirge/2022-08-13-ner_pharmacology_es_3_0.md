@@ -148,14 +148,12 @@ Vicent Briva-Iglesias and Martin Krallinger. Procesamiento del Lenguaje Natural,
 ## Benchmarking
 
 ```bash
-                 precision    recall  f1-score   support
-
+          label  precision    recall  f1-score   support
     B-PROTEINAS       0.88      0.93      0.90       813
     I-PROTEINAS       0.83      0.71      0.77       321
 B-NORMALIZABLES       0.94      0.93      0.93       954
 I-NORMALIZABLES       0.87      0.84      0.86       134
-
-      micro avg       0.90      0.89      0.90      2222
-      macro avg       0.88      0.85      0.86      2222
-   weighted avg       0.90      0.89      0.89      2222
+      micro-avg       0.90      0.89      0.90      2222
+      macro-avg       0.88      0.85      0.86      2222
+   weighted-avg       0.90      0.89      0.89      2222
 ```
