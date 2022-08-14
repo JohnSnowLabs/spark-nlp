@@ -57,7 +57,7 @@ sentence_embeddings = SentenceEmbeddings() \
    .setOutputCol("sentence_embeddings") \
    .setPoolingStrategy("AVERAGE")
 
-classifier = ClassifierDLModel.load('self_reported_symptoms_tweet') \
+classifier = ClassifierDLModel.pretrained('self_reported_symptoms_tweet') \
     .setInputCols(["sentence_embeddings"]) \
     .setOutputCol("class")    
 
@@ -82,7 +82,7 @@ val document_assembler = new DocumentAssembler()
     .setOutputCol("document")
 
 val sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-    .setInputCols(["document"])
+    .setInputCols(Array("document"))
 	  .setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
@@ -90,16 +90,16 @@ val tokenizer = new Tokenizer()
     .setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_scielo_300d","es","clinical/models")
-	  .setInputCols(["sentence","token"])
+	  .setInputCols(Array("sentence","token"))
 	  .setOutputCol("embeddings")
  
 val sentence_embeddings = new SentenceEmbeddings()
-    .setInputCols(["document", "embeddings"])
+    .setInputCols(Array("document", "embeddings"))
     .setOutputCol("sentence_embeddings")
     .setPoolingStrategy("AVERAGE")
 
-val classifier = ClassifierDLModel.load('self_reported_symptoms_tweet')
-    .setInputCols(["sentence_embeddings"])
+val classifier = ClassifierDLModel.pretrained('self_reported_symptoms_tweet')
+    .setInputCols("sentence_embeddings")
     .setOutputCol("class")
 
 val pipeline = new PipelineModel().setStages(Array(document_assembler,
@@ -114,7 +114,7 @@ val data = Seq(Array("Las vacunas 3 y hablamos inminidad vivo      Son bichito v
                               "Yo pense que me estaba dando el  coronavirus porque cuando me levante  casi no podia respirar pero que si era que tenia la nariz topada de mocos.",
                               "Tos, dolor de garganta y fiebre, los síntomas más reportados por los porteños con coronavirus")).toDS.toDF("text")
 
-val result = model.fit(data).transform(data)
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 
@@ -155,7 +155,7 @@ The dataset is Covid-19-specific and consists of tweets collected via a series o
    Lit-News_mentions       0.91      0.95      0.93       727
         Self_reports       0.66      0.76      0.71       216
 non-personal_reports       0.72      0.56      0.63       305
-            accuracy                           0.82      1248
+            accuracy       -         -         0.82      1248
            macro-avg       0.76      0.76      0.76      1248
         weighted-avg       0.82      0.82      0.82      1248
 ```
