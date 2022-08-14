@@ -57,7 +57,7 @@ sentence_embeddings = SentenceEmbeddings() \
    .setOutputCol("sentence_embeddings") \
    .setPoolingStrategy("AVERAGE")
 
-classifier = ClassifierDLModel.pretrained('self_reported_symptoms_tweet') \
+classifier = ClassifierDLModel.pretrained("self_reported_symptoms_tweet", "es","clinical/models") \
     .setInputCols(["sentence_embeddings"]) \
     .setOutputCol("class")    
 
@@ -98,7 +98,7 @@ val sentence_embeddings = new SentenceEmbeddings()
     .setOutputCol("sentence_embeddings")
     .setPoolingStrategy("AVERAGE")
 
-val classifier = ClassifierDLModel.pretrained('self_reported_symptoms_tweet')
+val classifier = ClassifierDLModel.pretrained("self_reported_symptoms_tweet", "es","clinical/models")
     .setInputCols("sentence_embeddings")
     .setOutputCol("class")
 
