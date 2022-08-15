@@ -38,7 +38,7 @@ spark-shell --jars spark-nlp-assembly-4.0.2.jar
 Spark NLP supports Python 3.6.x and above depending on your major PySpark version.
 #### Quick Install
 
-Let's create a new Conda environment to manage all the dependencies there. You can use Python Virtual Environment if you prefer or not have any enviroment.
+Let's create a new Conda environment to manage all the dependencies there. You can use Python Virtual Environment if you prefer or not have any environment.
 
 ```bash
 $ java -version
@@ -102,7 +102,7 @@ spark = SparkSession.builder \
 </dependency>
 ```
 
-**spark-nlp-gpu:**
+**spark-nlp-m1:**
 
 ```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-m1 -->
@@ -113,27 +113,45 @@ spark = SparkSession.builder \
 </dependency>
 ```
 
+**spark-nlp-aarch64:**
+
+```xml
+<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-aarch64 -->
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-aarch64_2.12</artifactId>
+    <version>4.0.2</version>
+</dependency>
+```
+
 #### SBT
 
 **spark-nlp** on Apache Spark 3.0.x, 3.1.x, 3.2.x, and 3.3.x:
 
-```sbtshell
+```scala
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "4.0.2"
 ```
 
 **spark-nlp-gpu:**
 
-```sbtshell
+```scala
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "4.0.2"
 ```
 
 **spark-nlp-m1:**
 
-```sbtshell
+```scala
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-m1
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-m1" % "4.0.2"
+```
+
+**spark-nlp-aarch64:**
+
+```scala
+// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-aarch64
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-aarch64" % "4.0.2"
 ```
 
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
@@ -176,7 +194,7 @@ So for example for Spark NLP with Apache Spark 3.0.x and 3.1.x you will end up w
 maven coordinates like these:
 
 ```xml
-<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp -->
+<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-m1 -->
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-m1_2.12</artifactId>
@@ -218,6 +236,36 @@ If everything went well, you can now start Spark NLP with the `m1` flag set to `
 import sparknlp
 
 spark = sparknlp.start(m1=True)
+```
+
+## Installation for Linux Aarch64 Systems
+
+Starting from version 4.1.0, Spark NLP supports Linux systems running on an aarch64
+processor architecture. The necessary dependencies have been built on Ubuntu 16.04, so a
+recent system with an environment of at least that will be needed.
+
+Check the [Python section](#python) and the [Scala And Java section](#scala-and-java) on
+to install Spark NLP for your system.
+
+
+### Starting Spark NLP
+
+Spark NLP needs to be started with the `aarch64` flag set to `true`:
+
+For Scala:
+
+```scala
+import com.johnsnowlabs.nlp.SparkNLP
+
+val spark = SparkNLP.start(aarch64 = true)
+```
+
+For Python:
+
+```python
+import sparknlp
+
+spark = sparknlp.start(aarch64=True)
 ```
 
 ## Google Colab Notebook
