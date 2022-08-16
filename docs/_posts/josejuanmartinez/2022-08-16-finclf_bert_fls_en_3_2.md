@@ -101,7 +101,7 @@ In-house annotations on 10K financial reports and reports from Russell 3000 firm
 ## Benchmarking
 
 ```bash
-			      precision    recall  f1-score   support
+		precision    recall  f1-score   support
 
 Specific FLS       0.96      0.93      0.94       311
 Non-specific FLS   0.91      0.94      0.92       215
