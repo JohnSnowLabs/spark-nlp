@@ -1,9 +1,16 @@
 import React from 'react';
-import Combobox from '../Combobox';
 import Radio from '../Radio/Radio';
 import RadioGroup from '../RadioGroup';
 import SidebarSelect from './SidebarSelect';
+import Radio from '../Radio/Radio';
+import RadioGroup from '../RadioGroup';
+import SearchCombobox from '../SearchCombobox/SearchCombobox';
 import styles from './Sidebar.module.css';
+import { SEARCH_ORIGIN, toSearchString } from '../common';
+
+const toAutoCompleteSearchString = (input, field, params) => {
+  return toSearchString({ search: input, field, ...params });
+};
 
 const Sidebar = ({ meta, params, onSubmit }) => {
   let tags = [];
@@ -16,7 +23,25 @@ const Sidebar = ({ meta, params, onSubmit }) => {
   ) {
     ({ annotators, tags, predictedEntities } = meta.aggregations);
   }
+  const searchTags = (input) => {
+    return fetch(
+      `${SEARCH_ORIGIN}/autocomplete/${toAutoCompleteSearchString(
+        input,
+        'tags',
+        params
+      )}`
+    );
+  };
 
+  const searchEntities = (input) => {
+    return fetch(
+      `${SEARCH_ORIGIN}/autocomplete/${toAutoCompleteSearchString(
+        input,
+        'predicted_entities',
+        params
+      )}`
+    );
+  };
   return (
     <div className={styles.root}>
       <div className={styles.control}>
@@ -33,9 +58,9 @@ const Sidebar = ({ meta, params, onSubmit }) => {
       </div>
 
       <div className={styles.control}>
-        <Combobox
+        <SearchCombobox
           label="Assigned tags"
-          items={tags}
+          autoComplete={searchTags}
           initialSelectedItems={params.tags || []}
           onChange={(values) => {
             onSubmit({ tags: values });
@@ -44,9 +69,9 @@ const Sidebar = ({ meta, params, onSubmit }) => {
       </div>
 
       <div className={styles.control}>
-        <Combobox
+        <SearchCombobox
           label="Entities"
-          items={predictedEntities}
+          autoComplete={searchEntities}
           initialSelectedItems={params.predicted_entities || []}
           onChange={(values) => {
             onSubmit({ predicted_entities: values });
