@@ -52,10 +52,16 @@ final class RocksDBConnection private (path: String) extends AutoCloseable {
       require(
         new File(localFromClusterPath).exists(),
         s"Storage not found under given ref: $path\n" +
-          s" This usually means:\n1. You have not loaded any storage under such ref or one of your Storage based annotators " +
-          s"has `includeStorage` set to false and must be loaded manually\n2." +
-          s" You are trying to use cluster mode without a proper shared filesystem.\n3. source was not provided to Storage creation" +
-          s"\n4. If you are trying to utilize Storage defined elsewhere, make sure it has the appropriate ref. ")
+          "This usually means:\n" +
+          "1. You have not loaded any storage under such ref or one of your Storage based " +
+          "annotators has `includeStorage` set to false and must be loaded manually\n" +
+          "2. You are trying to use cluster mode without a proper shared filesystem.\n" +
+          "3. You are trying to use a Kubernetes cluster without a proper shared filesystem. " +
+          "In this case, try to enable the parameter to keep models in memory " +
+          "(setEnableInMemoryStorage) if available.\n" +
+          "4. Your source was not provided to storage creation\n" +
+          "5. If you are trying to utilize Storage defined elsewhere, make sure it has the " +
+          "appropriate ref. ")
       localFromClusterPath
     }
   }
