@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Legal Relation Extraction (Parties, Alias, Dates, Document Type)- Spark NLP Model</title><meta name="description" content="DescriptionThis is a Legal Relation Extraction model, which can be used after the NER Model for extracting Parties, Document Types, Effective Dates and Alias...">
-<link rel="canonical" href="/2022/08/12/legre_contract_doc_parties_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Legal NER (Headers / Subheaders)- Spark NLP Model</title><meta name="description" content="DescriptionThis is a Legal NER Model, aimed to process the last page of the agreements when information can be found about:  People Signing the document;  Ti...">
+<link rel="canonical" href="/2022/08/16/legner_signers_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,34 +406,34 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-12-legre_contract_doc_parties_en_3_2.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-16-legner_signers_en_3_2.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 12, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-12T00:00:00+00:00"></div><header class="main-docs"><h1>Legal Relation Extraction (Parties, Alias, Dates, Document Type)</h1></header></div><meta itemprop="headline" content="Legal Relation Extraction (Parties, Alias, Dates, Document Type)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>re</li><li>relations</li><li>agreements</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-12T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,legal,re,relations,agreements,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 16, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-16T00:00:00+00:00"></div><header class="main-docs"><h1>Legal NER (Headers / Subheaders)</h1></header></div><meta itemprop="headline" content="Legal NER (Headers / Subheaders)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>ner</li><li>agreements</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-16T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,legal,ner,agreements,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This is a Legal Relation Extraction model, which can be used after the NER Model for extracting Parties, Document Types, Effective Dates and Aliases, called <code class="language-plaintext highlighter-rouge">legner_contract_doc_parties</code>.</p>
-
-<p>As an output, you will get the relations linking the different concepts together, if such relation exists. The list of relations is:</p>
-
+<p>This is a Legal NER Model, aimed to process the last page of the agreements when information can be found about:</p>
 <ul>
-  <li>dated_as: A Document has an Effective Date</li>
-  <li>has_alias: The Alias of a Party all along the document</li>
-  <li>has_collective_alias: An Alias hold by several parties at the same time</li>
-  <li>signed_by: Between a Party and the document they signed</li>
+  <li>People Signing the document;</li>
+  <li>Title of those people in their companies;</li>
+  <li>Company (Party) they represent;</li>
 </ul>
+
+<p>This model can be used all along with its Relation Extraction model to retrieve the relations between these entities.</p>
+
+<p>Other models can be found to detect other parts of the document, as Headers/Subheaders, Signers, “Will-do”, etc.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">dated_as</code>, <code class="language-plaintext highlighter-rouge">has_alias</code>, <code class="language-plaintext highlighter-rouge">has_collective_alias</code>, <code class="language-plaintext highlighter-rouge">signed_by</code></p>
+<p><code class="language-plaintext highlighter-rouge">SIGNING_TITLE</code>, <code class="language-plaintext highlighter-rouge">SIGNING_PERSON</code>, <code class="language-plaintext highlighter-rouge">PARTY</code></p>
 
-<p class="btn-box"><a href="https://demo.johnsnowlabs.com/finance/LEGALRE_PARTIES/" class="button button-orange">Live Demo</a>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/finance/LEGALNER_SIGNERS/" class="button button-orange">Live Demo</a>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_contract_doc_parties_en_1.0.0_3.2_1660293010932.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_signers_en_1.0.0_3.2_1660646474494.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -442,59 +442,114 @@
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+        
+<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span><span class="s">"xx"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_base_uncased_legal"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">RoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_embeddings_legal_roberta_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">ner_model</span> <span class="o">=</span> <span class="n">LegalNerModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'legner_contract_doc_parties'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'legal/models'</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
+<span class="n">ner_model</span> <span class="o">=</span> <span class="n">LegalNerModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'legner_signers'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'legal/models'</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">reDL</span> <span class="o">=</span> <span class="n">RelationExtractionDLModel</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'legre_contract_doc_parties'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'legal/models'</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setPredictionThreshold</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>
-    
-<span class="n">text</span><span class="o">=</span><span class="s">'''
-This INTELLECTUAL PROPERTY AGREEMENT (this "Agreement"), dated as of December 31, 2018 (the "Effective Date") is entered into by and between Armstrong Flooring, Inc., a Delaware corporation ("Seller") and AFI Licensing LLC, a Delaware limited liability company ("Licensing" and together with Seller, "Arizona") and AHF Holding, Inc. (formerly known as Tarzan HoldCo, Inc.), a Delaware corporation ("Buyer") and Armstrong Hardwood Flooring Company, a Tennessee corporation (the "Company" and together with Buyer the "Buyer Entities") (each of Arizona on the one hand and the Buyer Entities on the other hand, a "Party" and collectively, the "Parties").
-'''</span>
+<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">documentAssembler</span><span class="p">,</span>
+        <span class="n">sentenceDetector</span><span class="p">,</span>
+        <span class="n">tokenizer</span><span class="p">,</span>
+        <span class="n">embeddings</span><span class="p">,</span>
+        <span class="n">ner_model</span><span class="p">,</span>
+        <span class="n">ner_converter</span><span class="p">])</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">empty_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
+
+<span class="n">text</span> <span class="o">=</span> <span class="s">"""
+  VENDOR:
+  VENDINGDATA CORPORATION, a Nevada corporation
+  By: /s/ Steven J. Blad
+  Its: Steven J. Blad CEO
+  DISTRIBUTOR:
+  TECHNICAL CASINO SUPPLIES LTD, an English company
+  By: /s/ David K. Heap
+  Its: David K. Heap Chief Executive Officer
+-15-"""</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>relation entity1 entity1_begin entity1_end                              chunk1 entity2 entity2_begin entity2_end                  chunk2 confidence
-            dated_as     DOC             6          36     INTELLECTUAL PROPERTY AGREEMENT EFFDATE            70          86       December 31, 2018  0.9933402
-           signed_by     DOC             6          36     INTELLECTUAL PROPERTY AGREEMENT   PARTY           142         164 Armstrong Flooring, Inc  0.6235637
-           signed_by     DOC             6          36     INTELLECTUAL PROPERTY AGREEMENT   PARTY           316         331        AHF Holding, Inc  0.5001139
-           has_alias   PARTY           142         164             Armstrong Flooring, Inc   ALIAS           193         198                  Seller 0.93385726
-           has_alias   PARTY           206         222                   AFI Licensing LLC   ALIAS           264         272               Licensing  0.9859913
-has_collective_alias   ALIAS           293         298                              Seller   ALIAS           302         308                 Arizona 0.82137156
-           has_alias   PARTY           316         331                    AHF Holding, Inc   ALIAS           400         404                   Buyer  0.8178999
-           has_alias   PARTY           412         446 Armstrong Hardwood Flooring Company   ALIAS           479         485                 Company  0.9557921
-           has_alias   PARTY           412         446 Armstrong Hardwood Flooring Company   ALIAS           575         579                   Buyer  0.6778585
-           has_alias   PARTY           412         446 Armstrong Hardwood Flooring Company   ALIAS           612         616                   Party  0.6778583
-           has_alias   PARTY           412         446 Armstrong Hardwood Flooring Company   ALIAS           642         648                 Parties  0.6778585
-has_collective_alias   ALIAS           506         510                               Buyer   ALIAS           517         530          Buyer Entities 0.69863707
-has_collective_alias   ALIAS           517         530                      Buyer Entities   ALIAS           575         579                   Buyer 0.55453944
-has_collective_alias   ALIAS           517         530                      Buyer Entities   ALIAS           612         616                   Party 0.55453944
-has_collective_alias   ALIAS           517         530                      Buyer Entities   ALIAS           642         648                 Parties 0.55453944
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------+----------------+
+|      token|       ner_label|
++-----------+----------------+
+|     VENDOR|               O|
+|          :|               O|
+|VENDINGDATA|         B-PARTY|
+|CORPORATION|               O|
+|          ,|               O|
+|          a|               O|
+|     Nevada|               O|
+|corporation|               O|
+|         By|               O|
+|          :|               O|
+|        /s/|               O|
+|     Steven|B-SIGNING_PERSON|
+|          J|I-SIGNING_PERSON|
+|          .|I-SIGNING_PERSON|
+|       Blad|I-SIGNING_PERSON|
+|        Its|               O|
+|          :|               O|
+|     Steven|B-SIGNING_PERSON|
+|          J|I-SIGNING_PERSON|
+|          .|I-SIGNING_PERSON|
+|       Blad|I-SIGNING_PERSON|
+|        CEO| B-SIGNING_TITLE|
+|DISTRIBUTOR|               O|
+|          :|               O|
+|  TECHNICAL|         B-PARTY|
+|     CASINO|         I-PARTY|
+|   SUPPLIES|         I-PARTY|
+|        LTD|         I-PARTY|
+|          ,|               O|
+|         an|               O|
+|    English|               O|
+|    company|               O|
+|         By|               O|
+|          :|               O|
+|        /s/|               O|
+|      David|B-SIGNING_PERSON|
+|          K|I-SIGNING_PERSON|
+|          .|I-SIGNING_PERSON|
+|       Heap|I-SIGNING_PERSON|
+|        Its|               O|
+|          :|               O|
+|      David|B-SIGNING_PERSON|
+|          K|I-SIGNING_PERSON|
+|          .|I-SIGNING_PERSON|
+|       Heap|I-SIGNING_PERSON|
+|      Chief| B-SIGNING_TITLE|
+|  Executive| I-SIGNING_TITLE|
+|    Officer| I-SIGNING_TITLE|
+|          -|               O|
+|         15|               O|
+|          -|               O|
++-----------+----------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -503,7 +558,7 @@ has_collective_alias   ALIAS           517         530                      Buye
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>legre_contract_doc_parties</td>
+      <td>legner_signers</td>
     </tr>
     <tr>
       <td>Type:</td>
@@ -522,12 +577,20 @@ has_collective_alias   ALIAS           517         530                      Buye
       <td>Official</td>
     </tr>
     <tr>
+      <td>Input Labels:</td>
+      <td>[sentence, token, embeddings]</td>
+    </tr>
+    <tr>
+      <td>Output Labels:</td>
+      <td>[ner]</td>
+    </tr>
+    <tr>
       <td>Language:</td>
       <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>409.9 MB</td>
+      <td>16.5 MB</td>
     </tr>
   </tbody>
 </table>
@@ -538,19 +601,17 @@ has_collective_alias   ALIAS           517         530                      Buye
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Relation                 Recall Precision        F1   Support
-
-dated_as                 0.962     0.962     0.962        26
-has_alias                0.936     0.946     0.941        94
-has_collective_alias     1.000     1.000     1.000         7
-no_rel                   0.982     0.980     0.981       497
-signed_by                0.961     0.961     0.961        76
-
-Avg.                     0.968     0.970     0.969
-
-Weighted Avg.            0.973     0.973     0.973
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>I-PARTY	 366	 26	 39	 0.93367344	 0.9037037	 0.91844416
+I-SIGNING_TITLE	 41	 0	 4	 1.0	 0.9111111	 0.95348835
+I-SIGNING_PERSON	 115	 10	 13	 0.92	 0.8984375	 0.9090909
+B-SIGNING_PERSON	 46	 3	 11	 0.93877554	 0.80701756	 0.8679246
+B-PARTY	 122	 14	 28	 0.89705884	 0.81333333	 0.85314685
+B-SIGNING_TITLE	 26	 0	 2	 1.0	 0.9285714	 0.9629629
+tp: 716 fp: 53 fn: 97 labels: 6
+Macro-average	 prec: 0.9482513, rec: 0.8770291, f1: 0.91125065
+Micro-average	 prec: 0.9310793, rec: 0.8806888, f1: 0.9051833
 </code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-12T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-16T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -675,7 +736,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/12/legner_whereas_en_3_2.html">Legal NER - Whereas Clauses</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/16/legner_arabert_arabic_ar_3_2.html">Extract Financial, Legal and Generic Entities in Arabic</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/16/legner_contract_doc_parties_en_3_2.html">Legal NER (Parties, Dates, Document Type)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/17/legner_orgs_prods_alias_en_3_2.html">Legal ORG, PRODUCT and ALIAS NER</a></div></div></div>
 
 </div>
 </div>
