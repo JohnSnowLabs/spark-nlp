@@ -14,7 +14,7 @@ data:
       secheader: yes
       secheader:
         - title: Spark NLP for Finance
-          subtitle: Normaliz and Augment Company Names
+          subtitle: Normalize and Augment Company Names
           activemenu: financial_company_normalization
       source: yes
       source: 
