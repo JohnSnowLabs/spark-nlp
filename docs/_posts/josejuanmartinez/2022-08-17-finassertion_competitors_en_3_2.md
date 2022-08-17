@@ -66,8 +66,6 @@ ner_converter = NerConverterInternal() \
     .setOutputCol("ner_chunk")\
     .setWhiteList(['ORG', 'PRODUCT'])
 
-# Assertion model trained on i2b2 (sampled from MIMIC) dataset
-# coming from sparknlp_jsl.annotator !!
 assertion = AssertionDLModel.pretrained("finassertion_competitors", "en", "finance/models")\
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
