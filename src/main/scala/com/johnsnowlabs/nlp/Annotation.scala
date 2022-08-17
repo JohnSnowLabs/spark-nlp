@@ -69,6 +69,7 @@ case class JavaAnnotation(
     result: String,
     metadata: java.util.Map[String, String],
     embeddings: Array[Float] = Array.emptyFloatArray)
+    extends IAnnotation
 
 object Annotation {
 

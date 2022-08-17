@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.annotators.cv.util.io
 
 import com.johnsnowlabs.nlp.ImageFields
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 
 import java.awt.color.ColorSpace
 import java.awt.image.{BufferedImage, DataBufferByte, Raster}
@@ -40,28 +41,38 @@ private[johnsnowlabs] object ImageIOUtils {
   }
 
   def loadImage(path: String): BufferedImage = {
-    val filePath = new File(path)
-    if (!filePath.exists()) {
-      throw new IllegalArgumentException(f"Wrong image file path $path")
-    }
+    val filePath = getFileFromPath(path)
     ImageIO.read(filePath)
+  }
+
+  def loadImageFromAnySource(path: String): BufferedImage = {
+
+    val prefix = if (path.indexOf(":") == -1) "" else path.substring(path.indexOf(":"))
+
+    prefix match {
+      case "dbfs" =>
+        loadImage(path.replace("dbfs:", "/dbfs/"))
+      case "hdfs" =>
+        val sourceStream = ResourceHelper.SourceStream(path)
+        ImageIO.read(sourceStream.pipe.head)
+      case _ =>
+        loadImage(path)
+    }
+
   }
 
   def loadImages(imagesPath: String): Array[File] = {
     loadImagesFromDirectory(imagesPath) match {
       case Success(files) => files
-      case Failure(_) => Array(new File(imagesPath))
+      case Failure(_) =>
+        val singleImagePath = getFileFromPath(imagesPath)
+        Array(singleImagePath)
     }
   }
 
   private def loadImagesFromDirectory(path: String): Try[Array[File]] = {
-    val directoryPath = new File(path)
-    if (!directoryPath.exists()) {
-      throw new IllegalArgumentException(f"Wrong image directory path $path")
-    }
     Try {
-      val files = directoryPath.listFiles()
-      if (files == null) throw new IllegalArgumentException(f"Path is a file") else files
+      ResourceHelper.listLocalFiles(path).toArray
     }
   }
 
@@ -141,7 +152,7 @@ private[johnsnowlabs] object ImageIOUtils {
   }
 
   def imagePathToImageFields(imagePath: String): ImageFields = {
-    val bufferedImage = loadImage(imagePath)
+    val bufferedImage = loadImageFromAnySource(imagePath)
     bufferedImageToImageFields(bufferedImage, imagePath)
   }
 
@@ -155,6 +166,15 @@ private[johnsnowlabs] object ImageIOUtils {
     val data = bufferedImageToByte(bufferedImage)
 
     ImageFields(origin, bufferedImage.getHeight, bufferedImage.getWidth, nChannels, mode, data)
+  }
+
+  def getFileFromPath(path: String): File = {
+    val filePath = new File(path)
+    if (!filePath.exists()) {
+      throw new IllegalArgumentException(f"Wrong image file path $path")
+    }
+
+    filePath
   }
 
 }

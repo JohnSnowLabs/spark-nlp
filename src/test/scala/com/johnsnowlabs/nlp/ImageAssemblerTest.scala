@@ -18,9 +18,12 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.AnnotatorType.IMAGE
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import org.scalatest.flatspec.AnyFlatSpec
+
+import java.io.File
 
 class ImageAssemblerTest extends AnyFlatSpec {
 
@@ -29,7 +32,9 @@ class ImageAssemblerTest extends AnyFlatSpec {
     .format("image")
     .load(imagesPath)
 
-  "ImageAssembler" should "assemble an image input" in {
+  val emptyDF: DataFrame = ResourceHelper.spark.emptyDataFrame
+
+  "ImageAssembler" should "assemble an image input" taggedAs FastTest in {
 
     val imageAssembler = new ImageAssembler()
       .setInputCol("image")
@@ -41,7 +46,8 @@ class ImageAssemblerTest extends AnyFlatSpec {
 
     assert(result.nonEmpty)
 
-    result.foreach(annotationImages => annotationImages.foreach{ annotationImage =>
+    result.foreach(annotationImages =>
+      annotationImages.foreach { annotationImage =>
         assert(annotationImage.annotatorType == IMAGE)
         assert(annotationImage.origin.contains(imagesPath))
         assert(annotationImage.height >= 0)
@@ -50,24 +56,54 @@ class ImageAssemblerTest extends AnyFlatSpec {
         assert(annotationImage.mode >= 0)
         assert(annotationImage.result.nonEmpty)
         assert(annotationImage.metadata.nonEmpty)
-      }
-    )
+      })
   }
 
-  it should "work with LightPipeline" in {
+  it should "work with LightPipeline with one image file" taggedAs FastTest in {
     val imageAssembler = new ImageAssembler()
       .setInputCol("image")
       .setOutputCol("image_assembler")
 
     val pipeline: Pipeline = new Pipeline().setStages(Array(imageAssembler))
-    val emptyDF = ResourceHelper.spark.emptyDataFrame
     val pipelineModel = pipeline.fit(emptyDF)
     val lightPipeline = new LightPipeline(pipelineModel)
-    val result = lightPipeline.fullAnnotateImage("src/test/resources/image/bluetick.jpg")
+    val result = lightPipeline.fullAnnotateImage("src/test/resources/image/hippopotamus.JPEG")
 
-    assert(result.nonEmpty)
+    assert(result.length == 1)
+    result.foreach(annotation => assert(annotation("image_assembler").nonEmpty))
 
-    result.foreach(annotation => annotation("image_assembler").nonEmpty)
+  }
+
+  it should "work with LightPipeline with many image files" taggedAs FastTest in {
+    val imageAssembler = new ImageAssembler()
+      .setInputCol("image")
+      .setOutputCol("image_assembler")
+    val images =
+      Array("src/test/resources/image/bluetick.jpg", "src/test/resources/image/hen.JPEG")
+
+    val pipeline: Pipeline = new Pipeline().setStages(Array(imageAssembler))
+    val pipelineModel = pipeline.fit(emptyDF)
+    val lightPipeline = new LightPipeline(pipelineModel)
+    val result = lightPipeline.fullAnnotateImage(images)
+
+    assert(result.length == images.length)
+    result.foreach(annotation => assert(annotation("image_assembler").nonEmpty))
+
+  }
+
+  it should "work with LightPipeline with a directory of images" taggedAs FastTest in {
+    val imageAssembler = new ImageAssembler()
+      .setInputCol("image")
+      .setOutputCol("image_assembler")
+    val imagesDirectory = "src/test/resources/image/"
+
+    val pipeline: Pipeline = new Pipeline().setStages(Array(imageAssembler))
+    val pipelineModel = pipeline.fit(emptyDF)
+    val lightPipeline = new LightPipeline(pipelineModel)
+    val result = lightPipeline.fullAnnotateImage(imagesDirectory)
+
+    assert(result.length == new File(imagesDirectory).listFiles().length)
+    result.foreach(annotation => assert(annotation("image_assembler").nonEmpty))
 
   }
 
