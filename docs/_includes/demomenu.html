@@ -151,6 +151,10 @@
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "analyze_non_english_text_documents" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/analyze_non_english_text_documents">Analyze Non-English Text &amp; Documents</a>
       </li>
+      <li><strong>Databricks Solution Accelerators</strong></li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "databricks_solution_accelerators" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/databricks_solution_accelerators">Notebooks</a>
+      </li>
     </ul>
   </div>
   {%- endfor-%}
