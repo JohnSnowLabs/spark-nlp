@@ -23,13 +23,21 @@ import scala.collection.Map
 
 /** represents image annotator's output parts and their details
   * @param annotatorType
+  *   The type of the output of the annotator. Possible values are ``IMAGE``.
   * @param origin
+  *   Represents the source URI of the image
   * @param height
+  *   Image height in pixels
   * @param width
+  *   Image width in pixels
   * @param nChannels
+  *   Number of color channels
   * @param mode
+  *   OpenCV type
   * @param result
+  *   Image data in bytes
   * @param metadata
+  *   Associated metadata for this annotation
   */
 case class AnnotationImage(
     annotatorType: String,

@@ -44,22 +44,20 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
     fullAnnotateInternal(target, optionalTarget).mapValues(_.map(_.asInstanceOf[Annotation]))
   }
 
-  def fullAnnotateImage(imagesFilePath: Array[String]): Array[Map[String, Seq[AnnotationImage]]] = {
+  def fullAnnotateImage(imagesFilePath: Array[String]): Array[Map[String, Seq[IAnnotation]]] = {
     imagesFilePath.par
-      .map(imageFilePath => fullAnnotateInternal(imageFilePath)
-        .mapValues(_.map(_.asInstanceOf[AnnotationImage]))).toArray
+      .map(imageFilePath => fullAnnotateInternal(imageFilePath))
+      .toArray
   }
 
-  def fullAnnotateImage(imageFilePath: String): Array[Map[String, Seq[AnnotationImage]]] = {
+  def fullAnnotateImage(imageFilePath: String): Array[Map[String, Seq[IAnnotation]]] = {
 
     val files = ImageIOUtils.loadImages(imageFilePath)
 
-    files.par
-      .map{ file =>
-        val imageFields = ImageIOUtils.imageFileToImageFields(file)
-        fullAnnotateInternal(file.getPath, "", Some(imageFields))
-          .mapValues(_.map(_.asInstanceOf[AnnotationImage]))
-      }.toArray
+    files.map { file =>
+      val imageFields = ImageIOUtils.imageFileToImageFields(file)
+      fullAnnotateInternal(file.getPath, "", Some(imageFields))
+    }
 
   }
 
@@ -77,29 +75,39 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
             documentAssembler.assemble(target, Map.empty[String, String]))
         case multiDocumentAssembler: MultiDocumentAssembler =>
           val multiDocumentAnnotations =
-            getMultipleDocumentAnnotations(multiDocumentAssembler, target, optionalTarget, annotations)
+            getMultipleDocumentAnnotations(
+              multiDocumentAssembler,
+              target,
+              optionalTarget,
+              annotations)
           annotations ++ multiDocumentAnnotations
         case imageAssembler: ImageAssembler =>
-          val imageFields = ImageIOUtils.imagePathToImageFields(target)
+          val currentImageFields =
+            if (imageFields.isDefined) imageFields.get
+            else ImageIOUtils.imagePathToImageFields(target)
           annotations.updated(
             imageAssembler.getOutputCol,
-            imageAssembler.assemble(imageFields, Map.empty[String, String])
-          )
+            imageAssembler.assemble(currentImageFields, Map.empty[String, String]))
         case lazyAnnotator: AnnotatorModel[_] if lazyAnnotator.getLazyAnnotator => annotations
         case recursiveAnnotator: HasRecursiveTransform[_] with AnnotatorModel[_] =>
-          val combinedAnnotations = getCombinedAnnotations(recursiveAnnotator.getInputCols, annotations)
+          val combinedAnnotations =
+            getCombinedAnnotations(recursiveAnnotator.getInputCols, annotations)
           annotations.updated(
             recursiveAnnotator.getOutputCol,
-            recursiveAnnotator.annotate(combinedAnnotations.map(_.asInstanceOf[Annotation]), pipelineModel))
+            recursiveAnnotator.annotate(
+              combinedAnnotations.map(_.asInstanceOf[Annotation]),
+              pipelineModel))
         case batchedAnnotator: AnnotatorModel[_] with HasBatchedAnnotate[_] =>
-          val combinedAnnotations = getCombinedAnnotations(batchedAnnotator.getInputCols, annotations)
+          val combinedAnnotations =
+            getCombinedAnnotations(batchedAnnotator.getInputCols, annotations)
           val batchedAnnotations = Seq(combinedAnnotations.map(_.asInstanceOf[Annotation]))
           // Benchmarks proved that parallel execution in LightPipeline gains more speed than batching entries (which require non parallel collections)
           annotations.updated(
             batchedAnnotator.getOutputCol,
             batchedAnnotator.batchAnnotate(batchedAnnotations).head)
         case batchedAnnotatorImage: AnnotatorModel[_] with HasBatchedAnnotateImage[_] =>
-          val combinedAnnotations = getCombinedAnnotations(batchedAnnotatorImage.getInputCols, annotations)
+          val combinedAnnotations =
+            getCombinedAnnotations(batchedAnnotatorImage.getInputCols, annotations)
           val batchedAnnotations = Seq(combinedAnnotations.map(_.asInstanceOf[AnnotationImage]))
           annotations.updated(
             batchedAnnotatorImage.getOutputCol,
@@ -107,7 +115,8 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
         case annotator: AnnotatorModel[_] with HasSimpleAnnotate[_] =>
           val inputCols = getAnnotatorInputCols(annotator)
           val combinedAnnotations = getCombinedAnnotations(inputCols, annotations)
-          annotations.updated(annotator.getOutputCol,
+          annotations.updated(
+            annotator.getOutputCol,
             annotator.annotate(combinedAnnotations.map(_.asInstanceOf[Annotation])))
         case finisher: Finisher =>
           annotations.filterKeys(finisher.getInputCols.contains)
@@ -128,9 +137,11 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
     })
   }
 
-  private def getMultipleDocumentAnnotations(multiDocumentAssembler: MultiDocumentAssembler,
-                                             target: String, optionalTarget: String,
-                                             annotations: Map[String, Seq[IAnnotation]]): Map[String, Seq[IAnnotation]] = {
+  private def getMultipleDocumentAnnotations(
+      multiDocumentAssembler: MultiDocumentAssembler,
+      target: String,
+      optionalTarget: String,
+      annotations: Map[String, Seq[IAnnotation]]): Map[String, Seq[IAnnotation]] = {
 
     var multiDocumentAnnotations: Map[String, Seq[IAnnotation]] = Map()
     val output = multiDocumentAssembler.getOutputCols zip Array(target, optionalTarget)
@@ -145,10 +156,11 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
     multiDocumentAnnotations
   }
 
-  private def getCombinedAnnotations(inputCols: Array[String],
-                                     annotations: Map[String, Seq[IAnnotation]]): Array[IAnnotation] = {
+  private def getCombinedAnnotations(
+      inputCols: Array[String],
+      annotations: Map[String, Seq[IAnnotation]]): Array[IAnnotation] = {
     val combinedAnnotations = inputCols.foldLeft(Array.empty[IAnnotation])((inputs, name) =>
-        inputs ++ annotations.getOrElse(name, Nil))
+      inputs ++ annotations.getOrElse(name, Nil))
 
     combinedAnnotations
   }
@@ -184,7 +196,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
       .map(stage => stage.asInstanceOf[GraphFinisher].getInputCol)
     val metadata = annotations
       .filter(annotation => result.contains(annotation._1))
-      .flatMap(annotation => annotation._2.flatMap(a => a.metadata))
+      .flatMap(annotation => annotation._2.flatMap(a => a.asInstanceOf[Annotation].metadata))
 
     graphFinisher.annotate(metadata)
   }
@@ -192,8 +204,12 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
   def fullAnnotateJava(target: String): java.util.Map[String, java.util.List[JavaAnnotation]] = {
     fullAnnotate(target)
       .mapValues(_.map { annotation =>
-        JavaAnnotation(annotation.annotatorType, annotation.begin, annotation.end,
-          annotation.result, annotation.metadata.asJava)
+        JavaAnnotation(
+          annotation.annotatorType,
+          annotation.begin,
+          annotation.end,
+          annotation.result,
+          annotation.metadata.asJava)
       }.asJava)
       .asJava
   }
@@ -203,8 +219,12 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
       optionalTarget: String): java.util.Map[String, java.util.List[JavaAnnotation]] = {
     fullAnnotate(target, optionalTarget)
       .mapValues(_.map { annotation =>
-        JavaAnnotation(annotation.annotatorType, annotation.begin, annotation.end,
-          annotation.result, annotation.metadata.asJava)
+        JavaAnnotation(
+          annotation.annotatorType,
+          annotation.begin,
+          annotation.end,
+          annotation.result,
+          annotation.metadata.asJava)
       }.asJava)
       .asJava
   }
@@ -217,6 +237,39 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
       .asJava
   }
 
+  def fullAnnotateImageJava(imageFilePath: String)
+      : java.util.List[java.util.Map[String, java.util.List[IAnnotation]]] = {
+
+    val files = ImageIOUtils.loadImages(imageFilePath)
+
+    files
+      .map { file =>
+        val imageFields = ImageIOUtils.imageFileToImageFields(file)
+        fullAnnotateInternal(file.getPath, "", Some(imageFields))
+          .mapValues(_.asJava)
+          .asJava
+      }
+      .toList
+      .asJava
+  }
+
+  def fullAnnotateImageJava(imagesFilePath: java.util.ArrayList[String])
+      : java.util.List[java.util.Map[String, java.util.List[IAnnotation]]] = {
+
+    imagesFilePath.asScala.par
+      .map { imageFilePath =>
+        fullAnnotateInternal(imageFilePath).mapValues(_.asJava).asJava
+      }
+      .toList
+      .asJava
+  }
+
+  def annotate(targets: Array[String]): Array[Map[String, Seq[String]]] = {
+    targets.par
+      .map(target => annotate(target))
+      .toArray
+  }
+
   def annotate(target: String, optionalTarget: String = ""): Map[String, Seq[String]] = {
     fullAnnotate(target, optionalTarget).mapValues(_.map { annotation =>
       annotation.annotatorType match {
@@ -226,12 +279,6 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
         case _ => annotation.result
       }
     })
-  }
-
-  def annotate(targets: Array[String]): Array[Map[String, Seq[String]]] = {
-    targets.par
-      .map(target => annotate(target))
-      .toArray
   }
 
   def annotateJava(target: String): java.util.Map[String, java.util.List[String]] = {

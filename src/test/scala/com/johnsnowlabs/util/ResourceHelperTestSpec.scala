@@ -147,4 +147,10 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
     assert(expectedContent sameElements actualContent)
   }
 
+  it should "list files" in {
+    val files = ResourceHelper.listLocalFiles("src/test/resources/image")
+
+    assert(files.nonEmpty)
+  }
+
 }

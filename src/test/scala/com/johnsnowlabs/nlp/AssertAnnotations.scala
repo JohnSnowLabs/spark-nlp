@@ -94,7 +94,9 @@ object AssertAnnotations {
     }
   }
 
-  def getActualImageResult(dataSet: Dataset[_], columnName: String): Array[Seq[AnnotationImage]] = {
+  def getActualImageResult(
+      dataSet: Dataset[_],
+      columnName: String): Array[Seq[AnnotationImage]] = {
     val annotatorType = columnName + ".annotatorType"
     val origin = columnName + ".origin"
     val height = columnName + ".height"
@@ -114,13 +116,17 @@ object AssertAnnotations {
         val originSeq: Seq[String] = row
           .getAs[String]("origin")
           .asInstanceOf[mutable.WrappedArray[String]]
-        val heightSeq: Seq[Int] = row.getAs[Int]("height")
+        val heightSeq: Seq[Int] = row
+          .getAs[Int]("height")
           .asInstanceOf[mutable.WrappedArray[Int]]
-        val widthSeq: Seq[Int] = row.getAs[Int]("width")
+        val widthSeq: Seq[Int] = row
+          .getAs[Int]("width")
           .asInstanceOf[mutable.WrappedArray[Int]]
-        val nChannelsSeq: Seq[Int] = row.getAs[Int]("nChannels")
+        val nChannelsSeq: Seq[Int] = row
+          .getAs[Int]("nChannels")
           .asInstanceOf[mutable.WrappedArray[Int]]
-        val modeSeq: Seq[Int] = row.getAs[Int]("mode")
+        val modeSeq: Seq[Int] = row
+          .getAs[Int]("mode")
           .asInstanceOf[mutable.WrappedArray[Int]]
         val resultSeq: Seq[Seq[Byte]] = row
           .getAs[Seq[Byte]]("result")
@@ -138,8 +144,7 @@ object AssertAnnotations {
             nChannelsSeq(index),
             modeSeq(index),
             resultSeq(index).asInstanceOf[Array[Byte]],
-            metadataSeq(index)
-            )
+            metadataSeq(index))
         }
       }
       .collect()

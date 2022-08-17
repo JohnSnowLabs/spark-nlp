@@ -16,12 +16,8 @@
 
 package com.johnsnowlabs.nlp
 
-import scala.collection.Map
-
 trait IAnnotation {
 
   def annotatorType: String
-
-  def metadata: Map[String, String]
 
 }
