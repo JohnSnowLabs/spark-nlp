@@ -34,7 +34,7 @@ You can carry out both masking and obfuscation with this pipeline, on the follow
 `EFFDATE`, `PARTY`, `PHONE`, `EMAIL`, `SIGNING_PERSON`, `SIGNING_TITLE`, `DOC`, `STREET`, `CITY`, `STATE`, `ZIP`, `ALIAS`
 
 {:.btn-box}
-[Live Demo](https://demo.johnsnowlabs.com/finance/FIN_DEIDENTIFICATION/){:.button.button-orange}
+[Live Demo](https://demo.johnsnowlabs.com/finance/DEID_FIN/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finpipe_deid_en_1.0.0_3.2_1660839092704.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
