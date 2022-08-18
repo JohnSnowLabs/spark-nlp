@@ -2,9 +2,9 @@ import classNames from 'classnames';
 import { useCombobox, useMultipleSelection } from 'downshift';
 import React, { useState, useEffect } from 'react';
 import debounce from 'lodash.debounce';
-import styles from './SearchCombobox.module.css';
+import styles from './AutoComplete.module.css';
 
-const SearchCombobox = ({
+const AutoCompleteCombobox = ({
   label,
   autoComplete,
   initialSelectedItems,
@@ -142,8 +142,8 @@ const SearchCombobox = ({
         </div>
       </div>
       <div className={styles.menuWrapper}>
-        {isOpen &&
-          (items.length > 0 ? (
+        {isOpen ? (
+          items.length > 0 ? (
             <ul {...getMenuProps()} className={styles.menu}>
               {items.map((item, index) => (
                 <li
@@ -172,10 +172,13 @@ const SearchCombobox = ({
                 </li>
               )}
             </ul>
-          ))}
+          )
+        ) : (
+          <ul {...getMenuProps()}></ul>
+        )}
       </div>
     </div>
   );
 };
 
-export default SearchCombobox;
+export default AutoCompleteCombobox;

@@ -4,9 +4,9 @@ import RadioGroup from '../RadioGroup';
 import SidebarSelect from './SidebarSelect';
 import Radio from '../Radio/Radio';
 import RadioGroup from '../RadioGroup';
-import SearchCombobox from '../SearchCombobox/SearchCombobox';
 import styles from './Sidebar.module.css';
 import { SEARCH_ORIGIN, toSearchString } from '../common';
+import AutoCompleteCombobox from '../AutoCompleteCombobox/AutoCompleteCombobox';
 
 const toAutoCompleteSearchString = (input, field, params) => {
   return toSearchString({ search: input, field, ...params });
@@ -58,7 +58,7 @@ const Sidebar = ({ meta, params, onSubmit }) => {
       </div>
 
       <div className={styles.control}>
-        <SearchCombobox
+        <AutoCompleteCombobox
           label="Assigned tags"
           autoComplete={searchTags}
           initialSelectedItems={params.tags || []}
@@ -69,7 +69,7 @@ const Sidebar = ({ meta, params, onSubmit }) => {
       </div>
 
       <div className={styles.control}>
-        <SearchCombobox
+        <AutoCompleteCombobox
           label="Entities"
           autoComplete={searchEntities}
           initialSelectedItems={params.predicted_entities || []}
