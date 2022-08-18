@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Legal ORG, PRODUCT and ALIAS NER- Spark NLP Model</title><meta name="description" content="DescriptionThis is a large Named Entity Recognition model, trained with a subset of generic conLL, financial and legal conll, ontonotes and several in-house ...">
-<link rel="canonical" href="/2022/08/17/legner_orgs_prods_alias_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Deidentification Pipeline- Spark NLP Model</title><meta name="description" content="DescriptionThis is a Pretrained Pipeline aimed to deidentify legal and financial documents to be compliant with data privacy regulations as GDPR and CCPA. Si...">
+<link rel="canonical" href="/2022/08/18/finpipe_deid_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,25 +406,37 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-17-legner_orgs_prods_alias_en_3_2.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-18-finpipe_deid_en_3_2.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 17, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-17T00:00:00+00:00"></div><header class="main-docs"><h1>Legal ORG, PRODUCT and ALIAS NER</h1></header></div><meta itemprop="headline" content="Legal ORG, PRODUCT and ALIAS NER"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>ner</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-17T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,legal,ner,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 18, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-18T00:00:00+00:00"></div><header class="main-docs"><h1>Deidentification Pipeline</h1></header></div><meta itemprop="headline" content="Deidentification Pipeline"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>financial</li><li>deid</li><li>deidentification</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-18T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,financial,deid,deidentification,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This is a large Named Entity Recognition model, trained with a subset of generic conLL, financial and legal conll, ontonotes and several in-house corpora, to detect Organizations, Products and Aliases of Companies.</p>
+<p>This is a Pretrained Pipeline aimed to deidentify legal and financial documents to be compliant with data privacy regulations as GDPR and CCPA. Since the models used in this pipeline are statistical, make sure you use this model in a human-in-the-loop process to guarantee a 100% accuracy.</p>
+
+<p>You can carry out both masking and obfuscation with this pipeline, on the following entities:</p>
+<ul>
+  <li>Company names</li>
+  <li>People’s names</li>
+  <li>Poeple’s titles</li>
+  <li>Addresses</li>
+  <li>Contact information (email, phone numbers…)</li>
+  <li>Dates</li>
+  <li>Document types</li>
+  <li>etc</li>
+</ul>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">ORG</code>, <code class="language-plaintext highlighter-rouge">PROD</code>, <code class="language-plaintext highlighter-rouge">ALIAS</code></p>
+<p><code class="language-plaintext highlighter-rouge">EFFDATE</code>, <code class="language-plaintext highlighter-rouge">PARTY</code>, <code class="language-plaintext highlighter-rouge">PHONE</code>, <code class="language-plaintext highlighter-rouge">EMAIL</code>, <code class="language-plaintext highlighter-rouge">SIGNING_PERSON</code>, <code class="language-plaintext highlighter-rouge">SIGNING_TITLE</code>, <code class="language-plaintext highlighter-rouge">DOC</code>, <code class="language-plaintext highlighter-rouge">STREET</code>, <code class="language-plaintext highlighter-rouge">CITY</code>, <code class="language-plaintext highlighter-rouge">STATE</code>, <code class="language-plaintext highlighter-rouge">ZIP</code>, <code class="language-plaintext highlighter-rouge">ALIAS</code></p>
 
-<p class="btn-box"><a href="https://demo.johnsnowlabs.com/finance/FINNER_ORGPROD" class="button button-orange">Live Demo</a>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/finance/DEID_FIN/" class="button button-orange">Live Demo</a>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_orgs_prods_alias_en_1.0.0_3.2_1660733903868.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finpipe_deid_en_1.0.0_3.2_1660839092704.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -432,76 +444,97 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-        
-<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span><span class="s">"xx"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+<span class="n">deid_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"finpipe_deid"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>
 
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+<span class="n">sample</span> <span class="o">=</span> <span class="s">"""CARGILL, INCORPORATED
 
-<span class="n">ner_model</span> <span class="o">=</span> <span class="n">LegalNerModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legner_orgs_prods_alias"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"legal/models"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+By:     Pirkko Suominen
 
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-        <span class="n">documentAssembler</span><span class="p">,</span>
-        <span class="n">sentenceDetector</span><span class="p">,</span>
-        <span class="n">tokenizer</span><span class="p">,</span>
-        <span class="n">embeddings</span><span class="p">,</span>
-        <span class="n">ner_model</span><span class="p">,</span>
-        <span class="n">ner_converter</span><span class="p">])</span>
 
-<span class="n">empty_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+Name: Pirkko Suominen Title: Director, Bio Technology Development,  Date:   10/19/2011
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
+BIOAMBER, SAS
 
-<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"""This INTELLECTUAL PROPERTY AGREEMENT (this "Agreement"), dated as of December 31, 2018 (the "Effective Date") is entered into by and between Armstrong Flooring, Inc., a Delaware corporation ("Seller") and AFI Licensing LLC, a Delaware limited liability company ("Licensing" and together with Seller, "Arizona") and AHF Holding, Inc. (formerly known as Tarzan HoldCo, Inc.), a Delaware corporation ("Buyer") and Armstrong Hardwood Flooring Company, a Tennessee corporation (the "Company" and together with Buyer the "Buyer Entities") (each of Arizona on the one hand and the Buyer Entities on the other hand, a "Party" and collectively, the "Parties").
-"""</span><span class="p">]</span>
+By:     Jean-François Huc
 
-<span class="n">res</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span><span class="n">text</span><span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
-<span class="n">res</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">explode</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">arrays_zip</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">ner_chunk</span><span class="p">.</span><span class="n">result</span><span class="p">,</span> <span class="n">res</span><span class="p">.</span><span class="n">ner_chunk</span><span class="p">.</span><span class="n">metadata</span><span class="p">)).</span><span class="n">alias</span><span class="p">(</span><span class="s">"cols"</span><span class="p">))</span> \
-      <span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['0']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"chunk"</span><span class="p">),</span>
-              <span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['1']['entity']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"ner_label"</span><span class="p">),</span>
-              <span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['1']['confidence']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"confidence"</span><span class="p">)).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+
+Name: Jean-François Huc  Title: President Date:   October 15, 2011
+
+email : jeanfran@gmail.com
+phone : 1808733909 
+
+"""</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">deid_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">Masked with entity labels"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"-"</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'deidentified'</span><span class="p">]))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">Masked with chars"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"-"</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'masked_with_chars'</span><span class="p">]))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">Masked with fixed length chars"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"-"</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'masked_fixed_length_chars'</span><span class="p">]))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">Obfuscated"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"-"</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'obfuscated'</span><span class="p">]))</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------------------------+---------+----------+
-|chunk                              |ner_label|confidence|
-+-----------------------------------+---------+----------+
-|Armstrong Flooring, Inc            |ORG      |0.807575  |
-|Seller                             |ALIAS    |0.997     |
-|AFI Licensing LLC                  |ORG      |0.7076333 |
-|Licensing                          |ALIAS    |0.9981    |
-|Seller                             |ALIAS    |0.996     |
-|Arizona                            |ALIAS    |0.9958    |
-|AHF Holding, Inc.                  |ORG      |0.72438   |
-|Tarzan HoldCo, Inc                 |ORG      |0.684675  |
-|Buyer                              |ALIAS    |0.9983    |
-|Armstrong Hardwood Flooring Company|ORG      |0.58274996|
-|Company                            |ALIAS    |0.9989    |
-|Buyer                              |ALIAS    |0.9979    |
-|Buyer Entities                     |ALIAS    |0.98835003|
-|Arizona                            |ALIAS    |0.9635    |
-|Buyer Entities                     |ALIAS    |0.77565   |
-|Party                              |ALIAS    |0.9982    |
-+-----------------------------------+---------+----------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Masked with entity labels
+<span class="nt">------------------------------</span>
+&lt;PARTY&gt;, &lt;PARTY&gt;
+By:     &lt;SIGNING_PERSON&gt;
+Name: &lt;PARTY&gt;: &lt;SIGNING_TITLE&gt;,  Date:   &lt;EFFDATE&gt;
+&lt;PARTY&gt;, &lt;PARTY&gt;
+By:     &lt;SIGNING_PERSON&gt;
+Name: &lt;PARTY&gt;: &lt;SIGNING_TITLE&gt;Date:   &lt;EFFDATE&gt;
+
+email : &lt;EMAIL&gt;
+phone : &lt;PHONE&gt;
+
+Masked with chars
+<span class="nt">------------------------------</span>
+<span class="o">[</span><span class="k">*****</span><span class="o">]</span>, <span class="o">[</span><span class="k">**********</span><span class="o">]</span>
+By:     <span class="o">[</span><span class="k">*************</span><span class="o">]</span>
+Name: <span class="o">[</span><span class="k">*******************</span><span class="o">]</span>: <span class="o">[</span><span class="k">**********************************</span><span class="o">]</span>  Center,  Date:   <span class="o">[</span><span class="k">********</span><span class="o">]</span>
+<span class="o">[</span><span class="k">******</span><span class="o">]</span>, <span class="o">[</span><span class="k">*</span><span class="o">]</span>
+By:     <span class="o">[</span><span class="k">***************</span><span class="o">]</span>
+Name: <span class="o">[</span><span class="k">**********************</span><span class="o">]</span>: <span class="o">[</span><span class="k">*******</span><span class="o">]</span>Date:   <span class="o">[</span><span class="k">**************</span><span class="o">]</span>
+
+email : <span class="o">[</span><span class="k">****************</span><span class="o">]</span>
+phone : <span class="o">[</span><span class="k">********</span><span class="o">]</span>
+
+Masked with fixed length chars
+<span class="nt">------------------------------</span>
+<span class="k">****</span>, <span class="k">****</span>
+By:     <span class="k">****</span>
+Name: <span class="k">****</span>: <span class="k">****</span>,  Date:   <span class="k">****</span>
+<span class="k">****</span>, <span class="k">****</span>
+By:     <span class="k">****</span>
+Name: <span class="k">****</span>: <span class="k">****</span>Date:   <span class="k">****</span>
+
+email : <span class="k">****</span>
+phone : <span class="k">****</span>
+
+Obfuscated
+<span class="nt">------------------------------</span>
+MGT Trust Company, LLC., Clarus llc.
+By:     Benjamin Dean
+Name: John Snow Labs Inc: Sales Manager,  Date:   03/08/2025
+Clarus llc., SESA CO.
+By:     JAMES TURNER
+Name: MGT Trust Company, LLC.: Business ManagerDate:   11/7/2016
+
+email : Tyrus@google.com
+phone : 78 834 854
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -510,15 +543,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>legner_orgs_prods_alias</td>
+      <td>finpipe_deid</td>
     </tr>
     <tr>
       <td>Type:</td>
-      <td>legal</td>
+      <td>pipeline</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Legal 1.0.0+</td>
+      <td>Spark NLP for Finance 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -529,43 +562,48 @@
       <td>Official</td>
     </tr>
     <tr>
-      <td>Input Labels:</td>
-      <td>[sentence, token, embeddings]</td>
-    </tr>
-    <tr>
-      <td>Output Labels:</td>
-      <td>[ner]</td>
-    </tr>
-    <tr>
       <td>Language:</td>
       <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>16.7 MB</td>
+      <td>944.1 MB</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>ConLL-2003, FinSec ConLL, a subset of Ontonotes, In-house corpora</p>
+<p>In-house annotations on legal and financial documents, Ontonotes, Conll 2003, Finsec conll, Cuad dataset, 10k filings</p>
 
-<h2 id="benchmarking">Benchmarking</h2>
+<h2 id="included-models">Included Models</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Total <span class="nb">test </span>loss: 143.3721	Avg <span class="nb">test </span>loss: 2.1723
-label	 tp	 fp	 fn	 prec	 rec	 f1
-I-ORG	 12853	 2621	 2685	 0.8306191	 0.82719785	 0.828905
-B-PRODUCT	 2306	 697	 932	 0.76789874	 0.712168	 0.7389841
-I-ALIAS	 14	 6	 13	 0.7	 0.5185185	 0.59574467
-B-ORG	 8967	 2078	 2311	 0.81186056	 0.79508775	 0.80338657
-I-PRODUCT	 2336	 803	 1091	 0.74418604	 0.68164575	 0.7115443
-B-ALIAS	 76	 14	 22	 0.84444445	 0.7755102	 0.80851066
-tp: 26552 fp: 6219 fn: 7054 labels: 6
-Macro-average	 prec: 0.78316814, rec: 0.7183547, f1: 0.7493626
-Micro-average	 prec: 0.8102285, rec: 0.790097, f1: 0.80003613
-</code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-17T00:00:00+00:00"><!-- start custom article footer snippet -->
+<ul>
+  <li>DocumentAssembler</li>
+  <li>SentenceDetectorDLModel</li>
+  <li>TokenizerModel</li>
+  <li>RoBertaEmbeddings</li>
+  <li>BertEmbeddings</li>
+  <li>FinanceNerModel</li>
+  <li>NerConverter</li>
+  <li>FinanceNerModel</li>
+  <li>NerConverter</li>
+  <li>FinanceNerModel</li>
+  <li>NerConverterInternalModel</li>
+  <li>FinanceNerModel</li>
+  <li>NerConverterInternalModel</li>
+  <li>ContextualParserModel</li>
+  <li>ContextualParserModel</li>
+  <li>RegexMatcherModel</li>
+  <li>RegexMatcherModel</li>
+  <li>ChunkMergeModel</li>
+  <li>DeIdentificationModel</li>
+  <li>DeIdentificationModel</li>
+  <li>DeIdentificationModel</li>
+  <li>DeIdentificationModel</li>
+  <li>Finisher</li>
+</ul>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-18T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -690,7 +728,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/17/finre_org_prod_alias_en_3_2.html">Financial Relation Extraction (Alias)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/17/legre_org_prod_alias_en_3_2.html">Legal Relation Extraction (Alias)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/18/finmapper_edgar_irs_en_3_2.html">Mapping Companies IRS to Edgar Database</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/18/finre_acquisitions_subsidiaries_wip_en_3_2.html">Acquisitions / Subsidiaries Relation Extraction (WIP)</a></div></div></div>
 
 </div>
 </div>

@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Legal ORG, PRODUCT and ALIAS NER- Spark NLP Model</title><meta name="description" content="DescriptionThis is a large Named Entity Recognition model, trained with a subset of generic conLL, financial and legal conll, ontonotes and several in-house ...">
-<link rel="canonical" href="/2022/08/17/legner_orgs_prods_alias_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Financial ORG, PRODUCT and ALIAS NER- Spark NLP Model</title><meta name="description" content="DescriptionThis is a large Named Entity Recognition model, trained with a subset of generic conLL, financial and legal conll, ontonotes and several in-house ...">
+<link rel="canonical" href="/2022/08/17/finner_orgs_prods_alias_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -406,13 +406,13 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-17-legner_orgs_prods_alias_en_3_2.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-17-finner_orgs_prods_alias_en_3_2.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 17, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-17T00:00:00+00:00"></div><header class="main-docs"><h1>Legal ORG, PRODUCT and ALIAS NER</h1></header></div><meta itemprop="headline" content="Legal ORG, PRODUCT and ALIAS NER"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>ner</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-17T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,legal,ner,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-17T00:00:00+00:00"></div><header class="main-docs"><h1>Financial ORG, PRODUCT and ALIAS NER</h1></header></div><meta itemprop="headline" content="Financial ORG, PRODUCT and ALIAS NER"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>finance</li><li>ner</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-17T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,finance,ner,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
@@ -424,7 +424,7 @@
 
 <p class="btn-box"><a href="https://demo.johnsnowlabs.com/finance/FINNER_ORGPROD" class="button button-orange">Live Demo</a>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_orgs_prods_alias_en_1.0.0_3.2_1660733903868.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_orgs_prods_alias_en_1.0.0_3.2_1660733832114.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -448,7 +448,7 @@
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">ner_model</span> <span class="o">=</span> <span class="n">LegalNerModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legner_orgs_prods_alias"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"legal/models"</span><span class="p">)</span>\
+<span class="n">ner_model</span> <span class="o">=</span> <span class="n">FinanceNerModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_orgs_prods_alias"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"finance/models"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
@@ -468,8 +468,7 @@
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
 
-<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"""This INTELLECTUAL PROPERTY AGREEMENT (this "Agreement"), dated as of December 31, 2018 (the "Effective Date") is entered into by and between Armstrong Flooring, Inc., a Delaware corporation ("Seller") and AFI Licensing LLC, a Delaware limited liability company ("Licensing" and together with Seller, "Arizona") and AHF Holding, Inc. (formerly known as Tarzan HoldCo, Inc.), a Delaware corporation ("Buyer") and Armstrong Hardwood Flooring Company, a Tennessee corporation (the "Company" and together with Buyer the "Buyer Entities") (each of Arizona on the one hand and the Buyer Entities on the other hand, a "Party" and collectively, the "Parties").
-"""</span><span class="p">]</span>
+<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"""In 2020, we acquired certain assets of Spell Security Private Limited (also known as "Spell Security"). More specifically, their Compliance product - Policy Compliance (PC)")."""</span><span class="p">]</span>
 
 <span class="n">res</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span><span class="n">text</span><span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
 <span class="n">res</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">explode</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">arrays_zip</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">ner_chunk</span><span class="p">.</span><span class="n">result</span><span class="p">,</span> <span class="n">res</span><span class="p">.</span><span class="n">ner_chunk</span><span class="p">.</span><span class="n">metadata</span><span class="p">)).</span><span class="n">alias</span><span class="p">(</span><span class="s">"cols"</span><span class="p">))</span> \
@@ -482,26 +481,13 @@
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------------------------+---------+----------+
-|chunk                              |ner_label|confidence|
-+-----------------------------------+---------+----------+
-|Armstrong Flooring, Inc            |ORG      |0.807575  |
-|Seller                             |ALIAS    |0.997     |
-|AFI Licensing LLC                  |ORG      |0.7076333 |
-|Licensing                          |ALIAS    |0.9981    |
-|Seller                             |ALIAS    |0.996     |
-|Arizona                            |ALIAS    |0.9958    |
-|AHF Holding, Inc.                  |ORG      |0.72438   |
-|Tarzan HoldCo, Inc                 |ORG      |0.684675  |
-|Buyer                              |ALIAS    |0.9983    |
-|Armstrong Hardwood Flooring Company|ORG      |0.58274996|
-|Company                            |ALIAS    |0.9989    |
-|Buyer                              |ALIAS    |0.9979    |
-|Buyer Entities                     |ALIAS    |0.98835003|
-|Arizona                            |ALIAS    |0.9635    |
-|Buyer Entities                     |ALIAS    |0.77565   |
-|Party                              |ALIAS    |0.9982    |
-+-----------------------------------+---------+----------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------------------------+---------+----------+
+|chunk                         |ner_label|confidence|
++------------------------------+---------+----------+
+|Spell Security Private Limited|ORG      |0.8475    |
+|Spell Security                |ALIAS    |0.8871    |
+|Policy Compliance             |PRODUCT  |0.7991    |
++------------------------------+---------+----------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -510,15 +496,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>legner_orgs_prods_alias</td>
+      <td>finner_orgs_prods_alias</td>
     </tr>
     <tr>
       <td>Type:</td>
-      <td>legal</td>
+      <td>finance</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Legal 1.0.0+</td>
+      <td>Spark NLP for Finance 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -690,7 +676,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/17/finre_org_prod_alias_en_3_2.html">Financial Relation Extraction (Alias)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/17/legre_org_prod_alias_en_3_2.html">Legal Relation Extraction (Alias)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/17/finner_10k_summary_en_3_2.html">Financial 10K Filings NER</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/08/17/finre_org_prod_alias_en_3_2.html">Financial Relation Extraction (Alias)</a></div></div></div>
 
 </div>
 </div>

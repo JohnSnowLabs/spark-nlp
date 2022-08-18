@@ -425,8 +425,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Legal Relation Extraction (Alias)- Spark NLP Model</title><meta name="description" content="DescriptionThis model can be used to extract Aliases of Companies or Product names. An “Alias” is a named used in a document to refer to the original name of...">
-<link rel="canonical" href="/2022/08/17/legre_org_prod_alias_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Acquisitions / Subsidiaries Relation Extraction (WIP)- Spark NLP Model</title><meta name="description" content="DescriptionThis model is a WIP model, what means it’s on early stage and will be improved as more data comes in from in-house annotations.The aim of this mod...">
+<link rel="canonical" href="/2022/08/18/finre_acquisitions_subsidiaries_wip_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -822,31 +822,27 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-17-legre_org_prod_alias_en_3_2.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2022-08-18-finre_acquisitions_subsidiaries_wip_en_3_2.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 17, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-17T00:00:00+00:00"></div><header class="main-docs"><h1>Legal Relation Extraction (Alias)</h1></header></div><meta itemprop="headline" content="Legal Relation Extraction (Alias)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>legal</li><li>re</li><li>relations</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-17T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,legal,re,relations,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 18, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-18T00:00:00+00:00"></div><header class="main-docs"><h1>Acquisitions / Subsidiaries Relation Extraction (WIP)</h1></header></div><meta itemprop="headline" content="Acquisitions / Subsidiaries Relation Extraction (WIP)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>finance</li><li>re</li><li>relations</li><li>acquisitions</li><li>subsidiaries</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-08-18T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,finance,re,relations,acquisitions,subsidiaries,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model can be used to extract Aliases of Companies or Product names. An “Alias” is a named used in a document to refer to the original name of a company or product. Examples:</p>
+<p>This model is a WIP model, what means it’s on early stage and will be improved as more data comes in from in-house annotations.</p>
 
-<ul>
-  <li>John Snow Labs, also known as JSL</li>
-  <li>John Snow Labs (“JSL”)</li>
-  <li>etc</li>
-</ul>
+<p>The aim of this model is to retrieve acquisition or subsidiary relationships between Organizations, included when the acquisition was carried out (“was_acquired”) and by whom (“was_acquired_by”). Subsidiaries are tagged with the relationship “is_subsidiary_of”.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">has_alias</code>, <code class="language-plaintext highlighter-rouge">has_collective_alias</code></p>
+<p><code class="language-plaintext highlighter-rouge">was_acquired</code>, <code class="language-plaintext highlighter-rouge">was_acquired_by</code>, <code class="language-plaintext highlighter-rouge">is_subsidiary_of</code></p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/finance/FINRE_ACQUISITIONS/" class="button button-orange">Live Demo</a>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_org_prod_alias_en_1.0.0_3.2_1660739037434.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finre_acquisitions_subsidiaries_wip_en_1.0.0_3.2_1660828690641.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -858,47 +854,99 @@
         <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+        
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+<span class="c1"># ==========
+# This is needed only to filter relation pairs using RENerChunksFilter (see below)
+# ==========
+</span><span class="n">pos</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"pos_anc"</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span>\
+          <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span>\
+          <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos"</span><span class="p">)</span>
 
-<span class="n">ner_model</span> <span class="o">=</span> <span class="n">LegalNerModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legner_orgs_prods_alias"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+<span class="n">depency_parser</span> <span class="o">=</span> <span class="n">DependencyParserModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"dependency_conllu"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"pos"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"dependencies"</span><span class="p">)</span>
+<span class="c1"># ==========
+</span>
+<span class="c1"># ==========
+# USE ANY NERMODEL WHICH RETRIEVES ORG
+</span>  <span class="n">We</span> <span class="n">recommend</span> <span class="sb">`finner_orgs_prods_alias`</span> <span class="n">because</span> <span class="n">it</span> <span class="n">retrieves</span> <span class="n">also</span> <span class="n">companies</span> <span class="n">Aliases</span> <span class="p">(</span><span class="k">as</span> <span class="s">"AWS"</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">sentence</span> <span class="s">"Amazon Web Services (AWS)"</span><span class="p">)</span>
+<span class="c1"># ==========
+</span><span class="n">bert_embeddings</span><span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"bert_embeddings"</span><span class="p">)</span>
 
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+<span class="n">ner_model_org</span><span class="o">=</span> <span class="n">FinanceNerModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_orgs_prods_alias"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"bert_embeddings"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_cuad"</span><span class="p">)</span>
 
-<span class="n">reDL</span> <span class="o">=</span> <span class="n">RelationExtractionDLModel</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legre_org_prod_alias"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setPredictionThreshold</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>
+<span class="n">ner_converter_org</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner_cuad"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_org"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">'ORG'</span><span class="p">,</span> <span class="s">'PRODUCT'</span><span class="p">,</span> <span class="s">'ALIAS'</span><span class="p">])</span>
 
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+<span class="c1"># ==========
+# USE ANY NERMODEL WHICH RETRIEVES DATES. 
+</span>  <span class="n">In</span> <span class="n">this</span> <span class="n">example</span><span class="p">,</span> <span class="n">we</span> <span class="n">will</span> <span class="n">go</span> <span class="k">for</span> <span class="n">big</span> <span class="n">accuracy</span> <span class="k">with</span> <span class="n">large</span> <span class="n">Roberta</span> <span class="n">Ontonotes</span> <span class="n">mode</span>
+<span class="c1"># ==========
+</span><span class="n">roberta_embeddings</span> <span class="o">=</span> <span class="n">RoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'roberta_large'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"sentence"</span><span class="p">])</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"roberta_embeddings"</span><span class="p">)</span>
+
+<span class="n">ner_model_onto</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'ner_ontonotes_roberta_large'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'sentence'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'roberta_embeddings'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'ner_onto'</span><span class="p">)</span>
+
+<span class="c1"># ==========
+</span>
+<span class="n">ner_converter_onto</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner_onto"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_onto"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">"DATE"</span><span class="p">])</span>
+
+<span class="n">chunk_merger</span> <span class="o">=</span> <span class="n">ChunkMergeApproach</span><span class="p">()</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">'ner_chunk_org'</span><span class="p">,</span> <span class="s">"ner_chunk_onto"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'ner_chunk'</span><span class="p">)</span>
+
+<span class="n">re_ner_chunk_filter</span> <span class="o">=</span> <span class="n">RENerChunksFilter</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"dependencies"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"re_ner_chunk"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setRelationPairs</span><span class="p">([</span><span class="s">"DATE-ORG"</span><span class="p">,</span> <span class="s">"DATE-ALIAS"</span><span class="p">,</span> <span class="s">"DATE-PRODUCT"</span><span class="p">,</span> <span class="s">"ORG-ORG"</span><span class="p">])</span>
+
+<span class="n">re_Model</span> <span class="o">=</span> <span class="n">RelationExtractionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finre_acquisitions_subsidiaries_wip"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"re_ner_chunk"</span><span class="p">,</span> <span class="s">"sentence"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setPredictionThreshold</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
         <span class="n">documentAssembler</span><span class="p">,</span>
-        <span class="n">sentenceDetector</span><span class="p">,</span>
+        <span class="n">sentence_detector</span><span class="p">,</span>
         <span class="n">tokenizer</span><span class="p">,</span>
-        <span class="n">embeddings</span><span class="p">,</span>
-        <span class="n">ner_model</span><span class="p">,</span>
-        <span class="n">ner_converter</span><span class="p">,</span>
-        <span class="n">reDL</span><span class="p">])</span>
+        <span class="n">bert_embeddings</span><span class="p">,</span>
+        <span class="n">pos</span><span class="p">,</span>
+        <span class="n">ner_model_org</span><span class="p">,</span>
+        <span class="n">depency_parser</span><span class="p">,</span>
+        <span class="n">ner_converter_org</span><span class="p">,</span>
+        <span class="n">roberta_embeddings</span><span class="p">,</span>
+        <span class="n">ner_model_onto</span><span class="p">,</span>
+        <span class="n">ner_converter_onto</span><span class="p">,</span>
+        <span class="n">chunk_merger</span><span class="p">,</span>
+        <span class="n">re_ner_chunk_filter</span><span class="p">,</span>
+        <span class="n">re_Model</span>
+        <span class="p">])</span>
+<span class="n">empty_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="n">empty_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">re_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_df</span><span class="p">)</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
+<span class="n">light_model</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">re_model</span><span class="p">)</span>
 
-<span class="n">text</span><span class="o">=</span><span class="s">'''
-On March 12, 2020 we closed a Loan and Security Agreement with Hitachi Capital America Corp. ("Hitachi") the terms of which are described in this report which replaced our credit facility with Western Alliance Bank.
-'''</span>
-
-<span class="n">lmodel</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-<span class="n">lmodel</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="n">light_model</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">"""On January 15, 2020, Cadence acquired all of the outstanding equity of AWR Corporation ("AWR"). On February 6, 2020, Cadence also acquired all of the outstanding equity of Integrand Software, Inc. ("Integrand")."""</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
@@ -906,7 +954,15 @@ On March 12, 2020 we closed a Loan and Security Agreement with Hitachi Capital A
 <h2 id="results">Results</h2>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>relation	entity1	entity1_begin	entity1_end	chunk1	entity2	entity2_begin	entity2_end	chunk2	confidence
-has_alias	ORG	64	92	Hitachi Capital America Corp.	ALIAS	96	102	Hitachi	0.9983972
+0	was_acquired	DATE	3	18	January 15, 2020	ORG	21	27	Cadence	0.9996277
+1	was_acquired	DATE	3	18	January 15, 2020	ORG	71	85	AWR Corporation	0.9994985
+2	was_acquired	DATE	3	18	January 15, 2020	ALIAS	89	91	AWR	0.99967
+3	was_acquired_by	ORG	21	27	Cadence	ORG	71	85	AWR Corporation	0.7940858
+4	was_acquired	DATE	99	114	February 6, 2020	ORG	117	123	Cadence	0.999689
+5	was_acquired	DATE	99	114	February 6, 2020	ORG	172	195	Integrand Software, Inc.	0.99955875
+6	was_acquired	DATE	99	114	February 6, 2020	ALIAS	199	207	Integrand	0.99918574
+7	was_acquired_by	ORG	117	123	Cadence	ORG	172	195	Integrand Software, Inc.	0.6435062
+...
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -915,15 +971,15 @@ has_alias	ORG	64	92	Hitachi Capital America Corp.	ALIAS	96	102	Hitachi	0.9983972
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>legre_org_prod_alias</td>
+      <td>finre_acquisitions_subsidiaries_wip</td>
     </tr>
     <tr>
       <td>Type:</td>
-      <td>legal</td>
+      <td>finance</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Legal 1.0.0+</td>
+      <td>Spark NLP for Finance 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -952,15 +1008,15 @@ has_alias	ORG	64	92	Hitachi Capital America Corp.	ALIAS	96	102	Hitachi	0.9983972
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Relation           Recall Precision        F1   Support
 
-has_alias           0.920     1.000     0.958        50
-has_collective_alias     1.000     0.750     0.857         6
-no_rel              1.000     0.957     0.978        44
+is_subsidiary_of     1.000     1.000     1.000         32
+was_acquired        0.800     1.000     0.889         35
+was_acquired_by     1.000     0.900     0.947         39
 
-Avg.                0.973     0.902     0.931
+Avg.                0.933     0.967     0.945
 
-Weighted Avg.       0.960     0.966     0.961
+Weighted Avg.       0.938     0.944     0.936
 </code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-17T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-08-18T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -1085,7 +1141,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/17/legner_orgs_prods_alias_en_3_2.html">Legal ORG, PRODUCT and ALIAS NER</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/08/18/finpipe_deid_en_3_2.html">Deidentification Pipeline</a></div></div></div>
 
 </div>
 </div>
