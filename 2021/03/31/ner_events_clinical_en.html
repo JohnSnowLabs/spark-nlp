@@ -432,22 +432,27 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
 <span class="n">word_embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
 <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+
 <span class="n">clinical_ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_events_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
 <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 <span class="p">...</span>
 <span class="n">nlp_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">word_embeddings</span><span class="p">,</span> <span class="n">clinical_ner</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">])</span>
+
 <span class="n">light_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">nlp_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)))</span>
+
 <span class="n">annotations</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">"The patient presented to the emergency room last evening"</span><span class="p">)</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
 <span class="k">val</span> <span class="nv">word_embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+
 <span class="k">val</span> <span class="nv">ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_events_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">)</span> 
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
@@ -517,28 +522,27 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|    | label           |     tp |    fp |   fn |     prec |      rec |        f1 |
-|---:|----------------:|-------:|------:|-----:|---------:|---------:|----------:|
-|  0 | I-TIME          |     82 |    12 |   45 | 0.87234  | 0.645669 | 0.742081  |
-|  1 | I-TREATMENT     |   2580 |   439 |  535 | 0.854588 | 0.82825  | 0.841213  |
-|  2 | B-OCCURRENCE    |   1548 |   680 |  945 | 0.694793 | 0.620939 | 0.655793  |
-|  3 | I-DURATION      |    366 |   183 |   99 | 0.666667 | 0.787097 | 0.721893  |
-|  4 | B-DATE          |    847 |   151 |  138 | 0.848697 | 0.859898 | 0.854261  |
-|  5 | I-DATE          |    921 |   191 |  196 | 0.828237 | 0.82453  | 0.82638   |
-|  6 | B-ADMISSION     |    105 |   102 |   15 | 0.507246 | 0.875    | 0.642202  |
-|  7 | I-PROBLEM       |   5238 |   902 |  823 | 0.853094 | 0.864214 | 0.858618  |
-|  8 | B-CLINICAL_DEPT |    613 |   130 |  119 | 0.825034 | 0.837432 | 0.831187  |
-|  9 | B-TIME          |     36 |     8 |   24 | 0.818182 | 0.6      | 0.692308  |
-| 10 | I-CLINICAL_DEPT |   1273 |   210 |  137 | 0.858395 | 0.902837 | 0.880055  |
-| 11 | B-PROBLEM       |   3717 |   608 |  591 | 0.859422 | 0.862813 | 0.861114  |
-| 12 | I-TEST          |   2304 |   384 |  361 | 0.857143 | 0.86454  | 0.860826  |
-| 13 | B-TEST          |   1870 |   372 |  300 | 0.834077 | 0.861751 | 0.847688  |
-| 14 | B-TREATMENT     |   2767 |   437 |  513 | 0.863608 | 0.843598 | 0.853485  |
-| 15 | B-EVIDENTIAL    |    394 |   109 |  201 | 0.7833   | 0.662185 | 0.717669  |
-| 16 | B-DURATION      |    236 |   119 |  105 | 0.664789 | 0.692082 | 0.678161  |
-| 17 | B-FREQUENCY     |    117 |    20 |   79 | 0.854015 | 0.596939 | 0.702703  |
-| 18 | Macro-average   | 25806  | 5821  | 6342 | 0.735285 | 0.677034 | 0.704959  |
-| 19 | Micro-average   | 25806  | 5821  | 6342 | 0.815948 | 0.802725 | 0.809283  |
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label                tp     fp    fn      prec       rec        f1
+I-TIME               82     12    45  0.87234   0.645669  0.742081 
+I-TREATMENT        2580    439   535  0.854588  0.82825   0.841213 
+B-OCCURRENCE       1548    680   945  0.694793  0.620939  0.655793 
+I-DURATION          366    183    99  0.666667  0.787097  0.721893 
+B-DATE              847    151   138  0.848697  0.859898  0.854261 
+I-DATE              921    191   196  0.828237  0.82453   0.82638  
+B-ADMISSION         105    102    15  0.507246  0.875     0.642202 
+I-PROBLEM          5238    902   823  0.853094  0.864214  0.858618 
+B-CLINICAL_DEPT     613    130   119  0.825034  0.837432  0.831187 
+B-TIME               36      8    24  0.818182  0.6       0.692308 
+I-CLINICAL_DEPT    1273    210   137  0.858395  0.902837  0.880055 
+B-PROBLEM          3717    608   591  0.859422  0.862813  0.861114 
+I-TEST             2304    384   361  0.857143  0.86454   0.860826 
+B-TEST             1870    372   300  0.834077  0.861751  0.847688 
+B-TREATMENT        2767    437   513  0.863608  0.843598  0.853485 
+B-EVIDENTIAL        394    109   201  0.7833    0.662185  0.717669 
+B-DURATION          236    119   105  0.664789  0.692082  0.678161 
+B-FREQUENCY         117     20    79  0.854015  0.596939  0.702703 
+Macro-average     25806   5821  6342  0.735285  0.677034  0.704959 
+Micro-average     25806   5821  6342  0.815948  0.802725  0.809283 
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-03-31T00:00:00+00:00"><!-- start custom article footer snippet -->
 

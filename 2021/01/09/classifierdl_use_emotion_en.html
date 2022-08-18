@@ -411,8 +411,8 @@
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 09, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-01-09T00:00:00+00:00"></div><header class="main-docs"><h1>Emotion Detection Classifier</h1></header></div><meta itemprop="headline" content="Emotion Detection Classifier"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>open_source</li><li>en</li><li>classifier</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-01-09T00:00:00+00:00">
-    <meta itemprop="keywords" content="open_source,en,classifier"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-01-09T00:00:00+00:00"></div><header class="main-docs"><h1>Emotion Detection Classifier</h1></header></div><meta itemprop="headline" content="Emotion Detection Classifier"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>open_source</li><li>en</li><li>classifier</li><li>emotion</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-01-09T00:00:00+00:00">
+    <meta itemprop="keywords" content="open_source,en,classifier,emotion"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
@@ -432,31 +432,51 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-<span class="n">use</span> <span class="o">=</span> <span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'tfhub_use'</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"en"</span><span class="p">)</span> \
-<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
-<span class="n">document_classifier</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'classifierdl_use_emotion'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span> \
-<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">])</span> \
-<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">use</span><span class="p">,</span> <span class="n">document_classifier</span><span class="p">])</span>
-<span class="n">light_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">nlp_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)))</span>
-<span class="n">annotations</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">'@Mira I just saw you on live t.v!!'</span><span class="p">)</span>
-</code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">use</span> <span class="k">=</span> <span class="nv">UniversalSentenceEncoder</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="n">lang</span><span class="o">=</span><span class="s">"en"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
-<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">document_classifier</span> <span class="k">=</span> <span class="nv">ClassifierDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"classifierdl_use_emotion"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span>
-<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">use</span><span class="o">,</span> <span class="n">document_classifier</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"@Mira I just saw you on live t.v!!"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">use</span> <span class="o">=</span> <span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'tfhub_use'</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"en"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
+
+<span class="n">classifier</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'classifierdl_use_emotion'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentiment"</span><span class="p">)</span>
+
+<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> 
+                               <span class="n">use</span><span class="p">,</span> 
+                               <span class="n">classifier</span><span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"@Mira I just saw you on live t.v!!"</span><span class="p">],</span>
+                              <span class="p">[</span><span class="s">"Just home from group celebration - dinner at Trattoria Gianni, then Hershey Felder's performance - AMAZING!!"</span><span class="p">],</span>
+                              <span class="p">[</span><span class="s">"Nooooo! My dad turned off the internet so I can't listen to band music!"</span><span class="p">],</span>
+                              <span class="p">[</span><span class="s">"My soul has just been pierced by the most evil look from @rickosborneorg. A mini panic attack and chill in bones followed soon after."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div>  </div>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">use</span> <span class="k">=</span> <span class="nv">UniversalSentenceEncoder</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="ss">'tfhub_us</span><span class="n">e</span><span class="o">',</span> <span class="s">"en"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">classifier</span> <span class="k">=</span> <span class="nv">ClassifierDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"classifierdl_use_emotion"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentiment"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> 
+                                              <span class="n">use</span><span class="o">,</span> 
+                                              <span class="n">classifier</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"@Mira I just saw you on live t.v!!"</span><span class="o">,</span>
+                     <span class="s">"Just home from group celebration - dinner at Trattoria Gianni, then Hershey Felder's performance - AMAZING!!"</span><span class="o">,</span>
+                     <span class="s">"Nooooo! My dad turned off the internet so I can't listen to band music!"</span><span class="o">,</span>
+                     <span class="s">"My soul has just been pierced by the most evil look from @rickosborneorg. A mini panic attack and chill in bones followed soon after."</span><span class="o">)).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 
@@ -471,12 +491,14 @@
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------------------------------------------------------------------------------------------+------------+
-|document                                                                                        |class       |
-+------------------------------------------------------------------------------------------------+------------+
-|@Mira I just saw you on live t.v!!                                                              | joy        |
-+------------------------------------------------------------------------------------------------+------------+
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------------------------------------------------------------------------------------------------------------------------------------+---------+
+|document                                                                                                                             |sentiment|
++-------------------------------------------------------------------------------------------------------------------------------------+---------+
+|@Mira I just saw you on live t.v!!                                                                                                   |surprise |
+|Just home from group celebration - dinner at Trattoria Gianni, <span class="k">then </span>Hershey Felder<span class="s1">'s performance - AMAZING!!                         |joy      |
+|Nooooo! My dad turned off the internet so I can'</span>t listen to band music!                                                              |sadness  |
+|My soul has just been pierced by the most evil look from @rickosborneorg. A mini panic attack and chill <span class="k">in </span>bones followed soon after.|fear     |
++-------------------------------------------------------------------------------------------------------------------------------------+---------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -524,14 +546,14 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fear       0.78      0.67      0.72      2253
-joy       0.71      0.68      0.69      3000
-sadness       0.69      0.73      0.71      3075
-surprise       0.67      0.73      0.70      3067
-
-accuracy                           0.71     11395
-macro avg       0.71      0.70      0.71     11395
-weighted avg       0.71      0.71      0.71     11395
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label           tp      fp      fn      support
+fear            0.78    0.67    0.72     2253
+joy             0.71    0.68    0.69     3000
+sadness         0.69    0.73    0.71     3075
+surprise        0.67    0.73    0.70     3067
+accuracy        -       -       0.71    11395
+macro-avg       0.71    0.70    0.71    11395
+weighted-avg    0.71    0.71    0.71    11395
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-01-09T00:00:00+00:00"><!-- start custom article footer snippet -->
 
