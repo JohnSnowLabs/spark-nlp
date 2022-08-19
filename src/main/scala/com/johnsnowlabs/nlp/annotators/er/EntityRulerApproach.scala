@@ -259,7 +259,9 @@ class EntityRulerApproach(override val uid: String)
       automaton.get.buildMatchingMachine()
     }
 
-    entityRuler.setRegexEntities(entities).setAutomaton(automaton)
+    entityRuler
+      .setRegexEntities(entities)
+      .setAutomatonIfNotSet(dataset.sparkSession, automaton)
 
   }
 

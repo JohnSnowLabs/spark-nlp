@@ -22,6 +22,7 @@ import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, HasSimpleAnnotate}
 import com.johnsnowlabs.storage.Database.{ENTITY_PATTERNS, ENTITY_REGEX_PATTERNS, Name}
 import com.johnsnowlabs.storage._
+import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
@@ -73,11 +74,6 @@ class EntityRulerModel(override val uid: String)
       this,
       "Structure to store data when RocksDB is not used")
 
-  private[er] val automaton: StructFeature[Option[AhoCorasickAutomaton]] =
-    new StructFeature[Option[AhoCorasickAutomaton]](
-      this,
-      "Finite state machine to efficiently lookup words")
-
   private[er] val sentenceMatch = new BooleanParam(
     this,
     "sentenceMatch",
@@ -96,8 +92,22 @@ class EntityRulerModel(override val uid: String)
 
   private[er] def setSentenceMatch(value: Boolean): this.type = set(sentenceMatch, value)
 
-  private[er] def setAutomaton(value: Option[AhoCorasickAutomaton]): this.type =
-    set(automaton, value)
+  private var automatonModel: Option[Broadcast[AhoCorasickAutomaton]] = None
+
+  def setAutomatonIfNotSet(
+      spark: SparkSession,
+      automaton: Option[AhoCorasickAutomaton]): this.type = {
+    if (automatonModel.isEmpty && automaton.isDefined) {
+      automatonModel = Some(spark.sparkContext.broadcast(automaton.get))
+    }
+    this
+  }
+
+  def getAutomationModelIfNotSet: Option[AhoCorasickAutomaton] = {
+    if (automatonModel.isDefined) {
+      Some(automatonModel.get.value)
+    } else None
+  }
 
   setDefault(useStorage -> false, caseSensitive -> true)
 
@@ -142,7 +152,7 @@ class EntityRulerModel(override val uid: String)
       annotateEntitiesFromRegexPatterns(tokenizedWithSentences, regexPatternsReader)
 
     val sentences = SentenceSplit.unpack(annotations)
-    if ($$(automaton).isDefined) {
+    if (getAutomationModelIfNotSet.isDefined) {
 
       annotatedEntities = sentences.flatMap { sentence =>
         val tokensPerSentence: Seq[Annotation] = annotations.filter(annotation =>
@@ -153,7 +163,7 @@ class EntityRulerModel(override val uid: String)
         val tokens: Map[Int, Annotation] =
           tokensPerSentence.map(annotation => (annotation.end, annotation)).toMap
 
-        val result = $$(automaton).get.searchWords(sentence, tokens)
+        val result = getAutomationModelIfNotSet.get.searchWords(sentence, tokens)
 
         result
       }
@@ -177,7 +187,7 @@ class EntityRulerModel(override val uid: String)
       annotatedEntitiesByRegex =
         annotateEntitiesFromRegexPatternsBySentence(sentences, patternsReader)
     }
-    if ($$(automaton).isDefined) {
+    if (getAutomationModelIfNotSet.isDefined) {
       annotatedEntitiesByKeywords = sentences.flatMap { sentence =>
         val tokensPerSentence: Seq[Annotation] = annotations.filter(annotation =>
           annotation.annotatorType == TOKEN && annotation
@@ -186,7 +196,7 @@ class EntityRulerModel(override val uid: String)
         val tokens: Map[Int, Annotation] =
           tokensPerSentence.map(annotation => (annotation.end, annotation)).toMap
 
-        $$(automaton).get.searchWords(sentence, tokens)
+        getAutomationModelIfNotSet.get.searchWords(sentence, tokens)
       }
     }
 
