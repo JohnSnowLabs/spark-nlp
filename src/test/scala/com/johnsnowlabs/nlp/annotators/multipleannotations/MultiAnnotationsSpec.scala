@@ -16,51 +16,121 @@
 
 package com.johnsnowlabs.nlp.annotators.multipleannotations
 
-import com.johnsnowlabs.nlp.{DocumentAssembler, LightPipeline, SparkAccessor}
+import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
+import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, LightPipeline, SparkAccessor}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.DataFrame
 import org.scalatest.flatspec.AnyFlatSpec
-import com.johnsnowlabs.nlp.Annotation
-import org.junit.Assert.assertEquals
 
 class MultiAnnotationsSpec extends AnyFlatSpec {
 
   import SparkAccessor.spark.implicits._
 
-  "An multiple anootator chunks" should "transform data " taggedAs FastTest in {
-    val data =
-      SparkAccessor.spark.sparkContext.parallelize(Seq("Example text")).toDS().toDF("text")
+  val text = "Example text"
+  val data: DataFrame =
+    SparkAccessor.spark.sparkContext.parallelize(Seq(text)).toDS().toDF("text")
 
-    val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
+  private val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
 
-    val documentAssembler2 = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document2")
+  private val documentAssembler2 = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document2")
 
-    val documentAssembler3 = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document3")
+  private val documentAssembler3 = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document3")
 
-    val multipleColumns = new MultiColumnApproach()
-      .setInputCols("document", "document2", "document3")
-      .setOutputCol("multiple_document")
+  private val multipleColumns = new MultiColumnApproach()
+    .setInputCols("document", "document2", "document3")
+    .setOutputCol("multiple_document")
 
-    val pipeline = new Pipeline()
-      .setStages(
-        Array(documentAssembler, documentAssembler2, documentAssembler3, multipleColumns))
+  private val pipeline = new Pipeline()
+    .setStages(Array(documentAssembler, documentAssembler2, documentAssembler3, multipleColumns))
 
-    val pipelineModel = pipeline.fit(data)
+  private val pipelineModel = pipeline.fit(data)
 
-    val annotations =
+  "An multiple annotator chunks" should "transform data " taggedAs FastTest in {
+
+    val expectedAnnotations = Array(
+      Annotation(DOCUMENT, 0, text.length - 1, text, Map("sentence" -> "0")),
+      Annotation(DOCUMENT, 0, text.length - 1, text, Map("sentence" -> "0")),
+      Annotation(DOCUMENT, 0, text.length - 1, text, Map("sentence" -> "0")))
+
+    val actualAnnotations =
       Annotation.collect(pipelineModel.transform(data), "multiple_document").flatten
-    assertEquals(annotations.length, 3)
 
-    val result = new LightPipeline(pipelineModel).annotate("My document")
+    actualAnnotations.zipWithIndex.foreach { case (actualAnnotation, index) =>
+      val expectedAnnotation = expectedAnnotations(index)
+      assert(actualAnnotation == expectedAnnotation)
+    }
+  }
 
-    assertEquals(result("multiple_document").size, 3)
+  it should "work for LightPipeline" taggedAs FastTest in {
+    val text = "My document"
+    val expectedResult = Map(
+      "document" -> Seq(text),
+      "document2" -> Seq(text),
+      "document3" -> Seq(text),
+      "multiple_document" -> Seq(text, text, text)
+    )
 
+    val actualResult = new LightPipeline(pipelineModel).annotate(text)
+
+    assert(expectedResult == actualResult)
+  }
+
+  it should "annotate with LightPipeline with 2 inputs" taggedAs FastTest in {
+    val text = "My document"
+    val text2 = "Example text"
+
+    val expectedResults = Array(
+      Map(
+      "document" -> Seq(text),
+      "document2" -> Seq(text),
+      "document3" -> Seq(text),
+      "multiple_document" -> Seq(text, text, text)),
+      Map(
+        "document" -> Seq(text2),
+        "document2" -> Seq(text2),
+        "document3" -> Seq(text2),
+        "multiple_document" -> Seq(text2, text2, text2))
+    )
+
+    val actualResults = new LightPipeline(pipelineModel).annotate(Array(text, text2))
+
+    actualResults.zipWithIndex.foreach { case (actualResult, index) =>
+      val expectedResult = expectedResults(index)
+      assert(actualResult == expectedResult)
+    }
+  }
+
+  it should "fullAnnotate with LightPipeline with 2 inputs" taggedAs FastTest in {
+    val text = "My document"
+    val expectedAnnotationText = Annotation(DOCUMENT, 0, text.length - 1, text, Map())
+    val text2 = "Example text"
+    val expectedAnnotationText2 = Annotation(DOCUMENT, 0, text2.length - 1, text2, Map())
+    val expectedResults = Array(
+      Map(
+        "document" -> Seq(expectedAnnotationText),
+        "document2" -> Seq(expectedAnnotationText),
+        "document3" -> Seq(expectedAnnotationText),
+        "multiple_document" -> Seq(expectedAnnotationText, expectedAnnotationText, expectedAnnotationText)),
+      Map(
+        "document" -> Seq(expectedAnnotationText2),
+        "document2" -> Seq(expectedAnnotationText2),
+        "document3" -> Seq(expectedAnnotationText2),
+        "multiple_document" -> Seq(expectedAnnotationText2, expectedAnnotationText2, expectedAnnotationText2))
+    )
+
+    val annotationResults = new LightPipeline(pipelineModel).fullAnnotate(Array(text, text2))
+
+    annotationResults.zipWithIndex.foreach { case (actualResult, index) =>
+      val expectedResult = expectedResults(index)
+      assert(actualResult == expectedResult)
+    }
   }
 
 }

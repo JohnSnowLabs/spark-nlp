@@ -40,6 +40,12 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
       .toArray
   }
 
+  def fullAnnotate(targets: Array[(String, String)]): Array[Map[String, Seq[Annotation]]] = {
+    targets.par
+      .map(target => fullAnnotate(target._1, target._2))
+      .toArray
+  }
+
   def fullAnnotate(target: String, optionalTarget: String = ""): Map[String, Seq[Annotation]] = {
     fullAnnotateInternal(target, optionalTarget).mapValues(_.map(_.asInstanceOf[Annotation]))
   }
@@ -246,6 +252,12 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
   def annotate(targets: Array[String]): Array[Map[String, Seq[String]]] = {
     targets.par
       .map(target => annotate(target))
+      .toArray
+  }
+
+  def annotate(targets: Array[(String, String)]): Array[Map[String, Seq[String]]] = {
+    targets.par
+      .map(target => annotate(target._1, target._2))
       .toArray
   }
 
