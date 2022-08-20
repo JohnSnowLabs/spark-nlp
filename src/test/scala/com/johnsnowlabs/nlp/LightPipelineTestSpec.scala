@@ -212,18 +212,4 @@ class LightPipelineTestSpec extends AnyFlatSpec {
     assert(t1 > t2)
   }
 
-  it should "work for documents" in {
-    val documentAssembler: DocumentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-
-    val pipeline: Pipeline = new Pipeline().setStages(Array(documentAssembler))
-    val emptyDF = ResourceHelper.spark.emptyDataFrame
-    val pipelineModel = pipeline.fit(emptyDF)
-    val lightPipeline = new LightPipeline(pipelineModel)
-    val result = lightPipeline.fullAnnotate("Hello world")
-
-    println(result)
-  }
-
 }
