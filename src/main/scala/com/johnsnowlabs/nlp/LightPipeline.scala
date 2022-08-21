@@ -40,10 +40,11 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
       .toArray
   }
 
-  def fullAnnotate(targets: Array[(String, String)]): Array[Map[String, Seq[Annotation]]] = {
-    targets.par
-      .map(target => fullAnnotate(target._1, target._2))
-      .toArray
+  def fullAnnotate(targets: Array[Array[String]]): Array[Map[String, Seq[Annotation]]] = {
+    targets.par.map { target =>
+      val optionalTarget = if (targets.head.length <= 1) "" else target(1)
+      fullAnnotate(target.head, optionalTarget)
+    }.toArray
   }
 
   def fullAnnotate(target: String, optionalTarget: String = ""): Map[String, Seq[Annotation]] = {
@@ -238,6 +239,14 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
     fullAnnotateImage(pathToImage).mapValues(_.asJava).asJava
   }
 
+  def fullAnnotateJavaMultipleInput(targets: java.util.ArrayList[java.util.ArrayList[String]])
+      : java.util.List[java.util.Map[String, java.util.List[JavaAnnotation]]] = {
+    targets.asScala.par
+      .map(target => fullAnnotateJava(target.get(0), target.get(1)))
+      .toList
+      .asJava
+  }
+
   def fullAnnotateImageJava(pathToImages: java.util.ArrayList[String])
       : java.util.List[java.util.Map[String, java.util.List[IAnnotation]]] = {
 
@@ -255,10 +264,11 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
       .toArray
   }
 
-  def annotate(targets: Array[(String, String)]): Array[Map[String, Seq[String]]] = {
-    targets.par
-      .map(target => annotate(target._1, target._2))
-      .toArray
+  def annotate(targets: Array[Array[String]]): Array[Map[String, Seq[String]]] = {
+    targets.par.map { target =>
+      val optionalTarget = if (targets.head.length <= 1) "" else target(1)
+      annotate(target.head, optionalTarget)
+    }.toArray
   }
 
   def annotate(target: String, optionalTarget: String = ""): Map[String, Seq[String]] = {
@@ -288,6 +298,13 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
       .map(target => annotateJava(target))
       .toList
       .asJava
+  }
+
+  def annotateJavaMultipleInput(targets: java.util.ArrayList[java.util.ArrayList[String]])
+      : java.util.List[java.util.Map[String, java.util.List[String]]] = {
+    val inputs: Array[Array[String]] =
+      targets.asScala.par.toArray.map(target => target.asScala.par.toArray)
+    annotate(inputs).map(_.mapValues(_.asJava).asJava).toList.asJava
   }
 
 }
