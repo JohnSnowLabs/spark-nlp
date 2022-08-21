@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.cv
 import com.johnsnowlabs.nlp.ImageAssembler
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
@@ -139,7 +139,7 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec {
     })
   }
 
-  "ViTForImageClassification" should "work with LightPipeline" taggedAs SlowTest in {
+  "ViTForImageClassification" should "work with LightPipeline" taggedAs FastTest in {
     val pipelineModel = pipeline.fit(imageDF)
     val lightPipeline = new LightPipeline(pipelineModel)
 
