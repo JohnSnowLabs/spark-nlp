@@ -80,7 +80,7 @@ class LightPipeline:
                                     annotation.width(),
                                     annotation.nChannels(),
                                     annotation.mode(),
-                                    annotation.result(),
+                                    list(annotation.result()),
                                     annotation.metadata())
                 )
             else:
