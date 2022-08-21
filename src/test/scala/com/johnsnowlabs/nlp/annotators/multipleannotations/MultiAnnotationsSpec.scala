@@ -74,8 +74,7 @@ class MultiAnnotationsSpec extends AnyFlatSpec {
       "document" -> Seq(text),
       "document2" -> Seq(text),
       "document3" -> Seq(text),
-      "multiple_document" -> Seq(text, text, text)
-    )
+      "multiple_document" -> Seq(text, text, text))
 
     val actualResult = new LightPipeline(pipelineModel).annotate(text)
 
@@ -88,16 +87,15 @@ class MultiAnnotationsSpec extends AnyFlatSpec {
 
     val expectedResults = Array(
       Map(
-      "document" -> Seq(text),
-      "document2" -> Seq(text),
-      "document3" -> Seq(text),
-      "multiple_document" -> Seq(text, text, text)),
+        "document" -> Seq(text),
+        "document2" -> Seq(text),
+        "document3" -> Seq(text),
+        "multiple_document" -> Seq(text, text, text)),
       Map(
         "document" -> Seq(text2),
         "document2" -> Seq(text2),
         "document3" -> Seq(text2),
-        "multiple_document" -> Seq(text2, text2, text2))
-    )
+        "multiple_document" -> Seq(text2, text2, text2)))
 
     val actualResults = new LightPipeline(pipelineModel).annotate(Array(text, text2))
 
@@ -117,13 +115,18 @@ class MultiAnnotationsSpec extends AnyFlatSpec {
         "document" -> Seq(expectedAnnotationText),
         "document2" -> Seq(expectedAnnotationText),
         "document3" -> Seq(expectedAnnotationText),
-        "multiple_document" -> Seq(expectedAnnotationText, expectedAnnotationText, expectedAnnotationText)),
+        "multiple_document" -> Seq(
+          expectedAnnotationText,
+          expectedAnnotationText,
+          expectedAnnotationText)),
       Map(
         "document" -> Seq(expectedAnnotationText2),
         "document2" -> Seq(expectedAnnotationText2),
         "document3" -> Seq(expectedAnnotationText2),
-        "multiple_document" -> Seq(expectedAnnotationText2, expectedAnnotationText2, expectedAnnotationText2))
-    )
+        "multiple_document" -> Seq(
+          expectedAnnotationText2,
+          expectedAnnotationText2,
+          expectedAnnotationText2)))
 
     val annotationResults = new LightPipeline(pipelineModel).fullAnnotate(Array(text, text2))
 

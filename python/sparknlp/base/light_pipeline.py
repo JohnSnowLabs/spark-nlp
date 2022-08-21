@@ -81,7 +81,7 @@ class LightPipeline:
                                     annotation.nChannels(),
                                     annotation.mode(),
                                     list(annotation.result()),
-                                    annotation.metadata())
+                                    dict(annotation.metadata()))
                 )
             else:
                 annotations.append(
@@ -89,8 +89,8 @@ class LightPipeline:
                                annotation.begin(),
                                annotation.end(),
                                annotation.result(),
-                               annotation.metadata(),
-                               annotation.embeddings)
+                               dict(annotation.metadata()),
+                               [])
                 )
         return annotations
 
@@ -132,12 +132,19 @@ class LightPipeline:
 
         if optional_target == "":
             if type(target) is str:
-                target = [target]
+                full_annotations = self._lightPipeline.fullAnnotateJava([target])
+            elif type(target) is list and type(target[0]) is list:
+                full_annotations = self._lightPipeline.fullAnnotateJavaMultipleInput(target)
+            elif type(target) is list and type(target[0]) is str:
+                full_annotations = self._lightPipeline.fullAnnotateJava(target)
+            else:
+                raise TypeError("target and optional_target for annotation must be 'str' or target must be list")
 
-            for annotations_result in self._lightPipeline.fullAnnotateJava(target):
+            for annotations_result in full_annotations:
                 result.append(self.buildStages(annotations_result))
 
         else:
+
             if type(target) is list or type(optional_target) is list:
                 raise TypeError("target and optional_target for annotation must be 'str'")
 
@@ -210,13 +217,17 @@ class LightPipeline:
         >>> result["ner"]
         ['B-ORG', 'O', 'O', 'B-PER', 'O', 'O', 'B-LOC', 'O']
         """
+
         def reformat(annotations):
             return {k: list(v) for k, v in annotations.items()}
 
         if optional_target == "":
-            annotations = self._lightPipeline.annotateJava(target)
+            if type(target) is list and type(target[0]) is list:
+                annotations = self._lightPipeline.annotateJavaMultipleInput(target)
+            else:
+                annotations = self._lightPipeline.annotateJava(target)
         else:
-            if type(target) is list or  type(optional_target) is list:
+            if type(target) is list or type(optional_target) is list:
                 raise TypeError("target and optional_target for annotation must be 'str'")
             annotations = self._lightPipeline.annotateJava(target, optional_target)
 
@@ -269,4 +280,3 @@ class LightPipeline:
             Whether to ignore unsupported AnnotatorModels.
         """
         return self._lightPipeline.getIgnoreUnsupported()
-
