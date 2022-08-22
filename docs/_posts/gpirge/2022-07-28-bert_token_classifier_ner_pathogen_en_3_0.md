@@ -34,6 +34,7 @@ This pretrained named entity recognition (NER) model is a deep learning model fo
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler() \
     .setInputCol('text') \
@@ -144,10 +145,11 @@ val result = pipeline.fit(data).transform(data)
 ## Benchmarking
 
 ```bash
-         label  precision    recall  f1-score   support
-has_no_premise       0.86      0.83      0.85       379
-   has_premise       0.72      0.77      0.75       220
-      accuracy       -         -         0.81       599
-     macro-avg       0.79      0.80      0.80       599
-  weighted-avg       0.81      0.81      0.81       599
+           label  precision    recall  f1-score   support
+MedicalCondition       0.73      0.78      0.75        49
+        Medicine       0.95      0.95      0.95        38
+        Pathogen       0.77      0.91      0.83        11
+       micro-avg       0.82      0.86      0.84        98
+       macro-avg       0.82      0.88      0.84        98
+    weighted-avg       0.82      0.86      0.84        98
 ```

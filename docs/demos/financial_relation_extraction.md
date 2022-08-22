@@ -18,17 +18,17 @@ data:
           activemenu: financial_relation_extraction
       source: yes
       source: 
-        - title: Extract Relations between Parties in an Agreement  
-          id: extract_relations_between_parties_agreement  
+        - title: Extract Relations between ORGS/PRODS and their ALIASES  
+          id: extract_relations_between_orgs_prods_aliases 
           image: 
               src: /assets/images/Extract_Relations_between_Parties.svg
           image2: 
               src: /assets/images/Extract_Relations_between_Parties_f.svg
-          excerpt: This model uses Deep Learning Name Entity Recognition and a Relation Extraction models to extract the document type (DOC), the Effective Date (EFFDATE), the PARTIES in an agreement and their ALIAS (separate and collectively).
+          excerpt: This model uses Entity Recognition to identify ORG (Companies), PRODUCT (Products) and their ALIAS in financial documents. 
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/finance/LEGALRE_PARTIES/
+            url: https://demo.johnsnowlabs.com/finance/FINRE_ALIAS/
           - text: Colab Netbook
             type: blue_btn
             url:                 

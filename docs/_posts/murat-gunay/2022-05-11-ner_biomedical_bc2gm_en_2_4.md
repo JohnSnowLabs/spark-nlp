@@ -182,13 +182,9 @@ Created by Smith et al. at 2008, the BioCreative II Gene Mention Recognition ([B
 
 
 ```bash
-label precision recall f1-score support
-GENE_PROTEIN      0.83   0.82     0.82    6325
-micro-avg      0.83   0.82     0.82    6325
-macro-avg      0.83   0.82     0.82    6325
-weighted-avg      0.83   0.82     0.82    6325
+label 			precision recall f1-score support
+GENE_PROTEIN    0.83   0.82     0.82    6325
+micro-avg      	0.83   0.82     0.82    6325
+macro-avg      	0.83   0.82     0.82    6325
+weighted-avg    0.83   0.82     0.82    6325
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbMjA0MDA3MDE2MCwtNTc1NTg3MTM5LDExMD
-Y2ODk1NDEsMTc4NjQ3ODIxMF19
--->

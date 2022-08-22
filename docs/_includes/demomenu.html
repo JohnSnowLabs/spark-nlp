@@ -83,7 +83,7 @@
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_assertion_status" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/financial_assertion_status">Understand Financial Entities Context</a>
       </li>
-      <li data-hide="hide" {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_relation_extraction" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_relation_extraction" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/financial_relation_extraction">Extract Financial Relationships</a>
       </li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_company_normalization" %} class="active"  {% endif %} {% endfor %} {% endif %} >

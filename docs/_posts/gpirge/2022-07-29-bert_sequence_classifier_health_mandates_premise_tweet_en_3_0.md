@@ -78,7 +78,7 @@ val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_s
 val pipeline = new Pipeline().setStages(Array(documenter, tokenizer, sequenceClassifier))
 
 val data = Seq(Array("Schools need to reopen in some form here in the fall. If for no other reason than for many of our students we are the most responsible and dependable adults they will see all day.",
-                              "Had a crazy dream that the 'rona virus was prepping our bodies for a zombie virus. What a nightmare!")).toDS.toDF("text")
+                     "Had a crazy dream that the 'rona virus was prepping our bodies for a zombie virus. What a nightmare!")).toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```

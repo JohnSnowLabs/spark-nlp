@@ -34,6 +34,7 @@ This model is intended for detecting disease mentions in Spanish tweets and trai
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
   .setInputCol("text")\
@@ -100,7 +101,7 @@ val pipeline =  new Pipeline().setStages(Array(
                       tokenClassifier,
                       ner_converter))
 
-val data = Seq(Array("El diagnóstico fueron varios. Principal: Neumonía en el pulmón derecho. Sinusitis de caballo, Faringitis aguda e infección de orina, también elevada. Gripe No. Estuvo hablando conmigo, sin exagerar, mas de media hora, dándome ánimo y fuerza y que sabe, porque ha visto"), StringType()).toDS().toDF("text")
+val data = Seq(Array("El diagnóstico fueron varios. Principal: Neumonía en el pulmón derecho. Sinusitis de caballo, Faringitis aguda e infección de orina, también elevada. Gripe No. Estuvo hablando conmigo, sin exagerar, mas de media hora, dándome ánimo y fuerza y que sabe, porque ha visto")).toDS().toDF("text")
 
 val result = model.fit(data).transform(data)
 ```
@@ -142,7 +143,7 @@ val result = model.fit(data).transform(data)
        label  precision    recall  f1-score   support
 B-ENFERMEDAD       0.74      0.95      0.83      4243
 I-ENFERMEDAD       0.64      0.79      0.71      1570
-   micro avg       0.71      0.91      0.80      5813
-   macro avg       0.69      0.87      0.77      5813
-weighted avg       0.71      0.91      0.80      5813
+   micro-avg       0.71      0.91      0.80      5813
+   macro-avg       0.69      0.87      0.77      5813
+weighted-avg       0.71      0.91      0.80      5813
 ```
