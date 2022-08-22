@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -38,24 +38,24 @@ The model will give softmax outputs for three labels: positive, negative or neut
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol('text') \
-    .setOutputCol('document')
+.setInputCol('text') \
+.setOutputCol('document')
 
 tokenizer = Tokenizer() \
-    .setInputCols(['document']) \
-    .setOutputCol('token')
+.setInputCols(['document']) \
+.setOutputCol('token')
 
 sequenceClassifier = BertForSequenceClassification \
-      .pretrained('bert_sequence_classifier_finbert', 'en') \
-      .setInputCols(['token', 'document']) \
-      .setOutputCol('class') \
-      .setCaseSensitive(True) \
-      .setMaxSentenceLength(512)
+.pretrained('bert_sequence_classifier_finbert', 'en') \
+.setInputCols(['token', 'document']) \
+.setOutputCol('class') \
+.setCaseSensitive(True) \
+.setMaxSentenceLength(512)
 
 pipeline = Pipeline(stages=[
-    document_assembler,
-    tokenizer,
-    sequenceClassifier
+document_assembler,
+tokenizer,
+sequenceClassifier
 ])
 
 example = spark.createDataFrame([['Stocks rallied and the British pound gained.']]).toDF("text")
@@ -63,18 +63,18 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document_assembler = DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val tokenizer = Tokenizer()
-    .setInputCols("document")
-    .setOutputCol("token")
+.setInputCols("document")
+.setOutputCol("token")
 
 val tokenClassifier = BertForSequenceClassification.pretrained("bert_sequence_classifier_finbert", "en")
-      .setInputCols("document", "token")
-      .setOutputCol("class")
-      .setCaseSensitive(true)
-      .setMaxSentenceLength(512)
+.setInputCols("document", "token")
+.setOutputCol("class")
+.setCaseSensitive(true)
+.setMaxSentenceLength(512)
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 

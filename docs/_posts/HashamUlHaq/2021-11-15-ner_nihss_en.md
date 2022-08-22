@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -47,12 +47,12 @@ The National Institutes of Health Stroke Scale (NIHSS) is a 15-item neurologic e
 ```python
 ...
 embeddings_clinical = WordEmbeddingsModel.pretrained('embeddings_clinical', 'en', 'clinical/models') \
-    .setInputCols(['sentence', 'token']) \
-    .setOutputCol('embeddings')
+.setInputCols(['sentence', 'token']) \
+.setOutputCol('embeddings')
 
 clinical_ner = MedicalNerModel.pretrained("ner_nihss", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 ...
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical,  clinical_ner, ner_converter])
 
@@ -63,12 +63,12 @@ results = model.transform(spark.createDataFrame([["Abdomen , soft , nontender . 
 ```scala
 ...
 val embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-   .setInputCols(["sentence", "token"])
-   .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])
+.setOutputCol("embeddings")
 
 val ner = MedicalNerModel.pretrained("ner_nihss", "en", "clinical/models") 
-  .setInputCols("sentence", "token", "embeddings")
-  .setOutputCol("ner")
+.setInputCols("sentence", "token", "embeddings")
+.setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
 
@@ -140,8 +140,8 @@ nlu.load("en.med_ner.nihss").predict("""Abdomen , soft , nontender . NIH stroke 
 
 
 @article{wangnational,
-  title={National Institutes of Health Stroke Scale (NIHSS) Annotations for the MIMIC-III Database},
-  author={Wang, Jiayang and Huang, Xiaoshuo and Yang, Lin and Li, Jiao}
+title={National Institutes of Health Stroke Scale (NIHSS) Annotations for the MIMIC-III Database},
+author={Wang, Jiayang and Huang, Xiaoshuo and Yang, Lin and Li, Jiao}
 }
 
 

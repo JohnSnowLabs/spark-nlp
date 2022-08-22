@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,11 +37,11 @@ Pretrained named entity recognition deep learning model for posology. The SparkN
 ```python
 ...
 embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-  .setInputCols(["sentence", "token"])\
-  .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 clinical_ner = MedicalNerModel.pretrained("ner_posology_large", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 ...
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical, clinical_ner, ner_converter])
 model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
@@ -50,11 +50,11 @@ results = model.transform(spark.createDataFrame([['The patient is a 30-year-old 
 ```scala
 ...
 val embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token"))
-  .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 val ner = MedicalNerModel.pretrained("ner_posology_large", "en", "clinical/models")
-  .setInputCols("sentence", "token", "embeddings")
-  .setOutputCol("ner")
+.setInputCols("sentence", "token", "embeddings")
+.setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
 

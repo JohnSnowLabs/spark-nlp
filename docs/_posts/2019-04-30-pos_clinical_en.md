@@ -13,7 +13,7 @@ spark_version: 2.4
 tags: [clinical, licensed, pos,en]
 supported: true
 article_header:
-   type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,7 +37,7 @@ Sets a Part-Of-Speech tag to each word within a sentence.
 pos = PerceptronModel.pretrained("pos_clinical","en","clinical/models")\
 	.setInputCols(["token","sentence"])\
 	.setOutputCol("pos")
-    
+
 pos_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, pos])
 light_pipeline = LightPipeline(pos_pipeline.fit(spark.createDataFrame([[""]]).toDF("text")))
 result = light_pipeline.fullAnnotate("""He was given boluses of MS04 with some effect, he has since been placed on a PCA - he take 80mg of oxycontin at home, his PCA dose is ~ 2 the morphine dose of the oxycontin, he has also received ativan for anxiety.""")
@@ -47,7 +47,7 @@ result = light_pipeline.fullAnnotate("""He was given boluses of MS04 with some e
 val pos = PerceptronModel.pretrained("pos_clinical","en","clinical/models")
 	.setInputCols("token","sentence")
 	.setOutputCol("pos")
-    
+
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val data = Seq("He was given boluses of MS04 with some effect, he has since been placed on a PCA - he take 80mg of oxycontin at home, his PCA dose is ~ 2 the morphine dose of the oxycontin, he has also received ativan for anxiety.").toDF("text")
 val result = pipeline.fit(data).transform(data)
@@ -67,10 +67,10 @@ nlu.load("en.pos.clinical").predict("""He was given boluses of MS04 with some ef
 
 ```bash
 [Annotation(pos, 0, 1, NN, {'word': 'He'}),
- Annotation(pos, 3, 5, VBD, {'word': 'was'}),
- Annotation(pos, 7, 11, VVN, {'word': 'given'}),
- Annotation(pos, 13, 19, NNS, {'word': 'boluses'}),
- Annotation(pos, 21, 22, II, {'word': 'of'}),
+Annotation(pos, 3, 5, VBD, {'word': 'was'}),
+Annotation(pos, 7, 11, VVN, {'word': 'given'}),
+Annotation(pos, 13, 19, NNS, {'word': 'boluses'}),
+Annotation(pos, 21, 22, II, {'word': 'of'}),
 ...]
 ```
 

@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.4.0
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,71 +36,71 @@ This model maps clinical entities and concepts (like drugs/ingredients) to RxNor
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documenter = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("documents")
+.setInputCol("text") \
+.setOutputCol("documents")
 
 sentence_detector = SentenceDetector() \
-    .setInputCols("documents") \
-    .setOutputCol("sentences")
+.setInputCols("documents") \
+.setOutputCol("sentences")
 
 tokenizer = Tokenizer() \
-    .setInputCols("sentences") \
-    .setOutputCol("tokens")
+.setInputCols("sentences") \
+.setOutputCol("tokens")
 
 embeddings = WordEmbeddingsModel() \
-    .pretrained("embeddings_clinical", "en", "clinical/models")\
-    .setInputCols(["sentences", "tokens"])\
-    .setOutputCol("embeddings")
+.pretrained("embeddings_clinical", "en", "clinical/models")\
+.setInputCols(["sentences", "tokens"])\
+.setOutputCol("embeddings")
 
 posology_ner_model = MedicalNerModel()\
-    .pretrained("ner_posology_large", "en", "clinical/models")\
-    .setInputCols(["sentences", "tokens", "embeddings"])\
-    .setOutputCol("ner")
+.pretrained("ner_posology_large", "en", "clinical/models")\
+.setInputCols(["sentences", "tokens", "embeddings"])\
+.setOutputCol("ner")
 
 ner_converter = NerConverterInternal()\
-    .setInputCols("sentences", "tokens", "ner")\
-    .setOutputCol("ner_chunks")
+.setInputCols("sentences", "tokens", "ner")\
+.setOutputCol("ner_chunks")
 
 pos_tager = PerceptronModel()\
-    .pretrained("pos_clinical", "en", "clinical/models")\
-    .setInputCols("sentences", "tokens")\
-    .setOutputCol("pos_tags")
+.pretrained("pos_clinical", "en", "clinical/models")\
+.setInputCols("sentences", "tokens")\
+.setOutputCol("pos_tags")
 
 dependency_parser = DependencyParserModel()\
-    .pretrained("dependency_conllu", "en")\
-    .setInputCols(["sentences", "pos_tags", "tokens"])\
-    .setOutputCol("dependencies")
+.pretrained("dependency_conllu", "en")\
+.setInputCols(["sentences", "pos_tags", "tokens"])\
+.setOutputCol("dependencies")
 
 drug_chunk_embeddings = EntityChunkEmbeddings()\
-    .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-    .setInputCols(["ner_chunks", "dependencies"])\
-    .setOutputCol("drug_chunk_embeddings")\
-    .setMaxSyntacticDistance(3)\
-    .setTargetEntities({"DRUG": ["STRENGTH", "ROUTE", "FORM"]})\
-    .setEntityWeights({"DRUG": 0.8, "STRENGTH": 0.2, "ROUTE": 0.2, "FORM": 0.2})
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+.setInputCols(["ner_chunks", "dependencies"])\
+.setOutputCol("drug_chunk_embeddings")\
+.setMaxSyntacticDistance(3)\
+.setTargetEntities({"DRUG": ["STRENGTH", "ROUTE", "FORM"]})\
+.setEntityWeights({"DRUG": 0.8, "STRENGTH": 0.2, "ROUTE": 0.2, "FORM": 0.2})
 
 rxnorm_resolver = SentenceEntityResolverModel\
-      .pretrained("sbiobertresolve_rxnorm_augmented_re", "en", "clinical/models")\
-      .setInputCols(["drug_chunk_embeddings"])\
-      .setOutputCol("rxnorm_code")\
-      .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_rxnorm_augmented_re", "en", "clinical/models")\
+.setInputCols(["drug_chunk_embeddings"])\
+.setOutputCol("rxnorm_code")\
+.setDistanceFunction("EUCLIDEAN")
 
 rxnorm_weighted_pipeline_re = Pipeline(
-    stages = [
-        documenter,
-        sentence_detector,
-        tokenizer,
-        embeddings,
-        posology_ner_model,
-        ner_converter,
-        pos_tager,
-        dependency_parser,
-        drug_chunk_embeddings,
-        rxnorm_re
-        ])
-        
+stages = [
+documenter,
+sentence_detector,
+tokenizer,
+embeddings,
+posology_ner_model,
+ner_converter,
+pos_tager,
+dependency_parser,
+drug_chunk_embeddings,
+rxnorm_re
+])
+
 sampleText = ["The patient was given metformin 500 mg, 2.5 mg of coumadin and then ibuprofen.",
-              "The patient was given metformin 400 mg, coumadin 5 mg, coumadin, amlodipine 10 MG"]
+"The patient was given metformin 400 mg, coumadin 5 mg, coumadin, amlodipine 10 MG"]
 
 data_df = spark.createDataFrame(sample_df)
 
@@ -109,62 +109,62 @@ results = rxnorm_weighted_pipeline_re.fit(data_df).transform(data_df)
 ```
 ```scala
 val documenter = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("documents")
+.setInputCol("text") \
+.setOutputCol("documents")
 
 val sentence_detector = SentenceDetector() \
-    .setInputCols("documents") \
-    .setOutputCol("sentences")
+.setInputCols("documents") \
+.setOutputCol("sentences")
 
 val tokenizer = Tokenizer() \
-    .setInputCols("sentences") \
-    .setOutputCol("tokens")
+.setInputCols("sentences") \
+.setOutputCol("tokens")
 
 val embeddings = WordEmbeddingsModel() \
-    .pretrained("embeddings_clinical", "en", "clinical/models")\
-    .setInputCols(Array("sentences", "tokens"))\
-    .setOutputCol("embeddings")
+.pretrained("embeddings_clinical", "en", "clinical/models")\
+.setInputCols(Array("sentences", "tokens"))\
+.setOutputCol("embeddings")
 
 val posology_ner_model = MedicalNerModel()\
-    .pretrained("ner_posology_large", "en", "clinical/models")\
-    .setInputCols(Array("sentences", "tokens", "embeddings"))\
-    .setOutputCol("ner")
+.pretrained("ner_posology_large", "en", "clinical/models")\
+.setInputCols(Array("sentences", "tokens", "embeddings"))\
+.setOutputCol("ner")
 
 val ner_converter = NerConverterInternal()\
-    .setInputCols("sentences", "tokens", "ner")\
-    .setOutputCol("ner_chunks")
+.setInputCols("sentences", "tokens", "ner")\
+.setOutputCol("ner_chunks")
 
 val pos_tager = PerceptronModel()\
-    .pretrained("pos_clinical", "en", "clinical/models")\
-    .setInputCols("sentences", "tokens")\
-    .setOutputCol("pos_tags")
+.pretrained("pos_clinical", "en", "clinical/models")\
+.setInputCols("sentences", "tokens")\
+.setOutputCol("pos_tags")
 
 val dependency_parser = DependencyParserModel()\
-    .pretrained("dependency_conllu", "en")\
-    .setInputCols(Array("sentences", "pos_tags", "tokens"))\
-    .setOutputCol("dependencies")
+.pretrained("dependency_conllu", "en")\
+.setInputCols(Array("sentences", "pos_tags", "tokens"))\
+.setOutputCol("dependencies")
 
 val drug_chunk_embeddings = EntityChunkEmbeddings()\
-    .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-    .setInputCols(Array("ner_chunks", "dependencies"))\
-    .setOutputCol("drug_chunk_embeddings")\
-    .setMaxSyntacticDistance(3)\
-    .setTargetEntities({"DRUG": ["STRENGTH", "ROUTE", "FORM"]})\
-    .setEntityWeights({"DRUG": 0.8, "STRENGTH": 0.2, "ROUTE": 0.2, "FORM": 0.2})
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+.setInputCols(Array("ner_chunks", "dependencies"))\
+.setOutputCol("drug_chunk_embeddings")\
+.setMaxSyntacticDistance(3)\
+.setTargetEntities({"DRUG": ["STRENGTH", "ROUTE", "FORM"]})\
+.setEntityWeights({"DRUG": 0.8, "STRENGTH": 0.2, "ROUTE": 0.2, "FORM": 0.2})
 
 val rxnorm_resolver = SentenceEntityResolverModel\
-      .pretrained("sbiobertresolve_rxnorm_augmented_re", "en", "clinical/models")\
-      .setInputCols(Array("drug_chunk_embeddings"))\
-      .setOutputCol("rxnorm_code")\
-      .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_rxnorm_augmented_re", "en", "clinical/models")\
+.setInputCols(Array("drug_chunk_embeddings"))\
+.setOutputCol("rxnorm_code")\
+.setDistanceFunction("EUCLIDEAN")
 
 val rxnorm_weighted_pipeline_re = new PipelineModel().setStages(Array(documenter, sentence_detector, tokenizer, embeddings, posology_ner_model, 
-           ner_converter,  pos_tager, dependency_parser, drug_chunk_embeddings, rxnorm_re))
+ner_converter,  pos_tager, dependency_parser, drug_chunk_embeddings, rxnorm_re))
 
 val light_model = LightPipeline(rxnorm_weighted_pipeline_re)
 
 vat sampleText = Array("The patient was given metformin 500 mg, 2.5 mg of coumadin and then ibuprofen.",
-              "The patient was given metformin 400 mg, coumadin 5 mg, coumadin, amlodipine 10 MG")
+"The patient was given metformin 400 mg, coumadin 5 mg, coumadin, amlodipine 10 MG")
 
 ```
 

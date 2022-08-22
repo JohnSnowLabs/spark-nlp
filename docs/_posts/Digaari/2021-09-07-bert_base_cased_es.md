@@ -11,7 +11,7 @@ edition: Spark NLP 3.2.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,15 +36,15 @@ BETO is a BERT model trained on a big Spanish corpus. BETO is of size similar to
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 embeddings = BertEmbeddings.pretrained("bert_base_cased", "es") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 ```
 ```scala
 val embeddings = BertEmbeddings.pretrained("bert_base_cased", "es")
-      .setInputCols("sentence", "token")
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token")
+.setOutputCol("embeddings")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
 ```

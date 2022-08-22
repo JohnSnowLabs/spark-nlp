@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [licensed, clinical, en, classifier]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -41,14 +41,14 @@ Classify text/sentence in two categories:
 ```python
 ...
 embeddings = BertEmbeddings.pretrained('biobert_pubmed_base_cased')\
-    .setInputCols(["document", 'token'])\
-    .setOutputCol("word_embeddings")
+.setInputCols(["document", 'token'])\
+.setOutputCol("word_embeddings")
 sentence_embeddings = SentenceEmbeddings() \
-      .setInputCols(["document", "word_embeddings"]) \
-      .setOutputCol("sentence_embeddings") \
-      .setPoolingStrategy("AVERAGE")
+.setInputCols(["document", "word_embeddings"]) \
+.setOutputCol("sentence_embeddings") \
+.setPoolingStrategy("AVERAGE")
 classifier = ClassifierDLModel.pretrained('classifierdl_ade_biobert', 'en', 'clinical/models')\
-    .setInputCols(['document', 'token', 'sentence_embeddings']).setOutputCol('class')
+.setInputCols(['document', 'token', 'sentence_embeddings']).setOutputCol('class')
 nlp_pipeline = Pipeline(stages=[document_assembler, tokenizer, embeddings, sentence_embeddings, classifier])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 annotations = light_pipeline.fullAnnotate(["I feel a bit drowsy & have a little blurred vision after taking an insulin", "I feel great after taking tylenol"])
@@ -57,14 +57,14 @@ annotations = light_pipeline.fullAnnotate(["I feel a bit drowsy & have a little 
 ```scala
 ...
 val embeddings = BertEmbeddings.pretrained('biobert_pubmed_base_cased')
-    .setInputCols(Array("document", 'token'))
-    .setOutputCol("word_embeddings")
+.setInputCols(Array("document", 'token'))
+.setOutputCol("word_embeddings")
 val sentence_embeddings = SentenceEmbeddings()
-      .setInputCols(Array("document", "word_embeddings"))
-      .setOutputCol("sentence_embeddings")
-      .setPoolingStrategy("AVERAGE")
+.setInputCols(Array("document", "word_embeddings"))
+.setOutputCol("sentence_embeddings")
+.setPoolingStrategy("AVERAGE")
 val classifier = ClassifierDLModel.pretrained('classifierdl_ade_biobert', 'en', 'clinical/models')
-    .setInputCols(Array('document', 'token', 'sentence_embeddings')).setOutputCol('class')
+.setInputCols(Array('document', 'token', 'sentence_embeddings')).setOutputCol('class')
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, sentence_embeddings, classifier))
 val data = Seq("I feel a bit drowsy & have a little blurred vision after taking an insulin", "I feel great after taking tylenol").toDF("text")
@@ -114,10 +114,10 @@ Trained on a custom dataset comprising of CADEC, DRUG-AE and Twimed.
 ```bash
 			  precision    recall  f1-score   support
 
-       False       0.96      0.94      0.95      6923
-        True       0.71      0.79      0.75      1359
+False       0.96      0.94      0.95      6923
+True       0.71      0.79      0.75      1359
 
-   micro avg       0.91      0.91      0.91      8282
-   macro avg       0.83      0.86      0.85      8282
+micro avg       0.91      0.91      0.91      8282
+macro avg       0.83      0.86      0.85      8282
 weighted avg       0.92      0.91      0.91      8282
 ```

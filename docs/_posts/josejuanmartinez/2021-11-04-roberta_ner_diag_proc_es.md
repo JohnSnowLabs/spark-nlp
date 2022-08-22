@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -52,36 +52,36 @@ Tasks trained using Clinical Case Coding in Spanish Shared Task (eHealth CLEF 20
 
 ```python
 documentAssembler = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentenceDetector = SentenceDetectorDLModel.pretrained() \
-    .setInputCols(["document"]) \
-    .setOutputCol("sentence")
+.setInputCols(["document"]) \
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-    .setInputCols("sentence")\
-    .setOutputCol("token")
+.setInputCols("sentence")\
+.setOutputCol("token")
 
 embeddings =  RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
-    .setInputCols(["sentence", "token"])\
-    .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 
 ner = MedicalNerModel.pretrained("roberta_ner_diag_proc", "es", "clinical/models")\
-    .setInputCols(["sentence", "token", "embeddings"])\
-    .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"])\
+.setOutputCol("ner")
 
 ner_converter = NerConverter() \
-    .setInputCols(['sentence', 'token', 'ner']) \
-    .setOutputCol('ner_chunk')
+.setInputCols(['sentence', 'token', 'ner']) \
+.setOutputCol('ner_chunk')
 
 pipeline = Pipeline(stages = [
-    documentAssembler,
-    sentenceDetector,
-    tokenizer,
-    embeddings,
-    ner,
-    ner_converter])
+documentAssembler,
+sentenceDetector,
+tokenizer,
+embeddings,
+ner,
+ner_converter])
 
 empty = spark.createDataFrame([['']]).toDF("text")
 
@@ -93,36 +93,36 @@ res = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_senten
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained()
-    .setInputCols(Array("document"))
-    .setOutputCol("sentence")
+.setInputCols(Array("document"))
+.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
-    .setOutputCol("token")
+.setInputCols("sentence")
+.setOutputCol("token")
 
 val embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
-    .setInputCols(Array("sentence", "token"))
-    .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 val ner = MedicalNerModel.pretrained("roberta_ner_diag_proc", "es", "clinical/models")
-    .setInputCols(Array("sentence", "token", "embeddings"))
-    .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings"))
+.setOutputCol("ner")
 
 val ner_converter = new NerConverter()
-    .setInputCols(Array("sentence", "token", "ner"))
-    .setOutputCol("ner_chunk")
+.setInputCols(Array("sentence", "token", "ner"))
+.setOutputCol("ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(
-    documentAssembler,
-    sentenceDetector,
-    tokenizer,
-    embeddings,
-    ner,
-    ner_converter))
+documentAssembler,
+sentenceDetector,
+tokenizer,
+embeddings,
+ner,
+ner_converter))
 
 val test_sentence = """Mujer de 28 años con antecedentes de diabetes mellitus gestacional diagnosticada ocho años antes de la presentación y posterior diabetes mellitus tipo dos (DM2), un episodio previo de pancreatitis inducida por HTG tres años antes de la presentación, asociado con una hepatitis aguda, y obesidad con un índice de masa corporal (IMC) de 33,5 kg / m2, que se presentó con antecedentes de una semana de poliuria, polidipsia, falta de apetito y vómitos. Dos semanas antes de la presentación, fue tratada con un ciclo de cinco días de amoxicilina por una infección del tracto respiratorio. Estaba tomando metformina, glipizida y dapagliflozina para la DM2 y atorvastatina y gemfibrozil para la HTG. Había estado tomando dapagliflozina durante seis meses en el momento de la presentación. El examen físico al momento de la presentación fue significativo para la mucosa oral seca; significativamente, su examen abdominal fue benigno sin dolor a la palpación, protección o rigidez. Los hallazgos de laboratorio pertinentes al ingreso fueron: glucosa sérica 111 mg / dl, bicarbonato 18 mmol / l, anión gap 20, creatinina 0,4 mg / dl, triglicéridos 508 mg / dl, colesterol total 122 mg / dl, hemoglobina glucosilada (HbA1c) 10%. y pH venoso 7,27. La lipasa sérica fue normal a 43 U / L. Los niveles séricos de acetona no pudieron evaluarse ya que las muestras de sangre se mantuvieron hemolizadas debido a una lipemia significativa. La paciente ingresó inicialmente por cetosis por inanición, ya que refirió una ingesta oral deficiente durante los tres días previos a la admisión. Sin embargo, la química sérica obtenida seis horas después de la presentación reveló que su glucosa era de 186 mg / dL, la brecha aniónica todavía estaba elevada a 21, el bicarbonato sérico era de 16 mmol / L, el nivel de triglicéridos alcanzó un máximo de 2050 mg / dL y la lipasa fue de 52 U / L. Se obtuvo el nivel de β-hidroxibutirato y se encontró que estaba elevado a 5,29 mmol / L; la muestra original se centrifugó y la capa de quilomicrones se eliminó antes del análisis debido a la interferencia de la turbidez causada por la lipemia nuevamente. El paciente fue tratado con un goteo de insulina para euDKA y HTG con una reducción de la brecha aniónica a 13 y triglicéridos a 1400 mg / dL, dentro de las 24 horas. Se pensó que su euDKA fue precipitada por su infección del tracto respiratorio en el contexto del uso del inhibidor de SGLT2. La paciente fue atendida por el servicio de endocrinología y fue dada de alta con 40 unidades de insulina glargina por la noche, 12 unidades de insulina lispro con las comidas y metformina 1000 mg dos veces al día. Se determinó que todos los inhibidores de SGLT2 deben suspenderse indefinidamente. Tuvo un seguimiento estrecho con endocrinología post alta."""
 

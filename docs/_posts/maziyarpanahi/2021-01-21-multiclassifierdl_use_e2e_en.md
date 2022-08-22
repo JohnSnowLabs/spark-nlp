@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [en, open_source, text_classification]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -38,34 +38,34 @@ So far, E2E NLG approaches were limited to small, de-lexicalized data sets, e.g.
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 use = UniversalSentenceEncoder.pretrained() \
- .setInputCols(["document"])\
- .setOutputCol("use_embeddings")
+.setInputCols(["document"])\
+.setOutputCol("use_embeddings")
 
 docClassifier = MultiClassifierDLModel.pretrained("multiclassifierdl_use_e2e") \
-  .setInputCols(["use_embeddings"])\
-  .setOutputCol("category")\
-  .setThreshold(0.5)
+.setInputCols(["use_embeddings"])\
+.setOutputCol("category")\
+.setThreshold(0.5)
 
 pipeline = Pipeline(
-    stages = [
-        document,
-        use,
-        docClassifier
-    ])
+stages = [
+document,
+use,
+docClassifier
+])
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-   .setInputCol("text")
-   .setOutputCol("document")
-   .setCleanupMode("shrink")
+.setInputCol("text")
+.setOutputCol("document")
+.setCleanupMode("shrink")
 
 val use = UniversalSentenceEncoder.pretrained()
-  .setInputCols("document")
-  .setOutputCol("use_embeddings")
+.setInputCols("document")
+.setOutputCol("use_embeddings")
 
 val docClassifier = MultiClassifierDLModel.pretrained("multiclassifierdl_use_e2e")
 .setInputCols("use_embeddings")
@@ -73,13 +73,13 @@ val docClassifier = MultiClassifierDLModel.pretrained("multiclassifierdl_use_e2e
 .setThreshold(0.5f)
 
 val pipeline = new Pipeline()
-  .setStages(
-    Array(
-      documentAssembler,
-      use,
-      docClassifier
-    )
-  )
+.setStages(
+Array(
+documentAssembler,
+use,
+docClassifier
+)
+)
 ```
 
 

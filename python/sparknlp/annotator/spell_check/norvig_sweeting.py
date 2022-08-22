@@ -17,16 +17,15 @@ from sparknlp.common import *
 
 
 class NorvigSweetingApproach(AnnotatorApproach):
-    """Trains annotator, that retrieves tokens and makes corrections
-    automatically if not found in an English dictionary.
+    """Trains annotator, that retrieves tokens and makes corrections automatically if
+    not found in an English dictionary, based on the algorithm by Peter Norvig.
 
-    The Symmetric Delete spelling correction algorithm reduces the complexity of
-    edit candidate generation and dictionary lookup for a given
-    Damerau-Levenshtein distance. It is six orders of magnitude faster (than the
-    standard approach with deletes + transposes + replaces + inserts) and
-    language independent. A dictionary of correct spellings must be provided
-    with :meth:`.setDictionary` in the form of a text file, where each word is
-    parsed by a regex pattern.
+    The algorithm is based on a Bayesian approach to spell checking: Given the word we
+    look in the provided dictionary to choose the word with the highest probability
+    to be the correct one.
+
+    A dictionary of correct spellings must be provided with :meth:`.setDictionary` in
+    the form of a text file, where each word is parsed by a regex pattern.
 
     For instantiated/pretrained models, see :class:`.NorvigSweetingModel`.
 
@@ -70,8 +69,9 @@ class NorvigSweetingApproach(AnnotatorApproach):
 
     References
     ----------
-    Inspired by Norvig model and `SymSpell
-    <https://github.com/wolfgarbe/SymSpell>`__.
+
+    Inspired by the spell checker by Peter Norvig:
+    `How to Write a Spelling Corrector <https://norvig.com/spell-correct.html>`__
 
     Examples
     --------

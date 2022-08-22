@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.4
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,33 +37,33 @@ This model maps clinical abbreviations and acronyms to their meanings using `sbi
 ```python
 ...
 c2doc = Chunk2Doc()\
-      .setInputCols("merged_chunk")\
-      .setOutputCol("ner_chunk_doc") 
+.setInputCols("merged_chunk")\
+.setOutputCol("ner_chunk_doc") 
 
 sentence_chunk_embeddings = BertSentenceChunkEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
-    .setInputCols(["document", "merged_chunk"])\
-    .setOutputCol("sentence_embeddings")\
-    .setChunkWeight(0.5)
+.setInputCols(["document", "merged_chunk"])\
+.setOutputCol("sentence_embeddings")\
+.setChunkWeight(0.5)
 
 abbr_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_clinical_abbreviation_acronym", "en", "clinical/models") \
-      .setInputCols(["merged_chunk", "sentence_embeddings"]) \
-      .setOutputCol("abbr_meaning")\
-      .setDistanceFunction("EUCLIDEAN")\
-      .setCaseSensitive(False)
-    
+.setInputCols(["merged_chunk", "sentence_embeddings"]) \
+.setOutputCol("abbr_meaning")\
+.setDistanceFunction("EUCLIDEAN")\
+.setCaseSensitive(False)
+
 resolver_pipeline = Pipeline(
-    stages = [
-        document_assembler,
-        tokenizer,
-        word_embeddings,
-        clinical_ner,
-        ner_converter_icd,
-        entity_extractor,
-        chunk_merge,
-        c2doc,
-        sentence_chunk_embeddings,
-        abbr_resolver
-  ])
+stages = [
+document_assembler,
+tokenizer,
+word_embeddings,
+clinical_ner,
+ner_converter_icd,
+entity_extractor,
+chunk_merge,
+c2doc,
+sentence_chunk_embeddings,
+abbr_resolver
+])
 
 model = resolver_pipeline.fit(spark.createDataFrame([['']]).toDF("text"))
 
@@ -73,20 +73,20 @@ abbr_result = model.transform(spark.createDataFrame([[text]]).toDF('text'))
 ```scala
 ...
 val c2doc = Chunk2Doc()
-      .setInputCols("merged_chunk")
-      .setOutputCol("ner_chunk_doc") 
+.setInputCols("merged_chunk")
+.setOutputCol("ner_chunk_doc") 
 
 val sentence_chunk_embeddings = BertSentenceChunkEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
-    .setInputCols(Array("document", "merged_chunk"))
-    .setOutputCol("sentence_embeddings")
-    .setChunkWeight(0.5)
+.setInputCols(Array("document", "merged_chunk"))
+.setOutputCol("sentence_embeddings")
+.setChunkWeight(0.5)
 
 val abbr_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_clinical_abbreviation_acronym", "en", "clinical/models") 
-      .setInputCols(Array("merged_chunk", "sentence_embeddings")) 
-      .setOutputCol("abbr_meaning")
-      .setDistanceFunction("EUCLIDEAN")
-      .setCaseSensitive(False)
-    
+.setInputCols(Array("merged_chunk", "sentence_embeddings")) 
+.setOutputCol("abbr_meaning")
+.setDistanceFunction("EUCLIDEAN")
+.setCaseSensitive(False)
+
 val resolver_pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, word_embeddings, clinical_ner, ner_converter_icd, entity_extractor, chunk_merge, c2doc, sentence_chunk_embeddings, abbr_resolver))
 
 val sample_text = Seq("HISTORY OF PRESENT ILLNESS: The patient three weeks ago was seen at another clinic for upper respiratory infection-type symptoms. She was diagnosed with a viral infection and had used OTC medications including Tylenol, Sudafed, and Nyquil.").toDF("text")

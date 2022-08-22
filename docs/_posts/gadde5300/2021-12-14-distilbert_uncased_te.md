@@ -11,7 +11,7 @@ edition: Spark NLP 3.1.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,21 +36,21 @@ This is a DistilBERT language model pre-trained on ~2 GB of the monolingual trai
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler()\
-    .setInputCol('text')\
-    .setOutputCol('document')
+.setInputCol('text')\
+.setOutputCol('document')
 
 sentence_detector = SentenceDetector() \
-    .setInputCols(['document'])\
-    .setOutputCol('sentence')
+.setInputCols(['document'])\
+.setOutputCol('sentence')
 
 tokenizer = Tokenizer()\
-    .setInputCols(['sentence']) \
-    .setOutputCol('token')
+.setInputCols(['sentence']) \
+.setOutputCol('token')
 
 distilbert_loaded = DistilBertEmbeddings.pretrained("distilbert_uncased", "te"))\
-  .setInputCols(["sentence",'token'])\
-  .setOutputCol("embeddings")\
-  .setCaseSensitive(False)
+.setInputCols(["sentence",'token'])\
+.setOutputCol("embeddings")\
+.setCaseSensitive(False)
 
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, distilbert_loaded])
 
@@ -61,21 +61,21 @@ result = pipeline_model.transform(spark.createDataFrame([['ఆంగ్ల ప�
 ```
 ```scala
 val document_assembler = DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 val sentence_detector  = SentenceDetector()
-    .setInputCols("document")
-    .setOutputCol("sentence")
+.setInputCols("document")
+.setOutputCol("sentence")
 
 val tokenizer = Tokenizer()\
-    .setInputCols("sentence") \
-    .setOutputCol("token")
+.setInputCols("sentence") \
+.setOutputCol("token")
 
 val distilbert_loaded = DistilBertEmbeddings.pretrained("distilbert_uncased", "te"))\
-  .setInputCols("sentence","token")\
-  .setOutputCol("embeddings")\
-  .setCaseSensitive(False)
+.setInputCols("sentence","token")\
+.setOutputCol("embeddings")\
+.setCaseSensitive(False)
 
 val nlp_pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, distilbert_loaded))
 

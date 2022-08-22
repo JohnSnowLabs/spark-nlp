@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.0.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -47,61 +47,61 @@ Identify if tests were conducted on a particular date or any diagnosis was made 
 ```python
 ...
 documenter = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentencer = SentenceDetector()\
-    .setInputCols(["document"])\
-    .setOutputCol("sentences")
+.setInputCols(["document"])\
+.setOutputCol("sentences")
 
 tokenizer = sparknlp.annotators.Tokenizer()\
-    .setInputCols(["sentences"])\
-    .setOutputCol("tokens")
+.setInputCols(["sentences"])\
+.setOutputCol("tokens")
 
 words_embedder = WordEmbeddingsModel()\
-    .pretrained("embeddings_clinical", "en", "clinical/models")\
-    .setInputCols(["sentences", "tokens"])\
-    .setOutputCol("embeddings")
+.pretrained("embeddings_clinical", "en", "clinical/models")\
+.setInputCols(["sentences", "tokens"])\
+.setOutputCol("embeddings")
 
 pos_tagger = PerceptronModel()\
-    .pretrained("pos_clinical", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens"])\
-    .setOutputCol("pos_tags")
+.pretrained("pos_clinical", "en", "clinical/models") \
+.setInputCols(["sentences", "tokens"])\
+.setOutputCol("pos_tags")
 
 events_ner_tagger = MedicalNerModel.pretrained("ner_events_clinical", "en", "clinical/models")\
-    .setInputCols("sentences", "tokens", "embeddings")\
-    .setOutputCol("ner_tags") 
+.setInputCols("sentences", "tokens", "embeddings")\
+.setOutputCol("ner_tags") 
 
 ner_chunker = NerConverterInternal()\
-    .setInputCols(["sentences", "tokens", "ner_tags"])\
-    .setOutputCol("ner_chunks")
+.setInputCols(["sentences", "tokens", "ner_tags"])\
+.setOutputCol("ner_chunks")
 
 dependency_parser = DependencyParserModel() \
-    .pretrained("dependency_conllu", "en") \
-    .setInputCols(["sentences", "pos_tags", "tokens"]) \
-    .setOutputCol("dependencies")
+.pretrained("dependency_conllu", "en") \
+.setInputCols(["sentences", "pos_tags", "tokens"]) \
+.setOutputCol("dependencies")
 
 events_re_ner_chunk_filter = RENerChunksFilter() \
-    .setInputCols(["ner_chunks", "dependencies"])\
-    .setOutputCol("re_ner_chunks")
+.setInputCols(["ner_chunks", "dependencies"])\
+.setOutputCol("re_ner_chunks")
 
 events_re_Model = RelationExtractionDLModel() \
-    .pretrained('redl_date_clinical_biobert', "en", "clinical/models")\
-    .setPredictionThreshold(0.5)\
-    .setInputCols(["re_ner_chunks", "sentences"]) \
-    .setOutputCol("relations")
+.pretrained('redl_date_clinical_biobert', "en", "clinical/models")\
+.setPredictionThreshold(0.5)\
+.setInputCols(["re_ner_chunks", "sentences"]) \
+.setOutputCol("relations")
 
 pipeline = Pipeline(stages=[
-    documenter,
-    sentencer,
-    tokenizer, 
-    words_embedder, 
-    pos_tagger, 
-    events_ner_tagger,
-    ner_chunker,
-    dependency_parser,
-    events_re_ner_chunk_filter,
-    events_re_Model])
+documenter,
+sentencer,
+tokenizer, 
+words_embedder, 
+pos_tagger, 
+events_ner_tagger,
+ner_chunker,
+dependency_parser,
+events_re_ner_chunk_filter,
+events_re_Model])
 
 text ="This 73 y/o patient had CT on 1/12/95, with progressive memory and cognitive decline since 8/11/94."
 
@@ -114,48 +114,48 @@ result = p_model.transform(data)
 ```scala
 ...
 val documenter = new DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 val sentencer = new SentenceDetector()
-    .setInputCols("document")
-    .setOutputCol("sentences")
+.setInputCols("document")
+.setOutputCol("sentences")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentences")
-    .setOutputCol("tokens")
-    
+.setInputCols("sentences")
+.setOutputCol("tokens")
+
 val words_embedder = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-    .setInputCols(Array("sentence", "token"))
-    .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 val pos_tagger = PerceptronModel()
-    .pretrained("pos_clinical", "en", "clinical/models") 
-    .setInputCols(Array("sentences", "tokens"))
-    .setOutputCol("pos_tags")
+.pretrained("pos_clinical", "en", "clinical/models") 
+.setInputCols(Array("sentences", "tokens"))
+.setOutputCol("pos_tags")
 
 val events_ner_tagger = MedicalNerModel.pretrained("ner_events_clinical", "en", "clinical/models")
-    .setInputCols(Array("sentences", "tokens", "embeddings"))
-    .setOutputCol("ner_tags")  
+.setInputCols(Array("sentences", "tokens", "embeddings"))
+.setOutputCol("ner_tags")  
 
 val ner_chunker = new NerConverterInternal()
-    .setInputCols(Array("sentences", "tokens", "ner_tags"))
-    .setOutputCol("ner_chunks")
+.setInputCols(Array("sentences", "tokens", "ner_tags"))
+.setOutputCol("ner_chunks")
 
 val dependency_parser = DependencyParserModel()
-    .pretrained("dependency_conllu", "en")
-    .setInputCols(Array("sentences", "pos_tags", "tokens"))
-    .setOutputCol("dependencies")
+.pretrained("dependency_conllu", "en")
+.setInputCols(Array("sentences", "pos_tags", "tokens"))
+.setOutputCol("dependencies")
 
 val events_re_ner_chunk_filter = RENerChunksFilter() 
-    .setInputCols(Array("ner_chunks", "dependencies"))
-    .setOutputCol("re_ner_chunks")
-    
+.setInputCols(Array("ner_chunks", "dependencies"))
+.setOutputCol("re_ner_chunks")
+
 val events_re_Model = RelationExtractionDLModel() 
-    .pretrained('redl_date_clinical_biobert', "en", "clinical/models")
-    .setPredictionThreshold(0.5)
-    .setInputCols(Array("re_ner_chunks", "sentences")) 
-    .setOutputCol("relations")
+.pretrained('redl_date_clinical_biobert', "en", "clinical/models")
+.setPredictionThreshold(0.5)
+.setInputCols(Array("re_ner_chunks", "sentences")) 
+.setOutputCol("relations")
 
 val pipeline = new Pipeline().setStages(Array(documenter,sentencer,tokenizer,words_embedder,pos_tagger,events_ner_tagger,ner_chunker,dependency_parser,events_re_ner_chunk_filter,events_re_Model))
 

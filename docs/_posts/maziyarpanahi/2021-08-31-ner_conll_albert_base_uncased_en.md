@@ -11,7 +11,7 @@ edition: Spark NLP 3.2.2
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,32 +36,32 @@ use_language_switcher: "Python-Scala-Java"
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol('text') \
-    .setOutputCol('document')
+.setInputCol('text') \
+.setOutputCol('document')
 
 tokenizer = Tokenizer() \
-    .setInputCols(['document']) \
-    .setOutputCol('token')
+.setInputCols(['document']) \
+.setOutputCol('token')
 
 embeddings = AlbertEmbeddings\
-      .pretrained('albert_base_uncased', 'en')\
-      .setInputCols(["token", "document"])\
-      .setOutputCol("embeddings")
+.pretrained('albert_base_uncased', 'en')\
+.setInputCols(["token", "document"])\
+.setOutputCol("embeddings")
 
 ner_model = NerDLModel.pretrained('ner_conll_albert_base_uncased', 'en') \
-    .setInputCols(['document', 'token', 'embeddings']) \
-    .setOutputCol('ner')
+.setInputCols(['document', 'token', 'embeddings']) \
+.setOutputCol('ner')
 
 ner_converter = NerConverter() \
-    .setInputCols(['document', 'token', 'ner']) \
-    .setOutputCol('entities')
+.setInputCols(['document', 'token', 'ner']) \
+.setOutputCol('entities')
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
-    tokenizer,
-    embeddings,
-    ner_model,
-    ner_converter
+document_assembler, 
+tokenizer,
+embeddings,
+ner_model,
+ner_converter
 ])
 
 example = spark.createDataFrame([['My name is John!']]).toDF("text")
@@ -69,24 +69,24 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document_assembler = DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 val tokenizer = Tokenizer() 
-    .setInputCols("document") 
-    .setOutputCol("token")
+.setInputCols("document") 
+.setOutputCol("token")
 
 val embeddings = AlbertEmbeddings.pretrained("albert_base_uncased", "en")
-    .setInputCols("document", "token") 
-    .setOutputCol("embeddings")
+.setInputCols("document", "token") 
+.setOutputCol("embeddings")
 
 val ner_model = NerDLModel.pretrained("ner_conll_albert_base_uncased", "en") 
-    .setInputCols("document"', "token", "embeddings") 
-    .setOutputCol("ner")
+.setInputCols("document"', "token", "embeddings") 
+.setOutputCol("ner")
 
 val ner_converter = NerConverter() 
-    .setInputCols("document", "token", "ner") 
-    .setOutputCol("entities")
+.setInputCols("document", "token", "ner") 
+.setOutputCol("entities")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, ner_model, ner_converter))
 
@@ -128,54 +128,54 @@ ner_df = nlu.load('en.ner.ner_conll_albert_base_uncased').predict(text, output_l
 ```bash
 Test:
 
-           precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-       B-LOC       0.92      0.90      0.91      1668
-       I-ORG       0.81      0.87      0.84       835
-      I-MISC       0.61      0.62      0.62       216
-       I-LOC       0.82      0.77      0.79       257
-       I-PER       0.97      0.99      0.98      1156
-      B-MISC       0.80      0.77      0.79       702
-       B-ORG       0.86      0.86      0.86      1661
-       B-PER       0.94      0.96      0.95      1617
+B-LOC       0.92      0.90      0.91      1668
+I-ORG       0.81      0.87      0.84       835
+I-MISC       0.61      0.62      0.62       216
+I-LOC       0.82      0.77      0.79       257
+I-PER       0.97      0.99      0.98      1156
+B-MISC       0.80      0.77      0.79       702
+B-ORG       0.86      0.86      0.86      1661
+B-PER       0.94      0.96      0.95      1617
 
-   micro avg       0.89      0.89      0.89      8112
-   macro avg       0.84      0.84      0.84      8112
+micro avg       0.89      0.89      0.89      8112
+macro avg       0.84      0.84      0.84      8112
 weighted avg       0.89      0.89      0.89      8112
 
 
 processed 46435 tokens with 5648 phrases; found: 5631 phrases; correct: 4955.
 accuracy:  89.23%; (non-O)
 accuracy:  97.33%; precision:  88.00%; recall:  87.73%; FB1:  87.86
-              LOC: precision:  91.30%; recall:  89.39%; FB1:  90.34  1633
-             MISC: precision:  76.66%; recall:  73.93%; FB1:  75.27  677
-              ORG: precision:  84.09%; recall:  83.99%; FB1:  84.04  1659
-              PER: precision:  93.26%; recall:  95.86%; FB1:  94.54  1662
+LOC: precision:  91.30%; recall:  89.39%; FB1:  90.34  1633
+MISC: precision:  76.66%; recall:  73.93%; FB1:  75.27  677
+ORG: precision:  84.09%; recall:  83.99%; FB1:  84.04  1659
+PER: precision:  93.26%; recall:  95.86%; FB1:  94.54  1662
 
 Dev:
 
 
-              precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-       B-LOC       0.96      0.96      0.96      1837
-       I-ORG       0.89      0.86      0.87       751
-      I-MISC       0.89      0.71      0.79       346
-       I-LOC       0.92      0.88      0.90       257
-       I-PER       0.97      0.98      0.98      1307
-      B-MISC       0.90      0.87      0.88       922
-       B-ORG       0.92      0.90      0.91      1341
-       B-PER       0.96      0.98      0.97      1842
+B-LOC       0.96      0.96      0.96      1837
+I-ORG       0.89      0.86      0.87       751
+I-MISC       0.89      0.71      0.79       346
+I-LOC       0.92      0.88      0.90       257
+I-PER       0.97      0.98      0.98      1307
+B-MISC       0.90      0.87      0.88       922
+B-ORG       0.92      0.90      0.91      1341
+B-PER       0.96      0.98      0.97      1842
 
-   micro avg       0.94      0.93      0.93      8603
-   macro avg       0.93      0.89      0.91      8603
+micro avg       0.94      0.93      0.93      8603
+macro avg       0.93      0.89      0.91      8603
 weighted avg       0.94      0.93      0.93      8603
 
 
 processed 51362 tokens with 5942 phrases; found: 5927 phrases; correct: 5493.
 accuracy:  92.62%; (non-O)
 accuracy:  98.40%; precision:  92.68%; recall:  92.44%; FB1:  92.56
-              LOC: precision:  95.00%; recall:  95.21%; FB1:  95.11  1841
-             MISC: precision:  87.77%; recall:  84.06%; FB1:  85.87  883
-              ORG: precision:  88.96%; recall:  87.10%; FB1:  88.02  1313
-              PER: precision:  95.29%; recall:  97.77%; FB1:  96.52  1890
+LOC: precision:  95.00%; recall:  95.21%; FB1:  95.11  1841
+MISC: precision:  87.77%; recall:  84.06%; FB1:  85.87  883
+ORG: precision:  88.96%; recall:  87.10%; FB1:  88.02  1313
+PER: precision:  95.29%; recall:  97.77%; FB1:  96.52  1890
 ```

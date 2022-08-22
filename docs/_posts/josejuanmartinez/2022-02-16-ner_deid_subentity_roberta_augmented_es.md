@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -54,36 +54,36 @@ This is a version that includes Roberta Clinical embeddings. You can find as wel
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-        .setInputCol("text")\
-        .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
-        .setInputCols(["document"])\
-        .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 
 tokenizer = Tokenizer()\
-        .setInputCols(["sentence"])\
-        .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 
 roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
-    .setInputCols(["sentence", "token"])\
-    .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 
 
 clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_roberta_augmented", "es", "clinical/models")\
-        .setInputCols(["sentence","token","embeddings"])\
-        .setOutputCol("ner")
+.setInputCols(["sentence","token","embeddings"])\
+.setOutputCol("ner")
 
 
 nlpPipeline = Pipeline(stages=[
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        roberta_embeddings,
-        clinical_ner])
+documentAssembler,
+sentenceDetector,
+tokenizer,
+roberta_embeddings,
+clinical_ner])
 
 
 text = ['''
@@ -98,28 +98,28 @@ results = nlpPipeline.fit(df).transform(df)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","xx")
-        .setInputCols(Array("document"))
-        .setOutputCol("sentence")
+.setInputCols(Array("document"))
+.setOutputCol("sentence")
 
 
 val tokenizer = new Tokenizer()
-        .setInputCols(Array("sentence"))
-        .setOutputCol("token")
+.setInputCols(Array("sentence"))
+.setOutputCol("token")
 
 
 val roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
-    .setInputCols(Array("sentence", "token"))
-    .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 
 val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_roberta_augmented", "es", "clinical/models")
-        .setInputCols(Array("sentence","token","embeddings"))
-        .setOutputCol("ner")
+.setInputCols(Array("sentence","token","embeddings"))
+.setOutputCol("ner")
 
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, roberta_embeddings, clinical_ner))
@@ -241,24 +241,24 @@ Antonio Miguel Martínez, varón de de 35 años de edad, de profesión auxiliar 
 
 
 ```bash
-        label      tp     fp     fn   total  precision  recall      f1
-      PATIENT  1874.0  165.0  186.0  2060.0     0.9191  0.9097  0.9144
-     HOSPITAL   241.0   19.0   54.0   295.0     0.9269  0.8169  0.8685
-         DATE   954.0   17.0   15.0   969.0     0.9825  0.9845  0.9835
- ORGANIZATION  2521.0  483.0  468.0  2989.0     0.8392  0.8434  0.8413
-         CITY  1464.0  369.0  289.0  1753.0     0.7987  0.8351  0.8165
-           ID    35.0    1.0    0.0    35.0     0.9722     1.0  0.9859
-       STREET   194.0    8.0    6.0   200.0     0.9604    0.97  0.9652
-     USERNAME     7.0    0.0    4.0    11.0        1.0  0.6364  0.7778
-          SEX   618.0    9.0    9.0   627.0     0.9856  0.9856  0.9856
-        EMAIL   134.0    0.0    0.0   134.0        1.0     1.0     1.0
-          ZIP   138.0    0.0    1.0   139.0        1.0  0.9928  0.9964
+label      tp     fp     fn   total  precision  recall      f1
+PATIENT  1874.0  165.0  186.0  2060.0     0.9191  0.9097  0.9144
+HOSPITAL   241.0   19.0   54.0   295.0     0.9269  0.8169  0.8685
+DATE   954.0   17.0   15.0   969.0     0.9825  0.9845  0.9835
+ORGANIZATION  2521.0  483.0  468.0  2989.0     0.8392  0.8434  0.8413
+CITY  1464.0  369.0  289.0  1753.0     0.7987  0.8351  0.8165
+ID    35.0    1.0    0.0    35.0     0.9722     1.0  0.9859
+STREET   194.0    8.0    6.0   200.0     0.9604    0.97  0.9652
+USERNAME     7.0    0.0    4.0    11.0        1.0  0.6364  0.7778
+SEX   618.0    9.0    9.0   627.0     0.9856  0.9856  0.9856
+EMAIL   134.0    0.0    0.0   134.0        1.0     1.0     1.0
+ZIP   138.0    0.0    1.0   139.0        1.0  0.9928  0.9964
 MEDICALRECORD    29.0   10.0    0.0    29.0     0.7436     1.0  0.8529
-   PROFESSION   231.0   20.0   30.0   261.0     0.9203  0.8851  0.9023
-        PHONE    44.0    0.0    6.0    50.0        1.0    0.88  0.9362
-      COUNTRY   458.0   96.0  103.0   561.0     0.8267  0.8164  0.8215
-       DOCTOR   432.0   38.0   48.0   480.0     0.9191     0.9  0.9095
-          AGE   509.0    9.0   10.0   519.0     0.9826  0.9807  0.9817
-        macro       -      -      -       -          -       -  0.9141
-        micro       -      -      -       -          -       -  0.8891
+PROFESSION   231.0   20.0   30.0   261.0     0.9203  0.8851  0.9023
+PHONE    44.0    0.0    6.0    50.0        1.0    0.88  0.9362
+COUNTRY   458.0   96.0  103.0   561.0     0.8267  0.8164  0.8215
+DOCTOR   432.0   38.0   48.0   480.0     0.9191     0.9  0.9095
+AGE   509.0    9.0   10.0   519.0     0.9826  0.9807  0.9817
+macro       -      -      -       -          -       -  0.9141
+micro       -      -      -       -          -       -  0.8891
 ```

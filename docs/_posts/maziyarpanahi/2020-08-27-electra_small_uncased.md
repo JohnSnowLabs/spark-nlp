@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [open_source, embeddings, en]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -33,8 +33,8 @@ Kevin Clark and Minh-Thang Luong and Quoc V. Le and Christopher D. Manning: [ELE
 ```python
 ...
 embeddings = BertEmbeddings.pretrained("electra_small_uncased", "en") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 result = pipeline_model.transform(spark.createDataFrame([['I love NLP']], ["text"]))
@@ -43,8 +43,8 @@ result = pipeline_model.transform(spark.createDataFrame([['I love NLP']], ["text
 ```scala
 ...
 val embeddings = BertEmbeddings.pretrained("electra_small_uncased", "en")
-      .setInputCols("sentence", "token")
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token")
+.setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
 val data = Seq("I love NLP").toDF("text")
 val result = pipeline.fit(data).transform(data)
@@ -67,8 +67,8 @@ embeddings_df
 	en_embed_electra_small_uncased_embeddings	            token
 		
 	[0.7677724361419678, -0.621893048286438, -0.93... 	I
-      [1.1656712293624878, -0.04712940752506256, 0.1... 	love
-      [1.0845087766647339, -0.00533430278301239, -0.... 	NLP
+[1.1656712293624878, -0.04712940752506256, 0.1... 	love
+[1.0845087766647339, -0.00533430278301239, -0.... 	NLP
 ```
 
 {:.model-param}

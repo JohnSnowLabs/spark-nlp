@@ -11,7 +11,7 @@ edition: Spark NLP 3.4.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,13 +40,13 @@ from sparknlp.base import *
 from sparknlp.annotator import *
 spark = sparknlp.start()
 documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("documents")
+.setInputCol("text") \
+.setOutputCol("documents")
 t5 = T5Transformer.pretrained("t5_small_wikiSQL") \
-    .setTask("translate English to SQL:") \
-    .setInputCols(["documents"]) \
-    .setMaxOutputLength(200) \
-    .setOutputCol("sql")
+.setTask("translate English to SQL:") \
+.setInputCols(["documents"]) \
+.setMaxOutputLength(200) \
+.setOutputCol("sql")
 pipeline = Pipeline().setStages([documentAssembler, t5])
 data = spark.createDataFrame([["How many customers have ordered more than 2 items?"]]).toDF("text")
 result = pipeline.fit(data).transform(data)
@@ -58,15 +58,15 @@ import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer
 import org.apache.spark.ml.Pipeline
 val documentAssembler = new DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("documents")
+.setInputCol("text")
+.setOutputCol("documents")
 val t5 = T5Transformer.pretrained("t5_small_wikiSQL")
-  .setInputCols("documents")
-  .setMaxOutputLength(200)
-  .setOutputCol("sql")
+.setInputCols("documents")
+.setMaxOutputLength(200)
+.setOutputCol("sql")
 val pipeline = new Pipeline().setStages(Array(documentAssembler, t5))
 val data = Seq("How many customers have ordered more than 2 items?")
-  .toDF("text")
+.toDF("text")
 val result = pipeline.fit(data).transform(data)
 result.select("sql.result").show(false)
 ```

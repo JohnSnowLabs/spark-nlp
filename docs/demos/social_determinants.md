@@ -59,7 +59,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/CLASSIFICATION_GENDER/
           - text: Colab Netbook
             type: blue_btn 
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/21.Gender_Classifier.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLASSIFICATION_GENDER.ipynb
         - title: Detect risk factors
           id: detect_risk_factors
           image: 

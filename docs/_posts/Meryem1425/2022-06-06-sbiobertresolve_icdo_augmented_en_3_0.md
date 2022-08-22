@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,57 +36,57 @@ This model maps extracted clinical entities to ICD-O codes using `sbiobert_base_
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")\
-    .setInputCols(["document"])\
-    .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-    .setInputCols(["sentence"])\
-    .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-    .setInputCols(["sentence", "token"])\
-    .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 
 ner = MedicalNerModel.pretrained("ner_jsl", "en", "clinical/models")\
-    .setInputCols(["sentence", "token", "embeddings"])\
-    .setOutputCol("ner")\
+.setInputCols(["sentence", "token", "embeddings"])\
+.setOutputCol("ner")\
 
 ner_converter = NerConverterInternal()\
-    .setInputCols(["sentence", "token", "ner"])\
-    .setOutputCol("ner_chunk")\
-    .setWhiteList(["Oncological"])
+.setInputCols(["sentence", "token", "ner"])\
+.setOutputCol("ner_chunk")\
+.setWhiteList(["Oncological"])
 
 c2doc = Chunk2Doc()\
-    .setInputCols("ner_chunk")\
-    .setOutputCol("ner_chunk_doc") 
+.setInputCols("ner_chunk")\
+.setOutputCol("ner_chunk_doc") 
 
 sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
-    .setInputCols(["ner_chunk_doc"])\
-    .setOutputCol("sentence_embeddings")\
+.setInputCols(["ner_chunk_doc"])\
+.setOutputCol("sentence_embeddings")\
 
-    
+
 resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icdo_augmented", "en", "clinical/models") \
-    .setInputCols(["ner_chunk", "sentence_embeddings"]) \
-    .setOutputCol("resolution")\
-    .setDistanceFunction("EUCLIDEAN")\
+.setInputCols(["ner_chunk", "sentence_embeddings"]) \
+.setOutputCol("resolution")\
+.setDistanceFunction("EUCLIDEAN")\
 
-    
+
 resolver_pipeline = Pipeline(
-    stages = [
-        document_assembler,
-        sentenceDetectorDL,
-        tokenizer,
-        word_embeddings,
-        ner,
-        ner_converter,
-        c2doc,
-        sbert_embedder,
-        resolver
-  ])
+stages = [
+document_assembler,
+sentenceDetectorDL,
+tokenizer,
+word_embeddings,
+ner,
+ner_converter,
+c2doc,
+sbert_embedder,
+resolver
+])
 
 model = resolver_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -96,53 +96,53 @@ result = model.transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")
-      .setInputCols("document")
-      .setOutputCol("sentence")
+.setInputCols("document")
+.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-      .setInputCols("sentence")
-      .setOutputCol("token")
+.setInputCols("sentence")
+.setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-      .setInputCols(Array("sentence", "token"))
-      .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 val ner = MedicalNerModel.pretrained("ner_jsl", "en", "clinical/models")
-      .setInputCols(Array("sentence", "token", "embeddings"))
-      .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings"))
+.setOutputCol("ner")
 
 val ner_converter = new NerConverterInternal()
-      .setInputCols(Array("sentence", "token", "ner"))
-      .setOutputCol("ner_chunk")
-      .setWhiteList(Array("Oncological"))
+.setInputCols(Array("sentence", "token", "ner"))
+.setOutputCol("ner_chunk")
+.setWhiteList(Array("Oncological"))
 
 val c2doc = new Chunk2Doc()
-      .setInputCols("ner_chunk")
-      .setOutputCol("ner_chunk_doc") 
+.setInputCols("ner_chunk")
+.setOutputCol("ner_chunk_doc") 
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
-      .setInputCols("ner_chunk_doc")
-      .setOutputCol("sentence_embeddings")
+.setInputCols("ner_chunk_doc")
+.setOutputCol("sentence_embeddings")
 
-    
+
 val resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icdo_augmented", "en", "clinical/models")
-      .setInputCols(Array("ner_chunk", "sentence_embeddings"))
-      .setOutputCol("resolution")
-      .setDistanceFunction("EUCLIDEAN")
+.setInputCols(Array("ner_chunk", "sentence_embeddings"))
+.setOutputCol("resolution")
+.setDistanceFunction("EUCLIDEAN")
 
 val resolver_pipeline = new PipelineModel().setStages(Array(document_assembler, 
-                                                            sentenceDetectorDL, 
-                                                            tokenizer, 
-                                                            word_embeddings, 
-                                                            ner, 
-                                                            ner_converter,  
-                                                            c2doc, 
-                                                            sbert_embedder, 
-                                                            resolver))
+sentenceDetectorDL, 
+tokenizer, 
+word_embeddings, 
+ner, 
+ner_converter,  
+c2doc, 
+sbert_embedder, 
+resolver))
 
 val data = Seq("""TRAF6 is a putative oncogene in a variety of cancers including  urothelial cancer , and malignant melanoma. WWP2 appears to regulate the expression of the well characterized tumor and tensin homolog (PTEN) in endometroid adenocarcinoma and squamous cell carcinoma.""").toDS.toDF("text")
 

@@ -11,7 +11,7 @@ edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -38,17 +38,17 @@ If you are interested in Financial Embeddings, take a look also at these two mod
 ```python
 
 documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 tokenizer = Tokenizer() \
-    .setInputCols("document") \
-    .setOutputCol("token")
-  
+.setInputCols("document") \
+.setOutputCol("token")
+
 embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_sh","en") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("embeddings")
-    
+.setInputCols(["document", "token"]) \
+.setOutputCol("embeddings")
+
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
 
 data = spark.createDataFrame([["I love Spark NLP"]]).toDF("text")
@@ -57,16 +57,16 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
- 
+.setInputCol("text") 
+.setOutputCol("document")
+
 val tokenizer = new Tokenizer() 
-    .setInputCols(Array("document"))
-    .setOutputCol("token")
+.setInputCols(Array("document"))
+.setOutputCol("token")
 
 val embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_sh","en") 
-    .setInputCols(Array("document", "token")) 
-    .setOutputCol("embeddings")
+.setInputCols(Array("document", "token")) 
+.setOutputCol("embeddings")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
 

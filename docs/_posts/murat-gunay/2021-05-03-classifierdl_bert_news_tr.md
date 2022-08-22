@@ -11,7 +11,7 @@ edition: Spark NLP 3.0.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,17 +36,17 @@ Classify Turkish news texts
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 embeddings = BertSentenceEmbeddings\
-    .pretrained('labse', 'xx') \
-    .setInputCols(["document"])\
-    .setOutputCol("sentence_embeddings")
+.pretrained('labse', 'xx') \
+.setInputCols(["document"])\
+.setOutputCol("sentence_embeddings")
 
 document_classifier = ClassifierDLModel.pretrained("classifierdl_bert_news", "tr") \
-  .setInputCols(["document", "sentence_embeddings"]) \
-  .setOutputCol("class")
+.setInputCols(["document", "sentence_embeddings"]) \
+.setOutputCol("class")
 
 nlpPipeline = Pipeline(stages=[document, embeddings, document_classifier])
 light_pipeline = LightPipeline(nlpPipeline.fit(spark.createDataFrame([['']]).toDF("text")))
@@ -54,17 +54,17 @@ result = light_pipeline.annotate('Bonservisi elinde olan Milli oyuncu, yeni takÄ
 ```
 ```scala
 val document = DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val embeddings = BertSentenceEmbeddings
-    .pretrained("labse", "xx") 
-    .setInputCols("document")
-    .setOutputCol("sentence_embeddings")
+.pretrained("labse", "xx") 
+.setInputCols("document")
+.setOutputCol("sentence_embeddings")
 
 val document_classifier = ClassifierDLModel.pretrained("classifierdl_bert_news", "tr") 
-  .setInputCols(Array("document", "sentence_embeddings")) 
-  .setOutputCol("class")
+.setInputCols(Array("document", "sentence_embeddings")) 
+.setOutputCol("class")
 
 val nlpPipeline = new Pipeline().setStages(Array(document, embeddings, document_classifier))
 val light_pipeline = LightPipeline(nlpPipeline.fit(spark.createDataFrame([['']]).toDF("text")))
@@ -107,16 +107,16 @@ Trained on a custom dataset with multi-lingual Bert Embeddings `labse`.
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-     ekonomi       0.88      0.86      0.87       263
-      kultur       0.93      0.96      0.94       277
-      saglik       0.95      0.96      0.95       273
-     siyaset       0.89      0.91      0.90       257
-        spor       0.97      0.97      0.97       279
-   teknoloji       0.94      0.88      0.91       250
+ekonomi       0.88      0.86      0.87       263
+kultur       0.93      0.96      0.94       277
+saglik       0.95      0.96      0.95       273
+siyaset       0.89      0.91      0.90       257
+spor       0.97      0.97      0.97       279
+teknoloji       0.94      0.88      0.91       250
 
-    accuracy                           0.93      1599
-   macro avg       0.93      0.92      0.93      1599
+accuracy                           0.93      1599
+macro avg       0.93      0.92      0.93      1599
 weighted avg       0.93      0.93      0.93      1599
 ```

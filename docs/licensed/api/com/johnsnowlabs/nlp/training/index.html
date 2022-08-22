@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.0.0 ScalaDoc  - com.johnsnowlabs.nlp.training</title>
-          <meta name="description" content="Spark NLP 4.0.0 ScalaDoc - com.johnsnowlabs.nlp.training" />
-          <meta name="keywords" content="Spark NLP 4.0.0 ScalaDoc com.johnsnowlabs.nlp.training" />
+          <title>Spark NLP 4.0.2 ScalaDoc  - com.johnsnowlabs.nlp.training</title>
+          <meta name="description" content="Spark NLP 4.0.2 ScalaDoc - com.johnsnowlabs.nlp.training" />
+          <meta name="keywords" content="Spark NLP 4.0.2 ScalaDoc com.johnsnowlabs.nlp.training" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.0.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.0.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -235,6 +235,10 @@
                         <a href="AnnotationValueLabel.html" title="">AnnotationValueLabel</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
+                        <a class="object" href="AugmentationModes$.html" title="Possible AugmentationModes"></a>
+                        <a href="AugmentationModes$.html" title="Possible AugmentationModes">AugmentationModes</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
                         <a class="class" href="CantemistReader.html" title=""></a>
                         <a href="CantemistReader.html" title="">CantemistReader</a>
                       </li><li class="current-entities indented4">
@@ -257,6 +261,10 @@
                         <span class="separator"></span>
                         <a class="class" href="RelAnnotationDefinition.html" title=""></a>
                         <a href="RelAnnotationDefinition.html" title="">RelAnnotationDefinition</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="SynonymAugmentationUMLS.html" title="Contains all methods to augment any given DataFrame in terms of a Combinatorial NER Synonym Matching using UMLS."></a>
+                        <a href="SynonymAugmentationUMLS.html" title="Contains all methods to augment any given DataFrame in terms of a Combinatorial NER Synonym Matching using UMLS.">SynonymAugmentationUMLS</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="class" href="TaskDataDefinition.html" title=""></a>
@@ -500,6 +508,53 @@
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.training.SynonymAugmentationUMLS" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="SynonymAugmentationUMLSextendsProductwithSerializable"></a><a id="SynonymAugmentationUMLS:SynonymAugmentationUMLS"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/training/SynonymAugmentationUMLS.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a title="Contains all methods to augment any given DataFrame in terms of a Combinatorial NER Synonym Matching using UMLS." href="SynonymAugmentationUMLS.html"><span class="name">SynonymAugmentationUMLS</span></a><span class="params">(<span name="sparkSession">sparkSession: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="umlsMetaPath">umlsMetaPath: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="codeCol">codeCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;code&quot;</span></span>, <span name="descriptionCol">descriptionCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;description&quot;</span></span>, <span name="nerCol">nerCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;ner&quot;</span></span>, <span name="chunkCol">chunkCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;ner_chunk&quot;</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Contains all methods to augment any given DataFrame in terms of a Combinatorial NER Synonym Matching using UMLS.</p><div class="fullcomment"><div class="comment cmt"><p>Contains all methods to augment any given DataFrame in terms of a Combinatorial NER Synonym Matching using UMLS.
+The augment function takes a DataFrame and NER PipelineModel and augments it by exactly matching Named Entities through UMLS Synonym Relation.
+UMLS META directory is expected to be in th FS.
+The DataFrame is expected to have two columns: an 'identification' (hopefully unique for user's sake) column and an 'information' column.
+In case the augment function is called with augmentationMode==&quot;annotation&quot;, the 'information' column should be the output of a chunk AnnotatorType .
+The names of the previous columns are inputs to the augment function.
+The names of the Pipeline's inputs / outputs can be set freely.</p><h4>Example</h4><h5>Augmenting a simple sentence</h5><p>Define or load an NER pipeline including a chunk AnnotatorType for your source data:</p><pre><span class="kw">val</span> doc = <span class="kw">new</span> DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"document"</span>)
+<span class="kw">val</span> tkn = <span class="kw">new</span> Tokenizer().setInputCols(<span class="lit">"document"</span>).setOutputCol(<span class="lit">"token"</span>)
+<span class="kw">val</span> embs = WordEmbeddingsModel.pretrained(<span class="lit">"embeddings_clinical"</span>, <span class="lit">"en"</span> , <span class="lit">"clinical/models"</span>)
+          .setInputCols(<span class="lit">"document"</span>,<span class="lit">"token"</span>).setOutputCol(<span class="lit">"embeddings"</span>)
+<span class="kw">val</span> ner = MedicalNerModel.pretrained(<span class="lit">"ner_clinical"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+          .setInputCols(<span class="lit">"document"</span>,<span class="lit">"token"</span>,<span class="lit">"embeddings"</span>).setOutputCol(<span class="lit">"ner"</span>)
+<span class="kw">val</span> conv = <span class="kw">new</span> NerConverterInternal().setInputCols(<span class="lit">"document"</span>,<span class="lit">"token"</span>,<span class="lit">"ner"</span>).setOutputCol(<span class="lit">"ner_chunk"</span>)
+<span class="kw">val</span> edf = ResourceHelper.spark.createDataFrame(<span class="std">Array</span>(Tuple1(<span class="lit">""</span>))).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> plModel = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(doc,tkn,embs,ner,conv)).fit(edf)</pre><p>Then we can create the augmenter objext and call the augment function like the following:</p><pre><span class="kw">case</span> <span class="kw">class</span> SynAugPars(input: <span class="std">String</span>, pipelineModel: PipelineModel, codeCol:<span class="std">String</span>, descriptionCol:<span class="std">String</span>,
+         language: <span class="std">String</span>, doProduct: <span class="std">Boolean</span>, augmentationMode: <span class="std">String</span>, regexes: java.util.<span class="std">List</span>[(<span class="std">String</span>, <span class="std">String</span>)],
+         output: <span class="std">String</span>)
+
+<span class="kw">val</span> icd10CmPars = SynAugPars(<span class="lit">"src/test/resources/synonym-augmentation/test.csv"</span>,
+    plModel,
+    <span class="lit">"id"</span>,<span class="lit">"text"</span>,<span class="lit">"ENG"</span>,<span class="kw">true</span>,AugmentationModes.PLAIN_TEXT,
+    util.Arrays.asList(
+      (<span class="lit">"(\\s+the\\s+|unspecified\\s*|other\\s*|\\s*affected|current\\s*|\\bthe\\s*|\\bits\\s*)"</span>, <span class="lit">""</span>),
+      (<span class="lit">"(\\s+in\\s+.{0,}|\\s+of\\s+.{0,}|\\s+type\\s+.{0,}|\\s+\\d+$)"</span>, <span class="lit">""</span>)
+    ),
+    <span class="lit">"src/test/resources/synonym-augmentation/augmented.parquet"</span>
+  )
+<span class="kw">val</span> augmenter = SynonymAugmentationUMLS(ResourceHelper.spark, <span class="lit">"src/test/resources/synonym-augmentation/mini_umls_meta"</span>)
+<span class="kw">val</span> syns = augmenter.augment(dta.input, dta.pipelineModel, dta.codeCol, dta.descriptionCol, dta.language,
+                             dta.doProduct, dta.augmentationMode, dta.regexes).cache()
+syns.orderBy(<span class="lit">"code"</span>).show(<span class="num">1000</span>, <span class="kw">false</span>)
+print(syns.count()) <span class="cmt">// Will most probably exceed the original number of unique rows dues to augmentation</span></pre></div></div>
     </li><li name="com.johnsnowlabs.nlp.training.TaskDataDefinition" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="TaskDataDefinitionextendsProductwithSerializable"></a><a id="TaskDataDefinition:TaskDataDefinition"></a>
       <span class="permalink">
@@ -572,7 +627,24 @@
         <div class="values members">
               <h3>Value Members</h3>
               <ol>
-                <li name="com.johnsnowlabs.nlp.training.CreatorPipeline" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+                <li name="com.johnsnowlabs.nlp.training.AugmentationModes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="AugmentationModes"></a><a id="AugmentationModes:AugmentationModes"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/training/AugmentationModes$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="Possible AugmentationModes" href="AugmentationModes$.html"><span class="name">AugmentationModes</span></a>
+      </span>
+      
+      <p class="shortcomment cmt">Possible AugmentationModes
+</p>
+    </li><li name="com.johnsnowlabs.nlp.training.CreatorPipeline" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="CreatorPipeline"></a><a id="CreatorPipeline:CreatorPipeline"></a>
       <span class="permalink">
       <a href="../../../../com/johnsnowlabs/nlp/training/CreatorPipeline$.html" title="Permalink">

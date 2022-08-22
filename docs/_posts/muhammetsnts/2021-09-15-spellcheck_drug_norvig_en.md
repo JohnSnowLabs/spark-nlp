@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.2.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,23 +36,23 @@ This model detects and corrects spelling errors of drugs in your input text base
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 tokenizer = Tokenizer()\
-    .setInputCols("document")\
-    .setOutputCol("token")
+.setInputCols("document")\
+.setOutputCol("token")
 
 spell = NorvigSweetingModel.pretrained("spellcheck_drug_norvig", "en", "clinical/models")\
-    .setInputCols("token")\
-    .setOutputCol("spell")\
+.setInputCols("token")\
+.setOutputCol("spell")\
 
 
 pipeline = Pipeline(
-    stages = [
-    documentAssembler,    
-    tokenizer,
-    spell])
+stages = [
+documentAssembler,    
+tokenizer,
+spell])
 
 model = pipeline.fit(spark.createDataFrame([['']]).toDF('text'))
 lp = LightPipeline(model)
@@ -61,16 +61,16 @@ result = lp.annotate("You have to take Neutrcare and colfosrinum and a bit of Fl
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 val tokenizer = new Tokenizer()\
-    .setInputCols("document")\
-    .setOutputCol("token")
+.setInputCols("document")\
+.setOutputCol("token")
 
 val spell = new NorvigSweetingModel.pretrained("spellcheck_drug_norvig", "en", "clinical/models")\
-    .setInputCols("token")\
-    .setOutputCol("spell")\
+.setInputCols("token")\
+.setOutputCol("spell")\
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler,tokenizer,spell))
 

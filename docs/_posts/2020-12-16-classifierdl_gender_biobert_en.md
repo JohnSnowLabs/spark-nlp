@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [classifier, en, clinical, licensed]
 supported: true
 article_header:
-    type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -41,15 +41,15 @@ To classify your text, you can use this model as part of an nlp pipeline with th
 ```python
 ...
 biobert_embeddings = BertEmbeddings().pretrained('biobert_pubmed_base_cased') \
-        .setInputCols(["document",'token'])\
-        .setOutputCol("bert_embeddings")
+.setInputCols(["document",'token'])\
+.setOutputCol("bert_embeddings")
 sentence_embeddings = SentenceEmbeddings() \
-     .setInputCols(["document", "bert_embeddings"]) \
-     .setOutputCol("sentence_bert_embeddings") \
-     .setPoolingStrategy("AVERAGE")
+.setInputCols(["document", "bert_embeddings"]) \
+.setOutputCol("sentence_bert_embeddings") \
+.setPoolingStrategy("AVERAGE")
 genderClassifier = ClassifierDLModel.pretrained('classifierdl_gender_biobert', 'en', 'clinical/models') \
-       .setInputCols(["document", "sentence_bert_embeddings"]) \
-       .setOutputCol("gender")
+.setInputCols(["document", "sentence_bert_embeddings"]) \
+.setOutputCol("gender")
 nlp_pipeline = Pipeline(stages=[document_assembler, tokenizer, biobert_embeddings, sentence_embeddings, gender_classifier])
 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
@@ -59,15 +59,15 @@ annotations = light_pipeline.fullAnnotate("""social history: shows that  does no
 ```scala
 ...
 val biobert_embeddings = BertEmbeddings().pretrained('biobert_pubmed_base_cased')
-        .setInputCols(Array("document","token"))
-        .setOutputCol("bert_embeddings")
+.setInputCols(Array("document","token"))
+.setOutputCol("bert_embeddings")
 val sentence_embeddings = SentenceEmbeddings()
-     .setInputCols(Array("document", "bert_embeddings"))
-     .setOutputCol("sentence_bert_embeddings")
-     .setPoolingStrategy("AVERAGE") 
+.setInputCols(Array("document", "bert_embeddings"))
+.setOutputCol("sentence_bert_embeddings")
+.setPoolingStrategy("AVERAGE") 
 val genderClassifier = ClassifierDLModel.pretrained("classifierdl_gender_biobert", "en", "clinical/models") \
-       .setInputCols(["document", "sentence_bert_embeddings"]) \
-       .setOutputCol("gender")
+.setInputCols(["document", "sentence_bert_embeddings"]) \
+.setOutputCol("gender")
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, biobert_embeddings, sentence_embeddings, gender_classifier))
 
 val data = Seq("social history: shows that  does not smoke cigarettes or drink alcohol, lives in a nursing home. family history: shows a family history of breast cancer.").toDF("text")
@@ -112,13 +112,13 @@ This model is trained on more than four thousands clinical documents (radiology 
 {:.h2_title}
 ## Benchmarking
 ```bash
-  precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-      Female     0.9224    0.8954    0.9087       239
-        Male     0.7895    0.8468    0.8171       124
-     Unknown     0.8077    0.7778    0.7925        54
+Female     0.9224    0.8954    0.9087       239
+Male     0.7895    0.8468    0.8171       124
+Unknown     0.8077    0.7778    0.7925        54
 
-    accuracy                         0.8657       417
-   macro avg     0.8399    0.8400    0.8394       417
+accuracy                         0.8657       417
+macro avg     0.8399    0.8400    0.8394       417
 weighted avg     0.8680    0.8657    0.8664       417
 ```

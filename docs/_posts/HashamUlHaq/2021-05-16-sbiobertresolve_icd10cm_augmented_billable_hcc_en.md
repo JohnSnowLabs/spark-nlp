@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.0.4
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -38,19 +38,19 @@ Outputs 7-digit billable ICD codes. In the result, look for `aux_label` paramete
 
 ```python
 document_assembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-     .setInputCols(["document"])\
-     .setOutputCol("sbert_embeddings")
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+.setInputCols(["document"])\
+.setOutputCol("sbert_embeddings")
 
 icd10_resolver = SentenceEntityResolverModel\
-     .pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
-     .setInputCols(["document", "sbert_embeddings"]) \
-     .setOutputCol("icd10cm_code")\
-     .setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
+.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
+.setInputCols(["document", "sbert_embeddings"]) \
+.setOutputCol("icd10cm_code")\
+.setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
 
 bert_pipeline_icd = Pipeline(stages = [document_assembler, sbert_embedder, icd10_resolver])
 
@@ -60,20 +60,20 @@ results = bert_pipeline_icd.fit(data).transform(data)
 ```
 ```scala
 val document_assembler = DocumentAssembler()
-     .setInputCol("text")
-     .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sbert_embedder = BertSentenceEmbeddings
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")
-     .setInputCols(Array("document"))
-     .setOutputCol("sbert_embeddings")
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")
+.setInputCols(Array("document"))
+.setOutputCol("sbert_embeddings")
 
 val icd10_resolver = SentenceEntityResolverModel
-     .pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models")
-     .setInputCols(Array("document", "sbert_embeddings"))
-     .setOutputCol("icd10cm_code")
-     .setDistanceFunction("EUCLIDEAN")
-     .setReturnCosineDistances(True)
+.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models")
+.setInputCols(Array("document", "sbert_embeddings"))
+.setOutputCol("icd10cm_code")
+.setDistanceFunction("EUCLIDEAN")
+.setReturnCosineDistances(True)
 
 val bert_pipeline_icd = new Pipeline().setStages(Array(document_assembler, sbert_embedder, icd10_resolver))
 

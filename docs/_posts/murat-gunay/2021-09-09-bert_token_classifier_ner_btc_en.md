@@ -11,7 +11,7 @@ edition: Spark NLP 3.2.2
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,13 +40,13 @@ use_language_switcher: "Python-Scala-Java"
 ...
 
 tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_btc", "en")\
-  .setInputCols("token", "document")\
-  .setOutputCol("ner")\
-  .setCaseSensitive(True)
+.setInputCols("token", "document")\
+.setOutputCol("ner")\
+.setCaseSensitive(True)
 
 ner_converter = NerConverter()\
-        .setInputCols(["document","token","ner"])\
-        .setOutputCol("ner_chunk")
+.setInputCols(["document","token","ner"])\
+.setOutputCol("ner_chunk")
 
 pipeline =  Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
 
@@ -58,13 +58,13 @@ result = model.transform(spark.createDataFrame(pd.DataFrame({'text': test_senten
 ...
 
 val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_btc", "en")
-  .setInputCols("token", "document")
-  .setOutputCol("ner")
-  .setCaseSensitive(True)
+.setInputCols("token", "document")
+.setOutputCol("ner")
+.setCaseSensitive(True)
 
 val ner_converter = NerConverter()
-        .setInputCols(Array("document","token","ner"))
-        .setOutputCol("ner_chunk")
+.setInputCols(Array("document","token","ner"))
+.setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
 
@@ -116,15 +116,15 @@ https://github.com/juand-r/entity-recognition-datasets/tree/master/data/BTC
 ## Benchmarking
 
 ```bash
-       label  precision    recall  f1-score   support
-       B-LOC       0.90      0.79      0.84       536
-       B-ORG       0.80      0.79      0.79       821
-       B-PER       0.95      0.62      0.75      1575
-       I-LOC       0.96      0.76      0.85       181
-       I-ORG       0.88      0.81      0.84       217
-       I-PER       0.99      0.91      0.95       315
-           O       0.97      0.99      0.98     26217
-    accuracy          -         -      0.96     29862
-   macro-avg       0.92      0.81      0.86     29862
+label  precision    recall  f1-score   support
+B-LOC       0.90      0.79      0.84       536
+B-ORG       0.80      0.79      0.79       821
+B-PER       0.95      0.62      0.75      1575
+I-LOC       0.96      0.76      0.85       181
+I-ORG       0.88      0.81      0.84       217
+I-PER       0.99      0.91      0.95       315
+O       0.97      0.99      0.98     26217
+accuracy          -         -      0.96     29862
+macro-avg       0.92      0.81      0.86     29862
 weighted-avg       0.96      0.96      0.96     29862
 ```

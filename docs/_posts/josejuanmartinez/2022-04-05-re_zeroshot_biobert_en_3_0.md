@@ -11,23 +11,17 @@ edition: Spark NLP for Healthcare 3.5.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
-
 ## Description
-
 
 Zero-shot Relation Extraction to extract relations between clinical entities with no training dataset, just pretrained BioBert embeddings (included in the model). This model requires Spark NLP for Healthcare 3.5.0. 
 
-
 Take a look at how it works in the "Open in Colab" section below.
 
-
 ## Predicted Entities
-
-
 
 
 
@@ -37,66 +31,52 @@ Take a look at how it works in the "Open in Colab" section below.
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.3.ZeroShot_Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_zeroshot_biobert_en_3.5.0_3.0_1649176740466.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
-
 ## How to use
-
-
-
 
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 {% raw %}
-```python
-data = spark.createDataFrame(
-    [["Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer."]]
-).toDF("text")
 
+```python
+data = spark.createDataFrame( [["Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer."]] ).toDF("text")
 
 documenter = DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
 
-
 tokenizer = Tokenizer() \
     .setInputCols(["document"]) \
     .setOutputCol("tokens")
 
-
 sentencer = SentenceDetector()\
     .setInputCols(["document"])\
     .setOutputCol("sentences")
-
 
 words_embedder = WordEmbeddingsModel() \
     .pretrained("embeddings_clinical", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens"]) \
     .setOutputCol("embeddings")
 
-
 pos_tagger = PerceptronModel() \
     .pretrained("pos_clinical", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens"]) \
     .setOutputCol("pos_tags")
-
 
 ner_tagger = MedicalNerModel() \
     .pretrained("ner_clinical", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens", "embeddings"]) \
     .setOutputCol("ner_tags")
 
-
 ner_converter = NerConverter() \
     .setInputCols(["sentences", "tokens", "ner_tags"]) \
     .setOutputCol("ner_chunks")
-
 
 dependency_parser = DependencyParserModel() \
     .pretrained("dependency_conllu", "en") \
     .setInputCols(["document", "pos_tags", "tokens"]) \
     .setOutputCol("dependencies")
-
 
 re_ner_chunk_filter = RENerChunksFilter() \
     .setRelationPairs(["problem-test","problem-treatment"]) \
@@ -105,34 +85,37 @@ re_ner_chunk_filter = RENerChunksFilter() \
     .setInputCols(["ner_chunks", "dependencies"]) \
     .setOutputCol("re_ner_chunks")
 
-
-re_model = ZeroShotRelationExtractionModel \
-    .pretrained("re_zeroshot_biobert", "en", "clinical/models") \
-    .setRelationalCategories({
-        "CURE": ["{{TREATMENT}} cures {{PROBLEM}}."],
-        "IMPROVE": ["{{TREATMENT}} improves {{PROBLEM}}.", "{{TREATMENT}} cures {{PROBLEM}}."],
-        "REVEAL": ["{{TEST}} reveals {{PROBLEM}}."]})\
-    .setMultiLabel(False)\
+re_model = ZeroShotRelationExtractionModel.pretrained("re_zeroshot_biobert", "en", "clinical/models")\
     .setInputCols(["re_ner_chunks", "sentences"]) \
-    .setOutputCol("relations")
+    .setOutputCol("relations")\
+    .setMultiLabel(True)
 
+re_model.setRelationalCategories({
+    "ADE": ["{DRUG} causes {PROBLEM}."],
+    "IMPROVE": ["{DRUG} improves {PROBLEM}.", "{DRUG} cures {PROBLEM}."],
+    "REVEAL": ["{TEST} reveals {PROBLEM}."]})
 
 pipeline = Pipeline() \
-    .setStages([documenter, tokenizer, sentencer, words_embedder, pos_tagger, ner_tagger, ner_converter,
-                dependency_parser, re_ner_chunk_filter, re_model])
-
+    .setStages([documenter, 
+                tokenizer, 
+                sentencer, 
+                words_embedder, 
+                pos_tagger, 
+                ner_tagger, 
+                ner_converter,
+                dependency_parser, 
+                re_ner_chunk_filter, 
+                re_model])
 
 model = pipeline.fit(data)
 results = model.transform(data)
 
-
 results\
-    .selectExpr("explode(relations) as relation")\
-    .show(truncate=False)
+.selectExpr("explode(relations) as relation")\
+.show(truncate=False)
 ```
 ```scala
 val data = spark.createDataFrame(Seq("Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer.")).toDF("text")
-
 
 val documenter = new DocumentAssembler()
     .setInputCol("text")
@@ -187,27 +170,29 @@ val re_ner_chunk_filter = new RENerChunksFilter()
 
 
 val re_model = ZeroShotRelationExtractionModel.pretrained("re_zeroshot_biobert", "en", "clinical/models")
-    .setRelationalCategories({
-          Map(
-          "CURE" -> Array("{{TREATMENT}} cures {{PROBLEM}}."),
-          "IMPROVE" -> Array("{{TREATMENT}} improves {{PROBLEM}}.", "{{TREATMENT}} cures {{PROBLEM}}."),
-          "REVEAL" -> Array("{{TEST}} reveals {{PROBLEM}}.")
-          ))
-    .setMultiLabel(false)
     .setInputCols(Array("re_ner_chunks", "sentences"))
     .setOutputCol("relations")
+    .setMultiLabel(false)
 
+re_model.setRelationalCategories({ Map(
+    "CURE" -> Array("{TREATMENT} cures {PROBLEM}."),
+    "IMPROVE" -> Array("{TREATMENT} improves {PROBLEM}.", "{TREATMENT} cures {PROBLEM}."),
+    "REVEAL" -> Array("{TEST} reveals {PROBLEM}.") ))
 
 val pipeline = new Pipeline()
-    .setStages(Array(documenter, tokenizer, sentencer, words_embedder, pos_tagger, ner_tagger, ner_converter,
-                dependency_parser, re_ner_chunk_filter, re_model))
-
+    .setStages(Array(documenter, 
+                    tokenizer, 
+                    sentencer, 
+                    words_embedder, 
+                    pos_tagger, 
+                    ner_tagger, 
+                    ner_converter,
+                    dependency_parser, 
+                    re_ner_chunk_filter, 
+                    re_model))
 
 val model = pipeline.fit(data)
 val results = model.transform(data)
-
-
-results.selectExpr("explode(relations) as relation").show(truncate=false)
 ```
 {% endraw %}
 
@@ -254,8 +239,3 @@ nlu.load("en.relation.zeroshot_biobert").predict("""Paracetamol can alleviate he
 
 
 As it is a zero-shot relation extractor, no training dataset is necessary.
-
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE2NDg3NDQxMjYsLTE4MzUyMTE4MzddfQ
-==
--->

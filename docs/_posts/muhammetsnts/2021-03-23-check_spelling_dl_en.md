@@ -11,7 +11,7 @@ language: en
 edition: Spark NLP 2.7.5
 spark_version: 2.4
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -57,36 +57,36 @@ nlu.load("en.spell").predict("""During the summer we have the hottest ueather. I
 
 ```bash
 [('During', 'During'),
- ('the', 'the'),
- ('summer', 'summer'),
- ('we', 'we'),
- ('have', 'have'),
- ('the', 'the'),
- ('hottest', 'hottest'),
- ('ueather', 'weather'),
- ('.', '.'),
- ('I', 'I'),
- ('have', 'have'),
- ('a', 'a'),
- ('black', 'black'),
- ('ueather', 'leather'),
- ('jacket', 'jacket'),
- (',', ','),
- ('so', 'so'),
- ('nice', 'nice'),
- ('.', '.'),
- ('I', 'I'),
- ('intrduce', 'introduce'),
- ('you', 'you'),
- ('to', 'to'),
- ('my', 'my'),
- ('sister', 'sister'),
- (',', ','),
- ('she', 'she'),
- ('is', 'is'),
- ('called', 'called'),
- ('ueather', 'Heather'),
- ('.', '.')]
+('the', 'the'),
+('summer', 'summer'),
+('we', 'we'),
+('have', 'have'),
+('the', 'the'),
+('hottest', 'hottest'),
+('ueather', 'weather'),
+('.', '.'),
+('I', 'I'),
+('have', 'have'),
+('a', 'a'),
+('black', 'black'),
+('ueather', 'leather'),
+('jacket', 'jacket'),
+(',', ','),
+('so', 'so'),
+('nice', 'nice'),
+('.', '.'),
+('I', 'I'),
+('intrduce', 'introduce'),
+('you', 'you'),
+('to', 'to'),
+('my', 'my'),
+('sister', 'sister'),
+(',', ','),
+('she', 'she'),
+('is', 'is'),
+('called', 'called'),
+('ueather', 'Heather'),
+('.', '.')]
 ```
 
 {:.model-param}

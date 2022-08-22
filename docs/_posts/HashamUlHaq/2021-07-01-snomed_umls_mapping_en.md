@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.1.0
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -54,7 +54,7 @@ nlu.load("en.resolve.snomed.umls").predict("""733187009 449433008 51264003""")
 
 ```bash
 {'snomed': ['733187009', '449433008', '51264003'],
- 'umls': ['C4546029', 'C3164619', 'C0271267']}
+'umls': ['C4546029', 'C3164619', 'C0271267']}
 
 
 Note:

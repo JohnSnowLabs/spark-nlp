@@ -17,6 +17,9 @@
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "analyze_spelling_grammar" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/analyze_spelling_grammar">Analyze Spelling &amp; Grammar</a>
       </li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "question_answering" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/question_answering">Question Answering</a>
+      </li>
       <li class="free_link"><strong>Spark NLP: World Languages</strong><span>Free</span></li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "identify_translate_languages" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/identify_translate_languages">Identify &amp; Translate Languages</a>
@@ -76,31 +79,65 @@
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "classify_medical_texts" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/classify_medical_texts">Classify Medical Texts</a>
       </li>
-      <li><strong>Spark NLP for Finance and Legal</strong></li>
-      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "entity_recognition" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-        <a href="/entity_recognition">Entity Recognition</a>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "public_health" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/public_health">Public Health</a>
       </li>
-      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "sentiment_analysis" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-        <a href="/sentiment_analysis">Sentiment Analysis</a>
+      <li><strong>Spark NLP for Finance</strong></li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_entity_recognition" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/financial_entity_recognition">Recognize Financial Entities</a>
       </li>
-      <li data-hide="hide" {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "deidentification_legal" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-        <a href="/deidentification_legal">De-identification</a>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_assertion_status" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/financial_assertion_status">Understand Financial Entities Context</a>
       </li>
-      <li data-hide="hide" {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "relation_extraction" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-        <a href="/relation_extraction">Relation Extraction</a>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_relation_extraction" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/financial_relation_extraction">Extract Financial Relationships</a>
       </li>
-      <li data-hide="hide" {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "table_extraction" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-        <a href="/table_extraction">Table Extraction</a>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_company_normalization" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/financial_company_normalization">Normalization & Data Augmentation</a>
       </li>
-      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "text_classification" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-        <a href="/text_classification">Text Classification</a>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_text_classification" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/financial_text_classification">Classify Financial Texts</a>
+      </li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_sentiment_analysis" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/financial_sentiment_analysis">Financial Sentiment Analysis</a>
+      </li>
+      <li data-hide="hide" {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_deidentification" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/financial_deidentification">De-identify Financial Texts</a>
+      </li>
+      <li data-hide="hide" {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_table_understanding" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/financial_table_understanding">Understand Tables</a>
+      </li>
+      <li><strong>Spark NLP for Legal</strong></li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "legal_entity_recognition" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/legal_entity_recognition">Recognize Legal Entities</a>
+      </li>
+      <li data-hide="hide" {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "legal_assertion_status" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/legal_assertion_status">Understand Legal Entities Context</a>
+      </li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "legal_relation_extraction" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/legal_relation_extraction">Extract Legal Relationships</a>
+      </li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "legal_company_normalization" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/legal_company_normalization">Normalization & Data Augmentation</a>
+      </li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "legal_text_classification" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/legal_text_classification">Classify Legal Texts</a>
+      </li>
+      <li data-hide="hide" {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "legal_sentiment_analysis" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/legal_sentiment_analysis">Legal Sentiment Analysis</a>
+      </li>
+      <li data-hide="hide" {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "legal_deidentification" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/legal_deidentification">De-identify Legal Texts</a>
+      </li>
+      <li data-hide="hide" {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "legal_table_understanding" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/legal_table_understanding">Understand Tables</a>
       </li>
       <li><strong>Spark OCR</strong></li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "extract_text_from_documents" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/extract_text_from_documents">Extract Text from Documents</a>
       </li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "extract_tables" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-        <a href="/extract_tables">Extract Tables </a>
+        <a href="/extract_tables">Extract Tables</a>
       </li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "visual_document_understanding" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/visual_document_understanding">Visual Document Understanding</a>
@@ -113,6 +150,10 @@
       </li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "analyze_non_english_text_documents" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/analyze_non_english_text_documents">Analyze Non-English Text &amp; Documents</a>
+      </li>
+      <li><strong>Databricks Solution Accelerators</strong></li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "databricks_solution_accelerators" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/databricks_solution_accelerators">Notebooks</a>
       </li>
     </ul>
   </div>

@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -38,16 +38,16 @@ This model is trained with `glove_100d` embeddings to detect restaurant-related 
 ...
 
 embeddings = WordEmbeddingsModel.pretrained("glove_100d") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 
 nerdl = NerDLModel.pretrained("nerdl_restaurant_100d")\
-    .setInputCols(["sentence", "token", "embeddings"])\
-    .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"])\
+.setOutputCol("ner")
 
 ner_converter = NerConverter()\
-      .setInputCols(["sentence", "token", "ner"])\
-      .setOutputCol("ner_chunk")
+.setInputCols(["sentence", "token", "ner"])\
+.setOutputCol("ner_chunk")
 
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings, nerdl, ner_converter])
 
@@ -61,16 +61,16 @@ result = nlp_pipeline.fit(data).transform(data)
 ...
 
 val embeddings = WordEmbeddingsModel.pretrained("glove_100d")
-      .setInputCols(Array("sentence", "token"))
-      .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 val nerdl = NerDLModel.pretrained("nerdl_restaurant_100d")
-    .setInputCols(Array("sentence", "token", "embeddings"))
-    .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings"))
+.setOutputCol("ner")
 
 val ner_converter = NerConverter()
-      .setInputCols(Array("sentence", "token", "ner"))
-      .setOutputCol("ner_chunk")
+.setInputCols(Array("sentence", "token", "ner"))
+.setOutputCol("ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, nerdl, ner_converter))
 
@@ -135,25 +135,25 @@ nlu.load("en.ner.restaurant").predict("""Hong Kong’s favourite pasta bar also 
 ## Benchmarking
 
 ```bash
-            label  precision    recall  f1-score   support
-        B-Amenity       0.77      0.75      0.76       545
-        B-Cuisine       0.86      0.88      0.87       524
-           B-Dish       0.84      0.80      0.82       303
-          B-Hours       0.67      0.72      0.69       197
-       B-Location       0.89      0.89      0.89       807
-          B-Price       0.86      0.87      0.86       169
-         B-Rating       0.87      0.79      0.83       221
+label  precision    recall  f1-score   support
+B-Amenity       0.77      0.75      0.76       545
+B-Cuisine       0.86      0.88      0.87       524
+B-Dish       0.84      0.80      0.82       303
+B-Hours       0.67      0.72      0.69       197
+B-Location       0.89      0.89      0.89       807
+B-Price       0.86      0.87      0.86       169
+B-Rating       0.87      0.79      0.83       221
 B-Restaurant_Name       0.91      0.94      0.92       388
-        I-Amenity       0.80      0.75      0.77       561
-        I-Cuisine       0.71      0.71      0.71       135
-           I-Dish       0.66      0.77      0.71       104
-          I-Hours       0.87      0.84      0.86       306
-       I-Location       0.92      0.87      0.89       834
-          I-Price       0.64      0.81      0.71        52
-         I-Rating       0.80      0.85      0.82       118
+I-Amenity       0.80      0.75      0.77       561
+I-Cuisine       0.71      0.71      0.71       135
+I-Dish       0.66      0.77      0.71       104
+I-Hours       0.87      0.84      0.86       306
+I-Location       0.92      0.87      0.89       834
+I-Price       0.64      0.81      0.71        52
+I-Rating       0.80      0.85      0.82       118
 I-Restaurant_Name       0.82      0.89      0.85       359
-                O       0.95      0.96      0.96      8634
-         accuracy        -          -       0.91     14257
-        macro-avg       0.81      0.83      0.82     14257
-     weighted-avg       0.91      0.91      0.91     14257
+O       0.95      0.96      0.96      8634
+accuracy        -          -       0.91     14257
+macro-avg       0.81      0.83      0.82     14257
+weighted-avg       0.91      0.91      0.91     14257
 ```

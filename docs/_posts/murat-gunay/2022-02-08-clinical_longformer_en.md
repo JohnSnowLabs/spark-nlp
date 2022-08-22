@@ -11,7 +11,7 @@ edition: Spark NLP 3.4.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -38,17 +38,17 @@ This embeddings model was imported from `Hugging Face`([link](https://huggingfac
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 embeddings = LongformerEmbeddings.pretrained("clinical_longformer", "en")\
-      .setInputCols(["sentence", "token"])\
-      .setOutputCol("embeddings")\
-      .setCaseSensitive(True)\
-      .setMaxSentenceLength(4096)
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")\
+.setCaseSensitive(True)\
+.setMaxSentenceLength(4096)
 ```
 ```scala
 val embeddings = LongformerEmbeddings.pretrained("clinical_longformer", "en")
-      .setInputCols(Array("sentence", "token"))
-      .setOutputCol("embeddings")
-      .setCaseSensitive(True)\
-      .setMaxSentenceLength(4096)
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
+.setCaseSensitive(True)\
+.setMaxSentenceLength(4096)
 ```
 
 

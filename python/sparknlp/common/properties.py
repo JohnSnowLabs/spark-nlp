@@ -140,3 +140,132 @@ class HasEnableCachingProperties:
             Whether to enable caching DataFrames or RDDs during the training
         """
         return self.getOrDefault(self.enableCaching)
+
+
+class HasBatchedAnnotateImage:
+    batchSize = Param(Params._dummy(), "batchSize", "Size of every batch", TypeConverters.toInt)
+
+    def setBatchSize(self, v):
+        """Sets batch size.
+
+        Parameters
+        ----------
+        v : int
+            Batch size
+        """
+        return self._set(batchSize=v)
+
+    def getBatchSize(self):
+        """Gets current batch size.
+
+        Returns
+        -------
+        int
+            Current batch size
+        """
+        return self.getOrDefault("batchSize")
+
+
+class HasImageFeatureProperties:
+    doResize = Param(Params._dummy(), "doResize", "Whether to resize the input to a certain size",
+                     TypeConverters.toBoolean)
+
+    doNormalize = Param(Params._dummy(), "doNormalize",
+                        "Whether to normalize the input with mean and standard deviation",
+                        TypeConverters.toBoolean)
+
+    featureExtractorType = Param(Params._dummy(), "featureExtractorType",
+                                 "Name of model's architecture for feature extraction",
+                                 TypeConverters.toString)
+
+    imageMean = Param(Params._dummy(), "imageMean",
+                      "The sequence of means for each channel, to be used when normalizing images",
+                      TypeConverters.toListFloat)
+
+    imageStd = Param(Params._dummy(), "imageStd",
+                     "The sequence of standard deviations for each channel, to be used when normalizing images",
+                     TypeConverters.toListFloat)
+
+    resample = Param(Params._dummy(), "resample",
+                     "An optional resampling filter. This can be one of PIL.Image.NEAREST, PIL.Image.BOX, "
+                     "PIL.Image.BILINEAR, PIL.Image.HAMMING, PIL.Image.BICUBIC or PIL.Image.LANCZOS. Only has an "
+                     "effect if do_resize is set to True",
+                     TypeConverters.toInt)
+
+    size = Param(Params._dummy(), "size",
+                 "Resize the input to the given size. If a tuple is provided, it should be (width, height). If only "
+                 "an integer is provided, then the input will be resized to (size, size). Only has an effect if "
+                 "do_resize is set to True.",
+                 TypeConverters.toInt)
+
+    def setDoResize(self, value):
+        """
+
+        Parameters
+        ----------
+        value : Boolean
+            Whether to resize the input to a certain size
+        """
+        return self._set(doResize=value)
+
+    def setDoNormalize(self, value):
+        """
+
+        Parameters
+        ----------
+        value : Boolean
+            Whether to normalize the input with mean and standard deviation
+        """
+        return self._set(doNormalize=value)
+
+    def setFeatureExtractorType(self, value):
+        """
+
+        Parameters
+        ----------
+        value : str
+            Name of model's architecture for feature extraction
+        """
+        return self._set(featureExtractorType=value)
+
+    def setImageStd(self, value):
+        """
+
+        Parameters
+        ----------
+        value : List[float]
+            The sequence of standard deviations for each channel, to be used when normalizing images
+        """
+        return self._set(imageStd=value)
+
+    def setImageMean(self, value):
+        """
+
+        Parameters
+        ----------
+        value : List[float]
+            The sequence of means for each channel, to be used when normalizing images
+        """
+        return self._set(imageMean=value)
+
+    def setResample(self, value):
+        """
+
+        Parameters
+        ----------
+        value : int
+            An optional resampling filter. This can be one of PIL.Image.NEAREST,
+        PIL.Image.BOX, PIL.Image.BILINEAR PIL.Image.HAMMING, PIL.Image.BICUBIC or PIL.Image.LANCZOS. Only has an
+        effect if do_resize is set to True
+        """
+        return self._set(resample=value)
+
+    def setSize(self, value):
+        """
+
+        Parameters
+        ----------
+        value : int
+            Resize the input to the given size. If a tuple is provided, it should be (width, height).
+        """
+        return self._set(size=value)

@@ -11,14 +11,14 @@ edition: Spark NLP 3.3.1
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
 
 **sent_xlm_roberta_base_finetuned_hausa** is a **Hausa RoBERTa** model obtained by fine-tuning **xlm-roberta-base** model on Hausa language texts. It provides **better performance** than the XLM-RoBERTa on named entity recognition datasets.
-            
+
 Specifically, this model is an *xlm-roberta-base* model that was fine-tuned on the **Hausa** corpus.
 
 {:.btn-box}
@@ -33,33 +33,33 @@ Specifically, this model is an *xlm-roberta-base* model that was fine-tuned on t
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-                
+
 document = DocumentAssembler()\ 
-    .setInputCol("text")\ 
-    .setOutputCol("document")
+.setInputCol("text")\ 
+.setOutputCol("document")
 
 sentencerDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\ 
-    .setInputCols(["document"])\ 
-    .setOutputCol("sentence")
+.setInputCols(["document"])\ 
+.setOutputCol("sentence")
 
 sentece_embeddings = XlmRoBertaSentenceEmbeddings.pretrained("sent_xlm_roberta_base_finetuned_hausa", "ha")\ 
-    .setInputCols(["sentence"])\ 
-    .setOutputCol("sentence_embeddings")
+.setInputCols(["sentence"])\ 
+.setOutputCol("sentence_embeddings")
 
 ```
 ```scala
 
 val document = new DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentence = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-  .setInputCols("document")
-  .setOutputCol("sentence")
+.setInputCols("document")
+.setOutputCol("sentence")
 
 val senteceEmbeddings = XlmRoBertaSentenceEmbeddings.pretrained("sent_xlm_roberta_base_finetuned_hausa", "ha")
-    .setInputCols("sentence")
-    .setOutputCol("sentence_embeddings")
+.setInputCols("sentence")
+.setOutputCol("sentence_embeddings")
 ```
 
 

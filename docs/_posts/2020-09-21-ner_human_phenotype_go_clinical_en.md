@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [ner, en, licensed, clinical]
 supported: true
 article_header:
-   type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -35,14 +35,14 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 ```python
 ...
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-  .setInputCols(["sentence", "token"])\
-  .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 clinical_ner = NerDLModel.pretrained("ner_human_phenotype_go_clinical", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 ...
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
-                               
+
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 annotations = light_pipeline.fullAnnotate("Another disease that shares two of the tumor components of CT, namely GIST and tricarboxylic acid cycle is the Carney-Stratakis syndrome (CSS) or dyad.")
@@ -52,11 +52,11 @@ annotations = light_pipeline.fullAnnotate("Another disease that shares two of th
 ```scala
 ...
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token"))
-  .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 val ner = NerDLModel.pretrained("ner_human_phenotype_go_clinical", "en", "clinical/models")
-  .setInputCols("sentence", "token", "embeddings") 
-  .setOutputCol("ner")
+.setInputCols("sentence", "token", "embeddings") 
+.setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
 
@@ -76,7 +76,7 @@ nlu.load("en.med_ner.human_phenotype.go_clinical").predict("""Another disease th
 
 {:.h2_title}
 ## Results
- 
+
 ```bash
 +----+--------------------------+---------+-------+----------+
 |    | chunk                    |   begin |   end | entity   |

@@ -11,7 +11,7 @@ edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,59 +37,59 @@ This is a text-to-text model trained by Google on the colossal, cleaned version 
 ```python
 from sparknlp.annotator import SentenceDetectorDLModel, T5Transformer
 
-       data = self.spark.createDataFrame([
-            [1, "Which is the capital of France? Who was the first president of USA?"],
-            [1, "Which is the capital of Bulgaria ?"],
-            [2, "Who is Donald Trump?"]]).toDF("id", "text")
+data = self.spark.createDataFrame([
+[1, "Which is the capital of France? Who was the first president of USA?"],
+[1, "Which is the capital of Bulgaria ?"],
+[2, "Who is Donald Trump?"]]).toDF("id", "text")
 
-        document_assembler = DocumentAssembler() \
-            .setInputCol("text") \
-            .setOutputCol("documents")
+document_assembler = DocumentAssembler() \
+.setInputCol("text") \
+.setOutputCol("documents")
 
-        sentence_detector = SentenceDetectorDLModel\
-            .pretrained()\
-            .setInputCols(["documents"])\
-            .setOutputCol("questions")
+sentence_detector = SentenceDetectorDLModel\
+.pretrained()\
+.setInputCols(["documents"])\
+.setOutputCol("questions")
 
-        t5 = T5Transformer()\
-            .pretrained("google_t5_small_ssm_nq")\
-            .setInputCols(["questions"])\
-            .setOutputCol("answers")\
+t5 = T5Transformer()\
+.pretrained("google_t5_small_ssm_nq")\
+.setInputCols(["questions"])\
+.setOutputCol("answers")\
 
-        pipeline = Pipeline().setStages([document_assembler, sentence_detector, t5])
-        results = pipeline.fit(data).transform(data)
+pipeline = Pipeline().setStages([document_assembler, sentence_detector, t5])
+results = pipeline.fit(data).transform(data)
 
-        results.select("questions.result", "answers.result").show(truncate=False)
+results.select("questions.result", "answers.result").show(truncate=False)
 ```
 ```scala
 val testData = ResourceHelper.spark.createDataFrame(Seq(
 
-      (1, "Which is the capital of France? Who was the first president of USA?"),
-      (1, "Which is the capital of Bulgaria ?"),
-      (2, "Who is Donald Trump?")
+(1, "Which is the capital of France? Who was the first president of USA?"),
+(1, "Which is the capital of Bulgaria ?"),
+(2, "Who is Donald Trump?")
 
-    )).toDF("id", "text")
+)).toDF("id", "text")
 
-    val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("documents")
+val documentAssembler = new DocumentAssembler()
+.setInputCol("text")
+.setOutputCol("documents")
 
-    val sentenceDetector = SentenceDetectorDLModel
-      .pretrained()
-      .setInputCols(Array("documents"))
-      .setOutputCol("questions")
+val sentenceDetector = SentenceDetectorDLModel
+.pretrained()
+.setInputCols(Array("documents"))
+.setOutputCol("questions")
 
-    val t5 = T5Transformer
-      .pretrained("google_t5_small_ssm_nq")
-      .setInputCols(Array("questions"))
-      .setOutputCol("answers")
+val t5 = T5Transformer
+.pretrained("google_t5_small_ssm_nq")
+.setInputCols(Array("questions"))
+.setOutputCol("answers")
 
-    val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, t5))
+val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, t5))
 
-    val model = pipeline.fit(testData)
-    val results = model.transform(testData)
+val model = pipeline.fit(testData)
+val results = model.transform(testData)
 
-    results.select("questions.result", "answers.result").show(truncate = false)
+results.select("questions.result", "answers.result").show(truncate = false)
 ```
 
 

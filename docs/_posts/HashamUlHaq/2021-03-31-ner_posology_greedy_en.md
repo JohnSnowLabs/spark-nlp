@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,11 +37,11 @@ This model detects drugs, dosage, form, frequency, duration, route, and drug str
 ```python
 ...
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-   .setInputCols(["sentence", "token"])\
-   .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 clinical_ner = MedicalNerModel.pretrained("ner_posology_greedy", "en", "clinical/models") \
-   .setInputCols(["sentence", "token", "embeddings"]) \
-   .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 ...
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
 model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
@@ -50,11 +50,11 @@ results = model.transform(spark.createDataFrame([["The patient was prescribed 1 
 ```scala
 ...
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-   .setInputCols(Array("sentence", "token"))
-   .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 val clinical_ner = MedicalNerModel.pretrained("ner_posology_greedy", "en", "clinical/models")
-    .setInputCols(Array("sentence", "token", "embeddings"))
-    .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings"))
+.setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter))
 val data = Seq("The patient was prescribed 1 capsule of Advil 10 mg for 5 days and magnesium hydroxide 100mg/1ml suspension PO. He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals, and metformin 1000 mg two times a day.").toDF("text")

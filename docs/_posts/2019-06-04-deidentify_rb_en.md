@@ -13,7 +13,7 @@ spark_version: 2.4
 tags: [clinical,licensed,en]
 supported: true
 article_header:
-   type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -42,8 +42,8 @@ model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 masker = DeIdentificationModel.pretrained("deidentify_rb","en","clinical/models")\
 	.setInputCols("sentence","token","chunk")\
 	.setOutputCol("deidentified")\
-    .setMode("mask")
-    
+.setMode("mask")
+
 text = '''A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street'''
 result = model.transform(spark.createDataFrame([[text]]).toDF("text"))    
 deid_text = masker.transform(result)
@@ -56,9 +56,9 @@ val data = Seq("A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendr
 val result = pipeline.fit(data).transform(data)
 
 val masker = DeIdentificationModel.pretrained("deidentify_rb","en","clinical/models")
-        .setInputCols(Array("sentence", "token", "chunk"))
-        .setOutputCol("deidentified")
-        .setMode("mask")
+.setInputCols(Array("sentence", "token", "chunk"))
+.setOutputCol("deidentified")
+.setMode("mask")
 val deid_text = new masker.transform(result)
 
 ```

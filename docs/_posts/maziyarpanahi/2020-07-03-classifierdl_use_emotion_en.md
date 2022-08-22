@@ -10,7 +10,7 @@ date: 03/07/2020
 task: Text Classification
 edition: Spark NLP 2.5.3
 spark_version: 2.4
-tags: [classifier]
+tags: [open_source, en, classifier, emotion]
 supported: true
 article_header:
    type: cover
@@ -34,35 +34,51 @@ Automatically identify Joy, Surprise, Fear, Sadness in Tweets using out pretrain
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-documentAssembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
-use = UniversalSentenceEncoder.pretrained(lang="en") \
-  .setInputCols(["document"])\
-  .setOutputCol("sentence_embeddings")
-document_classifier = ClassifierDLModel.pretrained('classifierdl_use_emotion', 'en') \
-  .setInputCols(["document", "sentence_embeddings"]) \
-  .setOutputCol("class")
+document_assembler = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
 
-nlpPipeline = Pipeline(stages=[documentAssembler, use, document_classifier])
-light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
+use = UniversalSentenceEncoder.pretrained('tfhub_use', "en") \
+    .setInputCols(["document"])\
+    .setOutputCol("sentence_embeddings")
 
-annotations = light_pipeline.fullAnnotate('@Mira I just saw you on live t.v!!')
+classifier = ClassifierDLModel.pretrained('classifierdl_use_emotion', 'en') \
+    .setInputCols(["document", "sentence_embeddings"]) \
+    .setOutputCol("sentiment")
 
+nlpPipeline = Pipeline(stages=[document_assembler, 
+                               use, 
+                               classifier])
+
+data = spark.createDataFrame([["@Mira I just saw you on live t.v!!"],
+                              ["Just home from group celebration - dinner at Trattoria Gianni, then Hershey Felder's performance - AMAZING!!"],
+                              ["Nooooo! My dad turned off the internet so I can't listen to band music!"],
+                              ["My soul has just been pierced by the most evil look from @rickosborneorg. A mini panic attack and chill in bones followed soon after."]]).toDF("text")
+
+result = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
-val use = UniversalSentenceEncoder.pretrained(lang="en")
-  .setInputCols(Array("document"))
-  .setOutputCol("sentence_embeddings")
-val document_classifier = ClassifierDLModel.pretrained("classifierdl_use_emotion", "en")
-  .setInputCols(Array("document", "sentence_embeddings"))
-  .setOutputCol("class")
-val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
 
-val data = Seq("@Mira I just saw you on live t.v!!").toDF("text")
+val use = UniversalSentenceEncoder.pretrained('tfhub_use', "en")
+    .setInputCols(Array("document"))
+    .setOutputCol("sentence_embeddings")
+
+val classifier = ClassifierDLModel.pretrained("classifierdl_use_emotion", "en")
+    .setInputCols(Array("document", "sentence_embeddings"))
+    .setOutputCol("sentiment")
+
+val pipeline = new Pipeline().setStages(Array(documentAssembler, 
+                                              use, 
+                                              classifier))
+
+val data = Seq(Array("@Mira I just saw you on live t.v!!",
+                     "Just home from group celebration - dinner at Trattoria Gianni, then Hershey Felder's performance - AMAZING!!",
+                     "Nooooo! My dad turned off the internet so I can't listen to band music!",
+                     "My soul has just been pierced by the most evil look from @rickosborneorg. A mini panic attack and chill in bones followed soon after.")).toDS.toDF("text")
+
 val result = pipeline.fit(data).transform(data)
 ```
 
@@ -81,11 +97,14 @@ emotion_df[["document", "emotion"]]
 ## Results
 
 ```bash
-+------------------------------------------------------------------------------------------------+------------+
-|document                                                                                        |class       |
-+------------------------------------------------------------------------------------------------+------------+
-|@Mira I just saw you on live t.v!!                                                              | joy        |
-+------------------------------------------------------------------------------------------------+------------+
++-------------------------------------------------------------------------------------------------------------------------------------+---------+
+|document                                                                                                                             |sentiment|
++-------------------------------------------------------------------------------------------------------------------------------------+---------+
+|@Mira I just saw you on live t.v!!                                                                                                   |surprise |
+|Just home from group celebration - dinner at Trattoria Gianni, then Hershey Felder's performance - AMAZING!!                         |joy      |
+|Nooooo! My dad turned off the internet so I can't listen to band music!                                                              |sadness  |
+|My soul has just been pierced by the most evil look from @rickosborneorg. A mini panic attack and chill in bones followed soon after.|fear     |
++-------------------------------------------------------------------------------------------------------------------------------------+---------+
 ```
 
 

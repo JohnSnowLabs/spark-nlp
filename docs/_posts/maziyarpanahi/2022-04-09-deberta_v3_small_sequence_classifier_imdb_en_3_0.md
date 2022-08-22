@@ -11,7 +11,7 @@ edition: Spark NLP 3.4.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -35,25 +35,25 @@ We used TFDebertaV2ForSequenceClassification to train this model and used DeBert
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-                
+
 document_assembler = DocumentAssembler()\ 
-    .setInputCol("text")\ 
-    .setOutputCol("document")
+.setInputCol("text")\ 
+.setOutputCol("document")
 
 tokenizer = Tokenizer()\ 
-    .setInputCols(['document'])\ 
-    .setOutputCol('token') 
+.setInputCols(['document'])\ 
+.setOutputCol('token') 
 
 sequenceClassifier = DeBertaForSequenceClassification.pretrained("deberta_v3_small_sequence_classifier_imdb", "en")\ 
-    .setInputCols(["document", "token"])\ 
-    .setOutputCol("class")\ 
-    .setCaseSensitive(True)\ 
-    .setMaxSentenceLength(512) 
+.setInputCols(["document", "token"])\ 
+.setOutputCol("class")\ 
+.setCaseSensitive(True)\ 
+.setMaxSentenceLength(512) 
 
 pipeline = Pipeline(stages=[
-    document_assembler,
-    tokenizer,
-    sequenceClassifier
+document_assembler,
+tokenizer,
+sequenceClassifier
 ])
 
 example = spark.createDataFrame([['I really liked that movie!']]).toDF("text")
@@ -62,18 +62,18 @@ result = pipeline.fit(example).transform(example)
 ```scala
 
 val document_assembler = new DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("document")
-    .setOutputCol("token")
+.setInputCols("document")
+.setOutputCol("token")
 
 val sequenceClassifier = DeBertaForSequenceClassification.pretrained("deberta_v3_small_sequence_classifier_imdb", "en")
-    .setInputCols("document", "token")
-    .setOutputCol("class")
-    .setCaseSensitive(true)
-    .setMaxSentenceLength(512)
+.setInputCols("document", "token")
+.setOutputCol("class")
+.setCaseSensitive(true)
+.setMaxSentenceLength(512)
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 

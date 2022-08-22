@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.4.1
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -48,17 +48,17 @@ Deidentification NER (French) is a Named Entity Recognition model that annotates
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-        .setInputCol("text")\
-        .setOutputCol("document")
-        
+.setInputCol("text")\
+.setOutputCol("document")
+
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
-        .setInputCols(["document"])\
-        .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 
 tokenizer = Tokenizer()\
-        .setInputCols(["sentence"])\
-        .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 
 embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "fr")\
@@ -67,16 +67,16 @@ embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "fr")\
 
 
 clinical_ner = MedicalNerModel.pretrained("ner_deid_generic", "fr", "clinical/models")\
-        .setInputCols(["sentence","token", "word_embeddings"])\
-        .setOutputCol("ner")
+.setInputCols(["sentence","token", "word_embeddings"])\
+.setOutputCol("ner")
 
 
 nlpPipeline = Pipeline(stages=[
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        embeddings,
-        clinical_ner])
+documentAssembler,
+sentenceDetector,
+tokenizer,
+embeddings,
+clinical_ner])
 
 
 text = ["J'ai vu en consultation Michel Martinez (49 ans) adressé au Centre Hospitalier De Plaisir pour un diabète mal contrôlé avec des symptômes datant de Mars 2015."]
@@ -89,28 +89,28 @@ results = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-        .setInputCols("document")
-        .setOutputCol("sentence")
+.setInputCols("document")
+.setOutputCol("sentence")
 
 
 val tokenizer = new Tokenizer()
-        .setInputCols("sentence")
-        .setOutputCol("token")
+.setInputCols("sentence")
+.setOutputCol("token")
 
 
 val embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "fr")
-    .setInputCols(Array("sentence", "token"))
-    .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 
 val clinical_ner = MedicalNerModel.pretrained("ner_deid_generic", "fr", "clinical/models")
-        .setInputCols(Array("sentence","token","embeddings"))
-        .setOutputCol("ner")
+.setInputCols(Array("sentence","token","embeddings"))
+.setOutputCol("ner")
 
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner))
@@ -204,14 +204,14 @@ nlu.load("fr.med_ner.deid_generic").predict("""J'ai vu en consultation Michel Ma
 
 
 ```bash
-     label      tp     fp     fn   total  precision  recall      f1
-   CONTACT   159.0    0.0    1.0   160.0        1.0  0.9938  0.9969
-      NAME  2633.0  111.0  197.0  2830.0     0.9595  0.9304  0.9447
-      DATE  2612.0   32.0   42.0  2654.0     0.9879  0.9842   0.986
-        ID    95.0    8.0    7.0   102.0     0.9223  0.9314  0.9268
-  LOCATION  3450.0  480.0  522.0  3972.0     0.8779  0.8686  0.8732
+label      tp     fp     fn   total  precision  recall      f1
+CONTACT   159.0    0.0    1.0   160.0        1.0  0.9938  0.9969
+NAME  2633.0  111.0  197.0  2830.0     0.9595  0.9304  0.9447
+DATE  2612.0   32.0   42.0  2654.0     0.9879  0.9842   0.986
+ID    95.0    8.0    7.0   102.0     0.9223  0.9314  0.9268
+LOCATION  3450.0  480.0  522.0  3972.0     0.8779  0.8686  0.8732
 PROFESSION   326.0   54.0   82.0   408.0     0.8579   0.799  0.8274
-       AGE   395.0   37.0   46.0   441.0     0.9144  0.8957  0.9049
-     macro       -      -      -       -          -       -  0.9229
-     micro       -      -      -       -          -       -  0.9226
+AGE   395.0   37.0   46.0   441.0     0.9144  0.8957  0.9049
+macro       -      -      -       -          -       -  0.9229
+micro       -      -      -       -          -       -  0.9226
 ```

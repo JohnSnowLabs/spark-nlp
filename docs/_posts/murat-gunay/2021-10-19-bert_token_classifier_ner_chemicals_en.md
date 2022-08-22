@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.0
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -47,13 +47,13 @@ Extract different types of chemical compounds mentioned in text using pretrained
 ```python
 ...
 tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_chemicals", "en", "clinical/models")\
-  .setInputCols("token", "document")\
-  .setOutputCol("ner")\
-  .setCaseSensitive(True)
+.setInputCols("token", "document")\
+.setOutputCol("ner")\
+.setCaseSensitive(True)
 
 ner_converter = NerConverter()\
-  .setInputCols(["document","token","ner"])\
-  .setOutputCol("ner_chunk")
+.setInputCols(["document","token","ner"])\
+.setOutputCol("ner_chunk")
 
 pipeline =  Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
 
@@ -66,13 +66,13 @@ result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sen
 ```scala
 ...
 val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_chemicals", "en", "clinical/models")
-  .setInputCols("token", "document")
-  .setOutputCol("ner")
-  .setCaseSensitive(True)
+.setInputCols("token", "document")
+.setOutputCol("ner")
+.setCaseSensitive(True)
 
 val ner_converter = new NerConverter()
-  .setInputCols(Array("document","token","ner"))
-  .setOutputCol("ner_chunk")
+.setInputCols(Array("document","token","ner"))
+.setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
 
@@ -134,11 +134,11 @@ This model is trained on a custom dataset by John Snow Labs.
 
 
 ```bash
-       label  precision    recall  f1-score   support
-      B-CHEM       0.99      0.92      0.95     30731
-      I-CHEM       0.99      0.93      0.96     31270
-    accuracy       -         -         0.93     62001
-   macro-avg       0.96      0.95      0.96     62001
+label  precision    recall  f1-score   support
+B-CHEM       0.99      0.92      0.95     30731
+I-CHEM       0.99      0.93      0.96     31270
+accuracy       -         -         0.93     62001
+macro-avg       0.96      0.95      0.96     62001
 weighted-avg       0.99      0.93      0.96     62001
 ```
 <!--stackedit_data:

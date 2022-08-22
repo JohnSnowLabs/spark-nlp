@@ -1,4 +1,19 @@
 ========
+4.0.2
+========
+----------------
+New Features
+----------------
+
+* SentenceDetector now comes with a new parameter `customBoundsStrategy` for returning custom bounds https://github.com/JohnSnowLabs/spark-nlp/pull/10567
+
+----------------
+Bug Fixes
+----------------
+
+* Fix bug that attempts to create spark session on executors when using GraphExtraction https://github.com/JohnSnowLabs/spark-nlp/pull/9905
+
+========
 4.0.1
 ========
 ----------------

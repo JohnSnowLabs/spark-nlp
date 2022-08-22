@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,8 +37,8 @@ Pretrained named entity recognition deep learning model for posology, this NER i
 ```python
 ...
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-  .setInputCols(["sentence", "token"])\
-  .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 clinical_ner = MedicalNerModel.pretrained("ner_posology_small","en","clinical/models")\
 	.setInputCols(["sentence","token","embeddings"])\
 	.setOutputCol("ner")
@@ -52,8 +52,8 @@ results = model.transform(spark.createDataFrame([['The patient is a 30-year-old 
 ```scala
 ...
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token"))
-  .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 val model = MedicalNerModel.pretrained("ner_posology_small","en","clinical/models")
 	.setInputCols("sentence","token","embeddings")
 	.setOutputCol("ner")

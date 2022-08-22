@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 2.7.4
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -33,13 +33,13 @@ Relation extraction between lab test names, their findings, measurements, result
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, PerceptronModel, DependencyParserModel, WordEmbeddingsModel, NerDLModel, NerConverter, RelationExtractionModel
 
 
- In the table below, `re_test_result_date` RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.
+In the table below, `re_test_result_date` RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.
 
 
 
- |       RE MODEL      |                     RE MODEL LABES                     | NER MODEL | RE PAIRS                                                                                                                                                                                                                                                                                                                                 |
- |:-------------------:|:------------------------------------------------------:|:---------:|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
- | re_test_result_date | is_finding_of, <br>is_result_of, <br>is_date_of, <br>O |  ner_jsl  | [“test-test_result”, <br>“test_result-test”,<br>“test-date”, “date-test”,<br>“test-imagingfindings”, <br>“imagingfindings-test”,<br>“test-ekg_findings”, <br>“ekg_findings-test”,<br>“date-test_result”, <br>“test_result-date”,<br>“date-imagingfindings”, <br>“imagingfindings-date”,<br>“date-ekg_findings”, <br>“ekg_findings-date”] |
+|       RE MODEL      |                     RE MODEL LABES                     | NER MODEL | RE PAIRS                                                                                                                                                                                                                                                                                                                                 |
+|:-------------------:|:------------------------------------------------------:|:---------:|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| re_test_result_date | is_finding_of, <br>is_result_of, <br>is_date_of, <br>O |  ner_jsl  | [“test-test_result”, <br>“test_result-test”,<br>“test-date”, “date-test”,<br>“test-imagingfindings”, <br>“imagingfindings-test”,<br>“test-ekg_findings”, <br>“ekg_findings-test”,<br>“date-test_result”, <br>“test_result-date”,<br>“date-imagingfindings”, <br>“imagingfindings-date”,<br>“date-ekg_findings”, <br>“ekg_findings-date”] |
 
 
 
@@ -48,17 +48,17 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 ner_tagger = sparknlp.annotators.NerDLModel()\
-    .pretrained('jsl_ner_wip_clinical',"en","clinical/models")\
-    .setInputCols("sentences", "tokens", "embeddings")\
-    .setOutputCol("ner_tags") 
+.pretrained('jsl_ner_wip_clinical',"en","clinical/models")\
+.setInputCols("sentences", "tokens", "embeddings")\
+.setOutputCol("ner_tags") 
 
 re_model = RelationExtractionModel()\
-    .pretrained("re_test_result_date", "en", 'clinical/models')\
-    .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
-    .setOutputCol("relations")\
-    .setMaxSyntacticDistance(4)\ #default: 0
-    .setPredictionThreshold(0.9)\ #default: 0.5
-    .setRelationPairs(["external_body_part_or_region-test"]) # Possible relation pairs. Default: All Relations.
+.pretrained("re_test_result_date", "en", 'clinical/models')\
+.setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
+.setOutputCol("relations")\
+.setMaxSyntacticDistance(4)\ #default: 0
+.setPredictionThreshold(0.9)\ #default: 0.5
+.setRelationPairs(["external_body_part_or_region-test"]) # Possible relation pairs. Default: All Relations.
 
 nlp_pipeline = Pipeline(stages=[ documenter, sentencer,tokenizer, words_embedder, pos_tagger,  clinical_ner_tagger,ner_chunker, dependency_parser,re_model])
 

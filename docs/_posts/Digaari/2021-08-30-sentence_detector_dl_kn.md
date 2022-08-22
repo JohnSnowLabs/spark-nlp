@@ -11,7 +11,7 @@ edition: Spark NLP 3.2.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,13 +32,13 @@ SentenceDetectorDL (SDDL) is based on a general-purpose neural network model for
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documenter = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
-    
+.setInputCol("text")\
+.setOutputCol("document")
+
 sentencerDL = SentenceDetectorDLModel\
-  .pretrained("sentence_detector_dl", "kn") \
-  .setInputCols(["document"]) \
-  .setOutputCol("sentences")
+.pretrained("sentence_detector_dl", "kn") \
+.setInputCols(["document"]) \
+.setOutputCol("sentences")
 
 sd_model = LightPipeline(PipelineModel(stages=[documenter, sentencerDL]))
 
@@ -46,8 +46,8 @@ sd_model.fullAnnotate("""ಇಂಗ್ಲಿಷ್ ಓದುವ ಪ್ಯಾರ�
 ```
 ```scala
 val documenter = DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val model = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "kn")
 	.setInputCols(Array("document"))

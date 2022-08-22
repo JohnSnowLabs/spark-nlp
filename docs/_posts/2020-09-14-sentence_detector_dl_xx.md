@@ -13,7 +13,7 @@ spark_version: 2.4
 tags: [open_source,sentence_detection,xx]
 supported: true
 article_header:
-   type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,13 +36,13 @@ SentenceDetectorDL (SDDL) is based on a general-purpose neural network model for
 
 ```python
 documenter = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
-    
+.setInputCol("text")\
+.setOutputCol("document")
+
 sentencerDL = SentenceDetectorDLModel\
-  .pretrained("sentence_detector_dl", "xx") \
-  .setInputCols(["document"]) \
-  .setOutputCol("sentences")
+.pretrained("sentence_detector_dl", "xx") \
+.setInputCols(["document"]) \
+.setOutputCol("sentences")
 sd_model = LightPipeline(PipelineModel(stages=[documenter, sentencerDL]))
 sd_model.fullAnnotate("""Όπως ίσως θα γνωρίζει, όταν εγκαθιστάς μια νέα εφαρμογή, θα έχεις διαπιστώσει 
 λίγο μετά, ότι το PC αρχίζει να επιβραδύνεται. Στη συνέχεια, όταν επισκέπτεσαι την οθόνη ή από την διαχείριση εργασιών, θα διαπιστώσεις ότι η εν λόγω εφαρμογή έχει προστεθεί στη 
@@ -55,8 +55,8 @@ sd_model.fullAnnotate("""Όπως ίσως θα γνωρίζει, όταν εγ�
 
 ```scala
 val documenter = DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val model = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
 	.setInputCols(Array("document"))

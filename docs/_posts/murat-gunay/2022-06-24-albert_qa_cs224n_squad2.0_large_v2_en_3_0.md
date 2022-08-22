@@ -11,7 +11,7 @@ edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,14 +32,14 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = MultiDocumentAssembler() \
-    .setInputCols(["question", "context"]) \
-    .setOutputCols(["document_question", "document_context"])
+.setInputCols(["question", "context"]) \
+.setOutputCols(["document_question", "document_context"])
 
 spanClassifier = AlbertForQuestionAnswering.pretrained("albert_qa_cs224n_squad2.0_large_v2","en") \
-    .setInputCols(["document_question", "document_context"]) \
-    .setOutputCol("answer")\
-    .setCaseSensitive(True)
-    
+.setInputCols(["document_question", "document_context"]) \
+.setOutputCol("answer")\
+.setCaseSensitive(True)
+
 pipeline = Pipeline(stages=[documentAssembler, spanClassifier])
 
 data = spark.createDataFrame([["What is my name?", "My name is Clara and I live in Berkeley."]]).toDF("question", "context")
@@ -48,13 +48,13 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new MultiDocumentAssembler() 
-      .setInputCols(Array("question", "context")) 
-      .setOutputCols(Array("document_question", "document_context"))
- 
+.setInputCols(Array("question", "context")) 
+.setOutputCols(Array("document_question", "document_context"))
+
 val spanClassifer = AlbertForQuestionAnswering.pretrained("albert_qa_cs224n_squad2.0_large_v2","en") 
-    .setInputCols(Array("document", "token")) 
-    .setOutputCol("answer")
-    .setCaseSensitive(true)
+.setInputCols(Array("document", "token")) 
+.setOutputCol("answer")
+.setCaseSensitive(true)
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, spanClassifier))
 
@@ -62,6 +62,14 @@ val data = Seq("What is my name?", "My name is Clara and I live in Berkeley.").t
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.answer_question.squadv2.albert.large_v2").predict("""What is my name?|||"My name is Clara and I live in Berkeley.""")
+```
+
 </div>
 
 {:.model-param}

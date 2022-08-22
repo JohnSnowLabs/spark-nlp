@@ -11,7 +11,7 @@ edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,14 +32,14 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = MultiDocumentAssembler() \
-    .setInputCols(["question", "context"]) \
-    .setOutputCols(["document_question", "document_context"])
+.setInputCols(["question", "context"]) \
+.setOutputCols(["document_question", "document_context"])
 
 spanClassifier = DistilBertForQuestionAnswering.pretrained("distilbert_qa_distillbert_base_spanish_uncased_finetuned_qa_tar","es") \
-    .setInputCols(["document_question", "document_context"]) \
-    .setOutputCol("answer")\
-    .setCaseSensitive(True)
-    
+.setInputCols(["document_question", "document_context"]) \
+.setOutputCol("answer")\
+.setCaseSensitive(True)
+
 pipeline = Pipeline(stages=[documentAssembler, spanClassifier])
 
 data = spark.createDataFrame([["¿Cuál es mi nombre?", "Mi nombre es Clara y vivo en Berkeley."]]).toDF("question", "context")
@@ -48,13 +48,13 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new MultiDocumentAssembler() 
-      .setInputCols(Array("question", "context")) 
-      .setOutputCols(Array("document_question", "document_context"))
- 
+.setInputCols(Array("question", "context")) 
+.setOutputCols(Array("document_question", "document_context"))
+
 val spanClassifer = DistilBertForQuestionAnswering.pretrained("distilbert_qa_distillbert_base_spanish_uncased_finetuned_qa_tar","es") 
-    .setInputCols(Array("document", "token")) 
-    .setOutputCol("answer")
-    .setCaseSensitive(true)
+.setInputCols(Array("document", "token")) 
+.setOutputCol("answer")
+.setCaseSensitive(true)
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, spanClassifier))
 
@@ -62,6 +62,14 @@ val data = Seq("¿Cuál es mi nombre?", "Mi nombre es Clara y vivo en Berkeley."
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.answer_question.distil_bert.base_uncased").predict("""¿Cuál es mi nombre?|||"Mi nombre es Clara y vivo en Berkeley.""")
+```
+
 </div>
 
 {:.model-param}

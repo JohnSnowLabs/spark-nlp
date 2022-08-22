@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.2.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,15 +40,15 @@ This model maps clinical entities to UMLS CUI codes. It is trained on `2021AB` U
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-     .setInputCols(["ner_chunk_doc"])\
-     .setOutputCol("sbert_embeddings")
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+.setInputCols(["ner_chunk_doc"])\
+.setOutputCol("sbert_embeddings")
 
 resolver = SentenceEntityResolverModel\
-     .pretrained("sbiobertresolve_umls_clinical_drugs","en", "clinical/models") \
-     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-     .setOutputCol("resolution")\
-     .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_umls_clinical_drugs","en", "clinical/models") \
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("resolution")\
+.setDistanceFunction("EUCLIDEAN")
 
 pipeline = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, resolver])
 
@@ -61,19 +61,19 @@ results = pipeline.fit(data).transform(data)
 val chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
 val sbert_embedder = BertSentenceEmbeddings
-      .pretrained("sbiobert_base_cased_mli", "en","clinical/models")
-      .setInputCols(Array("ner_chunk_doc"))
-      .setOutputCol("sbert_embeddings")
-      .setCaseSensitive(False)
-    
+.pretrained("sbiobert_base_cased_mli", "en","clinical/models")
+.setInputCols(Array("ner_chunk_doc"))
+.setOutputCol("sbert_embeddings")
+.setCaseSensitive(False)
+
 val resolver = SentenceEntityResolverModel
-      .pretrained("sbiobertresolve_umls_clinical_drugs", "en", "clinical/models") 
-      .setInputCols(Array("ner_chunk_doc", "sbert_embeddings")) 
-      .setOutputCol("resolution")
-      .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_umls_clinical_drugs", "en", "clinical/models") 
+.setInputCols(Array("ner_chunk_doc", "sbert_embeddings")) 
+.setOutputCol("resolution")
+.setDistanceFunction("EUCLIDEAN")
 
 val p_model = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, resolver))
-    
+
 val data = Seq("She was immediately given hydrogen peroxide 30 mg to treat the infection on her leg, and has been advised Neosporin Cream for 5 days. She has a history of taking magnesium hydroxide 100mg/1ml and metformin 1000 mg.").toDF("text") 
 
 val res = p_model.fit(data).transform(data)

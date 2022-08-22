@@ -11,7 +11,7 @@ edition: Spark NLP 3.4.0
 spark_version: 3.0
 supported: false
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -38,21 +38,21 @@ This is a result of reproducing the tutorial for bringing HF's models into Spark
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-    .setInputCol("term")\
-    .setOutputCol("document")
+.setInputCol("term")\
+.setOutputCol("document")
 
 tokenizer = Tokenizer()\
-    .setInputCols("document")\
-    .setOutputCol("token")
+.setInputCols("document")\
+.setOutputCol("token")
 
 roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es", "@ireneisdoomed")\
-    .setInputCols(["document", "token"])\
-    .setOutputCol("roberta_embeddings")
+.setInputCols(["document", "token"])\
+.setOutputCol("roberta_embeddings")
 
 pipeline = Pipeline(stages = [
-    documentAssembler,
-    tokenizer,
-    roberta_embeddings])
+documentAssembler,
+tokenizer,
+roberta_embeddings])
 ```
 
 

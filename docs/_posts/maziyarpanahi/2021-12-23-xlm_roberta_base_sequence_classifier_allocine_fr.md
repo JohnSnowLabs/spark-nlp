@@ -11,7 +11,7 @@ edition: Spark NLP 3.4.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,24 +40,24 @@ We used TFXLMRobertaForSequenceClassification to train this model and used XlmRo
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol('text') \
-    .setOutputCol('document')
+.setInputCol('text') \
+.setOutputCol('document')
 
 tokenizer = Tokenizer() \
-    .setInputCols(['document']) \
-    .setOutputCol('token')
+.setInputCols(['document']) \
+.setOutputCol('token')
 
 sequenceClassifier = XlmRoBertaForSequenceClassification \
-      .pretrained('xlm_roberta_base_sequence_classifier_allocine', 'fr') \
-      .setInputCols(['token', 'document']) \
-      .setOutputCol('class') \
-      .setCaseSensitive(True) \
-      .setMaxSentenceLength(512)
+.pretrained('xlm_roberta_base_sequence_classifier_allocine', 'fr') \
+.setInputCols(['token', 'document']) \
+.setOutputCol('class') \
+.setCaseSensitive(True) \
+.setMaxSentenceLength(512)
 
 pipeline = Pipeline(stages=[
-    document_assembler,
-    tokenizer,
-    sequenceClassifier
+document_assembler,
+tokenizer,
+sequenceClassifier
 ])
 
 example = spark.createDataFrame([['j'ai bien aime le film harry potter!']]).toDF("text")
@@ -65,18 +65,18 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document_assembler = DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val tokenizer = Tokenizer()
-    .setInputCols("document")
-    .setOutputCol("token")
+.setInputCols("document")
+.setOutputCol("token")
 
 val tokenClassifier = XlmRoBertaForSequenceClassification.pretrained("xlm_roberta_base_sequence_classifier_allocine", "fr")
-      .setInputCols("document", "token")
-      .setOutputCol("class")
-      .setCaseSensitive(true)
-      .setMaxSentenceLength(512)
+.setInputCols("document", "token")
+.setOutputCol("class")
+.setCaseSensitive(true)
+.setMaxSentenceLength(512)
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
@@ -97,12 +97,12 @@ nlu.load("fr.classify.xlm_roberta.allocine").predict("""Put your text here.""")
 ## Results
 
 ```bash
- * +--------------------+
- * |result              |
- * +--------------------+
- * |[neg, neg]          |
- * |[pos, pos, pos, pos]|
- * +--------------------+
+* +--------------------+
+* |result              |
+* +--------------------+
+* |[neg, neg]          |
+* |[pos, pos, pos, pos]|
+* +--------------------+
 ```
 
 {:.model-param}

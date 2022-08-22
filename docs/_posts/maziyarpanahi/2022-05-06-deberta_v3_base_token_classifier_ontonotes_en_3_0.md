@@ -12,7 +12,7 @@ spark_version: 3.0
 supported: true
 recommended: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,31 +37,31 @@ CARDINAL, DATE, EVENT, FAC, GPE, LANGUAGE, LAW, LOC, MONEY, NORP, ORDINAL, ORG, 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-                
+
 document_assembler = DocumentAssembler()\ 
-    .setInputCol("text")\ 
-    .setOutputCol("document")
+.setInputCol("text")\ 
+.setOutputCol("document")
 
 tokenizer = Tokenizer()\ 
-    .setInputCols(['document'])\ 
-    .setOutputCol('token') 
+.setInputCols(['document'])\ 
+.setOutputCol('token') 
 
 tokenClassifier = DeBertaForTokenClassification.pretrained("deberta_v3_base_token_classifier_ontonotes", "en")\ 
-    .setInputCols(["document", "token"])\ 
-    .setOutputCol("ner")\ 
-    .setCaseSensitive(True)\ 
-    .setMaxSentenceLength(512) 
+.setInputCols(["document", "token"])\ 
+.setOutputCol("ner")\ 
+.setCaseSensitive(True)\ 
+.setMaxSentenceLength(512) 
 
 # since output column is IOB/IOB2 style, NerConverter can extract entities
 ner_converter = NerConverter()\ 
-    .setInputCols(['document', 'token', 'ner'])\ 
-    .setOutputCol('entities') 
+.setInputCols(['document', 'token', 'ner'])\ 
+.setOutputCol('entities') 
 
 pipeline = Pipeline(stages=[
-    document_assembler,
-    tokenizer,
-    tokenClassifier,
-    ner_converter
+document_assembler,
+tokenizer,
+tokenClassifier,
+ner_converter
 ])
 
 example = spark.createDataFrame([['I really liked that movie!']]).toDF("text")
@@ -70,23 +70,23 @@ result = pipeline.fit(example).transform(example)
 ```scala
 
 val document_assembler = new DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("document")
-    .setOutputCol("token")
+.setInputCols("document")
+.setOutputCol("token")
 
 val tokenClassifier = DeBertaForTokenClassification.pretrained("deberta_v3_base_token_classifier_ontonotes", "en")
-    .setInputCols("document", "token")
-    .setOutputCol("ner")
-    .setCaseSensitive(true)
-    .setMaxSentenceLength(512)
+.setInputCols("document", "token")
+.setOutputCol("ner")
+.setCaseSensitive(true)
+.setMaxSentenceLength(512)
 
 // since output column is IOB/IOB2 style, NerConverter can extract entities
 val ner_converter = NerConverter() 
-    .setInputCols("document", "token", "ner") 
-    .setOutputCol("entities")
+.setInputCols("document", "token", "ner") 
+.setOutputCol("entities")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, tokenClassifier, ner_converter))
 

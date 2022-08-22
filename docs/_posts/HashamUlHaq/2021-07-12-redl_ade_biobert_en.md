@@ -4,14 +4,14 @@ title: Relation extraction between Drugs and ADE (ReDL)
 author: John Snow Labs
 name: redl_ade_biobert
 date: 2021-07-12
-tags: [relation_extraction, en, clinical, licensed]
+tags: [relation_extraction, en, clinical, licensed, ade, biobert]
 task: Relation Extraction
 language: en
 edition: Spark NLP for Healthcare 3.1.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -30,7 +30,7 @@ This model is an end-to-end trained BioBERT model, capable of Relating Drugs and
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_ADE/){:.button.button-orange}
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_ADE.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_ade_biobert_en_3.1.2_3.0_1626105541347.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 
@@ -45,7 +45,6 @@ This model is an end-to-end trained BioBERT model, capable of Relating Drugs and
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-...
 documenter = DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
@@ -75,7 +74,7 @@ pos_tagger = PerceptronModel()\
     .pretrained("pos_clinical", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens"])\
     .setOutputCol("pos_tags")
-    
+
 dependency_parser = sparknlp.annotators.DependencyParserModel()\
     .pretrained("dependency_conllu", "en")\
     .setInputCols(["sentences", "pos_tags", "tokens"])\
@@ -96,13 +95,22 @@ re_model = RelationExtractionDLModel()\
     .setInputCols(["re_ner_chunks", "sentences"]) \
     .setOutputCol("relations")
 
-pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model])
+pipeline = Pipeline(stages=[documenter,
+                            sentencer,
+                            tokenizer, 
+                            pos_tagger,
+                            words_embedder, 
+                            ner_tagger, 
+                            ner_converter, 
+                            dependency_parser, 
+                            re_ner_chunk_filter, 
+                            re_model])
 
-text ="""Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps"""
+light_pipeline = LightPipeline(pipeline.fit(spark.createDataFrame([[""]]).toDF("text")))
 
-p_model = pipeline.fit(spark.createDataFrame([[text]]).toDF("text"))
+text ="""Been taking Lipitor for 15 years , have experienced severe fatigue a lot. The doctor moved me to voltarene 2 months ago, so far I have only had muscle cramps."""
 
-result = p_model.transform(data)
+annotations = light_pipeline.fullAnnotate(text)
 ```
 ```scala
 val documenter = new DocumentAssembler() 
@@ -155,9 +163,18 @@ val re_model = RelationExtractionDLModel()
     .setInputCols(Array("re_ner_chunks", "sentences"))
     .setOutputCol("relations")
 
-val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
+val pipeline = new Pipeline().setStages(Array(documenter, 
+                                              sentencer, 
+                                              tokenizer, 
+                                              words_embedder, 
+                                              ner_tagger, 
+                                              ner_converter, 
+                                              pos_tagger, 
+                                              dependency_parser, 
+                                              re_ner_chunk_filter, 
+                                              re_model))
 
-val data = Seq("Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps").toDS.toDF("text")
+val data = Seq("""Been taking Lipitor for 15 years , have experienced severe fatigue a lot. The doctor moved me to voltarene 2 months ago, so far I have only had muscle cramps.""").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
@@ -176,14 +193,10 @@ nlu.load("en.relation.adverse_drug_events.clinical.biobert").predict("""Been tak
 
 
 ```bash
-|    | chunk1                        | entitiy1   | chunk2      | entity2 | relation |
-|----|-------------------------------|------------|-------------|---------|----------|
-| 0  | severe fatigue                | ADE        | Lipitor     | DRUG    |        1 |
-| 1  | cramps                        | ADE        | Lipitor     | DRUG    |        0 |
-| 2  | severe fatigue                | ADE        | voltaren    | DRUG    |        0 |
-| 3  | cramps                        | ADE        | voltaren    | DRUG    |        1 |
-
-
+| relation | entity1 | entity1_begin | entity1_end | chunk1    | entity2 | entity2_begin | entity2_end | chunk2         | confidence |
+|---------:|:--------|--------------:|------------:|:----------|:--------|--------------:|------------:|:---------------|-----------:|
+|        1 | DRUG    |            12 |          18 | Lipitor   | ADE     |            52 |          65 | severe fatigue |   0.999317 |
+|        0 | DRUG    |            97 |         105 | voltarene | ADE     |           144 |         156 | muscle cramps  |   0.774904 |
 ```
 
 
@@ -212,12 +225,9 @@ This model is trained on custom data annotated by JSL.
 
 
 ```bash
-Relation           Recall Precision        F1   Support
+label              Recall Precision        F1   Support
 0                   0.829     0.895     0.861      1146
 1                   0.955     0.923     0.939      2454
 Avg.                0.892     0.909     0.900      -
 Weighted-Avg.       0.915     0.914     0.914      -
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbODE5MTk5NTczXX0=
--->

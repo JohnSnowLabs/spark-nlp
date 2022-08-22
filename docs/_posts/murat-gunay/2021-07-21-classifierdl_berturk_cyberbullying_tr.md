@@ -11,7 +11,7 @@ edition: Spark NLP 3.1.2
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,17 +37,17 @@ Identifies whether a Turkish text contains cyberbullying or not.
 ```python
 ...
 berturk_embeddings = BertEmbeddings.pretrained("bert_base_turkish_uncased", "tr") \
-      .setInputCols("document", "lemma") \
-      .setOutputCol("embeddings")
+.setInputCols("document", "lemma") \
+.setOutputCol("embeddings")
 
 embeddingsSentence = SentenceEmbeddings() \
-      .setInputCols(["document", "embeddings"]) \
-      .setOutputCol("sentence_embeddings") \
-      .setPoolingStrategy("AVERAGE")
+.setInputCols(["document", "embeddings"]) \
+.setOutputCol("sentence_embeddings") \
+.setPoolingStrategy("AVERAGE")
 
 document_classifier = ClassifierDLModel.pretrained('classifierdl_berturk_cyberbullying', 'tr') \
-  .setInputCols(["document", "sentence_embeddings"]) \
-  .setOutputCol("class")
+.setInputCols(["document", "sentence_embeddings"]) \
+.setOutputCol("class")
 
 berturk_pipeline = Pipeline(stages=[document_assembler, tokenizer, normalizer, stopwords_cleaner, lemma, berturk_embeddings, embeddingsSentence, document_classifier])
 
@@ -59,17 +59,17 @@ result["class"]
 ```scala
 ...
 val berturk_embeddings = BertEmbeddings.pretrained("bert_base_turkish_uncased", "tr") 
-      .setInputCols("document", "lemma") 
-      .setOutputCol("embeddings")
+.setInputCols("document", "lemma") 
+.setOutputCol("embeddings")
 
 val embeddingsSentence = SentenceEmbeddings() 
-      .setInputCols(Array("document", "embeddings")) 
-      .setOutputCol("sentence_embeddings") 
-      .setPoolingStrategy("AVERAGE")
+.setInputCols(Array("document", "embeddings")) 
+.setOutputCol("sentence_embeddings") 
+.setPoolingStrategy("AVERAGE")
 
 val document_classifier = ClassifierDLModel.pretrained("classifierdl_berturk_cyberbullying", "tr") 
-  .setInputCols(Array("document", "sentence_embeddings")) 
-  .setOutputCol("class")
+.setInputCols(Array("document", "sentence_embeddings")) 
+.setOutputCol("class")
 
 val berturk_pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, normalizer, stopwords_cleaner, lemma, berturk_embeddings, embeddingsSentence, document_classifier))
 
@@ -113,12 +113,12 @@ Trained on a custom dataset with Turkish Bert embeddings (BERTurk).
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-     Negative       0.83      0.80      0.81       970
-     Positive       0.84      0.87      0.86      1225
+Negative       0.83      0.80      0.81       970
+Positive       0.84      0.87      0.86      1225
 
-    accuracy                           0.84      2195
-   macro avg       0.84      0.83      0.84      2195
+accuracy                           0.84      2195
+macro avg       0.84      0.83      0.84      2195
 weighted avg       0.84      0.84      0.84      2195
 ```

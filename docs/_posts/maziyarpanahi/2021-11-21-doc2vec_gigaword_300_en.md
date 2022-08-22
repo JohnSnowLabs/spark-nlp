@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,47 +36,47 @@ We have trained this Doc2Vec model by using Gigaword 5th Edition over the window
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 token = Tokenizer()\
-  .setInputCols("document")\
-  .setOutputCol("token")
+.setInputCols("document")\
+.setOutputCol("token")
 
 norm = Normalizer()\
-  .setInputCols(["token"])\
-  .setOutputCol("normalized")\
-  .setLowercase(True)
+.setInputCols(["token"])\
+.setOutputCol("normalized")\
+.setLowercase(True)
 
 stops = StopWordsCleaner.pretrained()\
-  .setInputCols("normalized")\
-  .setOutputCol("cleanedToken")
-  
+.setInputCols("normalized")\
+.setOutputCol("cleanedToken")
+
 doc2Vec = Doc2VecModel.pretrained("doc2vec_gigaword_300", "en")\
-  .setInputCols("cleanedToken")\
-  .setOutputCol("sentence_embeddings")
+.setInputCols("cleanedToken")\
+.setOutputCol("sentence_embeddings")
 ```
 ```scala
 val document = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val tokenizer = new Tokenizer()
-      .setInputCols(Array("document"))
-      .setOutputCol("token")
+.setInputCols(Array("document"))
+.setOutputCol("token")
 
 val norm = new Normalizer()
-      .setInputCols(Array("token"))
-      .setOutputCol("normalized")
-      .setLowercase(true)
+.setInputCols(Array("token"))
+.setOutputCol("normalized")
+.setLowercase(true)
 
 val stops = StopWordsCleaner.pretrained()
-      .setInputCols("normalized")
-      .setOutputCol("cleanedToken")
+.setInputCols("normalized")
+.setOutputCol("cleanedToken")
 
 val doc2Vec = Doc2VecModel.pretrained("doc2vec_gigaword_300", "en")
-  .setInputCols("cleanedToken")\
-  .setOutputCol("sentence_embeddings")
+.setInputCols("cleanedToken")\
+.setOutputCol("sentence_embeddings")
 ```
 
 

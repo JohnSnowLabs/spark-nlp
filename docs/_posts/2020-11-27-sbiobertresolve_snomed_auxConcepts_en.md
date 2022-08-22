@@ -12,7 +12,7 @@ spark_version: 2.4
 tags: [clinical,entity_resolution,en]
 supported: true
 article_header:
-    type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -38,16 +38,16 @@ Snomed Codes and their normalized definition with ``sbiobert_base_cased_mli`` em
 ```python
 ...
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
- 
+
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-     .setInputCols(["ner_chunk_doc"])\
-     .setOutputCol("sbert_embeddings")
- 
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+.setInputCols(["ner_chunk_doc"])\
+.setOutputCol("sbert_embeddings")
+
 snomed_aux_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_auxConcepts","en", "clinical/models") \
-     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-     .setOutputCol("resolution")\
-     .setDistanceFunction("EUCLIDEAN")
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("resolution")\
+.setDistanceFunction("EUCLIDEAN")
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, snomed_aux_resolver])
 
@@ -59,17 +59,17 @@ results = model.fit(data).transform(data)
 ```scala
 ...
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
- 
+
 val sbert_embedder = BertSentenceEmbeddings
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")
-     .setInputCols(Array("ner_chunk_doc"))
-     .setOutputCol("sbert_embeddings")
- 
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")
+.setInputCols(Array("ner_chunk_doc"))
+.setOutputCol("sbert_embeddings")
+
 val snomed_aux_resolver = SentenceEntityResolverModel
-     .pretrained("sbiobertresolve_snomed_auxConcepts","en", "clinical/models")
-     .setInputCols(Array("ner_chunk", "sbert_embeddings"))
-     .setOutputCol("resolution")
-     .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_snomed_auxConcepts","en", "clinical/models")
+.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setOutputCol("resolution")
+.setDistanceFunction("EUCLIDEAN")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, snomed_aux_resolver))
 

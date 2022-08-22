@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,30 +40,30 @@ We used [TFRobertaForTokenClassification](https://huggingface.co/transformers/mo
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol('text') \
-    .setOutputCol('document')
+.setInputCol('text') \
+.setOutputCol('document')
 
 tokenizer = Tokenizer() \
-    .setInputCols(['document']) \
-    .setOutputCol('token')
+.setInputCols(['document']) \
+.setOutputCol('token')
 
 tokenClassifier = RoBertaForTokenClassification \
-      .pretrained('roberta_base_token_classifier_conll03', 'en') \
-      .setInputCols(['token', 'document']) \
-      .setOutputCol('ner') \
-      .setCaseSensitive(True) \
-      .setMaxSentenceLength(512)
+.pretrained('roberta_base_token_classifier_conll03', 'en') \
+.setInputCols(['token', 'document']) \
+.setOutputCol('ner') \
+.setCaseSensitive(True) \
+.setMaxSentenceLength(512)
 
 # since output column is IOB/IOB2 style, NerConverter can extract entities
 ner_converter = NerConverter() \
-    .setInputCols(['document', 'token', 'ner']) \
-    .setOutputCol('entities')
+.setInputCols(['document', 'token', 'ner']) \
+.setOutputCol('entities')
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
-    tokenizer,
-    tokenClassifier,
-    ner_converter
+document_assembler, 
+tokenizer,
+tokenClassifier,
+ner_converter
 ])
 
 example = spark.createDataFrame([['My name is John!']]).toDF("text")
@@ -71,23 +71,23 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document_assembler = DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 val tokenizer = Tokenizer() 
-    .setInputCols("document") 
-    .setOutputCol("token")
+.setInputCols("document") 
+.setOutputCol("token")
 
 val tokenClassifier = RoBertaForTokenClassification.pretrained("roberta_base_token_classifier_conll03", "en")
-      .setInputCols("document", "token")
-      .setOutputCol("ner")
-      .setCaseSensitive(true)
-      .setMaxSentenceLength(512)
+.setInputCols("document", "token")
+.setOutputCol("ner")
+.setCaseSensitive(true)
+.setMaxSentenceLength(512)
 
 // since output column is IOB/IOB2 style, NerConverter can extract entities
 val ner_converter = NerConverter() 
-    .setInputCols("document", "token", "ner") 
-    .setOutputCol("entities")
+.setInputCols("document", "token", "ner") 
+.setOutputCol("entities")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, tokenClassifier, ner_converter))
 
@@ -109,10 +109,10 @@ nlu.load("en.classify.token_roberta_base_token_classifier_conll03").predict("""M
 
 ```bash
 +------------------------------------------------------------------------------------+
- |result                                                                              |
- +------------------------------------------------------------------------------------+
- |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
- +------------------------------------------------------------------------------------+
+|result                                                                              |
++------------------------------------------------------------------------------------+
+|[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
++------------------------------------------------------------------------------------+
 ```
 
 {:.model-param}
@@ -137,19 +137,19 @@ nlu.load("en.classify.token_roberta_base_token_classifier_conll03").predict("""M
 ## Benchmarking
 
 ```bash
-        precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-       B-LOC       0.94      0.86      0.90      1837
-       I-ORG       0.86      0.91      0.88       751
-      I-MISC       0.85      0.76      0.80       346
-       I-LOC       0.85      0.77      0.81       257
-       I-PER       0.98      0.97      0.98      1307
-      B-MISC       0.88      0.84      0.86       922
-       B-ORG       0.85      0.91      0.88      1341
-       B-PER       0.95      0.95      0.95      1842
+B-LOC       0.94      0.86      0.90      1837
+I-ORG       0.86      0.91      0.88       751
+I-MISC       0.85      0.76      0.80       346
+I-LOC       0.85      0.77      0.81       257
+I-PER       0.98      0.97      0.98      1307
+B-MISC       0.88      0.84      0.86       922
+B-ORG       0.85      0.91      0.88      1341
+B-PER       0.95      0.95      0.95      1842
 
-   micro avg       0.91      0.90      0.91      8603
-   macro avg       0.90      0.87      0.88      8603
+micro avg       0.91      0.90      0.91      8603
+macro avg       0.90      0.87      0.88      8603
 weighted avg       0.92      0.90      0.91      8603
 
 
@@ -157,8 +157,8 @@ weighted avg       0.92      0.90      0.91      8603
 processed 51362 tokens with 5942 phrases; found: 5928 phrases; correct: 5270.
 accuracy:  90.04%; (non-O)
 accuracy:  98.07%; precision:  88.90%; recall:  88.69%; FB1:  88.80
-              LOC: precision:  92.54%; recall:  85.08%; FB1:  88.66  1689
-             MISC: precision:  83.48%; recall:  81.67%; FB1:  82.57  902
-              ORG: precision:  81.28%; recall:  90.01%; FB1:  85.42  1485
-              PER: precision:  94.33%; recall:  94.84%; FB1:  94.59  1852
+LOC: precision:  92.54%; recall:  85.08%; FB1:  88.66  1689
+MISC: precision:  83.48%; recall:  81.67%; FB1:  82.57  902
+ORG: precision:  81.28%; recall:  90.01%; FB1:  85.42  1485
+PER: precision:  94.33%; recall:  94.84%; FB1:  94.59  1852
 ```

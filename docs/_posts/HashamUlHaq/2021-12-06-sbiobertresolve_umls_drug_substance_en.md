@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -39,14 +39,14 @@ This model maps clinical entities to UMLS CUI codes. It is trained on `2021AB` U
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
-     .setInputCols(["ner_chunk_doc"])\
-     .setOutputCol("sbert_embeddings").setCaseSensitive(False)
+.pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
+.setInputCols(["ner_chunk_doc"])\
+.setOutputCol("sbert_embeddings").setCaseSensitive(False)
 
 resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_umls_drug_substance","en", "clinical/models") \
-     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-     .setOutputCol("resolution")\
-     .setDistanceFunction("EUCLIDEAN")
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("resolution")\
+.setDistanceFunction("EUCLIDEAN")
 
 pipeline = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, resolver])
 
@@ -60,16 +60,16 @@ results = model.fullAnnotate(['Dilaudid', 'Hydromorphone', 'Exalgo', 'Palladone'
 ...
 val chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 val sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
-      .setInputCols(["ner_chunk_doc"])\
-      .setOutputCol("sbert_embeddings")
-    
+.setInputCols(["ner_chunk_doc"])\
+.setOutputCol("sbert_embeddings")
+
 val resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_umls_drug_substance", "en", "clinical/models") \
-      .setInputCols(["ner_chunk_doc", "sbert_embeddings"]) \
-      .setOutputCol("resolution")\
-      .setDistanceFunction("EUCLIDEAN")
+.setInputCols(["ner_chunk_doc", "sbert_embeddings"]) \
+.setOutputCol("resolution")\
+.setDistanceFunction("EUCLIDEAN")
 
 val p_model = new PipelineModel().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, resolver))
-    
+
 val data = Seq(['Dilaudid', 'Hydromorphone', 'Exalgo', 'Palladone', 'Hydrogen peroxide 30 mg', 'Neosporin Cream', 'Magnesium hydroxide 100mg/1ml', 'Metformin 1000 mg']).toDF("text") 
 
 val res = p_model.transform(data)

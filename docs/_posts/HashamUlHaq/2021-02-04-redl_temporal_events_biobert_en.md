@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [licensed, clinical, en, relation_extraction]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,52 +37,52 @@ Extract relations between clinical events in terms of time. If an event occurred
 ```python
 ...
 documenter = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentencer = SentenceDetector()\
-    .setInputCols(["document"])\
-    .setOutputCol("sentences")
+.setInputCols(["document"])\
+.setOutputCol("sentences")
 
 tokenizer = sparknlp.annotators.Tokenizer()\
-    .setInputCols(["sentences"])\
-    .setOutputCol("tokens")
+.setInputCols(["sentences"])\
+.setOutputCol("tokens")
 
 pos_tagger = PerceptronModel()\
-    .pretrained("pos_clinical", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens"])\
-    .setOutputCol("pos_tags")
+.pretrained("pos_clinical", "en", "clinical/models") \
+.setInputCols(["sentences", "tokens"])\
+.setOutputCol("pos_tags")
 
 words_embedder = WordEmbeddingsModel() \
-    .pretrained("embeddings_clinical", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens"]) \
-    .setOutputCol("embeddings")
+.pretrained("embeddings_clinical", "en", "clinical/models") \
+.setInputCols(["sentences", "tokens"]) \
+.setOutputCol("embeddings")
 
 ner_tagger = MedicalNerModel.pretrained("ner_events_clinical", "en", "clinical/models")\
-    .setInputCols("sentences", "tokens", "embeddings")\
-    .setOutputCol("ner_tags")
+.setInputCols("sentences", "tokens", "embeddings")\
+.setOutputCol("ner_tags")
 
 ner_converter = NerConverter() \
-    .setInputCols(["sentences", "tokens", "ner_tags"]) \
-    .setOutputCol("ner_chunks")
+.setInputCols(["sentences", "tokens", "ner_tags"]) \
+.setOutputCol("ner_chunks")
 
 dependency_parser = DependencyParserModel() \
-    .pretrained("dependency_conllu", "en") \
-    .setInputCols(["sentences", "pos_tags", "tokens"]) \
-    .setOutputCol("dependencies")
+.pretrained("dependency_conllu", "en") \
+.setInputCols(["sentences", "pos_tags", "tokens"]) \
+.setOutputCol("dependencies")
 
 #Set a filter on pairs of named entities which will be treated as relation candidates
 re_ner_chunk_filter = RENerChunksFilter() \
-    .setInputCols(["ner_chunks", "dependencies"])\
-    .setMaxSyntacticDistance(10)\
-    .setOutputCol("re_ner_chunks")
-    #.setRelationPairs(['SYMPTOM-EXTERNAL_BODY_PART_OR_REGION'])
+.setInputCols(["ner_chunks", "dependencies"])\
+.setMaxSyntacticDistance(10)\
+.setOutputCol("re_ner_chunks")
+#.setRelationPairs(['SYMPTOM-EXTERNAL_BODY_PART_OR_REGION'])
 
 re_model = RelationExtractionDLModel()\
-    .pretrained("redl_temporal_events_biobert", "en", "clinical/models") \
-    .setPredictionThreshold(0.5)\
-    .setInputCols(["re_ner_chunks", "sentences"]) \
-    .setOutputCol("relations")
+.pretrained("redl_temporal_events_biobert", "en", "clinical/models") \
+.setPredictionThreshold(0.5)\
+.setInputCols(["re_ner_chunks", "sentences"]) \
+.setOutputCol("relations")
 
 pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model])
 
@@ -96,55 +96,55 @@ result = p_model.transform(data)
 ```scala
 ...
 val documenter = DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 val sentencer = SentenceDetector()
-    .setInputCols("document")
-    .setOutputCol("sentences")
+.setInputCols("document")
+.setOutputCol("sentences")
 
 val tokenizer = sparknlp.annotators.Tokenizer()
-    .setInputCols("sentences")
-    .setOutputCol("tokens")
+.setInputCols("sentences")
+.setOutputCol("tokens")
 
 val pos_tagger = PerceptronModel()
-    .pretrained("pos_clinical", "en", "clinical/models") 
-    .setInputCols(Array("sentences", "tokens"))
-    .setOutputCol("pos_tags")
+.pretrained("pos_clinical", "en", "clinical/models") 
+.setInputCols(Array("sentences", "tokens"))
+.setOutputCol("pos_tags")
 
 val words_embedder = WordEmbeddingsModel()
-    .pretrained("embeddings_clinical", "en", "clinical/models")
-    .setInputCols(Array("sentences", "tokens"))
-    .setOutputCol("embeddings")
+.pretrained("embeddings_clinical", "en", "clinical/models")
+.setInputCols(Array("sentences", "tokens"))
+.setOutputCol("embeddings")
 
 val ner_tagger = MedicalNerModel.pretrained("ner_events_clinical", "en", "clinical/models")
-    .setInputCols(Array("sentences", "tokens", "embeddings"))
-    .setOutputCol("ner_tags") 
+.setInputCols(Array("sentences", "tokens", "embeddings"))
+.setOutputCol("ner_tags") 
 
 val ner_converter = NerConverter()
-    .setInputCols(Array("sentences", "tokens", "ner_tags"))
-    .setOutputCol("ner_chunks")
+.setInputCols(Array("sentences", "tokens", "ner_tags"))
+.setOutputCol("ner_chunks")
 
 val dependency_parser = DependencyParserModel()
-    .pretrained("dependency_conllu", "en")
-    .setInputCols(Array("sentences", "pos_tags", "tokens"))
-    .setOutputCol("dependencies")
+.pretrained("dependency_conllu", "en")
+.setInputCols(Array("sentences", "pos_tags", "tokens"))
+.setOutputCol("dependencies")
 
 // Set a filter on pairs of named entities which will be treated as relation candidates
 val re_ner_chunk_filter = RENerChunksFilter()
-    .setInputCols(Array("ner_chunks", "dependencies"))
-    .setMaxSyntacticDistance(10)
-    .setOutputCol("re_ner_chunks")
-    // .setRelationPairs(Array("SYMPTOM-EXTERNAL_BODY_PART_OR_REGION"))
+.setInputCols(Array("ner_chunks", "dependencies"))
+.setMaxSyntacticDistance(10)
+.setOutputCol("re_ner_chunks")
+// .setRelationPairs(Array("SYMPTOM-EXTERNAL_BODY_PART_OR_REGION"))
 
 // The dataset this model is trained to is sentence-wise. 
 // This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.
 val re_model = RelationExtractionDLModel()
-    .pretrained("redl_temporal_events_biobert", "en", "clinical/models")
-    .setPredictionThreshold(0.5)
-    .setInputCols(Array("re_ner_chunks", "sentences"))
-    .setOutputCol("relations")
-    
+.pretrained("redl_temporal_events_biobert", "en", "clinical/models")
+.setPredictionThreshold(0.5)
+.setInputCols(Array("re_ner_chunks", "sentences"))
+.setOutputCol("relations")
+
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
 
 val data = Seq("She is diagnosed with cancer in 1991. Then she was admitted to Mayo Clinic in May 2000 and discharged in October 2001").toDF("text")

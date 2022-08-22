@@ -12,6 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 import os
+import textwrap
 import unittest
 
 import pytest
@@ -62,8 +63,9 @@ class PragmaticScorerTestSpec(unittest.TestCase):
         lemmatizer = Lemmatizer() \
             .setInputCols(["token"]) \
             .setOutputCol("lemma") \
-            .setDictionary(path="file:///" + os.getcwd() + "/../src/test/resources/lemma-corpus-small/lemmas_small.txt",
-                           key_delimiter="->", value_delimiter="\t")
+            .setDictionary(
+            path="file:///" + os.getcwd() + "/../src/test/resources/lemma-corpus-small/lemmas_small.txt",
+            key_delimiter="->", value_delimiter="\t")
         sentiment_detector = SentimentDetector() \
             .setInputCols(["lemma", "sentence"]) \
             .setOutputCol("sentiment") \
@@ -76,3 +78,79 @@ class PragmaticScorerTestSpec(unittest.TestCase):
         lemmatized = lemmatizer.fit(tokenized).transform(tokenized)
         sentiment_detector.fit(lemmatized).transform(lemmatized).show()
 
+
+@pytest.mark.fast
+class PragmaticSBDReturnCustomBoundsTestSpec(unittest.TestCase):
+
+    def create_data(self, data):
+        return SparkContextForTest.spark.createDataFrame([[data]]).toDF("text")
+
+    def runTest(self):
+        def assert_sentence_bounds(sent, sd, expected_sentence):
+            doc_assembler = DocumentAssembler() \
+                .setInputCol("text") \
+                .setOutputCol("document")
+
+            data = self.create_data(sent)
+            doc = doc_assembler.transform(data)
+
+            result = sd.transform(doc).select("sentence.result").first()["result"]
+
+            for sent, exp in zip(result, expected_sentence):
+                assert sent == exp
+
+        example = "This is a sentence. This one uses custom bounds; As is this one;"
+
+        sentence_detector_default = SentenceDetector() \
+            .setInputCols("document") \
+            .setOutputCol("sentence") \
+            .setCustomBounds([r"\.", ";"]) \
+            .setUseCustomBoundsOnly(True)
+
+        expected_default = ["This is a sentence", "This one uses custom bounds",
+                            "As is this one"]
+
+        assert_sentence_bounds(example, sentence_detector_default, expected_default)
+
+        sentence_detector = SentenceDetector() \
+            .setInputCols("document") \
+            .setOutputCol("sentence") \
+            .setCustomBounds([r"\.", ";"]) \
+            .setUseCustomBoundsOnly(True) \
+            .setCustomBoundsStrategy("append")
+
+        sentence_detector_mixed = SentenceDetector() \
+            .setInputCols("document") \
+            .setOutputCol("sentence") \
+            .setCustomBounds([";"]) \
+            .setCustomBoundsStrategy("append")
+
+        expected_append = ["This is a sentence.", "This one uses custom bounds;",
+                    "As is this one;"]
+
+        assert_sentence_bounds(example, sentence_detector, expected_append)
+        assert_sentence_bounds(example, sentence_detector_mixed, expected_append)
+
+        subHeaderList = textwrap.dedent(
+            """
+            1. This is a list
+            1.1 This is a subpoint
+            2. Second thing
+            2.2 Second subthing
+            """
+        )
+
+        sentence_detector_prepend = SentenceDetector() \
+            .setInputCols("document") \
+            .setOutputCol("sentence") \
+            .setCustomBounds([r"\n[\d\. ]+"]) \
+            .setUseCustomBoundsOnly(True) \
+            .setCustomBoundsStrategy("prepend")
+
+        expectedPrepend = [
+            "1. This is a list",
+            "1.1 This is a subpoint",
+            "2. Second thing",
+            "2.2 Second subthing"]
+        assert_sentence_bounds(subHeaderList, sentence_detector_prepend,
+                               expectedPrepend)

@@ -8,10 +8,10 @@ task: Assertion Status
 language: en
 edition: Spark NLP for Healthcare 2.7.2
 spark_version: 2.4
-tags: [assertion, en, licensed, clinical]
+tags: [assertion, en, licensed, clinical, biobert]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -34,58 +34,97 @@ Assign assertion status to clinical entities extracted by NER based on their con
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+    .setInputCol("text")\
+    .setOutputCol("document")
 
 sentenceDetector = SentenceDetector()\
-  .setInputCols(["document"])\
-  .setOutputCol("sentence")
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-  .setInputCols(["sentence"])\
-  .setOutputCol("token")
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")
 
-word_embeddings = BertEmbeddings.pretrained('biobert_pubmed_base_cased')\
-    .setInputCols(["document",'token'])\
+word_embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased")\
+    .setInputCols(["sentence",'token'])\
     .setOutputCol("embeddings")
 
-clinical_ner = NerDLModel.pretrained("ner_clinical_biobert", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+clinical_ner = MedicalNerModel.pretrained("ner_clinical_biobert", "en", "clinical/models") \
+    .setInputCols(["sentence", "token", "embeddings"]) \
+    .setOutputCol("ner")
 
 ner_converter = NerConverter() \
-  .setInputCols(["sentence", "token", "ner"]) \
-  .setOutputCol("ner_chunk")
+    .setInputCols(["sentence", "token", "ner"]) \
+    .setOutputCol("ner_chunk")
 
 clinical_assertion = AssertionDLModel.pretrained("assertion_dl_biobert", "en", "clinical/models") \
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
-    
+
 nlpPipeline = Pipeline(stages=[
-    documentAssembler, 
-    sentenceDetector,
-    tokenizer,
-    word_embeddings,
-    clinical_ner,
-    ner_converter,
-    clinical_assertion
-    ])
+      documentAssembler, 
+      sentenceDetector,
+      tokenizer,
+      word_embeddings,
+      clinical_ner,
+      ner_converter,
+      clinical_assertion
+])
 
-data = spark.createDataFrame([["The human KCNJ9 (Kir 3.3, GIRK3) is a member of the G-protein-activated inwardly rectifying potassium (GIRK) channel family.', 'Here we describe the genomicorganization of the KCNJ9 locus on chromosome 1q21-23 as a candidate gene forType II diabetes mellitus in the Pima Indian population.', 'The gene spansapproximately 7.6 kb and contains one noncoding and two coding exons separated byapproximately 2.2 and approximately 2.6 kb introns, respectively.', 'We identified14 single nucleotide polymorphisms (SNPs), including one that predicts aVal366Ala substitution, and an 8 base-pair', '(bp) insertion/deletion.', 'Ourexpression studies revealed the presence of the transcript in various humantissues including pancreas, and two major insulin-responsive tissues: fat andskeletal muscle.', 'The characterization of the KCNJ9 gene should facilitate furtherstudies on the function of the KCNJ9 protein and allow evaluation of thepotential role of the locus in Type II diabetes."]]).toDF("text")
+data = spark.createDataFrame([["""Patient has a headache for the last 2 weeks, needs to get a head CT, and appears anxious when she walks fast. No alopecia noted. She denies pain"""]]).toDF("text")
 
-model = nlpPipeline.fit(data)
-
-result = model.transform(data)
+result = nlpPipeline.fit(data).transform(data)
 ```
+```scala
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
 
+val sentenceDetector = new SentenceDetector()
+    .setInputCols("document") 
+    .setOutputCol("sentence") 
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence")
+    .setOutputCol("token")
+
+val word_embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased")
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("embeddings")
+
+clinical_ner = MedicalNerModel.pretrained("ner_clinical_biobert", "en", "clinical/models") 
+    .setInputCols(Array("sentence", "token", "embeddings")) 
+    .setOutputCol("ner")
+
+val ner_converter = new NerConverter()
+    .setInputCols(Array("sentence","token","ner"))
+    .setOutputCol("ner_chunk")
+
+val clinical_assertion = AssertionDLModel.pretrained("assertion_dl_biobert","en", "clinical/models") 
+    .setInputCols(Array("sentence", "ner_chunk", "embeddings")) 
+    .setOutputCol("assertion")
+
+val pipeline =  new Pipeline().setStages(Array(documentAssembler, 
+                                               sentenceDetector, 
+                                               tokenizer, 
+                                               word_embeddings, 
+                                               clinical_ner, 
+                                               ner_converter, 
+                                               clinical_assertion))
+
+val data = Seq("""Patient has a headache for the last 2 weeks, needs to get a head CT, and appears anxious when she walks fast. No alopecia noted. She denies pain""").toDF("text")
+
+val result = pipeline.fit(data).transform(data)
+```
 
 
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("en.assert.biobert").predict("""The human KCNJ9 (Kir 3.3, GIRK3) is a member of the G-protein-activated inwardly rectifying potassium (GIRK) channel family.', 'Here we describe the genomicorganization of the KCNJ9 locus on chromosome 1q21-23 as a candidate gene forType II diabetes mellitus in the Pima Indian population.', 'The gene spansapproximately 7.6 kb and contains one noncoding and two coding exons separated byapproximately 2.2 and approximately 2.6 kb introns, respectively.', 'We identified14 single nucleotide polymorphisms (SNPs), including one that predicts aVal366Ala substitution, and an 8 base-pair', '(bp) insertion/deletion.', 'Ourexpression studies revealed the presence of the transcript in various humantissues including pancreas, and two major insulin-responsive tissues: fat andskeletal muscle.', 'The characterization of the KCNJ9 gene should facilitate furtherstudies on the function of the KCNJ9 protein and allow evaluation of thepotential role of the locus in Type II diabetes.""")
+nlu.load("en.assert.biobert").predict("""Patient has a headache for the last 2 weeks, needs to get a head CT, and appears anxious when she walks fast. No alopecia noted. She denies pain.""")
 ```
 
 </div>
@@ -93,27 +132,15 @@ nlu.load("en.assert.biobert").predict("""The human KCNJ9 (Kir 3.3, GIRK3) is a m
 ## Results
 
 ```bash
-+--------------------+---------+---------+
-|               chunk|ner_label|assertion|
-+--------------------+---------+---------+
-|                 Kir|     TEST|  present|
-|               GIRK3|     TEST|  present|
-|  chromosome 1q21-23|TREATMENT|  present|
-|a candidate gene ...|  PROBLEM| possible|
-|        coding exons|     TEST|   absent|
-|     byapproximately|     TEST|  present|
-|             introns|     TEST|   absent|
-|single nucleotide...|  PROBLEM|  present|
-|aVal366Ala substi...|TREATMENT|  present|
-|      an 8 base-pair|  PROBLEM|  present|
-|                 bp)|     TEST|  present|
-|Ourexpression stu...|     TEST|  present|
-|The characterizat...|     TEST|  present|
-|      furtherstudies|TREATMENT|  present|
-|       KCNJ9 protein|     TEST|  present|
-|          evaluation|     TEST|  present|
-+--------------------+---------+---------+
-
++----------+---------+-----------+
+|chunk     |ner_label|assertion  |
++----------+---------+-----------+
+|a headache|PROBLEM  |present    |
+|a head CT |TEST     |present    |
+|anxious   |PROBLEM  |conditional|
+|alopecia  |PROBLEM  |absent     |
+|pain      |PROBLEM  |absent     |
++----------+---------+-----------+
 ```
 
 {:.model-param}
@@ -136,15 +163,13 @@ Trained on i2b2 assertion data.
 ## Benchmarking
 
 ```bash
-|    | label                        |    tp |   fp |   fn |     prec |      rec |       f1 |
-|---:|:-----------------------------|------:|-----:|-----:|---------:|---------:|---------:|
-|  0 | absent                       |   769 |   51 |   57 | 0.937805 | 0.930993 | 0.934386 |
-|  1 | present                      |  2575 |  161 |  102 | 0.941155 | 0.961898 | 0.951413 |
-|  2 | conditional                  |    20 |   14 |   23 | 0.588235 | 0.465116 | 0.519481 |
-|  3 | associated_with_someone_else |    51 |    9 |   15 | 0.85     | 0.772727 | 0.809524 |
-|  4 | hypothetical                 |   129 |   13 |   15 | 0.908451 | 0.895833 | 0.902098 |
-|  5 | possible                     |   114 |   44 |   80 | 0.721519 | 0.587629 | 0.647727 |
-|  6 | Macro-average                | 3658  | 292  |  292 | 0.824527 | 0.769033 | 0.795814 |
-|  7 | Micro-average                | 3658  | 292  |  292 | 0.926076 | 0.926076 | 0.926076 |
-
+label                            tp    fp    fn      prec       rec        f1
+absent                          769    51    57  0.937805  0.930993  0.934386
+present                        2575   161   102  0.941155  0.961898  0.951413
+conditional                      20    14    23  0.588235  0.465116  0.519481
+associated_with_someone_else     51     9    15  0.85      0.772727  0.809524
+hypothetical                    129    13    15  0.908451  0.895833  0.902098
+possible                        114    44    80  0.721519  0.587629  0.647727
+Macro-average                  3658   292   292  0.824527  0.769033  0.795814
+Micro-average                  3658   292   292  0.926076  0.926076  0.926076
 ```

@@ -11,7 +11,7 @@ edition: Spark NLP 3.4.1
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,19 +36,19 @@ Spell Checker is a sequence-to-sequence model that detects and corrects spelling
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 tokenizer = RecursiveTokenizer()\
-  .setInputCols(["document"])\
-  .setOutputCol("token")\
-  .setPrefixes(["\"", "“", "(", "[", "\n", "."]) \
-  .setSuffixes(["\"", "”", ".", ",", "?", ")", "]", "!", ";", ":", "'s", "’s"])
+.setInputCols(["document"])\
+.setOutputCol("token")\
+.setPrefixes(["\"", "“", "(", "[", "\n", "."]) \
+.setSuffixes(["\"", "”", ".", ",", "?", ")", "]", "!", ";", ":", "'s", "’s"])
 
 spellModel = ContextSpellCheckerModel\
-    .pretrained("spellcheck_dl", "en")\
-    .setInputCols("token")\
-    .setOutputCol("checked")\
+.pretrained("spellcheck_dl", "en")\
+.setInputCols("token")\
+.setOutputCol("checked")\
 
 pipeline = Pipeline(stages = [documentAssembler, tokenizer, spellModel])
 
@@ -58,20 +58,20 @@ text = ["During the summer we have the best ueather.", "I have a black ueather j
 lp.annotate(text)
 ```
 ```scala
-  val assembler = new DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+val assembler = new DocumentAssembler()
+.setInputCol("text")
+.setOutputCol("document")
 
-  val tokenizer = new RecursiveTokenizer()
-    .setInputCols(Array("document"))
-    .setOutputCol("token")
-    .setPrefixes(Array("\"", "“", "(", "[", "\n", "."))
-    .setSuffixes(Array("\"", "”", ".", ",", "?", ")", "]", "!", ";", ":", "'s", "’s"))
+val tokenizer = new RecursiveTokenizer()
+.setInputCols(Array("document"))
+.setOutputCol("token")
+.setPrefixes(Array("\"", "“", "(", "[", "\n", "."))
+.setSuffixes(Array("\"", "”", ".", ",", "?", ")", "]", "!", ";", ":", "'s", "’s"))
 
-  val spellChecker = ContextSpellCheckerModel.
-    pretrained("spellcheck_dl", "en").
-    setInputCols("token").
-    setOutputCol("checked")
+val spellChecker = ContextSpellCheckerModel.
+pretrained("spellcheck_dl", "en").
+setInputCols("token").
+setOutputCol("checked")
 
 val pipeline =  new Pipeline().setStages(Array(assembler, tokenizer, spellChecker))
 val empty_df = spark.createDataFrame([[""]]).toDF("text")
@@ -93,12 +93,12 @@ nlu.load("spell").predict("""During the summer we have the best ueather.""")
 
 ```bash
 [{'checked': ['During', 'the', 'summer', 'we', 'have', 'the', 'best', 'weather', '.'],
-  'document': ['During the summer we have the best ueather.'],
-  'token': ['During', 'the', 'summer', 'we', 'have', 'the', 'best', 'ueather', '.']},
+'document': ['During the summer we have the best ueather.'],
+'token': ['During', 'the', 'summer', 'we', 'have', 'the', 'best', 'ueather', '.']},
 
- {'checked': ['I', 'have', 'a', 'black', 'leather', 'jacket', ',', 'so', 'nice',  '.'],
-  'document': ['I have a black ueather jacket, so nice.'],
-  'token': ['I', 'have', 'a', 'black', 'ueather', 'jacket', ',', 'so', 'nice', '.']}]
+{'checked': ['I', 'have', 'a', 'black', 'leather', 'jacket', ',', 'so', 'nice',  '.'],
+'document': ['I have a black ueather jacket, so nice.'],
+'token': ['I', 'have', 'a', 'black', 'ueather', 'jacket', ',', 'so', 'nice', '.']}]
 ```
 
 {:.model-param}

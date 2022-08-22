@@ -12,7 +12,7 @@ spark_version: 3.0
 supported: true
 recommended: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,15 +37,15 @@ LEGAL-BERT is a family of BERT models for the legal domain, intended to assist l
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 sent_embeddings = BertSentenceEmbeddings.pretrained("sent_bert_base_uncased_legal", "en") \
-      .setInputCols("sentence") \
-      .setOutputCol("bert_sentence")
+.setInputCols("sentence") \
+.setOutputCol("bert_sentence")
 
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, sent_embeddings ])
 ```
 ```scala
 val sent_embeddings = BertSentenceEmbeddings.pretrained("sent_bert_base_uncased_legal", "en")
-      .setInputCols("sentence")
-      .setOutputCol("bert_sentence")
+.setInputCols("sentence")
+.setOutputCol("bert_sentence")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, sent_embeddings ))
 ```

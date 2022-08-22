@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -44,37 +44,37 @@ It is trained on the [LivingNER](https://temu.bsc.es/livingner/2022/05/03/multil
 
 ```python
 document_assembler = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
-    .setInputCols(["document"])\
-    .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-    .setInputCols(["sentence"])\
-    .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 embeddings = BertEmbeddings.pretrained("biobert_embeddings_biomedical","pt")\
-    .setInputCols(["sentence", "token"])\
-    .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])\
+.setOutputCol("embeddings")
 
 ner_model = MedicalNerModel.pretrained("ner_living_species_bert", "pt","clinical/models")\
-    .setInputCols(["sentence", "token", "embeddings"])\
-    .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"])\
+.setOutputCol("ner")
 
 ner_converter = NerConverter()\
-    .setInputCols(["sentence", "token", "ner"])\
-    .setOutputCol("ner_chunk")
+.setInputCols(["sentence", "token", "ner"])\
+.setOutputCol("ner_chunk")
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
-    sentence_detector,
-    tokenizer,
-    embeddings,
-    ner_model,
-    ner_converter   
-    ])
+document_assembler, 
+sentence_detector,
+tokenizer,
+embeddings,
+ner_model,
+ner_converter   
+])
 
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -84,40 +84,48 @@ result = model.transform(data)
 ```
 ```scala
 val document_assembler = new DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-    .setInputCols("document")
-    .setOutputCol("sentence")
+.setInputCols("document")
+.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
-    .setOutputCol("token")
+.setInputCols("sentence")
+.setOutputCol("token")
 
 val embeddings = BertEmbeddings.pretrained("biobert_embeddings_biomedical","pt")
-    .setInputCols(Array("sentence", "token"))
-    .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 
 val ner_model = MedicalNerModel.pretrained("ner_living_species_bert", "pt","clinical/models")
-    .setInputCols(Array("sentence", "token", "embeddings"))
-    .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings"))
+.setOutputCol("ner")
 
 val ner_converter = new NerConverter()
-    .setInputCols(Array("sentence", "token", "ner"))
-    .setOutputCol("ner_chunk")
+.setInputCols(Array("sentence", "token", "ner"))
+.setOutputCol("ner_chunk")
 
 val pipeline = new PipelineModel().setStages(Array(document_assembler, 
-                                                  sentence_detector,
-                                                  tokenizer,
-                                                  embeddings,
-                                                  ner_model,
-                                                  ner_converter))
+sentence_detector,
+tokenizer,
+embeddings,
+ner_model,
+ner_converter))
 
 val data = Seq("""Uma rapariga de 16 anos com um historial pessoal de asma apresentou ao departamento de dermatologia com lesões cutâneas assintomáticas que tinham estado presentes durante 2 meses. A paciente tinha sido tratada com creme corticosteróide devido a uma suspeita inicial de eczema atópico, apesar do qual apresentava um crescimento progressivo marcado das lesões. Tinha um gato doméstico que ela nunca tinha levado ao veterinário. O exame físico revelou placas em forma de anel com uma borda periférica activa na parte superior das costas e nos aspectos laterais do pescoço e da face. Cultura local obtida por raspagem de tapete isolado Trichophyton rubrum. Com base em dados clínicos e cultura, foi estabelecido o diagnóstico de tinea incognito.""").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("pt.med_ner.living_species.bert").predict("""Uma rapariga de 16 anos com um historial pessoal de asma apresentou ao departamento de dermatologia com lesões cutâneas assintomáticas que tinham estado presentes durante 2 meses. A paciente tinha sido tratada com creme corticosteróide devido a uma suspeita inicial de eczema atópico, apesar do qual apresentava um crescimento progressivo marcado das lesões. Tinha um gato doméstico que ela nunca tinha levado ao veterinário. O exame físico revelou placas em forma de anel com uma borda periférica activa na parte superior das costas e nos aspectos laterais do pescoço e da face. Cultura local obtida por raspagem de tapete isolado Trichophyton rubrum. Com base em dados clínicos e cultura, foi estabelecido o diagnóstico de tinea incognito.""")
+```
+
 </div>
 
 ## Results
@@ -156,12 +164,12 @@ val result = pipeline.fit(data).transform(data)
 ## Benchmarking
 
 ```bash
- label         precision  recall  f1-score  support 
- B-HUMAN       0.87       0.92    0.89      2827    
- B-SPECIES     0.70       0.82    0.76      2798    
- I-HUMAN       0.96       0.40    0.56      180     
- I-SPECIES     0.75       0.77    0.76      1100    
- micro-avg     0.78       0.84    0.81      6905    
- macro-avg     0.82       0.72    0.74      6905    
- weighted-avg  0.79       0.84    0.81      6905   
+label         precision  recall  f1-score  support 
+B-HUMAN       0.87       0.92    0.89      2827    
+B-SPECIES     0.70       0.82    0.76      2798    
+I-HUMAN       0.96       0.40    0.56      180     
+I-SPECIES     0.75       0.77    0.76      1100    
+micro-avg     0.78       0.84    0.81      6905    
+macro-avg     0.82       0.72    0.74      6905    
+weighted-avg  0.79       0.84    0.81      6905   
 ```

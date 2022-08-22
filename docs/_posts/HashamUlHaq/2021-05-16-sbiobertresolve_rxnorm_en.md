@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.0.4
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -39,15 +39,15 @@ Predicts RxNorm Codes and their normalized definition for each chunk.
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-     .setInputCols(["ner_chunk_doc"])\
-     .setOutputCol("sbert_embeddings")
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+.setInputCols(["ner_chunk_doc"])\
+.setOutputCol("sbert_embeddings")
 
 rxnorm_resolver = SentenceEntityResolverModel\
-     .pretrained("sbiobertresolve_rxnorm","en", "clinical/models") \
-     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-     .setOutputCol("resolution")\
-     .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_rxnorm","en", "clinical/models") \
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("resolution")\
+.setDistanceFunction("EUCLIDEAN")
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, rxnorm_resolver])
 
@@ -60,15 +60,15 @@ results = nlpPipeline.fit(data).transform(data)
 val chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
 val sbert_embedder = BertSentenceEmbeddings
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")
-     .setInputCols(Array("ner_chunk_doc"))
-     .setOutputCol("sbert_embeddings")
+.pretrained("sbiobert_base_cased_mli","en","clinical/models")
+.setInputCols(Array("ner_chunk_doc"))
+.setOutputCol("sbert_embeddings")
 
 val rxnorm_resolver = SentenceEntityResolverModel
-     .pretrained("sbiobertresolve_rxnorm","en", "clinical/models")
-     .setInputCols(Array("ner_chunk", "sbert_embeddings"))
-     .setOutputCol("resolution")
-     .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_rxnorm","en", "clinical/models")
+.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setOutputCol("resolution")
+.setDistanceFunction("EUCLIDEAN")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, rxnorm_resolver))
 

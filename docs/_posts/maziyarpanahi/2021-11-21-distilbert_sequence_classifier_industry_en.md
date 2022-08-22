@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,23 +36,23 @@ use_language_switcher: "Python-Scala-Java"
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol('text') \
-    .setOutputCol('document')
+.setInputCol('text') \
+.setOutputCol('document')
 
 tokenizer = Tokenizer() \
-    .setInputCols(['document']) \
-    .setOutputCol('token')
+.setInputCols(['document']) \
+.setOutputCol('token')
 
 sequenceClassifier = DistilBertForSequenceClassification \
-      .pretrained('distilbert_sequence_classifier_industry', 'en') \
-      .setInputCols(['token', 'document']) \
-      .setOutputCol('class') \
-      .setMaxSentenceLength(512)
+.pretrained('distilbert_sequence_classifier_industry', 'en') \
+.setInputCols(['token', 'document']) \
+.setOutputCol('class') \
+.setMaxSentenceLength(512)
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
-    tokenizer,
-    sequenceClassifier    
+document_assembler, 
+tokenizer,
+sequenceClassifier    
 ])
 
 example = spark.createDataFrame([['Stellar Capital Services Limited is an India-based non-banking financial company ... loan against property, management consultancy, personal loans and unsecured loans.']]).toDF("text")
@@ -60,17 +60,17 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document_assembler = DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 val tokenizer = Tokenizer() 
-    .setInputCols("document") 
-    .setOutputCol("token")
+.setInputCols("document") 
+.setOutputCol("token")
 
 val tokenClassifier = DistilBertForSequenceClassification.pretrained("distilbert_sequence_classifier_industry", "en")
-      .setInputCols("document", "token")
-      .setOutputCol("class")
-      .setMaxSentenceLength(512)
+.setInputCols("document", "token")
+.setOutputCol("class")
+.setMaxSentenceLength(512)
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 

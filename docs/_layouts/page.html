@@ -52,12 +52,15 @@ layout: base
       </div>
 
 {%- else -%}
-<div class="layout--page js-page-root {%- if page.aside -%}&nbsp; layout--page--aside{%- endif -%}">
+<div class="layout--page js-page-root  {%- if page.aside -%}&nbsp; layout--page--aside{%- endif -%}">
 {%- endif -%}
 
     {%- assign _page_main_class = 'page__main js-page-main' -%}
     {%- if _page_mode == 'immersive' -%}
       {%- assign _page_main_class = _page_main_class | append: ' page__main--immersive' -%}
+    {%- endif -%}
+    {%- if _page_mode == 'immersivebg' -%}
+      {%- assign _page_main_class = _page_main_class | append: ' page__main--immersive_bg' -%}
     {%- endif -%}
     {%- unless page.sidebar -%}
       {%- assign _page_main_class = _page_main_class | append: ' page__viewport' -%}

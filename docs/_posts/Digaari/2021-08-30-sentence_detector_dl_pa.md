@@ -11,7 +11,7 @@ edition: Spark NLP 3.2.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,13 +32,13 @@ SentenceDetectorDL (SDDL) is based on a general-purpose neural network model for
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documenter = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
-    
+.setInputCol("text")\
+.setOutputCol("document")
+
 sentencerDL = SentenceDetectorDLModel\
-  .pretrained("sentence_detector_dl", "pa") \
-  .setInputCols(["document"]) \
-  .setOutputCol("sentences")
+.pretrained("sentence_detector_dl", "pa") \
+.setInputCols(["document"]) \
+.setOutputCol("sentences")
 
 sd_model = LightPipeline(PipelineModel(stages=[documenter, sentencerDL]))
 sd_model.fullAnnotate("""ਅੰਗਰੇਜ਼ੀ ਪੜ੍ਹਨ ਦੇ ਪੈਰਾਗ੍ਰਾਫਾਂ ਦੇ ਇੱਕ ਮਹਾਨ ਸਰੋਤ ਦੀ ਭਾਲ ਕਰ ਰਹੇ ਹੋ? ਤੁਸੀਂ ਸਹੀ ਜਗ੍ਹਾ ਤੇ ਆਏ ਹੋ. ਇੱਕ ਤਾਜ਼ਾ ਅਧਿਐਨ ਅਨੁਸਾਰ ਅੱਜ ਦੇ ਨੌਜਵਾਨਾਂ ਵਿੱਚ ਪੜ੍ਹਨ ਦੀ ਆਦਤ ਤੇਜ਼ੀ ਨਾਲ ਘਟ ਰਹੀ ਹੈ। ਉਹ ਕੁਝ ਸਕਿੰਟਾਂ ਤੋਂ ਵੱਧ ਸਮੇਂ ਲਈ ਦਿੱਤੇ ਗਏ ਅੰਗਰੇਜ਼ੀ ਪੜ੍ਹਨ ਵਾਲੇ ਪੈਰੇ 'ਤੇ ਧਿਆਨ ਨਹੀਂ ਦੇ ਸਕਦੇ! ਨਾਲ ਹੀ, ਪੜ੍ਹਨਾ ਸਾਰੀਆਂ ਪ੍ਰਤੀਯੋਗੀ ਪ੍ਰੀਖਿਆਵਾਂ ਦਾ ਇੱਕ ਅਨਿੱਖੜਵਾਂ ਅੰਗ ਸੀ ਅਤੇ ਹੈ. ਇਸ ਲਈ, ਤੁਸੀਂ ਆਪਣੇ ਪੜ੍ਹਨ ਦੇ ਹੁਨਰ ਨੂੰ ਕਿਵੇਂ ਸੁਧਾਰਦੇ ਹੋ? ਇਸ ਪ੍ਰਸ਼ਨ ਦਾ ਉੱਤਰ ਅਸਲ ਵਿੱਚ ਇੱਕ ਹੋਰ ਪ੍ਰਸ਼ਨ ਹੈ: ਪੜ੍ਹਨ ਦੇ ਹੁਨਰ ਦੀ ਵਰਤੋਂ ਕੀ ਹੈ? ਪੜ੍ਹਨ ਦਾ ਮੁੱਖ ਉਦੇਸ਼ 'ਅਰਥ ਬਣਾਉਣਾ' ਹੈ.""")
@@ -47,8 +47,8 @@ sd_model.fullAnnotate("""ਅੰਗਰੇਜ਼ੀ ਪੜ੍ਹਨ ਦੇ ਪੈ�
 ```
 ```scala
 val documenter = DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val model = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "pa")
 	.setInputCols(Array("document"))

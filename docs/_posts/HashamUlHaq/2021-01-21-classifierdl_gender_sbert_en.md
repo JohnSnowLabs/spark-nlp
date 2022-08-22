@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [en, licensed, classifier, clinical]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -38,13 +38,13 @@ This model classifies the gender of the patient in the clinical document using c
 document_assembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
 
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli", 'en', 'clinical/models')\
-     .setInputCols(["document"])\
-     .setOutputCol("sentence_embeddings")
+.pretrained("sbiobert_base_cased_mli", 'en', 'clinical/models')\
+.setInputCols(["document"])\
+.setOutputCol("sentence_embeddings")
 
 gender_classifier = ClassifierDLModel.pretrained( 'classifierdl_gender_sbert', 'en', 'clinical/models') \
-               .setInputCols(["document", "sentence_embeddings"]) \
-               .setOutputCol("class")
+.setInputCols(["document", "sentence_embeddings"]) \
+.setOutputCol("class")
 
 nlp_pipeline = Pipeline(stages=[document_assembler, sbert_embedder, gender_classifier])
 
@@ -65,7 +65,7 @@ nlu.load("en.classify.gender.sbert").predict("""social history: shows that  does
 ## Results
 
 ```bash
- Female
+Female
 ```
 
 {:.model-param}
@@ -89,13 +89,13 @@ This model is trained on more than four thousands clinical documents (radiology 
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-      Female     0.9390    0.9747    0.9565       237
-        Male     0.9561    0.8720    0.9121       125
-     Unknown     0.8491    0.8824    0.8654        51
+Female     0.9390    0.9747    0.9565       237
+Male     0.9561    0.8720    0.9121       125
+Unknown     0.8491    0.8824    0.8654        51
 
-    accuracy                         0.9322       413
-   macro avg     0.9147    0.9097    0.9113       413
+accuracy                         0.9322       413
+macro avg     0.9147    0.9097    0.9113       413
 weighted avg     0.9331    0.9322    0.9318       413
 ```

@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [open_source, embeddings, xx]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,8 +32,8 @@ This model contains a deep bidirectional transformer trained on Wikipedia and th
 ```python
 ...
 embeddings = BertEmbeddings.pretrained("bert_multi_cased", "xx") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 result = pipeline_model.transform(spark.createDataFrame([['I love Spark NLP']], ["text"]))
@@ -42,8 +42,8 @@ result = pipeline_model.transform(spark.createDataFrame([['I love Spark NLP']], 
 ```scala
 ...
 val embeddings = BertEmbeddings.pretrained("bert_multi_cased", "xx")
-      .setInputCols("sentence", "token")
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token")
+.setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
 val data = Seq("I love Spark NLP").toDF("text")
 val result = pipeline.fit(data).transform(data)
@@ -65,10 +65,10 @@ embeddings_df
 ```bash
 	xx_embed_bert_multi_cased_embeddings	            token
 		
-      [0.31631314754486084, -0.5579454898834229, 0.1... 	I
- 	[-0.1488783359527588, -0.27264419198036194, -0... 	love
- 	[0.0496230386197567, -0.43625175952911377, -0.... 	Spark
- 	[-0.2838578224182129, -0.7103433012962341, 0.4... 	NLP
+[0.31631314754486084, -0.5579454898834229, 0.1... 	I
+	[-0.1488783359527588, -0.27264419198036194, -0... 	love
+	[0.0496230386197567, -0.43625175952911377, -0.... 	Spark
+	[-0.2838578224182129, -0.7103433012962341, 0.4... 	NLP
 ```
 
 

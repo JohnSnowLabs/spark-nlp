@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,39 +40,39 @@ To see more details, please check the official page in Hugging Face: https://hug
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-    .setInputCol("term")\
-    .setOutputCol("document")
+.setInputCol("term")\
+.setOutputCol("document")
 
 tokenizer = Tokenizer()\
-    .setInputCols("document")\
-    .setOutputCol("token")
+.setInputCols("document")\
+.setOutputCol("token")
 
 roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
-    .setInputCols(["document", "token"])\
-    .setOutputCol("roberta_embeddings")
+.setInputCols(["document", "token"])\
+.setOutputCol("roberta_embeddings")
 
 pipeline = Pipeline(stages = [
-    documentAssembler,
-    tokenizer,
-    roberta_embeddings])
+documentAssembler,
+tokenizer,
+roberta_embeddings])
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-    .setInputCol("term")
-    .setOutputCol("document")
+.setInputCol("term")
+.setOutputCol("document")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("document")
-    .setOutputCol("token")
+.setInputCols("document")
+.setOutputCol("token")
 
 val roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
-    .setInputCols(Array("document", "token"))
-    .setOutputCol("roberta_embeddings")
+.setInputCols(Array("document", "token"))
+.setOutputCol("roberta_embeddings")
 
 val pipeline = new Pipeline().setStages(Array(
-    documentAssembler,
-    tokenizer,
-    roberta_embeddings))
+documentAssembler,
+tokenizer,
+roberta_embeddings))
 ```
 
 

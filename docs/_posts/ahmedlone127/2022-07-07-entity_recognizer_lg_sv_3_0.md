@@ -11,14 +11,14 @@ edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
 
 The entity_recognizer_lg is a pretrained pipeline that we can use to process text with a simple pipeline that performs basic processing steps and recognizes entities.
-         It performs most of the common text processing tasks on your dataframe
+It performs most of the common text processing tasks on your dataframe
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -36,6 +36,14 @@ from sparknlp.pretrained import PretrainedPipeline
 pipeline = PretrainedPipeline("entity_recognizer_lg", "sv")
 
 result = pipeline.annotate("""I love johnsnowlabs! """)
+```
+
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("sv.ner.lg").predict("""I love johnsnowlabs! """)
 ```
 
 </div>

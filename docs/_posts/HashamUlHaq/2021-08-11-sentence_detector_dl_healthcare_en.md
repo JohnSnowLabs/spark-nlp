@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.2.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -47,13 +47,13 @@ Breaks text in sentences.
 
 ```python
 documenter = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
-    
+.setInputCol("text")\
+.setOutputCol("document")
+
 sentencerDL = SentenceDetectorDLModel\
-  .pretrained("sentence_detector_dl_healthcare","en","clinical/models") \
-  .setInputCols(["document"]) \
-  .setOutputCol("sentences")
+.pretrained("sentence_detector_dl_healthcare","en","clinical/models") \
+.setInputCols(["document"]) \
+.setOutputCol("sentences")
 
 text = """He was given boluses of MS04 with some effect, he has since been placed on a PCA - he take 80mg of oxycontin at home, his PCA dose is ~ 2 the morphine dose of the oxycontin, he has also received ativan for anxiety.Repleted with 20 meq kcl po, 30 mmol K-phos iv and 2 gms mag so4 iv.
 Size: Prostate gland measures 10x1.1x 4.9 cm (LS x AP x TS). Estimated volume is 
@@ -66,8 +66,8 @@ result = sd_model.fullAnnotate(text)
 ```
 ```scala
 val documenter = new DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val model = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
 	.setInputCols(Array("document"))

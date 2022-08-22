@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [open_source, bn, embeddings]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,8 +36,8 @@ These embeddings can be used in multiple tasks like semantic word similarity, na
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 embeddings = WordEmbeddingsModel.pretrained("bengali_cc_300d", "bn") \
-        .setInputCols(["sentence", "token"]) \
-        .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"]) \
+.setOutputCol("embeddings")
 ```
 
 

@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.0
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,16 +36,16 @@ Classify Urdu news into 7 categories.
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-      .setInputCol("news") \
-      .setOutputCol("document")
+.setInputCol("news") \
+.setOutputCol("document")
 
 embeddings = BertSentenceEmbeddings.pretrained("labse", "xx") \
-      .setInputCols("document") \
-      .setOutputCol("sentence_embeddings")
+.setInputCols("document") \
+.setOutputCol("sentence_embeddings")
 
 classifierdl = ClassifierDLModel.pretrained("classifierdl_bert_news", "ur") \
-  .setInputCols(["document", "sentence_embeddings"]) \
-  .setOutputCol("class")
+.setInputCols(["document", "sentence_embeddings"]) \
+.setOutputCol("class")
 
 urdu_news_pipeline = Pipeline(stages=[document_assembler, embeddings, classifierdl])
 light_pipeline = LightPipeline(urdu_news_pipeline.fit(spark.createDataFrame([['']]).toDF("news")))
@@ -55,17 +55,17 @@ result["class"]
 ```
 ```scala
 val document = DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val embeddings = BertSentenceEmbeddings
-    .pretrained("lanse", "xx") 
-    .setInputCols("document")
-    .setOutputCol("sentence_embeddings")
+.pretrained("lanse", "xx") 
+.setInputCols("document")
+.setOutputCol("sentence_embeddings")
 
 val document_classifier = ClassifierDLModel.pretrained("classifierdl_bert_news", "ur") 
-  .setInputCols(Array("document", "sentence_embeddings")) 
-  .setOutputCol("class")
+.setInputCols(Array("document", "sentence_embeddings")) 
+.setOutputCol("class")
 
 val nlpPipeline = new Pipeline().setStages(Array(document, embeddings, document_classifier))
 val light_pipeline = LightPipeline(nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text")))
@@ -109,15 +109,15 @@ Combination of multiple open source data sets.
 ## Benchmarking
 
 ```bash
-        label  precision    recall  f1-score   support
-     business       0.83      0.86      0.85      2365
+label  precision    recall  f1-score   support
+business       0.83      0.86      0.85      2365
 entertainment       0.87      0.85      0.86      3081
-       health       0.68      0.67      0.68       430
-       inland       0.80      0.82      0.81      3964
-      science       0.62      0.60      0.61       558
-       sports       0.88      0.89      0.89      4022
-   weird_news       0.60      0.54      0.57       826
-     accuracy          -         -      0.82     15246
-    macro-avg       0.76      0.75      0.75     15246
- weighted-avg       0.82      0.82      0.82     15246
+health       0.68      0.67      0.68       430
+inland       0.80      0.82      0.81      3964
+science       0.62      0.60      0.61       558
+sports       0.88      0.89      0.89      4022
+weird_news       0.60      0.54      0.57       826
+accuracy          -         -      0.82     15246
+macro-avg       0.76      0.75      0.75     15246
+weighted-avg       0.82      0.82      0.82     15246
 ```

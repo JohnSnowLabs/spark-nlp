@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [embeddings, en, open_source]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,8 +32,8 @@ XLNet is a new unsupervised language representation learning method based on a n
 ```python
 ...
 embeddings = XlnetEmbeddings.pretrained("xlnet_base_cased", "en") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 result = pipeline_model.transform(spark.createDataFrame([['I love NLP']], ["text"]))
@@ -42,8 +42,8 @@ result = pipeline_model.transform(spark.createDataFrame([['I love NLP']], ["text
 ```scala
 ...
 val embeddings = XlnetEmbeddings.pretrained("xlnet_base_cased", "en")
-      .setInputCols("sentence", "token")
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token")
+.setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
 val data = Seq("I love NLP").toDF("text")
 val result = pipeline.fit(data).transform(data)
@@ -63,7 +63,7 @@ embeddings_df
 {:.h2_title}
 ## Results
 ```bash
-        token	en_embed_xlnet_base_cased_embeddings
+token	en_embed_xlnet_base_cased_embeddings
 	
 	I	[0.0027268705889582634, -3.5811028480529785, 0...
 	love	[-4.020033836364746, -2.2760159969329834, 0.88...

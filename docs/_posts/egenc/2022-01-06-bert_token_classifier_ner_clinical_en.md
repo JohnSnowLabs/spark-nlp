@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.4
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -46,27 +46,27 @@ This model is a BERT-based version of the ner_clinical model and it is 4% better
 
 ```python
 documentAssembler = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
-     .setInputCols(["document"])\
-     .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-     .setInputCols("sentence")\
-     .setOutputCol("token")
+.setInputCols("sentence")\
+.setOutputCol("token")
 
 tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_clinical", "en", "clinical/models")\
-     .setInputCols("token", "sentence")\
-     .setOutputCol("ner")
-  
+.setInputCols("token", "sentence")\
+.setOutputCol("ner")
+
 pipeline =  Pipeline(stages=[
-       documentAssembler,
-       sentenceDetector,
-       tokenizer,
-       tokenClassifier
-  ])
+documentAssembler,
+sentenceDetector,
+tokenizer,
+tokenClassifier
+])
 
 p_model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -78,20 +78,20 @@ result = p_model.transform(spark.createDataFrame([[text]]).toDF("text"))
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-  
+.setInputCol("text")
+.setOutputCol("document")
+
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
-      .setInputCols("document")
-      .setOutputCol("sentence")
-   
+.setInputCols("document")
+.setOutputCol("sentence")
+
 val tokenizer = new Tokenizer()
-      .setInputCols(Array("sentence"))
-      .setOutputCol("token")
-   
+.setInputCols(Array("sentence"))
+.setOutputCol("token")
+
 val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_clinical", "en", "clinical/models")
-      .setInputCols(Array("token", "sentence"))
-      .setOutputCol("ner")
+.setInputCols(Array("token", "sentence"))
+.setOutputCol("ner")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler,sentenceDetector,tokenizer,tokenClassifier))
 
@@ -171,13 +171,13 @@ Trained on augmented 2010 i2b2 challenge data with ‘embeddings_clinical’. ht
 
 
 ```bash
-   
-       label  precision    recall  f1-score   support
-     PROBLEM       0.88      0.92      0.90     30276
-        TEST       0.91      0.86      0.88     17237
-   TREATMENT       0.87      0.88      0.88     17298
-           O       0.97      0.97      0.97    202438
-    accuracy       -         -         0.95    267249
-   macro-avg       0.91      0.91      0.91    267249
+
+label  precision    recall  f1-score   support
+PROBLEM       0.88      0.92      0.90     30276
+TEST       0.91      0.86      0.88     17237
+TREATMENT       0.87      0.88      0.88     17298
+O       0.97      0.97      0.97    202438
+accuracy       -         -         0.95    267249
+macro-avg       0.91      0.91      0.91    267249
 weighted-avg       0.95      0.95      0.95    267249
 ```

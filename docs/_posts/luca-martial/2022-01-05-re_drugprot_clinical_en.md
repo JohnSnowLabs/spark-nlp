@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -58,47 +58,47 @@ In the table below, `re_drugprot_clinical` RE model, its labels, optimal NER mod
 ```python
 ...
 documenter = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentencer = SentenceDetector()\
-    .setInputCols(["document"])\
-    .setOutputCol("sentences")
+.setInputCols(["document"])\
+.setOutputCol("sentences")
 
 tokenizer = Tokenizer()\
-    .setInputCols(["sentences"])\
-    .setOutputCol("tokens")
+.setInputCols(["sentences"])\
+.setOutputCol("tokens")
 
 words_embedder = WordEmbeddingsModel()\
-    .pretrained("embeddings_clinical", "en", "clinical/models")\
-    .setInputCols(["sentences", "tokens"])\
-    .setOutputCol("embeddings")
+.pretrained("embeddings_clinical", "en", "clinical/models")\
+.setInputCols(["sentences", "tokens"])\
+.setOutputCol("embeddings")
 
 drugprot_ner_tagger = MedicalNerModel.pretrained("ner_drugprot_clinical", "en", "clinical/models")\
-    .setInputCols("sentences", "tokens", "embeddings")\
-    .setOutputCol("ner_tags")   
+.setInputCols("sentences", "tokens", "embeddings")\
+.setOutputCol("ner_tags")   
 
 ner_converter = NerConverter()\
-    .setInputCols(["sentences", "tokens", "ner_tags"])\
-    .setOutputCol("ner_chunks")
+.setInputCols(["sentences", "tokens", "ner_tags"])\
+.setOutputCol("ner_chunks")
 
 pos_tagger = PerceptronModel()\
-    .pretrained("pos_clinical", "en", "clinical/models")\
-    .setInputCols(["sentences", "tokens"])\
-    .setOutputCol("pos_tags")
+.pretrained("pos_clinical", "en", "clinical/models")\
+.setInputCols(["sentences", "tokens"])\
+.setOutputCol("pos_tags")
 
 dependency_parser = DependencyParserModel()\
-    .pretrained("dependency_conllu", "en")\
-    .setInputCols(["sentences", "pos_tags", "tokens"])\
-    .setOutputCol("dependencies")
+.pretrained("dependency_conllu", "en")\
+.setInputCols(["sentences", "pos_tags", "tokens"])\
+.setOutputCol("dependencies")
 
 drugprot_re_model = RelationExtractionModel()\
-        .pretrained("re_drugprot_clinical", "en", 'clinical/models')\
-        .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
-        .setOutputCol("relations")\
-        .setMaxSyntacticDistance(4)\
-        .setPredictionThreshold(0.9)\
-        .setRelationPairs(['CHEMICAL-GENE']) # Possible relation pairs. Default: All Relations.
+.pretrained("re_drugprot_clinical", "en", 'clinical/models')\
+.setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
+.setOutputCol("relations")\
+.setMaxSyntacticDistance(4)\
+.setPredictionThreshold(0.9)\
+.setRelationPairs(['CHEMICAL-GENE']) # Possible relation pairs. Default: All Relations.
 
 pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, words_embedder, drugprot_ner_tagger, ner_converter, pos_tagger, dependency_parser, drugprot_re_model])
 
@@ -111,48 +111,48 @@ result = pipeline.fit(data).transform(data)
 ```scala
 ...
 val documenter = new DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 val sentencer = new SentenceDetector()
-    .setInputCols("document")
-    .setOutputCol("sentences")
+.setInputCols("document")
+.setOutputCol("sentences")
 
 val tokenizer = new Tokenizer()
-    .setInputCols("sentences")
-    .setOutputCol("tokens")
+.setInputCols("sentences")
+.setOutputCol("tokens")
 
 val words_embedder = WordEmbeddingsModel()
-    .pretrained("embeddings_clinical", "en", "clinical/models")
-    .setInputCols(Array("sentences", "tokens"))
-    .setOutputCol("embeddings")
+.pretrained("embeddings_clinical", "en", "clinical/models")
+.setInputCols(Array("sentences", "tokens"))
+.setOutputCol("embeddings")
 
 val drugprot_ner_tagger = MedicalNerModel.pretrained("ner_drugprot_clinical", "en", "clinical/models")
-    .setInputCols(Array("sentences", "tokens", "embeddings"))
-    .setOutputCol("ner_tags") 
+.setInputCols(Array("sentences", "tokens", "embeddings"))
+.setOutputCol("ner_tags") 
 
 val ner_converter = new NerConverter()
-    .setInputCols(Array("sentences", "tokens", "ner_tags"))
-    .setOutputCol("ner_chunks")
+.setInputCols(Array("sentences", "tokens", "ner_tags"))
+.setOutputCol("ner_chunks")
 
 val pos_tagger = PerceptronModel()
-    .pretrained("pos_clinical", "en", "clinical/models") 
-    .setInputCols(Array("sentences", "tokens"))
-    .setOutputCol("pos_tags")
+.pretrained("pos_clinical", "en", "clinical/models") 
+.setInputCols(Array("sentences", "tokens"))
+.setOutputCol("pos_tags")
 
 val dependency_parser = DependencyParserModel()
-    .pretrained("dependency_conllu", "en")
-    .setInputCols(Array("sentences", "pos_tags", "tokens"))
-    .setOutputCol("dependencies")
+.pretrained("dependency_conllu", "en")
+.setInputCols(Array("sentences", "pos_tags", "tokens"))
+.setOutputCol("dependencies")
 
 // This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.
 val drugprot_re_Model = RelationExactionModel()
-    .pretrained("re_drugprot_clinical", "en", "clinical/models")
-    .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
-    .setOutputCol("relations")
-    .setMaxSyntacticDistance(4)
-    .setPredictionThreshold(0.9)
-    .setRelationPairs(Array("CHEMICAL-GENE")) # Possible relation pairs. Default: All Relations.
+.pretrained("re_drugprot_clinical", "en", "clinical/models")
+.setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
+.setOutputCol("relations")
+.setMaxSyntacticDistance(4)
+.setPredictionThreshold(0.9)
+.setRelationPairs(Array("CHEMICAL-GENE")) # Possible relation pairs. Default: All Relations.
 
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, words_embedder, drugprot_ner_tagger, ner_converter, pos_tagger, dependency_parser, drugprot_re_Model))
 

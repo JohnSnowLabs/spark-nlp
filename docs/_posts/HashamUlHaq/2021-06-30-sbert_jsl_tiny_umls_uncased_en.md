@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.1.0
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -43,9 +43,9 @@ sbiobert_embeddings = BertSentenceEmbeddings.pretrained("sbert_jsl_tiny_umls_unc
 ```
 ```scala
 val sbiobert_embeddings = BertSentenceEmbeddings
-        .pretrained("sbert_jsl_tiny_umls_uncased","en","clinical/models")
-        .setInputCols(Array("sentence"))
-        .setOutputCol("sbert_embeddings")
+.pretrained("sbert_jsl_tiny_umls_uncased","en","clinical/models")
+.setInputCols(Array("sentence"))
+.setOutputCol("sbert_embeddings")
 ```
 
 

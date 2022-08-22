@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,25 +36,25 @@ This model is imported from `Hugging Face` ([link](https://huggingface.co/Davlan
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 
 sentenceDetector = SentenceDetector()\
-       .setInputCols(["document"])\
-       .setOutputCol("sentence")
+.setInputCols(["document"])\
+.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-      .setInputCols(["sentence"])\
-      .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 
 tokenClassifier = DistilBertForTokenClassification.pretrained("distilbert_base_token_classifier_masakhaner", "xx"))\
-  .setInputCols(["sentence",'token'])\
-  .setOutputCol("ner")
+.setInputCols(["sentence",'token'])\
+.setOutputCol("ner")
 
 ner_converter = NerConverter()\
-      .setInputCols(["sentence", "token", "ner"])\
-      .setOutputCol("ner_chunk")
-      
+.setInputCols(["sentence", "token", "ner"])\
+.setOutputCol("ner_chunk")
+
 nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter])
 text = """Ilé-iṣẹ́ẹ Mohammed Sani Musa, Activate Technologies Limited, ni ó kó ẹ̀rọ Ìwé-pélébé Ìdìbò Alálòpẹ́ (PVCs) tí a lò fún ìbò ọdún-un 2019, ígbà tí ó jẹ́ òǹdíjedupò lábẹ́ ẹgbẹ́ olóṣèlúu tí ó ń tukọ̀ ètò ìṣèlú lọ́wọ́ All rogressives Congress (APC) fún Aṣojú Ìlà-Oòrùn Niger, ìyẹn gẹ́gẹ́ bí ilé iṣẹ́ aṣèwádìí, Premium Times ṣe tẹ̀ ẹ́ jáde."""
 data = spark.createDataFrame([[text]]).toDF("text")
@@ -63,25 +63,25 @@ result = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentenceDetector = SentenceDetector()
-       .setInputCols(Array("document"))
-       .setOutputCol("sentence")
+.setInputCols(Array("document"))
+.setOutputCol("sentence")
 
 val tokenizer = Tokenizer()
-      .setInputCols(Array("sentence"))
-      .setOutputCol("token")
+.setInputCols(Array("sentence"))
+.setOutputCol("token")
 
 val tokenClassifier = DistilBertForTokenClassification.pretrained("distilbert_base_token_classifier_masakhaner", "xx"))\
-  .setInputCols(Array("sentence","token"))
-  .setOutputCol("ner")
+.setInputCols(Array("sentence","token"))
+.setOutputCol("ner")
 
 val ner_converter = NerConverter()
-      .setInputCols(Array("sentence", "token", "ner"))
-      .setOutputCol("ner_chunk")
-      
+.setInputCols(Array("sentence", "token", "ner"))
+.setOutputCol("ner_chunk")
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))
 
 val example = Seq.empty["Ilé-iṣẹ́ẹ Mohammed Sani Musa, Activate Technologies Limited, ni ó kó ẹ̀rọ Ìwé-pélébé Ìdìbò Alálòpẹ́ (PVCs) tí a lò fún ìbò ọdún-un 2019, ígbà tí ó jẹ́ òǹdíjedupò lábẹ́ ẹgbẹ́ olóṣèlúu tí ó ń tukọ̀ ètò ìṣèlú lọ́wọ́ All rogressives Congress (APC) fún Aṣojú Ìlà-Oòrùn Niger, ìyẹn gẹ́gẹ́ bí ilé iṣẹ́ aṣèwádìí, Premium Times ṣe tẹ̀ ẹ́ jáde."].toDS.toDF("text")

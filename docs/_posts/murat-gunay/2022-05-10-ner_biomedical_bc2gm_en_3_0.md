@@ -11,10 +11,9 @@ edition: Spark NLP for Healthcare 3.5.1
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
-
 
 
 
@@ -22,9 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 
 
 
-
 Named Entity recognition annotator allows for a generic model to be trained by utilizing a deep learning algorithm (Char CNNs - BiLSTM - CRF - word embeddings) inspired on a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM,CNN.
-
 
 
 
@@ -32,14 +29,11 @@ This model has been trained to extract genes/proteins from a medical text.
 
 
 
-
 ## Predicted Entities
 
 
 
-
 `GENE_PROTEIN`
-
 
 
 
@@ -52,12 +46,6 @@ This model has been trained to extract genes/proteins from a medical text.
 
 
 ## How to use
-
-
-
-
-
-
 
 
 
@@ -88,11 +76,11 @@ word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical" ,"en", "c
 ner = MedicalNerModel.pretrained("ner_biomedical_bc2gm", "en", "clinical/models") \
 	.setInputCols(["sentence", "token", "embeddings"]) \
 	.setOutputCol("ner")
- 
+
 ner_converter = NerConverter()\
 	.setInputCols(["sentence", "token", "ner"])\
 	.setOutputCol("ner_chunk")
-  
+
 nlpPipeline = Pipeline(stages=[
 	document_aAssembler,
 	sentenceDetectorDL,
@@ -100,7 +88,7 @@ nlpPipeline = Pipeline(stages=[
 	word_embeddings,
 	ner,
 	ner_converter])
-  
+
 data = spark.createDataFrame([["Immunohistochemical staining was positive for S-100 in all 9 cases stained, positive for HMB-45 in 9 (90%) of 10, and negative for cytokeratin in all 9 cases in which myxoid melanoma remained in the block after previous sections."]]).toDF("text")
 
 
@@ -130,7 +118,7 @@ val ner = MedicalNerModel.pretrained("ner_biomedical_bc2gm", "en", "clinical/mod
 
 val ner_converter = new NerConverter()
 	.setInputCols(Array("sentence", "token", "ner"))
-    	.setOutputCol("ner_chunk")
+	.setOutputCol("ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(
 	document_assembler, 
@@ -160,8 +148,6 @@ nlu.load("en.med_ner.biomedical_bc2gm").predict("""Immunohistochemical staining 
 ## Results
 
 
-
-
 ```bash
 +-----------+------------+
 |chunk      |ner_label   |
@@ -173,12 +159,8 @@ nlu.load("en.med_ner.biomedical_bc2gm").predict("""Immunohistochemical staining 
 ```
 
 
-
-
 {:.model-param}
 ## Model Information
-
-
 
 
 {:.table-model}
@@ -193,33 +175,19 @@ nlu.load("en.med_ner.biomedical_bc2gm").predict("""Immunohistochemical staining 
 |Size:|14.6 MB|
 
 
-
-
 ## References
 
 
-
-
 Created by Smith et al. at 2008, the BioCreative II Gene Mention Recognition ([BC2GM](https://metatext.io/datasets/biocreative-ii-gene-mention-recognition-(bc2gm))) Dataset contains data where participants are asked to identify a gene mention in a sentence by giving its start and end characters. The training set consists of a set of sentences, and for each sentence a set of gene mentions (GENE annotations).
-
-
 
 
 ## Benchmarking
 
 
 ```bash
-        label precision recall f1-score support
- GENE_PROTEIN      0.83   0.82     0.82    6325 
-    micro-avg      0.83   0.82     0.82    6325
-    macro-avg      0.83   0.82     0.82    6325
- weighted-avg      0.83   0.82     0.82    6325
+label 		precision recall f1-score support
+GENE_PROTEIN	0.83   0.82     0.82    6325 
+micro-avg      	0.83   0.82     0.82    6325
+macro-avg      	0.83   0.82     0.82    6325
+weighted-avg	0.83   0.82     0.82    6325
 ```
-
-
-
-
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE4NDcxMTk2NDMsLTE1OTIxMDM0NzUsNT
-YxOTc2Mjg0LDE2NTY2MTc4MjUsLTI2MzQ3ODc3Ml19
--->

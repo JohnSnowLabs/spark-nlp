@@ -4,14 +4,14 @@ title: Relation extraction between Drugs and ADE
 author: John Snow Labs
 name: re_ade_clinical
 date: 2021-07-12
-tags: [licensed, clinical, en, relation_extraction]
+tags: [licensed, clinical, en, relation_extraction, ade]
 task: Relation Extraction
 language: en
 edition: Spark NLP for Healthcare 3.1.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -30,7 +30,7 @@ This model is capable of Relating Drugs and adverse reactions caused by them; It
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_ADE/){:.button.button-orange}
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_ADE.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_ade_clinical_en_3.1.2_3.0_1626104637779.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 
@@ -40,9 +40,9 @@ This model is capable of Relating Drugs and adverse reactions caused by them; It
 In the table below, `re_ade_clinical` RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.
 
 
- |     RE MODEL    | RE MODEL LABES |     NER MODEL    | RE PAIRS                     |
- |:---------------:|:--------------:|:----------------:|------------------------------|
- | re_ade_clinical |       0,1      | ner_ade_clinical | [“ade-drug”,<br> ”drug-ade”] |
+|     RE MODEL    | RE MODEL LABES |     NER MODEL    | RE PAIRS                     |
+|:---------------:|:--------------:|:----------------:|------------------------------|
+| re_ade_clinical |     0<br>1     | ner_ade_clinical | ["ade-drug",<br> "drug-ade"] |
 
 
 
@@ -51,44 +51,64 @@ In the table below, `re_ade_clinical` RE model, its labels, optimal NER model, a
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-...
+documentAssembler = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+
+sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer()\
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")
+
 words_embedder = WordEmbeddingsModel() \
     .pretrained("embeddings_clinical", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens"]) \
+    .setInputCols(["sentence", "token"]) \
     .setOutputCol("embeddings")
 
 ner_tagger = MedicalNerModel() \
     .pretrained("ner_ade_clinical", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens", "embeddings"]) \
+    .setInputCols(["sentence", "token", "embeddings"]) \
     .setOutputCol("ner_tags")
 
 ner_converter = NerConverter() \
-    .setInputCols(["sentences", "tokens", "ner_tags"]) \
+    .setInputCols(["sentence", "token", "ner_tags"]) \
     .setOutputCol("ner_chunks")
 
 pos_tagger = PerceptronModel()\
     .pretrained("pos_clinical", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens"])\
+    .setInputCols(["sentence", "token"])\
     .setOutputCol("pos_tags")
-    
+
 dependency_parser = sparknlp.annotators.DependencyParserModel()\
     .pretrained("dependency_conllu", "en")\
-    .setInputCols(["sentences", "pos_tags", "tokens"])\
+    .setInputCols(["sentence", "pos_tags", "token"])\
     .setOutputCol("dependencies")
 
 re_model = RelationExtractionModel()\
-        .pretrained("re_ade_clinical", "en", 'clinical/models')\
-        .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
-        .setOutputCol("relations")\
-        .setMaxSyntacticDistance(3)\ #default: 0 
-        .setPredictionThreshold(0.5)\ #default: 0.5 
-        .setRelationPairs(["ade-drug", "drug-ade"]) # Possible relation pairs. Default: All Relations.
+    .pretrained("re_ade_clinical", "en", 'clinical/models')\
+    .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
+    .setOutputCol("relations")\
+    .setMaxSyntacticDistance(10)\
+    .setPredictionThreshold(0.1)\
+    .setRelationPairs(["ade-drug", "drug-ade"])\
+    .setRelationPairsCaseSensitive(False) 
 
-nlp_pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, re_model])
+nlp_pipeline = Pipeline(stages=[documentAssembler,
+                                sentenceDetector,  
+                                tokenizer, 
+                                words_embedder, 
+                                ner_tagger, 
+                                ner_converter,
+                                pos_tagger, 
+                                dependency_parser, 
+                                re_model])
 
-light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
+light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text")))
 
-text ="""Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps"""
+text ="""Been taking Lipitor for 15 years , have experienced severe fatigue a lot. The doctor moved me to voltarene 2 months ago, so far I have only had muscle cramps. """
 
 annotations = light_pipeline.fullAnnotate(text)
 ```
@@ -119,18 +139,27 @@ val dependency_parser = DependencyParserModel()
     .setOutputCol("dependencies")
 
 val re_model = RelationExtractionModel()
-        .pretrained("re_ade_clinical", "en", 'clinical/models')
-        .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
-        .setOutputCol("relations")
-        .setMaxSyntacticDistance(3) #default: 0 
-        .setPredictionThreshold(0.5) #default: 0.5 
-        .setRelationPairs(Array("drug-ade", "ade-drug")) # Possible relation pairs. Default: All Relations.
+    .pretrained("re_ade_clinical", "en", 'clinical/models')
+    .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
+    .setOutputCol("relations")
+    .setMaxSyntacticDistance(3) 
+    .setPredictionThreshold(0.5) 
+    .setRelationPairs(Array("drug-ade", "ade-drug"))
 
-val nlpPipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, re_model))
+val nlpPipeline = new Pipeline().setStages(Array(
+                                documentAssembler,
+                                sentenceDetector,  
+                                tokenizer, 
+                                words_embedder, 
+                                ner_tagger, 
+                                ner_converter,
+                                pos_tagger, 
+                                dependency_parser, 
+                                re_model))
 
-val data = Seq("""Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps""").toDS.toDF("text")
+val data = Seq("""Been taking Lipitor for 15 years , have experienced severe fatigue a lot. The doctor moved me to voltarene 2 months ago, so far I have only had muscle cramps. """).toDS.toDF("text")
 
-val result = pipeline.fit(data).transform(data)
+val result = nlpPipeline.fit(data).transform(data)
 
 ```
 
@@ -138,7 +167,7 @@ val result = pipeline.fit(data).transform(data)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("en.relation.adverse_drug_events.clinical").predict("""Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps""")
+nlu.load("en.relation.adverse_drug_events.clinical").predict("""Been taking Lipitor for 15 years , have experienced severe fatigue a lot. The doctor moved me to voltarene 2 months ago, so far I have only had muscle cramps.""")
 ```
 
 </div>
@@ -148,12 +177,10 @@ nlu.load("en.relation.adverse_drug_events.clinical").predict("""Been taking Lipi
 
 
 ```bash
-|    | chunk1                        | entitiy1   | chunk2      | entity2 | relation |
-|----|-------------------------------|------------|-------------|---------|----------|
-| 0  | severe fatigue                | ADE        | Lipitor     | DRUG    |        1 |
-| 1  | cramps                        | ADE        | Lipitor     | DRUG    |        0 |
-| 2  | severe fatigue                | ADE        | voltaren    | DRUG    |        0 |
-| 3  | cramps                        | ADE        | voltaren    | DRUG    |        1 |
+| relation | entity1 | entity1_begin | entity1_end | chunk1    | entity2 | entity2_begin | entity2_end | chunk2         | confidence |
+|---------:|:--------|--------------:|------------:|:----------|:--------|--------------:|------------:|:---------------|-----------:|
+|        1 | DRUG    |            12 |          18 | Lipitor   | ADE     |            52 |          65 | severe fatigue |   1        |
+|        1 | DRUG    |            97 |         105 | voltarene | ADE     |           144 |         156 | muscle cramps  |   0.997283 |
 ```
 
 
@@ -183,13 +210,10 @@ This model is trained on custom data annotated by JSL.
 
 
 ```bash
-       label   precision    recall  f1-score   support
-           0       0.86      0.88      0.87      1787
-           1       0.92      0.90      0.91      2586
-   micro-avg       0.89      0.89      0.89      4373
-   macro-avg       0.89      0.89      0.89      4373
-weighted-avg       0.89      0.89      0.89      4373
+label      precision    recall  f1-score   support
+0               0.86      0.88      0.87      1787
+1               0.92      0.90      0.91      2586
+micro-avg       0.89      0.89      0.89      4373
+macro-avg       0.89      0.89      0.89      4373
+weighted-avg    0.89      0.89      0.89      4373
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyMDAyNjg5NTddfQ==
--->

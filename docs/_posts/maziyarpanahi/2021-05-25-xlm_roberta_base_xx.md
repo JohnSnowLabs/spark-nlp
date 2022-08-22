@@ -11,7 +11,7 @@ edition: Spark NLP 3.1.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,13 +36,13 @@ It is based on Facebook's RoBERTa model released in 2019. It is a large multi-li
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 embeddings = XlmRoBertaEmbeddings.pretrained("xlm_roberta_base", "xx") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 ```
 ```scala
 val embeddings = XlmRoBertaEmbeddings.pretrained("xlm_roberta_base", "xx")
-      .setInputCols("sentence", "token")
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token")
+.setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
 ```
 

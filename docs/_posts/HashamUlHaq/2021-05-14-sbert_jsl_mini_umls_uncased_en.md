@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.0.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -40,15 +40,15 @@ This model is trained to generate contextual sentence embeddings of input senten
 
 ```python
 sbiobert_embeddings = BertSentenceEmbeddings\
-         .pretrained("sbert_jsl_mini_umls_uncased","en","clinical/models")\
-         .setInputCols(["sentence"])\
-         .setOutputCol("sbert_embeddings")
+.pretrained("sbert_jsl_mini_umls_uncased","en","clinical/models")\
+.setInputCols(["sentence"])\
+.setOutputCol("sbert_embeddings")
 ```
 ```scala
 val sbiobert_embeddings = BertSentenceEmbeddings
-        .pretrained("sbert_jsl_mini_umls_uncased","en","clinical/models")
-        .setInputCols(Array("sentence"))
-        .setOutputCol("sbert_embeddings")
+.pretrained("sbert_jsl_mini_umls_uncased","en","clinical/models")
+.setInputCols(Array("sentence"))
+.setOutputCol("sbert_embeddings")
 ```
 
 

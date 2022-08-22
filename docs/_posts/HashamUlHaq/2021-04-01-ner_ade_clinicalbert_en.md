@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -48,11 +48,11 @@ results = model.transform(spark.createDataFrame([["EXAMPLE_TEXT"]]).toDF("text")
 
 ...
 val embeddings_clinical = BertEmbeddings.pretrained("biobert_clinical_base_cased")  .setInputCols(["sentence", "token"])
-  .setInputCols(Array("sentence", "token"))
-  .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 val ner = MedicalNerModel.pretrained("ner_ade_clinicalbert", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token", "embeddings"))
-  .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings"))
+.setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
 val result = pipeline.fit(Seq.empty[String]).transform(data)
@@ -84,15 +84,15 @@ nlu.load("en.med_ner.ade.clinical_bert").predict("""Put your text here.""")
 ## Benchmarking
 ```bash
 
-              precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-       B-ADE       0.46      0.79      0.58      3582
-      B-DRUG       0.90      0.62      0.74     11763
-       I-ADE       0.45      0.76      0.56      4309
-      I-DRUG       0.96      0.26      0.41      7654
-           O       0.96      0.98      0.97    303457
+B-ADE       0.46      0.79      0.58      3582
+B-DRUG       0.90      0.62      0.74     11763
+I-ADE       0.45      0.76      0.56      4309
+I-DRUG       0.96      0.26      0.41      7654
+O       0.96      0.98      0.97    303457
 
-    accuracy                           0.94    330765
-   macro avg       0.75      0.68      0.65    330765
+accuracy                           0.94    330765
+macro avg       0.75      0.68      0.65    330765
 weighted avg       0.95      0.94      0.94    330765
 ```

@@ -34,6 +34,7 @@ We are very excited to announce the release of Annotation Lab v3.3.1 which inclu
 </div>
 
 <ul class="pagination owl-carousel pagination_big">
+    <li><a href="release_notes_3_4_0">3.4.0</a></li>
     <li class="active"><a href="release_notes_3_3_1">3.3.1</a></li>
     <li><a href="release_notes_3_3_0">3.3.0</a></li>
     <li><a href="release_notes_3_2_0">3.2.0</a></li>

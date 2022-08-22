@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.3.2
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,25 +36,25 @@ This model maps extracted clinical NER entities to LOINC codes using `sbiobert_b
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+.setInputCol("text")\
+.setOutputCol("ner_chunk")
 
 sbert_embedder = BertSentenceEmbeddings\
-      .pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")\
-      .setCaseSensitive(False)
-    
+.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
+.setInputCols(["ner_chunk"])\
+.setOutputCol("sbert_embeddings")\
+.setCaseSensitive(False)
+
 loinc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_augmented", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-      .setOutputCol("loinc_code")\
-      .setDistanceFunction("EUCLIDEAN")
+.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setOutputCol("loinc_code")\
+.setDistanceFunction("EUCLIDEAN")
 
 loinc_pipelineModel = Pipeline(
-    stages = [
-        documentAssembler,
-        sbert_embedder,
-        loinc_resolver])
+stages = [
+documentAssembler,
+sbert_embedder,
+loinc_resolver])
 
 data = spark.createDataFrame([["""The patient is a 22-year-old female with a history of obesity. She has a Body mass index (BMI) of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hgba1c is 8.2%."""]]).toDF("text")
 
@@ -62,19 +62,19 @@ results = loinc_pipelineModel.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("ner_chunk")
+.setInputCol("text")
+.setOutputCol("ner_chunk")
 
 val sbert_embedder = BertSentenceEmbeddings
-      .pretrained("sbiobert_base_cased_mli", "en","clinical/models")
-      .setInputCols(Array("ner_chunk"))
-      .setOutputCol("sbert_embeddings")
-    
+.pretrained("sbiobert_base_cased_mli", "en","clinical/models")
+.setInputCols(Array("ner_chunk"))
+.setOutputCol("sbert_embeddings")
+
 val loinc_resolver = SentenceEntityResolverModel
-      .pretrained("sbiobertresolve_loinc_augmented", "en", "clinical/models") 
-      .setInputCols(Array("ner_chunk", "sbert_embeddings")) 
-      .setOutputCol("loinc_code")
-      .setDistanceFunction("EUCLIDEAN")
+.pretrained("sbiobertresolve_loinc_augmented", "en", "clinical/models") 
+.setInputCols(Array("ner_chunk", "sbert_embeddings")) 
+.setOutputCol("loinc_code")
+.setDistanceFunction("EUCLIDEAN")
 
 val loinc_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, loinc_resolver))
 

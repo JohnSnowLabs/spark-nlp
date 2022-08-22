@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -57,30 +57,30 @@ This model fine-tuned for the Named Entity Recognition (NER) task on a mixed NER
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol('text') \
-    .setOutputCol('document')
+.setInputCol('text') \
+.setOutputCol('document')
 
 tokenizer = Tokenizer() \
-    .setInputCols(['document']) \
-    .setOutputCol('token')
+.setInputCols(['document']) \
+.setOutputCol('token')
 
 tokenClassifier = RoBertaForTokenClassification \
-      .pretrained('roberta_token_classifier_zwnj_base_ner', 'fa') \
-      .setInputCols(['token', 'document']) \
-      .setOutputCol('ner') \
-      .setCaseSensitive(True) \
-      .setMaxSentenceLength(512)
+.pretrained('roberta_token_classifier_zwnj_base_ner', 'fa') \
+.setInputCols(['token', 'document']) \
+.setOutputCol('ner') \
+.setCaseSensitive(True) \
+.setMaxSentenceLength(512)
 
 # since output column is IOB/IOB2 style, NerConverter can extract entities
 ner_converter = NerConverter() \
-    .setInputCols(['document', 'token', 'ner']) \
-    .setOutputCol('entities')
+.setInputCols(['document', 'token', 'ner']) \
+.setOutputCol('entities')
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
-    tokenizer,
-    tokenClassifier,
-    ner_converter
+document_assembler, 
+tokenizer,
+tokenClassifier,
+ner_converter
 ])
 
 example = spark.createDataFrame([['در سال ۲۰۱۳ درگذشت و آندرتیکر و کین برای او مراسم یادبود گرفتند.']]).toDF("text")
@@ -88,23 +88,23 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document_assembler = DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 val tokenizer = Tokenizer() 
-    .setInputCols("document") 
-    .setOutputCol("token")
+.setInputCols("document") 
+.setOutputCol("token")
 
 val tokenClassifier = RoBertaForTokenClassification.pretrained("roberta_token_classifier_zwnj_base_ner", "fa")
-      .setInputCols("document", "token")
-      .setOutputCol("ner")
-      .setCaseSensitive(true)
-      .setMaxSentenceLength(512)
+.setInputCols("document", "token")
+.setOutputCol("ner")
+.setCaseSensitive(true)
+.setMaxSentenceLength(512)
 
 // since output column is IOB/IOB2 style, NerConverter can extract entities
 val ner_converter = NerConverter() 
-    .setInputCols("document", "token", "ner") 
-    .setOutputCol("entities")
+.setInputCols("document", "token", "ner") 
+.setOutputCol("entities")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, tokenClassifier, ner_converter))
 

@@ -11,7 +11,7 @@ edition: Spark NLP 3.2.2
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -45,26 +45,26 @@ from sparknlp.annotator import *
 from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 sentence = SentenceDetector() \
-    .setInputCols(["document"]) \
-    .setOutputCol("sentence")
+.setInputCols(["document"]) \
+.setOutputCol("sentence")
 
 word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud", "ja") \
-    .setInputCols(["sentence"]) \
-    .setOutputCol("token")
+.setInputCols(["sentence"]) \
+.setOutputCol("token")
 
 embeddings = WordEmbeddingsModel.pretrained("japanese_cc_300d", "ja") \
-    .setInputCols("sentence", "token") \
-    .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 
 pipeline = Pipeline().setStages([
-    documentAssembler,
-    sentence,
-    word_segmenter,
-    embeddings
+documentAssembler,
+sentence,
+word_segmenter,
+embeddings
 ])
 
 data = spark.createDataFrame([["宮本茂氏は、日本の任天堂のゲームプロデューサーです。"]]).toDF("text")
@@ -80,26 +80,26 @@ import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
 import org.apache.spark.ml.Pipeline
 
 val documentAssembler = new DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val sentence = new SentenceDetector()
-  .setInputCols("document")
-  .setOutputCol("sentence")
+.setInputCols("document")
+.setOutputCol("sentence")
 
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud", "ja")
-  .setInputCols("sentence")
-  .setOutputCol("token")
+.setInputCols("sentence")
+.setOutputCol("token")
 
 val embeddings = WordEmbeddingsModel.pretrained("japanese_cc_300d", "ja")
-  .setInputCols("sentence", "token")
-  .setOutputCol("embeddings")
+.setInputCols("sentence", "token")
+.setOutputCol("embeddings")
 
 val pipeline = new Pipeline().setStages(Array(
-  documentAssembler,
-  sentence,
-  word_segmenter,
-  embeddings
+documentAssembler,
+sentence,
+word_segmenter,
+embeddings
 ))
 
 val data = Seq("宮本茂氏は、日本の任天堂のゲームプロデューサーです。").toDF("text")
