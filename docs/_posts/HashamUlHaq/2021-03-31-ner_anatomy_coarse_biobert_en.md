@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,11 +37,11 @@ An NER model to extract all types of anatomical references in text using "biober
 ```python
 ...
 embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased", "en") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 clinical_ner = MedicalNerModel.pretrained("ner_anatomy_coarse_biobert", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 ...
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings, clinical_ner, ner_converter])
 model = nlpPipeline.fit(spark.createDataFrame([["content in the lung tissue"]]).toDF("text"))
@@ -50,16 +50,24 @@ results = model.transform(data)
 ```scala
 ...
 val embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased", "en")
-      .setInputCols(Array("sentence", "token"))
-      .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 val ner = MedicalNerModel.pretrained("ner_anatomy_coarse_biobert", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner, ner_converter))
 val data = Seq("content in the lung tissue").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.anatomy.coarse_biobert").predict("""content in the lung tissue""")
+```
+
 </div>
 
 ## Results

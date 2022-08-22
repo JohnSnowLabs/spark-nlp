@@ -11,14 +11,14 @@ language: ru
 edition: Spark NLP 3.0.0
 spark_version: 3.0
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
 
 The entity_recognizer_md is a pretrained pipeline that we can use to process text with a simple pipeline that performs basic processing steps.
-         It performs most of the common text processing tasks on your dataframe
+It performs most of the common text processing tasks on your dataframe
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -54,7 +54,7 @@ import nlu
 text = [""Здравствуйте из Джона Снежных Лабораторий! ""]
 result_df = nlu.load('ru.ner.md').predict(text)
 result_df
-    
+
 ```
 </div>
 

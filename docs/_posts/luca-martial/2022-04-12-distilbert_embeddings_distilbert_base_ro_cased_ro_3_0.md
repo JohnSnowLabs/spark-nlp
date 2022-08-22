@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Romanian DistilBERT Embeddings (from Geotrend)
+title: Romanian DistilBERT Embeddings
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_ro_cased
 date: 2022-04-12
@@ -10,8 +10,9 @@ language: ro
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,17 +33,17 @@ Pretrained DistilBERT Embeddings model, uploaded to Hugging Face, adapted and im
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 tokenizer = Tokenizer() \
-    .setInputCols("document") \
-    .setOutputCol("token")
-  
+.setInputCols("document") \
+.setOutputCol("token")
+
 embeddings = DistilBertEmbeddings.pretrained("distilbert_embeddings_distilbert_base_ro_cased","ro") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("embeddings")
-    
+.setInputCols(["document", "token"]) \
+.setOutputCol("embeddings")
+
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
 
 data = spark.createDataFrame([["Îmi place Spark NLP"]]).toDF("text")
@@ -51,16 +52,16 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler() 
-      .setInputCol("text") 
-      .setOutputCol("document")
- 
+.setInputCol("text") 
+.setOutputCol("document")
+
 val tokenizer = new Tokenizer() 
-    .setInputCols(Array("document"))
-    .setOutputCol("token")
+.setInputCols(Array("document"))
+.setOutputCol("token")
 
 val embeddings = DistilBertEmbeddings.pretrained("distilbert_embeddings_distilbert_base_ro_cased","ro") 
-    .setInputCols(Array("document", "token")) 
-    .setOutputCol("embeddings")
+.setInputCols(Array("document", "token")) 
+.setOutputCol("embeddings")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
 
@@ -68,6 +69,14 @@ val data = Seq("Îmi place Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ro.embed.distilbert_base_cased").predict("""Îmi place Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

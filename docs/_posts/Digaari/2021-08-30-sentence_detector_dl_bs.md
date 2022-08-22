@@ -11,7 +11,7 @@ edition: Spark NLP 3.2.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -21,7 +21,7 @@ SentenceDetectorDL (SDDL) is based on a general-purpose neural network model for
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sentence_detector_dl_bs_3.2.0_3.0_1630317779410.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -32,13 +32,13 @@ SentenceDetectorDL (SDDL) is based on a general-purpose neural network model for
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documenter = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
-    
+.setInputCol("text")\
+.setOutputCol("document")
+
 sentencerDL = SentenceDetectorDLModel\
-  .pretrained("sentence_detector_dl", "bs") \
-  .setInputCols(["document"]) \
-  .setOutputCol("sentences")
+.pretrained("sentence_detector_dl", "bs") \
+.setInputCols(["document"]) \
+.setOutputCol("sentences")
 
 sd_model = LightPipeline(PipelineModel(stages=[documenter, sentencerDL]))
 sd_model.fullAnnotate("""Tražite sjajan izvor čitanja odlomaka na engleskom? Došli ste na pravo mjesto. Prema nedavnom istraživanju, navika čitanja u današnjoj mladosti brzo se smanjuje. Ne mogu se usredotočiti na dati odlomak za čitanje engleskog jezika duže od nekoliko sekundi! Takođe, čitanje je bilo i jeste sastavni dio svih takmičarskih ispita. Dakle, kako poboljšati svoje vještine čitanja? Odgovor na ovo pitanje zapravo je drugo pitanje: Kakva je korist od vještine čitanja? Glavna svrha čitanja je 'imati smisla'.""")
@@ -47,8 +47,8 @@ sd_model.fullAnnotate("""Tražite sjajan izvor čitanja odlomaka na engleskom? D
 ```
 ```scala
 val documenter = DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val model = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "bs")
 	.setInputCols(Array("document"))
@@ -101,8 +101,6 @@ nlu.load('bs.sentence_detector').predict("Tražite sjajan izvor čitanja odlomak
 ## Benchmarking
 
 ```bash
-Accuracy:      0.98
-Recall:        1.00
-Precision:     0.96
-F1:            0.98
+label  Accuracy  Recall   Prec   F1  
+0      0.98      1.00     0.96   0.98
 ```

@@ -17,8 +17,9 @@
 package com.johnsnowlabs.nlp.annotators.cv
 
 import com.johnsnowlabs.nlp.ImageAssembler
+import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
@@ -33,18 +34,19 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec {
     .option("dropInvalid", value = true)
     .load("src/test/resources/image/")
 
+  val imageAssembler: ImageAssembler = new ImageAssembler()
+    .setInputCol("image")
+    .setOutputCol("image_assembler")
+
+  val imageClassifier: ViTForImageClassification = ViTForImageClassification
+    .pretrained()
+    .setInputCols("image_assembler")
+    .setOutputCol("class")
+
+  val pipeline: Pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
+
   "ViTForImageClassification" should "predict correct ImageNet classes" taggedAs SlowTest in {
 
-    val imageAssembler = new ImageAssembler()
-      .setInputCol("image")
-      .setOutputCol("image_assembler")
-
-    val imageClassifier = ViTForImageClassification
-      .pretrained()
-      .setInputCols("image_assembler")
-      .setOutputCol("class")
-
-    val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
     val pipelineDF = pipeline.fit(imageDF).transform(imageDF)
 
     val goldStandards =
@@ -79,16 +81,6 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec {
 
   "ViTForImageClassification" should "be serializable" taggedAs SlowTest in {
 
-    val imageAssembler = new ImageAssembler()
-      .setInputCol("image")
-      .setOutputCol("image_assembler")
-
-    val imageClassifier = ViTForImageClassification
-      .pretrained()
-      .setInputCols("image_assembler")
-      .setOutputCol("class")
-
-    val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
     val pipelineModel = pipeline.fit(imageDF)
     val pipelineDF = pipelineModel.transform(imageDF)
     pipelineDF.take(1)
@@ -129,20 +121,8 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec {
 
   "ViTForImageClassification" should "benchmark" taggedAs SlowTest in {
 
-    val imageAssembler = new ImageAssembler()
-      .setInputCol("image")
-      .setOutputCol("image_assembler")
-
-    val imageClassifier = ViTForImageClassification
-      .pretrained()
-      .setInputCols("image_assembler")
-      .setOutputCol("class")
-
     Array(2, 4, 8, 16, 32, 128).foreach(b => {
       imageClassifier.setBatchSize(b)
-
-      val pipeline = new Pipeline()
-        .setStages(Array(imageAssembler, imageClassifier))
 
       val pipelineModel = pipeline.fit(imageDF)
       val pipelineDF = pipelineModel.transform(imageDF)
@@ -157,6 +137,18 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec {
         pipelineDF.write.mode("overwrite").parquet("./tmp_vit_image_classifier")
       }
     })
+  }
+
+  "ViTForImageClassification" should "work with LightPipeline" taggedAs FastTest in {
+    val pipelineModel = pipeline.fit(imageDF)
+    val lightPipeline = new LightPipeline(pipelineModel)
+
+    val predictions = lightPipeline.fullAnnotateImage("src/test/resources/image/")
+
+    predictions.foreach { prediction =>
+      assert(prediction("image_assembler").nonEmpty)
+      assert(prediction("class").nonEmpty)
+    }
   }
 
 }

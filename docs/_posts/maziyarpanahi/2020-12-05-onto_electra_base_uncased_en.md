@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [ner, open_source, en]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -38,11 +38,11 @@ This model uses the pretrained `electra_base_uncased` embeddings model from the 
 ```python
 ...
 embeddings = BertEmbeddings.pretrained("electra_base_uncased", "en") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
 ner_onto = NerDLModel.pretrained("onto_electra_base_uncased", "en") \
-      .setInputCols(["document", "token", "embeddings"]) \
-      .setOutputCol("ner")
+.setInputCols(["document", "token", "embeddings"]) \
+.setOutputCol("ner")
 ...        
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings, ner_onto, ner_converter])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([['']]).toDF('text'))
@@ -53,11 +53,11 @@ result = pipeline_model.transform(spark.createDataFrame([["William Henry Gates I
 ```scala
 ...
 val embeddings = BertEmbeddings.pretrained("electra_base_uncased", "en")
-      .setInputCols(Array("sentence", "token"))
-      .setOutputCol("embeddings")
+.setInputCols(Array("sentence", "token"))
+.setOutputCol("embeddings")
 val ner_onto = NerDLModel.pretrained("onto_electra_base_uncased", "en")
-        .setInputCols(Array("document", "token", "embeddings"))
-        .setOutputCol("ner")
+.setInputCols(Array("document", "token", "embeddings"))
+.setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner_onto, ner_converter))
 
@@ -137,22 +137,22 @@ CoNLL Eval:
 
 processed 152728 tokens with 11257 phrases; found: 11296 phrases; correct: 9871.
 accuracy:  97.56%; 9871 11257 11296 precision:  87.38%; recall:  87.69%; FB1:  87.54
-         CARDINAL:  800  935  959 precision:  83.42%; recall:  85.56%; FB1:  84.48  959
-             DATE:  1396  1602  1652 precision:  84.50%; recall:  87.14%; FB1:  85.80  1652
-            EVENT:   23   63   38 precision:  60.53%; recall:  36.51%; FB1:  45.54  38
-              FAC:   60  135   81 precision:  74.07%; recall:  44.44%; FB1:  55.56  81
-              GPE:  2102  2240  2205 precision:  95.33%; recall:  93.84%; FB1:  94.58  2205
-         LANGUAGE:    8   22   10 precision:  80.00%; recall:  36.36%; FB1:  50.00  10
-              LAW:   16   40   21 precision:  76.19%; recall:  40.00%; FB1:  52.46  21
-              LOC:  118  179  191 precision:  61.78%; recall:  65.92%; FB1:  63.78  191
-            MONEY:  285  314  329 precision:  86.63%; recall:  90.76%; FB1:  88.65  329
-             NORP:  801  841  897 precision:  89.30%; recall:  95.24%; FB1:  92.17  897
-          ORDINAL:  180  195  225 precision:  80.00%; recall:  92.31%; FB1:  85.71  225
-              ORG:  1538  1795  1816 precision:  84.69%; recall:  85.68%; FB1:  85.18  1816
-          PERCENT:  312  349  348 precision:  89.66%; recall:  89.40%; FB1:  89.53  348
-           PERSON:  1892  1988  2025 precision:  93.43%; recall:  95.17%; FB1:  94.29  2025
-          PRODUCT:   39   76   49 precision:  79.59%; recall:  51.32%; FB1:  62.40  49
-         QUANTITY:   81  105  102 precision:  79.41%; recall:  77.14%; FB1:  78.26  102
-             TIME:  136  212  216 precision:  62.96%; recall:  64.15%; FB1:  63.55  216
-      WORK_OF_ART:   84  166  132 precision:  63.64%; recall:  50.60%; FB1:  56.38  132
+CARDINAL:  800  935  959 precision:  83.42%; recall:  85.56%; FB1:  84.48  959
+DATE:  1396  1602  1652 precision:  84.50%; recall:  87.14%; FB1:  85.80  1652
+EVENT:   23   63   38 precision:  60.53%; recall:  36.51%; FB1:  45.54  38
+FAC:   60  135   81 precision:  74.07%; recall:  44.44%; FB1:  55.56  81
+GPE:  2102  2240  2205 precision:  95.33%; recall:  93.84%; FB1:  94.58  2205
+LANGUAGE:    8   22   10 precision:  80.00%; recall:  36.36%; FB1:  50.00  10
+LAW:   16   40   21 precision:  76.19%; recall:  40.00%; FB1:  52.46  21
+LOC:  118  179  191 precision:  61.78%; recall:  65.92%; FB1:  63.78  191
+MONEY:  285  314  329 precision:  86.63%; recall:  90.76%; FB1:  88.65  329
+NORP:  801  841  897 precision:  89.30%; recall:  95.24%; FB1:  92.17  897
+ORDINAL:  180  195  225 precision:  80.00%; recall:  92.31%; FB1:  85.71  225
+ORG:  1538  1795  1816 precision:  84.69%; recall:  85.68%; FB1:  85.18  1816
+PERCENT:  312  349  348 precision:  89.66%; recall:  89.40%; FB1:  89.53  348
+PERSON:  1892  1988  2025 precision:  93.43%; recall:  95.17%; FB1:  94.29  2025
+PRODUCT:   39   76   49 precision:  79.59%; recall:  51.32%; FB1:  62.40  49
+QUANTITY:   81  105  102 precision:  79.41%; recall:  77.14%; FB1:  78.26  102
+TIME:  136  212  216 precision:  62.96%; recall:  64.15%; FB1:  63.55  216
+WORK_OF_ART:   84  166  132 precision:  63.64%; recall:  50.60%; FB1:  56.38  132
 ```

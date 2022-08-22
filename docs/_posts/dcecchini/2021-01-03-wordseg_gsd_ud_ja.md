@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [word_segmentation, ja, open_source]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -38,12 +38,12 @@ Use as part of an nlp pipeline as a substitute of the Tokenizer stage.
 ```python
 ...
 word_segmenter = WordSegmenterModel.pretrained('wordseg_gsd_ud', 'ja')\
-        .setInputCols("document")\
-        .setOutputCol("token")     
+.setInputCols("document")\
+.setOutputCol("token")     
 pipeline = Pipeline(stages=[
-        document_assembler,
-        word_segmenter
-        ])
+document_assembler,
+word_segmenter
+])
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 example = spark.createDataFrame([['清代は湖北省が置かれ、そのまま現代の行政区分になっている。']], ["text"])
 result = model.transform(example)
@@ -52,8 +52,8 @@ result = model.transform(example)
 ```scala
 ...
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud", "ja")
-        .setInputCols("document")
-        .setOutputCol("token")
+.setInputCols("document")
+.setOutputCol("token")
 val pipeline = new Pipeline().setStages(Array(document_assembler, word_segmenter))
 val data = Seq("清代は湖北省が置かれ、そのまま現代の行政区分になっている。").toDF("text")
 val result = pipeline.fit(data).transform(data)

@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [embeddings, en, open_source]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,8 +36,8 @@ The details are described in the paper "[Universal Sentence Encoder](https://arx
 ```python
 ...
 embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_lg", "en") \
-      .setInputCols("document") \
-      .setOutputCol("sentence_embeddings")
+.setInputCols("document") \
+.setOutputCol("sentence_embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 result = pipeline_model.transform(spark.createDataFrame([['I love NLP', 'Many thanks']], ["text"]))
@@ -46,8 +46,8 @@ result = pipeline_model.transform(spark.createDataFrame([['I love NLP', 'Many th
 ```scala
 ...
 val embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_lg", "en")
-      .setInputCols("document")
-      .setOutputCol("sentence_embeddings")
+.setInputCols("document")
+.setOutputCol("sentence_embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, embeddings))
 val data = Seq("I love NLP", "Many thanks").toDF("text")
 val result = pipeline.fit(data).transform(data)
@@ -67,7 +67,7 @@ embeddings_df
 {:.h2_title}
 ## Results
 ```bash
-        en_embed_sentence_tfhub_use_lg_embeddings	        sentence
+en_embed_sentence_tfhub_use_lg_embeddings	        sentence
 		
 0	[0.05463508144021034, 0.013395714573562145, 0....	I love NLP
 1	[0.03631748631596565, 0.006253095343708992, 0....	Many thanks

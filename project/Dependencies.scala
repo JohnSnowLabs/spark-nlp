@@ -8,17 +8,20 @@ object Dependencies {
   val is_gpu: String = System.getProperty("is_gpu", "false")
   val is_opt: String = System.getProperty("is_opt", "false")
   val is_m1: String = System.getProperty("is_m1", "false")
+  val is_aarch64: String = System.getProperty("is_aarch64", "false")
 
   val sparkVer: String = getSparkVersion
 
   /** ------- Spark version end ------- */
 
   /** Package attributes */
-  def getPackageName(is_m1: String, is_gpu: String): String = {
+  def getPackageName(is_m1: String, is_gpu: String, is_aarch64: String): String = {
     if (is_gpu.equals("true")) {
       "spark-nlp-gpu"
     } else if (is_m1.equals("true")) {
       "spark-nlp-m1"
+    } else if (is_aarch64.equals("true")) {
+      "spark-nlp-linux-aarch64"
     } else {
       "spark-nlp"
     }
@@ -68,11 +71,12 @@ object Dependencies {
   val junitVersion = "4.13.2"
   val junit = "junit" % "junit" % junitVersion % Test
 
-  val tensorflowVersion = "0.4.2"
+  val tensorflowVersion = "0.4.3-rc1"
 
   val tensorflowGPU = "com.johnsnowlabs.nlp" %% "tensorflow-gpu" % tensorflowVersion
   val tensorflowCPU = "com.johnsnowlabs.nlp" %% "tensorflow-cpu" % tensorflowVersion
   val tensorflowM1 = "com.johnsnowlabs.nlp" %% "tensorflow-m1" % tensorflowVersion
+  val tensorflowLinuxAarch64 = "com.johnsnowlabs.nlp" %% "tensorflow-aarch64" % tensorflowVersion
 
   /** ------- Dependencies end  ------- */
 }

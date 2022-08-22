@@ -11,7 +11,7 @@ edition: Spark NLP 3.3.4
 spark_version: 2.4
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -34,19 +34,20 @@ This model was imported from `Hugging Face` and it's been fine-tuned for the Rus
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol('text') \
-    .setOutputCol('document')
+.setInputCol('text') \
+.setOutputCol('document')
 
 tokenizer = Tokenizer() \
-    .setInputCols(['document']) \
-    .setOutputCol('token')
+.setInputCols(['document']) \
+.setOutputCol('token')
 
 sequenceClassifier = BertForSequenceClassification \
-      .pretrained('bert_sequence_classifier_toxicity', 'ru') \
-      .setInputCols(['token', 'document']) \
-      .setOutputCol('class')
+.pretrained('bert_sequence_classifier_toxicity', 'ru') \
+.setInputCols(['token', 'document']) \
+.setOutputCol('class')
 
 pipeline = Pipeline(stages=[document_assembler, tokenizer, sequenceClassifier])
 
@@ -55,16 +56,16 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document_assembler = DocumentAssembler() 
-    .setInputCol("text") 
-    .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 val tokenizer = Tokenizer() 
-    .setInputCols("document") 
-    .setOutputCol("token")
+.setInputCols("document") 
+.setOutputCol("token")
 
 val tokenClassifier = BertForSequenceClassification.pretrained("bert_sequence_classifier_toxicity", "ru")
-      .setInputCols("document", "token")
-      .setOutputCol("class")
+.setInputCols("document", "token")
+.setOutputCol("class")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
@@ -72,6 +73,14 @@ val example = Seq.empty["Ненавижу тебя, идиот."].toDS.toDF("tex
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ru.classify.toxic").predict("""Ненавижу тебя, идиот.""")
+```
+
 </div>
 
 ## Results
@@ -103,10 +112,10 @@ val result = pipeline.fit(example).transform(example)
 ## Benchmarking
 
 ```bash
-         precision    recall	f1-score	support
-neutral      0.98	   0.99	    0.98	21384
-toxic        0.94	   0.92	    0.93	4886
-accuracy  	  		    0.97	26270
-macro avg    0.96	   0.96	    0.96	26270
-weighted avg 0.97	   0.97	    0.97	26270
+label         precision   recall   f1-score   support
+neutral       0.98        0.99     0.98       21384
+toxic         0.94        0.92     0.93       4886
+accuracy      -           -        0.97       26270
+macro-avg     0.96        0.96     0.96       26270
+weighted-avg  0.97        0.97     0.97       26270
 ```

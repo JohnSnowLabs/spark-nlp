@@ -132,8 +132,7 @@ ner_df = nlu.load('en.ner.nerdl_conll_deberta_base').predict(text, output_level=
 ```bash
 Test:
 
-           precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
        B-LOC       0.92      0.93      0.93      1668
        I-ORG       0.87      0.94      0.90       835
       I-MISC       0.62      0.71      0.66       216
@@ -142,10 +141,9 @@ Test:
       B-MISC       0.83      0.81      0.82       702
        B-ORG       0.89      0.93      0.91      1661
        B-PER       0.97      0.97      0.97      1617
-
-   micro avg       0.91      0.93      0.92      8112
-   macro avg       0.86      0.90      0.88      8112
-weighted avg       0.91      0.93      0.92      8112
+   micro-avg       0.91      0.93      0.92      8112
+   macro-avg       0.86      0.90      0.88      8112
+weighted-avg       0.91      0.93      0.92      8112
 
 processed 46435 tokens with 5648 phrases; found: 5719 phrases; correct: 5194.
 accuracy:  93.13%; (non-O)
@@ -158,8 +156,7 @@ accuracy:  98.18%; precision:  90.82%; recall:  91.96%; FB1:  91.39
 
 
 Dev:                                                                                
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
        B-LOC       0.96      0.96      0.96      1837
        I-ORG       0.88      0.94      0.91       751
       I-MISC       0.90      0.76      0.83       346
@@ -168,10 +165,9 @@ Dev:
       B-MISC       0.93      0.87      0.90       922
        B-ORG       0.90      0.95      0.92      1341
        B-PER       0.97      0.99      0.98      1842
-
-   micro avg       0.94      0.95      0.94      8603
-   macro avg       0.93      0.92      0.92      8603
-weighted avg       0.94      0.95      0.94      8603
+   micro-avg       0.94      0.95      0.94      8603
+   macro-avg       0.93      0.92      0.92      8603
+weighted-avg       0.94      0.95      0.94      8603
 
 
 processed 51362 tokens with 5942 phrases; found: 5985 phrases; correct: 5622.

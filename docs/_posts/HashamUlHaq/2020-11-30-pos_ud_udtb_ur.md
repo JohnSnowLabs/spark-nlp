@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [pos, ur]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,8 +32,8 @@ This model annotates the part of speech of tokens in a text. The parts of speech
 ```python
 ...
 pos = PerceptronModel.pretrained("pos_ud_udtb", "ur") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("pos")
+.setInputCols(["document", "token"]) \
+.setOutputCol("pos")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, pos])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 results = light_pipeline.fullAnnotate(["شمال کا بادشاہ ہونے کے علاوہ ، جان سن ایک انگریزی معالج ہے۔"])
@@ -43,8 +43,8 @@ results = light_pipeline.fullAnnotate(["شمال کا بادشاہ ہونے کے
 ```scala
 ...
 val pos = PerceptronModel.pretrained("pos_ud_udtb", "ur")
-    .setInputCols(Array("document", "token"))
-    .setOutputCol("pos")
+.setInputCols(Array("document", "token"))
+.setOutputCol("pos")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val data = Seq("شمال کا بادشاہ ہونے کے علاوہ ، جان سن ایک انگریزی معالج ہے۔").toDF("text")
 val result = pipeline.fit(data).transform(data)
@@ -65,18 +65,18 @@ pos_df
 
 ```bash
 {'pos': [Annotation(pos, 0, 3, NOUN, {'word': 'شمال'}),
-   Annotation(pos, 5, 6, ADP, {'word': 'کا'}),
-   Annotation(pos, 8, 13, NOUN, {'word': 'بادشاہ'}),
-   Annotation(pos, 15, 18, VERB, {'word': 'ہونے'}),
-   Annotation(pos, 20, 21, ADP, {'word': 'کے'}),
-   Annotation(pos, 23, 27, ADP, {'word': 'علاوہ'}),
-   Annotation(pos, 29, 29, PUNCT, {'word': '،'}),
-   Annotation(pos, 31, 33, PROPN, {'word': 'جان'}),
-   Annotation(pos, 35, 36, PROPN, {'word': 'سن'}),
-   Annotation(pos, 38, 40, NUM, {'word': 'ایک'}),
-   Annotation(pos, 42, 48, PROPN, {'word': 'انگریزی'}),
-   Annotation(pos, 50, 54, ADJ, {'word': 'معالج'}),
-   Annotation(pos, 56, 58, PUNCT, {'word': 'ہے۔'})]}
+Annotation(pos, 5, 6, ADP, {'word': 'کا'}),
+Annotation(pos, 8, 13, NOUN, {'word': 'بادشاہ'}),
+Annotation(pos, 15, 18, VERB, {'word': 'ہونے'}),
+Annotation(pos, 20, 21, ADP, {'word': 'کے'}),
+Annotation(pos, 23, 27, ADP, {'word': 'علاوہ'}),
+Annotation(pos, 29, 29, PUNCT, {'word': '،'}),
+Annotation(pos, 31, 33, PROPN, {'word': 'جان'}),
+Annotation(pos, 35, 36, PROPN, {'word': 'سن'}),
+Annotation(pos, 38, 40, NUM, {'word': 'ایک'}),
+Annotation(pos, 42, 48, PROPN, {'word': 'انگریزی'}),
+Annotation(pos, 50, 54, ADJ, {'word': 'معالج'}),
+Annotation(pos, 56, 58, PUNCT, {'word': 'ہے۔'})]}
 ```
 
 {:.model-param}

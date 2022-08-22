@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [sentiment, en, pipeline]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,6 +37,14 @@ pipeline = PretrainedPipeline("analyze_sentimentdl_glove_imdb", lang = "en")
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val pipeline = new PretrainedPipeline("analyze_sentimentdl_glove_imdb", lang = "en")
+```
+
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.sentiment.glove").predict("""Put your text here.""")
 ```
 
 </div>

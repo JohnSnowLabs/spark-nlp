@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [ner, open_source, he]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -19,9 +19,12 @@ use_language_switcher: "Python-Scala-Java"
 
 This model uses Hebrew word embeddings to find 10 different types of entities in Hebrew text. It is trained using `hebrewner_cc_300d` word embeddings, please use the same embeddings in the pipeline.
 
+Predicted entities: Persons-`PERS`, Dates-`DATE`, Organizations-`ORG`, Locations-`LOC`, Percentage-`PERCENT`, Money-`MONEY`, Time-`TIME`, Miscellaneous (Affiliation)-`MISC_AFF`, Miscellaneous (Event)-`MISC_EVENT`, Miscellaneous (Entity)-`MISC_ENT`.
+
+
 ## Predicted Entities
 
-Persons-`PERS`, Dates-`DATE`, Organizations-`ORG`, Locations-`LOC`, Percentage-`PERCENT`, Money-`MONEY`, Time-`TIME`, Miscellaneous (Affiliation)-`MISC_AFF`, Miscellaneous (Event)-`MISC_EVENT`, Miscellaneous (Entity)-`MISC_ENT`.
+`PERS`, `DATE`, `ORG`, `LOC`, `PERCENT`, `MONEY`, `TIME`, `MISC_AFF`, `MISC_EVENT`, `MISC_ENT`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -33,15 +36,15 @@ Persons-`PERS`, Dates-`DATE`, Organizations-`ORG`, Locations-`LOC`, Percentage-`
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, WordEmbeddingsModel, NerDLModel. Add the NerConverter to the end of the pipeline to convert entity tokens into full entity chunks.
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
 word_embeddings = WordEmbeddingsModel.pretrained("hebrew_cc_300d", "he") \
-   .setInputCols(["document", "token"]) \
-   .setOutputCol("embeddings")
+.setInputCols(["document", "token"]) \
+.setOutputCol("embeddings")
 ner = NerDLModel.pretrained("hebrewner_cc_300d", "he") \
-   .setInputCols(["sentence", "token", "embeddings"]) \
-   .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 ner_converter = NerConverter().setInputCols(["sentence", "token", "ner"]).setOutputCol("ner_chunk")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
@@ -51,16 +54,24 @@ annotations = light_pipeline.fullAnnotate("ב- 25 לאוגוסט עצר השב"�
 ```scala
 ...
 val embeddings = WordEmbeddingsModel.pretrained("hebrew_cc_300d", "he")
-        .setInputCols(Array("document", "token")) 
-        .setOutputCol("embeddings")
+.setInputCols(Array("document", "token")) 
+.setOutputCol("embeddings")
 val ner_model = NerDLModel.pretrained("hebrewner_cc_300d", "he")
-        .setInputCols(Array("sentence", "token", "embeddings"))
-        .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings"))
+.setOutputCol("ner")
 val ner_converter = NerConverter().setInputCols(Array("sentence", "token", "ner")).setOutputCol("ner_chunk")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter))
 val data = Seq("ב- 25 לאוגוסט עצר השב"כ את מוחמד אבו-ג"וייד , אזרח ירדני , שגויס לארגון הפת"ח והופעל על ידי חיזבאללה. אבו-ג"וייד התכוון להקים חוליות טרור בגדה ובקרב ערביי ישראל , לבצע פיגוע ברכבת ישראל בנהריה , לפגוע במטרות ישראליות בירדן ולחטוף חיילים כדי לשחרר אסירים ביטחוניים.").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("he.ner").predict("""ח והופעל על ידי חיזבאללה. אבו-ג'וייד התכוון להקים חוליות טרור בגדה ובקרב ערביי ישראל , לבצע פיגוע ברכבת ישראל בנהריה , לפגוע במטרות ישראליות בירדן ולחטוף חיילים כדי לשחרר אסירים ביטחוניים.""")
+```
+
 </div>
 
 ## Results

@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.1.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -47,12 +47,12 @@ Extract clinical entities from Radiology reports using pretrained NER model.
 ```python
 ...
 embeddings_clinical = BertEmbeddings.pretrained('biobert_pubmed_base_cased') \
-    .setInputCols(['sentence', 'token']) \
-    .setOutputCol('embeddings')
+.setInputCols(['sentence', 'token']) \
+.setOutputCol('embeddings')
 
 clinical_ner = MedicalNerModel.pretrained("jsl_rd_ner_wip_greedy_biobert", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 ...
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical,  clinical_ner, ner_converter])
 
@@ -63,12 +63,12 @@ results = model.transform(spark.createDataFrame([["Bilateral breast ultrasound w
 ```scala
 ...
 val embeddings_clinical = BertEmbeddings.pretrained("biobert_pubmed_base_cased")
-   .setInputCols(["sentence", "token"])
-   .setOutputCol("embeddings")
+.setInputCols(["sentence", "token"])
+.setOutputCol("embeddings")
 
 val ner = MedicalNerModel.pretrained("jsl_rd_ner_wip_greedy_biobert", "en", "clinical/models") 
-  .setInputCols("sentence", "token", "embeddings")
-  .setOutputCol("ner")
+.setInputCols("sentence", "token", "embeddings")
+.setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
 
@@ -76,6 +76,14 @@ val data = Seq("""Bilateral breast ultrasound was subsequently performed, which 
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.radiology.wip_greedy_biobert").predict("""Bilateral breast ultrasound was subsequently performed, which demonstrated an ovoid mass measuring approximately 0.5 x 0.5 x 0.4 cm in diameter located within the anteromedial aspect of the left shoulder. This mass demonstrates isoechoic echotexture to the adjacent muscle, with no evidence of internal color flow. This may represent benign fibrous tissue or a lipoma.""")
+```
+
 </div>
 
 

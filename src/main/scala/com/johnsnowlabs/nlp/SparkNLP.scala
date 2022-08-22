@@ -20,17 +20,20 @@ import org.apache.spark.sql.SparkSession
 
 object SparkNLP {
 
-  val currentVersion = "4.0.1"
+  val currentVersion = "4.1.0"
   val MavenSpark3 = s"com.johnsnowlabs.nlp:spark-nlp_2.12:$currentVersion"
   val MavenGpuSpark3 = s"com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:$currentVersion"
   val MavenSparkM1 = s"com.johnsnowlabs.nlp:spark-nlp-m1_2.12:$currentVersion"
+  val MavenSparkAarch64 = s"com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:$currentVersion"
 
   /** Start SparkSession with Spark NLP
     *
     * @param gpu
     *   start Spark NLP with GPU
     * @param m1
-    *   start Spark NLP with M1
+    *   start Spark NLP for Apple M1 systems
+    * @param aarch64
+    *   start Spark NLP for Linux Aarch64 systems
     * @param memory
     *   set driver memory for SparkSession
     * @param cache_folder
@@ -50,6 +53,7 @@ object SparkNLP {
   def start(
       gpu: Boolean = false,
       m1: Boolean = false,
+      aarch64: Boolean = false,
       memory: String = "16G",
       cache_folder: String = "",
       log_folder: String = "",
@@ -66,6 +70,8 @@ object SparkNLP {
 
     if (m1) {
       build.config("spark.jars.packages", MavenSparkM1)
+    } else if (aarch64) {
+      build.config("spark.jars.packages", MavenSparkAarch64)
     } else if (gpu) {
       build.config("spark.jars.packages", MavenGpuSpark3)
     } else {

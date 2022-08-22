@@ -43,7 +43,8 @@ object LoadSentencepiece {
       val libWithExtension = lib + ".so"
       Some(resourcePath("win", libWithExtension))
     } else {
-      val libWithExtension = lib + ".so"
+      val libWithArch = if (SystemUtils.OS_ARCH == "aarch64") lib + "_aarch64" else lib
+      val libWithExtension = libWithArch + ".so"
       Some(resourcePath("linux", libWithExtension))
     }
 

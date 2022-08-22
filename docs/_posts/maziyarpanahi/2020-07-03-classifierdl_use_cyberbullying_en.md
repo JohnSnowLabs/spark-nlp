@@ -13,7 +13,7 @@ spark_version: 2.4
 tags: [classifier]
 supported: true
 article_header:
-   type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,14 +37,14 @@ Identify Racism, Sexism or Neutral tweets.
 
 ```python
 documentAssembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+.setInputCol("text")\
+.setOutputCol("document")
 use = UniversalSentenceEncoder.pretrained(lang="en") \
-  .setInputCols(["document"])\
-  .setOutputCol("sentence_embeddings")
+.setInputCols(["document"])\
+.setOutputCol("sentence_embeddings")
 document_classifier = ClassifierDLModel.pretrained('classifierdl_use_cyberbullying', 'en') \
-  .setInputCols(["document", "sentence_embeddings"]) \
-  .setOutputCol("class")
+.setInputCols(["document", "sentence_embeddings"]) \
+.setOutputCol("class")
 
 nlpPipeline = Pipeline(stages=[documentAssembler, use, document_classifier])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
@@ -54,14 +54,14 @@ annotations = light_pipeline.fullAnnotate('@geeky_zekey Thanks for showing again
 ```
 ```scala
 val documentAssembler = DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
+.setInputCol("text")
+.setOutputCol("document")
 val use = UniversalSentenceEncoder.pretrained(lang="en")
-  .setInputCols(Array("document"))
-  .setOutputCol("sentence_embeddings")
+.setInputCols(Array("document"))
+.setOutputCol("sentence_embeddings")
 val document_classifier = ClassifierDLModel.pretrained("classifierdl_use_cyberbullying", "en")
-  .setInputCols(Array("document", "sentence_embeddings"))
-  .setOutputCol("class")
+.setInputCols(Array("document", "sentence_embeddings"))
+.setOutputCol("class")
 val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
 
 val data = Seq("@geeky_zekey Thanks for showing again that blacks are the biggest racists. Blocked").toDF("text")
@@ -113,13 +113,13 @@ This model is trained on cyberbullying detection dataset. https://raw.githubuser
 {:.h2_title}
 ## Benchmarking
 ```bash
-              precision    recall  f1-score   support
+precision    recall  f1-score   support
 
-        none       0.69      1.00      0.81      3245
-      racism       0.00      0.00      0.00       568
-      sexism       0.00      0.00      0.00       922
+none       0.69      1.00      0.81      3245
+racism       0.00      0.00      0.00       568
+sexism       0.00      0.00      0.00       922
 
-    accuracy                           0.69      4735
-   macro avg       0.23      0.33      0.27      4735
+accuracy                           0.69      4735
+macro avg       0.23      0.33      0.27      4735
 weighted avg       0.47      0.69      0.56      4735
 ```

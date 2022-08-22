@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.2.0
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -100,7 +100,7 @@ val tokenizer = new Tokenizer()
 val embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
 		.setInputCols(Array("sentence", "token"))
 	    	.setOutputCol("embeddings")
-  
+
 val jsl_ner = MedicalNerModel.pretrained("ner_jsl_slim", "en", "clinical/models")
 		.setInputCols(Array("sentence", "token", "embeddings"))
 		.setOutputCol("jsl_ner")
@@ -108,7 +108,7 @@ val jsl_ner = MedicalNerModel.pretrained("ner_jsl_slim", "en", "clinical/models"
 val jsl_ner_converter = new NerConverter()
 		.setInputCols(Array("sentence", "token", "jsl_ner"))
 		.setOutputCol("ner_chunk")
- 
+
 val jsl_ner_pipeline = new Pipeline().setStages(Array(
 					documentAssembler, 
 					sentenceDetector, 
@@ -122,6 +122,14 @@ val data = Seq("""HISTORY: 30-year-old female presents for digital bilateral mam
 
 val result = jsl_ner_pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.med_ner.jsl_slim").predict("""HISTORY: 30-year-old female presents for digital bilateral mammography secondary to a soft tissue lump palpated by the patient in the upper right shoulder. The patient has a family history of breast cancer within her mother at age 58. Patient denies personal history of breast cancer.""")
+```
+
 </div>
 
 

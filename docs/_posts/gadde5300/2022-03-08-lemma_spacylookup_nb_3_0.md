@@ -11,7 +11,7 @@ edition: Spark NLP 3.4.1
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,16 +32,16 @@ This Norwegian Bokmål Lemmatizer is an scalable, production-ready version of th
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
+.setInputCol("text") \
+.setOutputCol("document")
 
 tokenizer = Tokenizer() \
-    .setInputCols(["document"]) \
-    .setOutputCol("token")
+.setInputCols(["document"]) \
+.setOutputCol("token")
 
 lemmatizer = LemmatizerModel.pretrained("lemma_spacylookup","nb") \
-    .setInputCols(["token"]) \
-    .setOutputCol("lemma")
+.setInputCols(["token"]) \
+.setOutputCol("lemma")
 
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, lemmatizer]) 
 
@@ -51,21 +51,29 @@ results = pipeline.fit(example).transform(example)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler() 
-            .setInputCol("text") 
-            .setOutputCol("document")
+.setInputCol("text") 
+.setOutputCol("document")
 
 val tokenizer = new Tokenizer() 
-    .setInputCols(Array("document"))
-    .setOutputCol("token")
+.setInputCols(Array("document"))
+.setOutputCol("token")
 
 val lemmatizer = LemmatizerModel.pretrained("lemma_spacylookup","nb") 
-    .setInputCols(Array("token")) 
-    .setOutputCol("lemma")
+.setInputCols(Array("token")) 
+.setOutputCol("lemma")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, lemmatizer))
 val data = Seq("Du er ikke bedre enn meg").toDF("text")
 val results = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("nb.lemma").predict("""Du er ikke bedre enn meg""")
+```
+
 </div>
 
 ## Results

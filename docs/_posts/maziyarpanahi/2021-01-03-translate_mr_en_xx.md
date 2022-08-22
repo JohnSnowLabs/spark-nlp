@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [open_source, seq2seq, translation, pipeline, mr, en, xx]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 

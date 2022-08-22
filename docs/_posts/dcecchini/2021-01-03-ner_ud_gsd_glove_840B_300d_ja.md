@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [ner, ja, open_source]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -33,19 +33,19 @@ This model uses the pre-trained `glove_840B_300` embeddings model from `WordEmbe
 ## How to use
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
 word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud", "ja")\
-        .setInputCols(["sentence"])\
-        .setOutputCol("token")
+.setInputCols(["sentence"])\
+.setOutputCol("token")
 embeddings = WordEmbeddingsModel.pretrained("glove_840B_300", "xx")\
-          .setInputCols("document", "token") \
-          .setOutputCol("embeddings")
+.setInputCols("document", "token") \
+.setOutputCol("embeddings")
 ner = NerDLModel.pretrained("ner_ud_gsd_glove_840B_300d", "ja") \
-        .setInputCols(["document", "token", "embeddings"]) \
-        .setOutputCol("ner")
+.setInputCols(["document", "token", "embeddings"]) \
+.setOutputCol("ner")
 ...
 pipeline = Pipeline(stages=[document_assembler, sentence_detector, word_segmenter, embeddings, ner, ner_converter])
 example = spark.createDataFrame([['5月13日に放送されるフジテレビ系「僕らの音楽」にて、福原美穂とAIという豪華共演が決定した。']], ["text"])
@@ -54,18 +54,26 @@ result = pipeline.fit(example).transform(example)
 ```scala
 ...
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud", "ja")
-        .setInputCols(Array("sentence"))
-        .setOutputCol("token")
+.setInputCols(Array("sentence"))
+.setOutputCol("token")
 val embeddings = WordEmbeddingsModel.pretrained("glove_840B_300", "xx")
-          .setInputCols(Array("document", "token"))
-          .setOutputCol("embeddings")
+.setInputCols(Array("document", "token"))
+.setOutputCol("embeddings")
 val ner = NerDLModel.pretrained("ner_ud_gsd_glove_840B_300d", "ja")
-        .setInputCols(Array("document", "token", "embeddings"))
-        .setOutputCol("ner")
+.setInputCols(Array("document", "token", "embeddings"))
+.setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, word_segmenter, embeddings, ner, ner_converter))
 val data = Seq("5月13日に放送されるフジテレビ系「僕らの音楽」にて、福原美穂とAIという豪華共演が決定した。").toDF("text")
 val result = pipeline.fit(data).transform(data)
+```
+
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ja.ner").predict("""Put your text here.""")
 ```
 
 </div>

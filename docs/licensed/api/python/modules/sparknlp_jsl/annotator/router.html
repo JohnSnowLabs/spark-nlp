@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.router &#8212; Spark NLP 3.3.0 documentation</title>
+    <title>sparknlp_jsl.annotator.router &#8212; Spark NLP 4.0.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -24,6 +24,7 @@
     href="../../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../../static/css/custom.css" />
 
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -157,7 +158,7 @@
   <h1>Source code for sparknlp_jsl.annotator.router</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="Router"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl.annotator.router.Router.html#sparknlp_jsl.annotator.router.Router">[docs]</a><span class="k">class</span> <span class="nc">Router</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+<div class="viewcode-block" id="Router"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/router/index.html#sparknlp_jsl.annotator.router.Router">[docs]</a><span class="k">class</span> <span class="nc">Router</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert chunks from regexMatcher to chunks with a entity in the metadata.</span>
 <span class="sd">    Use the identifier or field as a entity.</span>
@@ -230,7 +231,7 @@
                           <span class="s2">&quot;The key in the metadata dictionary that you want to filter (by default &#39;entity&#39;)&quot;</span><span class="p">,</span>
                           <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Router.setInputType"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl.annotator.router.Router.html#sparknlp_jsl.annotator.router.Router.setInputType">[docs]</a>    <span class="k">def</span> <span class="nf">setInputType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Router.setInputType"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/router/index.html#sparknlp_jsl.annotator.router.Router.setInputType">[docs]</a>    <span class="k">def</span> <span class="nf">setInputType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets the type of the entity that you want to filter by default sentence_embedding</span>
 
 <span class="sd">        Parameters</span>
@@ -240,7 +241,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputType</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Router.setFilterFieldsElements"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl.annotator.router.Router.html#sparknlp_jsl.annotator.router.Router.setFilterFieldsElements">[docs]</a>    <span class="k">def</span> <span class="nf">setFilterFieldsElements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Router.setFilterFieldsElements"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/router/index.html#sparknlp_jsl.annotator.router.Router.setFilterFieldsElements">[docs]</a>    <span class="k">def</span> <span class="nf">setFilterFieldsElements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets the filterfieldsElements are the allowed values for the metadata field that is being used</span>
 
 <span class="sd">        Parameters</span>
@@ -250,7 +251,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">filterFieldsElements</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Router.setMetadataField"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl.annotator.router.Router.html#sparknlp_jsl.annotator.router.Router.setMetadataField">[docs]</a>    <span class="k">def</span> <span class="nf">setMetadataField</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Router.setMetadataField"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/router/index.html#sparknlp_jsl.annotator.router.Router.setMetadataField">[docs]</a>    <span class="k">def</span> <span class="nf">setMetadataField</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets the key in the metadata dictionary that you want to filter (by default &#39;entity&#39;)</span>
 
 <span class="sd">        Parameters</span>
@@ -263,8 +264,8 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.Router&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Router</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
-            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
-        <span class="p">)</span></div>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span></div>
+        <span class="p">)</span>
 </pre></div>
 
               </article>
@@ -291,13 +292,13 @@
   
   <div class="footer-item">
     <p class="copyright">
-    &copy; Copyright 2021, John Snow Labs.<br>
+    &copy; Copyright 2022, John Snow Labs.<br>
 </p>
   </div>
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

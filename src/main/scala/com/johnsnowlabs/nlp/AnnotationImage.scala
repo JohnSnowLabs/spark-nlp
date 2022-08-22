@@ -48,7 +48,9 @@ case class AnnotationImage(
     nChannels: Int,
     mode: Int,
     result: Array[Byte],
-    metadata: Map[String, String]) {
+    metadata: Map[String, String])
+    extends IAnnotation {
+
   override def equals(obj: Any): Boolean = {
     obj match {
       case annotation: AnnotationImage =>
@@ -63,6 +65,7 @@ case class AnnotationImage(
       case _ => false
     }
   }
+
 }
 
 object AnnotationImage {

@@ -11,7 +11,7 @@ edition: Spark NLP for Healthcare 3.5.3
 spark_version: 3.0
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -44,6 +44,14 @@ val pipeline = new PretrainedPipeline("snomed_umls_mapping", "en", "clinical/mod
 
 val result= pipeline.fullAnnotate("733187009 449433008 51264003")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.resolve.snomed.umls").predict("""733187009 449433008 51264003""")
+```
+
 </div>
 
 ## Results

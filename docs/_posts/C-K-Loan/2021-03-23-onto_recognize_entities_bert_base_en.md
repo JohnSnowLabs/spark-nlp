@@ -11,15 +11,15 @@ language: en
 edition: Spark NLP 3.0.0
 spark_version: 3.0
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
 
 The onto_recognize_entities_bert_base is a pretrained pipeline that we can use to process text with a simple pipeline that performs basic processing steps 
-        and recognizes entities .
-         It performs most of the common text processing tasks on your dataframe
+and recognizes entities .
+It performs most of the common text processing tasks on your dataframe
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_EN_18/){:.button.button-orange}
@@ -55,7 +55,7 @@ import nlu
 text = [""Hello from John Snow Labs ! ""]
 result_df = nlu.load('en.ner.onto.bert.base').predict(text)
 result_df
-    
+
 ```
 </div>
 

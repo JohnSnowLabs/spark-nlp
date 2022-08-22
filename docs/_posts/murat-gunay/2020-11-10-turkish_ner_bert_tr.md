@@ -11,7 +11,7 @@ spark_version: 2.4
 tags: [tr, open_source]
 supported: true
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -39,8 +39,8 @@ Use as part of an NLP pipeline with the following stages: DocumentAssembler, Sen
 ```python
 ...
 ner_model = NerDLModel.pretrained("turkish_ner_bert", "tr") \
-        .setInputCols(["sentence", "token", "embeddings"]) \
-        .setOutputCol("ner")
+.setInputCols(["sentence", "token", "embeddings"]) \
+.setOutputCol("ner")
 ...        
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([['']]).toDF('text'))
@@ -51,8 +51,8 @@ result = pipeline_model.transform(spark.createDataFrame([["William Henry Gates I
 ```scala
 ...
 val ner_model = NerDLModel.pretrained("turkish_ner_bert", "tr")
-        .setInputCols(Array("sentence", "token", "embeddings"))
-        .setOutputCol("ner")
+.setInputCols(Array("sentence", "token", "embeddings"))
+.setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter))
 
