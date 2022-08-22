@@ -60,4 +60,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/16.Adverse_Drug_Event_ADE_NER_and_Classifier.ipynb
+        - title: Classify Randomized Clinical Trial (RCT) 
+          id: classify_randomized_clinical_trial_rct   
+          image: 
+              src: /assets/images/Classify_Randomized_Clinical_Trial_RCT.svg
+          image2: 
+              src: /assets/images/Classify_Randomized_Clinical_Trial_RCT_f.svg
+          excerpt: This demo shows a classifier that can classify whether an article is a randomized clinical trial (RCT) or not, as well as a classifier that can divide it into sections in abstracts of scientific articles on randomized clinical trials (RCT).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/CLASSIFICATION_RCT/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLASSIFICATION_RCT.ipynb
 ---
