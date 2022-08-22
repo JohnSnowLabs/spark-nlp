@@ -74,4 +74,32 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url:
+        - title: Extract public companies key data from 10-K filings
+          id: extract_public_companies_key_data_10k_filings        
+          image: 
+              src: /assets/images/Extract_public_companies_key_data_10_filings.svg
+          image2: 
+              src: /assets/images/Extract_public_companies_key_data_10_filings_f.svg
+          excerpt: This demo uses Name Entity Recognition to extract information like Company Name, Trading symbols, Stock markets, Addresses, Phones, Stock types and values, IRS, CFN, etc. from the first page of 10-K filings.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINNER_SEC10K_FIRSTPAGE/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb         
+        - title: Identify Companies and their aliases in financial texts
+          id: identify_companies_their_aliases_financial_texts        
+          image: 
+              src: /assets/images/Identify_Companies_and_their_aliases_in_financial_texts.svg
+          image2: 
+              src: /assets/images/Identify_Companies_and_their_aliases_in_financial_texts_f.svg
+          excerpt: This model uses Entity Recognition to identify ORG (Companies), their ALIAS (other names the company uses in financial reports) and company PRODUCTS.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINNER_ALIAS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: 
 ---
