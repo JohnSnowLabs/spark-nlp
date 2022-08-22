@@ -79,10 +79,10 @@ re_model = ZeroShotRelationExtractionModel.pretrained("legre_zero_shot", "en", "
     .setInputCols(["ner_chunk", "sentence"]) \
     .setOutputCol("relations")
 
-
+# Remember it's 2 curly brackets instead of one if you are using Spark NLP < 4.0
 re_model.setRelationalCategories({
-    "GRANTS_TO": ["{{OBLIGATION_SUBJECT}} grants {{OBLIGATION_INDIRECT_OBJECT}}"],
-    "GRANTS": ["{{OBLIGATION_SUBJECT}} grants {{OBLIGATION_ACTION}}"]
+    "GRANTS_TO": ["{OBLIGATION_SUBJECT} grants {OBLIGATION_INDIRECT_OBJECT}"],
+    "GRANTS": ["{OBLIGATION_SUBJECT} grants {OBLIGATION_ACTION}"]
 })
 
 pipeline = sparknlp.base.Pipeline() \
