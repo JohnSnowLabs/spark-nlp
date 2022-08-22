@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Default values for pyspark, spark-nlp, and SPARK_HOME
-SPARKNLP="4.0.2"
+SPARKNLP="4.1.0"
 PYSPARK="3.2.1"
 
 echo "Setup SageMaker for PySpark $PYSPARK and Spark NLP $SPARKNLP"
