@@ -38,4 +38,4 @@ class SparkContextForTest:
         .limit(100)
     data.cache()
     data.count()
-    empty_df = spark.createDataFrame([[""]]).toDF("text")
+    
