@@ -27,12 +27,16 @@ def compatible_editions(editions, model_editions, edition)
   outdated_editions = ['Spark NLP 2.1', 'Spark NLP for Healthcare 2.0']
   return edition if outdated_editions.include? edition
 
-  if edition.include?('Healthcare')
-    selection_lambda = lambda {|v| v.include?('Healthcare') && !outdated_editions.include?(v)}
-  elsif edition.include?('OCR')
-    selection_lambda = lambda {|v| v.include?('OCR')}
+  def to_product_name(edition)
+    m = /^(.*?) \d+\.\d+$/.match(edition)
+    return m ? m[1] : nil
+  end
+
+  product_name = to_product_name(edition)
+  if product_name
+    selection_lambda = lambda {|v| to_product_name(v) == product_name && !outdated_editions.include?(v)}
   else
-    selection_lambda = lambda {|v| !v.include?('Healthcare') && !v.include?('OCR')}
+    selection_lambda = lambda {|_| false }
   end
 
   editions = editions.select &selection_lambda

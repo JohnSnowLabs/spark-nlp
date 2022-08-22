@@ -3,20 +3,63 @@ import './FilterForm.css';
 
 const { createElement: e } = React;
 
+const products = [
+  'Spark NLP',
+  'Spark NLP for Healthcare',
+  'Spark OCR',
+  'Spark NLP for Finance',
+  'Spark NLP for Legal',
+];
+
+const removeAloneEditions = (editions) => {
+  const groups = {};
+  editions.forEach((edition) => {
+    const m = edition.match(/^(.*?) \d\.\d$/);
+    if (m) {
+      const [, name] = m;
+      if (groups[name]) {
+        groups[name] += 1;
+      } else {
+        groups[name] = 1;
+      }
+    }
+  });
+
+  const result = [];
+  editions.forEach((edition) => {
+    const m = edition.match(/^(.*?)( )?(\d\.\d)?$/);
+    if (m) {
+      const [, name, , version] = m;
+      if (version && groups[name] == 1) {
+        return;
+      }
+      result.push(edition);
+    }
+  });
+  return result;
+};
+
 const compareEditions = (a, b) => {
   const getPriority = (edition) => {
-    const products = ['Spark NLP', 'Spark NLP for Healthcare', 'Spark OCR'];
-    const index = products.indexOf(edition);
+    const m = edition.match(/^(.*?)( )?(\d\.\d)?$/);
+    let name = edition,
+      space,
+      version;
+    if (m) {
+      [, name, space, version] = m;
+    }
+    let priority;
+    const index = products.indexOf(name);
     if (index !== -1) {
-      return index - products.length;
+      if (name === edition) {
+        priority = index - products.length;
+      } else {
+        priority = index;
+      }
+    } else {
+      priority = 999;
     }
-    if (edition.includes('Spark NLP for Healthcare')) {
-      return 1;
-    }
-    if (edition.includes('Spark NLP')) {
-      return 0;
-    }
-    return 2;
+    return priority;
   };
   return getPriority(a) - getPriority(b);
 };
@@ -27,6 +70,7 @@ const FilterForm = ({ onSubmit, isLoading, meta, params }) => {
   if (meta && meta.aggregations) {
     ({ tasks, languages, editions } = meta.aggregations);
   }
+  editions = removeAloneEditions(editions);
   editions.sort(compareEditions);
 
   let task;
@@ -116,11 +160,7 @@ const FilterForm = ({ onSubmit, isLoading, meta, params }) => {
           },
           editions
             .map((edition) => {
-              if (
-                edition == 'Spark NLP' ||
-                edition == 'Spark NLP for Healthcare' ||
-                edition == 'Spark OCR'
-              ) {
+              if (products.includes(edition)) {
                 let new_edition = `All ${edition} versions`;
                 return e(
                   'option',
