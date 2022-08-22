@@ -28,7 +28,7 @@ data:
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/finance/LEGALRE_PARTIES/
+            url: https://demo.johnsnowlabs.com/legal/LEGALRE_PARTIES/
           - text: Colab Netbook
             type: blue_btn
             url:                 

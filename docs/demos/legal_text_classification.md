@@ -28,10 +28,10 @@ data:
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/finance/CLASSIFY_LEGAL_CLAUSES/
+            url: https://demo.johnsnowlabs.com/legal/CLASSIFY_LEGAL_CLAUSES/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_EN_TREC.ipynb
+            url: https://nlp.johnsnowlabs.com/
         - title: Classify 15 types of clauses (Multilabel)  
           id: classify_texts_15_types_legal_clauses     
           image: 
@@ -42,8 +42,8 @@ data:
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/finance/LEGMULTICLF_LEDGAR/
+            url: https://demo.johnsnowlabs.com/legal/LEGMULTICLF_LEDGAR/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_MULTILABEL_TOXIC.ipynb
+            url: https://nlp.johnsnowlabs.com/
 ---

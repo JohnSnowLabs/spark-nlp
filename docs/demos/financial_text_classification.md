@@ -60,4 +60,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: 
+        - title: Forward Looking Statements Classification 
+          id: forward_looking_statements_classification       
+          image: 
+              src: /assets/images/Forward_Looking_Statements_Classification.svg
+          image2: 
+              src: /assets/images/Forward_Looking_Statements_Classification_f.svg
+          excerpt: This demo shows how you can detect Forward Looking Statements in Financial Texts, as 10K filings or annual reports.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINCLF_FLS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://nlp.johnsnowlabs.com/ 
 ---

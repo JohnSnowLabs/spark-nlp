@@ -38,7 +38,7 @@ data:
               src: /assets/images/Detect_diagnosis_and_procedures.svg
           image2: 
               src: /assets/images/Detect_diagnosis_and_procedures_f.svg
-          excerpt: Automatically identify diagnoses and procedures in clinical documents using the pretrained Spark NLP clinical model <b>ner_clinical.</b>
+          excerpt: Automatically identify diagnoses and procedures in clinical documents using the pretrained Spark NLP clinical models.
           actions:
           - text: Live Demo
             type: normal
@@ -284,4 +284,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_MEDMENTIONS_COARSE.ipynb
+        - title: Detecting Clinical Entities with JSL
+          id: detecting_clinical_entities_jsl
+          image: 
+              src: /assets/images/Detect_Clinical_Entities_with_JSL.svg
+          image2: 
+              src: /assets/images/Detect_Clinical_Entities_with_JSL_f.svg
+          excerpt: Automatically detects more than 77 clinical entities using our NER deep learning model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_JSL/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_JSL.ipynb
 ---

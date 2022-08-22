@@ -28,7 +28,7 @@ data:
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/finance/LEGALNER_PARTIES/
+            url: https://demo.johnsnowlabs.com/legal/LEGALNER_PARTIES/
           - text: Colab Netbook
             type: blue_btn
             url: 
@@ -42,7 +42,7 @@ data:
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/finance/LEGALNER_SIGNERS/
+            url: https://demo.johnsnowlabs.com/legal/LEGALNER_SIGNERS/
           - text: Colab Netbook
             type: blue_btn
             url:
@@ -56,7 +56,7 @@ data:
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/finance/LEGALNER_HEADERS/
+            url: https://demo.johnsnowlabs.com/legal/LEGALNER_HEADERS/
           - text: Colab Netbook
             type: blue_btn
             url: 
@@ -70,7 +70,7 @@ data:
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/finance/LEGALNER_WHEREAS/
+            url: https://demo.johnsnowlabs.com/legal/LEGALNER_WHEREAS/
           - text: Colab Netbook
             type: blue_btn
             url:
@@ -112,7 +112,7 @@ data:
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/finance/LEGALNER_OBLIGATIONS/
+            url: https://demo.johnsnowlabs.com/legal/LEGALNER_OBLIGATIONS/
           - text: Colab Netbook
             type: blue_btn
             url: 
@@ -126,7 +126,7 @@ data:
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/finance/LEGALNER_ALIAS/
+            url: https://demo.johnsnowlabs.com/legal/LEGALNER_ALIAS/
           - text: Colab Netbook
             type: blue_btn
             url:
