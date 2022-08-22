@@ -44,27 +44,19 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
     fullAnnotateInternal(target, optionalTarget).mapValues(_.map(_.asInstanceOf[Annotation]))
   }
 
-  def fullAnnotateImage(imagesFilePath: Array[String]): Array[Map[String, Seq[IAnnotation]]] = {
-    imagesFilePath.par
+  def fullAnnotateImage(pathToImages: Array[String]): Array[Map[String, Seq[IAnnotation]]] = {
+    pathToImages.par
       .map(imageFilePath => fullAnnotateInternal(imageFilePath))
       .toArray
   }
 
-  def fullAnnotateImage(imageFilePath: String): Array[Map[String, Seq[IAnnotation]]] = {
-
-    val files = ImageIOUtils.loadImages(imageFilePath)
-
-    files.map { file =>
-      val imageFields = ImageIOUtils.imageFileToImageFields(file)
-      fullAnnotateInternal(file.getPath, "", Some(imageFields))
-    }
-
+  def fullAnnotateImage(pathToImage: String): Map[String, Seq[IAnnotation]] = {
+    fullAnnotateInternal(pathToImage)
   }
 
   private def fullAnnotateInternal(
       target: String,
       optionalTarget: String = "",
-      imageFields: Option[ImageFields] = None,
       startWith: Map[String, Seq[IAnnotation]] = Map.empty[String, Seq[IAnnotation]])
       : Map[String, Seq[IAnnotation]] = {
     getStages.foldLeft(startWith)((annotations, transformer) => {
@@ -82,9 +74,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
               annotations)
           annotations ++ multiDocumentAnnotations
         case imageAssembler: ImageAssembler =>
-          val currentImageFields =
-            if (imageFields.isDefined) imageFields.get
-            else ImageIOUtils.imagePathToImageFields(target)
+          val currentImageFields = ImageIOUtils.imagePathToImageFields(target)
           annotations.updated(
             imageAssembler.getOutputCol,
             imageAssembler.assemble(currentImageFields, Map.empty[String, String]))
@@ -131,7 +121,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
                 s" Call setIgnoreUnsupported(boolean) on LightPipeline to ignore")
         case pipeline: PipelineModel =>
           new LightPipeline(pipeline, parseEmbeddingsVectors)
-            .fullAnnotateInternal(target, optionalTarget, None, annotations)
+            .fullAnnotateInternal(target, optionalTarget, annotations)
         case _ => annotations
       }
     })
@@ -237,26 +227,15 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
       .asJava
   }
 
-  def fullAnnotateImageJava(imageFilePath: String)
-      : java.util.List[java.util.Map[String, java.util.List[IAnnotation]]] = {
-
-    val files = ImageIOUtils.loadImages(imageFilePath)
-
-    files
-      .map { file =>
-        val imageFields = ImageIOUtils.imageFileToImageFields(file)
-        fullAnnotateInternal(file.getPath, "", Some(imageFields))
-          .mapValues(_.asJava)
-          .asJava
-      }
-      .toList
-      .asJava
+  def fullAnnotateImageJava(
+      pathToImage: String): java.util.Map[String, java.util.List[IAnnotation]] = {
+    fullAnnotateImage(pathToImage).mapValues(_.asJava).asJava
   }
 
-  def fullAnnotateImageJava(imagesFilePath: java.util.ArrayList[String])
+  def fullAnnotateImageJava(pathToImages: java.util.ArrayList[String])
       : java.util.List[java.util.Map[String, java.util.List[IAnnotation]]] = {
 
-    imagesFilePath.asScala.par
+    pathToImages.asScala.par
       .map { imageFilePath =>
         fullAnnotateInternal(imageFilePath).mapValues(_.asJava).asJava
       }

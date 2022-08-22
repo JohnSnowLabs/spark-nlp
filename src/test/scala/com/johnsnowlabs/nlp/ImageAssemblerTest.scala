@@ -69,8 +69,7 @@ class ImageAssemblerTest extends AnyFlatSpec {
     val lightPipeline = new LightPipeline(pipelineModel)
     val result = lightPipeline.fullAnnotateImage("src/test/resources/image/hippopotamus.JPEG")
 
-    assert(result.length == 1)
-    result.foreach(annotation => assert(annotation("image_assembler").nonEmpty))
+    assert(result("image_assembler").nonEmpty)
 
   }
 
@@ -87,22 +86,6 @@ class ImageAssemblerTest extends AnyFlatSpec {
     val result = lightPipeline.fullAnnotateImage(images)
 
     assert(result.length == images.length)
-    result.foreach(annotation => assert(annotation("image_assembler").nonEmpty))
-
-  }
-
-  it should "work with LightPipeline with a directory of images" taggedAs FastTest in {
-    val imageAssembler = new ImageAssembler()
-      .setInputCol("image")
-      .setOutputCol("image_assembler")
-    val imagesDirectory = "src/test/resources/image/"
-
-    val pipeline: Pipeline = new Pipeline().setStages(Array(imageAssembler))
-    val pipelineModel = pipeline.fit(emptyDF)
-    val lightPipeline = new LightPipeline(pipelineModel)
-    val result = lightPipeline.fullAnnotateImage(imagesDirectory)
-
-    assert(result.length == new File(imagesDirectory).listFiles().length)
     result.foreach(annotation => assert(annotation("image_assembler").nonEmpty))
 
   }

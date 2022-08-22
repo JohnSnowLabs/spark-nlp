@@ -149,14 +149,14 @@ class LightPipeline:
 
         return result
 
-    def fullAnnotateImage(self, image_file_path):
+    def fullAnnotateImage(self, path_to_image):
         """Annotates the data provided into `Annotation` type results.
 
         The data should be either a list or a str.
 
         Parameters
         ----------
-        image_file_path : list or str
+        path_to_image : list or str
             Source path of image, list of images or directory
 
         Returns
@@ -164,11 +164,13 @@ class LightPipeline:
         List[AnnotationImage]
             The result of the annotation
         """
+        if type(path_to_image) is str:
+            path_to_image = [path_to_image]
 
-        if type(image_file_path) is str or type(image_file_path) is list:
+        if type(path_to_image) is list:
             result = []
 
-            for image_result in self._lightPipeline.fullAnnotateImageJava(image_file_path):
+            for image_result in self._lightPipeline.fullAnnotateImageJava(path_to_image):
                 result.append(self.buildStages(image_result))
 
             return result

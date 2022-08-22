@@ -143,12 +143,10 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec {
     val pipelineModel = pipeline.fit(imageDF)
     val lightPipeline = new LightPipeline(pipelineModel)
 
-    val predictions = lightPipeline.fullAnnotateImage("src/test/resources/image/")
+    val prediction = lightPipeline.fullAnnotateImage("src/test/resources/image/junco.JPEG")
 
-    predictions.foreach { prediction =>
-      assert(prediction("image_assembler").nonEmpty)
-      assert(prediction("class").nonEmpty)
-    }
+    assert(prediction("image_assembler").nonEmpty)
+    assert(prediction("class").nonEmpty)
   }
 
 }
